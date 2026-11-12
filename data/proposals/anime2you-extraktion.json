@@ -1007,6 +1007,10 @@
       "am": "2026-10-30",
       "vorschlaege": 13
     },
+    "1065309": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
     "1065398": {
       "am": "2026-11-03",
       "vorschlaege": 1
@@ -1512,6 +1516,10 @@
       "am": "2026-11-10",
       "vorschlaege": 1
     },
+    "1069504": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
     "1069540": {
       "am": "2026-11-10",
       "vorschlaege": 0
@@ -1594,7 +1602,33 @@
       "am": "2026-11-12",
       "vorschlaege": 1
     },
+    "1070362": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
+    "1070621": {
+      "am": "2026-11-12",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070626": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
+    "1070665": {
+      "am": "2026-11-12",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1070673": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
+    "1070699": {
+      "am": "2026-11-12",
+      "vorschlaege": 8
+    },
+    "1070797": {
       "am": "2026-11-12",
       "vorschlaege": 0
     }
@@ -12445,6 +12479,174 @@
       "artikel": "Crunchyroll zeigt zweite »Medaka Kuroiwa«-Staffel im Simulcast",
       "quelle": "https://www.anime2you.de/news/1070341/medaka-kuroiwa-staffel-2-crunchyroll/",
       "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Tico: Ein toller Freund",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Star Blazers 2199",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Hyouka",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Tada Never Falls in Love",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "No Game No Life Zero",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "K: Seven Stories",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Colorful",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
+      "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Gosick",
+      "zitat": "Konkret geht es um »über 250 Episoden und 16 Filme«, die ab sofort in der Mediathek aniverse TV bei Joyn zur Verfügung stehen. Genannt werden unter anderem »Tico: Ein toller Freund«, »Overlord«, »Star Blazers 2199«, »Hyouka«, »Tada Never Falls in Love«, »No Game No Life Zero«, »K: Seven Stories«, »Colorful« und »Gosick«.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt kein genaues Datum; laut Text wurde ein Großteil dieser Titel schon vor einigen Tagen bei Joyn aufgenommen, während »Overlord« zum Veröffentlichungszeitpunkt noch fehlte.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070699",
+      "artikel": "ProSiebenSat.1 schließt großen Anime-Deal mit PLAION PICTURES",
+      "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
+      "veroeffentlicht": "2026-11-12",
       "gelesenAm": "2026-11-12"
     }
   ]

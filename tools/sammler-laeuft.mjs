@@ -1,5 +1,5 @@
-// Exit 0 = kein Sammler läuft (Workflow-Datei darf gepusht werden), Exit 1 = Sammler läuft (Namen auf stdout).
-// Gesperrt wird nur, weil GitHub den Pull-Request-Zweig eines Sammlers ablehnt, wenn main Workflow-Dateien ändert.
+// Exit 0 = kein Sammler läuft, Exit 1 = Sammler läuft (Namen auf stdout). Seit 12.11.2026 (PR 3585) nur noch
+// für Änderungen an claude-daten-merge.yml nötig: Sammler pushen sonst mit App-Token samt Recht workflows.
 // Alles ohne eigenen PR-Zweig ist kein Sammler und steht hier ausdrücklich (exakter Name, kein Teilstring:
 // ein künftiger Sammler wie „Prime …“ soll zählen). Ein Test hält jeden Namen gegen die `name:`-Zeilen der Workflows.
 import { execFileSync } from 'node:child_process'

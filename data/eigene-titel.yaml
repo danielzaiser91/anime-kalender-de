@@ -13,6 +13,9 @@
 #   tag        Starttag laut Quelle (JJJJ-MM-TT)
 #   sources    Adressen der Quelle (https)
 #   zitat      der belegende Satz, wörtlich
+#   folgen     (optional) Folgenzahl, wenn die Quelle sie nennt
+#   kanal      (optional) Prime-Zusatzkanal, wenn die Quelle genau einen nennt
+#   geschaetzt (optional) true, wenn der Tag nur der Meldetag („ab sofort“) ist: der Termin steht als ≈
 #   zuId       (optional) Kennung des Katalogtitels, in dem dieser Titel aufgeht: Termine ziehen um, die alte Adresse leitet weiter
 #   widerrufen (optional) Quelle und Datum, wenn die Ankündigung zurückgenommen wurde: Titel und Termin entfallen, die Nummer bleibt vergeben
 #   tmdb       `movie/<Kennung>` oder `tv/<Kennung>`: das TMDB-Werk, dessen Plakat der Titel trägt. Pflicht, außer `coverGrund` oder `zuId` steht da.
@@ -26,6 +29,7 @@
   format: MOVIE
   anbieter: [joyn, primevideo]
   tag: 2026-11-03
+  geschaetzt: true
   tmdb: movie/290462 # TMDB „Z wie Zorro - Der Film“ (快傑ゾロ, 1996-11-11, Animation), abgelesen 08.11.2026
   sources: [https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/]
   zitat: "»Z wie Zorro – Der Film« Laufzeit: 106 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
@@ -35,6 +39,7 @@
   format: MOVIE
   anbieter: [joyn, primevideo]
   tag: 2026-11-03
+  geschaetzt: true
   tmdb: movie/1717866 # TMDB „Zorro’s Geheimnis“ (Zorro's Secret, 1996, Animation), abgelesen 08.11.2026; Laufzeit dort 75 statt 88 min
   sources: [https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/]
   zitat: "»Zorros Geheimnis« Laufzeit: 88 Minuten Sprache: Deutsch Stream: Joyn , Prime Video (Überschrift: 25 Anime-Neuzugänge ab sofort auf Joyn verfügbar, 3. November 2026)"
@@ -43,6 +48,8 @@
   name: M.A.S.K.
   format: TV
   anbieter: [primevideo]
+  kanal: Aniverse
+  folgen: 73
   tag: 2026-11-01
   tmdb: tv/4961 # TMDB „M.A.S.K.“ (1985-09-30, Animation, 75 Folgen), abgelesen 08.11.2026
   sources: [https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/]

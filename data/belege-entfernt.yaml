@@ -937,3 +937,19 @@
   url: https://www.amazon.de/gp/video/detail/B0GQ5Z2KBR
   grund: 'Seite B0GQ5Z2KBR ist die Serienseite (gti e3405b7b, Handbeleg von 143277 an dieser gti, Staffel 1); die Meldungen vom 16.10. mit Staffel 2 an B0GQ5Z2KBR gehören 155645 (prime-zugeordnet.json seit #1444, Stream B0GXQVM89H) und wurden mit dem Namen „Seasons 1 & 2“ auch an 143277 gehängt — der Bestandsbau legte daraus einen zweiten Handbeleg an und stellte 155645 zurück (Fremdzuordnung, 12.11.2026)'
   entferntAm: '2026-11-12'
+- anilistId: 20462
+  url: https://www.amazon.de/dp/B07LHCSXV6
+  grund: 'Seite B07LHCSXV6 ist dieselbe Staffel-1-Seite wie B07LHFLDBS (Messung 12.11.2026); der Beleg von 20462 steht jetzt an B07LHFLDBS, die alte Zeile nannte „10 Folgen“ (Adresswechsel 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20719
+  url: https://www.amazon.de/dp/B07LHCSXV6
+  grund: 'Seite B07LHCSXV6 gehört Chaika Staffel 1 (20462, 12 Folgen), nicht Avenging Battle (20719, Staffel 2 = B07MXMCF4V, Deutsch nicht belegt; Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20719
+  url: https://www.amazon.de/gp/video/detail/B07LHFLDBS
+  grund: 'Seite B07LHFLDBS gehört Chaika Staffel 1 (20462, 12 Folgen), nicht Avenging Battle (20719; Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 146493
+  url: https://www.amazon.de/dp/B07LHFLDBS
+  grund: 'Seite B07LHFLDBS gehört Chaika Staffel 1 (20462, Messung 12.11.2026), nicht Ragna Crimson (146493; Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'

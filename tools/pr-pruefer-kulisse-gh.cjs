@@ -16,6 +16,16 @@ function ende(text) {
   process.stdout.write(text)
   process.exit(0)
 }
+/** Die ersten `pr.ausfaelle[name]` Aufrufe scheitern mit einer Nicht-JSON-Antwort (kurzer API-Aussetzer, PRs 3579/3584). */
+function ausfall(pr, name) {
+  const grenze = pr?.ausfaelle?.[name] ?? 0
+  const datei = `${process.env.ATTRAPPE_LOG}.${name}`
+  const bisher = fs.existsSync(datei) ? Number(fs.readFileSync(datei, 'utf8')) : 0
+  if (bisher >= grenze) return
+  fs.writeFileSync(datei, String(bisher + 1))
+  process.stderr.write("invalid character 'S' looking for beginning of value")
+  process.exit(1)
+}
 function nicht() {
   process.stderr.write(`HTTP 404: ${befehl} ${roh.join(' ')}`)
   process.exit(1)
@@ -30,8 +40,10 @@ if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRef
 if ((pr = treffer(`pr diff (\\d+)`)) && pr.diff !== undefined) ende(pr.diff)
 if ((pr = treffer(`pr comment (\\d+) --repo ${daten.repo} --body-file \\S+`))) ende('')
 if ((pr = treffer(`api --method GET --paginate ${r}/pulls/(\\d+)/files -f per_page=100`)) && abfrage === '.[]') {
+  ausfall(pr, 'dateien')
   ende(pr.dateien.map((d) => JSON.stringify(d) + '\n').join(''))
 }
+if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ausfall(pr, 'login')
 if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ende(pr.login + '\n')
 if ((pr = treffer(`api ${r}/issues/(\\d+)/comments --paginate`)) && abfrage !== null) ende('')
 if ((pr = treffer(`api --paginate --slurp ${r}/issues/(\\d+)/comments`)) && abfrage === null) ende(JSON.stringify(pr.kommentare))

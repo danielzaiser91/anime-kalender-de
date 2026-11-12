@@ -198,6 +198,7 @@ pipeline/check-dub-lesart.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-eigene-cover-vorschau.ts
+pipeline/check-eigene-termine.ts
 pipeline/check-eigene-titel-bestand-lauf.ts
 pipeline/check-eigene-titel.ts
 pipeline/check-eigene-tmdb-plakat-lauf.ts
@@ -224,6 +225,7 @@ pipeline/check-escape-hoerer-faelle.ts
 pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
+pipeline/check-fetch-pruefungen-fremde-adresse.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts
@@ -248,6 +250,7 @@ pipeline/check-folgentitel-englisch-bau.ts
 pipeline/check-folgentitel-englisch.ts
 pipeline/check-folgentitel-luecke-lauf.ts
 pipeline/check-folgentitel-luecke.ts
+pipeline/check-folgentitel-staffel-quote.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kasten.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
@@ -553,11 +556,13 @@ pipeline/check-tmdb-folgen-luecke-lauf.ts
 pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-folgentitel-datum.ts
+pipeline/check-tmdb-folgentitel-staffel.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-geteilt-plakat-bau.ts
 pipeline/check-tmdb-geteilt-plakat.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
+pipeline/check-tmdb-reihenfremd.ts
 pipeline/check-tmdb-staffel0-eigene-lauf.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
@@ -567,6 +572,8 @@ pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
 pipeline/check-tv-premiere-merker.ts
+pipeline/check-tv-rtl-main.ts
+pipeline/check-tv-rtl-nachversuch.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-unsicheres-raus-ast.ts
@@ -605,6 +612,7 @@ pipeline/check-wochen-packen.ts
 pipeline/check-wochenprogramm-sendetag.ts
 pipeline/check-workflow-browser.ts
 pipeline/check-write-json-atomar.ts
+pipeline/check-write-text-atomar.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zeit-ausgabe.ts
 pipeline/check-zuordner-ablauf.ts
@@ -649,5 +657,6 @@ tools/test-netz-wache.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/web-push-voll.test.ts
+tools/werkzeug-ohne-test-wache.mjs
 tools/workflow-abbruch-waechter.mjs
 tools/workflow-ohne-pakete.mjs

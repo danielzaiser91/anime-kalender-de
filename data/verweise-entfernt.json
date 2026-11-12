@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-12T11:52:57.173Z",
+  "stand": "2026-11-12T17:58:26.637Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5400,18 +5400,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-12",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 20462,
-      "titel": "Chaika, die Sargprinzessin",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
-      "seriesId": null,
-      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-12",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 20540,
@@ -5576,18 +5565,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-12",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 20719,
-      "titel": "Chaika, die Sargprinzessin: Avenging Battle",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
-      "seriesId": null,
-      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-12",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 20770,
@@ -7033,24 +7011,13 @@
     {
       "titleId": 146493,
       "titel": "Ragna Crimson",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B07LHFLDBS",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-12",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 146493,
-      "titel": "Ragna Crimson",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.de/video/ragna-crimson",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-12",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 148969,
@@ -7909,6 +7876,39 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-12",
       "letzterWeg": false
+    },
+    {
+      "titleId": 20462,
+      "titel": "Chaika, die Sargprinzessin",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-12",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20719,
+      "titel": "Chaika, die Sargprinzessin: Avenging Battle",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-12",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 146493,
+      "titel": "Ragna Crimson",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B07LHFLDBS",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-12",
+      "letzterWeg": true
     },
     {
       "titleId": 130298,

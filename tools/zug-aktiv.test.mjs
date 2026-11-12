@@ -51,7 +51,7 @@ pruefe('Schalter undefiniert (nicht true) + Basis zug', !istZugPr({ baseRefName:
 pruefe('Schalter nur truthy (1, "ja") + Basis zug -> kein Zug-PR', !istZugPr({ baseRefName: 'zug' }, 1) && !istZugPr({ baseRefName: 'zug' }, 'ja'))
 
 console.log('pr-nachrechnen: Basis zug')
-const FELDER_ALT = 'number,state,mergeable,headRefOid,headRefName'
+const FELDER_ALT = 'number,state,mergeable,headRefOid,headRefName,comments,commits'
 const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 const zugPr = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x', baseRefName: 'zug' }
 function lauf(aktiv, prJson) {

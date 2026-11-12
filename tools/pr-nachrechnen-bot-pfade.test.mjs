@@ -121,9 +121,9 @@ const adnImporte = bau.flatMap((d) => fs.readFileSync(path.join(wurzel, d), 'utf
 pruefe('Ausnahme health.ts: adn-news.ts nutzt der Bau nur für artikelJeShow', adnImporte.join() === "pipeline/bau/07-adn.ts: import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'", adnImporte)
 
 // Dokument-Wächter (dokuLeser): die Ausnahme für docs/, Wurzel-Markdown und 00-wache.md gilt nur, solange kein Bau-Code und keine Prüfung sie liest.
-pruefe('Doku-Wächter: 24 bekannte Treffer (23 nur genannt, 1 liest), keine stille Vergrößerung', BEKANNT_DOKU.size === 24, BEKANNT_DOKU.size)
+pruefe('Doku-Wächter: 8 bekannte Treffer (7 nur genannt, 1 liest), keine stille Vergrößerung', BEKANNT_DOKU.size === 8, BEKANNT_DOKU.size)
 pruefe('Doku-Wächter: kein unbekannter Leser von docs/, Wurzel-Markdown oder 00-wache.md', dokuLeser(wurzel, BEKANNT_DOKU).length === 0, dokuLeser(wurzel, BEKANNT_DOKU))
-pruefe('Doku-Wächter: sieht den Leser design-kontrast und die Nennungen', dokuLeser(wurzel, new Set()).length === 24 && dokuLeser(wurzel, new Set()).includes('tools/design-kontrast.mjs|docs/'), dokuLeser(wurzel, new Set()))
+pruefe('Doku-Wächter: sieht den Leser design-kontrast und die Nennungen', dokuLeser(wurzel, new Set()).length === 8 && dokuLeser(wurzel, new Set()).includes('tools/design-kontrast.mjs|docs/'), dokuLeser(wurzel, new Set()))
 pruefe('Doku-Wächter: das gelesene Dokument steht nicht in der Ausnahme, ein anderes schon', ausnahme(['docs/wissen/design-regeln.md']) === 'main bewegte docs/wissen/design-regeln.md' && ausnahme(['docs/wissen/anderes.md']) === null)
 const DOKU_BASIS = { 'pipeline/build.ts': "import { a } from './lib/a.ts'\n", 'pipeline/validate.ts': '', 'pipeline/check-ja-hat-weg-bestand.ts': '', 'pipeline/lib/a.ts': 'export const a = 1\n' }
 const DOKU_FIXTURES = [
@@ -132,6 +132,7 @@ const DOKU_FIXTURES = [
   ['Leser von Wurzel-Markdown in der Logik-Liste', { 'tools/check-logic-liste.txt': 'pipeline/check-x.ts\n', 'pipeline/check-x.ts': "readFileSync('ZIELE.md')\n" }, ['pipeline/check-x.ts|ZIELE.md']],
   ['Leser von 00-wache.md im Kettenworkflow', { '.github/workflows/pr-pruefung.yml': 'run: cat daniel-zum-abarbeiten/00-wache.md\n' }, ['.github/workflows/pr-pruefung.yml|00-wache.md']],
   ['nur im Kommentar', { 'pipeline/lib/a.ts': "// docs/x.md ZIELE.md\n * 00-wache.md\n" }, []],
+  ['yml: Glob öffnet keinen Scheinblock, die Lesung danach zählt', { '.github/workflows/pr-pruefung.yml': 'run: ls docs/*\nrun: cat ZIELE.md\nrun: echo */\n' }, ['.github/workflows/pr-pruefung.yml|docs/', '.github/workflows/pr-pruefung.yml|ZIELE.md']],
   ['Test nennt es nur als Fixture', { 'tools/x.test.mjs': "const f = 'docs/a.md'\n" }, []],
   ['Datei außerhalb der Hülle', { 'pipeline/fetch-x.ts': "const f = 'docs/a.md'\n" }, []],
   ['Wurzel-Markdown ohne Datei im Wurzelordner zählt nicht', { 'pipeline/lib/a.ts': "const f = 'NEU.md'\n" }, []],

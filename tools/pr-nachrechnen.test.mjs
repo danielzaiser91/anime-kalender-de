@@ -73,7 +73,7 @@ function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTE
     [`api repos/{owner}/{repo}/pulls/${nr} --jq .merge_commit_sha`]: { aus: mergeShas.map((s) => `${s}\n`) },
     [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
     [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
-    [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName`]: { aus: JSON.stringify(pr) },
+    [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName,comments,commits`]: { aus: JSON.stringify(pr) },
     'pr list --state open --limit 200 --json number,title,body': { aus: '[]' },
     [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt,conclusion,status`]: {
       aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
@@ -123,6 +123,19 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
+}
+// Prüfer-Sperre (12.11.2026): Verdrahtung durch nachrechnen() und main(); die Kommentarformen prüft pr-nachrechnen-pruefer.test.mjs.
+{
+  const urteil = { createdAt: '2026-11-12T10:30:00Z', body: '**Prüfer-Review** für 08798af3f - Urteil: **ändern** (Runde 1)' }
+  const commit = (committedDate) => ({ oid: KOPF, committedDate })
+  const sperrPr = (commits) => ({ ...PR, comments: [urteil], commits })
+  for (const [name, aufruf] of [['nachrechnen', (k) => nachrechnen(7, k.gh, k.melde, k.warte)], ['main', (k) => main(['--trocken', '7'], k.gh, k.melde, k.warte)]]) {
+    const k = kulisse(antworten({ mainSha: MAIN, pr: sperrPr([commit('2026-11-12T10:00:00Z')]) }))
+    const code = aufruf(k)
+    pruefe(`${name}: Prüfer „ändern“ ohne Folgecommit -> Exit 4, Meldung, kein Lauf gelesen, nichts geschrieben`, code === 4 && k.meldungen.join() === 'PR 7: PRÜFER VERLANGT ÄNDERUNG (Urteil 2026-11-12T10:30:00Z, letzter Commit 2026-11-12T10:00:00Z)' && k.aufrufe.length === 2 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe, m: k.meldungen })
+    const k2 = kulisse(antworten({ pr: sperrPr([commit('2026-11-12T11:00:00Z')]) }))
+    pruefe(`${name}: Gegenprobe, Folgecommit nach dem Urteil -> weiter wie sonst (aktuell, 0)`, aufruf(k2) === 0 && k2.aufrufe.some((a) => a.startsWith('run list')), k2.aufrufe)
+  }
 }
 // --trocken (11.11.2026): rechnet und meldet wie sonst, schreibt aber nichts (kein Schließen, Öffnen, Kommentar); Exit-Code wie ohne.
 const schreibt = (aufrufe) => aufrufe.filter((a) => /^pr (close|reopen|comment|edit|merge)/.test(a))

@@ -109,16 +109,35 @@ gleich('Absturz von gh: Exit 1, kein Neustart', (() => {
   return code
 })(), 1)
 
+// Zweiter Lauf auf demselben Kopf (12.11.2026, PRs 3579/3584): ein Hand-Rerun nach dem Kommentar hat ihn schon gelesen, der Neustart lässt ihn in Ruhe.
+const ZEIT = '2026-11-12T14:31:55Z'
+const lauf5 = (zusatz) => [{ id: 5, status: 'in_progress', head_sha: KOPF, run_started_at: '2026-11-12T14:32:37Z', ...zusatz }]
+gleich('3579: Hand-Rerun 14:32:37 nach Kommentar 14:31:55, läuft: kein cancel, kein rerun', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5()).aufrufe, [])
+gleich('3584: Hand-Rerun 4 s nach dem Kommentar, läuft: nichts', laufe({ KOMMENTAR_ZEIT: '2026-11-12T14:40:00Z' }, lauf5({ run_started_at: '2026-11-12T14:40:04Z' })).aufrufe, [])
+gleich('Lauf nach dem Kommentar fertig und success: nichts', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5({ status: 'completed', conclusion: 'success' })).aufrufe, [])
+gleich('Lauf nach dem Kommentar abgebrochen: rerun', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5({ status: 'completed', conclusion: 'cancelled' })).aufrufe, ['run rerun 5'])
+gleich('Lauf nach dem Kommentar fehlgeschlagen: rerun', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5({ status: 'completed', conclusion: 'failure' })).aufrufe, ['run rerun 5'])
+gleich('Lauf vor dem Kommentar gestartet, läuft: cancel und rerun', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5({ run_started_at: '2026-11-12T14:24:36Z' })).aufrufe, ['run cancel 5', 'run rerun 5'])
+gleich('Lauf startete genau zur Kommentarzeit: Neustart (Grenze)', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5({ run_started_at: ZEIT, status: 'completed', conclusion: 'success' })).aufrufe, ['run rerun 5'])
+gleich('Kommentarzeit fehlt: Neustart wie bisher', laufe({ KOMMENTAR_ZEIT: undefined }, lauf5({ status: 'completed', conclusion: 'success' })).aufrufe, ['run rerun 5'])
+gleich('Kommentarzeit unlesbar: Neustart wie bisher', laufe({ KOMMENTAR_ZEIT: 'gestern' }, lauf5({ status: 'completed', conclusion: 'success' })).aufrufe, ['run rerun 5'])
+gleich('Laufzeit fehlt: Neustart wie bisher', laufe({ KOMMENTAR_ZEIT: ZEIT }, lauf5({ run_started_at: undefined, status: 'completed', conclusion: 'success' })).aufrufe, ['run rerun 5'])
+
 // Verdrahtung: die Namen aus der YAML speisen main; der Mutant „anderer env-Name“ bleibt so nicht grün.
 const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer-nachtrag.yml', import.meta.url), 'utf8'))
 const job = wf.jobs.neustart
 const schritt = job.steps.find((s) => s.name === 'Prüfer neu starten')
-gleich('Auslöser: issue_comment created und Ende der PR-Prüfkette', wf.on, { issue_comment: { types: ['created'] }, workflow_run: { workflows: ['PR-Prüfkette'], types: ['completed'] } })
+gleich('Auslöser: issue_comment created, Ende der PR-Prüfkette, Merge einer Basis (pull_request_target closed)', wf.on, {
+  issue_comment: { types: ['created'] },
+  workflow_run: { workflows: ['PR-Prüfkette'], types: ['completed'] },
+  pull_request_target: { types: ['closed'] },
+})
 gleich('Rechte: Aktionen schreiben, sonst lesen', wf.permissions, { contents: 'read', 'pull-requests': 'read', actions: 'write' })
 gleich('Bedingung: nur PR-Kommentare, nicht vom Prüfer', job.if, "github.event.issue.pull_request != null && github.event.comment.user.login != 'github-actions[bot]'")
 gleich('Schritt ruft das Skript ohne Argumente', schritt.run, 'node tools/pr-pruefer-neustart.mjs')
 gleich('Kommentartext nur über env', Object.entries(schritt.env).filter(([, w]) => w.includes('comment.body')).map(([s]) => s), ['KOMMENTAR'])
 gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
+gleich('YAML reicht die Kommentarzeit durch (comment.created_at)', schritt.env.KOMMENTAR_ZEIT, '${{ github.event.comment.created_at }}')
 // Zeitbudget: Pausen plus 60 s für Checkout und Abfragen müssen unter der Jobfrist bleiben.
 const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
 gleich('Zeitbudget: Pausen + 60 s unter timeout-minutes', pausenMs + 60_000 < job['timeout-minutes'] * 60_000, true)

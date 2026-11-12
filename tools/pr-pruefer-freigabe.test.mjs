@@ -127,11 +127,14 @@ const AENDERN = 'pr review 7 --repo o/r --request-changes --body Befunde im Prü
 const FREIGABE = { status: 0, aufrufe: [ANSICHT, KOMMENTAR, APPROVE] }
 const ABLEHNUNG = { status: 0, aufrufe: [ANSICHT, KOMMENTAR, AENDERN] }
 const NICHTS = { status: 0, aufrufe: [ANSICHT] }
+const NUR_KOMMENTAR = { status: 0, aufrufe: [ANSICHT, KOMMENTAR] }
 const KEIN_URTEIL = { status: 1, aufrufe: [] }
+const UNVOLL = '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Diff unvollständig**'
 
 const faelle = [
   ['Zustand ok, Urteil ok: Freigabe', basis, FREIGABE],
-  ['Zustand unvollstaendig, Urteil ok: keine Freigabe, Änderungswunsch', { ...basis, zustand: 'unvollstaendig' }, ABLEHNUNG],
+  ['Zustand unvollstaendig, Urteil ok: kein Approve und kein Änderungswunsch, nur Kommentar (12.11.2026, PRs 3579/3584)', { ...basis, zustand: 'unvollstaendig' }, NUR_KOMMENTAR],
+  ['Zustand unvollstaendig, Urteil ok, Token im Protokoll: Änderungswunsch (Token geht vor)', { ...basis, zustand: 'unvollstaendig', protokoll: 'x ghp_abcdef y\n' }, ABLEHNUNG],
   ['Zustand leer, Urteil ok: keine Freigabe', { ...basis, zustand: '' }, ABLEHNUNG],
   ['Zustand unbekannt, Urteil ok: keine Freigabe', { ...basis, zustand: 'ok2' }, ABLEHNUNG],
   ['Zustand ok, Urteil aendern: Änderungswunsch', { ...basis, urteil: urteil('aendern') }, ABLEHNUNG],
@@ -151,8 +154,8 @@ for (const [name, eingabe, soll] of faelle) {
 }
 
 const unvollstaendig = laufe({ ...basis, zustand: 'unvollstaendig' })
-pruefe('Unvollständiger Diff: Kommentar nennt Urteil aendern und den Hinweis',
-  unvollstaendig.kommentar.includes('Urteil: **aendern**') && unvollstaendig.kommentar.includes('nicht vollständig geprüft'), unvollstaendig.kommentar)
+pruefe('Unvollständiger Diff: Kommentar nennt „nicht beurteilt, Diff unvollständig“ und den Hinweis',
+  unvollstaendig.kommentar.includes('Urteil: **nicht beurteilt, Diff unvollständig**') && unvollstaendig.kommentar.includes('nicht vollständig geprüft'), unvollstaendig.kommentar)
 const freigegeben = laufe(basis)
 pruefe('Freigabe: Kommentar nennt Urteil ok, ohne Hinweis',
   freigegeben.kommentar.includes('Urteil: **ok**') && !freigegeben.kommentar.includes('nicht vollständig geprüft'), freigegeben.kommentar)
@@ -180,14 +183,14 @@ pruefe('Urteil ok, Checks laufen noch: nur Kommentar „nicht beurteilt“ mit M
   JSON.stringify(okLaeuft.aufrufe) === JSON.stringify([ANSICHT, KOMMENTAR]) && ersteZeile(okLaeuft) === '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Kette lief noch**' &&
   okLaeuft.kommentar.includes('<!-- pruefer-kette-offen -->') && okLaeuft.kommentar.indexOf('lief beim Urteil noch') < okLaeuft.kommentar.indexOf('Alles gut.'), okLaeuft)
 const okLaeuftDiff = laufe({ ...basis, zustand: 'unvollstaendig', checks: 'Checks laufen noch: PR-Prüfkette' })
-pruefe('Urteil ok, Diff unvollständig, Checks laufen noch: bleibt aendern mit Review, keine Marke',
-  JSON.stringify(okLaeuftDiff.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !okLaeuftDiff.kommentar.includes('pruefer-kette-offen'), okLaeuftDiff)
+pruefe('Urteil ok, Diff unvollständig, Checks laufen noch: nur Kommentar ohne Review, keine Marke',
+  JSON.stringify(okLaeuftDiff.aufrufe) === JSON.stringify(NUR_KOMMENTAR.aufrufe) && !okLaeuftDiff.kommentar.includes('pruefer-kette-offen'), okLaeuftDiff)
 pruefe('Urteil aendern, Checks laufen noch (ohne Kettenlog): bleibt aendern', JSON.stringify(mitChecks('Checks laufen noch: PR-Prüfkette', 'aendern').aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe))
 const aendernRot = mitChecks('Checks rot: Kette – Logik', 'aendern')
 pruefe('Checks rot, Urteil aendern: bleibt aendern ohne Zusatz',
   ersteZeile(aendernRot) === '**Prüfer-Review** für ccccccccc - Urteil: **aendern**' && JSON.stringify(aendernRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe), aendernRot)
 const unvollRot = laufe({ ...basis, zustand: 'unvollstaendig', checks: 'Checks rot: X' })
-pruefe('Diff unvollständig und Checks rot: aendern', ersteZeile(unvollRot).endsWith('Urteil: **aendern**'), ersteZeile(unvollRot))
+pruefe('Diff unvollständig und Checks rot: nicht beurteilt', ersteZeile(unvollRot) === UNVOLL, ersteZeile(unvollRot))
 
 // Abnahme-Modus (21.10.2026): „aendern“ sperrt nur, wenn es frei ist (Stufe 2, einmal); sonst Kommentar ohne Review.
 const marke = (r) => r.kommentar.trimEnd().split('\n').at(-1)
@@ -206,7 +209,7 @@ pruefe('Abnahme, aendern, nicht frei (Stufe < 2 oder schon einmal): nur Kommenta
 pruefe('Abnahme, aendern, Freigabe-Ausgabe leer (Modus-Schritt ohne Ausgabe): nur Kommentar', nurKommentar(abnahme('aendern', '')), abnahme('aendern', ''))
 pruefe('Abnahme, aendern, frei = 2 (kein exakter Wert 1): nur Kommentar', nurKommentar(abnahme('aendern', '2')))
 const aUnvoll = abnahme('ok', '0', { zustand: 'unvollstaendig' })
-pruefe('Abnahme, Diff unvollständig, nicht frei: kein Approve, nur Kommentar', nurKommentar(aUnvoll) && ersteZeile(aUnvoll) === OFFEN, aUnvoll)
+pruefe('Abnahme, Diff unvollständig, nicht frei: kein Approve, nur Kommentar', nurKommentar(aUnvoll) && ersteZeile(aUnvoll) === UNVOLL, aUnvoll)
 const aToken = abnahme('ok', '0', { protokoll: 'x ghp_abcdef y\n' })
 pruefe('Abnahme, Token im Protokoll, nicht frei: kein Approve', nurKommentar(aToken) && !aToken.kommentar.includes('ghp_abcdef'), aToken)
 const aChecks = abnahme('ok', '0', { checks: 'Checks rot: Kette' })
@@ -253,7 +256,7 @@ pruefe('Kette offen, Urteil ok: Freigabe wie bisher (Check-Stand-Zusatz regelt d
 const kDiff = offenFall({ zustand: 'unvollstaendig' })
 pruefe('Kette offen, Diff unvollständig, Urteil aendern: Änderungswunsch (Diff geht vor)', JSON.stringify(kDiff.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !kDiff.kommentar.includes('pruefer-kette-offen'), kDiff)
 const kDiffOk = laufe({ ...basis, zustand: 'unvollstaendig', kettenlog: KETTE_LAEUFT })
-pruefe('Kette offen, Diff unvollständig, Urteil ok: bleibt aendern mit Review', JSON.stringify(kDiffOk.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && ersteZeile(kDiffOk).endsWith('Urteil: **aendern**'), kDiffOk)
+pruefe('Kette offen, Diff unvollständig, Urteil ok: nur Kommentar ohne Review', JSON.stringify(kDiffOk.aufrufe) === JSON.stringify(NUR_KOMMENTAR.aufrufe) && ersteZeile(kDiffOk) === UNVOLL, kDiffOk)
 const kToken = offenFall({ protokoll: 'x ghp_abcdef y\n' })
 pruefe('Kette offen, Token im Protokoll: Änderungswunsch, Token verworfen', JSON.stringify(kToken.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !kToken.kommentar.includes('ghp_abcdef') && !kToken.kommentar.includes('pruefer-kette-offen'), kToken)
 const kAbnahme = offenFall({ modus: 'abnahme', frei: '1' })
