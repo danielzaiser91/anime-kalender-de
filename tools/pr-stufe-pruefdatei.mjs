@@ -9,32 +9,32 @@ const PRUEFDATEI = /^pipeline\/check-((?![^/]*\.(?:test|spec)\.)[^/]+)\.ts$/
 const QUELLE_MIT_IMPORT = /\.(mjs|cjs|js|ts|tsx)$/
 const TEST = /\.(test|spec)\./
 
-const maskiere = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 const istCheck = (pfad) => /(^|\/)check-[^/]+\.[cm]?[jt]sx?$/.test(pfad)
 
-function importiert(text, stamm) {
-  const spez = `['"][^'"\\n]*/check-${maskiere(stamm)}(?:\\.[cm]?[jt]sx?)?['"]`
-  return new RegExp(`(?:\\bfrom|\\bimport|\\brequire)\\s*\\(?\\s*${spez}`).test(text)
-}
+// Import-Angabe (import/from/require/dynamischer Import) mit Ziel .../check-<stamm>[.ts]; Erwähnung in Kommentar oder Text zählt nicht.
+const IMPORT_AUF_CHECK = /(?:\bfrom|\bimport|\brequire)\s*\(?\s*['"][^'"\n]*\/check-([^'"\n/]+?)(?:\.[cm]?[jt]sx?)?['"]/g
+
+const stammCache = new WeakMap()
 
 /** Namen (ohne check-/.ts) aller Prüfdateien, die Produktivcode erreicht, auch über andere Prüfdateien. */
 function erreichteStaemme(kette) {
+  if (stammCache.has(kette)) return stammCache.get(kette)
   const quellen = kette.quellen.filter((q) => QUELLE_MIT_IMPORT.test(q.pfad))
-  const pruefer = quellen.filter((q) => PRUEFDATEI.test(q.pfad))
-  const produktiv = quellen.filter((q) => !istCheck(q.pfad) && !TEST.test(q.pfad))
+  const ziele = (q) => new Set([...q.text.matchAll(IMPORT_AUF_CHECK)].map((m) => m[1]))
+  const pruefer = new Map(quellen.filter((q) => PRUEFDATEI.test(q.pfad)).map((q) => [PRUEFDATEI.exec(q.pfad)[1], ziele(q)]))
   const erreicht = new Set()
-  let quellenVonHier = produktiv
-  for (let neu = true; neu; ) {
-    neu = false
-    for (const p of pruefer) {
-      const stamm = PRUEFDATEI.exec(p.pfad)[1]
-      if (!erreicht.has(stamm) && quellenVonHier.some((q) => importiert(q.text, stamm))) {
-        erreicht.add(stamm)
-        quellenVonHier = [...quellenVonHier, p]
-        neu = true
-      }
+  const offen = []
+  const vormerken = (staemme) => {
+    for (const s of staemme) {
+      if (erreicht.has(s)) continue
+      erreicht.add(s)
+      offen.push(s)
     }
   }
+  for (const q of quellen) if (!istCheck(q.pfad) && !TEST.test(q.pfad)) vormerken(ziele(q))
+  // Fixpunkt: was eine erreichte Prüfdatei importiert, ist ebenfalls erreicht.
+  while (offen.length) vormerken(pruefer.get(offen.pop()) ?? [])
+  stammCache.set(kette, erreicht)
   return erreicht
 }
 
