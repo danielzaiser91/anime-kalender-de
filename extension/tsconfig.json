@@ -21,6 +21,7 @@
     "netflix-alle-staffeln.js",
     "netflix-bericht.js",
     "netflix-durchgang-schutz.js",
+    "netflix-durchgang-steuerung.js",
     "netflix-erinnern.js",
     "netflix-seitentreue.js",
     "netflix-staffel.js",
