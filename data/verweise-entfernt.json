@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-12T03:13:04.524Z",
+  "stand": "2026-11-12T11:52:57.173Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -2430,7 +2430,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-12",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 166,

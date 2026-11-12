@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-11-12 · **177 offene Verweise** in **133 Zeilen**.
+Stand 2026-11-12 · **176 offene Verweise** in **133 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -113,7 +113,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 102 | 2017-06-13 | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
 | 103 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
 | 104 | 2016-12-22 | Küss ihn, nicht mich! | [Hauptserie](https://www.netflix.com/title/81107662) |
-| 105 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 105 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
 | 106 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
 | 107 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
 | 108 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |

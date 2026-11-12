@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-12 · **186 offene Verweise** in **141 Zeilen**.
+Stand 2026-11-12 · **185 offene Verweise** in **141 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Netflix](07-netflix.md) | 177 |
+| [Netflix](07-netflix.md) | 176 |
 | [Prime Video](07-primevideo.md) | 6 |
 | [Disney+](07-disneyplus.md) | 2 |
 | [Pluto TV](07-plutotv.md) | 1 |
@@ -152,7 +152,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 108 | 2017-06-13 | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
 | 109 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
 | 110 | 2016-12-22 | Küss ihn, nicht mich! | [Hauptserie](https://www.netflix.com/title/81107662) |
-| 111 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 111 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
 | 112 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
 | 113 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
 | 114 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
