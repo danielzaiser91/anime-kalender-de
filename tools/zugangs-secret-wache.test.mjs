@@ -69,7 +69,8 @@ try {
     writeFileSync(antwort, inhalt)
     const env = legeGhAttrappe(dir, { befehl: BEFEHL, antwortDatei: antwort })
     const bin = join(dir, process.platform === 'win32' ? 'gh.exe' : 'gh')
-    return lauf([waechter, '--secrets'], { ...env, GH_BIN: bin, GITHUB_REPOSITORY: '' })
+    // PATH bleibt unverändert: nur GH_BIN führt zur Attrappe (sonst fände auch ein fest verdrahtetes `gh` sie).
+    return lauf([waechter, '--secrets'], { ...env, PATH: process.env.PATH, GH_BIN: bin, GITHUB_REPOSITORY: '' })
   }
   const namen = (...n) => JSON.stringify(n.map((name) => ({ name })))
   const befund = secrets(namen(...ids, 'NEU_OHNE_EINTRAG_X'), 1)
