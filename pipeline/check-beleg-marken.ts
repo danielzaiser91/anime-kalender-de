@@ -108,6 +108,7 @@ pruefe('Abgelöst (Kontrolle): ohne die Markierung stünde derselbe Fall auf der
 pruefe('Abgelöst: überholt, aber keine heutige Quelle am Termin → bleibt', aufListe([termin(130003, alt)]) === 1)
 pruefe('Abgelöst: überholt ohne sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'ueberholt'))]) === 1)
 pruefe('Abgelöst: heutige Quelle mit abweichendem sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-03-05'), alt)]) === 1)
+pruefe('Abgelöst: eine überholte Quelle mit dem Termin-Tag zählt nicht als heutig → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'ueberholt', '2027-02-05'), alt)]) === 1)
 pruefe('Abgelöst: heutige Quelle ohne sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell'), alt)]) === 1)
 pruefe('Abgelöst: vermutlich-ueberholt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'vermutlich-ueberholt', '2027-01-15'))]) === 1)
 pruefe('Abgelöst: aktuelle Quelle derselben Adresse ohne Marke → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'aktuell', '2027-02-05'))]) === 1)
