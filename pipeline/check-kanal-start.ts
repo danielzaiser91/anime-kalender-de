@@ -100,6 +100,10 @@ const lebend = { art: 'angekuendigt', platform: 'primevideo', release: 'auto-885
 const h = { zuerst: {}, felder: { [K]: { kanal: 'Aniverse', schonKaufbar: true } } }
 const fest = haltFelderFest(h, [lebend], [])[0]!
 pruefe('Gedächtnis mit schonKaufbar: die alte Meldung verliert Jahre und Disc-Dauer', fest.jahre === undefined && fest.discSeitText === undefined && fest.schonKaufbar === true, fest)
+const KW = 'angekuendigt:auto-20701-primevideo:2026-11-19'
+const lebendWolf = { ...(lebend as object), release: 'auto-20701-primevideo', datum: '2026-11-19', schluessel: KW, jahre: 12, discSeitText: '9 Jahren' } as never
+const festWolf = haltFelderFest({ zuerst: {}, felder: { [KW]: { kanal: 'Aniverse', schonKaufbar: true } } }, [lebendWolf], [])[0]!
+pruefe('Gedächtnis mit schonKaufbar: auch Wolf Girl & Black Prince verliert Jahre und Disc-Dauer', festWolf.jahre === undefined && festWolf.discSeitText === undefined && festWolf.schonKaufbar === true, festWolf)
 const eintrag = (extra: Partial<NewsMeldung>, release = 'auto-885-primevideo', datum = '2026-11-05'): NewsEintrag[] =>
   [{ am: '2026-10-29', titelId: 885, titel: 'Angel’s Egg', slug: 'a', meldungen: [{ art: 'angekuendigt', platform: 'primevideo', release, datum, kanal: 'Aniverse', ...extra } as NewsMeldung] }]
 const vorstand = eintrag({ jahre: 41, discSeitText: '5 Monaten' })
