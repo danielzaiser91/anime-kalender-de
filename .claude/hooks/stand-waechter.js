@@ -131,9 +131,59 @@ function toteLinks(text, existiert) {
   return [...namen].map((n) => `Toter Link: ${n} — umbenannt? Link nachziehen`)
 }
 
-/** Meldungstext oder '' (alles in Ordnung). `existiert` prüft Dateipfade (Standard fs.existsSync). */
-function waechter(text, jetzt, existiert = fs.existsSync) {
-  return [waechterAbschnitte(text, jetzt), ...toteLinks(text, existiert)].filter(Boolean).join('; ')
+const DATEI_ABSCHNITTE = ['Deine Aufgabe', 'Worum es geht', 'Warum ich es nicht selbst tue', 'Archiv']
+
+/** Liest eine Datei als Text oder null (fehlt/unlesbar). */
+function liesDatei(pfad) {
+  try {
+    return fs.readFileSync(pfad, 'utf8')
+  } catch {
+    return null
+  }
+}
+
+/** Meldungen zum Aufbau einer Jetzt-Datei: Kennung in der ersten Überschrift, `##`-Abschnitte in fester Reihenfolge (Archiv darf fehlen). */
+function dateiAufbau(kennung, text) {
+  const zeilen = text.split(/\r?\n/)
+  const titel = zeilen.find((z) => /^# /.test(z)) || ''
+  const meldungen = []
+  if (!new RegExp(`\\b${kennung}\\b`).test(titel)) meldungen.push(`Jetzt-Datei ${kennung}: Kennung fehlt in der Überschrift`)
+  const ränge = zeilen.filter((z) => /^## /.test(z)).map((z) => DATEI_ABSCHNITTE.indexOf(z.slice(3).trim()))
+  if (ränge[0] !== 0) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „Deine Aufgabe“ nicht zuerst`)
+  const bekannt = ränge.filter((r) => r >= 0)
+  if (bekannt.some((r, i) => i > 0 && r < bekannt[i - 1])) {
+    meldungen.push(`Jetzt-Datei ${kennung}: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv`)
+  }
+  return meldungen
+}
+
+/** Meldungen zu den Jetzt-Dateien: je Zeile unter „### Jetzt“ mit Kennung und `file:///`-Link auf eine .md-Datei. `lies(pfad)` liefert Text oder null. */
+function jetztDateien(text, lies) {
+  const zeilen = text.split(/\r?\n/)
+  const kopf = zeilen.findIndex((z) => z.startsWith('### Jetzt'))
+  if (kopf < 0) return []
+  let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('#'))
+  if (ende < 0) ende = zeilen.length
+  const meldungen = []
+  for (const z of zeilen.slice(kopf + 1, ende).filter((s) => s.startsWith('- '))) {
+    const kennung = KENNUNG.exec(ohneLinkZiel(z))
+    const link = [...z.matchAll(DATEI_LINK)].map((m) => m[1].split('#')[0]).find((l) => /\.md$/i.test(l))
+    if (!kennung || !link) continue
+    let pfad
+    try {
+      pfad = decodeURIComponent(link.slice('file:///'.length))
+    } catch {
+      continue
+    }
+    const inhalt = lies(pfad)
+    if (inhalt != null) meldungen.push(...dateiAufbau(kennung[0], inhalt))
+  }
+  return meldungen
+}
+
+/** Meldungstext oder '' (alles in Ordnung). `existiert` prüft Dateipfade (Standard fs.existsSync), `lies` liest Jetzt-Dateien. */
+function waechter(text, jetzt, existiert = fs.existsSync, lies = liesDatei) {
+  return [waechterAbschnitte(text, jetzt), ...toteLinks(text, existiert), ...jetztDateien(text, lies)].filter(Boolean).join('; ')
 }
 
 /** Meldungen zu den Abschnitten von stand.md als ein Text oder ''. */

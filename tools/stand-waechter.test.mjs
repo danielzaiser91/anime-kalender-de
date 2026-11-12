@@ -224,4 +224,26 @@ if (process.platform === 'win32') {
 } else {
   console.log('stand-waechter.test: Standard-Dateisystemfall übersprungen (nur win32); Fall mit abgebildetem Pfad lief')
 }
-console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem)')
+// Jetzt-Dateien: fester Aufbau (Kennung in der Überschrift, Abschnittsreihenfolge)
+const GUT = '# F7 Titel\n\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n## Archiv\nx\n'
+const jetztStand = (zeile) => ['# Stand', '## Daniel-Todo', '### Jetzt', zeile, '### Später', '', `## In Arbeit${FRISCH}`, '', '## Als Nächstes', ...hand(40, '🔵 '), ''].join('\n')
+const ZEILE = '- 🟠 **F7** Frage, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md)) {eigen · normal · - · 01.10.}'
+const mitDatei = (inhalt) => w.waechter(jetztStand(ZEILE), JETZT, () => true, (p) => (p === 'C:/code/ai/jetzt-f7.md' ? inhalt : null))
+assert.equal(mitDatei(GUT), '', 'Jetzt-Datei gut')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung fehlt')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# F77 Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'F77 ist nicht F7')
+assert.equal(
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst; Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
+  'falsche Reihenfolge',
+)
+assert.equal(
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n'),
+  'Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
+  'Archiv vor Worum',
+)
+assert.equal(mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'), '', 'Archiv darf fehlen')
+assert.equal(w.waechter(jetztStand('- 🟠 **F7** Frage, kann nicht'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
+assert.equal(w.waechter(jetztStand(ZEILE), JETZT, () => true, () => null), '', 'Datei nicht lesbar: keine Meldung')
+assert.equal(w.waechter(jetztStand(ZEILE.replace('jetzt-f7.md', 'jetzt-f7.txt')), JETZT, () => true, () => 'kaputt'), '', 'kein .md-Link: keine Meldung')
+console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Archiv optional, ohne Link)')
