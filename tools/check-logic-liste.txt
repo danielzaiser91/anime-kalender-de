@@ -299,6 +299,7 @@ pipeline/check-jw-folgestaffel.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
+pipeline/check-jw-main-naht.ts
 pipeline/check-jw-namenssuche-lauf.ts
 pipeline/check-jw-namenssuche.ts
 pipeline/check-jw-namenstreffer-lauf.ts
