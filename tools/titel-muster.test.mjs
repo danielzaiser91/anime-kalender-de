@@ -47,6 +47,10 @@ const andere = [
   // „German Dub“ ist unsere Fassung; Teilwörter und andere Sprachen ohne Dub/Sub zählen nicht.
   ['Pokémon German Dub', false],
   ['Subaru Trailer', false],
+  // „OmU“ nur als ganzes Wort: Namen, die so anfangen, nennen keine Fassung.
+  ['Omura Interview', false],
+  ['Omurice Rezept aus Folge 3', false],
+  ['Frieren (OmU)', true],
   ['English Trailer', false],
   ['Folge 1 Japanese Dub', false],
   ['', false],

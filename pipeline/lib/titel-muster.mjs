@@ -37,4 +37,4 @@ export const DEUTSCHE_SPUR =
  * Projekts betrifft: Synchro ist nicht Untertitel.
  */
 export const ANDERE_FASSUNG =
-  /\b(OmU|OmdU|Untertitel|subbed|sub\)|\(sub\b|(English|Englisch|French|Spanish|Italian)\s*(Dub|Sub)\b)/i
+  /\b(OmU\b|OmdU\b|Untertitel|subbed|sub\)|\(sub\b|(English|Englisch|French|Spanish|Italian)\s*(Dub|Sub)\b)/i
