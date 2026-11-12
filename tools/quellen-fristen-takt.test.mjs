@@ -93,7 +93,6 @@ const TAEGLICH = {
   'crunchyroll-neu': 3,
   messbelege: 3,
   toggo: 3,
-  'tv-de': 3,
   'tv-programm': 3,
   'adn-news': 4,
   anisearch: 4,
@@ -104,8 +103,11 @@ const TAEGLICH = {
   'wikipedia-folgen': 4,
 }
 const WOCHE = ['adn-catalog', 'anisearch-eintraege', 'crunchyroll-dub', 'justwatch-audio', 'motn-changes']
+// Quelle aus der Cloud gesperrt (tv.de, HTTP 403 seit 06.11.2026): bewusst lange Frist, Alarm erst bei 60 Tagen.
+const SPERRE_CLOUD = { 'tv-de': 30 }
 for (const name of new Set([...Object.keys(stunde), ...Object.keys(tag)])) {
-  if (WOCHE.includes(name)) assert.ok(FRISTEN[name] >= 9, `${name}: Wochenquelle mit Frist ${FRISTEN[name]} < 9`)
+  if (name in SPERRE_CLOUD) assert.equal(FRISTEN[name], SPERRE_CLOUD[name], `${name}: Frist ${FRISTEN[name]}, erwartet ${SPERRE_CLOUD[name]}`)
+  else if (WOCHE.includes(name)) assert.ok(FRISTEN[name] >= 9, `${name}: Wochenquelle mit Frist ${FRISTEN[name]} < 9`)
   else {
     assert.ok(name in TAEGLICH, `${name}: nicht eingeordnet (TAEGLICH oder WOCHE in diesem Test)`)
     assert.equal(FRISTEN[name], TAEGLICH[name], `${name}: Frist ${FRISTEN[name]}, erwartet ${TAEGLICH[name]}`)
