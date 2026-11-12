@@ -84,6 +84,7 @@ export function deSeitZeile(
     : T('antwort.deSeit', { datum: wann })
 }
 
+/** Haupt- und Nebenzeile, Anteil, Zähler und Fakten des Antwortkastens je Antwortart (aus `AntwortKasten`). */
 export function antwortKopf({ antwort, relativImSatz, T, betont, ohneSprachbeleg, releases, folgenZahl, deSeitNeben, title }: {
   antwort: Antwort
   relativImSatz: (datum: string) => string
