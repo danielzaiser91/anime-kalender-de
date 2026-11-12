@@ -35,6 +35,7 @@ pruefeFall('Name nur im Kommentar des Tests zählt nicht', { 'tools/a.mjs': '1',
 pruefeFall('Name als Teil eines anderen Namens zählt nicht', { 'tools/a.mjs': '1', 'tools/b.test.mjs': "import './xa.mjs'" }, 1)
 pruefeFall('Zeile der Kettenliste zählt', { 'tools/a.mjs': '1', 'tools/check-logic-liste.txt': 'tools/a.mjs\n' }, 0)
 pruefeFall('Kommentarzeile der Kettenliste zählt nicht', { 'tools/a.mjs': '1', 'tools/check-logic-liste.txt': '# tools/a.mjs\n' }, 1)
+pruefeFall('Kommentar hinter der Listenzeile zählt nicht', { 'tools/a.mjs': '1', 'tools/check-logic-liste.txt': 'tools/c.mjs # a.mjs\n' }, 1)
 pruefeFall('Bestandsliste zählt', { 'tools/a.mjs': '1', 'tools/check-bestand-liste.txt': 'tools/a.mjs\n' }, 0)
 pruefeFall('ein anderes Werkzeug ist kein Test', { 'tools/a.mjs': '1', 'tools/b.mjs': "import './a.mjs'" }, 2)
 

@@ -43,7 +43,7 @@ export function testTexte(dateien) {
   const texte = []
   for (const [pfad, text] of dateien) {
     if (istTestdatei(pfad)) texte.push(ohneKommentar(pfad, text))
-    else if (LISTEN.includes(pfad)) texte.push(...text.split(/\r?\n/).filter((z) => !z.trim().startsWith('#')).map((z) => z.replace(/#.*/, '')))
+    else if (LISTEN.includes(pfad)) texte.push(...text.split(/\r?\n/).map((z) => z.replace(/#.*/, '')))
   }
   return texte
 }
