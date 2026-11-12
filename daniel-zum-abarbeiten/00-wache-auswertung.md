@@ -808,3 +808,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Gemessen: ADN-Staffel 3 von Sailor Moon hat im Katalog 38 Folgen (Staffeln 1–5: 46/43/38/39/34) — das passt zu Sailor Moon S (532, 38 Folgen), nicht zu Death Busters (13). Der frühere Weg an 21462 war also vermutlich eine falsche Mitzuordnung, der Verlust damit eine Korrektur. **Nicht belegt:** ob der alte Stand im Katalog eine andere Folgenzahl trug (der Katalog des Vorstands wurde nicht ausgezählt).
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
+
+
+## 12.11.2026 — Wache rot nur wegen Patch-Notes-Vorrat (Lauf 43253552621, Issue #3599)
+
+**Was läuft korrekt.** Die Wache meldet, was sie soll: Die Patch Notes „mehr-deutsche-folgen-netflix-prime" liegen seit 04.11. im Vorrat. Der Bestand verlor nichts (24 h: Titel 0, Urteile +3, offen +2; alle Lauffristen grün).
+
+**Wo ist Verbesserungspotenzial?** Der Vorrats-Hinweis macht den Lauf rot, obwohl nichts verloren ging, und steht seit 8 Tagen identisch im Befund. Eine Schwelle (rot erst ab Alter X, sonst nur Zeile) würde täglich ein Issue sparen.
+
+**Wo sind echte Risiken und Lücken?** Gemessen in `public/data/cartoons.json`: Peppa Wutz (-12225) Netflix hat weiter nur `dubRanges` 1–13; `titles.json` Tayo (163828) Prime hat keine `dubRanges`. Die Wirkung von PR 2740/2762 ist nicht live, die Patch Note darf nicht freigegeben werden. Warum, nicht untersucht.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da kein Codefehler belegt ist.
