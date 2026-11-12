@@ -49,7 +49,7 @@ function lauf(termine: object[], befunde: Record<string, object>, liste: string[
     const r = spawnSync(process.execPath, [tsx, huelle, '--limit', '0'], { cwd: wurzel, env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8', windowsHide: true })
     return { text: `${r.stdout}${r.stderr}`, status: r.status }
   } finally {
-    rmSync(wurzel, { recursive: true, force: true })
+    rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
   }
 }
 
