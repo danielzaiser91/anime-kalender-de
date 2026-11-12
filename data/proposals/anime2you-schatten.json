@@ -266,24 +266,6 @@
         "stichprobe": 0,
         "rest": 4
       }
-    },
-    {
-      "am": "2026-11-12",
-      "artikel": 1,
-      "ohneAntwort": 0,
-      "schattenFehler": 0,
-      "gleich": 0,
-      "nurRegel": 0,
-      "nurClaude": 0,
-      "ms": 1.7773059999999816,
-      "faelle": [],
-      "router": {
-        "scharf": false,
-        "artikel": 1,
-        "erspart": 0,
-        "stichprobe": 0,
-        "rest": 1
-      }
     }
   ]
 }
