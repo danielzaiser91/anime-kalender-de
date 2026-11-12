@@ -30,6 +30,8 @@ tools/bereich-auge-urteil.mjs
 tools/bilder-ordner.mjs
 tools/browser-weiche.mjs
 tools/buehne-absturz.mjs
+tools/buehne-basis-warnung.mjs
+tools/buehne-basis.mjs
 tools/buehne-fenster-pruefen.mjs
 tools/buehne-messen.mjs
 tools/buehne-messung.mjs
