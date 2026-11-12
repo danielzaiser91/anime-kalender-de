@@ -44,6 +44,16 @@ quellen_bauprobe_basis() {
   return "$status"
 }
 
+# ✖-Zeilen der roten Prüfung (höchstens 20, der Rest gezählt), ohne die Zeilen der Basis-Gegenprobe ("[Basis …]"). Anlass: PR 3528 nannte nur „1 Verstöße“ (12.11.2026).
+quellen_verstoss_zeilen() {
+  local zeilen gesamt
+  zeilen="$(grep -E '✖' "$1" | grep -v '^\[Basis' || true)"
+  [ -n "$zeilen" ] || return 0
+  gesamt="$(printf '%s\n' "$zeilen" | wc -l)"
+  printf '%s\n' "$zeilen" | head -20
+  if [ "$gesamt" -gt 20 ]; then echo "… und $((gesamt - 20)) weitere ✖-Zeilen im Job-Log"; fi
+}
+
 quellen_bauprobe() {
   local protokoll status=0 basis=0
   protokoll="$(mktemp)"
@@ -74,7 +84,8 @@ quellen_bauprobe() {
     return 0
   fi
   echo "Der Probebau (Datensatz bauen, Bestandsprüfungen) endete mit Exit $status:"
-  tail -n 8 "$protokoll"
+  quellen_verstoss_zeilen "$protokoll"
+  grep -v "✖" "$protokoll" | tail -n 8
   rm -f "$protokoll"
   return 1
 }
