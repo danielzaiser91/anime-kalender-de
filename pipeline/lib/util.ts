@@ -71,7 +71,15 @@ export function clearDir(path: string): void {
 export function writeText(path: string, text: string): void {
   const full = resolve(ROOT, path)
   mkdirSync(dirname(full), { recursive: true })
-  writeFileSync(full, text, 'utf8')
+  // Inline wie in `writeJson` (der Scanner überspringt nur die Helfer-Rümpfe): tmp im selben Ordner, dann rename.
+  const tmp = `${full}.${process.pid}-${randomUUID().slice(0, 8)}.tmp`
+  try {
+    writeFileSync(tmp, text, 'utf8')
+    renameSync(tmp, full)
+  } catch (err) {
+    rmSync(tmp, { force: true })
+    throw err
+  }
 }
 
 /** fetch mit Retry und exponentiellem Backoff; respektiert Retry-After. */
