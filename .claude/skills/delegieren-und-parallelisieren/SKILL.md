@@ -61,6 +61,8 @@ Der Auftrag ist vor dem Start vollständig (Umfang, Gegenproben, bekannte Fälle
 
 **Widerspruch zweier Anzeigen: Frage statt Richtung (30.10.2026, 2427):** Zeigen Kachel und Panel Gegensätzliches, nennt der Auftrag nicht die Seite, die „recht hat“, sondern verlangt zuerst den Beleg, welche Aussage die Quelle stützt (widerlegter Termin ≠ widerlegte Ankündigung).
 
+**Abrufe bei einem Anbieter: erst `docs/wissen/quellen.md` auf Verbote lesen (12.11.2026, PR 3557):** Joyn: kein eigener Abruf, TDM-Vorbehalt; Amazon: keine Agenten-Abrufe. Der Akira-Auftrag erlaubte einen Joyn-Abruf, der Beleg musste korrigiert werden.
+
 Die Rollen laden ihre Regeln selbst (`.claude/agents/*.md`, Prüftechnik im Skill `pruef-technik`); der Auftrag nennt nur, was im Einzelfall gilt. Die alte Vorlage mit Anlässen: `auftragsvorlage-anlaesse.md` (gleicher Ordner).
 
 ```
