@@ -1516,7 +1516,15 @@
       "am": "2026-11-10",
       "vorschlaege": 2
     },
+    "1069646": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
+    },
     "1069700": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
+    },
+    "1069746": {
       "am": "2026-11-11",
       "vorschlaege": 0
     },
@@ -1524,10 +1532,18 @@
       "am": "2026-11-10",
       "vorschlaege": 1
     },
+    "1069870": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
+    },
     "1069949": {
       "am": "2026-11-10",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1070027": {
+      "am": "2026-11-11",
+      "vorschlaege": 0
     },
     "1070093": {
       "am": "2026-11-10",
@@ -1551,6 +1567,23 @@
     },
     "1070214": {
       "am": "2026-11-11",
+      "vorschlaege": 1
+    },
+    "1070243": {
+      "am": "2026-11-12",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1070298": {
+      "am": "2026-11-11",
+      "vorschlaege": 2
+    },
+    "1070311": {
+      "am": "2026-11-11",
+      "vorschlaege": 6
+    },
+    "1070341": {
+      "am": "2026-11-12",
       "vorschlaege": 1
     }
   },
@@ -12212,6 +12245,195 @@
       "quelle": "https://www.anime2you.de/news/1070169/neuer-teaser-sss-class-revival-hunter/",
       "veroeffentlicht": "2026-11-11",
       "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Demon Slave: The Chained Soldier",
+      "zitat": "Zu den aktuellen Neuheiten gehören beide Volumes der zweiten Staffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich auch in einer Limited Edition.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-03-19",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070311",
+      "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Demon Slave: The Chained Soldier",
+      "zitat": "Zu den aktuellen Neuheiten gehören beide Volumes der zweiten Staffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich auch in einer Limited Edition.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-05-21",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070311",
+      "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "The Promised Neverland",
+      "zitat": "Außerdem sind neue Komplett-Bundles von »The Promised Neverland«, »Magia Record« und »Saekano« sowie der »Fate/Grand Order«-Filme vorbestellbar. Die Veröffentlichung ist jeweils für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070311",
+      "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Magia Record",
+      "zitat": "Außerdem sind neue Komplett-Bundles von »The Promised Neverland«, »Magia Record« und »Saekano« sowie der »Fate/Grand Order«-Filme vorbestellbar. Die Veröffentlichung ist jeweils für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070311",
+      "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Saekano",
+      "zitat": "Außerdem sind neue Komplett-Bundles von »The Promised Neverland«, »Magia Record« und »Saekano« sowie der »Fate/Grand Order«-Filme vorbestellbar. Die Veröffentlichung ist jeweils für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070311",
+      "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Fate/Grand Order",
+      "zitat": "Außerdem sind neue Komplett-Bundles von »The Promised Neverland«, »Magia Record« und »Saekano« sowie der »Fate/Grand Order«-Filme vorbestellbar. Die Veröffentlichung ist jeweils für den 4. Dezember 2026 geplant.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070311",
+      "artikel": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Demon Slave: The Chained Soldier",
+      "zitat": "Das erste Volume mit den Episoden 1 bis 6 auf Deutsch und Japanisch kommt nach aktueller Planung am 19. März 2027 als Blu-ray in den Handel, bevor das zweite Volume mit den Episoden 7 bis 12 am 21. Mai 2027 veröffentlicht wird.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2027-03-19",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–6",
+      "unsicher": "Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070298",
+      "artikel": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
+      "quelle": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Demon Slave: The Chained Soldier",
+      "zitat": "Das erste Volume mit den Episoden 1 bis 6 auf Deutsch und Japanisch kommt nach aktueller Planung am 19. März 2027 als Blu-ray in den Handel, bevor das zweite Volume mit den Episoden 7 bis 12 am 21. Mai 2027 veröffentlicht wird.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2027-05-21",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7–12",
+      "unsicher": "Sprachangabe \"Deutsch und Japanisch\" steht im Zitat nur explizit beim ersten Volume; Termin laut Artikel vorläufig (\"nach aktueller Planung\").",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1070298",
+      "artikel": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
+      "quelle": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-11"
+    },
+    {
+      "titel": "Medaka Kuroiwa is Impervious to My Charms",
+      "zitat": "Die zweite Staffel von »Medaka Kuroiwa is Impervious to My Charms« startet nach aktueller Planung im Januar 2027 im japanischen Fernsehen sowie bei Crunchyroll in der japanischen Originalfassung mit deutschen Untertiteln im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1070341",
+      "artikel": "Crunchyroll zeigt zweite »Medaka Kuroiwa«-Staffel im Simulcast",
+      "quelle": "https://www.anime2you.de/news/1070341/medaka-kuroiwa-staffel-2-crunchyroll/",
+      "veroeffentlicht": "2026-11-11",
+      "gelesenAm": "2026-11-12"
     }
   ]
 }

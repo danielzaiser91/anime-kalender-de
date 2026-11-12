@@ -1,15 +1,73 @@
 {
-  "scrapedAt": "2026-11-11T04:11:00.275Z",
+  "scrapedAt": "2026-11-12T02:01:31.264Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 61,
-    "schon in einem Rubrik-Feed gelesen": 24,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 18,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",
+      "publishedAt": "2026-11-11",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-03-19",
+          "context": "es der zweiten Staffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […]"
+        },
+        {
+          "iso": "2027-05-21",
+          "context": "ffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […] Der Beitrag Neu"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
+      "articleUrl": "https://www.anime2you.de/news/1070298/demon-slave-staffel-blu-ray-termin/",
+      "publishedAt": "2026-11-11",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-03-19",
+          "context": "den 1 bis 6 auf Deutsch und Japanisch kommt nach aktueller Planung am 19. März 2027 als […] Der Beitrag Blu-ray-Termin der zweiten »Demon"
+        },
+        {
+          "month": "2027-03",
+          "context": "»Mato Seihei no Slave«) verkündet. Wir fassen zusammen. Disc-Release ab März 2027 Das erste Volume mit den Episoden 1 bis 6 auf Deutsch und"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll zeigt zweite »Medaka Kuroiwa«-Staffel im Simulcast",
+      "articleUrl": "https://www.anime2you.de/news/1070341/medaka-kuroiwa-staffel-2-crunchyroll/",
+      "publishedAt": "2026-11-11",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "hi no Kawaii ga Tsuujinai«) gesichert hat. Wir fassen zusammen. Start im Januar 2027 Die zweite Staffel von »Medaka Kuroiwa is Impervious to"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neuer Fantasy-Anime »Devils‘ Crest« auf Prime Video erhält zwei Cours",
       "articleUrl": "https://www.anime2you.de/news/1069473/devils-crest-erhaelt-zwei-cours/",
@@ -265,7 +323,7 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "verschiebungen": [
         {
           "titel": "Kaiju No.8 – Staffel 2 (Komplettbox)",

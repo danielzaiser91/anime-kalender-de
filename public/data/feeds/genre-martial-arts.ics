@@ -8,38 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-04#56@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261104T160500Z
-DTEND:20261104T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-04#57@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261104T163000Z
-DTEND:20261104T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-97938-disneyplus@2026-11-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261104
-DTEND;VALUE=DATE:20261105
-SUMMARY:Boruto: Naruto Next Generations
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\, son
- dern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https://anim
- e-kalender.de/t/8366/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-05#58@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261105T160500Z

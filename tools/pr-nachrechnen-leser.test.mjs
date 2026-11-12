@@ -117,11 +117,47 @@ for (const [ende, ziel] of [['.ts', 'a/b.ts'], ['.tsx', 'a/b.tsx'], ['.mjs', 'a/
 }
 // Datenkanal (Auflage A1/A3 des CI-Prüfers): ein PR mit Datenänderung, die der Bau mit der bewegten Datei zusammen liest, bleibt veraltet,
 // auch wenn sein Code sie nicht nennt. Handbelege, kuratierte Daten und Sammlerdaten, je einzeln; ohne Leser der bewegten Datei gilt er nicht.
+// Der Grund nennt Leser und die bewegte Datei, die dieser Leser nennt (11.11.2026); ist sein Text nicht lesbar, die erste bewegte.
+const leserEnde = (pfad, bewegt = F) => new RegExp(`\\(Leser: ${pfad.replace(/[./]/g, '\\$&')}, nennt ${bewegt.replace(/[./]/g, '\\$&')}\\)$`)
 for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'data/anbieter-staffeln.json', 'data/curated/ordner/tief/a.yaml']) {
   const g = grund(['tools/nachbar.mjs', daten])
-  pruefe(`PR ändert ${daten}, Leser der bewegten Datei vorhanden -> Grund`, /^der PR ändert .*, das der Bau mit den bewegten Dateien zusammen liest \(Leser: pipeline\/bau\/cr\.ts\)$/.test(g) && g.includes(daten), g)
+  pruefe(`PR ändert ${daten}, Leser der bewegten Datei vorhanden -> Grund`, /^der PR ändert .*, das der Bau mit den bewegten Dateien zusammen liest /.test(g) && leserEnde('pipeline/bau/cr.ts').test(g) && g.includes(daten), g)
   pruefe(`PR ändert ${daten}, kein Leser der bewegten Datei -> null`, grund(['tools/nachbar.mjs', daten], { leser: [] }) === null)
 }
+// PR 3474: bewegt waren nur ein Test und ein Workflow, der PR ändert Daten -> kein Bau liest sie mit der bewegten Datei zusammen.
+const NICHT_BAU = ['tools/mutationsprobe-workflow.test.mjs', '.github/workflows/mutationsprobe.yml', '.github/actions/herkunft-holen/action.yml', 'pipeline/check-x.test.ts']
+pruefe('PR 3474: PR ändert data/…yaml, Leser nur Test und Workflow -> null', grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: NICHT_BAU }) === null, grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: NICHT_BAU }))
+pruefe('PR 3474 Gegenprobe: ein Bau-Leser unter den Lesern bleibt Grund', leserEnde('tools/check-x.ts').test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, 'tools/check-x.ts'] })))
+pruefe('PR 3474 Gegenprobe: shared/-Leser bleibt Grund', leserEnde('shared/l.ts').test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['shared/l.ts'] })))
+// Prüfer 3486 R1 (Befund 2): Generatoren und Sammler unter tools/, web/, worker/, extension/ lesen Daten wirklich und bleiben Leser.
+for (const leser of ['tools/gen.mjs', 'web/src/lib/daten.ts', 'worker/src/feed.ts', 'extension/melder.js']) {
+  pruefe(`PR ändert Handdatei, einziger Leser ${leser} -> Grund`, leserEnde(leser).test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, leser] })))
+}
+// Prüfer 3486 (Hinweis): die Meldung nennt den Bau-Kern vor Werkzeug und Workflow, auch wenn der andere in der Liste vorn steht.
+pruefe('Meldung Datenkanal: Bau-Leser vor Werkzeug-Leser', /\(Leser: pipeline\/bau\/cr\.ts, tools\/gen\.mjs, nennt /.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['tools/gen.mjs', 'pipeline/bau/cr.ts'] })))
+pruefe('Meldung Datenkanal: Bau-Leser vor Workflow-Leser', /\(Leser: tools\/check-x\.ts, tools\/gen\.mjs, nennt /.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['.github/workflows/pr-pruefer.yml', 'tools/gen.mjs', 'tools/check-x.ts'] })))
+// PR 3490/3474 (11.11.2026): bewegt waren bauer.md und die Bot-Datei; der Bau-Leser nennt nur die Bot-Datei, der PR ändert nur Handdaten -> null.
+const BAUER = '.claude/agents/bauer.md'
+const ADN = ['data/adn-staffelzuordnung.yaml']
+pruefe('PR 3490: Bot-Datei bewegt, Leser nennt nur sie -> null', bewegtesGelesen({ bewegt: [BAUER, F], pr: ADN, leser: LESER, lies, paketSkripte: null, botBewegt: [F] }) === null)
+pruefe('PR 3490 Kontrolle: ohne botBewegt derselbe Fall -> Grund (nennt F)', leserEnde('pipeline/bau/cr.ts').test(bewegtesGelesen({ bewegt: [BAUER, F], pr: ADN, leser: LESER, lies, paketSkripte: null })))
+// Gegenfall: bewegter Code mit Leser bleibt Grund, auch wenn zugleich eine Bot-Datei bewegt ist; der Grund nennt die Datei dieses Lesers, nicht die erste.
+const CODE = 'pipeline/lib/neu.ts'
+const texte = { ...BAUM, 'pipeline/bau/b.ts': "import { n } from '../lib/neu'\n// pipeline/lib/neu.ts\nconst pfad = 'pipeline/lib/neu.ts'\n" }
+const gemischt = bewegtesGelesen({ bewegt: [F, CODE], pr: ADN, leser: ['pipeline/bau/cr.ts', 'pipeline/bau/b.ts'], lies: (p) => texte[p] ?? null, paketSkripte: null, botBewegt: [F] })
+pruefe('PR 3490 Gegenfall: bewegter Code mit Leser neben Bot-Datei -> Grund mit dem Leser des Codes', leserEnde('pipeline/bau/b.ts', CODE).test(gemischt), gemischt)
+// Leser nennt die zweite bewegte Datei: der Grund nennt sie, nicht die erste (Auftrag Punkt 1).
+const zweite = bewegtesGelesen({ bewegt: [BAUER, CODE, F], pr: ADN, leser: ['pipeline/bau/b.ts'], lies: (p) => texte[p] ?? null, paketSkripte: null })
+pruefe('Grund nennt die bewegte Datei, die der Leser nennt (zweite, nicht erste)', leserEnde('pipeline/bau/b.ts', CODE).test(zweite), zweite)
+// PR 3490: der Bot-Leser erreicht per Import die Handdatei des PR (Rückwärtsweg); mit Bot-Datei als einziger Bewegung kein Grund, mit bewegtem Code schon.
+const texteR = { ...BAUM, 'pipeline/bau/cr.ts': `import { a } from '../lib/adn'\nconst d = '${F}'\nconst y = 'data/adn-staffelzuordnung.yaml'\n`, 'pipeline/lib/adn.ts': "const y = 'data/adn-staffelzuordnung.yaml'\n", 'pipeline/lib/neu.ts': "const y = 'data/adn-staffelzuordnung.yaml'\n" }
+const rueck = (bewegt, botBewegt, leser) => bewegtesGelesen({ bewegt, pr: [...ADN, 'tools/nachbar.mjs'], leser, lies: (p) => texteR[p] ?? null, paketSkripte: null, botBewegt })
+pruefe('PR 3490 Rückwärtsweg: nur Bot-Datei bewegt, Leser importiert die Handdaten -> null', rueck([BAUER, F], [F], LESER) === null, rueck([BAUER, F], [F], LESER))
+pruefe('PR 3490 Rückwärtsweg Kontrolle: dieselbe Lage ohne botBewegt -> Grund', rueck([BAUER, F], [], LESER) !== null, rueck([BAUER, F], [], LESER))
+pruefe('PR 3490 Rückwärtsweg Gegenfall: bewegter Code erreicht die Handdaten -> Grund, auch mit Bot-Datei', /^data\/adn-staffelzuordnung\.yaml wird von Code genutzt/.test(rueck([F, 'pipeline/lib/neu.ts'], [F], []) ?? ''), rueck([F, 'pipeline/lib/neu.ts'], [F], []))
+const codePr = bewegtesGelesen({ bewegt: [F], pr: ['data/anderes.yaml', 'pipeline/lib/adn.ts'], leser: LESER, lies: (p) => texteR[p] ?? null, paketSkripte: null, botBewegt: [F] })
+pruefe('PR 3490 Gegenfall: PR ändert Code (keine Handdaten), Leser der Bot-Datei nutzt ihn -> Grund bleibt', /^pipeline\/lib\/adn\.ts wird von Code genutzt/.test(codePr ?? ''), codePr)
+pruefe('Meldung Aufruf: Bau-Leser vor Werkzeug-Leser', /^der PR ruft pipeline\/bau\/cr\.ts auf/.test(grund(['.github/workflows/lesend.yml'], { leser: ['tools/cr-vorschau.ts', 'pipeline/bau/cr.ts'] })))
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
 pruefe('PR ändert Namensvetter datax/ (kein Ordner data/), Leser vorhanden -> null', grund(['datax/a.json']) === null)
@@ -251,6 +287,21 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Ordner: Markdown ist kein lesbarer Code -> null', mitText("readFileSync('data/' + f)\n", 'docs/x.md') === null)
   pruefe('ordnerLeser: nur eine Datei unter dem Token, nicht der Token selbst', ordnerLeser("x('data/' + f)\n", ['data/a/b.json']) === 'data/a/b.json' && ordnerLeser("x('data/a.json')\n", ['data/a.json']) === undefined)
   pruefe('ordnerLeser: Ordnername als Namensanfang (data/a gegen data/ab.json) -> kein Treffer', ordnerLeser("fs.readdirSync('data/a')\n", ['data/ab.json']) === undefined && ordnerLeser("fs.readdirSync('data/a')\n", ['data/a/b.json']) === 'data/a/b.json')
+  // PR 3367/3282 (11.11.2026): Zeilen wörtlich aus tools/sammler-pruefschritt-waechter.mjs und tools/logik-beleg.test.mjs; bewegt: die Ausführungsliste.
+  const LISTE_TXT = 'tools/check-logic-liste.txt'
+  const SAMMLER = "const skripte = Object.fromEntries(readdirSync(join(wurzel, 'tools')).filter((f) => f.endsWith('.sh')).map((f) => [f, lies(`tools/${f}`)]))\n"
+  const YAMLS = "const yamls = (ordner) => readdirSync(join(wurzel, ordner)).filter((f) => /\\.ya?ml$/.test(f))\nconst a = readdirSync('tools')\n"
+  const LOGIK = "  zeileOderGrund(r3.ordner, `tools/${n}.mjs`, 'x')\n"
+  const TEST_FILTER = "readdirSync('tools').filter((f) => f.endsWith('.test.mjs'))\n"
+  pruefe('Ordner 3367: Verzeichnis nur mit Filter .sh -> null, .sh bleibt Grund', ordnerLeser(SAMMLER, [LISTE_TXT]) === undefined && ordnerLeser(SAMMLER, [LISTE_TXT, 'tools/a.sh']) === 'tools/a.sh')
+  pruefe('Ordner 3367: Regex-Filter ya?ml -> .txt null, .yml und .yaml bleiben Grund', ordnerLeser(YAMLS, [LISTE_TXT]) === undefined && ordnerLeser(YAMLS, ['tools/a.yml']) === 'tools/a.yml' && ordnerLeser(YAMLS, ['tools/a.yaml']) === 'tools/a.yaml')
+  pruefe('Ordner 3367: Namen mit angehängter Endung (`tools/${n}.mjs`) -> .txt null, .mjs Grund', ordnerLeser(LOGIK, [LISTE_TXT]) === undefined && ordnerLeser(LOGIK, ['tools/x.mjs']) === 'tools/x.mjs')
+  pruefe('Ordner 3367: readdirSync ohne Filter bleibt Grund', ordnerLeser("readdirSync('tools')\n", [LISTE_TXT]) === LISTE_TXT)
+  pruefe('Ordner 3367: Filter auf die Endung der bewegten Datei (.txt) bleibt Grund', ordnerLeser("readdirSync('tools').filter((f) => f.endsWith('.txt'))\n", [LISTE_TXT]) === LISTE_TXT)
+  pruefe('Ordner 3367: mehrteilige Endung (.test.mjs) schließt .txt aus, nicht einen Test', ordnerLeser(TEST_FILTER, [LISTE_TXT]) === undefined && ordnerLeser(TEST_FILTER, ['tools/a.test.mjs']) === 'tools/a.test.mjs')
+  pruefe('Ordner 3367: Endung steht nur mitten im Namen (a.sh.bak) -> null', ordnerLeser(SAMMLER, ['tools/a.sh.bak']) === undefined)
+  pruefe('Ordner 3367: ganze Entscheidung (PR-Skript mit Sammler-Zeile, bewegt die Liste) -> null', bewegtesGelesen({ bewegt: [LISTE_TXT], pr: ['tools/neu.mjs'], leser: [], lies: (p) => (p === 'tools/neu.mjs' ? SAMMLER : null), paketSkripte: null }) === null)
+  pruefe('Ordner 3367: ganze Entscheidung ohne Filter -> Grund', /liest einen Ordner mit tools\/check-logic-liste\.txt/.test(bewegtesGelesen({ bewegt: [LISTE_TXT], pr: ['tools/neu.mjs'], leser: [], lies: (p) => (p === 'tools/neu.mjs' ? "readdirSync('tools')\n" : null), paketSkripte: null }) ?? ''))
 }
 
 // A3/A4 (Prüfer 2123 R1): leere oder abgelaufene git-Ausgabe ergibt nie „aktuell“.

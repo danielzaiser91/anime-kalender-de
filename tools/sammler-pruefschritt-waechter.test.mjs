@@ -170,6 +170,23 @@ assert.deepEqual(pruefeFristen(bauJob(30, 'false'), original.skripte[PRUEFEN], o
 assert.deepEqual(pruefeFristen(bauJob(30, 'true'), original.skripte[PRUEFEN], 'QUELLEN_BAUFRIST_STANDARD=x\n'), ['quellen-bauprobe.sh: QUELLEN_BAUFRIST_STANDARD als Zahl erwartet'], 'Baufrist nicht lesbar')
 assert.equal(original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps.find((x) => String(x.uses).includes('actions/einreichen')).with.bauprobe, 'true', 'daten-auf-abruf.yml verlangt den Probebau')
 
+// Weg 6 (09.11.2026, PR 3282): Probebau an jedem Einreichen-Schritt von Tages- und Wochenlauf, nie im Stundenlauf.
+const einreichenIn = (s, datei) => Object.values(s.workflows[datei].jobs).flatMap((j) => j.steps).filter((x) => String(x.uses).includes('actions/einreichen'))
+for (const datei of ['refresh-data.yml', 'refresh-weekly.yml']) {
+  const anzahl = einreichenIn(original, datei).length
+  assert.ok(anzahl >= 2, `${datei}: mehrere Einreicher erwartet, gefunden ${anzahl}`)
+  assert.ok(einreichenIn(original, datei).every((x) => x.with.bauprobe === 'true'), `${datei}: jeder Einreicher verlangt bauprobe`)
+  for (let i = 0; i < anzahl; i++) {
+    erwarte(`${datei}: bauprobe fehlt am Einreicher ${i}`, (s) => { delete einreichenIn(s, datei)[i].with.bauprobe }, new RegExp(`${datei.replace('.', '\\.')}: Einreichen .* verlangt nicht`))
+  }
+  erwarte(`${datei}: bauprobe false am letzten Einreicher`, (s) => { einreichenIn(s, datei).at(-1).with.bauprobe = 'false' }, /verlangt nicht/)
+  erwarte(`${datei}: kein Einreichen-Schritt`, (s) => { for (const j of Object.values(s.workflows[datei].jobs)) j.steps = j.steps.filter((x) => !String(x.uses).includes('actions/einreichen')) }, /Erkennung kaputt/)
+}
+assert.ok(einreichenIn(original, 'refresh-hourly.yml').length === 1 && einreichenIn(original, 'refresh-hourly.yml').every((x) => x.with.bauprobe === undefined), 'Stundenlauf ohne bauprobe')
+erwarte('Stundenlauf mit bauprobe (49 + 25 min > 59 min)', (s) => { einreichenIn(s, 'refresh-hourly.yml')[0].with.bauprobe = 'true' }, /refresh-hourly\.yml: Einreichen .* im Stundenlauf sprengt/)
+// Die Fristrechnung (Weg 5) allein sieht den Stundenlauf nicht: 840 + 1500 s Probebau-Worst-Case passen rechnerisch in 59 min, ohne die 49 min Schrittgrenzen davor.
+assert.deepEqual(pruefeFristen(bauJob(59, 'true'), original.skripte[PRUEFEN], original.skripte[BAU]), [], 'Weg 5 allein meldet 59 min mit Probebau nicht')
+
 // Fund-Schlüssel (Auflage 1): daten-auf-abruf hat einen Job, aber wechselnde Läufe — die Nachricht trägt den Lauf, sonst löste ein roter TOGGO-Fund einen roten aniSearch-Fund ab.
 const abruf = original.workflows['daten-auf-abruf.yml'].jobs.lauf.steps
 assert.match(abruf.find((x) => x.id === 'lauf').run, /^ {0}echo "name=\$LAUF" >> "\$GITHUB_OUTPUT"$/m, 'der Lauf-Schritt gibt den Lauf aus')

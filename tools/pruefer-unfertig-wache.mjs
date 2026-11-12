@@ -1,5 +1,5 @@
 /**
- * Kennzahl „Prüfer sah unfertige Kette“: Anteil der letzten Prüfer-Urteile, deren erste Zeile „ok, Checks laufen noch: …“
+ * Kennzahl „Prüfer sah unfertige Kette“: Anteil der letzten Prüfer-Urteile, deren erste Zeile „nicht beurteilt, Kette lief noch“ (seit 11.11.2026 auch bei „ok“) oder die alte Form „ok, Checks laufen noch: …“
  * lautet (Schritt „Check-Stand des Kopfes“ in pr-pruefer.yml; nur „ok“ bekommt den Zusatz). Quelle ist der Urteilskommentar
  * des CI-Prüfers, ein Abruf der jüngsten Repo-Kommentare. Warnzeile ab 10 % bei mindestens 10 Urteilen.
  */
@@ -24,7 +24,7 @@ export function urteile(kommentare, n = LETZTE_URTEILE) {
 /** Zählung über die jüngsten Urteile: `{ gesamt, unfertig, anteil }`. */
 export function unfertigeKette(kommentare, n = LETZTE_URTEILE) {
   const liste = urteile(kommentare, n)
-  // „nicht beurteilt, Kette lief noch“: seit dem Nachlauf (pr-pruefer-nach-kette.mjs) die Form, in der der Prüfer die unfertige Kette meldet.
+  // „nicht beurteilt, Kette lief noch“ zählt bewusst mit, auch wenn der Nachlauf (pr-pruefer-nach-kette.mjs) danach ein Endurteil liefert: Die Kennzahl misst die Prüferläufe, die vor Kettenende urteilten (vergeudetes Kontingent).
   const unfertig = liste.filter((u) => u.includes('Checks laufen noch') || u.includes('Kette lief noch')).length
   return { gesamt: liste.length, unfertig, anteil: liste.length === 0 ? 0 : unfertig / liste.length }
 }

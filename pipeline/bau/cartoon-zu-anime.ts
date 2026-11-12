@@ -2,6 +2,7 @@ import type { StreamLink, Title } from '../../shared/types.ts'
 import { readJson, writeJson, log, warn } from '../lib/util.ts'
 import { findeZwillinge, tmdbJeAnimeAus, ZWILLING_AUSNAHMEN } from '../lib/cartoon-zwilling.ts'
 import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
+import { ohneTote } from '../lib/cartoon-aufnahme.ts'
 import { loadDubChecks, neinHandbelege, wegVerneint } from '../lib/dub-confirmed.ts'
 import { OUT } from './grundlagen.ts'
 
@@ -67,7 +68,7 @@ export function ordneCartoonsZuAnime(): void {
   const umzug = [...bisher, ...zwillinge.filter((z) => !bekannt.has(z.cartoonId)).map((z) => [z.cartoonId, z.zwilling] as [number, number])]
   if (umzug.length !== bisher.length) writeJson(UMZUG_DATEI, umzug)
   /* Die Anbieter kommen aus dem Cartoon (mit JustWatch-Adresse); ist er schon aus `cartoons.json`, aus dem rohen TMDB-Eintrag. */
-  const roh = readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})
+  const roh = ohneTote(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {}))
   const quellen = new Map<number, Title>(Object.values(roh).map((e) => [e.id, alsTitel(e)]))
   for (const c of cartoons) quellen.set(c.id, c)
   const mitAnbieter = uebernehmeAnbieter(umzug, quellen)

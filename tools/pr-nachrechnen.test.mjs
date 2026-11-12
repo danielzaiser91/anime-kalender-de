@@ -124,6 +124,25 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
 }
+// --trocken (11.11.2026): rechnet und meldet wie sonst, schreibt aber nichts (kein Schließen, Öffnen, Kommentar); Exit-Code wie ohne.
+const schreibt = (aufrufe) => aufrufe.filter((a) => /^pr (close|reopen|comment|edit|merge)/.test(a))
+for (const argv of [['--trocken', '7'], ['7', '--trocken']]) {
+  const k = kulisse(antworten({ mainSha: MAIN }))
+  const code = main(argv, k.gh, k.melde, k.warte)
+  pruefe(`trocken (${argv.join(' ')}) veraltet -> Exit 1, nichts geschlossen, geöffnet oder kommentiert`, code === 1 && schreibt(k.aufrufe).length === 0 && !k.aufrufe.some((a) => a.includes('merge_commit_sha')) && k.gewartet.length === 0, { code, a: k.aufrufe })
+  pruefe(`trocken (${argv.join(' ')}): Meldung nennt Stände, Grund und den Trockenlauf`, /^PR 7: NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/check-x\.mjs\), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert$/.test(k.meldungen.join()), k.meldungen)
+}
+{
+  const ohne = kulisse(antworten({ mainSha: MAIN }))
+  main(['7'], ohne.gh, ohne.melde, ohne.warte)
+  pruefe('Gegenprobe: ohne --trocken schreibt dieselbe Kulisse (Schließen, Öffnen, Kommentar)', schreibt(ohne.aufrufe).length >= 5 && ohne.aufrufe.includes('pr comment 7'), ohne.aufrufe)
+  const k = kulisse(antworten())
+  pruefe('trocken, aktuell (Basis = main) -> Exit 0', main(['--trocken', '7'], k.gh, k.melde, k.warte) === 0 && schreibt(k.aufrufe).length === 0 && k.meldungen.join() === 'PR 7: aktuell, die Kette rechnete gegen main 7a466acc8', k.meldungen)
+}
+for (const argv of [['--trocken'], ['--trocken', '7', '8'], ['--trocken', 'x']]) {
+  const k = kulisse(antworten())
+  pruefe(`trocken, falsche Argumente (${argv.join(' ')}) -> Aufruf-Hinweis, Exit 2, kein gh-Aufruf`, main(argv, k.gh, k.melde, k.warte) === 2 && k.aufrufe.length === 0 && /^Aufruf: node tools\/pr-nachrechnen\.mjs \[--trocken\] <PR-Nummer>$/.test(k.meldungen.join()), { a: k.aufrufe, m: k.meldungen })
+}
 // Echter Anlass (PR 1602): direkt nach dem Wiederöffnen ist merge_commit_sha leer; leer heißt „noch nicht neu“, nie „neu“.
 for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M_NEU], 2]]) {
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: folge }))
@@ -291,7 +310,7 @@ const leserStub = (antwort) => {
   pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
   pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien', k.meldungen)
   const a = stub.aufrufe[0]
-  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN }), stub.aufrufe)
+  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'] }), stub.aufrufe)
 }
 {
   const stub = leserStub('der PR liest data/crunchyroll-woche.json (tools/x.mjs)')
@@ -318,7 +337,7 @@ for (const beruehrt of ['data/crunchyroll-woche.json', 'public/data/titles.json'
 // Verdrahtung mit dem echten Git-Anschluss: Anlassfall PR 2043 (nur ein Workflow) bleibt gültig, ein PR am Leser wird veraltet.
 const REPO = {
   main: {
-    'pipeline/bau/cr.ts': "import { x } from '../lib/helfer'\nconst d = 'data/crunchyroll-woche.json'\n",
+    'pipeline/bau/cr.ts': "import { x } from '../lib/helfer'\nconst d = 'data/crunchyroll-woche.json'\nconst e = 'data/curated/tv-2026.yaml'\n",
     'pipeline/lib/helfer.ts': 'export const x = 1\n',
     '.github/workflows/bestand-bauen.yml': 'steps:\n  - run: npm run data:build\n',
   },

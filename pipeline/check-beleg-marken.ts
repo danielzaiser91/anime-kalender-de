@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-marken.ts   (Exit 1 bei Verstoß)
  */
 import { braucheBild, entzieheBild, ohneMarkenJeTitel, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
-import { markenLuecken, meldeMarkenLuecken, nameImTextOhneMarke, stilleLuecken } from './lib/beleg-marken.ts'
+import { markenLuecken, meldeMarkenLuecken, meldeOhneNamen, nameImTextOhneMarke, seitentitelPasst, stilleLuecken } from './lib/beleg-marken.ts'
 import { markierungenJeTitel } from './lib/beleg-bild.ts'
 import { ohneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import type { Gruppe } from './lib/beleg-suche.ts'
@@ -103,5 +103,34 @@ pruefe('Name im Text: der Termin der Quelle muss im Text stehen (3. Dezember: ja
 pruefe('Name im Text: Namen bis drei Zeichen („Dub“ steht im Text) zählen nicht', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Dub')]).length === 0)
 pruefe('Name im Text: nur ganze Wörter, kein Teilstück („Maidrag“ steckt in „Maidragon“)', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Maidrag')]).length === 0)
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse) und Name im Text in Ordnung')
+/* Seitentitel: eine aniSearch-Produktseite muss einen Namen des Titels nennen; Namen bis drei Zeichen, Teilwörter und fremde Adressen zählen nicht. */
+const AS = 'https://www.anisearch.de/article/1,x'
+const stumm = (): string[] => []
+const meldungen = stumm()
+const passt = (url: string, text: string, g: Gruppe[]): boolean => seitentitelPasst(url, text, g, (z) => meldungen.push(z))
+pruefe('Seitentitel: ein Name des Titels steht im Text → gilt, ohne Meldung', passt(AS, 'Kobayashi-san Chi no Maidragon S - Steelbook', [kn(1, 'Anderer Name'), kn(2, 'Kobayashi-san Chi no Maidragon S')]) && meldungen.length === 0)
+pruefe('Seitentitel: kein Name steht im Text → verworfen, mit genau einer Meldung samt Adresse', !passt(AS, 'Märchen Boss - Bd. 02 [eBook]', [kn(1, 'Gods Games We Play')]) && meldungen.length === 1 && meldungen[0]!.includes(AS))
+pruefe('Seitentitel: nur ganze Wörter („Maidrag“ steckt in „Maidragon“)', !passt(AS, TEXT, [kn(1, 'Maidrag')]))
+pruefe('Seitentitel: ein Name bis drei Zeichen („Dub“ steht im Text) beweist nichts, es bleibt kein Name zum Vergleichen → gilt', passt(AS, 'Märchen Boss - Bd. 02', [kn(1, 'Dub')]))
+pruefe('Seitentitel: ohne Gruppen gilt die Seite', passt(AS, TEXT, []))
+pruefe('Seitentitel: eine andere Adresse als aniSearch-Produktseite wird nicht verglichen', passt('https://www.joyn.de/x', 'Märchen Boss', [kn(1, 'Gods Games We Play')]))
+
+/* Schreibweisen (Prüfer-Runde 1): Apostroph ’ im Namen, ' im Text; ein japanischer Name allein; „Maid's“ gegen „Maids“ ist eine bekannte Lücke und fällt mit Warnzeile weg, nicht still. */
+pruefe('Seitentitel: Apostroph ’ im Namen, ' + "'" + ' im Text → gilt', passt(AS, "Gods' Games We Play - Gesamtausgabe", [kn(1, 'Gods’ Games We Play')]))
+pruefe('Seitentitel: japanischer Name steht im Text → gilt', passt(AS, '神々の遊びを… - Gesamtausgabe [Blu-ray]', [kn(1, '神々の遊びを…')]))
+const nJp = meldungen.length
+pruefe('Seitentitel: japanischer Name fehlt im Text → verworfen mit Meldung', !passt(AS, 'Märchen Boss - Bd. 02 [eBook]', [kn(1, '神々の遊びを…')]) && meldungen.length === nJp + 1)
+const nMaid = meldungen.length
+pruefe("Seitentitel: „Maid's“ gegen „Maids“ im Text wird verworfen (bekannte Lücke), aber mit Meldung", !passt(AS, 'Maids Staffel 2 [Blu-ray]', [kn(1, "Maid's Tale")]) && meldungen.length === nMaid + 1)
+
+/* Adressen ohne Namen: Zählung statt Stille (nur aniSearch-Produktseiten; Namen bis drei Zeichen zählen nicht als Namen). */
+const zeilen: string[] = []
+const ASX = 'https://www.anisearch.de/article/2,y'
+const gMap = new Map([[AS, [kn(1, 'Gods Games We Play')]], [ASX, [kn(2, 'Dub')]]])
+const nOhne = meldeOhneNamen([AS, ASX, 'https://www.anisearch.de/article/3,z', 'https://www.joyn.de/x'], gMap, (z) => zeilen.push(z))
+pruefe('Ohne Namen: zwei von drei aniSearch-Adressen (kurzer Name und unbekannte Adresse), die fremde Adresse zählt nicht', nOhne === 2 && zeilen.length === 1 && zeilen[0]!.includes('WARNUNG 2 von 3 gelesenen aniSearch-Adressen ohne Namen'), zeilen.join())
+pruefe('Ohne Namen: eine einzige Adresse ohne Namen wird gezählt (genau 1)', meldeOhneNamen([ASX], gMap, () => undefined) === 1)
+pruefe('Ohne Namen: alle bekannt → keine Zeile, Zahl 0', meldeOhneNamen([AS], gMap, (z) => zeilen.push(z)) === 0 && zeilen.length === 1)
+
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse), Name im Text, Seitentitel (Schreibweisen) und Adressen ohne Namen in Ordnung')
 process.exit(fehler ? 1 : 0)

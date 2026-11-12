@@ -55,65 +55,20 @@ jobs:
   # **Schlank** (`[schlank]` in der Commit-Nachricht, gesetzt von `bash tools/pushen.sh --schlank`): Für kleine Änderungen, die lokal vollständig geprüft sind. Deployt wird
   # gleich nach dem Bau; die Prüfungen laufen weiter und melden sich rot, wenn doch etwas nicht stimmt.
   # **Deploy aus dem geprüften Build** (16.10.2026): Hat die PR-Prüfkette genau diesen Quelltext schon gebaut und geprüft, wird ihr Artefakt ausgeliefert
-  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen `build` und `pruefen`; ohne Treffer läuft alles wie bisher.
-  herkunft:
+  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen in `build` und `pruefen` alle Schritte nach dem Hochladen bzw. der Herkunftsprüfung; ohne Treffer läuft alles wie bisher.
+  # **Drei Hops statt sechs** (10.11.2026): GitHub kennt keine Prioritäten, jeder Job reiht sich neu in die Runner-Warteschlange ein (Bericht CI-Stau). Der frühere Job `herkunft`
+  # ist als Composite-Schritt (`.github/actions/herkunft-holen`) an den Anfang von `build` und `pruefen` gewandert; beide Jobs laufen weiter parallel. Das Artefakt lädt nur `build` hoch.
+  # Beide Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
+    # Urteil der Herkunftsprüfung; `deploy_hart` verlangt, dass es mit dem von `pruefen` übereinstimmt (kein Deploy ohne Prüflauf).
+    outputs:
+      treffer: ${{ steps.herkunft.outputs.treffer }}
     permissions:
       contents: read
       actions: read
       pull-requests: read
-    env:
-      LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
-      LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
-      LAUF_SCHRITTE: '6'
-    outputs:
-      treffer: ${{ steps.hochladen.outcome == 'success' && '1' || '' }}
-    if: >-
-      (github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success') &&
-      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-          filter: blob:none
-          sparse-checkout: tools
-
-      - name: Melder bereitlegen
-        run: |
-          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
-          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
-
-      - name: Lauf anmelden
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" laeuft
-
-      # `[schlank]` baut weiter selbst (Weg ohne Prüfkette). Jeder Fehler hier heißt nur „kein Treffer“.
-      - name: Geprüften Bau der PR-Prüfkette holen
-        id: holen
-        if: ${{ !contains(github.event.head_commit.message, '[schlank]') }}
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: node tools/deploy-aus-build.mjs "$RUNNER_TEMP/artifact.tar"
-
-      - name: Artefakt für die Veröffentlichung hochladen
-        id: hochladen
-        continue-on-error: true
-        if: ${{ steps.holen.outputs.treffer == '1' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: ${{ runner.temp }}/artifact.tar
-          retention-days: 1
-          if-no-files-found: error
-
-  build:
-    needs: herkunft
-    runs-on: ubuntu-latest
     # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
     # der Workflow-Name, und der sagt bei drei Auftrags-Läufen dreimal
     # dasselbe (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür
@@ -129,13 +84,12 @@ jobs:
     if: >-
       (github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success') &&
-      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') &&
-      needs.herkunft.outputs.treffer != '1'
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
       # Der Schritt weiter unten braucht das ausgecheckte Skript und läuft
-      # deshalb erst nach Checkout und npm-Einrichtung — das sind dreißig bis
+      # deshalb erst nach dem Checkout — das sind dreißig bis
       # sechzig Sekunden, in denen die Statusanzeige nichts weiß. Daniel am
       # 21.08.2026: „der läuft sogar schon seit 1min aber ist erst jetzt in
       # der app aufgetaucht."
@@ -156,7 +110,14 @@ jobs:
             --data-binary @/tmp/anmeldung.json > /dev/null || true
 
 
+      # Zunächst nur `tools` mit Verlauf (Herkunftsprüfung braucht den Elterncommit).
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          filter: blob:none
+          sparse-checkout: |
+            tools
+            .github/actions
 
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
@@ -177,20 +138,46 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" laeuft
 
+      # `[schlank]` baut weiter selbst (Weg ohne Prüfkette). Jeder Fehler hier heißt nur „kein Treffer“.
+      - name: Herkunft prüfen
+        id: herkunft
+        timeout-minutes: 5
+        uses: ./.github/actions/herkunft-holen
+
+      - name: Artefakt für die Veröffentlichung hochladen
+        id: hochladen
+        continue-on-error: true
+        if: ${{ steps.herkunft.outputs.treffer == '1' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
+
+      # Ab hier nur ohne Treffer (oder wenn der Upload scheiterte). Der Rest des Checkouts folgt erst jetzt (Blobs lädt Git nach).
+      - name: Vollständig auschecken
+        if: ${{ steps.hochladen.outcome != 'success' }}
+        run: git sparse-checkout disable
+
       - uses: actions/setup-node@v4
+        if: ${{ steps.hochladen.outcome != 'success' }}
         with:
           node-version: 22
           cache: npm
 
       - run: npm ci
+        if: ${{ steps.hochladen.outcome != 'success' }}
 
       - name: Fortschritt — Abhängigkeiten installiert
+        if: ${{ steps.hochladen.outcome != 'success' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Abhängigkeiten installiert"
 
       - name: Bauen
+        if: ${{ steps.hochladen.outcome != 'success' }}
         env:
           PAGES_BASE: /
           VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
@@ -199,6 +186,7 @@ jobs:
           if [ -n "$SCHLANK" ]; then npm run build:schlank; else npm run build; fi
 
       - name: Fortschritt — Seite gebaut
+        if: ${{ steps.hochladen.outcome != 'success' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -221,18 +209,26 @@ jobs:
       # zurück zum Kalender, und noindex.
 
       - uses: actions/upload-pages-artifact@v3
+        if: ${{ steps.hochladen.outcome != 'success' }}
         with:
           path: dist
 
       - name: Fortschritt — Artefakt hochgeladen
+        if: ${{ steps.hochladen.outcome != 'success' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Artefakt hochgeladen"
 
   pruefen:
-    needs: herkunft
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      treffer: ${{ steps.herkunft.outputs.treffer }}
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
@@ -240,25 +236,39 @@ jobs:
     if: >-
       (github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success') &&
-      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') &&
-      needs.herkunft.outputs.treffer != '1'
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
     steps:
-      # Verlauf für den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
+      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 30
           filter: blob:none
+          sparse-checkout: |
+            tools
+            .github/actions
+
+      # Dieselbe Prüfung wie in `build`; bei Treffer entfallen alle folgenden Schritte (der Job bleibt grün, die Prüfung der PR-Kette gilt).
+      - name: Herkunft prüfen
+        id: herkunft
+        timeout-minutes: 5
+        uses: ./.github/actions/herkunft-holen
+
+      - name: Vollständig auschecken
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        run: git sparse-checkout disable
 
       # Hat der Bestandsbau `check:logic` für genau diesen Inhalt (außerhalb der Datenpfade) schon grün gefahren, steht der Abdruck in
       # seiner Commit-Nachricht und der Lauf unten spart die ~3 min. Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung.
       - name: Logik-Beleg des Bestandsbaus lesen
         id: beleg
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         run: node tools/logik-beleg.mjs gueltig
 
       # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade `pruefen` grün gefahren (tools/workflows-beleg.mjs),
       # entfällt `check:workflows` (~7 min). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
       - name: Workflows-Beleg früherer Deploy-Läufe suchen
         id: wbeleg
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: node tools/workflows-beleg.mjs gueltig
@@ -277,24 +287,29 @@ jobs:
           echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
 
       - uses: actions/setup-node@v4
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         with:
           node-version: 22
           cache: npm
 
       - run: npm ci
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
 
       - name: Fortschritt — Abhängigkeiten installiert
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Abhängigkeiten installiert"
 
       - name: Kuratierte Daten prüfen
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:validate
 
       - name: Fortschritt — Kuratierte Daten geprüft
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -304,12 +319,13 @@ jobs:
       # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
       # der das bemerkt, bevor ein Nachtlauf ausbleibt.
       - name: Workflow-Dateien prüfen
-        if: steps.wbeleg.outputs.gueltig != '1'
+        if: ${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:workflows
 
       - name: Fortschritt — Workflow-Dateien geprüft
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -351,6 +367,7 @@ jobs:
       # Was hier bleibt, prüft den Quelltext und ist damit vollständig durch
       # den Commit bestimmt, der den Deploy ausgelöst hat.
       - name: Zusicherungen prüfen
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           LOGIK_BELEGT: ${{ steps.beleg.outputs.gueltig }}
@@ -364,6 +381,7 @@ jobs:
           npm run check:search
 
       - name: Fortschritt — Zusicherungen geprüft
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -377,6 +395,7 @@ jobs:
       # hier steht sie eigens, damit der Lauf den Fehler beim Namen nennt
       # statt ihn als Baufehler zu melden.
       - name: Hooks-Regeln prüfen
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:hooks
@@ -385,6 +404,7 @@ jobs:
       # keiner Kette und liefen deshalb genau einmal — an dem Tag, an dem sie
       # geschrieben wurden.
       - name: Erweiterung prüfen
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:extension
@@ -392,25 +412,37 @@ jobs:
       # Die Zugangsart ist die einzige Angabe, bei der ein Fehler den Leser
       # Geld kostet — „kostenlos" vor einer Kasse.
       - name: Fortschritt — Hooks-Regeln geprüft
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Hooks-Regeln geprüft"
 
-  # Treffer: Das Artefakt der PR-Prüfkette liegt (Job `herkunft`), `build` und `pruefen` sind übersprungen. Sonst wie bisher: beide grün.
+  # Beide Jobs grün: Bau und Prüfung gelaufen oder (Treffer) das Artefakt der PR-Prüfkette liegt, dann entfallen die Schritte, die Jobs bleiben grün.
   # `!cancelled()` ist nötig, weil übersprungene Needs den Job sonst mitüberspringen.
   deploy_hart:
-    needs: [herkunft, build, pruefen]
+    needs: [build, pruefen]
     if: >-
-      ${{ !cancelled() && needs.herkunft.result == 'success' &&
-      !contains(github.event.head_commit.message, '[schlank]') &&
-      (needs.herkunft.outputs.treffer == '1' ||
-      (needs.build.result == 'success' && needs.pruefen.result == 'success')) }}
+      ${{ !cancelled() && needs.build.result == 'success' && needs.pruefen.result == 'success' &&
+      !contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Fail-closed (Prüfer 3367 A3): Urteilen `build` und `pruefen` verschieden über die Herkunft (API-Ausfall nur in einem Job), ginge sonst ein
+      # selbst gebauter Stand ohne Prüflauf live. Dann kein Deploy, Lauf rot; ein neuer Lauf entscheidet erneut.
+      - name: Herkunft von build und pruefen vergleichen
+        env:
+          BAU_TREFFER: ${{ needs.build.outputs.treffer }}
+          PRUEF_TREFFER: ${{ needs.pruefen.outputs.treffer }}
+        run: |
+          if [ "$BAU_TREFFER" != "$PRUEF_TREFFER" ]; then
+            echo "::error::Kein Deploy: build (Treffer '${BAU_TREFFER}') und pruefen (Treffer '${PRUEF_TREFFER}') haben die Herkunft verschieden beurteilt. Lauf neu starten."
+            exit 1
+          fi
+
       - id: deployment
         uses: actions/deploy-pages@v4
 
@@ -418,6 +450,7 @@ jobs:
     needs: build
     if: ${{ contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -425,29 +458,16 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
-  # Kachelränder an der ausgelieferten Seite (30.10.2026): dieselbe Pixelmessung wie in der PR-Kette, aber gegen die echte Adresse (Service Worker gesperrt, fremde Bilder ersetzt).
-  # Ein Befund macht nur diesen Job rot (`continue-on-error`), nie den Deploy und nie `abschluss` (steht nicht in dessen `needs`). Der Job hält die Gruppe `pages`,
-  # daher die kurze Frist: Messung lokal gegen live 3 x ca. 117 s (30.10.2026) plus Einrichten, 8 min als Obergrenze.
-  kachelrand_live:
-    needs: [deploy_hart, deploy_schlank]
-    if: ${{ !cancelled() && (needs.deploy_hart.result == 'success' || needs.deploy_schlank.result == 'success') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 8
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/kette-einrichten
-        with:
-          playwright: 'true'
-      - name: Kachelränder live messen
-        run: node tools/kachel-ecken-messen.mjs --live
-
-  # Abmeldung und Aufräumen am Ende, nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
+  # Abmeldung und Aufräumen nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
+  # Danach (30.10.2026): Kachelränder an der ausgelieferten Seite, dieselbe Pixelmessung wie in der PR-Kette, aber gegen die echte Adresse (Service Worker gesperrt, fremde Bilder ersetzt).
+  # Ein Befund macht nur diese Schritte rot (`continue-on-error`), nie den Deploy und nie die Abmeldung (sie steht davor). Der Job hält die Gruppe `pages`,
+  # daher eine Frist an jedem Schritt (Test: deploy-aus-build.test.mjs): Checkout 2, Melder 1, Abmeldung 1, Aufräumen 3 (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer),
+  # Einrichten 4, Messung 8 (lokal gegen live 3 x ca. 117 s, 30.10.2026) = 19 min, Job-Frist 20: die Job-Frist greift nie vor einer Schritt-Frist (kein Job-Abbruch, der den Lauf rot macht).
+  # Einrichten und Messung stehen auf `continue-on-error`: ein Hänger dort bleibt ein Befund der Messung, kein roter Lauf.
   abschluss:
-    needs: [herkunft, build, pruefen, deploy_hart, deploy_schlank]
-    if: always() && needs.herkunft.result != 'skipped'
-    # Der Job hält die Gruppe `pages`; ein hängender Checkout hielt sie am 16.10.2026 sechs Minuten (normal unter einer).
-    timeout-minutes: 3
+    needs: [build, pruefen, deploy_hart, deploy_schlank]
+    if: always() && needs.build.result != 'skipped'
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
@@ -455,13 +475,16 @@ jobs:
       LAUF_SCHRITTE: '6'
     steps:
       - uses: actions/checkout@v4
+        timeout-minutes: 2
 
       - name: Melder bereitlegen
+        timeout-minutes: 1
         run: |
           cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
           echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
 
       - name: Lauf abmelden
+        timeout-minutes: 1
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -470,6 +493,7 @@ jobs:
       # **Überholte rote Läufe verschwinden von selbst** (18.09.2026): nur Läufe, deren Workflow danach grün durchlief.
       - name: Überholte rote Läufe abnehmen
         if: ${{ !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+        timeout-minutes: 3
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -477,3 +501,16 @@ jobs:
         run: |
           if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
           node tools/laeufe-aufraeumen.mjs
+
+      - uses: ./.github/actions/kette-einrichten
+        if: ${{ !cancelled() && (needs.deploy_hart.result == 'success' || needs.deploy_schlank.result == 'success') }}
+        timeout-minutes: 4
+        continue-on-error: true
+        with:
+          playwright: 'true'
+
+      - name: Kachelränder live messen
+        if: ${{ !cancelled() && (needs.deploy_hart.result == 'success' || needs.deploy_schlank.result == 'success') }}
+        timeout-minutes: 8
+        continue-on-error: true
+        run: node tools/kachel-ecken-messen.mjs --live

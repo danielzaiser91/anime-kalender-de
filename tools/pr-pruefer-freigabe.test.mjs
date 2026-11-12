@@ -164,7 +164,6 @@ const genehmigt = (titel) => [ANSICHT, KOMMENTAR,
 const checkFaelle = [
   ['gruen', 'ok'],
   ['Checks rot: Kette – Workflows, PR-Prüfkette', 'ok, Checks rot: Kette – Workflows, PR-Prüfkette'],
-  ['Checks laufen noch: PR-Prüfkette', 'ok, Checks laufen noch: PR-Prüfkette'],
   ['Checks-Stand unbekannt: API: HTTP 502', 'ok, Checks-Stand unbekannt: API: HTTP 502'],
   ['', 'ok, Checks-Stand unbekannt'],
   ['gruen2', 'ok, gruen2'],
@@ -175,6 +174,15 @@ for (const [checks, titel] of checkFaelle) {
     ersteZeile(r) === `**Prüfer-Review** für ccccccccc - Urteil: **${titel}**` && JSON.stringify(r.aufrufe) === JSON.stringify(genehmigt(titel)),
     { erste: ersteZeile(r), aufrufe: r.aufrufe })
 }
+// Pflicht-Kette läuft beim ok-Urteil noch (PRs 3478, 3475): nicht beurteilt mit Marke, kein Review; Rot bleibt ok mit Zusatz.
+const okLaeuft = mitChecks('Checks laufen noch: PR-Aussehen – Bühne-Panel, PR-Prüfkette (fehlt)')
+pruefe('Urteil ok, Checks laufen noch: nur Kommentar „nicht beurteilt“ mit Marke, kein Approve, Hinweis vor dem Protokoll',
+  JSON.stringify(okLaeuft.aufrufe) === JSON.stringify([ANSICHT, KOMMENTAR]) && ersteZeile(okLaeuft) === '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Kette lief noch**' &&
+  okLaeuft.kommentar.includes('<!-- pruefer-kette-offen -->') && okLaeuft.kommentar.indexOf('lief beim Urteil noch') < okLaeuft.kommentar.indexOf('Alles gut.'), okLaeuft)
+const okLaeuftDiff = laufe({ ...basis, zustand: 'unvollstaendig', checks: 'Checks laufen noch: PR-Prüfkette' })
+pruefe('Urteil ok, Diff unvollständig, Checks laufen noch: bleibt aendern mit Review, keine Marke',
+  JSON.stringify(okLaeuftDiff.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !okLaeuftDiff.kommentar.includes('pruefer-kette-offen'), okLaeuftDiff)
+pruefe('Urteil aendern, Checks laufen noch (ohne Kettenlog): bleibt aendern', JSON.stringify(mitChecks('Checks laufen noch: PR-Prüfkette', 'aendern').aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe))
 const aendernRot = mitChecks('Checks rot: Kette – Logik', 'aendern')
 pruefe('Checks rot, Urteil aendern: bleibt aendern ohne Zusatz',
   ersteZeile(aendernRot) === '**Prüfer-Review** für ccccccccc - Urteil: **aendern**' && JSON.stringify(aendernRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe), aendernRot)

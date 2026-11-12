@@ -166,6 +166,8 @@ fi
 # **Vor dem Einreichen prüfen (17.10.2026):** Ein Fund, der die Datenprüfungen (`check:logic`) bricht, darf nicht still auf `main` landen — und nicht still verloren gehen.
 # Rot: Der Pull Request entsteht trotzdem, mit Titelpräfix, Label und dem Grund im Text; gemergt wird er nicht (ein Mensch löst, `tools/daten-pr-mergen.sh`).
 PRUEF_ROT=0
+# Zeilen des roten Grunds im PR-Text; der Probebau meldet bis zu 20 ✖-Zeilen plus Zählzeile und Protokollende (siehe quellen-bauprobe.sh).
+PRUEF_ZEILEN=20
 PRUEF_GRUND="$(quellen_pruefen)" || PRUEF_ROT=1
 # Ist `main` selbst rot, zählen nur die Fehler, die erst der Fund bringt: sonst bliebe jeder Sammler-PR markiert liegen, und nach der Reparatur löste ihn nichts.
 if [ "$PRUEF_ROT" = 1 ]; then
@@ -179,6 +181,7 @@ if [ "$PRUEF_ROT" = 1 ]; then
 fi
 # Probebau (nur wenn der Einreicher ihn verlangt): ein Fund, der erst beim Bau bricht, bleibt als roter PR liegen statt `main` rot zu machen.
 if [ "$PRUEF_ROT" = 0 ] && [ "${QUELLEN_BAUPROBE:-}" = 1 ]; then
+  PRUEF_ZEILEN=32
   PRUEF_GRUND="$(quellen_bauprobe)" || PRUEF_ROT=1
 fi
 TITEL="$NACHRICHT"
@@ -193,7 +196,7 @@ if [ "$PRUEF_ROT" = 1 ]; then
 **$MARKE_ROT** Die Datenprüfungen (\`npm run check:logic\`, beim Probebau auch Datensatzbau und \`check:bestand\`) sind auf diesem Stand rot. Der Sammler hat den Fund eingereicht, aber nicht gemergt:
 
 \`\`\`
-$(printf '%s\n' "$PRUEF_GRUND" | head -20)
+$(printf '%s\n' "$PRUEF_GRUND" | head -"$PRUEF_ZEILEN")
 \`\`\`
 
 Beheben, dann den Titelpräfix mit \`gh pr edit <Nr> --title\` entfernen und \`tools/daten-pr-mergen.sh <Nr>\` laufen lassen."
@@ -254,7 +257,7 @@ if [ "$PRUEF_ROT" = 1 ]; then
   done
   echo "::warning title=Datenprüfung rot::Pull Request $NUMMER ist eingereicht, aber nicht gemergt: $(printf '%s' "$PRUEF_GRUND" | tr '\n' ' ' | cut -c1-300)"
   if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
-    { echo "### Pull Request $NUMMER nicht gemergt (Prüfung rot)"; echo '```'; printf '%s\n' "$PRUEF_GRUND" | head -20; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+    { echo "### Pull Request $NUMMER nicht gemergt (Prüfung rot)"; echo '```'; printf '%s\n' "$PRUEF_GRUND" | head -"$PRUEF_ZEILEN"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
   fi
   melde "gemerged=false"
   exit 0

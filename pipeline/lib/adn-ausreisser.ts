@@ -5,7 +5,8 @@
  * einen ADN-Termin mit `dub: true` — bei `07-adn.ts`.
  *
  * Klasse, gezählt über `data/adn-raw` (274 Serien, 09.11.2026): genau drei Staffeln haben genau eine `vde`-Folge unter
- * mindestens drei ohne — GTO (1 von 43), Demon Slave (1 von 12), One Piece Wano (1 von 208). Die übrigen Mischstaffeln
+ * mindestens drei ohne — GTO (1 von 43), Demon Slave (1 von 12), One Piece Wano (1 von 208). Das Live-Archiv ändert sich
+ * (ADN bereinigt Fehlangaben); der Wächter prüft deshalb den eingefrorenen Stand 11.11.2026 (`fixtures/adn-ausreisser-archiv.json`). Die übrigen Mischstaffeln
  * liegen bei 3 von 4 und 12 von 13, sie sind echte, laufende Vertonungen. Beginnt eine Staffel mit Folge 1 deutsch, wird sie
  * nicht berührt (eine Vertonung fängt vorn an). Gegenstück in der Erweiterung: `korrigiereAusreisser` in `extension/adn-leser.js`.
  */

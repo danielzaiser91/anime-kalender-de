@@ -10,6 +10,7 @@
  *  3. `quellen-pr.sh`: Prüfung vor dem Anlegen, Rot-Zweig vor dem Merge; die Prüfung fährt `check:logic -- --alle`.
  *  4. Die Marke „[Prüfung rot]“ steht in `quellen-pr.sh`, `daten-pr-mergen.sh` (samt Autorprüfung) und in jeder `gh pr list` von `claude-daten-merge.yml`.
  *  5. Die Fristen der Prüfung passen in jeden Job, der einreicht (`pruefeFristen`).
+ *  6. Tages- und Wochenlauf verlangen den Probebau an jedem Einreichen-Schritt, der Stundenlauf hat keinen (`pruefeBauprobeSammler`).
  * Aufruf: `node tools/sammler-pruefschritt-waechter.mjs` (steht in `check:logic`).
  */
 import { readdirSync, readFileSync } from 'node:fs'
@@ -129,6 +130,26 @@ function pruefeMarke({ mergenSh, daten }) {
   return fehler
 }
 
+/* Welche Sammler-Workflows den Probebau verlangen (09.11.2026). Der Stundenlauf nicht: Schrittgrenzen 49 min + Prüfung und Probebau bis 25 min > 59 min Frist (PR 3282). */
+export const MIT_BAUPROBE = ['refresh-data.yml', 'refresh-weekly.yml']
+export const OHNE_BAUPROBE = ['refresh-hourly.yml']
+
+/** Weg 6: Jeder Einreichen-Schritt der Tages- und Wochenläufe verlangt `bauprobe: 'true'`; der Stundenlauf hat keinen. */
+export function pruefeBauprobeSammler(workflows) {
+  const einreichen = (datei) => (Object.values(workflows[datei]?.jobs ?? {})).flatMap((j) => j.steps ?? []).filter((s) => usesAlsPfad(s.uses) === EINREICHEN)
+  const fehler = []
+  for (const datei of MIT_BAUPROBE) {
+    const schritte = einreichen(datei)
+    if (schritte.length === 0) fehler.push(`${datei}: kein Einreichen-Schritt gefunden — Erkennung kaputt?`)
+    for (const s of schritte.filter((x) => String(x.with?.bauprobe) !== 'true')) fehler.push(`${datei}: Einreichen „${s.with?.fund ?? '?'}“ verlangt nicht \`bauprobe: 'true'\``)
+  }
+  for (const datei of OHNE_BAUPROBE) {
+    for (const s of einreichen(datei).filter((x) => String(x.with?.bauprobe) === 'true'))
+      fehler.push(`${datei}: Einreichen „${s.with?.fund ?? '?'}“ hat bauprobe — im Stundenlauf sprengt der Probebau (bis 25 min) die 59 min Frist`)
+  }
+  return fehler
+}
+
 /** Weg 5: Prüffrist und Vergleichsfrist (quellen-pruefen.sh) plus REST_SEKUNDEN passen in den Timeout jedes Jobs, der einreicht. */
 export function pruefeFristen(workflows, pruefenSh, bauSh = '') {
   const frist = (name) => Number(pruefenSh.match(new RegExp(`^${name}=(\\d+)$`, 'm'))?.[1])
@@ -166,6 +187,7 @@ export function pruefeSammler({ workflows, aktionen, skripte }) {
     ...pruefeSkripte({ prSh: skripte['quellen-pr.sh'], pruefenSh: skripte['quellen-pruefen.sh'], bauSh: skripte['quellen-bauprobe.sh'] }),
     ...pruefeMarke({ mergenSh: skripte['daten-pr-mergen.sh'], daten: workflows['claude-daten-merge.yml'] }),
     ...pruefeFristen(workflows, skripte['quellen-pruefen.sh'], skripte['quellen-bauprobe.sh']),
+    ...pruefeBauprobeSammler(workflows),
   ]
 }
 

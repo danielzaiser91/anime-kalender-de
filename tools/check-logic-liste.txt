@@ -12,6 +12,8 @@ pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-ausreisser.ts
 pipeline/check-adn-film.ts
+pipeline/check-adn-katalog-frist-lauf.ts
+pipeline/check-adn-katalog-frist.ts
 pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kennung.ts
 pipeline/check-adn-kuratiert-ton.ts
@@ -26,11 +28,14 @@ pipeline/check-adn-spanne.ts
 pipeline/check-adn-sprache-offen.ts
 pipeline/check-adn-sprachriegel-lauf.ts
 pipeline/check-adn-sprachriegel.ts
+pipeline/check-adn-staffel-luecken.ts
+pipeline/check-adn-staffel-meldungen.ts
 pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
 pipeline/check-ak-umleitung-lauf.ts
 pipeline/check-aktualisierung-verborgen.ts
+pipeline/check-anbieter-eintraege-bestand-lauf.ts
 pipeline/check-anbieter-logo.ts
 pipeline/check-angebot-feed.ts
 pipeline/check-angebot-seit-disc.ts
@@ -67,6 +72,7 @@ pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-rohleser.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
+pipeline/check-anisearch-traeger-geplant.ts
 pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-ansicht-scroll.ts
@@ -108,6 +114,8 @@ pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-reihenteil-bau.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
+pipeline/check-cartoon-tote-bau.ts
+pipeline/check-cartoon-tote.ts
 pipeline/check-cartoon-wege-falten-leer-lauf.ts
 pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
@@ -285,6 +293,8 @@ pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
 pipeline/check-jw-anbieterliste.ts
 pipeline/check-jw-auswahl.ts
+pipeline/check-jw-folgestaffel-bestand-lauf.ts
+pipeline/check-jw-folgestaffel.ts
 pipeline/check-jw-frisch-lauf.ts
 pipeline/check-jw-kennung-fremd-lauf.ts
 pipeline/check-jw-kennung-fremd.ts
@@ -487,6 +497,7 @@ pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-sprung-lesestelle.ts
 pipeline/check-staerkste-seite.ts
+pipeline/check-staffel-des-titels.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-riegel.ts
 pipeline/check-staffel-synonyme.ts
@@ -548,6 +559,7 @@ pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0-eigene-lauf.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
+pipeline/check-tmdb-von-hand-abgeleitet.ts
 pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
