@@ -5,7 +5,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { istWerkzeug, ohneTest, pruefe } from './werkzeug-ohne-test-wache.mjs'
+import { eintraege, istWerkzeug, neueFreigaben, ohneTest, pruefe } from './werkzeug-ohne-test-wache.mjs'
 
 const WACHE = join(dirname(fileURLToPath(import.meta.url)), 'werkzeug-ohne-test-wache.mjs')
 const lauf = (dateien, { bekannt = '', frei = '', basis = null } = {}) =>
@@ -17,7 +17,7 @@ const pruefeFall = (name, dateien, erwartet, optionen) => {
   assert.equal(fehler.length, erwartet, `${name}: ${fehler.join(' | ')}`)
   console.log(`  ✓ ${name}`)
 }
-const GRUND = 'Handwerkzeug'
+const GRUND = 'Handwerkzeug ohne Netz'
 
 for (const pfad of ['tools/a.mjs', 'tools/a.cjs', 'tools/a.js', 'tools/a.ts', 'tools/a.mts', 'tools/lib/a.mjs']) assert.equal(istWerkzeug(pfad), true, pfad)
 for (const pfad of ['tools/a.test.mjs', 'tools/a.d.ts', 'tools/archiv/a.mjs', 'tools/a.json', 'tools/a.sh', 'pipeline/a.ts', 'web/src/a.ts']) assert.equal(istWerkzeug(pfad), false, pfad)
@@ -25,6 +25,17 @@ for (const pfad of ['tools/a.test.mjs', 'tools/a.d.ts', 'tools/archiv/a.mjs', 't
 pruefeFall('Werkzeug ohne Test und ohne Eintrag ist rot', { 'tools/a.mjs': '1' }, 1)
 pruefeFall('Eintrag im Altbestand genügt', { 'tools/a.mjs': '1' }, 0, { bekannt: `tools/a.mjs # ${GRUND}`, basis: new Set(['tools/a.mjs']) })
 pruefeFall('Freigabe mit Grund genügt', { 'tools/a.mjs': '1' }, 0, { frei: `tools/a.mjs # ${GRUND}` })
+pruefeFall('Grund mit zwei Wörtern ist rot', { 'tools/a.mjs': '1' }, 1, { frei: 'tools/a.mjs # nur Handwerkzeug' })
+pruefeFall('Grund „a“ ist rot', { 'tools/a.mjs': '1' }, 1, { frei: 'tools/a.mjs # a' })
+pruefeFall('Grund mit genau drei Wörtern ist grün', { 'tools/a.mjs': '1' }, 0, { frei: 'tools/a.mjs # drei kurze Wörter' })
+pruefeFall('Name nur im String eines Tests zählt (dokumentierte Grenze)', { 'tools/a.mjs': '1', 'tools/y.test.mjs': 'console.log("a.mjs")' }, 0, { bekannt: '' , frei: '' })
+{
+  const frei = eintraege('tools/a.mjs # drei kurze Wörter\ntools/b.mjs # drei kurze Wörter')
+  assert.deepEqual(neueFreigaben(frei, new Set(['tools/b.mjs'])), ['tools/a.mjs'], 'Umzug Altbestand → Freigabe: neu gegenüber der Basis')
+  assert.deepEqual(neueFreigaben(frei, new Set(['tools/a.mjs', 'tools/b.mjs'])), [], 'schon auf main')
+  assert.deepEqual(neueFreigaben(frei, null), [], 'ohne Basis keine Aussage')
+  console.log('  ✓ neueFreigaben')
+}
 pruefeFall('Eintrag ohne Grund ist rot', { 'tools/a.mjs': '1' }, 1, { frei: 'tools/a.mjs' })
 pruefeFall('Altbestand ohne Grund ist rot', { 'tools/a.mjs': '1' }, 1, { bekannt: 'tools/a.mjs #', basis: new Set(['tools/a.mjs']) })
 pruefeFall('Kommentarzeilen der Listen zählen nicht', { 'tools/a.mjs': '1' }, 0, { bekannt: `# Kopf\n\ntools/a.mjs # ${GRUND}` })
@@ -75,6 +86,11 @@ try {
   assert.doesNotMatch(r.stdout, /WARNUNG/, 'Basis erreichbar')
   console.log('  ✓ Prozess: grün, Schlusszeile mit Zahl')
 
+  r = fahre('pull_request')
+  assert.equal(r.status, 1, 'PR-Ereignis ohne Merge-Commit: kein Urteil möglich, rot')
+  assert.match(r.stderr, /kein Urteil möglich/)
+  console.log('  ✓ Prozess: PR-Ereignis ohne Merge-Commit ist rot (kein stilles Warnen)')
+
   schreibe('tools/c.mjs', '1\n')
   r = fahre()
   assert.equal(r.status, 1, 'neues Werkzeug ohne Test')
@@ -82,7 +98,8 @@ try {
   schreibe('tools/werkzeug-ohne-test-freigabe.txt', `tools/c.mjs # ${GRUND}\n`)
   r = fahre()
   assert.equal(r.status, 0, r.stderr + r.stdout)
-  console.log('  ✓ Prozess: neues Werkzeug rot, mit Freigabe grün')
+  assert.match(r.stdout, /⚠ WARNUNG Neue Freigabe: tools\/c\.mjs/)
+  console.log('  ✓ Prozess: neues Werkzeug rot, mit Freigabe grün und Warnzeile')
 
   schreibe('tools/werkzeug-ohne-test-bekannt.txt', `tools/a.mjs # ${GRUND}\ntools/c.mjs # ${GRUND}\n`)
   schreibe('tools/werkzeug-ohne-test-freigabe.txt', '')
@@ -105,15 +122,24 @@ try {
   assert.match(r.stderr, /tools\/c\.mjs ist neu auf der Altbestandsliste/)
   console.log('  ✓ Prozess: PR-Ereignis nimmt den ersten Elternteil als Basis')
 
+  // Fehlt die Liste auf der Basis, ist das nur eine Warnung: Merge-Commit mit leerem ersten Elternteil, gleicher Baum.
+  const ausgabe = (...a) => execFileSync('git', a, { cwd: wurzel, encoding: 'utf8', windowsHide: true, timeout: 60000 }).trim()
+  const leer = ausgabe('commit-tree', '4b825dc642cb6eb9a060e54bf8d69288fbee4904', '-m', 'leer')
+  const kopf = ausgabe('rev-parse', 'HEAD')
+  git('checkout', '-q', '--detach', ausgabe('commit-tree', `${kopf}^{tree}`, '-p', leer, '-p', kopf, '-m', 'merge ohne Liste'))
+  r = fahre('pull_request')
+  assert.equal(r.status, 0, 'Liste fehlt auf der Basis: ' + r.stderr + r.stdout)
+  assert.match(r.stdout, /⚠ WARNUNG Ratsche-Basis: eigene Datei/)
+  git('checkout', '-q', 'main')
+  console.log('  ✓ Prozess: Liste fehlt auf der Basis im PR-Ereignis, nur Warnung')
+
   git('update-ref', '-d', 'refs/remotes/origin/main')
   r = fahre()
   assert.equal(r.status, 0, r.stderr + r.stdout)
   assert.match(r.stdout, /⚠ WARNUNG Ratsche-Basis: eigene Datei/)
   console.log('  ✓ Prozess: ohne Basis Warnzeile, eigene Datei gilt')
 
-  rmSync(join(wurzel, 'tools/a.mjs'))
-  rmSync(join(wurzel, 'tools/b.mjs'))
-  rmSync(join(wurzel, 'tools/c.mjs'))
+  git('rm', '-q', '-f', 'tools/a.mjs', 'tools/b.mjs', 'tools/c.mjs')
   schreibe('tools/werkzeug-ohne-test-bekannt.txt', '')
   r = fahre()
   assert.equal(r.status, 1, 'keine Werkzeuge')
@@ -122,4 +148,4 @@ try {
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
-console.log(`werkzeug-ohne-test-wache.test: ${faelle} Fälle in Funktion und 6 im Prozess, alle grün.`)
+console.log(`werkzeug-ohne-test-wache.test: ${faelle} Fälle in Funktion und 8 im Prozess, alle grün.`)
