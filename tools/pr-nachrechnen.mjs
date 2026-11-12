@@ -26,6 +26,7 @@ import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
 import { basisAusJobLogs } from './nachrechnen-joblog.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
+import { standardPaket } from './pr-nachrechnen-paket-git.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -60,6 +61,7 @@ export function hindernis(pr) {
 export const DATENPFADE = ['public/data/', 'data/cache/']
 /** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
 export const COMPARE_GRENZE = 300
+const PAKET = 'package.json'
 
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei) || istBotBild(datei)
 
@@ -80,7 +82,7 @@ const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_
  * mit dem PR (`bewegtesGelesen`: Berührung, Nennung, Import in beide Richtungen). Anlass: Nacht-Merger, 15 Merges in 59 Läufen,
  * 148 Abweisungen „main bewegte …“ (Auswertung 09.11.2026).
  */
-export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
+export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package-lock\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
 
 const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
 
@@ -103,7 +105,7 @@ export function datenpfadAusnahme(vergleich, prDateien) {
  * Ausnahme unter den kettenweiten: `tools/umfang-grenzen.json` (Bestandsbau senkt sie bei jedem Lauf) entwertet nicht, wenn `umfang()` null liefert
  * (Grenzen nicht erhöht, PR hält sie auf dem Merge-Stand, `pr-nachrechnen-umfang.mjs`); sonst der Grund aus `umfang()`.
  */
-export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft') {
+export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft', paket = () => 'main bewegte package.json (nicht geprüft)') {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (!vergleich.vollstaendig && abgeschnitten(vergleich)) return `Vergleich evtl. abgeschnitten${lokal(vergleich)}`
   const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
@@ -112,9 +114,11 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = 
   const fremd = kette.find((d) => d !== UMFANG_GRENZEN)
   if (fremd !== undefined) return `main bewegte ${fremd}`
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
+  const paketGrund = vergleich.dateien.includes(PAKET) ? paket() : null
+  if (paketGrund !== null) return paketGrund
   const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null
   if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`
-  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN)
+  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET)
   return liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))
 }
 
@@ -169,13 +173,13 @@ function mitCommits(vergleich, basis, main, paare) {
 }
 
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
-export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang = () => 'Umfang nicht geprüft') {
+export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang = () => 'Umfang nicht geprüft', paket = standardPaket) {
   const api = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
   const vergleich = mitCommits(vervollstaendige(api, basis, main, voll), basis, main, paare)
   const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
   const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
+  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket({ nummer: pr.number, kopf: pr.headRefOid, main, basis }, prDateien))
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
   return { grund: grundText(daten, bot) }
