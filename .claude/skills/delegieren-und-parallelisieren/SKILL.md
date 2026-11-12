@@ -195,7 +195,7 @@ Stufe 5 („Prüfer-Vorgabe schärfen“) heißt im Auftrag immer beide Orte: CI
 - **Lehre 06.11.2026 (Token-Notiz):** Stammt ein Auftrag aus einem Vorschlag mit Datei:Zeile, steht in „Vorab geprüft“ der grep an dieser Stelle samt Ergebnis — die Notiz „Token roh in index.ts“ war beim Schreiben schon erledigt.
 - **Lehre 01.11.2026 (2617):** Eine Agenten-Meldung „X ist veraltet“ wird vor dem Auftrag am Verweisziel belegt (Skript in `package.json`, Datei, Flag) — `npm run meldungskopie` existierte, ein Bauer stellte trotzdem gültige Aufrufe um, PR geschlossen.
 
-- **Lehre 12.11.2026 (PR 3574):** Ein Auftrag, der `.claude/` oder `tools/claude-global/` ändert, erwartet nie Stufe 0: `pr-stufe.mjs` zählt das als globale Konfiguration, mindestens Stufe 1.
+- **Lehre 12.11.2026 (PR 3574):** Ein Auftrag, der `.claude/` ändert, erwartet nie Stufe 0: `pr-stufe.mjs` zählt das als globale Konfiguration, mindestens Stufe 1.
 
 - **Vor dem Auftrag prüfen, ob der Punkt noch offen ist (31.10.2026):** Ein Auftrag aus `stand.md` oder dem Volltext bekommt vorher `git log -S"<Kennwort>" origin/main` und einen grep auf den Zielcode; „Stillstand 48 h“ war seit PR 2467 erledigt, der Bauer fand es in 5 min. Beim Merge die zugehörigen Vorschläge im Volltext im selben Zug abhaken.
 
