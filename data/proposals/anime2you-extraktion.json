@@ -1602,13 +1602,35 @@
       "am": "2026-11-12",
       "vorschlaege": 1
     },
+    "1070362": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
+    "1070621": {
+      "am": "2026-11-12",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070626": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
+    },
+    "1070665": {
+      "am": "2026-11-12",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1070673": {
       "am": "2026-11-12",
       "vorschlaege": 0
     },
     "1070699": {
       "am": "2026-11-12",
       "vorschlaege": 8
+    },
+    "1070797": {
+      "am": "2026-11-12",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
