@@ -28,7 +28,9 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   Ruleset `main-pruefweg` (vorher mergte `--auto` allein auf die Prüfer-Freigabe, PR 820/821 machten main rot).
   **Seit 19.10.2026 (PR 1597) nicht mehr sicher:** Die Kette rechnet nicht nach, wenn main weiterkommt — ein grüner
   Kopf kann gegen den neuen main rot sein. Vor **jedem** Merge `node tools/pr-nachrechnen.mjs <PR>`: Exit 0 mergen,
-  Exit 1 Kette abwarten und erneut aufrufen, Exit 2 Meldung lesen (UNKNOWN: kurz warten, erneut). Darum kein
+  Exit 1 Kette abwarten und erneut aufrufen, Exit 2 Meldung lesen (UNKNOWN: kurz warten, erneut), Exit 4 „PRÜFER VERLANGT ÄNDERUNG“
+  (letzter Prüfer-Kommentar „ändern“, danach kein Commit, seit 12.11.2026, `tools/pr-nachrechnen-pruefer.mjs`): nicht mergen, Nachbesserung abwarten
+  (PR 3393 und 3398 gingen am 10.11. so ungeprüft durch); ein späteres „ok“ für den jetzigen Kopf hebt die Sperre auf. Darum kein
   `--auto` für Code-PR (Stufe 0 eingeschlossen); auch `tools/pr-einreichen.sh` setzt keinen mehr (PR 1609), Sammler mergen per App-Token. Die Auto-Merge-Absätze unten gelten nur noch für ältere PR, an denen er noch gesetzt ist. Nach jeder Konfliktauflösung `check:vor-commit` (tsx prüft keine Typen),
   und gepusht wird erst, nachdem `ENDE 0` gelesen ist, nie in derselben Befehlskette. Nie `git checkout --ours/--theirs`
   auf eine Datei mit Konflikt: Das verwirft auch die konfliktfreien Stellen der Gegenseite (15.10.2026, Manifest
