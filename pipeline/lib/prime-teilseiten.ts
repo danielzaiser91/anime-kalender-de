@@ -76,7 +76,7 @@ function ergaenzendeMeldungen(titleId: number, meldungen: [string, PrimeMeldung]
 /**
  * Je Titel auf einer geteilten Prime-Seite: Bereich oder Grund. Eindeutig heißt: genau eine eigene Meldung des Titels zu dieser Seite (plus ergänzende Meldungen desselben Titels unter dieser Ablage-Adresse, siehe `ergaenzendeMeldungen`),
  * jede deutsche Folge darin hat eine Nummer in 1 bis Folgenzahl, keine Nummer doppelt, und keine Folgengruppe ist einem anderen
- * Titel derselben Seite gemeldet worden. Ein Kanal-Titel (`kanal`) ist ausgenommen: Amazon zeigt dort die Sprachen des Kanals,
+ * Titel derselben Seite oder Ablage-Adresse gemeldet worden. Ein Kanal-Titel (`kanal`) ist ausgenommen: Amazon zeigt dort die Sprachen des Kanals,
  * nicht die der einzelnen Folge, die Meldung belegt keine Folge.
  */
 export function ordnePrimeSeiteZu(
@@ -86,6 +86,8 @@ export function ordnePrimeSeiteZu(
   kanal: boolean,
 ): Map<number, PrimeUrteil> {
   const hier = meldungen.filter(([k, m]) => m.plattform === 'primevideo' && meldungsSeite(k, m) === seite)
+  // Fremde Gruppen auch unter der Ablage-Adresse suchen: eine ergänzende Meldung kommt von einer anderen Seite.
+  const unterSeite = meldungen.filter(([k, m]) => m.plattform === 'primevideo' && (meldungsSeite(k, m) === seite || adressKern(k.split('#')[0]) === seite))
   const urteile = new Map<number, PrimeUrteil>()
   for (const t of titel) {
     if (kanal) {
@@ -102,7 +104,7 @@ export function ordnePrimeSeiteZu(
       continue
     }
     const gruppen = [eigene[0]![1], ...ergaenzendeMeldungen(t.id, meldungen, seite)]
-    const fremd = gruppen.flatMap((g) => (g.asin ? hier.filter(([, o]) => o.titleId !== t.id && o.asin === g.asin) : []))[0]
+    const fremd = gruppen.flatMap((g) => (g.asin ? unterSeite.filter(([, o]) => o.titleId !== t.id && o.asin === g.asin) : []))[0]
     const zusammen: PrimeMeldung = { ...gruppen[0]!, folgen: gruppen.flatMap((g) => g.folgen) }
     urteile.set(
       t.id,

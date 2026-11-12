@@ -107,6 +107,8 @@ const andererAnbieter: [string, PrimeMeldung][] = [beide[0]!, [HYOUKA, { ...hyou
 pruefe('Hyouka: Zusatz-Meldung eines anderen Anbieters zählt nicht dazu', hyouka(andererAnbieter) === '1-3,5-12', hyouka(andererAnbieter))
 const gruppeGeteilt: [string, PrimeMeldung][] = [...beide, [`${HYOUKA}#1`, meldung(8, 'B0DBRCH6C1', deutsch(reihe(1, 10)), { seite: 'B0B5JVJKCD' })]]
 pruefe('Hyouka: Folgengruppe der Zusatz-Meldung auch einem anderen Titel der Seite gemeldet: offen', hyouka(gruppeGeteilt).startsWith('offen:dieselbe Folgengruppe (B0DBRCH6C1)'), hyouka(gruppeGeteilt))
+const gruppeVonFremdseite: [string, PrimeMeldung][] = [...beide, [`${HYOUKA}#1`, meldung(8, 'B0DBRCH6C1', deutsch(reihe(1, 10)), { seite: 'B0DC75L8BJ' })]]
+pruefe('Hyouka: dieselbe Zusatz-Gruppe meldet ein anderer Titel von der Fremdseite unter dieser Ablage: offen', hyouka(gruppeVonFremdseite).startsWith('offen:dieselbe Folgengruppe (B0DBRCH6C1)'), hyouka(gruppeVonFremdseite))
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Prime-Seiten verletzt`)
