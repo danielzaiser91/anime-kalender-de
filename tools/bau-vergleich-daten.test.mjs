@@ -150,26 +150,26 @@ try {
   assert.throws(() => liesEntfernteVerweise(() => { throw new Error('fatal: anderer git-Fehler') }, start), /anderer git-Fehler/, 'anderer git-Fehler wird nicht verschluckt')
 
   // Ersatz-Cache schreiben (Wegwerf-Repo, Basis ≠ Kandidat): Bestand und Wege der übergebenen Basis, Katalog-Schalter am Pfad.
-  const bestand = (name, verweise) => ({
-    'public/data/titles.json': JSON.stringify([{ id: 7, malId: 70 }, { id: 10_000_005 }]),
+  const bestand = (name, verweise, extra) => ({
+    'public/data/titles.json': JSON.stringify([{ id: 7, malId: 70 }, { id: extra }, { id: 10_000_005 }]),
     'public/data/franchises.json': '{}',
     'data/verweise-entfernt.json': JSON.stringify({ verweise: [{ titleId: 7, plattform: name, url: `https://${name}.example/${verweise}` }] }),
   })
   git('checkout', '-q', '-b', 'cache', start)
-  const basisA = commit(bestand('adn', 'a'), 'Bestand A')
-  const basisB = commit(bestand('netflix', 'b'), 'Bestand B')
+  const basisA = commit(bestand('adn', 'a', 11), 'Bestand A')
+  const basisB = commit(bestand('netflix', 'b', 12), 'Bestand B')
   const katalogDatei = path.join(wurzel, 'katalog.json')
   writeFileSync(katalogDatei, '{"katalog":1}')
   const cacheLesen = (ort, datei) => JSON.parse(readFileSync(path.join(ort, datei), 'utf8'))
   const ortA = path.join(wurzel, 'cache-a')
   schreibeErsatzCache(ortA, git, basisA, undefined)
-  assert.deepEqual(Object.keys(cacheLesen(ortA, 'anilist-by-id.json')), ['7', '10000005'], 'ohne Katalog: alle Titel')
+  assert.deepEqual(Object.keys(cacheLesen(ortA, 'anilist-by-id.json')), ['7', '11', '10000005'], 'ohne Katalog: alle Titel der Basis A')
   assert.deepEqual(cacheLesen(ortA, 'anilist-by-id.json')[7].externalLinks.map((l) => l.url), ['https://adn.example/a'], 'Wege der Basis A, nicht B')
   assert.deepEqual(Object.keys(cacheLesen(ortA, 'anilist-media.json')), ['70'])
   assert.ok(!existsSync(path.join(ortA, 'anilist-katalog.json')), 'ohne Katalog keine Katalog-Datei')
   const ortB = path.join(wurzel, 'cache-b')
   schreibeErsatzCache(ortB, git, basisB, katalogDatei)
-  assert.deepEqual(Object.keys(cacheLesen(ortB, 'anilist-by-id.json')), ['7'], 'mit Katalog ohne aniSearch-Zeile')
+  assert.deepEqual(Object.keys(cacheLesen(ortB, 'anilist-by-id.json')), ['7', '12'], 'mit Katalog ohne aniSearch-Zeile, Titel der Basis B')
   assert.deepEqual(cacheLesen(ortB, 'anilist-by-id.json')[7].externalLinks.map((l) => l.url), ['https://netflix.example/b'], 'Wege der Basis B')
   assert.deepEqual(cacheLesen(ortB, 'anilist-katalog.json'), { katalog: 1 }, 'Katalog daneben gelegt')
   // Aufrufstelle im Werkzeug: genau diese Argumente (Textprüfung für die eine Zeile, das Verhalten dahinter ist oben gelaufen).
