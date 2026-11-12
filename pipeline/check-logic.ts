@@ -8149,6 +8149,18 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     )
     const mehrere = messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: 'https://www.crunchyroll.com/de/series/GT2/', name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung
     pruefe('Messung: bei mehreren Staffeln mit derselben Folgennummer nur die zum Meldungstag laufende', mehrere?.zeilen.length === 1 && mehrere.zeilen[0]!.includes('S3DE'), JSON.stringify(mehrere))
+    /* Crunchyroll liefert Sendedaten mit fremdem Offset; der Meldungstag (30.09.) ist ein Berliner Tag. */
+    const mitSendung = (serie: string, luft: string) => {
+      writeFileSync(join(dir, `${serie}.de.json.gz`), gzipSync(JSON.stringify({ holtAm: '2026-10-02T11:00:00Z', episodes: { s1: { items: [
+        { episode_number: 11, season_title: 'Season 1', episode_air_date: '2021-03-22T00:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'S1DE' }] },
+        { episode_number: 11, season_title: 'Season 2', episode_air_date: luft, versions: [{ audio_locale: 'de-DE', guid: 'S2DE' }] },
+      ] } } })))
+      return messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: `https://www.crunchyroll.com/de/series/${serie}/`, name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung?.zeilen.join()
+    }
+    const spaeter = mitSendung('GT3', '2026-09-30T17:30:00-07:00')
+    pruefe('Messung: Sendung am 30.09. 17:30 Pazifikzeit liegt in Berlin am 01.10., gilt nicht als am Meldungstag gelaufen', spaeter?.includes('S1DE') === true, spaeter)
+    const frueher = mitSendung('GT4', '2026-10-01T05:00:00+09:00')
+    pruefe('Messung: Sendung am 01.10. 05:00 japanischer Zeit liegt in Berlin am 30.09., gilt als am Meldungstag gelaufen', frueher?.includes('S2DE') === true, frueher)
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
   }
