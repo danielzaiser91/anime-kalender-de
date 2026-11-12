@@ -71,7 +71,7 @@ function laeufe(uhren: string[]): Lauf {
     }
     return { ...letzter, bestand: JSON.parse(readFileSync(join(wurzel, 'data', 'justwatch-audio.json'), 'utf8')) }
   } finally {
-    rmSync(wurzel, { recursive: true, force: true })
+    rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
   }
 }
 
