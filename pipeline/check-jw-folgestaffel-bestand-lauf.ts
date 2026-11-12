@@ -47,7 +47,7 @@ function lauf(reihen: number, wirkend: number): { status: number | null; out: st
   writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), reihen ? JSON.stringify(jw) : '{}')
   const skript = fileURLToPath(new URL('./check-jw-folgestaffel-bestand.ts', import.meta.url))
   const r = spawnSync(process.execPath, ['--import', 'tsx', skript], { encoding: 'utf8', windowsHide: true, timeout: 120000, env: { ...process.env, AK_ROOT: wurzel } })
-  rmSync(wurzel, { recursive: true, force: true })
+  rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
   return { status: r.status, out: r.stdout, err: r.stderr }
 }
 

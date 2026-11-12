@@ -160,7 +160,7 @@ try {
   pruefe('keine Flagge am Titel mit Handbeleg „nein“', cr(105)?.dubQuelle === undefined, zustand(cr(105)))
   pruefe('Anime- und Cartoon-Abschnitt stehen beide in der Liste', liste.includes('<!-- anime:start -->') && liste.includes('<!-- cartoons:start -->'))
 } finally {
-  rmSync(wurzel, { recursive: true, force: true })
+  rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
