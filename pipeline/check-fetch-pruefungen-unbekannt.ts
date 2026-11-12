@@ -64,6 +64,7 @@ function lauf(zeilen: unknown[]) {
     writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify(BESTAND))
     writeFileSync(join(tmp, 'public/data/franchises.json'), JSON.stringify({ 77: [{ id: 900061, name: 'Kastenprobe Tau', format: 'TV', jpStart: '2020-01-01' }, { id: 900062, name: 'Kastenprobe Tau 2', format: 'TV', jpStart: '2021-01-01' }] }))
     writeFileSync(join(tmp, 'public/data/cartoons.json'), '[]')
+    writeFileSync(join(tmp, 'public/data/ohne-synchro.json'), '[]')
     writeFileSync(join(tmp, 'public/data/ohne-synchro-namen.json'), JSON.stringify(KATALOG))
     writeFileSync(join(tmp, 'data/dub-confirmed.yaml'), '# leer\n')
     writeFileSync(join(tmp, 'meldungen.json'), JSON.stringify(zeilen))

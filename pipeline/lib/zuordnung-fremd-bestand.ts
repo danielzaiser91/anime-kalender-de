@@ -25,6 +25,19 @@ export function gegenBekannt(treffer: readonly FremdZugeordnet[], bekannt: reado
   return { neu: treffer.filter((t) => !stehen.has(bekanntZeile(t))), veraltet: bekannt.filter((z) => !heute.has(z)) }
 }
 
+/**
+ * Besitzer eines Treffers mit Herkunft (12.11.2026): `Handbeleg:<Kennung>` nennt dazu Datei, Prüfdatum und Notiz des Belegs an der Adresse
+ * (Belege aus dem Schritt „Meldungen einarbeiten“ tragen die Notiz der Meldung); `Datei:Kennung` bleibt, wie es ist.
+ */
+export function besitzerMitHerkunft(t: FremdZugeordnet, belege: readonly (BelegAdresse & { checkedAt?: string; note?: string })[]): string[] {
+  return t.besitzer.map((b) => {
+    const kennung = /^Handbeleg:(\d+)$/.exec(b)?.[1]
+    const beleg = kennung ? belege.find((x) => x.anilistId === Number(kennung) && adressGleich(x.url, t.adresse)) : undefined
+    if (!beleg) return b
+    return `${b} (data/dub-confirmed.yaml, checkedAt ${beleg.checkedAt ?? '?'}${beleg.note ? `, Notiz „${beleg.note.slice(0, 60)}“` : ''})`
+  })
+}
+
 /** „laut Adresse Staffel k“ aus der Notiz des Handbelegs, den `titleId` an `adresse` führt. */
 export function staffelLautAdresse(belege: readonly (BelegAdresse & { note?: string })[], titleId: number, adresse: string): number | undefined {
   const beleg = belege.find((b) => b.anilistId === titleId && adressGleich(b.url, adresse) && /laut Adresse Staffel \d+/.test(b.note ?? ''))

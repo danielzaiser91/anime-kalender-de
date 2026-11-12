@@ -20,6 +20,7 @@ const tmp = mkdtempSync(join(tmpdir(), 'netflix-umleitung-'))
 try {
   const ak = join(tmp, 'ak')
   for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten']) mkdirSync(join(ak, ordner), { recursive: true })
+  for (const d of ['cartoons', 'ohne-synchro']) writeFileSync(join(ak, 'public/data', `${d}.json`), '[]')
   writeFileSync(join(ak, 'data/dub-confirmed.yaml'), '# leer\n')
   const lauf = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-pruefungen.ts')], {
     cwd: wurzel,

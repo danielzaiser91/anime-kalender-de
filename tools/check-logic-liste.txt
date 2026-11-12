@@ -224,6 +224,7 @@ pipeline/check-escape-hoerer-faelle.ts
 pipeline/check-escape-hoerer.ts
 pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
+pipeline/check-fetch-pruefungen-fremde-adresse.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts

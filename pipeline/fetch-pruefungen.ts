@@ -49,6 +49,7 @@ import { schalterOderAbbruch } from './lib/schalter.ts'
 import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb, sperreAufPruefungen } from './lib/meldungen-stapel.ts'
 import { baueNachUrl } from './lib/nach-url.ts'
+import { berlinDatum, ladeBesitz, verschiebeFremdenBeleg } from './lib/beleg-fremd-zugeordnet.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -337,11 +338,6 @@ function ausSuchadresse(url: string): number[] {
   return []
 }
 
-/** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin. */
-function berlinDatum(iso: string): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date(iso))
-}
-
 const heute = berlinDatum(new Date().toISOString())
 const kanalJa = kanalJaAdressKerne(loadDubChecks())
 const zeilen: string[] = []
@@ -382,6 +378,7 @@ const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data
   : {}
 
 const ohneZuordnung: OhneZuordnung[] = []
+const besitz = ladeBesitz(ROOT)
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>(gesperrt)
 
@@ -1054,6 +1051,7 @@ for (const gruppe of jeAdresse.values()) {
       for (const x of gruppe) erledigteIds.add(x.id)
       continue
     }
+    if (verschiebeFremdenBeleg(besitz, id, ids, echteAmazonAdresse(p) ?? wegAusMeldung(p), gruppe, p, offenGeblieben, ohneZuordnung)) continue
 
     zeilen.push('')
     zeilen.push(`- anilistId: ${id}`)
@@ -1182,7 +1180,7 @@ for (const gruppe of jeAdresse.values()) {
   }
   /* Nichts geschrieben und nicht abgehakt (der Kanal-Zweig oben hakt selbst ab): sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
   if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
-  else if (!erledigteIds.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
+  else if (!erledigteIds.has(gruppe[0]!.id) && !besitz.gruppen.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
 if (!TROCKEN) haengeBelegeAn({ datei: resolve(ROOT, 'data/dub-confirmed.yaml'), zeilen, meldungen: pruefungen, heute, log, warn })
@@ -1211,6 +1209,7 @@ log(
     (nachFolgentitelZugeordnet
       ? `, ${nachFolgentitelZugeordnet} über den Folgentitel an die Nebenausgabe`
       : '') +
+    (besitz.verschoben ? `, ${besitz.verschoben} Beleg(e) an der Adresse eines anderen Titels nicht geschrieben (Meldung bleibt liegen)` : '') +
     (ausgelassenKanal
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
       : ''),

@@ -79,6 +79,7 @@ function trockenIn(szenario: string, mitAufteilung: boolean) {
   const wurzelTmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-trocken-'))
   try {
     for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten']) mkdirSync(join(wurzelTmp, ordner), { recursive: true })
+    for (const d of ['cartoons', 'ohne-synchro']) writeFileSync(join(wurzelTmp, 'public/data', `${d}.json`), '[]')
     if (mitAufteilung) {
       const staffeln = [1, 2].map((seq) => ({ seq, name: `Staffel ${seq}`, folgen: 12, erste: 1 }))
       writeFileSync(join(wurzelTmp, 'data/anbieter-staffeln.json'), JSON.stringify({ 81152346: { staffeln, gemeldetAm: '2026-09-22' } }))
@@ -107,6 +108,7 @@ function summeIn(szenario: string, mitJustWatch: boolean, mitRtl = false): strin
   const wurzelTmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-summe-'))
   try {
     for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten']) mkdirSync(join(wurzelTmp, ordner), { recursive: true })
+    for (const d of ['cartoons', 'ohne-synchro']) writeFileSync(join(wurzelTmp, 'public/data', `${d}.json`), '[]')
     const folgenListe = Array.from({ length: 40 }, (_, i) => ({ s: 1, e: i + 1, en: `Titel ${i + 1}` }))
     writeFileSync(join(wurzelTmp, 'data/cartoon-folgen.json'), JSON.stringify({ '-900001': { tmdbId: 1, geholtAm: '2026-11-02', folgen: folgenListe } }))
     if (mitJustWatch) writeFileSync(join(wurzelTmp, 'data/justwatch-audio.json'), JSON.stringify({ '-900001': { staffeln: [{ nr: 1, folgen: 28 }, { nr: 2, folgen: 12 }] } }))
@@ -140,6 +142,7 @@ if (belegTitel(summeOhneJw).length) fehler.push(`Staffelsumme ohne JustWatch: ke
 const tmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-laufzeit-'))
 try {
   for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten']) mkdirSync(join(tmp, ordner), { recursive: true })
+  for (const d of ['cartoons', 'ohne-synchro']) writeFileSync(join(tmp, 'public/data', `${d}.json`), '[]')
   writeFileSync(join(tmp, 'data/dub-confirmed.yaml'), '# leer\n')
   lauf('zwei', [], tmp)
   const yaml = readFileSync(join(tmp, 'data/dub-confirmed.yaml'), 'utf8')
