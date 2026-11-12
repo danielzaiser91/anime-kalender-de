@@ -118,8 +118,8 @@
     "aenderungen": [
       {
         "datei": "pipeline/fetch-justwatch-audio.ts",
-        "suche": "await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))",
-        "ersetze": "await sucheOhneTmdb(titles, tmdb, bestand, 1000)"
+        "suche": "await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0), welt)",
+        "ersetze": "await sucheOhneTmdb(titles, tmdb, bestand, 1000, welt)"
       }
     ]
   },
@@ -128,13 +128,13 @@
     "aenderungen": [
       {
         "datei": "pipeline/fetch-justwatch-audio.ts",
-        "suche": "  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))\n",
+        "suche": "  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0), welt)\n",
         "ersetze": ""
       },
       {
         "datei": "pipeline/fetch-justwatch-audio.ts",
         "suche": "  if (!offen.length) {\n    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')\n    recordSource('justwatch-audio', 0)\n    return\n  }\n",
-        "ersetze": "  if (!offen.length) {\n    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')\n    recordSource('justwatch-audio', 0)\n    return\n  }\n  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))\n"
+        "ersetze": "  if (!offen.length) {\n    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')\n    recordSource('justwatch-audio', 0)\n    return\n  }\n  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0), welt)\n"
       }
     ]
   },
