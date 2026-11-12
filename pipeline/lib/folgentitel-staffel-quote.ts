@@ -30,14 +30,15 @@ const schluessel = (t: string): string => t.trim().toLowerCase()
 
 /**
  * Die Quote eines Titels, dessen Folgentitel aus der TMDB-Containerstaffel stammen; sonst undefined. Herkunft: die Zuordnung liefert Titel,
- * und die Folgendatei trägt an jeder dieser Nummern genau diesen Titel (eine andere Stufe schriebe einen anderen Wortlaut).
+ * und die Folgendatei trägt an jeder dieser Nummern diesen Titel (eine andere Stufe schriebe einen anderen Wortlaut). Eine leere Zeile an einer TMDB-Nummer
+ * ist verlorener Titel, nicht fremde Herkunft: der Titel zählt weiter, die Quote sinkt und warnt.
  */
 export function staffelQuote(t: Title, franchise: TmdbEintrag | undefined, datei: FolgenDatei | undefined): StaffelQuote | undefined {
   if (!datei) return undefined
   const aus = tmdbStaffelFolgentitel(t, franchise, datei.f.map(([nr]) => nr))
   if (!aus) return undefined
   const inDatei = new Map(datei.f.map(([nr, titel]) => [nr, titel] as const))
-  if (![...aus].every(([nr, titel]) => inDatei.get(nr) === titel)) return undefined
+  if (![...aus].every(([nr, titel]) => !inDatei.get(nr) || inDatei.get(nr) === titel)) return undefined
   const titel = datei.f.filter(([, x]) => x).map(([, x]) => schluessel(x))
   const doppelt = [...new Set(titel.filter((x, i) => titel.indexOf(x) !== i))]
   return { titel: titel.length, folgen: t.episodes ?? 0, doppelt }
@@ -46,7 +47,7 @@ export function staffelQuote(t: Title, franchise: TmdbEintrag | undefined, datei
 /** Gründe für eine Warnung; leer, wenn die Quote reicht und kein Titel doppelt vorkommt. */
 export function quoteGruende(q: StaffelQuote): string[] {
   const gruende: string[] = []
-  if (q.titel / q.folgen < QUOTE_MINDESTENS) gruende.push(`nur ${q.titel} von ${q.folgen} Folgen mit Titel`)
+  if (q.titel / q.folgen < QUOTE_MINDESTENS) gruende.push('unter der Hälfte')
   if (q.doppelt.length) gruende.push(`doppelte Titel: ${q.doppelt.join(', ')}`)
   return gruende
 }

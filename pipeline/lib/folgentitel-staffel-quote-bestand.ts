@@ -44,6 +44,8 @@ export function pruefeStaffelQuote(wurzel: string): number {
   const tmdb = lies<Record<string, TmdbEintrag>>(join(wurzel, 'data', 'tmdb-folgen.json'))
   const dateiPfad = (id: number): string => join(wurzel, 'public', 'data', 'folgen', `${id}.json`)
   const datei = (id: number): FolgenDatei | undefined => (existsSync(dateiPfad(id)) ? lies<FolgenDatei>(dateiPfad(id)) : undefined)
-  for (const zeile of quoteZeilen(staffelQuoten(lies<Title[]>(pfad), tmdb, datei))) console.log(zeile)
+  const treffer = staffelQuoten(lies<Title[]>(pfad), tmdb, datei)
+  for (const zeile of quoteZeilen(treffer)) console.log(zeile)
+  if (!treffer.length) console.log('  ⚠ WARNUNG Folgentitel TMDB-Staffel: 0 Titel, die Prüfung misst nichts')
   return 0
 }
