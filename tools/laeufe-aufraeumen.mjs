@@ -153,7 +153,8 @@ async function main() {
   for (const zeile of serienWache(ghStapel, REPO, wurzel(), Date.now(), weichSpeicher())) console.log(zeile)
   for (const zeile of prueferZeilen(gh, REPO)) console.log(zeile)
   for (const zeile of startBudgetZeilen((a) => gh(...a), REPO)) console.log(zeile)
-  for (const zeile of secretZeilen((a) => gh(...a), REPO)) console.log(zeile)
+  // Nur lokal: das GITHUB_TOKEN der CI hat kein Secret-Recht (403), siehe tools/zugangs-secret-wache.mjs.
+  if (!process.env.GITHUB_ACTIONS) for (const zeile of secretZeilen((a) => gh(...a), REPO)) console.log(zeile)
   for (const zeile of haengerWache((a) => gh(...a), REPO, wurzel(), Date.now(), haengerSpeicher(), { trocken: TROCKEN })) console.log(zeile)
   try {
     await laeufePruefen(erledigt)

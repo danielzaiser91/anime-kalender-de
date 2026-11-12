@@ -1,7 +1,7 @@
 /**
  * Abgleich Repo-Secrets gegen `data/zugangs-register.json` (nur Namen, nie Werte).
  *
- * Läuft nur lokal in der Wachphase (`laeufe-aufraeumen.mjs`) und über `node tools/zugangs-waechter.mjs --secrets`, nicht in der CI:
+ * Läuft nur lokal in der Wachphase (`laeufe-aufraeumen.mjs`, in der CI mit `GITHUB_ACTIONS` ausgelassen) und über `node tools/zugangs-waechter.mjs --secrets`:
  * `gh secret list` ruft „List repository secrets“ auf, das Admin-Recht am Repo verlangt; das `GITHUB_TOKEN` eines Workflows
  * hat laut GitHub-Doku („Permissions for the GITHUB_TOKEN“) keinen Bereich `secrets`, ein Versuch endet mit 403.
  * Kein Secret ohne Eintrag (wie NACHT_MERGER_TOKEN seit 01.11., aufgefallen erst am 401); kein Repo-Secret-Eintrag ohne Secret.

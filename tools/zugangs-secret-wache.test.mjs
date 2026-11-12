@@ -1,10 +1,11 @@
-// Abgleich Repo-Secrets gegen Zugangs-Register: Befunde in beide Richtungen, Nichtauskunft, Verdrahtung in laeufe-aufraeumen als echter Prozess.
+// Abgleich Repo-Secrets gegen Zugangs-Register: Befunde in beide Richtungen, Nichtauskunft, Verdrahtung in laeufe-aufraeumen (auch CI-Auslassung) und `--secrets` als echter Prozess.
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { legeGhAttrappe } from './gh-attrappe.mjs'
 import { secretBefunde, secretZeilen } from './zugangs-secret-wache.mjs'
 
 const z = (id, ort = 'github-secret') => ({ id, ort })
@@ -34,18 +35,53 @@ assert.match(secretZeilen(() => 'kein json', 'o/r', REG)[0], /nicht lesbar/)
 assert.match(secretZeilen(() => '[]', 'o/r', REG)[0], /Abgleich ausgelassen/)
 assert.match(secretZeilen(() => '[{"id":1}]', 'o/r', REG)[0], /Abgleich ausgelassen/)
 
-// Verdrahtung: laeufe-aufraeumen (Wachphase) druckt die Zeile; Kulisse für `gh secret list`, sonst leere Listen.
-const stub = `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>a.includes("secret")?JSON.stringify([{name:"LAUF_TOKEN"},{name:"NEU_OHNE_EINTRAG_X"}]):"[]";syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
+const REPO = 'danielzaiser91/anime-kalender-de'
+const BEFEHL = `secret list --repo ${REPO} --json name`
+// Verdrahtung: laeufe-aufraeumen (Wachphase) druckt die Zeile; Kulisse für `gh secret list` verlangt genau das Repo, sonst leere Listen.
+// Ruft die Kulisse `gh secret list`, steht SECRETAUFRUF auf stderr (Beleg, dass die CI-Auslassung wirklich nicht ruft).
+const stub = `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(!a.includes("secret"))return "[]";process.stderr.write("SECRETAUFRUF\\n");if(a.join(" ")!=="${BEFEHL}")throw new Error("falsche Parameter");return JSON.stringify([{name:"LAUF_TOKEN"},{name:"NEU_OHNE_EINTRAG_X"}])};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
 const ordner = mkdtempSync(join(tmpdir(), 'zugangs-secret-'))
+const lauf = (argumente, env) => spawnSync(process.execPath, argumente, { encoding: 'utf8', env: { ...process.env, ...env }, timeout: 120000 })
 try {
   const gesundheit = join(ordner, 'g.json')
   writeFileSync(gesundheit, '{}')
   const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-  const r = spawnSync(process.execPath, ['--import', stub, aufraeumen, '--trocken', '--gesundheit', gesundheit], { encoding: 'utf8', env: { ...process.env, LAUF_TOKEN: '' }, timeout: 120000 })
+  const wache = (env) => lauf(['--import', stub, aufraeumen, '--trocken', '--gesundheit', gesundheit], { LAUF_TOKEN: '', GITHUB_ACTIONS: '', ...env })
+  const r = wache({})
   assert.equal(r.status, 0, r.stderr)
   assert.match(r.stdout, /^Zugang: Repo-Secret NEU_OHNE_EINTRAG_X hat keinen Eintrag in data\/zugangs-register\.json$/m)
   assert.doesNotMatch(r.stdout, /Repo-Secret LAUF_TOKEN/)
+  assert.match(r.stderr, /SECRETAUFRUF/)
+  // In der CI (GITHUB_ACTIONS gesetzt) fehlt die Zeile, und `gh secret list` wird nicht gerufen (das GITHUB_TOKEN bekäme 403).
+  const ci = wache({ GITHUB_ACTIONS: 'true' })
+  assert.equal(ci.status, 0, ci.stderr)
+  assert.doesNotMatch(ci.stdout, /Repo-Secret|Secret-Liste/)
+  assert.doesNotMatch(ci.stderr, /SECRETAUFRUF/)
+
+  // `--secrets` als Prozess mit gh-Attrappe über GH_BIN: Befund → 1, Gleichstand → 0, Nichtauskunft → 1.
+  const waechter = fileURLToPath(new URL('./zugangs-waechter.mjs', import.meta.url))
+  const register = JSON.parse(readFileSync(new URL('../data/zugangs-register.json', import.meta.url), 'utf8'))
+  const ids = register.zugaenge.filter((e) => e.ort === 'github-secret').map((e) => e.id)
+  const secrets = (inhalt, nr) => {
+    const dir = join(ordner, `gh${nr}`)
+    mkdirSync(dir)
+    const antwort = join(dir, 'antwort.json')
+    writeFileSync(antwort, inhalt)
+    const env = legeGhAttrappe(dir, { befehl: BEFEHL, antwortDatei: antwort })
+    const bin = join(dir, process.platform === 'win32' ? 'gh.exe' : 'gh')
+    return lauf([waechter, '--secrets'], { ...env, GH_BIN: bin, GITHUB_REPOSITORY: '' })
+  }
+  const namen = (...n) => JSON.stringify(n.map((name) => ({ name })))
+  const befund = secrets(namen(...ids, 'NEU_OHNE_EINTRAG_X'), 1)
+  assert.equal(befund.status, 1, befund.stdout + befund.stderr)
+  assert.match(befund.stdout, /✗ Zugang: Repo-Secret NEU_OHNE_EINTRAG_X hat keinen Eintrag/)
+  const gleich = secrets(namen(...ids), 2)
+  assert.equal(gleich.status, 0, gleich.stdout + gleich.stderr)
+  assert.match(gleich.stdout, /stimmen überein/)
+  const unklar = secrets('kein json', 3)
+  assert.equal(unklar.status, 1, unklar.stdout + unklar.stderr)
+  assert.match(unklar.stdout, /nicht lesbar/)
 } finally {
   rmSync(ordner, { recursive: true, force: true })
 }
-console.log('zugangs-secret-wache: Befunde beide Richtungen, Nichtauskunft und Wachphasen-Verdrahtung ok')
+console.log('zugangs-secret-wache: Befunde beide Richtungen, Nichtauskunft, Wachphasen-Verdrahtung samt CI-Auslassung und --secrets-Prozess (Befund/Gleichstand/Nichtauskunft) ok')
