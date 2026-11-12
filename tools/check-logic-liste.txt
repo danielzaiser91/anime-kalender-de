@@ -571,6 +571,7 @@ pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
 pipeline/check-trailer-lauf.ts
+pipeline/check-tv-hand-belege.ts
 pipeline/check-tv-premiere-merker.ts
 pipeline/check-tv-rtl-main.ts
 pipeline/check-tv-rtl-nachversuch.ts
