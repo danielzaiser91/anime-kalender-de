@@ -325,7 +325,7 @@ const gitBaum = (args) => {
 /** `STANDARD`: bauMitSpur prüft den Befehl mit seiner Voreinstellung (befehlErlaubt). */
 const STANDARD = Symbol('Standard')
 /** Baut in einer Wegwerf-Wurzel; vorhandene NODE_OPTIONS (hier: ein Vorlader, der `marke` anlegt) müssen im Bau erhalten bleiben. */
-function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () => true) {
+function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () => true, ereignis = 'push') {
   const ort = wurzel()
   const meldungen = []
   const alt = process.env.NODE_OPTIONS
@@ -333,7 +333,7 @@ function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () 
   else delete process.env.NODE_OPTIONS
   const versionDatei = join(ort, 'dist', 'version.json')
   const pruefe = befehlPruefen === STANDARD ? undefined : befehlPruefen
-  const exit = bauMitSpur(befehl, { wurzel: ort, versionDatei, git, log: (m) => meldungen.push(m), starte, befehlPruefen: pruefe })
+  const exit = bauMitSpur(befehl, { wurzel: ort, versionDatei, git, log: (m) => meldungen.push(m), starte, befehlPruefen: pruefe, ereignis })
   process.env.NODE_OPTIONS = alt ?? ''
   const version = JSON.parse(readFileSync(versionDatei, 'utf8'))
   const marke = existsSync(join(ort, 'marke'))
@@ -355,6 +355,14 @@ const fremd = bau('node lies.mjs data/kennungen.json data/frei.json')
 assert.deepEqual(fremd.version, OHNE, 'freie Datei gelesen: kein Abdruck')
 assert.equal(fremd.exit, 0, 'Bau bleibt grün, nur ohne Abdruck')
 assert.match(fremd.meldungen.join('\n'), /^::warning::.*data\/frei\.json$/)
+// PR-Kette: unerklärte Lesung ist rot und nennt Datei und Ausweg; Lesung innerhalb von BAU_EINGABEN bleibt grün mit Abdruck.
+const prRot = bau('node lies.mjs data/kennungen.json data/frei.json', gitBaum, true, undefined, () => true, 'pull_request')
+assert.deepEqual([prRot.exit, prRot.version], [1, OHNE], 'PR-Kette: Lesung außerhalb ist rot')
+assert.match(prRot.meldungen.join('\n'), /^::error::Bau liest außerhalb von BAU_EINGABEN.*data\/frei\.json.*in BAU_EINGABEN \(tools\/bau-eingaben\.mjs\) aufnehmen/)
+const prGut = bau('node lies.mjs data/kennungen.json web.txt', gitBaum, true, undefined, () => true, 'pull_request')
+assert.deepEqual([prGut.exit, prGut.version], [0, { ...OHNE, abdruck: A }], 'PR-Kette: nur Eingaben gelesen bleibt grün')
+// Lokal (ohne Ereignis), Deploy (push) und Bestandsbau (schedule/workflow_dispatch) bleiben bei der Warnung.
+for (const ereignis of [undefined, 'push', 'workflow_dispatch', 'schedule']) assert.equal(bau('node lies.mjs data/frei.json', gitBaum, true, undefined, () => true, ereignis).exit, 0, `${ereignis}: nur Warnung`)
 for (const weg of ['p', 'u', 'b']) assert.deepEqual(bau(`node lies.mjs ${weg}:data/frei.json`).version, OHNE, `Lesen über ${weg}: kein Abdruck`)
 const kind = bau('node -e "require(\'node:child_process\').execFileSync(process.execPath, [\'lies.mjs\', \'data/frei.json\'])"')
 assert.deepEqual(kind.version, OHNE, 'Unterprozess liest freie Datei: kein Abdruck')
