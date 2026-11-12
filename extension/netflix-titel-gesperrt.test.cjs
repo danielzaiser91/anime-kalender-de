@@ -25,7 +25,8 @@ const kontext = { globalThis: null }
 kontext.globalThis = kontext
 vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
-const { akNetflixStoerung, akNetflixTitelUeberspringen, akNetflixUmgeleitet } = kontext
+vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
+const { akNetflixStoerung, akNetflixTitelUeberspringen, akNetflixUmgeleitet, akNetflixSelbstTakt, akNetflixBremseOeffnen, akNetflixBrowseAuftrag } = kontext
 
 /* --- Störung im Durchlauf --- */
 const stoerung = (selbst, code) => {
@@ -131,15 +132,20 @@ const quelle = lies('melder.js')
   const bis = quelle.indexOf('\n  }\n', quelle.indexOf('laufBeenden(DURCHLAUF.abbruch', von)) + 5
   const block = quelle.slice(von, bis)
   pruefe('Endstelle in melder.js gefunden', von > 0 && bis > von)
-  const ausfuehren = new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', block)
+  const ausfuehren = new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', 'bremse', 'Date', block)
   for (const [name, sperre, abbruch, weiterErwartet, beendetErwartet] of [
     ['Titelsperre: weiter, Durchgang bleibt', { code: 'E103', reihe: '5' }, true, 1, 0],
     ['Abbruch ohne Sperre (M7…, Escape): Durchgang endet', null, true, 0, 1],
   ]) {
     let weiter = 0
     let beendet = 0
-    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: sperre, abbruch, stoerung: null }, true, new Map(), () => weiter++, () => beendet++, {})
+    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: sperre, abbruch, stoerung: null }, true, new Map(), () => weiter++, () => beendet++, {}, null, { now: () => 4242 })
     pruefe(name, weiter === weiterErwartet && beendet === beendetErwartet, { weiter, beendet })
+  }
+  {
+    const gerufen = []
+    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: { code: 'UI3012', reihe: '7' }, abbruch: true, stoerung: null }, true, new Map(), () => {}, () => {}, {}, { stoerung: (...a) => gerufen.push(a) }, { now: () => 4242 })
+    pruefe('Endstelle: UI3012 geht mit Kennung, Grund und Uhrzeit an die Bremse', JSON.stringify(gerufen) === JSON.stringify([['7', 'Netflix zeigt ihn nicht (UI3012)', 4242]]), gerufen)
   }
   pruefe('der Reset steht beim Start des Durchlaufs', /DURCHLAUF\.stoerung = null\n  DURCHLAUF\.titelSperre = null/.test(quelle))
 }
@@ -150,47 +156,136 @@ const funktionText = (kopf) => {
 }
 const jetzt = (ms) => ({ now: () => ms })
 /** `selbstWeiter` als Attrappen-Welt; gibt den Speicher (JSON, wie chrome.storage) und den Merker zurück. */
-const weiterLaufen = () => {
+const weiterLaufen = (o = {}) => {
   const speicher = {}
-  const welt = { gegangen: [], speicher, merker: null }
+  const welt = { gegangen: [], speicher, merker: null, beendet: [], begonnen: [], gezaehlt: null }
   const f = new Function(
-    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis',
-    `let selbstGezaehlt = 0, selbstGrenze = null, zuletztGeoeffnet = null
-${funktionText('function selbstWeiter()')}
-selbstWeiter()
-ergebnis.merker = zuletztGeoeffnet`,
+    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei',
+    `let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
+${funktionText('function selbstWeiter(frei = 0)')}
+selbstWeiter(frei)
+ergebnis.merker = zuletztGeoeffnet
+ergebnis.gezaehlt = selbstGezaehlt`,
   )
   f(
-    { 77: { titel: 'Probe' } }, () => null, () => {}, () => 77,
+    { 77: { titel: 'Probe' } }, () => null, (g) => welt.beendet.push(g), () => (o.naechster === undefined ? 77 : o.naechster),
     async (werte) => { Object.assign(speicher, JSON.parse(JSON.stringify(werte))) },
     (adresse) => welt.gegangen.push(adresse), { log() {} }, jetzt(1000), 'k', 1, welt,
+    o.bremse ?? { pause: () => null, offen: () => 0 }, 'tab-1', { beginn: (r, z) => welt.begonnen.push([r, z]) }, o.start ?? 0, o.frei,
   )
   return welt
 }
 {
   const w = weiterLaufen()
   pruefe('selbstWeiter springt zum nächsten Titel', w.gegangen.join() === '/title/77', w.gegangen)
-  pruefe('selbstWeiter: der Merker im Speicher trägt durchgang (überlebt ein volles Neuladen)', w.speicher.zuletztGeoeffnet?.durchgang === true && w.speicher.zuletztGeoeffnet.id === '77' && w.speicher.zuletztGeoeffnet.zeit === 1000, w.speicher)
+  pruefe('selbstWeiter: der Merker im Speicher trägt durchgang (überlebt ein volles Neuladen)', w.speicher.zuletztGeoeffnet?.durchgang === true && w.speicher.zuletztGeoeffnet.id === '77' && w.speicher.zuletztGeoeffnet.zeit === 1000 && w.speicher.zuletztGeoeffnet.tab === 'tab-1', w.speicher)
   pruefe('selbstWeiter: Merker im Skript und im Speicher sind gleich', JSON.stringify(w.merker) === JSON.stringify(w.speicher.zuletztGeoeffnet), [w.merker, w.speicher])
+}
+{
+  const w = weiterLaufen()
+  pruefe('selbstWeiter: der Sprung trägt den Tab (Melde-Knopf anderer Tabs ignoriert ihn)', w.speicher.zuletztGeoeffnet?.tab === 'tab-1' && w.merker.tab === 'tab-1', w.speicher)
+  pruefe('selbstWeiter: der Titelbericht beginnt mit Kennung und Sprungzeit', JSON.stringify(w.begonnen) === '[[77,1000]]', w.begonnen)
+  const p = weiterLaufen({ bremse: { pause: () => 99999, offen: () => 3 } })
+  pruefe('selbstWeiter in der Pause: kein Sprung, kein Zählen, nichts beendet', p.gegangen.length === 0 && p.gezaehlt === 0 && p.beendet.length === 0 && p.begonnen.length === 0, p)
+  pruefe('selbstWeiter ohne Pause zählt den Sprung', weiterLaufen({ start: 5 }).gezaehlt === 6)
+  pruefe('selbstWeiter(frei=2): die freigegebenen Sprünge zählen nicht mehr', weiterLaufen({ start: 5, frei: 2 }).gezaehlt === 4)
+  pruefe('selbstWeiter(frei=9) fällt nicht unter 0', weiterLaufen({ start: 5, frei: 9 }).gezaehlt === 1)
+  const e = weiterLaufen({ naechster: null, bremse: { pause: () => null, offen: () => 2 } })
+  pruefe('nichts mehr dran, aber 2 Titel in der Bremse: Ende mit eigenem Grund, offen gelassen', e.gegangen.length === 0 && e.beendet.length === 1 && /Netflix zeigte 2 Titel ohne Inhalt/.test(e.beendet[0]), e.beendet)
+  const f = weiterLaufen({ naechster: null })
+  pruefe('nichts mehr dran, Bremse leer: wie bisher „kein offener Auftrag mehr"', f.beendet.length === 1 && f.beendet[0] === 'kein offener Auftrag mehr', f.beendet)
+}
+/* `naechsterAuftrag` überspringt, was die Bremse für diesen Lauf ausgeschlossen hat. */
+{
+  const eintrag = { staffeln: [{ offen: true }] }
+  const lauf = (ausgeschlossen) =>
+    new Function('gemeinteReihe', 'offeneTitel', 'selbstUebersprungen', 'bremse', 'istErledigt', 'fertig', `${funktionText('function naechsterAuftrag()')}\nreturn naechsterAuftrag()`)(
+      () => '0', { 1: eintrag, 2: eintrag, 3: eintrag }, new Map(), { ausgeschlossen: (r) => ausgeschlossen.includes(r) }, () => false, () => false,
+    )
+  pruefe('naechsterAuftrag: ohne Ausschluss der erste Titel', lauf([]) === '1')
+  pruefe('naechsterAuftrag: ausgeschlossene Titel werden übersprungen', lauf(['1', '2']) === '3' && lauf(['1']) === '2')
+  pruefe('naechsterAuftrag: alle ausgeschlossen → null', lauf(['1', '2', '3']) === null)
+}
+/* `laufBeenden` räumt Bremse, Pausenzeile und Besitz ab — den Besitz nur, wenn er diesem Tab gehört. */
+{
+  const beenden = (besitzer) => {
+    const z = { reset: 0, gezeigt: [], besitz: [] }
+    const welt = { selbstAn: true, bremse: { zuruecksetzen: () => z.reset++ }, taktTun: { zeigen: (t) => z.gezeigt.push(t), schreiben: (b) => z.besitz.push(b) }, durchgangBesitzer: besitzer, meinTab: 'a' }
+    new Function(
+      'selbstAn', 'bremse', 'taktTun', 'durchgangBesitzer', 'meinTab', 'DURCHLAUF', 'durchlaufKnopfZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'console', 'akNetflixEnde', 'selbstUebersprungen', 'fertigeTitel', 'selbstGezaehlt', 'offeneTitel', 'vorfallMelden', 'durchgangEndeZeigen',
+      `let durchgangEnde = null\n${funktionText('function laufBeenden(grund)')}\nlaufBeenden('von Hand')`,
+    )(welt.selbstAn, welt.bremse, welt.taktTun, welt.durchgangBesitzer, 'a', {}, () => {}, { removeItem() {} }, 'k', { log() {} }, () => ({}), new Map(), new Set(), 0, {}, () => {}, () => {})
+    return z
+  }
+  let z = beenden({ tab: 'a', puls: 1 })
+  pruefe('laufBeenden: Bremse zurückgesetzt, Pausenzeile weg, eigener Besitz freigegeben', z.reset === 1 && z.gezeigt.length === 1 && z.gezeigt[0] === null && JSON.stringify(z.besitz) === '[null]', z)
+  z = beenden({ tab: 'b', puls: 1 })
+  pruefe('laufBeenden: fremden Besitz nicht anfassen', z.reset === 1 && z.besitz.length === 0, z)
+  z = beenden(null)
+  pruefe('laufBeenden ohne Besitzer: nichts zu lösen', z.besitz.length === 0)
+}
+/* `laufStarten` beginnt mit frischer Bremse (sessionStorage überlebt einen wiederhergestellten Tab). */
+{
+  let reset = 0
+  const ok = new Function(
+    'titelDerAdresse', 'gemeinteReihe', 'offeneTitel', 'naechsterAuftrag', 'bremse', 'selbstUebersprungen', 'selbstStaffelnGeprueft', 'selbstGesammelt', 'selbstVersuche', 'fertigeTitel', 'durchgangEndeZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'Date', 'dialogSchliessen', 'vielleichtSelbstStarten', 'selbstWeiter',
+    `let selbstAn = false, selbstGezaehlt = 9, selbstGrenze = null, selbstVersucht = 'x', selbstSammelStand = 1, durchgangEnde = 1\n${funktionText('function laufStarten()')}\nreturn laufStarten() && selbstAn && selbstGezaehlt === 0`,
+  )(() => null, () => null, { 1: {} }, () => '1', { zuruecksetzen: () => reset++ }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {})
+  pruefe('laufStarten: Start gelingt und die Bremse beginnt frisch', ok === true && reset === 1, { ok, reset })
+}
+/* `selbstStartenSchritt` gibt der Listenwarte die Bremse und meldet ihr einen Erfolg, sobald die Folgenliste da ist. */
+const schrittLaufen = async (durchlauf) => {
+  const z = { bremseOk: 0, tun: null }
+  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }]
+  const f = new Function(
+    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden',
+    `let selbstVersucht = null, selbstWartet = null\n${funktionText('async function selbstStartenSchritt()')}\nreturn selbstStartenSchritt()`,
+  )
+  try {
+    await f(...args)
+  } catch {
+    /* Hinter der Listenprüfung fehlen der Attrappe die Staffel-Helfer; es zählt, was davor geschah. */
+  }
+  return z
+}
+/* `browseWegKnopf`: ein Sprung des Durchgangs bekommt nie den „nicht bei Netflix"-Knopf (Bericht 12.11., Grimgar im neuen Tab). */
+{
+  const knopfFuer = (z) => {
+    const erzeugt = []
+    const el = () => ({ dataset: {}, classList: { add() {} }, remove() {}, appendChild() {} })
+    const r = new Function(
+      'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixBrowseAuftrag', 'Date', 'document', 'netflixKasten', 'totMelden', 'knopfEntfernen',
+      `let knopf = null\n${funktionText('function browseWegKnopf()')}\nreturn browseWegKnopf()`,
+    )({ pathname: '/browse' }, z, { 80020759: { titel: 'Grimgar' } }, akNetflixBrowseAuftrag, jetzt(5000), { createElement: () => { const e = el(); erzeugt.push(e); return e } }, () => ({ querySelector: () => el() }), async () => ({ ok: true }), () => {})
+    return { r, erzeugt: erzeugt.length }
+  }
+  const stand = knopfFuer({ id: '80020759', zeit: 4000, durchgang: true, tab: 'a' })
+  pruefe('Sprung des Durchgangs auf /browse: kein Knopf, nichts gebaut', stand.r === false && stand.erzeugt === 0, stand)
+  const klick = knopfFuer({ id: '80020759', zeit: 4000 })
+  pruefe('Klick aus der Liste auf /browse: Knopf wie bisher', klick.r === true && klick.erzeugt === 1, klick)
 }
 /** `vielleichtSelbstStarten`; `o` überschreibt die Welt. Gibt Zähler für weiter und Schritt zurück. */
 const taktLaufen = (o = {}) => {
-  const z = { weiter: 0, schritt: 0, beendet: 0, uebersprungen: new Map() }
+  const z = { weiter: 0, schritt: 0, beendet: 0, uebersprungen: new Map(), besitz: [], gesehen: 0, gezeigt: [], frei: [] }
+  z.tun = { schreiben: (b) => z.besitz.push(b), beenden: () => z.beendet++, sehen: () => z.gesehen++, zeigen: (t) => z.gezeigt.push(t), weiter: (f) => z.frei.push(f) }
   const welt = {
     selbstAn: true,
     DURCHLAUF: { laeuft: false },
     location: { pathname: '/browse' },
     zuletztGeoeffnet: { id: '540533', zeit: 1000, durchgang: true },
+    durchgangBesitzer: null,
+    bremse: akNetflixBremseOeffnen(new Map(), undefined, null),
     offeneTitel: { 540533: { titel: 'GitS' } },
     ...o,
   }
   const f = new Function(
-    'selbstAn', 'DURCHLAUF', 'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixUmgeleitet', 'Date', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'selbstStartenSchritt', 'laufBeenden',
+    'selbstAn', 'DURCHLAUF', 'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixUmgeleitet', 'Date', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'selbstStartenSchritt', 'laufBeenden', 'akNetflixSelbstTakt', 'durchgangBesitzer', 'meinTab', 'bremse', 'taktTun',
     `${funktionText('async function vielleichtSelbstStarten()')}\nreturn vielleichtSelbstStarten()`,
   )
   return f(
     welt.selbstAn, welt.DURCHLAUF, welt.location, welt.zuletztGeoeffnet, welt.offeneTitel, akNetflixUmgeleitet, jetzt(6000), () => {}, z.uebersprungen,
     () => z.weiter++, async () => { z.schritt++ }, () => z.beendet++,
+    akNetflixSelbstTakt, welt.durchgangBesitzer, 'tab-1', welt.bremse, z.tun,
   ).then(() => z)
 }
 (async () => {
@@ -212,6 +307,28 @@ const taktLaufen = (o = {}) => {
   z = await taktLaufen({ zuletztGeoeffnet: { ...ausSpeicher, zeit: 1000 }, offeneTitel: { 77: { titel: 'Probe' } } })
   pruefe('Round-Trip: Ziel aus dem Speicher auf /browse -> weiter', z.weiter === 1 && z.schritt === 0, z)
 
+  /* Bremse im Takt: Pause und fremder Besitzer halten den Durchgang an, bevor irgendein Schritt läuft (Uhr in der Welt: 6000). */
+  const pausiert = akNetflixBremseOeffnen(new Map(), undefined, null)
+  for (const r of ['1', '2', '3']) pausiert.stoerung(r, 'x', 6000)
+  z = await taktLaufen({ bremse: pausiert, location: { pathname: '/title/540533' } })
+  pruefe('Takt in der Pause: kein Schritt, kein Weiter, Pausentext im Kasten', z.schritt === 0 && z.weiter === 0 && z.gezeigt.length === 1 && /Pause bis/.test(z.gezeigt[0]), z)
+  const vorbei = akNetflixBremseOeffnen(new Map(), undefined, null)
+  for (const r of ['1', '2', '3']) vorbei.stoerung(r, 'x', 6000 - 10 * 60 * 1000)
+  z = await taktLaufen({ bremse: vorbei, location: { pathname: '/title/540533' } })
+  pruefe('Takt am Pausenende: weiter(3) und kein Schritt in diesem Takt', z.schritt === 0 && JSON.stringify(z.frei) === '[3]' && z.gezeigt[0] === null, z)
+  z = await taktLaufen({ durchgangBesitzer: { tab: 'anderer', puls: 5000 }, location: { pathname: '/title/540533' } })
+  pruefe('Takt mit lebendem fremdem Besitzer: Durchgang endet, kein Schritt', z.beendet === 1 && z.schritt === 0 && z.besitz.length === 0, z)
+  z = await taktLaufen({ durchgangBesitzer: { tab: 'anderer', puls: 6000 - 90000 }, location: { pathname: '/title/540533' } })
+  pruefe('Takt mit totem fremdem Besitzer (Tab zu): übernommen, Schritt läuft', z.beendet === 0 && z.schritt === 1 && JSON.stringify(z.besitz) === '[{"tab":"tab-1","puls":6000}]' && z.gesehen === 1, z)
+
+  /* Schritt: Verdrahtung der Listenwarte und des Erfolgs. */
+  z = await schrittLaufen({ laeuft: false, folgen: [], listeFuer: null })
+  pruefe('Schritt ohne Folgenliste: die Listenwarte bekommt die Bremse, kein Erfolg', z.tun?.bremse !== undefined && typeof z.tun.bremse.ok === 'function' && z.tun.vollLaden?.versucht !== undefined && z.bremseOk === 0, z)
+  z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '5' })
+  pruefe('Schritt mit Folgenliste dieser Seite: die Bremse meldet Erfolg genau einmal', z.bremseOk === 1 && z.tun === null, z)
+  z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '4' })
+  pruefe('Schritt mit Folgenliste eines anderen Titels: kein Erfolg', z.bremseOk === 0, z)
+
   /* Logzeile: übersprungener Titel heißt "Übersprungen", nur ein echter Abbruch "Abgebrochen". */
   const warnBlock = (() => {
     const von = quelle.indexOf('  if (DURCHLAUF.stoerung) {\n    /*\n      Dieselbe Trennung')
@@ -222,7 +339,7 @@ const taktLaufen = (o = {}) => {
     akNetflixStoerung(D, code, { reihe: 1, ziel: 5, folge: 1, vorfall() {} })
     const logs = []
     const ende = quelle.slice(quelle.indexOf('  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen('), quelle.indexOf('\n  }\n', quelle.indexOf('laufBeenden(DURCHLAUF.abbruch')) + 5)
-    new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', ende)(akNetflixTitelUeberspringen, D, true, new Map(), () => {}, () => {}, {})
+    new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', 'bremse', ende)(akNetflixTitelUeberspringen, D, true, new Map(), () => {}, () => {}, {}, null)
     new Function('DURCHLAUF', 'console', warnBlock)(D, { warn: (t) => logs.push(t) })
     return logs.join(' ')
   }

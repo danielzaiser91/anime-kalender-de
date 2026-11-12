@@ -23,6 +23,7 @@ const kontext = { globalThis: null }
 kontext.globalThis = kontext
 vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
+vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
 vm.runInContext(lies('netflix-zurueckgestellt.js'), kontext)
 const neu = kontext.akNetflixZurueckNeu
 pruefe('Fabrik erreichbar', typeof neu === 'function')
@@ -186,7 +187,7 @@ async function verdrahtung() {
   /* Verdrahtung */
   const melder = lies('melder.js')
   pruefe('melder.js legt die Merkliste mit der Fabrik an', /const selbstUebersprungen = akNetflixZurueckNeu\(/.test(melder))
-  pruefe('… der Knopf nutzt keinAuftrag() statt festem Text', /selbstUebersprungen\.keinAuftrag\(\)\.text/.test(melder))
+  pruefe('… der Knopf nutzt keinAuftrag() statt festem Text', /selbstUebersprungen\.keinAuftrag\(\)/.test(melder) && /selbst\.textContent = hinweis\.text/.test(melder))
   pruefe('… und hängt die Zahl an die Endanzeige', /selbstUebersprungen\.zurueckText\(\)/.test(melder))
   const manifest = JSON.parse(lies('manifest.json'))
   const js = manifest.content_scripts.find((c) => c.js.includes('melder.js')).js

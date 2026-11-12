@@ -17,7 +17,7 @@ const ERINNERN_NACH_MS = 3000
 
 /**
  * Ein Takt des Wartens auf die Folgenliste. `wartet`: `{ seite, seit, entschieden? }` oder `null`;
- * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale? }` (`merkmale()`: Seitenmerkmale für die Spur); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter }`.
+ * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale? }` (`merkmale()`: Seitenmerkmale für die Spur); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter, bremse? }` (`bremse`: `netflix-durchgang-steuerung.js`).
  * Gibt den neuen Wartestand zurück.
  */
 globalThis.akNetflixListeWarten = (wartet, o, tun) => {
@@ -25,14 +25,32 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   if (wartet.entschieden) return wartet
   const dauer = o.jetzt - wartet.seit
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
-  if (o.erinnern && dauer >= ERINNERN_NACH_MS) {
-    tun.spur('Erinnern statt Folgenliste', { ...dazu, seite: o.merkmale?.() })
+  const erinnernJetzt = o.erinnern && dauer >= ERINNERN_NACH_MS
+  if (!erinnernJetzt && dauer <= o.frist) return wartet
+  const merkmale = o.merkmale?.()
+  /* Ohne Titelfenster stammt auch „Erinnern" aus dem Billboard der Startseite: die ganze Frist warten, dann zählt es als Störung der Sitzung. */
+  if (tun.bremse && globalThis.akNetflixTitelfensterLeer(merkmale)) {
+    if (dauer <= o.frist) return wartet
+    /* Der Sprung per pushState (`gehe`) ist unser eigener Weg und könnte das Fenster verhindern: erst einmal voll laden, wie ein Klick auf den Link. */
+    if (tun.vollLaden && !tun.vollLaden.versucht(o.reihe)) {
+      tun.spur('Titelfenster ohne Inhalt: Seite wird voll geladen', { ...dazu, seite: merkmale })
+      tun.vollLaden.laden(o.reihe)
+      return { ...wartet, entschieden: true }
+    }
+    tun.spur('Titelfenster ohne Inhalt', { ...dazu, seite: merkmale })
+    const nachLaden = tun.vollLaden ? ', auch nach vollem Laden' : ''
+    tun.bremse.stoerung(o.reihe, `Titelfenster ohne Inhalt in ${Math.round(o.frist / 1000)} s${nachLaden}`, o.jetzt)
+    tun.weiter()
+    return { ...wartet, entschieden: true }
+  }
+  tun.bremse?.ok()
+  if (erinnernJetzt) {
+    tun.spur('Erinnern statt Folgenliste', { ...dazu, seite: merkmale })
     tun.uebersprungen.set(o.reihe, 'Erinnern statt Folgenliste')
     tun.weiter()
     return { ...wartet, entschieden: true }
   }
-  if (dauer <= o.frist) return wartet
-  tun.spur('keine Folgenliste', { ...dazu, seite: o.merkmale?.() })
+  tun.spur('keine Folgenliste', { ...dazu, seite: merkmale })
   tun.uebersprungen.set(o.reihe, `keine Folgenliste in ${Math.round(o.frist / 1000)} s`)
   tun.weiter()
   return null
@@ -73,13 +91,19 @@ globalThis.akNetflixStoerung = (durchlauf, code, o) => {
   }
 }
 
-/** Am Ende eines Durchlaufs: `true`, wenn der Titel übersprungen wurde und der Durchgang weitergeht. */
-globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter) => {
+/**
+ * Am Ende eines Durchlaufs: `true`, wenn der Titel übersprungen wurde und der Durchgang weitergeht.
+ * UI3012 (Verbindungsfehler, am 12.11.2026 gemessen: sieben Titel in Folge) sagt etwas über die Sitzung, nicht über den Titel: er geht an die
+ * `bremse` (`netflix-durchgang-steuerung.js`) statt in `uebersprungen`.
+ */
+globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter, bremse, jetzt) => {
   const sperre = durchlauf.titelSperre
   if (!sperre) return false
   durchlauf.titelSperre = null
   durchlauf.titelUebersprungen = true
-  uebersprungen.set(sperre.reihe, `Netflix zeigt ihn nicht (${sperre.code})`)
+  const grund = `Netflix zeigt ihn nicht (${sperre.code})`
+  if (bremse && sperre.code === 'UI3012') bremse.stoerung(sperre.reihe, grund, jetzt)
+  else uebersprungen.set(sperre.reihe, grund)
   weiter()
   return true
 }
