@@ -648,5 +648,6 @@ tools/test-netz-wache.mjs
 tools/uhr-in-tests.mjs
 tools/web-hosting.test.ts
 tools/web-push-voll.test.ts
+tools/werkzeug-ohne-test-wache.mjs
 tools/workflow-abbruch-waechter.mjs
 tools/workflow-ohne-pakete.mjs
