@@ -5910,13 +5910,6 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B0B8MTPWRN: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
-- anilistId: 20719
-  title: "Chaika, die Sargprinzessin: Avenging Battle"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B07LHFLDBS
-  available: false
-  checkedAt: '2026-08-24'
-  note: "Amazon-Seite B07LHFLDBS: alle 12 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 1, zugang=kauf_oder_leihe"
 - anilistId: 1530
   title: "Kanon"
   platform: primevideo
@@ -5959,13 +5952,6 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CKPFDTQQ: Film geprüft, Abos: crunchyrollde, Seitenadresse: B0CKPJ479M, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 146493
-  title: "Ragna Crimson"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B07LHFLDBS
-  dub: false
-  checkedAt: '2026-08-24'
-  note: "Amazon-Seite B07LHFLDBS: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 1, zugang=kauf_oder_leihe"
 - anilistId: 196935
   title: "Akane-banashi"
   platform: primevideo

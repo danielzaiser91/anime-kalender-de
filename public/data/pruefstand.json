@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-12T11:53:23.297Z",
+ "erzeugtAm": "2026-11-12T17:15:09.054Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 972,
-   "gesamt": 1007,
-   "offen": 35,
+   "gesamt": 1005,
+   "offen": 33,
    "ohneSeite": 4,
    "suchAdressen": [
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
@@ -95,10 +95,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0B6R47YQ3",
      "titel": "Kuroko’s Basketball: 3rd Season (Kuroko's Basketball 3)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
-     "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
