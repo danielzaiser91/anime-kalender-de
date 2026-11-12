@@ -3,9 +3,10 @@
  * Git-Anschluss (`pr-nachrechnen-leser-git.mjs`) über einem Fake-git. Der Baum nennt die bewegte Datei `data/crunchyroll-woche.json`
  * wie der Anlassfall PR 2043 (Workflow-PR gegen Bot-Daten).
  */
+import { readFileSync } from 'node:fs'
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { GIT_TIMEOUT_MS, SUCHORDNER, gitAufrufMit, gitLeser, inhalte } from './pr-nachrechnen-leser-git.mjs'
-import { bewegtesGelesen, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, ordnerLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
+import { bewegtesGelesen, endungsAuswertung, geaenderteSkripte, importZiele, leserIn, ohneKommentare, ohneLeser, ordnerLeser, pfadTokens, trifft } from './pr-nachrechnen-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -287,6 +288,18 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Ordner: Markdown ist kein lesbarer Code -> null', mitText("readFileSync('data/' + f)\n", 'docs/x.md') === null)
   pruefe('ordnerLeser: nur eine Datei unter dem Token, nicht der Token selbst', ordnerLeser("x('data/' + f)\n", ['data/a/b.json']) === 'data/a/b.json' && ordnerLeser("x('data/a.json')\n", ['data/a.json']) === undefined)
   pruefe('ordnerLeser: Ordnername als Namensanfang (data/a gegen data/ab.json) -> kein Treffer', ordnerLeser("fs.readdirSync('data/a')\n", ['data/ab.json']) === undefined && ordnerLeser("fs.readdirSync('data/a')\n", ['data/a/b.json']) === 'data/a/b.json')
+  // Schreibzugriff-Anhang (PR 3541, 12.11.2026): Quelltext wörtlich aus pipeline/check-anisearch-traeger-geplant.ts (Zeile mit `schreibe(`data/${leer}`…)`).
+  const TRAEGER = readFileSync('pipeline/check-anisearch-traeger-geplant.ts', 'utf8')
+  const PATCHNOTE = 'data/patchnotes/_ueberarbeitet-bis.txt'
+  pruefe('Schreibzugriff: echter Quelltext check-anisearch-traeger-geplant.ts liest keinen Ordner data/', ordnerLeser(TRAEGER, [PATCHNOTE]) === undefined, ordnerLeser(TRAEGER, [PATCHNOTE]))
+  pruefe('Schreibzugriff: schreibe(`data/${n}`) und writeFileSync(`data/${n}`) -> kein Treffer', ordnerLeser('schreibe(`data/${n}`, x)\n', [PATCHNOTE]) === undefined && ordnerLeser('writeFileSync(`data/${n}`, x)\n', [PATCHNOTE]) === undefined)
+  pruefe('Schreibzugriff: mkdirSync(join(w, `data/${n}`)) -> kein Treffer', ordnerLeser('mkdirSync(join(w, `data/${n}`))\n', [PATCHNOTE]) === undefined)
+  pruefe('Schreibzugriff: readdirSync(`data/${n}`) und readFileSync(`data/${n}`) bleiben Leser', ordnerLeser('readdirSync(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE && ordnerLeser('readFileSync(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: Schreiben und Lesen in einer Zeile (; dazwischen) -> Leser bleibt', ordnerLeser('schreibe(a, b); pfad(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: copyFileSync(`data/${n}`, ziel) liest die Quelle -> Leser bleibt (PR 3555, check-patchnotes-stempel-flach)', ordnerLeser('copyFileSync(`data/${n}`, ziel)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: echter Quelltext check-patchnotes-stempel-flach.ts liest tools/', ordnerLeser(readFileSync('pipeline/check-patchnotes-stempel-flach.ts', 'utf8'), ['tools/x.mjs']) === 'tools/x.mjs')
+  pruefe('Schreibzugriff: Lesung im Schreibaufruf (writeFileSync(x, readFileSync(`data/${n}`))) bleibt Leser', ordnerLeser('writeFileSync(x, readFileSync(`data/${n}`))\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: Schreiben in der Vorzeile entlastet die Leseszeile nicht', ordnerLeser('schreibe(a, b)\npfad(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
   // PR 3367/3282 (11.11.2026): Zeilen wörtlich aus tools/sammler-pruefschritt-waechter.mjs und tools/logik-beleg.test.mjs; bewegt: die Ausführungsliste.
   const LISTE_TXT = 'tools/check-logic-liste.txt'
   const SAMMLER = "const skripte = Object.fromEntries(readdirSync(join(wurzel, 'tools')).filter((f) => f.endsWith('.sh')).map((f) => [f, lies(`tools/${f}`)]))\n"
@@ -330,6 +343,24 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Gegenprobe: dieselbe Nennung in tools/ -> Grund', hook('tools/a.mjs', HOOK_NAME) === `der PR liest ${F} (tools/a.mjs)`, hook('tools/a.mjs', HOOK_NAME))
   const gemischt = bewegtesGelesen({ bewegt: [F], pr: ['.claude/hooks/a.js', 'tools/a.mjs'], leser: LESER, lies: (p) => (p === 'tools/a.mjs' ? HOOK_NAME : lies(p)), paketSkripte: null })
   pruefe('.claude/ zusammen mit echtem Leser im PR -> Grund bleibt', gemischt === `der PR liest ${F} (tools/a.mjs)`, gemischt)
+}
+
+{
+  // Anlass 12.11.2026: der eigene Quelltext enthält ein Template, das ENDUNG_REGEX trifft und keine gültige Regex ergibt ("Nothing to repeat").
+  const EIGEN = readFileSync(new URL('./pr-nachrechnen-leser.mjs', import.meta.url), 'utf8')
+  const alsAuswertung = (() => { try { return endungsAuswertung(ohneKommentare(EIGEN)) } catch (e) { return String(e) } })()
+  pruefe('Eigener Quelltext: Endungs-Auswertung wirft nicht und zählt genau 1 ungültiges Muster', typeof alsAuswertung === 'object' && alsAuswertung.uebersprungen === 1, alsAuswertung)
+  pruefe('Eigener Quelltext: gültige Muster daneben bleiben (Tests aus endsWith und Regex)', typeof alsAuswertung === 'object' && alsAuswertung.tests.length >= 1)
+  const GUELTIG = "readdirSync('tools').filter((f) => /\\.ya?ml$/.test(f))\n"
+  pruefe('Gültiges Muster zählt nicht als übersprungen', endungsAuswertung(GUELTIG).uebersprungen === 0 && endungsAuswertung(GUELTIG).tests.length === 1)
+  const mitEigen = `${GUELTIG}${EIGEN}`
+  let urteil
+  try { urteil = ordnerLeser(mitEigen, ['tools/a.yml', 'tools/b.csv']) } catch (e) { urteil = String(e) }
+  pruefe('Eigener Quelltext + yml-Filter: ordnerLeser wirft nicht, yml bleibt Treffer, csv nicht', urteil === 'tools/a.yml', urteil)
+  const g = bewegtesGelesen({ bewegt: ['tools/a.yml'], pr: ['tools/leser.mjs'], leser: LESER, lies: (p) => (p === 'tools/leser.mjs' ? mitEigen : lies(p)), paketSkripte: null })
+  pruefe('Grund-Text nennt die übersprungenen Muster', typeof g === 'string' && /Verzeichnis nicht eindeutig \(1 Endungs-Muster ohne gültige Regex übersprungen\)$/.test(g), g)
+  const ohne = bewegtesGelesen({ bewegt: ['tools/a.yml'], pr: ['tools/leser.mjs'], leser: LESER, lies: (p) => (p === 'tools/leser.mjs' ? GUELTIG : lies(p)), paketSkripte: null })
+  pruefe('Ohne ungültiges Muster bleibt der Grund-Text ohne Zusatz', typeof ohne === 'string' && ohne.endsWith('Verzeichnis nicht eindeutig'), ohne)
 }
 
 if (fehler.length > 0) {
