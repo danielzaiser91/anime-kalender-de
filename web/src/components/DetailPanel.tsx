@@ -1,14 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { DiscAusgabe, Release } from '@shared/types.ts'
-import { addDays, todayIso } from '@shared/time.ts'
+import { useEffect, useMemo, useState } from 'react'
+import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
-import {
-  ladeTitelBestand,
-  loadDiscAusgaben,
-  loadSynopsis, type Synopsis
-} from '../lib/data.ts'
+import { loadSynopsis, type Synopsis } from '../lib/data.ts'
 import { useEscape } from '../lib/escape.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
@@ -41,6 +36,8 @@ import { kastenNotizVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
 import { PANEL_SCHLEIER } from './detail/schleier.ts'
+import { useDiscAusgaben, useReihenWechsel, useTitelNachladen } from './detail/panel-laden.ts'
+import { useReleaseSichten } from './detail/release-sichten.ts'
 
 export function DetailPanel({
   data,
@@ -82,20 +79,7 @@ export function DetailPanel({
   /** Die ersten drei Genres reichen fuer die Frage "ist das meins?". */
   const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
-  const [discAusgaben, setDiscAusgaben] = useState<DiscAusgabe[]>([])
-
-  useEffect(() => {
-    let alive = true
-    setDiscAusgaben([])
-    loadDiscAusgaben(titleId)
-      .then((a) => {
-        if (alive) setDiscAusgaben(a)
-      })
-      .catch(() => {})
-    return () => {
-      alive = false
-    }
-  }, [titleId])
+  const discAusgaben = useDiscAusgaben(titleId)
 
   useEffect(() => {
     let alive = true
@@ -185,12 +169,6 @@ export function DetailPanel({
       Zeile bleibt weg wie bisher.
   */
 
-  /**
-   * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
-   * in `titles.json`, das im Kalender nicht geladen ist. Erst holen, dann
-   * öffnen, sonst zeigt das Panel „keine Metadaten".
-   */
-  const [wechselt, setWechselt] = useState(false)
   /*
     **Lange Reihen brauchen Suche und einen Aufklapper** (die Reiter wichen am 20.10.2026 den Zeilen je Gruppe) (Daniel, 17.09.2026, Pokémon
     mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
@@ -200,26 +178,7 @@ export function DetailPanel({
   const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
   const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
-  /**
-   * **Ein Titel, den der Kern nicht kennt, wird nachgeladen.**
-   *
-   * `titles-core.json` führt nur, worauf ein Termin zeigt — ein Reihenteil ohne
-   * deutschen Termin steht dort nicht. Beim Einstieg über eine geteilte Adresse
-   * ist das der Unterschied zwischen dem Panel und einer Fehlermeldung.
-   *
-   * Genau einmal je Kennung: `versucht` merkt sich, wofür schon geladen wurde,
-   * damit ein wirklich unbekannter Titel nicht in eine Schleife läuft.
-   */
-  const [holt, setHolt] = useState(false)
-  const versucht = useRef<number | undefined>(undefined)
-  useEffect(() => {
-    if (data.titleById.has(titleId) || versucht.current === titleId) return
-    versucht.current = titleId
-    setHolt(true)
-    ladeTitelBestand(data, titleId)
-      .catch(() => {})
-      .finally(() => setHolt(false))
-  }, [data, titleId])
+  const holt = useTitelNachladen(data, titleId)
 
 
   /**
@@ -242,63 +201,7 @@ export function DetailPanel({
   const sortiertNachZugang = useMemo(() => {
     return sortiereNachZugang({ title })
   }, [title])
-  /**
-   * Ausgaben, die es noch nicht gibt.
-   *
-   * Sie stehen in einer eigenen Reihe, damit "vorbestellen" einmal ueber der
-   * Reihe steht statt in jeder Pille — und damit ein kuenftiger Termin nicht
-   * neben einem Angebot steht, das man heute nutzen kann.
-   *
-   * Gefiltert wird ueber das Startdatum, nicht ueber den Status: Ein Release,
-   * das erst naechsten Monat erscheint, ist kein Bezugsweg, sondern ein Termin.
-   */
-  /*
-    **Jedes Release ist ein Weg, nicht nur das künftige.**
-
-    Ein Release **ist** ein Bezugsweg: Es sagt, wo etwas herkommt und ab wann.
-    Beides passt in eine Pille — Name und Verlag oben, Datum unten, Kalender
-    rechts. Der Abschnitt darunter sagte dasselbe in zwölf Zeilen.
-
-    Getrennt wird nach Art: Eine Disc gehört zu den Kaufwegen, alles Übrige
-    zum Stream.
-  */
-  const discReleases = useMemo(
-    () => releases.filter((r) => r.releaseType === 'disc'),
-    [releases],
-  )
-  /*
-    **Ein Anbieter, eine Pille — auch wenn ein Release dieselbe Plattform
-    meint.**
-
-    Der erste Wurf gab jedem Release eine eigene Pille, und bei „Apothekerin"
-    Staffel 1 stand „Crunchyroll" dadurch zweimal in derselben Zeile: einmal
-    als Anbieter mit „DE ✓", einmal als Release mit „seit 18.11.2023". Zwei
-    Pillen, ein Weg — genau die Dopplung, gegen die `CLAUDE.md` eine eigene
-    Regel führt.
-
-    Das Datum gehört an die Pille, die es betrifft. Eine eigene bekommt nur,
-    was sonst gar nicht dastehen würde.
-  */
-  const releaseJePlattform = useMemo(() => {
-    const je = new Map<string, Release>()
-    for (const r of releases) if (!je.has(r.platform)) je.set(r.platform, r)
-    return je
-  }, [releases])
-  /*
-    **Der Kinostart steht im Banner, nicht als Pille** (17.09.2026). Gezeigt wird er,
-    solange er läuft (belegter letzter Spieltag) oder bevorsteht — und bis 60 Tage nach
-    dem Start, solange niemand ein Ende belegt hat.
-  */
-  const kinoRelease = useMemo(
-    () =>
-      releases
-        .filter((r) => r.platform === 'kino' && r.schedule?.firstEpisodeDate)
-        .filter((r) =>
-          r.cinemaUntil ? r.cinemaUntil >= today : r.schedule!.firstEpisodeDate! >= addDays(today, -60),
-        )
-        .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0],
-    [releases, today],
-  )
+  const { discReleases, releaseJePlattform, kinoRelease } = useReleaseSichten(releases, today)
   const terminReleases = useTerminReleases(releases, title, kinoRelease?.slug, today)
   /* Führt der Titel den Anbieter schon als Link, steht dort dessen Pille; der Termin allein erst vor der ersten Folge. */
   const streamReleases = useMemo(
@@ -342,33 +245,7 @@ export function DetailPanel({
   /* Die Folgenangabe kommt aus `detail/folgen-angabe.ts` (Zerlegung, 29.09.2026) — einmal gebunden. */
   const folgenAngabeFuer = folgenAuskunft({ releases, title, t, releaseJePlattform, today })
 
-  const wechsleZu = (id: number) => {
-    if (id === titleId) return
-    if (data.titleById.has(id)) {
-      onOpenTitle(id)
-      return
-    }
-    setWechselt(true)
-    /*
-      **Beide Bestände holen, nicht nur den Hauptbestand.**
-
-      Seit die Reihenliste auch die Teile aus dem Katalog zeigt, kann der Klick
-      auf einen davon fallen: `loadAllTitles` lädt `titles.json`, und dort steht
-      ein Titel ohne belegte Synchro nicht. Das Panel meldete dann „Zu diesem
-      Eintrag liegen keine Metadaten vor" — und derselbe Klick funktionierte,
-      sobald der Toggle den Katalog geladen hatte.
-
-      Ein Eintrag, den die Liste zeigt, muss sich auch öffnen lassen. Beide
-      Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
-      nichts, das Paar kostet also nur beim ersten Wechsel etwas.
-    */
-    ladeTitelBestand(data, id)
-      .catch(() => {})
-      .finally(() => {
-        setWechselt(false)
-        onOpenTitle(id)
-      })
-  }
+  const { wechselt, wechsleZu } = useReihenWechsel(data, titleId, onOpenTitle)
 
   /**
    * Die Antwort auf die Frage, wegen der jemand dieses Panel öffnet.
