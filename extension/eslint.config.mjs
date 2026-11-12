@@ -82,6 +82,8 @@ export default [
         akNetflixStoerung: 'readonly',
         akNetflixTitelUeberspringen: 'readonly',
         akNetflixUmgeleitet: 'readonly',
+        akNetflixEndeZeigen: 'readonly',
+        akNetflixBrowseAuftrag: 'readonly',
         akNetflixZurueckNeu: 'readonly',
         akNetflixBericht: 'readonly',
         akNetflixVollMelden: 'readonly',

@@ -1628,18 +1628,7 @@ function browseWegKnopf() {
     jetzt dort angeboten, wo er auffällt — solange der Klick keine Minute her ist.
   */
   if (/^\/(?:[a-z-]+\/)?browse\b/.test(location.pathname)) {
-    const auftrag = (() => {
-      try {
-        return zuletztGeoeffnet?.id &&
-          !zuletztGeoeffnet.verbraucht &&
-          offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-          Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000
-          ? zuletztGeoeffnet
-          : null
-      } catch {
-        return null
-      }
-    })()
+    const auftrag = akNetflixBrowseAuftrag(zuletztGeoeffnet, offeneTitel, Date.now())
     if (auftrag) {
       /* Ein Melde-Knopf der vorigen Titelseite trägt `melden` als Hörer — weg damit. */
       if (knopf && !knopf.dataset.weg) knopfEntfernen()
@@ -2428,25 +2417,7 @@ let durchgangEnde = null
 const fertigeTitel = new Set()
 
 function durchgangEndeZeigen() {
-  try {
-    const zeile = netflixKasten().querySelector('.ak-z-melden')
-    if (!zeile) return
-    let el = zeile.querySelector('.ak-durchgang-ende')
-    if (!durchgangEnde) return el?.remove()
-    if (!el) {
-      el = document.createElement('div')
-      el.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.appendChild(el)
-    }
-    el.classList.toggle('ak-durchgang-rot', Boolean(durchgangEnde.rot))
-    el.textContent =
-      (durchgangEnde.grund === 'kein offener Auftrag mehr' ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
-      durchgangEnde.uebersprungenText +
-      (selbstUebersprungen.zurueckText() + durchgangEnde.text)
-    el.title = durchgangEnde.grund
-  } catch {
-    /* Eine Anzeige darf den Takt nicht aufhalten. */
-  }
+  akNetflixEndeZeigen(() => netflixKasten().querySelector('.ak-z-melden'), durchgangEnde, selbstUebersprungen.zurueckText())
 }
 
 function laufStarten() {

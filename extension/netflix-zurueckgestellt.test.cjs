@@ -23,6 +23,7 @@ const kontext = { globalThis: null }
 kontext.globalThis = kontext
 vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
+vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
 vm.runInContext(lies('netflix-zurueckgestellt.js'), kontext)
 const neu = kontext.akNetflixZurueckNeu
 pruefe('Fabrik erreichbar', typeof neu === 'function')

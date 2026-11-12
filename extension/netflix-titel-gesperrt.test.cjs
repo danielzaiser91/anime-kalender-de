@@ -25,6 +25,7 @@ const kontext = { globalThis: null }
 kontext.globalThis = kontext
 vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
+vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
 const { akNetflixStoerung, akNetflixTitelUeberspringen, akNetflixUmgeleitet } = kontext
 
 /* --- Störung im Durchlauf --- */
