@@ -71,8 +71,8 @@ async function pruefeStaffeln(melder) {
   pruefe('Kopf: besucht 0 (nichts zu tun) → nicht rot', nichtBesucht.rot === false, nichtBesucht)
   const einBesucht = g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(), 1, titel, new Set())
   pruefe('Kopf: besucht genau 1, gemessen 0 → rot (Schwelle > 0)', einBesucht.rot === true, einBesucht)
-  const kopf = melder.slice(melder.indexOf('function durchgangEndeZeigen()'), melder.indexOf('function laufStarten()'))
-  pruefe('melder.js: Kopfzeile nutzt uebersprungenText und färbt rot, keine Namensliste mehr', kopf.includes('durchgangEnde.uebersprungenText') && kopf.includes('ak-durchgang-rot') && !kopf.includes('namen.join'), kopf.length)
+  const kopf = readFileSync(__dirname + '/netflix-durchgang-steuerung.js', 'utf8')
+  pruefe('melder.js: Kopfzeile nutzt uebersprungenText und färbt rot, keine Namensliste mehr', kopf.includes('ende.uebersprungenText') && kopf.includes('ak-durchgang-rot') && !kopf.includes('namen.join'), kopf.length)
   pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt, offeneTitel, undefined, vorfallMelden)'))
 }
 

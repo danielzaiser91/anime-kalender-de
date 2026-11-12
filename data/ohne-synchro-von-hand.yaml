@@ -114,11 +114,13 @@
     - https://www.anisearch.de/anime/12640
 
 - anilistId: 100537
-  title: 'Servamp: Alice in the Garden (angekündigt, ohne Datum)'
+  title: 'Servamp: Alice in the Garden (Kino 2018 mit Untertiteln; Blu-ray mit deutscher Sprachfassung angekündigt, ohne Termin)'
   belegtAm: '2026-10-06'
-  zitat: 'aniSearch /v1/anime/dubs 13018: dubbed = ja; de nur geplant, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  zitat: 'aniSearch Dub-Kennung 13018: p (geplant), keine deutsche Tonspur; Kinoausgabe 2018 nur mit deutschen Untertiteln (anime2you 224243); Blu-ray mit deutscher Sprachfassung angekündigt am 10.04.2026, ohne Termin (anime2you 999789); von Daniel von Hand bestätigt.'
   sources:
     - https://www.anisearch.de/anime/13018
+    - https://www.anime2you.de/news/224243/
+    - https://www.anime2you.de/news/999789/servamp-hardball-films-lizenz/
 
 - anilistId: 20945
   title: 'Fate/kaleid liner Prisma Illya 2wei! Short Anime'
