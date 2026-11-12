@@ -327,6 +327,17 @@ async function kachelStartzeileFall(): Promise<void> {
     pruefe(`Kachel (${variante}): die Stelle ist die Startzeile mit „1. April“, nicht die Überschrift weiter unten`, s !== undefined && s.oben < 600 && s.unten - s.oben < 60, JSON.stringify(s))
     pruefe(`Kachel (${variante}): der Nachbar mit „6. April“ bekommt für den 1. April nicht die Startzeile von Dorohedoro`, nachbar === undefined || nachbar.oben > 1000, JSON.stringify(nachbar))
   }
+  const faelle: [string, string, string, (s: Awaited<ReturnType<typeof stuetzstelle>>) => boolean][] = [
+    ['flach: eine Zeile mit fremdem Titel („Kill Blue Start: 11. April“) ist nicht die Startzeile von Dorohedoro', '<p>Dorohedoro S2 Staffel</p><p style="margin-top:300px">Kill Blue Start: 11. April</p>', '2026-04-11', (s) => !s || s.unten < 300],
+    ['Kachel mit Termin als erstem Kind: die Terminzeile des Nachbarn gehört nicht zu Dorohedoro', '<div><p>Dorohedoro S2 Staffel</p><p>Start: 1. April</p></div><div style="margin-top:300px"><p>Start: 11. April</p><p>Kill Blue</p></div>', '2026-04-11', (s) => !s || s.unten < 300],
+    ['direkte Zeile und Kachelzeile zugleich: die direkte Zeile gewinnt', '<div><div>Dorohedoro S2 Staffel</div><p>Start: 1. April – 16 Uhr</p></div><p style="margin-top:400px">Dorohedoro S2 Wiederholung am 1. April um 18 Uhr.</p>', '2026-04-01', (s) => !!s && s.oben > 400],
+  ]
+  for (const [name, html, tag, ok] of faelle) {
+    await seite.setContent(`<!doctype html><html><body style="margin:0"><article><h1>Neue Simulcasts</h1>${html}</article></body></html>`)
+    await seite.evaluate('window.__name = (f) => f')
+    const s = await stuetzstelle(seite, ['Dorohedoro'], [tag])
+    pruefe(`Kachel: ${name}`, ok(s), JSON.stringify(s))
+  }
   await browser.close()
 }
 
