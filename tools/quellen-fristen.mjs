@@ -52,8 +52,8 @@ export const FRISTEN = {
   /*
     Quellen, die bei jedem Tageslauf (refresh-data.yml) oder öfter laufen und bis zum 26.10.2026 unbemerkt auf der
     Standardfrist standen. Frist 3 = Taktung plus zwei Tage Luft, wie `crunchyroll-neu`; Gesundheitsdatei vom 26.10.2026:
-    alle zuletzt vor weniger als einem Tag erfolgreich. `tv-de` und `messbelege` laufen stündlich; `messbelege` zählt
-    eine leere Warteschlange als Erfolg (`leerIstOk`).
+    alle zuletzt vor weniger als einem Tag erfolgreich. `messbelege` läuft stündlich und zählt
+    eine leere Warteschlange als Erfolg (`leerIstOk`). `tv-de` steht seit 12.11.2026 auf Frist 30 (Runner-Sperre, s. unten).
   */
   adn: 3,
   anime2you: 3,
