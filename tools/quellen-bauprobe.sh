@@ -46,8 +46,13 @@ quellen_bauprobe_basis() {
 
 # ✖-Zeilen der roten Prüfung (höchstens 20, der Rest gezählt), ohne die Zeilen der Basis-Gegenprobe ("[Basis …]"). Anlass: PR 3528 nannte nur „1 Verstöße“ (12.11.2026).
 quellen_verstoss_zeilen() {
-  local zeilen gesamt
-  zeilen="$(grep -E '✖' "$1" | grep -v '^\[Basis' || true)"
+  local zeilen gesamt status=0
+  # grep: Exit 1 = kein Treffer (gültig), jeder andere Wert (z. B. 2 = Datei fehlt) ist ein Fehler und wird weitergegeben.
+  zeilen="$(grep -E '✖' "$1")" || status=$?
+  [ "$status" -le 1 ] || return "$status"
+  [ -n "$zeilen" ] || return 0
+  zeilen="$(printf '%s\n' "$zeilen" | grep -v '^\[Basis')" || status=$?
+  [ "$status" -le 1 ] || return "$status"
   [ -n "$zeilen" ] || return 0
   gesamt="$(printf '%s\n' "$zeilen" | wc -l)"
   printf '%s\n' "$zeilen" | head -20
@@ -84,7 +89,7 @@ quellen_bauprobe() {
     return 0
   fi
   echo "Der Probebau (Datensatz bauen, Bestandsprüfungen) endete mit Exit $status:"
-  quellen_verstoss_zeilen "$protokoll"
+  quellen_verstoss_zeilen "$protokoll" || echo "(✖-Zeilen nicht lesbar: grep Exit $?)"
   grep -v "✖" "$protokoll" | tail -n 8
   rm -f "$protokoll"
   return 1
