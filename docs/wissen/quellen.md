@@ -416,6 +416,10 @@ Seite hat. Daraus folgt:
 
 Beim Kanal-Titel gilt zusätzlich der Abschnitt darunter.
 
+### Amazons Jahres-Badge ist das Veröffentlichungsjahr bei Amazon (12.11.2026, Biene Maja)
+
+Das Badge (2007) nennt das Jahr der Amazon-Veröffentlichung, nicht das Erscheinungsjahr des Titels; Staffeln über die ersten Folgentitel zuordnen.
+
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
 **Der Kopf einer Sammelseite ist kein Weg zu einer Staffel** (21.09.2026). Golden Wind trug zwei

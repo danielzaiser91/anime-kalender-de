@@ -48,6 +48,8 @@ Ort: `daniel-zum-abarbeiten/` im Hauptordner des Projekts. `stand.md` ist unvers
 | Agent meldet Ende | Ergebnis eintragen; Aufgabe für Daniel nur falls echt | — |
 | Abgleichsbericht (Als Nächstes gegen main) | Zeile nur streichen, wenn **alle** Teile erledigt sind; ein Rest „offen“ bleibt als eigene Zeile mit Verweis auf den Bericht (01.11.2026: „Folgentitel: Lücke füllen — offen“ fiel am 27.10. heraus, Daniel fand die Lücke bei Beyblade X selbst) | — |
 
+**Vorrat-Dateien tragen `**Vergeben:** <PR-Link>` (12.11.2026, PR 3584):** Der Hook erledigt `vergeben-`-Dateien nur über diese Zeile; ohne sie bleibt die Datei nach dem Merge liegen.
+
 ## Mockups
 
 Neue Mockups entstehen seit 11.10.2026 als Ausschnitt der Bühne (echte App, eingefrorene Fälle), Vorgehen im Skill `mockups`. `mockups/basis/` gilt nur noch für Altbestand; das Design-Menü (Palette) des Navigators ist mit Bühne Schritt 4 entfernt.

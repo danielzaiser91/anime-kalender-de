@@ -299,6 +299,10 @@ Seite aus, `worker/wrangler.toml` den Dienst dahinter. Verlässlich entscheidet
 nur der ausgeschriebene `--config`, welche gilt — der Aufrufort allein tut es
 nicht.
 
+## Stand eines Secrets nie aus dem Register lesen (12.11.2026, PR 3602)
+
+Ein Bauer schloss aus `data/zugangs-register.json` „NACHT_MERGER_TOKEN noch nicht angelegt“, das Secret besteht aber seit 01.11. Den Stand mit `gh secret list` oder der API prüfen; das Register wird danach nachgeführt.
+
 ## Der Cloudflare-Token liegt nicht im Repo — und wie er als GitHub-Secret ankommt
 
 **Wo er steht:** `C:\code\ai\ai helper files\my_secrets.md`, Abschnitt „Newsletter anime-kalender-de"
