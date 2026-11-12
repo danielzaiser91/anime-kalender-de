@@ -1,23 +1,48 @@
 [
   { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"] },
   {
-    "name": "main: Aufruf verschiebeFremdenBeleg abgeschaltet",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "if (verschiebeFremdenBeleg(besitz,", "ersetze": "if (false && verschiebeFremdenBeleg(besitz," }],
+    "name": "main: Aufruf zieheFremdeBelegeZurueck abgeschaltet",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(", "ersetze": "geschrieben -= 0 * zieheFremdeBelegeZurueck(" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
-    "name": "main: Kennung 0 statt id",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "if (verschiebeFremdenBeleg(besitz, id,", "ersetze": "if (verschiebeFremdenBeleg(besitz, 0," }],
+    "name": "main: zurueckgezogene Belege nicht von geschrieben abgezogen",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(", "ersetze": "geschrieben += 0 * zieheFremdeBelegeZurueck(" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
-    "name": "main: Adresse leer statt echte/Meldungsadresse",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "verschiebeFremdenBeleg(besitz, id, ids, echteAmazonAdresse(p) ?? wegAusMeldung(p),", "ersetze": "verschiebeFremdenBeleg(besitz, id, ids, '',"}],
+    "name": "main: Zeilen ab Anfang statt ab Gruppenbeginn",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "const von = zeilen.length", "ersetze": "const von = 0" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
-    "name": "main: Beteiligte leer statt ids",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "verschiebeFremdenBeleg(besitz, id, ids,", "ersetze": "verschiebeFremdenBeleg(besitz, id, [],"}],
+    "name": "zieheFremdeBelegeZurueck: Kennung 0 statt Beleg-Kennung",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "verschiebeFremdenBeleg(besitz, b.id,", "ersetze": "verschiebeFremdenBeleg(besitz, 0," }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Adresse leer statt Adresse des Belegs",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "mit, b.url, gruppe", "ersetze": "mit, '', gruppe" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Beteiligte leer statt geschriebene Kennungen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "b.id, mit, b.url", "ersetze": "b.id, [], b.url" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck (A1): Besitzer ohne Beleg gilt als Mitbeteiligter",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "const mit = bloecke.map((b) => b.id)", "ersetze": "const mit = [900101, 900102]" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: zurueckgezogene Belege nicht gezaehlt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "    weg++\n", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Beleg nicht aus zeilen entfernt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "    b.zeilen = []\n", "ersetze": "" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
@@ -37,12 +62,12 @@
   },
   {
     "name": "main: Warnungen als Wegwerfliste",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "gruppe, p, offenGeblieben, ohneZuordnung)) continue", "ersetze": "gruppe, p, [], ohneZuordnung)) continue" }],
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "von, gruppe, p, offenGeblieben, ohneZuordnung)", "ersetze": "von, gruppe, p, [], ohneZuordnung)" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
     "name": "main: Arbeitsliste als Wegwerfliste",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "gruppe, p, offenGeblieben, ohneZuordnung)) continue", "ersetze": "gruppe, p, offenGeblieben, [])) continue" }],
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "von, gruppe, p, offenGeblieben, ohneZuordnung)", "ersetze": "von, gruppe, p, offenGeblieben, [])" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {

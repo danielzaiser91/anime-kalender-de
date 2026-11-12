@@ -21,7 +21,10 @@ const LISTE = 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
 const seite = (kennung: string) => `https://www.amazon.de/dp/${kennung}`
 const titel = (id: number, titleDe: string, streams: unknown[] = []) => ({ id, titleDe, format: 'TV', episodes: 12, streams })
 /** Die Titel 900101 und 900102 führen beide die Sammelseite B0FREMD005 (wie die JoJo-Staffeln an einer ADN-Seite). */
-const GETEILT = [{ platform: 'primevideo', url: seite('B0FREMD005') }]
+const GETEILT = [
+  { platform: 'primevideo', url: seite('B0FREMD005') },
+  { platform: 'primevideo', url: seite('B0FREMD006') },
+]
 const BESTAND = [titel(900101, 'Fremdprobe Alpha', GETEILT), titel(900102, 'Fremdprobe Beta', GETEILT)]
 /** Die Seite B0FREMD001 gehört laut Zuordnung dem Titel 900102, B0FREMD002 niemandem, B0FREMD003 dem Titel 900101 selbst. */
 const ZUGEORDNET = {
@@ -29,11 +32,12 @@ const ZUGEORDNET = {
   [seite('B0FREMD003')]: { titleId: 900101, plattform: 'primevideo' },
   [seite('B0FREMD004')]: { titleId: 900102, plattform: 'primevideo' },
   [seite('B0FREMD005')]: { titleId: 900102, plattform: 'primevideo' },
+  [seite('B0FREMD006')]: { titleId: 900102, plattform: 'primevideo' },
 }
 /** Seite B0FREMD004 führt schon ein Handbeleg des Titels 900103: der Treffer (900102, B0FREMD004) steht vor der Meldung da und ist nicht ihre Schuld. */
 const SAAT = `- anilistId: 900103\n  platform: primevideo\n  url: ${seite('B0FREMD004')}\n  dub: true\n  available: true\n  checkedAt: '2026-10-01'\n`
 
-function zeile(nr: number, kennung: string, name: string) {
+function zeile(nr: number, kennung: string, name: string, folge = 1) {
   return {
     id: 950000 + nr,
     plattform: 'primevideo',
@@ -42,7 +46,7 @@ function zeile(nr: number, kennung: string, name: string) {
     befund: 'dub',
     titel: name,
     folgen: 12,
-    folge_nr: 1,
+    folge_nr: folge,
     staffel: 1,
     staffeln: null,
     serientitel: null,
@@ -91,21 +95,27 @@ const a = lauf([
   zeile(3, 'B0FREMD003', 'Fremdprobe Alpha'),
   zeile(5, 'B0FREMD004', 'Fremdprobe Alpha'),
   zeile(6, 'B0FREMD005', 'Fremdprobe Alpha'),
+  zeile(7, 'B0FREMD005', 'Fremdprobe Alpha', 13),
+  zeile(8, 'B0FREMD006', 'Fremdprobe Alpha'),
 ])
-const schreibt = (belege: string, kennung: string) => belege.split('- anilistId:').some((b) => b.includes('900101') && b.includes(kennung))
+const schreibt = (belege: string, kennung: string, id = '900101') => belege.split('- anilistId:').some((b) => b.includes(id) && b.includes(kennung))
 const zeilen = a.ausgabe.split('\n')
 console.log(`Beispiel Anlassfall: ${zeilen.filter((z) => z.includes('B0FREMD001')).join(' | ')}`)
 if (schreibt(a.belege, 'B0FREMD001')) fehler.push('Beleg an der Adresse eines anderen Titels wurde geschrieben')
 if (!schreibt(a.belege, 'B0FREMD002')) fehler.push('Beleg an freier Adresse fehlt')
 if (!schreibt(a.belege, 'B0FREMD003')) fehler.push('Beleg an der eigenen Adresse (Besitzer ist der Titel selbst) fehlt')
-if (!schreibt(a.belege, 'B0FREMD005')) fehler.push('Beleg an einer Seite, die der Besitzer mit dem Titel der Meldung teilt, fehlt')
+if (!schreibt(a.belege, 'B0FREMD005') || !schreibt(a.belege, 'B0FREMD005', '900102')) fehler.push('Belege an einer Seite, die der Besitzer mit dem Titel der Meldung teilt (beide Staffeln in der Meldung), fehlen')
+/* A1 (Prüfer 3586): die Meldung trägt nur Folge 1, der Beleg des Besitzers 900102 fällt aus, also gilt die Ausnahme nicht. */
+if (schreibt(a.belege, 'B0FREMD006') || schreibt(a.belege, 'B0FREMD006', '900102')) fehler.push('Beleg an geteilter Seite geschrieben, obwohl der Beleg des Besitzers ausfällt')
+const nurAlpha = zeilen.find((z) => z.includes('B0FREMD006') && z.includes('nicht geschrieben')) ?? ''
+if (!nurAlpha.includes('Beleg für Titel 900101') || !nurAlpha.includes('Titel 900102') || !a.liste.includes('B0FREMD006')) fehler.push(`Besitzer ohne eigenen Beleg: keine Warnzeile oder Arbeitsliste: ${nurAlpha || '(keine)'}`)
 if (!schreibt(a.belege, 'B0FREMD004')) fehler.push('Beleg an einer Adresse mit schon bestehendem Treffer (kein neuer Treffer) fehlt')
 const warnung = zeilen.find((z) => z.includes('B0FREMD001') && z.includes('nicht geschrieben')) ?? ''
 for (const teil of ['Titel 900101', 'Meldung 950001', 'Titel 900102', 'Meldung bleibt liegen']) {
   if (!warnung.includes(teil)) fehler.push(`Warnzeile ohne „${teil}“: ${warnung || '(keine)'}`)
 }
-if (!a.ausgabe.includes('4 Einträge geschrieben') || !a.ausgabe.includes(', 1 Beleg(e) an der Adresse eines anderen Titels nicht geschrieben')) {
-  fehler.push(`Schlusszeile zählt nicht (4 geschrieben, 1 verschoben): ${zeilen.filter((z) => z.includes('Prüfungen abgeholt')).join(' | ')}`)
+if (!a.ausgabe.includes('5 Einträge geschrieben') || !a.ausgabe.includes(', 2 Beleg(e) an der Adresse eines anderen Titels nicht geschrieben')) {
+  fehler.push(`Schlusszeile zählt nicht (5 geschrieben, 2 verschoben): ${zeilen.filter((z) => z.includes('Prüfungen abgeholt')).join(' | ')}`)
 }
 const eintrag = a.liste.split('\n').find((z) => z.includes('B0FREMD001')) ?? ''
 if (!eintrag.includes('Titel 900102') || a.liste.includes('B0FREMD002') || a.liste.includes('B0FREMD003')) fehler.push(`Arbeitsliste: Zeile fehlt oder zu viele: ${eintrag}`)

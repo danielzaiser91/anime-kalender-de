@@ -49,7 +49,7 @@ import { schalterOderAbbruch } from './lib/schalter.ts'
 import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb, sperreAufPruefungen } from './lib/meldungen-stapel.ts'
 import { baueNachUrl } from './lib/nach-url.ts'
-import { berlinDatum, ladeBesitz, verschiebeFremdenBeleg } from './lib/beleg-fremd-zugeordnet.ts'
+import { berlinDatum, ladeBesitz, zieheFremdeBelegeZurueck } from './lib/beleg-fremd-zugeordnet.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -845,6 +845,7 @@ for (const gruppe of jeAdresse.values()) {
     ist ein offener Punkt und kein erledigter.
   */
   let geschrieben = 0
+  const von = zeilen.length
   let staffeln = staffelnDerAdresse(ids)
 
   /**
@@ -1051,7 +1052,6 @@ for (const gruppe of jeAdresse.values()) {
       for (const x of gruppe) erledigteIds.add(x.id)
       continue
     }
-    if (verschiebeFremdenBeleg(besitz, id, ids, echteAmazonAdresse(p) ?? wegAusMeldung(p), gruppe, p, offenGeblieben, ohneZuordnung)) continue
 
     zeilen.push('')
     zeilen.push(`- anilistId: ${id}`)
@@ -1179,6 +1179,7 @@ for (const gruppe of jeAdresse.values()) {
     geschrieben++
   }
   /* Nichts geschrieben und nicht abgehakt (der Kanal-Zweig oben hakt selbst ab): sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
+  geschrieben -= zieheFremdeBelegeZurueck(besitz, zeilen, von, gruppe, p, offenGeblieben, ohneZuordnung)
   if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
   else if (!erledigteIds.has(gruppe[0]!.id) && !besitz.gruppen.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
@@ -1196,7 +1197,7 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
 }
 
 log(
-  `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
+  `${pruefungen.length} Prüfungen abgeholt, ${uebernommen - besitz.verschoben} Einträge geschrieben` +
     (ausMeldungZugeordnet ? `, ${ausMeldungZugeordnet} von der Meldung selbst benannt` : '') +
     (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
     (ueberFolgentitel ? `, ${ueberFolgentitel} Folge(n) über den Folgentitel` : '') +

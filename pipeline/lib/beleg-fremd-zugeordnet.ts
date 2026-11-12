@@ -74,3 +74,51 @@ export function verschiebeFremdenBeleg(
   liegenGeblieben(warnungen, liste, p, grund, [kennung], `Seite ${url} gehört schon einem anderen Titel: Zuordnung klären (Beleg wird nicht geschrieben)`)
   return true
 }
+
+/** Ein geschriebener Beleg in `zeilen`: Kennung, Adresse (fehlt beim „nicht geführt“-Eintrag) und seine Zeilen. */
+interface BelegBlock {
+  id: number
+  url: string | undefined
+  zeilen: string[]
+}
+
+function zerlegeBloecke(zeilen: readonly string[]): BelegBlock[] {
+  const bloecke: BelegBlock[] = []
+  for (const z of zeilen) {
+    if (z === '') bloecke.push({ id: 0, url: undefined, zeilen: [] })
+    const b = bloecke[bloecke.length - 1]
+    if (!b) continue
+    b.zeilen.push(z)
+    b.id ||= Number(/^- anilistId: (\d+)$/.exec(z)?.[1] ?? 0)
+    b.url ??= /^ {2}url: (.+)$/.exec(z)?.[1]
+  }
+  return bloecke
+}
+
+/**
+ * Nach der Schleife über die Titel einer Meldung: zieht jeden Beleg zurück, der an der Adresse eines anderen Titels hängt.
+ * Mitbeteiligt (ausgenommen) ist nur ein Titel, dessen Beleg wirklich in `zeilen` steht: fiel er aus (keine Folge der Meldung
+ * in seiner Staffel), bleibt der Treffer bestehen und der Bestandsbau würde rot. Der Besitzer, dessen Beleg selbst wegfällt (mehrere
+ * Besitzer an einer Adresse), nimmt den anderen die Ausnahme nicht mehr: ein Durchgang, keine Wiederholung. `von` ist die Länge von `zeilen` vor der Schleife; gibt die Zahl
+ * der zurückgezogenen Belege zurück.
+ */
+export function zieheFremdeBelegeZurueck(
+  besitz: Besitz,
+  zeilen: string[],
+  von: number,
+  gruppe: readonly { id: number }[],
+  p: { url: string; plattform: string; befund: string; serientitel: string | null; titel: string | null },
+  warnungen: string[],
+  liste: OhneZuordnung[],
+): number {
+  const bloecke = zerlegeBloecke(zeilen.slice(von))
+  const mit = bloecke.map((b) => b.id)
+  let weg = 0
+  for (const b of bloecke) {
+    if (b.url === undefined || !verschiebeFremdenBeleg(besitz, b.id, mit, b.url, gruppe, p, warnungen, liste)) continue
+    b.zeilen = []
+    weg++
+  }
+  zeilen.splice(von, zeilen.length - von, ...bloecke.flatMap((b) => b.zeilen))
+  return weg
+}
