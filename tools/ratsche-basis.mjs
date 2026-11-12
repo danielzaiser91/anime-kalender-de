@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { ohneTestsEintrag, ratscheLuecken } from './mutationsanker.mjs'
+import { ladeBasis } from './pr-basis.mjs'
 
 export const BEKANNT_PFAD = 'tools/mutationen-ohne-tests-bekannt.json'
 const FRIST_MS = 60000
@@ -35,12 +36,28 @@ export function basisBekannt(lesen, holen) {
   return lesen()
 }
 
-/** Basis im Git-Ordner `cwd`: origin/main, bei flachem Checkout flach nachgeholt. */
-export const basisImOrdner = (cwd) =>
-  basisBekannt(
-    () => leseVonMain(() => git(['show', `origin/main:${BEKANNT_PFAD}`], cwd)),
-    () => git(['fetch', '--no-tags', '--depth=1', 'origin', 'main:refs/remotes/origin/main'], cwd),
-  )
+/** Basis im PR-Ereignis: die Datei im ersten Elternteil des Merge-Commits (nie das heutige origin/main); null, wenn er nicht lesbar ist. */
+function basisImMergeCommit(cwd) {
+  const g = (...args) => git(args, cwd)
+  try {
+    const sha = ladeBasis(g)
+    return leseVonMain(() => git(['show', `${sha}:${BEKANNT_PFAD}`], cwd))
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Basis im Git-Ordner `cwd`: im PR-Ereignis der erste Elternteil des Merge-Commits (läuft die Kette, während main weiterzieht,
+ * stammen Grenze und Baum sonst aus zwei Ständen), sonst origin/main, bei flachem Checkout flach nachgeholt.
+ */
+export const basisImOrdner = (cwd, env = process.env) =>
+  env.GITHUB_EVENT_NAME === 'pull_request'
+    ? basisImMergeCommit(cwd)
+    : basisBekannt(
+        () => leseVonMain(() => git(['show', `origin/main:${BEKANNT_PFAD}`], cwd)),
+        () => git(['fetch', '--no-tags', '--depth=1', 'origin', 'main:refs/remotes/origin/main'], cwd),
+      )
 
 /** Listen, deren Wert in der eigenen Datei über dem Stand von main liegt (Anheben); neue Listen zählen ab 0. */
 export const angehobeneListen = (eigen, basis) =>
@@ -51,13 +68,13 @@ export const ratscheRot = (ist, eigen, basis) => (basis ? [...ratscheLuecken(ist
 
 /** Logzeile zur Basis; der Rückfall auf die eigene Datei ist eine Warnung, damit ein gescheitertes Nachholen von main sichtbar bleibt. */
 export const basisZeile = (basis) =>
-  basis ? 'Ratsche-Basis: origin/main' : '⚠ WARNUNG Ratsche-Basis: eigene Datei (origin/main nicht erreichbar, die Datei im PR gilt als Erlaubnis)'
+  basis ? 'Ratsche-Basis: main (erster Elternteil des Merge-Commits bzw. origin/main)' : '⚠ WARNUNG Ratsche-Basis: eigene Datei (Basis nicht erreichbar, die Datei im PR gilt als Erlaubnis)'
 
 /** Bestand eines Repo-Ordners: Ist je Liste, eigene Datei, Basis und die roten Zeilen. */
-export function bestandPruefen(wurzel) {
+export function bestandPruefen(wurzel, env = process.env) {
   const eigen = JSON.parse(readFileSync(join(wurzel, BEKANNT_PFAD), 'utf8'))
   const ordner = join(wurzel, 'tools', 'mutationen')
   const ist = Object.fromEntries(readdirSync(ordner).filter((n) => n.endsWith('.json')).map((n) => [n, ohneTestsEintrag(readFileSync(join(ordner, n), 'utf8')).length]))
-  const basis = basisImOrdner(wurzel)
+  const basis = basisImOrdner(wurzel, env)
   return { eigen, ist, basis, rot: ratscheRot(ist, eigen, basis) }
 }

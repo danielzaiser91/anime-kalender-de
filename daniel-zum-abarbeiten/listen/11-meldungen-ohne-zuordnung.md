@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-11-11
+Stand: 2026-11-12
 
 ## Was hier zu tun ist
 
@@ -391,7 +391,6 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/gp/video/detail/B0CJYMLW6W | Fushigi Yûgi New OVA: The Mysterious Play (Mysterious Play OVA 2) | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1428-even-the-student-council-has-its-holes | Even the Student Council Has Its Holes! | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1125-demon-slave | Demon Slave | kein_dub | [Demon Slave: The Chained Soldier](https://anilist.co/anime/141821)<br>[Demon Slave: Staffel 2](https://anilist.co/anime/176276) | Vorschlag bestätigen, dann Adresse eintragen |
-| primevideo | https://www.amazon.de/gp/video/detail/B09JZHRQ18 | Higurashi no Naku Koro ni (When They Cry) | dub | — | Titel von Hand suchen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145 | Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen) — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Ikki Tousen: Dragon Girls](https://anilist.co/anime/257) | Seite 0GB2R9DDV4G7EBUC1YO5TJDNWL als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145 | Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen) — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Ikki Tousen: Dragon Girls](https://anilist.co/anime/257) | Seite B0CHK596BV als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145 | Ikki Tousen: Dragon Girls (Battle Vixens: Ikki Tousen) — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Ikki Tousen: Dragon Girls](https://anilist.co/anime/257) | Seite B0CGRCY88G als Verweis an den Titel von Staffel 2 eintragen |
@@ -404,3 +403,6 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0HF4H8H2F als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 4 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0H1P5JWC9 als Verweis an den Titel von Staffel 4 eintragen |
 | primevideo | https://www.amazon.de/s?k=Super%20Wings&i=instant-video | Super Wings — Staffel 7 in der Reihe nicht zu bestimmen | weg | [Super Wings](https://anilist.co/anime/10012621) | Seite B0H4GFV32Q als Verweis an den Titel von Staffel 7 eintragen |
+| primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2 | To Love Ru: Darkness (To Love Ru Darkness) — Staffel 2: 1 Folgen gemeldet, Zielstaffel hat 12 | dub | [To Love Ru: Darkness](https://anilist.co/anime/13663) | Staffel 2 prüfen: Folgenzahl passt nicht |
+| primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2 | To Love Ru: Darkness (To Love Ru Darkness) — Staffel 2: 1 Folgen gemeldet, Zielstaffel hat 12 | dub | [To Love Ru: Darkness](https://anilist.co/anime/13663) | Staffel 2 prüfen: Folgenzahl passt nicht |
+| primevideo | https://www.amazon.de/dp/B0G45ZT3V4 | Demon Slave - The Chained Soldier | kein_dub | [Demon Slave: The Chained Soldier](https://anilist.co/anime/141821) | Name stimmt, aber der Titel gehört zu einer Reihe mit 3 Einträgen, die Staffel der Seite ist nicht bestimmt: den richtigen Titel wählen, die Seite als Verweis eintragen |

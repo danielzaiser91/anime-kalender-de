@@ -12,6 +12,8 @@ pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-ausreisser.ts
 pipeline/check-adn-film.ts
+pipeline/check-adn-katalog-frist-lauf.ts
+pipeline/check-adn-katalog-frist.ts
 pipeline/check-adn-katalog-warteschlange.ts
 pipeline/check-adn-kennung.ts
 pipeline/check-adn-kuratiert-ton.ts
@@ -556,6 +558,7 @@ pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-staffel0-eigene-lauf.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
+pipeline/check-tmdb-von-hand-abgeleitet.ts
 pipeline/check-tote-adresse-runden.ts
 pipeline/check-tote-adressen-lauf.ts
 pipeline/check-trailer-auswahl.ts
