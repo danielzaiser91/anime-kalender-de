@@ -31,10 +31,10 @@ export function messeKennzahlen(wurzel, stand) {
   const daten = (name) => join(wurzel, 'public', 'data', name)
   const s = `Stand ${stand}`
   return {
-    'meta-gzip': `${gzipKb(daten('meta.json'))} KB, ${s}`,
-    'woche-kacheln-gzip': `${gzipKb(daten('woche-kacheln.json'))} KB, ${s}`,
-    'nachladen-gzip': `\`titles-core\` ${gzipKb(daten('titles-core.json'))} KB, \`releases\` ${gzipKb(daten('releases.json'))} KB, \`events\` ${gzipKb(daten('events.json'))} KB, ${s}`,
-    'titles-gzip': `${gzipKb(daten('titles.json'))} KB, ${s}`,
+    'meta-gzip': `${gzipKb(daten('meta.json'))} KB gzip, ${s}`,
+    'woche-kacheln-gzip': `${gzipKb(daten('woche-kacheln.json'))} KB gzip (schwankt mit dem Wochenfenster), ${s}`,
+    'nachladen-gzip': `gzip: \`titles-core\` ${gzipKb(daten('titles-core.json'))} KB, \`releases\` ${gzipKb(daten('releases.json'))} KB, \`events\` ${gzipKb(daten('events.json'))} KB, ${s}`,
+    'titles-gzip': `${gzipKb(daten('titles.json'))} KB gzip, ${s}`,
     'public-dateien': `${zaehleDateien(join(wurzel, 'public'))} Dateien in \`public/\` (Schwelle 15.000), ${s}`,
   }
 }
