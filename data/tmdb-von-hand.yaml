@@ -170,7 +170,7 @@
     gleich der des Spielfilms 13754 (2006, 103 min). JustWatch kennt 917696 nicht (justwatch-audio.json ohneTreffer, Namenstreffer ist der Spielfilm).
 
 # Spätere Staffeln, deren Namenssuche bei TMDB nichts fand (`miss`): TMDB führt sie als Staffel derselben Serie wie die erste Staffel (Reihe gleich, Kennung bleibt in der Reihe).
-# Beleg je Zeile: die Staffel steht im Folgen-Cache der Serie (`data/tmdb-folgen.json`, TMDB-Abruf 06.–09.11.2026) mit der Folgenzahl des Titels (AniList; ohne Angabe passt der Sendezeitraum).
+# Beleg je Zeile: Staffel im Folgen-Cache (`data/tmdb-folgen.json`) mit der Folgenzahl des Titels; dazu je Zeile der Inhaltsabgleich (Staffelname/Originaltitel, Start- und Endtermin, Folgentitel gegen AniList, 12.11.2026) im `grund`.
 
 - anilistId: 101471
   tmdbId: 78239
@@ -180,6 +180,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 78239 führt Staffel 2 mit 12 Folgen (2018-07-30 bis 2018-07-30), AniList nennt 12 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (20875). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB-Staffel 2 „Season 2“ 12 Folgen, alle am 2018-07-30 (Netflix-Komplettstart), AniList 101471 Start und Ende 2018-07-30, 12 Folgen, Vorgänger 20875; Serie TMDB 78239 = „ソードガイ The Animation“ (Originalname = AniList-Native, Vorgänger-Titel).
 
 - anilistId: 102498
   tmdbId: 77529
@@ -189,6 +190,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 77529 führt Staffel 2 mit 6 Folgen (2021-03-18 bis 2021-03-18), AniList nennt 6 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (21665). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB-Staffelname „Season 2 Succession“ = AniList-Titel „B: The Beginning: Succession“; 6 Folgen am 2021-03-18 = AniList Start/Ende 2021-03-18, 6 Folgen; Beschreibung „Killer B returns … conspiracy involving the crown“ = Handlung der Fortsetzung; Vorgänger 21665.
 
 - anilistId: 188055
   tmdbId: 45039
@@ -198,6 +200,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 45039 führt Staffel 2 mit 26 Folgen (2011-11-30 bis 2012-04-26), AniList nennt 26 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (163828). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB 45039 = „꼬마버스 타요“ (Originalname = AniList-Native der Reihe), Staffel 2 Start 2011-11-30 = AniList Start 2011-11-30, 26 Folgen; erste Folgen „Tayo and Bong Bong“, „The Perfect Duo, Rookie and Pat“. Abweichung: letzte TMDB-Folge 2012-04-26, AniList-Ende 2012-08-23 (Startdatum und Folgenzahl stimmen).
 
 - anilistId: 132477
   tmdbId: 83248
@@ -207,6 +210,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 83248 führt Staffel 2 mit 13 Folgen (2019-03-01 bis 2019-03-01), AniList nennt 13 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (119837). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB 83248 „Larva Island“ (en), Staffel 2 alle 13 Folgen am 2019-03-01 = AniList Start/Ende 2019-03-01, 13 Folgen; Folgen „Maze“, „Fire“, „Beach Volleyball“; Staffel 1 2018-10-19 passt zum Vorgänger 119837.
 
 - anilistId: 108725
   tmdbId: 83097
@@ -216,6 +220,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 83097 führt Staffel 2 mit 11 Folgen (2021-01-08 bis 2021-03-26), AniList nennt 11 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (101759). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB 83097 „約束のネバーランド“, Staffel 2 Start 2021-01-08, Ende 2021-03-26, wöchentlich, 11 Folgen = AniList 108725 (2021-01-08 bis 2021-03-26, 11 Folgen), Vorgänger 101759 (TMDB Staffel 1: 12 Folgen ab 2019-01-11).
 
 - anilistId: 110686
   tmdbId: 84646
@@ -225,6 +230,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 84646 führt Staffel 2 mit 9 Folgen (2019-08-23 bis 2019-08-23), AniList nennt 9 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (105096). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB-Staffelname „Part II“ = AniList „HERO MASK part II“; Folgen nummeriert 16–24 (9 Folgen, Fortsetzung von Part I mit 15 Folgen), alle 2019-08-23 = AniList Start/Ende 2019-08-23, 9 Folgen.
 
 - anilistId: 152677
   tmdbId: 117061
@@ -234,6 +240,7 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 117061 führt Staffel 2 mit 13 Folgen (2026-10-07 bis 2026-12-30), AniList nennt 13 Folgen;
     dieselbe Serie trägt die erste Staffel dieser Reihe (128712). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB 117061 „探偵はもう、死んでいる。“, Staffel 2 Start 2026-10-07 = AniList Start 2026-10-07, 13 Folgen, wöchentlich bis 2026-12-30; Folge 1 „To See You Once More“; Staffel 1 12 Folgen ab 2021-07-04 = Vorgänger 128712.
 
 - anilistId: 212503
   tmdbId: 200777
@@ -243,3 +250,4 @@
   grund: >-
     TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 200777 führt Staffel 2 mit 12 Folgen (2026-10-09 bis 2026-12-25) (AniList nennt keine Folgenzahl, der Sendezeitraum passt zur Ausstrahlung);
     dieselbe Serie trägt die erste Staffel dieser Reihe (148116). Die Namenssuche fand für diese Staffel nichts.
+    Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB-Staffelname „The Iceblade Sorcerer Shall Rule the World II“ = AniList-Titel (englisch) wörtlich, TMDB-Serie 200777 Originalname „冰剣の魔術師が世界を統べる“ = AniList-Native ohne „Ⅱ“; Start 2026-10-09 = AniList Start 2026-10-09, wöchentlich (E1 2026-10-09, E2 2026-10-16, E3 2026-10-23), 12 Folgen; Folge 1 „The Boy Who Is the World’s Strongest Sorcerer Participates in a Large Scale Magic Battle Tournament“; Staffel 1 12 Folgen ab 2023-01-06 = Vorgänger 148116; Serienbeschreibung (Ray White, Arnold Academy of Magic) passt zur Handlung der Reihe.
