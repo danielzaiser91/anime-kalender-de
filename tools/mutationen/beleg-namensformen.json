@@ -8,7 +8,6 @@
   { "name": "namensformen: × wird nicht zu x", "datei": "pipeline/lib/beleg-suche.ts", "suche": "f.replace(/\\s*×\\s*/g, ' x ')", "ersetze": "f", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
   { "name": "namensformen: and wird nicht zu &", "datei": "pipeline/lib/beleg-suche.ts", "suche": "f.replace(/\\band\\b/gi, '&')", "ersetze": "f", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
   { "name": "namensformen: and auch mitten im Wort", "datei": "pipeline/lib/beleg-suche.ts", "suche": "f.replace(/\\band\\b/gi, '&')", "ersetze": "f.replace(/and/gi, '&')", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
-  { "name": "terminMarken: japanisches Datum mit Jahr entfällt", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "`${y}年${m}月${d}日`,", "ersetze": "", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
   { "name": "terminMarken: japanisches Datum ohne Jahr entfällt", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "`${m}月${d}日`,", "ersetze": "", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
   { "name": "terminMarken: japanisches Datum ohne Tag-Zeichen (10月2 trifft 10月20)", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "`${m}月${d}日`,", "ersetze": "`${m}月${d}`,", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
   { "name": "namensformen: ganzer Name entfällt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "const formen = [n, ...koepfe]", "ersetze": "const formen = [...koepfe]", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },

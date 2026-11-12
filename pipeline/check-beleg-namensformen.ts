@@ -47,6 +47,7 @@ function formenFaelle(): void {
   pruefe('Bindestrich ohne Leerzeichen trennt nicht („Dan-Da-Dan")', namensformen('Dan-Da-Dan').length === 1)
   pruefe('„SPY×FAMILY" ergibt „SPY x FAMILY"', namensformen('SPY×FAMILY').includes('SPY x FAMILY'))
   pruefe('„and" nur als ganzes Wort („Candy" bleibt)', namensformen('Candy Land').length === 1 && namensformen('Love and Lies').includes('Love & Lies'))
+  pruefe('ein Name unter 5 Zeichen bleibt als ganzer Name erhalten („K-On")', namensformen('K-On').includes('K-On'))
   pruefe('der ganze Name bleibt an erster Stelle', namensformen('Gunslinger Girl -Il Teatrino-')[0] === 'Gunslinger Girl -Il Teatrino-')
 }
 
