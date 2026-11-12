@@ -37,5 +37,5 @@
   { "name": "paket-git: Basis nicht geholt", "datei": "tools/pr-nachrechnen-paket-git.mjs", "suche": "refs.main, refs.basis])", "ersetze": "refs.main])", "tests": ["node tools/pr-nachrechnen-paket.test.mjs"] },
   { "name": "paket-git: alt und neu vertauscht", "datei": "tools/pr-nachrechnen-paket-git.mjs", "suche": "alt: paket(refs.basis), neu: paket(refs.main)", "ersetze": "alt: paket(refs.main), neu: paket(refs.basis)", "tests": ["node tools/pr-nachrechnen-paket.test.mjs"] },
   { "name": "paket-git: Workflow der Kette nicht gelesen", "datei": "tools/pr-nachrechnen-paket-git.mjs", "suche": "p === '.github/workflows/pr-pruefung.yml' || ", "ersetze": "", "tests": ["node tools/pr-nachrechnen-paket.test.mjs"] },
-  { "name": "paket-git: Fehler wird verschluckt (ok statt Grund)", "datei": "tools/pr-nachrechnen-paket-git.mjs", "suche": "return `main bewegte package.json (nicht ermittelbar:", "ersetze": "return null || `main bewegte package.json (nicht ermittelbar:", "tests": ["node tools/pr-nachrechnen-paket.test.mjs"] }
+  { "name": "paket-git: Fehler wird verschluckt (ok statt Grund)", "datei": "tools/pr-nachrechnen-paket-git.mjs", "suche": "return `main bewegte package.json (nicht ermittelbar:", "ersetze": "if (e) return null\n    return `main bewegte package.json (nicht ermittelbar:", "tests": ["node tools/pr-nachrechnen-paket.test.mjs"] }
 ]

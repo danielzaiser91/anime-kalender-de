@@ -20,7 +20,7 @@ const pruefe = (name, ok, info) => {
 const VORHER = 'node tools/extension-laden-pruefen.cjs && node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js && node tools/extension-listenstand-pruefen.cjs && node tools/melder-leiste-pruefen.cjs && node tools/pruefstand-bekannt-pruefen.mjs'
 const NACHHER = 'node tools/extension-laden-pruefen.cjs && node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js && tsc --noEmit -p extension/tsconfig.json && node tools/extension-ts-liste-pruefen.mjs && node tools/extension-ts-liste-pruefen.test.mjs && node tools/extension-listenstand-pruefen.cjs && node tools/melder-leiste-pruefen.cjs && node tools/pruefstand-bekannt-pruefen.mjs'
 const pkg = (scripts, extra = {}) => JSON.stringify({ name: 'x', scripts, ...extra })
-const KETTE = ['jobs:\n  a:\n    steps:\n      - run: npm run check:extension\n      - run: npm run check:alles\n']
+const KETTE = ['jobs:\n  a:\n    steps:\n      - run: npm run check:extension\n      - run: npm run check:alles\n      - run: npm run build\n']
 const BASIS = { 'check:extension': VORHER, 'check:alles': 'npm run check:unter && npm run check:logic', 'check:unter': 'node tools/unter.mjs', 'check:logic': 'tsx tools/check-logic-alle.mjs', 'data:bau': 'tsx pipeline/build.ts', 'check:vor-commit': 'npm run check:extension' }
 const BAUM = {
   'tools/extension-tests.mjs': "import '../extension/melder.js'\n",
@@ -50,8 +50,11 @@ pruefe('Skript außerhalb der Kette (data:bau) geändert -> aktuell, auch mit Tr
 pruefe('Skript, das nur ein anderes Skript ruft (check:vor-commit), ist nicht in der Kette -> aktuell', urteil({ 'check:vor-commit': 'npm run check:extension && node tools/x.mjs' }, ['tools/x.mjs']) === null)
 pruefe('Skript über npm run erreichbar (check:unter via check:alles) -> veraltet bei Treffer', /check:unter/.test(urteil({ 'check:unter': 'node tools/neu.mjs' }, ['tools/neu.mjs']) ?? ''))
 const namen = kettenSkripte(KETTE, BASIS)
-pruefe('Kettenmenge: direkt und transitiv, ohne Fremde', ['check:extension', 'check:alles', 'check:unter', 'check:logic'].every((n) => namen.has(n)) && !namen.has('data:bau') && !namen.has('check:vor-commit') && namen.size === 4, [...namen])
+pruefe('Kettenmenge: direkt und transitiv, ohne Fremde', ['check:extension', 'check:alles', 'build', 'check:unter', 'check:logic'].every((n) => namen.has(n)) && !namen.has('data:bau') && !namen.has('check:vor-commit') && namen.size === 5, [...namen])
 pruefe('Skript, das nur npm run ruft und sich ändert (Reihenfolge) -> aktuell, die Ziele zählen selbst', urteil({ 'check:alles': 'npm run check:logic && npm run check:unter' }, ['tools/neu.mjs']) === null)
+pruefe('npm run, dann ; und Nebenbefehl: der Nebenbefehl zählt', /tools\/neu\.mjs/.test(urteil({ 'check:alles': 'npm run check:unter; node tools/neu.mjs' }, ['tools/neu.mjs']) ?? ''))
+pruefe('npm run, dann || und Nebenbefehl: der Nebenbefehl zählt', /tools\/neu\.mjs/.test(urteil({ 'check:alles': 'npm run check:unter || node tools/neu.mjs' }, ['tools/neu.mjs']) ?? ''))
+pruefe('Kette ruft ein Skript, das es nicht gibt (npm run build) -> kein Absturz, aktuell', urteil({ 'data:bau': 'tsx pipeline/build.ts --neu' }, ['pipeline/build.ts']) === null)
 pruefe('npm run mit Nebenbefehl: der Nebenbefehl zählt', /tools\/neu\.mjs/.test(urteil({ 'check:alles': 'npm run check:unter && node tools/neu.mjs' }, ['tools/neu.mjs']) ?? ''))
 
 // Fail-closed.
@@ -113,6 +116,8 @@ const gOhne = mitGit(['pipeline/bau/x.ts'])
 pruefe('Git-Anschluss, Anlassfall a07d036d6: PR ohne extension/ -> aktuell', gOhne === null, gOhne)
 const gMit = mitGit(['extension/melder.js'])
 pruefe('Git-Anschluss, Gegenprobe: PR berührt extension/ -> veraltet', /Skript check:extension .* trifft extension\/melder\.js/.test(gMit ?? ''), gMit)
+const nurNeu = mitGit(['tools/extension-ts-liste-pruefen.mjs'])
+pruefe('Git-Anschluss: Pfad nur im neuen Skriptwert (main), nicht im alten (Basis) trifft -> alt und neu nicht vertauscht', /extension-ts-liste-pruefen\.mjs/.test(nurNeu ?? ''), nurNeu)
 const k = fakeGit()
 mitGit(['pipeline/bau/x.ts'], k)
 pruefe('Git-Anschluss: holt Kopf, main und Basis in einem fetch', k.aufrufe[0] === 'fetch -q origin refs/pull/5/head M B', k.aufrufe)
