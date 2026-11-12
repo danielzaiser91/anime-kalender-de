@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-12 · **186 offene Verweise** in **141 Zeilen**,
+Stand 2026-11-12 · **185 offene Verweise** in **141 Zeilen**,
 aufgeteilt in **8 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -47,7 +47,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 10 | Netflix | Re:Zero - Starting Life in Another World | [Hauptserie](https://www.netflix.com/title/80131659) · [Staffel 2](https://www.netflix.com/title/80131659) · [Staffel 2](https://www.netflix.com/title/80131659) |
 | 11 | Netflix | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [Danmachi: Sword Oratoria](https://www.netflix.com/title/80187572) · [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion](https://www.netflix.com/title/81101468) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
 | 12 | Netflix | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
-| 13 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 13 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
 | 14 | Netflix | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.netflix.com/title/81003894) |
 | 15 | Netflix | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
 | 16 | Netflix | Bungo Stray Dogs | [Hauptserie](https://www.netflix.com/title/80132126) · [2](https://www.netflix.com/title/80132126) · [3](https://www.netflix.com/title/80132126) |
