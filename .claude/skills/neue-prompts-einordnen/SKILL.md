@@ -111,20 +111,16 @@ sieht Werkzeuge laufen und weiß nicht, wozu.
 
 ## Nachrichten mitten im Turn: die Eingangsordnung (Daniel, 12.11.2026)
 
-Anlass: Fünf Nachrichten in acht Minuten (PayPal-Mitschnitt, E57, E59, zwei Fragen). Jede neue warf die
-angefangene Auswertung um. Ich baute für E57 sofort einen Wächter-PR und suchte für E59 eine Lösung, während
-PayPal halb ausgewertet liegen blieb. Daniel: „was ist mit paypal? … angefangenes hat immer vorrang, außer
-etwas kritisches drängelt sich vor … es darf nie etwas vergessen werden“.
+Anlass: Fünf Nachrichten in acht Minuten, und jede warf die halbe PayPal-Auswertung um. Daniel: „angefangenes hat
+immer vorrang, außer etwas kritisches drängelt sich vor … es darf nie etwas vergessen werden“.
 
-1. **Liste zuerst.** Jede Nachricht wird im selben Werkzeugaufruf, der sie zur Kenntnis nimmt, als Zeile in die
-   Task-Liste (`update_plan`) eingetragen, mit Schublade. Angefangenes steht oben, Neues kommt ans Ende.
-2. **Angefangenes zu Ende.** Der laufende Punkt läuft weiter bis zu seinem Ergebnis: Befund belegt und das,
-   was Daniel tun soll, nachgeführt. Erst dann kommt der nächste Punkt. Ausnahme ist nur B (kritisch), und
-   selbst dann bleibt der unterbrochene Punkt als Zeile stehen.
-3. **Fragen sofort, Arbeit nach Reihe.** Eine reine Frage („wie lang dauert das?“) bekommt ihre Antwort in der
-   nächsten Antwort. Was Bauen, Messen oder einen PR braucht, wartet auf seinen Platz in der Liste.
-4. **Abgleich vor dem Turn-Ende.** Jede Nachricht seit der letzten Antwort hat in der Endantwort eine Zeile
-   (erledigt / Antwort / eingereiht als Punkt N). Was der Abgleich nicht findet, gilt als vergessen.
+1. **Merken heißt eintragen** (Schritt 1): als Zeile in der Task-Liste, mit Schublade; Neues ans Ende.
+2. **Angefangenes zu Ende**, bis zum Ergebnis (Befund belegt, Daniels Teil nachgeführt). Ausnahmen nach Schritt 2:
+   B drängelt vor, A wird in den laufenden Punkt eingebaut. Ein unterbrochener Punkt bleibt als Zeile stehen.
+3. **Fragen sofort, Arbeit nach Reihe:** Eine reine Frage wird in der nächsten Antwort beantwortet; Bauen, Messen
+   und PRs warten auf ihren Platz („Reihenfolge, wenn mehrere Sachen offen sind“).
+4. **Abgleich vor dem Turn-Ende:** Jede Nachricht seit der letzten Antwort bekommt in der Endantwort eine Zeile
+   (erledigt / Antwort / eingereiht). Was der Abgleich nicht findet, gilt als vergessen.
 
 ## Was fertig ist, wird sofort gemeldet — nicht am Ende der Liste
 
