@@ -86,3 +86,6 @@ pruefe('unzustellbar: Lauf geht weiter, nichts gesendet', gesendet.length, 5)
 
 if (fehler) process.exit(1)
 console.log('check-lauf-fortschritt: ok')
+
+// Ohne Import auf oberster Ebene wäre die Datei kein Modul (top-level await).
+export {}
