@@ -5910,13 +5910,6 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B0B8MTPWRN: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
-- anilistId: 20719
-  title: "Chaika, die Sargprinzessin: Avenging Battle"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B07LHFLDBS
-  available: false
-  checkedAt: '2026-08-24'
-  note: "Amazon-Seite B07LHFLDBS: alle 12 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 1, zugang=kauf_oder_leihe"
 - anilistId: 1530
   title: "Kanon"
   platform: primevideo
@@ -5959,13 +5952,6 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CKPFDTQQ: Film geprüft, Abos: crunchyrollde, Seitenadresse: B0CKPJ479M, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 146493
-  title: "Ragna Crimson"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B07LHFLDBS
-  dub: false
-  checkedAt: '2026-08-24'
-  note: "Amazon-Seite B07LHFLDBS: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 1, zugang=kauf_oder_leihe"
 - anilistId: 196935
   title: "Akane-banashi"
   platform: primevideo
@@ -9932,10 +9918,10 @@
 - anilistId: 20462
   title: "Chaika, die Sargprinzessin"
   platform: primevideo
-  url: https://www.amazon.de/dp/B07LHCSXV6
+  url: https://www.amazon.de/dp/B07LHFLDBS
   dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch — Amazon-Seite B07LHCSXV6: alle 10 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf"
+  checkedAt: '2026-11-12'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07LHFLDBS (Staffel 1, 12 Folgen), Messung 12.11.2026 Edge: 'In Prime enthalten.', Seitentext 'Wiedergabesprachen | 5.1 | Deutsch | Untertitel | Deutsch [automatisch]', Abos: Prime, zugang=abo"
 - anilistId: 20779
   title: "Beyond the Boundary: Kyoukai no Kanata - Morgendämmerung"
   platform: primevideo
@@ -11960,13 +11946,6 @@
   url: https://www.amazon.de/dp/B0CJJF26WZ
   checkedAt: '2026-08-28'
   note: "Tonspuren: English, Español (Latinoamérica), Français, 日本語 — Amazon-Seite B0CJJF26WZ: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 20719
-  title: "Chaika, die Sargprinzessin: Avenging Battle"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B07LHCSXV6
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch — Amazon-Seite B07LHCSXV6: alle 10 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf"
 - anilistId: 100332
   title: "Kokkoku: Moment für Moment"
   platform: primevideo
@@ -17327,34 +17306,6 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B79WMK63: alle 12 Folgen geprüft, Abos: FVOD, aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.e37cebe6-e5b4-4ace-9bdc-a211965ca174 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 20462
-  title: "Chaika, die Sargprinzessin"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B07LHCSXV6
-  dub: false
-  checkedAt: '2026-09-28'
-  note: "Amazon-Seite B07LHCSXV6: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.4ab3e446-1e73-5556-5d01-9905ded6ea33, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 20719
-  title: "Chaika, die Sargprinzessin: Avenging Battle"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B07LHCSXV6
-  dub: false
-  checkedAt: '2026-09-28'
-  note: "Amazon-Seite B07LHCSXV6: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.4ab3e446-1e73-5556-5d01-9905ded6ea33, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 20462
-  title: "Chaika, die Sargprinzessin"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B07LHCSXV6
-  dub: false
-  checkedAt: '2026-09-28'
-  note: "Amazon-Seite B07LHFLDBS: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.4ab3e446-1e73-5556-5d01-9905ded6ea33, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 20719
-  title: "Chaika, die Sargprinzessin: Avenging Battle"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B07LHCSXV6
-  dub: false
-  checkedAt: '2026-09-28'
-  note: "Amazon-Seite B07LHFLDBS: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.4ab3e446-1e73-5556-5d01-9905ded6ea33, regionsperre=laut Seite nicht mehr im Abo"
 - anilistId: 21055
   title: "Chaos Dragon"
   platform: primevideo

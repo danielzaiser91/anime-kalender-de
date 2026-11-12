@@ -156,8 +156,8 @@
   {
     "name": "huelle: Tests geben Tokens weiter",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])",
-    "ersetze": "...(startdatei ? pfadTokens(text) : [])",
+    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text, datei) : [])",
+    "ersetze": "...(startdatei ? pfadTokens(text, datei) : [])",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
@@ -166,7 +166,7 @@
   {
     "name": "huelle: nie Tokens",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])",
+    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text, datei) : [])",
     "ersetze": "...([])",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -356,8 +356,8 @@
   {
     "name": "leserIn: Tests zählen für Daten",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))",
-    "ersetze": "bewegt.some((b) => nennt(text, b))",
+    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))",
+    "ersetze": "bewegt.some((b) => nennt(text, b, pfad))",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
@@ -366,7 +366,7 @@
   {
     "name": "leserIn: nennt entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))",
+    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))",
     "ersetze": "bewegt.some((b) => liestTestDatei(pfad, text, b))",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -396,8 +396,8 @@
   {
     "name": "PR-Datei: Test zählt als Nenner",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))",
-    "ersetze": "bewegt.find((x) => nennt(text, x))",
+    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x, p))",
+    "ersetze": "bewegt.find((x) => nennt(text, x, p))",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
@@ -406,7 +406,7 @@
   {
     "name": "PR-Datei: nennt entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))",
+    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x, p))",
     "ersetze": "bewegt.find((x) => liestTestDatei(p, text, x))",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -416,7 +416,7 @@
   {
     "name": "PR-Datei: Test zählt als Ordner-Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))",
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))), p)",
     "ersetze": "ordnerLeser(text, bewegt)",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -426,7 +426,7 @@
   {
     "name": "PR-Datei: Ordner-Leser aus",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))",
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))), p)",
     "ersetze": "undefined",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -573,8 +573,8 @@
   {
     "name": "Datenkanal: je Leser nur die erste genannte bewegte Datei",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x)).map((x) => ({ leser: l, bewegt: x }))",
-    "ersetze": "const x = bewegt.find((y) => liestTestDatei(l, text, y) && nennt(text, y)); return x === undefined ? [] : [{ leser: l, bewegt: x }]",
+    "suche": "return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x, l)).map((x) => ({ leser: l, bewegt: x }))",
+    "ersetze": "const x = bewegt.find((y) => liestTestDatei(l, text, y) && nennt(text, y, l)); return x === undefined ? [] : [{ leser: l, bewegt: x }]",
     "tests": [
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
@@ -609,7 +609,7 @@
   {
     "name": "Bot-Datei Rückweg: Leser der Bot-Datei bleiben im Filter",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b))",
+    "suche": "wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b, l))",
     "ersetze": "true",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"

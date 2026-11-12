@@ -116,7 +116,7 @@ function repo() {
   // Meldungstext, keine Lesung (tools/check-workflows.mjs: Hinweis auf die Prüfliste).
   const NUR_GENANNT = new Set(['anbieter-vorschlaege.json', 'crunchyroll-woche.json'].map((n) => `tools/check-workflows.mjs|${['data', n].join('/')}`))
   const literal = new RegExp(`${['data', ''].join('/')}[\\w./-]+\\.(?:json|jsonl|yaml|md)`, 'g')
-  const treffer = skripte.flatMap((s) => [...ohneKommentare(readFileSync(join(tools, '..', s), 'utf8')).matchAll(literal)].map((m) => `${s}|${m[0]}`))
+  const treffer = skripte.flatMap((s) => [...ohneKommentare(readFileSync(join(tools, '..', s), 'utf8'), s).matchAll(literal)].map((m) => `${s}|${m[0]}`))
   ok(treffer.length >= 10, `Wächter findet die Literale der Skripte (${treffer.length})`)
   const ausgenommen = treffer.filter((t) => !ZAEHLT(t.split('|')[1]) && !NUR_GENANNT.has(t))
   gleich(ausgenommen, [], 'kein Datei-Literal der check:workflows-Skripte liegt in der Ausnahme des Abdrucks')
@@ -137,7 +137,7 @@ function repo() {
   const stamm = new RegExp(`${['data', ''].join('/')}(?:anisearch-raw|crunchyroll-raw|crunchyroll-neu|crunchyroll-woche|tv-programm)\\b`)
   const leser = [...skripte.map((s) => s.slice('tools/'.length)), ...readdirSync(tools).filter((f) => f.endsWith('.test.mjs'))]
     .filter((f) => !KULISSEN.includes(f) && f !== 'check-workflows.mjs')
-    .filter((f) => stamm.test(ohneKommentare(readFileSync(join(tools, f), 'utf8'))))
+    .filter((f) => stamm.test(ohneKommentare(readFileSync(join(tools, f), 'utf8'), f)))
   gleich(leser, [], 'kein Skript und kein Test außerhalb der Kulissen nennt die Zusatz-Ausnahme')
   ok(readdirSync(tools).filter((f) => f.endsWith('.test.mjs')).length > 100, 'Wächter liest die Tests (mehr als 100)')
 }
