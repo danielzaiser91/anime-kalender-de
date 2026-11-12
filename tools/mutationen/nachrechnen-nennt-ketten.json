@@ -1,0 +1,9 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "leserIn: Nachrechnen-Werkzeuge zählen wieder als Leser", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "!LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt", "ersetze": "!LISTE.test(pfad) && bewegt", "tests": ["node tools/pr-nachrechnen-fehlalarme.test.mjs"] },
+  { "name": "istNachrechnenWerkzeug: ganze pr-*-Familie ausgenommen (zu weit)", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/", "ersetze": "/^tools\\/(pr-|nachrechnen-)[\\w.-]*$/", "tests": ["node tools/pr-nachrechnen-fehlalarme.test.mjs"] },
+  { "name": "istNachrechnenWerkzeug: nachrechnen-* nicht mehr ausgenommen", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/", "ersetze": "/^tools\\/(pr-nachrechnen)[\\w.-]*$/", "tests": ["node tools/pr-nachrechnen-fehlalarme.test.mjs", "node tools/pr-nachrechnen-leser.test.mjs"] },
+  { "name": "genannte: alle bewegten Dateien statt der genannten", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "(text === null ? bewegt : bewegt.filter((x) => liestTestDatei(leser, text, x) && nennt(text, x))).join(', ')", "ersetze": "bewegt.join(', ')", "tests": ["node tools/pr-nachrechnen-fehlalarme.test.mjs"] },
+  { "name": "genannte: nur die erste genannte Datei", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "nennt(text, x))).join(', ')", "ersetze": "nennt(text, x))).slice(0, 1).join(', ')", "tests": ["node tools/pr-nachrechnen-fehlalarme.test.mjs"] },
+  { "name": "Grund „ruft auf“: Pfade fehlen", "datei": "tools/pr-nachrechnen-leser.mjs", "suche": " (nennt ${genannte(l1, bewegt, lies)})`", "ersetze": "`", "tests": ["node tools/pr-nachrechnen-fehlalarme.test.mjs"] }
+]

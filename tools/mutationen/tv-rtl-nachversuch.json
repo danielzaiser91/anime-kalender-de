@@ -1,0 +1,13 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-tv-rtl-main.ts", "npx tsx pipeline/check-tv-rtl-nachversuch.ts"] },
+  { "name": "main: if (grund) -> if (false)", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "  if (grund) {\n    warn(", "ersetze": "  if (false) {\n    warn(" }], "tests": ["npx tsx pipeline/check-tv-rtl-main.ts"] },
+  { "name": "main: exitCode 1 -> 0", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "process.exitCode = 1", "ersetze": "process.exitCode = 0" }], "tests": ["npx tsx pipeline/check-tv-rtl-main.ts"] },
+  { "name": "main: recordSource ohne Grund", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "recordSource('tv-programm', 0, grund)", "ersetze": "recordSource('tv-programm', 0)" }], "tests": ["npx tsx pipeline/check-tv-rtl-main.ts"] },
+  { "name": "rtlProgrammLesen: Standard-Pause 20000 -> 0", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "setTimeout(ok, 20000)", "ersetze": "setTimeout(ok, 0)" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts"] },
+  { "name": "rtlProgrammLesen: Standard-Pause 20000 -> 20001", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "setTimeout(ok, 20000)", "ersetze": "setTimeout(ok, 20001)" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts"] },
+  { "name": "rtlProgrammLesen: ohne Typ -> leer", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "?? 'ohne Typ'", "ersetze": "?? ''" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts"] },
+  { "name": "rtlProgrammLesen: Pause vor Versuch 1 statt 2", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "if (versuch > 1) await pause()", "ersetze": "if (versuch > 0) await pause()" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts"] },
+  { "name": "rtlProgrammLesen: keine Pause", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "if (versuch > 1) await pause()", "ersetze": "" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts"] },
+  { "name": "RTL_VERSUCHE 3 -> 2", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "RTL_VERSUCHE = 3", "ersetze": "RTL_VERSUCHE = 2" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts", "npx tsx pipeline/check-tv-rtl-main.ts"] },
+  { "name": "RTL_VERSUCHE 3 -> 4", "aenderungen": [{ "datei": "pipeline/fetch-tv-programm.ts", "suche": "RTL_VERSUCHE = 3", "ersetze": "RTL_VERSUCHE = 4" }], "tests": ["npx tsx pipeline/check-tv-rtl-nachversuch.ts", "npx tsx pipeline/check-tv-rtl-main.ts"] }
+]

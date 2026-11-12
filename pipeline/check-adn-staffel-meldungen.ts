@@ -36,7 +36,8 @@ let ausgabe = ''
 
 function lauf(ordner: string, name: string, meldungen: Meldung[], fehler: string[], bestand?: Bestand): Beleg[] {
   const datei = join(ordner, `${name}.yaml`)
-  writeFileSync(datei, `- anilistId: 1\n  platform: adn\n  url: https://animationdigitalnetwork.com/de/video/1\n  dub: true\n  checkedAt: '2026-10-01'\n`)
+  /* Zweiter Saat-Beleg: 14719 hängt im echten Bestand schon an der JoJo-Seite (Besitz laut Zuordnung: ein anderer Titel), das ist kein neuer Treffer des Laufs. */
+  writeFileSync(datei, `- anilistId: 1\n  platform: adn\n  url: https://animationdigitalnetwork.com/de/video/1\n  dub: true\n  checkedAt: '2026-10-01'\n- anilistId: 14719\n  platform: adn\n  url: ${ADN}444-jojo-s-bizarre-adventure\n  dub: true\n  checkedAt: '2026-10-01'\n`)
   const eigener = bestand ? { ADN_MOCK_URL: bestand.url, ADN_MOCK_TITEL: JSON.stringify(bestand.titel) } : {}
   const r = spawnSync(process.execPath, [tsx, '--import', mock, join(wurzel, 'pipeline/fetch-pruefungen.ts')], {
     cwd: wurzel,
@@ -46,7 +47,7 @@ function lauf(ordner: string, name: string, meldungen: Meldung[], fehler: string
   })
   if (r.status !== 0) fehler.push(`${name}: Lauf endete mit ${r.status}: ${r.stderr.slice(-300)}`)
   ausgabe = `${r.stdout}\n${r.stderr}`
-  return (yaml.load(readFileSync(datei, 'utf8')) as Beleg[]).slice(1)
+  return (yaml.load(readFileSync(datei, 'utf8')) as Beleg[]).slice(2)
 }
 
 /** Kurzform eines Belegs: `dub` plus Bereiche, oder `-`, wo der Beleg fehlt. */
