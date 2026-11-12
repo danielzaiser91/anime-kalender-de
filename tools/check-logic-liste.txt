@@ -56,6 +56,7 @@ pipeline/check-anime2you-schatten.ts
 pipeline/check-anime2you-vorschlag.ts
 pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
+pipeline/check-anisearch-artikel.ts
 pipeline/check-anisearch-aufgenommen.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
