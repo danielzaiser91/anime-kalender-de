@@ -100,6 +100,7 @@ const nicht = (...ids: number[]): Record<string, 'nicht-gefunden'> => Object.fro
 pruefe('Name im Text: Name steht, Grund nicht-gefunden → Treffer; Name fehlt → keiner', nameImTextOhneMarke(TEXT, nicht(1, 2), [kn(1, '86 EIGHTY-SIX'), kn(2, 'Frieren')]).join() === '1')
 pruefe('Name im Text: ein Titel mit Marke oder Grund ausserhalb zählt nicht', nameImTextOhneMarke(TEXT, { 1: 'ausserhalb' }, [kn(1, '86 EIGHTY-SIX'), kn(2, 'Kobayashi-san Chi no Maidragon S')]).length === 0)
 pruefe('Name im Text: der Termin der Quelle muss im Text stehen (3. Dezember: ja, ein Tag im November: nein)', nameImTextOhneMarke(TEXT, nicht(1, 2), [kn(1, 'Kobayashi-san Chi no Maidragon S', ['2026-12-03']), kn(2, 'Kobayashi-san Chi no Maidragon S', ['2026-11-04'])]).join() === '1')
+pruefe('Name im Text: der Termin steht an einer Wortgrenze (2.10. steckt nicht in „Ab 12.10.“, 12.10. schon)', nameImTextOhneMarke('Ab 12.10.: »86 EIGHTY-SIX« (Dub + Sub).', nicht(1, 2), [kn(1, '86 EIGHTY-SIX', ['2026-10-02']), kn(2, '86 EIGHTY-SIX', ['2026-10-12'])]).join() === '2')
 pruefe('Name im Text: Namen bis drei Zeichen („Dub“ steht im Text) zählen nicht', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Dub')]).length === 0)
 pruefe('Name im Text: nur ganze Wörter, kein Teilstück („Maidrag“ steckt in „Maidragon“)', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Maidrag')]).length === 0)
 

@@ -139,6 +139,32 @@ const codeGrund = ordnerFall('tools/pr-nachrechnen.mjs')
 pruefe('Ordner-Leser: echter Test mit readdirSync + tools/ trifft bewegte Ausführungsliste nicht', listeGrund === null, listeGrund)
 pruefe('Ordner-Leser: bewegte Code-Datei unter tools/ bleibt Grund', typeof codeGrund === 'string' && codeGrund.includes('einen Ordner mit tools/pr-nachrechnen.mjs'), codeGrund)
 
+// 12.11.2026 (PR 3557): main bewegte Werkzeug und Mutationsliste (PR 3555), der Daten-PR ändert data/verweise-von-hand.yaml; die Leser sind die echten Werkzeugdateien.
+const WERKZEUG = ['tools/pr-nachrechnen-bot-pfade-leser.mjs', 'tools/pr-nachrechnen-leser-git.mjs']
+const WERKZEUG_TEXTE = Object.fromEntries(WERKZEUG.map((n) => [n, fs.readFileSync(lesePfad(n.slice('tools/'.length)), 'utf8')]))
+const BEWEGT_3555 = ['tools/mutationen/nachrechnen-fehlalarme.json', 'tools/pr-nachrechnen-leser.mjs']
+const werkzeugFall = (leser, texte) => bewegtesGelesen({ bewegt: BEWEGT_3555, pr: ['data/verweise-von-hand.yaml'], leser, lies: (p) => texte[p] ?? null, paketSkripte: null })
+const echtWerkzeug = werkzeugFall(WERKZEUG, WERKZEUG_TEXTE)
+pruefe('PR 3557: Nachrechnen-Werkzeug nennt bewegte Werkzeugdateien, der Daten-PR liest sie nicht -> null', WERKZEUG.every((n) => BEWEGT_3555.some((b) => WERKZEUG_TEXTE[n].includes(b.split('/').pop()))) && echtWerkzeug === null, echtWerkzeug)
+const fremdLeser = werkzeugFall(['pipeline/bau/x.ts'], { 'pipeline/bau/x.ts': "import '../../tools/pr-nachrechnen-leser.mjs'\n" })
+pruefe('PR 3557 Gegenfall: ein Leser in pipeline/ nennt dieselbe bewegte Datei -> Grund', /^der PR ändert data\/verweise-von-hand\.yaml, .*Leser: pipeline\/bau\/x\.ts/.test(fremdLeser), fremdLeser)
+const toolsLeser = werkzeugFall(['tools/pr-basis.mjs'], { 'tools/pr-basis.mjs': "import './pr-nachrechnen-leser.mjs'\n" })
+pruefe('PR 3557 Gegenfall: tools/pr-basis.mjs (nicht Nachrechnen-Familie) nennt die bewegte Datei -> Grund', /Leser: tools\/pr-basis\.mjs/.test(toolsLeser), toolsLeser)
+const joblog = werkzeugFall(['tools/nachrechnen-joblog.mjs'], { 'tools/nachrechnen-joblog.mjs': "import './pr-nachrechnen-leser.mjs'\n" })
+pruefe('PR 3557: tools/nachrechnen-joblog.mjs (zweiter Namensteil der Familie) ist kein Bau-Leser -> null', joblog === null, joblog)
+const unterordner = werkzeugFall(['tools/pr-nachrechnen-x/y.mjs'], { 'tools/pr-nachrechnen-x/y.mjs': "import './pr-nachrechnen-leser.mjs'\n" })
+pruefe('PR 3557 Gegenfall: Unterordner der Familie zählt nicht als Familie -> Grund', typeof unterordner === 'string', unterordner)
+
+// 12.11.2026 (PR 3494/3481): `anisearch-offen.json` steckt als Namensende in `adn-anisearch-offen.json`; der echte Text von check-adn-anisearch.ts nennt nur Letzteres.
+const ADN_CHECK = 'pipeline/check-adn-anisearch.ts'
+// Eingefroren: Zeilen 3 und 130 des echten Textes (Stand 12.11.2026), damit eine Änderung der Datei den Test nicht färbt.
+const adnText = " * ohne Cache und ohne Bestand; der Katalog `data/adn-catalog.json` und die Liste `data/adn-anisearch-offen.json` liegen im Repo.\nconst offen = (JSON.parse(readFileSync('data/adn-anisearch-offen.json', 'utf8')) as { serien: AdnOffen[] }).serien\n"
+const OFFEN = 'data/anisearch-offen.json'
+pruefe('Namensende: echter Text nennt adn-anisearch-offen.json, nicht anisearch-offen.json -> kein Leser', adnText.includes('adn-anisearch-offen.json') && leserIn(new Map([[ADN_CHECK, adnText]]), [OFFEN]).length === 0)
+pruefe('Namensende: die längere Datei data/adn-anisearch-offen.json bleibt Leser-Treffer', leserIn(new Map([[ADN_CHECK, adnText]]), ['data/adn-anisearch-offen.json']).join() === ADN_CHECK)
+const kurzTexte = { 'a.mjs': "x('data/anisearch-offen.json')\n", 'b.mjs': "x(join(D, 'anisearch-offen.json'))\n", 'c.mjs': 'x(`${D}/anisearch-offen.json`)\n', 'd.mjs': "x('anisearch-offen.json')\n", 'e.mjs': "x('foo.anisearch-offen.json')\n" }
+pruefe('Namensende: genannte Schreibweisen (Pfad, Name im Literal, Template) bleiben Treffer, `foo.`-Vorsatz nicht', leserIn(new Map(Object.entries(kurzTexte)), [OFFEN]).join() === 'a.mjs,b.mjs,c.mjs,d.mjs')
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)
   process.exit(1)
