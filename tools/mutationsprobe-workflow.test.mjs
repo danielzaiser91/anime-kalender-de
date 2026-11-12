@@ -22,15 +22,17 @@ const schritt = (job, name) => {
 
 // Aufbau
 assert.deepEqual(Object.keys(wf.on), ['workflow_dispatch'])
-assert.deepEqual(Object.keys(wf.on.workflow_dispatch.inputs), ['zweig', 'liste', 'test', 'pr', 'timeout'])
-for (const n of ['zweig', 'liste', 'test']) assert.equal(wf.on.workflow_dispatch.inputs[n].required, true, n)
+assert.deepEqual(Object.keys(wf.on.workflow_dispatch.inputs), ['zweig', 'liste', 'test', 'pr', 'kopf', 'timeout'])
+for (const n of ['zweig', 'liste']) assert.equal(wf.on.workflow_dispatch.inputs[n].required, true, n)
+for (const n of ['test', 'kopf']) assert.equal(wf.on.workflow_dispatch.inputs[n].required, false, `${n} optional`)
+assert.equal(wf['run-name'], 'Mutationsprobe ${{ inputs.liste }} @ ${{ inputs.kopf }}', 'Lauftitel, an dem der Prüfer den Lauf findet')
 assert.deepEqual(wf.permissions, { contents: 'read' })
 assert.equal(mutation.permissions, undefined, 'der Lauf des Zweig-Codes bekommt nur contents: read')
 assert.deepEqual(kommentar.permissions, { 'pull-requests': 'write' })
 assert.equal(kommentar.needs, 'mutation')
 assert.match(kommentar.if, /inputs\.pr != ''/)
 assert.match(kommentar.if, /always\(\)/)
-assert.equal(mutation.steps.find((s) => s.uses?.startsWith('actions/checkout'))?.with.ref, '${{ inputs.zweig }}')
+assert.equal(mutation.steps.find((s) => s.uses?.startsWith('actions/checkout'))?.with.ref, '${{ inputs.kopf || inputs.zweig }}')
 assert.ok(kommentar.steps.every((s) => !s.uses?.startsWith('actions/checkout')), 'Kommentar-Job lädt keinen Zweig-Code')
 for (const job of [mutation, kommentar]) {
   for (const s of job.steps) assert.ok(!/\$\{\{/.test(s.run ?? ''), `Ausdruck in run (nur über env): ${s.name}`)
@@ -49,8 +51,12 @@ const bash = (script, env, cwd) =>
   spawnMitLimit('bash', ['-c', script], { cwd, env: { ...process.env, ...env }, encoding: 'utf8', windowsHide: true })
 try {
   const pruefen = schritt(mutation, 'Eingaben prüfen').run
-  const gut = { PR: '12', TIMEOUT: '300', LISTE: 'tools/mutationen/x.json' }
+  const gut = { PR: '12', TIMEOUT: '300', LISTE: 'tools/mutationen/x.json', KOPF: '' }
   assert.equal(bash(pruefen, gut, dir).status, 0)
+  assert.equal(bash(pruefen, { ...gut, KOPF: 'a'.repeat(40) }, dir).status, 0, 'ein SHA ist erlaubt')
+  for (const kopf of ['a'.repeat(39), 'a'.repeat(41), 'G'.repeat(40), `${'a'.repeat(39)};`]) {
+    assert.equal(bash(pruefen, { ...gut, KOPF: kopf }, dir).status, 2, `kopf ${kopf}`)
+  }
   assert.equal(bash(pruefen, { ...gut, PR: '' }, dir).status, 0, 'ohne PR ist erlaubt')
   for (const schlecht of [{ PR: '1; echo' }, { TIMEOUT: '' }, { TIMEOUT: '5s' }, { LISTE: '../x.json' }, { LISTE: '/etc/x.json' }]) {
     assert.equal(bash(pruefen, { ...gut, ...schlecht }, dir).status, 2, JSON.stringify(schlecht))
@@ -64,14 +70,14 @@ try {
   writeFileSync(join(arbeit, 'pruef.mjs'), "import{readFileSync as r}from'node:fs';process.exit(r('a.txt','utf8').includes('wert=1')?0:1)\n")
   const rot = { name: 'rot', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2' }
   const grün = { name: 'grün', datei: 'a.txt', suche: 'a', ersetze: 'a' }
-  const lauf = (liste) => {
+  const lauf = (liste, test = 'node pruef.mjs') => {
     writeFileSync(join(arbeit, 'liste.json'), JSON.stringify(liste))
     const temp = join(dir, `temp-${Math.random().toString(36).slice(2)}`)
     mkdirSync(temp)
     const summary = join(temp, 'summary.md')
     const r = bash(schritt(mutation, 'Mutanten einspielen und Tests laufen lassen').run, {
       LISTE: 'liste.json',
-      TEST: 'node pruef.mjs',
+      TEST: test,
       TIMEOUT: '60',
       ZWEIG: 'feat/x',
       RUNNER_TEMP: temp,
@@ -86,8 +92,14 @@ try {
   assert.equal(alleRot.status, 0, alleRot.stdout + alleRot.stderr)
   assert.match(alleRot.ergebnis, /^## Mutationsprobe für `feat\/x` \(`liste\.json`\)\n\nExit 0 /)
   assert.match(alleRot.ergebnis, /actions\/runs\/77/)
+  assert.match(alleRot.ergebnis, /Kopf: `unbekannt`\./, 'ohne Git-Stand steht „unbekannt“, nie eine leere Angabe')
   assert.match(alleRot.ergebnis, /\| rot /)
   assert.equal(alleRot.summary, alleRot.ergebnis, 'Zusammenfassung = Ergebnis')
+  // Leerer Standardtest (Prüfer-Lauf): jeder Mutant trägt eigene tests, der Läufer bekommt kein „--test“.
+  const eigene = lauf([{ ...rot, tests: ['node pruef.mjs'] }], '')
+  assert.equal(eigene.status, 0, eigene.stdout + eigene.stderr)
+  assert.match(eigene.ergebnis, /\| rot /)
+  assert.equal(lauf([rot], '').status, 2, 'ohne Standardtest und ohne eigene tests bleibt es ein Aufruffehler')
   const ueberlebt = lauf([rot, grün])
   assert.equal(ueberlebt.status, 1, 'ein Überlebender macht den Lauf rot')
   assert.match(ueberlebt.ergebnis, /\nExit 1 /)
@@ -97,6 +109,14 @@ try {
   assert.match(grundrot.ergebnis, /\nExit 2 /)
   assert.ok(grundrot.ergebnis.includes('Grundlauf ohne Mutation ist rot'), 'ohne Tabelle steht das Log-Ende im Ergebnis')
   assert.equal(readFileSync(join(arbeit, 'a.txt'), 'utf8'), 'wert=1\n', 'Datei nach allen Läufen zurückgesetzt')
+  // Im Git-Stand trägt das Ergebnis den echten Kopf-SHA (der Prüfer ordnet den Kommentar daran dem Push zu).
+  const git = (...a) => spawnMitLimit('git', a, { cwd: arbeit, encoding: 'utf8', windowsHide: true })
+  git('init', '-q')
+  git('add', '-A')
+  git('-c', 'user.email=t@example.org', '-c', 'user.name=t', 'commit', '-q', '-m', 'x')
+  const sha = git('rev-parse', 'HEAD').stdout.trim()
+  assert.match(sha, /^[0-9a-f]{40}$/)
+  assert.ok(lauf([rot]).ergebnis.includes(`Kopf: \`${sha}\`. Lauf:`), 'Kopf-SHA im Ergebnis')
 
   // Kommentar mit gefälschtem gh
   const bin = join(dir, 'bin')

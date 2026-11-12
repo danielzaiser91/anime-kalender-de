@@ -17,7 +17,7 @@
     "contents": "read",
     "pull-requests": "write",
     "checks": "read",
-    "actions": "read"
+    "actions": "write"
   },
   "concurrency": {
     "group": "pr-pruefer-${{ github.event.pull_request.number }}",
@@ -59,6 +59,15 @@
           "run": "T=\"$RUNNER_TEMP/pruefer\"\nstufe=2\nif node tools/pr-stufe.mjs \"$PR\" > \"$T/stufe.json\"; then\n  stufe=$(node -e 'console.log(JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\")).stufe)' \"$T/stufe.json\") || stufe=2\nfi\necho \"stufe=$stufe\" >> \"$GITHUB_OUTPUT\"\n{\n  echo \"<!-- pr-stufe -->\"\n  echo \"**Prüfstufe $stufe** für ${HEAD_SHA:0:9}\"\n  echo\n  node -e 'const j=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(j.begruendung.map(b=>\"- \"+b).join(\"\\n\"))' \"$T/stufe.json\" || true\n} > \"$T/stufe.md\"\ncat \"$T/stufe.md\" >> \"$GITHUB_STEP_SUMMARY\"\n# Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.\nalt=$(gh api \"repos/$GITHUB_REPOSITORY/issues/$PR/comments\" --paginate -q '.[] | select(.body | startswith(\"<!-- pr-stufe -->\")) | .id' | head -1) || alt=\nif [ -n \"$alt\" ]; then\n  gh api -X PATCH \"repos/$GITHUB_REPOSITORY/issues/comments/$alt\" -F body=@\"$T/stufe.md\" > /dev/null\nelse\n  gh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/stufe.md\"\nfi\n"
         },
         {
+          "name": "Mutationsprobe starten",
+          "if": "steps.stufe.outputs.stufe == '2'",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "ZWEIG": "${{ github.head_ref }}"
+          },
+          "run": "node tools/mutationsprobe-pr.mjs start \"$PR\" \"$HEAD_SHA\" \"$ZWEIG\" \"$RUNNER_TEMP/pruefer\" || echo \"Mutationsprobe nicht gestartet\""
+        },
+        {
           "name": "Prüfmodus",
           "id": "modus",
           "env": {
@@ -73,6 +82,15 @@
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
           },
           "run": "node tools/pr-kettenlog.mjs \"$HEAD_SHA\" \"$RUNNER_TEMP/pruefer\" 2160 \"$RUNNER_TEMP/pruefer/pr-beschreibung.txt\" || echo \"Kettenlog nicht bereitgelegt\""
+        },
+        {
+          "name": "Mutationsprobe abwarten",
+          "if": "steps.stufe.outputs.stufe == '2'",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "GITHUB_REPOSITORY": "${{ github.repository }}"
+          },
+          "run": "node tools/mutationsprobe-pr.mjs warte \"$RUNNER_TEMP/pruefer\" || echo \"Mutationsprobe nicht abgewartet\""
         },
         {
           "name": "Prüfer-Eingang prüfen",

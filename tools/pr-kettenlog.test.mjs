@@ -366,7 +366,7 @@ const jobMinuten = wf.jobs.pruefen['timeout-minutes']
 // PR 2852, Kopf bea96992d (04.11.2026): Kette 15:46:39 bis 16:18:02 = 31,4 min; bei 13 min urteilte der Prüfer auf unfertiger Kette „aendern“.
 pruefe('Frist: deckt die längste gemessene Kette (31,4 min) ab', frist >= 31.4 * 60, frist)
 pruefe('Frist: Vorlauf + Frist + voller Prüfer bleibt unter dem Job-Timeout', VORLAUF_MIN + frist / 60 + PRUEFER_MAX_MIN <= jobMinuten, { frist, jobMinuten })
-pruefe('Berechtigung actions: read vorhanden, Bash im Prüfer weiter verboten', wf.permissions.actions === 'read' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
+pruefe('Berechtigung actions: write (schließt read ein, Mutationsprobe starten), Bash im Prüfer weiter verboten', wf.permissions.actions === 'write' && schritte.filter((s) => s.with?.settings).every((s) => JSON.parse(s.with.settings).permissions.deny.includes('Bash')))
 const prompts = schritte.filter((s) => s.with?.prompt).map((s) => s.with.prompt)
 pruefe('alle drei Prüfer-Prompts nennen das Kettenlog', prompts.length === 3 && prompts.every((p) => p.includes('/pruefer/kettenlog.txt')), prompts.length)
 const mitZitaten = prompts.filter((p) => p.includes('/pruefer/kettenlog-zitate.txt'))

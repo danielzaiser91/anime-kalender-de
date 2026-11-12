@@ -7,7 +7,7 @@
  */
 import fs from 'node:fs'
 import { parse } from 'yaml'
-import { laufeBisEingang, prDaten, KOPF } from './pr-pruefer-kulisse.mjs'
+import { bedingungWahr, laufeBisEingang, prDaten, KOPF } from './pr-pruefer-kulisse.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -42,6 +42,8 @@ const AUFRUFE = [
   'pr diff 7',
   'api repos/o/r/issues/7/comments --paginate -q .[] | select(.body | startswith("<!-- pr-stufe -->")) | .id',
   'pr comment 7 --repo o/r --body-file <datei>',
+  // Prüfstufe 2: „Mutationsprobe starten“ liest die Dateiliste des PR (die Attrappe antwortet 404, der Schritt bleibt fail-soft).
+  'api --method GET --paginate repos/o/r/pulls/7/files -f per_page=100 -q [.[] | {filename, status}]',
   'api --paginate --slurp repos/o/r/issues/7/comments',
   'api repos/o/r/actions/workflows/pr-pruefung.yml/runs?head_sha=' + KOPF + '&event=pull_request&per_page=30 -q .workflow_runs[] | [.id, .status, (.conclusion // "")] | @tsv',
   'api --paginate repos/o/r/actions/runs/5/jobs?per_page=100 -q .jobs[] | [.id, .name, .status, (.conclusion // "")] | @tsv',
@@ -118,6 +120,20 @@ pruefe('Voller Prüfer: Vorgabe Folgeläufe, übersprungene Tests, inhaltlicher 
   ['Folgeläufe', 'leere oder gelöschte Eingabedatei', 'übersprungen wird, belegt dort nichts', 'je Ziel einen inhaltlichen Abgleich'].every((t) => voll.includes(t)))
 const leserDiffZustand = schritte.filter((s) => JSON.stringify(s).includes('steps.diff.outputs.diff-zustand'))
 pruefe('diff-zustand liest nur noch die Sperre', leserDiffZustand.length === 1 && leserDiffZustand[0].id === 'eingang')
+
+// Mutationsprobe bei Stufe 2 (12.11.2026): Start vor dem Prüfmodus, Abwarten nach dem Kettenlog und vor dem ersten Prüfer.
+const schrittNamen = schritte.map((s) => s.name)
+const start = schritte.find((s) => s.name === 'Mutationsprobe starten')
+const abwarten = schritte.find((s) => s.name === 'Mutationsprobe abwarten')
+pruefe('Mutationsprobe: beide Schritte nur bei Prüfstufe 2', start?.if === "steps.stufe.outputs.stufe == '2'" && abwarten?.if === "steps.stufe.outputs.stufe == '2'", [start?.if, abwarten?.if])
+pruefe('Mutationsprobe: Start nach der Prüfstufe, Abwarten nach dem Kettenlog und vor dem ersten Prüfer',
+  schrittNamen.indexOf('Mutationsprobe starten') > schrittNamen.indexOf('Prüfstufe') && schrittNamen.indexOf('Mutationsprobe abwarten') > schrittNamen.indexOf('Kettenlog bereitlegen') && schrittNamen.indexOf('Mutationsprobe abwarten') < schrittNamen.indexOf('Prüfer-Eingang prüfen'), schrittNamen)
+pruefe('Mutationsprobe: Start und Abwarten rufen das Skript auf, fail-soft ohne Exit 1',
+  /^node tools\/mutationsprobe-pr\.mjs start "\$PR" "\$HEAD_SHA" "\$ZWEIG" "\$RUNNER_TEMP\/pruefer" \|\| echo /.test(start?.run ?? '') && /^node tools\/mutationsprobe-pr\.mjs warte "\$RUNNER_TEMP\/pruefer" \|\| echo /.test(abwarten?.run ?? ''), [start?.run, abwarten?.run])
+pruefe('Mutationsprobe: voller Prüfer und Abnahme-Prüfer lesen die Ergebnisdatei', voll.includes('/pruefer/mutationsprobe.txt') && abnahmePrompt.includes('/pruefer/mutationsprobe.txt'))
+pruefe('Mutationsprobe: actions: write steht nur im Kopf der Datei, kein Job und kein Schritt setzt eigene Rechte', wf.permissions.actions === 'write' && wf.jobs.pruefen.permissions === undefined)
+const wahr = (w, a) => bedingungWahr(w, a)
+pruefe('Kulisse: Bedingung wahr, falsch, fremde Form', wahr("steps.stufe.outputs.stufe == '2'", { stufe: { stufe: '2' } }) === true && wahr("steps.stufe.outputs.stufe == '2'", { stufe: { stufe: '1' } }) === false && wahr("steps.stufe.outputs.stufe == '2'", {}) === false && wahr('always()', {}) === null)
 
 if (fehler.length) {
   console.error(`pr-pruefer-ablauf.test: ${fehler.length} Fehler`)

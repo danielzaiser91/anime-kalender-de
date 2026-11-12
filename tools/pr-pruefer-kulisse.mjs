@@ -44,6 +44,7 @@ function auswerten(text, kontext) {
       'github.event.pull_request.head.sha': KOPF,
       'github.event.pull_request.base.sha': BASIS,
       'github.repository': REPO,
+      'github.head_ref': 'zweig-7',
       'secrets.GITHUB_TOKEN': 'tok-attrappe',
       'runner.temp': kontext.temp,
     }
@@ -56,6 +57,12 @@ function auswerten(text, kontext) {
 
 function fremdeSchluessel(objekt, erlaubt) {
   return Object.keys(objekt ?? {}).filter((s) => !erlaubt.includes(s))
+}
+
+/** `steps.<id>.outputs.<name> == '<wert>'` (die einzige Bedingungsform der Zusatzschritte): wahr/falsch, sonst null. */
+export function bedingungWahr(wenn, ausgaben) {
+  const m = /^steps\.([\w-]+)\.outputs\.([\w-]+) == '([^']*)'$/.exec(String(wenn))
+  return m ? ausgaben[m[1]]?.[m[2]] === m[3] : null
 }
 
 /** Wie der Checkout: die Dateien aus tools/ (oberste Ebene) liegen im Arbeitsordner, daneben die Attrappe. */
@@ -116,7 +123,10 @@ function laufeSchritte(wf, ordner, prs) {
       }
       continue
     }
-    if (fremdeSchluessel(s, ['name', 'id', 'env', 'run']).length) return { fehler: `${s.name}: Schlüssel nicht nachgebildet: ${fremdeSchluessel(s, ['name', 'id', 'env', 'run'])}` }
+    if (fremdeSchluessel(s, ['name', 'id', 'env', 'run', 'if']).length) return { fehler: `${s.name}: Schlüssel nicht nachgebildet: ${fremdeSchluessel(s, ['name', 'id', 'env', 'run', 'if'])}` }
+    const wahr = s.if === undefined ? true : bedingungWahr(s.if, kontext.ausgaben)
+    if (wahr === null) return { fehler: `${s.name}: Bedingung nicht nachgebildet: ${s.if}` }
+    if (!wahr) continue
     const ausgabe = path.join(ordner, `ausgabe-${i}.txt`)
     const skript = path.join(ordner, `schritt-${i}.sh`)
     fs.writeFileSync(skript, auswerten(s.run, kontext))
