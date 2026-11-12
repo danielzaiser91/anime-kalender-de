@@ -116,7 +116,7 @@ try {
   pruefe('kein Weg bekommt dub: true daraus, ein Weg mit dub: false bleibt', JSON.stringify(weg?.streams) === JSON.stringify(nein), weg?.streams)
   pruefe('derselbe Titel wird dabei high (JustWatch plus Marke)', weg?.dubConfidence === 'high', weg?.dubConfidence)
 } finally {
-  rmSync(kulisse, { recursive: true, force: true })
+  rmSync(kulisse, { recursive: true, force: true, maxRetries: 3 })
 }
 
 if (fehler) {
