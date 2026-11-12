@@ -20,7 +20,7 @@
   { "name": "istHandwerkzeug: eigen ohne q.pfad === pfad", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": "q.pfad === pfad || (TOOLS", "ersetze": "(TOOLS" }] },
   { "name": "istHandwerkzeug: Lookbehind weg", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": "`(?<![\\\\w-])${maskiere(stamm)}", "ersetze": "`${maskiere(stamm)}" }] },
   { "name": "istHandwerkzeug: Lookahead weg", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": "${maskiere(stamm)}(?![\\\\w-])`", "ersetze": "${maskiere(stamm)}`" }] },
-  { "name": "istHandwerkzeug: Glob-Zweifel weg", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": " || globTrifft(q, stamm)", "ersetze": "" }] },
+  { "name": "istHandwerkzeug: Glob-Zweifel weg", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": " || globs(q, stamm)", "ersetze": "" }] },
   { "name": "globTrifft: .github nicht gelesen", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": "!q.pfad.startsWith('.github/') && q.pfad", "ersetze": "q.pfad" }] },
   { "name": "globTrifft: package.json nicht gelesen", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": "&& q.pfad !== 'package.json') return false", "ersetze": ") return false" }] },
   { "name": "globTrifft: ohne Platzhalter-Filter (alle Pfade gelten als Glob)", "aenderungen": [{ "datei": "tools/pr-stufe-kette.mjs", "suche": "if (!/[*$]/.test(t)) return false", "ersetze": "" }] },
