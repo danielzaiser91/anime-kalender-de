@@ -127,7 +127,11 @@ gleich('Laufzeit fehlt: Neustart wie bisher', laufe({ KOMMENTAR_ZEIT: ZEIT }, la
 const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer-nachtrag.yml', import.meta.url), 'utf8'))
 const job = wf.jobs.neustart
 const schritt = job.steps.find((s) => s.name === 'Prüfer neu starten')
-gleich('Auslöser: issue_comment created und Ende der PR-Prüfkette', wf.on, { issue_comment: { types: ['created'] }, workflow_run: { workflows: ['PR-Prüfkette'], types: ['completed'] } })
+gleich('Auslöser: issue_comment created, Ende der PR-Prüfkette, Merge einer Basis (pull_request_target closed)', wf.on, {
+  issue_comment: { types: ['created'] },
+  workflow_run: { workflows: ['PR-Prüfkette'], types: ['completed'] },
+  pull_request_target: { types: ['closed'] },
+})
 gleich('Rechte: Aktionen schreiben, sonst lesen', wf.permissions, { contents: 'read', 'pull-requests': 'read', actions: 'write' })
 gleich('Bedingung: nur PR-Kommentare, nicht vom Prüfer', job.if, "github.event.issue.pull_request != null && github.event.comment.user.login != 'github-actions[bot]'")
 gleich('Schritt ruft das Skript ohne Argumente', schritt.run, 'node tools/pr-pruefer-neustart.mjs')

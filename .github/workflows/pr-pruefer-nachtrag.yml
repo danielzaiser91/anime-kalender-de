@@ -16,6 +16,10 @@ on:
   workflow_run:
     workflows: ['PR-Prüfkette']
     types: [completed]
+  # Dritter Auslöser: Ein gemergter PR, den offene PRs als Basis nennen („mergen nach #N“), rechnet deren Kette nach
+  # (Job basis-gemergt, tools/basis-gemergt-neustart.mjs). `pull_request_target` läuft in der Fassung von main, ohne PR-Code.
+  pull_request_target:
+    types: [closed]
 
 permissions:
   contents: read
@@ -27,7 +31,7 @@ permissions:
 # Ein abgebrochenes Kettenende (cancelled) hat eine eigene Gruppe: sein Lauf tut nichts (Job übersprungen) und darf darum keinen
 # wartenden Neustart desselben Kopfes verdrängen (Kette erneut gestartet, Ende success wartet, cancelled-Ereignis käme als Neueres).
 concurrency:
-  group: pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}
+  group: pr-pruefer-nachtrag-${{ github.event_name == 'pull_request_target' && 'basis-' || '' }}${{ github.event.issue.number || github.event.workflow_run.head_sha || github.event.pull_request.number }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}
   cancel-in-progress: false
 
 jobs:
@@ -71,3 +75,32 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           KOPF_SHA: ${{ github.event.workflow_run.head_sha }}
         run: node tools/pr-pruefer-nach-kette.mjs
+
+  basis-gemergt:
+    name: Kette der Stapel-PRs nach Basis-Merge neu rechnen
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    # Höchstens 5 Stapel-PRs je Merge (tools/basis-gemergt-neustart.mjs), je PR bis ~1 min.
+    timeout-minutes: 9
+    # Nur Lesen: Schließen und Öffnen geschieht mit dem PAT (das GITHUB_TOKEN löst keine Folgeläufe aus).
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: read
+    steps:
+      # Volle Commit-Historie ohne Dateiinhalte: `pr-nachrechnen` liest `git log basis..main` (wie im Nacht-Merger).
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Stapel-PRs nachrechnen
+        env:
+          GH_TOKEN: ${{ secrets.NACHT_MERGER_TOKEN || secrets.GITHUB_TOKEN }}
+          # Ohne PAT nur rechnen (Trockenlauf), nichts schließen oder öffnen.
+          TROCKEN: ${{ secrets.NACHT_MERGER_TOKEN == '' }}
+          BASIS_PR: ${{ github.event.pull_request.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GH_REPO: ${{ github.repository }}
+        run: node tools/basis-gemergt-neustart.mjs
