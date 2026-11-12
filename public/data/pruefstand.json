@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-12T11:53:23.297Z",
+ "erzeugtAm": "2026-11-12T13:37:07.593Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -317,9 +317,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 771,
+   "gemeldet": 769,
    "gesamt": 1087,
-   "offen": 316,
+   "offen": 318,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -1127,6 +1127,10 @@
      "staffeln": [
       1
      ]
+    },
+    {
+     "url": "https://www.netflix.com/title/81397437",
+     "titel": "Rainbow High"
     },
     {
      "url": "https://www.netflix.com/title/81056491",
