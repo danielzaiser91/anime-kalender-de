@@ -1,0 +1,2 @@
+# Freigaben: neue Werkzeuge unter tools/ ohne Test (Wächter: tools/werkzeug-ohne-test-wache.mjs).
+# Format: `pfad # Grund` (Grund Pflicht, ein Halbsatz: warum es keinen Test gibt). Ein Eintrag, der nicht mehr nötig ist, macht check:logic rot.
