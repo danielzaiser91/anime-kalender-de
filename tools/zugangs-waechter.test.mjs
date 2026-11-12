@@ -89,4 +89,11 @@ assert.equal(readFileSync(new URL('data/zugangs-register.json', wurzel), 'utf8')
 assert.deepEqual(spezMitFrist('a.yml', { name: 'A', claude: true }, { 'a.yml': 7 }), { name: 'A', claude: true, fristStunden: 7 })
 assert.equal(spezMitFrist('b.yml', { name: 'B' }, { 'a.yml': 7 }).fristStunden, null)
 
+// „Noch nicht angelegt“ steht nur mit Datum (NACHT_MERGER_TOKEN galt 11 Tage lang als fehlend, obwohl angelegt).
+const alleZugaenge = JSON.parse(readFileSync(new URL('data/zugangs-register.json', wurzel), 'utf8')).zugaenge
+for (const z of alleZugaenge) {
+  if (/noch nicht angelegt/i.test(z.gueltig.text)) assert.match(z.gueltig.text, /\d{2}\.\d{2}\.\d{4}/, `${z.id}: „Noch nicht angelegt“ ohne Datum`)
+}
+assert.throws(() => assert.match('Noch nicht angelegt (F99)', /\d{2}\.\d{2}\.\d{4}/))
+
 console.log('zugangs-waechter: Zusicherungen ok')
