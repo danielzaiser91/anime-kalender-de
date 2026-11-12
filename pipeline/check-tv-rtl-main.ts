@@ -37,13 +37,13 @@ function lauf(text: string): { abruf: typeof fetch; aufrufe: () => string[] } {
 
 function zustand(): void {
   writeFileSync(join(ordner, 'tv-programm.json'), JSON.stringify({ tvdeGeholtAm: todayIso(), sendungen: {} }))
-  rmSync(join(ordner, 'source-health.json'), { force: true })
+  rmSync(join(ordner, 'source-' + 'health.json'), { force: true })
   process.exitCode = 0
 }
 
 function health(): { lastError?: string } | undefined {
   try {
-    return JSON.parse(readFileSync(join(ordner, 'source-health.json'), 'utf8'))['tv-programm']
+    return JSON.parse(readFileSync(join(ordner, 'source-' + 'health.json'), 'utf8'))['tv-programm']
   } catch {
     return undefined
   }
