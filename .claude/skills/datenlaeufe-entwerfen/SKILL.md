@@ -51,5 +51,8 @@ Wer `schedule` (oder einen anderen Auslöser) streicht oder ersetzt, sucht alle 
 
 Wer einen Sammler in einen häufigeren Lauf hebt (PR 2186, CR-Neu stündlich), listet **vor** dem PR jede Datei, die danach zwei Läufe schreiben (`tools/quellen-pr.sh`: wer gewinnt bei Überschneidung?), und was ein Scheitern des neuen Schritts in der Statusanzeige auslöst (`lauf-abmelden.sh`, eigener `$MELDER fehler`). Beides fand sonst erst der Prüfer (A2/A3). Eine Erhöhung gegen einen Dienst mit Nutzungsverbot ist Daniels Entscheidung (F90), nicht die des Dirigenten.
 
+## Handbelege aus „Meldungen einarbeiten“ sieht nur `check:bestand` (12.11.2026)
+Was der Bestandsbau beim Einarbeiten aus D1 als Handbeleg schreibt, durchläuft nie die PR-Kette; nur `check:bestand` im Bestandsbau fängt es (12.11.: Bestandsbau rot durch eine Meldung vom 16.10., Urusei-Prime-Seite). Ein Wächter gehört deshalb in den Schritt selbst (Auftrag `meldungen-einarbeiten-keine-fremde-adresse`).
+
 ## Beleglauf vom Zweig (`--ref`): was vom Zweig kommt, entscheidet der Checkout (10.11.2026)
 `gh workflow run <datei> --ref <zweig>` nimmt das Workflow-YAML vom Zweig. Skripte kommen nur dann auch vom Zweig, wenn `actions/checkout` ohne `ref` auscheckt (z. B. `d1-verbrauch.yml`); die Sammler checken mit `ref: main` aus, dort belegt so ein Lauf Skriptänderungen erst nach dem Merge (vorher Prozesstest). Vor dem Beleglauf den Checkout im YAML nachsehen. Er reicht echte Daten-PRs ein, und der Sammler mergt die grünen selbst: das im Auftrag einplanen (PR 3282).
