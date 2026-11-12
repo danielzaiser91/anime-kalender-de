@@ -135,6 +135,16 @@ export const FRISTEN = {
     der Normalfall und kein Ausfall.
   */
   'wikidata-titel': 9,
+  /*
+    Nur im Wochenlauf (refresh-weekly.yml), ohne Eintrag galt die Standardfrist 4 Tage (Alarm bei 8): ein einziger
+    verpasster oder zurückgehaltener Wochenlauf löste ALARM aus (kitsu-folgen, 12.11.2026). Wochentakt plus zwei Tage Luft.
+  */
+  'anisearch-slugs': 9,
+  kinoheld: 9,
+  'kitsu-folgen': 9,
+  'rtlplus-folgen': 9,
+  'tmdb-banner': 9,
+  'tmdb-poster': 9,
   /**
    * Monatlich — die Taktung kommt hier nicht vom Nutzen, sondern vom
    * Kontingent.
