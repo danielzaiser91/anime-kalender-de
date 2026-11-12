@@ -5,12 +5,14 @@
  *
  *   node tools/zugangs-waechter.mjs                    # Läufe in ihrer Frist? Kontingent leer? Ablauf nah?
  *   node tools/zugangs-waechter.mjs --register-pruefen # offline: Register gegen .github/workflows/
+ *   node tools/zugangs-waechter.mjs --secrets          # lokal: Register gegen `gh secret list` (Admin nötig, nie in der CI)
  *
  * Exit 1 bei Befund. `GH_BIN` überschreibt das gh-Programm, `GITHUB_REPOSITORY` das Repo.
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
 import { FRISTEN_STUNDEN } from './wache-fristen.mjs'
+import { secretZeilen } from './zugangs-secret-wache.mjs'
 
 const WURZEL = new URL('..', import.meta.url)
 const register = JSON.parse(readFileSync(new URL('data/zugangs-register.json', WURZEL), 'utf8'))
@@ -178,6 +180,14 @@ function workflowTexte() {
 }
 
 function main() {
+  if (process.argv.includes('--secrets')) {
+    // Nur lokal: das GITHUB_TOKEN der CI darf keine Secret-Namen lesen (tools/zugangs-secret-wache.mjs).
+    const zeilen = secretZeilen((a) => execFileSync(GH, a, { encoding: 'utf8', timeout: 60000 }), REPO, register)
+    for (const z of zeilen) console.log(`✗ ${z}`)
+    console.log(zeilen.length ? `\n${zeilen.length} Befund(e) beim Secret-Abgleich.` : 'Repo-Secrets und Register stimmen überein.')
+    if (zeilen.length) process.exit(1)
+    return
+  }
   if (process.argv.includes('--register-pruefen')) {
     const b = registerBefunde()
     b.push(...wachePlanBefunde(readFileSync(new URL('shared/weckplan.ts', WURZEL), 'utf8'), readFileSync(new URL('.github/workflows/wecker-wache.yml', WURZEL), 'utf8')))
