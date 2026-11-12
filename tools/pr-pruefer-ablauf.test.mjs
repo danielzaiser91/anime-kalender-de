@@ -218,6 +218,7 @@ pruefe('Probe-Job: die Pause zwischen den Versuchen kommt aus MUTATIONSPROBE_PAU
 const dauerAus = laufeProbeJob(wf, { 7: { ...mitListe(), ausfaelle: { liste: 99 } } })
 pruefe('Probe-Job: Dateiliste scheitert immer -> drei Versuche, kein Dispatch, Fehler sichtbar in der Datei',
   (dauerAus.aufrufe ?? []).filter((a) => a.includes('/pulls/7/files')).length === 3 && !(dauerAus.aufrufe ?? []).some((a) => a.startsWith('workflow run')) && /Dateiliste des PR nicht lesbar nach 3 Versuchen/.test(dauerAus.mutationsprobe ?? ''), [dauerAus.aufrufe, dauerAus.mutationsprobe])
+pruefe('Probe-Job: der Fehler steht auch im Schrittlog (Wortlaut der ersten Fehlerzeile)', /Dateiliste nicht lesbar \(/.test(dauerAus.protokoll?.['Mutationsprobe starten'] ?? ''), dauerAus.protokoll)
 
 // Der Prüfer-Job liest das Artefakt nur bei Stufe 2 und vollständigem Diff (A7c).
 const ARTEFAKT = `Mutationsprobe zum Kopf ${KOPF}\n- ${LISTE}: alle Mutanten rot (Lauf grün)\n`
