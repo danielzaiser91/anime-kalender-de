@@ -20,6 +20,9 @@ const ausDateien = (): Quellen => ({
   ausgenommen: ohneSynchroVonHand(),
 })
 
+const meldung = (geholt: number[], ausgelassen: number[]): string =>
+  `Geplante Synchro (p) laut aniSearch: ${geholt.length} Träger aus dem Katalog geholt (${geholt.join(', ')}), ${ausgelassen.length} durch Handurteil ausgelassen (${ausgelassen.join(', ')})`
+
 /**
  * **Eine geplante Synchro (`p`) gehört genau einmal in den Bestand** (Dirigent, 12.11.2026, PR 3528: aniSearch 20905 wechselte `-` → `p`, der Träger
  * AniList 199112 lag nur im Katalog hinter dem Toggle, `ergaenzeAnisearchTitel` legte eine zweite Zeile 10020905 an: MAL-Dublette im Bestandsbau).
@@ -30,12 +33,16 @@ const ausDateien = (): Quellen => ({
  */
 export function holeTraegerGeplanterSynchro(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>, q: Quellen = ausDateien()): number[] {
   const geholt: number[] = []
+  const ausgelassen: number[] = []
   for (const [seite, kennungen] of q.traeger) {
     if (q.dub(seite) !== 'p' || kennungen.some((id) => titles.has(id))) continue
     /* Nur ein Träger je Seite: genau ein Titel. */
     const id = kennungen.find((k) => q.katalog.has(k) && !q.ausgenommen.has(k))
     const e = id === undefined ? undefined : q.katalog.get(id)
-    if (id === undefined || !e) continue
+    if (id === undefined || !e) {
+      ausgelassen.push(...kennungen.filter((k) => q.katalog.has(k) && q.ausgenommen.has(k)))
+      continue
+    }
     titles.set(id, { ...titelAusKatalogEintrag(e), dubConfidence: 'normal', ...(e.mal ? { malId: e.mal } : {}) })
     if (e.start) {
       jpStart.set(id, e.start)
@@ -43,6 +50,6 @@ export function holeTraegerGeplanterSynchro(titles: Map<number, Title>, jpStart:
     }
     geholt.push(id)
   }
-  if (geholt.length) log(`${geholt.length} Titel mit geplanter Synchro laut aniSearch aus dem Katalog geholt (Träger der Seite): ${geholt.join(', ')}`)
+  log(meldung(geholt, ausgelassen))
   return geholt
 }
