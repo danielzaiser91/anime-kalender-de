@@ -47,9 +47,16 @@ pruefe('ohne Franchise-Eintrag zählt der Titel nicht', staffelQuote(s2, undefin
 pruefe('Folgendatei mit anderem Wortlaut (andere Stufe, z. B. Crunchyroll): nicht „TMDB-Staffel"', staffelQuote(s2, eintrag(staffel(2, 25)), datei(25, (nr) => `Anderer Titel ${nr}`)) === undefined)
 pruefe('ein einziger abweichender Titel genügt, die Herkunft zu verneinen', staffelQuote(s2, eintrag(staffel(2, 25)), datei(25, (nr) => (nr === 9 ? 'Abweichend' : voll(nr)))) === undefined)
 const doppeltQ = staffelQuote(s2, eintrag(staffel(2, 25, [], [1, 2])), datei(25, (nr) => (nr <= 2 ? 's2e1' : voll(nr))))
-pruefe('derselbe Titel zweimal (Groß-/Kleinschreibung und Randleerraum egal): doppelt = [s2e1]', doppeltQ?.doppelt.length === 1 && doppeltQ.doppelt[0] === 's2e1' && doppeltQ.titel === 25, doppeltQ)
+pruefe('derselbe Titel zweimal: doppelt = [s2e1], Titel 25', doppeltQ?.doppelt.length === 1 && doppeltQ.doppelt[0] === 's2e1' && doppeltQ.titel === 25, doppeltQ)
 const dreifach = staffelQuote(s2, eintrag(staffel(2, 25, [], [1, 2, 3])), datei(25, (nr) => (nr <= 3 ? 's2e1' : voll(nr))))
 pruefe('derselbe Titel dreimal steht nur einmal in der Liste', dreifach?.doppelt.length === 1, dreifach)
+/* Nummer 3 hat bei TMDB keinen echten Titel; ihn trägt die Datei aus einer späteren Stufe, in anderer Schreibweise als Folge 1 („S2E1"). */
+const ohne3 = eintrag(staffel(2, 25, [3]))
+const klein = staffelQuote(s2, ohne3, datei(25, (nr) => (nr === 3 ? 's2e1' : voll(nr))))
+pruefe('Groß-/Kleinschreibung zählt nicht: „S2E1“ und „s2e1“ sind doppelt', klein?.doppelt.join('|') === 's2e1' && klein.titel === 25, klein)
+const rand = staffelQuote(s2, ohne3, datei(25, (nr) => (nr === 3 ? ' S2E1 ' : voll(nr))))
+pruefe('Randleerraum zählt nicht: „ S2E1 “ und „S2E1“ sind doppelt', rand?.doppelt.join('|') === 's2e1' && rand.titel === 25, rand)
+pruefe('verschiedene Titel (Folge 3 „S2E3 neu“) sind nicht doppelt', staffelQuote(s2, ohne3, datei(25, (nr) => (nr === 3 ? 'S2E3 neu' : voll(nr))))?.doppelt.length === 0)
 
 console.log('\nStaffel-Quote: Gründe (quoteGruende)')
 pruefe('genau die Hälfte (3 von 6) ist keine Warnung', quoteGruende(q(3, 6)).length === 0, quoteGruende(q(3, 6)))
