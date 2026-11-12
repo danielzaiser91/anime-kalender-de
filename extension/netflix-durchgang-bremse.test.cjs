@@ -91,6 +91,14 @@ const speicherNeu = (start) => {
   const vorher = sp.d['ak-netflix-bremse']
   b2.ok()
   pruefe('Erfolg ohne Fehlschläge schreibt nichts', sp.d['ak-netflix-bremse'] === vorher && gebucht.size === 2)
+  const b3 = k.akNetflixBremseOeffnen(new Map(), undefined, sp)
+  pruefe('Neuladen nach dem Erfolg: der Stand ist gespeichert leer', b3.offen() === 0 && b3.bericht().folge === 0 && b3.bericht().bis === null, b3.bericht())
+  let schreibungen = 0
+  const zaehlend = { getItem: sp.getItem, setItem: () => schreibungen++ }
+  k.akNetflixBremseOeffnen(new Map(), undefined, zaehlend).ok()
+  pruefe('Erfolg ohne Fehlschläge: kein Schreibzugriff', schreibungen === 0)
+  const ohneBis = k.akNetflixBremseOeffnen(new Map(), undefined, speicherNeu('{"folge":1,"pausen":0,"titel":{}}'))
+  pruefe('Gespeicherter Stand ohne bis: bis ist null (nicht undefined)', ohneBis.bericht().bis === null && ohneBis.bericht().folge === 1)
 }
 {
   const gebucht = new Map()
@@ -363,7 +371,8 @@ for (const [name, inhalt] of [['kaputtes JSON', '{{'], ['falsche Form', '{"folge
     body: { innerText: text },
     querySelector: (sel) => {
       if (sel === '[data-uia="previewModal--backDrop"]') return uia.includes('previewModal--backDrop') ? {} : null
-      return uia.some((u) => /episode|^previewModal(?!--backDrop)/.test(u)) ? {} : null
+      if (sel === '[data-uia*="episode"], [role="dialog"], [data-uia^="previewModal"]:not([data-uia="previewModal--backDrop"])') return uia.some((u) => /episode|^previewModal(?!--backDrop)/.test(u)) ? {} : null
+      return null
     },
   })
   const l = (uia, text) => k.akNetflixFensterlage(doc(uia, text), { pathname: '/title/1' })

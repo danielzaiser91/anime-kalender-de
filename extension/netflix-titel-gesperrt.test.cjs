@@ -132,15 +132,20 @@ const quelle = lies('melder.js')
   const bis = quelle.indexOf('\n  }\n', quelle.indexOf('laufBeenden(DURCHLAUF.abbruch', von)) + 5
   const block = quelle.slice(von, bis)
   pruefe('Endstelle in melder.js gefunden', von > 0 && bis > von)
-  const ausfuehren = new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', 'bremse', block)
+  const ausfuehren = new Function('akNetflixTitelUeberspringen', 'DURCHLAUF', 'selbstAn', 'selbstUebersprungen', 'selbstWeiter', 'laufBeenden', 'globalThis', 'bremse', 'Date', block)
   for (const [name, sperre, abbruch, weiterErwartet, beendetErwartet] of [
     ['Titelsperre: weiter, Durchgang bleibt', { code: 'E103', reihe: '5' }, true, 1, 0],
     ['Abbruch ohne Sperre (M7…, Escape): Durchgang endet', null, true, 0, 1],
   ]) {
     let weiter = 0
     let beendet = 0
-    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: sperre, abbruch, stoerung: null }, true, new Map(), () => weiter++, () => beendet++, {}, null)
+    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: sperre, abbruch, stoerung: null }, true, new Map(), () => weiter++, () => beendet++, {}, null, { now: () => 4242 })
     pruefe(name, weiter === weiterErwartet && beendet === beendetErwartet, { weiter, beendet })
+  }
+  {
+    const gerufen = []
+    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: { code: 'UI3012', reihe: '7' }, abbruch: true, stoerung: null }, true, new Map(), () => {}, () => {}, {}, { stoerung: (...a) => gerufen.push(a) }, { now: () => 4242 })
+    pruefe('Endstelle: UI3012 geht mit Kennung, Grund und Uhrzeit an die Bremse', JSON.stringify(gerufen) === JSON.stringify([['7', 'Netflix zeigt ihn nicht (UI3012)', 4242]]), gerufen)
   }
   pruefe('der Reset steht beim Start des Durchlaufs', /DURCHLAUF\.stoerung = null\n  DURCHLAUF\.titelSperre = null/.test(quelle))
 }
