@@ -87,6 +87,7 @@ pipeline/check-beleg-anbieter.ts
 pipeline/check-beleg-api-web.ts
 pipeline/check-beleg-api.ts
 pipeline/check-beleg-bis-anker.ts
+pipeline/check-beleg-fremd-zugeordnet.ts
 pipeline/check-beleg-fundstelle-hinweis.ts
 pipeline/check-beleg-href.ts
 pipeline/check-beleg-lauf.ts
