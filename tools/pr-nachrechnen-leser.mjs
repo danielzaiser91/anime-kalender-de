@@ -114,9 +114,29 @@ const ENDUNG_REGEX = /\\\.(\([^)]*\)|[\w?|]+)\$\//g
  * Ein Leser, der ein Verzeichnis nur über solche Namen liest, sieht eine Datei anderer Endung nicht (PR 3367/3282, 11.11.2026).
  */
 export function endungsTests(code) {
+  return endungsAuswertung(code).tests
+}
+
+/** Wie `endungsTests`, dazu die Zahl der Regex-Treffer, die keine gültige Regex ergeben (z. B. der eigene Template-String dieses Moduls): sie werden übersprungen. */
+export function endungsAuswertung(code) {
   const lit = [...code.matchAll(ENDUNG_LITERAL)].map((m) => (name) => name.endsWith(`.${m[1] ?? m[2]}`))
-  const reg = [...code.matchAll(ENDUNG_REGEX)].map((m) => (name) => new RegExp(`\\.(?:${m[1].replace(/^\(|\)$/g, '')})$`).test(name))
-  return [...lit, ...reg]
+  const reg = []
+  let uebersprungen = 0
+  for (const m of code.matchAll(ENDUNG_REGEX)) {
+    try {
+      const re = new RegExp(`\\.(?:${m[1].replace(/^\(|\)$/g, '')})$`)
+      reg.push((name) => re.test(name))
+    } catch {
+      uebersprungen++
+    }
+  }
+  return { tests: [...lit, ...reg], uebersprungen }
+}
+
+/** Zusatz für den Grund-Text, wenn Endungs-Muster des Codes keine gültige Regex waren und übersprungen wurden. */
+const ungueltigeMuster = (text) => {
+  const n = endungsAuswertung(ohneKommentare(text)).uebersprungen
+  return n === 0 ? '' : ` (${n} Endungs-Muster ohne gültige Regex übersprungen)`
 }
 
 /** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei) und deren Endung der Code nicht ausschließt. */
@@ -236,7 +256,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
     const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))
-    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
+    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig${ungueltigeMuster(text)}`
   }
   const vorwaerts = [...huelle(start, lies)]
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
