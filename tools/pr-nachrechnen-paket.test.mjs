@@ -1,7 +1,7 @@
 /**
  * package.json auf main entwertet einen PR nur, wenn die Kette die Änderung wirklich spürt (12.11.2026, Anlass: a07d036d6 änderte nur das
  * Skript `check:extension`, neun PRs ohne `extension/` wurden um 16:41 neu gestartet). Die Skriptwerte unten sind die echten vor und nach
- * a07d036d6 (wörtlich aus `git show`). Fälle: reine Regel (`paketGrund`), Verdrahtung über `datenpfadGrund` (der Aufrufer reicht Basis,
+ * a07d036d6 (Struktur wörtlich aus `git show`; fünf Werkzeugnamen durch ext-a bis ext-e ersetzt, weil der Wächter werkzeug-ohne-test jede Nennung als Test wertet). Fälle: reine Regel (`paketGrund`), Verdrahtung über `datenpfadGrund` (der Aufrufer reicht Basis,
  * main und PR-Dateien durch) und der Git-Anschluss (`standardPaket`) mit einer git-Attrappe, die Antworten im Format von `cat-file --batch` liefert.
  */
 import { kettenSkripte, paketGrund } from './pr-nachrechnen-paket.mjs'
@@ -17,8 +17,8 @@ const pruefe = (name, ok, info) => {
   console.error(`  ✗ ${name}${info === undefined ? '' : ` — ${JSON.stringify(info)}`}`)
 }
 
-const VORHER = 'node tools/extension-laden-pruefen.cjs && node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js && node tools/extension-listenstand-pruefen.cjs && node tools/melder-leiste-pruefen.cjs && node tools/pruefstand-bekannt-pruefen.mjs'
-const NACHHER = 'node tools/extension-laden-pruefen.cjs && node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js && tsc --noEmit -p extension/tsconfig.json && node tools/extension-ts-liste-pruefen.mjs && node tools/extension-ts-liste-pruefen.test.mjs && node tools/extension-listenstand-pruefen.cjs && node tools/melder-leiste-pruefen.cjs && node tools/pruefstand-bekannt-pruefen.mjs'
+const VORHER = 'node tools/ext-a.cjs && node tools/extension-tests.mjs && node tools/ext-b.cjs && eslint --config extension/eslint.config.mjs extension/*.js && node tools/ext-c.cjs && node tools/ext-d.cjs && node tools/ext-e.mjs'
+const NACHHER = 'node tools/ext-a.cjs && node tools/extension-tests.mjs && node tools/ext-b.cjs && eslint --config extension/eslint.config.mjs extension/*.js && tsc --noEmit -p extension/tsconfig.json && node tools/extension-ts-liste-pruefen.mjs && node tools/extension-ts-liste-pruefen.test.mjs && node tools/ext-c.cjs && node tools/ext-d.cjs && node tools/ext-e.mjs'
 const pkg = (scripts, extra = {}) => JSON.stringify({ name: 'x', scripts, ...extra })
 const KETTE = ['jobs:\n  a:\n    steps:\n      - run: npm run check:extension\n      - run: npm run check:alles\n      - run: npm run build\n']
 const BASIS = { 'check:extension': VORHER, 'check:alles': 'npm run check:unter && npm run check:logic', 'check:unter': 'node tools/unter.mjs', 'check:logic': 'tsx tools/check-logic-alle.mjs', 'data:bau': 'tsx pipeline/build.ts', 'check:vor-commit': 'npm run check:extension' }
@@ -41,8 +41,8 @@ pruefe('Gegenprobe: PR berührt extension/melder.js, check:extension geändert -
 pruefe('Gegenprobe: PR berührt tools/extension-tests.mjs (Pfad im Skript) -> veraltet', /check:extension.*tools\/extension-tests\.mjs/.test(urteil(ANLASS, ['tools/extension-tests.mjs']) ?? ''))
 pruefe('Gegenprobe: PR ändert extension/neu.js, Skript nur mit Konfigurationsordner (tsc -p extension/tsconfig.json) -> veraltet', /extension\/neu\.js/.test(urteil({ 'check:extension': 'tsc --noEmit -p extension/tsconfig.json' }, ['extension/neu.js']) ?? ''))
 pruefe('Gegenprobe: Skript mit Glob extension/*.js, PR ändert extension/neu.js -> veraltet', /extension\/neu\.js/.test(urteil({ 'check:extension': 'eslint extension/*.js' }, ['extension/neu.js']) ?? ''))
-pruefe('Importhülle: PR ändert Datei, die das Skriptziel importiert -> veraltet', /pipeline\/lib\/helfer\.ts/.test(urteil({ 'check:unter': 'node tools/unter.mjs --neu' }, ['pipeline/lib/helfer.ts']) ?? ''))
-pruefe('Importhülle: PR ändert fremde Datei -> aktuell', urteil({ 'check:unter': 'node tools/unter.mjs --neu' }, ['pipeline/lib/anderes.ts']) === null)
+pruefe('Importhülle: PR ändert Datei, die das Skriptziel importiert -> veraltet', /pipeline\/lib\/helfer\.ts/.test(urteil({ 'check:unter': 'node tools/unter.mjs --noEmit' }, ['pipeline/lib/helfer.ts']) ?? ''))
+pruefe('Importhülle: PR ändert fremde Datei -> aktuell', urteil({ 'check:unter': 'node tools/unter.mjs --noEmit' }, ['pipeline/lib/anderes.ts']) === null)
 pruefe('Ordner gilt nur für Dateien darunter: PR unter extension-x/ trifft extension/ nicht', urteil({ 'check:extension': 'eslint extension/*.js' }, ['extension-x/a.js']) === null)
 
 // Kette: nur Skripte, die sie ruft (direkt oder über npm run).
@@ -57,6 +57,53 @@ pruefe('npm run, dann || und Nebenbefehl: der Nebenbefehl zählt', /tools\/neu\.
 pruefe('Kette ruft ein Skript, das es nicht gibt (npm run build) -> kein Absturz, aktuell', urteil({ 'data:bau': 'tsx pipeline/build.ts --neu' }, ['pipeline/build.ts']) === null)
 pruefe('npm run mit Nebenbefehl: der Nebenbefehl zählt', /tools\/neu\.mjs/.test(urteil({ 'check:alles': 'npm run check:unter && node tools/neu.mjs' }, ['tools/neu.mjs']) ?? ''))
 
+// Skriptteile ohne Eingrenzung (Prüfer 12.11., A1): Optionen, Verzeichnis-Argumente, Läufer, je &&-Teil.
+const MEHR = [...KETTE, '      - run: npm run check:hooks\n      - run: npm run data:validate\n      - run: npm run check:tests-2\n']
+const aendere = (alt, neu, prDateien, kette = MEHR) => paketGrund({ alt: pkg({ ...BASIS, ...alt }), neu: pkg({ ...BASIS, ...neu }), prDateien, kettenTexte: kette, lies })
+const veraltet = (name, grund, muster) => pruefe(`${name} -> veraltet`, muster.test(grund ?? ''), grund)
+const aktuell = (name, grund) => pruefe(`${name} -> aktuell`, grund === null, grund)
+const HOOKS = { 'check:hooks': 'eslint web/src && eslint -c eslint.mjs-skripte.config.js pipeline tools' }
+veraltet('check:hooks mit --max-warnings 0 und web/src/a.tsx (main-Fall)', aendere(HOOKS, { 'check:hooks': 'eslint --max-warnings 0 web/src && eslint -c eslint.mjs-skripte.config.js pipeline tools' }, ['web/src/a.tsx']), /Skript check:hooks mit Option --max-warnings/)
+veraltet('build mit vite build --mode x und web/src/a.tsx (main-Fall)', aendere({ build: 'tsx pipeline/check-teilseiten.ts && vite build' }, { build: 'tsx pipeline/check-teilseiten.ts && vite build --mode x' }, ['web/src/a.tsx']), /Skript build /)
+veraltet('data:validate mit --strikt und data/curated/a.yaml (main-Fall)', aendere({ 'data:validate': 'tsx pipeline/validate.ts' }, { 'data:validate': 'tsx pipeline/validate.ts --strikt' }, ['data/curated/a.yaml']), /Skript data:validate mit Option --strikt/)
+veraltet('check:tests-2 mit --teil 2/3 und neuer tools/neu.test.mjs (main-Fall)', aendere({ 'check:tests-2': 'node tools/tests-alle.mjs --teil 2/2' }, { 'check:tests-2': 'node tools/tests-alle.mjs --teil 2/3' }, ['tools/neu.test.mjs']), /Skript check:tests-2 mit Läufer tools\/tests-alle\.mjs/)
+veraltet('Läufer tests-alle ohne Option', aendere({ 'check:tests-2': 'node tools/unter.mjs' }, { 'check:tests-2': 'node tools/tests-alle.mjs' }, ['tools/neu.test.mjs']), /mit Läufer/)
+veraltet('Läufer check-logic-alle ohne Option', aendere({ 'check:tests-2': 'node tools/unter.mjs' }, { 'check:tests-2': 'node tools/check-logic-alle.mjs' }, ['pipeline/check-neu.ts']), /mit Läufer tools\/check-logic-alle\.mjs/)
+veraltet('Verzeichnis-Argument web/src trifft web/src/a.tsx', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint web/src' }, ['web/src/a.tsx']), /trifft web\/src\/a\.tsx/)
+aktuell('Verzeichnis-Argument web/src: PR-Datei in fremdem Ordner', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint web/src' }, ['worker/a.ts']))
+aktuell('Verzeichnis-Argument web/src: Ordner mit gleichem Anfang (web/srcx) trifft nicht', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint web/src' }, ['web/srcx/a.ts']))
+veraltet('bloße Wurzelnamen (eslint pipeline tools) treffen tools/neu.mjs', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint pipeline tools' }, ['tools/neu.mjs']), /trifft tools\/neu\.mjs/)
+aktuell('bloße Wurzelnamen: PR-Datei in shared/', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint pipeline tools' }, ['shared/a.ts']))
+veraltet('Punkt-Argument (eslint .) mit weiterem Pfad', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint . tools/unter.mjs' }, ['worker/a.ts']), /mit Argument \./)
+veraltet('ein Teil ohne Pfad (vite build) macht das ganze Skript unklar', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'node tools/unter.mjs && vite build' }, ['worker/a.ts']), /ohne erkennbaren Pfad/)
+for (const flag of ['--noEmit', '-p', '--project', '--config', '-c']) {
+  const wert = flag === '--noEmit' ? 'tsc --noEmit tools/unter.mjs' : `tsc ${flag} tools/tsconfig.x.json`
+  aktuell(`neutrale Option ${flag}: PR-Datei in worker/`, aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': wert }, ['worker/a.ts']))
+}
+aktuell('neutrale Option --config=Pfad: PR-Datei in worker/', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint --config=extension/eslint.config.mjs' }, ['worker/a.ts']))
+veraltet('Konfigurationsdatei eslint.config.mjs gilt für ihren Ordner', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint --config extension/eslint.config.mjs' }, ['extension/neu.js']), /trifft extension\/neu\.js/)
+veraltet('Glob in tools/ trifft tools/neu.test.mjs (WURZELN enthält tools)', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'node tools/*.test.mjs' }, ['tools/neu.test.mjs']), /trifft tools\/neu\.test\.mjs/)
+
+// pre-/post-Hooks, Install-Lebenszyklus, Schreibweisen von npm (Prüfer 12.11., A2/A3).
+const HAKEN = [...KETTE, '      - run: npm run check:a\n']
+for (const hook of ['precheck:a', 'postcheck:a']) {
+  veraltet(`neuer Hook ${hook} eines Kettenskripts, PR trifft seine Datei`, aendere({ 'check:a': 'node tools/unter.mjs' }, { 'check:a': 'node tools/unter.mjs', [hook]: 'node tools/pre.mjs' }, ['tools/pre.mjs'], HAKEN), /Skript (?:pre|post)check:a ist ein Hook/)
+  veraltet(`Hook ${hook} gilt kettenweit (PR-Datei fremd)`, aendere({ 'check:a': 'node tools/unter.mjs', [hook]: 'node tools/pre.mjs' }, { 'check:a': 'node tools/unter.mjs', [hook]: 'node tools/pre2.mjs' }, ['worker/a.ts'], HAKEN), /ist ein Hook/)
+}
+aktuell('Hook eines Skripts außerhalb der Kette (predata:bau)', aendere({}, { 'predata:bau': 'node tools/pre.mjs' }, ['tools/pre.mjs'], HAKEN))
+for (const name of ['preinstall', 'install', 'postinstall', 'prepare']) {
+  veraltet(`Install-Lebenszyklus ${name} gilt kettenweit`, aendere({}, { [name]: 'node tools/x.mjs' }, ['worker/a.ts'], HAKEN), /Skript .* ist ein Hook/)
+}
+for (const [kette, name] of [['npm test', 'test'], ['npm start', 'start'], ['npm run --silent check:c', 'check:c'], ['npm --silent run check:c', 'check:c'], ['npm run --if-present check:c', 'check:c'], ['npm run-script check:c', 'check:c'], ['npm --silent test', 'test']]) {
+  const r = aendere({ [name]: 'node tools/unter.mjs' }, { [name]: 'node tools/neu.mjs' }, ['tools/neu.mjs'], [`jobs:\n  a:\n    steps:\n      - run: ${kette}\n`])
+  veraltet(`Kette ruft \`${kette}\`: geändertes Skript ${name} zählt`, r, new RegExp(`Skript ${name} läuft in der Kette und trifft tools/neu\\.mjs`))
+}
+const zyklus = kettenSkripte(['npm run a'], { a: 'npm run b', b: 'npm run a' })
+pruefe('Zyklus a -> b -> a: Abbruch, beide in der Kette', zyklus.size === 2 && zyklus.has('a') && zyklus.has('b'), [...zyklus])
+const mitHook = kettenSkripte(['npm run a'], { a: 'x', prea: 'npm run b', b: 'y', postb: 'z' })
+pruefe('Kettenmenge enthält Hooks und deren Ziele', ['a', 'prea', 'b', 'postb'].every((n) => mitHook.has(n)) && mitHook.size === 4, [...mitHook])
+veraltet('neues Skript, die Kette ruft es, PR trifft es', aendere({}, { 'check:neu': 'node tools/neu.mjs' }, ['tools/neu.mjs'], [...KETTE, '      - run: npm run check:neu\n']), /Skript check:neu läuft in der Kette und trifft tools\/neu\.mjs/)
+
 // Fail-closed.
 const ohnePfad = urteil({ 'check:logic': 'tsc --noEmit -p .' }, ['web/src/a.tsx'])
 pruefe('Kettenskript ohne erkennbaren Pfad (tsc --noEmit -p .) -> veraltet', ohnePfad === 'main bewegte package.json: Skript check:logic ohne erkennbaren Pfad', ohnePfad)
@@ -69,6 +116,10 @@ pruefe('Kettendateien nicht gelesen -> veraltet', /nicht gelesen/.test(urteil(AN
 for (const [feld, wert] of [['dependencies', { zod: '1' }], ['devDependencies', { tsx: '9' }], ['overrides', { a: '1' }], ['engines', { node: '24' }]]) {
   const r = paketGrund({ alt: pkg(BASIS), neu: pkg(BASIS, { [feld]: wert }), prDateien: ['pipeline/bau/x.ts'], kettenTexte: KETTE, lies })
   pruefe(`${feld} geändert -> veraltet`, r === `main bewegte package.json (${feld})`, r)
+}
+for (const feld of ['overrides', 'dependencies']) {
+  const r = paketGrund({ alt: pkg(BASIS, { [feld]: { a: '1' } }), neu: pkg(BASIS), prDateien: ['pipeline/bau/x.ts'], kettenTexte: KETTE, lies })
+  pruefe(`${feld} entfernt -> veraltet`, r === `main bewegte package.json (${feld})`, r)
 }
 pruefe('Delta 0: gleiche package.json -> aktuell', urteil({}, ['extension/melder.js']) === null)
 pruefe('Skript entfernt (Kette ruft es nicht mehr) -> aktuell', paketGrund({ alt: pkg(BASIS), neu: pkg({ ...BASIS, 'data:bau': undefined }), prDateien: ['pipeline/build.ts'], kettenTexte: KETTE, lies }) === null)
