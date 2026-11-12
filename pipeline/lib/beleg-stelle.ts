@@ -106,7 +106,19 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
         .sort((a, b) => a.text.length - b.text.length)
       const gesucht = suchen.map(norm)
       /* Alle Zeilen, die einen Titel **und** einen Termin nennen — ein Artikel belegt oft mehrere Termine, und das Bild soll sie alle zeigen. Sonst die erste mit einem Titel. */
-      const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && nennt(k.roh))
+      const direkt = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && nennt(k.roh))
+      /* Kachelraster (ADN-Monatsseite „April 2026“): Der Titel steht in einem eigenen Element, die Zeile „Start: 1. April“ darunter. Sie stützt den Tag, wenn das Element davor (Geschwister, bis zwei Ebenen höher) ein kurzer Titeltext ist. */
+      const mitDatum = (t: string) => /\d{1,2}\.\s?(\d{1,2}\.|[a-zäöü]{3,})/i.test(t)
+      /* Eine reine Terminzeile trägt nur Datum, Uhrzeit und Wörter wie „Start“; ein fremder Titel in der Zeile (flach: „Kill Blue Start: 11. April“) macht sie zur Zeile des Nachbarn. */
+      const reineTerminzeile = (t: string) => !/[a-zäöü]/.test(t.replace(/\b(start|ab|am|uhr|ut|(jan|feb|mär|apr|mai|jun|jul|aug|sep|okt|nov|dez)[a-zäöü]*)\b/g, ''))
+      const titelDavor = (e: Element): boolean => {
+        for (let n: Element | null = e, i = 0; n && n !== wurzel && i < 3; n = n.parentElement, i++) {
+          const v = n.previousElementSibling as HTMLElement | null
+          if (v) return norm(v.innerText).length < 150 && !mitDatum(v.innerText) && gesucht.some((g) => norm(v.innerText).includes(g))
+        }
+        return false
+      }
+      const stuetzend = direkt.length ? direkt : kandidaten.filter((k) => nennt(k.roh) && reineTerminzeile(k.text) && titelDavor(k.e))
       /* Ohne Termin im Text: lieber der Abschnitt mit dem Titel als Überschrift (Anbieter, Folgen, Sprache stehen darunter) als ein Listenpunkt in der Übersicht ganz oben. */
       const alsUeberschrift = gesucht.flatMap((g) => kandidaten.filter((k) => /^H[23]$/.test(k.e.tagName) && k.text.includes(g)).slice(0, 1)).slice(0, 1)
       /* Nennt der Artikel den Termin nirgends, ist die Zeile mit dem Titel kein Beleg dafür („Betroffen sind … Virgin Road …" ohne Datum, 29.10.2026). Steht er irgendwo (aniSearch-Produktseite: Datum in einem eigenen Feld), gilt der Titel wie bisher. */
