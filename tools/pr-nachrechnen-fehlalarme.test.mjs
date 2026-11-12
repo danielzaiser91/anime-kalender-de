@@ -165,6 +165,27 @@ pruefe('Namensende: die längere Datei data/adn-anisearch-offen.json bleibt Lese
 const kurzTexte = { 'a.mjs': "x('data/anisearch-offen.json')\n", 'b.mjs': "x(join(D, 'anisearch-offen.json'))\n", 'c.mjs': 'x(`${D}/anisearch-offen.json`)\n', 'd.mjs': "x('anisearch-offen.json')\n", 'e.mjs': "x('foo.anisearch-offen.json')\n" }
 pruefe('Namensende: genannte Schreibweisen (Pfad, Name im Literal, Template) bleiben Treffer, `foo.`-Vorsatz nicht', leserIn(new Map(Object.entries(kurzTexte)), [OFFEN]).join() === 'a.mjs,b.mjs,c.mjs,d.mjs')
 
+// 12.11.2026 (PR 3572, Kommentar „ruft tools/pr-nachrechnen-bot-erzeugt.mjs auf oder importiert es, das bewegte Daten liest“): der PR ändert
+// `tools/pr-nachrechnen.mjs`, das die Positivliste der Läufe importiert; die Liste nennt `tv-programm.json` als Muster, liest sie aber nie. Echte Texte aus dem Repo.
+const NACHRECHNEN = 'tools/pr-nachrechnen.mjs'
+const ERZEUGT = 'tools/pr-nachrechnen-bot-erzeugt.mjs'
+const texte3572 = { [NACHRECHNEN]: fs.readFileSync(new URL('./pr-nachrechnen.mjs', import.meta.url), 'utf8'), [ERZEUGT]: fs.readFileSync(new URL('./pr-nachrechnen-bot-erzeugt.mjs', import.meta.url), 'utf8') }
+const TV = 'data/tv-programm.json'
+const leser3572 = leserIn(new Map(Object.entries(texte3572)), [TV])
+pruefe('3572: die Positivliste nennt tv-programm.json, ist aber kein Leser', texte3572[ERZEUGT].includes("'tv-programm.json'") && !leser3572.includes(ERZEUGT), leser3572)
+const g3572 = urteil(texte3572, { bewegt: [TV], pr: [NACHRECHNEN], leser: leser3572 })
+pruefe('3572: PR ändert pr-nachrechnen.mjs, main bewegte die Bot-Datei tv-programm.json -> null', g3572 === null, g3572)
+const ECHT = { ...texte3572, 'pipeline/bau/tv.ts': "x('tv-programm.json')\n" }
+const gEcht = urteil(ECHT, { bewegt: [TV], pr: ['pipeline/bau/tv.ts'], leser: leserIn(new Map(Object.entries(ECHT)), [TV]) })
+pruefe('3572 Gegenprobe: ein echter Leser derselben Datei, den der PR ändert, bleibt Grund', gEcht !== null, gEcht)
+const gWerkzeugEcht = leserIn(new Map([['tools/pr-nachrechnen-x.mjs', "x('tv-programm.json')\n"], ['tools/pr-basis.mjs', "x('tv-programm.json')\n"]]), [TV])
+pruefe('3572: nur die Nachrechnen-Familie fällt weg, andere Werkzeuge unter tools/ bleiben Leser', gWerkzeugEcht.join() === 'tools/pr-basis.mjs', gWerkzeugEcht)
+const AUFRUF = { 'tools/aufruf.mjs': "import '../pipeline/bau/tv.ts'\n", 'pipeline/bau/tv.ts': "x('tv-programm.json')\nx('anderes.json')\n" }
+const gAufruf = urteil(AUFRUF, { bewegt: [TV, 'data/anderes.json'], pr: ['tools/aufruf.mjs'], leser: ['pipeline/bau/tv.ts'] })
+pruefe('Grund „ruft auf“ nennt je Kettenglied die bewegten Pfade, die der Leser nennt', gAufruf === 'der PR ruft pipeline/bau/tv.ts auf oder importiert es, das bewegte Daten liest (nennt data/tv-programm.json, data/anderes.json)', gAufruf)
+const gNurEine = urteil({ ...AUFRUF, 'pipeline/bau/tv.ts': "x('tv-programm.json')\n" }, { bewegt: [TV, 'data/anderes.json'], pr: ['tools/aufruf.mjs'], leser: ['pipeline/bau/tv.ts'] })
+pruefe('Grund „ruft auf“ nennt nur die Pfade, die der Leser wirklich nennt', gNurEine?.endsWith('(nennt data/tv-programm.json)') === true, gNurEine)
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)
   process.exit(1)
