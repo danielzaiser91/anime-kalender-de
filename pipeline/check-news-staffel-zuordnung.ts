@@ -60,7 +60,11 @@ const kuratiert = crRelease(4, '2026-04-08', { verpasst: { 14: { erwartetAm: '20
 ergaenzeVerpasstAnReleases([kuratiert], [vermerk(15, '2026-09-23')])
 pruefe('Release mit eigenen Vermerken bleibt unverändert', Object.keys(kuratiert.schedule!.verpasst ?? {}).join() === '14')
 pruefe('ohne Vermerk bleibt das Feld leer', ergaenzeVerpasstAnReleases([crRelease(5, '2026-04-08')], []) === 0)
-pruefe('Release ohne Sendeplan wird übergangen', ergaenzeVerpasstAnReleases([{ slug: 'r-4' } as unknown as Release], [vermerk(14, '2026-09-16')]) === 0)
+/* Start 02.10. um 00:30 Berliner Zeit: erwartetAm ist 01.10. 22:30 UTC, der Ausfall gehört trotzdem zum Starttag. */
+const mitternacht = crRelease(4, '2026-10-02')
+ergaenzeVerpasstAnReleases([mitternacht], [{ slug: 'r-4', episode: 1, erwartetAm: '2026-10-01T22:30:00.000Z' }])
+pruefe('Ausfall am Starttag kurz nach Mitternacht Berliner Zeit hängt am Release', Object.keys(mitternacht.schedule!.verpasst ?? {}).join() === '1', mitternacht.schedule!.verpasst)
+pruefe('Release ohne Sendeplan wird übergangen',ergaenzeVerpasstAnReleases([{ slug: 'r-4' } as unknown as Release], [vermerk(14, '2026-09-16')]) === 0)
 
 /* 3. Obergrenze: eine laufende Serie verliert ihre Vorgeschichte nicht, Altes darf fallen. */
 const bleibt = (e: NewsEintrag, platz = 401): boolean => behalteEintrag(e, platz, heute, 400)
