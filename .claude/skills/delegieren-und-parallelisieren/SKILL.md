@@ -63,6 +63,16 @@ Der Auftrag ist vor dem Start vollständig (Umfang, Gegenproben, bekannte Fälle
 
 **Abrufe bei einem Anbieter: erst `docs/wissen/quellen.md` auf Verbote lesen (12.11.2026, PR 3557):** Joyn: kein eigener Abruf, TDM-Vorbehalt; Amazon: keine Agenten-Abrufe. Der Akira-Auftrag erlaubte einen Joyn-Abruf, der Beleg musste korrigiert werden.
 
+**Vor der Vergabe aus dem Vorrat (12.11.2026):** Die Vorrat-Datei ganz lesen, nicht nur den Kopf (f109 trug „gebaut als PR 3117“ und wurde neu vergeben), und `gh pr list --state all --search "<Titel>"` fahren (drei Dateien lagen schon als offene PRs vor); `liegegut.mjs` sieht nur anime-kalender-de, andere Repos (nativ) einzeln prüfen. Die Datei im selben Zug auf `vergeben-` umbenennen; bleibt nur eine Dirigenten-Probe übrig, heißt sie `z-dirigent-…`.
+
+**Regelabschwächung geht an Daniel (12.11.2026, nativ PR 8):** Eine Entscheidung, die eine geschriebene Regel abschwächt, geht sofort als F-Zeile an Daniel; der CI-Prüfer verlangt dafür Daniels Wortlaut, „Dirigent <Datum>“ reicht nicht.
+
+**Auftrag nennt Schlüssel und Fundstelle (12.11.2026, PR 3605):** Einträge in Datendateien über Schlüssel (URL, anilistId, checkedAt) benennen, nicht über Zeilennummern; eine Zahl-Prämisse („alle 39 geprüft“) nur mit zitierter Fundstelle. Vorschläge aus älteren Abgleichen nie ungelesen übernehmen („check:logic aus bestand-bauen.yml nehmen“ hätte die Meldungs-Eingrenzung zerstört).
+
+**Frühere Prüfer-Auflagen und offene Urteile (12.11.2026, PR 3607):** Vor dem Auftrag fragen, ob eine frühere Prüfer-Auflage für diese Stelle gilt (die Datenkanal-Verengung kippte Auflagen aus 3490/3474), und sie zitieren. Ein Nachbesserungs-Auftrag entsteht nach `gh pr view <N> --comments` und führt jedes Urteil mit Kopf-Hash auf, auch das zweite aus dem PR-Kommentar.
+
+**Stapeln nur bei echter Basis (12.11.2026, PR 3610/3572):** Ein gestapelter PR hält einen Fix fest, den ein dritter braucht, und Force-Push auf fremden Zweig sperrt der Klassifizierer. Nur stapeln, wenn der Commit die Basis wirklich braucht; sonst eigener PR auf main (cherry-pick, PR 3612).
+
 Die Rollen laden ihre Regeln selbst (`.claude/agents/*.md`, Prüftechnik im Skill `pruef-technik`); der Auftrag nennt nur, was im Einzelfall gilt. Die alte Vorlage mit Anlässen: `auftragsvorlage-anlaesse.md` (gleicher Ordner).
 
 ```

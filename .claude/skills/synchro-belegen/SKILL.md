@@ -21,3 +21,5 @@ description: "Deutsche Synchro eines Titels belegen: Quellenreihenfolge, Suche �
 - Lauf mit blockierten oder fehlgeschlagenen Aufrufen (Cloudflare, 429, Timeout) = nicht verwertbar: Nichtauskunft ist kein Befund, Wiederholung auf anderem Weg.
 
 **Eichfall:** Nezha (Synchronkartei 25475, fernsehserien.de + wunschliste.de „Deutsche TV-Premiere 26.03.2007 RTL II") muss die Methode selbst finden. Bericht: `daniel-zum-abarbeiten/berichte/g4-g5-belege-v2.md`.
+
+**Beleg umhängen oder löschen hat vier Folgestellen (12.11.2026, PR 3608):** `belege-entfernt.yaml`, `erneut-melden.yaml`, Notizseiten-Wächter und Fremdbelege an derselben Adresse vor dem PR greppen, nicht erst in der Kette finden.
