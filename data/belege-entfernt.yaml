@@ -925,3 +925,11 @@
   url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
   grund: 'Kanal-Seite B0GFPBT6FG gehört Staffel 3 (182587); die Staffel-1-Blöcke von 150672 stehen seit #3339 an B0B7D5DRV2, der Pauschalblock vom 23.08. ist gelöscht — der Bestandsbau liest die Meldungen jeden Lauf neu und hängte sie sonst wieder an (10.11.2026)'
   entferntAm: '2026-11-10'
+- anilistId: 16894
+  url: https://www.amazon.de/gp/video/detail/B0B6R47YQ3
+  grund: 'Seite B0B6R47YQ3 gehört Kuroko 3rd Season (20725, Handbeleg 28.09., 25 Folgen); die Zeile von 16894 ist ein Staffelwähler-Stummel der Serienseite B09ZJW8HGH ohne Folge (unsere null), 16894 hat B0H47T317D mit 24 Folgen (Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20725
+  url: https://www.amazon.de/gp/video/detail/B0H47T317D
+  grund: 'Seite B0H47T317D gehört Kuroko 2nd Season (16894, Handbeleg 28.09., 25 Folgen, zugeordnete Zeile mit 24 Folgen); die Zeile von 20725 ist ein Staffelwähler-Stummel der Serienseite B0B6R47YQ3 ohne Folge (unsere null) (Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
