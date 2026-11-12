@@ -2267,6 +2267,10 @@ auseinandergehen, ist die Ursache nie die Quelle.
 Wirkung an einem Vormittag: Crunchyroll von 28 auf 11 Verweise ohne
 Sprachurteil, ohne einen einzigen neuen Abruf.
 
+## Linkprüfung: jede aniSearch-Amazon-Adresse kommt in die Schlange (12.11.2026)
+
+Bisher prüfte `check-links` aniSearch-Amazon-Adressen nur bei Titeln mit Prime-Such-Stream; 92 Wege (Messung 12.11.2026 an `data/link-check.json`, Checkout `f29ca0dbc`) hatten nie einen Befund, darunter die tote Seite von Ragna Crimson (B0F1XK58VQ, Prime-Handbeleg ohne Stream). Jetzt stehen alle in der Schlange (`pipeline/lib/anisearch-amazon-adressen.ts`), Vorrang haben weiter nur Titel mit Suchadresse; eine tote Seite wird als 404 festgehalten. Einmalig ~92 zusätzliche Amazon-Abrufe im CI-Linkcheck.
+
 ## Die Linkprüfung maß Amazons Shop-Adresse, nicht die Video-Seite
 
 Am 18.09.2026 stand der Bau rot: `check:tote-adressen` fand Horimiya und Mob Psycho 100 mit

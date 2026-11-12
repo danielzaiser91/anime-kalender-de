@@ -30,6 +30,7 @@ import { netflixTonspurSchritt } from './lib/netflix-tonspur-schritt.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { istFaellig, istTot } from './lib/link-befund.ts'
 import { meldeWechsel, nimmBefund, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
+import { aniSearchAmazon } from './lib/anisearch-amazon-adressen.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -298,26 +299,20 @@ async function main(): Promise<void> {
    * geprüft worden, und ohne Beleg ersetzt `build.ts` keine Suche — zu Recht,
    * denn hinter `/dp/` kann auch eine DVD liegen.
    *
-   * Gemessen über den ganzen Bestand: 167 Suchadressen, für **90** davon führt
-   * aniSearch eine echte Amazon-Adresse. Davon waren 33 ungeprüft, 15 belegt
-   * Prime Video, 30 Discs, 12 tot. Die 33 sind der Ertrag dieses Blocks.
+   * Gemessen am 25.08.2026 über den ganzen Bestand: 167 Suchadressen, für 90
+   * davon führt aniSearch eine echte Amazon-Adresse (33 ungeprüft, 15 belegt
+   * Prime Video, 30 Discs, 12 tot).
+   *
+   * Stand 12.11.2026: Der Block gilt für **alle** aniSearch-Amazon-Adressen, nicht
+   * nur für Titel mit Prime-Suche — 92 Wege (u. a. Ragna Crimson B0F1XK58VQ, tot)
+   * waren nie geprüft. Vorrang haben weiter nur die Titel mit Suchadresse.
    */
   const anisearch = readJson<Record<string, { streams?: Array<{ url?: string }> }>>(
     'data/anisearch.json',
     {},
   )
-  const SUCHADRESSE = /amazon\.[a-z.]+\/s\?|[?&]k=/i
-  const vorrang = new Set<string>()
-  for (const t of titles) {
-    const sucht = (t.streams ?? []).some((s) => s.platform === 'primevideo' && SUCHADRESSE.test(s.url))
-    if (!sucht) continue
-    for (const s of anisearch[String(t.id)]?.streams ?? []) {
-      const u = s.url?.split('?')[0]
-      if (!u || !AMAZON_VIDEO.test(u) || SUCHADRESSE.test(u)) continue
-      adressen.add(u)
-      vorrang.add(u)
-    }
-  }
+  const { alle: ausAniSearch, vorrang } = aniSearchAmazon(titles, anisearch)
+  for (const u of ausAniSearch) adressen.add(u)
   for (const u of zweitesNetflix404(bestand)) vorrang.add(u)
   if (vorrang.size) log(`${vorrang.size} Adressen könnten eine Suche ablösen — sie kommen zuerst dran`)
 
