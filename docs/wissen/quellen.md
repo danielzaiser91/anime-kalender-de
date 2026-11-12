@@ -2269,7 +2269,7 @@ Sprachurteil, ohne einen einzigen neuen Abruf.
 
 ## Linkprüfung: jede aniSearch-Amazon-Adresse kommt in die Schlange (12.11.2026)
 
-Bisher prüfte `check-links` aniSearch-Amazon-Adressen nur bei Titeln mit Prime-Such-Stream; 92 Wege (Messung 12.11.2026 an `data/link-check.json`, Checkout `f29ca0dbc`) hatten nie einen Befund, darunter die tote Seite von Ragna Crimson (B0F1XK58VQ, Prime-Handbeleg ohne Stream). Jetzt stehen alle in der Schlange (`pipeline/lib/anisearch-amazon-adressen.ts`), Vorrang haben weiter nur Titel mit Suchadresse; eine tote Seite wird als 404 festgehalten. Einmalig ~92 zusätzliche Amazon-Abrufe im CI-Linkcheck.
+Bisher prüfte `check-links` aniSearch-Amazon-Adressen nur bei Titeln mit Prime-Such-Stream; so blieben Wege ohne Befund, darunter die tote Seite von Ragna Crimson (B0F1XK58VQ, Prime-Handbeleg ohne Stream). Jetzt kommt jede aniSearch-Amazon-Adresse in die Schlange (`pipeline/lib/anisearch-amazon-adressen.ts`), Vorrang haben weiter nur Titel mit Suchadresse; eine tote Seite wird als 404 festgehalten. **Je ASIN einmal:** aniSearch führt `/dp/ASIN`, Streams und Bestand dieselbe Seite als `/gp/video/detail/ASIN`; nach ASIN entdoppelt (der Bestand allein enthielt 827 solcher Doppel). Gemessen 12.11.2026 an `origin/main` `ce42c3d05` (aniSearch-Amazon-Adressen gegen Bestandsschlüssel, Streams und watchLinks): 1166 Adressen, 56 nicht als Adresse in der Schlange, davon 33 mit schon geprüfter ASIN, **23 wirklich neue ASINs**. Neue Adressen sind je Lauf auf `ZUSATZ_JE_LAUF` (40) begrenzt, damit sie Altbefunde nicht aus dem Limit drängen.
 
 ## Die Linkprüfung maß Amazons Shop-Adresse, nicht die Video-Seite
 

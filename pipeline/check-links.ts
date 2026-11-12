@@ -31,7 +31,7 @@ import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleA
 import { istFaellig, istTot } from './lib/link-befund.ts'
 import { meldeWechsel, nimmBefund, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
 import { AMAZON_VIDEO } from './lib/amazon-adresse.ts'
-import { aniSearchAmazon } from './lib/anisearch-amazon-adressen.ts'
+import { aniSearchAmazon, begrenzeZusatz, ZUSATZ_JE_LAUF } from './lib/anisearch-amazon-adressen.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -304,20 +304,20 @@ async function main(): Promise<void> {
    * Prime Video, 30 Discs, 12 tot).
    *
    * Stand 12.11.2026: Der Block gilt für **alle** aniSearch-Amazon-Adressen, nicht
-   * nur für Titel mit Prime-Suche — 92 Wege (u. a. Ragna Crimson B0F1XK58VQ, tot)
-   * waren nie geprüft. Vorrang haben weiter nur die Titel mit Suchadresse.
+   * nur für Titel mit Prime-Suche (u. a. Ragna Crimson B0F1XK58VQ, tot) — je ASIN
+   * einmal, begrenzt je Lauf. Vorrang haben weiter nur die Titel mit Suchadresse.
    */
   const anisearch = readJson<Record<string, { streams?: Array<{ url?: string }> }>>(
     'data/anisearch.json',
     {},
   )
-  const { alle: ausAniSearch, vorrang } = aniSearchAmazon(titles, anisearch)
-  for (const u of ausAniSearch) adressen.add(u)
+  const { zusatz, vorrang } = aniSearchAmazon(titles, anisearch, adressen)
+  for (const u of [...zusatz, ...vorrang]) adressen.add(u)
   for (const u of zweitesNetflix404(bestand)) vorrang.add(u)
   if (vorrang.size) log(`${vorrang.size} Adressen könnten eine Suche ablösen — sie kommen zuerst dran`)
 
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)
-  const offen = pruefbare(adressen).filter((u) => {
+  const faellig = pruefbare(adressen).filter((u) => {
     const alt = bestand[u]
     /*
       **`unklar` ist kein Befund, sondern eine offene Frage.** Es steht dort, wo
@@ -327,6 +327,7 @@ async function main(): Promise<void> {
     */
     return istFaellig(alt, grenze)
   })
+  const offen = begrenzeZusatz(faellig, zusatz, ZUSATZ_JE_LAUF)
   /*
     Vorrang vor der Reihenfolge des Bestands: Ein Lauf mit `--limit` würde diese
     Adressen sonst nie erreichen — der wöchentliche Lauf prüft 400 von mehreren
