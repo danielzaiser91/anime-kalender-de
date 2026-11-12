@@ -5,8 +5,8 @@
     "lastCount": 10
   },
   "anime2you": {
-    "lastOk": "2026-11-12T14:01:53.318Z",
-    "lastRun": "2026-11-12T14:01:53.318Z",
+    "lastOk": "2026-11-12T15:01:48.831Z",
+    "lastRun": "2026-11-12T15:01:48.831Z",
     "lastCount": 48
   },
   "anisearch": {
@@ -83,7 +83,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-10T11:18:36.520Z",
-    "lastRun": "2026-11-12T14:41:32.628Z",
+    "lastRun": "2026-11-12T15:18:17.147Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -112,13 +112,14 @@
     "lastCount": 11
   },
   "vorfaelle": {
-    "lastOk": "2026-11-12T14:41:28.150Z",
-    "lastRun": "2026-11-12T14:41:28.150Z",
-    "lastCount": 5
+    "lastOk": "2026-11-12T15:18:11.839Z",
+    "lastRun": "2026-11-12T15:18:11.839Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-12T15:18:11.839Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-12T14:01:34.704Z",
-    "lastRun": "2026-11-12T14:01:34.704Z",
+    "lastOk": "2026-11-12T15:01:28.936Z",
+    "lastRun": "2026-11-12T15:01:28.936Z",
     "lastCount": 185
   },
   "cartoons": {
@@ -138,9 +139,9 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-12T14:01:57.518Z",
-    "lastRun": "2026-11-12T14:01:57.518Z",
-    "lastCount": 297
+    "lastOk": "2026-11-12T15:01:52.304Z",
+    "lastRun": "2026-11-12T15:01:52.304Z",
+    "lastCount": 292
   },
   "tv-de": {
     "lastOk": "2026-11-05T23:04:13.126Z",
@@ -175,8 +176,8 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-12T14:01:32.177Z",
-    "lastRun": "2026-11-12T14:01:32.177Z",
+    "lastOk": "2026-11-12T15:01:24.255Z",
+    "lastRun": "2026-11-12T15:01:24.255Z",
     "lastCount": 63
   },
   "adn-news": {
@@ -185,8 +186,8 @@
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-12T14:01:56.312Z",
-    "lastRun": "2026-11-12T14:01:56.312Z",
+    "lastOk": "2026-11-12T15:01:51.151Z",
+    "lastRun": "2026-11-12T15:01:51.151Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },
@@ -238,9 +239,10 @@
     "leerSeit": "2026-11-09T05:08:18.760Z"
   },
   "kitsu-folgen": {
-    "lastOk": "2026-11-04T14:51:36.847Z",
-    "lastRun": "2026-11-09T05:08:19.497Z",
-    "lastCount": 0
+    "lastOk": "2026-11-12T15:14:01.341Z",
+    "lastRun": "2026-11-12T15:14:01.341Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-12T15:14:01.341Z"
   },
   "anisearch-slugs": {
     "lastOk": "2026-11-10T15:18:05.199Z",
