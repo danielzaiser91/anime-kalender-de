@@ -1,12 +1,13 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import { streamAdressen } from './fremde-adressen.ts'
 import { bekanntZeile } from './zuordnung-fremd-bestand.ts'
 import { findeFremdZugeordnete, type FremdZugeordnet, type ZuordnungEintrag } from './zuordnung-fremd.ts'
 import { leseZugeordnet } from './prime-meldung-riegel.ts'
 import type { BelegAdresse } from './handbeleg-fremde-adresse.ts'
 import { liegenGeblieben, type OhneZuordnung } from './meldungen-liste.ts'
+
+const KEINE_STREAMS: ReadonlyMap<string, string[]> = new Map()
 
 /** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin (aus `fetch-pruefungen.ts` herausgelöst, damit die Datei nicht wächst). */
 export function berlinDatum(iso: string): string {
@@ -16,7 +17,6 @@ export function berlinDatum(iso: string): string {
 /** Der Besitz an Adressen, gegen den ein neuer Handbeleg geprüft wird (einmal je Lauf geladen). */
 export interface Besitz {
   zugeordnet: [string, ZuordnungEintrag][]
-  streams: ReadonlyMap<string, string[]>
   belege: BelegAdresse[]
   /** Zahl der Belege, die dieser Lauf wegen fremder Adresse nicht geschrieben hat. */
   verschoben: number
@@ -24,10 +24,15 @@ export interface Besitz {
   gruppen: Set<number>
 }
 
+/**
+ * Besitz aus Zuordnung und Handbelegen. Die Stream-Adressen der Cartoons und Titel ohne Synchro (`streamAdressen`) gehören nicht
+ * dazu: der Schritt liest `public/data` nur über die Attrappen der Prüfungen (Bestandssperre in `check:logic`), diese Besitzer
+ * bleiben bei `check-zuordnung-fremd-bestand` (Folgearbeit, siehe PR-Beschreibung).
+ */
 export function ladeBesitz(wurzel: string): Besitz {
   const datei = resolve(wurzel, 'data/dub-confirmed.yaml')
   const belege = (existsSync(datei) ? (yaml.load(readFileSync(datei, 'utf8')) as BelegAdresse[] | null) : null) ?? []
-  return { zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>()), streams: streamAdressen(wurzel), belege, verschoben: 0, gruppen: new Set() }
+  return { zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>()), belege, verschoben: 0, gruppen: new Set() }
 }
 
 /**
@@ -38,8 +43,8 @@ export function ladeBesitz(wurzel: string): Besitz {
  * Meldung, z. B. die JoJo-Staffeln an einer ADN-Seite), schreibt der Lauf dessen Beleg selbst: kein Treffer.
  */
 export function fremdeBesitzer(besitz: Besitz, kennung: number, mitBeteiligte: readonly number[], url: string): FremdZugeordnet[] {
-  const vorher = new Set(findeFremdZugeordnete(besitz.zugeordnet, besitz.streams, besitz.belege).map(bekanntZeile))
-  const mit = findeFremdZugeordnete(besitz.zugeordnet, besitz.streams, [...besitz.belege, { anilistId: kennung, url }])
+  const vorher = new Set(findeFremdZugeordnete(besitz.zugeordnet, KEINE_STREAMS, besitz.belege).map(bekanntZeile))
+  const mit = findeFremdZugeordnete(besitz.zugeordnet, KEINE_STREAMS, [...besitz.belege, { anilistId: kennung, url }])
   return mit.filter((t) => !vorher.has(bekanntZeile(t)) && !mitBeteiligte.includes(t.titleId))
 }
 

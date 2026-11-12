@@ -24,9 +24,8 @@ const attrappe = {
   ]),
   franchises: {},
   cartoons: [],
-  'ohne-synchro': [],
 }
-const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons|ohne-synchro)\.json$/
+const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
 const belegDatei = /(?:^|[\\/])data[\\/]dub-confirmed\.yaml$/
 const merkDatei = /(?:^|[\\/])data[\\/]kanal-seiten\.json$/
 const ziel = (p) => (belegDatei.test(p) ? process.env.ADN_MOCK_YAML : merkDatei.test(p) ? `${process.env.ADN_MOCK_YAML}.kanal.json` : null)

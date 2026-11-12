@@ -56,14 +56,14 @@ function zeile(nr: number, kennung: string, name: string) {
   }
 }
 
-function lauf(zeilen: unknown[]) {
+function lauf(zeilen: unknown[], mitStreamDateien = true) {
   const tmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-fremde-adresse-'))
   try {
     for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten/listen']) mkdirSync(join(tmp, ordner), { recursive: true })
     writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify(BESTAND))
     writeFileSync(join(tmp, 'public/data/franchises.json'), '{}')
-    writeFileSync(join(tmp, 'public/data/cartoons.json'), '[]')
-    writeFileSync(join(tmp, 'public/data/ohne-synchro.json'), '[]')
+    if (mitStreamDateien) writeFileSync(join(tmp, 'public/data/cartoons.json'), '[]')
+    if (mitStreamDateien) writeFileSync(join(tmp, 'public/data/ohne-synchro.json'), '[]')
     writeFileSync(join(tmp, 'public/data/ohne-synchro-namen.json'), '[]')
     writeFileSync(join(tmp, 'data/prime-zugeordnet.json'), JSON.stringify(ZUGEORDNET))
     writeFileSync(join(tmp, 'data/dub-confirmed.yaml'), SAAT)
@@ -113,6 +113,10 @@ if (!eintrag.includes('Titel 900102') || a.liste.includes('B0FREMD002') || a.lis
 /* Ohne fremden Besitzer läuft alles wie bisher: nichts verschoben, keine Zählung. */
 const b = lauf([zeile(4, 'B0FREMD002', 'Fremdprobe Alpha')])
 if (!schreibt(b.belege, 'B0FREMD002') || b.ausgabe.includes('nicht geschrieben') || b.liste.includes('B0FREMD')) fehler.push(`freie Adresse allein: ${b.ausgabe.slice(-300)}`)
+
+/* Flacher Checkout ohne Cartoon- und Synchro-Dateien (CI, Bestandssperre): der Schritt liest sie nicht und endet nicht; der Besitz aus der Zuordnung gilt weiter. */
+const c = lauf([zeile(1, 'B0FREMD001', 'Fremdprobe Alpha'), zeile(2, 'B0FREMD002', 'Fremdprobe Alpha')], false)
+if (schreibt(c.belege, 'B0FREMD001') || !schreibt(c.belege, 'B0FREMD002')) fehler.push('ohne Stream-Dateien: fremde Adresse nicht gesperrt oder freie nicht geschrieben')
 
 if (zeilen.filter((z) => z.includes('B0FREMD001') && z.includes('bleibt liegen')).length !== 1) fehler.push('die Meldung steht nicht genau einmal in den Warnungen')
 if (a.liste.split('\n').filter((z) => z.includes('B0FREMD001')).length !== 1) fehler.push('die Meldung steht nicht genau einmal in der Arbeitsliste')
