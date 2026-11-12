@@ -21,7 +21,7 @@ export interface TmdbEintrag {
 }
 
 export const PLATZHALTER = /^(episode|folge|episod|special|ova)\s*\d*$/i
-const FORMATE = new Set(['TV', 'TV_SHORT', 'ONA'])
+export const FORMATE = new Set(['TV', 'TV_SHORT', 'ONA'])
 
 /** Name ohne Staffelzusatz und Satzzeichen, zum Vergleich. */
 export function tmdbName(s: string | undefined): string {

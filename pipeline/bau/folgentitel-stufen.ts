@@ -4,6 +4,7 @@ import { ROOT, readJson } from '../lib/util.ts'
 import { crFolgentitel, ladeCrArchiv, mitCrTiteln, type CrSerie } from './folgentitel-cr.ts'
 import { crFolgentitelGeteilt } from './folgentitel-cr-geteilt.ts'
 import { tmdbFolgentitel, type TmdbEintrag } from './folgentitel-tmdb.ts'
+import { tmdbStaffelFolgentitel } from './folgentitel-tmdb-staffel.ts'
 import { tmdbTitelNachDatum } from './folgentitel-tmdb-datum.ts'
 import { mitKitsuTiteln, type KitsuEintrag } from './folgentitel-kitsu.ts'
 import { rtlplusFolgentitel, type RtlplusEintrag } from './folgentitel-rtlplus.ts'
@@ -71,7 +72,10 @@ export function mitFremdTiteln(t: Title, ausAsRoh: Folge[] | undefined, q: Titel
   const mitRtl = mitCrTiteln(mitCr, rtlplusFolgentitel(deutscheTitel(mitCr), q.rtlplus[String(t.id)]), true)
   if (!luecke(mitRtl)) return mitKitsuTiteln(t, mitRtl, kitsu)
   const nummern = mitRtl?.length ? mitRtl.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
-  const mitTmdbStaffel = mitCrTiteln(mitRtl, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl)))
+  const tmdbEigen = tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern, vorhandeneTitel(mitRtl))
+  // Container-Staffel nur ohne jeden vorhandenen Titel: ohne Reihenfolge-Gegenprobe (vgl. `reihenfolgeStimmt`) füllt sie keine Teillisten.
+  const containerStaffel = vorhandeneTitel(mitRtl).size ? undefined : tmdbStaffelFolgentitel(t, q.tmdbFolgen[String(t.franchiseId)], nummern)
+  const mitTmdbStaffel = mitCrTiteln(mitRtl, tmdbEigen ?? containerStaffel)
   const mitTmdb = mitCrTiteln(mitTmdbStaffel, tmdbTitelNachDatum(mitTmdbStaffel, q.tmdbFolgen[String(t.id)]))
   return mitKitsuTiteln(t, mitCrTiteln(mitTmdb, q.hand[String(t.id)]), kitsu)
 }
