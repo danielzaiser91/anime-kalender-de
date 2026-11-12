@@ -2448,8 +2448,7 @@ function laufStarten() {
   const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
-  selbstGezaehlt = 0
-  selbstGrenze = Object.keys(offeneTitel).length
+  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = Object.keys(offeneTitel).length))
   selbstVersucht = null
   selbstUebersprungen.clear()
   bremse.zuruecksetzen()

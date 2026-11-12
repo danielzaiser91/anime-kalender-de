@@ -227,11 +227,13 @@ ergebnis.gezaehlt = selbstGezaehlt`,
 /* `laufStarten` beginnt mit frischer Bremse (sessionStorage überlebt einen wiederhergestellten Tab). */
 {
   let reset = 0
+  const gemerkt = []
   const ok = new Function(
-    'titelDerAdresse', 'gemeinteReihe', 'offeneTitel', 'naechsterAuftrag', 'bremse', 'selbstUebersprungen', 'selbstStaffelnGeprueft', 'selbstGesammelt', 'selbstVersuche', 'fertigeTitel', 'durchgangEndeZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'Date', 'dialogSchliessen', 'vielleichtSelbstStarten', 'selbstWeiter',
+    'titelDerAdresse', 'gemeinteReihe', 'offeneTitel', 'naechsterAuftrag', 'bremse', 'selbstUebersprungen', 'selbstStaffelnGeprueft', 'selbstGesammelt', 'selbstVersuche', 'fertigeTitel', 'durchgangEndeZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'Date', 'dialogSchliessen', 'vielleichtSelbstStarten', 'selbstWeiter', 'akNetflixZaehlerSetze',
     `let selbstAn = false, selbstGezaehlt = 9, selbstGrenze = null, selbstVersucht = 'x', selbstSammelStand = 1, durchgangEnde = 1\n${funktionText('function laufStarten()')}\nreturn laufStarten() && selbstAn && selbstGezaehlt === 0`,
-  )(() => null, () => null, { 1: {} }, () => '1', { zuruecksetzen: () => reset++ }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {})
+  )(() => null, () => null, { 1: {}, 2: {}, 3: {} }, () => '1', { zuruecksetzen: () => reset++ }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {}, (g, n) => gemerkt.push([g, n]))
   pruefe('laufStarten: Start gelingt und die Bremse beginnt frisch', ok === true && reset === 1, { ok, reset })
+  pruefe('laufStarten merkt Zähler 0 und Nenner (3 offene Titel) im Speicher: Neuladen vor dem ersten Sprung behält den Nenner, ein Rest eines alten Laufs wird überschrieben', JSON.stringify(gemerkt) === '[[0,3]]', gemerkt)
 }
 /* `selbstStartenSchritt` gibt der Listenwarte die Bremse und meldet ihr einen Erfolg, sobald die Folgenliste da ist. */
 const schrittLaufen = async (durchlauf) => {
