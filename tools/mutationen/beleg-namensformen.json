@@ -1,0 +1,15 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: Kopf vor dem Doppelpunkt entfällt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "[n.split(':')[0]!, n.split(", "ersetze": "[n, n.split(", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: Kopf vor dem Gedankenstrich entfällt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "n.split(/\\s[–—-]\\s|\\s-(?=\\S)/)[0]!]", "ersetze": "n]", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: Strich ohne Leerzeichen davor (-Il Teatrino-) trennt nicht", "datei": "pipeline/lib/beleg-suche.ts", "suche": "|\\s-(?=\\S)/)", "ersetze": "/)", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: Kopf ab 4 Zeichen", "datei": "pipeline/lib/beleg-suche.ts", "suche": "const KOPF_MIN_ZEICHEN = 5", "ersetze": "const KOPF_MIN_ZEICHEN = 4", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: Kopf ab 6 Zeichen", "datei": "pipeline/lib/beleg-suche.ts", "suche": "const KOPF_MIN_ZEICHEN = 5", "ersetze": "const KOPF_MIN_ZEICHEN = 6", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: × wird nicht zu x", "datei": "pipeline/lib/beleg-suche.ts", "suche": "f.replace(/\\s*×\\s*/g, ' x ')", "ersetze": "f", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: and wird nicht zu &", "datei": "pipeline/lib/beleg-suche.ts", "suche": "f.replace(/\\band\\b/gi, '&')", "ersetze": "f", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: and auch mitten im Wort", "datei": "pipeline/lib/beleg-suche.ts", "suche": "f.replace(/\\band\\b/gi, '&')", "ersetze": "f.replace(/and/gi, '&')", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "namensformen: ganzer Name entfällt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "const formen = [n, ...koepfe]", "ersetze": "const formen = [...koepfe]", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "Termine: gruppenJeAdresse ohne namensformen", "datei": "pipeline/lib/beleg-suche.ts", "suche": "for (const f of namensformen(n)) g.namen.add(f)", "ersetze": "g.namen.add(n)", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "Termine: suchbegriffeJeAdresse ohne namensformen", "datei": "pipeline/lib/beleg-suche.ts", "suche": "for (const f of namensformen(n)) menge.add(f)", "ersetze": "menge.add(n)", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] },
+  { "name": "Meldungen: namenAusNews ohne namensformen", "datei": "pipeline/lib/beleg-suche.ts", "suche": "...namen.flatMap(namensformen)", "ersetze": "...namen", "tests": [ "npx tsx pipeline/check-beleg-namensformen.ts" ] }
+]
