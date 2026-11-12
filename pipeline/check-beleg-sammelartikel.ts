@@ -146,6 +146,23 @@ const VERSCHIEBUNG = (mitTabelle: boolean): string => `<article><h1>Sechs Blu-ra
   mitTabelle ? '<table><tr><td>Virgin Road – Vol. 1 (Limited Edition)</td><td>28.08.</td><td>11.09.</td></tr><tr><td>Anderer Titel – Vol. 3</td><td>04.09.</td><td>18.09.</td></tr></table>' : ''
 }</article>`
 
+/**
+ * Zeilenebene von `stuetzstelle`: Zwei Zeilen nennen den Titel, die obere mit „12.10.“, die untere mit „2.10.“ (Tag 2026-10-02). Die Marke muss auf der unteren liegen.
+ * Der Artikel nennt den Termin (untere Zeile), also greift `terminFehltImText` nicht: nur die Zeilenwahl entscheidet.
+ */
+async function zeilenWortgrenzeFall(): Promise<void> {
+  const browser = await chromium.launch()
+  const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  await sperreNetz(seite)
+  const name = 'Detektei Layton: Katrielles rätselhafte Fälle'
+  const seiteMit = (oben: string): string => `<!doctype html><html><body style="margin:0"><article><h1>Neue Blu-rays im Oktober</h1><p>${name} Gesamtausgabe, ${oben}</p><div style="height:700px">Anderes Zeug ohne Titel.</div><p>${name} Gesamtausgabe, erscheint am 2.10. im Handel.</p></article></body></html>`
+  await seite.setContent(seiteMit('erscheint am 12.10. im Handel.'))
+  const mitFremdemTag = await belegAusschnitt(seite, [name], ['2026-10-02'], [])
+  await browser.close()
+  const y = typeof mitFremdemTag === 'object' ? mitFremdemTag.markierung?.[1] : undefined
+  pruefe('Zeilenebene: die Marke liegt bei zwei Titelzeilen auf der unteren mit „2.10.“ (Bildanteil über 0,5), nicht auf der oberen mit „12.10.“', y !== undefined && y > 0.5, String(y))
+}
+
 async function verschiebungsFall(): Promise<void> {
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
@@ -297,6 +314,7 @@ await sammelartikelFall(0)
 await sammelartikelFall(2600)
 await einzelFall()
 await verschiebungsFall()
+await zeilenWortgrenzeFall()
 await verdecktFaelle()
 console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Sammelartikel-Zuschnitt: Fenster, Meldungstitel, Marken je Titel und verdeckte Zeilen (Scroll-Sperre, Seitenende, Paywall) in Ordnung')
 process.exit(fehler ? 1 : 0)
