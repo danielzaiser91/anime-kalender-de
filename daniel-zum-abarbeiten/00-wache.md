@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 11.11.2026 um 16:13 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 12.11.2026 um 17:00 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,47 +19,46 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger
+- Patch Notes: mehr-deutsche-folgen-netflix-prime liegt seit 2026-11-04 im Vorrat (wartet auf: Rohfolgen-Lauf mit Wirkung von PR 2740 und 2762 — cartoons.json Peppa Wutz (-12225) Netflix dubRanges über Folge 13 hinaus (04.11. 08:45 noch 1–13), titles.json Tayo (163828) Prime mit dubRanges; dann Beispiele prüfen) – prüfen, ob die Wirkung live ist, dann freigeben
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-47 Läufe in den letzten 1 Tagen (2125 insgesamt)
+⚠  Patch Notes: mehr-deutsche-folgen-netflix-prime liegt seit 2026-11-04 im Vorrat (wartet auf: Rohfolgen-Lauf mit Wirkung von PR 2740 und 2762 — cartoons.json Peppa Wutz (-12225) Netflix dubRanges über Folge 13 hinaus (04.11. 08:45 noch 1–13), titles.json Tayo (163828) Prime mit dubRanges; dann Beispiele prüfen) – prüfen, ob die Wirkung live ist, dann freigeben
 
-10.11., 16:39  Bestand — zusammenführ   verweise +2, mitUrteil +1, ohneUrteil +1
-10.11., 16:55  Bestand — zusammenführ   verweise -1, mitUrteil -1, titelMitSynchro -1, releases +2, termine +2
-            ⚠  1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger
-10.11., 20:59  Bestand — zusammenführ   verweise +2, mitUrteil +2
-11.11., 04:22  Bestand — zusammenführ   termine -1
-11.11., 05:10  Bestand — zusammenführ   termine +7
-11.11., 11:45  Bestand — zusammenführ   verweise +2, mitUrteil +1, ohneUrteil +1
+33 Läufe in den letzten 1 Tagen (2160 insgesamt)
 
-Stand jetzt: 2923 Titel, 2125 Urteile, 471 offen
+11.11., 18:56  Bestand — zusammenführ   verweise +1, mitUrteil +1
+12.11., 03:13  Bestand — zusammenführ   verweise +4, mitUrteil +2, ohneUrteil +2, titelMitSynchro +2
+12.11., 04:29  Bestand — zusammenführ   verweise +1, ohneUrteil +1, termine +2
+            ℹ  erklärt, nicht rot: primevideo: 1 Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)
+12.11., 05:07  Bestand — zusammenführ   termine +7
+12.11., 11:53  Bestand — zusammenführ   verweise -1, ohneUrteil -1
+
+Stand jetzt: 2923 Titel, 2128 Urteile, 473 offen
 Über den Zeitraum: Titel 0, Urteile +3, offen +2
-
-⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 4113 Meldungen auf 228 Adressen (primevideo 535, adn 158, disneyplus 2217, netflix 1203)
-Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 422 Adressen
+Briefkasten: 4092 Meldungen auf 228 Adressen (primevideo 514, adn 158, disneyplus 2217, netflix 1203)
+Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 423 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
-Übernahme: zuletzt 2026-11-11T14:17:03.750Z (data/meldungen-uebernahme.json)
+Übernahme: zuletzt 2026-11-12T14:41:27.509Z (data/meldungen-uebernahme.json)
 ✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 3 h)
-✓ refresh-data.yml: letzter Erfolg vor 11 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 24 h (Frist 336 h)
-✓ daten-auf-abruf.yml: letzter Erfolg vor 2 h (Frist 36 h)
-✓ anisearch-katalog.yml: letzter Erfolg vor 9 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 107 h (Frist 1008 h)
+✓ refresh-data.yml: letzter Erfolg vor 12 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 49 h (Frist 336 h)
+✓ daten-auf-abruf.yml: letzter Erfolg vor 1 h (Frist 36 h)
+✓ anisearch-katalog.yml: letzter Erfolg vor 10 h (Frist 36 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 132 h (Frist 1008 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 1 h (Frist 18 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
-✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 0 h (Frist 3 h)
-✓ claude-wache-urteil.yml: letzter Erfolg vor 6 h (Frist 36 h)
-✓ claude-verpasst-recherche.yml: letzter Erfolg vor 4 h (Frist 36 h)
-✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 24 h (Frist 48 h)
+✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 1 h (Frist 3 h)
+✓ claude-wache-urteil.yml: letzter Erfolg vor 7 h (Frist 36 h)
+✓ claude-verpasst-recherche.yml: letzter Erfolg vor 5 h (Frist 36 h)
+✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
 ✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, ANILIST_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, NACHT_MERGER_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
@@ -75,7 +74,7 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
  228  Blöcke und Titel verschieden viele (±0)
   43  Folgenzahl geht nicht auf (±0)
    4  deutscher Termin vor der japanischen Ausstrahlung (±0)
-(Vergleich mit dem Stand vom 2026-11-10)
+(Vergleich mit dem Stand vom 2026-11-11)
 ```
 
 ## Tagebuch
@@ -84,6 +83,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 12.11.2026 17:00 | 2923 / 2128 / 473 | Titel 0, Urteile +3, offen +2 | Patch Notes: mehr-deutsche-folgen-netflix-prime liegt seit 2026-11-04 im Vorrat (wartet auf: Rohfolgen-Lauf mit Wirkung von PR 2740 und 2762 — cartoons.json Peppa Wutz (-12225) Netflix dubRanges über Folge 13 hinaus (04.11. 08:45 noch 1–13), titles.json Tayo (163828) Prime mit dubRanges; dann Beispiele prüfen) – prüfen, ob die Wirkung live ist, dann freigeben |
 | 11.11.2026 16:13 | 2923 / 2125 / 471 | Titel 0, Urteile +3, offen +2 | 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger |
 | 10.11.2026 16:54 | 2923 / 2122 / 469 | Titel 0, Urteile +16, offen -23 | 4 Urteile verloren; primevideo: 4 Synchro-Belege weniger; primevideo: fehlt Trinity Seven (20631): https://www.amazon.de/gp/video/detail/B07NNTV2LR (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true} (jüngere Handprüfung widerspricht)); primevideo: fehlt Horimiya: The Missing Pieces (163132): https://www.amazon.de/gp/video/detail/B0CG8SW2YQ (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true}); primevideo: fehlt Wind Breaker (163270): https://www.amazon.de/gp/video/detail/B0D516QSYS (link-check: {"status":200,"geprueftAm":"2026-09-21","prime":true}); primevideo: fehlt Shangri-La Frontier: Staffel 2 (176508): https://www.amazon.de/gp/video/detail/B0DCNKVZ43 (link-check: {"status":200,"geprueftAm":"2026-10-26","prime":true}); 1 Titel ohne Synchro-Beleg; adn: 3 Synchro-Belege weniger (2 weitere sind begründet entfernt) |
 | 09.11.2026 18:30 | 2923 / 2106 / 492 | Titel 0, Urteile -7, offen -4 | 23 Termine weniger; adn: 3 Synchro-Belege weniger; adn: fehlt Sailor Moon Super S (1239): https://animationdigitalnetwork.com/de/video/427-sailor-moon?s=4 (kein link-check-Eintrag); adn: fehlt Clannad: Der Film (1723): https://animationdigitalnetwork.com/de/video/1201 (kein link-check-Eintrag); adn: fehlt Clannad (2167): https://animationdigitalnetwork.com/de/video/655?s=2 (kein link-check-Eintrag); adn: fehlt Rosario + Vampire (2993): https://animationdigitalnetwork.com/de/video/1139?s=1 (kein link-check-Eintrag); adn: fehlt Clannad: After Story (4181): https://animationdigitalnetwork.com/de/video/655?s=1 (kein link-check-Eintrag); adn: fehlt Rosario + Vampire Capu2 (4214): https://animationdigitalnetwork.com/de/video/1139?s=2 (kein link-check-Eintrag); adn: fehlt Steins;Gate (9253): https://animationdigitalnetwork.de/video/steins-gate (kein link-check-Eintrag); adn: fehlt Sword Art Online The Movie: Ordinal Scale (21403): https://animationdigitalnetwork.com/de/video/1309-sword-art-online-the-movie-ordinal-scale (kein link-check-Eintrag); adn: fehlt I Parry Everything! (170695): https://animationdigitalnetwork.de/video/i-parry-everything (kein link-check-Eintrag); joyn: 6 Synchro-Belege weniger |
