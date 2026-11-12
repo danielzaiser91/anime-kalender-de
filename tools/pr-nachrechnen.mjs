@@ -183,13 +183,10 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
 
 /**
  * Der Grund der feineren Stufe (`bot`) entscheidet; die grobe („main bewegte <erste Fremddatei>“) hat sonst nur den Namen der ersten Datei geliefert, die
- * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Leser-Grund, PR 3481/3548/3556). Ein Grund, der selbst
- * „main bewegte …“ lautet (kettenweite Datei), bleibt mit dem groben davor.
+ * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Grund, PR 3481/3548/3556; 16:41 dasselbe vor package.json,
+ * neun PRs). Auch ein Grund „main bewegte …“ der feinen Stufe (kettenweite Datei) steht allein: er nennt die Datei, die die Kette trägt.
  */
-const grundText = (daten, bot) => {
-  if (daten === bot) return daten
-  return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`
-}
+const grundText = (daten, bot) => (daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)
 
 const kurz = (sha) => sha.slice(0, 9)
 
