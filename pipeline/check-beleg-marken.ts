@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-marken.ts   (Exit 1 bei Verstoß)
  */
 import { braucheBild, entzieheBild, ohneMarkenJeTitel, type BelegGedaechtnis, type Lesung } from './lib/beleg-lesung.ts'
-import { markenLuecken, meldeMarkenLuecken, nameImTextOhneMarke, stilleLuecken } from './lib/beleg-marken.ts'
+import { markenLuecken, meldeMarkenLuecken, nameImTextOhneMarke, seitentitelPasst, stilleLuecken } from './lib/beleg-marken.ts'
 import { markierungenJeTitel } from './lib/beleg-bild.ts'
 import { ohneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import type { Gruppe } from './lib/beleg-suche.ts'
@@ -103,5 +103,17 @@ pruefe('Name im Text: der Termin der Quelle muss im Text stehen (3. Dezember: ja
 pruefe('Name im Text: Namen bis drei Zeichen („Dub“ steht im Text) zählen nicht', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Dub')]).length === 0)
 pruefe('Name im Text: nur ganze Wörter, kein Teilstück („Maidrag“ steckt in „Maidragon“)', nameImTextOhneMarke(TEXT, nicht(1), [kn(1, 'Maidrag')]).length === 0)
 
-console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse) und Name im Text in Ordnung')
+/* Seitentitel: eine aniSearch-Produktseite muss einen Namen des Titels nennen; Namen bis drei Zeichen, Teilwörter und fremde Adressen zählen nicht. */
+const AS = 'https://www.anisearch.de/article/1,x'
+const stumm = (): string[] => []
+const meldungen = stumm()
+const passt = (url: string, text: string, g: Gruppe[]): boolean => seitentitelPasst(url, text, g, (z) => meldungen.push(z))
+pruefe('Seitentitel: ein Name des Titels steht im Text → gilt, ohne Meldung', passt(AS, 'Kobayashi-san Chi no Maidragon S - Steelbook', [kn(1, 'Anderer Name'), kn(2, 'Kobayashi-san Chi no Maidragon S')]) && meldungen.length === 0)
+pruefe('Seitentitel: kein Name steht im Text → verworfen, mit genau einer Meldung samt Adresse', !passt(AS, 'Märchen Boss - Bd. 02 [eBook]', [kn(1, 'Gods Games We Play')]) && meldungen.length === 1 && meldungen[0]!.includes(AS))
+pruefe('Seitentitel: nur ganze Wörter („Maidrag“ steckt in „Maidragon“)', !passt(AS, TEXT, [kn(1, 'Maidrag')]))
+pruefe('Seitentitel: ein Name bis drei Zeichen („Dub“ steht im Text) beweist nichts, es bleibt kein Name zum Vergleichen → gilt', passt(AS, 'Märchen Boss - Bd. 02', [kn(1, 'Dub')]))
+pruefe('Seitentitel: ohne Gruppen gilt die Seite', passt(AS, TEXT, []))
+pruefe('Seitentitel: eine andere Adresse als aniSearch-Produktseite wird nicht verglichen', passt('https://www.joyn.de/x', 'Märchen Boss', [kn(1, 'Gods Games We Play')]))
+
+console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Marken je Titel: Lücken, Kreislauf, Aufnahme-Gründe, Lauf-Ende, Handliste (ohne Titel, Kurz-/Slug-Adresse), Name im Text und Seitentitel in Ordnung')
 process.exit(fehler ? 1 : 0)

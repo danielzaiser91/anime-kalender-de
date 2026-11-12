@@ -11,7 +11,7 @@ import { ablegen } from './beleg-ablage.ts'
 import { neueStoerungen, ohneRuhende, seiteninfo } from './beleg-stoerung.ts'
 import { merkeFehlschlag, vergissFehlschlag, type Fehlschlaege } from './beleg-fehlschlag.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './beleg-bild.ts'
-import { MARKEN_FASSUNG, markenLuecken, meldeMarkenLuecken, meldeNameImText } from './beleg-marken.ts'
+import { MARKEN_FASSUNG, markenLuecken, meldeMarkenLuecken, meldeNameImText, seitentitelPasst } from './beleg-marken.ts'
 import type { Gruppe } from './beleg-suche.ts'
 
 const STOERUNGEN_BIS_ABBRUCH = 3
@@ -75,6 +75,7 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
   if (g.text.length < MINDESTTEXT) throw new Error(`kein Artikeltext (${g.text.length} Zeichen, ${await leser.info(seite)})`)
   const hash = textHash(g.text)
   const mitDatum = traegtArtikeldatum(url)
+  const seitePasst = seitentitelPasst(url, g.text, gruppen.get(url) ?? [], (z) => console.log(`⚠ ${z}`))
   const lesung: Lesung = {
     am: heute,
     hash,
@@ -82,7 +83,7 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
     veroeffentlicht: mitDatum ? (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)) : undefined,
     aktualisiert: mitDatum ? (isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert)) : undefined,
     /* Eine Produktseite nennt den Erscheinungstag der Ausgabe — eine andere Aussage als ein Veröffentlichungsdatum. */
-    ausgabe: mitDatum ? undefined : (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)),
+    ausgabe: mitDatum || !seitePasst ? undefined : (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)),
   }
   /* Eine als Wand entzogene Lesung zeigt nur die Wand — sie zählt weder als Vergleich noch bleibt sie neben der neuen stehen. */
   /* Das Datum in der Kopfzeile muss zu den Seitendaten passen — sonst stimmt eines von beiden nicht. */
@@ -127,7 +128,9 @@ export async function leseUndMerke(seite: Page, url: string, k: Lesekontext, les
     if (!beleg && markenLuecken(ziel, gruppen.get(url) ?? []).length > 0) throw new Error(`kein Ausschnitt — Marken je Titel fehlen (${await leser.info(seite)})`)
   }
   if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs === 'ok')
-  return merkeLesung(gedaechtnis, url, lesung)
+  /* Gleicher Text wie die letzte Lesung ergibt keine neue: ihr schon gespeicherter, fremder Erscheinungstag wird deshalb dort entfernt. */
+  const verworfen = !seitePasst && letzte?.ausgabe !== undefined && delete letzte.ausgabe
+  return merkeLesung(gedaechtnis, url, lesung) || verworfen
 }
 
 /** Was der Lauf von außen braucht — im Test durch Attrappen ersetzt. */

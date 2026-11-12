@@ -60,6 +60,19 @@ export function nameImTextOhneMarke(text: string, ohneMarke: Record<string, Ohne
     .map((g) => g.id)
 }
 
+/**
+ * Zeigt eine aniSearch-Produktseite den Titel, den die Adresse belegen soll? Sonst ist ihr Erscheinungstag fremd (Seite 185053 zeigte am 07.11.2026 einen
+ * Manga-eBook statt Gods' Games We Play). Ohne bekannte Namen gibt es nichts zu vergleichen: dann gilt die Seite. Ein Fehlschlag meldet sich, er fällt nicht still weg.
+ */
+export function seitentitelPasst(url: string, text: string, gruppen: Gruppe[], melde: (zeile: string) => void): boolean {
+  const namen = gruppen.flatMap((g) => g.suchen).filter((s) => norm(s).length > 3)
+  if (!/anisearch\.de\/article\//.test(url) || !namen.length) return true
+  const t = ` ${norm(text)} `
+  if (namen.some((s) => t.includes(` ${norm(s)} `))) return true
+  melde(`WARNUNG Beleg ${url}: Seite nennt keinen Namen des Titels (${namen.slice(0, 3).join(' | ')}) — Erscheinungstag verworfen`)
+  return false
+}
+
 /** Meldet die Titel aus `nameImTextOhneMarke` (eine Zeile je Adresse) und gibt ihre Zahl zurück. */
 export function meldeNameImText(url: string, text: string, ohneMarke: Record<string, OhneMarkeGrund> | undefined, gruppen: Gruppe[], melde: (zeile: string) => void): number {
   const ids = nameImTextOhneMarke(text, ohneMarke, gruppen)
