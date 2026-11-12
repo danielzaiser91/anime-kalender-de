@@ -32,7 +32,7 @@ function browser({ bricht, fremde = [], appBefund = false, appTipp = false, besu
           if (bricht(seite.name, seite.variante, schluessel)) throw crash()
           /* `appBefund`: App-Code bringt denselben Befund in Vorher und Nachher — Vorher-gegen-Nachher bleibt still. */
           if (appBefund) return schluessel.endsWith('hell') ? [{ schluessel: 'kopf', verhaeltnis: '2.5', soll: '4.5' }] : []
-          return schluessel.startsWith('nachher') ?[{ schluessel: 'text', verhaeltnis: '2.5', soll: '4.5' }] : []
+          return schluessel.startsWith('nachher') ? [{ schluessel: 'text', verhaeltnis: '2.5', soll: '4.5' }] : []
         }
         return fn.name === 'tippzieleImRahmen' ? (appTipp ? [{ schluessel: 'knopf', w: 30, h: 30 }] : []) : undefined
       },

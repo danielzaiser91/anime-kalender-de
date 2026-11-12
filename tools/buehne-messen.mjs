@@ -12,7 +12,7 @@
  * Aufruf: node tools/buehne-messen.mjs [--mockup <Namensteil>] [--liste]   (`--liste` zeigt auch die bestehenden Befunde)
  *         node tools/buehne-messen.mjs --basis <datei> --nur-vorher   (Kopf: nur Vorher-Zellen der ersten Variante, gegen die Basis)
  *         node tools/buehne-messen.mjs --schreibe <datei>  (nur Vorher-Zellen der ersten Variante als Basis speichern)
- *         npm run buehne:messen       (baut die Bühne vorher neu)
+ *         npm run buehne:messen        (baut die Bühne vorher neu)
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
