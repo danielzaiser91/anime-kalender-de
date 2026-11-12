@@ -560,6 +560,7 @@ pipeline/check-tmdb-geteilt-plakat-bau.ts
 pipeline/check-tmdb-geteilt-plakat.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
+pipeline/check-tmdb-reihenfremd.ts
 pipeline/check-tmdb-staffel0-eigene-lauf.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
