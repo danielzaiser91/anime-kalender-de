@@ -54,6 +54,9 @@ export function terminMarken(tage: string[]): string[] {
       `${d} ${monat} ${y}`,
       `${String(d).padStart(2, '0')}.${String(m).padStart(2, '0')}.`,
       `${d}.${m}.`,
+      /* Japanische Seiten (tokyo-revengers-anime.com): „2026年10月2日". */
+      `${y}年${m}月${d}日`,
+      `${m}月${d}日`,
       /* Nennt der Artikel nur den Monat („im Oktober 2026"), stützt er den Tag nicht genau, aber er sagt dasselbe wie die Quelle. */
       `${monat} ${y}`,
     ]

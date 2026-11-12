@@ -1,9 +1,10 @@
 /**
  * Prüft, dass die Suchnamen der Beleg-Lesung die Schreibweisen der Artikel treffen (`pipeline/lib/beleg-suche.ts`, `namensformen`): Kopf vor einem Gedankenstrich, „×" als „x", „and" als „&".
- * Die Artikelzeilen stehen wörtlich aus den gespeicherten Lesungen (12.11.2026): ohne diese Formen blieb der Titel „nicht im Text" und der Beleg ohne Marke.
+ * Dazu der japanische Starttag („2026年10月2日", `terminMarken`). Die Artikelzeilen stehen wörtlich aus den gespeicherten Lesungen (12.11.2026): ohne diese Formen blieb der Titel „nicht im Text" und der Beleg ohne Marke.
  * Aufruf: npx tsx pipeline/check-beleg-namensformen.ts   (Exit 1 bei Verstoß)
  */
 import { gruppenJeAdresse, namensformen, suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
+import { terminMarken } from './lib/beleg-stelle.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -49,7 +50,18 @@ function formenFaelle(): void {
   pruefe('der ganze Name bleibt an erster Stelle', namensformen('Gunslinger Girl -Il Teatrino-')[0] === 'Gunslinger Girl -Il Teatrino-')
 }
 
+/** Die offizielle Seite nennt den Starttag japanisch (tokyo-revengers-anime.com/news/archives/4935, Lesung vom 05.10.2026). */
+function japanischeTage(): void {
+  const zeile = 'TVアニメ『東京リベンジャーズ』三天戦争編 2026年10月2日から毎週金曜深夜、MBS・TBS・CBC”アニメイズム”枠、AT-Xほかにて放送開始！'
+  const trifftTag = (iso: string, text: string): boolean => terminMarken([iso]).some((m) => text.includes(m))
+  pruefe('Japanisch: „2026年10月2日" trägt den 2. Oktober', trifftTag('2026-10-02', zeile))
+  pruefe('Japanisch: „10月2日" ohne Jahr trägt ihn ebenfalls', trifftTag('2026-10-02', 'BS-TBSにて10月2日より、毎週金曜深夜2時30分～'))
+  pruefe('Japanisch: „10月20日" trägt den 2. Oktober nicht', !trifftTag('2026-10-02', '2026年10月20日から放送'))
+  pruefe('Japanisch: „10月3日" trägt den 2. Oktober nicht', !trifftTag('2026-10-02', 'AT-Xにて10月3日より、毎週土曜夜9時～放送となります。'))
+}
+
 for (const f of FAELLE) einFall(f)
 formenFaelle()
-console.log(fehler ? `✖ ${fehler} Verstöße` : `✔ Beleg-Suchnamen: ${FAELLE.length} Artikelzeilen wörtlich getroffen, Köpfe und Zeichen-Formen abgegrenzt`)
+japanischeTage()
+console.log(fehler ? `✖ ${fehler} Verstöße` : `✔ Beleg-Suchnamen: ${FAELLE.length} Artikelzeilen wörtlich getroffen, Köpfe, Zeichen-Formen und japanische Starttage abgegrenzt`)
 process.exit(fehler ? 1 : 0)
