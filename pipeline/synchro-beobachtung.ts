@@ -11,6 +11,7 @@ import { readJson, writeJson } from './lib/util.ts'
 import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
 import { handJaSchluessel, ladeHandbelege } from './lib/dub-confirmed.ts'
 import { beobachtungsListe, ohneSynchroStarts, type BeobachtungsEintrag } from './lib/synchro-beobachtung.ts'
+import { alterswarnungen } from './lib/synchro-beobachtung-alter.ts'
 import { latenzStand, type LatenzStand } from './lib/synchro-latenz.ts'
 
 const ZIEL = 'data/proposals/synchro-beobachtung.json'
@@ -28,6 +29,7 @@ function lauf(heute: string): void {
   writeJson(ZIEL, { stand: heute, eintraege: liste, ...latenz }, true)
   const tage = latenz.belegt.map((b) => b.tage).join(',') || '-'
   console.log(`Synchro-Beobachtung: ${liste.length} Einträge (${alt.length} vorher), Stand ${heute}, ${latenz.belegt.length} belegt (Tage bis Beleg: ${tage})`)
+  for (const z of alterswarnungen(liste, heute)) console.log(`::warning::Synchro-Beobachtung ${z}`)
 }
 
 try {
