@@ -48,9 +48,13 @@ export function linkAbgaenge(
         text: `${anzeigeName(t)} (${t.id}): ${s.url}`,
         befund: b ? `link-check: ${JSON.stringify(b)}${sticht ? ' (jüngere Handprüfung widerspricht)' : ''}` : undefined,
       }
+      /* Ein toter Link erklärt zuerst (Rangfolge wie vor der Verschiebung); sonst: hängt der Weg jetzt an einem anderen Titel? */
       const neuer = andererBesitzer(jetzt, s.platform, s.url, t.id)
+      if (neuer && (sticht || !istTot(b?.status))) {
+        aus.verschoben.push({ ...eintrag, text: `${eintrag.text} → ${anzeigeName(neuer)} (${neuer.id})` })
+        continue
+      }
       if (istTot(b?.status) && !sticht) aus.begruendet.push(eintrag)
-      else if (neuer) aus.verschoben.push({ ...eintrag, text: `${eintrag.text} → ${anzeigeName(neuer)} (${neuer.id})` })
       else aus.unerklaert.push(eintrag)
     }
   }

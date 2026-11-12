@@ -350,8 +350,8 @@ function linkErklaerung(anbieter: string, rest: number, link: LinkAbgaenge, befu
 /** Wie viele des Rückgangs `rest` bei diesem Anbieter nur den Titel gewechselt haben; Hinweis in `befund.erklaert`. */
 function verschobenErklaerung(anbieter: string, rest: number, link: LinkAbgaenge, befund: Befund): number {
   const eigene = (link.verschoben ?? []).filter((a) => a.anbieter === anbieter)
-  const n = Math.min(eigene.length, Math.max(0, rest))
-  for (const a of eigene.slice(0, n)) befund.erklaert.push(`${anbieter}: Weg verschoben – ${a.text}`)
+  const n = Math.min(Math.max(0, rest), eigene.length)
+  befund.erklaert.push(...eigene.slice(0, n).map((a) => `${anbieter}: Weg verschoben – ${a.text}`))
   return n
 }
 
