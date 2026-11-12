@@ -144,7 +144,7 @@ pruefe('Aufrufzeile vollständig: Argumente PR, Autor, Beschreibungsdatei, fail-
   && aufruf[0] === 'node tools/pr-nachtraege.mjs "$PR" "$autor" "$T/pr-beschreibung.txt" || echo "Nachträge nicht angehängt"')
 const autorZeilen = zeilen.filter((z) => z.startsWith('autor='))
 pruefe('Autor kommt als REST-Login (claude[bot], nicht app/claude)',
-  autorZeilen.length === 1 && autorZeilen[0] === 'autor=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" -q .user.login) || autor=""')
+  autorZeilen.length === 1 && autorZeilen[0] === 'autor=$(wdh gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" -q .user.login) || autor=""')
 const bedingung = zeilen.find((z) => z.includes('"$autor" =~'))
 const muster = /=~ (\S+) \]\]/.exec(bedingung ?? '')?.[1]
 const bashRegex = muster ? new RegExp(muster) : null
