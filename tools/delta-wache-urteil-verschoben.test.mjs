@@ -76,6 +76,10 @@ assert.deepEqual(rot.auffaellig, ['1 Urteile verloren', '1 Titel ohne Synchro-Be
 const hinweis = findeAuffaelliges(nachher, kz(), [], {}, a)
 assert.deepEqual(hinweis.auffaellig, [], 'Sailor Moon: verschoben, nicht rot')
 assert.ok(hinweis.erklaert.includes(`adn: Weg verschoben – Pretty Guardian Sailor Moon Crystal Season III (21462): ${S3} → Sailor Moon S (532)`), hinweis.erklaert.join(' | '))
+assert.ok(hinweis.erklaert.includes('1 Titel ohne Synchro-Beleg, weil ihr Weg an einen anderen Titel ging'), 'Titelzeile nennt „verschoben“, nicht „gewollt entfernt“: ' + hinweis.erklaert.join(' | '))
+assert.ok(!hinweis.erklaert.some((t) => t.includes('Beleg gewollt entfernt wurde')), 'kein „gewollt entfernt“ bei verschobenem Weg')
+const mitKanal = findeAuffaelliges(kz({ ...nachher, kanalTitelOhneSynchro: 144 }), kz(), [], {}, a)
+assert.ok(!mitKanal.erklaert.some((t) => t.includes('Weg an einen anderen Titel')), 'ein Titel, ein Abzug durch Kanal-Titel: der verschobene Weg erklärt keinen zweiten: ' + mitKanal.erklaert.join(' | '))
 const echt = findeAuffaelliges(nachher, kz(), [], {}, b)
 assert.deepEqual(echt.auffaellig.slice(0, 3), rot.auffaellig, 'echter Verlust bleibt rot')
 assert.equal(echt.auffaellig.filter((z) => z.startsWith('adn: fehlt ')).length, 2, 'und nennt die Titel')
@@ -83,6 +87,7 @@ assert.deepEqual(echt.erklaert, [])
 // Obergrenze: zwei Rückgänge, nur ein verschobener Weg: der zweite bleibt rot.
 const zwei = findeAuffaelliges(kz({ verweise: 2591, mitUrteil: 2121, titelMitSynchro: 1536, jeAnbieter: { adn: 143, netflix: 392 } }), kz(), [], {}, a)
 assert.ok(zwei.auffaellig.includes('adn: 1 Synchro-Belege weniger (1 weitere sind begründet entfernt)'), zwei.auffaellig.join(' | '))
+assert.ok(zwei.auffaellig.includes('1 Titel ohne Synchro-Beleg (1 weitere durch verschobenen Weg)'), 'zwei Titel, ein verschobener Weg: der zweite bleibt rot: ' + zwei.auffaellig.join(' | '))
 // Obergrenze und Reihenfolge: zwei verschobene Wege, ein Rückgang: genau ein Hinweis, nichts rot.
 const eintrag = (t) => ({ anbieter: 'adn', text: t })
 const zweiVerschoben = findeAuffaelliges(nachher, kz(), [], {}, { begruendet: [], unerklaert: [], verschoben: [eintrag('A (1)'), eintrag('B (2)')] })
