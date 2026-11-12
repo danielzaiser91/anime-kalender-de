@@ -326,7 +326,11 @@ try {
   // Hook allein installiert (ohne mods/): lädt, pflegt den Block weiter, meldet nur keine Kennzeichen
   const allein = join(ordner, 'allein', 'hooks')
   mkdirSync(allein, { recursive: true })
-  for (const datei of ['stand-prs.js', 'stand-prs-block.js', 'stand-waechter.js']) copyFileSync(join(import.meta.dirname, '..', '.claude', 'hooks', datei), join(allein, datei))
+  // Dateiliste aus den lokalen require-Zeilen des Hooks (ohne die Mod-Datei unter ../mods)
+  const hookQuelle = readFileSync(HOOK, 'utf8')
+  const lokale = [...hookQuelle.matchAll(/require\('\.\/([\w-]+\.js)'\)/g)].map((m) => m[1])
+  assert.ok(lokale.includes('vorrat-erledigt.js') && lokale.length >= 3, `require-Zeilen gefunden: ${lokale}`)
+  for (const datei of ['stand-prs.js', ...lokale]) copyFileSync(join(import.meta.dirname, '..', '.claude', 'hooks', datei), join(allein, datei))
   const leerAntwort = JSON.stringify({ data: { repository: { offen: { pageInfo: { hasNextPage: false }, nodes: [] }, gemergt: { pageInfo: { hasNextPage: false }, nodes: [] } } } })
   const skript = join(ordner, 'allein', 'lauf.cjs')
   const lauf = [
