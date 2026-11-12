@@ -74,8 +74,8 @@ function ergaenzendeMeldungen(titleId: number, meldungen: [string, PrimeMeldung]
 }
 
 /**
- * Je Titel auf einer geteilten Prime-Seite: Bereich oder Grund. Eindeutig heißt: genau eine Meldung des Titels zu dieser Seite,
- * jede deutsche Folge darin hat eine Nummer in 1 bis Folgenzahl, keine Nummer doppelt, und die Folgengruppe ist keinem anderen
+ * Je Titel auf einer geteilten Prime-Seite: Bereich oder Grund. Eindeutig heißt: genau eine eigene Meldung des Titels zu dieser Seite (plus ergänzende Meldungen desselben Titels unter dieser Ablage-Adresse, siehe `ergaenzendeMeldungen`),
+ * jede deutsche Folge darin hat eine Nummer in 1 bis Folgenzahl, keine Nummer doppelt, und keine Folgengruppe ist einem anderen
  * Titel derselben Seite gemeldet worden. Ein Kanal-Titel (`kanal`) ist ausgenommen: Amazon zeigt dort die Sprachen des Kanals,
  * nicht die der einzelnen Folge, die Meldung belegt keine Folge.
  */
