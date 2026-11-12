@@ -473,8 +473,8 @@
   {
     "name": "Ordner: Regex-Filter nicht erkannt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const reg = [...code.matchAll(ENDUNG_REGEX)]",
-    "ersetze": "const reg = []",
+    "suche": "for (const m of code.matchAll(ENDUNG_REGEX)) {",
+    "ersetze": "for (const m of []) {",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
     ]
@@ -856,6 +856,78 @@
     "ersetze": "  anstossen(gh, nummer, main, warte)\n  if (trocken) {\n",
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Anhang im Schreibaufruf zählt als Leser (Filter weg)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": ".filter((m) => lesenderAnhang(code, m))",
+    "ersetze": "",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: lesenderAnhang nie lesend",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])",
+    "ersetze": "return false",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Semikolon trennt nicht (Schreiben und Lesen in einer Zeile)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "\\(([^;]*)$/i",
+    "ersetze": "\\(([^]*)$/i",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Suche über die Zeile hinaus (Vorzeile entlastet)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const zeilenStart = code.lastIndexOf('\\n', m.index) + 1",
+    "ersetze": "const zeilenStart = 0",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesen (read…) gilt als Schreiben",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|mkdir\\w*|rm\\w*)",
+    "ersetze": "|mkdir\\w*|rm\\w*|read\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: copyFile gilt wieder als Schreiben (PR 3555)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|mkdir\\w*|rm\\w*)",
+    "ersetze": "|mkdir\\w*|copyFile\\w*|rm\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesung im Schreibaufruf wird weggefiltert (PR 3555)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])",
+    "ersetze": "return schreib === null",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesung im Argument zählt nie (Lesungs-Muster ohne read)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/\\b(?:read|lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
+    "ersetze": "/\\b(?:lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
     ]
   }
 ]

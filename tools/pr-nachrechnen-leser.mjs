@@ -97,11 +97,24 @@ const ORDNER_ANHANG = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*)?)/(?
 /** Ordnerpfad als eigenes Literal, nur zusammen mit einem Verzeichnis-Aufruf (`readdirSync('data')`, `glob`) ein Leser. */
 const ORDNER_LITERAL = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*\\w)?)(?=['"\`])`, 'g')
 const VERZEICHNIS_AUFRUF = /readdir|opendir|scandir|\bglob(?:Sync)?\b/i
+/**
+ * Schreibender Aufruf vor dem Fund, ohne `;` dazwischen: ein Anhang darin legt eine Datei an, liest keine (PR 3541: `schreibe(`data/${leer}`, …)`).
+ * Nicht dabei: `copyFile…` (sein erstes Argument ist eine Lesung, PR 3555) und `rename…`. Grenze: Zeilenweise Sicht; ein Schreibaufruf über mehrere Zeilen
+ * mit Anhang in einer Folgezeile bleibt Leser (sicher). Eine Lesung innerhalb der Argumente (`writeFileSync(x, readFileSync(`data/${n}`))`) bleibt Leser.
+ */
+const SCHREIB_AUFRUF = /\b(?:schreibe\w*|write\w*|append\w*|mkdir\w*|rm\w*)\(([^;]*)$/i
+const LESUNG_IM_ARGUMENT = /\b(?:read|lies|glob|opendir|scandir|copyFile)\w*\(/i
+
+function lesenderAnhang(code, m) {
+  const zeilenStart = code.lastIndexOf('\n', m.index) + 1
+  const schreib = SCHREIB_AUFRUF.exec(code.slice(zeilenStart, m.index))
+  return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])
+}
 
 /** Ordner-Tokens des Codes (ohne Kommentare), die ein Verzeichnis lesen oder einen Namen darunter zusammensetzen. */
 export function ordnerTokens(text) {
   const code = ohneKommentare(text)
-  const anhang = [...code.matchAll(ORDNER_ANHANG)].map((m) => m[1])
+  const anhang = [...code.matchAll(ORDNER_ANHANG)].filter((m) => lesenderAnhang(code, m)).map((m) => m[1])
   const literal = VERZEICHNIS_AUFRUF.test(code) ? [...code.matchAll(ORDNER_LITERAL)].map((m) => m[1]) : []
   return [...new Set([...anhang, ...literal])]
 }
@@ -114,9 +127,29 @@ const ENDUNG_REGEX = /\\\.(\([^)]*\)|[\w?|]+)\$\//g
  * Ein Leser, der ein Verzeichnis nur über solche Namen liest, sieht eine Datei anderer Endung nicht (PR 3367/3282, 11.11.2026).
  */
 export function endungsTests(code) {
+  return endungsAuswertung(code).tests
+}
+
+/** Wie `endungsTests`, dazu die Zahl der Regex-Treffer, die keine gültige Regex ergeben (z. B. der eigene Template-String dieses Moduls): sie werden übersprungen. */
+export function endungsAuswertung(code) {
   const lit = [...code.matchAll(ENDUNG_LITERAL)].map((m) => (name) => name.endsWith(`.${m[1] ?? m[2]}`))
-  const reg = [...code.matchAll(ENDUNG_REGEX)].map((m) => (name) => new RegExp(`\\.(?:${m[1].replace(/^\(|\)$/g, '')})$`).test(name))
-  return [...lit, ...reg]
+  const reg = []
+  let uebersprungen = 0
+  for (const m of code.matchAll(ENDUNG_REGEX)) {
+    try {
+      const re = new RegExp(`\\.(?:${m[1].replace(/^\(|\)$/g, '')})$`)
+      reg.push((name) => re.test(name))
+    } catch {
+      uebersprungen++
+    }
+  }
+  return { tests: [...lit, ...reg], uebersprungen }
+}
+
+/** Zusatz für den Grund-Text, wenn Endungs-Muster des Codes keine gültige Regex waren und übersprungen wurden. */
+const ungueltigeMuster = (text) => {
+  const n = endungsAuswertung(ohneKommentare(text)).uebersprungen
+  return n === 0 ? '' : ` (${n} Endungs-Muster ohne gültige Regex übersprungen)`
 }
 
 /** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei) und deren Endung der Code nicht ausschließt. */
@@ -236,7 +269,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
     const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))
-    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
+    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig${ungueltigeMuster(text)}`
   }
   const vorwaerts = [...huelle(start, lies)]
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
