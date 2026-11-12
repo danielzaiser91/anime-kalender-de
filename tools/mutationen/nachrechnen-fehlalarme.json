@@ -958,6 +958,33 @@
     ]
   },
   {
+    "name": "Namensende: nenntName ohne Grenze (Teilstring)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: Grenze ohne Bindestrich",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`(?<![\\\\w.])${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: Grenze ohne Punkt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`(?<![\\\\w-])${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
     "name": "Werkzeug-Familie: Unterordner zählt mit",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",

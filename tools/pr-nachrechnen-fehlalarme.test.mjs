@@ -155,6 +155,15 @@ pruefe('PR 3557: tools/nachrechnen-joblog.mjs (zweiter Namensteil der Familie) i
 const unterordner = werkzeugFall(['tools/pr-nachrechnen-x/y.mjs'], { 'tools/pr-nachrechnen-x/y.mjs': "import './pr-nachrechnen-leser.mjs'\n" })
 pruefe('PR 3557 Gegenfall: Unterordner der Familie zählt nicht als Familie -> Grund', typeof unterordner === 'string', unterordner)
 
+// 12.11.2026 (PR 3494/3481): `anisearch-offen.json` steckt als Namensende in `adn-anisearch-offen.json`; der echte Text von check-adn-anisearch.ts nennt nur Letzteres.
+const ADN_CHECK = 'pipeline/check-adn-anisearch.ts'
+const adnText = fs.readFileSync(new URL('../pipeline/check-adn-anisearch.ts', import.meta.url), 'utf8')
+const OFFEN = 'data/anisearch-offen.json'
+pruefe('Namensende: echter Text nennt adn-anisearch-offen.json, nicht anisearch-offen.json -> kein Leser', adnText.includes('adn-anisearch-offen.json') && leserIn(new Map([[ADN_CHECK, adnText]]), [OFFEN]).length === 0)
+pruefe('Namensende: die längere Datei data/adn-anisearch-offen.json bleibt Leser-Treffer', leserIn(new Map([[ADN_CHECK, adnText]]), ['data/adn-anisearch-offen.json']).join() === ADN_CHECK)
+const kurzTexte = { 'a.mjs': "x('data/anisearch-offen.json')\n", 'b.mjs': "x(join(D, 'anisearch-offen.json'))\n", 'c.mjs': 'x(`${D}/anisearch-offen.json`)\n', 'd.mjs': "x('anisearch-offen.json')\n", 'e.mjs': "x('foo.anisearch-offen.json')\n" }
+pruefe('Namensende: genannte Schreibweisen (Pfad, Name im Literal, Template) bleiben Treffer, `foo.`-Vorsatz nicht', leserIn(new Map(Object.entries(kurzTexte)), [OFFEN]).join() === 'a.mjs,b.mjs,c.mjs,d.mjs')
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)
   process.exit(1)
