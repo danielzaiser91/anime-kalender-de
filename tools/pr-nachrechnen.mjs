@@ -6,6 +6,7 @@
  * und zwar nach dem Ereignis: dessen Lauf nimmt noch den alten Merge-Commit (gemessen 19.10.2026 an PR 1602), daher `anstossen`.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
+ *   Exit 4: der letzte Prüfer-Kommentar verlangt „ändern“, danach kam kein Commit (`pr-nachrechnen-pruefer.mjs`): nichts angestoßen, nicht mergen.
  *   Exit 3: ein offener PR trägt „ersetzt PR <PR>“ (`pr-ersetzt.mjs`), vor allen anderen Urteilen, auch bei gemergtem <PR>: nicht mergen.
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
  *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
@@ -26,6 +27,7 @@ import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
 import { basisAusJobLogs } from './nachrechnen-joblog.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
+import { prueferSperre } from './pr-nachrechnen-pruefer.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -194,7 +196,7 @@ const grundText = (daten, bot) => {
 const kurz = (sha) => sha.slice(0, 9)
 
 /** Felder von `pr view`; `baseRefName` nur bei gelegtem Zug-Schalter, damit der Aufruf mit Schalter aus byte-gleich bleibt. */
-const prFelder = (zugAktiv) => `number,state,mergeable,headRefOid,headRefName${zugAktiv ? ',baseRefName' : ''}`
+const prFelder = (zugAktiv) => `number,state,mergeable,headRefOid,headRefName,comments,commits${zugAktiv ? ',baseRefName' : ''}`
 
 function oeffneMitWiederholung(gh, nummer) {
   for (let versuch = 1; ; versuch++) {
@@ -293,6 +295,11 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
   if (halt !== null) {
     melde(halt)
     return 2
+  }
+  const prueferHalt = prueferSperre(pr.comments, pr.commits)
+  if (prueferHalt !== null) {
+    melde(`PR ${nummer}: ${prueferHalt}`)
+    return 4
   }
   if (istZugPr(pr, zugAktiv)) {
     melde(`PR ${nummer}: Basis ${ZUG}, kein Nachrechnen gegen main (die Fahrt rechnet den ganzen Zug)`)

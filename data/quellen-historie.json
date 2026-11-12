@@ -8490,8 +8490,8 @@
       "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-05",
-      "sagt": "2026-11-03",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-11-03"
     }
   ],
   "auto-5000002-joyn": [
@@ -8499,8 +8499,8 @@
       "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-05",
-      "sagt": "2026-11-03",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-11-03"
     }
   ],
   "auto-5000003-primevideo": [
@@ -8705,6 +8705,22 @@
       "url": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-09",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000001-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-12",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000002-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-12",
       "stand": "aktuell"
     }
   ]

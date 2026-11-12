@@ -336,8 +336,8 @@
   {
     "name": "leserIn: Liste zählt als Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt",
-    "ersetze": "([pfad, text]) => bewegt",
+    "suche": "([pfad, text]) => !LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt",
+    "ersetze": "([pfad, text]) => !istNachrechnenWerkzeug(pfad) && bewegt",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
@@ -346,8 +346,8 @@
   {
     "name": "leserIn: nur Listen",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt",
-    "ersetze": "([pfad, text]) => LISTE.test(pfad) && bewegt",
+    "suche": "([pfad, text]) => !LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt",
+    "ersetze": "([pfad, text]) => LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
