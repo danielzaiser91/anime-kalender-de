@@ -4,7 +4,7 @@
  */
 import type { BelegGedaechtnis } from './beleg-lesung.ts'
 import type { Gruppe } from './beleg-suche.ts'
-import { terminMarken } from './beleg-stelle.ts'
+import { enthaeltMarke, terminMarken } from './beleg-stelle.ts'
 
 /** `nicht-gefunden`: Der Artikel nennt den Titel nicht (oder keine Zeile, die ihn nennt). `ausserhalb`: Die Fundstelle liegt außerhalb des Bild-Ausschnitts. */
 export type OhneMarkeGrund = 'nicht-gefunden' | 'ausserhalb'
@@ -56,7 +56,7 @@ export function nameImTextOhneMarke(text: string, ohneMarke: Record<string, Ohne
   return gruppen
     .filter((g) => ohneMarke?.[g.id] === 'nicht-gefunden')
     .filter((g) => g.suchen.some((s) => norm(s).length > 3 && t.includes(` ${norm(s)} `)))
-    .filter((g) => !g.tage.length || terminMarken(g.tage).some((m) => roh.includes(m)))
+    .filter((g) => !g.tage.length || terminMarken(g.tage).some((m) => enthaeltMarke(roh, m)))
     .map((g) => g.id)
 }
 

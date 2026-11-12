@@ -86,6 +86,13 @@ const daten = { ...LESER, 'tools/pr-kettenlog-budget.test.mjs': "import { budget
 const ld = grund(daten, ['.claude/agents/pruefer.md', 'data/dub-confirmed.yaml'], ['tools/pr-kettenlog-budget.mjs'], 12)
 pruefe('Leser: Test liest nur die Datendatei, nicht die .claude-Datei -> aktuell (sein Import zählt nicht)', aktuell(ld), ld)
 
+// 12.11.2026 (PR 3481/3548/3556): der Grund nennt den echten Leser, nicht die erste bewegte Fremddatei (SKILL.md, die gar kein Grund war).
+const SKILL = '.claude/skills/delegieren-und-parallelisieren/SKILL.md'
+const echt = grund({ ...BAUM, 'extension/melder.js': "const A = 'dub-confirmed.yaml'\n" }, [SKILL, 'data/dub-confirmed.yaml'], ['extension/melder.js'], 13)
+pruefe('Grund: SKILL.md zuerst bewegt, echter Leser data/dub-confirmed.yaml -> Grund nennt den Leser, nicht SKILL.md', veraltet(echt) && /dub-confirmed\.yaml \(extension\/melder\.js\)/.test(echt.grund) && !echt.grund.includes('SKILL.md'), echt)
+const kette = grund(BAUM, [SKILL, 'package.json'], ['extension/melder.js'], 14)
+pruefe('Grund: kettenweite Datei (package.json) bleibt „main bewegte …“ mit Vorspann', veraltet(kette) && kette.grund === `main bewegte ${SKILL}; main bewegte package.json`, kette)
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-claude-md.test: ${fehler.length} rot`)
   process.exit(1)

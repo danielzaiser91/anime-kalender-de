@@ -545,7 +545,7 @@
   {
     "name": "Datenkanal: tools/-Werkzeuge außer check-* zählen nicht (alte Positivliste)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "!istTest(datei) && !istShellTest(datei) && !datei.startsWith('.github/')",
+    "suche": "!istTest(datei) && !istShellTest(datei) && !istNachrechnenWerkzeug(datei) && !datei.startsWith('.github/')",
     "ersetze": "/^(pipeline\\/|shared\\/|tools\\/check-)/.test(datei) && !istTest(datei)",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
@@ -753,8 +753,8 @@
   {
     "name": "Shell-Test: zählt als Bau-Leser (istShellTest entfernt)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "!istTest(datei) && !istShellTest(datei) && !datei.startsWith",
-    "ersetze": "!istTest(datei) && !datei.startsWith",
+    "suche": "!istShellTest(datei) && !istNachrechnenWerkzeug(datei)",
+    "ersetze": "!istNachrechnenWerkzeug(datei)",
     "tests": [
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
@@ -928,6 +928,69 @@
     "ersetze": "/\\b(?:lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: istBauLeser ohne Familien-Ausnahme (PR 3557)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "&& !istNachrechnenWerkzeug(datei) &&",
+    "ersetze": "&&",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: nur pr-nachrechnen, nachrechnen- fehlt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",
+    "ersetze": "/^tools\\/(pr-nachrechnen)[\\w.-]*$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: jedes tools/pr-* zählt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",
+    "ersetze": "/^tools\\/(pr-|nachrechnen-)[\\w.-]*$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: nenntName ohne Grenze (Teilstring)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: Grenze ohne Bindestrich",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`(?<![\\\\w.])${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: Grenze ohne Punkt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`(?<![\\\\w-])${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: Unterordner zählt mit",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",
+    "ersetze": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w./-]*$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
   }
 ]
