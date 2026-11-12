@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import type { DataMeta, PlatformId } from '@shared/types.ts'
 import { WOCHENPROGRAMM_UEBERSICHT } from '@shared/wochenprogramm.ts'
-import { absoluteFeedUrl, loadAllTitles, loadOhneSynchro, type Dataset } from '../lib/data.ts'
+import { absoluteFeedUrl, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { favoritenErgaenzen, useFavorites } from '../lib/favorites.ts'
+import { useUebernommeneNamen } from './uebernommene-namen.ts'
 import {
   favoritenFeedAdresse,
   getSyncToken,
@@ -321,7 +322,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
    * Entscheidung, 14.08.2026, gegen eine eigene Vergleichsseite).
    */
   const [uebernommen, setUebernommen] = useState<number[]>([])
-  const [namen, setNamen] = useState<Map<number, string>>(new Map())
+  const namen = useUebernommeneNamen(uebernommen, data)
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
@@ -418,39 +419,6 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
     // Nur beim Öffnen. Spätere Änderungen übernimmt der Abgleich in App.tsx.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  /**
-   * Namen der übernommenen Titel — nur dann geholt, wenn es welche gibt.
-   *
-   * Die Newsletter-Seite kennt sonst nur Kennungen. Der vollständige Bestand
-   * ist mehrere Megabyte groß und wird deshalb ausschließlich in diesem
-   * seltenen Moment nachgeladen, und auch dann nur so weit, wie nötig: erst der
-   * gepflegte Bestand, und nur wenn danach noch Kennungen offen sind, die Liste
-   * der Titel ohne deutsche Synchro.
-   */
-  useEffect(() => {
-    if (!uebernommen.length) return
-    let alive = true
-    const sammeln = (quelle: { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string }[]) => {
-      if (!alive) return
-      setNamen((bisher) => {
-        const neu = new Map(bisher)
-        for (const t of quelle) {
-          if (uebernommen.includes(t.id)) neu.set(t.id, t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`)
-        }
-        return neu
-      })
-    }
-    sammeln([...data.titleById.values()])
-    loadAllTitles(data).then((alle) => {
-      sammeln(alle)
-      const offen = uebernommen.filter((id) => !alle.some((t) => t.id === id) && !data.titleById.has(id))
-      if (offen.length) loadOhneSynchro(data).then(sammeln)
-    })
-    return () => {
-      alive = false
-    }
-  }, [uebernommen, data])
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
