@@ -13,6 +13,8 @@ const { pruefe } = createRequire(import.meta.url)(hook)
 const HAUPT = 'C:/code/ai/anime-kalender-de'
 const WT = 'C:/code/_worktrees/anime-kalender-de/thema'
 const TMP = 'C:/Users/ih/AppData/Local/Temp/probe'
+const HEIM_ALT = process.env.HOME
+process.env.HOME = 'C:/Users/ih' // feste Heimat nur für die Fälle, damit `$HOME/../..` überall gleich aufgelöst wird; der Verteiler weiter unten schreibt unter HOME
 
 const lauf = (command, cwd = HAUPT, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { command }, cwd })
 const gesperrt = (command, cwd) => assert.match(lauf(command, cwd) ?? '', /^„git (fetch|pull|clone) --depth“ gesperrt.*ohne --depth/s, `${command} @ ${cwd ?? HAUPT} gesperrt`)
@@ -50,6 +52,36 @@ for (const [c, cwd] of [
   ['git status; git pull --depth=1', WT],
   ['timeout 20 git fetch --depth=1', WT],
   ['git fetch \\\n  --depth=1', WT],
+  ['git --git-dir=C:/code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir C:/code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=/c/code/ai/anime-kalender-de/.git/worktrees/thema pull --depth=1', TMP],
+  ['git --git-dir=C:/code/_worktrees/anime-kalender-de/thema/.git fetch --depth=1', TMP],
+  ['git --git-dir=.git fetch --depth=1', WT],
+  ['git --git-dir=.git --work-tree=. fetch --depth=1', HAUPT],
+  ['git --work-tree=C:/code/ai/anime-kalender-de fetch --depth=1', TMP],
+  ['git --git-dir=C:/Users/ih/AppData/Local/Temp/probe/.git --work-tree=C:/code/ai/anime-kalender-de fetch --depth=1', TMP],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git git fetch --depth=1', TMP],
+  ['GIT_DIR=/c/code/ai/anime-kalender-de/.git GIT_WORK_TREE=/c/code/ai/anime-kalender-de git pull --depth=1', TMP],
+  ['GIT_WORK_TREE=C:/code/_worktrees/anime-kalender-de/thema git fetch --depth=1', TMP],
+  ['env GIT_DIR=C:/code/ai/anime-kalender-de/.git git fetch --depth=1', TMP],
+  ['export GIT_DIR=C:/code/ai/anime-kalender-de/.git && git fetch --depth=1', TMP],
+  // A1: Präfix-Zuweisung gilt nur für den eigenen Befehl; danach zählt das Startverzeichnis
+  [`GIT_DIR=${TMP}/.git true; git fetch --depth=1`, HAUPT],
+  [`GIT_DIR=${TMP}/.git git status; git fetch --depth=1`, HAUPT],
+  [`GIT_DIR=${TMP}/.git git status && git fetch --depth=1`, WT],
+  // allein stehende Zuweisung bleibt (vorsichtig) für Folgebefehle
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git; git fetch --depth=1', TMP],
+  // A2: Pfadformen
+  ['git --git-dir=/mnt/c/code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=C:/PROGRA~1/../code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=$HOME/../../code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git -C /mnt/c/code/_worktrees/anime-kalender-de/thema fetch --depth=1', TMP],
+  ['git -C C:/Users/ih/../../code/ai/anime-kalender-de fetch --depth=1', TMP],
+  // A3: Mischformen
+  ['git -c k=v --git-dir=C:/code/ai/anime-kalender-de/.git fetch --depth=1', TMP],
+  ['git --git-dir=C:/code/ai/anime-kalender-de/.git -c k=v fetch --depth=1', TMP],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git git -C C:/Users/ih/AppData/Local/Temp/probe fetch --depth=1', TMP],
+  [`GIT_DIR=${TMP}/.git git -C C:/code/ai/anime-kalender-de --git-dir=C:/code/ai/anime-kalender-de/.git fetch --depth=1`, TMP],
 ]) gesperrt(c, cwd)
 
 for (const [c, cwd] of [
@@ -75,9 +107,29 @@ for (const [c, cwd] of [
   ["printf 'git fetch --depth=1'", WT],
   ['git commit -m x\ncat > f <<EOF\ngit fetch --depth=1\nEOF', WT],
   ['git fetch --depth', 'C:/code/ai/anime-kalender-de-anderes'],
+  ['git --git-dir=C:/Users/ih/AppData/Local/Temp/probe/.git fetch --depth=1', WT],
+  ['git --git-dir C:/Users/ih/AppData/Local/Temp/probe/.git --work-tree C:/Users/ih/AppData/Local/Temp/probe fetch --depth=1', HAUPT],
+  ['git --git-dir=C:/code/ai/anime-kalender-de/.git fetch origin', TMP],
+  ['git --git-dir=C:/code/ai/anime-kalender-de/.git log --depth=1', TMP],
+  ['GIT_DIR=C:/Users/ih/AppData/Local/Temp/probe/.git git fetch --depth=1', WT],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git git fetch origin', TMP],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git echo git fetch --depth=1', TMP],
+  ['git --git-dir=C:/code/ai/anime-kalender-de-anderes/.git fetch --depth=1', TMP],
   ['npm run check', WT],
   ['', WT],
+  // A1: export bleibt für Folgebefehle, Präfix nicht in die Gegenrichtung
+  [`export GIT_DIR=${TMP}/.git; git fetch --depth=1`, HAUPT],
+  [`GIT_DIR=${TMP}/.git; git fetch --depth=1`, HAUPT],
+  ['GIT_DIR=C:/code/ai/anime-kalender-de/.git git status; git fetch --depth=1', TMP],
+  // A3: Mischformen frei; `--git-dir` hinter dem Unterbefehl ist kein gültiges Git (dokumentierte Grenze)
+  [`GIT_DIR=${TMP}/.git git -C C:/code/ai/anime-kalender-de fetch --depth=1`, TMP],
+  [`git -c k=v --git-dir=${TMP}/.git fetch --depth=1`, WT],
+  ['git fetch --depth=1 --git-dir=C:/code/ai/anime-kalender-de/.git', TMP],
+  ['git --git-dir=C:/PROGRA~1/../Users/ih/probe/.git fetch --depth=1', WT],
 ]) frei(c, cwd)
+
+if (HEIM_ALT === undefined) delete process.env.HOME
+else process.env.HOME = HEIM_ALT
 
 assert.equal(lauf('git fetch --depth=1', WT, 'Write'), null, 'Write frei')
 assert.equal(pruefe({ tool_name: 'Bash' }), null, 'ohne tool_input frei')
@@ -100,4 +152,4 @@ const d = entscheide({ tool_name: 'Bash', tool_input: { command: 'git fetch --de
 assert.equal(d?.permissionDecision, 'deny')
 assert.match(d.permissionDecisionReason, /git fetch --depth/)
 
-console.log('fetch-depth-sperre.test: ok (fetch/pull/clone, Abkürzung, -C, cd, bash -c, Ketten; frei: Wegwerf-Ordner, normaler Fetch, Text, Heredoc, Prozess, Verteiler)')
+console.log('fetch-depth-sperre.test: ok (fetch/pull/clone, Abkürzung, -C, --git-dir, --work-tree, GIT_DIR, cd, bash -c, Ketten; frei: Wegwerf-Ordner, normaler Fetch, Text, Heredoc, Prozess, Verteiler)')
