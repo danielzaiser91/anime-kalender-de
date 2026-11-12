@@ -181,7 +181,7 @@
     "name": "botSprungAusnahme: Standard-Messer sagt ok statt Grund (nicht fail-closed)",
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft') {",
-    "ersetze": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => null) {",
+    "ersetze": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => null, trocken = false) {",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
@@ -216,8 +216,8 @@
   {
     "name": "nachrechnen: Standard-Messer sagt immer ok",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "zugAktiv = leseZugAktiv(), umfang = standardUmfang)",
-    "ersetze": "zugAktiv = leseZugAktiv(), umfang = () => null)",
+    "suche": "zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false)",
+    "ersetze": "zugAktiv = leseZugAktiv(), umfang = () => null, trocken = false)",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
