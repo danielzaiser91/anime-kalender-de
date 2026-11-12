@@ -47,16 +47,51 @@
     "tests": ["npx tsx tools/worker-wecker.test.ts"]
   },
   {
-    "name": "weckplan nacht-merger: Mindestabstand 40 statt 20",
+    "name": "weckplan nacht-merger: Mindestabstand 40 statt 15",
     "aenderungen": [
-      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 20, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 40, auchImFuenfMinutenCron: true" }
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 15, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 40, auchImFuenfMinutenCron: true" }
     ],
     "tests": ["npx tsx tools/worker-wecker.test.ts"]
   },
   {
-    "name": "weckplan nacht-merger: Mindestabstand 15 statt 20",
+    "name": "weckplan nacht-merger: Mindestabstand 20 statt 15 (Takt 25 min)",
     "aenderungen": [
-      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 20, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 15, auchImFuenfMinutenCron: true" }
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 15, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 20, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan nacht-merger: Mindestabstand 10 statt 15",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 15, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 10, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starte: Läufe nicht lesbar, 5-Minuten-Zweig startet trotzdem",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "if (laeufe === null && schnell) {", "ersetze": "if (false) {" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starte: Läufe nicht lesbar, auch der Stunden-Cron startet nicht",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "if (laeufe === null && schnell) {", "ersetze": "if (laeufe === null) {" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker letzteLaeufe: Fehlerantwort als leere Liste",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "if (!r.ok) return null", "ersetze": "if (!r.ok) return []" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteFaelligeLaeufe: Schnellzweig-Kennzeichen nicht an starte durchgereicht",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "p.workflow, jetzt, nurFuenfMinutenCron)", "ersetze": "p.workflow, jetzt, false)" }
     ],
     "tests": ["npx tsx tools/worker-wecker.test.ts"]
   }
