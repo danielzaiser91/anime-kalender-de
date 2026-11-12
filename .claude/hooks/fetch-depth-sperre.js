@@ -1,12 +1,27 @@
 // PreToolUse(Bash): `git fetch|pull|clone` mit `--depth`/`--deepen`/`--shallow-*` im Repo anime-kalender-de oder einem seiner Worktrees
 // wird abgewiesen. Anlass (11.11.2026): `git fetch --depth=1` in einem Worktree schrieb die gemeinsame `.git/shallow`; origin/main wurde
 // Wurzel, `git pull --ff-only` im Hauptordner scheiterte. Wegwerf-Repos (z. B. unter Temp) bleiben frei.
-// Ziel: Startverzeichnis (`cwd` der Eingabe), `cd`/`pushd` vor dem Befehl, `git -C <pfad>`; bei `clone` das Zielverzeichnis. Nicht
-// bestimmbare Pfade (`$X`, `~`) fallen auf das aktuelle Verzeichnis zurück. Bekannte Grenzen wie bei no-verify-sperre.js (Alias, Variable als Programm).
-const { zerlege, ohneHeredoc, eingebetteterBefehl, programmName, loese } = require('./hauptordner-sperre.js')
+// Ziel: `--git-dir`/`--work-tree` (auch `GIT_DIR=`/`GIT_WORK_TREE=` davor), sonst Startverzeichnis (`cwd` der Eingabe), `cd`/`pushd` vor dem Befehl, `git -C <pfad>`; bei `clone` das Zielverzeichnis. `$HOME`/`~` vorn,
+// `/mnt/c/` und `..` (auch hinter 8.3-Namen) werden aufgelöst; sonst nicht bestimmbare Pfade (`$X`) fallen auf das aktuelle Verzeichnis zurück.
+// `GIT_DIR=x cmd` gilt nur für `cmd`, `export` oder allein stehend auch für Folgebefehle. `git fetch --depth=1 --git-dir=…` ist kein gültiges Git und bleibt frei. Bekannte Grenzen wie bei no-verify-sperre.js (Alias, Variable als Programm).
+const os = require('os')
+const path = require('path')
+const { zerlege, ohneHeredoc, eingebetteterBefehl, programmName, loese: loeseBasis } = require('./hauptordner-sperre.js')
 
+/** Pfad vor dem Auflösen: `$HOME`/`~` vorn und `/mnt/c/` umschreiben, `..` (auch hinter 8.3-Namen wie `PROGRA~1/..`) vorab zusammenfassen. */
+function bereite(ziel) {
+  if (!ziel) return ziel
+  const heim = (process.env.HOME || os.homedir()).replace(/\\/g, '/')
+  let t = ziel.replace(/\\/g, '/').replace(/^(\$HOME|\$\{HOME\}|~)(?=\/|$)/, heim).replace(/^\/mnt\/([a-z])\//i, '/$1/')
+  if (/\/\.\.(\/|$)/.test(t)) t = path.posix.normalize(t)
+  return t
+}
+const loese = (basis, ziel) => loeseBasis(basis, bereite(ziel))
+
+const ENV_GIT = /^(GIT_DIR|GIT_WORK_TREE)=(.*)$/
 const REPO = ['c:/code/ai/anime-kalender-de', 'c:/code/_worktrees/anime-kalender-de']
-const MIT_WERT = new Set(['-c', '--config-env', '--git-dir', '--work-tree', '--namespace', '--exec-path'])
+const MIT_WERT = new Set(['-c', '--config-env', '--namespace', '--exec-path'])
+const PFAD_OPTION = { '--git-dir': 'gitDir', '--work-tree': 'workTree' }
 const TIEF = ['--depth', '--deepen', '--shallow-since', '--shallow-exclude']
 /** Optionen von clone, die ein weiteres Token als Wert nehmen (für die Suche nach dem Zielverzeichnis). */
 const CLONE_MIT_WERT = new Set(['-b', '--branch', '-o', '--origin', '-c', '--config', '--reference', '--template', '-j', '--jobs', '--filter', '--separate-git-dir', '--upload-pack', '-u', '--server-option', '--bundle-uri'])
@@ -22,14 +37,24 @@ function istTief(a) {
 /** Verzeichnis, in dem git arbeitet: `-C` wirkt relativ zum Startverzeichnis und aufeinanderfolgend. */
 function liesGit(tokens, von, verzeichnis) {
   let dir = verzeichnis
+  const pfade = {}
   let i = von + 1
   for (; i < tokens.length; i++) {
     const t = tokens[i]
+    const [name, wert] = t.split(/=(.*)/s)
     if (t === '-C') dir = loese(dir, tokens[++i]) ?? dir
+    else if (PFAD_OPTION[name]) pfade[PFAD_OPTION[name]] = loese(dir, wert ?? tokens[++i])
     else if (MIT_WERT.has(t)) i++
     else if (!t.startsWith('-')) break
   }
-  return { dir, unter: tokens[i], args: tokens.slice(i + 1) }
+  return { dir, pfade, unter: tokens[i], args: tokens.slice(i + 1) }
+}
+
+/** Orte, an denen fetch/pull arbeitet: Git-Verzeichnis und Arbeitsbaum (Option vor Umgebung), sonst das Verzeichnis. */
+function arbeitsOrte(dir, pfade, umgebung) {
+  const gitDir = pfade.gitDir ?? umgebung.gitDir
+  const workTree = pfade.workTree ?? umgebung.workTree
+  return gitDir ? [gitDir, workTree] : [workTree, dir]
 }
 
 /** Zielverzeichnis von `git clone <url> [<ziel>]`; ohne Ziel das Verzeichnis, in dem geklont wird. */
@@ -43,19 +68,23 @@ function cloneZiel(args, dir) {
   return frei.length >= 2 ? (loese(dir, frei[1]) ?? dir) : dir
 }
 
-function pruefeGit(tokens, i, verzeichnis) {
-  const { dir, unter, args } = liesGit(tokens, i, verzeichnis)
+function pruefeGit(tokens, i, verzeichnis, umgebung) {
+  const { dir, pfade, unter, args } = liesGit(tokens, i, verzeichnis)
   if (!['fetch', 'pull', 'clone'].includes(unter) || !args.some(istTief)) return null
-  const ziel = unter === 'clone' ? cloneZiel(args, dir) : dir
-  return imRepo(ziel) ? `git ${unter} --depth` : null
+  const orte = unter === 'clone' ? [cloneZiel(args, dir)] : arbeitsOrte(dir, pfade, umgebung)
+  return orte.some(imRepo) ? `git ${unter} --depth` : null
 }
 
 /** Grund (Text) für einen Befehl ab Startverzeichnis `cwd` oder null. */
 function pruefeBefehl(befehl, cwd) {
   let verzeichnis = loese(null, cwd)
+  const umgebung = {}
   for (const { tokens } of zerlege(ohneHeredoc(befehl))) {
     if (!tokens) continue
+    const segEnv = {}
     for (let i = 0; i < tokens.length; i++) {
+      const env = ENV_GIT.exec(tokens[i])
+      if (env) segEnv[env[1] === 'GIT_DIR' ? 'gitDir' : 'workTree'] = loese(verzeichnis, env[2])
       const p = programmName(tokens[i])
       if (p === 'echo' || p === 'printf') break
       if (p === 'cd' || p === 'pushd') {
@@ -67,12 +96,18 @@ function pruefeBefehl(befehl, cwd) {
         const grund = pruefeBefehl(skript, verzeichnis)
         if (grund) return grund
       } else if (p === 'git' || p === 'git.exe') {
-        const grund = pruefeGit(tokens, i, verzeichnis)
+        const grund = pruefeGit(tokens, i, verzeichnis, { ...umgebung, ...segEnv })
         if (grund) return grund
       }
     }
+    if (bleibtGesetzt(tokens)) Object.assign(umgebung, segEnv)
   }
   return null
+}
+
+/** Eine Zuweisung gilt für Folgebefehle nur bei `export` oder allein stehend; als Präfix (`GIT_DIR=x git status`) nur für den eigenen Befehl. */
+function bleibtGesetzt(tokens) {
+  return tokens[0] === 'export' || tokens.every((t) => /^\w+=/.test(t))
 }
 
 /** Grund der Verweigerung (Text) oder null — Schnittstelle wie die Module des Verteilers. */

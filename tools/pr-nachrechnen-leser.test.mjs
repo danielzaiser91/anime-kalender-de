@@ -134,8 +134,8 @@ for (const leser of ['tools/gen.mjs', 'web/src/lib/daten.ts', 'worker/src/feed.t
   pruefe(`PR ändert Handdatei, einziger Leser ${leser} -> Grund`, leserEnde(leser).test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: [...NICHT_BAU, leser] })))
 }
 // Prüfer 3486 (Hinweis): die Meldung nennt den Bau-Kern vor Werkzeug und Workflow, auch wenn der andere in der Liste vorn steht.
-pruefe('Meldung Datenkanal: Bau-Leser vor Werkzeug-Leser', leserEnde('pipeline/bau/cr.ts').test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['tools/gen.mjs', 'pipeline/bau/cr.ts'] })))
-pruefe('Meldung Datenkanal: Bau-Leser vor Workflow-Leser', leserEnde('tools/check-x.ts').test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['.github/workflows/pr-pruefer.yml', 'tools/gen.mjs', 'tools/check-x.ts'] })))
+pruefe('Meldung Datenkanal: Bau-Leser vor Werkzeug-Leser', /\(Leser: pipeline\/bau\/cr\.ts, tools\/gen\.mjs, nennt /.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['tools/gen.mjs', 'pipeline/bau/cr.ts'] })))
+pruefe('Meldung Datenkanal: Bau-Leser vor Workflow-Leser', /\(Leser: tools\/check-x\.ts, tools\/gen\.mjs, nennt /.test(grund(['tools/nachbar.mjs', 'data/folgentitel-hand.yaml'], { leser: ['.github/workflows/pr-pruefer.yml', 'tools/gen.mjs', 'tools/check-x.ts'] })))
 // PR 3490/3474 (11.11.2026): bewegt waren bauer.md und die Bot-Datei; der Bau-Leser nennt nur die Bot-Datei, der PR ändert nur Handdaten -> null.
 const BAUER = '.claude/agents/bauer.md'
 const ADN = ['data/adn-staffelzuordnung.yaml']

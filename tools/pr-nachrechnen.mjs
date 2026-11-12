@@ -272,7 +272,7 @@ function basisDesLaufs(gh, pr, warte) {
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang) {
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
   const ersatz = ersetzer(nummer, gh)
   if (ersatz !== null) {
@@ -303,6 +303,10 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0
   }
+  if (trocken) {
+    melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert`)
+    return 1
+  }
   anstossen(gh, nummer, main, warte)
   kommentiereGrund(gh, melde, nummer, grundKommentar(kurz(basis), kurz(main), urteil.grund))
   melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
@@ -321,12 +325,14 @@ export function schlafe(ms) {
 
 /** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
 export function main(argv, ausfuehrer, melde, warte, leser, voll, paare, umfang) {
-  if (argv.length !== 1 || !/^\d+$/.test(argv[0])) {
-    melde('Aufruf: node tools/pr-nachrechnen.mjs <PR-Nummer>')
+  const trocken = argv.includes('--trocken')
+  const args = argv.filter((a) => a !== '--trocken')
+  if (args.length !== 1 || !/^\d+$/.test(args[0])) {
+    melde('Aufruf: node tools/pr-nachrechnen.mjs [--trocken] <PR-Nummer>')
     return 2
   }
   try {
-    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser, voll, paare, undefined, umfang)
+    return nachrechnen(Number(args[0]), ausfuehrer, melde, warte, leser, voll, paare, undefined, umfang, trocken)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2

@@ -3,6 +3,7 @@
  * `pr-nachrechnen.mjs` kostete eine Kette von 20 min (PR 3341, 3346, 3347, 3269, 3305, 3310). Jeder Fall unten steht mit den echten
  * Pfaden des Anlasses im Fake-Baum; ein Neustart bleibt nur, wenn Code des PR die bewegte Datei nachweislich liest.
  */
+import fs from 'node:fs'
 import { bewegtesGelesen, leserIn } from './pr-nachrechnen-leser.mjs'
 
 const fehler = []
@@ -86,6 +87,57 @@ pruefe('A2(a) Leser a.ts -> b.ts -> c.ts, PR ändert c.ts -> Neustart', /^pipeli
 pruefe('A2(a) Gegenfall: PR ändert d.ts (drei Importe vom Leser) -> null', urteil(TIEF, { bewegt: [AMAZON], leser: ['pipeline/bau/a.ts'], pr: ['pipeline/bau/d.ts'] }) === null)
 const CHECK = { 'tools/check-x.mjs': "import './lib.mjs'\nreadFileSync('data/amazon-gti-belegt.json')\n" }
 pruefe('A2(b) Leser tools/check-x.mjs liest die bewegte Datei und importiert tools/lib.mjs, PR ändert lib.mjs -> Neustart', /^tools\/lib\.mjs wird von Code genutzt/.test(urteil(CHECK, { bewegt: [AMAZON], leser: ['tools/check-x.mjs'], pr: ['tools/lib.mjs'] })))
+
+// 11.11.2026: tools/commit-data-test.sh nennt data/anisearch.json & Co. nur als Fixture in Wegwerf-Repos; als Bau-Leser wies es Daten-PRs ab.
+// Der Text ist der echte (vorher: Grund „Leser: tools/commit-data-test.sh“), die Gegenprobe gibt ihn unter einem Werkzeugnamen ohne „-test“.
+const lesePfad = (name) => new URL(`./${name}`, import.meta.url)
+const SHELL = Object.fromEntries(['commit-data-test.sh', 'commit-data-test-verworfen.sh'].map((n) => [`tools/${n}`, fs.readFileSync(lesePfad(n), 'utf8')]))
+const DATEN_PR = ['data/folgentitel-hand.yaml']
+for (const [pfad, text] of Object.entries(SHELL)) {
+  const genannt = 'data/anisearch.json'
+  const ohne = bewegtesGelesen({ bewegt: [genannt], pr: DATEN_PR, leser: [pfad], lies: (p) => SHELL[p] ?? null, paketSkripte: null })
+  const mit = bewegtesGelesen({ bewegt: [genannt], pr: DATEN_PR, leser: ['tools/gen.sh'], lies: (q) => (q === 'tools/gen.sh' ? text : null), paketSkripte: null })
+  pruefe(`Shell-Test ${pfad} (nennt ${genannt}) ist kein Bau-Leser -> null`, ohne === null, ohne)
+  pruefe('Gegenprobe: derselbe Text als tools/gen.sh bleibt Bau-Leser -> Grund', /^der PR ändert data\/folgentitel-hand\.yaml, .*Leser: tools\/gen\.sh/.test(mit), mit)
+}
+const MUSTER_FAELLE = [['tools/commit-data-test-beleg.sh', null], ['tools/attest.sh', 'g'], ['tools/test-x.sh', 'g'], ['tools/a-test.mjs', 'g'], ['tools/a-test.sh.bak', 'g'], ['pipeline/x-test.sh', 'g'], ['tools/unter/x-test.sh', 'g']]
+// Echter Fall 11.11.2026 22:24 (PR 3495, Daten-PR disc-anisearch.yaml): main bewegte tools/nachrechnen-joblog.mjs (PR 3505), der Grund lautete
+// „Leser: tools/commit-data-test.sh, nennt tools/nachrechnen-joblog.mjs“ — die Kopierliste des Shell-Tests nennt das Werkzeug.
+const JOBLOG = 'tools/nachrechnen-joblog.mjs'
+const echt = bewegtesGelesen({ bewegt: [JOBLOG], pr: ['data/curated/disc-anisearch.yaml'], leser: ['tools/commit-data-test.sh'], lies: (q) => SHELL[q] ?? null, paketSkripte: null })
+pruefe('PR 3495: commit-data-test.sh nennt das bewegte Werkzeug nur in der Kopierliste -> null', SHELL['tools/commit-data-test.sh'].includes('nachrechnen-joblog.mjs') && echt === null, echt)
+for (const [p, soll] of MUSTER_FAELLE) {
+  const g = bewegtesGelesen({ bewegt: ['data/anisearch.json'], pr: DATEN_PR, leser: [p], lies: (q) => (q === p ? "x('data/anisearch.json')\n" : null), paketSkripte: null })
+  pruefe(`Shell-Test-Muster: ${p} -> ${soll === null ? 'null' : 'Grund'}`, (g === null) === (soll === null), g)
+}
+
+// 11.11.2026: der Grund nennt alle Bau-Leser je bewegter Datei, höchstens 5, den Rest als „und n weitere“ (Kern zuerst).
+const bauGrund = (bewegt, texte) => bewegtesGelesen({ bewegt, pr: DATEN_PR, leser: Object.keys(texte), lies: (p) => texte[p] ?? null, paketSkripte: null })
+const nenner = (n, wort) => Object.fromEntries(Array.from({ length: n }, (_, i) => [`pipeline/bau/l${i + 1}.ts`, `x('${wort}')\n`]))
+const A = 'data/anisearch.json'
+const B = 'data/kennungen.json'
+const ENDE = (s) => `(${s})`
+const g1 = bauGrund([A], { 'tools/gen.mjs': "x('anisearch.json')\n", 'pipeline/bau/k.ts': "x('anisearch.json')\n" })
+pruefe('Leser: zwei Leser, Kern vor Werkzeug, beide genannt', g1.endsWith(ENDE(`Leser: pipeline/bau/k.ts, tools/gen.mjs, nennt ${A}`)), g1)
+const g5 = bauGrund([A], nenner(5, 'anisearch.json'))
+pruefe('Leser: genau 5 Leser -> alle genannt, kein „weitere“', g5.endsWith(ENDE(`Leser: ${Object.keys(nenner(5, 'x')).join(', ')}, nennt ${A}`)), g5)
+const g6 = bauGrund([A], nenner(6, 'anisearch.json'))
+pruefe('Leser: 6 Leser -> 5 genannt und „und 1 weitere“', g6.endsWith(ENDE(`Leser: ${Object.keys(nenner(5, 'x')).join(', ')} und 1 weitere, nennt ${A}`)), g6)
+const g9 = bauGrund([A], nenner(9, 'anisearch.json'))
+pruefe('Leser: 9 Leser -> „und 4 weitere“ (Zahl der Übrigen, nicht der Gesamtheit)', g9.endsWith(ENDE(`Leser: ${Object.keys(nenner(5, 'x')).join(', ')} und 4 weitere, nennt ${A}`)), g9)
+const g2 = bauGrund([A, B], { 'pipeline/bau/a.ts': "x('anisearch.json')\n", 'pipeline/bau/b.ts': "x('kennungen.json')\n", 'pipeline/bau/c.ts': "x('anisearch.json')\nx('kennungen.json')\n" })
+pruefe('Leser: zwei bewegte Dateien -> je Datei ein Abschnitt, ein Leser beider steht in beiden', g2.endsWith(ENDE(`Leser: pipeline/bau/a.ts, pipeline/bau/c.ts, nennt ${A}; Leser: pipeline/bau/b.ts, pipeline/bau/c.ts, nennt ${B}`)), g2)
+const gN = bauGrund([A, B], { 'pipeline/bau/a.ts': null })
+pruefe('Leser: nicht lesbarer Text zählt als Leser der ersten bewegten Datei', gN.endsWith(ENDE(`Leser: pipeline/bau/a.ts, nennt ${A}`)), gN)
+
+// 11.11.2026 (PR 3502/3509): Test-PR mit readdirSync und `tools/` trifft keine Ausführungsliste, aber weiter bewegten Code unter tools/.
+const ECHTER_TEST = 'tools/mutationsanker-ohne-tests.test.mjs'
+const echterText = fs.readFileSync(new URL('./mutationsanker-ohne-tests.test.mjs', import.meta.url), 'utf8')
+const ordnerFall = (bewegt) => bewegtesGelesen({ bewegt: [bewegt], pr: [ECHTER_TEST], leser: [], lies: (p) => (p === ECHTER_TEST ? echterText : null), paketSkripte: null })
+const listeGrund = ordnerFall('tools/check-logic-liste.txt')
+const codeGrund = ordnerFall('tools/pr-nachrechnen.mjs')
+pruefe('Ordner-Leser: echter Test mit readdirSync + tools/ trifft bewegte Ausführungsliste nicht', listeGrund === null, listeGrund)
+pruefe('Ordner-Leser: bewegte Code-Datei unter tools/ bleibt Grund', typeof codeGrund === 'string' && codeGrund.includes('einen Ordner mit tools/pr-nachrechnen.mjs'), codeGrund)
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-fehlalarme.test: ${fehler.length} rot`)

@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 93 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 95 Wege, nur Hinweis: 1.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 17, Mehrteiler 9.
 
@@ -15,7 +15,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 141 | 1 | 0.7 % | Flagge |
+| primevideo | 143 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (787)
+### Kandidaten für neue Wege (800)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -81,6 +81,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Digimon Data Squad (859) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.c7abfd2b-d327-4e51-bd3f-7fd953b437f5 | ja |
 | Digimon Tamers (874) | Amazon Prime Video | amazon:amzn1.dv.gti.2ff93dc4-3286-4cfe-b450-723f89808441 | ja |
 | Nana (877) | Amazon Prime Video | amazon:amzn1.dv.gti.66d625a3-74c9-485b-a62f-7aa062d7d625 | ja |
+| Angel’s Egg (885) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.19f4f07a-7fcd-45ce-9936-abf74373c70b | ja |
 | Naruto: The Movie 2 - Die Legende des Steins von Gelel (936) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.50b6a7aa-fcb2-0101-245e-1d77ed4d33c2 | ja |
 | Tränen der Erinnerung: Only Yesterday (1029) | Amazon Video | amazon:amzn1.dv.gti.d09397e7-d132-4e24-b038-3e4566c17938 | ja |
 | Pom Poko (1030) | Amazon Video | amazon:amzn1.dv.gti.44c14fb0-0222-4180-8091-1c7daf9a5fd7 | ja |
@@ -368,6 +369,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Interviews mit Monster-Mädchen (97592) | Crunchyroll | crunchyroll:G4VUQEX35 | ja |
 | Lupin III.: Goemon Ishikawa, der es Blut regnen lässt (97619) | Crunchyroll | crunchyroll:GG1U2EX7N | ja |
 | Lupin III.: Goemon Ishikawa, der es Blut regnen lässt (97619) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.aef6200e-8767-417f-95c0-def4020f002e | ja |
+| Detektiv Conan: Episode ONE - Der geschrumpfte Meisterdetektiv (98604) | Crunchyroll | crunchyroll:G4VUQXQZ8 | ja |
+| Detektiv Conan: Episode ONE - Der geschrumpfte Meisterdetektiv (98604) | Amazon Video | amazon:amzn1.dv.gti.86bc09af-a173-b737-192d-175a4d279efe | ja |
 | Grimoire of Zero (97682) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a5ead046-236f-4ede-8a32-1dfa90254a81 | ja |
 | Record of Grancrest War (97768) | Crunchyroll | crunchyroll:G14U4W09X | ja |
 | Record of Grancrest War (97768) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d4692d73-a74e-45f6-889c-7267de6dfc95 | nein |
@@ -410,6 +413,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | King’s Game (99698) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.472233ec-008a-4135-b5bc-2e1b15360d69 | nein |
 | Recovery of an MMO Junkie (99726) | Crunchyroll | crunchyroll:GYME224P6 | ja |
 | Recovery of an MMO Junkie (99726) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.7645eda3-ae24-4e1b-9346-68e637e86b6f | nein |
+| Kase-san and Morning Glories (99916) | Crunchyroll | crunchyroll:G0DUN934P | ja |
+| Re:Zero - Starting Life in Another World: Memory Snow (100049) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.0c604abb-a157-43f1-9465-c30370daeade | nein |
 | Digimon Adventure tri. 6: Bokura no Mirai (100181) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.be712102-f745-40a0-9c98-7b895068d9fa | nein |
 | Tada Never Falls in Love (100179) | Amazon Prime Video | amazon:amzn1.dv.gti.b9a8ec9f-c984-4fc8-8556-fa25eed79a4b | ja |
 | Doreiku: The Animation (100251) | Crunchyroll | crunchyroll:G9DUEPEE7 | ja |
@@ -431,6 +436,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Boogiepop and Others (101283) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.7aa5b3b8-12dd-4703-bef1-340fd628e659 | ja |
 | Die Welt in allen Farben: Iroduku (101316) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.e587021e-1402-459e-b3fe-415f901b7191 | ja |
 | Black Fox (101317) | Crunchyroll | crunchyroll:G7PU4V40E | ja |
+| W’z (101337) | Amazon Prime Video | amazon:amzn1.dv.gti.862dcaff-9396-4498-bdcb-70ff93699d38 | ja |
 | Made in Abyss: Gefährten der Dämmerung (101344) | CineMix+ Amazon Channel | amazon:amzn1.dv.gti.18b83256-a558-424b-beb0-9f6bcffb0fe5 | ja |
 | Dororo (101347) | Amazon Prime Video | amazon:amzn1.dv.gti.89e7a785-27e3-495d-a485-532a8de222a4 | ja |
 | Babylon (101349) | Crunchyroll | crunchyroll:G9DUEGENQ | nein |
@@ -648,6 +654,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Sweet Reincarnation (153339) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.b0a5e1d0-8402-48d5-be7d-7042a46d8c15 | nein |
 | Haikyu!! Das Play-off der Müllhalde (153658) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.467b800e-3262-4857-82b7-ed7a8634cb5b | ja |
 | Psycho-Pass: Providence (153687) | Crunchyroll | crunchyroll:GWDU8JMJG | nein |
+| Lupin III. vs. Ein Supertrio: Cat’s Eye (154924) | Amazon Prime Video | amazon:amzn1.dv.gti.4929f7e5-c6a9-4fd0-a7e6-6e114ba57831 | ja |
 | Giant Beasts of Ars (155089) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.6ba96cfe-be42-4801-ab27-a81dd63389df | ja |
 | The Great Cleric (155418) | Crunchyroll | crunchyroll:G50UZV2EJ | nein |
 | New Saga (155838) | Crunchyroll | crunchyroll:GQJUMZ2N4 | nein |
@@ -814,6 +821,12 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d | ja |
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Amazon Video | amazon:amzn1.dv.gti.244e6fdd-f4a4-44c7-95d0-8829720b24c1 | ja |
 | Re:Zero - Starting Life in Another World: Bünde aus Eis (10013951) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e | nein |
+| Miraculous World: New York, United Heroez (10017058) | Disney Plus | disney:entity-6b518e9a-5204-4be9-8fee-7ef2e6508b30 | nein |
+| Miraculous World: New York, United Heroez (10017058) | Amazon Video | amazon:amzn1.dv.gti.5a5a7885-273e-4b7a-a9b1-f36457a91c89 | nein |
+| Miraculous World: Shanghai, die Legende von Ladydragon (10017074) | Disney Plus | disney:entity-69553fcf-b2e8-4066-a37c-f90d1d8a1221 | nein |
+| Miraculous World: Shanghai, die Legende von Ladydragon (10017074) | Amazon Video | amazon:amzn1.dv.gti.85cabb58-1af2-42f1-94c1-79f15aa38983 | nein |
+| Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit (10017859) | Crunchyroll | crunchyroll:GZ7UVE793 | nein |
+| Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit (10017859) | Amazon Video | amazon:amzn1.dv.gti.6e85ece2-b8ad-4849-9079-7eae6f370813 | nein |
 | Attack on Titan: The Last Attack (10019527) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89 | nein |
 | The Birth of Kitaro: Das Geheimnis von GeGeGe (10019697) | Amazon Video | amazon:amzn1.dv.gti.fbdee0cb-089f-4cf1-88b1-6a8a73a8c994 | ja |
 <!-- anime:end -->

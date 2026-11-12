@@ -1,17 +1,17 @@
 {
   "adn": {
-    "lastOk": "2026-11-11T04:07:32.969Z",
-    "lastRun": "2026-11-11T04:07:32.969Z",
-    "lastCount": 11
+    "lastOk": "2026-11-12T04:09:53.605Z",
+    "lastRun": "2026-11-12T04:09:53.605Z",
+    "lastCount": 10
   },
   "anime2you": {
-    "lastOk": "2026-11-12T03:01:39.084Z",
-    "lastRun": "2026-11-12T03:01:39.084Z",
+    "lastOk": "2026-11-12T10:01:37.656Z",
+    "lastRun": "2026-11-12T10:01:37.656Z",
     "lastCount": 48
   },
   "anisearch": {
-    "lastOk": "2026-11-12T04:01:09.269Z",
-    "lastRun": "2026-11-12T04:01:09.269Z",
+    "lastOk": "2026-11-12T06:01:13.681Z",
+    "lastRun": "2026-11-12T06:01:13.681Z",
     "lastCount": 1
   },
   "adn-catalog": {
@@ -57,10 +57,9 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-11-11T04:07:33.992Z",
-    "lastRun": "2026-11-11T04:07:33.992Z",
-    "lastCount": 0,
-    "leerSeit": "2026-11-10T16:11:00.821Z"
+    "lastOk": "2026-11-12T04:09:55.198Z",
+    "lastRun": "2026-11-12T04:09:55.198Z",
+    "lastCount": 3
   },
   "motn": {
     "lastOk": "2026-11-07T04:03:57.039Z",
@@ -84,7 +83,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-11-10T11:18:36.520Z",
-    "lastRun": "2026-11-12T03:11:57.723Z",
+    "lastRun": "2026-11-12T10:18:17.572Z",
     "lastCount": 0
   },
   "anisearch-folgen": {
@@ -103,9 +102,9 @@
     "lastCount": 2
   },
   "justwatch-audio": {
-    "lastOk": "2026-11-11T13:21:17.820Z",
-    "lastRun": "2026-11-11T13:21:17.820Z",
-    "lastCount": 770
+    "lastOk": "2026-11-12T04:19:29.074Z",
+    "lastRun": "2026-11-12T04:19:29.074Z",
+    "lastCount": 30
   },
   "crunchyroll-offene": {
     "lastOk": "2026-11-09T05:14:10.154Z",
@@ -113,24 +112,25 @@
     "lastCount": 11
   },
   "vorfaelle": {
-    "lastOk": "2026-11-12T03:11:49.182Z",
-    "lastRun": "2026-11-12T03:11:49.182Z",
-    "lastCount": 5
+    "lastOk": "2026-11-12T10:18:13.369Z",
+    "lastRun": "2026-11-12T10:18:13.369Z",
+    "lastCount": 0,
+    "leerSeit": "2026-11-12T10:18:13.369Z"
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-11-12T03:01:20.679Z",
-    "lastRun": "2026-11-12T03:01:20.679Z",
+    "lastOk": "2026-11-12T10:01:18.704Z",
+    "lastRun": "2026-11-12T10:01:18.704Z",
     "lastCount": 185
   },
   "cartoons": {
-    "lastOk": "2026-11-11T04:11:08.004Z",
-    "lastRun": "2026-11-11T04:11:08.004Z",
+    "lastOk": "2026-11-12T04:13:49.789Z",
+    "lastRun": "2026-11-12T04:13:49.789Z",
     "lastCount": 0,
     "leerSeit": "2026-11-10T16:14:33.158Z"
   },
   "trailer": {
-    "lastOk": "2026-11-11T04:12:29.983Z",
-    "lastRun": "2026-11-11T04:12:29.983Z",
+    "lastOk": "2026-11-12T04:15:07.368Z",
+    "lastRun": "2026-11-12T04:15:07.368Z",
     "lastCount": 1
   },
   "wikidata-titel": {
@@ -139,9 +139,9 @@
     "lastCount": 16
   },
   "tv-programm": {
-    "lastOk": "2026-11-12T03:01:43.220Z",
-    "lastRun": "2026-11-12T03:01:43.220Z",
-    "lastCount": 291
+    "lastOk": "2026-11-12T10:01:41.172Z",
+    "lastRun": "2026-11-12T10:01:41.172Z",
+    "lastCount": 297
   },
   "tv-de": {
     "lastOk": "2026-11-05T23:04:13.126Z",
@@ -150,13 +150,13 @@
     "lastError": "gesperrt (HTTP 403)"
   },
   "toggo": {
-    "lastOk": "2026-11-12T02:12:00.683Z",
-    "lastRun": "2026-11-12T02:12:00.683Z",
+    "lastOk": "2026-11-12T04:10:40.642Z",
+    "lastRun": "2026-11-12T04:10:40.642Z",
     "lastCount": 22
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-11-11T04:10:08.453Z",
-    "lastRun": "2026-11-11T04:10:08.453Z",
+    "lastOk": "2026-11-12T04:12:28.919Z",
+    "lastRun": "2026-11-12T04:12:28.919Z",
     "lastCount": 9
   },
   "kinoheld": {
@@ -176,9 +176,10 @@
     "lastCount": 3
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-11-12T03:01:17.465Z",
-    "lastRun": "2026-11-12T03:01:17.465Z",
-    "lastCount": 63
+    "lastOk": "2026-11-12T09:01:30.680Z",
+    "lastRun": "2026-11-12T10:01:16.775Z",
+    "lastCount": 0,
+    "lastError": "Kein Wochenprogramm-Artikel in der Kategorie gefunden"
   },
   "adn-news": {
     "lastOk": "2026-11-12T02:00:52.999Z",
@@ -186,15 +187,15 @@
     "lastCount": 69
   },
   "messbelege": {
-    "lastOk": "2026-11-12T03:01:41.457Z",
-    "lastRun": "2026-11-12T03:01:41.457Z",
+    "lastOk": "2026-11-12T10:01:40.103Z",
+    "lastRun": "2026-11-12T10:01:40.103Z",
     "lastCount": 0,
     "leerSeit": "2026-11-06T18:01:33.610Z"
   },
   "beleg-lesungen": {
-    "lastOk": "2026-11-11T04:06:25.659Z",
-    "lastRun": "2026-11-11T04:06:25.659Z",
-    "lastCount": 11
+    "lastOk": "2026-11-12T04:08:48.826Z",
+    "lastRun": "2026-11-12T04:08:48.826Z",
+    "lastCount": 59
   },
   "anisearch-dubs": {
     "lastOk": "2026-11-12T04:01:00.256Z",
@@ -212,8 +213,8 @@
     "lastCount": 18515
   },
   "cartoon-reihen": {
-    "lastOk": "2026-11-11T04:11:09.067Z",
-    "lastRun": "2026-11-11T04:11:09.067Z",
+    "lastOk": "2026-11-12T04:13:51.254Z",
+    "lastRun": "2026-11-12T04:13:51.254Z",
     "lastCount": 0,
     "leerSeit": "2026-11-09T04:12:50.611Z"
   },

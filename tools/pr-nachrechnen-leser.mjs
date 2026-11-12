@@ -139,24 +139,40 @@ export const nennt = (text, bewegt) => ohneKommentare(text).includes(istClaudeMd
 const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))
 
 /**
- * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten; Auflage CI-Prüfer
- * 26.10.2026): ändert der PR sie und liest Code die bewegte Datei, kann die Kombination neu kippen, auch ohne dass der PR-Code sie nennt.
+ * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten): ändert der PR sie und
+ * liest ein Bau-Leser (`istBauLeser`) eine bewegte Nicht-Bot-Datei, kann die Kombination neu kippen, auch ohne dass der PR-Code sie nennt.
+ * Bewegte Bot-Dateien zählen hier nicht (`botBewegt`, seit 11.11.2026), bei einem reinen Bot-Sprung wird diese Regel gar nicht gefragt (`reinerBotSprung`).
  */
 const aendertBauDaten = (datei) => datei.startsWith('data/')
 
+/** Shell-Tests (`commit-data-test*.sh`, `bau-schon-gebaut-test.sh`) schreiben Fixtures in Wegwerf-Repos und lesen nie echte Daten (geprüft 11.11.2026). */
+const istShellTest = (datei) => /^tools\/[\w-]*-test(-[\w-]+)?\.sh$/.test(datei)
+
 /** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
-const istBauLeser = (datei) => !istTest(datei) && !datei.startsWith('.github/')
+const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !datei.startsWith('.github/')
 
 /** Der Bau-Kern (pipeline/, shared/, tools/check-*) steht in Meldungen vor Werkzeugen und Workflows: sonst liest man „Leser: pr-pruefer.yml“ als Fehlalarm (11.11.2026). */
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))
 const KERN = /^(pipeline\/|shared\/|tools\/check-)/
 
-/** Bau-Leser, die eine der bewegten Dateien wirklich nennen, samt dieser Datei; Kern zuerst. Nicht lesbarer Text zählt als Leser (fail-closed). */
+/** Bau-Leser, die eine der bewegten Dateien wirklich nennen, je Leser und genannter Datei ein Paar; Kern zuerst. Nicht lesbarer Text zählt als Leser der ersten bewegten Datei (fail-closed). */
 const bauLeserMitDatei = (leser, bewegt, lies) => kernZuerst(leser.filter(istBauLeser)).flatMap((l) => {
   const text = lies(l)
-  const b = text === null ? bewegt[0] : bewegt.find((x) => liestTestDatei(l, text, x) && nennt(text, x))
-  return b === undefined ? [] : [{ leser: l, bewegt: b }]
+  if (text === null) return [{ leser: l, bewegt: bewegt[0] }]
+  return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x)).map((x) => ({ leser: l, bewegt: x }))
 })
+
+/** Höchstens so viele Leser je bewegter Datei nennt der Grund, der Rest als „und n weitere“. */
+export const LESER_ANZEIGE = 5
+
+/** „Leser: a, b und 2 weitere, nennt F“, je bewegter Datei ein Abschnitt in Reihenfolge des ersten Auftretens. */
+export function leserText(paare) {
+  return [...new Set(paare.map((p) => p.bewegt))].map((datei) => {
+    const namen = paare.filter((p) => p.bewegt === datei).map((p) => p.leser)
+    const mehr = namen.length - LESER_ANZEIGE
+    return `Leser: ${namen.slice(0, LESER_ANZEIGE).join(', ')}${mehr > 0 ? ` und ${mehr} weitere` : ''}, nennt ${datei}`
+  }).join('; ')
+}
 
 /** Leser, die mindestens eine Nicht-Bot-Datei nennen (nicht lesbarer Text bleibt, fail-closed). */
 const leserOhneBot = (leser, bewegt, botBewegt, lies) => {
@@ -208,7 +224,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
   const daten = eigene.find(aendertBauDaten)
   const bauLeser = daten === undefined ? [] : bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)
-  if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (Leser: ${bauLeser[0].leser}, nennt ${bauLeser[0].bewegt})`
+  if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (${leserText(bauLeser)})`
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'
@@ -219,7 +235,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
     const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\n') : lies(p)
     const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))
     if (b !== undefined) return `der PR liest ${b} (${p})`
-    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))
+    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))
     if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig`
   }
   const vorwaerts = [...huelle(start, lies)]
