@@ -2471,6 +2471,27 @@ function laufStarten() {
   return true
 }
 
+/** Klick auf „▶ alle durchgehen" / „⏹ Durchgang beenden": beendet, startet oder sagt, warum nichts startet. */
+function selbstKlick(selbst) {
+  if (selbstAn) {
+    laufBeenden('von Hand')
+    dialogSchliessen()
+    return
+  }
+  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel). */
+  const hinweis = akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now()) ?? (laufStarten() ? null : selbstUebersprungen.keinAuftrag())
+  if (!hinweis) return
+  /* Kein Start: der Dialog bleibt offen und sagt es (kein Auftrag heißt meist, die Erweiterung hält einen älteren Prüfstand — ein Neuladen holt ihn). */
+  const vorher = selbst.textContent
+  selbst.textContent = hinweis.text
+  selbst.title = hinweis.title
+  selbst.disabled = true
+  setTimeout(() => {
+    selbst.textContent = vorher
+    selbst.disabled = false
+  }, 5000)
+}
+
 /**
  * **Startet den Durchgang, wenn hier wirklich etwas zu holen ist.**
  *
@@ -5416,24 +5437,7 @@ async function dialogOeffnen() {
       ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
       : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
         'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
-    akKlick(selbst, () => {
-      if (selbstAn) {
-        laufBeenden('von Hand')
-        dialogSchliessen()
-        return
-      }
-      const hinweis = akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now()) ?? (laufStarten() ? null : selbstUebersprungen.keinAuftrag())
-      if (!hinweis) return
-      /* Kein Start (anderer Tab führt, oder kein Auftrag — meist ein älterer Prüfstand, ein Neuladen holt ihn): der Dialog bleibt offen und sagt es. */
-      const vorher = selbst.textContent
-      selbst.textContent = hinweis.text
-      selbst.title = hinweis.title
-      selbst.disabled = true
-      setTimeout(() => {
-        selbst.textContent = vorher
-        selbst.disabled = false
-      }, 5000)
-    })
+    akKlick(selbst, () => selbstKlick(selbst))
     kopf.appendChild(selbst)
   }
 
