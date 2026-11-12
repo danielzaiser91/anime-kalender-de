@@ -23,12 +23,59 @@ const ENDUNGEN = ['.ts', '.tsx', '.mjs', '.cjs', '.mts', '/index.ts']
 const CODE = /\.(ts|tsx|mjs|cjs|mts)$/
 /** Ausführungslisten (welche Prüfungen laufen): ihr Inhalt zählt als Aufruf, sie selbst werden von keinem Leser „genutzt“. */
 const LISTE = /-liste\.txt$/
+/** Nur hier gibt es Blockkommentare; in Shell/YAML öffnet ein Glob (`data/` + Stern) sonst einen Scheinblock und verschluckt echte Lesungen. */
+const JS_FAMILIE = /\.(ts|tsx|mjs|cjs|mts|js)$/
 /** Nur diese Dateien werden gelesen (Skripte, Workflows, Ausführungslisten); Daten, Markdown und Bilder bleiben Blätter. */
 export const LESBAR = /(\.(ts|tsx|mjs|cjs|mts|js|sh|ya?ml)|-liste\.txt)$/
 const PFAD = /(?:^|[^\w./-])((?:\.github|data|public|tools|pipeline|shared|web|worker|extension)\/[\w./@-]*\w)/g
 const KOMMENTAR = /^\s*(\/\/|\*|\/\*|#)/
 
-export const ohneKommentare = (text) => text.split('\n').filter((z) => !KOMMENTAR.test(z)).join('\n')
+/** Ein `/` an dieser Stelle (letztes Zeichen davor) beginnt ein Regex-Literal, keine Division. */
+const REGEX_VOR = /[(,=:[!&|?{};+*<>~^%-]$/
+
+/** Ende des Regex-Literals ab `i` (Index hinter dem schließenden `/`); Klassen `[…]` und `\`-Zeichen werden übersprungen. */
+function regexEnde(text, i) {
+  let klasse = false
+  for (let k = i + 1; k < text.length && text[k] !== '\n'; k++) {
+    if (text[k] === '\\') k++
+    else if (text[k] === '[') klasse = true
+    else if (text[k] === ']') klasse = false
+    else if (text[k] === '/' && !klasse) return k + 1
+  }
+  return i + 1
+}
+
+/**
+ * Entfernt Blockkommentare über mehrere Zeilen (Zeilenumbrüche bleiben), auch wenn die Innenzeilen keinen Stern tragen. Zeichenketten,
+ * Vorlagen, Regex-Literale und Zeilenkommentare werden übersprungen: `'data/*.json'` beginnt keinen Kommentar. Code hinter dem Kommentarende bleibt.
+ * Grenzen: Vorlagen mit `${…}` und innerem Backtick kippen die Zeichenkettenzählung; ein Regex-Literal nach `)` oder `}` gilt als Division
+ * (beides selten, festgehalten in den Tests „Grenze: …“).
+ */
+export function ohneBlockkommentare(text) {
+  let aus = ''
+  for (let i = 0; i < text.length;) {
+    const z = text[i]
+    const naechste = text[i + 1]
+    let ende = i + 1
+    const schluss = z === '/' && naechste === '*' ? text.indexOf('*/', i + 2) : -1
+    if (schluss !== -1) {
+      aus += text.slice(i, schluss + 2).replace(/[^\n]/g, '')
+      i = schluss + 2
+      continue
+    }
+    if (z === '/' && naechste === '/') ende = text.indexOf('\n', i) === -1 ? text.length : text.indexOf('\n', i)
+    else if (z === '/' && REGEX_VOR.test(aus.trimEnd().slice(-1) || '(')) ende = regexEnde(text, i)
+    else if (z === '"' || z === "'" || z === '`') {
+      for (ende = i + 1; ende < text.length && text[ende] !== z && (z === '`' || text[ende] !== '\n'); ende++) if (text[ende] === '\\') ende++
+      ende = Math.min(ende + 1, text.length)
+    }
+    aus += text.slice(i, ende)
+    i = ende
+  }
+  return aus
+}
+
+export const ohneKommentare = (text, datei = '') => (JS_FAMILIE.test(datei) ? ohneBlockkommentare(text) : text).split('\n').filter((z) => !KOMMENTAR.test(z)).join('\n')
 
 /** Relative Importe mit Literal als Kandidatenpfade (mit und ohne Endung), relativ zur Wurzel. */
 export function importZiele(datei, text) {
@@ -41,7 +88,7 @@ export function importZiele(datei, text) {
 }
 
 /** Pfade mit Ordnerkopf im Text außerhalb von Kommentarzeilen. */
-export const pfadTokens = (text) => [...new Set([...ohneKommentare(text).matchAll(PFAD)].map((m) => m[1]))]
+export const pfadTokens = (text, datei) => [...new Set([...ohneKommentare(text, datei).matchAll(PFAD)].map((m) => m[1]))]
 
 const importeVon = (datei, text) => (CODE.test(datei) ? importZiele(datei, text) : [])
 
@@ -67,7 +114,7 @@ const LESEN = /readFile|createReadStream|import\.meta\.url|\bresolve\(/
 const liestTestDatei = (pfad, text, bewegt) => {
   if (!istTest(pfad) || !DATEN.test(bewegt)) return true
   const name = bewegt.split('/').pop()
-  return ohneKommentare(text).split('\n').some((z) => z.includes(name) && LESEN.test(z))
+  return ohneKommentare(text, pfad).split('\n').some((z) => z.includes(name) && LESEN.test(z))
 }
 
 /**
@@ -82,7 +129,7 @@ export function huelle(start, lies, maxTiefe = Infinity) {
     const [datei, startdatei, tiefe] = offen.shift()
     const text = tiefe < maxTiefe && LESBAR.test(datei) ? lies(datei) : null
     if (text === null) continue
-    for (const ziel of [...importeVon(datei, text), ...(startdatei && !istTest(datei) ? pfadTokens(text) : [])]) {
+    for (const ziel of [...importeVon(datei, text), ...(startdatei && !istTest(datei) ? pfadTokens(text, datei) : [])]) {
       if (namen.has(ziel)) continue
       namen.add(ziel)
       offen.push([ziel, false, tiefe + 1])
@@ -112,8 +159,8 @@ function lesenderAnhang(code, m) {
 }
 
 /** Ordner-Tokens des Codes (ohne Kommentare), die ein Verzeichnis lesen oder einen Namen darunter zusammensetzen. */
-export function ordnerTokens(text) {
-  const code = ohneKommentare(text)
+export function ordnerTokens(text, datei) {
+  const code = ohneKommentare(text, datei)
   const anhang = [...code.matchAll(ORDNER_ANHANG)].filter((m) => lesenderAnhang(code, m)).map((m) => m[1])
   const literal = VERZEICHNIS_AUFRUF.test(code) ? [...code.matchAll(ORDNER_LITERAL)].map((m) => m[1]) : []
   return [...new Set([...anhang, ...literal])]
@@ -147,27 +194,27 @@ export function endungsAuswertung(code) {
 }
 
 /** Zusatz für den Grund-Text, wenn Endungs-Muster des Codes keine gültige Regex waren und übersprungen wurden. */
-const ungueltigeMuster = (text) => {
-  const n = endungsAuswertung(ohneKommentare(text)).uebersprungen
+const ungueltigeMuster = (text, datei) => {
+  const n = endungsAuswertung(ohneKommentare(text, datei)).uebersprungen
   return n === 0 ? '' : ` (${n} Endungs-Muster ohne gültige Regex übersprungen)`
 }
 
 /** Erste bewegte Datei, die unter einem Ordner-Token des Codes liegt (nicht der Token selbst als Datei) und deren Endung der Code nicht ausschließt. */
-export function ordnerLeser(text, bewegt) {
-  const tests = endungsTests(ohneKommentare(text))
+export function ordnerLeser(text, bewegt, datei) {
+  const tests = endungsTests(ohneKommentare(text, datei))
   const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))
-  return bewegt.find((b) => sichtbar(b) && ordnerTokens(text).some((t) => b.startsWith(`${t}/`)))
+  return bewegt.find((b) => sichtbar(b) && ordnerTokens(text, datei).some((t) => b.startsWith(`${t}/`)))
 }
 
 /** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
-export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))).map(([pfad]) => pfad).sort()
+export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))).map(([pfad]) => pfad).sort()
 
 /** Markdown unter `.claude/` (Skills, Agenten, Regeln): Namen wie `SKILL.md` und `bauer.md` stehen in vielem Code, ohne dass er die Datei liest. */
 export const istClaudeMd = (datei) => /^\.claude\/.+\.md$/.test(datei)
 
 /** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? Bei `.claude`-Markdown zählt nur der volle Pfad. */
-export const nennt = (text, bewegt) => {
-  const code = ohneKommentare(text)
+export const nennt = (text, bewegt, datei) => {
+  const code = ohneKommentare(text, datei)
   if (istClaudeMd(bewegt)) return code.includes(bewegt)
   return nenntName(code, bewegt.split('/').pop())
 }
@@ -176,7 +223,7 @@ export const nennt = (text, bewegt) => {
 const nenntName = (code, name) => new RegExp(`(?<![\\w.-])${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(code)
 
 /** Ein Test, der den vollen Pfad einer bewegten `.claude`-Markdown-Datei nennt, liest sie wirklich (kein Fixture-Name): er hängt dann an dem Code, den er importiert. */
-const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))
+const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b, datei))
 
 /**
  * Daten, die der Bau mit der bewegten Datei in einem Lauf verarbeitet (kuratierte Daten, Handbelege, Sammlerdaten): ändert der PR sie und
@@ -206,7 +253,7 @@ const KERN = /^(pipeline\/|shared\/|tools\/check-)/
 const bauLeserMitDatei = (leser, bewegt, lies) => kernZuerst(leser.filter(istBauLeser)).flatMap((l) => {
   const text = lies(l)
   if (text === null) return [{ leser: l, bewegt: bewegt[0] }]
-  return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x)).map((x) => ({ leser: l, bewegt: x }))
+  return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x, l)).map((x) => ({ leser: l, bewegt: x }))
 })
 
 /** Höchstens so viele Leser je bewegter Datei nennt der Grund, der Rest als „und n weitere“. */
@@ -224,7 +271,7 @@ export function leserText(paare) {
 /** Leser, die mindestens eine Nicht-Bot-Datei nennen (nicht lesbarer Text bleibt, fail-closed). */
 const leserOhneBot = (leser, bewegt, botBewegt, lies) => {
   const wirksam = bewegt.filter((b) => !botBewegt.includes(b))
-  return leser.filter((l) => lies(l) === null || wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b)))
+  return leser.filter((l) => lies(l) === null || wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b, l)))
 }
 
 /**
@@ -242,8 +289,8 @@ const rueckMenge = (leser, bewegt, lies) => {
 
 /** Einträge einer Ausführungsliste, die der PR neu aufnimmt (Pfade im Kopf, die main nicht hat): nur sie laufen neu gegen die Daten. */
 const neueEintraege = (liste, lies, liesMain) => {
-  const alt = new Set(pfadTokens(liesMain(liste) ?? ''))
-  return pfadTokens(lies(liste) ?? '').filter((t) => !alt.has(t))
+  const alt = new Set(pfadTokens(liesMain(liste) ?? '', liste))
+  return pfadTokens(lies(liste) ?? '', liste).filter((t) => !alt.has(t))
 }
 
 /** Skript-Werte aus package.json, die sich zwischen alt und neu unterscheiden, als ein Text; null, wenn nicht lesbar. */
@@ -275,15 +322,15 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   let start = eigene.flatMap((p) => (LISTE.test(p) ? neueEintraege(p, lies, liesMain) : [p]))
   if (pr.includes('package.json')) {
     if (paketSkripte === null) return 'package.json nicht vergleichbar'
-    start = [...start, ...pfadTokens(paketSkripte)]
+    start = [...start, ...pfadTokens(paketSkripte, 'package.json')]
   }
   for (const p of eigene.filter((d) => LESBAR.test(d))) {
     // Eine Ausführungsliste nennt jede Prüfung, nur ihre neuen Einträge sind PR-Code (10.11.2026: sonst entwertet jeder bewegte Wächter jeden Listen-PR).
     const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\n') : lies(p)
-    const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))
+    const b = text === null ? undefined : bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x, p))
     if (b !== undefined) return `der PR liest ${b} (${p})`
-    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))
-    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig${ungueltigeMuster(text)}`
+    const ordner = text === null ? undefined : ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))), p)
+    if (ordner !== undefined) return `der PR liest einen Ordner mit ${ordner} (${p}), Verzeichnis nicht eindeutig${ungueltigeMuster(text, p)}`
   }
   const vorwaerts = [...huelle(start, lies)]
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
