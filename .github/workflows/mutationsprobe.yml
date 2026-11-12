@@ -6,8 +6,10 @@ run-name: Mutationsprobe ${{ inputs.liste }} @ ${{ inputs.kopf }}
 # Die Mutationsprobe läuft hier und nicht auf Daniels Rechner (F40, Schritt 2, 29.10.2026).
 # Start per Knopf (workflow_dispatch) mit Zweig, Mutantenliste und Testbefehl; Ergebnis im Job-Log,
 # in der Zusammenfassung und, wenn eine PR-Nummer mitgegeben ist, als Kommentar am PR.
-# Es läuft `tools/mutationslaeufer.mjs` aus dem geprüften Zweig; die Liste muss dort liegen
-# (Vorbilder: tools/mutationen/*.json). Der Lauf schreibt nichts ins Repo.
+# Liste und Tests kommen aus dem geprüften Zweig (Vorbilder: tools/mutationen/*.json), der Läufer
+# `tools/mutationslaeufer.mjs` und damit der Exit-Code aus main (zweiter Checkout, Prüfer-Auflage A2 PR 3591:
+# ein PR kann den Läufer nicht gegen „alle rot“ austauschen). Die Tests des Zweigs laufen weiter als PR-Code.
+# Der Lauf schreibt nichts ins Repo.
 #
 # Aufruf: gh workflow run mutationsprobe.yml --repo danielzaiser91/anime-kalender-de \
 #           -f zweig=<zweig> -f liste=tools/mutationen/<liste>.json -f test="npx tsx pipeline/check-x.ts" [-f pr=<nr>]
@@ -46,6 +48,12 @@ on:
 permissions:
   contents: read
 
+# Ein neuer Lauf derselben Liste desselben Zweigs ersetzt den laufenden (Push, Rerun des Prüfers): je Liste und Zweig
+# höchstens ein Lauf mit npm ci und Chromium, nie fünf Läufe à 50 min nebeneinander (A4, PR 3591).
+concurrency:
+  group: mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}
+  cancel-in-progress: true
+
 jobs:
   mutation:
     runs-on: ubuntu-latest
@@ -66,6 +74,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.kopf || inputs.zweig }}
+      # Läufer aus main: nur diese eine Datei, nach dem Checkout des Zweigs (der räumt den Arbeitsordner), dann aus dem
+      # Arbeitsordner heraus: Tests des Zweigs sehen den Ordner nicht, ein Zweig kann die Datei nicht ersetzen.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: _main
+          sparse-checkout: tools/mutationslaeufer.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Läufer sichern
+        run: |
+          set -e
+          mkdir -p "$RUNNER_TEMP/laeufer"
+          cp _main/tools/mutationslaeufer.mjs "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs"
+          rm -rf _main
       # Node, npm ci und Chromium (Browser-Tests wie check-beleg-sammelartikel) wie in den Datenläufen.
       # cache: aus, weil die Mutantentests keine Rohdaten aus data/cache lesen (sie laufen auf dem Zweig-Stand).
       - uses: ./.github/actions/einrichten
@@ -84,14 +107,14 @@ jobs:
           code=0
           # Leerer Standardtest: ohne --test (jeder Mutant trägt eigene tests).
           test_arg=(); [ -z "$TEST" ] || test_arg=(--test "$TEST")
-          node tools/mutationslaeufer.mjs "$LISTE" "${test_arg[@]}" --timeout "$TIMEOUT" \
+          node "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs" "$LISTE" "${test_arg[@]}" --timeout "$TIMEOUT" \
             --log "$RUNNER_TEMP/mutation/log" 2>&1 | tee "$RUNNER_TEMP/mutation/lauf.txt" || code=$?
           # Kopf-SHA des geprüften Stands: ohne ihn lässt sich ein Kommentar nicht einem Push zuordnen.
           kopf=$(git rev-parse HEAD 2>/dev/null || echo unbekannt)
           {
             echo "## Mutationsprobe für \`$ZWEIG\` (\`$LISTE\`)"
             echo
-            echo "Exit $code (0 = alle Mutanten rot, 1 = Überlebende oder unbrauchbare, 2 = Aufruf oder Grundlauf rot). Kopf: \`$kopf\`. Lauf: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Exit $code (0 = alle Mutanten rot, 1 = Überlebende oder unbrauchbare, 2 = Aufruf oder Grundlauf rot). Kopf: \`$kopf\`. Lauf: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Läufer aus main, Liste und Tests vom Kopf."
             echo
             if [ -f "$RUNNER_TEMP/mutation/log/tabelle.md" ]; then cat "$RUNNER_TEMP/mutation/log/tabelle.md"; else tail -n 40 "$RUNNER_TEMP/mutation/lauf.txt"; fi
           } > "$RUNNER_TEMP/mutation/ergebnis.md"

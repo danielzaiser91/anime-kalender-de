@@ -20,18 +20,88 @@ permissions:
   contents: read
   pull-requests: write
   checks: read
-  # actions: write (schließt read ein): pr-kettenlog.mjs liest Jobs und Logs der PR-Prüfkette des Kopfes, und nur
-  # „Mutationsprobe starten“ (tools/mutationsprobe-pr.mjs) löst mutationsprobe.yml per workflow_dispatch aus.
-  actions: write
+  # actions: read nur für tools/pr-kettenlog.mjs (Jobs und Logs der PR-Prüfkette des Kopfes lesen). Das Schreibrecht
+  # (workflow_dispatch der Mutationsprobe) hat allein der Job `mutationsprobe`, nie der Job `pruefen` mit den Claude-Schritten.
+  actions: read
 
 concurrency:
   group: pr-pruefer-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
+  # Mutationsprobe bei Prüfstufe 2 (12.11.2026, tools/mutationsprobe-pr.mjs, Skript aus main): ändert der PR eine Mutantenliste
+  # (tools/mutationen/*.json), startet dieser Job die Probe (mutationsprobe.yml, Fassung von main) zum Kopf-SHA, wartet höchstens
+  # 8 min und gibt das Ergebnis als Artefakt `mutationsprobe` an den Job `pruefen` weiter. Eigener Job, weil Rechte je Job gelten:
+  # nur hier `actions: write`, ohne Claude-Schritt und ohne Code des PR (kein Checkout des Zweigs, nur Dateinamen und SHA aus der API).
+  # Fail-soft: kein Start, keine Datei, kein Rot; `pruefen` läuft danach in jedem Fall (`!cancelled()`).
+  mutationsprobe:
+    name: Mutationsprobe (Prüfstufe 2)
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !startsWith(github.head_ref, 'daten/') &&
+      github.head_ref != 'zug-fahrt' &&
+      github.head_ref != 'zug-probe' &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: write
+    env:
+      PR: ${{ github.event.pull_request.number }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # Dieselbe Stufe wie in `pruefen` (tools/pr-stufe.mjs, Skript aus main, liest nur die Dateiliste und den Diff des PR).
+      - name: Prüfstufe
+        id: stufe
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          T="$RUNNER_TEMP/pruefer"; mkdir -p "$T"
+          stufe=2
+          if node tools/pr-stufe.mjs "$PR" > "$T/stufe.json"; then
+            stufe=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).stufe)' "$T/stufe.json") || stufe=2
+          fi
+          echo "stufe=$stufe" >> "$GITHUB_OUTPUT"
+
+      # Frist (tools/mutationsprobe-pr.mjs, FRIST_MS): 8 min ab dem Start. Zwölf Läufe von mutationsprobe.yml am 12.11.2026, von
+      # Anlegen bis Ende (also mit Warteschlange, npm ci und Chromium): elf zwischen 80 und 225 s, einer 427 s. Die Frist deckt
+      # auch den längsten; bei längerer Warteschlange gilt nach 8 min „nicht beurteilt“, nie Rot. Der Job kostet Stufe-2-PRs
+      # ohne Liste rund eine halbe Minute (Checkout, Stufe), mit Liste die Laufzeit der Probe; `pruefen` beginnt danach.
+      - name: Mutationsprobe starten
+        if: steps.stufe.outputs.stufe == '2'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZWEIG: ${{ github.head_ref }}
+        run: node tools/mutationsprobe-pr.mjs start "$PR" "$HEAD_SHA" "$ZWEIG" "$RUNNER_TEMP/pruefer" || echo "Mutationsprobe nicht gestartet"
+
+      - name: Mutationsprobe abwarten
+        if: steps.stufe.outputs.stufe == '2'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node tools/mutationsprobe-pr.mjs warte "$RUNNER_TEMP/pruefer" || echo "Mutationsprobe nicht abgewartet"
+
+      - name: Ergebnis weitergeben
+        if: steps.stufe.outputs.stufe == '2'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutationsprobe
+          path: ${{ runner.temp }}/pruefer/mutationsprobe.txt
+          retention-days: 3
+          if-no-files-found: ignore
+
   pruefen:
     name: Prüfer-Review
+    needs: mutationsprobe
     if: >-
+      !cancelled() &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       !startsWith(github.head_ref, 'daten/') &&
       github.head_ref != 'zug-fahrt' &&
@@ -129,17 +199,6 @@ jobs:
             gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/stufe.md"
           fi
 
-      # Mutationsprobe bei Stufe 2 (12.11.2026, tools/mutationsprobe-pr.mjs, Skript aus main): ändert der PR eine Mutantenliste
-      # (tools/mutationen/*.json), startet dieser Schritt die Probe (mutationsprobe.yml, Fassung von main) zum Kopf-SHA; der
-      # Schritt „Mutationsprobe abwarten“ liest das Ergebnis vor dem Claude-Schritt. Der Lauf bekommt nur Dateinamen und SHA
-      # aus der API, nie Text des PR. `actions: write` (Kopf der Datei) gilt nur diesem Aufruf. Fail-soft: kein Start, kein Rot.
-      - name: Mutationsprobe starten
-        if: steps.stufe.outputs.stufe == '2'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ZWEIG: ${{ github.head_ref }}
-        run: node tools/mutationsprobe-pr.mjs start "$PR" "$HEAD_SHA" "$ZWEIG" "$RUNNER_TEMP/pruefer" || echo "Mutationsprobe nicht gestartet"
-
       # Prüfmodus (Daniel, 21.10.2026: eine Prüfrunde): erste Bewertung des bereiten PR = voll; gibt es schon ein CI-Review,
       # prüft der Abnahme-Prüfer nur noch die Auflagen der ersten Runde (tools/pr-pruefer-modus.mjs, Skript aus main).
       # Fail-soft: ohne Ausgabe gilt voll (mehr Prüfung, nie weniger).
@@ -165,15 +224,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 2160 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
 
-      # Frist: 8 min ab dem Start der Probe, absolut gemessen (die Kettenlog-Wartezeit davor zählt mit, im Mittel braucht die Probe
-      # 2,8 min, höchstens 6,3 min, Messung 12.11.2026). Ohne Start-Stand endet der Schritt sofort. Budget bleibt: Er verlängert
-      # die Wartezeit des Kettenlog-Schritts höchstens bis Start + 8 min, nie darüber (tools/pr-pruefer-eingabe.test.mjs).
-      - name: Mutationsprobe abwarten
-        if: steps.stufe.outputs.stufe == '2'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: node tools/mutationsprobe-pr.mjs warte "$RUNNER_TEMP/pruefer" || echo "Mutationsprobe nicht abgewartet"
+      # Ergebnis der Mutationsprobe aus dem Job `mutationsprobe` (Prüfstufe 2, vor diesem Job beendet, Budget von 52,5 min unberührt).
+      # Nur bei vollständigem Diff (diff-zustand ok): sonst urteilt dieser Lauf ohnehin „unvollstaendig“, die Datei bliebe ungelesen.
+      # Der Inhalt stammt aus einem Lauf des PR-Codes: UNVERTRAUENSWÜRDIGE DATEN. Fehlt das Artefakt, fehlt die Datei (fail-soft).
+      - name: Mutationsprobe einlesen
+        if: steps.stufe.outputs.stufe == '2' && steps.diff.outputs.diff-zustand == 'ok'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: mutationsprobe
+          path: ${{ runner.temp }}/pruefer
 
       # Laufzeitsperre (PR 1427): "ok" nur bei vollständigem Diff und einer Beschreibung, die mit der Commit-Liste bis
       # zum Kopf endet. Direkt vor den Prüfern, damit kein früherer Schritt die Beschreibung danach noch ändert.

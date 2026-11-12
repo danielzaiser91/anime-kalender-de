@@ -7,7 +7,7 @@
  */
 import fs from 'node:fs'
 import { parse } from 'yaml'
-import { bedingungWahr, laufeBisEingang, prDaten, KOPF } from './pr-pruefer-kulisse.mjs'
+import { bedingungWahr, laufeBisEingang, laufeProbeJob, prDaten, KOPF } from './pr-pruefer-kulisse.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -42,8 +42,6 @@ const AUFRUFE = [
   'pr diff 7',
   'api repos/o/r/issues/7/comments --paginate -q .[] | select(.body | startswith("<!-- pr-stufe -->")) | .id',
   'pr comment 7 --repo o/r --body-file <datei>',
-  // Prüfstufe 2: „Mutationsprobe starten“ liest die Dateiliste des PR (die Attrappe antwortet 404, der Schritt bleibt fail-soft).
-  'api --method GET --paginate repos/o/r/pulls/7/files -f per_page=100 -q [.[] | {filename, status}]',
   'api --paginate --slurp repos/o/r/issues/7/comments',
   'api repos/o/r/actions/workflows/pr-pruefung.yml/runs?head_sha=' + KOPF + '&event=pull_request&per_page=30 -q .workflow_runs[] | [.id, .status, (.conclusion // "")] | @tsv',
   'api --paginate repos/o/r/actions/runs/5/jobs?per_page=100 -q .jobs[] | [.id, .name, .status, (.conclusion // "")] | @tsv',
@@ -140,21 +138,96 @@ const voll = String(pruefer.find((s) => s.name === 'Prüfer')?.with?.prompt ?? '
 pruefe('Voller Prüfer: Vorgabe Folgeläufe, übersprungene Tests, inhaltlicher Abgleich je Ziel',
   ['Folgeläufe', 'leere oder gelöschte Eingabedatei', 'übersprungen wird, belegt dort nichts', 'je Ziel einen inhaltlichen Abgleich'].every((t) => voll.includes(t)))
 const leserDiffZustand = schritte.filter((s) => JSON.stringify(s).includes('steps.diff.outputs.diff-zustand'))
-pruefe('diff-zustand liest nur noch die Sperre', leserDiffZustand.length === 1 && leserDiffZustand[0].id === 'eingang')
+pruefe('diff-zustand lesen nur die Sperre und das Einlesen der Mutationsprobe (A7c)', leserDiffZustand.map((s) => s.id ?? s.name).join() === 'Mutationsprobe einlesen,eingang', leserDiffZustand.map((s) => s.id ?? s.name))
 
-// Mutationsprobe bei Stufe 2 (12.11.2026): Start vor dem Prüfmodus, Abwarten nach dem Kettenlog und vor dem ersten Prüfer.
+// Mutationsprobe bei Stufe 2 (12.11.2026, PR 3591 R1): eigener Job `mutationsprobe` mit dem Schreibrecht, Ergebnis als Artefakt in `pruefen`.
+const probe = wf.jobs.mutationsprobe
+const wirksam = (job) => ({ ...wf.permissions, ...(job.permissions ?? {}) })
+pruefe('A1: pruefen hat nur actions: read (Kopf der Datei), ohne eigene Rechte', wf.permissions.actions === 'read' && wf.jobs.pruefen.permissions === undefined && wirksam(wf.jobs.pruefen).actions === 'read', wirksam(wf.jobs.pruefen))
+pruefe('A1: nur der Job mutationsprobe hat actions: write, genau contents/pull-requests: read dazu',
+  Object.entries(wf.jobs).filter(([, j]) => wirksam(j).actions === 'write').map(([n]) => n).join() === 'mutationsprobe'
+  && JSON.stringify(probe.permissions) === JSON.stringify({ contents: 'read', 'pull-requests': 'read', actions: 'write' }), probe.permissions)
+pruefe('A1: der Schreib-Job hat keinen Claude-Schritt und holt nie einen Zweig (Checkout ohne ref)',
+  !probe.steps.some((s) => String(s.uses ?? '').startsWith('anthropics/')) && probe.steps.filter((s) => String(s.uses ?? '').startsWith('actions/checkout')).every((s) => s.with?.ref === undefined && s.with?.repository === undefined))
+pruefe('A1: pruefen wartet auf mutationsprobe und läuft auch, wenn der fehlschlägt (!cancelled())', wf.jobs.pruefen.needs === 'mutationsprobe' && String(wf.jobs.pruefen.if).startsWith('!cancelled() &&') && !String(probe.if).includes('cancelled'), [wf.jobs.pruefen.needs, wf.jobs.pruefen.if])
+pruefe('A1: beide Jobs gelten für dieselben PR (gleiche Bedingung bis auf !cancelled())', String(wf.jobs.pruefen.if).replace('!cancelled() &&', '').trim() === String(probe.if).trim())
+// A4: Kettenbudget. `pruefen` beginnt erst nach dem Probe-Job, sein eigenes Budget (60 min) bleibt; der Probe-Job braucht Frist 8 min + Checkout/Stufe/Upload (~2 min) unter seinem Timeout.
+pruefe('A4: Probe-Job-Timeout deckt die 8-min-Frist plus 2 min Vor- und Nachlauf, ohne ein Stunden-Job zu werden', probe['timeout-minutes'] >= 8 + 2 && probe['timeout-minutes'] <= 15 && wf.jobs.pruefen['timeout-minutes'] === 60, [probe['timeout-minutes'], wf.jobs.pruefen['timeout-minutes']])
+const pNamen = probe.steps.map((s) => s.name ?? s.uses)
+pruefe('Probe-Job: Checkout, Prüfstufe, starten, abwarten, Ergebnis weitergeben (in dieser Reihenfolge)', JSON.stringify(pNamen) === JSON.stringify(['actions/checkout@v4', 'Prüfstufe', 'Mutationsprobe starten', 'Mutationsprobe abwarten', 'Ergebnis weitergeben']), pNamen)
+const pStart = probe.steps.find((s) => s.name === 'Mutationsprobe starten')
+const pWarte = probe.steps.find((s) => s.name === 'Mutationsprobe abwarten')
+const pUpload = probe.steps.find((s) => s.name === 'Ergebnis weitergeben')
+pruefe('Probe-Job: starten, abwarten und weitergeben nur bei Prüfstufe 2', [pStart, pWarte, pUpload].every((s) => s?.if === "steps.stufe.outputs.stufe == '2'"), [pStart?.if, pWarte?.if, pUpload?.if])
+pruefe('Probe-Job: starten und abwarten rufen das Skript auf, fail-soft ohne Exit 1',
+  /^node tools\/mutationsprobe-pr\.mjs start "\$PR" "\$HEAD_SHA" "\$ZWEIG" "\$RUNNER_TEMP\/pruefer" \|\| echo "[^"]+"$/.test(pStart?.run ?? '') && /^node tools\/mutationsprobe-pr\.mjs warte "\$RUNNER_TEMP\/pruefer" \|\| echo "[^"]+"$/.test(pWarte?.run ?? ''), [pStart?.run, pWarte?.run])
+const einlesen = schritte.find((s) => s.name === 'Mutationsprobe einlesen')
 const schrittNamen = schritte.map((s) => s.name)
-const start = schritte.find((s) => s.name === 'Mutationsprobe starten')
-const abwarten = schritte.find((s) => s.name === 'Mutationsprobe abwarten')
-pruefe('Mutationsprobe: beide Schritte nur bei Prüfstufe 2', start?.if === "steps.stufe.outputs.stufe == '2'" && abwarten?.if === "steps.stufe.outputs.stufe == '2'", [start?.if, abwarten?.if])
-pruefe('Mutationsprobe: Start nach der Prüfstufe, Abwarten nach dem Kettenlog und vor dem ersten Prüfer',
-  schrittNamen.indexOf('Mutationsprobe starten') > schrittNamen.indexOf('Prüfstufe') && schrittNamen.indexOf('Mutationsprobe abwarten') > schrittNamen.indexOf('Kettenlog bereitlegen') && schrittNamen.indexOf('Mutationsprobe abwarten') < schrittNamen.indexOf('Prüfer-Eingang prüfen'), schrittNamen)
-pruefe('Mutationsprobe: Start und Abwarten rufen das Skript auf, fail-soft ohne Exit 1',
-  /^node tools\/mutationsprobe-pr\.mjs start "\$PR" "\$HEAD_SHA" "\$ZWEIG" "\$RUNNER_TEMP\/pruefer" \|\| echo /.test(start?.run ?? '') && /^node tools\/mutationsprobe-pr\.mjs warte "\$RUNNER_TEMP\/pruefer" \|\| echo /.test(abwarten?.run ?? ''), [start?.run, abwarten?.run])
+pruefe('A7c: Einlesen nur bei Prüfstufe 2 und vollständigem Diff, fail-soft, gleicher Artefaktname wie der Upload',
+  einlesen?.if === "steps.stufe.outputs.stufe == '2' && steps.diff.outputs.diff-zustand == 'ok'" && einlesen['continue-on-error'] === true && einlesen.with?.name === pUpload?.with?.name && einlesen.with?.path === '${{ runner.temp }}/pruefer' && pUpload?.with?.path === '${{ runner.temp }}/pruefer/mutationsprobe.txt', [einlesen, pUpload?.with])
+pruefe('Einlesen: nach dem Kettenlog und vor der Sperre', schrittNamen.indexOf('Mutationsprobe einlesen') > schrittNamen.indexOf('Kettenlog bereitlegen') && schrittNamen.indexOf('Mutationsprobe einlesen') < schrittNamen.indexOf('Prüfer-Eingang prüfen'), schrittNamen)
 pruefe('Mutationsprobe: voller Prüfer und Abnahme-Prüfer lesen die Ergebnisdatei', voll.includes('/pruefer/mutationsprobe.txt') && abnahmePrompt.includes('/pruefer/mutationsprobe.txt'))
-pruefe('Mutationsprobe: actions: write steht nur im Kopf der Datei, kein Job und kein Schritt setzt eigene Rechte', wf.permissions.actions === 'write' && wf.jobs.pruefen.permissions === undefined)
 const wahr = (w, a) => bedingungWahr(w, a)
 pruefe('Kulisse: Bedingung wahr, falsch, fremde Form', wahr("steps.stufe.outputs.stufe == '2'", { stufe: { stufe: '2' } }) === true && wahr("steps.stufe.outputs.stufe == '2'", { stufe: { stufe: '1' } }) === false && wahr("steps.stufe.outputs.stufe == '2'", {}) === false && wahr('always()', {}) === null)
+const beide = { stufe: { stufe: '2' }, diff: { 'diff-zustand': 'ok' } }
+const UND = "steps.stufe.outputs.stufe == '2' && steps.diff.outputs.diff-zustand == 'ok'"
+pruefe('Kulisse: Bedingung mit &&, jedes Glied zählt, fremdes Glied ist null',
+  wahr(UND, beide) === true && wahr(UND, { ...beide, stufe: { stufe: '0' } }) === false && wahr(UND, { ...beide, diff: { 'diff-zustand': 'unvollstaendig' } }) === false && wahr(UND + ' && always()', beide) === null)
+
+// Der Probe-Job wirklich ausgeführt (A6): Liste im PR, Dispatch am Kopf, Lauf gefunden, Tabelle geholt, Datei hochgeladen.
+const LISTE = 'tools/mutationen/eins.json'
+const TITEL = `Mutationsprobe ${LISTE} @ ${KOPF}`
+const listeMit = JSON.stringify([{ name: 'a', tests: ['t'], aenderungen: [{ datei: 'x', suche: 'a', ersetze: 'b' }] }])
+const mitListe = () => ({
+  ...prDaten(7, KOPF),
+  dateien: [{ filename: LISTE, status: 'added' }, { filename: 'a.ts', status: 'modified' }],
+  inhalte: { [LISTE]: listeMit },
+  // Der alte, fertige Lauf (grün) mit gleichem Titel darf nie als Antwort zählen (A3); createdAt 2000 bzw. 2999: unabhängig von der Uhr.
+  laeufe: [
+    { databaseId: 98, displayTitle: TITEL, status: 'completed', conclusion: 'success', createdAt: '2000-01-01T00:00:00Z', url: 'u98' },
+    { databaseId: 99, displayTitle: TITEL, status: 'completed', conclusion: 'failure', createdAt: '2999-12-31T00:00:00Z', url: 'u99' },
+  ],
+  tabellen: { 99: '| Mutant | Ergebnis |\n| m1 | GRÜN |' },
+})
+const ohneZiel = (l) => (l.aufrufe ?? []).map((a) => a.replace(/-D \S+/, '-D <ziel>'))
+const AUFRUFE_PROBE = [
+  'pr diff 7',
+  'api --method GET --paginate repos/o/r/pulls/7/files -f per_page=100 -q [.[] | {filename, status}]',
+  `api -H Accept: application/vnd.github.raw repos/o/r/contents/${LISTE}?ref=${KOPF}`,
+  `workflow run mutationsprobe.yml --repo o/r --ref main -f zweig=zweig-7 -f kopf=${KOPF} -f liste=${LISTE}`,
+  'run list --repo o/r --workflow mutationsprobe.yml --limit 60 --json databaseId,displayTitle,status,conclusion,createdAt,url',
+  'run download 99 --repo o/r -n mutation-ergebnis -D <ziel>',
+]
+process.env.MUTATIONSPROBE_PAUSE_MS = '0'
+const pl = laufeProbeJob(wf, { 7: mitListe() })
+pruefe('Probe-Job: alle Schritte laufen durch', pl.fehler === undefined, pl.fehler)
+pruefe('Probe-Job: gh-Aufrufe genau die erwartete Liste (Dateiliste, Liste am Kopf, Dispatch ohne pr=, Läufe, Ergebnis des neuen Laufs)', JSON.stringify(ohneZiel(pl)) === JSON.stringify(AUFRUFE_PROBE), ohneZiel(pl))
+pruefe('Probe-Job: mutationsprobe.txt nennt Kopf und den neuen, roten Lauf mit Tabelle, nie den alten grünen',
+  pl.mutationsprobe?.includes(`Mutationsprobe zum Kopf ${KOPF}`) && pl.mutationsprobe.includes(`- ${LISTE}: Lauf failure`) && pl.mutationsprobe.includes('| m1 | GRÜN |') && !pl.mutationsprobe.includes('alle Mutanten rot'), pl.mutationsprobe)
+pruefe('Probe-Job: Artefakt mutationsprobe mit genau dieser Datei hochgeladen', pl.hochgeladen?.name === 'mutationsprobe' && pl.hochgeladen.inhalt === pl.mutationsprobe && pl.hochgeladen.ohneDatei === 'ignore', pl.hochgeladen)
+pruefe('Probe-Job: starten und abwarten laufen bei Stufe 2', Object.keys(pl.protokoll ?? {}).join() === 'Prüfstufe,Mutationsprobe starten,Mutationsprobe abwarten', pl.protokoll)
+const dokuProbe = laufeProbeJob(wf, { 7: { ...mitListe(), diff: dokuDiff } })
+pruefe('Probe-Job: Prüfstufe 0 -> nichts gestartet, nichts gewartet, nichts hochgeladen',
+  dokuProbe.ausgaben?.stufe?.stufe === '0' && JSON.stringify(ohneZiel(dokuProbe)) === JSON.stringify(['pr diff 7']) && Object.keys(dokuProbe.protokoll).join() === 'Prüfstufe' && dokuProbe.hochgeladen === undefined && dokuProbe.mutationsprobe === null, [dokuProbe.ausgaben, dokuProbe.aufrufe])
+// A7a im Ablauf: ein Aussetzer der Dateiliste wird wiederholt; fällt sie dreimal aus, steht der Fehler in der Datei (nicht „keine Liste“).
+const einAussetzer = laufeProbeJob(wf, { 7: { ...mitListe(), ausfaelle: { liste: 1 } } })
+pruefe('Probe-Job: Dateiliste scheitert einmal -> zweiter Versuch, Dispatch trotzdem', (einAussetzer.aufrufe ?? []).filter((a) => a.includes('/pulls/7/files')).length === 2 && (einAussetzer.aufrufe ?? []).some((a) => a.startsWith('workflow run')), einAussetzer.aufrufe)
+const dateiListenZeiten = (l) => (l.aufrufe ?? []).map((a, i) => [a, l.zeiten?.[i]]).filter(([a]) => a.includes('/pulls/7/files')).map(([, z]) => z)
+pruefe('Probe-Job: die Pause zwischen den Versuchen kommt aus MUTATIONSPROBE_PAUSE_MS (0), nicht aus dem Standard von 5 s',
+  dateiListenZeiten(einAussetzer).length === 2 && dateiListenZeiten(einAussetzer)[1] - dateiListenZeiten(einAussetzer)[0] < 2500, dateiListenZeiten(einAussetzer))
+const dauerAus = laufeProbeJob(wf, { 7: { ...mitListe(), ausfaelle: { liste: 99 } } })
+pruefe('Probe-Job: Dateiliste scheitert immer -> drei Versuche, kein Dispatch, Fehler sichtbar in der Datei',
+  (dauerAus.aufrufe ?? []).filter((a) => a.includes('/pulls/7/files')).length === 3 && !(dauerAus.aufrufe ?? []).some((a) => a.startsWith('workflow run')) && /Dateiliste des PR nicht lesbar nach 3 Versuchen/.test(dauerAus.mutationsprobe ?? ''), [dauerAus.aufrufe, dauerAus.mutationsprobe])
+
+// Der Prüfer-Job liest das Artefakt nur bei Stufe 2 und vollständigem Diff (A7c).
+const ARTEFAKT = `Mutationsprobe zum Kopf ${KOPF}\n- ${LISTE}: alle Mutanten rot (Lauf grün)\n`
+const mitArtefakt = laufeBisEingang(wf, { 7: prDaten(7, KOPF) }, ARTEFAKT)
+pruefe('A7c: Stufe 2 und diff-zustand ok -> Artefakt liegt als mutationsprobe.txt im Prüfordner', mitArtefakt.heruntergeladen === 'mutationsprobe' && mitArtefakt.mutationsprobe === ARTEFAKT, mitArtefakt.ausgaben)
+pruefe('A7c: ohne Artefakt keine Datei (Schritt ist fail-soft)', gut.mutationsprobe === null && gut.fehler === undefined)
+const unvollstDiff = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { dateien: 99 } } }, ARTEFAKT)
+pruefe('A7c: diff-zustand unvollstaendig -> Artefakt wird nicht gelesen', unvollstDiff.ausgaben?.diff?.['diff-zustand'] === 'unvollstaendig' && unvollstDiff.mutationsprobe === null && unvollstDiff.heruntergeladen === undefined, unvollstDiff.ausgaben)
+const stufe0Artefakt = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), diff: dokuDiff } }, ARTEFAKT)
+pruefe('A7c: Prüfstufe 0 -> Artefakt wird nicht gelesen', stufe0Artefakt.ausgaben?.stufe?.stufe === '0' && stufe0Artefakt.mutationsprobe === null, stufe0Artefakt.ausgaben)
 
 if (fehler.length) {
   console.error(`pr-pruefer-ablauf.test: ${fehler.length} Fehler`)

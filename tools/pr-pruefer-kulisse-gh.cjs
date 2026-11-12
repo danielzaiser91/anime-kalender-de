@@ -6,6 +6,8 @@ const path = require('node:path')
 const roh = process.argv.slice(2)
 const befehl = path.basename(process.argv[1])
 fs.appendFileSync(process.env.ATTRAPPE_LOG, JSON.stringify([befehl, ...roh]) + '\n')
+// Zeitpunkt jedes Aufrufs (ms) in eigener Datei, damit ein Test den Abstand zweier Aufrufe messen kann (Pause zwischen Versuchen).
+fs.appendFileSync(`${process.env.ATTRAPPE_LOG}.zeit`, Date.now() + '\n')
 const daten = JSON.parse(fs.readFileSync(process.env.ATTRAPPE_DATEN, 'utf8'))
 const iq = roh.indexOf('-q')
 const abfrage = iq < 0 ? null : roh[iq + 1]
@@ -42,6 +44,26 @@ if ((pr = treffer(`pr comment (\\d+) --repo ${daten.repo} --body-file \\S+`))) e
 if ((pr = treffer(`api --method GET --paginate ${r}/pulls/(\\d+)/files -f per_page=100`)) && abfrage === '.[]') {
   ausfall(pr, 'dateien')
   ende(pr.dateien.map((d) => JSON.stringify(d) + '\n').join(''))
+}
+// Mutationsprobe (tools/mutationsprobe-pr.mjs): Dateiliste nur mit Name und Status, Listeninhalt am Kopf, Dispatch, Läufe, Ergebnis-Artefakt.
+if ((pr = treffer(`api --method GET --paginate ${r}/pulls/(\\d+)/files -f per_page=100`)) && abfrage === '[.[] | {filename, status}]') {
+  ausfall(pr, 'liste')
+  ende(JSON.stringify(pr.dateien.map((d) => ({ filename: d.filename, status: d.status }))))
+}
+const inhalt = new RegExp(`^api -H Accept: application/vnd\\.github\\.raw ${r}/contents/(\\S+)\\?ref=([0-9a-f]{40})$`).exec(schluessel)
+if (inhalt) {
+  const mit = Object.values(daten.prs).find((p) => p.inhalte?.[inhalt[1]] !== undefined)
+  if (mit) ende(mit.inhalte[inhalt[1]])
+}
+if (befehl === 'workflow' && roh[0] === 'run' && roh[1] === 'mutationsprobe.yml') ende('')
+if (befehl === 'run' && roh[0] === 'list' && roh.includes('mutationsprobe.yml')) ende(JSON.stringify(Object.values(daten.prs).find((p) => p.laeufe)?.laeufe ?? []))
+if (befehl === 'run' && roh[0] === 'download') {
+  const tabelle = Object.values(daten.prs).find((p) => p.tabellen)?.tabellen?.[roh[1]]
+  if (tabelle !== undefined) {
+    fs.mkdirSync(roh[roh.indexOf('-D') + 1], { recursive: true })
+    fs.writeFileSync(path.join(roh[roh.indexOf('-D') + 1], 'ergebnis.md'), tabelle)
+    ende('')
+  }
 }
 if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ausfall(pr, 'login')
 if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ende(pr.login + '\n')

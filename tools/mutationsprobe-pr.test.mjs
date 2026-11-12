@@ -31,16 +31,30 @@ assert.equal(urteilListe('{').grund, 'Liste nicht lesbar (kein JSON)')
 assert.equal(urteilListe('{}').grund, 'Liste ist kein Array')
 
 const lauf = (id, titel, extra = {}) => ({ databaseId: id, displayTitle: titel, status: 'completed', conclusion: 'success', createdAt: `2026-11-12T10:0${id}:00Z`, url: `u${id}`, ...extra })
-assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L1} @ ${KOPF}`), lauf(3, `Mutationsprobe ${L1} @ ${KOPF}`), lauf(2, `Mutationsprobe ${L1} @ ${KOPF}`)], KOPF, L1).databaseId, 3, 'neuester')
-assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L1} @ ${ALT}`)], KOPF, L1), null, 'anderer Kopf zählt nicht')
-assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L2} @ ${KOPF}`)], KOPF, L1), null, 'andere Liste zählt nicht')
-assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L2} @ ${KOPF}`)], KOPF, L2).databaseId, 1, 'die zweite Liste wird gefunden')
+assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L1} @ ${KOPF}`), lauf(3, `Mutationsprobe ${L1} @ ${KOPF}`), lauf(2, `Mutationsprobe ${L1} @ ${KOPF}`)], KOPF, L1, 0).databaseId, 3, 'neuester')
+assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L1} @ ${ALT}`)], KOPF, L1, 0), null, 'anderer Kopf zählt nicht')
+assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L2} @ ${KOPF}`)], KOPF, L1, 0), null, 'andere Liste zählt nicht')
+assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L2} @ ${KOPF}`)], KOPF, L2, 0).databaseId, 1, 'die zweite Liste wird gefunden')
+
+// A3: ein alter, fertiger Lauf mit gleichem Titel (Rerun, zweiter Prüferlauf) ist keine Antwort auf den Dispatch von jetzt.
+{
+  const titel = `Mutationsprobe ${L1} @ ${KOPF}`
+  const seit = Date.parse('2026-11-12T10:30:00Z')
+  const alt = lauf(1, titel, { createdAt: '2026-11-12T09:00:00Z' })
+  const neu = lauf(2, titel, { createdAt: '2026-11-12T10:30:20Z', status: 'in_progress', conclusion: '' })
+  assert.equal(findeLauf([alt, neu], KOPF, L1, seit).databaseId, 2, 'alter fertiger und neuer laufender Lauf: der neue')
+  assert.equal(findeLauf([alt], KOPF, L1, seit), null, 'nur der alte, fertige Lauf: noch keine Antwort (nicht „grün“ aus dem Altlauf)')
+  assert.equal(findeLauf([lauf(3, titel, { createdAt: '2026-11-12T10:29:50Z' })], KOPF, L1, seit).databaseId, 3, 'genau 10 s vor dem Start (Uhrabweichung) zählt noch')
+  assert.equal(findeLauf([lauf(3, titel, { createdAt: '2026-11-12T10:29:49.999Z' })], KOPF, L1, seit), null, 'eine Millisekunde früher nicht mehr')
+}
 
 assert.match(zustandText(null), /^nicht beurteilt: Lauf nicht gefunden/)
 assert.match(zustandText({ status: 'in_progress' }), /^nicht beurteilt: Lauf läuft noch \(in_progress\)/)
 assert.match(zustandText({ status: 'completed', conclusion: 'success' }), /^alle Mutanten rot/)
 assert.match(zustandText({ status: 'completed', conclusion: 'failure' }), /^Lauf failure: Überlebende/)
-assert.match(zustandText({ status: 'completed', conclusion: '' }), /^Lauf ohne Ergebnis/)
+assert.match(zustandText({ status: 'completed', conclusion: '' }), /^nicht beurteilt: Lauf ohne Ergebnis/)
+assert.match(zustandText({ status: 'completed', conclusion: 'cancelled' }), /^nicht beurteilt: Lauf cancelled/, 'A4: ein durch concurrency ersetzter Lauf ist kein Urteil über die Mutanten')
+assert.match(zustandText({ status: 'completed', conclusion: 'timed_out' }), /^nicht beurteilt: Lauf timed_out/)
 
 const bericht = baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: lauf(1, 'x'), tabelle: 'Tabelle\u0001Zeile' }], uebersprungen: [{ liste: L2, grund: 'weil' }] })
 assert.ok(bericht.startsWith(`Mutationsprobe zum Kopf ${KOPF}`))
@@ -54,13 +68,17 @@ assert.ok(!baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: null, tabel
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mutprobe-pr-'))
 try {
   const dateien = (namen) => JSON.stringify(namen.map(([filename, status]) => ({ filename, status }))) + '\n'
-  const baueGh = ({ listen, inhalte, laeufe = () => [], kaputt = {} }) => {
+  const baueGh = ({ listen, inhalte, laeufe = () => [], kaputt = {}, ausfaelle = {} }) => {
     const aufrufe = []
     const gh = (args) => {
       aufrufe.push(args)
-      if (args[0] === 'api' && args.some((a) => a.includes('/pulls/12/files'))) return listen
+      if (args[0] === 'api' && args.some((a) => a.includes('/pulls/12/files'))) {
+        if (ausfaelle.dateiliste-- > 0) throw new Error('HTTP 502 Dateiliste')
+        return listen
+      }
       if (args[0] === 'api') {
         const pfad = args.at(-1).replace(/^repos\/o\/r\/contents\//, '').replace(/\?ref=.*/, '')
+        if (ausfaelle.inhalt-- > 0) throw new Error('HTTP 502 Inhalt')
         if (kaputt[pfad]) throw new Error(`HTTP 404 ${pfad}\nzweite Zeile`)
         return inhalte[pfad]
       }
@@ -76,7 +94,8 @@ try {
     }
     return { gh, aufrufe }
   }
-  const stuetz = { pr: '12', kopf: KOPF, zweig: 'fix/x', repo: 'o/r', jetzt: () => 1000 }
+  const pausen = []
+  const stuetz = { pr: '12', kopf: KOPF, zweig: 'fix/x', repo: 'o/r', jetzt: () => 1000, pause: (ms) => pausen.push(ms) }
 
   // zwei Listen laufbar, eine ohne tests, eine gelöscht, eine nicht abrufbar, eine Fremddatei
   {
@@ -91,7 +110,8 @@ try {
     assert.deepEqual(s.uebersprungen.map((u) => u.liste), ['tools/mutationen/ohne.json', 'tools/mutationen/fehlt.json'])
     assert.match(s.uebersprungen[1].grund, /^Liste nicht abrufbar \(HTTP 404 tools\/mutationen\/fehlt\.json\)$/, 'nur die erste Fehlerzeile')
     const dispatch = aufrufe.filter((a) => a[0] === 'workflow')
-    assert.deepEqual(dispatch[0], ['workflow', 'run', 'mutationsprobe.yml', '--repo', 'o/r', '--ref', 'main', '-f', 'zweig=fix/x', '-f', `kopf=${KOPF}`, '-f', `liste=${L1}`, '-f', 'pr=12'])
+    assert.deepEqual(dispatch[0], ['workflow', 'run', 'mutationsprobe.yml', '--repo', 'o/r', '--ref', 'main', '-f', 'zweig=fix/x', '-f', `kopf=${KOPF}`, '-f', `liste=${L1}`])
+    assert.ok(dispatch.every((a) => !a.some((x) => x.startsWith('pr='))), 'A5: der Prüfer-Dispatch trägt kein pr= (sonst postet mutationsprobe.yml einen zweiten Kommentar am PR)')
     assert.equal(dispatch.length, 2)
     assert.ok(aufrufe.filter((a) => a[0] === 'api' && a[3]?.includes('contents')).every((a) => a.at(-1).endsWith(`?ref=${KOPF}`)), 'Liste wird am Kopf gelesen, nicht am Zweig')
     assert.equal(JSON.parse(fs.readFileSync(path.join(o, 'mutationsprobe-start.json'), 'utf8')).t0, 1000)
@@ -117,6 +137,53 @@ try {
     const s = starte({ ...stuetz, ordner: path.join(dir, 'start3'), gh })
     assert.deepEqual(s.gestartet, [L2])
     assert.match(s.uebersprungen[0].grund, /^Lauf nicht gestartet \(HTTP 422\)$/)
+  }
+
+  // A7a: ein Aussetzer der API bei Dateiliste oder Listeninhalt wird wiederholt (3 Versuche, Pause 5 s, 10 s); erst dann ist es ein Fehler, und der steht im Bericht
+  {
+    const z = (ausfaelle) => {
+      const { gh, aufrufe } = baueGh({ listen: dateien([[L1, 'added']]), inhalte: { [L1]: mit }, ausfaelle })
+      pausen.length = 0
+      const s = starte({ ...stuetz, ordner: path.join(dir, 'wdh'), gh })
+      return { s, n: aufrufe.filter((a) => a[0] === 'api' && a.some((x) => x.includes('/pulls/12/files'))).length, ni: aufrufe.filter((a) => a[0] === 'api' && a.at(-1).includes('/contents/')).length }
+    }
+    let r = z({ dateiliste: 1 })
+    assert.deepEqual([r.s.gestartet, r.n, pausen, r.s.fehler], [[L1], 2, [5000], ''], 'Dateiliste: ein Aussetzer, zweiter Versuch genügt')
+    r = z({ dateiliste: 2 })
+    assert.deepEqual([r.s.gestartet, r.n, pausen], [[L1], 3, [5000, 10000]], 'Dateiliste: zwei Aussetzer, dritter Versuch genügt')
+    r = z({ dateiliste: 3 })
+    assert.deepEqual([r.s.gestartet, r.n, pausen], [[], 3, [5000, 10000]], 'Dateiliste: drei Aussetzer, kein Start, keine vierte Anfrage')
+    assert.equal(r.s.fehler, 'HTTP 502 Dateiliste')
+    assert.match(baueBericht({ kopf: KOPF, ergebnisse: [], uebersprungen: [], fehler: r.s.fehler }), /- Dateiliste des PR nicht lesbar nach 3 Versuchen \(HTTP 502 Dateiliste\): Probe nicht gestartet, nicht beurteilt/)
+    r = z({ inhalt: 1 })
+    assert.deepEqual([r.s.gestartet, r.ni, pausen], [[L1], 2, [5000]], 'Listeninhalt: ein Aussetzer, zweiter Versuch genügt')
+    r = z({ inhalt: 3 })
+    assert.deepEqual([r.s.gestartet, r.ni, r.s.uebersprungen.map((u) => u.grund)], [[], 3, ['Liste nicht abrufbar (HTTP 502 Inhalt)']], 'Listeninhalt: drei Aussetzer, übersprungen mit Grund')
+    // Kreislauf: der Fehler überlebt den Weg über den Stand bis in die Datei für den Prüfer
+    const { gh } = baueGh({ listen: '', inhalte: {}, ausfaelle: { dateiliste: 3 } })
+    starte({ ...stuetz, ordner: path.join(dir, 'wdh-kreis'), gh })
+    const text = await warte({ ordner: path.join(dir, 'wdh-kreis'), repo: 'o/r', gh, jetzt: () => 1000, schlafen: async () => {}, hole: () => '' })
+    assert.match(text, /Dateiliste des PR nicht lesbar/)
+    assert.ok(!text.includes('Läufer (tools/mutationslaeufer.mjs)'), 'ohne gestartete Probe kein Läufer-Hinweis')
+  }
+
+  // A3 im Kreislauf: nach dem Dispatch liegt ein alter, fertiger Lauf mit gleichem Titel vor; warte wartet auf den neuen und meldet nie „grün“ aus dem Altlauf
+  {
+    const o = path.join(dir, 'a3')
+    const titel = `Mutationsprobe ${L1} @ ${KOPF}`
+    const t0 = Date.parse('2026-11-12T10:30:00Z')
+    const { gh } = baueGh({
+      listen: dateien([[L1, 'added']]),
+      inhalte: { [L1]: mit },
+      laeufe: (n) => [lauf(1, titel, { createdAt: '2026-11-12T09:00:00Z' }), ...(n >= 2 ? [lauf(2, titel, { createdAt: '2026-11-12T10:30:30Z', conclusion: 'failure' })] : [])],
+    })
+    starte({ ...stuetz, jetzt: () => t0, ordner: o, gh })
+    let jetzt = t0
+    let takte = 0
+    const text = await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => jetzt, schlafen: async (ms) => { takte++; jetzt += ms }, hole: (id) => `Tabelle ${id}` })
+    assert.equal(takte, 1, 'erster Abruf: nur der Altlauf, also warten; zweiter Abruf: der neue Lauf')
+    assert.ok(text.includes('Lauf failure') && text.includes('Tabelle 2') && !text.includes('alle Mutanten rot'), text)
+    assert.ok(text.includes('Läufer (tools/mutationslaeufer.mjs) aus main'), 'A2: der Bericht nennt, woher der Läufer stammt')
   }
 
   // Keine Liste im Diff: nichts gestartet, Stand trotzdem geschrieben, Warten endet sofort ohne gh-Aufruf zu Läufen

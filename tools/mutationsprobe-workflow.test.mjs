@@ -45,6 +45,18 @@ assert.ok(einrichtenIdx < mutation.steps.findIndex((s) => s.name === 'Mutanten e
 assert.equal(mutation.steps[einrichtenIdx].with.playwright, 'true', 'Chromium wird installiert')
 assert.equal(mutation.steps[einrichtenIdx].with.cache, 'aus')
 
+// A4: je Liste und Zweig ein Lauf, ein neuer ersetzt den laufenden
+assert.deepEqual(wf.concurrency, { group: 'mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}', 'cancel-in-progress': true })
+// A2: zweiter Checkout holt nur den Läufer aus main (Standardzweig), nach dem des Zweigs und vor Einrichten und Lauf
+const checkouts = mutation.steps.map((s, i) => ({ s, i })).filter((x) => x.s.uses?.startsWith('actions/checkout'))
+assert.equal(checkouts.length, 2, 'zwei Checkouts: Zweig und Läufer aus main')
+const [zweigCo, mainCo] = checkouts
+assert.deepEqual(mainCo.s.with, { ref: '${{ github.event.repository.default_branch }}', path: '_main', 'sparse-checkout': 'tools/mutationslaeufer.mjs', 'sparse-checkout-cone-mode': false, 'persist-credentials': false })
+const sichernIdx = mutation.steps.findIndex((s) => s.name === 'Läufer sichern')
+assert.ok(zweigCo.i < mainCo.i && mainCo.i < sichernIdx && sichernIdx < einrichtenIdx, 'Reihenfolge: Zweig, Läufer aus main, sichern, einrichten')
+const laufRun = schritt(mutation, 'Mutanten einspielen und Tests laufen lassen').run
+assert.ok(laufRun.includes('node "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs"') && !laufRun.includes('node tools/mutationslaeufer.mjs'), 'der Lauf startet den Läufer aus RUNNER_TEMP, nicht den aus dem Zweig')
+
 // Laufzeit
 const dir = mkdtempSync(join(tmpdir(), 'mutprobe-'))
 const bash = (script, env, cwd) =>
@@ -62,10 +74,25 @@ try {
     assert.equal(bash(pruefen, { ...gut, ...schlecht }, dir).status, 2, JSON.stringify(schlecht))
   }
 
+  // Läufer sichern: kopiert die Datei aus _main nach RUNNER_TEMP und entfernt _main aus dem Arbeitsordner
+  {
+    const ws = join(dir, 'sichern')
+    mkdirSync(join(ws, '_main/tools'), { recursive: true })
+    writeFileSync(join(ws, '_main/tools/mutationslaeufer.mjs'), '// aus main\n')
+    const temp = join(dir, 'sichern-temp')
+    mkdirSync(temp)
+    const r = bash(schritt(mutation, 'Läufer sichern').run, { RUNNER_TEMP: temp }, ws)
+    assert.equal(r.status, 0, r.stdout + r.stderr)
+    assert.equal(readFileSync(join(temp, 'laeufer/mutationslaeufer.mjs'), 'utf8'), '// aus main\n')
+    assert.ok(!existsSync(join(ws, '_main')), '_main ist aus dem Arbeitsordner entfernt')
+    assert.notEqual(bash(schritt(mutation, 'Läufer sichern').run, { RUNNER_TEMP: temp }, ws).status, 0, 'fehlt der Läufer in _main, scheitert der Schritt (nie still weiter)')
+  }
+
   // Mutationslauf mit der echten Läufer-Datei in einer Wegwerf-Kopie
   const arbeit = join(dir, 'arbeit')
   mkdirSync(join(arbeit, 'tools'), { recursive: true })
-  copyFileSync(join(WURZEL, 'tools/mutationslaeufer.mjs'), join(arbeit, 'tools/mutationslaeufer.mjs'))
+  // A2: der Läufer im Arbeitsordner (Kopf des PR) ist manipuliert und meldet immer Erfolg; es gilt nur der Läufer aus main in RUNNER_TEMP.
+  writeFileSync(join(arbeit, 'tools/mutationslaeufer.mjs'), "console.log('alle Mutanten rot (gefälscht)')\nprocess.exit(0)\n")
   writeFileSync(join(arbeit, 'a.txt'), 'wert=1\n')
   writeFileSync(join(arbeit, 'pruef.mjs'), "import{readFileSync as r}from'node:fs';process.exit(r('a.txt','utf8').includes('wert=1')?0:1)\n")
   const rot = { name: 'rot', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2' }
@@ -73,7 +100,8 @@ try {
   const lauf = (liste, test = 'node pruef.mjs') => {
     writeFileSync(join(arbeit, 'liste.json'), JSON.stringify(liste))
     const temp = join(dir, `temp-${Math.random().toString(36).slice(2)}`)
-    mkdirSync(temp)
+    mkdirSync(join(temp, 'laeufer'), { recursive: true })
+    copyFileSync(join(WURZEL, 'tools/mutationslaeufer.mjs'), join(temp, 'laeufer', 'mutationslaeufer.mjs'))
     const summary = join(temp, 'summary.md')
     const r = bash(schritt(mutation, 'Mutanten einspielen und Tests laufen lassen').run, {
       LISTE: 'liste.json',
@@ -102,7 +130,9 @@ try {
   assert.match(eigene.ergebnis, /\| rot /)
   assert.equal(lauf([rot], '').status, 2, 'ohne Standardtest und ohne eigene tests bleibt es ein Aufruffehler')
   const ueberlebt = lauf([rot, grün])
-  assert.equal(ueberlebt.status, 1, 'ein Überlebender macht den Lauf rot')
+  assert.equal(ueberlebt.status, 1, 'ein Überlebender macht den Lauf rot, auch wenn der Läufer im Kopf „alle rot“ meldet (A2)')
+  assert.ok(!ueberlebt.stdout.includes('gefälscht'), 'der manipulierte Läufer aus dem Kopf läuft nicht')
+  assert.match(ueberlebt.ergebnis, /Läufer aus main, Liste und Tests vom Kopf\.$/m)
   assert.match(ueberlebt.ergebnis, /\nExit 1 /)
   assert.match(ueberlebt.ergebnis, /GRÜN|grün/i)
   const grundrot = lauf([{ name: 'x', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2', tests: ['node -e "process.exit(1)"'] }])
