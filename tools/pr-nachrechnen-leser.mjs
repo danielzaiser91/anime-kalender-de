@@ -166,7 +166,14 @@ export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !L
 export const istClaudeMd = (datei) => /^\.claude\/.+\.md$/.test(datei)
 
 /** Nennt der Text (ohne Kommentare) den Namen der Datei (der Pfad enthält ihn, `join(ordner, 'a.json')` nennt nur den Namen)? Bei `.claude`-Markdown zählt nur der volle Pfad. */
-export const nennt = (text, bewegt) => ohneKommentare(text).includes(istClaudeMd(bewegt) ? bewegt : bewegt.split('/').pop())
+export const nennt = (text, bewegt) => {
+  const code = ohneKommentare(text)
+  if (istClaudeMd(bewegt)) return code.includes(bewegt)
+  return nenntName(code, bewegt.split('/').pop())
+}
+
+/** Der Name steht nicht als Ende eines längeren Namens: `adn-anisearch-offen.json` nennt `anisearch-offen.json` nicht (12.11.2026: 6 von 9 „Lesern“ der Datei, PR 3494). */
+const nenntName = (code, name) => new RegExp(`(?<![\\w.-])${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(code)
 
 /** Ein Test, der den vollen Pfad einer bewegten `.claude`-Markdown-Datei nennt, liest sie wirklich (kein Fixture-Name): er hängt dann an dem Code, den er importiert. */
 const liestClaudeMd = (datei, bewegt, lies) => bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))
@@ -182,7 +189,14 @@ const aendertBauDaten = (datei) => datei.startsWith('data/')
 const istShellTest = (datei) => /^tools\/[\w-]*-test(-[\w-]+)?\.sh$/.test(datei)
 
 /** Leser, die Daten wirklich lesen können: alles außer Tests und Workflows/Aktionen, die nur Fixtures oder Namen nennen (PR 3474, 11.11.2026). */
-const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !datei.startsWith('.github/')
+const istBauLeser = (datei) => !istTest(datei) && !istShellTest(datei) && !istNachrechnenWerkzeug(datei) && !datei.startsWith('.github/')
+
+/**
+ * Nachrechnen-Werkzeuge nennen `data/…` nur als Muster oder Fixture, der Bau liest sie nie (12.11.2026: nach PR 3555 galten
+ * `tools/pr-nachrechnen-bot-pfade-leser.mjs` & Co. als Leser von `data/verweise-von-hand.yaml`). Grenze: andere `tools/*` bleiben Leser
+ * (`tools/pr-*` allgemein nicht: `pipeline/` importiert `tools/pr-basis.mjs`, gemessen 12.11.2026); die Familie ist nur `pr-nachrechnen*` und `nachrechnen-*`.
+ */
+const istNachrechnenWerkzeug = (datei) => /^tools\/(pr-nachrechnen|nachrechnen-)[\w.-]*$/.test(datei)
 
 /** Der Bau-Kern (pipeline/, shared/, tools/check-*) steht in Meldungen vor Werkzeugen und Workflows: sonst liest man „Leser: pr-pruefer.yml“ als Fehlalarm (11.11.2026). */
 const kernZuerst = (liste) => [...liste].sort((a, b) => Number(KERN.test(b)) - Number(KERN.test(a)))

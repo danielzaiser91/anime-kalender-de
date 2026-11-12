@@ -62,14 +62,30 @@ export function terminMarken(tage: string[]): string[] {
   })
 }
 
+/**
+ * Regex-Quelltext, der eine Marke nur an Wortgrenzen trifft: keine Ziffer oder kein Buchstabe davor (`2.10.` steckt sonst in `12.10.`, `22.10.2026`), keine Ziffer oder
+ * kein Buchstabe danach, außer die Marke endet auf „.“ (`2.10.` trägt `2.10.2026`). Japanische Marken (`年…日`) haben keine solche Kante. Als Quelltext, weil die Suche im Browser läuft.
+ */
+export function markenMuster(marke: string): string {
+  const roh = marke.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const davor = /^[a-z0-9äöüß]/i.test(marke) ? '(?<![\\p{L}\\p{N}])' : ''
+  const danach = /[a-z0-9äöüß]$/i.test(marke) ? '(?![\\p{L}\\p{N}])' : ''
+  return davor + roh + danach
+}
+
+/** Nennt der (kleingeschriebene) Text die Marke an einer Wortgrenze? */
+export function enthaeltMarke(text: string, marke: string): boolean {
+  return new RegExp(markenMuster(marke), 'u').test(text)
+}
+
 /** Nennt der Artikel keinen der Termine (`tage`) irgendwo? Ohne Termine: nein. Dann darf keine Zeile mit dem Titel als Beleg des Termins markiert werden. */
 export async function terminFehltImText(seite: Page, tage: string[]): Promise<boolean> {
-  const marken = terminMarken(tage)
-  if (!marken.length) return false
-  return seite.evaluate((marken) => {
+  const muster = terminMarken(tage).map(markenMuster)
+  if (!muster.length) return false
+  return seite.evaluate((muster) => {
     const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
-    return !marken.some((m) => wurzel.innerText.toLowerCase().includes(m))
-  }, marken)
+    return !muster.some((m) => new RegExp(m, 'u').test(wurzel.innerText.toLowerCase()))
+  }, muster)
 }
 
 /**
@@ -79,7 +95,8 @@ export async function terminFehltImText(seite: Page, tage: string[]): Promise<bo
  */
 export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]): Promise<Stelle | undefined> {
   return seite.evaluate(
-    ({ suchen, marken }) => {
+    ({ suchen, muster }) => {
+      const nennt = (t: string) => muster.some((m) => new RegExp(m, 'u').test(t))
       const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
       const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
       const kandidaten = [...wurzel.querySelectorAll('p, li, tr, h2, h3')]
@@ -89,11 +106,11 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
         .sort((a, b) => a.text.length - b.text.length)
       const gesucht = suchen.map(norm)
       /* Alle Zeilen, die einen Titel **und** einen Termin nennen — ein Artikel belegt oft mehrere Termine, und das Bild soll sie alle zeigen. Sonst die erste mit einem Titel. */
-      const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && marken.some((m) => k.roh.includes(m)))
+      const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && nennt(k.roh))
       /* Ohne Termin im Text: lieber der Abschnitt mit dem Titel als Überschrift (Anbieter, Folgen, Sprache stehen darunter) als ein Listenpunkt in der Übersicht ganz oben. */
       const alsUeberschrift = gesucht.flatMap((g) => kandidaten.filter((k) => /^H[23]$/.test(k.e.tagName) && k.text.includes(g)).slice(0, 1)).slice(0, 1)
       /* Nennt der Artikel den Termin nirgends, ist die Zeile mit dem Titel kein Beleg dafür („Betroffen sind … Virgin Road …" ohne Datum, 29.10.2026). Steht er irgendwo (aniSearch-Produktseite: Datum in einem eigenen Feld), gilt der Titel wie bisher. */
-      const termineFehlen = marken.length > 0 && !marken.some((m) => wurzel.innerText.toLowerCase().includes(m))
+      const termineFehlen = muster.length > 0 && !nennt(wurzel.innerText.toLowerCase())
       const gewaehlt = stuetzend.length ? stuetzend : termineFehlen ? [] : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
       if (!gewaehlt.length) return undefined
       const rects = gewaehlt.map((k) => k.e.getBoundingClientRect())
@@ -110,6 +127,6 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
         markeUnten: erste.bottom + window.scrollY,
       }
     },
-    { suchen, marken: terminMarken(tage) },
+    { suchen, muster: terminMarken(tage).map(markenMuster) },
   )
 }
