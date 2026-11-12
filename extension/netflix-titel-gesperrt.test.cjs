@@ -85,8 +85,8 @@ pruefe('Durchgang aus: nichts', lauf({ selbstAn: false }).r === false)
 pruefe('Durchlauf läuft: nichts', lauf({ laeuft: true }).r === false)
 pruefe('Titel nicht (mehr) auf der Liste: nichts', lauf({ offen: false }).r === false)
 pruefe('kein Ziel: nichts', lauf({ ziel: null }).r === false)
-pruefe('Sprung vor 3999 ms: noch warten', lauf({ jetzt: 1000 + 3999 }).r === false)
-pruefe('Sprung vor genau 4000 ms: weiter', lauf({ jetzt: 1000 + 4000 }).r === true)
+pruefe('Sprung vor 1499 ms: noch warten', lauf({ jetzt: 1000 + 1499 }).r === false)
+pruefe('Sprung vor genau 1500 ms: weiter', lauf({ jetzt: 1000 + 1500 }).r === true)
 pruefe('Sprung genau 60000 ms her: noch dem Durchgang', lauf({ jetzt: 1000 + 60000 }).r === true)
 pruefe('Sprung 60001 ms her: gehört nicht mehr dem Durchgang', lauf({ jetzt: 1000 + 60001 }).r === false)
 pruefe('altes Ziel von Stunden her auf /browse: nichts, nichts übersprungen', (() => { const l = lauf({ jetzt: 1000 + 3 * 3600 * 1000 }); return l.r === false && l.u.size === 0 && l.w.weiter === 0 })())
@@ -210,7 +210,7 @@ ergebnis.gezaehlt = selbstGezaehlt`,
 {
   const beenden = (besitzer) => {
     const z = { reset: 0, gezeigt: [], besitz: [] }
-    const welt = { selbstAn: true, bremse: { zuruecksetzen: () => z.reset++ }, taktTun: { zeigen: (t) => z.gezeigt.push(t), schreiben: (b) => z.besitz.push(b) }, durchgangBesitzer: besitzer, meinTab: 'a' }
+    const welt = { selbstAn: true, bremse: { zuruecksetzen: () => z.reset++ }, taktTun: { aufraeumen: () => z.gezeigt.push(null), schreiben: (b) => z.besitz.push(b) }, durchgangBesitzer: besitzer, meinTab: 'a' }
     new Function(
       'selbstAn', 'bremse', 'taktTun', 'durchgangBesitzer', 'meinTab', 'DURCHLAUF', 'durchlaufKnopfZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'console', 'akNetflixEnde', 'selbstUebersprungen', 'fertigeTitel', 'selbstGezaehlt', 'offeneTitel', 'vorfallMelden', 'durchgangEndeZeigen',
       `let durchgangEnde = null\n${funktionText('function laufBeenden(grund)')}\nlaufBeenden('von Hand')`,
