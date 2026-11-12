@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["node tools/quellen-fristen-takt.test.mjs"] },
+  { "name": "kitsu-folgen Frist 9 -> 8", "aenderungen": [{ "datei": "tools/quellen-fristen.mjs", "suche": "'kitsu-folgen': 9,", "ersetze": "'kitsu-folgen': 8," }], "tests": ["node tools/quellen-fristen-takt.test.mjs"] },
+  { "name": "kitsu-folgen Frist 9 -> 4 (Standard)", "aenderungen": [{ "datei": "tools/quellen-fristen.mjs", "suche": "'kitsu-folgen': 9,", "ersetze": "'kitsu-folgen': 4," }], "tests": ["node tools/quellen-fristen-takt.test.mjs"] },
+  { "name": "kitsu-folgen Eintrag entfernt", "aenderungen": [{ "datei": "tools/quellen-fristen.mjs", "suche": "  'kitsu-folgen': 9,\n", "ersetze": "" }], "tests": ["node tools/quellen-fristen-takt.test.mjs"] },
+  { "name": "tmdb-poster Frist 9 -> 8", "aenderungen": [{ "datei": "tools/quellen-fristen.mjs", "suche": "'tmdb-poster': 9,", "ersetze": "'tmdb-poster': 8," }], "tests": ["node tools/quellen-fristen-takt.test.mjs"] },
+  { "name": "kinoheld Eintrag entfernt", "aenderungen": [{ "datei": "tools/quellen-fristen.mjs", "suche": "  kinoheld: 9,\n", "ersetze": "" }], "tests": ["node tools/quellen-fristen-takt.test.mjs"] }
+]

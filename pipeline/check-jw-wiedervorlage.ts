@@ -99,25 +99,30 @@ const abruf = readFileSync('pipeline/fetch-justwatch-audio.ts', 'utf8')
 const aufruf = unbedingteAufrufe(abruf, 'main').filter((a) => a.name === 'warteschlange')
 pruefe('main ruft warteschlange({ titles, bestand, … }) unbedingt auf', aufruf.length === 1 && aufruf[0]!.args[0] === '{ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), listenVorrang: listen.vorrang, cartoonIds: new Set(cartoons.map((t) => t.id)) }', aufruf)
 
-/* `offen` (die Schlange) wird in main nur gelesen: `offen.length` und `offen.slice(0, limit)`, kein Umsortieren, kein Zweitzugriff. */
+/*
+  `offen` (die Schlange) wird in main und in `frageOffene` nur gelesen: `offen.length`, `offen.slice(0, limit)` und die Übergabe als erstes
+  Argument von `frageOffene`, kein Umsortieren, kein Zweitzugriff.
+*/
 function offenZugriffe(quelltext: string): string[] {
   const datei = ts.createSourceFile('x.ts', quelltext, ts.ScriptTarget.Latest, true)
-  const rumpf = datei.statements.find((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && s.name?.text === 'main')
+  const rumpf = datei.statements.filter((s): s is ts.FunctionDeclaration => ts.isFunctionDeclaration(s) && ['main', 'frageOffene'].includes(s.name?.text ?? ''))
   const zugriffe: string[] = []
   const besuche = (n: ts.Node): void => {
-    if (ts.isIdentifier(n) && n.text === 'offen' && !(ts.isVariableDeclaration(n.parent) && n.parent.name === n)) {
+    const deklaration = (ts.isVariableDeclaration(n.parent) || ts.isParameter(n.parent)) && n.parent.name === n
+    if (ts.isIdentifier(n) && n.text === 'offen' && !deklaration) {
       const p = n.parent
-      const nutzung = ts.isPropertyAccessExpression(p) && p.expression === n ? (ts.isCallExpression(p.parent) && p.parent.expression === p ? p.parent.getText(datei) : p.getText(datei)) : n.getText(datei)
+      const uebergabe = ts.isCallExpression(p) && p.expression.getText(datei) === 'frageOffene' && p.arguments[0] === n
+      const nutzung = uebergabe ? 'frageOffene(offen, …)' : ts.isPropertyAccessExpression(p) && p.expression === n ? (ts.isCallExpression(p.parent) && p.parent.expression === p ? p.parent.getText(datei) : p.getText(datei)) : n.getText(datei)
       zugriffe.push(nutzung)
     }
     ts.forEachChild(n, besuche)
   }
-  if (rumpf) besuche(rumpf)
+  for (const r of rumpf) besuche(r)
   return zugriffe
 }
 const zugriffe = offenZugriffe(abruf)
-const erlaubt = ['offen.length', 'offen.slice(0, limit)']
-pruefe('main liest die Schlange nur mit offen.length und offen.slice(0, limit)', zugriffe.length > 0 && zugriffe.every((z) => erlaubt.includes(z)) && zugriffe.includes('offen.slice(0, limit)'), zugriffe)
+const erlaubt = ['offen.length', 'offen.slice(0, limit)', 'frageOffene(offen, …)']
+pruefe('main und frageOffene lesen die Schlange nur mit offen.length, offen.slice(0, limit) und der Übergabe an frageOffene', zugriffe.length > 0 && zugriffe.every((z) => erlaubt.includes(z)) && zugriffe.includes('offen.slice(0, limit)'), zugriffe)
 const mutiert = offenZugriffe(abruf.replace('offen.slice(0, limit)', 'offen.reverse().slice(0, limit)'))
 pruefe('Selbsttest: offen.reverse().slice(…) fällt auf', mutiert.some((z) => !erlaubt.includes(z)), mutiert)
 
