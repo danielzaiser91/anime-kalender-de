@@ -17,5 +17,5 @@
   { "name": "CJK: Hangul fehlt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "\\p{Script=Hangul}", "ersetze": "", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
   { "name": "suchbegriffeJeAdresse: Native-Namen nicht angehängt (Termine)", "datei": "pipeline/lib/beleg-suche.ts", "suche": "t?.titleRomaji, ...nativeNamen(t?.titleNative)].filter(", "ersetze": "t?.titleRomaji].filter(", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
   { "name": "gruppenJeAdresse: Native-Namen nicht angehängt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "t?.titleRomaji, ...nativeNamen(t?.titleNative)]) {", "ersetze": "t?.titleRomaji]) {", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] },
-  { "name": "namenAusNews: Native-Namen nicht angehängt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "...koepfe, ...nativeNamen(t?.titleNative)]", "ersetze": "...koepfe]", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] }
+  { "name": "namenAusNews: Native-Namen nicht angehängt", "datei": "pipeline/lib/beleg-suche.ts", "suche": "...namen.flatMap(namensformen), ...nativeNamen(t?.titleNative)]", "ersetze": "...namen.flatMap(namensformen)]", "tests": [ "npx tsx pipeline/check-beleg-sammelartikel.ts" ] }
 ]
