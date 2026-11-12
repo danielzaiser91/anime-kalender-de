@@ -157,7 +157,8 @@ pruefe('PR 3557 Gegenfall: Unterordner der Familie zählt nicht als Familie -> G
 
 // 12.11.2026 (PR 3494/3481): `anisearch-offen.json` steckt als Namensende in `adn-anisearch-offen.json`; der echte Text von check-adn-anisearch.ts nennt nur Letzteres.
 const ADN_CHECK = 'pipeline/check-adn-anisearch.ts'
-const adnText = fs.readFileSync(new URL('../pipeline/check-adn-anisearch.ts', import.meta.url), 'utf8')
+// Eingefroren: Zeilen 3 und 130 des echten Textes (Stand 12.11.2026), damit eine Änderung der Datei den Test nicht färbt.
+const adnText = " * ohne Cache und ohne Bestand; der Katalog `data/adn-catalog.json` und die Liste `data/adn-anisearch-offen.json` liegen im Repo.\nconst offen = (JSON.parse(readFileSync('data/adn-anisearch-offen.json', 'utf8')) as { serien: AdnOffen[] }).serien\n"
 const OFFEN = 'data/anisearch-offen.json'
 pruefe('Namensende: echter Text nennt adn-anisearch-offen.json, nicht anisearch-offen.json -> kein Leser', adnText.includes('adn-anisearch-offen.json') && leserIn(new Map([[ADN_CHECK, adnText]]), [OFFEN]).length === 0)
 pruefe('Namensende: die längere Datei data/adn-anisearch-offen.json bleibt Leser-Treffer', leserIn(new Map([[ADN_CHECK, adnText]]), ['data/adn-anisearch-offen.json']).join() === ADN_CHECK)
