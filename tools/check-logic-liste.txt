@@ -400,6 +400,7 @@ pipeline/check-neue-quellen-lauf.ts
 pipeline/check-neue-quellen-lib.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-altbestand.ts
+pipeline/check-news-cr-zuordnung.ts
 pipeline/check-news-einfrieren.ts
 pipeline/check-news-felder-bestand-ablauf.ts
 pipeline/check-news-felder-fest.ts
