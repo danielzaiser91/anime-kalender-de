@@ -333,7 +333,8 @@ function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () 
   else delete process.env.NODE_OPTIONS
   const versionDatei = join(ort, 'dist', 'version.json')
   const pruefe = befehlPruefen === STANDARD ? undefined : befehlPruefen
-  const exit = bauMitSpur(befehl, { wurzel: ort, versionDatei, git, log: (m) => meldungen.push(m), starte, befehlPruefen: pruefe, ereignis })
+  const ereignisOption = ereignis === STANDARD ? {} : { ereignis }
+  const exit = bauMitSpur(befehl, { wurzel: ort, versionDatei, git, log: (m) => meldungen.push(m), starte, befehlPruefen: pruefe, ...ereignisOption })
   process.env.NODE_OPTIONS = alt ?? ''
   const version = JSON.parse(readFileSync(versionDatei, 'utf8'))
   const marke = existsSync(join(ort, 'marke'))
@@ -361,6 +362,19 @@ assert.deepEqual([prRot.exit, prRot.version], [1, OHNE], 'PR-Kette: Lesung auße
 assert.match(prRot.meldungen.join('\n'), /^::error::Bau liest außerhalb von BAU_EINGABEN.*data\/frei\.json.*in BAU_EINGABEN \(tools\/bau-eingaben\.mjs\) aufnehmen/)
 const prGut = bau('node lies.mjs data/kennungen.json web.txt', gitBaum, true, undefined, () => true, 'pull_request')
 assert.deepEqual([prGut.exit, prGut.version], [0, { ...OHNE, abdruck: A }], 'PR-Kette: nur Eingaben gelesen bleibt grün')
+// Verdrahtung: ohne `ereignis`-Option entscheidet allein GITHUB_EVENT_NAME (so ruft die Kette über die CLI auf).
+const eventAlt = process.env.GITHUB_EVENT_NAME
+const ueberUmgebung = (wert) => {
+  if (wert === undefined) delete process.env.GITHUB_EVENT_NAME
+  else process.env.GITHUB_EVENT_NAME = wert
+  const ergebnis = bau('node lies.mjs data/frei.json', gitBaum, true, undefined, () => true, STANDARD)
+  if (eventAlt === undefined) delete process.env.GITHUB_EVENT_NAME
+  else process.env.GITHUB_EVENT_NAME = eventAlt
+  return ergebnis.exit
+}
+assert.equal(ueberUmgebung('pull_request'), 1, 'GITHUB_EVENT_NAME=pull_request: rot, ohne ereignis-Option')
+assert.equal(ueberUmgebung('push'), 0, 'GITHUB_EVENT_NAME=push: Warnung')
+assert.equal(ueberUmgebung(undefined), 0, 'ohne GITHUB_EVENT_NAME: Warnung')
 // Lokal (ohne Ereignis), Deploy (push) und Bestandsbau (schedule/workflow_dispatch) bleiben bei der Warnung.
 for (const ereignis of [undefined, 'push', 'workflow_dispatch', 'schedule']) assert.equal(bau('node lies.mjs data/frei.json', gitBaum, true, undefined, () => true, ereignis).exit, 0, `${ereignis}: nur Warnung`)
 for (const weg of ['p', 'u', 'b']) assert.deepEqual(bau(`node lies.mjs ${weg}:data/frei.json`).version, OHNE, `Lesen über ${weg}: kein Abdruck`)
