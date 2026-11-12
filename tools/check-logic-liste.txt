@@ -371,6 +371,7 @@ pipeline/check-meldungen-ohne-release.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-messbelege-kalender.ts
 pipeline/check-minuten-takt.ts
+pipeline/check-monitor-statistik.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-motn-uebernahme.ts
 pipeline/check-nachlade-vorwaermen.ts
