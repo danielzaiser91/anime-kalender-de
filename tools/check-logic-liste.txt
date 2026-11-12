@@ -361,6 +361,7 @@ pipeline/check-links-sperre-laufzeit.ts
 pipeline/check-live-adresse.ts
 pipeline/check-logic.ts
 pipeline/check-luecken-staffel0.ts
+pipeline/check-mail-sorten.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-dubletten.ts
 pipeline/check-mal-teilung.ts
