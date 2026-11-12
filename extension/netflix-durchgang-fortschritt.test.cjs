@@ -121,8 +121,10 @@ const melder = lies('melder.js')
   vm.runInContext('__tun.raeumen()', kontext)
   pruefe('raeumen(): echte Navigation (gehe) auf /browse', welt.gehen.join() === '/browse', welt.gehen)
   welt.gehen.length = 0
+  k.akNetflixPauseZeigen(() => welt.kasten, 'Netflix bremst — Probe')
+  const pause = welt.kasten.kinder.find((x) => x.className === 'ak-hinweis ak-durchgang-pause')
   vm.runInContext('__tun.aufraeumen()', kontext)
-  pruefe('aufraeumen(): Fortschritt weg und Hintergrund geräumt', text.entfernt === true && balken.entfernt === true && welt.gehen.join() === '/browse', welt.gehen)
+  pruefe('aufraeumen(): Fortschritt und Pausenzeile weg, Hintergrund geräumt', text.entfernt === true && balken.entfernt === true && pause?.entfernt === true && welt.gehen.join() === '/browse', welt.gehen)
 }
 {
   const start = melder.indexOf('function laufBeenden(grund)')

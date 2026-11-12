@@ -165,6 +165,8 @@ for (const [name, inhalt] of [['kaputtes JSON', '{{'], ['falsche Form', '{"folge
   pruefe('echter Titel ohne Folgenliste nach 8 s: wartet weiter auf die Liste (Frist 20 s)', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.aufrufe.ok === 0)
   r = lauf(BERICHT_LEER, { erinnern: true, dauer: 3000 })
   pruefe('„Erinnern" aus dem Billboard bei leerem Fenster: nach 3 s noch keine Entscheidung', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.b.offen() === 0)
+  r = lauf(BERICHT_LEER, { erinnern: true, dauer: 8000 })
+  pruefe('… genau an der Leer-Frist (8 s) mit „Erinnern": noch warten', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.b.offen() === 0)
   r = lauf(BERICHT_LEER, { erinnern: true, dauer: 8001 })
   pruefe('… nach der Leer-Frist zählt es als Störung, nicht als „Erinnern statt Folgenliste"', r.b.offen() === 1 && r.gebucht.size === 0)
   r = lauf(BERICHT_YAKARI)
