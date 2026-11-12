@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": []
+  },
+  {
+    "name": "A1 JS_FAMILIE: gilt für jede Endung (alter Stand)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const JS_FAMILIE = /\\.(ts|tsx|mjs|cjs|mts|js)$/",
+    "ersetze": "const JS_FAMILIE = /./",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "A1 leserIn: Dateiname nicht an nennt durchgereicht",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "liestTestDatei(pfad, text, b) && nennt(text, b, pfad))",
+    "ersetze": "liestTestDatei(pfad, text, b) && nennt(text, b))",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "A1 pfadTokens: Dateiname nicht an ohneKommentare durchgereicht",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "...ohneKommentare(text, datei).matchAll(PFAD)",
+    "ersetze": "...ohneKommentare(text).matchAll(PFAD)",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "A2 regexEnde: Backslash-Überspringen entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "if (text[k] === '\\\\') k++",
+    "ersetze": "if (false) k++",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "A2 REGEX_VOR auf drei Zeichen verkürzt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const REGEX_VOR = /[(,=:[!&|?{};+*<>~^%-]$/",
+    "ersetze": "const REGEX_VOR = /[(,=]$/",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "A2 REGEX_VOR ohne Semikolon",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const REGEX_VOR = /[(,=:[!&|?{};+*<>~^%-]$/",
+    "ersetze": "const REGEX_VOR = /[(,=:[!&|?{}+*<>~^%-]$/",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  },
+  {
+    "name": "A2 Textanfang-Vorgabe entfällt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|| '('",
+    "ersetze": "|| 'x'",
+    "tests": ["node tools/pr-nachrechnen-leser.test.mjs"]
+  }
+]

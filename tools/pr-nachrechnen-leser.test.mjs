@@ -396,6 +396,28 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Unbeendeter Blockkommentar: nur seine Zeile entfällt, Folgezeilen bleiben', ohneKommentare('a\n/* offen\nb').split('\n').join() === 'a,b', ohneKommentare('a\n/* offen\nb'))
 }
 
+{
+  // Nachbesserung A1-A3 (PR 3597): Blockkommentare nur in der JS-Familie; Mutanten der Prüferrunde; Grenzen festgehalten.
+  const BEW = ['data/crunchyroll-woche.json']
+  const NAME = 'data/crunchyroll-woche.json'
+  const leserVon = (pfad, text) => leserIn(new Map([[pfad, text]]), BEW)
+  const SH = ['git add data/*', `cat ${NAME}`, 'find . -path "**/x"'].join('\n')
+  pruefe('A1 Shell: unquotiertes data/* verschluckt keine Lesung (tools/x.sh)', leserVon('tools/x.sh', SH).length === 1, leserVon('tools/x.sh', SH))
+  const YML = ['      - run: git add data/*', `      - run: cat ${NAME}`, '        env: { P: "**/x" }'].join('\n')
+  pruefe('A1 YAML: Glob-Stern verschluckt keine Lesung (.github/workflows/x.yml)', leserVon('.github/workflows/x.yml', YML).length === 1, leserVon('.github/workflows/x.yml', YML))
+  pruefe('A1 pfadTokens mit Dateiname: .sh behält die Lesung', pfadTokens(SH, 'tools/x.sh').includes(NAME), pfadTokens(SH, 'tools/x.sh'))
+  pruefe('A1 Gegenprobe: dieselbe Form in .mjs ist ein Block, Lesung dazwischen entfällt', leserVon('tools/x.mjs', SH).length === 0, leserVon('tools/x.mjs', SH))
+  pruefe('A2 Blockkommentar am Dateianfang nennt die Datei -> kein Leser', leserVon('tools/x.mjs', `/* ${NAME} */ x`).length === 0)
+  pruefe('A2 Regex mit maskiertem Schrägstrich und Anführungszeichen dahinter', leserVon('tools/x.mjs', `const r = /\\/'/; /* ${NAME} */`).length === 0)
+  for (const vor of ['&&', ':', '!', '||', '?', ';', '{', '[']) {
+    pruefe(`A2 Regex nach ${vor} beginnt kein Zeichenkettenpaar`, leserVon('tools/x.mjs', `a ${vor} /'/.test(s); /* ${NAME} */`).length === 0)
+  }
+  pruefe('A2 Regex am Textanfang', leserVon('tools/x.mjs', `/'/.test(s); /* ${NAME} */`).length === 0)
+  pruefe('A3 Grenze: Regex nach ) gilt als Division, der Text bleibt stehen (nie weniger)', leserVon('tools/x.mjs', `if (a) /'/.test(s); /* ${NAME} */`).length === 1)
+  pruefe('A3 Grenze: Backtick in Zeichenkette in ${…} kippt die Zählung, der Text bleibt stehen', leserVon('tools/x.mjs', `\`\${ '\`' }\`; /* ${NAME} */`).length === 1)
+  pruefe('A3 verschachtelte Vorlage mit Paaren bleibt richtig', leserVon('tools/x.mjs', `\`a \${\`b\`} c\`; /* ${NAME} */`).length === 0)
+}
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-leser.test: ${fehler.length} rot`)
   process.exit(1)
