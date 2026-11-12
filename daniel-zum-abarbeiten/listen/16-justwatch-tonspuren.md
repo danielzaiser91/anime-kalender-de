@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-11. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-12. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-29 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+28 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -16,7 +16,6 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
 | [A Certain Magical Index](https://anime-kalender.de/#/datenbank?t=4654) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Toaru-Majutsu-no-Index) |
-| [To Love Ru: Darkness](https://anime-kalender.de/#/datenbank?t=13663) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/To-Love-Ru-Darkness) |
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
@@ -43,13 +42,16 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-263 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+269 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
 | [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
+| [Larva Island: Der Film](https://anime-kalender.de/#/datenbank?t=10015403) | [Netflix](https://www.netflix.com/title/80991326), [Netflix Standard with Ads](https://www.netflix.com/title/80991326) |
+| [The Witcher: Nightmare of the Wolf](https://anime-kalender.de/#/datenbank?t=10020173) | [Netflix](https://www.netflix.com/title/81037868), [Netflix Standard with Ads](https://www.netflix.com/title/81037868) |
+| [The Witcher: Sirens of the Deep](https://anime-kalender.de/#/datenbank?t=10020216) | [Netflix](https://www.netflix.com/title/81484026), [Netflix Standard with Ads](https://www.netflix.com/title/81484026) |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-296756) | [HBO Max](https://www.hbomax.com/de/en/show/a3313dd3-2d1f-4072-8525-1434643403a8/s1/e1-pilot/56393299-c6fa-4114-bb75-5d3696391aa4), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f05f8539-e6cf-4c1b-a39b-68508bd24f5a) 🇩🇪, [MagentaTV](https://www.magenta.tv/serie/president-curtis/staffel-1/GN_SEASON_33285879_DE_1) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/president-curtis/umc.cmc.3kn2xy6zqpzys2l91werz67ht?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-255760) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8) |
@@ -175,6 +177,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [Wolkig mit Aussicht auf Fleischbällchen](https://anime-kalender.de/#/datenbank?t=-70967) | [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP026964060040), [Kixi Select Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1754912c-0bd5-43a8-89da-a067da59c7f1) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-70933) | [Disney Plus](https://www.disneyplus.com/browse/entity-ccf1f1a3-7509-435e-aae1-88eb6b3342b0) |
 | [Bunsen ist ein Biest](https://anime-kalender.de/#/datenbank?t=-70491) | [Apple TV Store](https://tv.apple.com/de/show/bunsen-ist-ein-biest/umc.cmc.5hzoy2ht6zx5srqnwhw1ycjeo?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-69776) | [Apple TV Store](https://tv.apple.com/de/show/jeff--some-aliens/umc.cmc.6zeb50n4mh3djuo3r2m5xlmkh?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [Die unglaublichen Abenteuer von Blinky Bill](https://anime-kalender.de/#/datenbank?t=-82080) | [ZDF Select Amazon Channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8620bf7a-2ece-406b-9434-660b404bdfb8) 🇩🇪, [KiKA](https://www.kika.de/blinky-bill/die-unglaublichen-abenteuer-von-blinky-bill-100), [ZDFtivi Amazon channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8620bf7a-2ece-406b-9434-660b404bdfb8) 🇩🇪, [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP028469680055) |
 | [Sieben Zwerge & ich](https://anime-kalender.de/#/datenbank?t=-79681) | [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP027473560006) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-76718) | [Apple TV Store](https://tv.apple.com/de/show/es-war-einmal--nach-roald-dahl/umc.cmc.5zc35kzs4r1nyntmuiss48dne?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
@@ -279,6 +282,8 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [Juniper Lee](https://anime-kalender.de/#/datenbank?t=-446) | [Apple TV Store](https://tv.apple.com/de/show/juniper-lee/umc.cmc.us2mqxtsbdygt8rqt6d8loc?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [Disneys American Dragon](https://anime-kalender.de/#/datenbank?t=-346) | [Apple TV Store](https://tv.apple.com/de/show/disneys-american-dragon/umc.cmc.34qexyqas2pn84m1hofkifdz7?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e07db289-edce-4bd2-b963-8a0573aa42a7) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-292) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e2a9f6d6-a54b-931a-8fe3-8555c55d5109), [Apple TV Store](https://tv.apple.com/de/show/moral-orel/umc.cmc.2vvebags1q0qtc66ikv1yj2dw?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-157125) | [Fix And Foxi Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.baace767-759b-e94b-e593-f407fcbd7976) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6e61a0b3-fb76-4188-b5e2-12be7a23e04f) |
+| [Mittelland - Die Legende der Elfen](https://anime-kalender.de/#/datenbank?t=-92880) | [Plex](https://watch.plex.tv/show/shadow-of-the-elves/season/1/episode/1?autoplay=1&utm_content=5d9c165d7b5c2e001e6f000d&utm_medium=deeplink&utm_source=justWatch-v2-catalog), [Fix And Foxi Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.60759f31-2bea-46db-b06c-165671e63310) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/mittelland---die-legende-der-elfen/umc.cmc.5l0ciu7f0zms3w8vnn61rrqmz?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b4f74111-d213-4f74-9471-5124ac2e9ca4) |
 | [Die Liga der Gerechten](https://anime-kalender.de/#/datenbank?t=-84200) | [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.62aa67f0-577e-c367-a400-70287b7c8000), [Amazon DVD / Blu-ray](https://www.amazon.de/dp/B015WU6DQW?tag=movie0c6-21&linkCode=osi&th=1&psc=1) |
 | [Dragon - Der kleine blaue Drache](https://anime-kalender.de/#/datenbank?t=-13507) | [ZDF Select Amazon Channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.7ea9f6e0-593a-0c87-4411-1f08aabf2511) 🇩🇪, [ZDFtivi Amazon channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.7ea9f6e0-593a-0c87-4411-1f08aabf2511) 🇩🇪, [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP030642400015), [Die Biene Maja & Friends](https://watch.amazon.de/detail?gti=amzn1.dv.gti.7ea9f6e0-593a-0c87-4411-1f08aabf2511) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-5678) | [Kixi Select Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b260fe72-5575-4c93-941f-a334e9795af0) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/drache--co/umc.cmc.3b4n8443x2wfxym44b4i2gd3t?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0de98518-cad7-4b5c-bfbf-6b6b39931bb8) |
