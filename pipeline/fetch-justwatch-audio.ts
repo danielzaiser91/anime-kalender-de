@@ -151,9 +151,17 @@ function angeboteVon(offers: JwKnoten['offers']): Angebot[] {
     .filter((a, i, alle) => alle.findIndex((b) => b.anbieter === a.anbieter && b.art === a.art) === i)
 }
 
+/** Naht für Tests: der Abruf und die Pause zwischen zwei Abrufen; Standard ist der echte Weg. */
+export interface Welt {
+  abruf: typeof fetchJson
+  pause: () => Promise<void>
+}
+
+const ECHTE_WELT: Welt = { abruf: fetchJson, pause: () => sleep(PAUSE_MS) }
+
 /** Eine Sperre wartet `fetchJson` mit Backoff ab; erst danach kommt sie hier als Fehler an. */
-async function suche(begriff: string): Promise<JwKnoten[]> {
-  const j = await fetchJson<{
+async function suche(begriff: string, w: Welt): Promise<JwKnoten[]> {
+  const j = await w.abruf<{
     errors?: { message: string }[]
     data?: { popularTitles?: { edges?: { node: JwKnoten }[] } }
   }>(ENDPUNKT, {
@@ -171,12 +179,12 @@ async function suche(begriff: string): Promise<JwKnoten[]> {
  * Namen oder jenseits von Rang 5 (Clannad: Der Film, Baki 2, Digimon: Der Film). Bestätigt wird
  * weiter allein über die TMDB-Kennung — als Zeichenkette, JustWatch liefert sie als String.
  */
-async function sucheUeberNamen(t: Title, erwartet: number | string): Promise<{ treffer?: JwKnoten; naeherung?: NamensTreffer }> {
+async function sucheUeberNamen(t: Title, erwartet: number | string, w: Welt): Promise<{ treffer?: JwKnoten; naeherung?: NamensTreffer }> {
   const namen = [...new Set([t.titleDe, t.titleRomaji, t.titleEn].filter((n): n is string => Boolean(n)))]
   const alle: JwKnoten[] = []
   for (const [i, name] of namen.entries()) {
-    if (i) await sleep(PAUSE_MS)
-    const liste = await suche(name)
+    if (i) await w.pause()
+    const liste = await suche(name, w)
     const treffer = liste.find((k) => String(k.content.externalIds?.tmdbId ?? '') === String(erwartet))
     if (treffer) return { treffer }
     alle.push(...liste)
@@ -269,7 +277,7 @@ function befundVonNamenstreffer(vorher: Befund | undefined, treffer: JwKnoten, t
  * Titel ohne TMDB-Kennung: Namenssuche (`lib/jw-namenssuche.ts`), höchstens `anzahl` je Lauf, die ältesten Befunde zuerst. Der Bau liest nur Befunde
  * der letzten 28 Tage (`BEFUND_MAX_TAGE`), darum kommt jeder Titel nach 21 Tagen wieder dran. Gespeichert wird nur ein plausibler Lauf (Kopie, kein Teilstand).
  */
-async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: number }>, bestand: Record<string, Befund>, anzahl: number): Promise<void> {
+async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: number }>, bestand: Record<string, Befund>, anzahl: number, w: Welt): Promise<void> {
   const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
   const grenze = new Date(Date.now() - NAMEN_ALTER_TAGE * 86_400_000).toISOString().slice(0, 10)
   const alle = namensSchlange({ titles, bestand, tmdbVon, grenze })
@@ -283,8 +291,8 @@ async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: nu
     try {
       const knoten: JwKnoten[] = []
       for (const [i, begriff] of suchNamen(t).entries()) {
-        if (i) await sleep(PAUSE_MS)
-        knoten.push(...(await suche(begriff)))
+        if (i) await w.pause()
+        knoten.push(...(await suche(begriff, w)))
       }
       sperrenInFolge = 0
       const u = waehleKnoten(t, knoten, bekannte)
@@ -310,7 +318,7 @@ async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: nu
         break
       }
     }
-    await sleep(PAUSE_MS)
+    await w.pause()
   }
   log(`JustWatch (Namenssuche): ${z.getroffen} zugeordnet (${z.leer} ohne Angebot), ${z.keiner} ohne Treffer, ${z.mehrdeutig.length} mehrdeutig, ${z.fremd.length} fremd, ${z.abgewiesen.length} abgewiesen, ${z.verfehlt} verfehlt, ${z.fehler} Fehler.`)
   for (const [art, liste] of [['mehrdeutig', z.mehrdeutig], ['fremd (Kennung gehört schon einem anderen Titel)', z.fremd], ['abgewiesen', z.abgewiesen]] as const)
@@ -320,56 +328,13 @@ async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: nu
   writeJson(DATEI, bestand)
 }
 
-async function main(): Promise<void> {
-  const args = process.argv.slice(2)
-  const zahl = (name: string, vorgabe: number): number => {
-    const i = args.indexOf(name)
-    return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
-  }
-  const limit = zahl('--limit', 40)
-  const alterTage = zahl('--alter', 28)
+/** Zähler der Hauptschleife — `main()` meldet sie und entscheidet über das Schreiben. */
+interface Zaehler { getroffen: number; mitDeutsch: number; fehler: number; leer: number; verfehlt: number; ohneTrefferNeu: number; abgewiesen: string[] }
 
-  const nurCartoons = args.includes('--nur-cartoons')
-  const { titles, cartoons, tmdb, bestand } = ladeEingaben(nurCartoons)
-
-  const grenze = new Date(Date.now() - alterTage * 86_400_000).toISOString().slice(0, 10)
-  /* Titel ohne TMDB-Kennung (`--namen N`, vorgabe 0 = aus): zuerst, damit der frühe Ausstieg „nichts fällig“ unten sie nicht übergeht. */
-  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0))
-
-  /*
-    **Die Warteschlange bildet sich nach dem Alter, nicht nach „schon gefragt".**
-
-    Sonst kann ein einmal leeres Ergebnis nie mehr besser werden — genau der
-    Fehler, den `CLAUDE.md` unter „Ein Abruf, der nur ergänzt, veraltet
-    zwangsläufig" beschreibt. Ein Anbieter nimmt eine deutsche Fassung auch
-    **auf**, und dann muss die Frage neu gestellt werden dürfen.
-  */
-  /*
-    Der Lauf fragt reihum alle Titel mit TMDB-Kennung (seit 17.09.2026); vorn stehen drei Lücken: Wege ohne
-    Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
-    zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
-  */
-  const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
-  const listen = await listenVorrangAbrufen(ANBIETERLISTEN, seiteVonJustWatch(ENDPUNKT, UA, fetchJson), () => sleep(PAUSE_MS), titles, bestand, tmdbVon, todayIso())
-  log(`JustWatch: ${listen.vorrang.size} Titel aus Anbieter-Listen vorgezogen (${listen.abrufe} Listenabrufe).`)
-  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), listenVorrang: listen.vorrang, cartoonIds: new Set(cartoons.map((t) => t.id)) })
-
-  if (!offen.length) {
-    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')
-    recordSource('justwatch-audio', 0)
-    return
-  }
-
-  log(`JustWatch: ${offen.length} Titel mit offenem Verweis, davon werden ${Math.min(limit, offen.length)} geholt.`)
-
-  let getroffen = 0
-  let mitDeutsch = 0
-  let fehler = 0
-  let leer = 0
-  let verfehlt = 0
-  let ohneTrefferNeu = 0
+/** Die Hauptschleife: die ersten `limit` offenen Titel über die TMDB-Kennung bei JustWatch suchen und in `bestand` verbuchen. */
+async function frageOffene(offen: Title[], limit: number, tmdb: Record<string, { tmdbId?: number }>, bestand: Record<string, Befund>, w: Welt): Promise<Zaehler> {
+  const z: Zaehler = { getroffen: 0, mitDeutsch: 0, fehler: 0, leer: 0, verfehlt: 0, ohneTrefferNeu: 0, abgewiesen: [] }
   let sperrenInFolge = 0
-  const abgewiesen: string[] = []
 
   for (const t of offen.slice(0, limit)) {
     const erwartet = (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
@@ -389,19 +354,19 @@ async function main(): Promise<void> {
         sauber „0 zugeordnet, 0 Fehler" — der erste Probelauf am 07.09.2026 tat
         genau das, an fünf Titeln, deren Treffer JustWatch alle kannte.
       */
-      const { treffer: gefunden, naeherung } = erwartet ? await sucheUeberNamen(t, erwartet) : { treffer: undefined, naeherung: undefined }
+      const { treffer: gefunden, naeherung } = erwartet ? await sucheUeberNamen(t, erwartet, w) : { treffer: undefined, naeherung: undefined }
       /* Eine Kennung, die schon eine andere TMDB-Reihe hält, ist ein Fehlgriff von JustWatch (Spin-off auf Hauptserie). */
       const { treffer, halter } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
-      if (halter) abgewiesen.push(`${t.titleDe || t.titleRomaji || t.titleEn} (${t.id}, Halter ${halter})`)
+      if (halter) z.abgewiesen.push(`${t.titleDe || t.titleRomaji || t.titleEn} (${t.id}, Halter ${halter})`)
       sperrenInFolge = 0
       const vorher = bestand[String(t.id)]
       if (!treffer) {
-        if (verbucheFehlschlag(bestand, String(t.id), erwartet, naeherung)) verfehlt++
-        else ohneTrefferNeu++
+        if (verbucheFehlschlag(bestand, String(t.id), erwartet, naeherung)) z.verfehlt++
+        else z.ohneTrefferNeu++
         continue
       }
       const angebote = angeboteVon(treffer.offers)
-      if (!angebote.length) leer++
+      if (!angebote.length) z.leer++
       bestand[String(t.id)] = {
         geprueftAm: todayIso(),
         /* Eine Antwort vor dem Umbau gilt als bewährt und bekommt kein Datum. */
@@ -413,18 +378,63 @@ async function main(): Promise<void> {
         staffeln: staffelnVon(treffer.seasons),
         angebote,
       }
-      getroffen++
-      if (angebote.some((a) => a.audio.includes('de'))) mitDeutsch++
+      z.getroffen++
+      if (angebote.some((a) => a.audio.includes('de'))) z.mitDeutsch++
     } catch (e) {
-      fehler++
+      z.fehler++
       warn(`JustWatch: ${t.titleDe || t.titleRomaji || t.titleEn} — ${(e as Error).message}`)
       if (/^429 /.test((e as Error).message) && ++sperrenInFolge >= SPERREN_BIS_ABBRUCH) {
         warn(`JustWatch: ${SPERREN_BIS_ABBRUCH} Sperren in Folge — der Lauf endet hier, das Erreichte wird geschrieben.`)
         break
       }
     }
-    await sleep(PAUSE_MS)
+    await w.pause()
   }
+  return z
+}
+
+export async function main(args: string[] = process.argv.slice(2), welt: Welt = ECHTE_WELT): Promise<void> {
+  const zahl = (name: string, vorgabe: number): number => {
+    const i = args.indexOf(name)
+    return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
+  }
+  const limit = zahl('--limit', 40)
+  const alterTage = zahl('--alter', 28)
+
+  const nurCartoons = args.includes('--nur-cartoons')
+  const { titles, cartoons, tmdb, bestand } = ladeEingaben(nurCartoons)
+
+  const grenze = new Date(Date.now() - alterTage * 86_400_000).toISOString().slice(0, 10)
+  /* Titel ohne TMDB-Kennung (`--namen N`, vorgabe 0 = aus): zuerst, damit der frühe Ausstieg „nichts fällig“ unten sie nicht übergeht. */
+  if (!nurCartoons && zahl('--namen', 0) > 0) await sucheOhneTmdb(titles, tmdb, bestand, zahl('--namen', 0), welt)
+
+  /*
+    **Die Warteschlange bildet sich nach dem Alter, nicht nach „schon gefragt".**
+
+    Sonst kann ein einmal leeres Ergebnis nie mehr besser werden — genau der
+    Fehler, den `CLAUDE.md` unter „Ein Abruf, der nur ergänzt, veraltet
+    zwangsläufig" beschreibt. Ein Anbieter nimmt eine deutsche Fassung auch
+    **auf**, und dann muss die Frage neu gestellt werden dürfen.
+  */
+  /*
+    Der Lauf fragt reihum alle Titel mit TMDB-Kennung (seit 17.09.2026); vorn stehen drei Lücken: Wege ohne
+    Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
+    zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
+  */
+  const tmdbVon = (t: Title) => (t as Title & { tmdbId?: number }).tmdbId ?? tmdb[String(t.id)]?.tmdbId
+  const listen = await listenVorrangAbrufen(ANBIETERLISTEN, seiteVonJustWatch(ENDPUNKT, UA, welt.abruf), welt.pause, titles, bestand, tmdbVon, todayIso())
+  log(`JustWatch: ${listen.vorrang.size} Titel aus Anbieter-Listen vorgezogen (${listen.abrufe} Listenabrufe).`)
+  const offen = warteschlange({ titles, bestand, tmdb, grenze, heute: todayIso(), frisch: frischeAusTermine(), listenVorrang: listen.vorrang, cartoonIds: new Set(cartoons.map((t) => t.id)) })
+
+  if (!offen.length) {
+    log('JustWatch: keine offenen Verweise zur Wiedervorlage.')
+    recordSource('justwatch-audio', 0)
+    return
+  }
+
+  log(`JustWatch: ${offen.length} Titel mit offenem Verweis, davon werden ${Math.min(limit, offen.length)} geholt.`)
+
+  const { getroffen, mitDeutsch, fehler, leer, verfehlt, ohneTrefferNeu, abgewiesen } = await frageOffene(offen, limit, tmdb, bestand, welt)
 
   log(
     `JustWatch: ${getroffen} Titel zugeordnet (${leer} ohne Angebot), ${mitDeutsch} davon mit deutscher Tonspur, ` +
@@ -548,4 +558,5 @@ function liste(titles: Title[], bestand: Record<string, Befund>): void {
   log(`JustWatch: ${mitAussage} offene Verweise mit Tonspur-Angabe → daniel-zum-abarbeiten/listen/16-justwatch-tonspuren.md`)
 }
 
-await main()
+/* `?nur-laden` am Import-Pfad: Tests holen `main` und rufen es selbst mit ihrer Welt auf. */
+if (!import.meta.url.endsWith('?nur-laden')) await main()
