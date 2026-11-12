@@ -109,6 +109,23 @@ sieht Werkzeuge laufen und weiß nicht, wozu.
 
 **Mit Subagenten:** Laufen Agenten (Skill `delegieren-und-parallelisieren`), ist Schublade A zugleich die Frage, ob ein laufender Auftrag noch stimmt. Ich ändere oder stoppe ihn (`SendMessage`/`TaskStop`), statt den Bericht abzuwarten. Ein Wechsel (B) lässt laufende Bauer weiterarbeiten, solange sie die neue Sache nicht anfasst; das Einsammeln ihrer Berichte steht im Stand (Schritt 3).
 
+## Nachrichten mitten im Turn: die Eingangsordnung (Daniel, 12.11.2026)
+
+Anlass: Fünf Nachrichten in acht Minuten (PayPal-Mitschnitt, E57, E59, zwei Fragen). Jede neue warf die
+angefangene Auswertung um. Ich baute für E57 sofort einen Wächter-PR und suchte für E59 eine Lösung, während
+PayPal halb ausgewertet liegen blieb. Daniel: „was ist mit paypal? … angefangenes hat immer vorrang, außer
+etwas kritisches drängelt sich vor … es darf nie etwas vergessen werden“.
+
+1. **Liste zuerst.** Jede Nachricht wird im selben Werkzeugaufruf, der sie zur Kenntnis nimmt, als Zeile in die
+   Task-Liste (`update_plan`) eingetragen, mit Schublade. Angefangenes steht oben, Neues kommt ans Ende.
+2. **Angefangenes zu Ende.** Der laufende Punkt läuft weiter bis zu seinem Ergebnis: Befund belegt und das,
+   was Daniel tun soll, nachgeführt. Erst dann kommt der nächste Punkt. Ausnahme ist nur B (kritisch), und
+   selbst dann bleibt der unterbrochene Punkt als Zeile stehen.
+3. **Fragen sofort, Arbeit nach Reihe.** Eine reine Frage („wie lang dauert das?“) bekommt ihre Antwort in der
+   nächsten Antwort. Was Bauen, Messen oder einen PR braucht, wartet auf seinen Platz in der Liste.
+4. **Abgleich vor dem Turn-Ende.** Jede Nachricht seit der letzten Antwort hat in der Endantwort eine Zeile
+   (erledigt / Antwort / eingereiht als Punkt N). Was der Abgleich nicht findet, gilt als vergessen.
+
 ## Was fertig ist, wird sofort gemeldet — nicht am Ende der Liste
 
 **Sobald ein Punkt einen Stand erreicht, den Daniel ansehen oder testen kann,
