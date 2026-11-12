@@ -143,11 +143,20 @@ pruefe('„kein-kandidat“ hat keine Kandidaten, „mehrdeutig“ zwei mit glei
 
 // Kalenderserien ohne Platz in Katalog und Liste: Fälle (Mutanten: Katalog oder Liste weglassen, Vereinigung statt Schnitt).
 const kal = [{ showId: 1, title: 'A' }, { showId: 2, title: 'B' }, { showId: 3, title: 'C' }, { showId: 4, title: 'D' }]
-pruefe('Kalenderserie nur im Katalog, nur in der Liste, in beiden oder in keinem: nur die in keinem bleibt', JSON.stringify(kalenderOhneNetz(kal, [{ showId: 1 }, { showId: 3 }], [{ showId: 2 }, { showId: 3 }])) === '[{"showId":4,"title":"D"}]', kalenderOhneNetz(kal, [{ showId: 1 }], [{ showId: 2 }]))
-pruefe('Kalenderserien: alles leer ergibt alle, nichts im Kalender ergibt nichts', kalenderOhneNetz(kal, [], []).length === 4 && kalenderOhneNetz([], [{ showId: 1 }], []).length === 0)
+pruefe('Kalenderserie nur im Katalog, nur in der Liste, in beiden oder in keinem: nur die in keinem bleibt', JSON.stringify(kalenderOhneNetz(kal, [{ showId: 1 }, { showId: 3 }], [{ showId: 2 }, { showId: 3 }], '2026-11-12')) === '[{"showId":4,"title":"D"}]', kalenderOhneNetz(kal, [{ showId: 1 }], [{ showId: 2 }], '2026-11-12'))
+pruefe('Kalenderserien: alles leer ergibt alle, nichts im Kalender ergibt nichts', kalenderOhneNetz(kal, [], [], '2026-11-12').length === 4 && kalenderOhneNetz([], [{ showId: 1 }], [], '2026-11-12').length === 0)
+// Serie vor dem Start (Anlass: ADN 1218 Kill la Kill, Start 18.11., stündliche Warnung ohne Befund): Grenze am Stichtag, ein Tag früher gilt nicht mehr.
+const folgen = (...tage: string[]) => tage.map((date) => ({ date }))
+const vorStart = [{ showId: 5, title: 'E', episodes: folgen('2026-11-18', '2026-11-19') }]
+pruefe('Kalenderserie vor dem Start: kein Befund', kalenderOhneNetz(vorStart, [], [], '2026-11-12').length === 0)
+pruefe('Kalenderserie, deren erste Folge am Stichtag kommt: kein Befund', kalenderOhneNetz([{ showId: 5, title: 'E', episodes: folgen('2026-11-12') }], [], [], '2026-11-12').length === 0)
+pruefe('Kalenderserie, deren erste Folge gestern kam: Befund', kalenderOhneNetz([{ showId: 5, title: 'E', episodes: folgen('2026-11-11') }], [], [], '2026-11-12').length === 1)
+pruefe('Kalenderserie mit alter und kommender Folge: Befund', kalenderOhneNetz([{ showId: 5, title: 'E', episodes: folgen('2026-11-18', '2026-10-29') }], [], [], '2026-11-12').length === 1)
+pruefe('Kalenderserie ohne Folgenliste: Befund', kalenderOhneNetz([{ showId: 5, title: 'E', episodes: [] }, { showId: 6, title: 'F' }], [], [], '2026-11-12').length === 2)
 // Der eingecheckte Kalender: Lücken sind erlaubt (Katalog-Lauf hinkt), aber sichtbar. Warnung statt Fehler, weil eine neue Serie bis zum nächsten Lauf fehlen darf.
-const kalenderShows = (JSON.parse(readFileSync('data/adn.json', 'utf8')) as { shows: { showId: number; title: string }[] }).shows
-const luecken = kalenderOhneNetz(kalenderShows, katalog.shows, offen)
+const kalender = JSON.parse(readFileSync('data/adn.json', 'utf8')) as { scrapedAt: string; shows: { showId: number; title: string; episodes: { date: string }[] }[] }
+const kalenderShows = kalender.shows
+const luecken = kalenderOhneNetz(kalenderShows, katalog.shows, offen, kalender.scrapedAt.slice(0, 10))
 const lueckenZeile = kalenderLueckenZeile(luecken, kalenderShows.length)
 if (lueckenZeile) console.log(lueckenZeile)
 console.log(`check-adn-anisearch: Kalenderserien ohne Katalog und Liste: ${luecken.length}`)
