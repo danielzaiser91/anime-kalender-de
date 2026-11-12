@@ -296,6 +296,9 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Schreibzugriff: mkdirSync(join(w, `data/${n}`)) -> kein Treffer', ordnerLeser('mkdirSync(join(w, `data/${n}`))\n', [PATCHNOTE]) === undefined)
   pruefe('Schreibzugriff: readdirSync(`data/${n}`) und readFileSync(`data/${n}`) bleiben Leser', ordnerLeser('readdirSync(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE && ordnerLeser('readFileSync(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
   pruefe('Schreibzugriff: Schreiben und Lesen in einer Zeile (; dazwischen) -> Leser bleibt', ordnerLeser('schreibe(a, b); lies(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: copyFileSync(`data/${n}`, ziel) liest die Quelle -> Leser bleibt (PR 3555, check-patchnotes-stempel-flach)', ordnerLeser('copyFileSync(`data/${n}`, ziel)\n', [PATCHNOTE]) === PATCHNOTE)
+  pruefe('Schreibzugriff: echter Quelltext check-patchnotes-stempel-flach.ts liest tools/', ordnerLeser(readFileSync('pipeline/check-patchnotes-stempel-flach.ts', 'utf8'), ['tools/x.mjs']) === 'tools/x.mjs')
+  pruefe('Schreibzugriff: Lesung im Schreibaufruf (writeFileSync(x, readFileSync(`data/${n}`))) bleibt Leser', ordnerLeser('writeFileSync(x, readFileSync(`data/${n}`))\n', [PATCHNOTE]) === PATCHNOTE)
   pruefe('Schreibzugriff: Schreiben in der Vorzeile entlastet die Leseszeile nicht', ordnerLeser('schreibe(a, b)\nlies(`data/${n}`)\n', [PATCHNOTE]) === PATCHNOTE)
   // PR 3367/3282 (11.11.2026): Zeilen wörtlich aus tools/sammler-pruefschritt-waechter.mjs und tools/logik-beleg.test.mjs; bewegt: die Ausführungsliste.
   const LISTE_TXT = 'tools/check-logic-liste.txt'

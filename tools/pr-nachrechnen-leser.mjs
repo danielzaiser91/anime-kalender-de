@@ -97,12 +97,18 @@ const ORDNER_ANHANG = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*)?)/(?
 /** Ordnerpfad als eigenes Literal, nur zusammen mit einem Verzeichnis-Aufruf (`readdirSync('data')`, `glob`) ein Leser. */
 const ORDNER_LITERAL = new RegExp(`(?:^|[^\\w./-])(${WURZELN}(?:/[\\w./@-]*\\w)?)(?=['"\`])`, 'g')
 const VERZEICHNIS_AUFRUF = /readdir|opendir|scandir|\bglob(?:Sync)?\b/i
-/** Schreibender Aufruf vor dem Fund, ohne `;` dazwischen: ein Anhang darin legt eine Datei an, liest keine (PR 3541: `schreibe(`data/${leer}`, …)`). */
-const SCHREIB_AUFRUF = /\b(?:schreibe\w*|write\w*|append\w*|mkdir\w*|copyFile\w*|rm\w*)\([^;]*$/i
+/**
+ * Schreibender Aufruf vor dem Fund, ohne `;` dazwischen: ein Anhang darin legt eine Datei an, liest keine (PR 3541: `schreibe(`data/${leer}`, …)`).
+ * Nicht dabei: `copyFile…` (sein erstes Argument ist eine Lesung, PR 3555) und `rename…`. Grenze: Zeilenweise Sicht; ein Schreibaufruf über mehrere Zeilen
+ * mit Anhang in einer Folgezeile bleibt Leser (sicher). Eine Lesung innerhalb der Argumente (`writeFileSync(x, readFileSync(`data/${n}`))`) bleibt Leser.
+ */
+const SCHREIB_AUFRUF = /\b(?:schreibe\w*|write\w*|append\w*|mkdir\w*|rm\w*)\(([^;]*)$/i
+const LESUNG_IM_ARGUMENT = /\b(?:read|lies|glob|opendir|scandir|copyFile)\w*\(/i
 
 function lesenderAnhang(code, m) {
   const zeilenStart = code.lastIndexOf('\n', m.index) + 1
-  return !SCHREIB_AUFRUF.test(code.slice(zeilenStart, m.index))
+  const schreib = SCHREIB_AUFRUF.exec(code.slice(zeilenStart, m.index))
+  return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])
 }
 
 /** Ordner-Tokens des Codes (ohne Kommentare), die ein Verzeichnis lesen oder einen Namen darunter zusammensetzen. */

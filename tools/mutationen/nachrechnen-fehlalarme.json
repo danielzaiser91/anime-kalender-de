@@ -870,7 +870,7 @@
   {
     "name": "Schreibzugriff: lesenderAnhang nie lesend",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "return !SCHREIB_AUFRUF.test(code.slice(zeilenStart, m.index))",
+    "suche": "return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])",
     "ersetze": "return false",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
@@ -879,8 +879,8 @@
   {
     "name": "Schreibzugriff: Semikolon trennt nicht (Schreiben und Lesen in einer Zeile)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "\\([^;]*$/i",
-    "ersetze": "\\([^]*$/i",
+    "suche": "\\(([^;]*)$/i",
+    "ersetze": "\\(([^]*)$/i",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
     ]
@@ -897,8 +897,35 @@
   {
     "name": "Schreibzugriff: Lesen (read…) gilt als Schreiben",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "|copyFile\\w*|rm\\w*)",
-    "ersetze": "|copyFile\\w*|rm\\w*|read\\w*)",
+    "suche": "|mkdir\\w*|rm\\w*)",
+    "ersetze": "|mkdir\\w*|rm\\w*|read\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: copyFile gilt wieder als Schreiben (PR 3555)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|mkdir\\w*|rm\\w*)",
+    "ersetze": "|mkdir\\w*|copyFile\\w*|rm\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesung im Schreibaufruf wird weggefiltert (PR 3555)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])",
+    "ersetze": "return schreib === null",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesung im Argument zählt nie (Lesungs-Muster ohne read)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/\\b(?:read|lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
+    "ersetze": "/\\b(?:lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
     ]
