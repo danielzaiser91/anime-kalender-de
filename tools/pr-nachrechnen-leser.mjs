@@ -206,8 +206,11 @@ export function ordnerLeser(text, bewegt, datei) {
   return bewegt.find((b) => sichtbar(b) && ordnerTokens(text, datei).some((t) => b.startsWith(`${t}/`)))
 }
 
-/** Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. */
-export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))).map(([pfad]) => pfad).sort()
+/**
+ * Dateien aus `texte` (Karte Pfad -> Inhalt), die den Namen einer bewegten Datei außerhalb von Kommentaren nennen, sortiert. Die Nachrechnen-Werkzeuge
+ * zählen nie (`istNachrechnenWerkzeug`): sie führen Pfade der Läufe als Muster und Liste (12.11.2026, PR 3572: `pr-nachrechnen-bot-erzeugt.mjs` „liest“ Bot-Daten).
+ */
+export const leserIn = (texte, bewegt) => [...texte].filter(([pfad, text]) => !LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))).map(([pfad]) => pfad).sort()
 
 /** Markdown unter `.claude/` (Skills, Agenten, Regeln): Namen wie `SKILL.md` und `bauer.md` stehen in vielem Code, ohne dass er die Datei liest. */
 export const istClaudeMd = (datei) => /^\.claude\/.+\.md$/.test(datei)
@@ -266,6 +269,12 @@ export function leserText(paare) {
     const mehr = namen.length - LESER_ANZEIGE
     return `Leser: ${namen.slice(0, LESER_ANZEIGE).join(', ')}${mehr > 0 ? ` und ${mehr} weitere` : ''}, nennt ${datei}`
   }).join('; ')
+}
+
+/** Die bewegten Dateien, die der Leser nennt, für den Grund (nicht lesbar: alle bewegten). */
+const genannte = (leser, bewegt, lies) => {
+  const text = lies(leser)
+  return (text === null ? bewegt : bewegt.filter((x) => liestTestDatei(leser, text, x) && nennt(text, x))).join(', ')
 }
 
 /** Leser, die mindestens eine Nicht-Bot-Datei nennen (nicht lesbarer Text bleibt, fail-closed). */
@@ -334,7 +343,7 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   }
   const vorwaerts = [...huelle(start, lies)]
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
-  if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest`
+  if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest (nennt ${genannte(l1, bewegt, lies)})`
   const rueckwaerts = rueckMenge(leser, bewegt, lies)
   // Handdaten des PR kippen nur durch bewegte Nicht-Bot-Dateien (Bot-Dateien: nur Berührung, siehe `botBewegt`).
   const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts : rueckMenge(leserOhneBot(leser, bewegt, botBewegt, lies), bewegt.filter((b) => !botBewegt.includes(b)), lies)

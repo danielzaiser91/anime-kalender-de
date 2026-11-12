@@ -11,6 +11,8 @@ import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
 import { synonymeJeTitel } from '../lib/sammel-titel.ts'
 import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
+import { ladeEigeneTitel } from './eigene-titel.ts'
+import { termineAusEigenen } from './eigene-termine.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
@@ -45,6 +47,7 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   log(verlustZeile(verluste))
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
+  releases.push(...termineAusEigenen(ladeEigeneTitel(), releases))
   /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt und gelistet (`listen/23-nur-originalton.md`, Posteingang); über zehn (10.10.2026: 1) greift das Muster vermutlich zu weit. */
   const nurOmu = nurOriginaltonMeldungen(rohVorschlaege.proposals ?? [])
   const melde = nurOmu.length > 10 ? warn : log
