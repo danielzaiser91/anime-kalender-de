@@ -39436,3 +39436,12 @@
   available: false
   checkedAt: '2026-11-12'
   note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+# --- Anime2You-Automatik, 2026-11-12: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
+
+- anilistId: 47
+  title: "Akira"
+  platform: joyn
+  dub: true
+  checkedAt: '2026-11-12'
+  note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/ (2026-11-08): „Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden.“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
