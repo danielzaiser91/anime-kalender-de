@@ -1091,6 +1091,9 @@ Daniel am 02.10.2026: Screenshots der Belege ja, aber **privat**.
 - **Bucket** `anime-kalender-belege`: seit 02.10.2026 ohne öffentlichen Zugang — `r2.dev` abgeschaltet
   (`wrangler r2 bucket dev-url disable`), Domain `belege.anime-kalender.de` gelöst. Nichts im Code
   verwies darauf.
+- **Text einer Lesung lesen (nur lesen, kein Abruf der Quelle):**
+  `npx wrangler r2 object get anime-kalender-belege/<Schlüssel> --remote --file <Ziel>`; der Schlüssel steht in
+  `text`/`bild` der Lesung (`<host>/<Adress-Hash>/<Tag>-<Text-Hash>.txt.gz`, gepackt — mit `gunzip` öffnen).
 - **Zugang nur über den Worker:** Bindung `BELEGE` in `worker/wrangler.toml`, Route `/beleg`
   (`worker/src/beleg.ts`) mit `LAUF_TOKEN` — `POST ?key=` legt ab, `GET ?key=` liefert,
   `GET ?liste=<präfix>` zählt auf. **Wirkt erst nach `wrangler deploy`**; bis dahin antwortet
