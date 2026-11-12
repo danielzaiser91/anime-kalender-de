@@ -164,6 +164,7 @@
     "check:einstellungen": "node tools/einstellungen-bild.mjs",
     "check:cls-wechsel": "node tools/schwer.mjs node tools/cls-wechsel.mjs",
     "check:suchhinweis": "npm run buehne:bauen && node tools/suchhinweis-quickfix-pruefen.mjs",
+    "check:buehne-basis": "npm run buehne:bauen && node tools/buehne-basis.mjs",
     "check:buehne-fenster": "npm run buehne:bauen && node tools/buehne-fenster-pruefen.mjs",
     "check:filter-tempo": "node tools/filter-tempo.mjs --dist dist --n 2 --grenze 200 --spitze 800 && node tools/bereich-auge-messen.mjs --dist dist",
     "check:buehne-messen": "npm run buehne:bauen && node tools/buehne-messen.mjs && node tools/buehne-zustand-pruefen.mjs && node tools/buehne-name-pruefen.mjs",

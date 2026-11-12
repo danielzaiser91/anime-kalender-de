@@ -18,7 +18,7 @@ const crash = () => new Error('locator.evaluate: Page crashed')
  * nachher-375-hell, nachher-375-dunkel. Nachher-Zellen haben einen Kontrastbefund. `bricht(seitenName, variante, schluessel)`
  * sagt, ob die Messung bzw. das Bild dieser Zelle abstürzt.
  */
-function browser({ bricht, fremde = [] }) {
+function browser({ bricht, fremde = [], appBefund = false }) {
   const plan = { nr: 0 }
   const neueSeite = (name) => {
     const seite = { name, variante: '', teil: '', geschlossen: false }
@@ -30,7 +30,9 @@ function browser({ bricht, fremde = [] }) {
       evaluate: async (fn) => {
         if (fn === kontrastImRahmen) {
           if (bricht(seite.name, seite.variante, schluessel)) throw crash()
-          return schluessel.startsWith('nachher') ? [{ schluessel: 'text', verhaeltnis: '2.5', soll: '4.5' }] : []
+          /* `appBefund`: App-Code bringt denselben Befund in Vorher und Nachher — Vorher-gegen-Nachher bleibt still. */
+          if (appBefund) return schluessel.endsWith('hell') ? [{ schluessel: 'kopf', verhaeltnis: '2.5', soll: '4.5' }] : []
+          return schluessel.startsWith('nachher') ?[{ schluessel: 'text', verhaeltnis: '2.5', soll: '4.5' }] : []
         }
         return fn.name === 'tippzieleImRahmen' ? [] : undefined
       },
@@ -71,10 +73,10 @@ function browser({ bricht, fremde = [] }) {
   return async () => ({ browser: { close: async () => {} }, seite: neueSeite('S0'), fremde })
 }
 
-async function messeMit(optionen) {
+async function messeMit({ basis = null, schreibe = null, nurVorher = false, ...optionen }) {
   const aus = []
   process.exitCode = undefined
-  await messe({ starte: browser(optionen), filter: '', ausgabe: (z) => aus.push(z), liste: false })
+  await messe({ starte: browser(optionen), filter: '', ausgabe: (z) => aus.push(z), liste: false, basis, schreibe, nurVorher })
   const exit = process.exitCode
   process.exitCode = undefined
   return { aus, exit }
@@ -118,6 +120,40 @@ async function messeMit(optionen) {
   assert.deepEqual(zeilen.slice(1), ['    m1/f1 B 375-hell: text 2.5:1 (soll 4.5:1)', '    m1/f1 B 375-dunkel: text 2.5:1 (soll 4.5:1)'])
 }
 
+/** Basis (main): Der App-Befund ist in Kopf und Mockup gleich, fällt also nur gegen die saubere Basis auf — je Zelle genau einmal. */
+{
+  const sauber = { 'm1/f1/375-hell': { tipp: [], kontrast: [] } }
+  const { aus, exit } = await messeMit({ appBefund: true, basis: sauber, bricht: () => false })
+  assert.equal(exit, 1)
+  assert.deepEqual(aus.filter((z) => z.startsWith('    ')), ['    m1/f1 App-Basis 375-hell: kopf 2.5:1 (soll 4.5:1)'])
+  /* Gegenfälle: Basis kennt den Befund (gleich) bzw. kennt die Zelle nicht (neues Mockup) → grün; ohne Basis wie bisher. */
+  const kennt = { 'm1/f1/375-hell': { tipp: [], kontrast: [{ schluessel: 'kopf' }] } }
+  assert.equal((await messeMit({ appBefund: true, basis: kennt, bricht: () => false })).exit, undefined)
+  assert.equal((await messeMit({ appBefund: true, basis: { 'm9/f1/375-hell': sauber['m1/f1/375-hell'] }, bricht: () => false })).exit, undefined)
+  assert.equal((await messeMit({ appBefund: true, bricht: () => false })).exit, undefined)
+}
+
+/** Kopf nur gegen die Basis (`--nur-vorher`): eine Vorher-Zelle, nur der App-Befund, keine Nachher-Zeilen; grün zählt die gemessene Zelle. */
+{
+  const sauber = { 'm1/f1/375-hell': { tipp: [], kontrast: [] } }
+  const rot = await messeMit({ appBefund: true, basis: sauber, nurVorher: true, bricht: () => false })
+  assert.equal(rot.exit, 1)
+  assert.deepEqual(rot.aus.filter((z) => z.startsWith('    ')), ['    m1/f1 App-Basis 375-hell: kopf 2.5:1 (soll 4.5:1)'])
+  const gruen = await messeMit({ appBefund: true, basis: { 'm1/f1/375-hell': { tipp: [], kontrast: [{ schluessel: 'kopf' }] } }, nurVorher: true, bricht: () => false })
+  assert.equal(gruen.exit, undefined)
+  assert.ok(gruen.aus.includes('\n  ok  1 Vorher-Zellen gemessen, nichts gegenüber der Basis (main) verschlechtert'), gruen.aus.join('|'))
+}
+
+/** Basis schreiben: nur die Vorher-Zelle der ersten Variante, nichts Nachher, kein Befund-Exit. */
+{
+  let geschrieben
+  const { aus, exit } = await messeMit({ appBefund: true, bricht: () => false, schreibe: (m) => { geschrieben = m } })
+  assert.equal(exit, undefined)
+  assert.deepEqual(Object.keys(geschrieben), ['m1/f1/375-hell'])
+  assert.deepEqual(geschrieben['m1/f1/375-hell'].kontrast, [{ schluessel: 'kopf', verhaeltnis: '2.5', soll: '4.5' }])
+  assert.deepEqual(aus, [])
+}
+
 async function bilderMit(optionen) {
   const ordner = await mkdtemp(path.join(os.tmpdir(), 'buehne-lauf-'))
   const aus = []
@@ -151,4 +187,4 @@ async function bilderMit(optionen) {
   assert.equal(exit, 1)
 }
 
-console.log('ok  buehne-lauf: 3 Fälle Messen (Kontrolle, Wiederholung ohne Doppelung, zweimal Absturz), 3 Fälle Bilder (Kontrolle, zweimal Absturz, fremde Anfrage)')
+console.log('ok  buehne-lauf: 3 Fälle Messen (Kontrolle, Wiederholung ohne Doppelung, zweimal Absturz), 2 Fälle Basis (App-Befund gegen main rot/grün, Basis schreiben), 3 Fälle Bilder (Kontrolle, zweimal Absturz, fremde Anfrage)')

@@ -227,6 +227,8 @@ jobs:
             befehl: npm run check:buehne-fenster
           - teil: Bühne-Messen
             befehl: npm run check:buehne-messen
+          - teil: Bühne-Basis
+            befehl: npm run check:buehne-basis
           - teil: Bühne-Panel
             befehl: npm run check:buehne-panel
           - teil: Melde-Kasten
