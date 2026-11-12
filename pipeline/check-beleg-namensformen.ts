@@ -4,7 +4,7 @@
  * Aufruf: npx tsx pipeline/check-beleg-namensformen.ts   (Exit 1 bei Verstoß)
  */
 import { gruppenJeAdresse, namensformen, suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
-import { terminMarken } from './lib/beleg-stelle.ts'
+import { enthaeltMarke, terminMarken } from './lib/beleg-stelle.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -54,7 +54,7 @@ function formenFaelle(): void {
 /** Die offizielle Seite nennt den Starttag japanisch (tokyo-revengers-anime.com/news/archives/4935, Lesung vom 05.10.2026). */
 function japanischeTage(): void {
   const zeile = 'TVアニメ『東京リベンジャーズ』三天戦争編 2026年10月2日から毎週金曜深夜、MBS・TBS・CBC”アニメイズム”枠、AT-Xほかにて放送開始！'
-  const trifftTag = (iso: string, text: string): boolean => terminMarken([iso]).some((m) => text.includes(m))
+  const trifftTag = (iso: string, text: string): boolean => terminMarken([iso]).some((m) => enthaeltMarke(text, m))
   pruefe('Japanisch: „2026年10月2日" trägt den 2. Oktober', trifftTag('2026-10-02', zeile))
   pruefe('Japanisch: einstelliger Monat („2026年2月2日") trägt den 2. Februar', trifftTag('2026-02-02', '2026年2月2日から放送'))
   pruefe('Japanisch: „12月2日" trägt den 2. Februar nicht (Suffix des zweistelligen Monats)', !trifftTag('2026-02-02', '2026年12月2日から放送'))
@@ -63,8 +63,26 @@ function japanischeTage(): void {
   pruefe('Japanisch: „10月3日" trägt den 2. Oktober nicht', !trifftTag('2026-10-02', '2026年10月3日から放送'))
 }
 
+/** Wortgrenze: Zeilen nach echten Artikeln (aniSearch „22. Okt 2026", ADN „24 August 2026", Tabelle „04.12."); die Marke des 2. darf nicht im 12. oder 22. stecken. */
+function wortgrenzen(): void {
+  const trifft = (iso: string, text: string): boolean => terminMarken([iso]).some((m) => enthaeltMarke(text.toLowerCase(), m))
+  pruefe('Wortgrenze: „2.10." steht nicht in „12.10."', !trifft('2026-10-02', 'Start am 12.10. im Fernsehen'))
+  pruefe('Wortgrenze: „2.10." steht nicht in „22.10.2026"', !trifft('2026-10-02', 'Erscheint am 22.10.2026'))
+  pruefe('Wortgrenze: „02.10." steht nicht in „102.10."', !trifft('2026-10-02', 'Zeile 102.10. der Liste'))
+  pruefe('Wortgrenze: „2.10." trägt „2.10.2026" (Punkt am Ende, Jahr folgt)', trifft('2026-10-02', 'Erscheint am 2.10.2026'))
+  pruefe('Wortgrenze: „2.10." trägt den Tag am Zeilenanfang und nach Leerzeichen', trifft('2026-10-02', '2.10. Neue Folge') && trifft('2026-10-02', 'Start: 2.10. um 20 Uhr'))
+  pruefe('Wortgrenze: Satzzeichen davor und danach stören nicht („(2.10.)")', trifft('2026-10-02', 'Start (2.10.) im TV'))
+  pruefe('Wortgrenze: „2. okt 2026" steht nicht in „12. Okt 2026"', !trifft('2026-10-02', 'Veröffentlicht: 12. Okt 2026'))
+  pruefe('Wortgrenze: „2. okt 2026" trägt „2. Okt 2026"', trifft('2026-10-02', 'Veröffentlicht: 2. Okt 2026'))
+  pruefe('Wortgrenze: Marke „2 oktober 2026" steht nicht in „12 Oktober 2026" (ADN, die Monatsmarke trägt dort allein)', !enthaeltMarke('autor: mady | 12 oktober 2026', '2 oktober 2026'))
+  pruefe('Wortgrenze: „8. august" steht nicht in „8. augustus" (Buchstabe danach)', !terminMarken(['2026-08-08']).some((m) => enthaeltMarke('am 8. augustus', m)))
+  pruefe('Wortgrenze: „oktober 2026" steht nicht in „nachoktober 2026" (Buchstabe davor)', !terminMarken(['2026-10-02']).some((m) => enthaeltMarke('im nachoktober 2026', m)))
+  pruefe('Wortgrenze: der Punkt der Marke ist wörtlich („2.10." ist nicht „2x10.")', !trifft('2026-10-02', 'Start am 2x10. im TV'))
+}
+
 for (const f of FAELLE) einFall(f)
 formenFaelle()
 japanischeTage()
-console.log(fehler ? `✖ ${fehler} Verstöße` : `✔ Beleg-Suchnamen: ${FAELLE.length} Artikelzeilen wörtlich getroffen, Köpfe, Zeichen-Formen und japanische Starttage abgegrenzt`)
+wortgrenzen()
+console.log(fehler ? `✖ ${fehler} Verstöße` : `✔ Beleg-Suchnamen: ${FAELLE.length} Artikelzeilen wörtlich getroffen, Köpfe, Zeichen-Formen, japanische Starttage und Wortgrenzen der Datumsmarken abgegrenzt`)
 process.exit(fehler ? 1 : 0)
