@@ -47,7 +47,7 @@
   { "name": "anbieterBefunde: rest ohne Link", "datei": "pipeline/lib/bestand-delta.ts", "suche": "const rest = weg - begruendet - durchBeleg - durchLink", "ersetze": "const rest = weg - begruendet - durchBeleg" },
   { "name": "anbieterBefunde: Text ohne Link", "datei": "pipeline/lib/bestand-delta.ts", "suche": "(weg - rest ? `", "ersetze": "(weg - rest - durchLink ? `" },
   { "name": "anbieterBefunde: linkGesamt nicht gezählt", "datei": "pipeline/lib/bestand-delta.ts", "suche": "    linkGesamt += durchLink\n", "ersetze": "" },
-  { "name": "anbieterBefunde: Rückgabe link 0", "datei": "pipeline/lib/bestand-delta.ts", "suche": "link: linkGesamt }", "ersetze": "link: 0 }" },
+  { "name": "anbieterBefunde: Rückgabe link 0", "datei": "pipeline/lib/bestand-delta.ts", "suche": "link: linkGesamt, ", "ersetze": "link: 0, " },
   { "name": "anbieterBefunde: fehlt-Zeile für jeden Anbieter", "datei": "pipeline/lib/bestand-delta.ts", "suche": "belege.link.unerklaert.filter((a) => a.anbieter === anbieter)", "ersetze": "belege.link.unerklaert" },
   { "name": "anbieterBefunde: fehlt-Zeile weg", "datei": "pipeline/lib/bestand-delta.ts", "suche": "belege.link.unerklaert.filter((a) => a.anbieter === anbieter)", "ersetze": "[]" },
   { "name": "anbieterBefunde: fehlt-Rückfall", "datei": "pipeline/lib/bestand-delta.ts", "suche": "a.befund ?? 'kein link-check-Eintrag'", "ersetze": "a.befund ?? ''" },
