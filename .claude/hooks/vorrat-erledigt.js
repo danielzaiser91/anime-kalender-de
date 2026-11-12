@@ -35,7 +35,7 @@ function alteNamen(name) {
 }
 
 /** Selbstheilung: scheiterte früher das Schreiben von stand.md nach dem Umbenennen, zeigt der Link auf eine fehlende alte Datei. */
-function zieheLinksNach(ordner, namen, text) {
+function zieheLinksNach(namen, text) {
   let neu = text
   for (const name of namen.filter((n) => n.startsWith('erledigt-'))) {
     for (const alt of alteNamen(name)) {
@@ -58,9 +58,15 @@ function vorratErledigt({ ordner, text, istGemergt }) {
     return { text, zeilen: [] }
   }
   const zeilen = []
-  let neu = zieheLinksNach(ordner, namen, text)
+  let neu = zieheLinksNach(namen, text)
   for (const name of namen) {
-    const inhalt = VERGEBEN.test(name) ? fs.readFileSync(path.join(ordner, name), 'utf8') : ''
+    let inhalt = ''
+    try {
+      if (VERGEBEN.test(name)) inhalt = fs.readFileSync(path.join(ordner, name), 'utf8')
+    } catch (e) {
+      zeilen.push(`Vorrat: ${name} nicht gelesen (${e.code ?? e.message})`)
+      continue
+    }
     const ziel = neuerName(name, inhalt, istGemergt)
     if (!ziel || namen.includes(ziel)) continue
     try {

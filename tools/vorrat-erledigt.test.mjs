@@ -103,6 +103,16 @@ try {
   assert.deepEqual(fehl.zeilen, ['Vorrat: vergeben-a.md → erledigt-a.md', 'Vorrat: vergeben-b.md nicht umbenannt (EPERM)', 'Vorrat: vergeben-c.md → erledigt-c.md'])
   assert.deepEqual(v.vorratErledigt({ ordner: vorrat, text: fehl.text, istGemergt: ist }).zeilen, ['Vorrat: vergeben-b.md → erledigt-b.md'], 'nächster Lauf holt es nach')
 
+  // A2: nicht lesbare vergeben-Datei (hier ein Ordner gleichen Namens: EISDIR) wird gemeldet und übersprungen, die übrigen laufen weiter
+  neuerOrdner()
+  mkdirSync(join(vorrat, 'vergeben-b.md'))
+  schreibe('vergeben-a.md', vergeben(910001))
+  schreibe('vergeben-c.md', vergeben(910001))
+  const unles = v.vorratErledigt({ ordner: vorrat, text: stand('vergeben-a.md', 'vergeben-b.md', 'vergeben-c.md'), istGemergt: ist })
+  assert.deepEqual(readdirSync(vorrat).sort(), ['erledigt-a.md', 'erledigt-c.md', 'vergeben-b.md'])
+  assert.deepEqual(unles.zeilen, ['Vorrat: vergeben-a.md → erledigt-a.md', 'Vorrat: vergeben-b.md nicht gelesen (EISDIR)', 'Vorrat: vergeben-c.md → erledigt-c.md'])
+  assert.equal(unles.text, stand('erledigt-a.md', 'vergeben-b.md', 'erledigt-c.md'))
+
   // A1: Selbstheilung (stand.md wurde nach dem Umbenennen nicht geschrieben: Link zeigt auf fehlende alte Datei)
   neuerOrdner()
   schreibe('erledigt-g.md')
