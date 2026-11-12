@@ -6,11 +6,14 @@
 // Erkennung Hauptsitzung: `agent_id`/`agent_type` fehlen nur dort (gleiche Annahme wie subagent-schreibsperre.js, befehlsregister.js);
 // Subagenten haben ihr eigenes Arbeitsverzeichnis und bleiben frei. Nur Bash-Eingaben kommen an (Filter in hauptordner-sperre.js).
 const VORSATZ = new Set(['builtin', 'command'])
+// Wörter, die ein Segment einleiten, ohne selbst Befehl zu sein (`then cd x`, `{ cd x`), und Variablenvorsatz (`FOO=1 cd x`).
+const SEGMENTANFANG = new Set(['then', 'do', 'else', 'elif', 'if', 'while', 'until', '{', '!'])
+const istVorsatz = (t) => VORSATZ.has(t) || SEGMENTANFANG.has(t) || /^[A-Za-z_]\w*=/.test(t)
 
 /** Ziel-Token eines `cd`/`pushd`-Segments (Optionen wie -P/-L übersprungen), '' ohne Ziel, null wenn das Segment kein cd ist. */
 function cdZiel(tokens) {
   let i = 0
-  while (VORSATZ.has(tokens[i])) i++
+  while (tokens[i] !== undefined && istVorsatz(tokens[i])) i++
   if (tokens[i] !== 'cd' && tokens[i] !== 'pushd') return null
   i++
   while (tokens[i] !== undefined && tokens[i].startsWith('-') && tokens[i] !== '-') i++
