@@ -53,6 +53,7 @@ jobs:
           KOMMENTAR: ${{ github.event.comment.body }}
           KOMMENTAR_LOGIN: ${{ github.event.comment.user.login }}
           KOMMENTAR_ASSOZIATION: ${{ github.event.comment.author_association }}
+          KOMMENTAR_ZEIT: ${{ github.event.comment.created_at }}
         run: node tools/pr-pruefer-neustart.mjs
 
   nach-kette:
