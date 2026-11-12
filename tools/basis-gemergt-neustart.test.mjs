@@ -44,7 +44,7 @@ gleich('Grenze: sechs und sieben bleiben liegen, die ersten fünf laufen', v.auf
 gleich('Grenze: genau 5 PRs: alle laufen, keine Restmeldung', [fahre(30, viele.slice(0, 5)).aufrufe.length, fahre(30, viele.slice(0, 5)).zeilen[0].includes('nicht bearbeitet')], [5, false])
 gleich('Grenze: 6 PRs: Restmeldung nennt den sechsten', fahre(30, viele.slice(0, 6)).zeilen[0].includes('nicht bearbeitet (Grenze 5): #106'), true)
 
-gleich('Kein Stapel-PR: Exit 0, nichts gerechnet', [fahre(30, [pr(60, 'x')]).code, fahre(30, [pr(60, 'x')]).aufrufe], [0, []])
+gleich('Kein Stapel-PR: Exit 0, nichts gerechnet, eine Zeile mit Grund', [fahre(30, [pr(60, 'x')]).code, fahre(30, [pr(60, 'x')]).aufrufe, fahre(30, [pr(60, 'x')]).zeilen], [0, [], ['Basis-Neustart: kein offener PR nennt #30 als Basis']])
 const gut = fahre(30, OFFENE, { 10: 1, 40: 0 })
 gleich('Ergebnis 0 und 1 von pr-nachrechnen: Exit 0, beide Zeilen mit Code', [gut.code, gut.aufrufe, gut.zeilen.filter((z) => z.includes('Exit'))], [0, [10, 40], ['Basis-Neustart: PR 10 Exit 1 (0 aktuell, 1 Kette neu gestartet, 2 nichts angestoßen)', 'Basis-Neustart: PR 40 Exit 0 (0 aktuell, 1 Kette neu gestartet, 2 nichts angestoßen)']])
 const schlecht = fahre(30, OFFENE, { 10: 2 })
