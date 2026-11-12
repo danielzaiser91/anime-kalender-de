@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 36
+    "2026-11": 38
   },
   "gesehen": {
     "26341901:netflix": {
@@ -11273,7 +11273,40 @@
       "am": "2026-11-10",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:26343460:netflix": {
+      "art": "new",
+      "titel": "The Body",
+      "originalTitel": "The Body",
+      "imdbId": "tt8014982",
+      "tmdbId": "tv/291507",
+      "dienst": "netflix",
+      "am": "2026-11-11",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27301081:netflix": {
+      "art": "new",
+      "titel": "ChiaroScuro",
+      "originalTitel": "ChiaroScuro",
+      "imdbId": "tt37214564",
+      "tmdbId": "tv/336243",
+      "dienst": "netflix",
+      "am": "2026-11-11",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27299844:netflix": {
+      "art": "new",
+      "titel": "Alicia's Law",
+      "originalTitel": "La Ley de Alicia",
+      "imdbId": "tt39390491",
+      "tmdbId": "tv/338562",
+      "dienst": "netflix",
+      "am": "2026-11-11",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-11T04:07:33.989Z"
+  "fetchedAt": "2026-11-12T04:09:55.195Z"
 }
