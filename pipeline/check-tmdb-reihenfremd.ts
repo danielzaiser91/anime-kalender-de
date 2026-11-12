@@ -46,6 +46,8 @@ pruefe('zwei Staffeln plus ein Fremder: ein Fund, die zweite Kennung bleibt saub
 const bestand = new Map<number, { franchiseId?: number }>([[4081, {}], [5300, { franchiseId: 4081 }], [130622, { franchiseId: 130622 }], [10019697, { franchiseId: 10019697 }]])
 const natsume = { '4081': { tmdbId: 69500, kind: 'tv' as const }, '5300': { tmdbId: 69500, kind: 'tv' as const } }
 pruefe('Bestand: Staffel ohne franchiseId gilt als Reihe ihrer selbst, Staffel 2 nennt sie', reihenfremdImBestand(natsume, bestand).length === 0)
+const ohneReihe = reihenfremdImBestand({ '4081': { tmdbId: 5, kind: 'tv' as const }, '130622': { tmdbId: 5, kind: 'tv' as const } }, bestand)
+pruefe('Bestand: Titel ohne franchiseId und fremder Titel mit gleicher Kennung werden gemeldet', ohneReihe.length === 1 && ohneReihe[0]!.titel.join() === '4081@4081,130622@130622', ohneReihe)
 const kitaroBestand = reihenfremdImBestand({ ...kitaro, '77777': { tmdbId: 904759, kind: 'movie' as const } }, bestand)
 pruefe('Bestand: Kitaro wird gefunden, ein Cache-Eintrag ohne Titel im Bestand zählt nicht', kitaroBestand.length === 1 && kitaroBestand[0]!.titel.length === 2, kitaroBestand)
 
