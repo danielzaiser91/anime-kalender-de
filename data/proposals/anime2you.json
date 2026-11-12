@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-11T18:01:48.094Z",
+  "scrapedAt": "2026-11-12T02:01:31.264Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 19,
-    "schon in einem Rubrik-Feed gelesen": 5,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 18,
+    "schon in einem Rubrik-Feed gelesen": 6,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -49,6 +49,23 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll zeigt zweite »Medaka Kuroiwa«-Staffel im Simulcast",
+      "articleUrl": "https://www.anime2you.de/news/1070341/medaka-kuroiwa-staffel-2-crunchyroll/",
+      "publishedAt": "2026-11-11",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "hi no Kawaii ga Tsuujinai«) gesichert hat. Wir fassen zusammen. Start im Januar 2027 Die zweite Staffel von »Medaka Kuroiwa is Impervious to"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
