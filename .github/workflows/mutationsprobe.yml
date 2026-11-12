@@ -132,4 +132,5 @@ jobs:
             printf '## Mutationsprobe ohne Ergebnis\n\nDer Lauf hat keine Tabelle geliefert: %s/%s/actions/runs/%s\n' \
               "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > ergebnis/ergebnis.md
           fi
-          gh pr comment "$PR" --body-file ergebnis/ergebnis.md
+          # REST statt `gh pr comment`: der Befehl läuft über GraphQL und scheiterte dort mit einem Fehler (PR 3567, 12.11.2026).
+          gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@ergebnis/ergebnis.md

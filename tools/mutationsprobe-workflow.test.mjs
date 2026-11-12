@@ -121,7 +121,7 @@ try {
   // Kommentar mit gefälschtem gh
   const bin = join(dir, 'bin')
   mkdirSync(bin)
-  writeFileSync(join(bin, 'gh'), '#!/bin/sh\necho "$@" > "$GH_PROTOKOLL"\ncat "$5" >> "$GH_PROTOKOLL"\n')
+  writeFileSync(join(bin, 'gh'), '#!/bin/sh\necho "$@" > "$GH_PROTOKOLL"\ncat "${4#body=@}" >> "$GH_PROTOKOLL"\n')
   chmodSync(join(bin, 'gh'), 0o755)
   const kommentiere = (mitErgebnis) => {
     const k = mkdtempSync(join(dir, 'k-'))
@@ -143,9 +143,10 @@ try {
     return readFileSync(protokoll, 'utf8')
   }
   const mit = kommentiere(true)
-  assert.match(mit, /^pr comment 12 --body-file ergebnis\/ergebnis\.md\n## Tabelle/)
+  // REST (issues/N/comments), nie `gh pr comment`: Letzteres läuft über GraphQL und scheiterte dort (PR 3567).
+  assert.match(mit, /^api repos\/o\/r\/issues\/12\/comments -F body=@ergebnis\/ergebnis\.md\n## Tabelle/)
   const ohne = kommentiere(false)
-  assert.match(ohne, /^pr comment 12 --body-file ergebnis\/ergebnis\.md\n## Mutationsprobe ohne Ergebnis/)
+  assert.match(ohne, /^api repos\/o\/r\/issues\/12\/comments -F body=@ergebnis\/ergebnis\.md\n## Mutationsprobe ohne Ergebnis/)
   assert.match(ohne, /actions\/runs\/77/)
 } finally {
   rmSync(dir, { recursive: true, force: true })
