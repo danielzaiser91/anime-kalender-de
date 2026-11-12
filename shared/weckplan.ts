@@ -17,12 +17,14 @@ export interface Weckplan {
   nachholen?: boolean
   /** Mindestabstand zum letzten Start desselben Workflows in Minuten — schützt vor Doppelstarts (gemessen 05.10.2026: zwei Starts im Abstand von zehn Sekunden). Der Workflow-Name ist Schlüssel für Abstand und Nachholen und muss über alle Repos eindeutig sein (`daten.yml` gibt es hier nicht). */
   abstandMin: number
+  /** Der Wecker prüft den Eintrag auch im 5-Minuten-Cron, nicht nur zur vollen Stunde; wirklicher Takt dann `abstandMin`, aufgerundet auf ein Vielfaches von 5 Minuten. Ohne das Feld startet nur der Stunden-Cron. */
+  auchImFuenfMinutenCron?: boolean
 }
 
 export const WECKPLAN: Weckplan[] = [
   { workflow: 'refresh-hourly.yml', abstandMin: 40 },
-  // Nacht-Merger (ab 01.11.2026, F99): stündlich; mergt höchstens drei freigegebene PRs je Lauf und endet nach wenigen Minuten (timeout 20).
-  { workflow: 'nacht-merger.yml', abstandMin: 40 },
+  // Nacht-Merger (ab 01.11.2026, F99): alle 20 min (F131, auch im 5-Minuten-Cron des Weckers); mergt höchstens drei freigegebene PRs je Lauf und endet nach wenigen Minuten (timeout 20).
+  { workflow: 'nacht-merger.yml', abstandMin: 20, auchImFuenfMinutenCron: true },
   // Vorher 04:17 / 05:41 / 06:00 nach GitHub-Cron; der Tageslauf endet nach höchstens 75 Minuten, bevor der aniSearch-Katalog um 06:00 beginnt.
   { workflow: 'refresh-data.yml', stunden: [4], abstandMin: 600 },
   { workflow: 'refresh-weekly.yml', stunden: [5], wochentag: 1, abstandMin: 4320 },
@@ -48,10 +50,10 @@ export const WECKPLAN: Weckplan[] = [
 export const abstandMin = (workflow: string, plan: Weckplan[] = WECKPLAN): number => plan.find((p) => p.workflow === workflow)?.abstandMin ?? 30
 
 /** Die Plan-Einträge, die zu diesem Zeitpunkt (UTC) starten sollen. */
-export function faelligeEintraege(jetzt: Date, plan: Weckplan[] = WECKPLAN): Weckplan[] {
+export function faelligeEintraege(jetzt: Date, plan: Weckplan[] = WECKPLAN, nurFuenfMinutenCron = false): Weckplan[] {
   const stunde = jetzt.getUTCHours()
   const wochentag = jetzt.getUTCDay() === 0 ? 7 : jetzt.getUTCDay()
-  return plan.filter((p) => (!p.stunden || p.stunden.includes(stunde)) && (!p.wochentag || p.wochentag === wochentag) && (!p.tagImMonat || (p.nachholen ? jetzt.getUTCDate() >= p.tagImMonat : p.tagImMonat === jetzt.getUTCDate())))
+  return plan.filter((p) => (!nurFuenfMinutenCron || p.auchImFuenfMinutenCron === true) && (!p.stunden || p.stunden.includes(stunde)) && (!p.wochentag || p.wochentag === wochentag) && (!p.tagImMonat || (p.nachholen ? jetzt.getUTCDate() >= p.tagImMonat : p.tagImMonat === jetzt.getUTCDate())))
 }
 
 /** Die Workflows, die zu diesem Zeitpunkt (UTC) starten sollen. */

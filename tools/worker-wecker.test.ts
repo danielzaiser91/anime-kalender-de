@@ -8,7 +8,7 @@
  */
 import worker from '../worker/src/index.ts'
 import { starteFaelligeLaeufe } from '../worker/src/wecker.ts'
-import { faelligeLaeufe } from '../shared/weckplan.ts'
+import { WECKPLAN, faelligeEintraege, faelligeLaeufe } from '../shared/weckplan.ts'
 import type { Env } from '../worker/src/env.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 import { festeUhr } from './feste-uhr.ts'
@@ -156,6 +156,27 @@ pruefe(gleich(await cron(new Date('2026-10-19T05:00:00.000Z'), 'attrappe'), ['re
 pruefe(gleich(await cron(new Date('2026-10-19T04:00:30.000Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'claude-anime2you-extraktion.yml', 'tonspuren-monatlich.yml']), 'Cron 30 Sekunden nach der Stunde: dieselbe Stunde')
 pruefe(gleich(await cron(new Date('2026-10-19T03:59:59.999Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'claude-anime2you-extraktion.yml', 'meldungskopie.yml']), 'Cron eine Millisekunde vor 04:00: Stunde 03')
 pruefe((await cron(MONTAG_VIER, undefined)).length === 0, 'Cron ohne Wecker-Token: nichts gestartet')
+
+stumm('scheduled im 5-Minuten-Cron (F131):')
+async function cronFuenf(zeit: Date): Promise<string[]> {
+  return nach(async () => {
+    const offen: Promise<unknown>[] = []
+    const ctx = { waitUntil: (p: Promise<unknown>) => offen.push(p), passThroughOnException: () => {} } as unknown as ExecutionContext
+    zaehlerZurueck()
+    const e = { ...testEnv(neueDatenbank(), 25), GITHUB_WECKER_TOKEN: 'attrappe' } as Env
+    await worker.scheduled({ cron: '*/5 * * * *', scheduledTime: zeit.getTime(), noRetry: () => {} }, e, ctx)
+    await Promise.allSettled(offen)
+  })
+}
+const FUENF_ZEIT = new Date('2026-10-19T04:25:00.000Z')
+const vorFuenf = (min: number) => [{ created_at: new Date(FUENF_ZEIT.getTime() - min * 60_000).toISOString(), status: 'completed', conclusion: 'success' }]
+bisherige = vorFuenf(21)
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), ['nacht-merger.yml']), '5-Minuten-Cron: Nacht-Merger (letzter Start vor 21 min) startet, kein 40-, 50- oder 600-min-Eintrag')
+bisherige = vorFuenf(19)
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), []), '5-Minuten-Cron: Nacht-Merger vor 19 min gestartet, Mindestabstand 20 sperrt')
+bisherige = []
+pruefe(gleich(await cronFuenf(new Date('2026-10-19T04:00:00.000Z')), []), '5-Minuten-Cron zur vollen Stunde: nichts (der Stunden-Cron startet)')
+pruefe(JSON.stringify(faelligeEintraege(FUENF_ZEIT, WECKPLAN, true).map((p) => p.workflow)) === JSON.stringify(['nacht-merger.yml']), 'Plan: im 5-Minuten-Cron ist nur der Nacht-Merger fällig')
 
 if (fehler) {
   stumm(`\n${fehler} Prüfung(en) rot.`)

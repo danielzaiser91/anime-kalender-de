@@ -42,7 +42,13 @@ async function starte(env: Env, repo: string, workflow: string, jetzt: Date): Pr
 }
 
 /** Jede volle Stunde aufgerufen (`scheduled`): startet alles, was jetzt fällig ist. Ein Ausfall eines Starts hält die anderen nicht auf. */
-export async function starteFaelligeLaeufe(env: Env, jetzt: Date = new Date()): Promise<void> {
+export async function starteFaelligeLaeufe(env: Env, jetzt: Date = new Date(), nurFuenfMinutenCron = false): Promise<void> {
   if (!env.GITHUB_WECKER_TOKEN) return
-  await Promise.all(faelligeEintraege(jetzt).map((p) => starte(env, p.repo ?? STANDARD_REPO, p.workflow, jetzt).catch((e) => fehlerLog(`[wecker] ${p.workflow}`, e))))
+  await Promise.all(faelligeEintraege(jetzt, undefined, nurFuenfMinutenCron).map((p) => starte(env, p.repo ?? STANDARD_REPO, p.workflow, jetzt).catch((e) => fehlerLog(`[wecker] ${p.workflow}`, e))))
+}
+
+/** Der 5-Minuten-Cron: startet nur Einträge mit `auchImFuenfMinutenCron`. Zur vollen Stunde nicht: dort läuft zeitgleich der Stunden-Cron, zwei Aufrufe überholten sich beim Doppelstart-Schutz. */
+export async function starteSchnelleLaeufe(env: Env, jetzt: Date): Promise<void> {
+  if (jetzt.getUTCMinutes() === 0) return
+  await starteFaelligeLaeufe(env, jetzt, true)
 }

@@ -1,0 +1,63 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": [],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan faelligeEintraege: 5-Minuten-Filter wirkungslos (alle Einträge)",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "(!nurFuenfMinutenCron || p.auchImFuenfMinutenCron === true)", "ersetze": "(true)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan faelligeEintraege: Filter lässt Einträge ohne Feld durch",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "p.auchImFuenfMinutenCron === true", "ersetze": "p.auchImFuenfMinutenCron !== false" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteFaelligeLaeufe: Filter nicht durchgereicht",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "faelligeEintraege(jetzt, undefined, nurFuenfMinutenCron)", "ersetze": "faelligeEintraege(jetzt, undefined)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteSchnelleLaeufe: volle Stunde nicht ausgelassen (Doppelstart)",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "getUTCMinutes() === 0", "ersetze": "getUTCMinutes() === 99" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteSchnelleLaeufe: ruft ohne Filter auf",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "await starteFaelligeLaeufe(env, jetzt, true)", "ersetze": "await starteFaelligeLaeufe(env, jetzt, false)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "index scheduled: 5-Minuten-Zweig ruft den Wecker nicht",
+    "aenderungen": [
+      { "datei": "worker/src/index.ts", "suche": "starteSchnelleLaeufe(env, now).catch(", "ersetze": "Promise.resolve().catch(" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan nacht-merger: Mindestabstand 40 statt 20",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 20, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 40, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan nacht-merger: Mindestabstand 15 statt 20",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 20, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 15, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  }
+]
