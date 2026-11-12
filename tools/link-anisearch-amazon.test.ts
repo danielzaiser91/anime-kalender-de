@@ -39,6 +39,10 @@ const ragnaTitel = [{ id: 146493, streams: [] }]
 assert.equal(aniSearchAmazon(ragnaTitel, anisearch, new Set([STREAM_GP])).zusatz.size, 0, 'Stream gp/video/detail/X, aniSearch dp/X: nur die Stream-Adresse')
 assert.equal(aniSearchAmazon(ragnaTitel, anisearch, new Set([RAGNA])).zusatz.size, 0, 'dieselbe dp-Adresse schon bekannt: nichts doppelt')
 assert.deepEqual([...aniSearchAmazon(ragnaTitel, anisearch, new Set([STREAM_GP.replace('B0F1XK58VQ', 'B0F1XK58VR')])).zusatz], [RAGNA], 'andere ASIN: Adresse bleibt')
+/* Adresse ohne erkennbare ASIN-Form (kurze Kennung): nur der genaue Treffer in `bekannt` hält sie aus dem Zusatz. */
+const kurz = { '3': { streams: [{ url: 'https://www.amazon.de/dp/B0KURZ' }] } }
+assert.equal(aniSearchAmazon([{ id: 3, streams: [] }], kurz, new Set(['https://www.amazon.de/dp/B0KURZ'])).zusatz.size, 0, 'kurze Kennung genau bekannt: kein Zusatz')
+assert.equal(aniSearchAmazon([{ id: 3, streams: [] }], kurz).zusatz.size, 1, 'kurze Kennung unbekannt: Zusatz')
 const zweiFormen = { '1': { streams: [{ url: 'https://www.amazon.de/dp/B0DEDUP002' }] }, '2': { streams: [{ url: 'https://www.amazon.de/gp/video/detail/B0DEDUP002' }] } }
 assert.equal(aniSearchAmazon([{ id: 1, streams: [] }, { id: 2, streams: [] }], zweiFormen).zusatz.size, 1, 'zwei aniSearch-Formen derselben ASIN: eine Adresse')
 
