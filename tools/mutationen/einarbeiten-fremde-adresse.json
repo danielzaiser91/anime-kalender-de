@@ -2,12 +2,12 @@
   { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"] },
   {
     "name": "main: Aufruf zieheFremdeBelegeZurueck abgeschaltet",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(", "ersetze": "geschrieben -= 0 * zieheFremdeBelegeZurueck(" }],
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(", "ersetze": "geschrieben -= 0 && zieheFremdeBelegeZurueck(" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
     "name": "main: zurueckgezogene Belege nicht von geschrieben abgezogen",
-    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(", "ersetze": "geschrieben += 0 * zieheFremdeBelegeZurueck(" }],
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(besitz, zeilen, von, gruppe, p, offenGeblieben, ohneZuordnung)", "ersetze": "geschrieben -= 0 * zieheFremdeBelegeZurueck(besitz, zeilen, von, gruppe, p, offenGeblieben, ohneZuordnung)" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {

@@ -117,6 +117,8 @@ for (const teil of ['Titel 900101', 'Meldung 950001', 'Titel 900102', 'Meldung b
 if (!a.ausgabe.includes('5 Einträge geschrieben') || !a.ausgabe.includes(', 2 Beleg(e) an der Adresse eines anderen Titels nicht geschrieben')) {
   fehler.push(`Schlusszeile zählt nicht (5 geschrieben, 2 verschoben): ${zeilen.filter((z) => z.includes('Prüfungen abgeholt')).join(' | ')}`)
 }
+/* Abgehakt werden nur die Meldungen mit geschriebenem Beleg (950002, 950003, 950005, 950006, 950007), nicht die verschobenen 950001 und 950008. */
+if (!a.ausgabe.includes('5 Meldungen werden nach dem Commit abgehakt')) fehler.push(`Abhaken zählt nicht genau die geschriebenen Meldungen (5): ${zeilen.filter((z) => z.includes('abgehakt')).join(' | ')}`)
 const eintrag = a.liste.split('\n').find((z) => z.includes('B0FREMD001')) ?? ''
 if (!eintrag.includes('Titel 900102') || a.liste.includes('B0FREMD002') || a.liste.includes('B0FREMD003')) fehler.push(`Arbeitsliste: Zeile fehlt oder zu viele: ${eintrag}`)
 
