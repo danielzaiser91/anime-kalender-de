@@ -61,7 +61,10 @@ const geschlossen = (merged) => ({ event_name: 'pull_request_target', event: { p
 gleich('Gemergter PR: nur basis-gemergt läuft', ['basis-gemergt', 'neustart', 'nach-kette'].map((j) => laeuft(j, geschlossen(true))), [true, false, false])
 gleich('Geschlossen ohne Merge: nichts läuft', ['basis-gemergt', 'neustart', 'nach-kette'].map((j) => laeuft(j, geschlossen(false))), [false, false, false])
 gleich('Kommentar und Kettenende starten basis-gemergt nicht', [laeuft('basis-gemergt', kommentar()), laeuft('basis-gemergt', kette('success'))], [false, false])
-gleich('Gruppe gemergter PR: PR-Nummer', gruppe(geschlossen(true)), 'pr-pruefer-nachtrag-30')
+gleich('Gruppe gemergter PR: eigener Präfix mit PR-Nummer', gruppe(geschlossen(true)), 'pr-pruefer-nachtrag-basis-30')
+const kommentarAuf = (nr) => ({ event_name: 'issue_comment', event: { issue: { number: nr, pull_request: {} }, comment: { user: { login: 'inhaber' } } } })
+gleich('Kein Zusammenstoß: Kommentar auf PR 30 und Merge von PR 30 haben verschiedene Gruppen', gruppe(kommentarAuf(30)) !== gruppe(geschlossen(true)), true)
+gleich('Gruppe Kommentar bleibt ohne Präfix (A5 ändert die alten Gruppen nicht)', gruppe(kommentarAuf(30)), 'pr-pruefer-nachtrag-30')
 
 console.log(`Nachtrag-Abbruch: ${fehler.length === 0 ? 'alle Fälle grün' : fehler.length + ' Fälle rot'}`)
 process.exit(fehler.length === 0 ? 0 : 1)

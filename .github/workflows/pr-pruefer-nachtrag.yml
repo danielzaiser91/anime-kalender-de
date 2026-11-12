@@ -31,7 +31,7 @@ permissions:
 # Ein abgebrochenes Kettenende (cancelled) hat eine eigene Gruppe: sein Lauf tut nichts (Job übersprungen) und darf darum keinen
 # wartenden Neustart desselben Kopfes verdrängen (Kette erneut gestartet, Ende success wartet, cancelled-Ereignis käme als Neueres).
 concurrency:
-  group: pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha || github.event.pull_request.number }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}
+  group: pr-pruefer-nachtrag-${{ github.event_name == 'pull_request_target' && 'basis-' || '' }}${{ github.event.issue.number || github.event.workflow_run.head_sha || github.event.pull_request.number }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}
   cancel-in-progress: false
 
 jobs:
