@@ -134,8 +134,15 @@ nur die Datenbank-Ansicht kostet. Dieselbe Angabe, ein Zehntel der Ladelast.
 
 ### 3. Repo über 1 GB
 
-**Auslöser:** Das aniSearch-Archiv wächst auf ~35 MB bei vollem Bestand. Erst wenn weitere
-Archive dazukommen — etwa Rohdaten der Synchronkartei — käme man in die Nähe.
+**Stand (Messung 12.11.2026):** Pack 988 MiB lokal, GitHub meldet 847 MiB; Wachstum 55–78 MB
+je Woche, nicht fallend. Sechs Rohordner (`anisearch-raw`, `anisearch-folgen-raw`,
+`anisearch-sprecher-raw`, `motn-raw`, `crunchyroll-raw`, `ann-raw`) plus `public/og` sind
+≈ 60 % des Arbeitsbaums (291 von 483 MB). Der Checkout macht nur 1,5–4 % der Zeit bis live
+aus: an der Laufzeit wird nichts getan.
+
+**Auslöser:** Klon- und Plattenaufwand (lokale Worktrees, ~480 MB je Stück) oder eine
+GitHub-Warnung zur Repo-Größe. Dann Reaktion 2/3. Sparse-Checkout in PR-Jobs nur als
+Handgriff, wenn ein Workflow ohnehin angefasst wird (Gewinn geschätzt 4–8 s je Job).
 
 **Reaktion, in dieser Reihenfolge:**
 
