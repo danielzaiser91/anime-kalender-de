@@ -363,6 +363,39 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Ohne ungültiges Muster bleibt der Grund-Text ohne Zusatz', typeof ohne === 'string' && ohne.endsWith('Verzeichnis nicht eindeutig'), ohne)
 }
 
+{
+  // Anlass 12.11.2026, PR 3590: der Name stand nur in einem Blockkommentar, dessen Innenzeilen keinen Stern tragen (tools/quellen-fristen.mjs, wörtlich).
+  const BEW = ['data/crunchyroll-woche.json']
+  const leser = (text) => leserIn(new Map([['tools/x.mjs', text]]), BEW)
+  const FRISTEN = [
+    "  'crunchyroll-neu': 3,",
+    '  /*',
+    '    Stündlich. Fällt der Leser aus, steht `data/crunchyroll-woche.json` still — und weil der Schritt',
+    '    als geduldeter läuft (`continue-on-error`), bleibt der Lauf trotzdem grün: Am 28.09.2026 wechselte',
+    '    es jemandem auffiel. Ein Tag Frist meldet das am zweiten Tag als Blocker.',
+    '  */',
+    "  'crunchyroll-woche': 1,",
+  ].join('\n')
+  pruefe('Blockkommentar ohne Stern nennt die Datei (quellen-fristen) -> kein Leser', leser(FRISTEN).length === 0, leser(FRISTEN))
+  pruefe('Blockkommentar ohne Stern: pfadTokens ohne data/crunchyroll-woche.json', !pfadTokens(FRISTEN).includes('data/crunchyroll-woche.json'), pfadTokens(FRISTEN))
+  const LIES = "readFileSync('data/crunchyroll-woche.json')"
+  pruefe('Gegenprobe: derselbe Name im Code -> Leser', leser(`${FRISTEN}\n${LIES}`).length === 1)
+  pruefe('Glob-String mit Schrägstrich-Stern beginnt keinen Kommentar, spätere Lesung bleibt', leser(`const g = 'data/*'\n${LIES}\n/* Ende */`).length === 1, leser(`const g = 'data/*'\n${LIES}\n/* Ende */`))
+  pruefe('Glob-String data/*.json in einer Lesezeile bleibt Leser', leser("readdirSync('data/*.json'); readFileSync('data/crunchyroll-woche.json') // */").length === 1)
+  pruefe('Lesung hinter dem Blockkommentar in derselben Zeile bleibt Leser', leser(`/* Hinweis */ ${LIES}`).length === 1)
+  pruefe('Mehrzeiliger Kommentar, Lesung in der Endzeile hinter dem Kommentarende -> Leser', leser(`/*\n  data/crunchyroll-woche.json\n*/ ${LIES}`).length === 1)
+  pruefe('Zeilenkommentar mit Schrägstrich-Stern beginnt keinen Block', leser(`// Muster data/* hier\n${LIES}\n/* c */`).length === 1)
+  const OHNE_STERN = '/*\n   data/crunchyroll-woche.json ohne Stern */\nx'
+  pruefe('Regex-Literal mit Backtick öffnet keine Vorlage', leser(`const r = /\`/\n${OHNE_STERN}`).length === 0)
+  pruefe('Regex-Klasse mit Schrägstrich und Backtick beendet das Literal nicht früh', leser(`const r = /[/\`]/\n${OHNE_STERN}`).length === 0)
+  pruefe('Escape in der Zeichenkette: maskiertes Anführungszeichen beendet sie nicht', leser(`const s = 'a\\'b'; ${OHNE_STERN}`).length === 0)
+  pruefe('Apostroph in einer Zeile endet am Zeilenende', leser(`it's\n${OHNE_STERN}`).length === 0)
+  pruefe('Kommentar-Anfang direkt vor dem Ende (Schrägstrich-Stern-Schrägstrich) schließt nicht', leser('/*/ data/crunchyroll-woche.json */ x').length === 0)
+  pruefe('Zeilenzahl bleibt erhalten', ohneKommentare('a\n/* x\ny\n*/ b').split('\n').length === 4, ohneKommentare('a\n/* x\ny\n*/ b'))
+  pruefe('Zwei Blockkommentare in einer Zeile: Code dazwischen bleibt', ohneKommentare('/* a */ code /* b */').trim() === 'code', ohneKommentare('/* a */ code /* b */'))
+  pruefe('Unbeendeter Blockkommentar: nur seine Zeile entfällt, Folgezeilen bleiben', ohneKommentare('a\n/* offen\nb').split('\n').join() === 'a,b', ohneKommentare('a\n/* offen\nb'))
+}
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-leser.test: ${fehler.length} rot`)
   process.exit(1)

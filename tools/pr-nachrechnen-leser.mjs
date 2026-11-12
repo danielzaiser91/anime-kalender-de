@@ -28,7 +28,51 @@ export const LESBAR = /(\.(ts|tsx|mjs|cjs|mts|js|sh|ya?ml)|-liste\.txt)$/
 const PFAD = /(?:^|[^\w./-])((?:\.github|data|public|tools|pipeline|shared|web|worker|extension)\/[\w./@-]*\w)/g
 const KOMMENTAR = /^\s*(\/\/|\*|\/\*|#)/
 
-export const ohneKommentare = (text) => text.split('\n').filter((z) => !KOMMENTAR.test(z)).join('\n')
+/** Ein `/` an dieser Stelle (letztes Zeichen davor) beginnt ein Regex-Literal, keine Division. */
+const REGEX_VOR = /[(,=:[!&|?{};+*<>~^%-]$/
+
+/** Ende des Regex-Literals ab `i` (Index hinter dem schließenden `/`); Klassen `[…]` und `\`-Zeichen werden übersprungen. */
+function regexEnde(text, i) {
+  let klasse = false
+  for (let k = i + 1; k < text.length && text[k] !== '\n'; k++) {
+    if (text[k] === '\\') k++
+    else if (text[k] === '[') klasse = true
+    else if (text[k] === ']') klasse = false
+    else if (text[k] === '/' && !klasse) return k + 1
+  }
+  return i + 1
+}
+
+/**
+ * Entfernt Blockkommentare über mehrere Zeilen (Zeilenumbrüche bleiben), auch wenn die Innenzeilen keinen Stern tragen. Zeichenketten,
+ * Vorlagen, Regex-Literale und Zeilenkommentare werden übersprungen: `'data/*.json'` beginnt keinen Kommentar. Code hinter dem Kommentarende bleibt.
+ * Grenze: Vorlagen mit `${…}` verschachtelt gelten als eine Zeichenkette (im Zweifel bleibt mehr Text stehen, nie weniger).
+ */
+export function ohneBlockkommentare(text) {
+  let aus = ''
+  for (let i = 0; i < text.length;) {
+    const z = text[i]
+    const naechste = text[i + 1]
+    let ende = i + 1
+    const schluss = z === '/' && naechste === '*' ? text.indexOf('*/', i + 2) : -1
+    if (schluss !== -1) {
+      aus += text.slice(i, schluss + 2).replace(/[^\n]/g, '')
+      i = schluss + 2
+      continue
+    }
+    if (z === '/' && naechste === '/') ende = text.indexOf('\n', i) === -1 ? text.length : text.indexOf('\n', i)
+    else if (z === '/' && REGEX_VOR.test(aus.trimEnd().slice(-1) || '(')) ende = regexEnde(text, i)
+    else if (z === '"' || z === "'" || z === '`') {
+      for (ende = i + 1; ende < text.length && text[ende] !== z && (z === '`' || text[ende] !== '\n'); ende++) if (text[ende] === '\\') ende++
+      ende = Math.min(ende + 1, text.length)
+    }
+    aus += text.slice(i, ende)
+    i = ende
+  }
+  return aus
+}
+
+export const ohneKommentare = (text) => ohneBlockkommentare(text).split('\n').filter((z) => !KOMMENTAR.test(z)).join('\n')
 
 /** Relative Importe mit Literal als Kandidatenpfade (mit und ohne Endung), relativ zur Wurzel. */
 export function importZiele(datei, text) {
