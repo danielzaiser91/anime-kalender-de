@@ -172,6 +172,8 @@ const FUENF_ZEIT = new Date('2026-10-19T04:25:00.000Z')
 const vorFuenf = (min: number) => [{ created_at: new Date(FUENF_ZEIT.getTime() - min * 60_000).toISOString(), status: 'completed', conclusion: 'success' }]
 bisherige = vorFuenf(21)
 pruefe(gleich(await cronFuenf(FUENF_ZEIT), ['nacht-merger.yml']), '5-Minuten-Cron: Nacht-Merger (letzter Start vor 21 min) startet, kein 40-, 50- oder 600-min-Eintrag')
+bisherige = []
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), ['nacht-merger.yml']), '5-Minuten-Cron ohne frühere Läufe: nur der Nacht-Merger, nie refresh-hourly, Tageslauf oder Anime2You')
 bisherige = vorFuenf(19)
 pruefe(gleich(await cronFuenf(FUENF_ZEIT), []), '5-Minuten-Cron: Nacht-Merger vor 19 min gestartet, Mindestabstand 20 sperrt')
 bisherige = []
