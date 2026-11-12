@@ -96,8 +96,9 @@ try {
   assert.match(alleRot.ergebnis, /\| rot /)
   assert.equal(alleRot.summary, alleRot.ergebnis, 'Zusammenfassung = Ergebnis')
   // Leerer Standardtest (Prüfer-Lauf): jeder Mutant trägt eigene tests, der Läufer bekommt kein „--test“.
-  const eigene = lauf([{ ...rot, tests: ['node pruef.mjs'] }], '')
+  const eigene = lauf([{ ...rot, tests: ['node pruef.mjs'] }, { name: 'Kontrolle', aenderungen: [] }], '')
   assert.equal(eigene.status, 0, eigene.stdout + eigene.stderr)
+  assert.match(eigene.ergebnis, /\| Kontrolle \| - \| GRÜN/, 'die Kontrolle fährt die tests der Mutanten, ein leeres --test würde sie ersetzen')
   assert.match(eigene.ergebnis, /\| rot /)
   assert.equal(lauf([rot], '').status, 2, 'ohne Standardtest und ohne eigene tests bleibt es ein Aufruffehler')
   const ueberlebt = lauf([rot, grün])

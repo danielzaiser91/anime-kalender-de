@@ -34,6 +34,7 @@ const lauf = (id, titel, extra = {}) => ({ databaseId: id, displayTitle: titel, 
 assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L1} @ ${KOPF}`), lauf(3, `Mutationsprobe ${L1} @ ${KOPF}`), lauf(2, `Mutationsprobe ${L1} @ ${KOPF}`)], KOPF, L1).databaseId, 3, 'neuester')
 assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L1} @ ${ALT}`)], KOPF, L1), null, 'anderer Kopf zählt nicht')
 assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L2} @ ${KOPF}`)], KOPF, L1), null, 'andere Liste zählt nicht')
+assert.equal(findeLauf([lauf(1, `Mutationsprobe ${L2} @ ${KOPF}`)], KOPF, L2).databaseId, 1, 'die zweite Liste wird gefunden')
 
 assert.match(zustandText(null), /^nicht beurteilt: Lauf nicht gefunden/)
 assert.match(zustandText({ status: 'in_progress' }), /^nicht beurteilt: Lauf läuft noch \(in_progress\)/)
@@ -44,7 +45,7 @@ assert.match(zustandText({ status: 'completed', conclusion: '' }), /^Lauf ohne E
 const bericht = baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: lauf(1, 'x'), tabelle: 'Tabelle\u0001Zeile' }], uebersprungen: [{ liste: L2, grund: 'weil' }] })
 assert.ok(bericht.startsWith(`Mutationsprobe zum Kopf ${KOPF}`))
 assert.ok(bericht.includes(`- ${L2}: übersprungen, weil`) && bericht.includes(`- ${L1}: alle Mutanten rot (Lauf grün) (u1)`))
-assert.ok(bericht.indexOf('UNVERTRAUENSWÜRDIGE DATEN') < bericht.indexOf('Tabelle Zeile'), 'Tabelle steht hinter dem Hinweis, Steuerzeichen raus')
+assert.ok(bericht.includes('UNVERTRAUENSWÜRDIGE DATEN') && bericht.indexOf('UNVERTRAUENSWÜRDIGE DATEN') < bericht.indexOf('Tabelle Zeile'), 'Tabelle steht hinter dem Hinweis, Steuerzeichen raus')
 const lang = baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: lauf(1, 'x'), tabelle: 'x'.repeat(5999) + 'ab' }], uebersprungen: [] })
 assert.ok(lang.endsWith(`${'x'.repeat(5999)}a\n`), 'Ergebnistext wird bei genau 6000 Zeichen gekappt')
 assert.ok(!baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: null, tabelle: '' }], uebersprungen: [] }).includes('UNVERTRAUENSWÜRDIGE'), 'ohne Tabelle kein Hinweis nötig')
@@ -67,6 +68,8 @@ try {
         if (kaputt.dispatch === args.find((a) => a.startsWith('liste='))) throw new Error('HTTP 422')
         return ''
       }
+      // Mehr als ein Lauf je Kopf und Liste liegt in den letzten 60: bei kleinerem Limit fände der Prüfer nichts.
+      if (args[0] === 'run' && args[1] === 'list' && args[args.indexOf('--limit') + 1] !== '60') return '[]'
       if (args[0] === 'run' && args[1] === 'list') return JSON.stringify(laeufe(aufrufe.filter((a) => a[1] === 'list').length))
       if (args[0] === 'run' && args[1] === 'download') throw new Error('kein Artefakt')
       throw new Error(`unerwartet ${args}`)
