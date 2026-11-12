@@ -3,6 +3,7 @@
  * Der Bestandsaufruf steht in `check-logic-bestand.ts`. Aufruf: `npm run check:logic`.
  */
 import { geteilteFilmeWarnzeile, geteilteFilmGruppen, reihenfremdGeteilt, reihenfremdImBestand } from './lib/tmdb-eindeutig.ts'
+import { pruefeTmdbHandBestand } from './lib/tmdb-hand-bestand.ts'
 
 let verletzt = 0
 let gesamt = 0
@@ -74,7 +75,7 @@ const bekannt = ['movie/5']
 const keine = geteilteFilmeWarnzeile(gruppen, bekannt)
 pruefe('bekannte Gruppe: keine Zeile', keine === undefined, keine)
 const eine = geteilteFilmeWarnzeile(zwei, bekannt)
-pruefe('neue Gruppe (movie/20, Titel 13 und 14): eine Warnzeile mit Kennung und Titeln', eine?.startsWith('⚠ WARNUNG ') === true && eine.includes('movie/20') && !eine.includes('movie/5,') && eine.endsWith(': 13, 14'), eine)
+pruefe('neue Gruppe (movie/20, Titel 13 und 14): eine Warnzeile mit Kennung und Titeln', eine?.startsWith('⚠ WARNUNG [vorher rot] ') === true && eine.includes('movie/20') && !eine.includes('movie/5,') && eine.endsWith(': 13, 14'), eine)
 pruefe('Warnzeile zählt 2 Titel', eine?.includes(': 2 neue Kennung') === true, eine)
 pruefe('ohne Gruppen: keine Zeile', geteilteFilmeWarnzeile([], bekannt) === undefined)
 const beide = geteilteFilmeWarnzeile(zwei, [])
@@ -82,6 +83,30 @@ pruefe('beide neu: beide Kennungen in einer Zeile', beide?.includes('movie/5, mo
 const fuenf = ['movie/20455', 'movie/212161', 'movie/510242', 'movie/618851', 'movie/843267']
 pruefe('Standardliste: die fünf Bestandskennungen warnen nicht', geteilteFilmeWarnzeile(fuenf.map((schluessel) => ({ schluessel, titel: ['1', '2'] }))) === undefined)
 pruefe('Standardliste: ein sechster Film warnt', geteilteFilmeWarnzeile([{ schluessel: 'movie/904759', titel: ['1', '2'] }])?.includes('movie/904759') === true)
+
+console.log('\nBestandsblock mit Fixture-Dateien (Verdrahtung)')
+// Schlüssel = Dateiname; Titel 1 und 2 stehen in einer Reihe (franchiseId 1), 3 in einer anderen.
+function lauf(dateien: Record<string, unknown>) {
+  const zeilen: string[] = []
+  const rot: string[] = []
+  const n = pruefeTmdbHandBestand(
+    (d) => JSON.stringify(dateien[d.split('/').pop()!]),
+    (name, ok) => void (ok || rot.push(name)),
+    (z) => zeilen.push(z),
+  )
+  return { n, zeilen, rot }
+}
+const titel = [{ id: 1, franchiseId: 1 }, { id: 2, franchiseId: 1 }, { id: 3, franchiseId: 3 }]
+const basis = { 'tmdb-von-hand.yaml': [], 'titles.json': titel, 'ohne-synchro.json': [] }
+const neuerFilm = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 777, kind: 'movie' }, '2': { tmdbId: 777, kind: 'movie' } } })
+pruefe('Lauf: neuer geteilter Film in einer Reihe: genau eine Warnzeile, keine rote Zusicherung', neuerFilm.zeilen.length === 1 && neuerFilm.zeilen[0]!.includes('movie/777') && neuerFilm.zeilen[0]!.includes('[vorher rot]') && neuerFilm.rot.length === 0, neuerFilm)
+pruefe('Lauf: drei Zusicherungen gefahren', neuerFilm.n === 3, neuerFilm.n)
+const bekannterFilm = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 20455, kind: 'movie' }, '2': { tmdbId: 20455, kind: 'movie' } } })
+pruefe('Lauf: bekannter Film (movie/20455): keine Zeile', bekannterFilm.zeilen.length === 0, bekannterFilm)
+const fremderFilm = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 778, kind: 'movie' }, '3': { tmdbId: 778, kind: 'movie' } } })
+pruefe('Lauf: Film an zwei Reihen bleibt hart rot (Reihenregel), nicht nur Warnung', fremderFilm.rot.join() === 'keine TMDB-Kennung hängt an Titeln verschiedener Reihen', fremderFilm)
+const ausserhalb = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 779, kind: 'movie' }, '9': { tmdbId: 779, kind: 'movie' } } })
+pruefe('Lauf: zweiter Titel außerhalb des Bestands bildet keine Gruppe', ausserhalb.zeilen.length === 0, ausserhalb)
 
 console.log(`TMDB-Kennung je Reihe: ${verletzt === 0 ? `alle ${gesamt} Fälle grün` : `${verletzt} von ${gesamt} Fällen rot`}`)
 if (verletzt) process.exit(1)

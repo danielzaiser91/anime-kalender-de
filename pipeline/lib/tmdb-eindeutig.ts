@@ -1,5 +1,5 @@
 import { log, readJson, writeJson } from './util.ts'
-import { bestandWarnzeile } from './bestand-warnzeile.ts'
+import { herabgestufteWarnzeile } from './bestand-warnzeile.ts'
 
 /**
  * **Ein TMDB-Film gehört genau einem Titel.**
@@ -122,5 +122,5 @@ export function geteilteFilmeWarnzeile(
 ): string | undefined {
   const neu = gruppen.filter((g) => !bekannt.includes(g.schluessel))
   if (!neu.length) return undefined
-  return bestandWarnzeile('TMDB-Film an mehreren Titeln', `neue Kennung(en) ${neu.map((g) => g.schluessel).join(', ')}; die Beteiligten verlieren ihre TMDB-Angaben, Reihe prüfen und Kennung in BEKANNTE_GETEILTE_FILME aufnehmen — Titel`, neu.flatMap((g) => g.titel.map(Number)))
+  return herabgestufteWarnzeile('TMDB-Film an mehreren Titeln', `neue Kennung(en) ${neu.map((g) => g.schluessel).join(', ')}; die Beteiligten verlieren ihre TMDB-Angaben, Reihe prüfen und Kennung in BEKANNTE_GETEILTE_FILME aufnehmen — Titel`, neu.flatMap((g) => g.titel.map(Number)))
 }
