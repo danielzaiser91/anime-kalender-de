@@ -576,6 +576,7 @@ pipeline/check-tv-rtl-main.ts
 pipeline/check-tv-rtl-nachversuch.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
+pipeline/check-unbekannte-seite.ts
 pipeline/check-unsicheres-raus-ast.ts
 pipeline/check-unsicheres-raus.ts
 pipeline/check-urteil-art.ts
