@@ -14,15 +14,15 @@
   {
     "name": "nennt: volle-Pfad-Prüfung entfernt (bloßer Name zählt wieder)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "includes(istClaudeMd(bewegt) ? bewegt : bewegt.split('/').pop())",
-    "ersetze": "includes(bewegt.split('/').pop())",
+    "suche": "if (istClaudeMd(bewegt)) return code.includes(bewegt)",
+    "ersetze": "if (istClaudeMd(bewegt)) return code.includes(bewegt.split('/').pop())",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
     "name": "nennt: .claude-Markdown nie genannt (Leser zählt nie)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "includes(istClaudeMd(bewegt) ? bewegt : bewegt.split('/').pop())",
-    "ersetze": "includes(istClaudeMd(bewegt) ? '\\0' : bewegt.split('/').pop())",
+    "suche": "if (istClaudeMd(bewegt)) return code.includes(bewegt)",
+    "ersetze": "if (istClaudeMd(bewegt)) return code.includes('\\0')",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
