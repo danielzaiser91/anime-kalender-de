@@ -625,7 +625,6 @@ tools/design-kontrast.mjs
 tools/dienst-fetch.test.ts
 tools/effekt-abhaengigkeiten.test.ts
 tools/feste-uhr.test.ts
-tools/fetch-schreibziele.test.mjs
 tools/haken-lauf.test.ts
 tools/heute-berlin.test.ts
 tools/heute-utc.mjs
