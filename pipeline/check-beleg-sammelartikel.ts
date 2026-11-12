@@ -6,7 +6,7 @@
 import { chromium } from 'playwright'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
 import { sperreNetz } from '../tools/netz-sperre.mjs'
-import { fensterStart, terminMarken, verdecktesMarkieren } from './lib/beleg-stelle.ts'
+import { fensterStart, stuetzstelle, terminMarken, verdecktesMarkieren } from './lib/beleg-stelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, zuordnungFuerLesen, type BestandLeser } from './lib/beleg-suche.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 
@@ -305,6 +305,31 @@ function nativeLateinFaelle(): void {
   pruefe('Native: ohne Native-Namen bleibt der Titel selbst Suchbegriff (Kontrolle)', je(7).includes('Titel7') && je(8).includes('Titel8'))
 }
 
+/** ADN-Monatsseite (April 2026, Lesung 2026-10-29): Titel und „Start: …“ stehen in getrennten Elementen einer Kachel, darunter folgen die Titel nochmals als Überschriften. */
+const KACHELN = (variante: 'div' | 'span' | 'tief'): string => {
+  const tag = variante === 'span' ? 'span' : 'div'
+  const zeile = (start: string): string => (variante === 'tief' ? `<div><p>${start}</p></div>` : `<p>${start}</p>`)
+  const kachel = (titel: string, start: string): string => `<div style="height:90px"><${tag}>${titel}</${tag}>${zeile(start)}</div>`
+  const abschnitt = (titel: string): string => `<div style="height:300px"><h3>${titel}</h3><p>Auf die Watchlist</p></div>`
+  return `<article><h1>ADN nimmt 9 Simulcasts im April 2026 ins Programm auf</h1><p>Die Frühlings-Season geht los.</p>${kachel('Farming Life in Another World S2', 'Start: 6. April – 16 Uhr')}${kachel('Dorohedoro S2', 'Start: 1. April – 16 Uhr')}${kachel('Kill Blue', 'Start: 11. April')}<p>Dorohedoro in der Wiederholung: ${'Eine lange Zeile ohne Bezug zu den Terminen. '.repeat(5)}</p><p>Start: 1. April – Wiederholung</p><div style="height:2000px">Entdecke alle Streaming-Highlights.</div>${abschnitt('FARMING LIFE IN ANOTHER WORLD – STAFFEL 2')}${abschnitt('DOROHEDORO – STAFFEL 2')}</article>`
+}
+
+/** Die Stelle des Tags liegt auf der Startzeile der eigenen Kachel (Dorohedoro: 1. April), nicht auf der Überschrift 2000 Pixel tiefer und nicht auf der Zeile des Nachbarn. */
+async function kachelStartzeileFall(): Promise<void> {
+  const browser = await chromium.launch()
+  const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+  await sperreNetz(seite)
+  for (const variante of ['div', 'span', 'tief'] as const) {
+    await seite.setContent(`<!doctype html><html><body style="margin:0">${KACHELN(variante)}</body></html>`)
+    await seite.evaluate('window.__name = (f) => f')
+    const s = await stuetzstelle(seite, ['Dorohedoro'], ['2026-04-01'])
+    const nachbar = await stuetzstelle(seite, ['Farming Life in Another World'], ['2026-04-01'])
+    pruefe(`Kachel (${variante}): die Stelle ist die Startzeile mit „1. April“, nicht die Überschrift weiter unten`, s !== undefined && s.oben < 600 && s.unten - s.oben < 60, JSON.stringify(s))
+    pruefe(`Kachel (${variante}): der Nachbar mit „6. April“ bekommt für den 1. April nicht die Startzeile von Dorohedoro`, nachbar === undefined || nachbar.oben > 1000, JSON.stringify(nachbar))
+  }
+  await browser.close()
+}
+
 fensterFaelle()
 nativeFaelle()
 sagtFaelle()
@@ -315,6 +340,7 @@ await sammelartikelFall(2600)
 await einzelFall()
 await verschiebungsFall()
 await zeilenWortgrenzeFall()
+await kachelStartzeileFall()
 await verdecktFaelle()
 console.log(fehler ? `✖ ${fehler} Verstöße` : '✔ Sammelartikel-Zuschnitt: Fenster, Meldungstitel, Marken je Titel und verdeckte Zeilen (Scroll-Sperre, Seitenende, Paywall) in Ordnung')
 process.exit(fehler ? 1 : 0)

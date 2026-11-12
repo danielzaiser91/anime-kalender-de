@@ -1,0 +1,9 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [] },
+  { "name": "titelDavor: nur die eigene Ebene (i < 1)", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "n !== wurzel && i < 3;", "ersetze": "n !== wurzel && i < 1;", "tests": ["npx tsx pipeline/check-beleg-sammelartikel.ts"] },
+  { "name": "titelDavor: Titeltext ohne Längengrenze", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "norm(v.innerText).length < 150 &&", "ersetze": "", "tests": ["npx tsx pipeline/check-beleg-sammelartikel.ts"] },
+  { "name": "titelDavor: jedes Element davor zählt als Titel", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "gesucht.some((g) => norm(v.innerText).includes(g))", "ersetze": "true", "tests": ["npx tsx pipeline/check-beleg-sammelartikel.ts"] },
+  { "name": "Kachelzeile: Termin nicht verlangt", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "kandidaten.filter((k) => nennt(k.roh) && titelDavor(k.e))", "ersetze": "kandidaten.filter((k) => titelDavor(k.e))", "tests": ["npx tsx pipeline/check-beleg-sammelartikel.ts"] },
+  { "name": "Kachelzeile: Titel davor nicht verlangt", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "kandidaten.filter((k) => nennt(k.roh) && titelDavor(k.e))", "ersetze": "kandidaten.filter((k) => nennt(k.roh))", "tests": ["npx tsx pipeline/check-beleg-sammelartikel.ts"] },
+  { "name": "Kachelzeile ersetzt nie die direkte Zeile: Kachel hat Vorrang ohne direkte Zeile (Zweige vertauscht)", "datei": "pipeline/lib/beleg-stelle.ts", "suche": "const stuetzend = direkt.length ? direkt : kandidaten.filter", "ersetze": "const stuetzend = !direkt.length ? direkt : kandidaten.filter", "tests": ["npx tsx pipeline/check-beleg-sammelartikel.ts"] }
+]
