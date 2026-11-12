@@ -233,17 +233,40 @@ assert.equal(mitDatei(GUT), '', 'Jetzt-Datei gut')
 assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung fehlt')
 assert.equal(mitDatei(GUT.replace('# F7 Titel', '# F77 Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'F77 ist nicht F7')
 assert.equal(
-  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n'),
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n## Warum ich es nicht selbst tue\nx\n'),
   'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst; Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
   'falsche Reihenfolge',
 )
 assert.equal(
-  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n'),
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'),
   'Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
   'Archiv vor Worum',
 )
 assert.equal(mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'), '', 'Archiv darf fehlen')
+// Pflichtabschnitte je genau einmal (nur Archiv darf fehlen)
+assert.equal(
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Worum es geht“ fehlt; Jetzt-Datei F7: Abschnitt „Warum ich es nicht selbst tue“ fehlt',
+  'nur Aufgabe',
+)
+assert.equal(
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ fehlt; Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst',
+  'Aufgabe fehlt',
+)
+assert.equal(mitDatei(GUT.replace('## Deine Aufgabe\nx\n', '## Deine Aufgabe\nx\n## Deine Aufgabe\nx\n')), 'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ doppelt', 'Aufgabe doppelt')
+assert.equal(mitDatei(`${GUT}## Archiv\nx\n`), 'Jetzt-Datei F7: Abschnitt „Archiv“ doppelt', 'Archiv doppelt')
+// Unbekannte erste Überschrift; Kennung nur im Fließtext zählt nicht
+assert.equal(mitDatei(GUT.replace('## Deine Aufgabe', '## Aufgabe\nx\n## Deine Aufgabe')), 'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst', 'unbekannte erste Überschrift')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel\nF7 im Text')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung nur im Fließtext')
+// Kennung nur im Link-Ziel und Zeilen ohne „- “ führen zu keiner Dateiprüfung
+const GUT_E8 = GUT.replace('# F7', '# E8')
+const lies2 = (p) => (p === 'C:/code/ai/jetzt-e8.md' ? GUT_E8 : 'kaputt')
+const E8 = '- 🟠 **E8** Handgriff, kann nicht ([Datei](file:///C:/code/ai/jetzt-e8.md)) {eigen · normal · - · 01.10.}'
+assert.doesNotMatch(w.waechter(jetztStand('- 🟠 Frage, kann nicht ([Datei](file:///C:/code/ai/F57-x.md))'), JETZT, () => true, lies2), /Jetzt-Datei/, 'Kennung nur im Link-Ziel')
+assert.equal(w.waechter(jetztStand([E8, '  - **F7** Unterpunkt, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md))', E8].join('\n')), JETZT, () => true, lies2), '', 'eingerückte Zeile')
+assert.equal(w.waechter(jetztStand([E8, '**F7** lose Zeile, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md))', E8].join('\n')), JETZT, () => true, lies2), '', 'Nicht-Listenzeile')
 assert.equal(w.waechter(jetztStand('- 🟠 **F7** Frage, kann nicht'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
 assert.equal(w.waechter(jetztStand(ZEILE), JETZT, () => true, () => null), '', 'Datei nicht lesbar: keine Meldung')
 assert.equal(w.waechter(jetztStand(ZEILE.replace('jetzt-f7.md', 'jetzt-f7.txt')), JETZT, () => true, () => 'kaputt'), '', 'kein .md-Link: keine Meldung')
-console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Archiv optional, ohne Link)')
+console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Pflichtabschnitte je einmal, Archiv optional, ohne Link, Link-Ziel, Nicht-Listenzeile)')

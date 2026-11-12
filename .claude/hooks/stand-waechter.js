@@ -142,13 +142,18 @@ function liesDatei(pfad) {
   }
 }
 
-/** Meldungen zum Aufbau einer Jetzt-Datei: Kennung in der ersten Überschrift, `##`-Abschnitte in fester Reihenfolge (Archiv darf fehlen). */
+/** Meldungen zum Aufbau einer Jetzt-Datei: Kennung in der ersten Überschrift, `##`-Abschnitte je genau einmal in fester Reihenfolge (Archiv darf fehlen). */
 function dateiAufbau(kennung, text) {
   const zeilen = text.split(/\r?\n/)
   const titel = zeilen.find((z) => /^# /.test(z)) || ''
   const meldungen = []
   if (!new RegExp(`\\b${kennung}\\b`).test(titel)) meldungen.push(`Jetzt-Datei ${kennung}: Kennung fehlt in der Überschrift`)
   const ränge = zeilen.filter((z) => /^## /.test(z)).map((z) => DATEI_ABSCHNITTE.indexOf(z.slice(3).trim()))
+  DATEI_ABSCHNITTE.forEach((name, i) => {
+    const anzahl = ränge.filter((r) => r === i).length
+    if (anzahl === 0 && i < 3) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „${name}“ fehlt`)
+    if (anzahl > 1) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „${name}“ doppelt`)
+  })
   if (ränge[0] !== 0) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „Deine Aufgabe“ nicht zuerst`)
   const bekannt = ränge.filter((r) => r >= 0)
   if (bekannt.some((r, i) => i > 0 && r < bekannt[i - 1])) {
