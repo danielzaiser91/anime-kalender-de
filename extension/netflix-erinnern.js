@@ -29,7 +29,7 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   if (!erinnernJetzt && dauer <= o.frist) return wartet
   const merkmale = o.merkmale?.()
   /* Ohne Titelfenster stammt auch „Erinnern" aus dem Billboard der Startseite: die ganze Frist warten, dann zählt es als Störung der Sitzung. */
-  if (tun.bremse && akNetflixTitelfensterLeer(merkmale)) {
+  if (tun.bremse && globalThis.akNetflixTitelfensterLeer(merkmale)) {
     if (dauer <= o.frist) return wartet
     /* Der Sprung per pushState (`gehe`) ist unser eigener Weg und könnte das Fenster verhindern: erst einmal voll laden, wie ein Klick auf den Link. */
     if (tun.vollLaden && !tun.vollLaden.versucht(o.reihe)) {
