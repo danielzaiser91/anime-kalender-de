@@ -29,7 +29,9 @@ const verloren = [crystal(), sailorS()]
 assert.equal(andererBesitzer(verschoben, 'adn', S3, 21462)?.id, 532, 'Anlass: 532 hält die Adresse')
 assert.equal(andererBesitzer(verschoben, 'adn', S3, 532), undefined, 'der Titel selbst zählt nicht als anderer')
 assert.equal(andererBesitzer(verschoben, 'adn', ANDERE, 21462), undefined, 'andere Adresse')
+assert.equal(andererBesitzer(verschoben, 'adn', 'https://animationdigitalnetwork.com/de/video/999-andere?s=3', 21462), undefined, 'andere Serie, gleicher Parameter')
 assert.equal(andererBesitzer(verschoben, 'netflix', S3, 21462), undefined, 'anderer Anbieter')
+assert.equal(andererBesitzer([crystal(), sailorS(adn(S3.replace('?s=3', '?S=3')))], 'adn', S3, 21462)?.id, 532, 'Parameter ohne Groß-/Kleinschreibung')
 const S1 = 'https://animationdigitalnetwork.com/de/video/427-sailor-moon?s=1'
 assert.equal(andererBesitzer([crystal(), sailorS(adn(S1))], 'adn', S3, 21462), undefined, 'echter Fall: anderer Titel hält nur die Staffel 1 derselben Serie')
 assert.deepEqual(linkAbgaenge(vorher, [crystal(), sailorS(adn(S1))], {}).unerklaert.map((x) => x.text.slice(-60)), [`(21462): ${S3}`.slice(-60)], 'Staffel 3 weg bleibt rot, kein Verschoben zu S1')
@@ -81,12 +83,21 @@ assert.deepEqual(echt.erklaert, [])
 // Obergrenze: zwei Rückgänge, nur ein verschobener Weg: der zweite bleibt rot.
 const zwei = findeAuffaelliges(kz({ verweise: 2591, mitUrteil: 2121, titelMitSynchro: 1536, jeAnbieter: { adn: 143, netflix: 392 } }), kz(), [], {}, a)
 assert.ok(zwei.auffaellig.includes('adn: 1 Synchro-Belege weniger (1 weitere sind begründet entfernt)'), zwei.auffaellig.join(' | '))
+// Obergrenze und Reihenfolge: zwei verschobene Wege, ein Rückgang: genau ein Hinweis, nichts rot.
+const eintrag = (t) => ({ anbieter: 'adn', text: t })
+const zweiVerschoben = findeAuffaelliges(nachher, kz(), [], {}, { begruendet: [], unerklaert: [], verschoben: [eintrag('A (1)'), eintrag('B (2)')] })
+assert.equal(zweiVerschoben.erklaert.filter((t) => t.startsWith('adn: Weg verschoben')).length, 1, 'ein Rückgang erklärt einen Weg')
+assert.deepEqual(zweiVerschoben.auffaellig, [])
+// Was die Linkprüfung schon erklärt, erklärt die Verschiebung nicht noch einmal.
+const schonErklaert = findeAuffaelliges(nachher, kz(), [], {}, { begruendet: [eintrag('C (3)')], unerklaert: [], verschoben: [eintrag('A (1)')] })
+assert.equal(schonErklaert.erklaert.filter((t) => t.startsWith('adn: Weg verschoben')).length, 0, 'Rückgang schon durch Linkprüfung erklärt')
 // Anbieter zählt: ein verschobener adn-Weg erklärt keinen Netflix-Rückgang.
 const netflix = findeAuffaelliges(kz({ verweise: 2592, mitUrteil: 2122, titelMitSynchro: 1537, jeAnbieter: { adn: 145, netflix: 391 } }), kz(), [], {}, a)
 assert.ok(netflix.auffaellig.includes('netflix: 1 Synchro-Belege weniger'), netflix.auffaellig.join(' | '))
 
 // --- betroffen: Titel mit Kennung, verschoben gegen weg -----------------------------------------------------------------
 assert.deepEqual(betroffeneZeilen(vorher, verschoben), ['Pretty Guardian Sailor Moon Crystal Season III (21462) · adn · Synchro-Beleg verschoben zu Sailor Moon S (532)'])
+assert.deepEqual(betroffeneZeilen(vorher, [crystal(adn(S3, false)), sailorS(adn(S3))]), ['Pretty Guardian Sailor Moon Crystal Season III (21462) · adn · Synchro-Urteil jetzt Nein'], 'bleibender Weg mit anderem Urteil ist nicht verschoben')
 assert.deepEqual(betroffeneZeilen(vorher, verloren), [
   'Pretty Guardian Sailor Moon Crystal Season III (21462) · adn · Synchro-Beleg weg',
   'Sailor Moon S (532) · adn · Synchro-Beleg weg',
