@@ -1,4 +1,5 @@
 import type { NewsEintrag, Release, Title } from '../../shared/types.ts'
+import { markiereAbgeloeste } from './beleg-abgeloest.ts'
 
 /** Titel, die Meldungen mit dieser Adresse belegen (Titel der Meldung, sonst der Reihe) — sie haben oft keinen Termin, der die Adresse trägt (Psyren, 27.10.2026). */
 function titelJeAdresseAusNews(news: NewsEintrag[]): Map<string, Map<number, string>> {
@@ -89,6 +90,8 @@ export interface Gruppe {
   id: number
   suchen: string[]
   tage: string[]
+  /** Alle Quellen dieser Adresse zum Titel sind überholt und durch heutige abgelöst (`beleg-abgeloest.ts`). */
+  abgeloest?: boolean
 }
 
 /** Die Titel je Artikel-Adresse, einzeln (Bleach und Madoka im selben Artikel teilen sich sonst eine Marke). */
@@ -131,5 +134,5 @@ export function zuordnungFuerLesen(lese: BestandLeser): { suchbegriffe: Map<stri
   const releases = lese<Release[]>('public/data/releases.json', [])
   const titles = lese<Title[]>('public/data/titles.json', [])
   const news = lese<NewsEintrag[]>('public/data/news.json', [])
-  return { suchbegriffe: suchbegriffeJeAdresse(releases, titles, news), gruppen: gruppenJeAdresse(releases, titles, news), tage: tageJeAdresse(releases) }
+  return { suchbegriffe: suchbegriffeJeAdresse(releases, titles, news), gruppen: markiereAbgeloeste(gruppenJeAdresse(releases, titles, news), releases), tage: tageJeAdresse(releases) }
 }
