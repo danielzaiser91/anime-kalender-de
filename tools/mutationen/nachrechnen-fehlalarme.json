@@ -473,8 +473,8 @@
   {
     "name": "Ordner: Regex-Filter nicht erkannt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const reg = [...code.matchAll(ENDUNG_REGEX)]",
-    "ersetze": "const reg = []",
+    "suche": "for (const m of code.matchAll(ENDUNG_REGEX)) {",
+    "ersetze": "for (const m of []) {",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
     ]
