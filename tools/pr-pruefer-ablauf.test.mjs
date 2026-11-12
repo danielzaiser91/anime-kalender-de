@@ -88,6 +88,27 @@ const ohneKommentare = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), kommentar
 pruefe('Sperre: Kommentare fehlen (Commits da) -> zustand=unvollstaendig bei diff-zustand=ok',
   ohneKommentare.ausgaben?.diff?.['diff-zustand'] === 'ok' && ohneKommentare.ausgaben?.eingang?.zustand === 'unvollstaendig', ohneKommentare.ausgaben)
 pruefe('Sperre: Kommentare fehlen -> Commit-Liste ist trotzdem da', ohneKommentare.beschreibung?.includes('- ' + KOPF.slice(0, 9) + ' test: drei'), ohneKommentare.beschreibung)
+// Kurzer API-Aussetzer (12.11.2026, PRs 3579/3584: Autor-Abruf lieferte keinen JSON-Text, Nachträge und Commit-Liste fehlten):
+// der Abruf wird wiederholt, der Zustand bleibt ok. Pause 0, damit der Test nicht wartet.
+process.env.PRUEFER_WDH_PAUSE = '0'
+const LOGIN = 'api repos/o/r/pulls/7 -q .user.login'
+const DATEIEN = 'api --method GET --paginate repos/o/r/pulls/7/files -f per_page=100 -q .[]'
+const anzahl = (lauf, aufruf) => (lauf.aufrufe ?? []).filter((a) => a === aufruf).length
+const loginEinmal = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 1 } } })
+pruefe('Wiederholung: Autor-Abruf scheitert einmal -> zweiter Versuch, Nachträge und Commit-Liste da, zustand=ok',
+  loginEinmal.beschreibung === ERWARTET && loginEinmal.ausgaben?.eingang?.zustand === 'ok' && anzahl(loginEinmal, LOGIN) === 2, { n: anzahl(loginEinmal, LOGIN), fehler: loginEinmal.fehler })
+const loginZweimal = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 2 } } })
+pruefe('Wiederholung: Autor-Abruf scheitert zweimal -> dritter Versuch genügt',
+  loginZweimal.ausgaben?.eingang?.zustand === 'ok' && anzahl(loginZweimal, LOGIN) === 3, { n: anzahl(loginZweimal, LOGIN), fehler: loginZweimal.fehler })
+const loginDauer = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 99 } } })
+pruefe('Wiederholung: Autor-Abruf scheitert immer -> nach drei Versuchen unvollstaendig (nie ok)',
+  loginDauer.ausgaben?.diff?.['diff-zustand'] === 'ok' && loginDauer.ausgaben?.eingang?.zustand === 'unvollstaendig' && anzahl(loginDauer, LOGIN) === 3, { n: anzahl(loginDauer, LOGIN), a: loginDauer.ausgaben })
+const dateienEinmal = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { dateien: 1 } } })
+pruefe('Wiederholung: Dateiliste scheitert einmal -> zweiter Versuch, diff-zustand=ok, Beschreibung unverändert',
+  dateienEinmal.ausgaben?.diff?.['diff-zustand'] === 'ok' && anzahl(dateienEinmal, DATEIEN) === 2 && dateienEinmal.beschreibung === ERWARTET, { n: anzahl(dateienEinmal, DATEIEN), fehler: dateienEinmal.fehler })
+const dateienDauer = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { dateien: 99 } } })
+pruefe('Wiederholung: Dateiliste scheitert immer -> diff-zustand=unvollstaendig nach drei Versuchen',
+  dateienDauer.ausgaben?.diff?.['diff-zustand'] === 'unvollstaendig' && anzahl(dateienDauer, DATEIEN) === 3, { n: anzahl(dateienDauer, DATEIEN), a: dateienDauer.ausgaben })
 // Falsche PR-Nummer liefert eine vollständige Liste eines anderen PR: nur der Abgleich mit dem Kopf fängt das.
 const fremderKopf = laufeBisEingang(wf, { 7: prDaten(7, 'f'.repeat(40)) })
 pruefe('Sperre: Liste endet nicht am Kopf -> zustand=unvollstaendig',

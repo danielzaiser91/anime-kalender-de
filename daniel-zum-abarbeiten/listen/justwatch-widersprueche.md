@@ -626,7 +626,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Vermeil in Gold (146210) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d1b34ba3-3cdd-472a-839b-c7500015a14f | ja |
 | My One-Hit Kill Sister (146234) | Crunchyroll | crunchyroll:G4VUQ8DVK | nein |
 | My One-Hit Kill Sister (146234) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.55e42148-91d6-4261-90fe-63286e7dbb2c | nein |
-| Ragna Crimson (146493) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a652a327-5310-49ca-b459-09b2177628f2 | nein |
+| Ragna Crimson (146493) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.a652a327-5310-49ca-b459-09b2177628f2 | ja |
 | Atelier of Witch Hat (147105) | Crunchyroll | crunchyroll:GE00258180ES419 | nein |
 | Atelier of Witch Hat (147105) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.a2d0dd19-2845-409e-94fe-6ad98b97f260 | nein |
 | Onimai: Ab sofort Schwester! (147864) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.d63967e9-249d-4945-b801-9f06f4d1f086 | ja |

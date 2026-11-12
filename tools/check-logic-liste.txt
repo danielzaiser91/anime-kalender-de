@@ -553,6 +553,7 @@ pipeline/check-tmdb-folgen-luecke-lauf.ts
 pipeline/check-tmdb-folgen-luecke.ts
 pipeline/check-tmdb-folgentitel-absolut.ts
 pipeline/check-tmdb-folgentitel-datum.ts
+pipeline/check-tmdb-folgentitel-staffel.ts
 pipeline/check-tmdb-genre.ts
 pipeline/check-tmdb-geteilt-plakat-bau.ts
 pipeline/check-tmdb-geteilt-plakat.ts
