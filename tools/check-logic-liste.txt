@@ -198,6 +198,7 @@ pipeline/check-dub-lesart.ts
 pipeline/check-ecchi-ausblenden.ts
 pipeline/check-effekt-abhaengigkeiten.ts
 pipeline/check-eigene-cover-vorschau.ts
+pipeline/check-eigene-termine.ts
 pipeline/check-eigene-titel-bestand-lauf.ts
 pipeline/check-eigene-titel.ts
 pipeline/check-eigene-tmdb-plakat-lauf.ts
