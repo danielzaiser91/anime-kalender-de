@@ -131,7 +131,7 @@ function baueUmgebung(pfad, suche = '', speicher = {}) {
         get: async () => ({ token: 'test-token' }),
         set: async () => {},
       },
-      onChanged: { addListener() {}, removeListener() {} },
+      onChanged: { addListener(fn) { (umgebung.__geaendert ??= []).push(fn) }, removeListener() {} },
     },
     runtime: { getURL: (p) => p, id: 'test', onMessage: { addListener() {} } },
   }
@@ -154,7 +154,7 @@ function baueUmgebung(pfad, suche = '', speicher = {}) {
     CustomEvent: class { constructor(t, i) { this.type = t; this.detail = i?.detail } },
     ...Object.fromEntries(GLOBALE.map((n) => [n, globalThis[n]])),
   }
-  umgebung.addEventListener = () => {}
+  umgebung.addEventListener = (name, fn) => { (umgebung.__ereignisse ??= {})[name] = fn }
   umgebung.removeEventListener = () => {}
   umgebung.dispatchEvent = () => true
   umgebung.window = umgebung
@@ -507,6 +507,69 @@ async function annahmeFaelle() {
   pruefe('… das Limit ist erkannt, nichts als gemeldet vermerkt', c.run('AK_TAGESLIMIT.aktiv()') === true && c.run('DURCHLAUF.gemeldet.size') === 0)
 }
 
+
+/**
+ * Tab und Besitz des Durchgangs (12.11.2026): `zuletztGeoeffnet` eines Durchgangs aus einem anderen Tab kommt
+ * nicht an (Bericht: „Grimgar" im neuen Tab), der Besitzer wird geladen und nachgeführt, `pagehide` löst ihn.
+ */
+async function tabFaelle() {
+  const sprung = (tab) => ({ id: '82719204', zeit: 1, durchgang: true, ...(tab ? { tab } : {}) })
+  const geladen = async (start) => {
+    const s = await seite({ speicher: { ...start } })
+    await s.warte()
+    return s
+  }
+  let s = await geladen({ zuletztGeoeffnet: sprung('fremder-tab') })
+  pruefe('Laden: Sprung des Durchgangs aus einem anderen Tab wird verworfen', s.run('zuletztGeoeffnet') === null, s.run('zuletztGeoeffnet'))
+  const eigener = s.run('meinTab')
+  s = await geladen({ zuletztGeoeffnet: sprung(eigener) })
+  pruefe('Laden: Sprung des eigenen Tabs bleibt', s.run('zuletztGeoeffnet')?.durchgang === true)
+  s = await geladen({ zuletztGeoeffnet: { id: '82719204', zeit: 1 } })
+  pruefe('Laden: Klick aus der Liste (ohne durchgang) bleibt', s.run('zuletztGeoeffnet')?.id === '82719204')
+  s = await geladen({ netflixDurchgangBesitzer: { tab: 'x', puls: 7 } })
+  pruefe('Laden: Besitzer des Durchgangs wird gelesen', s.run('durchgangBesitzer')?.tab === 'x')
+  s = await geladen({})
+  pruefe('Laden ohne Besitzer: null (geladen), nicht undefined', s.run('durchgangBesitzer') === null)
+
+  /* Änderungen aus anderen Tabs */
+  const aender = (werte) => s.env.__geaendert.forEach((fn) => { try { fn(werte, 'local') } catch { /* andere Hörer brauchen mehr Umgebung */ } })
+  aender({ zuletztGeoeffnet: { newValue: sprung('fremder-tab') } })
+  pruefe('onChanged: fremder Durchgang-Sprung wird verworfen', s.run('zuletztGeoeffnet') === null)
+  aender({ zuletztGeoeffnet: { newValue: sprung(eigener) } })
+  pruefe('onChanged: eigener Durchgang-Sprung kommt an', s.run('zuletztGeoeffnet')?.durchgang === true)
+  aender({ zuletztGeoeffnet: { newValue: { id: '82719204', zeit: 2 } } })
+  pruefe('onChanged: Klick aus der Liste in einem anderen Tab kommt an', s.run('zuletztGeoeffnet')?.zeit === 2)
+  aender({ netflixDurchgangBesitzer: { newValue: { tab: 'y', puls: 9 } } })
+  pruefe('onChanged: neuer Besitzer wird übernommen', s.run('durchgangBesitzer')?.tab === 'y')
+  aender({ netflixDurchgangBesitzer: {} })
+  pruefe('onChanged: gelöschter Besitzer wird null', s.run('durchgangBesitzer') === null)
+
+  /* Tab zu: der eigene Besitz wird frei, ein fremder bleibt */
+  const pagehide = () => s.env.__ereignisse.pagehide()
+  s.run('selbstAn = true')
+  s.run('durchgangBesitzer = { tab: meinTab, puls: 1 }')
+  s.speicher.netflixDurchgangBesitzer = { tab: eigener, puls: 1 }
+  pagehide()
+  await s.warte()
+  pruefe('pagehide mit laufendem Durchgang und eigenem Besitz: Besitz gelöscht', s.speicher.netflixDurchgangBesitzer === null, s.speicher.netflixDurchgangBesitzer)
+  s.run("durchgangBesitzer = { tab: 'z', puls: 1 }")
+  s.speicher.netflixDurchgangBesitzer = { tab: 'z', puls: 1 }
+  pagehide()
+  await s.warte()
+  pruefe('pagehide mit fremdem Besitz: unberührt', s.speicher.netflixDurchgangBesitzer?.tab === 'z')
+  s.run('selbstAn = false')
+  s.run('durchgangBesitzer = { tab: meinTab, puls: 1 }')
+  s.speicher.netflixDurchgangBesitzer = { tab: eigener, puls: 1 }
+  pagehide()
+  await s.warte()
+  pruefe('pagehide ohne laufenden Durchgang: unberührt', s.speicher.netflixDurchgangBesitzer?.tab === eigener)
+
+  /* Bericht: Sitzung, Titel, Bremse stehen im Diagnosebericht unter `durchgang` */
+  s.run('durchgangBesitzer = { tab: "b", puls: Date.now() }')
+  vm.runInContext(readFileSync(__dirname + '/netflix-bericht.js', 'utf8'), s.env.__kontext, { filename: 'netflix-bericht.js' })
+  const b = s.run('nfBericht()').durchgang
+  pruefe('Bericht: Tab, Besitzer samt Urteil, Bremse und Titelliste', b.tab === eigener && b.besitzer?.urteil === 'fremd' && b.bremse?.folge === 0 && Array.isArray(b.titel), Object.keys(b))
+}
 void (async () => {
   console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
   await abschlussFaelle()
@@ -515,6 +578,7 @@ void (async () => {
   await fehlerFaelle()
   await randvollFaelle()
   await annahmeFaelle()
+  await tabFaelle()
   console.log('')
   if (faelle.includes(false)) {
     console.error('Zusicherungen gerissen.')
