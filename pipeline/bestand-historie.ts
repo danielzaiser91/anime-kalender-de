@@ -49,6 +49,7 @@ import { todayIso } from '../shared/time.ts'
 import { ladeVonHandBelegtAm } from './lib/verweise-von-hand.ts'
 import { ladeBelegeEntfernt } from './lib/belege-entfernt.ts'
 import { fehlendeTitelIds, titelAusCommit, verschobeneTitel, zusammengelegteTitel } from './lib/bestand-verschoben.ts'
+import { aufschluesselStand, kopfCommit } from './lib/historie-basis.ts'
 import { letzteGeltende, letzteVerwerfen } from './lib/historie-zeilen.ts'
 import { adressKern, ladeHandbelege } from './lib/dub-confirmed.ts'
 import { ROOT } from './lib/util.ts'
@@ -99,9 +100,9 @@ function belegGruendeAusDateien(): Record<string, string> {
 }
 
 /** Titel, die seit dem letzten Commit aus dem Hauptbestand fehlen: verschoben nach `ohne-synchro.json`, gewollt zusammengelegt (`zuAk`) und die Kennungen aller; gelesen wird nur, wenn der Hauptbestand schrumpfte. */
-function abgangSeitCommit(schrumpft: boolean): { verschoben: string[]; zusammengelegt: string[]; weg: number[] } {
+function abgangSeitCommit(schrumpft: boolean, stand: string): { verschoben: string[]; zusammengelegt: string[]; weg: number[] } {
   if (!schrumpft) return { verschoben: [], zusammengelegt: [], weg: [] }
-  const vorher = titelAusCommit(ROOT)
+  const vorher = titelAusCommit(ROOT, stand)
   const kennungen = lies<{ titel?: number[][] }>('data/kennungen.json', {}).titel ?? []
   return {
     verschoben: verschobeneTitel(vorher, titelJetzt(), lies<Title[]>('public/data/ohne-synchro.json', [])),
@@ -111,21 +112,21 @@ function abgangSeitCommit(schrumpft: boolean): { verschoben: string[]; zusammeng
 }
 
 /** Synchro-Belege, die seit dem letzten Commit fehlen, nach Linkprüfung begründet oder nicht; gelesen wird nur, wenn die Urteile sanken. */
-function linkAbgangSeitCommit(sinkt: boolean): LinkAbgaenge {
+function linkAbgangSeitCommit(sinkt: boolean, stand: string): LinkAbgaenge {
   if (!sinkt) return { begruendet: [], unerklaert: [] }
   const hand = { belege: ladeHandbelege(), vonHandBelegtAm: ladeVonHandBelegtAm() }
-  return linkAbgaenge(bestandAusCommit(ROOT), titelJetzt(), ladeGewerteteBefunde(todayIso()).befunde, hand)
+  return linkAbgaenge(bestandAusCommit(ROOT, stand), titelJetzt(), ladeGewerteteBefunde(todayIso()).befunde, hand)
 }
 
 /** Titel, Anbieter und Änderung hinter einem roten Befund (höchstens 20 Zeilen); gelesen wird nur bei Befund. */
-function betroffenSeitCommit(rot: boolean): string[] | undefined {
+function betroffenSeitCommit(rot: boolean, stand: string): string[] | undefined {
   if (!rot) return undefined
   const jeKern = juengsteJeKern(lies<Record<string, LinkBefund>>('data/link-check.json', {}))
   const befundZu = (url: string) => {
     const b = jeKern.get(adressKern(url))
     return b ? `link-check: ${b.status} am ${b.geprueftAm ?? '?'}` : undefined
   }
-  const zeilen = kuerzeZeilen(betroffeneZeilen(bestandAusCommit(ROOT), titelJetzt(), befundZu))
+  const zeilen = kuerzeZeilen(betroffeneZeilen(bestandAusCommit(ROOT, stand), titelJetzt(), befundZu))
   return zeilen.length ? zeilen : undefined
 }
 
@@ -144,14 +145,16 @@ if (args.includes('--verwerfen') || args.includes('--ersetzen')) verwirfLetzte()
 if (!args.includes('--verwerfen')) {
   const jetzt = messenAusDateien()
   const vorher = letzteGeltende(dateiText()) as (Kennzahlen & { zeitpunkt: string }) | null
-  const abgang = abgangSeitCommit(!!vorher && jetzt.titel < vorher.titel)
-  const link = linkAbgangSeitCommit(!!vorher && jetzt.mitUrteil < vorher.mitUrteil)
+  const stand = aufschluesselStand(ROOT, vorher)
+  const abgang = abgangSeitCommit(!!vorher && jetzt.titel < vorher.titel, stand)
+  const link = linkAbgangSeitCommit(!!vorher && jetzt.mitUrteil < vorher.mitUrteil, stand)
   const { auffaellig, erklaert } = findeAuffaelliges(jetzt, vorher, abgang.verschoben, belegGruendeAusDateien(), link, abgang.zusammengelegt)
 
   const zeile = {
     zeitpunkt: new Date().toISOString(),
     lauf: laufName,
     laufId,
+    basis: kopfCommit(ROOT),
     ...jetzt,
     delta: vorher
       ? {
@@ -166,7 +169,7 @@ if (!args.includes('--verwerfen')) {
       : null,
     auffaellig: auffaellig.length ? auffaellig : undefined,
     erklaert: erklaert.length ? erklaert : undefined,
-    betroffen: betroffenSeitCommit(!!vorher && auffaellig.length > 0),
+    betroffen: betroffenSeitCommit(!!vorher && auffaellig.length > 0, stand),
     titelWeg: abgang.weg.length ? abgang.weg : undefined,
   }
 
