@@ -1,0 +1,71 @@
+/**
+ * Zusicherungen: dieselbe TMDB-Kennung an Titeln verschiedener Reihen (`reihenfremdGeteilt`) und geteilte Filme (`geteilteFilmGruppen`) werden gefunden (`lib/tmdb-eindeutig.ts`).
+ * Der Bestandsaufruf steht in `check-logic-bestand.ts`. Aufruf: `npm run check:logic`.
+ */
+import { geteilteFilmGruppen, reihenfremdGeteilt, reihenfremdImBestand } from './lib/tmdb-eindeutig.ts'
+
+let verletzt = 0
+let gesamt = 0
+function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
+  gesamt++
+  if (ok) return void console.log(`  ✓ ${name}`)
+  verletzt++
+  console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
+}
+
+console.log('\nTMDB-Kennung gehört einer Reihe')
+// Kitaro-Fall (PR 2874): Original 130622 (Reihe 130622) und Shinsei-ban 10019697 (Reihe 10019697) trugen beide movie/904759.
+const reihen: Record<string, number | undefined> = { '130622': 130622, '10019697': 10019697, '5': 7, '6': 7, '8': 9, '9': 9, '11': 4, '12': 5 }
+const reiheVon = (id: string) => reihen[id]
+const kitaro = { '130622': { tmdbId: 904759, kind: 'movie' as const }, '10019697': { tmdbId: 904759, kind: 'movie' as const } }
+
+const fund = reihenfremdGeteilt(kitaro, reiheVon)
+pruefe('Kitaro: derselbe Film in zwei Reihen wird gemeldet', fund.length === 1 && fund[0]!.schluessel === 'movie/904759', fund)
+pruefe('der Fund nennt beide Titel mit Reihe', fund[0]?.titel.join() === '130622@130622,10019697@10019697', fund)
+
+const staffeln = { '5': { tmdbId: 77, kind: 'tv' as const }, '6': { tmdbId: 77, kind: 'tv' as const } }
+pruefe('zwei Staffeln derselben Reihe sind erlaubt', reihenfremdGeteilt(staffeln, reiheVon).length === 0)
+
+const art = { '11': { tmdbId: 34065, kind: 'tv' as const }, '12': { tmdbId: 34065, kind: 'movie' as const } }
+pruefe('Serie und Film mit gleicher Zahl sind verschiedene Kennungen', reihenfremdGeteilt(art, reiheVon).length === 0)
+
+const ohneArt = { '11': { tmdbId: 5 }, '12': { tmdbId: 5, kind: 'tv' as const } }
+pruefe('fehlt `kind`, gilt tv', reihenfremdGeteilt(ohneArt, reiheVon).length === 1)
+
+const fremderEintrag = { '5': { tmdbId: 77, kind: 'tv' as const }, '999': { tmdbId: 77, kind: 'tv' as const } }
+pruefe('ein Eintrag ohne Titel im Bestand zählt nicht', reihenfremdGeteilt(fremderEintrag, reiheVon).length === 0)
+
+const ohneId = { '5': {}, '11': { tmdbId: undefined } }
+pruefe('Einträge ohne Kennung zählen nicht', reihenfremdGeteilt(ohneId, reiheVon).length === 0)
+
+const drei = { '5': { tmdbId: 77, kind: 'tv' as const }, '6': { tmdbId: 77, kind: 'tv' as const }, '11': { tmdbId: 77, kind: 'tv' as const }, '8': { tmdbId: 3, kind: 'tv' as const }, '9': { tmdbId: 3, kind: 'tv' as const } }
+const fundDrei = reihenfremdGeteilt(drei, reiheVon)
+pruefe('zwei Staffeln plus ein Fremder: ein Fund, die zweite Kennung bleibt sauber', fundDrei.length === 1 && fundDrei[0]!.titel.length === 3, fundDrei)
+
+// Über den Bestand: Natsume Staffel 1 (4081) trägt keine franchiseId, Staffel 2 (5300) nennt 4081.
+const bestand = new Map<number, { franchiseId?: number }>([[4081, {}], [5300, { franchiseId: 4081 }], [130622, { franchiseId: 130622 }], [10019697, { franchiseId: 10019697 }]])
+const natsume = { '4081': { tmdbId: 69500, kind: 'tv' as const }, '5300': { tmdbId: 69500, kind: 'tv' as const } }
+pruefe('Bestand: Staffel ohne franchiseId gilt als Reihe ihrer selbst, Staffel 2 nennt sie', reihenfremdImBestand(natsume, bestand).length === 0)
+const kitaroBestand = reihenfremdImBestand({ ...kitaro, '77777': { tmdbId: 904759, kind: 'movie' as const } }, bestand)
+pruefe('Bestand: Kitaro wird gefunden, ein Cache-Eintrag ohne Titel im Bestand zählt nicht', kitaroBestand.length === 1 && kitaroBestand[0]!.titel.length === 2, kitaroBestand)
+
+// Geteilte Filme (Ratsche): gezählt wird je Kennung, nur im Bestand, nur Filme.
+const imBestand = (id: string) => id !== '999'
+const filme = {
+  '1': { tmdbId: 5, kind: 'movie' as const },
+  '2': { tmdbId: 5, kind: 'movie' as const },
+  '3': { tmdbId: 5, kind: 'movie' as const },
+  '4': { tmdbId: 6, kind: 'movie' as const },
+  '7': { tmdbId: 8, kind: 'movie' as const },
+  '999': { tmdbId: 8, kind: 'movie' as const },
+  '10': { tmdbId: 9, kind: 'tv' as const },
+  '11': { tmdbId: 9, kind: 'tv' as const },
+  '12': { tmdbId: 6, kind: 'tv' as const },
+}
+const gruppen = geteilteFilmGruppen(filme, imBestand)
+pruefe('Filme: eine Gruppe mit drei Titeln, ein Einzelfilm, ein Film mit Titel außerhalb und zwei Serien zählen nicht', gruppen.length === 1 && gruppen[0]!.schluessel === 'movie/5' && gruppen[0]!.titel.join() === '1,2,3', gruppen)
+const zwei = geteilteFilmGruppen({ ...filme, '13': { tmdbId: 20, kind: 'movie' as const }, '14': { tmdbId: 20, kind: 'movie' as const } }, imBestand)
+pruefe('Filme: ein zweiter Fall mit genau zwei Titeln zählt als zweite Gruppe', zwei.length === 2, zwei)
+
+console.log(`TMDB-Kennung je Reihe: ${verletzt === 0 ? `alle ${gesamt} Fälle grün` : `${verletzt} von ${gesamt} Fällen rot`}`)
+if (verletzt) process.exit(1)

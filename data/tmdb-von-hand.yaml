@@ -168,3 +168,78 @@
     TMDB-API (10.11.2026) 917696 „鉄コン筋クリート“, 1999-01-01, 4 min, Alternativtitel „Tekkon Kinkreet Pilot“, 1 Stimme;
     Anbieterliste DE (Apple TV Store, Amazon Video, MagentaTV, maxdome Store, Videoload, Freenet meinVOD, Aniverse Amazon Channel)
     gleich der des Spielfilms 13754 (2006, 103 min). JustWatch kennt 917696 nicht (justwatch-audio.json ohneTreffer, Namenstreffer ist der Spielfilm).
+
+# Spätere Staffeln, deren Namenssuche bei TMDB nichts fand (`miss`): TMDB führt sie als Staffel derselben Serie wie die erste Staffel (Reihe gleich, Kennung bleibt in der Reihe).
+# Beleg je Zeile: die Staffel steht im Folgen-Cache der Serie (`data/tmdb-folgen.json`, TMDB-Abruf 06.–09.11.2026) mit der Folgenzahl des Titels (AniList; ohne Angabe passt der Sendezeitraum).
+
+- anilistId: 101471
+  tmdbId: 78239
+  kind: tv
+  titel: "SWORDGAI The Animation Part II"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 78239 führt Staffel 2 mit 12 Folgen (2018-07-30 bis 2018-07-30), AniList nennt 12 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (20875). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 102498
+  tmdbId: 77529
+  kind: tv
+  titel: "B: The Beginning: Succession"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 77529 führt Staffel 2 mit 6 Folgen (2021-03-18 bis 2021-03-18), AniList nennt 6 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (21665). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 188055
+  tmdbId: 45039
+  kind: tv
+  titel: "Tayo the Little Bus Season 2"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 45039 führt Staffel 2 mit 26 Folgen (2011-11-30 bis 2012-04-26), AniList nennt 26 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (163828). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 132477
+  tmdbId: 83248
+  kind: tv
+  titel: "Larva Island Season 2"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 83248 führt Staffel 2 mit 13 Folgen (2019-03-01 bis 2019-03-01), AniList nennt 13 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (119837). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 108725
+  tmdbId: 83097
+  kind: tv
+  titel: "The Promised Neverland Season 2"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 83097 führt Staffel 2 mit 11 Folgen (2021-01-08 bis 2021-03-26), AniList nennt 11 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (101759). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 110686
+  tmdbId: 84646
+  kind: tv
+  titel: "HERO MASK part II"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 84646 führt Staffel 2 mit 9 Folgen (2019-08-23 bis 2019-08-23), AniList nennt 9 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (105096). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 152677
+  tmdbId: 117061
+  kind: tv
+  titel: "The Detective Is Already Dead Season 2"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 117061 führt Staffel 2 mit 13 Folgen (2026-10-07 bis 2026-12-30), AniList nennt 13 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (128712). Die Namenssuche fand für diese Staffel nichts.
+
+- anilistId: 212503
+  tmdbId: 200777
+  kind: tv
+  titel: "The Iceblade Sorcerer Shall Rule the World II"
+  geprueftAm: '2026-11-12'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 200777 führt Staffel 2 mit 12 Folgen (2026-10-09 bis 2026-12-25) (AniList nennt keine Folgenzahl, der Sendezeitraum passt zur Ausstrahlung);
+    dieselbe Serie trägt die erste Staffel dieser Reihe (148116). Die Namenssuche fand für diese Staffel nichts.

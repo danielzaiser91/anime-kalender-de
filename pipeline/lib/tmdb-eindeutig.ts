@@ -62,3 +62,51 @@ export function ladeGeteilteFilme(tmdbTitles: Parameters<typeof mehrdeutigeFilmz
   const ids = readJson<string[] | null>(GETEILTE_FILME_DATEI, null)
   return ids ? new Set(ids) : mehrdeutigeFilmzuordnungen(tmdbTitles)
 }
+
+/**
+ * **Eine TMDB-Kennung gehört nur einer Reihe.** Staffeln und Teile einer Reihe teilen sich eine Serie oder einen Film bei TMDB (Bestand 12.11.2026: 111 Kennungen);
+ * hängt dieselbe `art/kennung` an Titeln verschiedener Reihen, bekommt einer davon Handlung, Anbieter und Folgen eines fremden Werks (Anlass Kitaro, PR 2874).
+ * `reiheVon` liefert die Reihe eines Titels (`undefined` = nicht im Bestand, der Eintrag zählt nicht); gibt je Fund `art/kennung` und die Titel samt Reihe zurück.
+ */
+export function reihenfremdGeteilt(
+  zuordnung: Record<string, { tmdbId?: number; kind?: 'tv' | 'movie' }>,
+  reiheVon: (titelId: string) => number | string | undefined,
+): { schluessel: string; titel: string[] }[] {
+  const jeKennung = new Map<string, { id: string; reihe: number | string }[]>()
+  for (const [id, e] of Object.entries(zuordnung)) {
+    const reihe = reiheVon(id)
+    if (!e?.tmdbId || reihe === undefined) continue
+    const s = `${e.kind ?? 'tv'}/${e.tmdbId}`
+    jeKennung.set(s, [...(jeKennung.get(s) ?? []), { id, reihe }])
+  }
+  return [...jeKennung]
+    .filter(([, titel]) => new Set(titel.map((t) => t.reihe)).size > 1)
+    .map(([schluessel, titel]) => ({ schluessel, titel: titel.map((t) => `${t.id}@${t.reihe}`) }))
+}
+
+/** `reihenfremdGeteilt` über den Bestand: die Reihe ist `franchiseId`, ohne sie der Titel selbst (Natsume Staffel 1 trägt keine). */
+export function reihenfremdImBestand(
+  zuordnung: Record<string, { tmdbId?: number; kind?: 'tv' | 'movie' }>,
+  bestand: Map<number, { franchiseId?: number }>,
+): ReturnType<typeof reihenfremdGeteilt> {
+  return reihenfremdGeteilt(zuordnung, (id) => {
+    const t = bestand.get(Number(id))
+    return t && (t.franchiseId ?? Number(id))
+  })
+}
+
+/**
+ * Film-Kennungen, die mehr als einem Titel des Bestands zugeordnet sind (je Kennung eine Gruppe mit den Titelkennungen).
+ * Alle Beteiligten verlieren die TMDB-Angaben (`mehrdeutigeFilmzuordnungen`); die Zahl der Gruppen darf nur sinken (Ratsche in `check-logic-bestand.ts`).
+ */
+export function geteilteFilmGruppen(
+  zuordnung: Record<string, { tmdbId?: number; kind?: 'tv' | 'movie' }>,
+  imBestand: (titelId: string) => boolean,
+): { schluessel: string; titel: string[] }[] {
+  const jeFilm = new Map<number, string[]>()
+  for (const [id, e] of Object.entries(zuordnung)) {
+    if (!e?.tmdbId || e.kind !== 'movie' || !imBestand(id)) continue
+    jeFilm.set(e.tmdbId, [...(jeFilm.get(e.tmdbId) ?? []), id])
+  }
+  return [...jeFilm].filter(([, titel]) => titel.length > 1).map(([kennung, titel]) => ({ schluessel: `movie/${kennung}`, titel }))
+}
