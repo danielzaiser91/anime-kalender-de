@@ -1,0 +1,10 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "urteil: neue Datei nie gemeldet", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": "if (!drin && !aus)", "ersetze": "if (false && !drin && !aus)" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "urteil: Ausnahme gilt auch ohne Ausnahmeliste", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": "if (!drin && !aus)", "ersetze": "if (!drin)" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "urteil: Ausnahme in include nicht gemeldet", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": "if (drin && aus)", "ersetze": "if (false && drin && aus)" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "urteil: Ausnahme ohne Datei nicht gemeldet", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": "if (!dateien.includes(a))", "ersetze": "if (false && !dateien.includes(a))" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "pruefe: offene-*.js zaehlen mit", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": " && !f.startsWith('offene-')", "ersetze": "" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "main: Exit immer 0", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": "process.exit(fehler.length ? 1 : 0)", "ersetze": "process.exit(0)" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] },
+  { "name": "AUSNAHMEN: eine Datei weniger", "aenderungen": [{ "datei": "tools/extension-ts-liste-pruefen.mjs", "suche": "  'tageslimit.js',\n", "ersetze": "" }], "tests": ["node tools/extension-ts-liste-pruefen.test.mjs"] }
+]

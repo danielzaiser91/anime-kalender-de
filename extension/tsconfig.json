@@ -1,0 +1,40 @@
+{
+  // Einstieg in checkJs (C2a): nur Dateien, die bei der Messung 0 Fehler hatten. Neue Dateien erst nach eigener Messung aufnehmen.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "types": ["node"]
+  },
+  "include": [
+    "adn-senden.js",
+    "disney-beantwortet.js",
+    "disney-staffeln.js",
+    "disney-stand-ziele.js",
+    "melde-sperre.js",
+    "netflix-alle-staffeln.js",
+    "netflix-bericht.js",
+    "netflix-durchgang-schutz.js",
+    "netflix-erinnern.js",
+    "netflix-seitentreue.js",
+    "netflix-staffel.js",
+    "netflix-stumm-seite.js",
+    "netflix-stumm.js",
+    "netflix-uebernahme.js",
+    "prime-durchgang-suche.js",
+    "prime-fassungen.js",
+    "prime-region.js",
+    "prime-stand-ziele.js",
+    "prime-stand.js",
+    "prime-such-bruecke.js",
+    "prime-titelseite.js",
+    "prime-treffer-kopf.js",
+    "pruefstand-zeit.js"
+  ]
+}
