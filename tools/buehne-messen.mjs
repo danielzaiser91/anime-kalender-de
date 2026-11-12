@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { argument, durchlaufe, starteBuehne } from './buehne-seite.mjs'
+import { meldeDeckung } from './buehne-basis-warnung.mjs'
 import { kontrastImRahmen, MIN_TIPPZIEL, tippzieleImRahmen } from './buehne-messung.mjs'
 
 const LISTE = process.argv.includes('--liste')
@@ -56,15 +57,19 @@ async function bestaendige(neu, zelle, alt, andere) {
   return neu.filter(({ art, f }) => zweit.has(`${art}:${f.schluessel}`))
 }
 
-/** `--basis`/`--schreibe` des Aufrufs: gelesene Basis bzw. Schreibfunktion für `lauf` (Absturz-Zeilen beim Schreiben setzen Exit 1). */
+/** Schreibt die Basis-Messung; Abstürze und eine leere Messung setzen Exit 1 (der Aufrufer wertet das als „Basis nicht messbar“). */
+export function schreibeBasis(ziel, m, rot, ausgabe = console.log) {
+  const fehler = Object.keys(m).length ? rot : [...rot, 'keine einzige Zelle gemessen — Bühne oder Selektor kaputt']
+  writeFileSync(ziel, JSON.stringify(m))
+  if (fehler.length) process.exitCode = 1
+  ausgabe(`Basis: ${Object.keys(m).length} Zellen nach ${ziel}${fehler.map((r) => `\n  ✕ ${r}`).join('')}`)
+}
+
+/** `--basis`/`--schreibe` des Aufrufs: gelesene Basis bzw. Schreibfunktion für `lauf`. */
 function basisAusAufruf() {
   const lese = argument('--basis', '')
   const ziel = argument('--schreibe', '')
-  const schreibe = (m, rot) => {
-    writeFileSync(ziel, JSON.stringify(m))
-    if (rot.length) process.exitCode = 1
-    console.log(`Basis: ${Object.keys(m).length} Zellen nach ${ziel}${rot.map((r) => `\n  ✕ ${r}`).join('')}`)
-  }
+  const schreibe = (m, rot) => schreibeBasis(ziel, m, rot)
   return { basis: lese ? JSON.parse(readFileSync(lese, 'utf8')) : null, schreibe: ziel ? schreibe : null, nurVorher: process.argv.includes('--nur-vorher') }
 }
 
@@ -80,7 +85,7 @@ async function appBefunde(z, vorFall, vorher, basis) {
 }
 
 /** Der ganze Lauf; `starte` und `ausgabe` sind austauschbar (Test mit Attrappe-Browser). Setzt `process.exitCode` bei Befunden. */
-export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = null, schreibe = null, nurVorher = false }) {
+export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = null, schreibe = null, nurVorher = false, zusammenfassung = process.env.GITHUB_STEP_SUMMARY }) {
   nurVorher ||= Boolean(schreibe)
   const { browser, seite, fremde } = await starte()
   const vorher = new Map()
@@ -114,6 +119,7 @@ export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = nul
   } finally {
     await browser.close()
   }
+  if (basis) meldeDeckung({ basis, vorher, ausgabe, zusammenfassung })
   if (schreibe) return schreibe(Object.fromEntries(vorher), rot)
   if (!gemessen) rot.push('keine einzige Zelle gemessen — Bühne oder Selektor kaputt')
   if (fremde.length) rot.push(`${fremde.length} Anfragen nach draußen, z. B. ${fremde[0]}`)
