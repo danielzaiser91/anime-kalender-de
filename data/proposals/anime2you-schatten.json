@@ -320,6 +320,31 @@
         "stichprobe": 0,
         "rest": 3
       }
+    },
+    {
+      "am": "2026-11-12",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 1,
+      "nurClaude": 0,
+      "ms": 2.9531159999999943,
+      "faelle": [
+        {
+          "artikelId": "1070797",
+          "seite": "nurRegel",
+          "titel": "Detektiv Conan",
+          "plattform": "crunchyroll"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
     }
   ]
 }
