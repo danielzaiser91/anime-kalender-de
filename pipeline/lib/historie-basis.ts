@@ -19,8 +19,7 @@ function git(wurzel: string, args: string[]): string | undefined {
 
 /** Der Commit, auf dem gerade gemessen wird; ohne Git undefined. */
 export function kopfCommit(wurzel: string): string | undefined {
-  const sha = git(wurzel, ['rev-parse', 'HEAD'])
-  return sha && SHA.test(sha) ? sha : undefined
+  return git(wurzel, ['rev-parse', 'HEAD']) || undefined
 }
 
 /** `basis` der vorigen Zeile, wenn sie gesetzt ist und im Klon vorliegt (flacher Klon!); sonst `HEAD`. */

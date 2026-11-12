@@ -11,5 +11,5 @@
   {"name":"basis: Vorhandensein im Klon nicht geprüft","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"return git(wurzel, ['cat-file', '-e', `${basis}^{commit}`]) === undefined ? 'HEAD' : basis","ersetze":"return basis"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
   {"name":"basis: Rückfall nicht HEAD","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"=== undefined ? 'HEAD' : basis","ersetze":"=== undefined ? 'HEAD~1' : basis"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
   {"name":"basis: ohne basis nicht HEAD","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"return 'HEAD'\n  return git","ersetze":"return 'HEAD~1'\n  return git"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]},
-  {"name":"basis: kopfCommit ohne Hash-Prüfung","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"return sha && SHA.test(sha) ? sha : undefined","ersetze":"return sha || undefined"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]}
+  {"name":"basis: kopfCommit falscher Verweis","aenderungen":[{"datei":"pipeline/lib/historie-basis.ts","suche":"['rev-parse', 'HEAD']","ersetze":"['rev-parse', 'HEAD~1']"}],"tests":["npx tsx tools/delta-wache-basis.test.mjs"]}
 ]
