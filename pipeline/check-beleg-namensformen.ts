@@ -56,9 +56,11 @@ function japanischeTage(): void {
   const zeile = 'TVアニメ『東京リベンジャーズ』三天戦争編 2026年10月2日から毎週金曜深夜、MBS・TBS・CBC”アニメイズム”枠、AT-Xほかにて放送開始！'
   const trifftTag = (iso: string, text: string): boolean => terminMarken([iso]).some((m) => text.includes(m))
   pruefe('Japanisch: „2026年10月2日" trägt den 2. Oktober', trifftTag('2026-10-02', zeile))
-  pruefe('Japanisch: „10月2日" ohne Jahr trägt ihn ebenfalls', trifftTag('2026-10-02', 'BS-TBSにて10月2日より、毎週金曜深夜2時30分～'))
+  pruefe('Japanisch: einstelliger Monat („2026年2月2日") trägt den 2. Februar', trifftTag('2026-02-02', '2026年2月2日から放送'))
+  pruefe('Japanisch: „12月2日" trägt den 2. Februar nicht (Suffix des zweistelligen Monats)', !trifftTag('2026-02-02', '2026年12月2日から放送'))
+  pruefe('Japanisch: „11月5日" trägt den 5. Januar nicht', !trifftTag('2026-01-05', '2026年11月5日から放送'))
   pruefe('Japanisch: „10月20日" trägt den 2. Oktober nicht', !trifftTag('2026-10-02', '2026年10月20日から放送'))
-  pruefe('Japanisch: „10月3日" trägt den 2. Oktober nicht', !trifftTag('2026-10-02', 'AT-Xにて10月3日より、毎週土曜夜9時～放送となります。'))
+  pruefe('Japanisch: „10月3日" trägt den 2. Oktober nicht', !trifftTag('2026-10-02', '2026年10月3日から放送'))
 }
 
 for (const f of FAELLE) einFall(f)
