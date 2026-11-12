@@ -14,7 +14,7 @@ import { ladeTitelDe } from './lib/titel-de.ts'
 import { ohneSynchroVonHand } from './bau/ohne-beleg.ts'
 import { keinAnisearchSuchlink } from './lib/invarianten-auslieferung.ts'
 import { TV_NAMEN } from './fetch-tv-programm.ts'
-import { geteilteFilmGruppen, reihenfremdImBestand } from './lib/tmdb-eindeutig.ts'
+import { geteilteFilmeWarnzeile, geteilteFilmGruppen, reihenfremdImBestand } from './lib/tmdb-eindeutig.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -57,10 +57,9 @@ console.log('\nTMDB-Kennungen von Hand (gegen den Bestand)')
   const tmdbCache = JSON.parse(vomBand('data/tmdb-titles.json')) as Record<string, { tmdbId?: number; kind?: 'tv' | 'movie' }>
   const reihenfremd = reihenfremdImBestand(tmdbCache, bestand)
   pruefe('keine TMDB-Kennung hängt an Titeln verschiedener Reihen', reihenfremd.length === 0, reihenfremd)
-  // Ratsche: Filmteile, die TMDB als einen Film führt (Stand 12.11.2026: 5 Kennungen, Digimon, Code Geass, Psycho-Pass, Sailor Moon Eternal, eine weitere); jeder neue Fall ist ein Kitaro-Kandidat.
-  const FILME_GETEILT_HOECHSTENS = 5
-  const filmGruppen = geteilteFilmGruppen(tmdbCache, (id) => bestand.has(Number(id)))
-  pruefe(`höchstens ${FILME_GETEILT_HOECHSTENS} TMDB-Filme hängen an mehreren Titeln (Ratsche)`, filmGruppen.length <= FILME_GETEILT_HOECHSTENS, filmGruppen)
+  // Neue geteilte Filmteile (Kitaro-Kandidaten) warnen nur: die Beteiligten verlieren ihre TMDB-Angaben ohnehin, eine falsche Aussage kommt nicht live.
+  const filmWarnung = geteilteFilmeWarnzeile(geteilteFilmGruppen(tmdbCache, (id) => bestand.has(Number(id))))
+  if (filmWarnung) console.log(filmWarnung)
   pruefe(
     'jede AniList-Kennung steht im Bestand',
     eintraege.every((e) => bestand.has(e.anilistId)),

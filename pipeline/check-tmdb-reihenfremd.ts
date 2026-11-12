@@ -2,7 +2,7 @@
  * Zusicherungen: dieselbe TMDB-Kennung an Titeln verschiedener Reihen (`reihenfremdGeteilt`) und geteilte Filme (`geteilteFilmGruppen`) werden gefunden (`lib/tmdb-eindeutig.ts`).
  * Der Bestandsaufruf steht in `check-logic-bestand.ts`. Aufruf: `npm run check:logic`.
  */
-import { geteilteFilmGruppen, reihenfremdGeteilt, reihenfremdImBestand } from './lib/tmdb-eindeutig.ts'
+import { geteilteFilmeWarnzeile, geteilteFilmGruppen, reihenfremdGeteilt, reihenfremdImBestand } from './lib/tmdb-eindeutig.ts'
 
 let verletzt = 0
 let gesamt = 0
@@ -68,6 +68,20 @@ const gruppen = geteilteFilmGruppen(filme, imBestand)
 pruefe('Filme: eine Gruppe mit drei Titeln, ein Einzelfilm, ein Film mit Titel außerhalb und zwei Serien zählen nicht', gruppen.length === 1 && gruppen[0]!.schluessel === 'movie/5' && gruppen[0]!.titel.join() === '1,2,3', gruppen)
 const zwei = geteilteFilmGruppen({ ...filme, '13': { tmdbId: 20, kind: 'movie' as const }, '14': { tmdbId: 20, kind: 'movie' as const } }, imBestand)
 pruefe('Filme: ein zweiter Fall mit genau zwei Titeln zählt als zweite Gruppe', zwei.length === 2, zwei)
+
+console.log('\nNeue geteilte Filme warnen, bekannte nicht')
+const bekannt = ['movie/5']
+const keine = geteilteFilmeWarnzeile(gruppen, bekannt)
+pruefe('bekannte Gruppe: keine Zeile', keine === undefined, keine)
+const eine = geteilteFilmeWarnzeile(zwei, bekannt)
+pruefe('neue Gruppe (movie/20, Titel 13 und 14): eine Warnzeile mit Kennung und Titeln', eine?.startsWith('⚠ WARNUNG ') === true && eine.includes('movie/20') && !eine.includes('movie/5,') && eine.endsWith(': 13, 14'), eine)
+pruefe('Warnzeile zählt 2 Titel', eine?.includes(': 2 neue Kennung') === true, eine)
+pruefe('ohne Gruppen: keine Zeile', geteilteFilmeWarnzeile([], bekannt) === undefined)
+const beide = geteilteFilmeWarnzeile(zwei, [])
+pruefe('beide neu: beide Kennungen in einer Zeile', beide?.includes('movie/5, movie/20') === true && beide.endsWith(': 1, 2, 3, 13, 14'), beide)
+const fuenf = ['movie/20455', 'movie/212161', 'movie/510242', 'movie/618851', 'movie/843267']
+pruefe('Standardliste: die fünf Bestandskennungen warnen nicht', geteilteFilmeWarnzeile(fuenf.map((schluessel) => ({ schluessel, titel: ['1', '2'] }))) === undefined)
+pruefe('Standardliste: ein sechster Film warnt', geteilteFilmeWarnzeile([{ schluessel: 'movie/904759', titel: ['1', '2'] }])?.includes('movie/904759') === true)
 
 console.log(`TMDB-Kennung je Reihe: ${verletzt === 0 ? `alle ${gesamt} Fälle grün` : `${verletzt} von ${gesamt} Fällen rot`}`)
 if (verletzt) process.exit(1)

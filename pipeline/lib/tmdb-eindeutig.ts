@@ -1,4 +1,5 @@
 import { log, readJson, writeJson } from './util.ts'
+import { bestandWarnzeile } from './bestand-warnzeile.ts'
 
 /**
  * **Ein TMDB-Film gehört genau einem Titel.**
@@ -109,4 +110,17 @@ export function geteilteFilmGruppen(
     jeFilm.set(e.tmdbId, [...(jeFilm.get(e.tmdbId) ?? []), id])
   }
   return [...jeFilm].filter(([, titel]) => titel.length > 1).map(([kennung, titel]) => ({ schluessel: `movie/${kennung}`, titel }))
+}
+
+/** Geteilte Film-Kennungen im Bestand vom 12.11.2026 (Digimon, Code Geass Akito, Psycho-Pass Sinners, Sailor Moon Eternal, eine weitere); nur neue Fälle warnen. */
+export const BEKANNTE_GETEILTE_FILME = ['movie/20455', 'movie/212161', 'movie/510242', 'movie/618851', 'movie/843267']
+
+/** Neue Gruppen (nicht in `bekannt`) als eine `⚠ WARNUNG`-Zeile, sonst `undefined`; ein legitimer neuer Filmteil sperrt den Bau nicht (Kitaro-Kandidat, Freigabe = Kennung in die Liste). */
+export function geteilteFilmeWarnzeile(
+  gruppen: { schluessel: string; titel: string[] }[],
+  bekannt: string[] = BEKANNTE_GETEILTE_FILME,
+): string | undefined {
+  const neu = gruppen.filter((g) => !bekannt.includes(g.schluessel))
+  if (!neu.length) return undefined
+  return bestandWarnzeile('TMDB-Film an mehreren Titeln', `neue Kennung(en) ${neu.map((g) => g.schluessel).join(', ')}; die Beteiligten verlieren ihre TMDB-Angaben, Reihe prüfen und Kennung in BEKANNTE_GETEILTE_FILME aufnehmen — Titel`, neu.flatMap((g) => g.titel.map(Number)))
 }
