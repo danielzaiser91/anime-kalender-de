@@ -1,8 +1,8 @@
-// Schreibt `[Text](file:///C:/…)` in Daniels .md-Dateien (daniel-zum-abarbeiten/) zu relativen Links um: Die Markdown-Vorschau
+// Schreibt `[Text](file:///C:/…)` in Daniels .md-Dateien (daniel-zum-abarbeiten/, __assets/notes/) zu relativen Links um: Die Markdown-Vorschau
 // von VS Code (markdown-it) verwirft das Schema `file:` als unsicher und zeigt den Link als rohen Text; relative Links öffnen
 // die Datei direkt in VS Code, `#L<zeile>` an der Stelle (Daniel, 03.11.2026). stand.md bleibt bei file:/// (liest die Mod).
 // Auslöser: PostToolUse(Write|Edit) für die geschriebene Datei, PostToolUse(Bash) für .md-Dateien, die in den letzten
-// 2 min geändert wurden (Skripte schreiben an Write vorbei). Eintrag in ~/.claude/settings.json als weiteres Element:
+// 2 min geändert wurden (Skripte schreiben an Write vorbei; nur daniel-zum-abarbeiten, Notizen nur über Write/Edit). Eintrag in ~/.claude/settings.json als weiteres Element:
 //   hooks.PostToolUse[]: { "matcher": "Write|Edit|Bash", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/md-links-relativ.js"], "timeout": 15 }] }
 const fs = require('node:fs')
 const path = require('node:path')
