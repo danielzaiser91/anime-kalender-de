@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { DatenKonflikt, gleichTrotzDatenHinweis, ersatzCacheInhalt, liesEntfernteVerweise, setzeDatenstand, titelFuerErsatzCache, verweiseFuerErsatzCache } from './bau-vergleich-daten.mjs'
+import { DatenKonflikt, gleichTrotzDatenHinweis, ersatzCacheInhalt, liesEntfernteVerweise, schreibeErsatzCache, setzeDatenstand, titelFuerErsatzCache, verweiseFuerErsatzCache } from './bau-vergleich-daten.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 
 const wurzel = mkdtempSync(path.join(tmpdir(), 'bau-vergleich-daten-'))
@@ -148,6 +148,32 @@ try {
   assert.deepEqual(liesEntfernteVerweise(git, start), [], 'Datei fehlt in der Basis')
   assert.throws(() => liesEntfernteVerweise(git, kaputt), SyntaxError, 'kaputtes JSON wird nicht verschluckt')
   assert.throws(() => liesEntfernteVerweise(() => { throw new Error('fatal: anderer git-Fehler') }, start), /anderer git-Fehler/, 'anderer git-Fehler wird nicht verschluckt')
+
+  // Ersatz-Cache schreiben (Wegwerf-Repo, Basis ≠ Kandidat): Bestand und Wege der übergebenen Basis, Katalog-Schalter am Pfad.
+  const bestand = (name, verweise) => ({
+    'public/data/titles.json': JSON.stringify([{ id: 7, malId: 70 }, { id: 10_000_005 }]),
+    'public/data/franchises.json': '{}',
+    'data/verweise-entfernt.json': JSON.stringify({ verweise: [{ titleId: 7, plattform: name, url: `https://${name}.example/${verweise}` }] }),
+  })
+  git('checkout', '-q', '-b', 'cache', start)
+  const basisA = commit(bestand('adn', 'a'), 'Bestand A')
+  const basisB = commit(bestand('netflix', 'b'), 'Bestand B')
+  const katalogDatei = path.join(wurzel, 'katalog.json')
+  writeFileSync(katalogDatei, '{"katalog":1}')
+  const cacheLesen = (ort, datei) => JSON.parse(readFileSync(path.join(ort, datei), 'utf8'))
+  const ortA = path.join(wurzel, 'cache-a')
+  schreibeErsatzCache(ortA, git, basisA, undefined)
+  assert.deepEqual(Object.keys(cacheLesen(ortA, 'anilist-by-id.json')), ['7', '10000005'], 'ohne Katalog: alle Titel')
+  assert.deepEqual(cacheLesen(ortA, 'anilist-by-id.json')[7].externalLinks.map((l) => l.url), ['https://adn.example/a'], 'Wege der Basis A, nicht B')
+  assert.deepEqual(Object.keys(cacheLesen(ortA, 'anilist-media.json')), ['70'])
+  assert.ok(!existsSync(path.join(ortA, 'anilist-katalog.json')), 'ohne Katalog keine Katalog-Datei')
+  const ortB = path.join(wurzel, 'cache-b')
+  schreibeErsatzCache(ortB, git, basisB, katalogDatei)
+  assert.deepEqual(Object.keys(cacheLesen(ortB, 'anilist-by-id.json')), ['7'], 'mit Katalog ohne aniSearch-Zeile')
+  assert.deepEqual(cacheLesen(ortB, 'anilist-by-id.json')[7].externalLinks.map((l) => l.url), ['https://netflix.example/b'], 'Wege der Basis B')
+  assert.deepEqual(cacheLesen(ortB, 'anilist-katalog.json'), { katalog: 1 }, 'Katalog daneben gelegt')
+  // Aufrufstelle im Werkzeug: genau diese Argumente (Textprüfung für die eine Zeile, das Verhalten dahinter ist oben gelaufen).
+  assert.match(readFileSync(path.join(import.meta.dirname, 'bau-vergleich.mjs'), 'utf8'), /schreibeErsatzCache\(ort, git, basisSha, KATALOG_CACHE\)/, 'Aufrufstelle in ersatzCache()')
 
   // Wächter: jede Kopie der aniSearch-Grenze in pipeline/bau, pipeline/lib und dem Werkzeug trägt denselben Wert wie der Export im Bau.
   const hier = import.meta.dirname

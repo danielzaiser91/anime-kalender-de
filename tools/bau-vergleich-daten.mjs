@@ -5,7 +5,7 @@
  * Sammler-Rohdaten von `main` als Unterschied zu melden. Eine Datei, die Basis und Kandidat beide
  * geändert haben, wird daher zusammengeführt (Diff Merge-Basis..Kandidat auf die Basis angewandt).
  */
-import { mkdtempSync, rmSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -153,4 +153,23 @@ export function liesEntfernteVerweise(git, basisSha) {
     throw fehler
   }
   return JSON.parse(text).verweise ?? []
+}
+
+/**
+ * Schreibt den Ersatz-Cache in `ort`: Bestand (`public/data`) und entfernte Verweise von `basisSha`, bei `katalogPfad`
+ * (`--katalog`) ohne aniSearch-Zeilen und mit dem Katalog daneben. `git` ist die Git-Funktion des Aufrufers.
+ */
+export function schreibeErsatzCache(ort, git, basisSha, katalogPfad) {
+  const lies = (datei) => JSON.parse(git('show', `${basisSha}:public/data/${datei}`))
+  const { byId, byMal, confidence } = ersatzCacheInhalt({
+    titel: lies('titles.json'),
+    franchises: lies('franchises.json'),
+    entfernte: liesEntfernteVerweise(git, basisSha),
+    mitKatalog: Boolean(katalogPfad),
+  })
+  mkdirSync(ort, { recursive: true })
+  writeFileSync(join(ort, 'anilist-by-id.json'), JSON.stringify(byId))
+  writeFileSync(join(ort, 'anilist-media.json'), JSON.stringify(byMal))
+  writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
+  if (katalogPfad) copyFileSync(katalogPfad, join(ort, 'anilist-katalog.json'))
 }

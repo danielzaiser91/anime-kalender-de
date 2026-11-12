@@ -45,7 +45,7 @@ import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync,
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
-import { eigeneAenderungen, gleichTrotzDatenHinweis, ersatzCacheInhalt, liesEntfernteVerweise, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { eigeneAenderungen, gleichTrotzDatenHinweis, schreibeErsatzCache, setzeDatenstand } from './bau-vergleich-daten.mjs'
 import { logge } from './bau-vergleich-log.mjs'
 import { beschreibeDatei } from './bau-vergleich-stand.mjs'
 import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
@@ -72,18 +72,7 @@ const glatt = (s) =>
   s.replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z/g, '<zeit>').replace(/\d+(\.\d+)?\s?(ms|s)\b/g, '<dauer>')
 
 function ersatzCache(ort, basisSha) {
-  const lies = (datei) => JSON.parse(git('show', `${basisSha}:public/data/${datei}`))
-  const { byId, byMal, confidence } = ersatzCacheInhalt({
-    titel: lies('titles.json'),
-    franchises: lies('franchises.json'),
-    entfernte: liesEntfernteVerweise(git, basisSha),
-    mitKatalog: Boolean(KATALOG_CACHE),
-  })
-  mkdirSync(ort, { recursive: true })
-  writeFileSync(join(ort, 'anilist-by-id.json'), JSON.stringify(byId))
-  writeFileSync(join(ort, 'anilist-media.json'), JSON.stringify(byMal))
-  writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
-  if (KATALOG_CACHE) copyFileSync(KATALOG_CACHE, join(ort, 'anilist-katalog.json'))
+  schreibeErsatzCache(ort, git, basisSha, KATALOG_CACHE)
 }
 
 /**
