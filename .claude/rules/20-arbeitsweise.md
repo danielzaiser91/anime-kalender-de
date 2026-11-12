@@ -11,7 +11,7 @@ Punkte es noch anfassen (Skill `neue-prompts-einordnen`).
 
 **Jede Fehlermeldung von Daniel durchläuft fünf Stufen (Daniel, 16.10.2026):** Ursache, Klasse (wie viele Fälle noch), dauerhaft schließen, Wächter mit Lehre, und warum Prüfer und Prüfkette es durchgelassen haben (deren Vorgabe wird geschärft) — erst dann ist sie erledigt; das Symptom allein zu beheben gilt nicht (Skill `korrektur-schaerft-die-regel`, Abschnitt 4c).
 
-**Beginnt Daniel mit „Diskussion:“, wird nur besprochen** — kein Task, kein Agent, kein Eintrag, bis er „machen“ sagt (26.10.2026). **Eine Warum-Frage ist eine Frage, kein Auftrag** — außer die Antwort braucht Datenanalyse oder es sieht nach einem Fehler aus: dann Task, Queue, delegieren (Daniel, 11.10.2026). Antworten, nicht umbauen — außer etwas ist
+**Beginnt Daniel mit „Diskussion:“, wird nur besprochen** — kein Task, kein Agent, kein Eintrag, bis er „machen“ sagt (26.10.2026); ebenso, wenn er nach meiner Meinung fragt („oder was denkst du“) — erst Meinung, dann auf „machen“ warten (12.11.2026). **Eine Warum-Frage ist eine Frage, kein Auftrag** — außer die Antwort braucht Datenanalyse oder es sieht nach einem Fehler aus: dann Task, Queue, delegieren (Daniel, 11.10.2026). Antworten, nicht umbauen — außer etwas ist
 nachweislich kaputt; ein naheliegender Umbau steht als ein Satz am Ende. „Ja, aber erklär …" ist
 erst nach der Erklärung ein Ja.
 
