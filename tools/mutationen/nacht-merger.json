@@ -44,6 +44,7 @@
   { "name": "wahl kandidat: Stufe 0 gesperrt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (![0, 1, 2].includes(pr.stufe)) return", "ersetze": "if (![1, 2].includes(pr.stufe)) return" },
   { "name": "wahl kandidat: Stufe 2 gesperrt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (![0, 1, 2].includes(pr.stufe)) return", "ersetze": "if (![0, 1].includes(pr.stufe)) return" },
   { "name": "wahl kandidat: Stufe 3 erlaubt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (![0, 1, 2].includes(pr.stufe)) return", "ersetze": "if (![0, 1, 2, 3].includes(pr.stufe)) return" },
+  { "name": "wahl kandidat: Stufe 2 mit weg pruefer erlaubt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (pr.stufe === 2 && frei.weg !== 'nachtrag') return", "ersetze": "if (false) return" },
   { "name": "wahl kandidat: Stufe 2 ohne Freigabe zum Kopf", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (!frei.frei) return nein(frei.grund)", "ersetze": "if (!frei.frei && pr.stufe !== 2) return nein(frei.grund)" },
   { "name": "wahl kandidat: Workflow-Pfad egal", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (workflow !== undefined) return", "ersetze": "if (false) return" },
   { "name": "wahl kandidat: ganzer .github-Ordner gesperrt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "p.startsWith('.github/workflows/')", "ersetze": "p.startsWith('.github/')" },

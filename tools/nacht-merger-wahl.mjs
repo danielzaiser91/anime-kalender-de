@@ -6,7 +6,7 @@
  * Kandidat nur, wenn ALLES gilt:
  *  1. offen, kein Entwurf, kein Daten-PR (`daten/`: Sache des Sammlers), mindestens eine geänderte Datei
  *  2. Prüfstufe 0, 1 oder 2 (`tools/pr-stufe.mjs`); unlesbar ist nie Kandidat. Stufe 2 mergt seit F131 (12.11.2026) ebenfalls,
- *     aber nur mit Freigabe zum aktuellen Kopf (5); Workflow-PRs (3) bleiben Handarbeit
+ *     aber nur mit dem Nachtrag des Dirigenten zum aktuellen Kopf (Bot-Urteil allein genügt nie); Workflow-PRs (3) bleiben Handarbeit
  *  3. kein Pfad unter `.github/workflows/` (auch kein Umbenennungs-Ursprung)
  *  4. die Prüfkette (`PR-Prüfkette`) ist am aktuellen Kopf grün, kein anderer Check rot, wartend oder abgebrochen
  *  5. Freigabe für genau diesen Kopf: jüngstes CI-Urteil „ok“ zu seinem Kurz-Hash, oder der Nachtrag des Inhabers
@@ -107,6 +107,7 @@ export function kandidat(pr) {
   if (!kette.gruen) return nein(kette.grund)
   const frei = freigabe(pr.kommentare, pr.kopf)
   if (!frei.frei) return nein(frei.grund)
+  if (pr.stufe === 2 && frei.weg !== 'nachtrag') return nein('Stufe 2 nur mit Nachtrag des Dirigenten zum Kopf (Bot-Urteil allein genügt nie)')
   return { kandidat: true, grund: `Stufe ${pr.stufe}, ${kette.grund}, ${frei.grund}`, weg: frei.weg }
 }
 
