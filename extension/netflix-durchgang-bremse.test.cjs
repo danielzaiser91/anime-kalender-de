@@ -200,6 +200,73 @@ for (const [name, inhalt] of [['kaputtes JSON', '{{'], ['falsche Form', '{"folge
   pruefe('Bericht-Fall: nach dem dritten UI3012 steht die Bremse (Pause bis T0+10 min), kein vierter Sprung', sprunge === 3 && b7.bericht().pausen === 1 && b7.bericht().bis === T0 + 10 * MIN && b7.offen() === 3, b7.bericht())
 }
 
+
+/* --- Erst voll laden, dann Bremse (Daniel 12.11. 13:30: Overlay liegt, Inhalt fehlt; unser pushState-Sprung als mögliche Ursache) --- */
+{
+  const daten = {}
+  const speicher = { getItem: (s) => daten[s] ?? null, setItem: (s, w) => { daten[s] = String(w) } }
+  const geladen = []
+  const v = k.akNetflixVollLaden({ assign: (a) => geladen.push(a) }, speicher)
+  pruefe('Voll laden: vorher nicht versucht', v.versucht('81661821') === false)
+  v.laden('81661821')
+  pruefe('Voll laden: echte Adresse /title/<id> geladen, Versuch gemerkt', gleich(geladen, ['/title/81661821']) && v.versucht(81661821) === true && v.versucht('1') === false, geladen)
+  const werfend = k.akNetflixVollLaden({ assign: (a) => geladen.push(a) }, { getItem: () => null, setItem: () => { throw new Error('x') } })
+  werfend.laden('2')
+  pruefe('Voll laden ohne beschreibbaren Speicher: lädt trotzdem', geladen.at(-1) === '/title/2')
+
+  const lauf = (versucht) => {
+    const b = k.akNetflixBremseOeffnen(new Map(), undefined, null)
+    const z = { geladen: [], weiter: 0, spuren: [] }
+    const vollLaden = { versucht: () => versucht, laden: (r) => z.geladen.push(r) }
+    const o = { seite: 's', reihe: '81661821', erinnern: false, frist: 20000, jetzt: T0 + 21000, durchlauf: { folgen: [] }, merkmale: () => BERICHT_LEER }
+    const rest = k.akNetflixListeWarten({ seite: 's', seit: T0 }, o, { spur: (w) => z.spuren.push(w), uebersprungen: new Map(), weiter: () => z.weiter++, bremse: b, vollLaden })
+    return { b, z, rest }
+  }
+  let r = lauf(false)
+  pruefe('Leeres Fenster, noch nicht voll geladen: Seite wird voll geladen, noch keine Störung, kein Weiter', gleich(r.z.geladen, ['81661821']) && r.b.offen() === 0 && r.z.weiter === 0 && r.rest.entschieden === true, r)
+  r = lauf(true)
+  pruefe('Leeres Fenster auch nach vollem Laden: Störung mit Hinweis im Grund, Weiter', r.z.geladen.length === 0 && r.b.offen() === 1 && r.z.weiter === 1 && /auch nach vollem Laden/.test(r.b.bericht().titel['81661821']), r)
+  const g = new Map()
+  const o2 = { seite: 's', reihe: '9', erinnern: false, frist: 20000, jetzt: T0 + 21000, durchlauf: { folgen: [] }, merkmale: () => BERICHT_YAKARI }
+  const z2 = { geladen: 0 }
+  k.akNetflixListeWarten({ seite: 's', seit: T0 }, o2, { spur() {}, uebersprungen: g, weiter() {}, bremse: k.akNetflixBremseOeffnen(g, undefined, null), vollLaden: { versucht: () => false, laden: () => z2.geladen++ } })
+  pruefe('Echter Titel ohne Folgenliste: kein Neuladen', z2.geladen === 0 && g.has('9'))
+}
+
+/* --- Kastenzeilen (Pause, Ende) und Takt mit null freien Titeln --- */
+{
+  const el = () => {
+    const e = { className: '', textContent: '', title: '', kinder: [], entfernt: false, rot: false }
+    e.classList = { toggle: (n, an) => { if (n === 'ak-durchgang-rot') e.rot = Boolean(an) } }
+    e.remove = () => { e.entfernt = true }
+    return e
+  }
+  kontext.document = { createElement: el }
+  const zeile = { kinder: [], appendChild(x) { this.kinder.push(x) }, querySelector(sel) { const kl = sel.replace(/^\./, ''); return this.kinder.find((x) => !x.entfernt && x.className.split(' ').includes(kl)) ?? null } }
+  k.akNetflixPauseZeigen(() => zeile, 'Netflix bremst — Probe')
+  pruefe('Pausenzeile: wird angelegt (Klasse, Text)', zeile.kinder.length === 1 && zeile.kinder[0].className === 'ak-hinweis ak-durchgang-pause' && zeile.kinder[0].textContent === 'Netflix bremst — Probe')
+  k.akNetflixPauseZeigen(() => zeile, 'zweiter Text')
+  pruefe('Pausenzeile: zweiter Aufruf ändert den Text, legt nichts neu an', zeile.kinder.length === 1 && zeile.kinder[0].textContent === 'zweiter Text')
+  k.akNetflixPauseZeigen(() => zeile, null)
+  pruefe('Pausenzeile: null entfernt sie', zeile.kinder[0].entfernt === true)
+  k.akNetflixPauseZeigen(() => null, 'x')
+  k.akNetflixPauseZeigen(() => { throw new Error('kein Kasten') }, 'x')
+  pruefe('Pausenzeile: ohne Kasten oder bei Fehler kein Absturz', true)
+
+  const z2 = { kinder: [], appendChild(x) { this.kinder.push(x) }, querySelector: zeile.querySelector }
+  const ende = (grund, rot) => ({ grund, rot, uebersprungenText: ' · 2 übersprungen', text: ' · Rest' })
+  k.akNetflixEndeZeigen(() => z2, ende('kein offener Auftrag mehr', false), ' (zurück)')
+  const e0 = z2.kinder[0]
+  pruefe('Endzeile fertig: Text, Titel, nicht rot', e0.textContent === 'Durchgang fertig · 2 übersprungen (zurück) · Rest' && e0.title === 'kein offener Auftrag mehr' && e0.rot === false && e0.className === 'ak-hinweis ak-durchgang-ende', e0)
+  k.akNetflixEndeZeigen(() => z2, ende('Störung E1', true), '')
+  pruefe('Endzeile abgebrochen: gleiche Zeile, Grund im Text, rot', z2.kinder.length === 1 && e0.textContent === 'Durchgang abgebrochen · Störung E1 · 2 übersprungen · Rest' && e0.rot === true)
+  k.akNetflixEndeZeigen(() => z2, null, '')
+  pruefe('Endzeile: null entfernt sie', e0.entfernt === true)
+
+  const b = k.akNetflixBremseOeffnen(new Map(), undefined, speicherNeu(JSON.stringify({ folge: 0, pausen: 1, bis: T0, titel: {} })))
+  const tun = { frei: [], gezeigt: [], zeigen: (t) => tun.gezeigt.push(t), weiter: (f) => tun.frei.push(f) }
+  pruefe('Pause ohne vermerkte Titel endet: weiter(0) wird trotzdem gerufen (0 ist kein „nicht beendet")', k.akNetflixBremseTakt(b, T0, tun) === true && gleich(tun.frei, [0]), tun)
+}
 /* --- Tab-Besitz --- */
 {
   const b = (tab, puls) => ({ tab, puls })

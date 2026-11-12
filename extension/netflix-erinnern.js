@@ -31,8 +31,15 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   /* Ohne Titelfenster stammt auch „Erinnern" aus dem Billboard der Startseite: die ganze Frist warten, dann zählt es als Störung der Sitzung. */
   if (tun.bremse && akNetflixTitelfensterLeer(merkmale)) {
     if (dauer <= o.frist) return wartet
+    /* Der Sprung per pushState (`gehe`) ist unser eigener Weg und könnte das Fenster verhindern: erst einmal voll laden, wie ein Klick auf den Link. */
+    if (tun.vollLaden && !tun.vollLaden.versucht(o.reihe)) {
+      tun.spur('Titelfenster ohne Inhalt: Seite wird voll geladen', { ...dazu, seite: merkmale })
+      tun.vollLaden.laden(o.reihe)
+      return { ...wartet, entschieden: true }
+    }
     tun.spur('Titelfenster ohne Inhalt', { ...dazu, seite: merkmale })
-    tun.bremse.stoerung(o.reihe, `Titelfenster ohne Inhalt in ${Math.round(o.frist / 1000)} s`, o.jetzt)
+    const nachLaden = tun.vollLaden ? ', auch nach vollem Laden' : ''
+    tun.bremse.stoerung(o.reihe, `Titelfenster ohne Inhalt in ${Math.round(o.frist / 1000)} s${nachLaden}`, o.jetzt)
     tun.weiter()
     return { ...wartet, entschieden: true }
   }

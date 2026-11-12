@@ -101,6 +101,7 @@ export default [
         akNetflixBremseOk: 'readonly',
         akNetflixBremseStoerung: 'readonly',
         akNetflixBremseNeu: 'readonly',
+        akNetflixVollLaden: 'readonly',
         akNetflixTitelfensterLeer: 'readonly',
         akNetflixZurueckNeu: 'readonly',
         akNetflixBericht: 'readonly',

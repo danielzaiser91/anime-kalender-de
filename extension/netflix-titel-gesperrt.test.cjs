@@ -231,9 +231,9 @@ ergebnis.gezaehlt = selbstGezaehlt`,
 /* `selbstStartenSchritt` gibt der Listenwarte die Bremse und meldet ihr einen Erfolg, sobald die Folgenliste da ist. */
 const schrittLaufen = async (durchlauf) => {
   const z = { bremseOk: 0, tun: null }
-  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000)]
+  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }]
   const f = new Function(
-    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date',
+    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden',
     `let selbstVersucht = null, selbstWartet = null\n${funktionText('async function selbstStartenSchritt()')}\nreturn selbstStartenSchritt()`,
   )
   try {
@@ -318,7 +318,7 @@ const taktLaufen = (o = {}) => {
 
   /* Schritt: Verdrahtung der Listenwarte und des Erfolgs. */
   z = await schrittLaufen({ laeuft: false, folgen: [], listeFuer: null })
-  pruefe('Schritt ohne Folgenliste: die Listenwarte bekommt die Bremse, kein Erfolg', z.tun?.bremse !== undefined && typeof z.tun.bremse.ok === 'function' && z.bremseOk === 0, z)
+  pruefe('Schritt ohne Folgenliste: die Listenwarte bekommt die Bremse, kein Erfolg', z.tun?.bremse !== undefined && typeof z.tun.bremse.ok === 'function' && z.tun.vollLaden?.versucht !== undefined && z.bremseOk === 0, z)
   z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '5' })
   pruefe('Schritt mit Folgenliste dieser Seite: die Bremse meldet Erfolg genau einmal', z.bremseOk === 1 && z.tun === null, z)
   z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '4' })

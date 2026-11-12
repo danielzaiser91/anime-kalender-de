@@ -2494,6 +2494,7 @@ const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig)
 const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
+const vollLaden = akNetflixVollLaden(location)
 const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
@@ -2854,7 +2855,7 @@ async function selbstStartenSchritt() {
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
     /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
     const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
-    selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, bremse })
+    selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, bremse, vollLaden })
     return
   }
   bremse.ok()

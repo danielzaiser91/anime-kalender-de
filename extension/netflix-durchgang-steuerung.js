@@ -172,6 +172,23 @@ globalThis.akNetflixBremseTakt = (bremse, jetzt, tun) => {
   return true
 }
 
+/**
+ * Voll laden statt pushState: bleibt das Titelfenster leer, lädt der Durchgang `/title/<id>` einmal je Titel wie ein
+ * Linkklick (der Durchgang überlebt das Neuladen über sessionStorage). Zeigt auch das nichts, liegt es an Netflix
+ * (Bremse), sonst war unser Sprung die Ursache — der Grund im Bericht sagt, welches von beiden. `loc`: `location`.
+ */
+globalThis.akNetflixVollLaden = (loc, speicher = sitzungSpeicher()) => ({
+  versucht: (reihe) => speicher?.getItem('ak-netflix-vollgeladen') === String(reihe),
+  laden(reihe) {
+    try {
+      speicher?.setItem('ak-netflix-vollgeladen', String(reihe))
+    } catch {
+      /* Ohne Speicher lädt der Durchgang jedes Mal neu; die Bremse greift trotzdem über die Fehlschläge. */
+    }
+    loc.assign(`/title/${reihe}`)
+  },
+})
+
 /** Die Pausenzeile im Kasten (`text` = `null` entfernt sie). */
 globalThis.akNetflixPauseZeigen = (zeileHolen, text) => {
   try {

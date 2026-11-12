@@ -569,6 +569,9 @@ async function tabFaelle() {
   vm.runInContext(readFileSync(__dirname + '/netflix-bericht.js', 'utf8'), s.env.__kontext, { filename: 'netflix-bericht.js' })
   const b = s.run('nfBericht()').durchgang
   pruefe('Bericht: Tab, Besitzer samt Urteil, Bremse und Titelliste', b.tab === eigener && b.besitzer?.urteil === 'fremd' && b.bremse?.folge === 0 && Array.isArray(b.titel), Object.keys(b))
+  pruefe('taktTun: beenden und weiter sind die echten Funktionen', s.run('taktTun.beenden === laufBeenden && taktTun.weiter === selbstWeiter'))
+  s.run("titelBericht.beginn('5', 1); taktTun.sehen()")
+  pruefe('taktTun.sehen schreibt in den Titelbericht dieses Tabs', s.run('titelBericht.liste()[0].adressen.length') === 1)
 }
 void (async () => {
   console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
