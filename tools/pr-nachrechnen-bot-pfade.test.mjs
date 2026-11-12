@@ -132,6 +132,7 @@ const DOKU_FIXTURES = [
   ['Leser von Wurzel-Markdown in der Logik-Liste', { 'tools/check-logic-liste.txt': 'pipeline/check-x.ts\n', 'pipeline/check-x.ts': "readFileSync('ZIELE.md')\n" }, ['pipeline/check-x.ts|ZIELE.md']],
   ['Leser von 00-wache.md im Kettenworkflow', { '.github/workflows/pr-pruefung.yml': 'run: cat daniel-zum-abarbeiten/00-wache.md\n' }, ['.github/workflows/pr-pruefung.yml|00-wache.md']],
   ['nur im Kommentar', { 'pipeline/lib/a.ts': "// docs/x.md ZIELE.md\n * 00-wache.md\n" }, []],
+  ['yml: Glob öffnet keinen Scheinblock, die Lesung danach zählt', { '.github/workflows/pr-pruefung.yml': 'run: ls docs/*\nrun: cat ZIELE.md\nrun: echo */\n' }, ['.github/workflows/pr-pruefung.yml|docs/', '.github/workflows/pr-pruefung.yml|ZIELE.md']],
   ['Test nennt es nur als Fixture', { 'tools/x.test.mjs': "const f = 'docs/a.md'\n" }, []],
   ['Datei außerhalb der Hülle', { 'pipeline/fetch-x.ts': "const f = 'docs/a.md'\n" }, []],
   ['Wurzel-Markdown ohne Datei im Wurzelordner zählt nicht', { 'pipeline/lib/a.ts': "const f = 'NEU.md'\n" }, []],

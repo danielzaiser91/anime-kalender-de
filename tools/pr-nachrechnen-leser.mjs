@@ -75,7 +75,7 @@ export function ohneBlockkommentare(text) {
   return aus
 }
 
-export const ohneKommentare = (text, datei = 'x.mjs') => (JS_FAMILIE.test(datei) ? ohneBlockkommentare(text) : text).split('\n').filter((z) => !KOMMENTAR.test(z)).join('\n')
+export const ohneKommentare = (text, datei = '') => (JS_FAMILIE.test(datei) ? ohneBlockkommentare(text) : text).split('\n').filter((z) => !KOMMENTAR.test(z)).join('\n')
 
 /** Relative Importe mit Literal als Kandidatenpfade (mit und ohne Endung), relativ zur Wurzel. */
 export function importZiele(datei, text) {

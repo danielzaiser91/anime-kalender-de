@@ -348,7 +348,7 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
 {
   // Anlass 12.11.2026: der eigene Quelltext enthält ein Template, das ENDUNG_REGEX trifft und keine gültige Regex ergibt ("Nothing to repeat").
   const EIGEN = readFileSync(new URL('./pr-nachrechnen-leser.mjs', import.meta.url), 'utf8')
-  const alsAuswertung = (() => { try { return endungsAuswertung(ohneKommentare(EIGEN)) } catch (e) { return String(e) } })()
+  const alsAuswertung = (() => { try { return endungsAuswertung(ohneKommentare(EIGEN, 'x.mjs')) } catch (e) { return String(e) } })()
   pruefe('Eigener Quelltext: Endungs-Auswertung wirft nicht und zählt genau 1 ungültiges Muster', typeof alsAuswertung === 'object' && alsAuswertung.uebersprungen === 1, alsAuswertung)
   pruefe('Eigener Quelltext: gültige Muster daneben bleiben (Tests aus endsWith und Regex)', typeof alsAuswertung === 'object' && alsAuswertung.tests.length >= 1)
   const GUELTIG = "readdirSync('tools').filter((f) => /\\.ya?ml$/.test(f))\n"
@@ -377,7 +377,7 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
     "  'crunchyroll-woche': 1,",
   ].join('\n')
   pruefe('Blockkommentar ohne Stern nennt die Datei (quellen-fristen) -> kein Leser', leser(FRISTEN).length === 0, leser(FRISTEN))
-  pruefe('Blockkommentar ohne Stern: pfadTokens ohne data/crunchyroll-woche.json', !pfadTokens(FRISTEN).includes('data/crunchyroll-woche.json'), pfadTokens(FRISTEN))
+  pruefe('Blockkommentar ohne Stern: pfadTokens ohne data/crunchyroll-woche.json', !pfadTokens(FRISTEN, 'x.mjs').includes('data/crunchyroll-woche.json'), pfadTokens(FRISTEN, 'x.mjs'))
   const LIES = "readFileSync('data/crunchyroll-woche.json')"
   pruefe('Gegenprobe: derselbe Name im Code -> Leser', leser(`${FRISTEN}\n${LIES}`).length === 1)
   pruefe('Glob-String mit Schrägstrich-Stern beginnt keinen Kommentar, spätere Lesung bleibt', leser(`const g = 'data/*'\n${LIES}\n/* Ende */`).length === 1, leser(`const g = 'data/*'\n${LIES}\n/* Ende */`))
@@ -391,9 +391,9 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Escape in der Zeichenkette: maskiertes Anführungszeichen beendet sie nicht', leser(`const s = 'a\\'b'; ${OHNE_STERN}`).length === 0)
   pruefe('Apostroph in einer Zeile endet am Zeilenende', leser(`it's\n${OHNE_STERN}`).length === 0)
   pruefe('Kommentar-Anfang direkt vor dem Ende (Schrägstrich-Stern-Schrägstrich) schließt nicht', leser('/*/ data/crunchyroll-woche.json */ x').length === 0)
-  pruefe('Zeilenzahl bleibt erhalten', ohneKommentare('a\n/* x\ny\n*/ b').split('\n').length === 4, ohneKommentare('a\n/* x\ny\n*/ b'))
-  pruefe('Zwei Blockkommentare in einer Zeile: Code dazwischen bleibt', ohneKommentare('/* a */ code /* b */').trim() === 'code', ohneKommentare('/* a */ code /* b */'))
-  pruefe('Unbeendeter Blockkommentar: nur seine Zeile entfällt, Folgezeilen bleiben', ohneKommentare('a\n/* offen\nb').split('\n').join() === 'a,b', ohneKommentare('a\n/* offen\nb'))
+  pruefe('Zeilenzahl bleibt erhalten', ohneKommentare('a\n/* x\ny\n*/ b', 'x.mjs').split('\n').length === 4, ohneKommentare('a\n/* x\ny\n*/ b', 'x.mjs'))
+  pruefe('Zwei Blockkommentare in einer Zeile: Code dazwischen bleibt', ohneKommentare('/* a */ code /* b */', 'x.mjs').trim() === 'code', ohneKommentare('/* a */ code /* b */', 'x.mjs'))
+  pruefe('Unbeendeter Blockkommentar: nur seine Zeile entfällt, Folgezeilen bleiben', ohneKommentare('a\n/* offen\nb', 'x.mjs').split('\n').join() === 'a,b', ohneKommentare('a\n/* offen\nb', 'x.mjs'))
 }
 
 {
