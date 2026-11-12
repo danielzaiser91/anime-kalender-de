@@ -41,11 +41,11 @@
  * Hashes angeben, nicht gegen das wandernde `origin/main`. Die Sperre nennt wartenden Läufen PID, Hashes, Ort und Alter des Halters.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
-import { eigeneAenderungen, gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { eigeneAenderungen, gleichTrotzDatenHinweis, schreibeErsatzCache, setzeDatenstand } from './bau-vergleich-daten.mjs'
 import { logge } from './bau-vergleich-log.mjs'
 import { beschreibeDatei } from './bau-vergleich-stand.mjs'
 import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
@@ -72,53 +72,7 @@ const glatt = (s) =>
   s.replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z/g, '<zeit>').replace(/\d+(\.\d+)?\s?(ms|s)\b/g, '<dauer>')
 
 function ersatzCache(ort, basisSha) {
-  const lies = (datei) => JSON.parse(git('show', `${basisSha}:public/data/${datei}`))
-  // Reihen als Fortsetzungsketten — ohne sie zerlegt der Bau keine Plattform-Serie in Staffeln,
-  // und die Gegenprobe (`pruefeErgebnis`) bricht ab.
-  const reihe = new Map()
-  for (const glieder of Object.values(lies('franchises.json'))) {
-    const sortiert = [...glieder].sort((a, b) => (a.jpStart ?? `${a.jpYear}`).localeCompare(b.jpStart ?? `${b.jpYear}`))
-    sortiert.forEach((g, i) => reihe.set(g.id, { g, vor: sortiert[i - 1], nach: sortiert[i + 1] }))
-  }
-  const kante = (typ, g) => ({ relationType: typ, node: { id: g.id, type: 'ANIME', title: { romaji: g.name, english: null } } })
-  const datum = (iso) => (iso ? { year: +iso.slice(0, 4), month: +iso.slice(5, 7), day: +iso.slice(8, 10) } : null)
-  const byId = {}
-  const byMal = {}
-  const confidence = {}
-  for (const t of lies('titles.json')) {
-    const r = reihe.get(t.id)
-    const m = {
-      id: t.id,
-      idMal: t.malId ?? null,
-      title: { romaji: t.titleRomaji ?? null, english: t.titleEn ?? null, native: t.titleNative ?? null },
-      format: t.format ?? null,
-      status: t.jpEnd ? 'FINISHED' : 'RELEASING',
-      episodes: t.episodes ?? null,
-      duration: 24,
-      season: t.jpSeason ?? null,
-      seasonYear: t.jpYear ?? null,
-      startDate: datum(r?.g.jpStart) ?? { year: t.jpYear ?? null, month: null, day: null },
-      endDate: datum(t.jpEnd) ?? { year: null, month: null, day: null },
-      relations: { edges: [r?.vor && kante('PREQUEL', r.vor), r?.nach && kante('SEQUEL', r.nach)].filter(Boolean) },
-      genres: t.genres ?? [],
-      tags: (t.keywords ?? []).map((name, i) => ({ name, rank: 90 - i, isMediaSpoiler: false, isAdult: false })),
-      externalLinks: (t.streams ?? []).map((s) => ({ site: s.platform, url: s.url, type: 'STREAMING' })),
-      studios: { nodes: (t.studios ?? []).map((name) => ({ name, isAnimationStudio: true })) },
-      coverImage: { large: t.coverImage ?? null, extraLarge: t.coverImage ?? null },
-      bannerImage: t.bannerImage ?? null,
-      averageScore: t.score ?? null,
-      isAdult: false,
-      description: null,
-    }
-    byId[t.id] = m
-    if (t.malId) byMal[t.malId] = m
-    if (t.malId && t.dubConfidence) confidence[t.malId] = t.dubConfidence
-  }
-  mkdirSync(ort, { recursive: true })
-  writeFileSync(join(ort, 'anilist-by-id.json'), JSON.stringify(byId))
-  writeFileSync(join(ort, 'anilist-media.json'), JSON.stringify(byMal))
-  writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
-  if (KATALOG_CACHE) copyFileSync(KATALOG_CACHE, join(ort, 'anilist-katalog.json'))
+  schreibeErsatzCache(ort, git, basisSha, KATALOG_CACHE)
 }
 
 /**

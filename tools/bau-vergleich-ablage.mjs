@@ -31,8 +31,11 @@ export const umgebungsMarke = (env) =>
 /** Die Katalog-Datei nach Inhalt, nicht nach Größe: eine neu gezogene Datei gleicher Größe ist ein anderer Bau. */
 export const katalogMarke = (pfad) => (pfad ? `-katalog${kurz(readFileSync(pfad))}` : '')
 
+/** Fassung des Ersatz-Caches: wer ihn ändert, zählt hoch, sonst gelten Ablagen mit altem Cache weiter (v2: entfernte Wege zurück, ohne aniSearch-Zeilen bei --katalog). */
+export const ERSATZ_CACHE_FASSUNG = 2
+
 export const ablageName = (sha, basisSha, katalogPfad, env) =>
-  `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}${katalogMarke(katalogPfad)}${umgebungsMarke(env)}`
+  `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}-ersatz${ERSATZ_CACHE_FASSUNG}${katalogMarke(katalogPfad)}${umgebungsMarke(env)}`
 
 /**
  * `--katalog` (die Datei des Hauptordners, `data/cache/anilist-katalog.json`) oder `--katalog=<Pfad>`; ohne Option gilt
