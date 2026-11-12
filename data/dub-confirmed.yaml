@@ -39426,3 +39426,13 @@
   dub: true
   checkedAt: '2026-11-12'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H6CC38TP: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.eb7896ae-ef47-4a9d-a230-016d06a59118"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-12 ---
+
+- anilistId: 531
+  title: "Sailor Moon R Movie: Gefährliche Blumen"
+  platform: netflix
+  url: https://www.netflix.com/title/26588007
+  available: false
+  checkedAt: '2026-11-12'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
