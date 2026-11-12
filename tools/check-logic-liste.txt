@@ -248,6 +248,7 @@ pipeline/check-folgentitel-englisch-bau.ts
 pipeline/check-folgentitel-englisch.ts
 pipeline/check-folgentitel-luecke-lauf.ts
 pipeline/check-folgentitel-luecke.ts
+pipeline/check-folgentitel-staffel-quote.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kasten.ts
 pipeline/check-folgenzahl-kennzeichnung.ts

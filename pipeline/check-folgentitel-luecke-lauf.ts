@@ -30,6 +30,7 @@ const titel21 = Array.from({ length: 21 }, (_, i) => [i + 1, `Titel ${i + 1}`])
 for (let id = 1; id <= 1000; id++) schreibe(['public', 'data', 'folgen', `${id}.json`], { f: titel21, de: [[1, 21]] })
 for (const name of ['anisearch-folgen', 'kitsu-folgen', 'tmdb-folgen', 'anisearch']) schreibe(['data', `${name}.json`], {})
 schreibe(['data', 'rtlplus-folgen.json'], { titel: {} })
+schreibe(['public', 'data', 'titles.json'], [])
 
 function lauf(): { status: number | null; aus: string; fehler: string } {
   const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline', 'check-folgentitel-sprache-bestand.ts')], { cwd: kulisse, encoding: 'utf8', timeout: 120_000, windowsHide: true })
@@ -58,6 +59,25 @@ try {
   schreibe(['data', 'rtlplus-folgen.json'], { titel: { '8': { folgen: [{ nr: 4, dt: 'Partner' }] } } })
   const lehnMit = lauf()
   pruefe('Lehnwort mit RTL+-Titel auf derselben Nummer: Exit 0, kein Fremdtitel-Fehler', lehnMit.status === 0 && !lehnMit.fehler.includes('englischer oder japanischer Quelle') && lehnMit.aus.includes('check-folgentitel-sprache-bestand: ok'), [lehnMit.status, lehnMit.fehler.slice(0, 300), lehnMit.aus.slice(-200)])
+
+  /* Quote der Folgentitel aus der TMDB-Containerstaffel: Tor ruft `pruefeStaffelQuote`, Warnung statt Fehler. */
+  console.log('\nTor check:bestand ruft die Staffel-Quote')
+  const staffel = (n: number, weg: number[]) => Array.from({ length: 25 }, (_, i) => ({ s: n, e: i + 1, titel: weg.includes(i + 1) ? `En ${i + 1}` : `S${n}E${i + 1}`, en: `En ${i + 1}`, datum: null }))
+  const quote = (weg: number[]) => schreibe(['data', 'tmdb-folgen.json'], { 900001: { nameDe: 'Kulisse - Serie', folgen: [...staffel(1, []), ...staffel(2, weg)] } })
+  const quoteTitel = { id: 900012, franchiseId: 900001, format: 'TV', episodes: 25, titleDe: 'Kulisse: Serie Staffel 2', streams: [] }
+  schreibe(['public', 'data', 'folgen', '900012.json'], { f: Array.from({ length: 25 }, (_, i) => [i + 1, i < 15 ? '' : `S2E${i + 1}`]), de: [[1, 25]] })
+  schreibe(['data', 'folgentitel-offen.json'], { '900012': { offen: 15, grund: 'Kulisse' } })
+  quote(Array.from({ length: 15 }, (_, i) => i + 1))
+  rmSync(join(kulisse, 'public', 'data', 'titles.json'))
+  const ohneTitles = lauf()
+  pruefe('ohne titles.json: Exit 1 und „titles.json fehlt“ (Schlusszeile da)', ohneTitles.status === 1 && ohneTitles.fehler.includes('titles.json fehlt') && ohneTitles.aus.includes('check-folgentitel-sprache-bestand:'), [ohneTitles.status, ohneTitles.fehler.slice(0, 300)])
+  schreibe(['public', 'data', 'titles.json'], [quoteTitel])
+  const knapp = lauf()
+  pruefe('10 von 25 Titeln aus der Containerstaffel: Exit 0 und Warnzeile für 900012', knapp.status === 0 && knapp.aus.includes('⚠ WARNUNG Folgentitel TMDB-Staffel: 900012') && knapp.aus.includes('nur 10 von 25'), [knapp.status, knapp.aus.slice(-500)])
+  schreibe(['public', 'data', 'folgen', '900012.json'], { f: Array.from({ length: 25 }, (_, i) => [i + 1, `S2E${i + 1}`]), de: [[1, 25]] })
+  quote([])
+  const voll = lauf()
+  pruefe('alle 25 Titel: Exit 0, ✓-Zeile und keine Staffel-Warnung', voll.status === 0 && voll.aus.includes('✓ Folgentitel TMDB-Staffel: 900012') && !voll.aus.includes('WARNUNG Folgentitel TMDB-Staffel'), [voll.status, voll.aus.slice(-500)])
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
