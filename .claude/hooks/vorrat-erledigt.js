@@ -6,7 +6,7 @@ const path = require('node:path')
 
 const WARTET = /^z-wartet-merge-(\d+)-(.+\.md)$/
 const VERGEBEN = /^vergeben-(.+\.md)$/
-const PR_LINK = /\/pull\/(\d+)\b/g
+const PR_LINK = /\/pull\/(\d+)/g
 
 /** Neuer Name oder null: ohne PR-Bezug (vergeben- ohne Link) oder solange ein PR der Datei nicht gemergt ist. */
 function neuerName(name, text, gemergt) {
