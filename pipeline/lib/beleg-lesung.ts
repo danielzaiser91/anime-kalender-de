@@ -197,12 +197,13 @@ export function merkeLesung(gedaechtnis: BelegGedaechtnis, url: string, lesung: 
   const eintrag = (gedaechtnis[url] ??= { zuletzt: lesung.am, lesungen: [] })
   eintrag.zuletzt = lesung.am
   const letzte = eintrag.lesungen.at(-1)
-  /* Ein Datum, das die Seite nicht mehr nennt, ist keine Änderung — sonst entstünde bei gleichem Text eine zweite Lesung. */
+  /* Ein Datum, das die Seite nicht mehr nennt, ist keine Änderung — sonst entstünde bei gleichem Text eine zweite Lesung. Ein anderer Erscheinungstag (`ausgabe`) bei gleichem Text ist dagegen eine neue Aussage der Seite. */
   const gleich =
     letzte &&
     letzte.hash === lesung.hash &&
     (!lesung.veroeffentlicht || letzte.veroeffentlicht === lesung.veroeffentlicht) &&
-    (!lesung.aktualisiert || letzte.aktualisiert === lesung.aktualisiert)
+    (!lesung.aktualisiert || letzte.aktualisiert === lesung.aktualisiert) &&
+    (!lesung.ausgabe || letzte.ausgabe === lesung.ausgabe)
   if (gleich) return false
   eintrag.lesungen.push(lesung)
   return true

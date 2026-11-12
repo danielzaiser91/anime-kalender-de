@@ -236,6 +236,11 @@ pruefe('Geheilte Fremdlesung (gleicher Text, Bild vorhanden): die Quelle zeigt w
 dG8[GODS]!.zuletzt = '2026-10-01'
 const log8 = await ausgabe(() => lauf([GODS], { gedaechtnis: dG8, gruppen: gods, gelesen: godsLesen(EBOOK) }))
 pruefe('Geheilte Fremdlesung: ein zweiter Lauf ändert nichts mehr (nicht erneut als neuer Stand gezählt)', dG8[GODS]!.lesungen.length === 1 && log8.includes('1 gelesen, 0 mit neuem Stand'), log8)
+/* Gleicher Text, neuer Erscheinungstag (Prüfer 3540, Frage 4): der Hash bleibt, die Seite nennt einen anderen Tag — der neue gilt, die alte Lesung bleibt als Verlauf. */
+const dGT: BelegGedaechtnis = { [GODS]: { zuletzt: '2026-10-01', lesungen: [passend('2026-10-01')] } }
+const logGleich = await ausgabe(() => lauf([GODS], { gedaechtnis: dGT, gruppen: gods, gelesen: () => ({ text: RICHTIG, veroeffentlicht: '2027-12-31' }) }))
+pruefe('Gleicher Text, neuer Erscheinungstag: zwei Lesungen, der neue Tag gilt und zählt als neuer Stand', dGT[GODS]!.lesungen.length === 2 && letzteAusgabe(dGT, GODS) === '2027-12-31' && dGT[GODS]!.lesungen[0]!.ausgabe === '2027-03-05' && logGleich.includes('1 gelesen, 1 mit neuem Stand'), logGleich)
+pruefe('Gleicher Text, neuer Erscheinungstag: die Quelle zeigt den neuen Tag', quelleVon(dGT).ausgabeAm === '2027-12-31')
 const news = [{ titelId: 7, meldungen: [{ belege: [{ url: GODS, name: 'aniSearch' }] }] }] as unknown as Parameters<typeof belegeFuerAlle>[0]
 const bildAm = (d: BelegGedaechtnis): string | undefined => (belegeFuerAlle(news, d)[0]!.meldungen[0]!.belege![0] as { bildAm?: string }).bildAm
 pruefe('Fremdtext nach passender Lesung: „Bild vom“ der Meldung nennt den Tag der passenden Lesung, nicht den der Fremdseite', bildAm(dG7) === '2026-10-01', String(bildAm(dG7)))
