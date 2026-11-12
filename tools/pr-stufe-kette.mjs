@@ -74,6 +74,14 @@ export function istHandwerkzeug(pfad, kette, diffPfade = []) {
   const eigenerTest = test || alleTests.some((t) => t.startsWith(`${stamm}.test.`) || t.startsWith(`${stamm}.spec.`))
   if (!eigenerTest) return false
   const eigen = (q) => q.pfad === pfad || (TOOLS_TEST.exec(q.pfad) || WERKZEUG.exec(q.pfad))?.[1] === stamm
+  return !nameWirdGenannt(stamm, eigen, kette, globTrifft)
+}
+
+/**
+ * Aufrufer-Suche: nennt irgendeine Quelle außer den eigenen (`eigen(q)`) den Namen `stamm` als ganzes Wort?
+ * `globs(q, stamm)`: optionale Zusatzprüfung für Glob-/Template-Pfade. Gemeinsam für Handwerkzeuge und Prüfdateien.
+ */
+export function nameWirdGenannt(stamm, eigen, kette, globs = () => false) {
   const muster = new RegExp(`(?<![\\w-])${maskiere(stamm)}(?![\\w-])`)
-  return !kette.quellen.some((q) => !eigen(q) && (muster.test(q.text) || globTrifft(q, stamm)))
+  return kette.quellen.some((q) => !eigen(q) && (muster.test(q.text) || globs(q, stamm)))
 }

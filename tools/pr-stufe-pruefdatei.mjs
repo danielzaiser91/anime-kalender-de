@@ -1,46 +1,38 @@
 /**
- * Prüfdatei-Erkennung für tools/pr-stufe.mjs: pipeline/check-*.ts ist ein Wächter, kein Produktivcode.
- * Ändert ein PR nur sie (und Tests), genügt Stufe 1 statt 2 — solange kein Produktivcode sie importiert.
- * Produktivcode = jede Quelle außer check-*-Dateien und Tests (pipeline/bau, pipeline/lib, shared, web, worker, tools, …).
- * Ein Import über eine andere Prüfdatei zählt mit (Fixpunkt): importiert Produktivcode check-a und check-a die check-b, ist auch check-b Stufe 2.
- * Im Zweifel (keine Kette gelesen) bleibt es Stufe 2.
+ * Prüfdatei-Erkennung für tools/pr-stufe.mjs: pipeline/check-*.ts, die in keiner Kette läuft, ist Stufe 1 statt 2.
+ * Stufe 1 nur, wenn alle Bedingungen gelten (sonst 2, im Zweifel auch):
+ *  - der Name `check-<x>` steht in keiner fremden Quelle (package.json, .github, Listen wie tools/check-logic-liste.txt,
+ *    Importe, spawn/exec-Aufrufe, Workflow-`run:`) — die Aufrufer-Suche ist dieselbe wie bei Handwerkzeugen (`nameWirdGenannt`);
+ *  - keine Quelle baut Prüfdateinamen dynamisch oder per Glob zusammen (`check-${…}`, `check-*`, `'check-' + …`);
+ *  - die Datei schreibt nichts (writeFile*, appendFile*, writeJson, rm/unlink/rename/copy/cp/mkdir/createWriteStream);
+ *  - die Datei liegt in der gelesenen Kette (sonst Zweifel).
+ * Eigene Tests (`pipeline/check-<x>.test.*`) zählen nicht als Aufrufer.
  */
+import { nameWirdGenannt } from './pr-stufe-kette.mjs'
+
 const PRUEFDATEI = /^pipeline\/check-((?![^/]*\.(?:test|spec)\.)[^/]+)\.ts$/
-const QUELLE_MIT_IMPORT = /\.(mjs|cjs|js|ts|tsx)$/
 const TEST = /\.(test|spec)\./
+const SCHREIBT = /\b(?:writeFileSync|writeFile|appendFileSync|appendFile|writeJson|rmSync|unlinkSync|renameSync|copyFileSync|cpSync|mkdirSync|createWriteStream)\b/
+// Prüfdateinamen aus Teilen gebaut: Template, Glob oder Verkettung.
+const DYNAMISCH = /check-(?:\$\{|\*|['"`]\s*\+)/
 
-const istCheck = (pfad) => /(^|\/)check-[^/]+\.[cm]?[jt]sx?$/.test(pfad)
+const istCheckOderTest = (pfad) => /(^|\/)check-[^/]+\.[cm]?[jt]sx?$/.test(pfad) || TEST.test(pfad)
+const dynamischeCache = new WeakMap()
 
-// Import-Angabe (import/from/require/dynamischer Import) mit Ziel .../check-<stamm>[.ts]; Erwähnung in Kommentar oder Text zählt nicht.
-const IMPORT_AUF_CHECK = /(?:\bfrom|\bimport|\brequire)\s*\(?\s*['"][^'"\n]*\/check-([^'"\n/]+?)(?:\.[cm]?[jt]sx?)?['"]/g
-
-const stammCache = new WeakMap()
-
-/** Namen (ohne check-/.ts) aller Prüfdateien, die Produktivcode erreicht, auch über andere Prüfdateien. */
-function erreichteStaemme(kette) {
-  if (stammCache.has(kette)) return stammCache.get(kette)
-  const quellen = kette.quellen.filter((q) => QUELLE_MIT_IMPORT.test(q.pfad))
-  const ziele = (q) => new Set([...q.text.matchAll(IMPORT_AUF_CHECK)].map((m) => m[1]))
-  const pruefer = new Map(quellen.filter((q) => PRUEFDATEI.test(q.pfad)).map((q) => [PRUEFDATEI.exec(q.pfad)[1], ziele(q)]))
-  const erreicht = new Set()
-  const offen = []
-  const vormerken = (staemme) => {
-    for (const s of staemme) {
-      if (erreicht.has(s)) continue
-      erreicht.add(s)
-      offen.push(s)
-    }
+function baueDynamisch(kette) {
+  if (!dynamischeCache.has(kette)) {
+    dynamischeCache.set(kette, kette.quellen.some((q) => !istCheckOderTest(q.pfad) && DYNAMISCH.test(q.text)))
   }
-  for (const q of quellen) if (!istCheck(q.pfad) && !TEST.test(q.pfad)) vormerken(ziele(q))
-  // Fixpunkt: was eine erreichte Prüfdatei importiert, ist ebenfalls erreicht.
-  while (offen.length) vormerken(pruefer.get(offen.pop()) ?? [])
-  stammCache.set(kette, erreicht)
-  return erreicht
+  return dynamischeCache.get(kette)
 }
 
-/** true, wenn `pfad` eine pipeline/check-*.ts ist, die kein Produktivcode importiert (auch nicht über Prüfdateien). */
+/** true, wenn `pfad` eine pipeline/check-*.ts ist, die nirgends aufgerufen wird, nichts schreibt und in der Kette liegt. */
 export function istPruefdatei(pfad, kette) {
   const m = PRUEFDATEI.exec(pfad)
   if (!m || !kette) return false
-  return !erreichteStaemme(kette).has(m[1])
+  const eigenerText = kette.quellen.find((q) => q.pfad === pfad)?.text
+  if (eigenerText === undefined || SCHREIBT.test(eigenerText)) return false
+  if (baueDynamisch(kette)) return false
+  const eigen = (q) => q.pfad === pfad || q.pfad.startsWith(`pipeline/check-${m[1]}.test.`)
+  return !nameWirdGenannt(`check-${m[1]}`, eigen, kette)
 }
