@@ -30,6 +30,7 @@ import { netflixTonspurSchritt } from './lib/netflix-tonspur-schritt.ts'
 import { fortschritt, drosselNachVorlauf, passtInsBudget, pauseMitStand, waehleArbeit, ZEITBUDGET_SEKUNDEN, linkCheckEnde, zaehleBefund } from './lib/link-check-gesundheit.ts'
 import { istFaellig, istTot } from './lib/link-befund.ts'
 import { meldeWechsel, nimmBefund, zweitesNetflix404, type WechselPaar } from './lib/link-rauschen.ts'
+import { AMAZON_VIDEO } from './lib/amazon-adresse.ts'
 import { aniSearchAmazon } from './lib/anisearch-amazon-adressen.ts'
 import { pruefbare } from './lib/pruefbare-adresse.ts'
 import { todayIso } from '../shared/time.ts'
@@ -116,7 +117,6 @@ const heute = () => todayIso()
  * `/library` und `/watchlist` — die Detailseite ausdrücklich **nicht**. Und es
  * ist derselbe Abruf wie bisher, nur dass die Antwort auch gelesen wird.
  */
-const AMAZON_VIDEO = /amazon\.[a-z.]+\/(gp\/video\/detail|dp)\//i
 const NICHT_IN_REGION = /In deiner Region nicht mehr auf Prime Video verfügbar/i
 
 /**

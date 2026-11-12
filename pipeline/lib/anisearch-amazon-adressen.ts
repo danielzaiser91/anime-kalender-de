@@ -9,8 +9,7 @@
  */
 import type { Title } from '../../shared/types.ts'
 
-const AMAZON_VIDEO = /amazon\.[a-z.]+\/(gp\/video\/detail|dp)\//i
-const SUCHADRESSE = /amazon\.[a-z.]+\/s\?|[?&]k=/i
+import { AMAZON_VIDEO, SUCHADRESSE } from './amazon-adresse.ts'
 
 export type AniSearchStreams = Record<string, { streams?: Array<{ url?: string }> }>
 
