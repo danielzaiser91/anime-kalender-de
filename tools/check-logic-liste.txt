@@ -564,6 +564,7 @@ pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-reihenfremd.ts
 pipeline/check-tmdb-staffel0-eigene-lauf.ts
+pipeline/check-tmdb-staffel0-liste.ts
 pipeline/check-tmdb-staffel0.ts
 pipeline/check-tmdb-suche.ts
 pipeline/check-tmdb-von-hand-abgeleitet.ts
