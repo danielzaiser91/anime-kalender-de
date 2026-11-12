@@ -19,9 +19,9 @@ try {
   writeFileSync(katalogA, '{"x":1}')
   writeFileSync(katalogB, '{"x":2}')
 
-  // Ohne gesetzte Variable bleibt der Name wie vor der Änderung (vorhandene Ablagen gelten weiter).
-  assert.equal(ablageName(sha, basis, undefined, {}), `${'a'.repeat(12)}-auf-${'b'.repeat(12)}-delta`)
-  assert.equal(ablageName(basis, basis, undefined, {}), `${'b'.repeat(12)}-auf-${'b'.repeat(12)}`)
+  // Ohne gesetzte Variable bleibt der Name stabil; die Fassung des Ersatz-Caches steht darin (alte Ablagen gelten nicht mehr).
+  assert.equal(ablageName(sha, basis, undefined, {}), `${'a'.repeat(12)}-auf-${'b'.repeat(12)}-delta-ersatz2`)
+  assert.equal(ablageName(basis, basis, undefined, {}), `${'b'.repeat(12)}-auf-${'b'.repeat(12)}-ersatz2`)
 
   // Jede Umgebungsvariable des Baus ändert den Namen, verschiedene Werte verschiedene Namen.
   const ohne = ablageName(sha, basis, undefined, {})
