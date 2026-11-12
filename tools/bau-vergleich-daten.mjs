@@ -69,3 +69,23 @@ export function gleichTrotzDatenHinweis(git, basis, kandidat) {
   if (!eigene.length) return []
   return [`Hinweis: Der Kandidat ändert ${eigene.length} Dateien unter data/ (${nenne(eigene)}); mitgebaut, der Bau schreibt trotzdem dasselbe.`]
 }
+
+/** Erste Kennung einer aniSearch-Zeile (wie `ANISEARCH_ID_BASIS` in `pipeline/bau/anisearch-titel.ts`). */
+export const ANISEARCH_ID_BASIS = 10_000_000
+
+/**
+ * Titel für den Ersatz-Cache. Mit Katalog fehlen aniSearch-Zeilen: der echte Cache kennt sie nicht, der Bau legt sie
+ * aus dem aniSearch-Cache selbst an — eine aufgenommene Zeile erschiene sonst als „verschieden“, obwohl der Bau sie streicht.
+ */
+export const titelFuerErsatzCache = (titel, mitKatalog) => (mitKatalog ? titel.filter((t) => t.id < ANISEARCH_ID_BASIS) : titel)
+
+/**
+ * Verweise eines Titels für den Ersatz-Cache: seine Streams plus die in `data/verweise-entfernt.json` entfernten.
+ * AniList führt sie weiter, der Bau streicht sie erst; ohne sie bliebe jede Änderung an dieser Streichung unsichtbar.
+ */
+export function verweiseFuerErsatzCache(titel, entfernte) {
+  const verweis = (site, url) => ({ site, url, type: 'STREAMING' })
+  const bekannt = new Set((titel.streams ?? []).map((s) => s.url))
+  const zurueck = entfernte.filter((e) => e.titleId === titel.id && e.url && !bekannt.has(e.url)).map((e) => verweis(e.plattform, e.url))
+  return [...(titel.streams ?? []).map((s) => verweis(s.platform, s.url)), ...zurueck]
+}

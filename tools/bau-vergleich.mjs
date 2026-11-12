@@ -45,7 +45,7 @@ import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync,
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
-import { eigeneAenderungen, gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { eigeneAenderungen, gleichTrotzDatenHinweis, setzeDatenstand, titelFuerErsatzCache, verweiseFuerErsatzCache } from './bau-vergleich-daten.mjs'
 import { logge } from './bau-vergleich-log.mjs'
 import { beschreibeDatei } from './bau-vergleich-stand.mjs'
 import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
@@ -85,7 +85,14 @@ function ersatzCache(ort, basisSha) {
   const byId = {}
   const byMal = {}
   const confidence = {}
-  for (const t of lies('titles.json')) {
+  const entfernte = (() => {
+    try {
+      return JSON.parse(git('show', `${basisSha}:data/verweise-entfernt.json`)).verweise ?? []
+    } catch {
+      return [] // ältere Basis ohne die Datei
+    }
+  })()
+  for (const t of titelFuerErsatzCache(lies('titles.json'), Boolean(KATALOG_CACHE))) {
     const r = reihe.get(t.id)
     const m = {
       id: t.id,
@@ -102,7 +109,7 @@ function ersatzCache(ort, basisSha) {
       relations: { edges: [r?.vor && kante('PREQUEL', r.vor), r?.nach && kante('SEQUEL', r.nach)].filter(Boolean) },
       genres: t.genres ?? [],
       tags: (t.keywords ?? []).map((name, i) => ({ name, rank: 90 - i, isMediaSpoiler: false, isAdult: false })),
-      externalLinks: (t.streams ?? []).map((s) => ({ site: s.platform, url: s.url, type: 'STREAMING' })),
+      externalLinks: verweiseFuerErsatzCache(t, entfernte),
       studios: { nodes: (t.studios ?? []).map((name) => ({ name, isAnimationStudio: true })) },
       coverImage: { large: t.coverImage ?? null, extraLarge: t.coverImage ?? null },
       bannerImage: t.bannerImage ?? null,

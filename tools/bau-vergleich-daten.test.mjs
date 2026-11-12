@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { DatenKonflikt, gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { DatenKonflikt, gleichTrotzDatenHinweis, setzeDatenstand, titelFuerErsatzCache, verweiseFuerErsatzCache } from './bau-vergleich-daten.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 
 const wurzel = mkdtempSync(path.join(tmpdir(), 'bau-vergleich-daten-'))
@@ -99,7 +99,32 @@ try {
   assert.equal(exitFuerFehler(new Error('anderer Fehler')), null, 'andere Fehler werden weitergeworfen')
   assert.match(readFileSync(path.join(import.meta.dirname, 'bau-vergleich.mjs'), 'utf8'), /exitFuerFehler\(/, 'bau-vergleich.mjs übersetzt den Konflikt')
 
-  console.log('bau-vergleich-daten: ok')
+  // Ersatz-Cache: aniSearch-Zeilen (≥ 10.000.000) fehlen nur mit Katalog; Grenze 9.999.999 / 10.000.000.
+  const titel = [{ id: 9_999_999 }, { id: 10_000_000 }, { id: 10_013_418 }, { id: 5 }]
+  assert.deepEqual(titelFuerErsatzCache(titel, true).map((t) => t.id), [9_999_999, 5], 'mit Katalog ohne aniSearch-Zeilen')
+  assert.equal(titelFuerErsatzCache(titel, false).length, 4, 'ohne Katalog bleiben alle')
+
+  // Ersatz-Cache: entfernte Wege kommen zu den Streams des eigenen Titels zurück, nicht zu fremden, ohne Doppelung.
+  const entfernte = [
+    { titleId: 7, plattform: 'crunchyroll', url: 'https://cr.example/weg' },
+    { titleId: 7, plattform: 'netflix', url: 'https://nf.example/da' },
+    { titleId: 8, plattform: 'adn', url: 'https://adn.example/fremd' },
+    { titleId: 7, plattform: 'adn', url: null },
+  ]
+  const t7 = { id: 7, streams: [{ platform: 'netflix', url: 'https://nf.example/da' }] }
+  assert.deepEqual(verweiseFuerErsatzCache(t7, entfernte), [
+    { site: 'netflix', url: 'https://nf.example/da', type: 'STREAMING' },
+    { site: 'crunchyroll', url: 'https://cr.example/weg', type: 'STREAMING' },
+  ])
+  assert.deepEqual(verweiseFuerErsatzCache({ id: 9 }, entfernte), [], 'Titel ohne Streams und ohne entfernte Wege')
+  assert.deepEqual(verweiseFuerErsatzCache({ id: 8 }, entfernte).map((v) => v.site), ['adn'], 'Titel ganz ohne Streams bekommt nur seinen Weg')
+
+  // Verdrahtung: der Ersatz-Cache ruft beide Helfer mit dem Katalog-Schalter und den Entfernten der Basis auf.
+  const quelle = readFileSync(path.join(import.meta.dirname, 'bau-vergleich.mjs'), 'utf8')
+  assert.match(quelle, /titelFuerErsatzCache\(lies\('titles\.json'\), Boolean\(KATALOG_CACHE\)\)/)
+  assert.match(quelle, /externalLinks: verweiseFuerErsatzCache\(t, entfernte\)/)
+
+  console.log('bau-vergleich-daten: ok (Ersatz-Cache: aniSearch-Grenze, entfernte Wege, Verdrahtung)')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
