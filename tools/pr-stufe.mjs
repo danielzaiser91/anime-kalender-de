@@ -27,7 +27,9 @@
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
+ * | Prüfdatei pipeline/check-*.ts, die kein Produktivcode importiert (tools/pr-stufe-pruefdatei.mjs) | 1 |
  * | nur Testdateien (*.test.*, *.spec.*; auch Umbenennungsquellen), sonst 2     | höchstens 1 |
+ * | nur Testdateien und solche Prüfdateien                                      | höchstens 1 |
  * | web/src-Code, dessen geänderte Zeilen alle Kommentare sind, höchstens 30    | 0       |
  *
  * Herabstufung gibt es nur durch diese Tabelle. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen,
@@ -36,6 +38,7 @@
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { istHandwerkzeug, leseKette } from './pr-stufe-kette.mjs'
+import { istPruefdatei } from './pr-stufe-pruefdatei.mjs'
 
 const GRENZE_CSS = 30
 const GRENZE_KOMMENTAR = 30
@@ -144,6 +147,7 @@ function stufeOhneModus(d, n, kette) {
   if (BUEHNE.test(d.pfad)) return [1, 'Bühne (nicht ausgeliefert)']
   if (STUFE_1.test(d.pfad)) return [1, 'UI-Logik, Handbeleg oder Datenwert']
   if (istHandwerkzeug(d.pfad, kette, kette?.diff)) return [1, 'Handwerkzeug unter tools/ (kein Workflow, npm-Skript, keine Liste oder Quelle ruft es auf, eigener Test)']
+  if (istPruefdatei(d.pfad, kette)) return [1, 'Prüfdatei pipeline/check-*.ts (kein Produktivcode importiert sie)']
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
 }
 
@@ -171,7 +175,9 @@ export function bestimmeStufe(dateien, keineKette = null) {
   }
   // Nur Tests: höchstens Stufe 1, nicht 0 — gelöschte Tests oder geschwächte Zusicherungen sind aus dem Pfad nicht erkennbar.
   // Schon eine Nicht-Testdatei (auch als Umbenennungsquelle) lässt die Tabelle unverändert gelten.
-  if (dateien.length > 0 && dateien.every(nurTest)) stufe = Math.min(stufe, 1)
+  // Dasselbe für Tests neben Prüfdateien: ein Test neben pipeline/check-*.ts fällt sonst auf „unbekannt“ → 2.
+  const nurTestOderPruefdatei = (d) => nurTest(d) || (!d.unlesbar && !d.symlink && istPruefdatei(d.pfad, kette) && (!d.quelle || istPruefdatei(d.quelle, kette)))
+  if (dateien.length > 0 && dateien.every(nurTestOderPruefdatei)) stufe = Math.min(stufe, 1)
   // „Eine Komponente/Datei": mehrere CSS-Dateien sind keine gescopte Anpassung.
   const csss = dateien.filter((d) => CSS.test(d.pfad))
   if (csss.length > 1 && stufe === 0) {
