@@ -416,7 +416,7 @@
   {
     "name": "PR-Datei: Test zählt als Ordner-Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))",
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))",
     "ersetze": "ordnerLeser(text, bewegt)",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -426,7 +426,7 @@
   {
     "name": "PR-Datei: Ordner-Leser aus",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))",
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))))",
     "ersetze": "undefined",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -762,8 +762,8 @@
   {
     "name": "Shell-Test: Muster ohne „-“ (trifft attest.sh)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "/-test(-[\\w-]+)?\\.sh$/",
-    "ersetze": "/test(-[\\w-]+)?\\.sh$/",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "test(-[\\w-]+)?\\.sh$/",
     "tests": [
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
@@ -771,8 +771,8 @@
   {
     "name": "Shell-Test: Zusatz „-beleg“ nicht erlaubt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "/-test(-[\\w-]+)?\\.sh$/",
-    "ersetze": "/-test\\.sh$/",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "-test\\.sh$/",
     "tests": [
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
@@ -780,8 +780,8 @@
   {
     "name": "Shell-Test: Muster ohne Ende (trifft a-test.sh.bak)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "/-test(-[\\w-]+)?\\.sh$/",
-    "ersetze": "/-test(-[\\w-]+)?\\.sh/",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "-test(-[\\w-]+)?\\.sh/",
     "tests": [
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
@@ -789,8 +789,8 @@
   {
     "name": "Shell-Test: jedes .sh",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "/-test(-[\\w-]+)?\\.sh$/",
-    "ersetze": "/\\.sh$/",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "\\.sh$/",
     "tests": [
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
     ]
