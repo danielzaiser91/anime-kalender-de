@@ -61,7 +61,13 @@ export const FRISTEN = {
   'anisearch-zuordnung': 3,
   messbelege: 3,
   toggo: 3,
-  'tv-de': 3,
+  /*
+    tv.de antwortet GitHub-Runnern seit dem 06.11.2026 mit HTTP 403 (lastOk 05.11.2026 23:04 UTC; vom eigenen Rechner
+    HTTP 200). Eine Sperre aus der Cloud umgehen wir nicht (CLAUDE.md); der Lauf fragt weiter einmal täglich und beendet
+    sich beim ersten 403, ein Ende der Sperre heilt die Quelle von selbst. 30 Tage statt 3: der tägliche Alarm
+    meldete nur das Bekannte (quellen.md, „tv.de sperrt GitHub-Runner“).
+  */
+  'tv-de': 30,
   /*
     Ebenfalls im Tageslauf, aber hier ist nicht belegt, dass ein Lauf jeden Tag etwas zählt (Warteschlange, neue Titel):
     bewusst die bisherige Standardfrist von 4 Tagen, jetzt eingetragen, damit der Wächter `quellen-fristen-takt.test.mjs`
