@@ -77,6 +77,7 @@ gleich('Grund: Kette läuft noch', grundExit2(LAEUFT), 'spaeter')
 gleich('Grund: Fehler', grundExit2(FEHL), 'fehler')
 gleich('Grund: SCHON ANGESTOSSEN ist Fehler, auch wenn „noch nicht“ im Text steht', grundExit2(`${ANGESTOSSEN}; noch nicht berechnet`), 'fehler')
 gleich('Grund: unbekannter Text ist Fehler', grundExit2('irgendwas'), 'fehler')
+gleich('Grund: FEHLER schlägt „läuft noch“ im selben Text', grundExit2('pr-nachrechnen: FEHLER Job läuft noch nicht lesbar'), 'fehler')
 const unknown = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(2, UNKNOWN), ok(1)] })
 gleich('UNKNOWN, beim zweiten Versuch rechenbar: zwei Aufrufe, eine Pause, Exit 0, Neustart gemeldet', [unknown.code, unknown.aufrufe, unknown.pausen, unknown.zeilen[1]], [0, [10, 10], [20000], 'Basis-Neustart: PR 10 Exit 1 (Kette neu gestartet)'])
 const laeuft = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(2, LAEUFT)] })
@@ -103,16 +104,18 @@ function einstieg(env, antwort = 0) {
   const pausen = []
   const nachrechnen = (argv, _gh, melde) => {
     aufrufe.push(argv)
-    melde(antwort === 2 ? KONFLIKT : 'ok')
-    return antwort
+    melde(antwort === 2 ? KONFLIKT : antwort === 'unknown' ? UNKNOWN : 'ok')
+    return antwort === 'unknown' ? 2 : antwort
   }
   const code = main(env, { holePrs: () => OFFENE, nachrechnen, warte: (ms) => pausen.push(ms), melde: (t) => zeilen.push(t) })
-  return { code, aufrufe, zeilen }
+  return { code, aufrufe, zeilen, pausen }
 }
-gleich('main: Basis aus BASIS_PR, nachrechnen ohne --trocken', einstieg({ BASIS_PR: '30', TROCKEN: 'false' }), { code: 0, aufrufe: [['10'], ['40']], zeilen: ['Basis-Neustart: #30 gemergt, Stapel-PRs #10, #40', 'ok', 'Basis-Neustart: PR 10 Exit 0 (aktuell)', 'ok', 'Basis-Neustart: PR 40 Exit 0 (aktuell)'] })
+gleich('main: Basis aus BASIS_PR, nachrechnen ohne --trocken', einstieg({ BASIS_PR: '30', TROCKEN: 'false' }), { code: 0, aufrufe: [['10'], ['40']], zeilen: ['Basis-Neustart: #30 gemergt, Stapel-PRs #10, #40', 'ok', 'Basis-Neustart: PR 10 Exit 0 (aktuell)', 'ok', 'Basis-Neustart: PR 40 Exit 0 (aktuell)'], pausen: [] })
 gleich('main: TROCKEN=true reicht --trocken durch', einstieg({ BASIS_PR: '30', TROCKEN: 'true' }).aufrufe, [['--trocken', '10'], ['--trocken', '40']])
 gleich('main: TROCKEN fehlt: nicht trocken (Standardwert)', einstieg({ BASIS_PR: '31' }).aufrufe, [['50']])
 gleich('main: BASIS_PR fehlt: Exit 1', einstieg({}).code, 1)
+const unk = einstieg({ BASIS_PR: '31' }, 'unknown')
+gleich('main: UNKNOWN von nachrechnen: zwei Aufrufe, die Pause kommt aus main an (20 s), Exit 0', [unk.code, unk.aufrufe.length, unk.pausen, unk.zeilen.some((z) => z.includes('NICHT NEU GERECHNET'))], [0, 2, [20000], true])
 gleich('main: Meldung von nachrechnen kommt als Grund an (Konflikt: Exit 0, eine Zeile KONFLIKT)', [einstieg({ BASIS_PR: '31' }, 2).code, einstieg({ BASIS_PR: '31' }, 2).zeilen.some((z) => z.includes('KONFLIKT mit main'))], [0, true])
 // Verdrahtung aus der YAML: Auslöser, Bedingung, Rechte, Token, Aufruf.
 const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer-nachtrag.yml', import.meta.url), 'utf8'))
