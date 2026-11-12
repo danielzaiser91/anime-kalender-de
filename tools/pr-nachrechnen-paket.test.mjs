@@ -83,6 +83,10 @@ for (const flag of ['--noEmit', '-p', '--project', '--config', '-c']) {
 aktuell('neutrale Option --config=Pfad: PR-Datei in worker/', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint --config=extension/eslint.config.mjs' }, ['worker/a.ts']))
 veraltet('Konfigurationsdatei eslint.config.mjs gilt für ihren Ordner', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'eslint --config extension/eslint.config.mjs' }, ['extension/neu.js']), /trifft extension\/neu\.js/)
 veraltet('Glob in tools/ trifft tools/neu.test.mjs (WURZELN enthält tools)', aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': 'node tools/*.test.mjs' }, ['tools/neu.test.mjs']), /trifft tools\/neu\.test\.mjs/)
+for (const trenner of [';', '||', '&&']) {
+  veraltet(`Teil nach ${trenner} ohne Pfad macht das Skript unklar`, aendere({ 'check:hooks': 'node tools/unter.mjs' }, { 'check:hooks': `node tools/unter.mjs ${trenner} vite build` }, ['worker/a.ts']), /ohne erkennbaren Pfad/)
+}
+veraltet('npm run mit durchgereichten Argumenten ist kein reiner Aufruf (Teil bleibt, ohne Pfad)', aendere({ 'check:alles': 'npm run check:logic' }, { 'check:alles': 'npm run check:logic -- --foo' }, ['worker/a.ts']), /Skript check:alles ohne erkennbaren Pfad/)
 
 // pre-/post-Hooks, Install-Lebenszyklus, Schreibweisen von npm (Prüfer 12.11., A2/A3).
 const HAKEN = [...KETTE, '      - run: npm run check:a\n']
