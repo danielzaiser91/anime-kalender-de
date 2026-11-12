@@ -89,3 +89,68 @@ export function verweiseFuerErsatzCache(titel, entfernte) {
   const zurueck = entfernte.filter((e) => e.titleId === titel.id && e.url && !bekannt.has(e.url)).map((e) => verweis(e.plattform, e.url))
   return [...(titel.streams ?? []).map((s) => verweis(s.platform, s.url)), ...zurueck]
 }
+
+/**
+ * Inhalt des Ersatz-Caches aus dem Bestand der Basis (rein, ohne Dateien): AniList-Nachbildung nach Kennung und MAL-ID.
+ * `franchises`: Inhalt von franchises.json, `entfernte`: Verweise aus verweise-entfernt.json, `mitKatalog`: Bau mit --katalog.
+ */
+export function ersatzCacheInhalt({ titel, franchises, entfernte, mitKatalog }) {
+  // Reihen als Fortsetzungsketten — ohne sie zerlegt der Bau keine Plattform-Serie in Staffeln,
+  // und die Gegenprobe (`pruefeErgebnis`) bricht ab.
+  const reihe = new Map()
+  for (const glieder of Object.values(franchises)) {
+    const sortiert = [...glieder].sort((a, b) => (a.jpStart ?? `${a.jpYear}`).localeCompare(b.jpStart ?? `${b.jpYear}`))
+    sortiert.forEach((g, i) => reihe.set(g.id, { g, vor: sortiert[i - 1], nach: sortiert[i + 1] }))
+  }
+  const kante = (typ, g) => ({ relationType: typ, node: { id: g.id, type: 'ANIME', title: { romaji: g.name, english: null } } })
+  const datum = (iso) => (iso ? { year: +iso.slice(0, 4), month: +iso.slice(5, 7), day: +iso.slice(8, 10) } : null)
+  const byId = {}
+  const byMal = {}
+  const confidence = {}
+  for (const t of titelFuerErsatzCache(titel, mitKatalog)) {
+    const r = reihe.get(t.id)
+    const m = {
+      id: t.id,
+      idMal: t.malId ?? null,
+      title: { romaji: t.titleRomaji ?? null, english: t.titleEn ?? null, native: t.titleNative ?? null },
+      format: t.format ?? null,
+      status: t.jpEnd ? 'FINISHED' : 'RELEASING',
+      episodes: t.episodes ?? null,
+      duration: 24,
+      season: t.jpSeason ?? null,
+      seasonYear: t.jpYear ?? null,
+      startDate: datum(r?.g.jpStart) ?? { year: t.jpYear ?? null, month: null, day: null },
+      endDate: datum(t.jpEnd) ?? { year: null, month: null, day: null },
+      relations: { edges: [r?.vor && kante('PREQUEL', r.vor), r?.nach && kante('SEQUEL', r.nach)].filter(Boolean) },
+      genres: t.genres ?? [],
+      tags: (t.keywords ?? []).map((name, i) => ({ name, rank: 90 - i, isMediaSpoiler: false, isAdult: false })),
+      externalLinks: verweiseFuerErsatzCache(t, entfernte),
+      studios: { nodes: (t.studios ?? []).map((name) => ({ name, isAnimationStudio: true })) },
+      coverImage: { large: t.coverImage ?? null, extraLarge: t.coverImage ?? null },
+      bannerImage: t.bannerImage ?? null,
+      averageScore: t.score ?? null,
+      isAdult: false,
+      description: null,
+    }
+    byId[t.id] = m
+    if (t.malId) byMal[t.malId] = m
+    if (t.malId && t.dubConfidence) confidence[t.malId] = t.dubConfidence
+  }
+  return { byId, byMal, confidence }
+}
+
+/**
+ * Entfernte Verweise der Basis (`data/verweise-entfernt.json`). Fehlt die Datei in der Basis (ältere Basis), gilt „keine“;
+ * jeder andere Fehler (kaputtes JSON, git) wird geworfen, sonst wäre die Rückgabe der Wege still wirkungslos.
+ */
+export function liesEntfernteVerweise(git, basisSha) {
+  let text
+  try {
+    text = git('show', `${basisSha}:data/verweise-entfernt.json`)
+  } catch (fehler) {
+    const meldung = `${fehler.stderr ?? ''}${fehler.message ?? ''}`
+    if (/does not exist in|exists on disk, but not in/.test(meldung)) return []
+    throw fehler
+  }
+  return JSON.parse(text).verweise ?? []
+}

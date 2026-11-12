@@ -5,10 +5,10 @@
  */
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { DatenKonflikt, gleichTrotzDatenHinweis, setzeDatenstand, titelFuerErsatzCache, verweiseFuerErsatzCache } from './bau-vergleich-daten.mjs'
+import { DatenKonflikt, gleichTrotzDatenHinweis, ersatzCacheInhalt, liesEntfernteVerweise, setzeDatenstand, titelFuerErsatzCache, verweiseFuerErsatzCache } from './bau-vergleich-daten.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 
 const wurzel = mkdtempSync(path.join(tmpdir(), 'bau-vergleich-daten-'))
@@ -119,12 +119,47 @@ try {
   assert.deepEqual(verweiseFuerErsatzCache({ id: 9 }, entfernte), [], 'Titel ohne Streams und ohne entfernte Wege')
   assert.deepEqual(verweiseFuerErsatzCache({ id: 8 }, entfernte).map((v) => v.site), ['adn'], 'Titel ganz ohne Streams bekommt nur seinen Weg')
 
-  // Verdrahtung: der Ersatz-Cache ruft beide Helfer mit dem Katalog-Schalter und den Entfernten der Basis auf.
-  const quelle = readFileSync(path.join(import.meta.dirname, 'bau-vergleich.mjs'), 'utf8')
-  assert.match(quelle, /titelFuerErsatzCache\(lies\('titles\.json'\), Boolean\(KATALOG_CACHE\)\)/)
-  assert.match(quelle, /externalLinks: verweiseFuerErsatzCache\(t, entfernte\)/)
+  // Verhalten des ganzen Ersatz-Caches: Kennung und MAL-ID, entfernte Wege, Reihen, Katalog-Schalter.
+  const titelListe = [
+    { id: 7, malId: 70, titleEn: 'Sieben', dubConfidence: 'high', streams: [{ platform: 'netflix', url: 'https://nf.example/da' }] },
+    { id: 8, malId: 80, jpYear: 2020 },
+    { id: 10_000_005, titleEn: 'aniSearch-Zeile' },
+  ]
+  const franchises = { 1: [{ id: 8, name: 'Acht', jpYear: 2020 }, { id: 7, name: 'Sieben', jpYear: 2019 }] }
+  const ohneKatalog = ersatzCacheInhalt({ titel: titelListe, franchises, entfernte, mitKatalog: false })
+  assert.deepEqual(Object.keys(ohneKatalog.byId), ['7', '8', '10000005'], 'ohne Katalog bleiben alle Titel')
+  assert.deepEqual(Object.keys(ersatzCacheInhalt({ titel: titelListe, franchises, entfernte, mitKatalog: true }).byId), ['7', '8'], 'mit Katalog ohne aniSearch-Zeile')
+  assert.deepEqual(ohneKatalog.byId[7].externalLinks.map((l) => l.url), ['https://nf.example/da', 'https://cr.example/weg'], 'entfernter Weg kommt zurück')
+  assert.deepEqual(ohneKatalog.byId[8].externalLinks.map((l) => l.site), ['adn'], 'Weg des Titels 8')
+  assert.equal(ohneKatalog.byId[7].relations.edges[0].relationType, 'SEQUEL', 'Reihe: 7 (2019) hat 8 als Fortsetzung')
+  assert.equal(ohneKatalog.byId[8].relations.edges[0].node.id, 7, 'Reihe: 8 hat 7 als Vorgänger')
+  assert.equal(ohneKatalog.byMal[70].id, 7, 'MAL-Kennung führt zum Titel')
+  assert.deepEqual(ohneKatalog.confidence, { 70: 'high' })
 
-  console.log('bau-vergleich-daten: ok (Ersatz-Cache: aniSearch-Grenze, entfernte Wege, Verdrahtung)')
+  // Entfernte Verweise der Basis lesen (Wegwerf-Repo): Datei da, Datei fehlt, kaputtes JSON, Basis ≠ Kandidat.
+  git('checkout', '-q', '-b', 'verweise', start)
+  const mitDatei = commit({ 'data/verweise-entfernt.json': JSON.stringify({ verweise: [{ titleId: 7, plattform: 'adn', url: 'https://adn.example/a' }] }) }, 'mit Datei')
+  const andere = commit({ 'data/verweise-entfernt.json': JSON.stringify({ verweise: [{ titleId: 9, plattform: 'netflix', url: 'https://nf.example/b' }] }) }, 'andere Fassung')
+  const ohneVerweise = commit({ 'data/verweise-entfernt.json': '{}\n' }, 'ohne Schlüssel')
+  const kaputt = commit({ 'data/verweise-entfernt.json': '{kaputt' }, 'kaputt')
+  assert.deepEqual(liesEntfernteVerweise(git, mitDatei).map((e) => e.titleId), [7], 'Datei da')
+  assert.deepEqual(liesEntfernteVerweise(git, andere).map((e) => e.titleId), [9], 'liest die übergebene Fassung, nicht eine andere')
+  assert.deepEqual(liesEntfernteVerweise(git, ohneVerweise), [], 'Datei ohne Schlüssel verweise')
+  assert.deepEqual(liesEntfernteVerweise(git, start), [], 'Datei fehlt in der Basis')
+  assert.throws(() => liesEntfernteVerweise(git, kaputt), SyntaxError, 'kaputtes JSON wird nicht verschluckt')
+  assert.throws(() => liesEntfernteVerweise(() => { throw new Error('fatal: anderer git-Fehler') }, start), /anderer git-Fehler/, 'anderer git-Fehler wird nicht verschluckt')
+
+  // Wächter: jede Kopie der aniSearch-Grenze in pipeline/bau, pipeline/lib und dem Werkzeug trägt denselben Wert wie der Export im Bau.
+  const hier = import.meta.dirname
+  const wert = (text) => [...text.matchAll(/\b(?:ANISEARCH_ID_BASIS|ANISEARCH_AB)\s*=\s*([\d_]+)/g)].map((m) => m[1])
+  assert.deepEqual(wert(readFileSync(path.join(hier, '../pipeline/bau/anisearch-titel.ts'), 'utf8')), ['10_000_000'], 'Quelle der Grenze')
+  const kopien = [path.join(hier, 'bau-vergleich-daten.mjs')]
+  for (const datei of readdirSync(path.join(hier, '../pipeline/lib'))) if (datei.endsWith('.ts')) kopien.push(path.join(hier, '../pipeline/lib', datei))
+  const gefunden = kopien.flatMap((datei) => wert(readFileSync(datei, 'utf8')).map((w) => ({ datei: path.basename(datei), w })))
+  assert.ok(gefunden.length >= 8, `Kopien der Grenze gefunden: ${gefunden.length}`)
+  assert.deepEqual(gefunden.filter((k) => k.w !== '10_000_000'), [], 'abweichende Kopie der aniSearch-Grenze')
+
+  console.log(`bau-vergleich-daten: ok (Ersatz-Cache als Verhalten, Lesen der entfernten Verweise, ${gefunden.length} Kopien der aniSearch-Grenze gleich)`)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
