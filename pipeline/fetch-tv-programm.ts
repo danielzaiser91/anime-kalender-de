@@ -310,9 +310,9 @@ export async function rtlProgrammLesen(
   return { sendungen: [], grund: `${grund} nach ${RTL_VERSUCHE} Versuchen` }
 }
 
-export async function main(): Promise<void> {
+export async function main(abruf: typeof fetch = fetch, rtlPause?: () => Promise<void>): Promise<void> {
   /* Fällt eine Quelle aus, arbeitet die andere weiter — gemeldet wird trotzdem. */
-  const { sendungen, grund } = await rtlProgrammLesen(fetch)
+  const { sendungen, grund } = await rtlProgrammLesen(abruf, rtlPause)
   if (grund) {
     warn(`RTL+-Programm: ${grund}`)
     recordSource('tv-programm', 0, grund)
@@ -352,7 +352,7 @@ export async function main(): Promise<void> {
   const tvdeFaellig = datei.tvdeGeholtAm !== heute || process.argv.includes('--tvde')
   if (!tvdeFaellig) log(`tv.de heute schon geholt (${datei.tvdeGeholtAm}) — übersprungen.`)
   const tage = Array.from({ length: 9 }, (_, i) => new Date(Date.now() + (i - 1) * 864e5).toISOString().slice(0, 10))
-  const lauf = await tvDeSeitenLesen(fetch, tvdeFaellig ? tage : [], Object.keys(TVDE_SENDER), (slug, tag, html) => {
+  const lauf = await tvDeSeitenLesen(abruf, tvdeFaellig ? tage : [], Object.keys(TVDE_SENDER), (slug, tag, html) => {
     const name = TVDE_SENDER[slug]!
     for (const s of tvDeSendungen(html, tag)) {
       const titleId = titelZuordnen(s.titel, namen)
@@ -385,7 +385,7 @@ export async function main(): Promise<void> {
     let nacht = 0
     for (const r of reihen.values()) {
       try {
-        const antwort = await fetch(`https://tv.de/sendung/r/s,${r.kennung}/`, {
+        const antwort = await abruf(`https://tv.de/sendung/r/s,${r.kennung}/`, {
           headers: { 'User-Agent': 'anime-kalender-de (https://anime-kalender.de; einmal am Tag, nur Anime)' },
         })
         if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)

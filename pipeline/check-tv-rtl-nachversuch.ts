@@ -67,5 +67,20 @@ const f = attrappe([{ status: 429, text: '' }])
 const r6 = await rtlProgrammLesen(f.abruf, pause)
 pruefe('dauerhaft 429: Grund HTTP 429', r6.grund === 'HTTP 429 nach 3 Versuchen' && f.aufrufe() === 3)
 
+const ohneTyp = (async () => ({ ok: true, status: 200, text: async () => leer, headers: new Headers() })) as unknown as typeof fetch
+const r7 = await rtlProgrammLesen(ohneTyp, pause)
+pruefe('Antwort ohne content-type: Grund nennt „ohne Typ“', r7.grund === `keine Sendung gelesen (HTTP 200, ${leer.length} Zeichen, ohne Typ) nach 3 Versuchen`)
+
+/* Standard-Pause: 20 s zwischen den Versuchen; setTimeout zeichnet die Dauer auf und läuft sofort. */
+const dauern: number[] = []
+const echtesTimeout = globalThis.setTimeout
+globalThis.setTimeout = ((fn: () => void, ms?: number) => {
+  dauern.push(ms ?? -1)
+  return echtesTimeout(fn, 0)
+}) as typeof setTimeout
+await rtlProgrammLesen(attrappe([{ status: 200, text: leer }]).abruf)
+globalThis.setTimeout = echtesTimeout
+pruefe('Standard-Pause: zweimal genau 20000 ms', dauern.length === 2 && dauern.every((d) => d === 20000))
+
 if (fehler) process.exit(1)
-console.log('check-tv-rtl-nachversuch: 7 Zusicherungen ok')
+console.log('check-tv-rtl-nachversuch: 9 Zusicherungen ok')
