@@ -524,6 +524,7 @@ pipeline/check-suchadressen-endzustand.ts
 pipeline/check-suchfeld-arten.ts
 pipeline/check-suchhinweis-bereich.ts
 pipeline/check-suchhinweis-lauf.ts
+pipeline/check-suchhinweis-namen.ts
 pipeline/check-sw-cache-regeln.ts
 pipeline/check-synchro-beleg-auswahl.ts
 pipeline/check-synchro-beleg-folgen.ts
