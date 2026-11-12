@@ -1,6 +1,6 @@
 /**
  * **Eine überholte Quelle gehört nicht auf die Handliste „Aussage nicht zu finden“** (12.11.2026): Trägt ein Termin eine Quelle mit
- * `stand: 'ueberholt'` und dem alten Tag in `sagt`, und belegt eine andere Quelle desselben Termins den heutigen Tag (`stand: 'aktuell'`),
+ * `stand: 'ueberholt'` und dem alten Tag in `sagt`, und belegt eine andere Quelle desselben Termins den heutigen Tag (`stand: 'aktuell'` und `sagt` = `schedule.firstEpisodeDate`; `aktuell` allein bestätigt den Tag nicht),
  * ist der Beleg schon abgelöst — dass die Lesung die Marke nicht mehr findet, ist dann zu erwarten, nicht zu prüfen.
  * Die Quelle bleibt im Datensatz; nur die Liste ändert sich. `vermutlich-ueberholt` und eine fehlende `sagt` bleiben auf der Liste.
  */
@@ -13,7 +13,7 @@ const ISO_TAG = /^\d{4}-\d{2}-\d{2}$/
 export function abgeloesteBelege(releases: Release[]): Set<string> {
   const je = new Map<string, boolean>()
   for (const r of releases) {
-    const heutig = (r.quellen ?? []).some((q) => q.stand === 'aktuell')
+    const heutig = (r.quellen ?? []).some((q) => q.stand === 'aktuell' && q.sagt === r.schedule.firstEpisodeDate)
     for (const q of r.quellen ?? []) {
       const schluessel = `${q.url}|${r.titleId}`
       const abgeloest = q.stand === 'ueberholt' && ISO_TAG.test(q.sagt ?? '') && heutig

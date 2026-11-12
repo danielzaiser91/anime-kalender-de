@@ -100,13 +100,15 @@ const HEUTE_A2Y = 'https://www.anime2you.de/news/1068595/28-blu-ray-verschiebung
 const bocchiG = new Map<string, Gruppe[]>([[BOCCHI, [{ id: 130003, suchen: ['Bocchi the Rock! – Vol. 3'], tage: ['2027-02-05', '2027-01-15'] }]]])
 const bocchiGed: BelegGedaechtnis = { [BOCCHI]: { zuletzt: '2026-11-06', lesungen: [lesung23({ am: '2026-11-06', markierung: undefined, markierungen: undefined })] } }
 const quelle = (url: string, stand: string, sagt?: string): any => ({ url, name: 'x', gesehenAm: '2026-10-29', stand, ...(sagt ? { sagt } : {}) })
-const termin = (id: number, ...quellen: any[]): any => ({ titleId: id, quellen })
+const termin = (id: number, ...quellen: any[]): any => ({ titleId: id, quellen, schedule: { firstEpisodeDate: '2027-02-05' } })
 const aufListe = (releases: any[]): number => ohneFundstelle(bocchiGed, markiereAbgeloeste(bocchiG, releases)).length
 const alt = quelle(BOCCHI, 'ueberholt', '2027-01-15')
 pruefe('Abgelöst: überholte aniSearch-Seite mit sagt und heutiger Quelle steht nicht auf der Liste', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt)]) === 0)
 pruefe('Abgelöst (Kontrolle): ohne die Markierung stünde derselbe Fall auf der Liste', ohneFundstelle(bocchiGed, bocchiG).length === 1)
 pruefe('Abgelöst: überholt, aber keine heutige Quelle am Termin → bleibt', aufListe([termin(130003, alt)]) === 1)
 pruefe('Abgelöst: überholt ohne sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'ueberholt'))]) === 1)
+pruefe('Abgelöst: heutige Quelle mit abweichendem sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-03-05'), alt)]) === 1)
+pruefe('Abgelöst: heutige Quelle ohne sagt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell'), alt)]) === 1)
 pruefe('Abgelöst: vermutlich-ueberholt → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'vermutlich-ueberholt', '2027-01-15'))]) === 1)
 pruefe('Abgelöst: aktuelle Quelle derselben Adresse ohne Marke → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), quelle(BOCCHI, 'aktuell', '2027-02-05'))]) === 1)
 pruefe('Abgelöst: zweiter Termin des Titels mit aktueller Quelle dieser Adresse → bleibt', aufListe([termin(130003, quelle(HEUTE_A2Y, 'aktuell', '2027-02-05'), alt), termin(130003, quelle(BOCCHI, 'aktuell', '2027-02-05'))]) === 1)
