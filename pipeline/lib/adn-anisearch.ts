@@ -124,10 +124,18 @@ export function ordneAdnZuAnisearch(serien: AdnSerie[], titel: Map<number, AsTit
 /**
  * Serien des Kalenders (`data/adn.json`), die weder im Katalog noch in der Liste der offenen stehen. Der Katalog-Lauf ordnet nur Katalogserien zu; eine
  * Kalenderserie, die er (noch) nicht führt, hat keine aniSearch-Kennung und keinen Platz auf der Liste — im Bau fängt sie nur die Namenszuordnung.
+ * Eine Serie, deren Folgen alle erst am oder nach dem Stichtag (Tag des Kalenderstands) kommen, hat noch keine Videos; ihr Fehlen im Katalog ist kein Befund.
  */
-export function kalenderOhneNetz(kalender: { showId: number; title: string }[], katalog: { showId: number }[], offen: { showId: number }[]): { showId: number; title: string }[] {
+export function kalenderOhneNetz(kalender: KalenderSerie[], katalog: { showId: number }[], offen: { showId: number }[], stichtag: string): KalenderSerie[] {
   const bekannt = new Set([...katalog, ...offen].map((s) => s.showId))
-  return kalender.filter((s) => !bekannt.has(s.showId))
+  return kalender.filter((s) => !bekannt.has(s.showId) && !startetNochNicht(s, stichtag))
+}
+
+type KalenderSerie = { showId: number; title: string; episodes?: { date: string }[] }
+
+function startetNochNicht(s: KalenderSerie, stichtag: string): boolean {
+  const tage = (s.episodes ?? []).map((e) => e.date)
+  return tage.length > 0 && tage.every((d) => d >= stichtag)
 }
 
 /** Die Warnzeile für Kalenderserien ohne Platz in Katalog und Liste (`undefined` bei keiner Lücke); `::warning::` macht sie in der Kette sichtbar. */

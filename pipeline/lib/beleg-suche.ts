@@ -25,11 +25,23 @@ function nativeNamen(native: string | undefined): string[] {
   return [native, ...(CJK.test(kopf) && kopf.length >= 5 ? [kopf] : [])]
 }
 
-/** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet (`name` ist der Teilname der Meldung, sonst der Titel); dazu der Kopf vor dem Doppelpunkt wie bei Terminen (Girls und Panzer: „… OVA – …"). */
+const KOPF_MIN_ZEICHEN = 5
+
+/**
+ * Die Schreibweisen, in denen ein Artikel einen Titel nennt: der Name, sein Kopf vor dem Doppelpunkt oder vor einem Gedankenstrich („Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. …)",
+ * „Gunslinger Girl -Il Teatrino-") und die Zeichen, die der Abgleich nicht gleichsetzt: „×" als „x" („SPY×FAMILY" → „SPY x FAMILY"), „and" als „&" („Love & Lies").
+ */
+export function namensformen(n: string): string[] {
+  const koepfe = [n.split(':')[0]!, n.split(/\s[–—-]\s|\s-(?=\S)/)[0]!].map((k) => k.trim()).filter((k) => k.length >= KOPF_MIN_ZEICHEN)
+  const formen = [n, ...koepfe]
+  const gleichgesetzt = formen.flatMap((f) => [f.replace(/\s*×\s*/g, ' x '), f.replace(/\band\b/gi, '&')]).filter((f) => !formen.includes(f))
+  return [...new Set([...formen, ...gleichgesetzt])]
+}
+
+/** Die Namen eines Titels, den nur eine Meldung mit der Adresse verbindet (`name` ist der Teilname der Meldung, sonst der Titel); dazu die Köpfe wie bei Terminen (Girls und Panzer: „… OVA – …"). */
 function namenAusNews(name: string, t: Title | undefined): string[] {
   const namen = [name, t?.titleDe, t?.titleEn, t?.titleRomaji].filter((n): n is string => Boolean(n))
-  const koepfe = namen.map((n) => n.split(':')[0]!.trim()).filter((k) => k.length >= 5)
-  return [...new Set([...namen, ...koepfe, ...nativeNamen(t?.titleNative)])]
+  return [...new Set([...namen.flatMap(namensformen), ...nativeNamen(t?.titleNative)])]
 }
 
 /**
@@ -45,11 +57,7 @@ export function suchbegriffeJeAdresse(releases: Release[], titles: Title[], news
     const urls = new Set([...(r.sources ?? []), ...(r.quellen ?? []).map((q) => q.url)])
     for (const url of urls) {
       const menge = je.get(url) ?? new Set<string>()
-      for (const n of namen) {
-        menge.add(n)
-        const kopf = n.split(':')[0]!.trim()
-        if (kopf.length >= 5) menge.add(kopf)
-      }
+      for (const n of namen) for (const f of namensformen(n)) menge.add(f)
       je.set(url, menge)
     }
   }
@@ -95,9 +103,7 @@ export function gruppenJeAdresse(releases: Release[], titles: Title[], news: New
       const g = gruppen.get(r.titleId) ?? { namen: new Set<string>(), tage: new Set<string>() }
       for (const n of [r.name, t?.titleDe, t?.titleEn, t?.titleRomaji, ...nativeNamen(t?.titleNative)]) {
         if (!n) continue
-        g.namen.add(n)
-        const kopf = n.split(':')[0]!.trim()
-        if (kopf.length >= 5) g.namen.add(kopf)
+        for (const f of namensformen(n)) g.namen.add(f)
       }
       if (r.schedule?.firstEpisodeDate) g.tage.add(r.schedule.firstEpisodeDate)
       for (const q of r.quellen ?? []) if (q.url === url && ISO_TAG.test(q.sagt ?? '')) g.tage.add(q.sagt!)
