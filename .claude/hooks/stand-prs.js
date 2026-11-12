@@ -4,10 +4,10 @@
 // rücken unter ZU, nichts geht verloren; bei unklaren Marken schreibt der Hook nichts und meldet es der Sitzung.
 // Auslöser: PostToolUse(Bash) — ein gh-Befehl, der PRs ändert, sofort; andere gh-pr/run-Befehle und UserPromptSubmit
 // höchstens alle 5 min. Scheitert der Abruf länger als 30 min, trägt der Block eine Zeile „PR-Liste veraltet“.
-// Einträge in ~/.claude/settings.json als zusätzliche Elemente der vorhandenen Arrays (nie als neuer Schlüssel: der
-// ersetzte die übrigen Hooks des Ereignisses); async blockiert nichts, `gh api graphql` braucht ≈ 3 s (19.10.2026):
-//   hooks.PostToolUse[]:      { "matcher": "Bash", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/stand-prs.js"], "timeout": 60, "async": true }] }
-//   hooks.UserPromptSubmit[]: { "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/stand-prs.js"], "timeout": 60, "async": true }] }
+// Einträge in `.claude/settings.json` des Projekts (PostToolUse und UserPromptSubmit, Befehl `node "$CLAUDE_PROJECT_DIR/.claude/hooks/stand-prs.js"`),
+// als zusätzliche Elemente der vorhandenen Arrays (nie als neuer Schlüssel: der ersetzte die übrigen Hooks des Ereignisses);
+// async blockiert nichts, `gh api graphql` braucht ≈ 3 s (19.10.2026). Zusatz (12.11.2026): benennt Vorrat-Dateien
+// gemergter PRs um (vorrat-erledigt.js).
 // Von Hand: node .claude/hooks/stand-prs.js --jetzt
 const fs = require('node:fs')
 const os = require('node:os')
@@ -15,6 +15,7 @@ const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const B = require('./stand-prs-block.js')
 const { waechter } = require('./stand-waechter.js')
+const { vorratErledigt } = require('./vorrat-erledigt.js')
 // Fehlt die Mod-Datei (Hook allein installiert), entfällt nur die Kennzeichen-Meldung; die PR-Block-Pflege läuft weiter.
 let kennzeichenMeldung = () => ''
 try {
@@ -209,10 +210,36 @@ function sperre(datei, jetzt) {
   }
 }
 
+const MAX_EINZELABFRAGEN = 10
+
+/**
+ * Ist PR n gemergt? Liste der letzten 24 h zuerst, offene PRs sind es nie; sonst (älter oder geschlossen) eine gezielte
+ * `gh pr view`-Abfrage, höchstens MAX_EINZELABFRAGEN je Lauf (Untergrenze: ein Fehler oder das Limit heißt „nein“, die
+ * Datei bleibt und wird beim nächsten Lauf erneut geprüft).
+ */
+function istGemergtFn(gh, { gemergt, offen }) {
+  const bekannt = new Map()
+  return (n) => {
+    if (gemergt.has(n)) return true
+    if (offen.has(n)) return false
+    if (bekannt.has(n)) return bekannt.get(n)
+    if (bekannt.size >= MAX_EINZELABFRAGEN) return false
+    let ja = false
+    try {
+      ja = JSON.parse(gh(['pr', 'view', String(n), '--repo', REPO.join('/'), '--json', 'state'])).state === 'MERGED'
+    } catch {
+      // Nichtauskunft ist kein Merge
+    }
+    bekannt.set(n, ja)
+    return ja
+  }
+}
+
 /** Neue PR-Reihen oder, wenn der Abruf scheitert, { fehler }. */
 function frischeReihen(gh, jetzt) {
   try {
-    return { reihen: reihen(holePrs(gh, jetzt), jetzt) }
+    const prs = holePrs(gh, jetzt)
+    return { reihen: reihen(prs, jetzt), gemergt: new Set(prs.gemergt.map((pr) => pr.number)), offen: new Set(prs.offen.map((pr) => pr.number)) }
   } catch (e) {
     return { fehler: String(e.message).split('\n')[0] }
   }
@@ -236,9 +263,10 @@ function aktualisiere({ datei, gh, jetzt, erfolg }) {
     const hinweis = frisch.fehler ? hinweisZeile(erfolg, frisch.fehler) : ''
     const r = B.ersetzeBlock(vorher.split(eol).join('\n'), frisch.reihen ?? null, hinweis)
     if (r.fehler) return { ergebnis: `nicht geschrieben: ${r.fehler}`, laut: true }
-    const neu = r.text.split('\n').join(eol)
-    const warnung = [waechter(r.text, jetzt), kennzeichenMeldung(r.text)].filter(Boolean).join('; ')
-    const zusatz = warnung ? { warnung } : {}
+    const v = frisch.gemergt ? vorratErledigt({ ordner: path.join(path.dirname(datei), 'vorrat'), text: r.text, istGemergt: istGemergtFn(gh, frisch) }) : { text: r.text, zeilen: [] }
+    const neu = v.text.split('\n').join(eol)
+    const warnung = [waechter(v.text, jetzt), kennzeichenMeldung(v.text)].filter(Boolean).join('; ')
+    const zusatz = { ...(warnung ? { warnung } : {}), ...(v.zeilen.length ? { umbenannt: v.zeilen } : {}) }
     const fertig = frisch.fehler ? { ergebnis: `veraltet: ${frisch.fehler}`, laut: true, ...zusatz } : null
     if (neu === vorher) return fertig ?? { ergebnis: 'unverändert', erfolg: true, ...zusatz }
     const { atime, mtime } = fs.statSync(datei)
@@ -291,7 +319,7 @@ function lauf(input, { env = process.env, gh = ghAufruf, jetzt = Date.now() } = 
 
 /** Hook-Ausgabe: still, außer die Sitzung soll es erfahren (async-Hook: systemMessage erreicht sie beim nächsten Zug). */
 function ausgabe(r) {
-  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md: ${r.warnung}` : ''].filter(Boolean)
+  const meldungen = [r.laut ? `stand-prs.js: ${r.ergebnis} (stand.md, Abschnitt „In Arbeit“)` : '', r.warnung ? `stand.md: ${r.warnung}` : '', ...(r.umbenannt ?? [])].filter(Boolean)
   return meldungen.length ? `${JSON.stringify({ systemMessage: meldungen.join('\n') })}\n` : ''
 }
 
