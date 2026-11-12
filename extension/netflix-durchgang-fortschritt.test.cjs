@@ -68,23 +68,57 @@ const doc = (uia) => ({
     return uia.includes('episode') ? {} : null
   },
 })
-const raeumen = (uia, pfad) => {
+const J = 1000000
+const EIGEN = { id: '81686706', tab: 'a', durchgang: true, zeit: J }
+/** `sprung`: der Merker des Durchgangs; `alter`: ms seit dem Sprung. */
+const raeumen = (uia, pfad, { sprung = EIGEN, alter = 600000, tab = 'a' } = {}) => {
   const ziele = []
-  const r = k.akNetflixFensterRaeumen(doc(uia), { pathname: pfad }, (p) => ziele.push(p))
+  const r = k.akNetflixFensterRaeumen(doc(uia), { pathname: pfad }, (p) => ziele.push(p), { sprung, tab, jetzt: J + alter })
   return { r, ziele }
 }
 {
   let x = raeumen(['billboard', 'previewModal--backDrop'], '/title/81686706')
-  pruefe('Bericht-Fall (Hintergrund ohne Inhalt auf /title): zurück auf /browse', x.r === true && x.ziele.join() === '/browse', x)
+  pruefe('Bericht-Fall (eigener Sprung, 10 min alt, Hintergrund ohne Inhalt): zurück auf /browse', x.r === true && x.ziele.join() === '/browse', x)
   x = raeumen(['previewModal--backDrop'], '/de-de/title/81686706')
   pruefe('Gebietspfad /de-de/title/… ebenso', x.r === true && x.ziele.join() === '/browse')
-  x = raeumen(['previewModal--backDrop', 'episode'], '/title/1')
+  x = raeumen(['previewModal--backDrop'], '/title/555')
+  pruefe('Pause, Sprung 10 min alt, Hintergrund auf einem anderen /title (Daniel öffnet selbst): gehe nicht gerufen', x.r === false && x.ziele.length === 0, x)
+  x = raeumen(['previewModal--backDrop'], '/title/81686706', { alter: 1000 })
+  pruefe('Hintergrund 1 s nach dem Sprung (Inhalt kommt noch): gehe nicht gerufen', x.r === false && x.ziele.length === 0, x)
+  x = raeumen(['previewModal--backDrop'], '/title/81686706', { alter: 7999 })
+  pruefe('7999 ms: noch nicht', x.r === false)
+  x = raeumen(['previewModal--backDrop'], '/title/81686706', { alter: 8000 })
+  pruefe('genau 8000 ms: geräumt', x.r === true)
+  x = raeumen(['previewModal--backDrop'], '/title/81686706', { tab: 'b' })
+  pruefe('Sprung eines anderen Tabs: nicht geräumt', x.r === false)
+  x = raeumen(['previewModal--backDrop'], '/title/81686706', { sprung: { ...EIGEN, durchgang: false } })
+  pruefe('Merker von Hand geöffnet (kein Durchgang): nicht geräumt', x.r === false)
+  x = raeumen(['previewModal--backDrop'], '/title/81686706', { sprung: null })
+  pruefe('ohne Merker: nicht geräumt', x.r === false)
+  x = raeumen(['previewModal--backDrop', 'episode'], '/title/81686706')
   pruefe('mit Inhalt (Folgen): nichts anfassen', x.r === false && x.ziele.length === 0)
-  x = raeumen(['billboard'], '/title/1')
+  x = raeumen(['billboard'], '/title/81686706')
   pruefe('ohne Hintergrund: nichts anfassen', x.r === false && x.ziele.length === 0)
   x = raeumen(['previewModal--backDrop'], '/browse')
   pruefe('Hintergrund auf /browse (Netflix\' eigene Seite): nichts anfassen, kein Dauer-Navigieren', x.r === false && x.ziele.length === 0)
-  pruefe('kaputtes Dokument: kein Absturz, nichts', k.akNetflixFensterRaeumen({}, {}, () => { throw new Error('nie') }) === false)
+  pruefe('kaputtes Dokument: kein Absturz, nichts', k.akNetflixFensterRaeumen({}, {}, () => { throw new Error('nie') }, { sprung: EIGEN, tab: 'a', jetzt: J + 99999 }) === false)
+}
+
+/* --- Netzantworten seit dem Sprung (Resource Timing) --- */
+{
+  const T = 5000000
+  const eintrag = (name, art, start, ende = start + 50) => ({ name, initiatorType: art, startTime: start, responseEnd: ende })
+  const leistung = (liste) => ({ timeOrigin: T - 100000, getEntriesByType: () => liste })
+  const vor = eintrag('https://www.netflix.com/api/x', 'fetch', 90000)
+  const gut = eintrag('https://web.prod.cloud.netflix.com/graphql', 'fetch', 100500)
+  pruefe('keine Einträge: 0', k.akNetflixNetzAntworten(leistung([]), T) === 0)
+  pruefe('nur eine Antwort VOR dem Sprung: 0', k.akNetflixNetzAntworten(leistung([vor]), T) === 0)
+  pruefe('fetch an netflix.com nach dem Sprung: 1', k.akNetflixNetzAntworten(leistung([vor, gut]), T) === 1)
+  pruefe('XHR zählt auch', k.akNetflixNetzAntworten(leistung([eintrag('https://www.netflix.com/nq/x', 'xmlhttprequest', 101000)]), T) === 1)
+  pruefe('Bild, Skript und fremder Host zählen nicht', k.akNetflixNetzAntworten(leistung([eintrag('https://occ-0.nflximg.net/a.jpg', 'img', 101000), eintrag('https://www.netflix.com/a.js', 'script', 101000), eintrag('https://example.org/graphql', 'fetch', 101000)]), T) === 0)
+  pruefe('Antwort noch nicht fertig (responseEnd 0): zählt nicht', k.akNetflixNetzAntworten(leistung([eintrag('https://www.netflix.com/api/y', 'fetch', 101000, 0)]), T) === 0)
+  pruefe('Puffer voll (250 Einträge): keine Auskunft (null), nie „0"', k.akNetflixNetzAntworten(leistung(Array.from({ length: 250 }, () => vor)), T) === null)
+  pruefe('kaputtes Timing: null', k.akNetflixNetzAntworten({}, T) === null)
 }
 
 /* --- Pause: der Takt räumt, ein Takt ohne Pause nicht --- */
@@ -108,19 +142,25 @@ const melder = lies('melder.js')
   const welt = { gehen: [], kasten: neueZeile(), gezaehlt: 3, grenze: 10 }
   const kastenEl = { querySelector: () => welt.kasten }
   kontext.document = { createElement: el, body: { innerText: '' }, querySelector: (sel) => (sel === '[data-uia="previewModal--backDrop"]' ? {} : null) }
-  kontext.location = { pathname: '/title/81686706' }
+  kontext.location = { pathname: '/title/7' }
+  kontext.Date = { now: () => J + 600000 }
+  const sprung = { id: 7, tab: 'a', durchgang: true, zeit: J }
   const tun = new Function(
-    'akNetflixTaktTun', 'akNetflixFortschritt', 'titelBericht', 'netflixKasten', 'speicherSchreiben', 'laufBeenden', 'selbstWeiter', 'gehe', 'offeneTitel', 'zuletztGeoeffnet', 'welt',
+    'akNetflixTaktTun', 'akNetflixFortschritt', 'titelBericht', 'netflixKasten', 'speicherSchreiben', 'laufBeenden', 'selbstWeiter', 'gehe', 'offeneTitel', 'zuletztGeoeffnet', 'meinTab', 'welt',
     `let selbstGezaehlt = welt.gezaehlt, selbstGrenze = welt.grenze\n${zeile}\nreturn taktTun`,
-  )(k.akNetflixTaktTun, k.akNetflixFortschritt, { sehen() {} }, () => kastenEl, () => {}, () => {}, () => {}, (p) => welt.gehen.push(p), { 7: { titel: 'Dead Mount Death Play' } }, { id: 7 }, welt)
+  )(k.akNetflixTaktTun, k.akNetflixFortschritt, { sehen() {} }, () => kastenEl, () => {}, () => {}, () => {}, (p) => welt.gehen.push(p), { 7: { titel: 'Dead Mount Death Play' } }, sprung, 'a', welt)
   /* Die Funktionen lesen `document` und `location` als Globals des Kontexts: im Kontext ausführen. */
   kontext.__tun = tun
   vm.runInContext('__tun.sehen()', kontext)
   const [text, balken] = welt.kasten.kinder
   pruefe('sehen(): Fortschrittszeile mit echtem Zählerstand und Titel aus der Prüfliste', text?.textContent === 'Durchgang: 2 von 10 geprüft · gerade: Dead Mount Death Play' && balken?.stil['--ak-anteil'] === '20%', welt.kasten.kinder)
   vm.runInContext('__tun.raeumen()', kontext)
-  pruefe('raeumen(): echte Navigation (gehe) auf /browse', welt.gehen.join() === '/browse', welt.gehen)
+  pruefe('raeumen(): eigener Sprung (Merker und Tab aus melder.js), 10 min alt: echte Navigation (gehe) auf /browse', welt.gehen.join() === '/browse', welt.gehen)
   welt.gehen.length = 0
+  kontext.location = { pathname: '/title/555' }
+  vm.runInContext('__tun.raeumen()', kontext)
+  pruefe('raeumen(): fremdes /title (Daniel öffnet selbst): gehe nicht gerufen', welt.gehen.length === 0, welt.gehen)
+  kontext.location = { pathname: '/title/7' }
   k.akNetflixPauseZeigen(() => welt.kasten, 'Netflix bremst — Probe')
   const pause = welt.kasten.kinder.find((x) => x.className === 'ak-hinweis ak-durchgang-pause')
   vm.runInContext('__tun.aufraeumen()', kontext)
@@ -130,6 +170,40 @@ const melder = lies('melder.js')
   const start = melder.indexOf('function laufBeenden(grund)')
   const block = melder.slice(start, melder.indexOf('\n}\n', start))
   pruefe('laufBeenden ruft taktTun.aufraeumen() (nicht nur die Pausenzeile)', /taktTun\.aufraeumen\(\)/.test(block))
+}
+
+/* --- Zähler und Nenner überstehen das volle Neuladen (`akNetflixVollLaden`): echte `selbstWeiter` und echte `let`-Zeilen aus melder.js --- */
+{
+  const speicher = {}
+  kontext.sessionStorage = { getItem: (n) => speicher[n] ?? null, setItem: (n, w) => { speicher[n] = String(w) }, removeItem: (n) => { delete speicher[n] } }
+  const lets = melder.split('\n').filter((z) => /^let selbst(?:Gezaehlt|Grenze) = /.test(z)).join('\n')
+  const von = melder.indexOf('function selbstWeiter(frei = 0)')
+  const weiter = melder.slice(von, melder.indexOf('\n}\n', von) + 2)
+  /** Ein „Seitenaufruf": das Modul startet neu (Zähler aus dem Speicher), ein Sprung folgt. */
+  const seite = (titelZahl) => {
+    const offen = {}
+    for (let i = 1; i <= titelZahl; i++) offen[i] = { titel: `T${i}` }
+    const ergebnis = {}
+    new Function(
+      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'ergebnis',
+      `${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
+    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, ergebnis)
+    return ergebnis
+  }
+  let r = seite(40)
+  pruefe('erster Sprung: vorher 0, danach 1 von 40', JSON.stringify(r.vorher) === '[0,null]' && JSON.stringify(r.nachher) === '[1,40]', r)
+  r = seite(39)
+  pruefe('nach dem Neuladen: Zähler 1 und Nenner 40 bleiben (nicht 0 von 39), der nächste Sprung zählt 2 von 40', JSON.stringify(r.vorher) === '[1,40]' && JSON.stringify(r.nachher) === '[2,40]', r)
+  const f = k.akNetflixFortschritt(...r.vorher, 'X')
+  pruefe('die Fortschrittszeile direkt nach dem Neuladen zeigt „0 von 40 geprüft" mit demselben Nenner (Zähler 1 = erster Titel läuft)', f.text === 'Durchgang: 0 von 40 geprüft · gerade: X', f)
+  vm.runInContext('__tun.aufraeumen()', kontext)
+  pruefe('Ende des Durchgangs (taktTun.aufraeumen): Speicher leer, der nächste Lauf beginnt bei 0', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}' && Object.keys(speicher).length === 0, speicher)
+  speicher['ak-netflix-zaehler'] = '{kaputt'
+  pruefe('kaputter Speicher: 0 und kein Nenner, kein Absturz', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}')
+  speicher['ak-netflix-zaehler'] = JSON.stringify({ gezaehlt: 3, grenze: 0 })
+  pruefe('Nenner 0 im Speicher: verworfen', k.akNetflixZaehlerStand().grenze === null)
+  const stumm = { getItem: () => { throw new Error('x') }, setItem: () => { throw new Error('x') }, removeItem: () => { throw new Error('x') } }
+  pruefe('Speicher wirft: kein Absturz', k.akNetflixZaehlerStand(stumm).gezaehlt === 0 && k.akNetflixZaehlerSetze(1, 2, stumm) === undefined)
 }
 
 if (fehler.length) {

@@ -16,13 +16,29 @@
 const ERINNERN_NACH_MS = 3000
 /*
   Ein Titelfenster ohne Inhalt (Startseite unter `/title/…`, Hintergrund ohne Dialog; Bericht 12.11.2026: Hintergrund nach 1 s, Inhalt
-  nie) wartet nicht die volle Listenfrist (20 s je Versuch, mit vollem Laden gut 45 s je Titel): nach 8 s gilt es als leer.
+  nie) wartet nicht die volle Listenfrist (20 s je Versuch, mit vollem Laden gut 45 s je Titel): nach 8 s gilt es als leer, aber nur, wenn seit dem Sprung keine Netzantwort kam.
 */
 const LEER_NACH_MS = 8000
+globalThis.akNetflixLeerNach = LEER_NACH_MS
+
+/**
+ * Wie viele Antworten auf `fetch`/XHR an netflix.com seit `seit` (Date-Zeit) fertig waren (Resource Timing der Seite), sonst `null`
+ * (kein Timing, oder der Puffer ist voll und neue Einträge fehlen — dann gilt „keine Auskunft“, nie „keine Antwort“).
+ */
+globalThis.akNetflixNetzAntworten = (leistung, seit) => {
+  try {
+    const alle = leistung.getEntriesByType('resource')
+    if (alle.length >= 250) return null
+    const ab = seit - leistung.timeOrigin
+    return alle.filter((e) => /^(?:fetch|xmlhttprequest)$/.test(e.initiatorType) && e.responseEnd > 0 && e.startTime >= ab && /(?:^|\.)netflix\.com\//.test(String(e.name).replace(/^https?:\/\//, ''))).length
+  } catch {
+    return null
+  }
+}
 
 /**
  * Ein Takt des Wartens auf die Folgenliste. `wartet`: `{ seite, seit, entschieden? }` oder `null`;
- * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale? }` (`merkmale()`: Seitenmerkmale für die Spur); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter, bremse? }` (`bremse`: `netflix-durchgang-steuerung.js`).
+ * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale?, netz? }` (`merkmale()`: Seitenmerkmale für die Spur; `netz()`: Netzantworten seit Seitenbeginn, `akNetflixNetzAntworten`); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter, bremse? }` (`bremse`: `netflix-durchgang-steuerung.js`).
  * Gibt den neuen Wartestand zurück.
  */
 globalThis.akNetflixListeWarten = (wartet, o, tun) => {
@@ -31,7 +47,8 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   const dauer = o.jetzt - wartet.seit
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
   const erinnernJetzt = o.erinnern && dauer >= ERINNERN_NACH_MS
-  const leerFrist = Math.min(o.frist, LEER_NACH_MS)
+  /* Die kurze Frist gilt nur, wenn seit dem Sprung gar keine Netzantwort kam (`netz()` = 0); mit Antwort oder ohne Auskunft (`null`) bleibt es bei der Listenfrist. */
+  const leerFrist = o.netz?.() === 0 ? Math.min(o.frist, LEER_NACH_MS) : o.frist
   if (!erinnernJetzt && dauer <= leerFrist) return wartet
   const merkmale = o.merkmale?.()
   /* Ohne Titelfenster stammt auch „Erinnern" aus dem Billboard der Startseite: `leerFrist` warten, dann zählt es als Störung der Sitzung. */

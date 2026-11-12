@@ -158,9 +158,9 @@ const jetzt = (ms) => ({ now: () => ms })
 /** `selbstWeiter` als Attrappen-Welt; gibt den Speicher (JSON, wie chrome.storage) und den Merker zurück. */
 const weiterLaufen = (o = {}) => {
   const speicher = {}
-  const welt = { gegangen: [], speicher, merker: null, beendet: [], begonnen: [], gezaehlt: null }
+  const welt = { gegangen: [], speicher, merker: null, beendet: [], begonnen: [], gezaehlt: null, zaehler: [] }
   const f = new Function(
-    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei',
+    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei', 'akNetflixZaehlerSetze',
     `let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
 ${funktionText('function selbstWeiter(frei = 0)')}
 selbstWeiter(frei)
@@ -171,7 +171,7 @@ ergebnis.gezaehlt = selbstGezaehlt`,
     { 77: { titel: 'Probe' } }, () => null, (g) => welt.beendet.push(g), () => (o.naechster === undefined ? 77 : o.naechster),
     async (werte) => { Object.assign(speicher, JSON.parse(JSON.stringify(werte))) },
     (adresse) => welt.gegangen.push(adresse), { log() {} }, jetzt(1000), 'k', 1, welt,
-    o.bremse ?? { pause: () => null, offen: () => 0 }, 'tab-1', { beginn: (r, z) => welt.begonnen.push([r, z]) }, o.start ?? 0, o.frei,
+    o.bremse ?? { pause: () => null, offen: () => 0 }, 'tab-1', { beginn: (r, z) => welt.begonnen.push([r, z]) }, o.start ?? 0, o.frei, (g, n) => welt.zaehler.push([g, n]),
   )
   return welt
 }
@@ -235,10 +235,11 @@ ergebnis.gezaehlt = selbstGezaehlt`,
 }
 /* `selbstStartenSchritt` gibt der Listenwarte die Bremse und meldet ihr einen Erfolg, sobald die Folgenliste da ist. */
 const schrittLaufen = async (durchlauf) => {
-  const z = { bremseOk: 0, tun: null }
-  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }]
+  const z = { bremseOk: 0, tun: null, ort: null, netzArgs: null, leistung: { marke: 'performance' } }
+  const netz = (leistung, seit) => { z.netzArgs = [leistung, seit]; return 7 }
+  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; z.ort = o; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }, netz, z.leistung]
   const f = new Function(
-    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden',
+    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden', 'akNetflixNetzAntworten', 'performance',
     `let selbstVersucht = null, selbstWartet = null\n${funktionText('async function selbstStartenSchritt()')}\nreturn selbstStartenSchritt()`,
   )
   try {
@@ -324,6 +325,7 @@ const taktLaufen = (o = {}) => {
   /* Schritt: Verdrahtung der Listenwarte und des Erfolgs. */
   z = await schrittLaufen({ laeuft: false, folgen: [], listeFuer: null })
   pruefe('Schritt ohne Folgenliste: die Listenwarte bekommt die Bremse, kein Erfolg', z.tun?.bremse !== undefined && typeof z.tun.bremse.ok === 'function' && z.tun.vollLaden?.versucht !== undefined && z.bremseOk === 0, z)
+  pruefe('Schritt: die Listenwarte bekommt `netz()` = Netzantworten seit dem Wartebeginn (Resource Timing der Seite)', z.ort?.netz?.() === 7 && z.netzArgs?.[0] === z.leistung && z.netzArgs[1] === 1000, z)
   z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '5' })
   pruefe('Schritt mit Folgenliste dieser Seite: die Bremse meldet Erfolg genau einmal', z.bremseOk === 1 && z.tun === null, z)
   z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '4' })
