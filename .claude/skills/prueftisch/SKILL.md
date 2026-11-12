@@ -118,7 +118,7 @@ Daten 18, Workflow/CI 12, Rest 8); Wochenzahl im Protokoll fortschreiben.
 - 16.10.2026, Durchlaufzeit (eigener Fund): drei PRs (1345, 1348, 1352) hängen am selben Textkonflikt
   in `.github/workflows/pr-pruefer.yml`, weil jede Prüfer-Vorgabe ans selbe Prompt-Ende angehängt
   wird. Maßnahme offen: Vorgaben als eigene Dateien außerhalb von `workflows/` (eine je Vorgabe,
-  vom Workflow eingelesen) — beseitigt Konflikte und die Workflow-Sperre während Sammelläufen.
+  vom Workflow eingelesen) — beseitigt Konflikte.
 - 16.10.2026, Prüfung (eigener Fund): Der CI-Prüfer gab die parallele Kette frei, obwohl der
   Cache-Schlüssel den Lock-Abgleich von `npm ci` verschluckte und acht Workflow-Mutationen grün
   blieben; erst der Agent-Prüfer fand das. Maßnahme: Vorgabe in `agents/pruefer.md` (Cache ersetzt

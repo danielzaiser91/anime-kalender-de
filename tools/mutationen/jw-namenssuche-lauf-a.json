@@ -8,7 +8,7 @@
     "aenderungen": [
       {
         "datei": "pipeline/fetch-justwatch-audio.ts",
-        "suche": "for (const [i, begriff] of suchNamen(t).entries()) {\n        if (i) await sleep(PAUSE_MS)\n",
+        "suche": "for (const [i, begriff] of suchNamen(t).entries()) {\n        if (i) await w.pause()\n",
         "ersetze": "for (const [i, begriff] of suchNamen(t).entries()) {\n"
       }
     ]
@@ -18,7 +18,7 @@
     "aenderungen": [
       {
         "datei": "pipeline/fetch-justwatch-audio.ts",
-        "suche": "    await sleep(PAUSE_MS)\n  }\n  log(`JustWatch (Namenssuche): ${z.getroffen}",
+        "suche": "    await w.pause()\n  }\n  log(`JustWatch (Namenssuche): ${z.getroffen}",
         "ersetze": "  }\n  log(`JustWatch (Namenssuche): ${z.getroffen}"
       }
     ]
@@ -108,8 +108,8 @@
     "aenderungen": [
       {
         "datei": "pipeline/fetch-justwatch-audio.ts",
-        "suche": "of suchNamen(t).entries()) {\n        if (i) await sleep(PAUSE_MS)\n        knoten.push",
-        "ersetze": "of suchNamen(t).slice(0, 1).entries()) {\n        if (i) await sleep(PAUSE_MS)\n        knoten.push"
+        "suche": "of suchNamen(t).entries()) {\n        if (i) await w.pause()\n        knoten.push",
+        "ersetze": "of suchNamen(t).slice(0, 1).entries()) {\n        if (i) await w.pause()\n        knoten.push"
       }
     ]
   },

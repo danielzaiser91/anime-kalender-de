@@ -284,6 +284,24 @@
         "stichprobe": 0,
         "rest": 1
       }
+    },
+    {
+      "am": "2026-11-12",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.6204209999999932,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
     }
   ]
 }
