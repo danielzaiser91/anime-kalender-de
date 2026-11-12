@@ -35,7 +35,7 @@
   {
     "name": "liestClaudeMd: jeder Test zählt (Pfadnennung nicht geprüft)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b))",
+    "suche": "bewegt.some((b) => istClaudeMd(b) && nennt(lies(datei) ?? '', b, datei))",
     "ersetze": "bewegt.some((b) => istClaudeMd(b))",
     "tests": ["npx tsx tools/pr-nachrechnen-claude-md.test.mjs"]
   },

@@ -1,14 +1,42 @@
 {
-  "scrapedAt": "2026-11-12T02:01:31.264Z",
+  "scrapedAt": "2026-11-12T18:02:37.083Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 18,
-    "schon in einem Rubrik-Feed gelesen": 6,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Start des Action-Anime »Tsugumi Project« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1070626/start-von-tsugumi-project/",
+      "publishedAt": "2026-11-12",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "et. Ein neues Visual findet ihr weiter unten in diesem Artikel. Start im Januar 2027 »Tsugumi Project« wird demzufolge nach aktuellem Stand"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge",
+      "articleUrl": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/",
+      "publishedAt": "2026-11-12",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
       "articleUrl": "https://www.anime2you.de/news/1070311/akiba-pass-shop-neun-blu-rays-vorbestellbar/",

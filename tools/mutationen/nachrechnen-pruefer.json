@@ -1,0 +1,238 @@
+[
+  {
+    "name": "Kontrolle unmutiert",
+    "aenderungen": [],
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "AENDERN: „ändern“ fehlt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const AENDERN = ['ändern', 'aendern']",
+    "ersetze": "const AENDERN = ['aendern']",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "AENDERN: „aendern“ fehlt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const AENDERN = ['ändern', 'aendern']",
+    "ersetze": "const AENDERN = ['ändern']",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "FREI: „ok“ fehlt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const FREI = ['ok', 'freigegeben', 'freigeben']",
+    "ersetze": "const FREI = ['freigegeben', 'freigeben']",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "FREI: „freigegeben“ fehlt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const FREI = ['ok', 'freigegeben', 'freigeben']",
+    "ersetze": "const FREI = ['ok', 'freigeben']",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "FREI: „freigeben“ fehlt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const FREI = ['ok', 'freigegeben', 'freigeben']",
+    "ersetze": "const FREI = ['ok', 'freigegeben']",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "urteilAus: „Prüfer“ in der ersten Zeile wird nicht verlangt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (!zeile.includes('Prüfer')) return null",
+    "ersetze": "if (false) return null",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "urteilAus: Form „Prüfer Runde N: …“ entfällt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "URTEIL_ZEILE.exec(zeile) ?? URTEIL_RUNDE.exec(zeile)",
+    "ersetze": "URTEIL_ZEILE.exec(zeile)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "urteilAus: Form „Urteil: …“ entfällt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "URTEIL_ZEILE.exec(zeile) ?? URTEIL_RUNDE.exec(zeile)",
+    "ersetze": "URTEIL_RUNDE.exec(zeile)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "urteilAus: ganzer Kommentar statt erster Zeile",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "String(body ?? '').split(/\\r?\\n/)[0]",
+    "ersetze": "String(body ?? '')",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "urteilAus: Kopf-Muster nur 7 bis 8 Zeichen",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "[0-9a-f]{7,40}",
+    "ersetze": "[0-9a-f]{7,8}",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: ok für fremden Kopf zählt (Filter umgekehrt)",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "!(FREI.includes(u.wort) && u.kopf !== null && !kopf.startsWith(u.kopf))",
+    "ersetze": "!(FREI.includes(u.wort) && u.kopf !== null && kopf.startsWith(u.kopf))",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: ok ohne Kopfnennung wird verworfen",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "FREI.includes(u.wort) && u.kopf !== null && !kopf",
+    "ersetze": "FREI.includes(u.wort) && true && !kopf",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Kopffilter trifft auch „ändern“",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "!(FREI.includes(u.wort) && u.kopf !== null",
+    "ersetze": "!(true && u.kopf !== null",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Kopf ist der erste statt der letzte Commit",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "commits[commits.length - 1].oid",
+    "ersetze": "commits[0].oid",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: unbekannte Urteilswörter bleiben in der Liste",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": ".filter((u) => AENDERN.includes(u.wort) || FREI.includes(u.wort))",
+    "ersetze": ".filter(() => true)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Wortfilter mit && statt ||",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "AENDERN.includes(u.wort) || FREI.includes(u.wort))",
+    "ersetze": "AENDERN.includes(u.wort) && FREI.includes(u.wort))",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Kommentare absteigend sortiert",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "Date.parse(a.zeit) - Date.parse(b.zeit))\n  const letztes",
+    "ersetze": "Date.parse(b.zeit) - Date.parse(a.zeit))\n  const letztes",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: erstes statt letztes Urteil entscheidet",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const letztes = urteile[urteile.length - 1]",
+    "ersetze": "const letztes = urteile[0]",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Sperre bei Urteil ok statt ändern",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "|| !AENDERN.includes(letztes.wort)) return null",
+    "ersetze": "|| AENDERN.includes(letztes.wort)) return null",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Sperre ohne jedes Urteil",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (letztes === undefined ||",
+    "ersetze": "if (false ||",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: ältester statt neuester Commit",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "const letzterCommit = zeiten[zeiten.length - 1]",
+    "ersetze": "const letzterCommit = zeiten[0]",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Commit zur Urteilszeit hebt auf (> zu >=)",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "Date.parse(letzterCommit) > Date.parse(letztes.zeit)",
+    "ersetze": "Date.parse(letzterCommit) >= Date.parse(letztes.zeit)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Commit nach dem Urteil hebt nie auf (> zu <)",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "Date.parse(letzterCommit) > Date.parse(letztes.zeit)",
+    "ersetze": "Date.parse(letzterCommit) < Date.parse(letztes.zeit)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Commit-Zeit wird nicht beachtet",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (letzterCommit !== undefined &&",
+    "ersetze": "if (letzterCommit === undefined &&",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Vorgabe comments entfällt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "prueferSperre(comments = [], commits = [])",
+    "ersetze": "prueferSperre(comments, commits = [])",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Vorgabe commits entfällt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "prueferSperre(comments = [], commits = [])",
+    "ersetze": "prueferSperre(comments = [], commits)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Sperre wird nie ausgelöst",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "if (prueferHalt !== null) {",
+    "ersetze": "if (false) {",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Sperre endet mit Exit 2 statt 4",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "    return 4\n",
+    "ersetze": "    return 2\n",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Sperre endet mit Exit 0",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "    return 4\n",
+    "ersetze": "    return 0\n",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Meldung ohne PR-Nummer",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "melde(`PR ${nummer}: ${prueferHalt}`)",
+    "ersetze": "melde(prueferHalt)",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Kommentare nicht durchgereicht",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "prueferSperre(pr.comments, pr.commits)",
+    "ersetze": "prueferSperre([], pr.commits)",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Commits nicht durchgereicht",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "prueferSperre(pr.comments, pr.commits)",
+    "ersetze": "prueferSperre(pr.comments, [])",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: pr view fragt comments,commits nicht ab",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "headRefOid,headRefName,comments,commits${",
+    "ersetze": "headRefOid,headRefName${",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  }
+]

@@ -348,7 +348,7 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
 {
   // Anlass 12.11.2026: der eigene Quelltext enthält ein Template, das ENDUNG_REGEX trifft und keine gültige Regex ergibt ("Nothing to repeat").
   const EIGEN = readFileSync(new URL('./pr-nachrechnen-leser.mjs', import.meta.url), 'utf8')
-  const alsAuswertung = (() => { try { return endungsAuswertung(ohneKommentare(EIGEN)) } catch (e) { return String(e) } })()
+  const alsAuswertung = (() => { try { return endungsAuswertung(ohneKommentare(EIGEN, 'x.mjs')) } catch (e) { return String(e) } })()
   pruefe('Eigener Quelltext: Endungs-Auswertung wirft nicht und zählt genau 1 ungültiges Muster', typeof alsAuswertung === 'object' && alsAuswertung.uebersprungen === 1, alsAuswertung)
   pruefe('Eigener Quelltext: gültige Muster daneben bleiben (Tests aus endsWith und Regex)', typeof alsAuswertung === 'object' && alsAuswertung.tests.length >= 1)
   const GUELTIG = "readdirSync('tools').filter((f) => /\\.ya?ml$/.test(f))\n"
@@ -361,6 +361,61 @@ for (const [name, opt] of [['fetch scheitert', { fetchFehler: true }], ['ls-tree
   pruefe('Grund-Text nennt die übersprungenen Muster', typeof g === 'string' && /Verzeichnis nicht eindeutig \(1 Endungs-Muster ohne gültige Regex übersprungen\)$/.test(g), g)
   const ohne = bewegtesGelesen({ bewegt: ['tools/a.yml'], pr: ['tools/leser.mjs'], leser: LESER, lies: (p) => (p === 'tools/leser.mjs' ? GUELTIG : lies(p)), paketSkripte: null })
   pruefe('Ohne ungültiges Muster bleibt der Grund-Text ohne Zusatz', typeof ohne === 'string' && ohne.endsWith('Verzeichnis nicht eindeutig'), ohne)
+}
+
+{
+  // Anlass 12.11.2026, PR 3590: der Name stand nur in einem Blockkommentar, dessen Innenzeilen keinen Stern tragen (tools/quellen-fristen.mjs, wörtlich).
+  const BEW = ['data/crunchyroll-woche.json']
+  const leser = (text) => leserIn(new Map([['tools/x.mjs', text]]), BEW)
+  const FRISTEN = [
+    "  'crunchyroll-neu': 3,",
+    '  /*',
+    '    Stündlich. Fällt der Leser aus, steht `data/crunchyroll-woche.json` still — und weil der Schritt',
+    '    als geduldeter läuft (`continue-on-error`), bleibt der Lauf trotzdem grün: Am 28.09.2026 wechselte',
+    '    es jemandem auffiel. Ein Tag Frist meldet das am zweiten Tag als Blocker.',
+    '  */',
+    "  'crunchyroll-woche': 1,",
+  ].join('\n')
+  pruefe('Blockkommentar ohne Stern nennt die Datei (quellen-fristen) -> kein Leser', leser(FRISTEN).length === 0, leser(FRISTEN))
+  pruefe('Blockkommentar ohne Stern: pfadTokens ohne data/crunchyroll-woche.json', !pfadTokens(FRISTEN, 'x.mjs').includes('data/crunchyroll-woche.json'), pfadTokens(FRISTEN, 'x.mjs'))
+  const LIES = "readFileSync('data/crunchyroll-woche.json')"
+  pruefe('Gegenprobe: derselbe Name im Code -> Leser', leser(`${FRISTEN}\n${LIES}`).length === 1)
+  pruefe('Glob-String mit Schrägstrich-Stern beginnt keinen Kommentar, spätere Lesung bleibt', leser(`const g = 'data/*'\n${LIES}\n/* Ende */`).length === 1, leser(`const g = 'data/*'\n${LIES}\n/* Ende */`))
+  pruefe('Glob-String data/*.json in einer Lesezeile bleibt Leser', leser("readdirSync('data/*.json'); readFileSync('data/crunchyroll-woche.json') // */").length === 1)
+  pruefe('Lesung hinter dem Blockkommentar in derselben Zeile bleibt Leser', leser(`/* Hinweis */ ${LIES}`).length === 1)
+  pruefe('Mehrzeiliger Kommentar, Lesung in der Endzeile hinter dem Kommentarende -> Leser', leser(`/*\n  data/crunchyroll-woche.json\n*/ ${LIES}`).length === 1)
+  pruefe('Zeilenkommentar mit Schrägstrich-Stern beginnt keinen Block', leser(`// Muster data/* hier\n${LIES}\n/* c */`).length === 1)
+  const OHNE_STERN = '/*\n   data/crunchyroll-woche.json ohne Stern */\nx'
+  pruefe('Regex-Literal mit Backtick öffnet keine Vorlage', leser(`const r = /\`/\n${OHNE_STERN}`).length === 0)
+  pruefe('Regex-Klasse mit Schrägstrich und Backtick beendet das Literal nicht früh', leser(`const r = /[/\`]/\n${OHNE_STERN}`).length === 0)
+  pruefe('Escape in der Zeichenkette: maskiertes Anführungszeichen beendet sie nicht', leser(`const s = 'a\\'b'; ${OHNE_STERN}`).length === 0)
+  pruefe('Apostroph in einer Zeile endet am Zeilenende', leser(`it's\n${OHNE_STERN}`).length === 0)
+  pruefe('Kommentar-Anfang direkt vor dem Ende (Schrägstrich-Stern-Schrägstrich) schließt nicht', leser('/*/ data/crunchyroll-woche.json */ x').length === 0)
+  pruefe('Zeilenzahl bleibt erhalten', ohneKommentare('a\n/* x\ny\n*/ b', 'x.mjs').split('\n').length === 4, ohneKommentare('a\n/* x\ny\n*/ b', 'x.mjs'))
+  pruefe('Zwei Blockkommentare in einer Zeile: Code dazwischen bleibt', ohneKommentare('/* a */ code /* b */', 'x.mjs').trim() === 'code', ohneKommentare('/* a */ code /* b */', 'x.mjs'))
+  pruefe('Unbeendeter Blockkommentar: nur seine Zeile entfällt, Folgezeilen bleiben', ohneKommentare('a\n/* offen\nb', 'x.mjs').split('\n').join() === 'a,b', ohneKommentare('a\n/* offen\nb', 'x.mjs'))
+}
+
+{
+  // Nachbesserung A1-A3 (PR 3597): Blockkommentare nur in der JS-Familie; Mutanten der Prüferrunde; Grenzen festgehalten.
+  const BEW = ['data/crunchyroll-woche.json']
+  const NAME = 'data/crunchyroll-woche.json'
+  const leserVon = (pfad, text) => leserIn(new Map([[pfad, text]]), BEW)
+  const SH = ['git add data/*', `cat ${NAME}`, 'find . -path "**/x"'].join('\n')
+  pruefe('A1 Shell: unquotiertes data/* verschluckt keine Lesung (tools/x.sh)', leserVon('tools/x.sh', SH).length === 1, leserVon('tools/x.sh', SH))
+  const YML = ['      - run: git add data/*', `      - run: cat ${NAME}`, '        env: { P: "**/x" }'].join('\n')
+  pruefe('A1 YAML: Glob-Stern verschluckt keine Lesung (.github/workflows/x.yml)', leserVon('.github/workflows/x.yml', YML).length === 1, leserVon('.github/workflows/x.yml', YML))
+  pruefe('A1 pfadTokens mit Dateiname: .sh behält die Lesung', pfadTokens(SH, 'tools/x.sh').includes(NAME), pfadTokens(SH, 'tools/x.sh'))
+  pruefe('A1 Gegenprobe: dieselbe Form in .mjs ist ein Block, Lesung dazwischen entfällt', leserVon('tools/x.mjs', SH).length === 0, leserVon('tools/x.mjs', SH))
+  pruefe('A2 Blockkommentar am Dateianfang nennt die Datei -> kein Leser', leserVon('tools/x.mjs', `/* ${NAME} */ x`).length === 0)
+  pruefe('A2 Regex mit maskiertem Schrägstrich und Anführungszeichen dahinter', leserVon('tools/x.mjs', `const r = /\\/'/; /* ${NAME} */`).length === 0)
+  for (const vor of ['&&', ':', '!', '||', '?', ';', '{', '[']) {
+    pruefe(`A2 Regex nach ${vor} beginnt kein Zeichenkettenpaar`, leserVon('tools/x.mjs', `a ${vor} /'/.test(s); /* ${NAME} */`).length === 0)
+  }
+  pruefe('A2 Regex am Textanfang', leserVon('tools/x.mjs', `/'/.test(s); /* ${NAME} */`).length === 0)
+  pruefe('A3 Grenze: Regex nach ) gilt als Division, der Text bleibt stehen (nie weniger)', leserVon('tools/x.mjs', `if (a) /'/.test(s); /* ${NAME} */`).length === 1)
+  pruefe('A3 Grenze: Backtick in Zeichenkette in ${…} kippt die Zählung, der Text bleibt stehen', leserVon('tools/x.mjs', `\`\${ '\`' }\`; /* ${NAME} */`).length === 1)
+  pruefe('A3 verschachtelte Vorlage mit Paaren bleibt richtig', leserVon('tools/x.mjs', `\`a \${\`b\`} c\`; /* ${NAME} */`).length === 0)
 }
 
 if (fehler.length > 0) {

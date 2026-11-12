@@ -29,7 +29,7 @@ export interface Quelle {
   /** Laut Artikel (Beleg-Lesung); `ausgabeAm`: bei einer Produktseite der Erscheinungstag der Ausgabe, kein Textdatum. */
   veroeffentlichtAm?: string; aktualisiertAm?: string; ausgabeAm?: string; bild?: string; markierung?: [number, number, number, number] // `bild`: Schlüssel des privaten Beleg-Bilds; `markierung`: Fundstelle darin als Anteile
   /**
-   * `aktuell`              — deckt sich mit dem geführten Stand.
+   * `aktuell`              — hängt noch am Termin; bestätigt den Tag nicht (dafür zählt `sagt`).
    * `ueberholt`            — eine neuere Quelle widerspricht, und wir sind sicher.
    * `vermutlich-ueberholt` — sie widerspricht, aber wir sind es nicht.
    */

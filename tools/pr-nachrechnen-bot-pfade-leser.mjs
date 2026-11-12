@@ -72,7 +72,7 @@ export function dokuLeser(wurzel, bekannt) {
   const treffer = []
   for (const datei of new Set([...bauDateien(wurzel), ...kettenDateien(wurzel)])) {
     if (/\.test\.[^/]*$/.test(datei)) continue
-    const code = ohneKommentare(fs.readFileSync(path.join(wurzel, datei), 'utf8'))
+    const code = ohneKommentare(fs.readFileSync(path.join(wurzel, datei), 'utf8'), datei)
     for (const token of tokens) {
       if (code.includes(token) && !bekannt.has(`${datei}|${token}`)) treffer.push(`${datei}|${token}`)
     }
