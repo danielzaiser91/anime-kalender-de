@@ -933,3 +933,7 @@
   url: https://www.amazon.de/gp/video/detail/B0H47T317D
   grund: 'Seite B0H47T317D gehört Kuroko 2nd Season (16894, Handbeleg 28.09., 25 Folgen, zugeordnete Zeile mit 24 Folgen); die Zeile von 20725 ist ein Staffelwähler-Stummel der Serienseite B0B6R47YQ3 ohne Folge (unsere null) (Fremdzuordnung, 12.11.2026)'
   entferntAm: '2026-11-12'
+- anilistId: 143277
+  url: https://www.amazon.de/gp/video/detail/B0GQ5Z2KBR
+  grund: 'Seite B0GQ5Z2KBR ist die Serienseite (gti e3405b7b, Handbeleg von 143277 an dieser gti, Staffel 1); die Meldungen vom 16.10. mit Staffel 2 an B0GQ5Z2KBR gehören 155645 (prime-zugeordnet.json seit #1444, Stream B0GXQVM89H) und wurden mit dem Namen „Seasons 1 & 2“ auch an 143277 gehängt — der Bestandsbau legte daraus einen zweiten Handbeleg an und stellte 155645 zurück (Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
