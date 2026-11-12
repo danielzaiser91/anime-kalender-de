@@ -279,22 +279,46 @@ export async function tvDeSeitenLesen(
   return { seiten, gesperrt: false }
 }
 
+export const RTL_VERSUCHE = 3
+
+/**
+ * Liest das RTL+-Programm bis zu `RTL_VERSUCHE`-mal: Lauf 43205272650 (12.11.2026 11:00Z) bekam einmal eine Antwort ohne
+ * Sendungen, die Läufe davor und danach lasen ~300. Ein einzelner Ausfall heilt so ohne Warnung; bleibt es leer,
+ * nennt `grund` Status, Größe und Typ der letzten Antwort.
+ */
+export async function rtlProgrammLesen(
+  abruf: typeof fetch,
+  pause: () => Promise<void> = () => new Promise((ok) => setTimeout(ok, 20000)),
+): Promise<{ sendungen: ReturnType<typeof sendungenAusSeite>; grund?: string }> {
+  let grund = ''
+  for (let versuch = 1; versuch <= RTL_VERSUCHE; versuch++) {
+    if (versuch > 1) await pause()
+    try {
+      const r = await abruf('https://plus.rtl.de/tv-programm', { headers: { 'User-Agent': UA, 'Accept-Language': 'de-DE' } })
+      if (!r.ok) {
+        grund = `HTTP ${r.status}`
+        continue
+      }
+      const text = await r.text()
+      const sendungen = sendungenAusSeite(text)
+      if (sendungen.length) return { sendungen }
+      grund = `keine Sendung gelesen (HTTP ${r.status}, ${text.length} Zeichen, ${r.headers.get('content-type') ?? 'ohne Typ'})`
+    } catch (err) {
+      grund = err instanceof Error ? err.message : String(err)
+    }
+  }
+  return { sendungen: [], grund: `${grund} nach ${RTL_VERSUCHE} Versuchen` }
+}
+
 export async function main(): Promise<void> {
   /* Fällt eine Quelle aus, arbeitet die andere weiter — gemeldet wird trotzdem. */
-  let sendungen: ReturnType<typeof sendungenAusSeite> = []
-  const r = await fetch('https://plus.rtl.de/tv-programm', { headers: { 'User-Agent': UA, 'Accept-Language': 'de-DE' } })
-  if (!r.ok) {
-    warn(`RTL+-Programm: HTTP ${r.status}`)
-    recordSource('tv-programm', 0, `HTTP ${r.status}`)
+  const { sendungen, grund } = await rtlProgrammLesen(fetch)
+  if (grund) {
+    warn(`RTL+-Programm: ${grund}`)
+    recordSource('tv-programm', 0, grund)
     process.exitCode = 1
   } else {
-    sendungen = sendungenAusSeite(await r.text())
     log(`${sendungen.length} Sendungen im RTL+-Programm.`)
-    if (!sendungen.length) {
-      warn('Keine Sendung gelesen — hat RTL+ die Seite umgebaut?')
-      recordSource('tv-programm', 0, 'keine Sendung gelesen')
-      process.exitCode = 1
-    }
   }
 
   const namen = namenIndex()
