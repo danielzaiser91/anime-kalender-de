@@ -443,7 +443,8 @@
       "ort": "github-secret",
       "wofuer": "Fine-grained PAT (nur dieses Repo: Contents, Pull requests, Actions je Read and write); der Nacht-Merger mergt damit freigegebene PRs und stößt veraltete Ketten neu an (das GITHUB_TOKEN löst keine Folgeläufe aus).",
       "workflows": [
-        "nacht-merger.yml"
+        "nacht-merger.yml",
+        "pr-pruefer-nachtrag.yml"
       ],
       "gueltig": {
         "text": "Noch nicht angelegt (F99, 01.11.2026): Ohne das Secret läuft der Nacht-Merger als Trockenlauf mit dem GITHUB_TOKEN und merged nichts",

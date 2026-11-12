@@ -56,5 +56,12 @@ gleich('Kreislauf: success wartet, danach cancelled-Ereignis: der Neustart bleib
 gleich('Kreislauf: nur cancelled (von Hand abgebrochen, kein Nachfolger): kein Lauf, der nächste Kettenlauf holt es nach', laeufeDieStarten([kette('cancelled')]), 0)
 gleich('Kreislauf: abgebrochen, success, wieder abgebrochen: weiter genau ein Lauf', laeufeDieStarten([kette('cancelled'), kette('success'), kette('cancelled')]), 1)
 
+// Gemergter PR (pull_request_target closed): nur basis-gemergt läuft, je PR eine Gruppe; ohne Merge läuft nichts.
+const geschlossen = (merged) => ({ event_name: 'pull_request_target', event: { pull_request: { number: 30, merged } } })
+gleich('Gemergter PR: nur basis-gemergt läuft', ['basis-gemergt', 'neustart', 'nach-kette'].map((j) => laeuft(j, geschlossen(true))), [true, false, false])
+gleich('Geschlossen ohne Merge: nichts läuft', ['basis-gemergt', 'neustart', 'nach-kette'].map((j) => laeuft(j, geschlossen(false))), [false, false, false])
+gleich('Kommentar und Kettenende starten basis-gemergt nicht', [laeuft('basis-gemergt', kommentar()), laeuft('basis-gemergt', kette('success'))], [false, false])
+gleich('Gruppe gemergter PR: PR-Nummer', gruppe(geschlossen(true)), 'pr-pruefer-nachtrag-30')
+
 console.log(`Nachtrag-Abbruch: ${fehler.length === 0 ? 'alle Fälle grün' : fehler.length + ' Fälle rot'}`)
 process.exit(fehler.length === 0 ? 0 : 1)

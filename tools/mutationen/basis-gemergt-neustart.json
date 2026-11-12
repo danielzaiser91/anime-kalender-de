@@ -1,0 +1,404 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": []
+  },
+  {
+    "name": "abhaengige: Basis-PR selbst nicht ausgeschlossen",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "p.number !== basis && !p.isDraft",
+    "ersetze": "!p.isDraft",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "abhaengige: Entwürfe zählen mit",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "p.number !== basis && !p.isDraft &&",
+    "ersetze": "p.number !== basis &&",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "abhaengige: Basis-Vergleich verneint",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "basisNummer(p.body) === basis",
+    "ersetze": "basisNummer(p.body) !== basis",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "abhaengige: Basis-Vergleich entfernt",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "&& basisNummer(p.body) === basis)",
+    "ersetze": ")",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "abhaengige: Sortierung absteigend",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": ".sort((a, b) => a - b)",
+    "ersetze": ".sort((a, b) => b - a)",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "abhaengige: Sortierung entfernt",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "\n    .sort((a, b) => a - b)",
+    "ersetze": "",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "MAX_PRS 6",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "export const MAX_PRS = 5",
+    "ersetze": "export const MAX_PRS = 6",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "MAX_PRS 4",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "export const MAX_PRS = 5",
+    "ersetze": "export const MAX_PRS = 4",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Grenze nicht angewandt",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "const dran = alle.slice(0, MAX_PRS)",
+    "ersetze": "const dran = alle",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Rest falsch geschnitten",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "alle.slice(MAX_PRS)",
+    "ersetze": "alle.slice(MAX_PRS + 1)",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Restmeldung immer",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "${uebrig.length ? `",
+    "ersetze": "${true ? `",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Exit 2 zählt nicht als Fehler",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "if (code === 2) fehler++",
+    "ersetze": "if (code === 3) fehler++",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Exit 1 zählt als Fehler",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "if (code === 2) fehler++",
+    "ersetze": "if (code >= 1) fehler++",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Fehler ohne Wirkung auf den Exit-Code",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "return fehler > 0 ? 1 : 0",
+    "ersetze": "return 0",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Fehler bricht die Schleife ab",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "if (code === 2) fehler++",
+    "ersetze": "if (code === 2) return 1",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Basis 0 gilt",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "!Number.isInteger(basis) || basis <= 0",
+    "ersetze": "!Number.isInteger(basis)",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Basis NaN gilt",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "!Number.isInteger(basis) || basis <= 0",
+    "ersetze": "basis <= 0",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Basisfehler mit Exit 0",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "BASIS_PR fehlt oder ist keine Zahl')\n    return 1",
+    "ersetze": "BASIS_PR fehlt oder ist keine Zahl')\n    return 0",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Abruffehler mit Exit 0",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "nicht lesbar (${String(e.message).split('\\n')[0]})`)\n    return 1",
+    "ersetze": "nicht lesbar (${String(e.message).split('\\n')[0]})`)\n    return 0",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Abruffehler verschluckt (kein try)",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "alle = abhaengige(holePrs(), basis)\n  } catch (e) {",
+    "ersetze": "alle = abhaengige(holePrs(), basis)\n    throw e\n  } catch (e) {",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: Fehlergrund nur Rohtext",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "(${String(e.message).split('\\n')[0]})",
+    "ersetze": "(${String(e.message)})",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: leere Liste mit Exit 1",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "als Basis`)\n    return 0",
+    "ersetze": "als Basis`)\n    return 1",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: leere Liste ruft trotzdem nachrechnen",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "if (alle.length === 0) {",
+    "ersetze": "if (alle.length === -1) {",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: nachrechnen nicht aufgerufen",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "const code = rechne(nr)",
+    "ersetze": "const code = 0",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "lauf: falsche PR-Nummer an nachrechnen",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "const code = rechne(nr)",
+    "ersetze": "const code = rechne(basis)",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: Trockenschalter immer aus",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "env.TROCKEN === 'true'",
+    "ersetze": "false",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: Trockenschalter immer an",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "env.TROCKEN === 'true'",
+    "ersetze": "true",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: Trockenschalter vertauscht",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "[...(trocken ? ['--trocken'] : [])",
+    "ersetze": "[...(!trocken ? ['--trocken'] : [])",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: PR-Nummer nicht übergeben",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "String(nr)], ghNachrechnen",
+    "ersetze": "'0'], ghNachrechnen",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: falsche Umgebungsvariable für die Basis",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "Number(env.BASIS_PR)",
+    "ersetze": "Number(env.BASIS)",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: PR-Liste nicht durchgereicht",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "return lauf({ basis: Number(env.BASIS_PR), holePrs, rechne, melde })",
+    "ersetze": "return lauf({ basis: Number(env.BASIS_PR), holePrs: () => [], rechne, melde })",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "main: Exit-Code verworfen",
+    "datei": "tools/basis-gemergt-neustart.mjs",
+    "suche": "return lauf({ basis: Number(env.BASIS_PR), holePrs, rechne, melde })",
+    "ersetze": "lauf({ basis: Number(env.BASIS_PR), holePrs, rechne, melde })\n  return 0",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Job läuft auch ohne Merge",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": " && github.event.pull_request.merged == true",
+    "ersetze": "",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Job läuft nie",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "github.event_name == 'pull_request_target' && github.event.pull_request.merged == true",
+    "ersetze": "false",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Auslöser opened statt closed",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "    types: [closed]",
+    "ersetze": "    types: [opened]",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Gruppe ohne PR-Nummer",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": " || github.event.pull_request.number }}",
+    "ersetze": " }}",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Token nur GITHUB_TOKEN",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "${{ secrets.NACHT_MERGER_TOKEN || secrets.GITHUB_TOKEN }}\n          # Ohne PAT",
+    "ersetze": "${{ secrets.GITHUB_TOKEN }}\n          # Ohne PAT",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Trockenlauf nie",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "TROCKEN: ${{ secrets.NACHT_MERGER_TOKEN == '' }}",
+    "ersetze": "TROCKEN: false",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Basis-Nummer falsch",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "BASIS_PR: ${{ github.event.pull_request.number }}",
+    "ersetze": "BASIS_PR: ${{ github.event.number }}",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: flacher Checkout",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "          fetch-depth: 0\n          filter: blob:none\n          persist-credentials: false\n\n      - name: Stapel",
+    "ersetze": "          persist-credentials: false\n\n      - name: Stapel",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Job schreibt",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "      pull-requests: read\n      actions: read",
+    "ersetze": "      pull-requests: write\n      actions: read",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Frist 20 min",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "timeout-minutes: 9",
+    "ersetze": "timeout-minutes: 20",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  },
+  {
+    "name": "Workflow: Werkzeug nicht aufgerufen",
+    "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
+    "suche": "run: node tools/basis-gemergt-neustart.mjs",
+    "ersetze": "run: node tools/pr-pruefer-nach-kette.mjs",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs",
+      "node tools/pr-pruefer-nachtrag-abbruch.test.mjs"
+    ]
+  }
+]

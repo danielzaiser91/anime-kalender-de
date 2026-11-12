@@ -107,7 +107,7 @@ const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
 gleich('Zeitbudget: Pausen plus 2 min Reserve unter timeout-minutes', pausenMs + 120_000 <= job['timeout-minutes'] * 60_000, true)
 // Untergrenze: Prüfer-Job 30 min, Kettenlog nach 13 min -> mindestens 17 min Restdauer müssen abgedeckt sein.
 gleich('Wartezeit deckt die Restdauer des Prüfer-Laufs (≥ 17 min)', pausenMs >= 17 * 60_000, true)
-gleich('Gruppe trennt Nachtrag (PR-Nummer) und Kettenende (Kopf), cancelled eigene Gruppe', wf.concurrency.group, "pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}")
+gleich('Gruppe trennt Nachtrag (PR-Nummer) und Kettenende (Kopf), cancelled eigene Gruppe', wf.concurrency.group, "pr-pruefer-nachtrag-${{ github.event.issue.number || github.event.workflow_run.head_sha || github.event.pull_request.number }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}")
 gleich('Rechte unverändert: Aktionen schreiben, sonst lesen', wf.permissions, { contents: 'read', 'pull-requests': 'read', actions: 'write' })
 
 console.log(`Prüfer-Nachlauf: ${fehler.length === 0 ? 'alle Fälle grün' : fehler.length + ' Fälle rot'}`)
