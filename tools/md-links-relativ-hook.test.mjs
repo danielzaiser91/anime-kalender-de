@@ -32,6 +32,8 @@ assert.equal(betroffen(W + '/listen/stand.md'), true)
 assert.equal(betroffen('C:/code/ai/anime-kalender-de/docs/x.md'), false)
 assert.equal(betroffen(W + '/mockups/index.html'), false)
 assert.equal(betroffen(W.replace(/\//g, '\\') + '\\jetzt\\e.md'), true)
+assert.equal(betroffen('C:/code/ai/__assets/notes/paypal-mitschnitt/auftrag.md'), true, 'Notizen öffnet Daniel in VS Code')
+assert.equal(betroffen('C:/code/ai/__assets/notes-alt/x.md'), false)
 
 // Prozess: Write-Ereignis schreibt um und meldet, stand.md bleibt
 const tmp = mkdtempSync(join(tmpdir(), 'mdlinks-')).replace(/\\/g, '/')

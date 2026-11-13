@@ -39377,7 +39377,6 @@
   dub: true
   checkedAt: '2026-11-12'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H6CC38TP: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.eb7896ae-ef47-4a9d-a230-016d06a59118"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-12 ---
 
 - anilistId: 531
@@ -39387,7 +39386,6 @@
   available: false
   checkedAt: '2026-11-12'
   note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
-
 # --- Anime2You-Automatik, 2026-11-12: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
 
 - anilistId: 47
@@ -39414,3 +39412,12 @@
   kanalMessung: ja
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D75XMMB1: alle 15 Folgen geprüft, Abos: aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.7d2692e2-bec9-491d-a547-098c626f557b — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-13 ---
+
+- anilistId: 21698
+  title: "Haikyu!! Karasuno vs. Shiratorizawa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FJZP9BK5
+  available: false
+  checkedAt: '2026-10-24'
+  note: "Amazon-Seite B0FJZP9BK5: nur 0 von 11 Folgen geladen — Rest ungeprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.f258a729-c5d4-4ba2-a227-17d80b96bb0d, regionsperre=laut Seite nicht mehr im Abo"
