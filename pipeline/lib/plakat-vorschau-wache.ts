@@ -26,6 +26,9 @@ export interface CoverSeite extends SeitenBild {
   coverImage: string | undefined
 }
 
+/** Absichtlicher Abstand der Grenzen in `check-teilseiten` und `check-cover-vorschau-bestand` zum Bestand (11.11.2026: 16 gegen 27); erst darunter lohnt das Nachziehen. */
+export const STANDARD_TROTZ_COVER_LUFT = 11
+
 export function standardTrotzCover(seiten: CoverSeite[], site: string): string[] {
   return seiten.filter((s) => s.coverImage && s.bild?.startsWith(`${site}og/default.jpg`)).map((s) => s.slug)
 }

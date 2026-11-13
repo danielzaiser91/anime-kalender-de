@@ -14,12 +14,9 @@ import { reihenGruppen } from '../web/src/components/detail/reihen-gruppen.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { ladeRemakeVonHand, markiereRemakes, remakePaareAusKanten, zaehltAlsNeuverfilmung } from './bau/remake-von.ts'
 import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, warnzeilenZaehlung } from './lib/remake-zaehlung-pruefung.ts'
-import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
+import { BEKANNT_DOPPELT_OHNE_REMAKE, BEKANNT_HOECHSTENS } from './lib/remake-zaehlung-bekannt.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import { ueberHoechstens } from './lib/hoechstens-ratsche.ts'
-
-/** Obergrenze der Schlüsselliste (Stand 11.11.2026, nach Spin-offs und Urusei Yatsura 2022; vorher 37, 19): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet (data/spinoff-von-hand.yaml). */
-const BEKANNT_HOECHSTENS = 14
 
 let verletzt = 0
 let faelle = 0
