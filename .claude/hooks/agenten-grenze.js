@@ -1,5 +1,5 @@
 // PreToolUse(Agent): verweigert den Start eines Agenten, wenn schon GRENZE Agenten dieser Sitzung laufen (Prüfer zählen nicht).
-// Daniel 13.10.2026: „5 max“ war nur Vorsatz, sechs liefen gleichzeitig — jetzt greift die Grenze technisch.
+// Daniel 13.10.2026: „5 max“ war nur Vorsatz, sechs liefen gleichzeitig — jetzt greift die Grenze technisch; seit 13.11.2026 lokal 2.
 // Laufend = Transkript unter <sitzung>/subagents/ endet nicht mit end_turn/Abbruch und wurde in der letzten Stunde geschrieben.
 const fs = require('node:fs')
 const path = require('node:path')

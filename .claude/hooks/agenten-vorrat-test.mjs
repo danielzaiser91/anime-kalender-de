@@ -34,8 +34,15 @@ const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), ses
   fs.writeFileSync(path.join(vorrat, '05-pr.md'), '# Auftrag P\nText\n\n**Vergeben:** PR 1\n')
   fs.writeFileSync(path.join(vorrat, '06-routine.md'), '# Auftrag R\nText\n\n**Vergeben:** Routine x 13.11. (remote)\n')
   pruef('Blockiertes, Erledigtes, per PR oder Routine Vergebenes schweigt', pruefe(ein) === null)
+  // Nur die Zeile am Anfang vergibt; ein Zitat mitten im Text nicht.
+  fs.writeFileSync(path.join(vorrat, '07-zitat.md'), '# Auftrag Q\nsiehe **Vergeben:** PR 1\n')
+  pruef('zitiertes Vergeben bleibt startfertig', /Auftrag Q/.test(pruefe(ein) || ''))
+  fs.rmSync(path.join(vorrat, '07-zitat.md'))
   fs.writeFileSync(path.join(vorrat, '10-a.md'), '# Auftrag A\nText')
   fs.writeFileSync(path.join(vorrat, '20-b.md'), '# Auftrag B\nText')
+  const alleFrei = pruefe(ein) || ''
+  pruef('alle Plätze frei nennt A und B', /Auftrag A/.test(alleFrei) && /Auftrag B/.test(alleFrei))
+  pruef('Meldung schickt remote zuerst', /Starte sie remote/.test(alleFrei) && /RemoteTrigger/.test(alleFrei))
   for (let i = 1; i < GRENZE; i++) laeuft(`b${i}`, 'bauer')
   laeuft('p1', 'pruefer')
   const r = pruefe(ein) || ''

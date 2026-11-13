@@ -1,5 +1,5 @@
 // Stop (Hauptsitzung): Im autonomen Modus endet kein Turn, solange Agenten-Plätze frei sind und der Vorrat
-// startfertige Aufträge hat. Daniel 13.10.2026: „wieso sind nicht automatisch immer 5 belegt?“
+// startfertige Aufträge hat. Daniel 13.10.2026: „wieso sind nicht automatisch immer 5 belegt?“; seit 13.11.2026 lokal 2, remote zuerst.
 // Vorrat = <projekt>/daniel-zum-abarbeiten/vorrat/*.md, je Datei ein vollständiger Auftrag; erste Zeile = Titel.
 const fs = require('node:fs')
 const path = require('node:path')
