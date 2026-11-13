@@ -17,7 +17,7 @@ globalThis.akProtokoll = (() => {
   let geplant = false
 
   /* Was vor dem Neuladen stand, kommt vor das, was seit dem Laden dazukam. */
-  const geladen = Promise.resolve(chrome.storage.local.get(SCHLUESSEL))
+  const geladen = Promise.resolve(globalThis.akKontext.lesen(SCHLUESSEL))
     .then((r) => {
       liste = [...(r?.[SCHLUESSEL] ?? []), ...liste].slice(-MAX)
     })
@@ -29,7 +29,7 @@ globalThis.akProtokoll = (() => {
     setTimeout(async () => {
       geplant = false
       await geladen
-      await Promise.resolve(chrome.storage.local.set({ [SCHLUESSEL]: liste })).catch(() => {})
+      await globalThis.akKontext.schreiben({ [SCHLUESSEL]: liste })
     }, 500)
   }
 

@@ -57,6 +57,7 @@
         "https://www.netflix.com/tudum/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "offene-netflix.js",
@@ -88,6 +89,7 @@
         "https://www.amazon.de/*"
       ],
       "js": [
+        "kontext.js",
         "ruhig.js"
       ],
       "css": [
@@ -111,6 +113,7 @@
         "https://www.amazon.de/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "melde-sperre.js",
@@ -150,6 +153,7 @@
         "https://www.disneyplus.com/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "melde-sperre.js",
@@ -173,6 +177,7 @@
         "https://animationdigitalnetwork.com/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "melde-sperre.js",
