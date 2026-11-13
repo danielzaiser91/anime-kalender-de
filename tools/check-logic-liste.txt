@@ -276,6 +276,7 @@ pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-hinweis-anzeige.ts
+pipeline/check-hoechstens-ratsche.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts
 pipeline/check-import-meta-env.ts
