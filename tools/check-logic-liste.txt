@@ -122,6 +122,7 @@ pipeline/check-cartoon-wege-falten.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-klein-vorschau.ts
+pipeline/check-cover-liste.ts
 pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-masse-poster-lauf.ts
