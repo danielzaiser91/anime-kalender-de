@@ -3941,6 +3941,29 @@ async function speicherSchreiben(werte) {
 
   /** Der Kasten bei genauem Treffer (aus `zeigeSuchhinweis` herausgelöst). */
   function genauZeigen(auftrag, zeichnen, befund, begriffZeile, folgen) {
+    const sortiert = genauSortiert(auftrag, befund)
+    const t = sortiert[0]
+    const ziel = ohneParameter(t.url)
+    const zielKennung = kennungAus(ziel)
+    /*
+      Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
+      Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
+      sogar im Player einer fremden Serie und behauptete dort, die Meldung
+      laufe unter „Angels of Death" (27.08.2026, mit Bild).
+    */
+    suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: zielKennung })
+    hinweisKasten(
+      auftrag.titel,
+      folgen,
+      /* Keine Zeile „Treffer: <Name> (<Typ>)": Kopf und Auswahlzeilen nennen beides schon (02.09.2026). */
+      ...begriffZeile,
+      ...genauZusatz(auftrag, befund, zeichnen, sortiert, t, ziel, zielKennung),
+    )
+    return
+  }
+
+  /** Die Treffer, Kauftitel vor Kanal-Titel; die weiteren Ausgaben merkt sich der Suchauftrag. */
+  function genauSortiert(auftrag, befund) {
     /*
       **Zwei richtige Treffer sind keine Verlegenheit, sondern zwei Wege.**
 
@@ -3958,105 +3981,43 @@ async function speicherSchreiben(werte) {
     */
     const kanalKarte = (k) => /channel|subscription/i.test(String(k.zugang ?? ''))
     const sortiert = befund.treffer.slice().sort((a, b) => Number(kanalKarte(a)) - Number(kanalKarte(b)))
-    const t = sortiert[0]
     /*
-      **Die zweite Ausgabe geht mit, sonst sieht sie nie jemand wieder.**
-
-      Prime führt „My First Girlfriend Is a Gal" zweimal: als Kauftitel mit
-      FSK 16 und elf Folgen und über den Crunchyroll-Kanal mit FSK 18 und
-      zehn — andere Folgentitel, zwei Verlage. Meldet Daniel eine davon,
-      fiel der Auftrag aus der Liste, und die andere blieb ungeprüft
-      (30.08.2026).
-
-      Hier steht die Trefferliste noch vollständig da. Ihre Kennungen gehen
-      als `weitere=` in die Notiz — daraus legt `extension-offene-amazon.mjs`
-      eigene Aufträge an. Über die Notiz, weil die Meldetabelle keine Spalte
-      dafür hat und eine Migration für zwei Kennungen zu viel wäre.
+      **Die zweite Ausgabe geht mit, sonst sieht sie nie jemand wieder** (30.08.2026: zwei Ausgaben
+      mit anderen Folgen, nach einer Meldung fiel der Auftrag aus der Liste). Ihre Kennungen gehen als
+      `weitere=` in die Notiz; daraus legt `extension-offene-amazon.mjs` eigene Aufträge an.
     */
     try {
       weitereAusgaben = sortiert
         .slice(1, 4)
         .map((z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(z.url ?? '')?.[1])
         .filter(Boolean)
-      /*
-        **Die Kennungen müssen den Sprung überleben.**
-
-        Gemeldet wird fast immer auf der **Titelseite**, nicht auf der
-        Suchseite — und dorthin führt ein Seitenwechsel. Eine Variable im
-        Skript ist danach leer; gemessen am 31.08.2026: Von 78 offenen
-        Meldungen trug **keine einzige** ein `weitere=`, obwohl der Weg seit
-        4.0.22 eingebaut ist.
-
-        Der Suchauftrag liegt im `sessionStorage` und überlebt den Wechsel.
-      */
+      /* Gemeldet wird auf der Titelseite; nur der Suchauftrag im `sessionStorage` überlebt den Sprung (31.08.2026). */
       if (weitereAusgaben.length) {
         suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, weitere: weitereAusgaben })
       }
     } catch {
       weitereAusgaben = []
     }
-    const ziel = ohneParameter(t.url)
-    const zielKennung = kennungAus(ziel)
-    /*
-      Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
-      Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
-      sogar im Player einer fremden Serie und behauptete dort, die Meldung
-      laufe unter „Angels of Death" (27.08.2026, mit Bild).
-    */
-    suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: zielKennung })
-    hinweisKasten(
-      auftrag.titel,
-      folgen,
-      /*
-        Hier stand „Treffer: <Name> (<Typ>)" — entfernt am 02.09.2026.
-        Der Kopf nennt den Titel, die Auswahlzeilen nennen die Ausgaben; die
-        Zeile dazwischen wiederholte beides.
-      */
-      ...begriffZeile,
+    return sortiert
+  }
+
+  /** Auswahl, Sprungknopf und Meldeknopf unter dem Kasten eines genauen Treffers, in Anzeigereihenfolge. */
+  function genauZusatz(auftrag, befund, zeichnen, sortiert, t, ziel, zielKennung) {
+    return [
       /*
         **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
         einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
         es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
       */
       /*
-        **Vorher ankreuzen, was zusammengehört — dann weiß der Auftrag es.**
-
-        Prime führt denselben Anime regelmäßig zweimal: über einen Kanal
-        (aniverse, Crunchyroll) und als Kauftitel. Beide sind Wege, und der
-        Bau kennt höchstens eine Adresse — welche Karten dasselbe Werk
-        meinen, sieht nur ein Mensch.
-
-        Bis zum 02.09.2026 galt der Auftrag deshalb nach **einer** Meldung
-        als erledigt, und die zweite Seite ließ sich nicht mehr melden.
-        Drei Versuche, das abzuleiten, gingen daneben.
-
-        Sein Vorschlag: „auf search seite checkboxen anbieten, welche titel
-        erwartet werden sollen … so kann es vorher getracked werden und du
-        musst keine fehleranfällige implementierung bauen."
-
-        Was hier angekreuzt und bestätigt wird, ist die Erwartung. Ob eine
-        davon schon gemeldet ist, sagt der Briefkasten — nicht ein lokaler
-        Zähler.
+        **Vorher ankreuzen, was zusammengehört — dann weiß der Auftrag es.** Prime führt denselben
+        Anime oft zweimal (Kanal und Kauftitel); welche Karten dasselbe Werk meinen, sieht nur ein
+        Mensch (Daniel, 02.09.2026). Angekreuzt wird die Erwartung; ob schon gemeldet, sagt der Briefkasten.
       */
       ...erwartungsAuswahl(auftrag, sortiert),
       /*
-        Hier standen „Zum Anime springen" und darunter „Stattdessen: …" —
-        dieselben Kennungen ein zweites Mal. Seit dem 02.09.2026 sitzt der
-        Sprung als ↗ an der Auswahlzeile selbst. Ohne Auswahl — also bei nur einer Karte — bleibt der
-        Hinweis unten stehen.
-      */
-      /*
-        **Der Knopf nennt die Karte, die er meint — und markiert sie.**
-
-        Er hieß „Öffnen — dort werden die Tonspuren gelesen" und übergab
-        keine Kennung. Damit fiel er aus beidem heraus, was `kastenKnopf`
-        für die Zuordnung tut: kein `(ASIN)` im Label, und beim Überfahren
-        blieb die Trefferkachel unmarkiert.
-
-        Der Hinweis auf die Tonspuren ist im selben Zug entfallen — er
-        erklärt die Arbeitsweise der Erweiterung, und die kennt der einzige
-        Leser dieses Kastens („ist sinnlos, ich weiß wie die extension
-        funktioniert").
+        Der Sprung sitzt als ↗ an der Auswahlzeile (seit 02.09.2026); nur bei einer Karte ohne Auswahl
+        steht hier ein Knopf. Er nennt die Karte und übergibt ihre Kennung, damit `kastenKnopf` sie markiert.
       */
       sortiert.length < 2 && ziel
         ? kastenKnopf(
@@ -4067,38 +4028,17 @@ async function speicherSchreiben(werte) {
             zielKennung,
           )
         : null,
-      /*
-        Hier standen bis zu zwei „Stattdessen: …"-Knöpfe für die weiteren
-        Karten. Seit dem 02.09.2026 stehen dieselben Ausgaben als
-        Ankreuzfelder darüber, jede mit eigenem „öffnen" — der Knopf war
-        damit dieselbe Kennung ein zweites Mal.
-      */
-      /*
-        Hier stand „Beim Kanal-Titel nennt Amazon die Sprachen des Kanals…" —
-        entfernt am 02.09.2026 auf Daniels Wunsch. Wer beide Ausgaben
-        ankreuzt und meldet, braucht die Belehrung nicht; die Unterscheidung
-        steht ohnehin an jeder Auswahlzeile („Kanal-Abo" / „Kauf/Abo").
-      */
+      /* Platz der früheren „Stattdessen"-Knöpfe und der Kanal-Belehrung (beide entfernt am 02.09.2026). */
       null,
       /*
-        **Auch ein gefundener Treffer kann der falsche sein.**
-
-        Daniel am 31.08.2026 an „Ronja Räubertochter": Der Namensvergleich
-        fand eine Karte, und sie heißt tatsächlich so — nur ist es Viaplays
-        **Realverfilmung**, nicht der Anime von 1984. Der Kasten bot „Zum
-        Anime springen" an und sonst nichts; um „nicht bei Prime" zu melden,
-        hätte der Treffer erst verschwinden müssen.
-
-        Der Knopf steht deshalb auch hier, hinter den Sprungzielen: Wer
-        hinsieht und merkt, dass es der falsche Titel ist, kann es sofort
-        sagen. Er ist derselbe wie im Kein-Treffer-Kasten und meldet unter
-        der Suchadresse.
+        **Auch ein gefundener Treffer kann der falsche sein** (31.08.2026, „Ronja Räubertochter": die
+        gleichnamige Realverfilmung). Der Knopf steht deshalb auch hier; er ist derselbe wie im
+        Kein-Treffer-Kasten und meldet unter der Suchadresse.
       */
       istGemeldet(auftrag.suchUrl)
         ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
         : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k, zeichnen)),
-    )
-    return
+    ]
   }
 
   /**
