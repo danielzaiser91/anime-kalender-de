@@ -583,6 +583,7 @@ pipeline/check-urteil-fremde-adresse.ts
 pipeline/check-urteil-spaet.ts
 pipeline/check-urteile-ablauf.ts
 pipeline/check-us-nein-adresse.ts
+pipeline/check-verpasst-beobachtet.ts
 pipeline/check-verpasst-katalog.ts
 pipeline/check-verpasst-verdrahtung.ts
 pipeline/check-verteile-folgentitel.ts
