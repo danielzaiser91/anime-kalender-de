@@ -20,7 +20,7 @@ const WEGWERF_WURZEL = {
   'pipeline/check-cover-liste.ts': ['daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md'],
   'pipeline/check-meldungen-liste.ts': ['daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'],
   'pipeline/check-nur-originalton-liste.ts': ['daniel-zum-abarbeiten/listen/23-nur-originalton.md'],
-  'pipeline/check-og-schaetz.ts':['public/og/fassung.txt', 'public/og/schaetz.txt'],
+  'pipeline/check-og-schaetz.ts': ['public/og/fassung.txt', 'public/og/schaetz.txt'],
   'pipeline/check-kanal-aussortieren.ts': ['data/prime-kanal-aussortiert.json'],
   'pipeline/check-folgen-fremde-adressen-lauf.ts': ['data/folgen-zuordnung.json'],
   'pipeline/check-stumme-quellen.ts': ['data/source-health.json'],
