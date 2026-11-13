@@ -103,6 +103,7 @@ pipeline/check-belegstaerke.ts
 pipeline/check-bereich-auge-lauf.ts
 pipeline/check-bereich-auge.ts
 pipeline/check-bestand-delta-entfernt.ts
+pipeline/check-bestand-vorher.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-aufnahme-bau.ts
