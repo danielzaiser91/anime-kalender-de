@@ -5,6 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
+import { LIMIT_EINZEL_MS, LIMIT_TEST_MS } from './kind-mit-limit.mjs'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -17,13 +18,13 @@ const ordner = mkdtempSync(join(tmpdir(), 'stumme-pfade-'))
 // Ohne --git liegt der Basisvergleich außerhalb eines Repos (entfällt); die Kulisse unten gibt ein eigenes Repo.
 function lauf(wurzel, grenzen, ...optionen) {
   const git = optionen.includes('--git') ? [] : ['--git', ordner]
-  return spawnSync(process.execPath, [werkzeug, '--wurzel', wurzel, '--grenzen', grenzen, ...git, ...optionen], { encoding: 'utf8' })
+  return spawnSync(process.execPath, [werkzeug, '--wurzel', wurzel, '--grenzen', grenzen, ...git, ...optionen], { encoding: 'utf8', timeout: LIMIT_TEST_MS })
 }
 
 /** Git-Kulisse: Repo mit `origin/main`, dessen Grenzdatei den Basiswert trägt (`null` = ohne Datei, `false` = ohne origin/main). */
 function kulisse(name, basis) {
   const wurzel = baum(name, { 'x.txt': '1' })
-  const git = (...a) => spawnSync('git', ['-C', wurzel, '-c', 'user.email=t@t', '-c', 'user.name=t', ...a], { encoding: 'utf8' })
+  const git = (...a) => spawnSync('git', ['-C', wurzel, '-c', 'user.email=t@t', '-c', 'user.name=t', ...a], { encoding: 'utf8', timeout: LIMIT_EINZEL_MS })
   git('init', '-q')
   if (basis) {
     mkdirSync(join(wurzel, 'tools'), { recursive: true })
