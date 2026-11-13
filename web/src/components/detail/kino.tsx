@@ -1,5 +1,5 @@
 import { useEscape } from '../../lib/escape.ts'
-import { useLang } from '../../lib/i18n.tsx'
+import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { formatDate, monthName } from '@shared/time.ts'
@@ -45,6 +45,57 @@ export function TrailerKino({
 }) {
   const { t } = useLang()
   const [offen, setOffen] = useState(false)
+  const { deutsch, spracheName, knopfText, suche } = trailerAngaben(trailer, titel, t)
+
+  /*
+    Escape schließt, und solange der Dialog steht, scrollt die Seite darunter
+    nicht mit — sonst wandert das Panel weg, während oben ein Video läuft.
+  */
+  useEffect(() => {
+    if (!offen) return
+    const vorher = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = vorher
+    }
+  }, [offen])
+  useEscape(offen, () => setOffen(false), { ziel: 'document' })
+
+  return (
+    <>
+      {/*
+        **Die Pille sagt, was sie tut, und sieht aus wie ein Abspielknopf.**
+        Ein gefülltes Dreieck in einem eigenen Kreis: Das ist das Zeichen, das
+        jeder kennt, und es unterscheidet die Pille von den Anbieter-Pillen
+        darunter, die zu einer fremden Seite führen statt etwas zu öffnen.
+      */}
+      {kinoPille({ t, trailer, deutsch, knopfText, setOffen })}
+
+      {/*
+        **Der Dialog hängt am Körper, nicht im Panel.**
+
+        `position: fixed` bezieht sich normalerweise auf das Fenster — aber
+        nicht, wenn ein Vorfahre `transform`, `filter` oder `backdrop-filter`
+        trägt: Dann wird dieser Vorfahre zum Bezugsrahmen. Das Detail-Panel
+        fährt mit einer Transform-Animation herein, also saß der Dialog in ihm
+        und ragte rechts aus dem Bild (gemessen 12.09.2026 am ersten Bild).
+
+        Der Messwert log dabei nicht, er beantwortete nur eine andere Frage:
+        „95 % breit" stimmte, gemessen an `window.innerWidth` — die **Lage** hat
+        niemand gefragt. Genau dafür gibt es das Bild, und deshalb prüft
+        `trailer-dialog-bild.mjs` jetzt auch die Ränder.
+      */}
+      {offen &&
+        createPortal(
+        kinoDialog({ t, titel, trailer, deutsch, spracheName, suche, setOffen }),
+          document.body,
+        )}
+    </>
+  )
+}
+
+/** Beschriftung und Suchadresse der Trailer-Pille, nach Sprache des Trailers. */
+function trailerAngaben(trailer: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']> | undefined, titel: string, t: Translate) {
   /*
     **Ein fremdsprachiger Trailer sagt, dass er einer ist.** Nur 56 der 700
     Filme haben einen deutschen; für 442 weitere kennt TMDB einen englischen
@@ -70,143 +121,131 @@ export function TrailerKino({
   const spracheName = fremd ? t(SPRACHNAME[trailer!.sprache as 'en' | 'ja']) : ''
   const knopfText = !trailer ? t('trailer.ohne') : deutsch ? t('trailer.ansehen') : t('trailer.ansehenFremd', { sprache: spracheName })
   const suche = `https://www.youtube.com/results?search_query=${encodeURIComponent(`${titel} Trailer deutsch`)}`
+  return { deutsch, spracheName, knopfText, suche }
+}
 
-  /*
-    Escape schließt, und solange der Dialog steht, scrollt die Seite darunter
-    nicht mit — sonst wandert das Panel weg, während oben ein Video läuft.
-  */
-  useEffect(() => {
-    if (!offen) return
-    const vorher = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = vorher
-    }
-  }, [offen])
-  useEscape(offen, () => setOffen(false), { ziel: 'document' })
-
+/** Die Pille, die das Kino öffnet. */
+function kinoPille({ t, trailer, deutsch, knopfText, setOffen }: {
+  t: Translate
+  trailer?: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>
+  deutsch: boolean
+  knopfText: string
+  setOffen: (offen: boolean) => void
+}) {
   return (
-    <>
-      {/*
-        **Die Pille sagt, was sie tut, und sieht aus wie ein Abspielknopf.**
-        Ein gefülltes Dreieck in einem eigenen Kreis: Das ist das Zeichen, das
-        jeder kennt, und es unterscheidet die Pille von den Anbieter-Pillen
-        darunter, die zu einer fremden Seite führen statt etwas zu öffnen.
-      */}
-      <Tooltip text={deutsch ? '' : trailer ? t('trailer.nochKeinDeutscher') : t('trailer.keinerGefunden')} eigenerFokus className="shrink-0">
-        <button
-          type="button"
-          onClick={() => setOffen(true)}
+    <Tooltip text={deutsch ? '' : trailer ? t('trailer.nochKeinDeutscher') : t('trailer.keinerGefunden')} eigenerFokus className="shrink-0">
+      <button
+        type="button"
+        onClick={() => setOffen(true)}
+        className={[
+          'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-t3 font-semibold transition',
+          deutsch
+            ? 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise hover:bg-ak-flaeche-2'
+            : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-ak-leise hover:bg-ak-flaeche-2 dark:border-white/15 dark:text-slate-300',
+        ].join(' ')}
+      >
+        <span
+          aria-hidden="true"
           className={[
-            'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-t3 font-semibold transition',
-            deutsch
-              ? 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise hover:bg-ak-flaeche-2'
-              : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-ak-leise hover:bg-ak-flaeche-2 dark:border-white/15 dark:text-slate-300',
+            'grid h-5 w-5 place-items-center rounded-full text-t5 transition group-hover:scale-110',
+            deutsch ? 'bg-ak-akzent text-ak-auf-akzent' : 'bg-slate-500 text-white',
           ].join(' ')}
         >
-          <span
-            aria-hidden="true"
-            className={[
-              'grid h-5 w-5 place-items-center rounded-full text-t5 transition group-hover:scale-110',
-              deutsch ? 'bg-ak-akzent text-ak-auf-akzent' : 'bg-slate-500 text-white',
-            ].join(' ')}
-          >
-            ▶
-          </span>
-          {knopfText}
-        </button>
-      </Tooltip>
+          ▶
+        </span>
+        {knopfText}
+      </button>
+    </Tooltip>
+  )
+}
 
-      {/*
-        **Der Dialog hängt am Körper, nicht im Panel.**
-
-        `position: fixed` bezieht sich normalerweise auf das Fenster — aber
-        nicht, wenn ein Vorfahre `transform`, `filter` oder `backdrop-filter`
-        trägt: Dann wird dieser Vorfahre zum Bezugsrahmen. Das Detail-Panel
-        fährt mit einer Transform-Animation herein, also saß der Dialog in ihm
-        und ragte rechts aus dem Bild (gemessen 12.09.2026 am ersten Bild).
-
-        Der Messwert log dabei nicht, er beantwortete nur eine andere Frage:
-        „95 % breit" stimmte, gemessen an `window.innerWidth` — die **Lage** hat
-        niemand gefragt. Genau dafür gibt es das Bild, und deshalb prüft
-        `trailer-dialog-bild.mjs` jetzt auch die Ränder.
-      */}
-      {offen &&
-        createPortal(
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={t('trailer.ueberschrift', { titel })}
-          onClick={() => setOffen(false)}
-          className="fixed inset-0 z-[120] grid place-items-center bg-black/80 p-2 backdrop-blur-sm"
-        >
-          {/* Der Klick im Dialog darf ihn nicht schließen — nur der daneben. */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="flex h-[95vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl ak-immer-dunkel"
-          >
-            <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-2.5">
-              <h2 className="min-w-0 flex-1 truncate text-t3 font-semibold text-white">
-                {t('trailer.ueberschrift', { titel })}
-                {/*
-                  Der Hinweis steht **im** Dialog, nicht nur als Tooltip an der
-                  Pille: Wer hier landet, hat geklickt und erwartet Deutsch —
-                  er soll es lesen können, ohne mit der Maus zu suchen. Auf
-                  einem Touchgerät gibt es den Tooltip ohnehin nicht.
-                */}
-                {trailer && !deutsch && (
-                  <span className="ml-2 font-normal text-slate-400">
-                    · {spracheName} — {t('trailer.nochKeinDeutscher')}
-                  </span>
-                )}
-              </h2>
-              {trailer && (
-                <a
-                  href={`https://www.youtube.com/watch?v=${trailer.video}`}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-t4 font-semibold text-slate-200 transition hover:border-ak-leise hover:bg-ak-flaeche-2"
-                >
-                  {t('trailer.beiYoutube')} ↗
-                </a>
-              )}
-              <button
-                type="button"
-                onClick={() => setOffen(false)}
-                aria-label={t('trailer.schliessen')}
-                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-t2 text-slate-300 transition hover:bg-ak-flaeche-2 hover:text-ak-text"
-              >
-                ✕
-              </button>
-            </div>
-            {trailer ? (
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${trailer.video}?autoplay=1&rel=0`}
-                title={trailer.titel || t('trailer.ueberschrift', { titel })}
-                allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen"
-                allowFullScreen
-                className="min-h-0 flex-1 border-0 bg-black"
-              />
-            ) : (
-              <div className="grid min-h-0 flex-1 place-items-center bg-black p-6 text-center">
-                <div className="flex max-w-md flex-col items-center gap-4">
-                  <p className="text-t3 text-slate-300">{t('trailer.keinerGefunden')}</p>
-                  <a
-                    href={suche}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="rounded-full border border-ak-rand bg-ak-flaeche px-4 py-2 text-t3 font-semibold text-ak-text transition hover:border-ak-leise hover:bg-ak-flaeche-2"
-                  >
-                    {t('trailer.suchen')} ↗
-                  </a>
-                </div>
-              </div>
+/** Der Dialog mit Kopfzeile und Video bzw. Suchhinweis. */
+function kinoDialog({ t, titel, trailer, deutsch, spracheName, suche, setOffen }: {
+  t: Translate
+  titel: string
+  trailer?: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>
+  deutsch: boolean
+  spracheName: string
+  suche: string
+  setOffen: (offen: boolean) => void
+}) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={t('trailer.ueberschrift', { titel })}
+      onClick={() => setOffen(false)}
+      className="fixed inset-0 z-[120] grid place-items-center bg-black/80 p-2 backdrop-blur-sm"
+    >
+      {/* Der Klick im Dialog darf ihn nicht schließen — nur der daneben. */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex h-[95vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl ak-immer-dunkel"
+      >
+        <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-2.5">
+          <h2 className="min-w-0 flex-1 truncate text-t3 font-semibold text-white">
+            {t('trailer.ueberschrift', { titel })}
+            {/*
+              Der Hinweis steht **im** Dialog, nicht nur als Tooltip an der
+              Pille: Wer hier landet, hat geklickt und erwartet Deutsch —
+              er soll es lesen können, ohne mit der Maus zu suchen. Auf
+              einem Touchgerät gibt es den Tooltip ohnehin nicht.
+            */}
+            {trailer && !deutsch && (
+              <span className="ml-2 font-normal text-slate-400">
+                · {spracheName} — {t('trailer.nochKeinDeutscher')}
+              </span>
             )}
-          </div>
-        </div>,
-          document.body,
-        )}
-    </>
+          </h2>
+          {trailer && (
+            <a
+              href={`https://www.youtube.com/watch?v=${trailer.video}`}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-t4 font-semibold text-slate-200 transition hover:border-ak-leise hover:bg-ak-flaeche-2"
+            >
+              {t('trailer.beiYoutube')} ↗
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={() => setOffen(false)}
+            aria-label={t('trailer.schliessen')}
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-t2 text-slate-300 transition hover:bg-ak-flaeche-2 hover:text-ak-text"
+          >
+            ✕
+          </button>
+        </div>
+        {kinoVideo({ t, titel, trailer, suche })}
+      </div>
+    </div>
+  )
+}
+
+/** Das eingebettete Video — oder, ohne Trailer, der Weg zur YouTube-Suche. */
+function kinoVideo({ t, titel, trailer, suche }: { t: Translate; titel: string; trailer?: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>; suche: string }) {
+  return trailer ? (
+    <iframe
+      src={`https://www.youtube-nocookie.com/embed/${trailer.video}?autoplay=1&rel=0`}
+      title={trailer.titel || t('trailer.ueberschrift', { titel })}
+      allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowFullScreen
+      className="min-h-0 flex-1 border-0 bg-black"
+    />
+  ) : (
+    <div className="grid min-h-0 flex-1 place-items-center bg-black p-6 text-center">
+      <div className="flex max-w-md flex-col items-center gap-4">
+        <p className="text-t3 text-slate-300">{t('trailer.keinerGefunden')}</p>
+        <a
+          href={suche}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="rounded-full border border-ak-rand bg-ak-flaeche px-4 py-2 text-t3 font-semibold text-ak-text transition hover:border-ak-leise hover:bg-ak-flaeche-2"
+        >
+          {t('trailer.suchen')} ↗
+        </a>
+      </div>
+    </div>
   )
 }
 
