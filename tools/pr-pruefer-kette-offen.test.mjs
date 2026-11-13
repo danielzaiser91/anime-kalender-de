@@ -7,7 +7,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { baueDateien } from './pr-kettenlog.mjs'
-import { kettenOffen, main } from './pr-pruefer-kette-offen.mjs'
+import { kettenLaeuft, kettenOffen, main } from './pr-pruefer-kette-offen.mjs'
 
 const fehler = []
 const gleich = (name, ist, soll) => {
@@ -52,6 +52,15 @@ try {
   gleich('Prozess: Datei fehlt Exit 1', lauf(path.join(ordner, 'gibtsnicht.txt')), 1)
   gleich('Prozess: ohne Argument Exit 1', lauf(null), 1)
   gleich('main(): offene Kette', main([f('offen2.txt', offen)]), 0)
+  // --nur-lauf (Prüfer startet bei laufender Kette gar nicht): „Basis offen“ zählt hier nicht, der Prüfer urteilt dann echt.
+  const basis = `HINWEIS x\nBASIS OFFEN: PR #5 ist noch offen und die Kette ist rot\n${fertig}`
+  gleich('kettenLaeuft: laufende Kette', kettenLaeuft(offen), true)
+  gleich('kettenLaeuft: fertige Kette', kettenLaeuft(fertig), false)
+  gleich('kettenLaeuft: Basis offen bei fertiger Kette nicht', kettenLaeuft(basis), false)
+  gleich('kettenOffen: Basis offen bleibt offen', kettenOffen(basis), true)
+  gleich('main(--nur-lauf): laufende Kette', main(['--nur-lauf', f('offen3.txt', offen)]), 0)
+  gleich('main(--nur-lauf): fertige Kette', main(['--nur-lauf', f('fertig3.txt', fertig)]), 1)
+  gleich('main(--nur-lauf): Datei fehlt', main(['--nur-lauf', path.join(ordner, 'gibtsnicht.txt')]), 1)
 } finally {
   fs.rmSync(ordner, { recursive: true, force: true })
 }

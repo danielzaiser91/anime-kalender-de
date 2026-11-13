@@ -21,8 +21,13 @@
   },
   {
     "name": "kettenOffen: Basiszeile wird nicht gelesen",
-    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": " || BASIS_ZEILE.test(z)", "ersetze": "" }],
+    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": " || kopf(text).some((z) => BASIS_ZEILE.test(z))", "ersetze": "" }],
     "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "kettenLaeuft: Basiszeile zählt als laufende Kette (Prüfer würde bei fertiger Kette nicht urteilen)",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": "return kopf(text).some((z) => OFFEN.test(z))", "ersetze": "return kopf(text).some((z) => OFFEN.test(z) || BASIS_ZEILE.test(z))" }],
+    "tests": ["node tools/pr-pruefer-kette-offen.test.mjs"]
   },
   {
     "name": "kettenlog: Basiszeile nicht an baueDateien gereicht",
