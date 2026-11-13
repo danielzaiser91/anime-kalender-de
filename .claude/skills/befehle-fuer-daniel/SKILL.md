@@ -161,8 +161,14 @@ Aufrufe.
 ## 4c · Läufe, die Dateien schreiben, nie im Hauptordner (13.11.2026)
 
 Ein Befehl, der Repo-Dateien schreibt (`npm run data:…`, Generatoren), läuft für Daniel in einem
-eigenen Worktree (`git -C <haupt> worktree add C:/code/_worktrees/<repo>/<thema> origin/main &&
-npm --prefix <worktree> run …`) oder bringt sein Zurücksetzen gleich mit. Anlass: E66 lief
+eigenen Worktree mit eigenem Zweig, `node_modules` per Junction (nie `mklink` von Hand), in einer Zeile:
+
+```bash
+W=C:/code/_worktrees/anime-kalender-de/e66-lauf && git -C C:/code/ai/anime-kalender-de fetch -q origin && git -C C:/code/ai/anime-kalender-de worktree add -b lauf/e66 "$W" origin/main && bash C:/code/ai/__assets/tools/worktree-junction.sh "$W" && npm --prefix "$W" run data:cr-einzelwerke
+```
+
+Das Ergebnis übernehme ich aus dem Worktree (Commit, PR) und entferne ihn danach selbst
+(`git worktree remove --force`, `git branch -D`); Daniel räumt nichts auf. Anlass: E66 lief
 `data:cr-einzelwerke` und `data:cr-filmbloecke` im Hauptordner. Danach brach dort `git pull --ff-only` an drei geänderten
 Dateien ab, und das Zurücksetzen wurde ein eigener Handgriff (E68), den mir die Hauptordner-Sperre verbietet.
 
