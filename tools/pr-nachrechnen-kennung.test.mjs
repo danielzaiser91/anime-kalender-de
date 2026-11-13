@@ -38,6 +38,7 @@ pruefe('AniList-ID, auch einstellig, am Schlüssel anilistId', z('+- anilistId: 
 pruefe('Slug und Release-ID, in Flow-Schreibweise und mit Anführungszeichen', z('+- slug: blue-exorcist-vol1') === 'blue-exorcist-vol1' && z("+{ releaseId: 'abc-123', platform: x }") === 'abc-123')
 pruefe('ASIN im Text und in der Adresse', z('+  buyUrl: https://www.amazon.de/dp/B0CXYZ1234?tag=x') === 'B0CXYZ1234' && z('+note: B0ABCDEFGH ist es') === 'B0ABCDEFGH')
 pruefe('AniList-Adresse', z('+  url: https://anilist.co/anime/98765/Titel') === '98765')
+pruefe('lange Zahl ohne Schlüssel (remake-von-hand, TMDB-Pfad), Jahre und Datumsteile nicht', z('+- remake: 143277') === '143277' && z('+  tmdb: movie/290462 # TMDB') === '290462' && z("+  tag: 2026-11-03 # 2026") === '' && z('+  folgen: 73') === '' && z('+  x: 1234') === '')
 pruefe('keine Kennung: Wahrheitswert, kurzer id-Wert, Datum, Titel, Notiz', z('+  dub: true') === '' && z('+  id: 7') === '' && z("+  checkedAt: '2026-11-13'") === '' && z('+  title: Naruto') === '' && z('+  note: gesehen') === '')
 const diff = 'diff --git a/data/x.yaml b/data/x.yaml\n--- a/data/x.yaml\n+++ b/data/x.yaml\n@@ -1,0 +2,2 @@\n+- anilistId: 777\n+  dub: true\n-- anilistId: 888\n'
 pruefe('kennungenAus: geänderte Zeilen, + und -, Dateikopf zählt nicht', [...kennungenAus(diff)].sort().join() === '777,888', [...kennungenAus(diff)])

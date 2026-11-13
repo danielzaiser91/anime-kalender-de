@@ -31,9 +31,11 @@ export function handdatenSchnitt(kennung, eigene, bewegt) {
 
 /** Dateien je git-Aufruf (Befehlszeilenlänge unter Windows); mehr gilt als nicht lesbar. */
 const MAX_BEWEGT = 200
-const SCHLUESSEL =/(?:^|[\s{,-])(anilist\w*|mal(?:id)?|anisearch\w*|[a-z]*Id|id|slug|asin|gti|release[-_]?id)\s*:\s*['"]?([^\s,'"}#\]]+)/gi
+const SCHLUESSEL = /(?:^|[\s{,-])(anilist\w*|mal(?:id)?|anisearch\w*|[a-z]*Id|id|slug|asin|gti|release[-_]?id)\s*:\s*['"]?([^\s,'"}#\]]+)/gi
 const ASIN = /\bB0[0-9A-Z]{8}\b/g
 const ANILIST_URL = /anilist\.co\/anime\/(\d+)/g
+/** Lange Zahlen ohne Schlüssel (`- remake: 143277`, `tmdb: movie/290462`): AniList-, TMDB- und Artikel-IDs; Jahre und Datumsteile haben höchstens vier Ziffern. */
+const LANGE_ZAHL = /(?<![\w.-])(\d{5,})(?![\w-])/g
 const KEINE_WERTE = new Set(['true', 'false', 'null', '~'])
 
 /** Kennungen in einer Zeile: Werte von Kennungs-Schlüsseln (Zahlen bei AniList/MAL/aniSearch jeder Länge, sonst ab 3 Zeichen), ASINs, AniList-Adressen. */
@@ -43,8 +45,8 @@ export function kennungenInZeile(zeile) {
     const kurzErlaubt = /^(anilist|mal|anisearch)/i.test(m[1]) && /^\d+$/.test(m[2])
     if (!KEINE_WERTE.has(m[2].toLowerCase()) && (kurzErlaubt || m[2].length >= 3)) funde.push(m[2])
   }
-  for (const re of [ASIN, ANILIST_URL]) for (const m of zeile.matchAll(re)) funde.push(m[1] ?? m[0])
-  return funde
+  for (const re of [ASIN, ANILIST_URL, LANGE_ZAHL]) for (const m of zeile.matchAll(re)) funde.push(m[1] ?? m[0])
+  return [...new Set(funde)]
 }
 
 /** Geänderte Zeilen (`+`/`-`, ohne Dateikopf) einer Unified-Diff-Ausgabe. */
