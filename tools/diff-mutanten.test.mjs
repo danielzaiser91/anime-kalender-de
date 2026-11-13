@@ -1,6 +1,6 @@
 /** Tests für tools/diff-mutanten.mjs: Mutanten aus dem Diff, Läuferformat, Überlebende. */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -38,6 +38,18 @@ pruefe('Aufruf mit await entfernt', hat('await weg(x)', 'await weg(x)', 'void 0'
 pruefe('Aufruf im Ausdruck (Rückgabewert genutzt) wird nicht entfernt', !paare('const r = f(x)').some((p) => p.endsWith('void 0')))
 pruefe('Argumente getauscht', hat('x = f(a, b)', 'a, b', 'b, a') || hat('x = f(a, b)', 'f(a, b)', 'f(b, a)'))
 pruefe('ein Argument: kein Tausch', !alle('x = f(a)').some((m) => m.name.includes('Argumente')))
+
+// Namen je Art (Anzeige in „Überlebt: …“)
+const namen = (q, datei = 'a.mjs') => mutantenListe(datei, q, new Set([1])).map((m) => m.name)
+pruefe('Name ?:', namen('x = c ? 5 : 7').includes('a.mjs:1 ?: Zweige vertauscht'))
+pruefe('Name Zahl', namen('f(7)').includes('a.mjs:1 Zahl 7 → 0') && namen('f(0)').includes('a.mjs:1 Zahl 0 → 1'))
+pruefe('Name Aufruf entfernt', namen('weg(x)').includes('a.mjs:1 Aufruf entfernt'))
+pruefe('Name Argumente trägt den Aufruf', namen('x = foo(a, b)').includes('a.mjs:1 Argumente getauscht foo'))
+pruefe('Gleichstand ?: erzeugt genau einen Mutanten (Zahlen 5 und 7 dazu)', mutantenListe('a.mjs', 'x = c ? y : z', new Set([1])).length === 1)
+pruefe('.tsx-Datei mit JSX wird gelesen', mutantenListe('a.tsx', 'const x = <div>{a && b}</div>', new Set([1])).length === 1)
+pruefe('gleicher Text auf früherer Zeile zählt nicht mit', mutantenListe('a.mjs', 'f(a && b)\nf(a && b)', new Set([2]))[0].aenderungen[0].nr === undefined)
+const drei = mutantenListe('a.mjs', 'x = (a && b) + (a && b) + (a && b)', new Set([1])).filter((m) => m.name.includes('&&'))
+pruefe('drei gleiche Ausdrücke: nr 1 (fehlt), 2, 3', drei.length === 3 && drei[2].aenderungen[0].nr === 3)
 
 // Genauigkeit: nichts in Zeichenketten, Kommentaren, Regex; Typ-Literale bleiben
 pruefe('Operator in Zeichenkette erzeugt nichts', alle("x = 'a && b'").length === 0)
@@ -85,7 +97,9 @@ pruefe('Test daneben (.mjs): node', testFuer('tools/x.mjs', gibt('tools/x.test.m
 pruefe('Test daneben (.ts): tsx', testFuer('pipeline/lib/x.ts', gibt('pipeline/lib/x.test.ts')) === 'node node_modules/tsx/dist/cli.mjs pipeline/lib/x.test.ts')
 pruefe('Test unter tools/ für Hook', testFuer('.claude/hooks/x.js', gibt('tools/x.test.mjs')) === 'node tools/x.test.mjs')
 pruefe('Test als pipeline/check-<name>.ts', testFuer('pipeline/lib/x.ts', gibt('pipeline/check-x.ts')) === 'node node_modules/tsx/dist/cli.mjs pipeline/check-x.ts')
-pruefe('kein Test: null', testFuer('pipeline/lib/x.ts', gibt()) === null)
+pruefe('Test daneben schlägt Test unter tools/ und check-', testFuer('pipeline/lib/x.ts', gibt('pipeline/lib/x.test.ts', 'tools/x.test.mjs', 'pipeline/check-x.ts')).endsWith('pipeline/lib/x.test.ts'))
+pruefe('tools/ schlägt check-', testFuer('pipeline/lib/x.ts', gibt('tools/x.test.mjs', 'pipeline/check-x.ts')) === 'node tools/x.test.mjs')
+pruefe('kein Test: null',testFuer('pipeline/lib/x.ts', gibt()) === null)
 const ohne = listeAusDiff('+++ b/pipeline/x.ts\n@@ -1 +1 @@\n+x = a && b\n', () => 'x = a && b', [], () => false)
 pruefe('Datei ohne Test: Mutanten ohne tests, Datei gemeldet', ohne.liste.length === 1 && !ohne.liste[0].tests && ohne.ohneTest[0] === 'pipeline/x.ts')
 const global = listeAusDiff('+++ b/pipeline/x.ts\n@@ -1 +1 @@\n+x = a && b\n', () => 'x = a && b', ['mein test'], () => false)
@@ -120,6 +134,24 @@ try {
   pruefe('Lauf: Schlusszeile zählt', /diff-mutanten: \d+ Mutanten, [1-9]\d* überlebt\./.test(aus))
   const nur = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--liste'], { cwd: wurzel, encoding: 'utf8' })
   pruefe('--liste: JSON im Läuferformat, nichts gefahren', Array.isArray(JSON.parse(nur.stdout)) && !nur.stdout.includes('mutationslaeufer'))
+  const tmp = join(wurzel, 'tmp')
+  mkdirSync(tmp)
+  const lauf2 = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', env: { ...process.env, TMPDIR: tmp, TMP: tmp, TEMP: tmp } })
+  pruefe('Lauf räumt sein Wegwerfverzeichnis auf', readdirSync(tmp).length === 0 && lauf2.status === 0)
+  pruefe('Schlusszeile nennt genau die Mutantenzahl der Liste', aus.includes(`diff-mutanten: ${JSON.parse(nur.stdout).length} Mutanten,`))
+  // Datei ohne eigenen Test: Hinweis, nichts gefahren; mit --test gefahren
+  writeFileSync(join(wurzel, 'tools/solo.mjs'), 'export const g = (a, b) => (a && b)\n')
+  git('add', '-A')
+  git('commit', '-q', '-m', 'solo')
+  const ohneT = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8' })
+  pruefe('Datei ohne Test: Hinweis mit Dateiname', ohneT.stdout.includes('! Kein Test gefunden für tools/solo.mjs'))
+  const mitT = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--test', 'node tools/lib.test.mjs'], { cwd: wurzel, encoding: 'utf8' })
+  pruefe('--test: Mutanten der Datei ohne Test werden gefahren', !mitT.stdout.includes('Kein Test gefunden') && mitT.stdout.includes('! Überlebt: tools/solo.mjs:1 && → ||'))
+  // Grundlauf rot: Läuferfehler wird ausgegeben
+  writeFileSync(join(wurzel, 'tools/lib.test.mjs'), 'process.exit(1)\n')
+  git('commit', '-q', '-am', 'rot')
+  const rot = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8' })
+  pruefe('Grundlauf rot: Läuferausgabe erscheint auf stderr', rot.stderr.includes('Grundlauf ohne Mutation ist rot'))
   pruefe('Quelldatei nach dem Lauf unverändert (keine .mutlauf-orig)', git('status', '--short').trim() === '?? node_modules' || git('status', '--short').trim() === '')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
