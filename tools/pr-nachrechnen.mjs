@@ -189,7 +189,7 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
   const frei = bewegteDesPr(vergleich, prDateien, textmerge, { nummer: pr.number, kopf: pr.headRefOid, main, basis })
   const daten = datenpfadAusnahme(vergleich, prDateien, frei)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot, frei }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket({ nummer: pr.number, kopf: pr.headRefOid, main, basis }, prDateien), frei)
+  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot, frei, basis }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket({ nummer: pr.number, kopf: pr.headRefOid, main, basis }, prDateien), frei)
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
   return { grund: grundText(daten, bot) }

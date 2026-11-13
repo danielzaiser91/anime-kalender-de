@@ -1,0 +1,17 @@
+[
+  {"name":"Kontrolle (unmutiert)","aenderungen":[]},
+  {"name":"Bau-Pfad: shared/logic.ts fehlt","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"|shared\\/logic\\.ts)$/","ersetze":")$/","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"Bau-Pfad: pipeline/bau/ fehlt","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"|pipeline\\/bau\\/.+","ersetze":"","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"kennungsschnitt: bewegter Bau-Code wird nicht gesucht","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"if (bau !== undefined) return","ersetze":"if (false) return","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"kennungsschnitt: ohne lesbare Kennung gilt der PR als aktuell","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"if (kennung.kennungen.size === 0) return","ersetze":"if (false) return","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"ersteNennung: Teil einer längeren Kennung trifft","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"`(?<![\\\\w-])(${[...kennungen]","ersetze":"`(${[...kennungen]","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"ersteNennung: Dateipfad wird nicht gelesen","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"if (m !== null) return { kennung: m[1], datei }\n    } else if","ersetze":"}\n    else if","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"kennungenInZeile: kurze AniList-ID zählt nicht","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"const kurzErlaubt = /^(anilist|mal|anisearch)/i.test(m[1]) && /^\\d+$/.test(m[2])","ersetze":"const kurzErlaubt = false","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"kennungenInZeile: ASINs zählen nicht","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"for (const re of [ASIN, ANILIST_URL])","ersetze":"for (const re of [ANILIST_URL])","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"handdatenPr: leere Eigenmenge gilt als Handdaten","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"eigene.length > 0 && ","ersetze":"","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"kennungsDaten: PR-Diff gegen main statt gegen die Merge-Basis","datei":"tools/pr-nachrechnen-kennung.mjs","suche":"`${refs.main}...${refs.kopf}`","ersetze":"`${refs.main}..${refs.kopf}`","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"Leser-Regel: Kennungsdaten mit Fehler werden benutzt","datei":"tools/pr-nachrechnen-leser.mjs","suche":"kennung !== undefined && kennung.fehler === undefined && handdatenPr","ersetze":"kennung !== undefined && handdatenPr","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"Leser-Regel: Kennungsschnitt auch bei PR mit Code","datei":"tools/pr-nachrechnen-leser.mjs","suche":"kennung.fehler === undefined && handdatenPr(pr, ohneLeser)","ersetze":"kennung.fehler === undefined","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"gitLeser: Kennungsdaten werden nicht übergeben","datei":"tools/pr-nachrechnen-leser-git.mjs","suche":"frei: refs.frei, kennung: kennungVon(git, refs, bewegt, pr) })","ersetze":"frei: refs.frei })","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]},
+  {"name":"kennungVon: bewegte Bot-Dateien zählen im main-Diff mit","datei":"tools/pr-nachrechnen-leser-git.mjs","suche":"bewegt.filter((b) => !(refs.bot ?? []).includes(b))","ersetze":"bewegt","tests":["node tools/pr-nachrechnen-kennung.test.mjs"]}
+]
