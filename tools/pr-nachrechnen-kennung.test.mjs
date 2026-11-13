@@ -6,7 +6,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { BAU_PFAD, eintragsKennungen, ersteNennung, handdatenDateien, handdatenSchnitt, kennungenAus, kennungenInZeile, kennungenMitEintrag, kennungsschnitt } from './pr-nachrechnen-kennung.mjs'
+import { BAU_PFAD, eintragsKennungen, ersteNennung, handdatenDateien, handdatenSchnitt, kennungenAus, kennungenInZeile, kennungenMitEintrag, kennungsschnitt, mainDiffMitEintrag } from './pr-nachrechnen-kennung.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { bewegtesGelesen, ohneLeser } from './pr-nachrechnen-leser.mjs'
 
@@ -69,6 +69,14 @@ pruefe('ersteNennung: Kennung im Dateipfad', ersteNennung('diff --git a/data/cov
 pruefe('ersteNennung: Sonderzeichen im Slug werden maskiert', ersteNennung('+a.b\n', new Set(['a.b']))?.kennung === 'a.b' && ersteNennung('+axb\n', new Set(['a.b'])) === null)
 pruefe('ersteNennung: unveränderte Zeilen und Dateikopf-Zeilen zählen nicht', ersteNennung(' kontext 777\n--- a/777\n+++ b/777\n', new Set(['777'])) === null)
 
+{
+  const d = 'diff --git a/data/x.yaml b/data/x.yaml\n@@ -6 +6 @@\n-  dubRanges: x\n+  dubRanges: y\ndiff --git a/data/x.json b/data/x.json\n@@ -2 +2 @@\n-  "a": 1\n+  "a": 2\n'
+  const text = '- anilistId: 777001\n  platform: netflix\n  a: 1\n  b: 2\n  c: 3\n  dubRanges: y\n'
+  const m = mainDiffMitEintrag(d, () => text)
+  pruefe('mainDiffMitEintrag: YAML-Hunk bringt den ganzen Eintrag (Kennung aus Zeile 1) in den Diff', ersteNennung(m, new Set(['777001']))?.datei === 'data/x.yaml', m)
+  pruefe('mainDiffMitEintrag: JSON und Code bleiben bei den geänderten Zeilen', ersteNennung(mainDiffMitEintrag(d.split('diff --git a/data/x.json')[0] + 'diff --git a/data/x.json b/data/x.json\n@@ -2 +2 @@\n+  "a": 2\n', () => '{\n  "id": 777001\n}\n'), new Set(['777001'])) === null)
+  pruefe('mainDiffMitEintrag: ohne YAML-Änderung unverändert', mainDiffMitEintrag('diff --git a/x.mjs b/x.mjs\n@@ -1 +1 @@\n+a\n', () => '') === 'diff --git a/x.mjs b/x.mjs\n@@ -1 +1 @@\n+a\n')
+}
 // Entscheidung
 const K = { kennungen: new Set(['777']), mainDiff: md.replace('777', '999') }
 pruefe('fremde Kennung, kein Bau-Code -> aktuell', kennungsschnitt(['tools/cover-vorschau.mjs', 'data/kanal-seiten.json'], K) === null)
@@ -83,6 +91,7 @@ pruefe('handdatenSchnitt: nicht anwendbar ohne Kennungsdaten, mit Fehler, ohne H
 
 // In bewegtesGelesen: der Anlass der bisherigen Auflage (Bau-Leser nennt die bewegte Datei, PR ändert Handdaten) und seine Grenzen
 const BEWEGT = 'data/kanal-seiten.json'
+const LANG = '- anilistId: 777001\n  platform: netflix\n  a: 1\n  b: 2\n  c: 3\n  dubRanges: x\n  e: 5\n'
 const LESER = ['pipeline/lib/leser.ts']
 const TEXTE = { 'pipeline/lib/leser.ts': `const d = '${BEWEGT}'\n` }
 const lesen = (pr, extra) => bewegtesGelesen({ bewegt: [BEWEGT], pr, leser: LESER, lies: (p) => TEXTE[p] ?? null, paketSkripte: null, ...extra })
@@ -118,6 +127,7 @@ try {
   schreibe(arbeit, 'tools/cover-vorschau.mjs', 'export const c = 1\n')
   schreibe(arbeit, BEWEGT, '{"a": 1120}\n')
   schreibe(arbeit, 'data/dub-confirmed.yaml', '- anilistId: 1663\n  platform: youtube\n  dub: true\n')
+  schreibe(arbeit, 'data/curated/lang.yaml', LANG)
   git(arbeit, 'add', '-A')
   git(arbeit, 'commit', '-q', '-m', 'basis')
   git(arbeit, 'push', '-q', 'origin', 'main')
@@ -163,6 +173,23 @@ try {
   pruefe('echtes git (PR 3548): nur `dub:` geändert, Kennung im Eintrag, main nennt sie nicht -> aktuell', eintragFremd === null, eintragFremd)
   const eintragGleich = mitMain({ ...werkzeug, [BEWEGT]: '{"a": 1120, "x": 1663}\n' }, zweiter)
   pruefe('echtes git (PR 3548): dieselbe Kennung des Eintrags im main-Diff -> Grund', /^main nennt 1663 in data\/kanal-seiten\.json/.test(eintragGleich ?? ''), eintragGleich)
+  // Prüfer 3788 A1: PR ändert Zeile 2 eines Eintrags, main Zeile 7 desselben (Abstand > 3, Textmerge frei); die Kennung steht nur in Zeile 1
+  git(arbeit, 'checkout', '-q', '-B', 'pr3', basis)
+  schreibe(arbeit, 'data/curated/lang.yaml', LANG.replace('platform: netflix', 'platform: youtube'))
+  git(arbeit, 'commit', '-q', '-am', 'pr3')
+  const dritter = { nummer: 9, kopf: git(arbeit, 'rev-parse', 'pr3'), frei: new Set(['data/curated/lang.yaml']) }
+  git(arbeit, 'push', '-q', 'origin', 'pr3:refs/pull/9/head')
+  const leserLang = (aenderung) => {
+    git(arbeit, 'checkout', '-q', '-B', 'main', basis)
+    schreibe(arbeit, 'data/curated/lang.yaml', aenderung)
+    git(arbeit, 'commit', '-q', '-am', 'main')
+    git(arbeit, 'push', '-q', '-f', 'origin', 'main')
+    return leser(['data/curated/lang.yaml'], ['data/curated/lang.yaml'], { ...dritter, main: git(arbeit, 'rev-parse', 'main'), basis })
+  }
+  const gleicherEintrag = leserLang(LANG.replace('dubRanges: x', 'dubRanges: y'))
+  pruefe('echtes git (Prüfer 3788 A1): PR und main ändern verschiedene Zeilen desselben Eintrags -> Grund mit der Kennung des Eintrags', /^main nennt 777001 in data\/curated\/lang\.yaml/.test(gleicherEintrag ?? ''), gleicherEintrag)
+  const anderer = leserLang(LANG + '- anilistId: 888002\n  platform: x\n')
+  pruefe('echtes git: main ändert nur einen anderen Eintrag derselben Datei -> aktuell', anderer === null, anderer)
 } finally {
   process.chdir(vorher)
   fs.rmSync(wurzel, { recursive: true, force: true })

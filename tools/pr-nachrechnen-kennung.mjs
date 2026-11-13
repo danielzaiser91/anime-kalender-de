@@ -60,16 +60,19 @@ const EINTRAG_START = /^(?:-\s|[^\s#])/
 /** Mehr Zeilen je Eintrag lesen wir nicht (Datei ohne Eintragsgrenzen). */
 const EINTRAG_MAX = 300
 
-/** Kennungen der Einträge, die die Zeilen von..bis (1-basiert) von `text` berühren: die Kennung steht oft in einer unveränderten Zeile des Eintrags. */
-export function eintragsKennungen(text, von, bis) {
+/** Zeilen der Einträge, die die Zeilen von..bis (1-basiert) von `text` berühren: die Kennung steht oft in einer unveränderten Zeile des Eintrags. */
+export function eintragsZeilen(text, von, bis) {
   const zeilen = text.split(/\r?\n/)
   if (zeilen.length === 0 || von > zeilen.length) return []
   let start = Math.max(Math.min(von, zeilen.length) - 1, 0)
   while (start > 0 && !EINTRAG_START.test(zeilen[start])) start--
   let ende = Math.min(Math.max(bis, von), zeilen.length) - 1
   while (ende + 1 < zeilen.length && !EINTRAG_START.test(zeilen[ende + 1])) ende++
-  return zeilen.slice(start, Math.min(ende + 1, start + EINTRAG_MAX)).flatMap(kennungenInZeile)
+  return zeilen.slice(start, Math.min(ende + 1, start + EINTRAG_MAX))
 }
+
+/** Kennungen dieser Einträge. */
+export const eintragsKennungen = (text, von, bis) => eintragsZeilen(text, von, bis).flatMap(kennungenInZeile)
 
 /** Kennungen der geänderten Zeilen und ihrer Einträge; `lies(seite, datei)` liefert den Text der alten ('alt') oder neuen ('neu') Seite. */
 export function kennungenMitEintrag(diff, lies) {
@@ -84,6 +87,22 @@ export function kennungenMitEintrag(diff, lies) {
   return menge
 }
 
+
+/**
+ * Ergänzt den main-Diff um die ganzen Einträge der geänderten YAML-Stellen (neue Seite, `lies(datei)` = Text auf main) als Pseudo-Abschnitte
+ * mit `+`-Zeilen: ändert der PR `platform` eines Eintrags und main `dubRanges` desselben, steht die Kennung nur in einer unveränderten
+ * Zeile (Prüfer 3788, A1). Andere Dateien (JSON, Code) bleiben bei den geänderten Zeilen.
+ */
+export function mainDiffMitEintrag(diff, lies) {
+  const zusatz = []
+  for (const abschnitt of diff.split(/^diff --git /m).slice(1)) {
+    const datei = abschnitt.split('\n')[0].split(' b/').pop()
+    if (!/\.ya?ml$/.test(datei)) continue
+    const zeilen = hunks(abschnitt).flatMap((h) => eintragsZeilen(lies(datei), h.neu[0], h.neu[1]))
+    if (zeilen.length > 0) zusatz.push(`diff --git a/${datei} b/${datei}`, ...zeilen.map((z) => `+${z}`))
+  }
+  return zusatz.length === 0 ? diff : `${diff}\n${zusatz.join('\n')}\n`
+}
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
@@ -139,7 +158,14 @@ export function kennungsDaten(git, refs, handdaten, bewegt) {
         return ''
       }
     }
-    return { kennungen: kennungenMitEintrag(prDiff, lies), mainDiff }
+    const liesMain = (datei) => {
+      try {
+        return git(['show', `${refs.main}:${datei}`])
+      } catch {
+        return ''
+      }
+    }
+    return { kennungen: kennungenMitEintrag(prDiff, lies), mainDiff: mainDiffMitEintrag(mainDiff, liesMain) }
   } catch (e) {
     return { fehler: String(e.message).split('\n')[0].slice(0, 120) }
   }
