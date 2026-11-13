@@ -1594,10 +1594,52 @@ with (globalThis.AK_ZEICHNEN_WELT) {
   }
   /** Der Knopf, solange noch keine Folge geladen ist (aus `zeichnenRoh` herausgelöst). */
   const zeichnenUngeladen = ({ stoerung, fehlerseite, regionWeg, nichtAbrufbar, wartet, ladeFristReif }) => {
+    if (ungeladenGemeldet()) return
+    if (stoerung) {
+      // Eine Störung ist kein Befund — hier wird nicht gemeldet.
+      knopf.dataset.tot = 'false'
+      knopf.disabled = true
+      knopf.textContent = 'Amazon meldet einen Fehler — Seite neu laden'
+      return
+    }
     /**
-     * Auch eine tote Seite bleibt gemeldet: Eine Fehlerseite hat keine geladenen Folgen und erreicht
-     * „✓ gemeldet" weiter unten nie — ohne diese Prüfung wäre der Knopf nach dem Melden gleich wieder offen.
+     * Eine Staffel ohne Folgenliste ist nicht „nicht abrufbar".
+     *
+     * Amazon führt dieselbe Staffel zweimal, wenn es sie im Abo **und** zum
+     * Kauf gibt — und die Fassung, die im Abo fehlt, hat gar keine
+     * Folgenliste: kein „Folgen"-Reiter, nur „Ähnliches" und „Details".
+     * Belegt am 25.08.2026 an JoJo (B0CG7SS9KL): Das Auswahlfeld führt
+     * „Staffel 3" und „Staffel 4" je zweimal, einmal mit Kaufsymbol. Die
+     * Fassung mit Symbol trägt 48 deutsche Folgen, die andere nichts.
+     *
+     * Ein `weg` von hier würde den **ganzen Verweis** entfernen — für eine
+     * Serie, die woanders vollständig dasteht. Der Knopf schickt Daniel
+     * deshalb zur anderen Fassung, statt eine Meldung anzubieten.
+     *
+     * Erkannt wird es am fehlenden Reiter, nicht am Kaufsymbol: Der Reiter
+     * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
      */
+    const hatFolgenReiter = seitenLage().hatFolgenReiter
+    if (ungeladenFilm()) return
+    if (ungeladenOhneReiter({ hatFolgenReiter, fehlerseite, regionWeg, nichtAbrufbar, wartet })) return
+    if (ungeladenLautSeite({ regionWeg, nichtAbrufbar, fehlerseite, wartet, ladeFristReif })) return
+    knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)
+    knopf.disabled = false
+    knopf.textContent = regionWeg
+      ? '✕ in dieser Region nicht mehr verfügbar — melden'
+      : nichtAbrufbar
+        ? '✕ derzeit nicht verfügbar — melden'
+        : wartet
+          ? 'Tonspuren noch nicht geladen'
+          : '✕ nicht abrufbar — melden'
+    if (!regionWeg && !nichtAbrufbar && wartet) knopf.disabled = true
+    return
+  }
+  /**
+   * Auch eine tote Seite bleibt gemeldet: Eine Fehlerseite hat keine geladenen Folgen und erreicht
+   * „✓ gemeldet" weiter unten nie — ohne diese Prüfung wäre der Knopf nach dem Melden gleich wieder offen.
+   */
+  const ungeladenGemeldet = () => {
     const totAbgehakt = erledigt[listenId]
     /*
       **Eine Seite, auf der noch niemand nachgesehen hat, ist nicht „gemeldet".**
@@ -1641,7 +1683,7 @@ with (globalThis.AK_ZEICHNEN_WELT) {
       knopf.style.display = 'none'
       knopf.disabled = true
       gemeldetMarke(true)
-      return
+      return true
     }
     /**
      * **Dieselbe Staffel zweimal im Auswahlfeld — die zweite ist erledigt.**
@@ -1667,88 +1709,20 @@ with (globalThis.AK_ZEICHNEN_WELT) {
       knopf.textContent = `✓ Staffel ${staffelText(dieseStaffel)} gemeldet`
       knopf.title =
         'Diese Staffel steht im Auswahlfeld zweimal — gemeldet wurde die Fassung mit Folgen.'
-      return
+      return true
     }
-    if (stoerung) {
-      // Eine Störung ist kein Befund — hier wird nicht gemeldet.
-      knopf.dataset.tot = 'false'
-      knopf.disabled = true
-      knopf.textContent = 'Amazon meldet einen Fehler — Seite neu laden'
-      return
-    }
-    /**
-     * Eine Staffel ohne Folgenliste ist nicht „nicht abrufbar".
-     *
-     * Amazon führt dieselbe Staffel zweimal, wenn es sie im Abo **und** zum
-     * Kauf gibt — und die Fassung, die im Abo fehlt, hat gar keine
-     * Folgenliste: kein „Folgen"-Reiter, nur „Ähnliches" und „Details".
-     * Belegt am 25.08.2026 an JoJo (B0CG7SS9KL): Das Auswahlfeld führt
-     * „Staffel 3" und „Staffel 4" je zweimal, einmal mit Kaufsymbol. Die
-     * Fassung mit Symbol trägt 48 deutsche Folgen, die andere nichts.
-     *
-     * Ein `weg` von hier würde den **ganzen Verweis** entfernen — für eine
-     * Serie, die woanders vollständig dasteht. Der Knopf schickt Daniel
-     * deshalb zur anderen Fassung, statt eine Meldung anzubieten.
-     *
-     * Erkannt wird es am fehlenden Reiter, nicht am Kaufsymbol: Der Reiter
-     * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
-     */
-    const hatFolgenReiter = seitenLage().hatFolgenReiter
-    /**
-     * `!fehlerseite` gehört dazu — sonst frisst die Regel den toten Verweis.
-     *
-     * Eine Amazon-Fehlerseite („Suchen Sie etwas?") hat naturgemäß auch
-     * keinen „Folgen"-Reiter, und die Regel schickte Daniel dort zu einer
-     * anderen Fassung, die es nicht gibt: „inu ni kann ich nicht als toten
-     * link melden" (25.08.2026, Minuten nach dem Einbau).
-     *
-     * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
-     * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
-     */
-    /**
-     * **Ein Film hat keinen „Folgen"-Reiter — und ist trotzdem in Ordnung.**
-     *
-     * Daniel am 25.08.2026 an „Bayonetta: Bloody Fate [dt./OV]": Nach dem
-     * Wechsel aus der Prüfliste stand dort erst „Tonspuren noch nicht
-     * geladen" und danach „✕ keine Folgen für diese Staffel — melden". Die
-     * Seite zeigt aber genau das, was ein Film zeigt: 1 Std. 26 Min.,
-     * „Ähnliches", „Details" — keine Folgenliste, weil es keine gibt.
-     *
-     * Die zweite Meldung ist die gefährlichere: Ein Klick darauf hätte einen
-     * gültigen Verweis als tot eingetragen. Der Titel trägt „[dt./OV]" im
-     * Namen, die deutsche Fassung ist also nicht einmal strittig.
-     *
-     * **Der zweite Fall am selben Tag war noch schärfer.** Bei „Heidi —
-     * Kindheit in den Bergen" (1 Std. 28 Min., ebenfalls ein Film) stand nach
-     * dem Wechsel „24 von 48 — Abschnitte selbst öffnen": die Zahlen des
-     * **vorigen** Titels, an einem Film. Eine Meldung von dort hätte ihm
-     * achtundvierzig Folgen zugeschrieben. Nach einem Neuladen sagte derselbe
-     * Knopf korrekt „🇩🇪 Deutsch · Film · Kauf/Leihe".
-     *
-     * Der Unterschied zwischen den beiden Fällen ist nur, wie weit der alte
-     * Zählstand schon gefüllt war — die Ursache ist dieselbe.
-     *
-     * Warum die vorhandene Film-Behandlung nicht griff: Nach einem Wechsel
-     * ohne Neuladen ist der Quelltext der des **vorigen** Titels, und der
-     * Nachlade-Abruf holt eine `EpisodeList` — die es bei einem Film nicht
-     * gibt. Es bleibt also nichts zu lesen, und dann ist die einzige ehrliche
-     * Auskunft dieselbe wie beim Staffelwechsel: neu laden.
-     */
-    /*
-      **Ein Film mit frischem Quelltext hatte keinen Zweig — er fiel durch.**
-
-      Der Zweig direkt darunter verlangt `quelltextVeraltet()`, die beiden
-      danach sind durch `!istFilmSeite()` gesperrt. Für einen Film, dessen
-      Quelltext in Ordnung ist, blieb damit nichts übrig: Der Ablauf lief bis
-      zum Warte-Zweig durch und stand dort fest — erst „Folgen werden geladen
-      …", nach acht Sekunden „Tonspuren nicht gefunden — Seite neu laden".
-      Neu laden half nicht, denn der Quelltext war nie das Problem (Daniel,
-      28.08.2026, „Blood-C: The Last Dark" und „Have A Nice Day").
-
-      Hier stehen die Tonspuren aus dem Block der Seite, gelesen ohne Umweg.
-      Danach greift der reguläre Weg: eine Einheit, eine Sprachliste, der
-      Knopf schreibt „Film".
-    */
+    return false
+  }
+  /**
+   * **Ein Film hat keinen „Folgen"-Reiter — und ist trotzdem in Ordnung** (25.08.2026, „Bayonetta:
+   * Bloody Fate", „Heidi"): Ohne diesen Zweig stand dort „✕ keine Folgen — melden" oder die Zahlen
+   * des vorigen Titels. Nach einem Wechsel ohne Neuladen ist der Quelltext der des vorigen Titels, und
+   * eine `EpisodeList` gibt es bei Filmen nicht; die einzige ehrliche Auskunft ist dann: neu laden.
+   *
+   * **Ein Film mit frischem Quelltext** liest seine Tonspuren direkt aus dem Block der Seite
+   * (28.08.2026, „Blood-C: The Last Dark"); sonst lief er bis zum Warte-Zweig durch und stand fest.
+   */
+  const ungeladenFilm = () => {
     if (istFilmSeite() && !quelltextVeraltet() && !gesehen.jeFolge.size) {
       const film = filmAusSeite()
       if (film) {
@@ -1776,8 +1750,22 @@ with (globalThis.AK_ZEICHNEN_WELT) {
       knopf.title =
         'Ein Film hat keine Folgenliste, die nachgeladen werden könnte. Nach einem Wechsel ' +
         'ohne Neuladen steht im Quelltext noch der vorige Titel.'
-      return
+      return true
     }
+    return false
+  }
+  /**
+   * `!fehlerseite` gehört dazu — sonst frisst die Regel den toten Verweis.
+   *
+   * Eine Amazon-Fehlerseite („Suchen Sie etwas?") hat naturgemäß auch
+   * keinen „Folgen"-Reiter, und die Regel schickte Daniel dort zu einer
+   * anderen Fassung, die es nicht gibt: „inu ni kann ich nicht als toten
+   * link melden" (25.08.2026, Minuten nach dem Einbau).
+   *
+   * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
+   * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
+   */
+  const ungeladenOhneReiter = ({ hatFolgenReiter, fehlerseite, regionWeg, nichtAbrufbar, wartet }) => {
     /*
       Kein Reiter **und** keine Folgenzahl: Dann führt die Staffel bei Amazon
       nichts — anders als eine Seite, die nur noch lädt.
@@ -1801,7 +1789,7 @@ with (globalThis.AK_ZEICHNEN_WELT) {
       notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
       knopf.disabled = true
       knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
-      return
+      return true
     }
     if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet && !istFilmSeite()) {
       /**
@@ -1828,25 +1816,27 @@ with (globalThis.AK_ZEICHNEN_WELT) {
       knopf.title =
         'Steht dieselbe Staffel noch einmal im Auswahlfeld (meist mit Kaufsymbol), ' +
         'dort nachsehen statt melden — dann führt nur die andere Fassung die Folgen.'
-      return
+      return true
     }
-
-    /**
-     * **Eine Seite, die "48 Folgen" schreibt, ist nicht "nicht abrufbar".**
-     *
-     * Hierher fuehrt jeder Weg, auf dem keine einzige Folge gelesen wurde —
-     * auch der, auf dem der Quelltext bewusst verworfen wurde und der
-     * Mitleser noch nichts geliefert hat. Das ist "unbekannt", nicht
-     * "nichts", und der Unterschied entscheidet ueber eine Meldung, die
-     * einen Verweis loescht.
-     *
-     * Daniel am 25.08.2026 an JoJo Staffel 3: Nach dem Neuladen stand
-     * "nicht abrufbar - melden" ueber einer Seite mit achtundvierzig
-     * sichtbaren Folgen.
-     *
-     * Zeigt die Seite eine Folgenzahl an, wird deshalb gesperrt statt
-     * gemeldet. Lieber nicht melden koennen als falsch melden.
-     */
+    return false
+  }
+  /**
+   * **Eine Seite, die "48 Folgen" schreibt, ist nicht "nicht abrufbar".**
+   *
+   * Hierher fuehrt jeder Weg, auf dem keine einzige Folge gelesen wurde —
+   * auch der, auf dem der Quelltext bewusst verworfen wurde und der
+   * Mitleser noch nichts geliefert hat. Das ist "unbekannt", nicht
+   * "nichts", und der Unterschied entscheidet ueber eine Meldung, die
+   * einen Verweis loescht.
+   *
+   * Daniel am 25.08.2026 an JoJo Staffel 3: Nach dem Neuladen stand
+   * "nicht abrufbar - melden" ueber einer Seite mit achtundvierzig
+   * sichtbaren Folgen.
+   *
+   * Zeigt die Seite eine Folgenzahl an, wird deshalb gesperrt statt
+   * gemeldet. Lieber nicht melden koennen als falsch melden.
+   */
+  const ungeladenLautSeite = ({ regionWeg, nichtAbrufbar, fehlerseite, wartet, ladeFristReif }) => {
     if (seitenLage().folgenLautSeite && !regionWeg && !nichtAbrufbar && !fehlerseite) {
       knopf.dataset.tot = 'false'
       knopf.disabled = true
@@ -1884,18 +1874,8 @@ with (globalThis.AK_ZEICHNEN_WELT) {
           text: 'Nach acht Sekunden keine Tonspur auf der Seite gefunden',
         })
       }
-      return
+      return true
     }
-    knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)
-    knopf.disabled = false
-    knopf.textContent = regionWeg
-      ? '✕ in dieser Region nicht mehr verfügbar — melden'
-      : nichtAbrufbar
-        ? '✕ derzeit nicht verfügbar — melden'
-        : wartet
-          ? 'Tonspuren noch nicht geladen'
-          : '✕ nicht abrufbar — melden'
-    if (!regionWeg && !nichtAbrufbar && wartet) knopf.disabled = true
-    return
+    return false
   }
 }
