@@ -19,7 +19,8 @@ export function ankerVorschlaege(listeText, lies, dateiListe, cwd = process.cwd(
   let liste
   try {
     liste = normalisiereListe(parseListeText(listeText))
-  } catch {
+  } catch (fehler) {
+    console.warn(`mutationsanker-umhaengen: Liste nicht lesbar (${fehler.message}), keine Mutanten umgehängt`)
     return []
   }
   const tot = []
