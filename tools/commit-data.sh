@@ -391,6 +391,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Dasselbe für stumme catch-Blöcke und unbegründetes `|| true` (tools/stumme-pfade.mjs).
     if node tools/stumme-pfade.mjs --festschreiben > /dev/null 2>&1; then
       hinzu tools/stumme-pfade-grenzen.json
+    else
+      echo "⚠ stumme-pfade --festschreiben fehlgeschlagen: Grenzen unverändert (node tools/stumme-pfade.mjs zeigt den Grund)"
     fi
 
     # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
