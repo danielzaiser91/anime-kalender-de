@@ -4,7 +4,7 @@
  * Jeder Fehler wird zum Grund „nicht ermittelbar“, der PR gilt dann als veraltet.
  */
 import { execFileSync } from 'node:child_process'
-import { handdatenPr, kennungsDaten } from './pr-nachrechnen-kennung.mjs'
+import { handdatenDateien, kennungsDaten } from './pr-nachrechnen-kennung.mjs'
 import { LESBAR, bewegtesGelesen, geaenderteSkripte, leserIn, ohneLeser } from './pr-nachrechnen-leser.mjs'
 
 export const SUCHORDNER = ['pipeline', 'shared', 'tools', 'web', 'worker', 'extension', '.github']
@@ -42,8 +42,11 @@ export function inhalte(git, ref, pfade) {
 /** Lesbare Code-Dateien (Skripte, Workflows) der Ordner im Stand `ref`. */
 export const codeDateien = (git, ref) => git(['ls-tree', '-r', '--name-only', ref, '--', ...SUCHORDNER]).split(/\r?\n/).filter((p) => LESBAR.test(p))
 
-/** Daten für den Kennungsschnitt, nur bei einem reinen Handdaten-PR (sonst undefined); bewegte Bot-Dateien zählen dort nicht. */
-const kennungVon = (git, refs, bewegt, pr) => (handdatenPr(pr, ohneLeser) ? kennungsDaten(git, refs, pr.filter((p) => !ohneLeser(p)), bewegt.filter((b) => !(refs.bot ?? []).includes(b))) : undefined)
+/** Daten für den Kennungsschnitt, nur wenn der PR Handdaten-YAML ändert (sonst undefined); bewegte Bot-Dateien zählen dort nicht. */
+const kennungVon = (git, refs, bewegt, pr) => {
+  const hand = handdatenDateien(pr, ohneLeser)
+  return hand.length === 0 ? undefined : kennungsDaten(git, refs, hand, bewegt.filter((b) => !(refs.bot ?? []).includes(b)))
+}
 
 /** Leser für `botSprungAusnahme`: (bewegt, prDateien, { nummer, kopf, main }) -> null | Grund. */
 export const gitLeser = (git) => (bewegt, pr, refs) => {

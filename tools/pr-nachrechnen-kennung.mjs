@@ -1,23 +1,32 @@
 /**
  * Kennungsschnitt im Datenkanal (13.11.2026, F133, Daniel „ja“ 15:25; lockert die Auflage A1/A3 der Prüfer zu PR 3490/3474 und das
- * Restrisiko aus Prüfer 3497): Ein reiner Handdaten-PR (`data/**.yaml`, z. B. dub-confirmed.yaml, curated/*) kippt nicht mit jeder
+ * Restrisiko aus Prüfer 3497): Der Handdaten-Anteil eines PR (`data/**.yaml`, z. B. dub-confirmed.yaml, curated/*) kippt nicht mit jeder
  * bewegten Datei, die ein Bau-Leser nennt, sondern nur, wenn main eine Kennung berührt, die der PR ändert (AniList-ID, Slug/Release-ID,
  * ASIN, gelesen aus den geänderten Zeilen des PR-Diffs und dem ganzen Eintrag, in dem sie liegen: die Kennung steht meist in einer
- * unveränderten Zeile des Eintrags; 13.11.2026 Rückrechnung: 13 von 127 Restfällen ohne das), oder Code des Bau-Pfads bewegt, der die Handdaten verarbeitet. Bewegte
- * Bot-Dateien zählen wie bisher nicht (Entscheidung 10.11.2026: der Bestandsbau prüft nach dem Merge). Fail-closed: keine Kennung
- * lesbar, Git-Fehler, Binärdiff -> die bisherigen Regeln gelten. Bewusste Grenze: Code außerhalb des Bau-Pfads (`pipeline/lib/`, Prüfungen)
- * entwertet nur über seine Nennung der Kennung; Code, der die Handdaten ohne Kennung liest, fällt nicht auf (F133).
+ * unveränderten Zeile des Eintrags), oder Code des Bau-Pfads bewegt, der die Handdaten verarbeitet. Der Code-Anteil eines gemischten PR
+ * (PR 3618: Handbeleg plus Prüfung) läuft weiter durch die Leser-Regeln. Bewegte Bot-Dateien zählen wie bisher nicht (Entscheidung
+ * 10.11.2026: der Bestandsbau prüft nach dem Merge). Fail-closed: keine Kennung lesbar, Git-Fehler, Binärdiff -> die bisherigen Regeln gelten.
+ * Bewusste Grenze: Code außerhalb des Bau-Pfads (`pipeline/lib/`, Prüfungen) entwertet nur über seine Nennung der Kennung; Code, der die
+ * Handdaten ohne Kennung liest, fällt nicht auf (F133).
  */
 import { hunks } from './pr-nachrechnen-hunks.mjs'
 
-const HANDDATEN =/^data\/.+\.ya?ml$/
+const HANDDATEN = /^data\/.+\.ya?ml$/
 /** Code des Baus, der die Handdaten verarbeitet (Auftrag F133): Phasen, Hauptbau, Statuslogik. */
 export const BAU_PFAD = /^(pipeline\/build\.ts|pipeline\/bau\/.+|shared\/logic\.ts)$/
 
-/** Alle Dateien des PR (ohne die, die kein Leser liest) sind Handdaten-YAML; `ohneLeser` kommt aus der Leser-Regel. */
-export function handdatenPr(pr, ohneLeser) {
-  const eigene = pr.filter((p) => !ohneLeser(p))
-  return eigene.length > 0 && eigene.every((p) => HANDDATEN.test(p))
+export const istHanddaten = (datei) => HANDDATEN.test(datei)
+
+/** Handdaten-YAML des PR (Dateien, die kein Leser liest, zählen nicht); `ohneLeser` kommt aus der Leser-Regel. */
+export const handdatenDateien = (pr, ohneLeser) => pr.filter((p) => !ohneLeser(p) && HANDDATEN.test(p))
+
+/**
+ * Urteil für den Handdaten-Anteil eines PR: undefined = nicht anwendbar (keine Kennungsdaten, Fehler beim Lesen, keine Handdaten),
+ * null = der Anteil bleibt aktuell, sonst der Grund. Der Code-Anteil des PR läuft weiter durch die Leser-Regeln.
+ */
+export function handdatenSchnitt(kennung, eigene, bewegt) {
+  if (kennung === undefined || kennung.fehler !== undefined || !eigene.some(istHanddaten)) return undefined
+  return kennungsschnitt(bewegt, kennung)
 }
 
 /** Dateien je git-Aufruf (Befehlszeilenlänge unter Windows); mehr gilt als nicht lesbar. */

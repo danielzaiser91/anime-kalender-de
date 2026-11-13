@@ -6,7 +6,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { BAU_PFAD, eintragsKennungen, ersteNennung, handdatenPr, kennungenAus, kennungenInZeile, kennungenMitEintrag, kennungsschnitt } from './pr-nachrechnen-kennung.mjs'
+import { BAU_PFAD, eintragsKennungen, ersteNennung, handdatenDateien, handdatenSchnitt, kennungenAus, kennungenInZeile, kennungenMitEintrag, kennungsschnitt } from './pr-nachrechnen-kennung.mjs'
 import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { bewegtesGelesen, ohneLeser } from './pr-nachrechnen-leser.mjs'
 
@@ -77,7 +77,8 @@ for (const bau of ['pipeline/build.ts', 'pipeline/bau/09-4-crunchyroll-dub.ts', 
 }
 pruefe('Namensvettern des Bau-Pfads zählen nicht', ['pipeline/build.test.ts', 'pipeline/baumeister.ts', 'pipeline/lib/x.ts', 'shared/logic-hilfe.ts', 'shared/time.ts'].every((b) => !BAU_PFAD.test(b)))
 pruefe('keine Kennung im PR-Diff lesbar -> Grund (fail-closed)', /nicht lesbar/.test(kennungsschnitt(['tools/x.mjs'], { kennungen: new Set(), mainDiff: '' }) ?? ''))
-pruefe('handdatenPr: YAML unter data/, auch mit Doku und Patch Notes; Code, JSON, package.json nicht', handdatenPr(['data/dub-confirmed.yaml', 'docs/a.md', 'data/patchnotes/x.yaml'], ohneLeser) && handdatenPr(['data/curated/tv-2026.yaml'], ohneLeser) && !handdatenPr(['data/dub-confirmed.yaml', 'tools/a.mjs'], ohneLeser) && !handdatenPr(['data/a.json'], ohneLeser) && !handdatenPr(['data/a.yaml', 'package.json'], ohneLeser) && !handdatenPr(['docs/a.md'], ohneLeser))
+pruefe('handdatenDateien: nur YAML unter data/ (auch curated/), Doku, Patch Notes, Code, JSON, package.json nicht', handdatenDateien(['data/dub-confirmed.yaml', 'docs/a.md', 'data/patchnotes/x.yaml', 'tools/a.mjs', 'data/a.json', 'package.json', 'data/curated/tv-2026.yaml'], ohneLeser).join() === 'data/dub-confirmed.yaml,data/curated/tv-2026.yaml')
+pruefe('handdatenSchnitt: nicht anwendbar ohne Kennungsdaten, mit Fehler, ohne Handdaten', handdatenSchnitt(undefined, ['data/dub-confirmed.yaml'], []) === undefined && handdatenSchnitt({ fehler: 'x' }, ['data/dub-confirmed.yaml'], []) === undefined && handdatenSchnitt({ kennungen: new Set(['1']), mainDiff: '' }, ['tools/a.mjs'], []) === undefined)
 
 // In bewegtesGelesen: der Anlass der bisherigen Auflage (Bau-Leser nennt die bewegte Datei, PR ändert Handdaten) und seine Grenzen
 const BEWEGT = 'data/kanal-seiten.json'
@@ -89,7 +90,12 @@ pruefe('ohne Kennungsdaten bleibt die bisherige Auflage: Handdaten + Bau-Leser d
 pruefe('mit Kennungsdaten ohne Schnitt -> aktuell', lesen(HAND, { kennung: K }) === null)
 pruefe('mit Kennungsdaten und Schnitt -> Grund aus dem Kennungsschnitt', /^main nennt 777/.test(lesen(HAND, { kennung: { ...K, mainDiff: md } }) ?? ''))
 pruefe('Kennungsdaten mit Fehler -> bisherige Auflage (Grund)', /^der PR ändert data\/dub-confirmed\.yaml/.test(lesen(HAND, { kennung: { fehler: 'x' } }) ?? ''))
-pruefe('PR ändert zusätzlich Code -> kein Kennungsschnitt, bisherige Regeln', /^der PR ändert data\/dub-confirmed\.yaml/.test(lesen([...HAND, 'tools/neu.mjs'], { kennung: K }) ?? ''))
+// Gemischter PR (PR 3618: Handbeleg plus Code): der Handdaten-Anteil läuft durch den Kennungsschnitt, der Code-Anteil weiter durch die Leser-Regeln.
+TEXTE['tools/liest.mjs'] = `const d = '${BEWEGT}'\n`
+pruefe('PR mit Handdaten und fremdem Code, Kennung fremd -> aktuell (PR 3618)', lesen([...HAND, 'tools/neu.mjs'], { kennung: K }) === null)
+pruefe('PR mit Handdaten und Code, der die bewegte Datei liest -> Grund aus der Leser-Regel', /^der PR liest data\/kanal-seiten\.json \(tools\/liest\.mjs\)/.test(lesen([...HAND, 'tools/liest.mjs'], { kennung: K }) ?? ''), lesen([...HAND, 'tools/liest.mjs'], { kennung: K }))
+pruefe('PR mit Handdaten und Code, gleiche Kennung -> Grund aus dem Kennungsschnitt vor dem Code-Anteil', /^main nennt 777/.test(lesen([...HAND, 'tools/neu.mjs'], { kennung: { ...K, mainDiff: md } }) ?? ''))
+pruefe('PR mit Handdaten und einer Daten-JSON: die JSON läuft weiter durch die alte Datenkanal-Regel', /^der PR ändert data\/zugang\.json/.test(lesen([...HAND, 'data/zugang.json'], { kennung: K }) ?? ''), lesen([...HAND, 'data/zugang.json'], { kennung: K }))
 pruefe('PR berührt die bewegte Datei selbst -> Grund trotz Kennungsschnitt', /^der PR berührt data\/kanal-seiten\.json/.test(lesen(['data/kanal-seiten.json'], { kennung: K }) ?? ''))
 
 // Ganzer Weg über gitLeser mit echtem git

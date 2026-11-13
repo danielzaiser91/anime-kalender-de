@@ -11,7 +11,7 @@
  * gilt der PR als betroffen. Grenze: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
  */
 import path from 'node:path'
-import { handdatenPr, kennungsschnitt } from './pr-nachrechnen-kennung.mjs'
+import { handdatenSchnitt, istHanddaten } from './pr-nachrechnen-kennung.mjs'
 
 /**
  * PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). `.claude/` (Agenten, Hooks, Regeln
@@ -327,8 +327,10 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   if (bewegt.length === 0) return null
   const treffer = pr.find((p) => bewegt.includes(p) && !frei.has(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
-  if (kennung !== undefined && kennung.fehler === undefined && handdatenPr(pr, ohneLeser)) return kennungsschnitt(bewegt, kennung)
-  const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
+  const alle = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
+  const schnitt = handdatenSchnitt(kennung, alle, bewegt)
+  if (typeof schnitt === 'string') return schnitt
+  const eigene = schnitt === null ? alle.filter((p) => !istHanddaten(p)) : alle
   const daten = eigene.find(aendertBauDaten)
   const bauLeser = daten === undefined ? [] : bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)
   if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (${leserText(bauLeser)})`
