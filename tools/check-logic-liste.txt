@@ -483,6 +483,7 @@ pipeline/check-sammel-unzugeordnet.ts
 pipeline/check-sammelartikel.ts
 pipeline/check-sammeleintrag-synchro.ts
 pipeline/check-sammler-lesezugriffe-faelle.ts
+pipeline/check-sammler-lesezugriffe-variable.ts
 pipeline/check-sammler-lesezugriffe.ts
 pipeline/check-schwester-shop.ts
 pipeline/check-screenshot-wiederholen.ts
