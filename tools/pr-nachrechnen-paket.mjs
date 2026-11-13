@@ -78,7 +78,8 @@ const istHook = (name, kette) => LEBENSZYKLUS.includes(name) || (/^(?:pre|post)/
 const lesen = (text) => {
   try {
     return JSON.parse(text)
-  } catch {
+  } catch (fehler) {
+    console.warn(`pr-nachrechnen-paket: JSON nicht lesbar (${fehler.message})`)
     return null
   }
 }
