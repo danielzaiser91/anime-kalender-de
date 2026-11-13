@@ -68,6 +68,26 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-16#13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T204500Z
+DTEND:20261116T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-16#14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T211000Z
+DTEND:20261116T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1218@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T080000Z

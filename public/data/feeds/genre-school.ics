@@ -141,6 +141,46 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-14#31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261114T042500Z
+DTEND:20261114T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-14#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261114T044500Z
+DTEND:20261114T051500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-14#33@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261114T051000Z
+DTEND:20261114T054000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-11-14#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261114T053500Z
+DTEND:20261114T060500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261115
@@ -204,6 +244,16 @@ SUMMARY:Kubo Won’t Let Me Be Invisible (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14224/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T170000Z
+DTEND:20261120T173000Z
+SUMMARY:Detektiv Conan – Folge 175
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:anne-shirley-vol2@2026-11-20@anime-kalender-de

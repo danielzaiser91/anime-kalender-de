@@ -182,6 +182,8 @@
 # ---------------------------------------------------------------- Anime2You 1068059 (06.11.2026, 15:45): Prime Video, zwei Anime auf Deutsch
 # »Devils‘ Crest« (Simulcast): „heute ist die erste Episode erschienen“, „Episoden: 2 verfügbar“, „Jeden Freitag eine neue Episode“, Deutsch und Japanisch (UT).
 # Der Artikel nennt weder Uhrzeit noch Folgenzahl: ohne `time`, ohne `episodeCount`.
+# Doppelstart: Folge 1 und 2 am 06.11. („Episoden: 2 verfügbar“), Folge 3 am 13.11. (Prime-Seite, Sichtung Daniel 13.11.2026:
+# „In der Falle“ und „Die Verwandlung“ 06.11., „Das Erwachen“ 13.11.).
 - slug: devils-crest-primevideo
   anilistId: 203275
   platform: primevideo
@@ -191,7 +193,10 @@
     firstEpisodeDate: "2026-11-06"
     observed:
       1: "2026-11-06"
+      2: "2026-11-06"
+      3: "2026-11-13"
   sources:
+    - https://www.amazon.de/dp/B0HKLZZ54Y
     - https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/
 
 # »Pet« (Synchro): „kann ab sofort auch mit deutscher Synchronisation auf Prime Video angesehen werden“, 13 Episoden (komplett). Der Tag ist der Meldetag (im Angebot spätestens seit 06.11.).
