@@ -107,6 +107,13 @@ function jetztZeilen(zeilen) {
   return meldungen
 }
 
+const TERMIN_VORN = /^- 📅 (?:\[[^\]]*\] )?(?:\*\*)?(?:(?:Mo|Di|Mi|Do|Fr|Sa|So) )?\d{1,2}[.:]\d{2}/u
+/** 📅-Zeilen tragen die Zeit am Titelanfang (Skill daniel-dateien-pflegen; Daniel 12.11.2026 zu E57: „erst die uhrzeit dann den punkt“). */
+function terminZeilen(zeilen) {
+  const falsch = zeilen.filter((z) => z.startsWith('- 📅') && !TERMIN_VORN.test(z))
+  return falsch.length ? [`📅: ${aufzaehlung(falsch)} ohne Zeit am Anfang — „HH:MM“, „TT.MM.“ oder „TT.MM. HH:MM“ vor den Titel`] : []
+}
+
 /** Meldung, wenn „Aktualisiert: JJJJ-MM-TT HH:MM“ mehr als 5 min in der Zukunft liegt (geschätzte statt mit `date` gelesene Uhrzeit). */
 function zukunft(zeilen, jetzt) {
   const a = zeilen.map((z) => AKTUALISIERT.exec(z)).find(Boolean)
@@ -194,7 +201,7 @@ function waechter(text, jetzt, existiert = fs.existsSync, lies = liesDatei) {
 /** Meldungen zu den Abschnitten von stand.md als ein Text oder ''. */
 function waechterAbschnitte(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
-  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...zukunft(zeilen, jetzt)]
+  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...terminZeilen(zeilen), ...zukunft(zeilen, jetzt)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
   if (kopf < 0) return meldungen.join('; ')
   let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
