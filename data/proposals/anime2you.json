@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-13T13:04:25.629Z",
+  "scrapedAt": "2026-11-13T16:02:24.724Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
-    "schon in einem Rubrik-Feed gelesen": 7,
+    "schon in einem Rubrik-Feed gelesen": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -20,6 +20,63 @@
         {
           "iso": "2027-01-06",
           "context": "hem: Isekai Tensei Soudouki« wurde heute verkündet, dass die Serie am 6. Januar 2027 im japanischen Fernsehen startet. Einen neuen Trailer f"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
+      "articleUrl": "https://www.anime2you.de/news/1071143/animoon-black-weeks-2026-rabattaktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "assen die Details zusammen. 26 % Rabatt mit Gutscheincode Vom 13. bis 30. November 2026 erhalten Kunden im Rahmen der »AniMoon Black Weeks«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Bis zu 74 % Rabatt: Hardball Films startet großen Black-Week-Sale",
+      "articleUrl": "https://www.anime2you.de/news/1071343/hardball-films-black-week-2026-sale/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "Ende November 2026 Die Black-Week-Rabattaktion läuft vom 13. bis zum 30. November 2026 und umfasst einen Großteil der lieferbaren DVDs und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime Planet startet große 3-für-2-Aktion mit über 450 Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1071187/anime-planet-black-week-3-fuer-2-aktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": ". Bis Ende November 2026 Die neue 3-für-2-Aktion, die vom 13. bis zum 30. November 2026 läuft, umfasst unter anderem die Komplett- und Staff"
         }
       ],
       "dub": "unklar",
