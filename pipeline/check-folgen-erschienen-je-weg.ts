@@ -62,6 +62,13 @@ pruefe('213805 am 28.10.: 4', weg([start], '2026-10-28').get('netflix') === 4)
 pruefe('Wochenstart vor dem Start: 0', weg([start], '2026-09-30').get('netflix') === 0)
 const startNr = { ...start, schedule: { ...start.schedule, firstEpisodeNumber: 101 } } as unknown as Release
 pruefe('Wochenstart ab Folge 101, nach 14 Tagen: 103', weg([startNr], '2026-10-15').get('netflix') === 103)
+/* Sendepause und belegtes Ende: in diesen Wochen kam keine Folge (logic.ts überspringt skipDates, bricht nach lastEpisodeDate ab). */
+const mitPause = { ...start, schedule: { ...start.schedule, skipDates: ['2026-10-15'] } } as unknown as Release
+pruefe('Wochenstart mit Sendepause am 15.10., am 22.10.: 3 statt 4', weg([mitPause], '2026-10-22').get('netflix') === 3, weg([mitPause], '2026-10-22').get('netflix'))
+const pauseAndererTag = { ...start, schedule: { ...start.schedule, skipDates: ['2026-10-14'] } } as unknown as Release
+pruefe('Sendepause außerhalb des Sendetags zählt nicht: 4', weg([pauseAndererTag], '2026-10-22').get('netflix') === 4, weg([pauseAndererTag], '2026-10-22').get('netflix'))
+const mitEnde = { ...start, schedule: { ...start.schedule, lastEpisodeDate: '2026-10-08' } } as unknown as Release
+pruefe('Wochenstart mit belegtem Ende 08.10., am 28.10.: 2 statt 4', weg([mitEnde], '2026-10-28').get('netflix') === 2, weg([mitEnde], '2026-10-28').get('netflix'))
 pruefe('Wochenstart ohne Datum: 0', weg([{ ...start, schedule: {} } as unknown as Release], '2026-10-26').get('netflix') === 0)
 pruefe('Wochenplan eines anderen Anbieters begrenzt den Weg nicht', text(deutscheFolgen(titel([netflix]), undefined, '2026-10-26', 12, weg([wochen('crunchyroll', '2026-10-04', 12)], '2026-10-26'))) === '1-12')
 const mitBereich: StreamLink = { ...netflix, dubRanges: [{ from: 1, to: 8, dub: true }] }
