@@ -28,11 +28,12 @@ const pruef = (name, ok) => { if (!ok) { fehler++; console.log('ROT', name) } }
 const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), session_id: sitzung }
 
 {
-  pruef('leerer Vorrat meldet', /leer/.test(pruefe(ein) || ''))
+  pruef('leerer Vorrat schweigt', pruefe(ein) === null)
   fs.writeFileSync(path.join(vorrat, 'z-blockiert.md'), '# Auftrag Z\nText')
   fs.writeFileSync(path.join(vorrat, 'erledigt-alt.md'), '# Auftrag E\nText')
   fs.writeFileSync(path.join(vorrat, '05-pr.md'), '# Auftrag P\nText\n\n**Vergeben:** PR 1\n')
-  pruef('Blockiertes, Erledigtes und per PR Vergebenes zählt als leer', /leer/.test(pruefe(ein) || '') && !/Auftrag [ZEP]/.test(pruefe(ein) || ''))
+  fs.writeFileSync(path.join(vorrat, '06-routine.md'), '# Auftrag R\nText\n\n**Vergeben:** Routine x 13.11. (remote)\n')
+  pruef('Blockiertes, Erledigtes, per PR oder Routine Vergebenes schweigt', pruefe(ein) === null)
   fs.writeFileSync(path.join(vorrat, '10-a.md'), '# Auftrag A\nText')
   fs.writeFileSync(path.join(vorrat, '20-b.md'), '# Auftrag B\nText')
   for (let i = 1; i < GRENZE; i++) laeuft(`b${i}`, 'bauer')
