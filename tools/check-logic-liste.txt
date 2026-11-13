@@ -620,6 +620,7 @@ pipeline/check-zuordner-luecken.ts
 pipeline/check-zuordner-riegel.ts
 pipeline/check-zuordnung-fremd-lauf.ts
 pipeline/check-zuordnung-fremd.ts
+pipeline/check-zuordnung-riegel.ts
 pipeline/check-zweitanbieter.ts
 tools/adn-news-bilanz.test.ts
 tools/anime2you-luecken.test.ts
