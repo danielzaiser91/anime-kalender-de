@@ -219,8 +219,9 @@
     time: "18:50"
     episodeCount: 24
     wochentage: [1, 2, 3, 4, 5]
-    # 13.11.2026: keine TV-Folge (Fußball auf ProSieben MAXX, siehe tv-2026.yaml), also auch keine auf Joyn.
-    skipDates: ["2026-11-13"]
+    # 13.11. und 17.11.2026: keine TV-Folge (Fußball auf ProSieben MAXX, siehe tv-2026.yaml), also auch keine auf Joyn
+    # (Joyn bringt jede Folge erst nach der Sendung; am 13.11. abends standen dort nur 1-6).
+    skipDates: ["2026-11-13", "2026-11-17"]
   sources:
     - https://www.joyn.de/serien/yaiba-samurai-legend
     - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
