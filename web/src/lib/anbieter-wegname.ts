@@ -15,5 +15,6 @@ const ALIASE: Record<string, PlatformId> = {
 /** Die Plattform hinter dem Namen eines Bezugswegs, wenn er nur anders geschrieben ist als in `PLATFORMS`. */
 export function plattformVonWegName(name: string): PlatformId | undefined {
   const kern = name.toLowerCase().replace(/\s*\(.*$/, '').replace(/\s+über\s.*$/, '').trim()
-  return ALIASE[kern]
+  // Nur eigene Einträge: „constructor“ oder „__proto__“ träfe sonst Geerbtes des Objekts.
+  return Object.hasOwn(ALIASE, kern) ? ALIASE[kern] : undefined
 }

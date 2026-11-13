@@ -37,6 +37,7 @@ pipeline/check-ak-umleitung-lauf.ts
 pipeline/check-aktualisierung-verborgen.ts
 pipeline/check-anbieter-eintraege-bestand-lauf.ts
 pipeline/check-anbieter-logo.ts
+pipeline/check-anbieter-wegname-geerbt.ts
 pipeline/check-angebot-feed.ts
 pipeline/check-angebot-seit-disc.ts
 pipeline/check-angebot-seit.ts
