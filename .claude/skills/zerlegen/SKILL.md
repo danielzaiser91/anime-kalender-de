@@ -69,6 +69,8 @@ node tools/umfang-pruefen.mjs                     # „Überlänge gesunken“ g
 (projektregeln-im-detail.md, `check:umfang`).
 
 Beide Vergleiche bauen in eigenen Worktrees (≈ 5 bzw. 2 min), das Arbeitsverzeichnis bleibt frei.
+In der Cloud-Sitzung nie gleichzeitig mit `check:logic` laufen lassen: `panel-vergleich` plus
+`check:logic --alle` beendete den Container (Exit 137, 12.11.2026) — nacheinander starten.
 Jeder läuft nur einmal gleichzeitig. `bau-vergleich` wartet der Reihe nach (Schlange, FIFO, bis zu 45 min; die Meldung nennt Platz und Halter) —
 nicht abbrechen, keine eigene Wiederholschleife. **Exit 3** heißt dort „45 min nichts frei“ (Halter ansehen, dann erneut aufrufen);
 `panel-vergleich` bricht bei belegter Sperre sofort mit Exit 3 ab: warten und neu starten.
