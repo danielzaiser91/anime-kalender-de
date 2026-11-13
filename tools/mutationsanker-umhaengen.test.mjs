@@ -79,7 +79,7 @@ try {
   // Schalter vor der Liste (A2) und `--alle` (A1): jeweils frische Liste.
   writeFileSync(listePfad, vorlage)
   const vorn = spawnSync(process.execPath, [skript, '--umhaengen', 'tools/mutationen/l.json'], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true })
-  pruefe('Prozess Schalter vor der Liste: Liste geändert, „1 Anker umgehängt“', /1 Anker umgehängt/.test(vorn.stdout) && readFileSync(listePfad, 'utf8') === neu.text)
+  pruefe('Prozess Schalter vor der Liste: Liste geändert, „1 Anker umgehängt“', /1 Anker umgehängt/.test(vorn.stdout) && readFileSync(listePfad, 'utf8') === neu.text && /Mutationsanker: 1 Listen,/.test(vorn.stdout))
   writeFileSync(listePfad, vorlage)
   const alleNur = fahre('--alle')
   pruefe('Prozess --alle ohne Schalter: Exit 1, Liste unverändert', alleNur.status === 1 && alleNur.stderr.includes('alt.ts -> neu.ts') && readFileSync(listePfad, 'utf8') === vorlage)
