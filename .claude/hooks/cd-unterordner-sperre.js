@@ -5,7 +5,7 @@
 // Ziele (`$X`, `~`, `-`), `cd` in Klammern/`$(…)`/Backticks (wirkt nur dort), eigene Arbeitsbäume unter dem Hauptordner (`.git` vorhanden).
 // Erkennung Hauptsitzung: `agent_id`/`agent_type` fehlen nur dort (gleiche Annahme wie subagent-schreibsperre.js, befehlsregister.js);
 // Subagenten haben ihr eigenes Arbeitsverzeichnis und bleiben frei. Nur Bash-Eingaben kommen an (Filter in hauptordner-sperre.js).
-const VORSATZ = new Set(['builtin', 'command'])
+const VORSATZ = new Set(['builtin', 'command', 'exec', 'time'])
 // Wörter, die ein Segment einleiten, ohne selbst Befehl zu sein (`then cd x`, `{ cd x`), und Variablenvorsatz (`FOO=1 cd x`).
 const SEGMENTANFANG = new Set(['then', 'do', 'else', 'elif', 'if', 'while', 'until', '{', '!'])
 const istVorsatz = (t) => VORSATZ.has(t) || SEGMENTANFANG.has(t) || /^[A-Za-z_]\w*=/.test(t)
