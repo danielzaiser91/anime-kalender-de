@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-11",
+  "stand": "2026-11-13",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -14080,6 +14080,83 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 324
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/|Detektiv Conan|Episode 1 bis 150|start|crunchyroll",
+      "erstGesehen": "2026-11-13",
+      "fingerabdruck": "4d1496ac9f95",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/",
+          "veroeffentlicht": "2026-11-12",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Detektiv Conan",
+        "zusatz": "Episode 1 bis 150",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll"
+        ],
+        "datum": "2026-11-12",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Detektiv Conan« – Episode 1 bis 150 (OmU)\n»Detektiv Conan« – Episode 1 bis 150 (OmU)\nEpisoden: 1 bis 150 auf Japanisch verfügbar\nSprache: Deutsch, Japanisch (UT)\nHinweis: Die deutsche Synchronfassung war zuvor bereits vorhanden\nStream: Crunchyroll",
+        "zuordnung": {
+          "anilistId": 235,
+          "name": "Detektiv Conan",
+          "wie": "name-genau",
+          "abstandTage": 11266,
+          "vorbehalt": "Zusatz „Episode 1 bis 150\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 437
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/|Fafner||start|crunchyroll",
+      "erstGesehen": "2026-11-13",
+      "fingerabdruck": "e5f8766de2ac",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/",
+          "veroeffentlicht": "2026-11-12",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Fafner",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll"
+        ],
+        "datum": "2026-11-12",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "folgen": 26,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Fafner« (OmeU)\n»Fafner« (OmeU)\nEpisoden: 26 (komplett)\nSprache: Englisch, Japanisch (UT)\nHinweis: Keine deutschen Untertitel\nStream: Crunchyroll",
+        "zuordnung": {
+          "anilistId": 75,
+          "name": "Fafner",
+          "wie": "name-genau",
+          "abstandTage": 8165
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 387
       }
     }
   ]
