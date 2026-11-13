@@ -4,12 +4,9 @@ import os from 'node:os'
 import path from 'node:path'
 import { createRequire } from 'node:module'
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vorrat-'))
-const ruhe = path.join(tmp, 'ruhemodus.txt')
-process.env.RUHE_MARKER = ruhe
-process.env.AGENTEN_JETZT = '2026-11-14T12:00:00+01:00' // Samstag: keine Arbeitszeit-Grenze
 const { pruefe, markerVon } = createRequire(import.meta.url)('./agenten-vorrat.js')
-// Grenzen aus dem Grenz-Hook lesen, damit eine geänderte Zahl den Test nicht rot macht.
-const { GRENZE, grenze } = createRequire(import.meta.url)('./agenten-grenze.js')
+// Grenze aus dem Grenz-Hook lesen, damit eine geänderte Zahl den Test nicht rot macht.
+const { GRENZE, pruefe: grenzePruefe } = createRequire(import.meta.url)('./agenten-grenze.js')
 
 const projekt = path.join(tmp, 'projekt')
 const vorrat = path.join(projekt, 'daniel-zum-abarbeiten', 'vorrat')
@@ -56,41 +53,16 @@ const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), ses
   pruef('stop_hook_active schweigt', pruefe({ ...ein, stop_hook_active: true }) === null)
 }
 {
-  // Ruhemodus: kleinere Grenze, Prüfer zählen nicht.
+  // Grenz-Hook: lokal höchstens GRENZE Nicht-Prüfer, Prüfer starten immer.
   for (const f of fs.readdirSync(sub)) fs.rmSync(path.join(sub, f))
-  fs.writeFileSync(ruhe, 'sanft')
-  const RUHE = grenze()
-  laeuft('p2', 'pruefer')
-  const r = pruefe(ein) || ''
-  pruef('Ruhemodus mit nur Prüfer: alle frei', RUHE < GRENZE && r.includes(`${RUHE} von ${RUHE}`) && /Auftrag A/.test(r))
-  for (let i = 1; i <= RUHE; i++) laeuft(`r${i}`, 'bauer')
-  pruef('Ruhemodus voll belegt schweigt', pruefe(ein) === null)
-  const { pruefe: grenzePruefe } = createRequire(import.meta.url)('./agenten-grenze.js')
   const start = (typ) => grenzePruefe({ transcript_path: transcript, tool_input: { subagent_type: typ } })
-  pruef('Ruhemodus sperrt weiteren Bauer', /Ruhemodus/.test(start('bauer') || ''))
-  pruef('Ruhemodus lässt Prüfer starten', start('pruefer') === null)
-  fs.rmSync(ruhe)
-  pruef('ohne Ruhemodus wieder volle Grenze', start('bauer') === null)
-}
-{
-  const { inArbeitszeit } = createRequire(import.meta.url)('./agenten-grenze.js')
-  const fall = (iso, soll) => pruef(`Arbeitszeit ${iso} → ${soll}`, inArbeitszeit(new Date(iso)) === soll)
-  fall('2026-11-12T08:00:00+01:00', true) // Do 8:00, Grenze eingeschlossen
-  fall('2026-11-12T07:59:00+01:00', false)
-  fall('2026-11-12T16:00:00+01:00', true) // donnerstags bis 18 Uhr
-  fall('2026-11-12T17:59:00+01:00', true)
-  fall('2026-11-12T18:00:00+01:00', false)
-  fall('2026-11-11T15:59:00+01:00', true) // Mittwoch bis 16 Uhr
-  fall('2026-11-11T16:00:00+01:00', false)
-  fall('2026-11-14T12:00:00+01:00', false) // Samstag
-  fall('2026-11-19T12:00:00+01:00', true) // letzter Probetag
-  fall('2026-11-20T12:00:00+01:00', false) // Urlaub ab Fr 20.11.
-  fall('2026-11-12T07:30:00Z', true) // 8:30 Berlin, Zeitzone zählt
-  const { grenze: g } = createRequire(import.meta.url)('./agenten-grenze.js')
-  fs.writeFileSync(ruhe, 'sanft')
-  pruef('Arbeitszeit schlägt Ruhemodus', g(ruhe, new Date('2026-11-12T10:00:00+01:00')) === 5)
-  pruef('außerhalb gilt Ruhemodus', g(ruhe, new Date('2026-11-12T18:00:00+01:00')) === 2)
-  fs.rmSync(ruhe)
+  pruef('lokale Grenze ist 2', GRENZE === 2)
+  for (let i = 1; i < GRENZE; i++) laeuft(`g${i}`, 'bauer')
+  laeuft('p2', 'pruefer')
+  pruef('unter der Grenze startet Bauer', start('bauer') === null)
+  laeuft(`g${GRENZE}`, 'bauer')
+  pruef('volle Grenze sperrt weiteren Bauer und nennt Cloud', /Cloud-Sitzung/.test(start('bauer') || ''))
+  pruef('volle Grenze lässt Prüfer starten', start('pruefer') === null)
 }
 pruef('ohne Vorrat-Ordner schweigt', pruefe({ ...ein, cwd: os.tmpdir() }) === null)
 pruef('nach Ende des Modus schweigt', pruefe(ein, Date.parse('2100-01-01')) === null)
