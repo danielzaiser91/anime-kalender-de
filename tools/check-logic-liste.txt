@@ -246,6 +246,7 @@ pipeline/check-folgen-nummern.ts
 pipeline/check-folgen-teile.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
+pipeline/check-folgenrhythmus.ts
 pipeline/check-folgentitel-englisch-bau.ts
 pipeline/check-folgentitel-englisch.ts
 pipeline/check-folgentitel-luecke-lauf.ts
