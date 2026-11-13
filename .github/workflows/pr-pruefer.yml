@@ -211,18 +211,28 @@ jobs:
 
       # Kettenlog (28.10.2026): Der Prüfer hat kein Bash und kann das CI-Log nicht lesen, soll aber Ergebniszeilen
       # daraus zitieren (PRs 1954, 2219, 2241, 2246: „aendern“/„nicht beurteilt“ nur wegen eines fehlenden Zitats). Dieser
-      # Schritt wartet bis zu 13 min auf das Ende der PR-Prüfkette des Kopfes und legt ihre Ergebniszeilen
-      # (kettenlog.txt), die in den Nachträgen zitierten Zeilen mit Treffern (kettenlog-zitate.txt, 31.10.2026: die Übersicht
-      # kappt je Job, der Abnahme-Prüfer hat kein Grep) und das bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
-      # 13 statt 9 min (30.10.2026): die Kette braucht im Median 9,6 min, p90 12,9 min (316 Läufe seit 28.10.); bei 9 min
-      # sah jeder fünfte Prüfer-Lauf (33 von 174) nur eine unfertige Kette.
-      # 36 min, Timeout 60 (04.11.2026, PR 2852 Kopf bea96992d): eine Kette brauchte 31,4 min, der Prüfer urteilte nach 13 min
-      # „aendern“ (Kettenlauf nicht abgeschlossen). Budget: 1,5 + 36 + 13 + 2 < 60 (tools/pr-pruefer-eingabe.test.mjs).
-      # Endet die Kette früher, endet das Warten früher; die Frist kostet nur bei Hängern Laufzeit.
+      # Schritt legt die Ergebniszeilen der PR-Prüfkette des Kopfes (kettenlog.txt), die in den Nachträgen zitierten Zeilen
+      # mit Treffern (kettenlog-zitate.txt, 31.10.2026: die Übersicht kappt je Job, der Abnahme-Prüfer hat kein Grep) und das
+      # bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
+      # Frist 0 (13.11.2026): Der Schritt hielt bis zu 36 min einen Runner, nur um auf die Kette zu warten; bei Runner-Mangel
+      # wartet die Kette ihrerseits auf Runner (23 von 41 Prüfer-Jobs warteten die vollen 36 min). Läuft die Kette
+      # noch, beendet sich der Prüfer sofort mit „nicht beurteilt“; pr-pruefer-nachtrag.yml startet ihn nach Kettenende neu.
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 2160 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
+        run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 0 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
+
+      # Kette läuft noch: kein Modellaufruf (er ergäbe nur „nicht beurteilt“). Das Platzhalter-Urteil „aendern“ lässt
+      # „Protokoll und Freigabe“ den Kommentar „nicht beurteilt, Kette lief noch“ samt Marke schreiben.
+      - name: Kette läuft noch
+        id: kette
+        run: |
+          T="$RUNNER_TEMP/pruefer"
+          if node tools/pr-pruefer-kette-offen.mjs --nur-lauf "$T/kettenlog.txt"; then
+            echo "laeuft=ja" >> "$GITHUB_OUTPUT"
+            printf '{"urteil":"aendern","sha":"%s"}' "$HEAD_SHA" > "$T/urteil.json"
+            printf '%s\n%s\n' "Die PR-Prüfkette lief beim Start des Prüfers noch; er hat nichts geprüft." "<!-- pruefer-ohne-modell -->" > "$T/protokoll.md"
+          fi
 
       # Ergebnis der Mutationsprobe aus dem Job `mutationsprobe` (Prüfstufe 2, vor diesem Job beendet, Budget von 52,5 min unberührt).
       # Nur bei vollständigem Diff (diff-zustand ok): sonst urteilt dieser Lauf ohnehin „unvollstaendig“, die Datei bliebe ungelesen.
@@ -252,7 +262,7 @@ jobs:
       # 13 turns, exceeding the maximum of 12" als Fehler, obwohl Urteil und Protokoll geschrieben sind; der Lauf stand
       # rot trotz "ok". Ob es ein Urteil gibt, entscheidet allein "Protokoll und Freigabe" (urteil.json/protokoll.md).
       - name: Prüfer (Stufe 0, schlank)
-        if: steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'
+        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -305,7 +315,7 @@ jobs:
       # Kein CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: braucht bubblewrap, das der Runner nicht hat (Lauf 38051777036 brach
       # beim Installieren ab); Bash ist ohnehin verboten.
       - name: Prüfer
-        if: steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'
+        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -439,7 +449,7 @@ jobs:
       # Abnahme-Modus (Daniel, 21.10.2026): jeder spätere Kopf, nur lesen im Prüfordner (kein Repo-Zugriff nötig: die
       # Auflagen stehen in auflagen.md, der Nachtrag-Diff in pr.diff). Neue Funde sind ausgeschlossen, außer Regression.
       - name: Prüfer (Abnahme)
-        if: steps.modus.outputs.modus == 'abnahme'
+        if: steps.kette.outputs.laeuft != 'ja' && steps.modus.outputs.modus == 'abnahme'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -505,7 +515,7 @@ jobs:
       # (Budget-Test: tools/pr-pruefer-eingabe.test.mjs).
       - name: Check-Stand des Kopfes
         id: checks
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.kette.outputs.laeuft != 'ja' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >> "$GITHUB_OUTPUT"
@@ -520,6 +530,7 @@ jobs:
           CHECKS: ${{ steps.checks.outputs.stand }}
           MODUS: ${{ steps.modus.outputs.modus }}
           AENDERN_FREI: ${{ steps.modus.outputs.aendern-frei }}
+          KETTE_LAEUFT: ${{ steps.kette.outputs.laeuft }}
         run: |
           set -u
           T="$RUNNER_TEMP/pruefer"
@@ -553,7 +564,7 @@ jobs:
           # Kette beim Urteil noch offen (PRs 2953, 2820: „aendern“ nur deshalb, ohne Codeänderung danach „ok“): kein Review,
           # sondern „nicht beurteilt“ mit Marke; tools/pr-pruefer-nach-kette.mjs startet den Prüfer nach Kettenende neu.
           # Nur ein echtes Prüfer-„aendern“ bei vollständigem Diff; Überschreibungen (Diff, Token) bleiben „aendern“.
-          if [ "$art" = "aendern" ] && [ "$art0" = "aendern" ] && [ "$DIFF_ZUSTAND" = "ok" ] && node tools/pr-pruefer-kette-offen.mjs "$T/kettenlog.txt"; then
+          if [ "$art" = "aendern" ] && [ "$art0" = "aendern" ] && { [ "$DIFF_ZUSTAND" = "ok" ] || [ "${KETTE_LAEUFT:-}" = "ja" ]; } && node tools/pr-pruefer-kette-offen.mjs "$T/kettenlog.txt"; then
             art=offen
             hinweis='Die PR-Prüfkette lief beim Urteil noch; die Befunde unten sind nicht belegt. Der Prüfer startet nach Kettenende von selbst neu.'
             if sed -n 2p "$T/kettenlog.txt" | grep -q '^BASIS OFFEN: PR #'; then

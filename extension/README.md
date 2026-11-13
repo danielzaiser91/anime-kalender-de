@@ -55,3 +55,5 @@ dort holt ein Pipeline-Schritt die Einträge und trägt sie in `data/dub-confirm
 - **Wiedergabeseiten** (Disney+ `/play/`, Netflix `/watch/`) — der Kasten ist dort ausgeblendet, außer während eines Netflix-Durchgangs (Notausgang); die frühere Anzeige „deutsche Tonspur gefunden · Als deutsch melden" gibt es seit 4.24.18 nicht mehr; Prime Video erkennt den Player selbst.
 
 - **Einklappen** (4.24.17) — der Kasten ist standardmäßig zu: ein Icon unten rechts (Badge = Titel auf der Prüfliste, „✓" bei 0) klappt ihn aus und ein; der Zustand gilt für alle Seiten (`chrome.storage.local`, Schlüssel `akKastenZu`). Läuft ein Durchgang, bleibt er offen.
+
+- **Toter Kontext** (13.11.2026) — nach Aktualisieren/Neuladen der Erweiterung laufen offene Tabs weiter, jeder `chrome.*`-Zugriff wirft. Content-Scripts greifen deshalb nur über `kontext.js` (`akKontext`: `lebt`, `lesen`, `schreiben`, `beiAenderung`, `version`) auf `chrome.storage`/`chrome.runtime` zu; es steht im Manifest als Erstes jeder Gruppe, ein toter Kontext hört still auf. Wächter: `kontext-schutz.test.cjs`; `test-kontext.cjs` lädt es in die Sandkästen der Tests. Die Version zählt der Bot (`extension-version.yml`).

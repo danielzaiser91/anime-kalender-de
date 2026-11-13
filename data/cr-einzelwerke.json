@@ -28,6 +28,16 @@
     "treffer": null
   },
   {
+    "id": 104243,
+    "titel": "Angels of Death (Episoden 13-16)",
+    "en": "Angels of Death (ONA)",
+    "romaji": "Satsuriku no Tenshi (ONA)",
+    "format": "ONA",
+    "folgen": 4,
+    "url": "https://www.crunchyroll.com/de/angels-of-death",
+    "treffer": null
+  },
+  {
     "id": 105228,
     "titel": "Dorohedoro",
     "en": "Dorohedoro",
@@ -49,6 +59,35 @@
         "de-DE"
       ]
     }
+  },
+  {
+    "id": 106169,
+    "titel": "Persona 5 the Animation: Dunkle Sonne",
+    "en": "PERSONA5 the Animation: Dark Sun...",
+    "romaji": "PERSONA5 the Animation: Dark Sun...",
+    "format": "SPECIAL",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776",
+    "treffer": {
+      "id": "G6VDWKM76",
+      "typ": "top_results",
+      "titel": "PERSONA5 the Animation",
+      "audio": [
+        "de-DE",
+        "ja-JP",
+        "en-US"
+      ]
+    }
+  },
+  {
+    "id": 106896,
+    "titel": "Persona 5 the Animation: Sterne und was unser ist",
+    "en": "PERSONA5 the Animation: Stars and Ours",
+    "romaji": "PERSONA5 the Animation: Stars and Ours",
+    "format": "SPECIAL",
+    "folgen": 1,
+    "url": "https://www.crunchyroll.com/persona5-the-animation/de-persona5-the-animation-stars-and-ours-850110",
+    "treffer": null
   },
   {
     "id": 107068,
@@ -93,47 +132,20 @@
     "treffer": {
       "id": "GMTE00194450",
       "typ": "top_results",
+      "art": "series",
+      "exakt": true,
       "titel": "JUJUTSU KAISEN 0",
       "audio": [
-        "es-419",
         "pt-BR",
+        "ja-JP",
+        "en-US",
         "it-IT",
-        "pl-PL",
-        "ja-JP",
-        "de-DE",
-        "fr-FR",
         "es-ES",
+        "pl-PL",
+        "es-419",
         "ru-RU",
-        "en-US"
-      ]
-    }
-  },
-  {
-    "id": 104243,
-    "titel": "Angels of Death (Episoden 13-16)",
-    "en": "Angels of Death (ONA)",
-    "romaji": "Satsuriku no Tenshi (ONA)",
-    "format": "ONA",
-    "folgen": 4,
-    "url": "https://www.crunchyroll.com/de/angels-of-death",
-    "treffer": null
-  },
-  {
-    "id": 106169,
-    "titel": "Persona 5 the Animation: Dunkle Sonne",
-    "en": "PERSONA5 the Animation: Dark Sun...",
-    "romaji": "PERSONA5 the Animation: Dark Sun...",
-    "format": "SPECIAL",
-    "folgen": 1,
-    "url": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776",
-    "treffer": {
-      "id": "G6VDWKM76",
-      "typ": "top_results",
-      "titel": "PERSONA5 the Animation",
-      "audio": [
-        "de-DE",
-        "ja-JP",
-        "en-US"
+        "fr-FR",
+        "de-DE"
       ]
     }
   },

@@ -105,8 +105,19 @@ pruefe('Status-Kontext erfolgreich', ketteStand([...gruen, { __typename: 'Status
 const wahl = (o) => kandidat(pr(o))
 pruefe('Basisfall (Stufe 1, grün, ok) ist Kandidat', wahl({}).kandidat)
 pruefe('Stufe 0 ist Kandidat', wahl({ stufe: 0 }).kandidat)
-pruefe('Stufe 2 nie', !wahl({ stufe: 2 }).kandidat && wahl({ stufe: 2 }).grund.includes('Prüfstufe 2'))
-pruefe('Stufe unbekannt nie', !wahl({ stufe: undefined }).kandidat && !wahl({ stufe: '1' }).kandidat)
+pruefe('Stufe 2 mit nur Bot-ok → nie', !wahl({ stufe: 2 }).kandidat && wahl({ stufe: 2 }).grund.includes('Nachtrag des Dirigenten'))
+pruefe('Stufe 1 mit Bot-ok bleibt Kandidat', wahl({ stufe: 1 }).weg === 'pruefer')
+pruefe('Stufe 2 mit Nachtrag des Dirigenten zum Kopf ist Kandidat', wahl({ stufe: 2, kommentare: [nachtrag(KOPF)] }).weg === 'nachtrag')
+pruefe('Stufe 2 mit Nachtrag des Dirigenten zu älterem Kopf nie', !wahl({ stufe: 2, kommentare: [nachtrag(ALTER_KOPF)] }).kandidat)
+pruefe('Stufe 2: Nachtrag zu älterem Kopf neben Bot-ok zum Kopf nie', !wahl({ stufe: 2, kommentare: [nachtrag(ALTER_KOPF), urteil(KOPF, 'ok')] }).kandidat)
+pruefe('Stufe 2: Nachtrag zu älterem Kopf neben aktuellem Nachtrag gilt', wahl({ stufe: 2, kommentare: [nachtrag(ALTER_KOPF), nachtrag(KOPF)] }).weg === 'nachtrag')
+pruefe('Stufe 2 mit Urteil zu älterem Kopf nie', !wahl({ stufe: 2, kommentare: [urteil(ALTER_KOPF, 'ok')] }).kandidat)
+pruefe('Stufe 2 ohne Urteil nie', !wahl({ stufe: 2, kommentare: [] }).kandidat)
+pruefe('Stufe 2 mit Urteil aendern nie', !wahl({ stufe: 2, kommentare: [urteil(KOPF, 'aendern')] }).kandidat)
+pruefe('Stufe 2 mit Workflow-Datei nie', wahl({ stufe: 2, pfade: ['.github/workflows/x.yml'] }).grund.includes('.github/workflows/x.yml'))
+pruefe('Stufe 2 mit roter Kette nie', !wahl({ stufe: 2, checks: [{ name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'FAILURE' }] }).kandidat)
+pruefe('Stufe 2 ohne APPROVED nie', !wahl({ stufe: 2, reviewDecision: 'CHANGES_REQUESTED' }).kandidat)
+pruefe('Stufe unbekannt nie', !wahl({ stufe: undefined }).kandidat && !wahl({ stufe: '1' }).kandidat && !wahl({ stufe: 3 }).kandidat && !wahl({ stufe: null }).kandidat)
 pruefe('Workflow-Pfad nie', wahl({ pfade: ['web/src/a.tsx', '.github/workflows/x.yml'] }).grund.includes('.github/workflows/x.yml'))
 pruefe('Workflow-Pfad als Umbenennungsursprung nie', !wahl({ pfade: ['docs/neu.md', '.github/workflows/alt.yml'] }).kandidat)
 pruefe('genau eine geänderte Datei genügt', wahl({ geaenderteDateien: 1 }).kandidat)
@@ -228,7 +239,7 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
 }
 {
   const p = [
-    pr({ nummer: 21, stufe: 2 }),
+    pr({ nummer: 21, stufe: 9 }),
     pr({ nummer: 22, pfade: ['.github/workflows/y.yml'] }),
     pr({ nummer: 23, kommentare: [urteil(KOPF, 'aendern')] }),
     pr({ nummer: 24, kommentare: [urteil(ALTER_KOPF, 'ok')] }),
@@ -238,7 +249,7 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
   ]
   const w = welt(p)
   const r = lauf(w)
-  pruefe('Stufe 2, Workflow-PR, Prüfer aendern, alter Kopf, rote Kette, Entwurf, Änderungswunsch: nie gemergt, nie nachgerechnet', r.gemergt.length === 0 && w.log.aufrufe.length === 0 && w.log.zeilen.filter((z) => z.startsWith('ÜBERSPRUNGEN')).length === 7)
+  pruefe('unlesbare Stufe, Workflow-PR, Prüfer aendern, alter Kopf, rote Kette, Entwurf, Änderungswunsch: nie gemergt, nie nachgerechnet', r.gemergt.length === 0 && w.log.aufrufe.length === 0 && w.log.zeilen.filter((z) => z.startsWith('ÜBERSPRUNGEN')).length === 7)
   pruefe('Entwurf und Änderungswunsch scheitern schon an der Liste: keine weiteren Abrufe', w.log.details.join(',') === '21,22,23,24,25')
 }
 {

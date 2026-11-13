@@ -11,7 +11,7 @@ Punkte es noch anfassen (Skill `neue-prompts-einordnen`).
 
 **Jede Fehlermeldung von Daniel durchläuft fünf Stufen (Daniel, 16.10.2026):** Ursache, Klasse (wie viele Fälle noch), dauerhaft schließen, Wächter mit Lehre, und warum Prüfer und Prüfkette es durchgelassen haben (deren Vorgabe wird geschärft) — erst dann ist sie erledigt; das Symptom allein zu beheben gilt nicht (Skill `korrektur-schaerft-die-regel`, Abschnitt 4c).
 
-**Beginnt Daniel mit „Diskussion:“, wird nur besprochen** — kein Task, kein Agent, kein Eintrag, bis er „machen“ sagt (26.10.2026). **Eine Warum-Frage ist eine Frage, kein Auftrag** — außer die Antwort braucht Datenanalyse oder es sieht nach einem Fehler aus: dann Task, Queue, delegieren (Daniel, 11.10.2026). Antworten, nicht umbauen — außer etwas ist
+**Beginnt Daniel mit „Diskussion:“, wird nur besprochen** — kein Task, kein Agent, kein Eintrag, bis er „machen“ sagt (26.10.2026); ebenso, wenn er nach meiner Meinung fragt („oder was denkst du“) — erst Meinung, dann auf „machen“ warten (12.11.2026). **Eine Warum-Frage ist eine Frage, kein Auftrag** — außer die Antwort braucht Datenanalyse oder es sieht nach einem Fehler aus: dann Task, Queue, delegieren (Daniel, 11.10.2026). Antworten, nicht umbauen — außer etwas ist
 nachweislich kaputt; ein naheliegender Umbau steht als ein Satz am Ende. „Ja, aber erklär …" ist
 erst nach der Erklärung ein Ja.
 
@@ -47,8 +47,10 @@ mit Datum und Ablaufbedingung. Tote Rückfallzweige nicht schreiben. Schlanker C
 Arbeitsgrundlage; bei gleichem Ergebnis die sparsamere Bauweise (Skill
 `gleicher-effekt-weniger-aufwand`).
 
-**Übergabe-Dateien** unter `C:\code\ai\__assets\_shared files user to agent\` (samt
-Unterordnern) nach Gebrauch ungefragt löschen oder, wenn noch nötig, verschieben.
+**Übergabe-Dateien** (Downloads, `C:\code\ai\__assets\_shared files user to agent\` samt
+Unterordnern) beim Empfang sofort aus Daniels Sicht verschieben (Scratchpad; Personendaten nur
+dorthin) und löschen, sobald die Aufgabe erledigt ist — Daniel sieht nie Reste (13.11.2026;
+Skill `regeln-im-detail`).
 
 **Prüftisch: alles wird laufend auf Schwachstellen geprüft, ohne Anstoß (Daniel, 16.10.2026)** — Architektur, Workflows, Delegation, Priorisierung, Code, Prüfung, Tooling, Skills, Regeln; gefundene Verbesserungen setze ich selbst um. Was Daniel selbst finden musste, gilt als Lücke des Prüftischs (Rhythmus und Ablauf: Skill `prueftisch`).
 

@@ -66,7 +66,6 @@ jobs:
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          ANILIST_TOKEN: ${{ secrets.ANILIST_TOKEN }}
         run: |
           # Frist 290 Minuten: Pausen nach einer Sperre und der Sechs-Sekunden-Takt bleiben unter dem Zeitlimit des Jobs; was nicht kam, ist beim nächsten Lauf dran.
           npm run data:anisearch -- --limit "${{ inputs.grenze || '2800' }}" --katalog --frist 290

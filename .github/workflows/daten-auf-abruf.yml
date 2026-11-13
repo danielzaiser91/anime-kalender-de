@@ -177,7 +177,6 @@ jobs:
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          ANILIST_TOKEN: ${{ secrets.ANILIST_TOKEN }}
           CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH || secrets.CR_ZUGANG }}
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}

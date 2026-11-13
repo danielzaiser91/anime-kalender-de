@@ -120,9 +120,9 @@ const pruefer = schritte.filter((s) => String(s.uses ?? '').startsWith('anthropi
 pruefe('Drei Prüfer-Schritte (Stufe 0, voll, Abnahme)', pruefer.length === 3, pruefer.map((s) => s.name))
 // Abnahme-Modus (21.10.2026): jeder Kopf läuft durch genau einen der drei Prüfer; der Modus-Schritt steht vor der Sperre.
 const bedingung = (name) => String(pruefer.find((s) => s.name === name)?.if ?? '')
-pruefe('Stufe 0 läuft nur außerhalb der Abnahme', bedingung('Prüfer (Stufe 0, schlank)') === "steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'", bedingung('Prüfer (Stufe 0, schlank)'))
-pruefe('Voller Prüfer läuft nur außerhalb der Abnahme', bedingung('Prüfer') === "steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'", bedingung('Prüfer'))
-pruefe('Abnahme-Prüfer läuft nur im Abnahme-Modus', bedingung('Prüfer (Abnahme)') === "steps.modus.outputs.modus == 'abnahme'", bedingung('Prüfer (Abnahme)'))
+pruefe('Stufe 0 läuft nur außerhalb der Abnahme', bedingung('Prüfer (Stufe 0, schlank)') === "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'", bedingung('Prüfer (Stufe 0, schlank)'))
+pruefe('Voller Prüfer läuft nur außerhalb der Abnahme', bedingung('Prüfer') === "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'", bedingung('Prüfer'))
+pruefe('Abnahme-Prüfer läuft nur im Abnahme-Modus', bedingung('Prüfer (Abnahme)') === "steps.kette.outputs.laeuft != 'ja' && steps.modus.outputs.modus == 'abnahme'", bedingung('Prüfer (Abnahme)'))
 const indexVon = (id) => schritte.findIndex((s) => s.id === id)
 pruefe('Reihenfolge: Prüfstufe, Prüfmodus, Sperre, dann die Prüfer', indexVon('stufe') < indexVon('modus') && indexVon('modus') < indexVon('eingang') && indexVon('eingang') < schritte.indexOf(pruefer[0]))
 const abnahmePrompt = String(pruefer.find((s) => s.name === 'Prüfer (Abnahme)')?.with?.prompt ?? '')
