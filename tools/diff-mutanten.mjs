@@ -114,7 +114,8 @@ export function mutantenListe(datei, quelle, zeilen, tests) {
 export function testFuer(datei, existiert = existsSync) {
   const basis = datei.replace(CODE, '')
   const kandidaten = ['mjs', 'ts', 'tsx'].map((e) => `${basis}.test.${e}`)
-  kandidaten.push(`tools/${basename(basis)}.test.mjs`, `pipeline/check-${basename(basis)}.ts`)
+  // Kein `tools/${…}`-Literal: die Nachrechnen-Leserregel (pr-nachrechnen-leser.mjs) wertet es als Ordnerleser und entwertet den PR bei jedem bewegten tools/-File.
+  kandidaten.push(['tools', `${basename(basis)}.test.mjs`].join('/'), `pipeline/check-${basename(basis)}.ts`)
   const treffer = kandidaten.find(existiert)
   if (!treffer) return null
   return treffer.endsWith('.mjs') ? `node ${treffer}` : `node node_modules/tsx/dist/cli.mjs ${treffer}`

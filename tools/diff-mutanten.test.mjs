@@ -1,6 +1,6 @@
 /** Tests für tools/diff-mutanten.mjs: Mutanten aus dem Diff, Läuferformat, Überlebende. */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, rmdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -13,6 +13,15 @@ const pruefe = (name, ok) => {
   console.error(`  ✗ ${name}`)
 }
 
+/** Ordner ist leer: `rmdirSync` ohne `recursive` scheitert an Inhalt (kein Verzeichnis-Lesen, das die Nachrechnen-Leserregel als Ordnerleser wertet). */
+const leer = (ordnerPfad) => {
+  try {
+    rmdirSync(ordnerPfad)
+    return true
+  } catch {
+    return false
+  }
+}
 const alle = (q) => mutantenListe('a.mjs', q, new Set([1]), ['t'])
 /** Mutanten einer Zeile als `suche → ersetze`. */
 const paare = (q) => alle(q).map((m) => `${m.aenderungen[0].suche} → ${m.aenderungen[0].ersetze}`)
@@ -146,7 +155,7 @@ try {
   const tmp = join(wurzel, 'tmp')
   mkdirSync(tmp)
   const lauf2 = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000, env: { ...process.env, TMPDIR: tmp, TMP: tmp, TEMP: tmp } })
-  pruefe('Lauf räumt sein Wegwerfverzeichnis auf', readdirSync(tmp).length === 0 && lauf2.status === 0)
+  pruefe('Lauf räumt sein Wegwerfverzeichnis auf', leer(tmp) && lauf2.status === 0)
   pruefe('Schlusszeile nennt genau die Mutantenzahl der Liste', aus.includes(`diff-mutanten: ${JSON.parse(nur.stdout).length} Mutanten,`))
   // Datei ohne eigenen Test: Hinweis, nichts gefahren; mit --test gefahren
   writeFileSync(join(wurzel, 'tools/solo.mjs'), 'export const g = (a, b) => (a && b)\n')
