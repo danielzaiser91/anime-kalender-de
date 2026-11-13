@@ -149,7 +149,7 @@ try {
   pruefe('echtes git: bewegte Bot-Datei nennt die Kennung -> aktuell wie bisher (Bot-Dateien zählen nicht)', bot === null, bot)
   const beideAn = mitMain({ 'data/dub-confirmed.yaml': '- anilistId: 555\n  platform: x\n  dub: true\n- anilistId: 1663\n  platform: youtube\n  dub: true\n' }, { frei: new Set(HAND) })
   pruefe('echtes git: main und PR ändern dieselbe Handdatei an verschiedenen Stellen (Textmerge frei), andere Kennung -> aktuell', beideAn === null, beideAn)
-  const anfasser =mitMain({ 'data/dub-confirmed.yaml': '- anilistId: 1663\n  platform: youtube\n  dub: false\n' })
+  const anfasser = mitMain({ 'data/dub-confirmed.yaml': '- anilistId: 1663\n  platform: youtube\n  dub: false\n' })
   pruefe('echtes git: main ändert dieselbe Handdatei -> Grund „der PR berührt“', /^der PR berührt data\/dub-confirmed\.yaml/.test(anfasser ?? ''), anfasser)
   const ohneBasis = mitMain({ ...werkzeug, [BEWEGT]: '{"a": 1121, "b": 555}\n' }, { basis: '0'.repeat(40) })
   pruefe('echtes git: Kettenbasis nicht abrufbar -> bisherige Auflage (Grund)', /^der PR ändert data\/dub-confirmed\.yaml/.test(ohneBasis ?? ''), ohneBasis)
