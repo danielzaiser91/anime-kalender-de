@@ -33,6 +33,13 @@ const rBeob = release({ ...basis, skipDates: ['2026-11-13'], observed: beobachte
 pruefe('ab Stützpunkt Folge 6: Folge 7 am Montag', datumVon(rBeob, 7) === '2026-11-16', String(datumVon(rBeob, 7)))
 pruefe('ab Stützpunkt Folge 6: Folge 8 am Dienstag', datumVon(rBeob, 8) === '2026-11-17', String(datumVon(rBeob, 8)))
 
+const zwischen = release({ ...basis, skipDates: ['2026-11-13'], observed: { ...beobachtet, 9: '2026-11-18' } })
+pruefe('zwischen zwei Stützpunkten: Folge 7 am Montag', datumVon(zwischen, 7) === '2026-11-16', String(datumVon(zwischen, 7)))
+pruefe('zwischen zwei Stützpunkten: Folge 8 am Dienstag', datumVon(zwischen, 8) === '2026-11-17', String(datumVon(zwischen, 8)))
+const rueckwaerts = release({ ...basis, skipDates: ['2026-11-13'], observed: { 9: '2026-11-18' } })
+pruefe('rückwärts vom Stützpunkt Folge 9: Folge 7 am Montag', datumVon(rueckwaerts, 7) === '2026-11-16', String(datumVon(rueckwaerts, 7)))
+pruefe('rückwärts vom Stützpunkt Folge 9: Folge 6 am Donnerstag', datumVon(rueckwaerts, 6) === '2026-11-12', String(datumVon(rueckwaerts, 6)))
+
 const woche = { firstEpisodeDate: '2026-11-05', episodeCount: 5 }
 const wo = release({ ...woche, skipDates: ['2026-11-19'] })
 pruefe('Wochentakt ohne Sendetage: Pause schiebt Folge 3 um eine Woche', datumVon(wo, 3) === '2026-11-26', String(datumVon(wo, 3)))
@@ -43,4 +50,4 @@ pruefe('sendeplatz ohne Pausenmenge unverändert', sendeplatz({ ...basis } as ne
 pruefe('sendeplatz überspringt Pausentag', sendeplatz({ ...basis } as never, '2026-11-12', 1, new Set(['2026-11-13'])) === '2026-11-16')
 
 if (fehler) process.exit(1)
-console.log('check-sendepause-folge: ok (14 Fälle)')
+console.log('check-sendepause-folge: ok (18 Fälle)')
