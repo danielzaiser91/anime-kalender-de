@@ -367,6 +367,7 @@ pipeline/check-mal-teilung.ts
 pipeline/check-meldung-cartoon.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-summenseite.ts
+pipeline/check-meldungen-liste.ts
 pipeline/check-meldungen-ohne-release.ts
 pipeline/check-meldungs-auffaelligkeiten.ts
 pipeline/check-messbelege-kalender.ts
