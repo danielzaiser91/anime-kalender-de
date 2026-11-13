@@ -55,10 +55,15 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
   const liste = `pr list --state open --limit 100 --json ${LEICHT}`
   const daten = {
     [liste]: { aus: JSON.stringify([still]) },
+    // zweites Repo (nativ): leer
+    [`${liste} --repo danielzaiser91/anime-kalender-nativ`]: { aus: '[]' },
+    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup --repo danielzaiser91/anime-kalender-nativ': { aus: '[]' },
+    'pr list --state open --limit 100 --json number,comments --repo danielzaiser91/anime-kalender-nativ': { aus: '[]' },
     'rev-parse --git-common-dir': { aus: '.git\n' },
     'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([still]) },
     'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([still]) },
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
+    [graphqlSchluessel.replace('owner={owner}', 'owner=danielzaiser91').replace('name={repo}', 'name=anime-kalender-nativ')]: { aus: '' },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
     'api repos/danielzaiser91/anime-kalender-de/issues/comments?sort=created&direction=desc&per_page=100': { aus: '[]' },
     'api repos/danielzaiser91/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
