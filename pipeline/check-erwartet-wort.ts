@@ -146,6 +146,14 @@ console.log('\nAusfall-Vermerk am Berliner Tag des Termins (expandEvents)')
   const neu = { ...r, schedule: { ...r.schedule, verpasst: { 3: { erwartetAm: '2026-10-13T22:30:00.000Z', neuErwartet: '2026-10-15T22:30:00.000Z' } } } } as unknown as Release
   const folge3 = expandEvents(neu).find((e) => e.episode === 3 && !e.verpasst)
   pruefe('neuErwartet 15.10. 22:30 UTC legt Folge 3 auf den 16.10.', folge3?.date === '2026-10-16', folge3?.date)
+  /* Folge 2 nie beobachtet: Plan-Folge (3) und ausstehende Folge (2) fallen auseinander, nur die Plan-Schleife markiert Folge 3.
+     Nach Mitternacht Berlin muss dasselbe herauskommen wie mittags desselben Berliner Tages. */
+  const marken = (erwartetAm: string) =>
+    expandEvents({ ...r, schedule: { ...r.schedule, observed: { 1: '2026-09-30' }, verpasst: { 3: { erwartetAm } } } } as unknown as Release)
+      .filter((e) => e.verpasst)
+      .map((e) => `${e.date}#${e.episode}`)
+      .join()
+  pruefe('ohne Beobachtung von Folge 2: Vermerke nach Mitternacht wie mittags desselben Berliner Tages', marken('2026-10-13T22:30:00.000Z') === marken('2026-10-14T12:00:00.000Z'), [marken('2026-10-13T22:30:00.000Z'), marken('2026-10-14T12:00:00.000Z')])
 }
 
 if (verletzt) {
