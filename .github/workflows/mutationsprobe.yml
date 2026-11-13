@@ -110,6 +110,7 @@ jobs:
           node "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs" "$LISTE" "${test_arg[@]}" --timeout "$TIMEOUT" \
             --log "$RUNNER_TEMP/mutation/log" 2>&1 | tee "$RUNNER_TEMP/mutation/lauf.txt" || code=$?
           # Kopf-SHA des geprüften Stands: ohne ihn lässt sich ein Kommentar nicht einem Push zuordnen.
+          # stumm: ohne lesbaren Kopf steht „unbekannt“ im Kommentar, der Lauf soll trotzdem berichten
           kopf=$(git rev-parse HEAD 2>/dev/null || echo unbekannt)
           {
             echo "## Mutationsprobe für \`$ZWEIG\` (\`$LISTE\`)"

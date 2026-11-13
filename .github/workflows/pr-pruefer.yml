@@ -79,6 +79,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ZWEIG: ${{ github.head_ref }}
+        # stumm: Zusatzprobe (Stufe 2); ein Startfehler darf das Prüfer-Urteil nicht verhindern, die Zeile steht im Schrittlog
         run: node tools/mutationsprobe-pr.mjs start "$PR" "$HEAD_SHA" "$ZWEIG" "$RUNNER_TEMP/pruefer" || echo "Mutationsprobe nicht gestartet"
 
       - name: Mutationsprobe abwarten
@@ -86,6 +87,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+        # stumm: Zusatzprobe (Stufe 2); fehlt ihr Ergebnis, urteilt der Prüfer ohne Tabelle, die Zeile steht im Schrittlog
         run: node tools/mutationsprobe-pr.mjs warte "$RUNNER_TEMP/pruefer" || echo "Mutationsprobe nicht abgewartet"
 
       - name: Ergebnis weitergeben
