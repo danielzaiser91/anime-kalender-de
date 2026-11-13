@@ -207,8 +207,8 @@
   {
     "name": "nachrechnen: Messer wird nicht an datenpfadGrund gereicht",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang)",
-    "ersetze": "datenpfadGrund(gh, pr, basis, main, leser, voll, paare)",
+    "suche": "datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang, standardPaket, textmerge)",
+    "ersetze": "datenpfadGrund(gh, pr, basis, main, leser, voll, paare, undefined, standardPaket, textmerge)",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
@@ -216,8 +216,8 @@
   {
     "name": "nachrechnen: Standard-Messer sagt immer ok",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false)",
-    "ersetze": "zugAktiv = leseZugAktiv(), umfang = () => null, trocken = false)",
+    "suche": "zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false,",
+    "ersetze": "zugAktiv = leseZugAktiv(), umfang = () => null, trocken = false,",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
