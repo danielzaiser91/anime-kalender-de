@@ -541,6 +541,7 @@ pipeline/check-termin-pille.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
+pipeline/check-titel-namen.ts
 pipeline/check-titel-vor-eintrag.ts
 pipeline/check-titel-vorschau.ts
 pipeline/check-titelwechsel.ts
