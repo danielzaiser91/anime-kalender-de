@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-11-12T17:58:44.633Z",
+ "erzeugtAm": "2026-11-13T13:35:14.085Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 974,
-   "gesamt": 1008,
-   "offen": 34,
+   "gemeldet": 972,
+   "gesamt": 1024,
+   "offen": 52,
    "ohneSeite": 4,
    "suchAdressen": [
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
@@ -41,12 +41,40 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DRVH7MBP",
+     "titel": "Promise of Wizard"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0F2G6NRW2",
      "titel": "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe (Beheneko: The Elf-Girl's Cat is Secretly an S-Ranked Monster!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0D3KKR2ZW",
+     "titel": "My Deer Friend Nokotan"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CK4HJ1LT",
+     "titel": "Ragna Crimson"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FM8SL11C",
+     "titel": "Kubo Won’t Let Me Be Invisible (Kubo Won't Let Me Be Invisible)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FBGJHHXK",
+     "titel": "The Most Heretical Last Boss Queen: From Villainess to Savior"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CM3H8VQS",
+     "titel": "Captain Tsubasa: Staffel 2 - Die Junioren (Captain Tsubasa: Junior Youth Arc)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0B8TQ6TVJ",
+     "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season (Arifureta: From Commonplace to World's Strongest Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJRZY5ND",
@@ -65,8 +93,28 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DMB2MKZX",
+     "titel": "Date a Live III"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0C55SJB1W",
+     "titel": "Vinland Saga"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0G6HF46PV",
+     "titel": "Fruits Basket (Fruits Basket (2019))"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0C7F9NTVC",
+     "titel": "Psycho-Pass 3"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FDC33SZ3",
+     "titel": "Human Lost"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0C9FR5F8C",
@@ -85,6 +133,10 @@
      "titel": "Bungo Stray Dogs"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0FQP23X45",
+     "titel": "Sinbad: The Magic Lamp and the Moving Islands"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B083TD7BTR",
      "titel": "Bungo Stray Dogs 2"
     },
@@ -101,12 +153,32 @@
      "titel": "Chaika, die Sargprinzessin: Avenging Battle (Chaika -The Coffin Princess- AVENGING BATTLE)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0C7LZCS5H",
+     "titel": "Date a Live"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
      "titel": "A Certain Scientific Railgun S"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09ZJW8HGH",
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
+     "titel": "Jormungand"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B00G0PC16U",
+     "titel": "Onigamiden: Legend of the Millennium Dragon (Legend of the Millennium Dragon)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B01EKI0P2U",
+     "titel": "Yu-Gi-Oh! Zexal"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6b0f25fd-4994-4c67-bd57-228fde6cef40",
+     "titel": "Haganai: I Don’t Have Many Friends (Haganai)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
@@ -163,7 +235,7 @@
     "B0DJD3V2W9": 12,
     "B0G2P8B9N7": 48,
     "B0G5D2R3N5": 52,
-    "B013PTWL2W": 52,
+    "B013PQIF2U": 52,
     "B0CC7FXYFQ": 45,
     "B0DWSGKJ5Z": 50,
     "B0D1XZZH1F": 12,
@@ -179,7 +251,7 @@
     "B00USID4J8": 12,
     "B0F4Q3ZDKB": 12,
     "B0DPSDVTL2": 12,
-    "B013PQIF2U": 52,
+    "B013PTWL2W": 52,
     "B0FWT8MZD8": 30,
     "B0H775G89C": 12,
     "B0FV8CBG3Y": 12,
@@ -206,7 +278,6 @@
     "B0GZ5Q2Z5F": 12,
     "B0DHCNTKCR": 12,
     "B0883CSMBB": 13,
-    "B0FW93J46S": 24,
     "B0CHKG67BC": 12,
     "B0DN482ZYY": 13,
     "B0DNG8BDW3": 12,
@@ -218,7 +289,6 @@
     "0GZZW2CDSPJY95EL7FSWFDN6V2": 13,
     "B0GXK7RJFW": 39,
     "B0CH8YTK4T": 12,
-    "B0CHH61FPJ": 13,
     "B0F5J5JTSL": 10,
     "B0CH9ZGF93": 13,
     "0O7N0W14A4OMCE7NS7M57PFOI1": 12,
@@ -1372,8 +1442,8 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 183,
-   "gesamt": 340,
-   "offen": 157,
+   "gesamt": 342,
+   "offen": 159,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1410,6 +1480,15 @@
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
      "titel": "Welcome to Demon School! Iruma-kun"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
+     "titel": "Ishura",
+     "seit": "2026-10-19"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
+     "titel": "Undead Unluck"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-dc471806-a107-436c-9bec-0e4455c7249c",

@@ -34,6 +34,17 @@ node tools/modul-umzug.mjs aufraeumen <datei…>                        # unbenu
 Es verschiebt wörtlich, setzt Parameter/Props mit Typen vom Typprüfer (eingeengt am Ort der
 Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 
+- **Ziel nie gleich Quelle** (12.11.2026): `abschnitt <datei> … <datei> fn` überschreibt die
+  Datei und verliert die neue Funktion. Teilschritte einer schon ausgelagerten Funktion zuerst in
+  der Ursprungsdatei herauslösen (Zieldatei = neue Datei), dann die große Funktion dorthin.
+- **Tote Mutationsanker nach dem Verschieben** (13.11.2026): `node tools/mutationsanker.mjs --alle --umhaengen`
+  trägt bei totem Anker die einzige Quelldatei ein, die die `suche` enthält (Tests zählen nicht);
+  mehrere oder keine Treffer meldet es nur (`→`-Zeile), die trägst du von Hand um. Der Exit-Code bleibt im selben Lauf 1; danach erneut laufen lassen.
+- Zeilennummern nach jedem Schritt per `grep -n` auf einen Ankertext neu bestimmen — der neue
+  Import kommt als eigene Zeile oder in einen vorhandenen Importsatz, die Verschiebung ist 0 oder 1.
+- **`<bis>` ist die letzte Zeile einer ganzen Anweisung**: Endet der Bereich auf `if (x)`, dessen
+  Rumpf in der nächsten Zeile steht, trennt das Werkzeug beide still (aus `x` wird eine Ausgabe,
+  das `if` bewacht danach das `return`). Vorher `sed -n "<bis>,+1p"` ansehen.
 - `ändert` (neu zugewiesene äußere `let`) meldet es nur — dann die Variable in die Funktion
   holen, die sie als einzige erhöht, und zurückgeben (so bei `adnVerweiseErgaenzt`).
 - Ein Abschnitt mit `return` muss mit `return` enden; der Aufruf wird `return await fn(…)`.
@@ -53,8 +64,12 @@ git commit …                                      # die Vergleiche arbeiten au
 node tools/bau-vergleich.mjs origin/main HEAD     # pipeline/: Ausgabe byte-gleich; feste Hashes, Exit 4 = Konflikt, WARNUNG = Zweig hinter main
 node tools/panel-vergleich.mjs origin/main HEAD   # web/src: Panel-HTML von 80 Titeln gleich
 npm run check:worker                              # worker/
-node tools/umfang-pruefen.mjs --festschreiben     # gesunkene Überlänge übernehmen
+node tools/umfang-pruefen.mjs                     # „Überlänge gesunken“ genügt; NICHT festschreiben
 ```
+
+`tools/umfang-grenzen.json` senkt nur der Bestandsbau auf main (`--festschreiben` in
+`tools/commit-data.sh`), nie ein PR — sonst kollidieren offene PRs in der Datei
+(projektregeln-im-detail.md, `check:umfang`).
 
 Beide Vergleiche bauen in eigenen Worktrees (≈ 5 bzw. 2 min), das Arbeitsverzeichnis bleibt frei.
 Jeder läuft nur einmal gleichzeitig. `bau-vergleich` wartet der Reihe nach (Schlange, FIFO, bis zu 45 min; die Meldung nennt Platz und Halter) —
