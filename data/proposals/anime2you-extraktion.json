@@ -1669,6 +1669,10 @@
     "1071396": {
       "am": "2026-11-13",
       "vorschlaege": 2
+    },
+    "1071426": {
+      "am": "2026-11-13",
+      "vorschlaege": 3
     }
   },
   "vorschlaege": [
@@ -12732,6 +12736,71 @@
       "artikelId": "1071396",
       "artikel": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
       "quelle": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Pokémon",
+      "zitat": "Nach aktuellem Stand könnte die Lizenz von polyband bereits Ende 2026 auslaufen. Daran würde sich voraussichtlich eine sechsmonatige Abverkaufsphase bis Mitte 2027 anschließen.",
+      "art": "abgang",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "polyband",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Die genauen Fristen stehen laut Artikel noch nicht endgültig fest, da polyband weiterhin über eine mögliche kurzfristige Verlängerung verhandelt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071426",
+      "artikel": "polyband verliert Lizenz: Weltweites Aus für »Pokémon« auf DVD",
+      "quelle": "https://www.anime2you.de/news/1071426/polyband-verliert-pokemon-lizenz/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Pokémon Horizonte",
+      "zitat": "Die dritte Staffel von »Pokémon Horizonte« erscheint nicht mehr auf DVD.",
+      "art": "abgang",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "polyband",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „polyband“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071426",
+      "artikel": "polyband verliert Lizenz: Weltweites Aus für »Pokémon« auf DVD",
+      "quelle": "https://www.anime2you.de/news/1071426/polyband-verliert-pokemon-lizenz/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Pokémon",
+      "zitat": "Vor dem Lizenzende plant polyband noch acht sogenannte Generationsboxen , die sämtliche 25 Staffeln der ursprünglichen »Pokémon«-Anime-Serie umfassen sollen. Erste Boxen sind für Ende 2026 angedacht, weitere sollen Anfang 2027 folgen.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "polyband",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071426",
+      "artikel": "polyband verliert Lizenz: Weltweites Aus für »Pokémon« auf DVD",
+      "quelle": "https://www.anime2you.de/news/1071426/polyband-verliert-pokemon-lizenz/",
       "veroeffentlicht": "2026-11-13",
       "gelesenAm": "2026-11-13"
     }
