@@ -21,7 +21,7 @@
  *
  * Aufruf: `npm run data:cr-einzelwerke`
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
 import { einzelwerkFund, ersterEinzelwerkTreffer, filmbloeckeZusammen, offeneOhneSerienkennung } from './lib/cr-abruf-logik.ts'
 
@@ -72,13 +72,7 @@ for (const o of offen) {
   console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? '').slice(0, 44).padEnd(46)} ${zeichen}`)
 }
 /* Ein Lauf ergänzt und berichtigt: ein Schweigen löscht keinen alten Treffer (wie bei den Filmblöcken). */
-const vorher = (() => {
-  try {
-    return JSON.parse(readFileSync('data/cr-einzelwerke.json', 'utf8'))
-  } catch {
-    return []
-  }
-})()
+const vorher = existsSync('data/cr-einzelwerke.json') ? JSON.parse(readFileSync('data/cr-einzelwerke.json', 'utf8')) : []
 const { gesamt, neuDazu, ersetzt, behalten } = filmbloeckeZusammen(vorher, funde)
 console.log(`\n${neuDazu} neu, ${ersetzt} aktualisiert, ${behalten} alter Treffer gegen ein Schweigen behalten, ${gesamt.length} Einträge insgesamt`)
 writeFileSync('data/cr-einzelwerke.json', JSON.stringify(gesamt, null, 2) + '\n')
