@@ -124,6 +124,14 @@ Auszüge, Bildschirmabzüge, Protokolle — ist Material für **einen** Zweck, n
 Ewigkeit. Ist der Zweck erfüllt (der Selektor steckt im Code, die Zahl steht im Bericht, der
 Fehler ist behoben), gehört die Datei weg — ungefragt, in derselben Antwort.
 
+**Beim Empfang sofort verschieben (Daniel, 13.11.2026):** Nennt Daniel eine Datei in Downloads
+oder im Übergabeordner, wird sie im ersten Handgriff dorthin verschoben, wo er sie nicht sieht
+(Scratchpad der Sitzung; ein Worktree nur für Material ohne Personendaten); Agenten bekommen den
+neuen Pfad. Material mit Personendaten (gespeicherte Konto-Seiten, HAR) geht ausschließlich ins
+Scratchpad, nie in einen Worktree oder Zweig. Anlass: gespeicherte PayPal-Seiten blieben nach der
+Arbeit in Downloads liegen — Daniel: „immer alles aufräumen wenn es zu einer aufgabe gehört und
+sich erledigt hat“.
+
 **Prüffrage:** *Würde ich diese Datei noch einmal öffnen, um etwas herauszufinden, das nirgends
 sonst steht?*
 
