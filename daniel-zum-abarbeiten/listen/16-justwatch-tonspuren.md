@@ -1,6 +1,6 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-12. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-13. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
@@ -42,16 +42,13 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-269 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+266 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
 | [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
-| [Larva Island: Der Film](https://anime-kalender.de/#/datenbank?t=10015403) | [Netflix](https://www.netflix.com/title/80991326), [Netflix Standard with Ads](https://www.netflix.com/title/80991326) |
-| [The Witcher: Nightmare of the Wolf](https://anime-kalender.de/#/datenbank?t=10020173) | [Netflix](https://www.netflix.com/title/81037868), [Netflix Standard with Ads](https://www.netflix.com/title/81037868) |
-| [The Witcher: Sirens of the Deep](https://anime-kalender.de/#/datenbank?t=10020216) | [Netflix](https://www.netflix.com/title/81484026), [Netflix Standard with Ads](https://www.netflix.com/title/81484026) |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-296756) | [HBO Max](https://www.hbomax.com/de/en/show/a3313dd3-2d1f-4072-8525-1434643403a8/s1/e1-pilot/56393299-c6fa-4114-bb75-5d3696391aa4), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f05f8539-e6cf-4c1b-a39b-68508bd24f5a) 🇩🇪, [MagentaTV](https://www.magenta.tv/serie/president-curtis/staffel-1/GN_SEASON_33285879_DE_1) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/president-curtis/umc.cmc.3kn2xy6zqpzys2l91werz67ht?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-255760) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8) |

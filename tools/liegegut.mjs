@@ -13,6 +13,20 @@ import { schleifeSignal } from './nachrechnen-schleife.mjs'
 import { PRAEFIX as ABNAHME_PRAEFIX } from './abnahme-freigabe.mjs'
 
 const STUNDE = 3600 * 1000
+
+/** Überwachte Repos; `slug` null = das Repo des Arbeitsordners (gh/git ohne --repo). Das nativ-Repo hat hier keinen Klon: keine Gegenprobe über git grep. */
+export const HAUPT_REPO = { name: 'anime-kalender-de', slug: null }
+export const REPOS = [HAUPT_REPO, { name: 'anime-kalender-nativ', slug: 'danielzaiser91/anime-kalender-nativ' }]
+
+/** gh-Aufruf auf ein anderes Repo umbiegen: `pr …` bekommt --repo, `api` ersetzt die Platzhalter {owner}/{repo} (auch einzeln im graphql-Aufruf). */
+export function ghFuerRepo(ghFn, slug) {
+  if (!slug) return ghFn
+  const [owner, name] = slug.split('/')
+  return (args) => {
+    if (args[0] === 'pr') return ghFn([...args, '--repo', slug])
+    return ghFn(args.map((a) => a.replace('{owner}/{repo}', slug).replace('owner={owner}', `owner=${owner}`).replace('name={repo}', `name=${name}`)))
+  }
+}
 // Schwellen (Stand 21.10.2026, aus dem Liegegut-Bericht der 13 PRs vom 21.10.: kürzer meldet bei normalem Prüfer-Takt Fehlalarm).
 export const RUHE_FREIGABE_H = 12 // Freigabe + grün + sauber, ohne Commit und Kommentar: nach einer halben Tagesschicht liegt es.
 export const KONFLIKT_H = 24 // Konflikt ohne Aktivität; der Beginn des Konflikts ist nicht abrufbar, Näherung: letzte Aktivität.
@@ -245,9 +259,9 @@ const zeitText = (ms) => berlin.format(new Date(ms)).replace(',', '')
 const braucheGegenprobe = (nummern) => nummern.some((n) => n === 1 || n === 3 || n === 5)
 
 /** Eine Zeile je auffälligem PR; `seit` = frühester Zeitpunkt der Signale. */
-export function zeile(nr, schritt, texte, seit, treffer, geprueft) {
+export function zeile(nr, schritt, texte, seit, treffer, geprueft, repo = HAUPT_REPO.name) {
   const probe = !geprueft ? '' : treffer.length > 0 ? `; Gegenprobe: Treffer ${treffer.map((c) => c.fundstelle).join(' | ')}` : '; Gegenprobe: keine Treffer'
-  return `PR ${nr}: ${schritt} – Signal ${texte.join('; ')} – seit ${zeitText(seit)}${probe}`
+  return `${repo} PR ${nr}: ${schritt} – Signal ${texte.join('; ')} – seit ${zeitText(seit)}${probe}`
 }
 
 const KOEPFE_ABFRAGE = 'query($owner:String!,$name:String!){repository(owner:$owner,name:$name){pullRequests(states:OPEN,first:100){nodes{commits(last:1){nodes{commit{oid committedDate}}}}}}}'
@@ -275,7 +289,7 @@ export function kopfZeitVon(ghFn, pr, karte) {
 }
 
 /** Bewertet einen PR; null, wenn nichts auffällt, sonst { nr, signale: [{ nr, seit }], zeile }. */
-function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel, imZug) {
+function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel, imZug, repo) {
   const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
   const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt), ...schleifeSignal(pr, kopfZeit)]
@@ -293,11 +307,11 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel, imZug) {
     nummern.push(9)
   }
   if (nummern.length === 0) return null
-  const geprueft = braucheGegenprobe(nummern)
+  const geprueft = gitFn !== null && braucheGegenprobe(nummern)
   const treffer = geprueft ? probeFuer(ghFn, gitFn, pr) : []
   const botLetzt = urteileAufKopf(urteile(pr.comments), pr.headRefOid, kopfZeit).at(-1)?.quelle === 'bot'
-  const text = zeile(pr.number, naechsterSchritt(nummern, treffer, botLetzt, imZug), texte, Math.min(...zeiten), treffer, geprueft)
-  return { nr: pr.number, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
+  const text = zeile(pr.number, naechsterSchritt(nummern, treffer, botLetzt, imZug), texte, Math.min(...zeiten), treffer, geprueft, repo)
+  return { nr: pr.number, repo, signale: nummern.map((n, i) => ({ nr: n, seit: zeiten[i] })), zeile: text }
 }
 
 const FELDER_LEICHT = 'number,title,headRefOid,createdAt,mergeable,mergeStateStatus,isDraft,body,baseRefName'
@@ -339,30 +353,39 @@ export function standImProjekt(gitFn, hinweis) {
 }
 
 /** Holt die offenen PRs über gh/git (einspeisbar) und rechnet alle. `standText` = Text von stand.md (null = keine Einschränkung bei Signal 6). Rückgabe: Funde { nr, signale, zeile }. */
-export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText = null, zugAktiv = leseZugAktiv()) {
-  const offen = offenePrs(ghFn, hinweis).filter((p) => !p.isDraft)
+export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText = null, zugAktiv = leseZugAktiv(), repo = HAUPT_REPO) {
+  const gh = ghFuerRepo(ghFn, repo.slug)
+  const git = repo.slug ? null : gitFn
+  const zug = repo.slug ? false : zugAktiv
+  const offen = offenePrs(gh, hinweis).filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen, offeneEntscheidungen(standText))
-  const karte = kopfZeiten(ghFn)
-  const stapel = stapelBasen(ghFn, offen, zugAktiv)
-  return offen.map((pr) => bewertePr(ghFn, gitFn, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number), istZugPr(pr, zugAktiv))).filter((f) => f !== null)
+  const karte = kopfZeiten(gh)
+  const stapel = stapelBasen(gh, offen, zug)
+  return offen.map((pr) => bewertePr(gh, git, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number), istZugPr(pr, zug), repo.name)).filter((f) => f !== null)
 }
 
-/** Dieselben Funde als Textzeilen. */
+/** Funde aller überwachten Repos (REPOS), Haupt-Repo zuerst; ein Abruffehler in einem Repo schlägt durch. */
+export const liegegutAlleFunde = (ghFn, gitFn, jetzt, hinweis, standText, zugAktiv) => REPOS.flatMap((r) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText, zugAktiv, r))
+
+/** Dieselben Funde als Textzeilen (nur das Haupt-Repo; main() und die Wachphase nehmen `liegegutAlle`). */
 export const liegegut = (ghFn, gitFn, jetzt, hinweis, standText, zugAktiv) => liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText, zugAktiv).map((f) => f.zeile)
+
+/** Textzeilen aller überwachten Repos. */
+export const liegegutAlle = (ghFn, gitFn, jetzt, hinweis, standText, zugAktiv) => liegegutAlleFunde(ghFn, gitFn, jetzt, hinweis, standText, zugAktiv).map((f) => f.zeile)
 
 const KURZ = { 1: 'Freigabe ruht', 2: 'Urteile widersprechen', 3: 'Konflikt', 4: 'rot', 5: 'Ändern offen', 6: 'gleiche Entscheidung', 8: 'Stillstand', 9: 'Stapel', 10: 'Nachrechnen-Schleife' }
 
 /** Eine Sammelzeile für die Wachphase: `LIEGT: 2377 (Konflikt 30 h, Stillstand 52 h), …`; null ohne Funde. */
 export function liegtZeile(funde, jetzt) {
   if (funde.length === 0) return null
-  const je = funde.map((f) => `${f.nr} (${f.signale.map((s) => `${KURZ[s.nr]} ${Math.floor(stunden(s.seit, jetzt))} h`).join(', ')})`)
+  const je = funde.map((f) => `${f.repo && f.repo !== HAUPT_REPO.name ? `${f.repo}#` : ''}${f.nr} (${f.signale.map((s) => `${KURZ[s.nr]} ${Math.floor(stunden(s.seit, jetzt))} h`).join(', ')})`)
   return `LIEGT: ${je.join(', ')}`
 }
 
 /** Wachphase: Sammelzeile oder eigene Fehlerzeile, wirft nie (kein stilles „nichts“). */
 export function meldeLiegt(ghFn, gitFn, log, jetzt) {
   try {
-    const zeile = liegtZeile(liegegutFunde(ghFn, gitFn, jetzt, undefined, standImProjekt(gitFn, log)), jetzt)
+    const zeile = liegtZeile(liegegutAlleFunde(ghFn, gitFn, jetzt, undefined, standImProjekt(gitFn, log)), jetzt)
     if (zeile) log(zeile)
   } catch (e) {
     log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
@@ -399,7 +422,7 @@ export function git(args) {
 /** Startlogik: Fehler als Exit 2, Funde als Exit 0. */
 export function main(ghFn, gitFn, melde, jetzt) {
   try {
-    const zeilen = liegegut(ghFn, gitFn, jetzt, melde, standImProjekt(gitFn, melde))
+    const zeilen = liegegutAlle(ghFn, gitFn, jetzt, melde, standImProjekt(gitFn, melde))
     for (const z of zeilen) melde(z)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0

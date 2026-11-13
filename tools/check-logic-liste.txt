@@ -272,10 +272,12 @@ pipeline/check-handbelege-anbieter-zaehlung-lauf.ts
 pipeline/check-handbelege-veraltet-lauf.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts
+pipeline/check-hauptrelease.ts
 pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-hinweis-anzeige.ts
+pipeline/check-hoechstens-ratsche.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts
 pipeline/check-import-meta-env.ts
@@ -469,6 +471,7 @@ pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
 pipeline/check-release-ohne-quelle.ts
 pipeline/check-remake-verdrahtung.ts
+pipeline/check-remake-zaehlung-bestand-lauf.ts
 pipeline/check-remake-zaehlung-pipeline.ts
 pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
@@ -640,6 +643,7 @@ tools/heute-utc.mjs
 tools/hover-cover-weitere-verhalten.test.tsx
 tools/hover-cover-weitere.test.tsx
 tools/hover-cover.test.ts
+tools/link-anisearch-amazon.test.ts
 tools/link-check-ende.test.ts
 tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
@@ -651,6 +655,7 @@ tools/quittung-nach-commit-waechter.mjs
 tools/sammler-pruefschritt-waechter.mjs
 tools/skript-aufrufer-wache.mjs
 tools/start-pruefung-wacht.mjs
+tools/stumme-pfade.mjs
 tools/suchhinweis-filter.test.ts
 tools/suchhinweis-karten.test.ts
 tools/test-netz-wache.mjs
