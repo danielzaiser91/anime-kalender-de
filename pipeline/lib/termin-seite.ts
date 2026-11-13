@@ -6,7 +6,7 @@ import { anzeigeFolge, expandEvents } from '../../shared/logic.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
 import { GENRE_DE } from '../../shared/mappings.ts'
 import { andereNamen } from './titel-namen.ts'
-import { SITE, esc, namenZeile, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, synopsenAbsatz, type SynopsenText } from './titel-seite.ts'
+import { SITE, esc, namenZeile, titelName, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, synopsenAbsatz, type SynopsenText } from './titel-seite.ts'
 import { type Umfeld } from './titel-umfeld.ts'
 import { teilenPfad, titelAdresse, titelHash } from '../../shared/teilen.ts'
 import { zeitMitMarke } from '../../shared/zeit-text.ts'
@@ -307,12 +307,14 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
   return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
 }
 
-export function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string, umfeld: Umfeld): string {
+export function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string, umfeld: Umfeld, mehrereReleases = false): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}${teilenPfad(adresse)}`
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
-  const headline = seitenTitel(release.name, title, true)
+  /* Hat der Titel mehrere Releases, nennt die Vorschau den Anime, nicht „… – Vol. 1“. */
+  const name = mehrereReleases && title ? titelName(title) : release.name
+  const headline = seitenTitel(name, title, true)
   const description = describe(release, title, today)
   const hash = titelHash(ak, adresse, next?.date)
 
@@ -328,7 +330,7 @@ export function head(release: Release, title: Title | undefined, today: string, 
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${esc(release.name)} — Termin, Plattform und FSK auf einen Blick" />
+    <meta property="og:image:alt" content="${esc(name)} — Termin, Plattform und FSK auf einen Blick" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${esc(headline)}" />
     <meta name="twitter:description" content="${esc(description)}" />
