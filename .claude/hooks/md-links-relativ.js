@@ -1,13 +1,15 @@
-// Schreibt `[Text](file:///C:/…)` in Daniels .md-Dateien (daniel-zum-abarbeiten/) zu relativen Links um: Die Markdown-Vorschau
+// Schreibt `[Text](file:///C:/…)` in Daniels .md-Dateien (daniel-zum-abarbeiten/, __assets/notes/) zu relativen Links um: Die Markdown-Vorschau
 // von VS Code (markdown-it) verwirft das Schema `file:` als unsicher und zeigt den Link als rohen Text; relative Links öffnen
 // die Datei direkt in VS Code, `#L<zeile>` an der Stelle (Daniel, 03.11.2026). stand.md bleibt bei file:/// (liest die Mod).
 // Auslöser: PostToolUse(Write|Edit) für die geschriebene Datei, PostToolUse(Bash) für .md-Dateien, die in den letzten
-// 2 min geändert wurden (Skripte schreiben an Write vorbei). Eintrag in ~/.claude/settings.json als weiteres Element:
+// 2 min geändert wurden (Skripte schreiben an Write vorbei; nur daniel-zum-abarbeiten, Notizen nur über Write/Edit). Eintrag in ~/.claude/settings.json als weiteres Element:
 //   hooks.PostToolUse[]: { "matcher": "Write|Edit|Bash", "hooks": [{ "type": "command", "command": "node", "args": ["C:/Users/ih/.claude/hooks/md-links-relativ.js"], "timeout": 15 }] }
 const fs = require('node:fs')
 const path = require('node:path')
 
 const WURZEL = (process.env.DANIEL_ORDNER || 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten').replace(/\\/g, '/')
+// Übergabe-Notizen an Daniel (z. B. PayPal-Mitschnitt E58) öffnet er ebenso in VS Code (Daniel, 12.11.2026).
+const NOTIZEN = (process.env.NOTIZ_ORDNER || 'C:/code/ai/__assets/notes').replace(/\\/g, '/')
 const FRISCH = 2 * 60000
 const LINK = /\]\(file:\/\/\/([^)\s]+)\)/g
 
@@ -31,10 +33,11 @@ function umschreiben(datei, text) {
   return { text: neu, n }
 }
 
-/** Gehört die Datei zu Daniels Ordner (ohne stand.md an der Wurzel)? */
+/** Gehört die Datei zu Daniels Ordner (ohne stand.md an der Wurzel) oder zu den Notizen? */
 function betroffen(datei) {
   const d = datei.replace(/\\/g, '/')
-  return d.toLowerCase().startsWith(WURZEL.toLowerCase() + '/') && d.endsWith('.md') && d.toLowerCase() !== (WURZEL + '/stand.md').toLowerCase()
+  const unter = [WURZEL, NOTIZEN].some((w) => d.toLowerCase().startsWith(w.toLowerCase() + '/'))
+  return unter && d.endsWith('.md') && d.toLowerCase() !== (WURZEL + '/stand.md').toLowerCase()
 }
 
 /** Alle .md unter der Wurzel, die seit `seit` (ms) geändert wurden. */

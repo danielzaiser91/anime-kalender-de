@@ -7,6 +7,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { englischeTitel, unuebersetzteNummern } from './bau/folgentitel-englisch.ts'
 import { fremdtitelZahl, istPlatzhalter, type FolgeQuelle } from './bau/folgentitel-zeilen.ts'
 import { pruefeLuecken } from './lib/folgentitel-luecke-bestand.ts'
+import { pruefeStaffelQuote } from './lib/folgentitel-staffel-quote-bestand.ts'
 
 const roh = JSON.parse(readFileSync('data/anisearch-folgen.json', 'utf8')) as Record<string, { folgen?: FolgeQuelle[] }>
 const kitsu = JSON.parse(readFileSync('data/kitsu-folgen.json', 'utf8')) as Record<string, { f?: [number, string, number][] }>
@@ -44,6 +45,9 @@ if (listen < 1000 || titel < 20000) {
 
 /* Lücken im deutschen Bereich (Warnzeilen, Fehler nur bei fehlender Liste): `lib/folgentitel-luecke-bestand.ts`. */
 fremd += pruefeLuecken('.')
+
+/* Quote der Folgentitel aus der TMDB-Containerstaffel (Warnzeilen, Fehler nur bei fehlender titles.json): `lib/folgentitel-staffel-quote-bestand.ts`. */
+fremd += pruefeStaffelQuote('.')
 
 console.log(`check-folgentitel-sprache-bestand: ${fremd ? `${fremd} Fehler` : 'ok'} (${listen} Folgenlisten, ${titel} deutsche Titel, 0 fremdsprachige erlaubt)`)
 process.exit(fremd ? 1 : 0)

@@ -416,6 +416,10 @@ Seite hat. Daraus folgt:
 
 Beim Kanal-Titel gilt zusätzlich der Abschnitt darunter.
 
+### Amazons Jahres-Badge ist das Veröffentlichungsjahr bei Amazon (12.11.2026, Biene Maja)
+
+Das Badge (2007) nennt das Jahr der Amazon-Veröffentlichung, nicht das Erscheinungsjahr des Titels; Staffeln über die ersten Folgentitel zuordnen.
+
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
 **Der Kopf einer Sammelseite ist kein Weg zu einer Staffel** (21.09.2026). Golden Wind trug zwei
@@ -2266,6 +2270,10 @@ auseinandergehen, ist die Ursache nie die Quelle.
 
 Wirkung an einem Vormittag: Crunchyroll von 28 auf 11 Verweise ohne
 Sprachurteil, ohne einen einzigen neuen Abruf.
+
+## Linkprüfung: jede aniSearch-Amazon-Adresse kommt in die Schlange (12.11.2026)
+
+Bisher prüfte `check-links` aniSearch-Amazon-Adressen nur bei Titeln mit Prime-Such-Stream; so blieben Wege ohne Befund, darunter die tote Seite von Ragna Crimson (B0F1XK58VQ, Prime-Handbeleg ohne Stream). Jetzt kommt jede aniSearch-Amazon-Adresse in die Schlange (`pipeline/lib/anisearch-amazon-adressen.ts`), Vorrang haben weiter nur Titel mit Suchadresse; eine tote Seite wird als 404 festgehalten. **Je ASIN einmal:** aniSearch führt `/dp/ASIN`, Streams und Bestand dieselbe Seite als `/gp/video/detail/ASIN`; nach ASIN entdoppelt (der Bestand allein enthielt 827 solcher Doppel). Gemessen 12.11.2026 an `origin/main` `ce42c3d05` (aniSearch-Amazon-Adressen gegen Bestandsschlüssel, Streams und watchLinks): 1166 Adressen, 56 nicht als Adresse in der Schlange, davon 33 mit schon geprüfter ASIN, **23 wirklich neue ASINs**. Neue Adressen sind je Lauf auf `ZUSATZ_JE_LAUF` (40) begrenzt, damit sie Altbefunde nicht aus dem Limit drängen.
 
 ## Die Linkprüfung maß Amazons Shop-Adresse, nicht die Video-Seite
 
@@ -4370,3 +4378,12 @@ Die Quelle mit dem besten Umfang für lineares Free-TV (MAXX, Folgennummer, Folg
 - **Belegter Umfang (Stichprobe 12.11.2026, nur Detektiv Conan):** Sender „ProSieben MAXX“ im Quelltext; je Serie die Seite `/<serie>/sendetermine` mit Beginn–Ende, Folgennummer und Folgentitel (z. B. 12.11. 17:55–18:25, Nr. 185 „Rache verjährt nicht (1)“). Vorlauf rund drei Wochen (bis 02.12.2026 gelistet). Kein iCal, RSS oder API gefunden; Auslesen nur über HTML.
 - **Offen:** Stichprobe weiterer MAXX-Titel (z. B. One Piece) nicht gemessen. Ein Test aus einem Runner ist erst nach Genehmigung sinnvoll, weil Azure-Adressen gesperrt sein können; lokal liefert 200 keine Aussage.
 - **Bis zur Genehmigung kein Abruf, keine Übernahme.** wunschliste.de (gleicher Betreiber, gleicher Impressum-Wortlaut) gilt ebenso als „auf Anfrage“.
+
+## Handzuordnungen TMDB → Titel messbar (`tools/tmdb-abgleich.mjs`, 13.11.2026)
+
+`node tools/tmdb-abgleich.mjs` hält jede Zeile aus `data/tmdb-von-hand.yaml` gegen AniList: Name (TMDB-Name aus `data/tmdb-titles.json` muss in Romaji/Englisch/Original des Titels oder seiner Reihe stecken), Startdatum (TMDB-Staffel mit dem nächsten Starttag aus `data/tmdb-folgen.json` gegen `jpStart`; Film: Jahr) und Folgenzahl. Nur Repo-Dateien, keine Korrektur.
+
+- **Erste Messung (Bau 2026-11-13T08:20Z):** 25 Zuordnungen mit Kennung; Name 20 geprüft / 5 Abweichungen, Start 18 / 0, Folgenzahl 17 / 1. Alle 18 Starttage stimmen auf den Tag.
+- **Echter Befund:** Dragon Ball Super (21175) trägt in `tmdb-titles.json` noch den Namen „ドラゴンボール超 ビルス“ der früheren Kennung 312359, obwohl `tmdbId` schon 62715 ist; die Handzeile ersetzt nur die Kennung, nicht die mitgeholten Felder.
+- **Kein Fehler:** Kakegurui ××, Magilumiere, Tayo, Kitaro — TMDBs Name ist deutsch, AniList kennt keinen deutschen. Pokémon Reisen (112153): TMDB-Staffel 23 hat 48 Folgen, AniList 136; die Staffeln 23–25 haben zusammen 147, weil AniList die letzten 11 Folgen als eigenen Titel führt (158870, Start 2023-01-13 = TMDB S25E47).
+- **Nicht prüfbar** (keine TMDB-Folgen oder kein Name im Repo): 9 Zeilen, darunter die vier Dragon-Ball-Serien ohne Folgen-Cache.

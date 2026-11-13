@@ -204,7 +204,7 @@ jobs:
     name: PR-Aussehen – ${{ matrix.teil }}
     if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: ${{ matrix.frist || 20 }}
     strategy:
       fail-fast: false
       matrix:
@@ -227,6 +227,9 @@ jobs:
             befehl: npm run check:buehne-fenster
           - teil: Bühne-Messen
             befehl: npm run check:buehne-messen
+          - teil: Bühne-Basis
+            befehl: npm run check:buehne-basis
+            frist: 25 # CI-Messung 12.11.2026: Einrichtung 2 + Basis 7 + Kopf 7 min; Fristen 10 + 10 min in buehne-basis.mjs
           - teil: Bühne-Panel
             befehl: npm run check:buehne-panel
           - teil: Melde-Kasten

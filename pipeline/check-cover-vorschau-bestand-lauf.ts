@@ -73,6 +73,12 @@ const ausnahmen = lauf(27, [titel(2000, { coverImage: MIT_MASSE }), titel(2001, 
 pruefe('Prozess: Cover mit Maßen, Plakat, Titel mit Termin und Titel ohne Seite zählen nicht (27 grün)', ausnahmen.code === 0 && ausnahmen.out.includes('27 mit Standardbild'), ausnahmen.out + ausnahmen.err)
 const ohneTerminSlug = lauf(27, [titel(2002)], [{ titleId: 2002 }])
 pruefe('Prozess: Release ohne Seite (kein slug) nimmt dem Titel das Standardbild nicht ab (28 rot)', ohneTerminSlug.code === 1, ohneTerminSlug.out + ohneTerminSlug.err)
+pruefe('Prozess: 27 Titel an der Grenze: neue Kennungen und weggefallene Bekannte als Warnung, keine Nachzieh-Zeile', ok.out.includes('⚠ WARNUNG Cover-Vorschau: 27 Kennungen nicht in der bekannten Liste: 1000, 1001') && ok.out.includes('16 bekannte Kennungen sind weg') && !ok.out.includes('liegt unter der Grenze'), ok.out)
+const luft = lauf(16)
+pruefe('Prozess: 16 Titel (Grenze minus Luft 11) ohne Nachzieh-Zeile', luft.code === 0 && !luft.out.includes('liegt unter der Grenze'), luft.out + luft.err)
+const darunter = lauf(15)
+pruefe('Prozess: 15 Titel: Warnung zum Nachziehen auf 26, Exit bleibt 0', darunter.code === 0 && darunter.out.includes('⚠ WARNUNG Cover-Vorschau: Bestand 15 liegt unter der Grenze 27, Grenze auf 26 nachziehen'), darunter.out + darunter.err)
+pruefe('Prozess: rot (28) zeigt keine Warnzeilen', !rot.out.includes('⚠ WARNUNG'), rot.out)
 const leer = lauf(5, [], [], true)
 pruefe('Prozess: kein Titel mit Cover ist rot (die Wache prüfte nichts)', leer.code === 1 && leer.err.includes('prüft nichts'), leer.err)
 
