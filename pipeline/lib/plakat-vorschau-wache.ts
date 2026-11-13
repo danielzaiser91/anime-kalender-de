@@ -26,7 +26,7 @@ export interface CoverSeite extends SeitenBild {
   coverImage: string | undefined
 }
 
-/** Absichtlicher Abstand der Grenzen in `check-teilseiten` und `check-cover-vorschau-bestand` zum Bestand (11.11.2026: 16 gegen 27); erst darunter lohnt das Nachziehen. */
+/** Absichtlicher Abstand der Grenze in `check-cover-vorschau-bestand` zum Bestand (11.11.2026: 16 gegen 27); erst darunter lohnt das Nachziehen. */
 export const STANDARD_TROTZ_COVER_LUFT = 11
 
 export function standardTrotzCover(seiten: CoverSeite[], site: string): string[] {
@@ -35,5 +35,5 @@ export function standardTrotzCover(seiten: CoverSeite[], site: string): string[]
 
 export function standardTrotzCoverMaengel(seiten: CoverSeite[], site: string, hoechstens: number): string[] {
   const slugs = standardTrotzCover(seiten, site)
-  return ueberHoechstens(slugs.length, hoechstens) ?[`${slugs.length} Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens ${hoechstens}`] : []
+  return ueberHoechstens(slugs.length, hoechstens) ? [`${slugs.length} Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens ${hoechstens}`] : []
 }

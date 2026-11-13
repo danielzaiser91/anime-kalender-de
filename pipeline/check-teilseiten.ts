@@ -13,8 +13,7 @@ import { ROOT, readJson } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
 import { plakatMasse, vorschauMaengel } from './lib/titel-vorschau.ts'
-import { ratschenWarnzeilen } from './lib/hoechstens-ratsche.ts'
-import { plakatVorschauMaengel, STANDARD_TROTZ_COVER_LUFT, standardTrotzCover, standardTrotzCoverMaengel } from './lib/plakat-vorschau-wache.ts'
+import { plakatVorschauMaengel, standardTrotzCover, standardTrotzCoverMaengel } from './lib/plakat-vorschau-wache.ts'
 import { iconSeitenMaengel } from '../tools/icon-kennung.mjs'
 
 const MAX_KLICKS = 3
@@ -154,7 +153,6 @@ function coverVorschauMaengel(titel: Title[]): string[] {
     .filter((s): s is { slug: string; coverImage: string | undefined } => s.slug !== undefined && existsSync(resolve(DIST, teilenPfad(s.slug), 'index.html')))
     .map((s) => ({ ...s, bild: /property="og:image" content="([^"]+)"/.exec(readFileSync(resolve(DIST, teilenPfad(s.slug), 'index.html'), 'utf8'))?.[1] }))
   console.log(`[teilseiten] Cover-Vorschau: ${seiten.filter((s) => s.coverImage).length} Titel mit Cover, ${standardTrotzCover(seiten, SITE).length} mit Standardbild (höchstens ${STANDARD_TROTZ_COVER_HOECHSTENS})`)
-  for (const zeile of ratschenWarnzeilen('Cover-Vorschau (Seitenbau)', standardTrotzCover(seiten, SITE), STANDARD_TROTZ_COVER_HOECHSTENS, { luft: STANDARD_TROTZ_COVER_LUFT })) console.log(zeile)
   return standardTrotzCoverMaengel(seiten, SITE, STANDARD_TROTZ_COVER_HOECHSTENS)
 }
 
