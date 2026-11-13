@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-13T23:14:00.473Z",
+  "stand": "2026-11-13T23:29:49.379Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7779,6 +7779,127 @@
       "letzterWeg": true
     },
     {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B07FBGYPR6",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 102883,
+      "titel": "JoJo’s Bizarre Adventure: Golden Wind",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure?s=4",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 128223,
+      "titel": "When Will Ayumu Make His Move?",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/913",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 129192,
+      "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/908",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 144932,
+      "titel": "Edens Zero: Season 2",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1035",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 144533,
+      "titel": "Bibliophile Princess",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/976",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 145815,
+      "titel": "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/967",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 162780,
+      "titel": "Gushing over Magical Girls",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 173388,
+      "titel": "Plus-Sized Elf",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1171",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 177509,
+      "titel": "Kakushite! Makina-san!!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DYMHT915",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 141534,
+      "titel": "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80987039",
+      "seriesId": null,
+      "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-14",
+      "letzterWeg": false
+    },
+    {
       "titleId": 21,
       "titel": "One Piece",
       "plattform": "crunchyroll",
@@ -7994,17 +8115,6 @@
       "url": "https://www.crunchyroll.com/strike-witches",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 10015,
-      "titel": "Yu-Gi-Oh! Zexal",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B07FBGYPR6",
-      "seriesId": null,
-      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
       "geprueftAm": null,
       "entferntAm": "2026-11-14",
       "letzterWeg": true
@@ -8340,17 +8450,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 102883,
-      "titel": "JoJo’s Bizarre Adventure: Golden Wind",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure?s=4",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
-    },
-    {
       "titleId": 103900,
       "titel": "We Never Learn",
       "plattform": "crunchyroll",
@@ -8593,28 +8692,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 128223,
-      "titel": "When Will Ayumu Make His Move?",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/913",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 129192,
-      "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/908",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
-    },
-    {
       "titleId": 130003,
       "titel": "Bocchi the Rock!",
       "plattform": "crunchyroll",
@@ -8659,28 +8736,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 144932,
-      "titel": "Edens Zero: Season 2",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1035",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 144533,
-      "titel": "Bibliophile Princess",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/976",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
-    },
-    {
       "titleId": 145740,
       "titel": "Grisaia Phantom Trigger",
       "plattform": "crunchyroll",
@@ -8690,17 +8745,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-14",
       "letzterWeg": true
-    },
-    {
-      "titleId": 145815,
-      "titel": "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/967",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
     },
     {
       "titleId": 154965,
@@ -8723,17 +8767,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-14",
       "letzterWeg": false
-    },
-    {
-      "titleId": 162780,
-      "titel": "Gushing over Magical Girls",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1121",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": true
     },
     {
       "titleId": 161474,
@@ -8780,34 +8813,12 @@
       "letzterWeg": false
     },
     {
-      "titleId": 173388,
-      "titel": "Plus-Sized Elf",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1171",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
-    },
-    {
       "titleId": 175977,
       "titel": "My Deer Friend Nokotan",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/series/G0XHWM100/my-deer-friend-nokotan",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 177509,
-      "titel": "Kakushite! Makina-san!!",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DYMHT915",
-      "seriesId": null,
-      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
       "geprueftAm": null,
       "entferntAm": "2026-11-14",
       "letzterWeg": true
@@ -8855,17 +8866,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-14",
       "letzterWeg": true
-    },
-    {
-      "titleId": 141534,
-      "titel": "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/80987039",
-      "seriesId": null,
-      "grund": "der Anbieter führt 23 + 25 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-14",
-      "letzterWeg": false
     },
     {
       "titleId": 108307,
