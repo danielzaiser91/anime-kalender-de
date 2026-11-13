@@ -8,76 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-05#58@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T160500Z
-DTEND:20261105T163500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-05#59@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T163000Z
-DTEND:20261105T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T165500Z
-DTEND:20261105T172500Z
-SUMMARY:Detektiv Conan – Folge 169
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T172500Z
-DTEND:20261105T175500Z
-SUMMARY:YAIBA: Samurai Legend – Folge 1/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:yaiba-samurai-legend-joyn@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T175000Z
-DTEND:20261105T182000Z
-SUMMARY:YAIBA: Samurai Legend – Folge 1/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
-  https://anime-kalender.de/t/15908/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T175000Z
-DTEND:20261105T182000Z
-SUMMARY:ONE PIECE – Folge 780/877
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T201500Z
-DTEND:20261105T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-06#60@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T160500Z
@@ -627,6 +557,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T201500Z
+DTEND:20261113T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll-synchro@2026-11-14@anime-kalender-de

@@ -5408,7 +5408,7 @@
       "url": "https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-09-16"
     }
   ],
@@ -5424,7 +5424,7 @@
       "url": "https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-09-16"
     }
   ],
@@ -6181,7 +6181,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6211,7 +6211,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6241,7 +6241,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6625,7 +6625,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -7585,7 +7585,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-17"
     }
   ],
@@ -7609,7 +7609,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7625,7 +7625,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7649,7 +7649,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7673,7 +7673,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -8490,8 +8490,8 @@
       "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-05",
-      "sagt": "2026-11-03",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-11-03"
     }
   ],
   "auto-5000002-joyn": [
@@ -8499,8 +8499,8 @@
       "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-05",
-      "sagt": "2026-11-03",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2026-11-03"
     }
   ],
   "auto-5000003-primevideo": [
@@ -8524,7 +8524,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-07",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-12",
+      "gelesenAm": "2026-11-13",
       "bestaetigt": "2026-11-18"
     }
   ],
@@ -8705,6 +8705,22 @@
       "url": "https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-09",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000001-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-12",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-5000002-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-12",
       "stand": "aktuell"
     }
   ]

@@ -13,6 +13,8 @@ Das gilt für jeden Einzelpunkt einer Nachricht, auch für nebenbei erwähnte W�
 - Am Ende jeder Antwort gegenprüfen: Steht jeder Punkt aller bisherigen Nachrichten entweder
   als erledigt, offen oder blockiert in der Liste? Wenn nicht: nachtragen.
 
+**Eine Meinungsfrage ist Diskussion, kein Auftrag (Daniel, 12.11.2026 22:11):** Auf seinen F132-Vorschlag „… oder was denkst du“ legte ich Auftragsdatei und Stand-Zeile „Bau wartet auf freien Platz“ an, statt erst meine Meinung zu sagen; Daniel: „ich hab dich nach deiner meinung gefragt, warum startest du direkt den bau, wenn ich nach deiner meinung frage dann immer erst diskutieren“. Ein eigener Vorschlag mit Rückfrage ist kein Ja — erst Meinung samt Bedenken, dann auf „machen“ warten.
+
 **Eine Warum-Frage ist eine Frage, kein Auftrag** (Daniel, 21.09.2026: „moment ich hab nur
 gefragt, du musst nichts anpassen"). „Warum trifft die Suche X?" wird beantwortet — mit dem
 gemessenen Grund. Umgebaut wird erst, wenn er es sagt oder etwas nachweislich kaputt ist

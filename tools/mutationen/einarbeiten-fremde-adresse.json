@@ -1,0 +1,158 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"] },
+  {
+    "name": "main: Aufruf zieheFremdeBelegeZurueck abgeschaltet",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(", "ersetze": "geschrieben -= 0 && zieheFremdeBelegeZurueck(" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "main: zurueckgezogene Belege nicht von geschrieben abgezogen",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "geschrieben -= zieheFremdeBelegeZurueck(besitz, zeilen, von, gruppe, p, offenGeblieben, ohneZuordnung)", "ersetze": "geschrieben -= 0 * zieheFremdeBelegeZurueck(besitz, zeilen, von, gruppe, p, offenGeblieben, ohneZuordnung)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "main: Zeilen ab Anfang statt ab Gruppenbeginn",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "const von = zeilen.length", "ersetze": "const von = 0" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Kennung 0 statt Beleg-Kennung",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "verschiebeFremdenBeleg(besitz, b.id,", "ersetze": "verschiebeFremdenBeleg(besitz, 0," }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Adresse leer statt Adresse des Belegs",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "mit, b.url, gruppe", "ersetze": "mit, '', gruppe" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Beteiligte leer statt geschriebene Kennungen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "b.id, mit, b.url", "ersetze": "b.id, [], b.url" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck (A1): Besitzer ohne Beleg gilt als Mitbeteiligter",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "const mit = bloecke.map((b) => b.id)", "ersetze": "const mit = [900101, 900102]" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: zurueckgezogene Belege nicht gezaehlt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "    weg++\n", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Beleg nicht aus zeilen entfernt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "    b.zeilen = []\n", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "fremdeBesitzer: Beteiligte nicht ausgenommen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "&& !mitBeteiligte.includes(t.titleId)", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "fremdeBesitzer: Beteiligte invertiert",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "&& !mitBeteiligte.includes(t.titleId)", "ersetze": "&& mitBeteiligte.includes(t.titleId)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "ladeBesitz: fehlende Belegdatei nicht abgefangen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "(existsSync(datei) ? ", "ersetze": "(true ? " }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-laufzeit.ts"]
+  },
+  {
+    "name": "main: Warnungen als Wegwerfliste",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "von, gruppe, p, offenGeblieben, ohneZuordnung)", "ersetze": "von, gruppe, p, [], ohneZuordnung)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "main: Arbeitsliste als Wegwerfliste",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "von, gruppe, p, offenGeblieben, ohneZuordnung)", "ersetze": "von, gruppe, p, offenGeblieben, [])" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "main: Schleifenende meldet verschobene Gruppe doppelt",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": " && !besitz.gruppen.has(gruppe[0]!.id)", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "main: Schlusszeile ohne Zahl verschoben",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "(besitz.verschoben ? `", "ersetze": "(0 ? `" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "main: Besitz ohne Zuordnungen geladen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>())", "ersetze": "zugeordnet: []" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "verschiebeFremdenBeleg: kein Treffer-Riegel",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "if (!fremd.length) return false", "ersetze": "if (true) return false" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "verschiebeFremdenBeleg: Zaehler nicht erhoeht",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "besitz.verschoben++", "ersetze": "besitz.verschoben += 0" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "verschiebeFremdenBeleg: Gruppe nicht gemerkt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "besitz.gruppen.add(gruppe[0]!.id)", "ersetze": "void 0" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "verschiebeFremdenBeleg: Meldungs-ID fehlt im Grund",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "(Meldung ${gruppe.map((x) => x.id).join(', ')})", "ersetze": "(Meldung)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "verschiebeFremdenBeleg: Rueckgabe false trotz Treffer",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "  return true\n}", "ersetze": "  return false\n}" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "fremdeBesitzer: bestehende Treffer nicht abgezogen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "!vorher.has(bekanntZeile(t)) && ", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "fremdeBesitzer: Beleg nicht hinzugefuegt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "[...besitz.belege, { anilistId: kennung, url }]", "ersetze": "besitz.belege" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "besitzerMitHerkunft: Kennung nicht verglichen",
+    "aenderungen": [{ "datei": "pipeline/lib/zuordnung-fremd-bestand.ts", "suche": "x.anilistId === Number(kennung) && adressGleich(x.url, t.adresse)", "ersetze": "adressGleich(x.url, t.adresse)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "besitzerMitHerkunft: Adresse nicht verglichen",
+    "aenderungen": [{ "datei": "pipeline/lib/zuordnung-fremd-bestand.ts", "suche": "x.anilistId === Number(kennung) && adressGleich(x.url, t.adresse)", "ersetze": "x.anilistId === Number(kennung)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "besitzerMitHerkunft: Notiz 59 Zeichen",
+    "aenderungen": [{ "datei": "pipeline/lib/zuordnung-fremd-bestand.ts", "suche": "beleg.note.slice(0, 60)", "ersetze": "beleg.note.slice(0, 59)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "besitzerMitHerkunft: Notiz 61 Zeichen",
+    "aenderungen": [{ "datei": "pipeline/lib/zuordnung-fremd-bestand.ts", "suche": "beleg.note.slice(0, 60)", "ersetze": "beleg.note.slice(0, 61)" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "besitzerMitHerkunft: Datum fehlt",
+    "aenderungen": [{ "datei": "pipeline/lib/zuordnung-fremd-bestand.ts", "suche": "checkedAt ${beleg.checkedAt ?? '?'}", "ersetze": "checkedAt ?" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "check-zuordnung-fremd-bestand: Herkunft nicht verdrahtet",
+    "aenderungen": [{ "datei": "pipeline/check-zuordnung-fremd-bestand.ts", "suche": "besitzerMitHerkunft(t, belege).join(', ')", "ersetze": "t.besitzer.join(', ')" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "check-zuordnung-fremd-bestand: Belege leer",
+    "aenderungen": [{ "datei": "pipeline/check-zuordnung-fremd-bestand.ts", "suche": "besitzerMitHerkunft(t, belege)", "ersetze": "besitzerMitHerkunft(t, [])" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  }
+]

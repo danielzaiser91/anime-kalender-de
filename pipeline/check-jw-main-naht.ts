@@ -53,12 +53,16 @@ interface Kulisse {
   bestand?: Bestand
   /** Antwort je Suchbegriff; `fremd`: jede Suche liefert beide Reihen unter derselben JustWatch-Kennung. */
   antwort: 'fremd' | 'treffer-mit-angebot' | 'treffer-leer' | 'nichts'
+  /** Je Titelabruf (in Reihenfolge) `true` = Fehler „429 …“; darüber hinaus Erfolg. */
+  sperren?: boolean[]
 }
 
 interface Ergebnis {
   bestand: Bestand
   zeilen: string[]
   urls: string[]
+  /** Anzahl der Titelabrufe (Suchbegriff „Titel N“). */
+  titelAbrufe: number
   pausen: number
   health?: { lastCount?: number }
   listeDa: boolean
@@ -73,9 +77,11 @@ async function lauf(k: Kulisse, args: string[]): Promise<Ergebnis> {
   rmSync(LISTE, { force: true })
   const urls: string[] = []
   let pausen = 0
+  let titelAbrufe = 0
   const abruf = (async (url: string, init?: RequestInit) => {
     urls.push(String(url))
     const q: string = JSON.parse(String(init?.body ?? '{}')).variables?.q ?? ''
+    if (q.startsWith('Titel ') && k.sperren?.[titelAbrufe++] === true) throw new Error('429 Too Many Requests')
     const nr = Number(q.replace('Titel ', '')) % 1000
     const edges =
       k.antwort === 'fremd'
@@ -99,7 +105,7 @@ async function lauf(k: Kulisse, args: string[]): Promise<Ergebnis> {
   const gesund = join(ordner, 'source-' + 'health.json')
   const health = existsSync(gesund) ? JSON.parse(readFileSync(gesund, 'utf8'))['justwatch-audio'] : undefined
   const listeDa = existsSync(LISTE)
-  return { bestand: JSON.parse(readFileSync(join(ordner, 'justwatch-audio.json'), 'utf8')), zeilen, urls, pausen, health, listeDa }
+  return { bestand: JSON.parse(readFileSync(join(ordner, 'justwatch-audio.json'), 'utf8')), zeilen, urls, titelAbrufe, pausen, health, listeDa }
 }
 
 const halter = { geprueftAm: '2026-10-23', jwId: 'JW1', tmdbId: 1, angebote: [] }
@@ -152,10 +158,20 @@ pruefe('alter: --alter 5 lässt den Titel in Ruhe, keine offenen Verweise', fris
 const eins = await lauf({ titles: [film(900051, undefined), film(900052, undefined)], antwort: 'nichts' }, ['--alter', '0', '--namen', '1'])
 pruefe('namen: --namen 1 fragt genau einen Titel', Object.keys(eins.bestand).length === 1, Object.keys(eins.bestand))
 
+/* 429-Abbruch der Hauptschleife (`frageOffene`): drei Sperren in Folge beenden den Lauf, zwei nicht, ein Erfolg setzt den Zähler zurück. */
+const sechs = Array.from({ length: 6 }, (_, i) => film(900200 + i, 200 + i))
+const abbruch = await lauf({ titles: sechs, antwort: 'treffer-mit-angebot', sperren: [true, true, true] }, ['--limit', '6', '--alter', '0'])
+pruefe('429: drei Sperren in Folge beenden den Lauf (Warnzeile)', abbruch.zeilen.some((z) => /JustWatch: 3 Sperren in Folge/.test(z)), abbruch.zeilen)
+pruefe('429: nach der dritten Sperre kein weiterer Titelabruf, nichts verbucht', abbruch.titelAbrufe === 3 && Object.keys(abbruch.bestand).length === 0, [abbruch.titelAbrufe, Object.keys(abbruch.bestand)])
+const zwei = await lauf({ titles: sechs, antwort: 'treffer-mit-angebot', sperren: [true, true] }, ['--limit', '6', '--alter', '0'])
+pruefe('429: zwei Sperren in Folge beenden den Lauf nicht (N-1)', !zwei.zeilen.some((z) => /Sperren in Folge/.test(z)) && zwei.titelAbrufe === 6 && Object.keys(zwei.bestand).length === 4, [zwei.titelAbrufe, Object.keys(zwei.bestand)])
+const reset = await lauf({ titles: sechs, antwort: 'treffer-mit-angebot', sperren: [true, true, false, true, true] }, ['--limit', '6', '--alter', '0'])
+pruefe('429: ein Erfolg dazwischen setzt den Zähler zurück, alle sechs Titel werden gefragt', !reset.zeilen.some((z) => /Sperren in Folge/.test(z)) && reset.titelAbrufe === 6 && Object.keys(reset.bestand).length === 2, [reset.titelAbrufe, Object.keys(reset.bestand)])
+
 process.chdir(tmpdir())
-rmSync(wurzel, { recursive: true, force: true })
+rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
 if (fehler) {
   console.error(`${fehler} Fehler`)
   process.exit(1)
 }
-console.log(`check-jw-main-naht: ok (${geprueft} Prüfungen, main() im Prozess auf Kulisse mit Abruf-Attrappe: Kennung fremd, Limit, Alter, Namenssuche, nur Cartoons, Welt, Plausibilität, Quellenstand, Liste)`)
+console.log(`check-jw-main-naht: ok (${geprueft} Prüfungen, main() im Prozess auf Kulisse mit Abruf-Attrappe: Kennung fremd, Limit, Alter, Namenssuche, nur Cartoons, Welt, Plausibilität, 429-Abbruch der Hauptschleife, Quellenstand, Liste)`)

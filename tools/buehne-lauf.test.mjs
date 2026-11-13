@@ -7,7 +7,9 @@ import assert from 'node:assert/strict'
 import { mkdtemp, readdir, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { lauf as messe } from './buehne-messen.mjs'
+import { lauf as messe, schreibeBasis } from './buehne-messen.mjs'
+import { deckung } from './buehne-basis-warnung.mjs'
+import { readFileSync } from 'node:fs'
 import { lauf as bilder } from './buehne-bilder.mjs'
 import { kontrastImRahmen } from './buehne-messung.mjs'
 
@@ -18,11 +20,12 @@ const crash = () => new Error('locator.evaluate: Page crashed')
  * nachher-375-hell, nachher-375-dunkel. Nachher-Zellen haben einen Kontrastbefund. `bricht(seitenName, variante, schluessel)`
  * sagt, ob die Messung bzw. das Bild dieser Zelle abstürzt.
  */
-function browser({ bricht, fremde = [] }) {
+function browser({ bricht, fremde = [], appBefund = false, appTipp = false, besucht = [], flackert = false }) {
   const plan = { nr: 0 }
   const neueSeite = (name) => {
     const seite = { name, variante: '', teil: '', geschlossen: false }
     const pruefe = () => { if (seite.geschlossen) throw new Error('Target closed') }
+    let aufrufe = 0
     const frameVon = (schluessel) => ({
       waitForLoadState: async () => {},
       waitForFunction: async () => {},
@@ -30,9 +33,13 @@ function browser({ bricht, fremde = [] }) {
       evaluate: async (fn) => {
         if (fn === kontrastImRahmen) {
           if (bricht(seite.name, seite.variante, schluessel)) throw crash()
+          /* `appBefund`: App-Code bringt denselben Befund in Vorher und Nachher — Vorher-gegen-Nachher bleibt still. */
+          /* `flackert`: der Befund steht nur in der ersten Messung der Zelle (Animationszustand) — die Nachmessung muss ihn verwerfen. */
+          aufrufe++
+          if (appBefund) return schluessel.endsWith('hell') && !(flackert && aufrufe > 1) ? [{ schluessel: 'kopf', verhaeltnis: '2.5', soll: '4.5' }] : []
           return schluessel.startsWith('nachher') ? [{ schluessel: 'text', verhaeltnis: '2.5', soll: '4.5' }] : []
         }
-        return fn.name === 'tippzieleImRahmen' ? [] : undefined
+        return fn.name === 'tippzieleImRahmen' ? (appTipp ? [{ schluessel: 'knopf', w: 30, h: 30 }] : []) : undefined
       },
     })
     const handle = (schluessel) => ({
@@ -55,6 +62,7 @@ function browser({ bricht, fremde = [] }) {
         const [, abfrage] = decodeURIComponent(hash).split('?')
         const w = new URLSearchParams(abfrage ?? '')
         seite.variante = w.get('v') ?? ''
+        if (w.has('v')) besucht.push(seite.variante)
         seite.teil = w.get('teil') ?? ''
       },
       locator: () => ({
@@ -71,10 +79,10 @@ function browser({ bricht, fremde = [] }) {
   return async () => ({ browser: { close: async () => {} }, seite: neueSeite('S0'), fremde })
 }
 
-async function messeMit(optionen) {
+async function messeMit({ basis = null, schreibe = null, nurVorher = false, zusammenfassung = '', ...optionen }) {
   const aus = []
   process.exitCode = undefined
-  await messe({ starte: browser(optionen), filter: '', ausgabe: (z) => aus.push(z), liste: false })
+  await messe({ starte: browser(optionen), filter: '', ausgabe: (z) => aus.push(z), liste: false, basis, schreibe, nurVorher, zusammenfassung })
   const exit = process.exitCode
   process.exitCode = undefined
   return { aus, exit }
@@ -118,6 +126,118 @@ async function messeMit(optionen) {
   assert.deepEqual(zeilen.slice(1), ['    m1/f1 B 375-hell: text 2.5:1 (soll 4.5:1)', '    m1/f1 B 375-dunkel: text 2.5:1 (soll 4.5:1)'])
 }
 
+/** Basis (main): Der App-Befund ist in Kopf und Mockup gleich, fällt also nur gegen die saubere Basis auf — je Zelle genau einmal. */
+{
+  const sauber = { 'm1/f1/375-hell': { tipp: [], kontrast: [] } }
+  const { aus, exit } = await messeMit({ appBefund: true, basis: sauber, bricht: () => false })
+  assert.equal(exit, 1)
+  assert.deepEqual(aus.filter((z) => z.startsWith('    ')), ['    m1/f1 App-Basis 375-hell: kopf 2.5:1 (soll 4.5:1)'])
+  /* Gegenfälle: Basis kennt den Befund (gleich) bzw. kennt die Zelle nicht (neues Mockup) → grün; ohne Basis wie bisher. */
+  const kennt = { 'm1/f1/375-hell': { tipp: [], kontrast: [{ schluessel: 'kopf' }] } }
+  assert.equal((await messeMit({ appBefund: true, basis: kennt, bricht: () => false })).exit, undefined)
+  assert.equal((await messeMit({ appBefund: true, basis: { 'm9/f1/375-hell': sauber['m1/f1/375-hell'] }, bricht: () => false })).exit, undefined)
+  assert.equal((await messeMit({ appBefund: true, bricht: () => false })).exit, undefined)
+}
+
+/** Kopf nur gegen die Basis (`--nur-vorher`): eine Vorher-Zelle, nur der App-Befund, keine Nachher-Zeilen; grün zählt die gemessene Zelle. */
+{
+  const sauber = { 'm1/f1/375-hell': { tipp: [], kontrast: [] } }
+  const rot = await messeMit({ appBefund: true, basis: sauber, nurVorher: true, bricht: () => false })
+  assert.equal(rot.exit, 1)
+  assert.deepEqual(rot.aus.filter((z) => z.startsWith('    ')), ['    m1/f1 App-Basis 375-hell: kopf 2.5:1 (soll 4.5:1)'])
+  const gruen = await messeMit({ appBefund: true, basis: { 'm1/f1/375-hell': { tipp: [], kontrast: [{ schluessel: 'kopf' }] } }, nurVorher: true, bricht: () => false })
+  assert.equal(gruen.exit, undefined)
+  assert.ok(gruen.aus.includes('\n  ok  1 Vorher-Zellen gemessen, nichts gegenüber der Basis (main) verschlechtert'), gruen.aus.join('|'))
+}
+
+/** Basis schreiben: nur die Vorher-Zelle der ersten Variante, nichts Nachher, kein Befund-Exit. */
+{
+  let geschrieben
+  const { aus, exit } = await messeMit({ appBefund: true, bricht: () => false, schreibe: (m) => { geschrieben = m } })
+  assert.equal(exit, undefined)
+  assert.deepEqual(Object.keys(geschrieben), ['m1/f1/375-hell'])
+  assert.deepEqual(geschrieben['m1/f1/375-hell'].kontrast, [{ schluessel: 'kopf', verhaeltnis: '2.5', soll: '4.5' }])
+  assert.deepEqual(aus, [])
+}
+
+/** Nur-Vorher-Läufe öffnen nur die erste Variante (A), der volle Lauf beide: sonst kostet der Basis-Lauf die doppelte Zeit. */
+{
+  const nur = []
+  await messeMit({ bricht: () => false, besucht: nur, schreibe: () => {} })
+  assert.deepEqual(nur, ['A'])
+  const voll = []
+  await messeMit({ bricht: () => false, besucht: voll })
+  assert.deepEqual(voll, ['A', 'B'])
+}
+
+/** Tippziele hängen nicht vom Thema ab: Kennt die Basis den Knopf nur im dunklen Thema, ist er im hellen kein neuer Befund; fehlt er überall, schon. */
+{
+  const dunkel = { 'm1/f1/375-hell': { tipp: [], kontrast: [] }, 'm1/f1/375-dunkel': { tipp: [{ schluessel: 'knopf' }], kontrast: [] } }
+  assert.equal((await messeMit({ appTipp: true, basis: dunkel, nurVorher: true, bricht: () => false })).exit, undefined)
+  const keiner = { 'm1/f1/375-hell': { tipp: [], kontrast: [] }, 'm1/f1/375-dunkel': { tipp: [], kontrast: [] } }
+  const rot = await messeMit({ appTipp: true, basis: keiner, nurVorher: true, bricht: () => false })
+  assert.equal(rot.exit, 1)
+  assert.deepEqual(rot.aus.filter((z) => z.startsWith('    ')), ['    m1/f1 App-Basis 375-hell: knopf 30×30 px'])
+}
+
+/** Deckung: leere oder dünne Basis warnt (Log, Annotation, Zusammenfassung) und bleibt grün; volle Basis nur die Zählzeile; neue Mockups allein warnen nicht. */
+{
+  const ordner = await mkdtemp(path.join(os.tmpdir(), 'buehne-deckung-'))
+  const summe = path.join(ordner, 'summe.md')
+  const leer = await messeMit({ appBefund: true, basis: {}, nurVorher: true, zusammenfassung: summe, bricht: () => false })
+  assert.equal(leer.exit, undefined)
+  assert.ok(leer.aus.includes('Basis-Deckung: 1 von 1 Zellen ohne Basis-Gegenstück'), leer.aus.join('|'))
+  assert.ok(leer.aus.includes('⚠ WARNUNG Bühne-Basis Basis deckt nur 0 von 1 Zellen — Vergleich gegen main unvollständig'))
+  assert.ok(leer.aus.includes('::warning title=Bühne-Basis::Basis deckt nur 0 von 1 Zellen — Vergleich gegen main unvollständig'))
+  assert.match(readFileSync(summe, 'utf8'), /Basis deckt nur 0 von 1 Zellen/)
+  const voll = await messeMit({ appBefund: true, basis: { 'm1/f1/375-hell': { tipp: [], kontrast: [{ schluessel: 'kopf' }] } }, nurVorher: true, bricht: () => false })
+  assert.ok(voll.aus.includes('Basis-Deckung: 0 von 1 Zellen ohne Basis-Gegenstück'))
+  assert.ok(!voll.aus.some((z) => z.includes('WARNUNG')))
+  /* Grenze 80 %: 4 von 5 gedeckt (ein neues Mockup) genügt, 3 von 5 nicht; 0 von 0 ist kein Fall für die Warnung. */
+  const kopf = ['a', 'b', 'c', 'd', 'e']
+  assert.equal(deckung(['a', 'b', 'c', 'd'], kopf).warnung, '')
+  assert.equal(deckung(['a', 'b', 'c', 'd'], kopf).zeile, 'Basis-Deckung: 1 von 5 Zellen ohne Basis-Gegenstück')
+  assert.match(deckung(['a', 'b', 'c'], kopf).warnung, /nur 3 von 5/)
+  assert.equal(deckung(['a'], ['a']).warnung, '')
+  assert.match(deckung(['a'], ['x']).warnung, /nur 0 von 1/)
+  assert.equal(deckung(['a'], []).warnung, '')
+  const hundert = Array.from({ length: 100 }, (_, i) => String(i))
+  assert.match(deckung(hundert.slice(0, 79), hundert).warnung, /nur 79 von 100/)
+  assert.equal(deckung(hundert.slice(0, 80), hundert).warnung, '')
+}
+
+/** Basis schreiben: Abstürze und eine leere Messung setzen Exit 1 (der Aufrufer macht daraus „Basis nicht messbar“); eine saubere Messung nicht. */
+{
+  const ordner = await mkdtemp(path.join(os.tmpdir(), 'buehne-schreibe-'))
+  const lauf1 = (m, rot) => {
+    process.exitCode = undefined
+    const aus = []
+    schreibeBasis(path.join(ordner, 'b.json'), m, rot, (z) => aus.push(z))
+    const exit = process.exitCode
+    process.exitCode = undefined
+    return { exit, aus }
+  }
+  const zelle = { 'm1/f1/375-hell': { tipp: [], kontrast: [] } }
+  assert.equal(lauf1(zelle, []).exit, undefined)
+  const absturz = lauf1(zelle, ['Absturz m1/f1 A (Seite zweimal abgestürzt: x)'])
+  assert.equal(absturz.exit, 1)
+  assert.match(absturz.aus[0], /Basis: 1 Zellen nach .*\n {2}✕ Absturz m1\/f1 A/)
+  const leer = lauf1({}, [])
+  assert.equal(leer.exit, 1)
+  assert.match(leer.aus[0], /keine einzige Zelle gemessen/)
+  assert.deepEqual(JSON.parse(readFileSync(path.join(ordner, 'b.json'), 'utf8')), {})
+}
+
+/** Nachmessung: Ein Befund, der in der zweiten Messung derselben Zelle fehlt (Animationszustand), ist kein App-Befund; steht er in beiden, schon. */
+{
+  const sauber = { 'm1/f1/375-hell': { tipp: [], kontrast: [] } }
+  const flackernd = await messeMit({ appBefund: true, flackert: true, basis: sauber, nurVorher: true, bricht: () => false })
+  assert.equal(flackernd.exit, undefined)
+  assert.deepEqual(flackernd.aus.filter((z) => z.startsWith('    ')), [])
+  const stabil = await messeMit({ appBefund: true, basis: sauber, nurVorher: true, bricht: () => false })
+  assert.equal(stabil.exit, 1)
+}
+
 async function bilderMit(optionen) {
   const ordner = await mkdtemp(path.join(os.tmpdir(), 'buehne-lauf-'))
   const aus = []
@@ -151,4 +271,4 @@ async function bilderMit(optionen) {
   assert.equal(exit, 1)
 }
 
-console.log('ok  buehne-lauf: 3 Fälle Messen (Kontrolle, Wiederholung ohne Doppelung, zweimal Absturz), 3 Fälle Bilder (Kontrolle, zweimal Absturz, fremde Anfrage)')
+console.log('ok  buehne-lauf: 3 Fälle Messen (Kontrolle, Wiederholung ohne Doppelung, zweimal Absturz), 6 Fälle Basis (App-Befund gegen main rot/grün, nur Vorher, erste Variante, Tippziel themenunabhängig, Basis schreiben), Deckung leer/dünn/80-%-Grenze, schreibeBasis Exit 1 bei Absturz und leerer Messung, Nachmessung flackernder Befund, 3 Fälle Bilder (Kontrolle, zweimal Absturz, fremde Anfrage)')

@@ -5,7 +5,8 @@
  *
  * Kandidat nur, wenn ALLES gilt:
  *  1. offen, kein Entwurf, kein Daten-PR (`daten/`: Sache des Sammlers), mindestens eine geänderte Datei
- *  2. Prüfstufe 0 oder 1 (`tools/pr-stufe.mjs`); alles andere, auch unlesbar, gilt als 2
+ *  2. Prüfstufe 0, 1 oder 2 (`tools/pr-stufe.mjs`); unlesbar ist nie Kandidat. Stufe 2 mergt seit F131 (12.11.2026) ebenfalls,
+ *     aber nur mit dem Nachtrag des Dirigenten zum aktuellen Kopf (Bot-Urteil allein genügt nie); Workflow-PRs (3) bleiben Handarbeit
  *  3. kein Pfad unter `.github/workflows/` (auch kein Umbenennungs-Ursprung)
  *  4. die Prüfkette (`PR-Prüfkette`) ist am aktuellen Kopf grün, kein anderer Check rot, wartend oder abgebrochen
  *  5. Freigabe für genau diesen Kopf: jüngstes CI-Urteil „ok“ zu seinem Kurz-Hash, oder der Nachtrag des Inhabers
@@ -99,13 +100,14 @@ export function kandidat(pr) {
   const nein = (grund) => ({ kandidat: false, grund })
   const vorab = vorabGrund(pr)
   if (vorab !== null) return nein(vorab)
-  if (pr.stufe !== 0 && pr.stufe !== 1) return nein(`Prüfstufe ${pr.stufe}: nur von Hand`)
+  if (![0, 1, 2].includes(pr.stufe)) return nein(`Prüfstufe ${pr.stufe} unlesbar: nur von Hand`)
   const workflow = pr.pfade.find((p) => p.startsWith('.github/workflows/'))
   if (workflow !== undefined) return nein(`berührt ${workflow}: Workflow-PR nur von Hand`)
   const kette = ketteStand(pr.checks)
   if (!kette.gruen) return nein(kette.grund)
   const frei = freigabe(pr.kommentare, pr.kopf)
   if (!frei.frei) return nein(frei.grund)
+  if (pr.stufe === 2 && frei.weg !== 'nachtrag') return nein('Stufe 2 nur mit Nachtrag des Dirigenten zum Kopf (Bot-Urteil allein genügt nie)')
   return { kandidat: true, grund: `Stufe ${pr.stufe}, ${kette.grund}, ${frei.grund}`, weg: frei.weg }
 }
 
