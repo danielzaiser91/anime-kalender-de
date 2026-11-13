@@ -464,6 +464,16 @@
     "treffer": null
   },
   {
+    "id": 106896,
+    "titel": "Persona 5 the Animation: Sterne und was unser ist",
+    "en": "PERSONA5 the Animation: Stars and Ours",
+    "romaji": "PERSONA5 the Animation: Stars and Ours",
+    "format": "SPECIAL",
+    "jahr": 2019,
+    "url": "https://www.crunchyroll.com/persona5-the-animation/de-persona5-the-animation-stars-and-ours-850110",
+    "treffer": null
+  },
+  {
     "id": 107203,
     "en": "Free! the Final Stroke: The First Volume",
     "romaji": "Free!: the Final Stroke - Zenpen",
@@ -497,6 +507,24 @@
     "format": "OVA",
     "jahr": 2019,
     "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+    "treffer": null
+  },
+  {
+    "id": 109418,
+    "titel": "Persona 5 the Animation: Ein Beweis für die Gerechtigkeit",
+    "romaji": "PERSONA5 the Animation: Proof of Justice",
+    "format": "OVA",
+    "jahr": 2019,
+    "url": "https://www.crunchyroll.com/de/series/G6VDWKM76/persona5-the-animation",
+    "treffer": null
+  },
+  {
+    "id": 110265,
+    "titel": "Persona 5 the Animation: Ein magischer Valentinstag",
+    "romaji": "PERSONA5 the Animation: A Magical Valentine's Day",
+    "format": "OVA",
+    "jahr": 2019,
+    "url": "https://www.crunchyroll.com/de/series/G6VDWKM76/persona5-the-animation",
     "treffer": null
   },
   {
@@ -551,7 +579,7 @@
     "url": "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375",
     "treffer": {
       "serienId": "GMTE00194450",
-      "blockId": "GK9U3JQ35",
+      "blockId": "GVWU0EJ0E",
       "blockTitel": "Folge „JUJUTSU KAISEN 0\" in JUJUTSU KAISEN 0",
       "audio": [
         "ja-JP",

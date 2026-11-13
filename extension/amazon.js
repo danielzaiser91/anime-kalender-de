@@ -37,32 +37,9 @@
 */
 if (window.top && window !== window.top && window.name !== 'ak-durchgang') return
 
-/**
- * Lebt die Verbindung zur Erweiterung noch?
- *
- * Chrome trennt beim Neuladen der Erweiterung alle laufenden
- * Content-Scripts von ihr. Sie laufen weiter, aber jeder `chrome.*`-Zugriff
- * wirft „Extension context invalidated" (Daniel, 23.08.2026, mit Bild aus
- * der Fehlerkonsole). Das trifft jede offene Seite nach jedem Neuladen.
- *
- * `chrome.runtime.id` ist der zuverlässige Prüfstein: Sie verschwindet mit
- * der Verbindung.
- */
-function verbindungLebt() {
-  try {
-    return Boolean(chrome?.runtime?.id)
-  } catch {
-    return false
-  }
-}
+/* Tot-sicherer Zugriff auf `chrome.*`: `kontext.js` (Erweiterung neu geladen = Kontext tot, 23.08.2026). */
+const verbindungLebt = () => globalThis.akKontext.lebt()
 
-/**
- * Ein Speicherzugriff, der einen toten Kontext überlebt.
- *
- * Gibt `null` zurück, statt zu werfen — der Aufrufer entscheidet, was das
- * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
- * los ist, statt mitten im Aufbau abzubrechen.
- */
 /**
  * Liest den Speicher — und gibt synchron zurück, wo das möglich ist.
  *
@@ -72,24 +49,9 @@ function verbindungLebt() {
  * Reihe kam — der Sandkasten führt auch keine Timer aus. Ein Test, der deshalb
  * einen anderen Zustand prüft als den gemeinten, ist schlechter als keiner.
  */
-function speicherLesen(schluessel) {
-  if (!verbindungLebt()) return null
-  try {
-    return chrome.storage.local.get(schluessel)
-  } catch {
-    return null
-  }
-}
+const speicherLesen = (schluessel) => globalThis.akKontext.lesen(schluessel)
 
-async function speicherSchreiben(werte) {
-  if (!verbindungLebt()) return false
-  try {
-    await chrome.storage.local.set(werte)
-    return true
-  } catch {
-    return false
-  }
-}
+const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   /**
    * Der Seiten-Quelltext, einmal je Takt statt achtmal.
    *
@@ -371,7 +333,7 @@ async function speicherSchreiben(werte) {
       if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
       VORFALL_GEMELDET.add(schluessel)
       vorfallZahl++
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) return
       await fetch(WORKER.replace('/pruefung', '/vorfall'), {
         method: 'POST',
@@ -380,7 +342,7 @@ async function speicherSchreiben(werte) {
           plattform: 'primevideo',
           art,
           url: location.href.split('?')[0],
-          version: chrome.runtime?.getManifest?.()?.version ?? null,
+          version: globalThis.akKontext.version(),
           ...daten,
         }),
       })
@@ -1111,11 +1073,8 @@ async function speicherSchreiben(werte) {
   document.addEventListener?.('ak-ruhig', () => {
     const an = !(document.documentElement?.classList?.contains('ak-ruhig') ?? false)
     ruhigSetzen(an)
-    try {
-      void chrome.storage.local.set({ akRuhig: an })
-    } catch {
-      /* Ohne Speicher gilt er nur für diese Seite. */
-    }
+    /* Ohne Speicher gilt er nur für diese Seite. */
+    void globalThis.akKontext.schreiben({ akRuhig: an })
     console.log('[Anime-Kalender] Ruhemodus ' + (an ? 'an' : 'aus') + ' — Hintergrund steht still.')
   })
 
@@ -1178,7 +1137,7 @@ async function speicherSchreiben(werte) {
         ...new Set(String(seitenHtml() ?? '').match(/amzn1\.dv\.gti\.[0-9a-f-]{36}/g) ?? []),
       ].slice(0, 80)),
       erzeugtAm: new Date().toISOString(),
-      version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
+      version: globalThis.akKontext.version() ?? 'unbekannt',
       /* Der Durchgang und wie der letzte endete — die Spur überlebt den Seitenwechsel. */
       durchgang: sicher(() => ({ lauf: primeLaufLesen(), ende: primeLaufEndeLesen() })),
       adresse: location.href,
@@ -2014,7 +1973,7 @@ async function speicherSchreiben(werte) {
   const QUELLE = 'https://anime-kalender.de/data/prime-suche.json'
   ;(async () => {
     try {
-      const { primeSuche } = await chrome.storage.local.get('primeSuche')
+      const { primeSuche } = (await globalThis.akKontext.lesen('primeSuche')) ?? {}
       if (primeSuche?.stand && Date.now() - primeSuche.stand < FRISCH_MS) {
         if (primeSuche.liste) uebernehmen(primeSuche.liste)
         return
@@ -2023,7 +1982,7 @@ async function speicherSchreiben(werte) {
       if (!antwort.ok) return
       const frisch = await antwort.json()
       if (frisch && typeof frisch === 'object' && Object.keys(frisch).length) {
-        await chrome.storage.local.set({ primeSuche: { stand: Date.now(), liste: frisch } })
+        await globalThis.akKontext.schreiben({ primeSuche: { stand: Date.now(), liste: frisch } })
         uebernehmen(frisch)
       }
     } catch {
@@ -3518,7 +3477,7 @@ async function speicherSchreiben(werte) {
     knopf.textContent = 'meldet …'
     try {
       /* Der Schlüssel liegt im Sitzungs-Speicher, wie beim Melde-Knopf auch. */
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) throw new Error('kein Schlüssel hinterlegt')
       const antwort = await fetch(WORKER, {
         method: 'POST',
@@ -4779,7 +4738,7 @@ async function speicherSchreiben(werte) {
    * Stand, den sich alle Tabs teilen.
    */
   try {
-    chrome.storage?.onChanged?.addListener?.((aenderungen, bereich) => {
+    globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
       if (bereich !== 'local') return
       if (aenderungen.amazonSuche) suchErledigt = aenderungen.amazonSuche.newValue ?? {}
       if (!aenderungen.amazonErledigt) return uebersichtZeichnen()
@@ -5296,7 +5255,7 @@ async function speicherSchreiben(werte) {
   async function erwartungMelden(suchUrl, kennungen) {
     try {
       /* Dasselbe wie an jeder anderen Meldestelle — es gibt kein tokenHolen(). */
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) return false
       const antwort = await fetch(WORKER, {
         method: 'POST',
@@ -8247,7 +8206,7 @@ async function speicherSchreiben(werte) {
      */
     const mitFrist = (zusage, was) =>
       Promise.race([
-        zusage,
+        Promise.resolve(zusage).then((r) => r ?? Promise.reject(new Error(`${was} antwortet nicht`))),
         new Promise((_, ab) => setTimeout(() => ab(new Error(`${was} antwortet nicht`)), 15000)),
       ])
 
@@ -8255,7 +8214,7 @@ async function speicherSchreiben(werte) {
     let token
     try {
       knopf.textContent = 'hole Zugangsschlüssel …'
-      ;({ token } = await mitFrist(chrome.storage.sync.get('token'), 'Der Speicher'))
+      ;({ token } = await mitFrist(globalThis.akKontext.lesen('token', 'sync'), 'Der Speicher'))
     } catch (err) {
       abweisen(err.message)
       knopf.textContent = err.message
@@ -8267,7 +8226,7 @@ async function speicherSchreiben(werte) {
     }
     if (!token) {
       abweisen('kein Token')
-      knopf.textContent = 'Kein Token — Rechtsklick aufs Symbol, dann Optionen'
+      knopf.textContent = globalThis.akKontext.keinTokenText()
       return
     }
     sendetGerade = true
