@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-13T18:01:42.280Z",
+  "scrapedAt": "2026-11-13T20:02:37.161Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
@@ -77,6 +77,25 @@
         {
           "iso": "2026-11-30",
           "context": ". Bis Ende November 2026 Die neue 3-für-2-Aktion, die vom 13. bis zum 30. November 2026 läuft, umfasst unter anderem die Komplett- und Staff"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-05-21",
+          "context": "Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen« startet am 21. Mai 2027 bei Paramount+ in Deutschland, Österreich und der Schweiz"
+        },
+        {
+          "month": "2027-05",
+          "context": "even Havens«) verkündet. Wir fassen nachfolgend zusammen. Fortsetzung ab Mai 2027 Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen«"
         }
       ],
       "dub": "unklar",
