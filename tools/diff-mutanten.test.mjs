@@ -106,7 +106,7 @@ pruefe('Test unter tools/ für Hook', testFuer('.claude/hooks/x.js', gibt('tools
 pruefe('Test als pipeline/check-<name>.ts', testFuer('pipeline/lib/x.ts', gibt('pipeline/check-x.ts')) === 'node node_modules/tsx/dist/cli.mjs pipeline/check-x.ts')
 pruefe('Test daneben schlägt Test unter tools/ und check-', testFuer('pipeline/lib/x.ts', gibt('pipeline/lib/x.test.ts', 'tools/x.test.mjs', 'pipeline/check-x.ts')).endsWith('pipeline/lib/x.test.ts'))
 pruefe('tools/ schlägt check-', testFuer('pipeline/lib/x.ts', gibt('tools/x.test.mjs', 'pipeline/check-x.ts')) === 'node tools/x.test.mjs')
-pruefe('kein Test: null',testFuer('pipeline/lib/x.ts', gibt()) === null)
+pruefe('kein Test: null', testFuer('pipeline/lib/x.ts', gibt()) === null)
 const ohne = listeAusDiff('+++ b/pipeline/x.ts\n@@ -1 +1 @@\n+x = a && b\n', () => 'x = a && b', [], () => false)
 pruefe('Datei ohne Test: Mutanten ohne tests, Datei gemeldet', ohne.liste.length === 1 && !ohne.liste[0].tests && ohne.ohneTest[0] === 'pipeline/x.ts')
 const global = listeAusDiff('+++ b/pipeline/x.ts\n@@ -1 +1 @@\n+x = a && b\n', () => 'x = a && b', ['mein test'], () => false)

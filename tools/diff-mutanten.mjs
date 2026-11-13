@@ -72,7 +72,7 @@ function mutantenVon(node, q) {
   }
   if (ts.isCallExpression(node) && node.arguments.length >= 2) {
     const [a, b] = node.arguments
-    return [art(`Argumente getauscht ${node.expression.getText()}`,a.getStart(), b.end, `${text(b)}, ${text(a)}`)]
+    return [art(`Argumente getauscht ${node.expression.getText()}`, a.getStart(), b.end, `${text(b)}, ${text(a)}`)]
   }
   return []
 }
