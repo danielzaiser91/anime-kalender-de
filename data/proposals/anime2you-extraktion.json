@@ -1628,8 +1628,21 @@
       "am": "2026-11-12",
       "vorschlaege": 8
     },
+    "1070748": {
+      "am": "2026-11-13",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070797": {
       "am": "2026-11-12",
+      "vorschlaege": 0
+    },
+    "1070995": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071032": {
+      "am": "2026-11-13",
       "vorschlaege": 0
     }
   },

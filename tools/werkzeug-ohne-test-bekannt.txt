@@ -96,7 +96,6 @@ tools/leistung-messen.mjs # Altbestand 12.11.2026, Test fehlt
 tools/melder-leiste-bild.mjs # Altbestand 12.11.2026, Test fehlt
 tools/melder-leiste-pruefen.cjs # Altbestand 12.11.2026, Test fehlt
 tools/messung-crunchyroll-region.mjs # Altbestand 12.11.2026, Test fehlt
-tools/modul-umzug.mjs # Altbestand 12.11.2026, Test fehlt
 tools/netflix-dialog-bild.mjs # Altbestand 12.11.2026, Test fehlt
 tools/netflix-kasten-bild.mjs # Altbestand 12.11.2026, Test fehlt
 tools/netflix-player-bild.mjs # Altbestand 12.11.2026, Test fehlt

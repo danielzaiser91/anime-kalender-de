@@ -1,15 +1,30 @@
 {
-  "scrapedAt": "2026-11-13T04:15:03.663Z",
+  "scrapedAt": "2026-11-13T13:04:25.629Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 62,
-    "schon in einem Rubrik-Feed gelesen": 25,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 15,
+    "schon in einem Rubrik-Feed gelesen": 7,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Termin von »Multi-Mind Mayhem: Isekai Tensei Soudouki« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1070995/multi-mind-mayhem-termin/",
+      "publishedAt": "2026-11-13",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-01-06",
+          "context": "hem: Isekai Tensei Soudouki« wurde heute verkündet, dass die Serie am 6. Januar 2027 im japanischen Fernsehen startet. Einen neuen Trailer f"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Start des Action-Anime »Tsugumi Project« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1070626/start-von-tsugumi-project/",

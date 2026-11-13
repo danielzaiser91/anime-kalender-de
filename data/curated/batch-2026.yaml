@@ -178,10 +178,25 @@
   netflixOriginal: true
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: weekly
-  hinweis: "Folge 1 („1st STAGE“) lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
+  hinweis: "Folge 1 („1st STAGE“) lief bereits am 19.03.2026."
   schedule:
     firstEpisodeDate: "2026-09-25"
     episodeCount: 11
+    # Regeltermin 17:00 JST = 08:00 UTC: Folge 2 fehlte um 09:35 MESZ, war um 10:11 da (Daniel, 25.09.2026);
+    # Fenster unter 60 min gilt als belegt, daher ohne ≈. Ab der Zeitumstellung (25.10.) 09:00 Berliner Zeit.
+    time: "10:00"
+    timeSighting:
+      notSeen: "09:35"
+      seen: "10:11"
+      date: "2026-09-25"
+      source: eigene Sichtung
+    zeiten:
+      7: "09:00"
+      8: "09:00"
+      9: "09:00"
+      10: "09:00"
+      11: "09:00"
+      12: "09:00"
     # Die Reihe hat zwölf Folgen; Folge 1 lief ein halbes Jahr vorher als
     # eigenes Release. Ohne diese Angabe stünde hier „1. Fr 25.09.2026", und
     # genau das las sich wie der Termin der Auftaktfolge.

@@ -276,6 +276,7 @@ pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-hinweis-anzeige.ts
+pipeline/check-hoechstens-ratsche.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts
 pipeline/check-import-meta-env.ts
@@ -469,6 +470,7 @@ pipeline/check-reihen-traeger.ts
 pipeline/check-reinids-grund.ts
 pipeline/check-release-ohne-quelle.ts
 pipeline/check-remake-verdrahtung.ts
+pipeline/check-remake-zaehlung-bestand-lauf.ts
 pipeline/check-remake-zaehlung-pipeline.ts
 pipeline/check-remake-zaehlung.ts
 pipeline/check-rohfolgen-ablauf.ts
