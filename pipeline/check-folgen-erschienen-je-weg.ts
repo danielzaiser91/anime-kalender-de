@@ -69,6 +69,14 @@ const pauseAndererTag = { ...start, schedule: { ...start.schedule, skipDates: ['
 pruefe('Sendepause außerhalb des Sendetags zählt nicht: 4', weg([pauseAndererTag], '2026-10-22').get('netflix') === 4, weg([pauseAndererTag], '2026-10-22').get('netflix'))
 const mitEnde = { ...start, schedule: { ...start.schedule, lastEpisodeDate: '2026-10-08' } } as unknown as Release
 pruefe('Wochenstart mit belegtem Ende 08.10., am 28.10.: 2 statt 4', weg([mitEnde], '2026-10-28').get('netflix') === 2, weg([mitEnde], '2026-10-28').get('netflix'))
+/* Grenzen von Ende und Pause: Ende in der Zukunft, Pause vor/am Start, am/nach dem Ende. */
+const plan = (schedule: Record<string, unknown>) => ({ ...start, schedule: { ...start.schedule, ...schedule } }) as unknown as Release
+const zahl = (schedule: Record<string, unknown>, heute: string) => weg([plan(schedule)], heute).get('netflix')
+pruefe('Ende in der Zukunft (31.12.) zählt nur bis heute (28.10.): 4', zahl({ lastEpisodeDate: '2026-12-31' }, '2026-10-28') === 4, zahl({ lastEpisodeDate: '2026-12-31' }, '2026-10-28'))
+pruefe('Pause vor dem Start (24.09.) zählt nicht, 22.10.: 4', zahl({ skipDates: ['2026-09-24'] }, '2026-10-22') === 4, zahl({ skipDates: ['2026-09-24'] }, '2026-10-22'))
+pruefe('Pause am Starttag (01.10.), 22.10.: 3', zahl({ skipDates: ['2026-10-01'] }, '2026-10-22') === 3, zahl({ skipDates: ['2026-10-01'] }, '2026-10-22'))
+pruefe('Pause am Endtag (Ende 15.10.), 28.10.: 2', zahl({ lastEpisodeDate: '2026-10-15', skipDates: ['2026-10-15'] }, '2026-10-28') === 2, zahl({ lastEpisodeDate: '2026-10-15', skipDates: ['2026-10-15'] }, '2026-10-28'))
+pruefe('Pause nach dem Ende (Ende 08.10., Pause 15.10.), 28.10.: 2', zahl({ lastEpisodeDate: '2026-10-08', skipDates: ['2026-10-15'] }, '2026-10-28') === 2, zahl({ lastEpisodeDate: '2026-10-08', skipDates: ['2026-10-15'] }, '2026-10-28'))
 pruefe('Wochenstart ohne Datum: 0', weg([{ ...start, schedule: {} } as unknown as Release], '2026-10-26').get('netflix') === 0)
 pruefe('Wochenplan eines anderen Anbieters begrenzt den Weg nicht', text(deutscheFolgen(titel([netflix]), undefined, '2026-10-26', 12, weg([wochen('crunchyroll', '2026-10-04', 12)], '2026-10-26'))) === '1-12')
 const mitBereich: StreamLink = { ...netflix, dubRanges: [{ from: 1, to: 8, dub: true }] }
