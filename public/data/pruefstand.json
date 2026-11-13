@@ -1,41 +1,21 @@
 {
- "erzeugtAm": "2026-11-11T15:35:24.471Z",
+ "erzeugtAm": "2026-11-13T00:17:39.697Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 960,
-   "gesamt": 999,
-   "offen": 39,
-   "ohneSeite": 9,
+   "gemeldet": 973,
+   "gesamt": 1024,
+   "offen": 51,
+   "ohneSeite": 4,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Pretty%20Cure&i=instant-video",
-    "https://www.amazon.de/s?k=Demon%20Slave%3A%20The%20Chained%20Soldier&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%20World%3A%20New%20York%2C%20United%20Heroez&i=instant-video",
     "https://www.amazon.de/s?k=Miraculous%20World%3A%20Shanghai%2C%20die%20Legende%20von%20Ladydragon&i=instant-video",
-    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Lovestory%20im%20Polizeihauptquartier%20-%20Am%20Abend%20vor%20der%20Hochzeit&i=instant-video",
-    "https://www.amazon.de/s?k=Fischen%20Impossible%3A%20Eine%20tierische%20Rettungsaktion&i=instant-video",
-    "https://www.amazon.de/s?k=Z%20wie%20Zorro%20%E2%80%93%20Der%20Film&i=instant-video",
-    "https://www.amazon.de/s?k=Miru%20Tights&i=instant-video"
+    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Lovestory%20im%20Polizeihauptquartier%20-%20Am%20Abend%20vor%20der%20Hochzeit&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
+   "ziel": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0TJR1ZN3C977PKPV9W05WCTI7Z",
-     "titel": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
-     "hinweis": "Staffeln unklar: TMDB zählt 26 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FBKJJ7RQ",
-     "titel": "Blaze und die Monster-Maschinen (Blaze and the Monster Machines)",
-     "hinweis": "Staffeln unklar: TMDB zählt 179 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0D11XTMDJ",
-     "titel": "King Julien (All Hail King Julien)",
-     "hinweis": "Staffeln unklar: TMDB zählt 65 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
      "titel": "Detektiv Conan (Detective Conan)"
@@ -61,12 +41,36 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DRVH7MBP",
+     "titel": "Promise of Wizard"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0F2G6NRW2",
+     "titel": "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe (Beheneko: The Elf-Girl's Cat is Secretly an S-Ranked Monster!)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
-     "titel": "Nukitashi: Welcome to Love Island! (Nukitashi THE ANIMATION)"
+     "url": "https://www.amazon.de/gp/video/detail/B0D3KKR2ZW",
+     "titel": "My Deer Friend Nokotan"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FM8SL11C",
+     "titel": "Kubo Won’t Let Me Be Invisible (Kubo Won't Let Me Be Invisible)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FBGJHHXK",
+     "titel": "The Most Heretical Last Boss Queen: From Villainess to Savior"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0GXPFJJZK",
+     "titel": "Captain Tsubasa: Staffel 2 - Die Junioren (Captain Tsubasa: Junior Youth Arc)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0B8TQ6TVJ",
+     "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season (Arifureta: From Commonplace to World's Strongest Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJRZY5ND",
@@ -85,8 +89,32 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0DMB2MKZX",
+     "titel": "Date a Live III"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0C55SJB1W",
+     "titel": "Vinland Saga"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
      "titel": "Babylon"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0G6HF46PV",
+     "titel": "Fruits Basket (Fruits Basket (2019))"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0C7F9NTVC",
+     "titel": "Psycho-Pass 3"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FDC33SZ3",
+     "titel": "Human Lost"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0C9FR5F8C",
+     "titel": "Attack on Titan Movie Teil 3: Gebrüll des Erwachens (Attack on Titan: The Roar of Awakening)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CHKG67BC",
@@ -97,6 +125,18 @@
      "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
     },
     {
+     "url": "https://www.amazon.de/gp/video/detail/B0825L839L",
+     "titel": "Bungo Stray Dogs"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0FQP23X45",
+     "titel": "Sinbad: The Magic Lamp and the Moving Islands"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B083TD7BTR",
+     "titel": "Bungo Stray Dogs 2"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GX7VDJK3",
      "titel": "JoJo’s Bizarre Adventure (JoJo's Bizarre Adventure (TV))"
     },
@@ -105,12 +145,12 @@
      "titel": "Kuroko’s Basketball: 3rd Season (Kuroko's Basketball 3)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B07LHCSXV6",
-     "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
+     "url": "https://www.amazon.de/gp/video/detail/B07MXMCF4V",
+     "titel": "Chaika, die Sargprinzessin: Avenging Battle (Chaika -The Coffin Princess- AVENGING BATTLE)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D169XWP1",
-     "titel": "A Certain Magical Index: The Miracle of Endymion"
+     "url": "https://www.amazon.de/gp/video/detail/B0C7LZCS5H",
+     "titel": "Date a Live"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
@@ -121,12 +161,28 @@
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2",
-     "titel": "To Love Ru: Darkness (To Love Ru Darkness)"
+     "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
+     "titel": "Jormungand"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B00G0PC16U",
+     "titel": "Onigamiden: Legend of the Millennium Dragon (Legend of the Millennium Dragon)"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B01EKI0P2U",
+     "titel": "Yu-Gi-Oh! Zexal"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6b0f25fd-4994-4c67-bd57-228fde6cef40",
+     "titel": "Haganai: I Don’t Have Many Friends (Haganai)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
      "titel": "Black Butler"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B09JZHRQ18",
+     "titel": "Higurashi no Naku Koro ni Kai (When They Cry Kai)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B09KX2VLPR",
@@ -145,26 +201,12 @@
      "titel": "Future Boy Conan"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CLM8GD65",
-     "titel": "Hazbin Hotel",
-     "hinweis": "Staffeln unklar: TMDB zählt 16 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cfb3be4-5a04-47ca-a6ac-e511a1b42ca4",
-     "titel": "Madagascar – Die kleine Wildnis (Madagascar: A Little Wild)",
-     "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
      "titel": "Sylvanian Families",
      "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DJ4FCM5H",
-     "titel": "Zweite Prime-Ausgabe (B0DJ4FCM5H)"
     }
    ],
-   "naechster": "Kung Fu Panda: Die Tatzen des Schicksals (Kung Fu Panda: The Paws of Destiny)",
+   "naechster": "Detektiv Conan (Detective Conan)",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -253,7 +295,6 @@
     "B0B8T48JNZ": 13,
     "B0FV2DT45Q": 12,
     "B0DFH48ZSP": 12,
-    "B0FY44LDNK": 1,
     "B0D4Z3Z5N1": 12,
     "B0CHPLJ3QX": 25,
     "B09WR1P8JS": 13,
@@ -344,8 +385,8 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 770,
-   "gesamt": 1086,
+   "gemeldet": 771,
+   "gesamt": 1087,
    "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
@@ -397,6 +438,10 @@
      ]
     },
     {
+     "url": "https://www.netflix.com/title/81712068",
+     "titel": "Die Tagebücher der Apothekerin"
+    },
+    {
      "url": "https://www.netflix.com/title/82058586",
      "titel": "Possibly the Greatest Alchemist of All Time"
     },
@@ -407,6 +452,14 @@
     {
      "url": "https://www.netflix.com/title/81262169",
      "titel": "Re:Zero - Starting Life in Another World: Staffel 3"
+    },
+    {
+     "url": "https://www.netflix.com/title/81642888",
+     "titel": "Urusei Yatsura",
+     "staffeln": [
+      1,
+      2
+     ]
     },
     {
      "url": "https://www.netflix.com/title/81661821",
@@ -539,10 +592,6 @@
     {
      "url": "https://www.netflix.com/title/81641170",
      "titel": "Bocchi the Rock!"
-    },
-    {
-     "url": "https://www.netflix.com/title/81642888",
-     "titel": "Urusei Yatsura"
     },
     {
      "url": "https://www.netflix.com/title/81672787",
@@ -1065,10 +1114,6 @@
      "titel": "Sailor Moon S: Schneeprinzessin Kaguya"
     },
     {
-     "url": "https://www.netflix.com/title/26588007",
-     "titel": "Sailor Moon R Movie: Gefährliche Blumen"
-    },
-    {
      "url": "https://www.netflix.com/title/81306317",
      "titel": "Splinter Cell: Deathwatch",
      "staffeln": [
@@ -1394,8 +1439,8 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 182,
-   "gesamt": 341,
+   "gemeldet": 183,
+   "gesamt": 342,
    "offen": 159,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
@@ -1431,18 +1476,17 @@
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
-     "titel": "Bleach: Thousand-Year Blood War",
-     "seit": "2026-11-07"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
      "titel": "Welcome to Demon School! Iruma-kun"
     },
     {
-     "url": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
-     "titel": "Children of the Sea",
-     "seit": "2026-08-26"
+     "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
+     "titel": "Ishura",
+     "seit": "2026-10-19"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
+     "titel": "Undead Unluck"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-dc471806-a107-436c-9bec-0e4455c7249c",

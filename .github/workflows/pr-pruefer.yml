@@ -57,6 +57,17 @@ jobs:
           # werden durch eine Stub-Zeile ersetzt, Code, Workflows und Doku bleiben vollständig. Kein Pipe, der den
           # Exit von gh maskiert: erst in eine Datei. Fehlt die Liste oder ist sie leer, ist der Zustand unvollstaendig.
           T="$RUNNER_TEMP/pruefer"; mkdir -p "$T"
+          # Abruf bis zu dreimal mit wachsender Pause (12.11.2026, PRs 3579/3584: eine kurz nicht lesbare API-Antwort beim Autor-Abruf
+          # ließ Nachträge und Commit-Liste weg, der Lauf urteilte „unvollstaendig“). Ausgabe nur des erfolgreichen Versuchs.
+          wdh() {
+            local i t; t=$(mktemp)
+            for i in 1 2 3; do
+              if "$@" > "$t"; then cat "$t"; rm -f "$t"; return 0; fi
+              echo "Abruf gescheitert (Versuch $i/3): $*" >&2
+              [ "$i" -lt 3 ] && sleep $((i * ${PRUEFER_WDH_PAUSE:-5}))
+            done
+            rm -f "$t"; return 1
+          }
           # Rückfall für Dateien ohne API-Patch (sehr große Änderung, z. B. data/dub-confirmed.yaml): nur Git-OBJEKTE holen
           # (Merge-Basis und Kopf, je Tiefe 1), kein Checkout, nichts aus dem PR ausführen. `git diff` liest sie nur;
           # das Skript bleibt das aus main. Schlägt ein Schritt fehl, bleiben basis/kopf leer und es gibt keinen Rückfall.
@@ -70,7 +81,7 @@ jobs:
           fi
           zustand=unvollstaendig
           : > "$T/pr.diff"
-          if gh api --method GET --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" -f per_page=100 -q '.[]' > "$T/dateien.ndjson"; then
+          if wdh gh api --method GET --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" -f per_page=100 -q '.[]' > "$T/dateien.ndjson"; then
             zustand=$(node tools/pr-diff-bauen.mjs "$T/dateien.ndjson" "$T/pr.diff" "$basis" "$kopf") || zustand=unvollstaendig
           fi
           [ "$zustand" = ok ] || zustand=unvollstaendig
@@ -79,7 +90,7 @@ jobs:
             -q '"Titel: " + .title + "\nZweig: " + .headRefName + "\n\n" + .body' > "$T/pr-beschreibung.txt"
           # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "Nachtrag…" oder "Nachbesserung…" (mit oder ohne **, #) am Textanfang (PR-Autor sowie Inhaber, Mitglieder, Mitarbeiter des Repos).
           # REST-Login statt `gh pr view --json author`: das liefert bei Apps "app/claude" und fällt durch die Prüfung unten (PR 1394).
-          autor=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" -q .user.login) || autor=""
+          autor=$(wdh gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" -q .user.login) || autor=""
           if [[ "$autor" =~ ^[A-Za-z0-9][A-Za-z0-9-]*(\[bot\])?$ ]]; then
             # Fail-soft: fehlt das Skript (z. B. auf main vor dem Merge) oder stürzt node ab, muss diff-zustand trotzdem geschrieben werden.
             node tools/pr-nachtraege.mjs "$PR" "$autor" "$T/pr-beschreibung.txt" || echo "Nachträge nicht angehängt"
@@ -409,9 +420,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >> "$GITHUB_OUTPUT"
 
-      # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ bzw. „ok, Checks laufen noch: …“. Die
-      # Freigabe bleibt: das Ruleset sperrt den Merge ohnehin, bis die PR-Prüfkette grün ist, und eine grüne
-      # Wiederholung der Kette braucht so keinen neuen Prüfer-Lauf.
+      # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ (Freigabe bleibt, das Ruleset sperrt den
+      # Merge ohnehin). Laufen die Pflicht-Checks noch, ist es „nicht beurteilt“ ohne Review (Nachlauf nach Kettenende).
       - name: Protokoll und Freigabe
         if: always()
         env:
@@ -433,8 +443,15 @@ jobs:
           art0=$art
           basis_offen=0
           if [ "$DIFF_ZUSTAND" != "ok" ] && [ "$art" = "ok" ]; then
-            echo "Diff unvollständig - Urteil ok wird zu aendern."
-            art=aendern
+            # Nur „unvollstaendig“ (Abruf lückenhaft) ist kein Befund: Kommentar ohne Review, damit ein gültiges Urteil desselben Kopfes
+            # nicht überschrieben wird (PRs 3579/3584); ein Approve gibt es nie. Leer oder unbekannt bleibt „aendern“ mit Review.
+            if [ "$DIFF_ZUSTAND" = "unvollstaendig" ]; then
+              echo "Diff unvollständig - Urteil ok ohne Review."
+              art=unvollstaendig
+            else
+              echo "Diff unvollständig - Urteil ok wird zu aendern."
+              art=aendern
+            fi
             printf '\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt, oder Commit-Liste fehlt - nicht vollständig geprüft, daher keine Freigabe.\n' >> "$T/protokoll.md"
           fi
           if grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' "$T/protokoll.md" || grep -qF -- "$GH_TOKEN" "$T/protokoll.md"; then
@@ -456,11 +473,20 @@ jobs:
             { printf '%s\n\n' "$hinweis"; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
             mv "$T/protokoll.neu" "$T/protokoll.md"
           fi
+          # Auch ein „ok“ ist bei noch laufender Pflicht-Kette kein Urteil (PRs 3478, 3475: „ok, Checks laufen noch“, Kette endete Sekunden
+          # danach): „nicht beurteilt“ mit Marke, kein Approve; der Nachlauf nach Kettenende holt das Urteil. Rot und unbekannt bleiben „ok, …“.
+          if [ "$art" = "ok" ] && [ "$art0" = "ok" ] && [ "${CHECKS:-}" != "${CHECKS#Checks laufen noch}" ]; then
+            art=offen
+            hinweis='Die PR-Prüfkette lief beim Urteil noch; das Urteil gilt erst nach Kettenende. Der Prüfer startet dann von selbst neu.'
+            { printf '%s\n\n' "$hinweis"; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
+            mv "$T/protokoll.neu" "$T/protokoll.md"
+          fi
           titel="$art"
           if [ "$art" = "ok" ] && [ "${CHECKS:-}" != "gruen" ]; then
             titel="ok, ${CHECKS:-Checks-Stand unbekannt}"
           fi
           if [ "$art" = "offen" ]; then titel="nicht beurteilt, Kette lief noch"; fi
+          if [ "$art" = "unvollstaendig" ]; then titel="nicht beurteilt, Diff unvollständig"; fi
           if [ "$art" = "offen" ] && [ "$basis_offen" = "1" ]; then titel="nicht beurteilt, Basis offen"; fi
           # Abnahme-Modus: "aendern" sperrt nur, solange es frei ist (Prüfstufe 2, einmal); sonst bleibt es bei einem Kommentar ohne Review, der Dirigent entscheidet.
           modus=voll
@@ -488,6 +514,8 @@ jobs:
             echo "Abnahme: Auflagen offen, kein Review (Dirigent entscheidet)."
           elif [ "$art" = "offen" ]; then
             echo "Kette beim Urteil noch offen: nicht beurteilt, kein Review; Neustart nach Kettenende (pr-pruefer-nachtrag.yml)."
+          elif [ "$art" = "unvollstaendig" ]; then
+            echo "Diff unvollständig: nicht beurteilt, kein Review (ein früheres Urteil desselben Kopfes bleibt); Prüfer neu starten."
           elif [ "$art" = "ok" ]; then
             gh pr review "$PR" --repo "$GITHUB_REPOSITORY" --approve --body "Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9})."
           else

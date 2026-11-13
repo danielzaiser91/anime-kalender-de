@@ -1628,18 +1628,7 @@ function browseWegKnopf() {
     jetzt dort angeboten, wo er auffällt — solange der Klick keine Minute her ist.
   */
   if (/^\/(?:[a-z-]+\/)?browse\b/.test(location.pathname)) {
-    const auftrag = (() => {
-      try {
-        return zuletztGeoeffnet?.id &&
-          !zuletztGeoeffnet.verbraucht &&
-          offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-          Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000
-          ? zuletztGeoeffnet
-          : null
-      } catch {
-        return null
-      }
-    })()
+    const auftrag = akNetflixBrowseAuftrag(zuletztGeoeffnet, offeneTitel, Date.now())
     if (auftrag) {
       /* Ein Melde-Knopf der vorigen Titelseite trägt `melden` als Hörer — weg damit. */
       if (knopf && !knopf.dataset.weg) knopfEntfernen()
@@ -1872,16 +1861,20 @@ let erledigt = {}
  * über das Gedächtnis.
  */
 let netflixWeiterleitungen = {}
+/** Besitzer des Durchgangs (`netflix-durchgang-steuerung.js`); `undefined` = noch nicht geladen. */
+let durchgangBesitzer
 const erledigtGeladen = chrome.storage.local
-  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen'])
+  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen', 'netflixDurchgangBesitzer'])
   .then((x) => {
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
-    zuletztGeoeffnet = x.zuletztGeoeffnet ?? null
+    zuletztGeoeffnet = akNetflixEigenerSprung(x.zuletztGeoeffnet, meinTab)
     netflixWeiterleitungen = x.netflixWeiterleitungen ?? {}
+    durchgangBesitzer = x.netflixDurchgangBesitzer ?? null
   })
   .catch(() => {
     erledigt = {}
+    durchgangBesitzer = null
   })
 
 /** Eine Folge in Daniels Kurzform: Staffel, `e`, zweistellige Folge. */
@@ -2397,10 +2390,17 @@ try {
   /* Ohne Speicher läuft nichts — die vorsichtige Seite. */
 }
 if (selbstAn) setTimeout(() => void vielleichtSelbstStarten(), 0)
+/* Tab zu: der Besitz wird frei, ein neuer Start im anderen Tab muss nicht auf den Puls warten. */
+globalThis.addEventListener?.('pagehide', () => {
+  if (selbstAn && durchgangBesitzer?.tab === meinTab) taktTun.schreiben(null)
+})
 
 function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
+  bremse.zuruecksetzen()
+  taktTun.zeigen(null)
+  if (durchgangBesitzer?.tab === meinTab) taktTun.schreiben(null)
   DURCHLAUF.vollLauf = null
   DURCHLAUF.mehrfach = null
   /* Sonst stand der letzte Zählerstand („⏹ 6/6 — abbrechen") weiter am Knopf. */
@@ -2428,25 +2428,7 @@ let durchgangEnde = null
 const fertigeTitel = new Set()
 
 function durchgangEndeZeigen() {
-  try {
-    const zeile = netflixKasten().querySelector('.ak-z-melden')
-    if (!zeile) return
-    let el = zeile.querySelector('.ak-durchgang-ende')
-    if (!durchgangEnde) return el?.remove()
-    if (!el) {
-      el = document.createElement('div')
-      el.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.appendChild(el)
-    }
-    el.classList.toggle('ak-durchgang-rot', Boolean(durchgangEnde.rot))
-    el.textContent =
-      (durchgangEnde.grund === 'kein offener Auftrag mehr' ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
-      durchgangEnde.uebersprungenText +
-      (selbstUebersprungen.zurueckText() + durchgangEnde.text)
-    el.title = durchgangEnde.grund
-  } catch {
-    /* Eine Anzeige darf den Takt nicht aufhalten. */
-  }
+  akNetflixEndeZeigen(() => netflixKasten().querySelector('.ak-z-melden'), durchgangEnde, selbstUebersprungen.zurueckText())
 }
 
 function laufStarten() {
@@ -2470,6 +2452,7 @@ function laufStarten() {
   selbstGrenze = Object.keys(offeneTitel).length
   selbstVersucht = null
   selbstUebersprungen.clear()
+  bremse.zuruecksetzen()
   selbstStaffelnGeprueft.clear()
   selbstGesammelt.clear()
   selbstVersuche.clear()
@@ -2486,6 +2469,27 @@ function laufStarten() {
   if (hierAuftrag) void vielleichtSelbstStarten()
   else selbstWeiter()
   return true
+}
+
+/** Klick auf „▶ alle durchgehen" / „⏹ Durchgang beenden": beendet, startet oder sagt, warum nichts startet. */
+function selbstKlick(selbst) {
+  if (selbstAn) {
+    laufBeenden('von Hand')
+    dialogSchliessen()
+    return
+  }
+  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel). */
+  const hinweis = akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now()) ?? (laufStarten() ? null : selbstUebersprungen.keinAuftrag())
+  if (!hinweis) return
+  /* Kein Start: der Dialog bleibt offen und sagt es (kein Auftrag heißt meist, die Erweiterung hält einen älteren Prüfstand — ein Neuladen holt ihn). */
+  const vorher = selbst.textContent
+  selbst.textContent = hinweis.text
+  selbst.title = hinweis.title
+  selbst.disabled = true
+  setTimeout(() => {
+    selbst.textContent = vorher
+    selbst.disabled = false
+  }, 5000)
 }
 
 /**
@@ -2507,6 +2511,12 @@ let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text); mit Ablauf auch im Speicher (`netflix-zurueckgestellt.js`). */
 const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig)
+/** Tab, Bremse (kein Titelfenster in Folge = Sitzung, nicht Titel), Bericht je Titel und Takt-Verdrahtung (`netflix-durchgang-steuerung.js`). */
+const meinTab = akNetflixTabKennung()
+const titelBericht = akNetflixTitelBericht(meinTab)
+const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
+const vollLaden = akNetflixVollLaden(location)
+const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
 const SELBST_VERSUCHE = 2
@@ -2775,19 +2785,23 @@ function istAlleFolgenEintrag(text) {
 }
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
-function selbstWeiter() {
+function selbstWeiter(frei = 0) {
+  /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
+  selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
+  if (bremse.pause(Date.now())) return
   selbstGrenze ??= Object.keys(offeneTitel).length
   const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
-  if (!naechster) return laufBeenden('kein offener Auftrag mehr')
+  if (!naechster) return laufBeenden(bremse.offen() ? `Netflix zeigte ${bremse.offen()} Titel ohne Inhalt, sie bleiben offen` : 'kein offener Auftrag mehr')
   selbstGezaehlt++
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
       `(${selbstGezaehlt}/${selbstGrenze})`,
   )
   /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
-  const sprung = { id: String(naechster), zeit: Date.now(), durchgang: true }
+  const sprung = { id: String(naechster), zeit: Date.now(), durchgang: true, tab: meinTab }
+  titelBericht.beginn(naechster, sprung.zeit)
   void speicherSchreiben({ zuletztGeoeffnet: sprung })
   zuletztGeoeffnet = sprung
   gehe(`/title/${naechster}`)
@@ -2808,7 +2822,7 @@ function naechsterAuftrag() {
   const hier = String(gemeinteReihe() ?? '')
   for (const [kennung, eintrag] of Object.entries(offeneTitel)) {
     if (kennung === hier) continue
-    if (selbstUebersprungen.has(kennung)) continue
+    if (selbstUebersprungen.has(kennung) || bremse.ausgeschlossen(kennung)) continue
     if (istErledigt(kennung, 'tot')) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
     if (!offen.length) continue
@@ -2832,6 +2846,7 @@ function naechsterAuftrag() {
  */
 async function vielleichtSelbstStarten() {
   try {
+    if (!akNetflixSelbstTakt({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now(), bremse }, taktTun)) return
     const ziel = zuletztGeoeffnet
     const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined }
     if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })) return
@@ -2861,9 +2876,10 @@ async function selbstStartenSchritt() {
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
     /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
     const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
-    selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })
+    selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, bremse, vollLaden })
     return
   }
+  bremse.ok()
   selbstWartet = null
   /* Läuft gerade ein Staffelwechsel, warten, bis Netflix die neue Staffel zeigt und der Leser sie hat. */
   /*
@@ -4175,7 +4191,7 @@ async function durchlaufStarten() {
     kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
     schließen).
   */
-  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter)) {
+  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter, bremse, Date.now())) {
     /* Netflix zeigt den Titel nicht: übersprungen, der Durchgang geht weiter. */
   } else if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
     laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
@@ -5421,26 +5437,7 @@ async function dialogOeffnen() {
       ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
       : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
         'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
-    akKlick(selbst, () => {
-      if (selbstAn) {
-        laufBeenden('von Hand')
-        dialogSchliessen()
-        return
-      }
-      if (laufStarten()) return
-      /*
-        Kein Auftrag: Der Dialog bleibt offen und sagt es. Meist hält die Erweiterung dann
-        einen älteren Prüfstand — ein Neuladen der Seite holt ihn.
-      */
-      const vorher = selbst.textContent
-      selbst.textContent = selbstUebersprungen.keinAuftrag().text
-      selbst.title = selbstUebersprungen.keinAuftrag().title
-      selbst.disabled = true
-      setTimeout(() => {
-        selbst.textContent = vorher
-        selbst.disabled = false
-      }, 5000)
-    })
+    akKlick(selbst, () => selbstKlick(selbst))
     kopf.appendChild(selbst)
   }
 
@@ -6159,9 +6156,10 @@ if (verbindungLebt())
   if (bereich !== 'local') return
   // Ein Klick in einem anderen Tab sagt uns, welcher Titel gemeint ist.
   if (aenderungen.zuletztGeoeffnet) {
-    zuletztGeoeffnet = aenderungen.zuletztGeoeffnet.newValue ?? null
+    zuletztGeoeffnet = akNetflixEigenerSprung(aenderungen.zuletztGeoeffnet.newValue, meinTab)
     uebersichtZeigen()
   }
+  if (aenderungen.netflixDurchgangBesitzer) durchgangBesitzer = aenderungen.netflixDurchgangBesitzer.newValue ?? null
   // Eine neu gemeldete Staffelaufteilung ändert die empfohlenen Folgen und
   // damit auch, was als erledigt gilt.
   if (aenderungen.anbieterStaffeln) {
@@ -6269,6 +6267,7 @@ function nfBericht() {
       staffelnGeprueft: [...selbstStaffelnGeprueft],
       gesammelt: [...selbstGesammelt],
       spur: DURCHGANG_SPUR,
+      ...akNetflixSitzungBericht(titelBericht, bremse, meinTab, durchgangBesitzer, Date.now()),
     })),
     seite: sicher(() => akNetflixBericht.seitenmerkmale(document, location, history)),
     listeGesamt: sicher(() => Object.keys(offeneTitel).length),

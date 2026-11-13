@@ -10,7 +10,19 @@ const FRISCH_MS = 60 * 60 * 1000
 const AUSGENOMMEN = new Set(['pruefer'])
 // Ruhemodus (Daniel, 10.10.2026; Prüfer zählen auch dort nicht, 14.10.2026; auf 2 angehoben 14.10.2026 18:00, wieder 1 seit 22:31, 2 seit 17.10.2026 22:49): Markerdatei da → höchstens RUHE_GRENZE Agenten.
 const RUHE_MARKER = require('path').join(require('os').homedir(), '.claude', 'ruhemodus.txt')
-const grenze = (marker = process.env.RUHE_MARKER || RUHE_MARKER) => (fs.existsSync(marker) ? RUHE_GRENZE : GRENZE)
+// Probe bis einschließlich Do 19.11.2026 (Daniel, 11.11.2026 21:58): Mo–Fr 8–16 Uhr arbeitet er selbst, dann dürfen 5 laufen.
+// Donnerstags bis 18 Uhr (Daniel, 12.11.2026: Schach).
+const ARBEITSZEIT_GRENZE = 5
+const PROBE_ENDE = '2026-11-19'
+function inArbeitszeit(jetzt) {
+  const teile = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23', weekday: 'short' }).formatToParts(jetzt).map((t) => [t.type, t.value]))
+  const tag = `${teile.year}-${teile.month}-${teile.day}`
+  const ende = teile.weekday === 'Thu' ? 18 : 16
+  return tag <= PROBE_ENDE && !['Sat', 'Sun'].includes(teile.weekday) && Number(teile.hour) >= 8 && Number(teile.hour) < ende
+}
+// AGENTEN_JETZT (ISO) nur für Tests, damit sie nicht von der Uhrzeit abhängen.
+const jetztStandard = () => new Date(process.env.AGENTEN_JETZT || Date.now())
+const grenze = (marker = process.env.RUHE_MARKER || RUHE_MARKER, jetzt = jetztStandard()) => (inArbeitszeit(jetzt) ? ARBEITSZEIT_GRENZE : fs.existsSync(marker) ? RUHE_GRENZE : GRENZE)
 
 function letzteZeile(datei) {
   const groesse = fs.statSync(datei).size
@@ -70,7 +82,7 @@ function pruefe(input, jetzt = Date.now()) {
   return `Agenten-Grenze${g === RUHE_GRENZE ? ' (Ruhemodus)' : ''}: ${gezaehlt.length} von ${g} laufen schon (${gezaehlt.map((a) => a.beschreibung).join(' · ')}). Erst starten, wenn einer fertig ist; Prüfer (pruefer) zählen nicht. Daniel 13.10.2026, Hook .claude/hooks/agenten-grenze.js.`
 }
 
-module.exports = { laufendeAgenten, pruefe, GRENZE, grenze }
+module.exports = { laufendeAgenten, pruefe, GRENZE, grenze, inArbeitszeit }
 
 if (require.main === module) {
   let s = ''

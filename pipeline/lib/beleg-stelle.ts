@@ -54,20 +54,38 @@ export function terminMarken(tage: string[]): string[] {
       `${d} ${monat} ${y}`,
       `${String(d).padStart(2, '0')}.${String(m).padStart(2, '0')}.`,
       `${d}.${m}.`,
+      /* Japanische Seiten (tokyo-revengers-anime.com): „2026年10月2日". Das „年" davor hält „2月2日" aus „12月2日" heraus (includes ohne Wortgrenze). */
+      `年${m}月${d}日`,
       /* Nennt der Artikel nur den Monat („im Oktober 2026"), stützt er den Tag nicht genau, aber er sagt dasselbe wie die Quelle. */
       `${monat} ${y}`,
     ]
   })
 }
 
+/**
+ * Regex-Quelltext, der eine Marke nur an Wortgrenzen trifft: keine Ziffer oder kein Buchstabe davor (`2.10.` steckt sonst in `12.10.`, `22.10.2026`), keine Ziffer oder
+ * kein Buchstabe danach, außer die Marke endet auf „.“ (`2.10.` trägt `2.10.2026`). Japanische Marken (`年…日`) haben keine solche Kante. Als Quelltext, weil die Suche im Browser läuft.
+ */
+export function markenMuster(marke: string): string {
+  const roh = marke.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const davor = /^[a-z0-9äöüß]/i.test(marke) ? '(?<![\\p{L}\\p{N}])' : ''
+  const danach = /[a-z0-9äöüß]$/i.test(marke) ? '(?![\\p{L}\\p{N}])' : ''
+  return davor + roh + danach
+}
+
+/** Nennt der (kleingeschriebene) Text die Marke an einer Wortgrenze? */
+export function enthaeltMarke(text: string, marke: string): boolean {
+  return new RegExp(markenMuster(marke), 'u').test(text)
+}
+
 /** Nennt der Artikel keinen der Termine (`tage`) irgendwo? Ohne Termine: nein. Dann darf keine Zeile mit dem Titel als Beleg des Termins markiert werden. */
 export async function terminFehltImText(seite: Page, tage: string[]): Promise<boolean> {
-  const marken = terminMarken(tage)
-  if (!marken.length) return false
-  return seite.evaluate((marken) => {
+  const muster = terminMarken(tage).map(markenMuster)
+  if (!muster.length) return false
+  return seite.evaluate((muster) => {
     const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
-    return !marken.some((m) => wurzel.innerText.toLowerCase().includes(m))
-  }, marken)
+    return !muster.some((m) => new RegExp(m, 'u').test(wurzel.innerText.toLowerCase()))
+  }, muster)
 }
 
 /**
@@ -77,7 +95,8 @@ export async function terminFehltImText(seite: Page, tage: string[]): Promise<bo
  */
 export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]): Promise<Stelle | undefined> {
   return seite.evaluate(
-    ({ suchen, marken }) => {
+    ({ suchen, muster }) => {
+      const nennt = (t: string) => muster.some((m) => new RegExp(m, 'u').test(t))
       const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
       const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
       const kandidaten = [...wurzel.querySelectorAll('p, li, tr, h2, h3')]
@@ -87,11 +106,23 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
         .sort((a, b) => a.text.length - b.text.length)
       const gesucht = suchen.map(norm)
       /* Alle Zeilen, die einen Titel **und** einen Termin nennen — ein Artikel belegt oft mehrere Termine, und das Bild soll sie alle zeigen. Sonst die erste mit einem Titel. */
-      const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && marken.some((m) => k.roh.includes(m)))
+      const direkt = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && nennt(k.roh))
+      /* Kachelraster (ADN-Monatsseite „April 2026“): Der Titel steht in einem eigenen Element, die Zeile „Start: 1. April“ darunter. Sie stützt den Tag, wenn das Element davor (Geschwister, bis zwei Ebenen höher) ein kurzer Titeltext ist. */
+      const mitDatum = (t: string) => /\d{1,2}\.\s?(\d{1,2}\.|[a-zäöü]{3,})/i.test(t)
+      /* Eine reine Terminzeile trägt nur Datum, Uhrzeit und Wörter wie „Start“; ein fremder Titel in der Zeile (flach: „Kill Blue Start: 11. April“) macht sie zur Zeile des Nachbarn. */
+      const reineTerminzeile = (t: string) => !/[a-zäöü]/.test(t.replace(/\b(start|ab|am|uhr|ut|(jan|feb|mär|apr|mai|jun|jul|aug|sep|okt|nov|dez)[a-zäöü]*)\b/g, ''))
+      const titelDavor = (e: Element): boolean => {
+        for (let n: Element | null = e, i = 0; n && n !== wurzel && i < 3; n = n.parentElement, i++) {
+          const v = n.previousElementSibling as HTMLElement | null
+          if (v) return norm(v.innerText).length < 150 && !mitDatum(v.innerText) && gesucht.some((g) => norm(v.innerText).includes(g))
+        }
+        return false
+      }
+      const stuetzend = direkt.length ? direkt : kandidaten.filter((k) => nennt(k.roh) && reineTerminzeile(k.text) && titelDavor(k.e))
       /* Ohne Termin im Text: lieber der Abschnitt mit dem Titel als Überschrift (Anbieter, Folgen, Sprache stehen darunter) als ein Listenpunkt in der Übersicht ganz oben. */
       const alsUeberschrift = gesucht.flatMap((g) => kandidaten.filter((k) => /^H[23]$/.test(k.e.tagName) && k.text.includes(g)).slice(0, 1)).slice(0, 1)
       /* Nennt der Artikel den Termin nirgends, ist die Zeile mit dem Titel kein Beleg dafür („Betroffen sind … Virgin Road …" ohne Datum, 29.10.2026). Steht er irgendwo (aniSearch-Produktseite: Datum in einem eigenen Feld), gilt der Titel wie bisher. */
-      const termineFehlen = marken.length > 0 && !marken.some((m) => wurzel.innerText.toLowerCase().includes(m))
+      const termineFehlen = muster.length > 0 && !nennt(wurzel.innerText.toLowerCase())
       const gewaehlt = stuetzend.length ? stuetzend : termineFehlen ? [] : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
       if (!gewaehlt.length) return undefined
       const rects = gewaehlt.map((k) => k.e.getBoundingClientRect())
@@ -108,6 +139,6 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
         markeUnten: erste.bottom + window.scrollY,
       }
     },
-    { suchen, marken: terminMarken(tage) },
+    { suchen, muster: terminMarken(tage).map(markenMuster) },
   )
 }

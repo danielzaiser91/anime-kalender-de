@@ -1,0 +1,158 @@
+{
+ "3393": {
+  "comments": [
+   {
+    "createdAt": "2026-11-10T18:59:47Z",
+    "body": "<!-- pr-stufe -->"
+   },
+   {
+    "createdAt": "2026-11-10T19:01:43Z",
+    "body": "Prüfer Runde 1: ändern (klein)"
+   },
+   {
+    "createdAt": "2026-11-10T19:06:11Z",
+    "body": "## Nachtrag (Prüfer-Runde 1)"
+   },
+   {
+    "createdAt": "2026-11-10T19:06:55Z",
+    "body": "**Abnahme Dirigent** für d085e8020 – Urteil: **freigeben**"
+   },
+   {
+    "createdAt": "2026-11-10T19:21:47Z",
+    "body": "**Prüfer-Review** für d085e8020 - Urteil: **ok**"
+   }
+  ],
+  "commits": [
+   {
+    "oid": "c62e7a715ad9a00002d765975f55629d12ed5b4c",
+    "committedDate": "2026-11-10T18:58:22Z"
+   },
+   {
+    "oid": "d085e80208d895584fa4274b598929c6c2861d94",
+    "committedDate": "2026-11-10T19:06:00Z"
+   }
+  ]
+ },
+ "3398": {
+  "comments": [
+   {
+    "createdAt": "2026-11-10T19:38:58Z",
+    "body": "<!-- pr-stufe -->"
+   },
+   {
+    "createdAt": "2026-11-10T19:40:41Z",
+    "body": "Prüfer Runde 1: ändern"
+   },
+   {
+    "createdAt": "2026-11-10T19:44:11Z",
+    "body": "**Prüfer-Review** für 21e553431 - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-10T19:55:58Z",
+    "body": "## Nachtrag Runde 2 (Kopf 1fc11c810)"
+   },
+   {
+    "createdAt": "2026-11-10T19:56:09Z",
+    "body": "**Prüfer-Review** für 1fc11c810 - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-10T19:57:25Z",
+    "body": "**Prüfer-Review** für 1fc11c810 - Urteil: **ok**"
+   }
+  ],
+  "commits": [
+   {
+    "oid": "21e55343169df28a066a021a03793f5cda961af5",
+    "committedDate": "2026-11-10T19:37:25Z"
+   },
+   {
+    "oid": "0c848ac8f7a1b8b4b61bab3dcbaa6c69f4b4d933",
+    "committedDate": "2026-11-10T19:48:12Z"
+   },
+   {
+    "oid": "1fc11c8104045c05a0a04f5f6dfb35bc626939d0",
+    "committedDate": "2026-11-10T19:48:45Z"
+   }
+  ]
+ },
+ "3565": {
+  "comments": [
+   {
+    "createdAt": "2026-11-12T11:53:40Z",
+    "body": "<!-- pr-stufe -->"
+   },
+   {
+    "createdAt": "2026-11-12T11:56:38Z",
+    "body": "**Prüfer-Review** für 7a131f64f - Urteil: **ändern** (Runde 1, Stufe 2)"
+   },
+   {
+    "createdAt": "2026-11-12T12:10:43Z",
+    "body": "## Nachtrag (Kopf 4c7d9c2e4)"
+   },
+   {
+    "createdAt": "2026-11-12T12:38:12Z",
+    "body": "**Prüfer-Review** für 4c7d9c2e4 - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-12T12:42:49Z",
+    "body": "**Prüfer-Review** für 4c7d9c2e4 - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-12T12:46:04Z",
+    "body": "**Nachrechnen** NICHT AKTUELL: Kette gegen 4341b196f, main ist 15cd7ee4f; main bewegte data/crunchyroll-neu.json; der PR ruft tools/extension-laden-pruefen.cjs "
+   }
+  ],
+  "commits": [
+   {
+    "oid": "7a131f64f1e08838382cab64c7a6a8e4408ad940",
+    "committedDate": "2026-11-12T11:50:07Z"
+   },
+   {
+    "oid": "5cf493ad348f6d70820849930f6d51b1bec5b392",
+    "committedDate": "2026-11-12T12:00:59Z"
+   },
+   {
+    "oid": "4c7d9c2e4cc1b997fcf62560488660392ba8a780",
+    "committedDate": "2026-11-12T12:01:07Z"
+   }
+  ]
+ },
+ "3566": {
+  "comments": [
+   {
+    "createdAt": "2026-11-12T11:53:57Z",
+    "body": "<!-- pr-stufe -->"
+   },
+   {
+    "createdAt": "2026-11-12T11:57:16Z",
+    "body": "**Prüfer-Review** für b578fde90 - Urteil: **ändern** (Prüfstufe 2, Runde 1; Checks nicht beurteilt, Kette nicht abgewartet)"
+   },
+   {
+    "createdAt": "2026-11-12T12:08:08Z",
+    "body": "## Nachtrag (Runde 1, Auflagen)"
+   },
+   {
+    "createdAt": "2026-11-12T12:38:19Z",
+    "body": "**Prüfer-Review** für ecd45321e - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-12T12:41:26Z",
+    "body": "**Nachrechnen** NICHT AKTUELL: Kette gegen f210ac0ac, main ist ad316454a; main bewegte data/crunchyroll-neu.json; der PR liest einen Ordner mit data/crunchyroll"
+   }
+  ],
+  "commits": [
+   {
+    "oid": "b578fde90da48344636928f9586ee295a6395933",
+    "committedDate": "2026-11-12T11:52:17Z"
+   },
+   {
+    "oid": "ebef4749395711049644dd4165cb5f8a725662ac",
+    "committedDate": "2026-11-12T12:07:15Z"
+   },
+   {
+    "oid": "ecd45321ef122410aefd1e901197602a0582a120",
+    "committedDate": "2026-11-12T12:07:35Z"
+   }
+  ]
+ }
+}

@@ -1,0 +1,20 @@
+name: Geprüften Bau holen
+description: >
+  Herkunft des Deploys (10.11.2026): Hat die PR-Prüfkette genau diesen Quelltext schon gebaut und geprüft, ist `treffer` 1 (Beweis und Rückfälle:
+  tools/deploy-aus-build.mjs, Baum in version.json). Jeder Fehler heißt nur „kein Treffer“. Voraussetzung: ausgecheckt ist mindestens `tools`
+  mit Verlauf (fetch-depth >= 2). `[schlank]` baut selbst und fragt nicht. Beide Deploy-Jobs (build, pruefen) rufen dieselbe Prüfung auf.
+outputs:
+  treffer:
+    description: "1, wenn der Bau der PR-Prüfkette ausgeliefert werden kann"
+    value: ${{ steps.holen.outputs.treffer }}
+runs:
+  using: composite
+  steps:
+    - name: Geprüften Bau der PR-Prüfkette holen
+      id: holen
+      if: ${{ !contains(github.event.head_commit.message, '[schlank]') }}
+      continue-on-error: true
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: node tools/deploy-aus-build.mjs "$RUNNER_TEMP/artifact.tar"

@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-11 · **187 offene Verweise** in **142 Zeilen**.
+Stand 2026-11-13 · **186 offene Verweise** in **142 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -34,7 +34,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | Offen je Anbieter | Verweise |
 |---|---|
 | [Netflix](07-netflix.md) | 176 |
-| [Prime Video](07-primevideo.md) | 8 |
+| [Prime Video](07-primevideo.md) | 7 |
 | [Disney+](07-disneyplus.md) | 2 |
 | [Pluto TV](07-plutotv.md) | 1 |
 
@@ -42,11 +42,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
-| 2 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 3 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
-| 4 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
-| 5 | 2026-11-01 | M.A.S.K. | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.eeb6197a-3602-ac84-206c-d5d2514ec5ef) |
+| 1 | 2026-11-12 | InuYasha | [Yashahime: Princess Half-Demon](https://www.netflix.com/title/81336398) |
+| 2 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
+| 3 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
+| 4 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
+| 5 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
 | 6 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
 | 7 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
 | 8 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
@@ -152,20 +152,20 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 108 | 2017-06-13 | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
 | 109 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
 | 110 | 2016-12-22 | Küss ihn, nicht mich! | [Hauptserie](https://www.netflix.com/title/81107662) |
-| 111 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.netflix.com/title/26588007) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 111 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
 | 112 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
 | 113 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
 | 114 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
 | 115 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
-| 116 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
-| 117 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
-| 118 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 119 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
-| 120 | 2014-03-30 | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
-| 121 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
-| 122 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
-| 123 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
-| 124 | 2012-12-29 | To Love-Ru: Trouble | [To Love Ru: Darkness](https://watch.amazon.de/detail?gti=amzn1.dv.gti.cab713ed-8211-0b9a-e9f1-c02e9c6dd1b2) |
+| 116 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 117 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
+| 118 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
+| 119 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 120 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
+| 121 | 2014-03-30 | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
+| 122 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 123 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
+| 124 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
 | 125 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
 | 126 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
 | 127 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |

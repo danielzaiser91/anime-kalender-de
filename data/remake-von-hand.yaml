@@ -28,3 +28,10 @@
   original: 283
   grund: 'Anne Shirley (2025) adaptiert den Roman Anne auf Green Gables neu und führt die Serie Anne mit den roten Haaren (1979) nicht fort'
   quelle: https://www.anisearch.de/anime/19768
+
+# aniSearch führt die Neuverfilmung 2022 (David Production) nicht als „Remake" der Serie von 1981 (Pierrot/Deen); Wikipedia nennt sie
+# „the second television anime adaptation of the manga, following the 1981 adaptation" (Abruf 11.11.2026). Staffel 2 (2024) setzt die Neuverfilmung fort.
+- remake: 143277
+  original: 1293
+  grund: 'Urusei Yatsura (2022) ist die zweite Fernsehadaption des Manga nach der Serie von 1981 und erzählt sie neu; Staffel 2 (2024) setzt die Neuverfilmung fort'
+  quelle: https://en.wikipedia.org/wiki/Urusei_Yatsura_(2022_TV_series)

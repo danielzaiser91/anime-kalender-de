@@ -354,7 +354,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   const block = von < 0 ? '' : quelle.slice(von, von + 2400)
 
   /* Seit 21.09.2026 springt `selbstWeiter()` — dieselbe Funktion nutzt das Überspringen bei „S?". */
-  const weiter = quelle.slice(quelle.indexOf('function selbstWeiter()'), quelle.indexOf('function selbstWeiter()') + 1200)
+  const weiter = quelle.slice(quelle.indexOf('function selbstWeiter(frei = 0)'), quelle.indexOf('function selbstWeiter(frei = 0)') + 1200)
   pruefe('nach dem Durchgang wird weitergegangen', /selbstWeiter\(\)/.test(block) && /naechsterAuftrag\(\)/.test(weiter))
   pruefe(
     'aber nur nach einem selbsttaetigen, nicht nach einem Klick',

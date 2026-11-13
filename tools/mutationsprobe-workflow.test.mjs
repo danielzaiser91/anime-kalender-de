@@ -36,6 +36,13 @@ for (const job of [mutation, kommentar]) {
   for (const s of job.steps) assert.ok(!/\$\{\{/.test(s.run ?? ''), `Ausdruck in run (nur über env): ${s.name}`)
 }
 
+// Einrichten mit Chromium: Node, npm ci und Browser stecken in der Action; sie steht nach dem Checkout und vor dem Lauf
+const einrichtenIdx = mutation.steps.findIndex((s) => s.uses === './.github/actions/einrichten')
+assert.ok(einrichtenIdx > mutation.steps.findIndex((s) => s.uses?.startsWith('actions/checkout')), 'Einrichten nach dem Checkout')
+assert.ok(einrichtenIdx < mutation.steps.findIndex((s) => s.name === 'Mutanten einspielen und Tests laufen lassen'), 'Einrichten vor dem Lauf')
+assert.equal(mutation.steps[einrichtenIdx].with.playwright, 'true', 'Chromium wird installiert')
+assert.equal(mutation.steps[einrichtenIdx].with.cache, 'aus')
+
 // Laufzeit
 const dir = mkdtempSync(join(tmpdir(), 'mutprobe-'))
 const bash = (script, env, cwd) =>

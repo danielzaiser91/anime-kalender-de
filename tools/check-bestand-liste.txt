@@ -4,6 +4,8 @@
 pipeline/check-adn-film-bestand.ts
 pipeline/check-adn-kennung-bestand.ts
 pipeline/check-adn-offen-bestand.ts
+pipeline/check-adn-staffel-luecken-bestand.ts
+pipeline/check-anbieter-eintraege-bestand.ts
 pipeline/check-angebot-bestand.ts
 pipeline/check-anisearch-dubletten-bestand.ts
 pipeline/check-anisearch-katalog-abgleich-bestand.ts
@@ -55,6 +57,7 @@ pipeline/check-joyn-luecke-bestand.ts
 pipeline/check-joyn-pille-bestand.ts
 pipeline/check-joyn-sender-bestand.ts
 pipeline/check-joyn-termine-bestand.ts
+pipeline/check-jw-folgestaffel-bestand.ts
 pipeline/check-jw-ohne-tmdb-bestand.ts
 pipeline/check-jw-vertrauen-bestand.ts
 pipeline/check-kachel-buendel-bestand.ts

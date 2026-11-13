@@ -58,3 +58,42 @@
 # angenommen.
 21450: 3 # Diamond Is Unbreakable — Staffel 3, alle 39 Folgen mit vde
 102883: 4 # Golden Wind — Staffel 4, keine einzige mit vde (nur Untertitel)
+
+# --- Nachgetragen am 11.11.2026: drei weitere Serien, die je Staffel neu zählen ---
+#
+# Gemessen an den Meldungen der Erweiterung (Meldungskopie, Stand 11.11.2026 03:00 UTC; je Staffel Folgen 1 bis n) und an
+# unseren Folgenzahlen. Jede Zeile geht über die Summe auf; was nicht aufgeht (Haikyu!!, Demon Slave), bleibt weg.
+#
+#   ADN 442 (Sword Art Online):  Staffel 1 = 25, Staffel 2 = 24, Staffel 3 = 47 (= 24 + 12 + 11)
+#   ADN 427 (Sailor Moon):       Staffel 1 bis 5 = 46, 43, 38, 39, 34
+#   ADN 1311 (Tougen Anki):      Staffel 1 = 24; Staffel 2 (6 Folgen, ohne Ton) hat bei uns keinen Titel an dieser Adresse
+11757: 1 # Sword Art Online (25)
+20594: 2 # Sword Art Online II (24)
+100182: 3 # Alicization (24), mit den beiden War-of-Underworld-Teilen die 47 der Staffel 3
+108759: 3 # Alicization - War of Underworld (12)
+114308: 3 # Alicization - War of Underworld Teil 2 (11)
+530: 1 # Sailor Moon (46)
+740: 2 # Sailor Moon R (43)
+532: 3 # Sailor Moon S (38)
+1239: 4 # Sailor Moon Super S (39)
+996: 5 # Sailor Moon Sailor Stars (34)
+177474: 1 # Tougen Anki (24)
+
+# --- Nachgetragen am 11.11.2026: Haikyu!!, Demon Slave, Reincarnated as a Sword, The Eminence in Shadow ---
+#
+# Je Staffel gezählt am ADN-Archiv (`data/adn-raw/<showId>.json.gz`, Folgen 1 bis n) und an den Meldungen der Erweiterung (Meldungskopie,
+# Stand 11.11.2026 03:00 UTC, gleiche Zahlen). Wo zwei Staffeln gleich viele Folgen haben (Haikyu 25, Demon Slave 12), trägt die Folgenzahl
+# allein nicht; dort entscheiden die Folgentitel (`public/data/folgen/<id>.json` gegen `name` der ADN-Videos), wie bei JoJo.
+#
+#   ADN 461 (Haikyu!!):       Staffel 1 bis 4 = 25, 25, 10, 25; Staffel 1 beginnt „Ende und Anfang", „Der Volleyballclub der Karasuno-Oberschule" (Folge 1, 2)
+#   ADN 1125 (Demon Slave):   Staffel 1 = 12 („Geburt, Yūki, Erwachen"), Staffel 2 = 12 („Die Kommandantinnen-Konferenz")
+#   ADN 970 (Reincarnated):   Staffel 1 = 12, Staffel 2 = 6; unser Titel hat 12, Staffel 2 hat bei uns keinen Titel an dieser Adresse
+#   ADN 973 (Eminence):       Staffel 1 = 20, Staffel 2 = 12
+20464: 1 # Haikyu!! (25) — Folgentitel 1 bis 12 entsprechen denen von ADN-Staffel 1 (Wortlaut leicht anders)
+141821: 1 # Mato Seihei no Slave / Demon Slave (12) — Folge 1 „Geburt, Yūki, Erwachen" stimmt mit ADN-Staffel 1 überein (10 von 12 Folgentiteln wörtlich gleich)
+176276: 2 # Mato Seihei no Slave 2 (12) — Folge 1 „Die Kommandantinnen-Konferenz" stimmt mit ADN-Staffel 2 überein (12 von 12 wörtlich gleich)
+139587: 1 # Tensei Shitara Ken Deshita (12) — Staffel 2 hat nur 6 Folgen, 12 trifft Staffel 1 als einzige
+130298: 1 # Kage no Jitsuryokusha ni Naritakute! (20) — Staffel 1 als einzige mit 20
+161964: 2 # Kage no Jitsuryokusha ni Naritakute! 2nd season (12) — Staffel 2 als einzige mit 12
+#   ADN 1008 (Isekai Nonbiri Nouka): ADN führt nur Staffel 2 (12 Folgen, Folge 1 „Willkommen“); unser Titel 197824 hat 12 und dieselben Folgentitel
+197824: 2 # Isekai Nonbiri Nouka 2 (12) — Folgentitel gleich ADN-Staffel 2; Staffel 1 hat bei ADN keine Folgen

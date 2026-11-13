@@ -186,25 +186,6 @@
       "folge": "aniSearch-Abruf scheitert oder wird gesperrt; Synchro-Liste und Katalog veralten, der Bau meldet die Quelle über data:check."
     },
     {
-      "id": "ANILIST_TOKEN",
-      "ort": "github-secret",
-      "wofuer": "AniList-API (höheres Limit beim Katalog-Abgleich).",
-      "workflows": [
-        "anisearch-katalog.yml",
-        "daten-auf-abruf.yml"
-      ],
-      "gueltig": {
-        "text": "Laufzeit nicht belegt",
-        "beleg": "Suche in docs/wissen/quellen.md ohne Treffer, 08.10.2026",
-        "gueltigBis": null
-      },
-      "erneuerung": {
-        "art": "handgriff",
-        "text": "Neuen Token im AniList-Konto erzeugen, gh secret set"
-      },
-      "folge": "AniList-Abrufe scheitern am Limit oder laufen ohne Token; Katalogabgleich verlangsamt."
-    },
-    {
       "id": "TMDB_API_KEY",
       "ort": "github-secret",
       "wofuer": "TMDB-API (Folgen, Streamingzuordnung, Bilder).",
@@ -443,18 +424,19 @@
       "ort": "github-secret",
       "wofuer": "Fine-grained PAT (nur dieses Repo: Contents, Pull requests, Actions je Read and write); der Nacht-Merger mergt damit freigegebene PRs und stößt veraltete Ketten neu an (das GITHUB_TOKEN löst keine Folgeläufe aus).",
       "workflows": [
-        "nacht-merger.yml"
+        "nacht-merger.yml",
+        "pr-pruefer-nachtrag.yml"
       ],
       "gueltig": {
-        "text": "Noch nicht angelegt (F99, 01.11.2026): Ohne das Secret läuft der Nacht-Merger als Trockenlauf mit dem GITHUB_TOKEN und merged nichts",
-        "beleg": "daniel-zum-abarbeiten/vorrat/laufend/a-3-bauer-f99-nacht-merger.md",
+        "text": "Angelegt am 01.11.2026 23:34 UTC (F99); Ablaufdatum unbekannt, beim nächsten 401 prüfen. Fehlt das Secret, liefe der Nacht-Merger als Trockenlauf mit dem GITHUB_TOKEN",
+        "beleg": "gh api repos/danielzaiser91/anime-kalender-de/actions/secrets/NACHT_MERGER_TOKEN: created_at 2026-11-01T23:34:24Z; nacht-merger.yml-Lauf 43253855708 (12.11.2026 16:00 UTC, success)",
         "gueltigBis": null
       },
       "erneuerung": {
         "art": "handgriff",
         "text": "Neuen PAT erzeugen (GitHub, Settings, Developer settings, Fine-grained tokens), unter Settings, Secrets and variables, Actions als NACHT_MERGER_TOKEN eintragen (Wert in my_secrets.md)"
       },
-      "folge": "Der Nacht-Merger protokolliert nur „WÜRDE MERGEN“; PRs bleiben bis zum Merge von Hand liegen."
+      "folge": "Läuft ein Fine-grained PAT ab, scheitert der Nacht-Merger mit 401 und PRs bleiben bis zum Merge von Hand liegen; ohne Secret protokolliert er nur „WÜRDE MERGEN“ (Trockenlauf)."
     },
     {
       "id": "GITHUB_WECKER_TOKEN",

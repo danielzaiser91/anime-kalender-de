@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Release, Title } from '../shared/types.ts'
 import { beobachtungsListe, ohneSynchroStarts, type BeobachtungsEintrag } from './lib/synchro-beobachtung.ts'
+import { alterswarnungen } from './lib/synchro-beobachtung-alter.ts'
 import { latenzStand } from './lib/synchro-latenz.ts'
 import type { SynchroBelege } from './lib/synchro-widerspruch.ts'
 
@@ -90,6 +91,14 @@ pruefe(lat([l1], [], { abgeloest: [l1] }, {}).abgeloest.length === 1, 'derselbe 
 const viele = Array.from({ length: 101 }, (_, i) => ({ id: i + 10, titel: 'x', seit: '2026-11-01', beleg: '2026-11-02', tage: 1 }))
 pruefe(lat([], [], { belegt: viele }, {}).belegt.length === 100 && lat([], [], { belegt: viele }, {}).belegt[0].id === 11, 'belegt wird auf die letzten 100 gekappt')
 
+console.log('\nBeobachtungsliste: Alterswarnung (Schwelle 5 Tage nach dem Start, gemessen an der Historie)')
+const alter = (start: string) => alterswarnungen([eintrag(7, 'disc', start, '2026-11-01')], '2026-11-20')
+pruefe(alter('2026-11-15').length === 0, 'Start vor genau 5 Tagen → keine Warnung')
+pruefe(alter('2026-11-14').length === 1, 'Start vor 6 Tagen → Warnung')
+pruefe(alter('2026-11-25').length === 0, 'Start in der Zukunft → keine Warnung')
+pruefe(alter('2026-11-14')[0] === 'Probe 7 (disc): Start 2026-11-14, seit 6 Tagen ohne Synchro-Beleg', 'Warnung nennt Titel, Anbieter, Start und Alter')
+pruefe(alterswarnungen([eintrag(1, 'disc', '2026-11-01', 'x'), eintrag(2, 'disc', '2026-11-19', 'x'), eintrag(3, 'tv: X', '2026-11-10', 'x')], '2026-11-20').length === 2, 'mehrere Einträge: nur die alten, je eine Zeile')
+
 console.log('\nBeobachtungsliste: Skript als Prozess')
 const wurzel = join(import.meta.dirname, '..')
 const ordner = mkdtempSync(join(tmpdir(), 'synchro-beobachtung-'))
@@ -136,6 +145,11 @@ const latenzLauf = lauf('2026-11-27')
 const bel = jsonLies()
 pruefe(latenzLauf.stdout.includes('1 belegt (Tage bis Beleg: 5)') && bel.belegt.length === 1 && bel.belegt[0].id === 900003 && bel.belegt[0].tage === 5 && bel.abgeloest.length === 0, `Latenz: Historie kennt den Tag → belegt nach 5 Tagen — ${latenzLauf.stdout.trim().slice(0, 120)}`)
 pruefe(lauf('2026-11-28').status === 0 && jsonLies().belegt.length === 1, 'Latenz: zweiter Lauf zählt denselben Titel nicht doppelt')
+writeFileSync(ohneDatei, JSON.stringify([titel(900005, { jpStart: '2026-11-24' })]))
+const imFenster = lauf('2026-11-29')
+const ueber = lauf('2026-11-30')
+pruefe(imFenster.status === 0 && !imFenster.stdout.includes('::warning::'), 'Lauf: Start vor 5 Tagen → keine Warnzeile')
+pruefe(ueber.status === 0 && /::warning::Synchro-Beobachtung .*\(unbekannt\): Start 2026-11-24, seit 6 Tagen ohne Synchro-Beleg/.test(ueber.stdout) && ueber.stdout.split('::warning::').length === 2, `Lauf: Start vor 6 Tagen → genau eine Warnzeile (900001 und 900002 sind jünger) — ${ueber.stdout.trim().slice(0, 200)}`)
 writeFileSync(join(ordner, 'public', 'data', 'titles.json'), '{kaputt')
 const vorher = readFileSync(ziel, 'utf8')
 const kaputt = lauf('2026-11-23')

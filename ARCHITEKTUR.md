@@ -32,38 +32,40 @@ Das ist der Kern, und der häufigste Denkfehler:
 
 | | Was es ist | Heute | Grenze | Wer es merkt |
 |---|---|---|---|---|
-| **Ladelast** | was ein Besucher wirklich herunterlädt | **≈ 184 KB** (gzip, Start; Stand 05.11.2026, Wächter `tools/start-budget.mjs`, Grenze 190 KB) | gefühlt ab ~1 MB | jeder Besucher, sofort |
+| **Ladelast** | was ein Besucher wirklich herunterlädt | gzip, Start; Wert und Grenze misst der Wächter `tools/start-budget.mjs` (`node tools/start-budget.mjs`) | gefühlt ab ~1 MB | jeder Besucher, sofort |
 | **Veröffentlichte Seite** | Inhalt von `dist/` | 20 MB | **1 GB** (GitHub Pages) | niemand, bis es reißt |
-| **Repo** | alles inkl. Rohdaten und Historie | 108 MB (`.git` 64 MB gepackt) | ~1 GB empfohlen | nur wer klont |
+| **Repo** | alles inkl. Rohdaten und Historie | Größe siehe „3. Repo über 1 GB“ unten | ~1 GB empfohlen | nur wer klont |
 
 **Rohdaten in `data/` kosten keine Ladelast und zählen nicht zur Pages-Grenze.** Sie liegen
 außerhalb von `public/`, wandern also nie nach `dist/`. Das aniSearch-Rohdaten-Archiv darf
 deshalb ruhig wachsen: Es macht das Klonen langsamer, sonst nichts. Wer über Ladelast
 nachdenkt, muss auf die erste Zeile schauen, nicht auf die dritte.
 
+Dateizahl: <!-- kennzahlen:public-dateien -->6499 Dateien in `public/` (Schwelle 15.000), Stand 12.11.2026<!-- /kennzahlen -->. Die Größen der Dateien unten erzeugt `node tools/kennzahlen.mjs` aus `public/data` (auf Abruf; `--pruefen` meldet Marker, die älter als 30 Tage sind).
+
 ### Was der Erstaufruf tatsächlich kostet
 
-| Datei | über die Leitung |
+| Datei | über die Leitung (gzip) |
 |---|---|
 | `index.html` | 3,7 KB |
 | `index-*.js` (App) | 210,7 KB |
 | `index-*.css` | 25,7 KB |
-| `meta.json` | 2,3 KB (Stand 25.10.2026, gemessen) |
-| `woche-kacheln.json` (Wochenansicht, nur Kachelfelder; Stand 25.10.2026, gemessen) | 18,1 KB |
-| **Summe** | **≈ 293 KB (327 KB abzüglich 34,1 KB Schriften; Stand 18.10.2026, gemessen 25.10.2026: 236 KB)** |
+| `meta.json` | <!-- kennzahlen:meta-gzip -->2,5 KB gzip, Stand 12.11.2026<!-- /kennzahlen --> |
+| `woche-kacheln.json` (Wochenansicht, nur Kachelfelder) | <!-- kennzahlen:woche-kacheln-gzip -->10,0 KB gzip (schwankt mit dem Wochenfenster), Stand 12.11.2026<!-- /kennzahlen --> |
+| **Summe** | misst `tools/start-budget.mjs` (keine Handzahl) |
 
 Gezählt wird, was der Wächter `tools/start-budget.mjs` misst (Stand 18.10.2026). Die Zeilen für `index-*.js`, `index-*.css` und `index.html` stammen aus dem Bau von `dist` und sind in diesem Stand (25.10.2026) nicht neu gemessen. Ohne Bedienung lädt die Seite danach innerhalb von
-etwa 6 s die vollen Dateien nach (`titles-core` 178,3 KB, `releases` 102,0 KB, `events` 70,2 KB, zusammen ≈ 350 KB, Stand 25.10.2026, `planeNachladen`; dazu der Precache des Service Workers):
+etwa 6 s die vollen Dateien nach (<!-- kennzahlen:nachladen-gzip -->gzip: `titles-core` 206,5 KB, `releases` 109,3 KB, `events` 76,0 KB, Stand 12.11.2026<!-- /kennzahlen -->, `planeNachladen`; dazu der Precache des Service Workers):
 nicht im Wächter, offen als Folgeauftrag. Alle Zahlen: Playwright-Messung gegen `dist`, 360 und 1280 px.
 
 Nachgeladen wird nur, wer es anfordert:
 
-- `titles.json` (3,6 MB → **766,5 KB** gzip, Stand 25.10.2026) erst beim Öffnen der Datenbank-Ansicht
+- `titles.json` (<!-- kennzahlen:titles-gzip -->815,4 KB gzip, Stand 12.11.2026<!-- /kennzahlen -->) erst beim Öffnen der Datenbank-Ansicht
 - Handlungsbeschreibungen in **32 Gruppen** — eine Kachel lädt nur ihre eigene Gruppe
 - Cover-Bilder direkt von AniList, nicht von uns
 
 Diese Trennung ist die wichtigste Architekturentscheidung des Projekts und der Grund, warum
-der Kalender trotz 2.922 Titeln (Stand 25.10.2026) unter der Grenze von 250 KB startet (Startmessung 25.10.2026: 236 KB, Wert aus der bestehenden Zeile oben, in diesem Lauf nicht neu gemessen).
+der Kalender trotz 2.922 Titeln (Stand 25.10.2026) unter der Grenze von 250 KB startet (Messung: `tools/start-budget.mjs`).
 
 ## Wo wir an den Grenzen stehen
 
@@ -95,7 +97,7 @@ Der Kalender zeigt ohnehin nie mehr als eine Woche gleichzeitig. Aufwand: klein,
 Ladelogik dafür steht bereits.
 
 *Stand 08.10.2026:* Die Summe lag bei ≈ 590 KB (Start, mit Code). Statt der Monatsteilung startet
-die Wochenansicht aus `woche.json` (37,4 KB, Stand 25.10.2026; seit 25.10.2026 aus `woche-kacheln.json`, 18,1 KB), die vollen Dateien laden danach nach — Zahlen und
+die Wochenansicht aus `woche.json` (seit 25.10.2026 `woche-kacheln.json`, Größe siehe Tabelle oben), die vollen Dateien laden danach nach — Zahlen und
 Regeln in `docs/wissen/datensatz.md`, „Wochen-Datei zuerst umgesetzt".
 
 ### 2. Ein Datenfeld interessiert nur eine Minderheit
@@ -134,8 +136,15 @@ nur die Datenbank-Ansicht kostet. Dieselbe Angabe, ein Zehntel der Ladelast.
 
 ### 3. Repo über 1 GB
 
-**Auslöser:** Das aniSearch-Archiv wächst auf ~35 MB bei vollem Bestand. Erst wenn weitere
-Archive dazukommen — etwa Rohdaten der Synchronkartei — käme man in die Nähe.
+**Stand (Messung 12.11.2026):** Pack 988 MiB lokal, GitHub meldet 847 MiB; Wachstum 55–78 MB
+je Woche, nicht fallend. Sechs Rohordner (`anisearch-raw`, `anisearch-folgen-raw`,
+`anisearch-sprecher-raw`, `motn-raw`, `crunchyroll-raw`, `ann-raw`) plus `public/og` sind
+≈ 60 % des Arbeitsbaums (291 von 483 MB). Der Checkout macht nur 1,5–4 % der Zeit bis live
+aus: an der Laufzeit wird nichts getan.
+
+**Auslöser:** Klon- und Plattenaufwand (lokale Worktrees, ~480 MB je Stück) oder eine
+GitHub-Warnung zur Repo-Größe. Dann Reaktion 2/3. Sparse-Checkout in PR-Jobs nur als
+Handgriff, wenn ein Workflow ohnehin angefasst wird (Gewinn geschätzt 4–8 s je Job).
 
 **Reaktion, in dieser Reihenfolge:**
 

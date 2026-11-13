@@ -64,6 +64,7 @@ Immer in dieser Reihenfolge:
    - `TODO.md`, falls vorhanden
    - laufende und fertige Läufe (`gh run list`), Ergebnisse auswerten, die seit dem letzten
      Wecken angekommen sind
+   - `node tools/kennzahlen.mjs --pruefen` (Kennzahlen in `ARCHITEKTUR.md`; eine `⚠ WARNUNG`-Zeile heißt: ohne `--pruefen` neu erzeugen und committen)
    - **rote Läufe in einer Statusanzeige** — der Teil, den man am leichtesten übersieht,
      weil er nicht im Repo steht. Gibt es ein Aufräum-Werkzeug, wird es mit `--trocken`
      gefahren: Was es **nicht** von selbst abnimmt, ist genau das, was ich mir ansehen muss.

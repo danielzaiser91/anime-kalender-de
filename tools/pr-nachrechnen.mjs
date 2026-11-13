@@ -6,6 +6,7 @@
  * und zwar nach dem Ereignis: dessen Lauf nimmt noch den alten Merge-Commit (gemessen 19.10.2026 an PR 1602), daher `anstossen`.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
+ *   Exit 4: der letzte Prüfer-Kommentar verlangt „ändern“, danach kam kein Commit (`pr-nachrechnen-pruefer.mjs`): nichts angestoßen, nicht mergen.
  *   Exit 3: ein offener PR trägt „ersetzt PR <PR>“ (`pr-ersetzt.mjs`), vor allen anderen Urteilen, auch bei gemergtem <PR>: nicht mergen.
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
  *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
@@ -23,8 +24,10 @@ import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
+import { basisAusJobLogs } from './nachrechnen-joblog.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
+import { prueferSperre } from './pr-nachrechnen-pruefer.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -113,7 +116,8 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = 
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null
   if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`
-  return liestBewegtes(vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN), prDateien)
+  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN)
+  return liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))
 }
 
 /** Konten der Datenläufe und des Bestandsbaus (Sammler, Wache-Skripte); sie gelten nur für ihre erzeugten Dateien (`datenKontoDatei`). */
@@ -173,16 +177,26 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
   const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
   const daten = datenpfadAusnahme(vergleich, prDateien)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
+  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
-  return { grund: daten === bot ? daten : `${daten}; ${bot}` }
+  return { grund: grundText(daten, bot) }
+}
+
+/**
+ * Der Grund der feineren Stufe (`bot`) entscheidet; die grobe („main bewegte <erste Fremddatei>“) hat sonst nur den Namen der ersten Datei geliefert, die
+ * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Leser-Grund, PR 3481/3548/3556). Ein Grund, der selbst
+ * „main bewegte …“ lautet (kettenweite Datei), bleibt mit dem groben davor.
+ */
+const grundText = (daten, bot) => {
+  if (daten === bot) return daten
+  return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`
 }
 
 const kurz = (sha) => sha.slice(0, 9)
 
 /** Felder von `pr view`; `baseRefName` nur bei gelegtem Zug-Schalter, damit der Aufruf mit Schalter aus byte-gleich bleibt. */
-const prFelder = (zugAktiv) => `number,state,mergeable,headRefOid,headRefName${zugAktiv ? ',baseRefName' : ''}`
+const prFelder = (zugAktiv) => `number,state,mergeable,headRefOid,headRefName,comments,commits${zugAktiv ? ',baseRefName' : ''}`
 
 function oeffneMitWiederholung(gh, nummer) {
   for (let versuch = 1; ; versuch++) {
@@ -253,7 +267,7 @@ export function jobFehlt(nummer, lauf, jobs) {
 }
 
 /** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
-function basisDesLaufs(gh, pr) {
+function basisDesLaufs(gh, pr, warte) {
   const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt,conclusion,status']))
   const lauf = neuesterLauf(laeufe, pr.headRefOid)
   if (lauf === null) return { grund: `PR ${pr.number}: kein Kettenlauf zum Kopf ${kurz(pr.headRefOid)}` }
@@ -262,13 +276,15 @@ function basisDesLaufs(gh, pr) {
   const job = jobs.find((j) => j.name === JOB)
   if (job === undefined) return { grund: jobFehlt(pr.number, lauf, jobs) }
   if (job.status !== 'completed') return { grund: `PR ${pr.number}: Job „${JOB}“ läuft noch (Lauf ${lauf.databaseId}), sein Log gibt es erst nach Abschluss; später erneut aufrufen` }
-  const basis = basisAusLog(gh(['api', '--allow-escape-sequences', `repos/{owner}/{repo}/actions/jobs/${job.databaseId}/logs`]), pr.headRefOid)
+  const gelesen = basisAusJobLogs(gh, job, jobs, (log) => basisAusLog(log, pr.headRefOid), warte)
+  if (gelesen.lesefehler !== undefined) return { grund: `PR ${pr.number}: Log nicht lesbar (${gelesen.lesefehler}), später erneut` }
+  const basis = gelesen.basis
   if (basis === null) return { grund: `PR ${pr.number}: Basis nicht im Log von „${JOB}“ (Lauf ${lauf.databaseId}; läuft er noch, übersprungen?)` }
   return { basis }
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang) {
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
   const ersatz = ersetzer(nummer, gh)
   if (ersatz !== null) {
@@ -280,11 +296,16 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(halt)
     return 2
   }
+  const prueferHalt = prueferSperre(pr.comments, pr.commits)
+  if (prueferHalt !== null) {
+    melde(`PR ${nummer}: ${prueferHalt}`)
+    return 4
+  }
   if (istZugPr(pr, zugAktiv)) {
     melde(`PR ${nummer}: Basis ${ZUG}, kein Nachrechnen gegen main (die Fahrt rechnet den ganzen Zug)`)
     return 0
   }
-  const { basis, grund } = basisDesLaufs(gh, pr)
+  const { basis, grund } = basisDesLaufs(gh, pr, warte)
   if (grund !== undefined) {
     melde(grund)
     return 2
@@ -298,6 +319,10 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
   if (urteil.ausnahme !== undefined) {
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0
+  }
+  if (trocken) {
+    melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert`)
+    return 1
   }
   anstossen(gh, nummer, main, warte)
   kommentiereGrund(gh, melde, nummer, grundKommentar(kurz(basis), kurz(main), urteil.grund))
@@ -317,12 +342,14 @@ export function schlafe(ms) {
 
 /** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
 export function main(argv, ausfuehrer, melde, warte, leser, voll, paare, umfang) {
-  if (argv.length !== 1 || !/^\d+$/.test(argv[0])) {
-    melde('Aufruf: node tools/pr-nachrechnen.mjs <PR-Nummer>')
+  const trocken = argv.includes('--trocken')
+  const args = argv.filter((a) => a !== '--trocken')
+  if (args.length !== 1 || !/^\d+$/.test(args[0])) {
+    melde('Aufruf: node tools/pr-nachrechnen.mjs [--trocken] <PR-Nummer>')
     return 2
   }
   try {
-    return nachrechnen(Number(argv[0]), ausfuehrer, melde, warte, leser, voll, paare, undefined, umfang)
+    return nachrechnen(Number(args[0]), ausfuehrer, melde, warte, leser, voll, paare, undefined, umfang, trocken)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2

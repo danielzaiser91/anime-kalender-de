@@ -76,7 +76,7 @@ function lauf(): { text: string; status: number | null; bestand: Record<string, 
     })
     return { text: `${r.stdout}${r.stderr}`, status: r.status, bestand: JSON.parse(readFileSync(join(wurzel, 'data', 'justwatch-audio.json'), 'utf8')) }
   } finally {
-    rmSync(wurzel, { recursive: true, force: true })
+    rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
   }
 }
 

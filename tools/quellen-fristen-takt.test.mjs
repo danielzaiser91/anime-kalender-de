@@ -76,6 +76,18 @@ for (const name of ['crunchyroll-neu', 'adn', 'toggo', 'anisearch', 'cartoon-rei
 assert.deepEqual(ohneFrist(stunde, FRISTEN), [], 'Stundenlauf: Quellen ohne Fristeintrag')
 assert.deepEqual(ohneFrist(tag, FRISTEN), [], 'Tageslauf: Quellen ohne Fristeintrag')
 
+// Wochenlauf (12.11.2026, kitsu-folgen: Alarm nach einem einzigen verpassten Lauf, weil die Standardfrist 4 Tage galt): jede Quelle, die nur dort
+// läuft, hat einen Eintrag und mindestens die Wochenfrist 9; erst ein Ausfall über zwei Läufe darf Alarm sein.
+const woche = quellenDesWorkflows(wurzel, 'refresh-weekly.yml')
+assert.ok('kitsu-folgen' in woche && 'tmdb-poster' in woche && 'adn-catalog' in woche, 'Wochenlauf: bekannte Quellen nicht gefunden')
+assert.deepEqual(ohneFrist(woche, FRISTEN), [], 'Wochenlauf: Quellen ohne Fristeintrag')
+const { 'kitsu-folgen': _kitsu, ...ohneKitsu } = FRISTEN
+assert.ok(ohneFrist(woche, ohneKitsu).includes('kitsu-folgen'), 'ohne Eintrag meldet der Wächter kitsu-folgen')
+for (const name of Object.keys(woche)) {
+  if (name in stunde || name in tag || name === 'tv-de') continue
+  assert.ok(FRISTEN[name] >= 9, `${name}: nur im Wochenlauf, Frist ${FRISTEN[name]} < 9`)
+}
+
 // Der Anlassfall (26.10.2026): ohne den Eintrag meldet der Wächter genau die Quelle; der Kalender-Abruf `crunchyroll` entfiel am 27.10.2026.
 const { 'crunchyroll-woche': _weg, ...ohneWoche } = FRISTEN
 assert.deepEqual(ohneFrist(stunde, ohneWoche), ['crunchyroll-woche'])
@@ -93,7 +105,6 @@ const TAEGLICH = {
   'crunchyroll-neu': 3,
   messbelege: 3,
   toggo: 3,
-  'tv-de': 3,
   'tv-programm': 3,
   'adn-news': 4,
   anisearch: 4,
@@ -104,8 +115,11 @@ const TAEGLICH = {
   'wikipedia-folgen': 4,
 }
 const WOCHE = ['adn-catalog', 'anisearch-eintraege', 'crunchyroll-dub', 'justwatch-audio', 'motn-changes']
+// Quelle aus der Cloud gesperrt (tv.de, HTTP 403 seit 06.11.2026): bewusst lange Frist, Alarm erst bei 60 Tagen.
+const SPERRE_CLOUD = { 'tv-de': 30 }
 for (const name of new Set([...Object.keys(stunde), ...Object.keys(tag)])) {
-  if (WOCHE.includes(name)) assert.ok(FRISTEN[name] >= 9, `${name}: Wochenquelle mit Frist ${FRISTEN[name]} < 9`)
+  if (name in SPERRE_CLOUD) assert.equal(FRISTEN[name], SPERRE_CLOUD[name], `${name}: Frist ${FRISTEN[name]}, erwartet ${SPERRE_CLOUD[name]}`)
+  else if (WOCHE.includes(name)) assert.ok(FRISTEN[name] >= 9, `${name}: Wochenquelle mit Frist ${FRISTEN[name]} < 9`)
   else {
     assert.ok(name in TAEGLICH, `${name}: nicht eingeordnet (TAEGLICH oder WOCHE in diesem Test)`)
     assert.equal(FRISTEN[name], TAEGLICH[name], `${name}: Frist ${FRISTEN[name]}, erwartet ${TAEGLICH[name]}`)

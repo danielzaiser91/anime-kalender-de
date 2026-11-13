@@ -16,3 +16,5 @@ pipeline/check-jw-ohne-tmdb-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): neue a
 pipeline/check-disc-archiv-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): eine neue Archivseite kann jederzeit eine Disc führen, die der Bau nicht eindeutig zuordnet, Rot würde den Bestandsbau stoppen; 06.11.2026
 pipeline/check-eingabe-stand-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): ein zurückgenommener Sammler-Stand ist legitim, Rot würde den Bestandsbau stoppen; 07.11.2026
 pipeline/check-disc-handlinks-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): ein Sammler kann jederzeit eine Disc mit Amazon-Handlink ohne EAN melden, Rot würde den Bestandsbau stoppen; 06.11.2026
+pipeline/check-adn-staffel-luecken-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): eine neue ADN-Serie kommt ohne Zuordnungseintrag, das ist kein falscher Datensatz, Rot würde den Bestandsbau stoppen; 11.11.2026
+pipeline/check-jw-folgestaffel-bestand.ts	nur Warnung (⚠ WARNUNG, Exit 0): die wirkende Zahl bewegt sich mit Anbieterdaten und Reihen, ein Sprung ist ein Hinweis auf Prüfung, Rot würde den Bestandsbau stoppen; 11.11.2026

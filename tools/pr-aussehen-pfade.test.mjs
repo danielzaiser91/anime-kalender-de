@@ -15,7 +15,7 @@ import ts from 'typescript'
 import { parse } from 'yaml'
 
 const WURZEL = resolve(import.meta.dirname, '..')
-export const WURZELN = ['check:panel', 'check:ansichten', 'check:einstellungen', 'check:suchhinweis', 'check:buehne-fenster', 'check:buehne-messen', 'check:buehne-panel', 'check:kasten', 'check:cls-wechsel', 'check:filter-tempo']
+export const WURZELN = ['check:panel', 'check:ansichten', 'check:einstellungen', 'check:suchhinweis', 'check:buehne-basis', 'check:buehne-fenster', 'check:buehne-messen', 'check:buehne-panel', 'check:kasten', 'check:cls-wechsel', 'check:filter-tempo']
 
 /** Führt die Zeilen `PFADE=` und `LISTE=` des Schritts in bash aus und liefert beide echten Ausdrücke als einen. */
 export function pfadAusdruck(lauf) {

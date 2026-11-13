@@ -3,6 +3,7 @@ import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { type Vorschlag, leereVerluste, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
 import { verlustZeile } from '../lib/meldungen-ohne-release-zeilen.ts'
 import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
+import { ohneTote } from '../lib/cartoon-aufnahme.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { discIndexLaden } from '../lib/disc-ean.ts'
 import { aniSearchDatumAnwenden, veroeffentlichungstage } from '../lib/disc-anisearch-datum.ts'
@@ -10,6 +11,8 @@ import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
 import { synonymeJeTitel } from '../lib/sammel-titel.ts'
 import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
+import { ladeEigeneTitel } from './eigene-titel.ts'
+import { termineAusEigenen } from './eigene-termine.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
@@ -37,13 +40,14 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     todayIso(),
     teilVerworfen,
     abgedeckt,
-    Object.values(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {})).map(alsTitel),
+    Object.values(ohneTote(readJson<Record<string, CartoonEintrag>>('data/cartoons.json', {}))).map(alsTitel),
     verluste,
     synonymeJeTitel([...titles.keys()]),
   )
   log(verlustZeile(verluste))
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
+  releases.push(...termineAusEigenen(ladeEigeneTitel(), releases))
   /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt und gelistet (`listen/23-nur-originalton.md`, Posteingang); über zehn (10.10.2026: 1) greift das Muster vermutlich zu weit. */
   const nurOmu = nurOriginaltonMeldungen(rohVorschlaege.proposals ?? [])
   const melde = nurOmu.length > 10 ? warn : log

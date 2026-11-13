@@ -18,6 +18,12 @@ export interface EigenerEintrag {
   tag: string
   sources: string[]
   zitat: string
+  /** Folgenzahl, wenn die Quelle sie nennt (nur Serien; M.A.S.K. „73 (komplett)“). */
+  folgen?: number
+  /** Prime-Zusatzkanal, wenn die Quelle genau einen nennt. */
+  kanal?: string
+  /** Der Tag ist der Meldetag („ab sofort“), nicht belegter Erscheinungstag: der Termin steht als ≈. */
+  geschaetzt?: boolean
   zuId?: number
   widerrufen?: string
   /** TMDB-Werk (`movie/<Kennung>` oder `tv/<Kennung>`), dessen Plakat der Titel trägt (`lib/eigene-tmdb.ts`). */
@@ -48,6 +54,9 @@ function pruefeZeile(e: Partial<EigenerEintrag>, i: number, gesehen: Set<number>
   if (!Array.isArray(e.sources) || !e.sources.length || e.sources.some((q) => !/^https:\/\//.test(String(q)))) throw new Error(`${wo}: sources fehlen oder sind keine Adressen`)
   if (!e.zitat?.trim()) throw new Error(`${wo}: zitat fehlt`)
   if (e.zuId !== undefined && !Number.isInteger(e.zuId)) throw new Error(`${wo}: zuId ist keine Kennung`)
+  if (e.folgen !== undefined && (!Number.isInteger(e.folgen) || e.folgen < 1)) throw new Error(`${wo}: folgen ist keine positive Zahl`)
+  if (e.kanal !== undefined && !String(e.kanal).trim()) throw new Error(`${wo}: kanal ist leer`)
+  if (e.geschaetzt !== undefined && typeof e.geschaetzt !== 'boolean') throw new Error(`${wo}: geschaetzt muss true oder false sein`)
   pruefeCover(e, wo)
   return e as EigenerEintrag
 }

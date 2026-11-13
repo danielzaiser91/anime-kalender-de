@@ -47,7 +47,20 @@ assert.notEqual(abdruckMit(mitte(0, zeile('data/a.json', undefined, '100755'))),
 assert.notEqual(abdruckMit(mitte(0, zeile('data/b.json'))), A, 'freie Datei umbenannt')
 assert.notEqual(abdruckMit(baum(...BASIS, zeile('data/neu.json'))), A, 'freie Datei hinzugekommen')
 assert.notEqual(abdruckMit(baum(...BASIS.slice(1))), A, 'freie Datei entfernt')
-assert.deepEqual(BAU_EINGABEN, ['data/cartoon-umzug.json', 'data/kennungen.json', 'data/patchnotes/'])
+assert.deepEqual(BAU_EINGABEN, [
+  'data/anilist-cover-masse.json',
+  'data/cartoon-cover-masse.json',
+  'data/cartoon-umzug.json',
+  'data/cover-eigen-masse.json',
+  'data/kennungen.json',
+  'data/patchnotes/',
+  'data/tmdb-poster.json',
+])
+// Seit #2987/#3460 liest der Seitenbau (Link-Vorschau, Cover) diese Dateien: ohne Eintrag fehlte `abdruck` in jedem Bau (Spur: „unerklärt“), und kein Deploy traf mehr.
+for (const datei of ['data/anilist-cover-masse.json', 'data/cartoon-cover-masse.json', 'data/cover-eigen-masse.json', 'data/tmdb-poster.json']) {
+  assert.deepEqual(unerklaert([`readFileSync\t${datei}`]), [], `${datei}: gelesen und erklärt`)
+  assert.notEqual(abdruckMit(baum(zeile(datei, NEU), ...BASIS)), abdruckMit(baum(zeile(datei), ...BASIS)), `${datei}: Inhalt geändert verschiebt den Abdruck`)
+}
 
 // Spur: unerklärt sind freie Pfade außerhalb der Eingaben, deren Inhalt berührt wurde (Namenslisten zählen nicht).
 const spur = [
@@ -312,7 +325,7 @@ const gitBaum = (args) => {
 /** `STANDARD`: bauMitSpur prüft den Befehl mit seiner Voreinstellung (befehlErlaubt). */
 const STANDARD = Symbol('Standard')
 /** Baut in einer Wegwerf-Wurzel; vorhandene NODE_OPTIONS (hier: ein Vorlader, der `marke` anlegt) müssen im Bau erhalten bleiben. */
-function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () => true) {
+function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () => true, ereignis = 'push') {
   const ort = wurzel()
   const meldungen = []
   const alt = process.env.NODE_OPTIONS
@@ -320,7 +333,8 @@ function bau(befehl, git = gitBaum, mitMarke = true, starte, befehlPruefen = () 
   else delete process.env.NODE_OPTIONS
   const versionDatei = join(ort, 'dist', 'version.json')
   const pruefe = befehlPruefen === STANDARD ? undefined : befehlPruefen
-  const exit = bauMitSpur(befehl, { wurzel: ort, versionDatei, git, log: (m) => meldungen.push(m), starte, befehlPruefen: pruefe })
+  const ereignisOption = ereignis === STANDARD ? {} : { ereignis }
+  const exit = bauMitSpur(befehl, { wurzel: ort, versionDatei, git, log: (m) => meldungen.push(m), starte, befehlPruefen: pruefe, ...ereignisOption })
   process.env.NODE_OPTIONS = alt ?? ''
   const version = JSON.parse(readFileSync(versionDatei, 'utf8'))
   const marke = existsSync(join(ort, 'marke'))
@@ -342,6 +356,27 @@ const fremd = bau('node lies.mjs data/kennungen.json data/frei.json')
 assert.deepEqual(fremd.version, OHNE, 'freie Datei gelesen: kein Abdruck')
 assert.equal(fremd.exit, 0, 'Bau bleibt grün, nur ohne Abdruck')
 assert.match(fremd.meldungen.join('\n'), /^::warning::.*data\/frei\.json$/)
+// PR-Kette: unerklärte Lesung ist rot und nennt Datei und Ausweg; Lesung innerhalb von BAU_EINGABEN bleibt grün mit Abdruck.
+const prRot = bau('node lies.mjs data/kennungen.json data/frei.json', gitBaum, true, undefined, () => true, 'pull_request')
+assert.deepEqual([prRot.exit, prRot.version], [1, OHNE], 'PR-Kette: Lesung außerhalb ist rot')
+assert.match(prRot.meldungen.join('\n'), /^::error::Bau liest außerhalb von BAU_EINGABEN.*data\/frei\.json.*in BAU_EINGABEN \(tools\/bau-eingaben\.mjs\) aufnehmen/)
+const prGut = bau('node lies.mjs data/kennungen.json web.txt', gitBaum, true, undefined, () => true, 'pull_request')
+assert.deepEqual([prGut.exit, prGut.version], [0, { ...OHNE, abdruck: A }], 'PR-Kette: nur Eingaben gelesen bleibt grün')
+// Verdrahtung: ohne `ereignis`-Option entscheidet allein GITHUB_EVENT_NAME (so ruft die Kette über die CLI auf).
+const eventAlt = process.env.GITHUB_EVENT_NAME
+const ueberUmgebung = (wert) => {
+  if (wert === undefined) delete process.env.GITHUB_EVENT_NAME
+  else process.env.GITHUB_EVENT_NAME = wert
+  const ergebnis = bau('node lies.mjs data/frei.json', gitBaum, true, undefined, () => true, STANDARD)
+  if (eventAlt === undefined) delete process.env.GITHUB_EVENT_NAME
+  else process.env.GITHUB_EVENT_NAME = eventAlt
+  return ergebnis.exit
+}
+assert.equal(ueberUmgebung('pull_request'), 1, 'GITHUB_EVENT_NAME=pull_request: rot, ohne ereignis-Option')
+assert.equal(ueberUmgebung('push'), 0, 'GITHUB_EVENT_NAME=push: Warnung')
+assert.equal(ueberUmgebung(undefined), 0, 'ohne GITHUB_EVENT_NAME: Warnung')
+// Lokal (ohne Ereignis), Deploy (push) und Bestandsbau (schedule/workflow_dispatch) bleiben bei der Warnung.
+for (const ereignis of [undefined, 'push', 'workflow_dispatch', 'schedule']) assert.equal(bau('node lies.mjs data/frei.json', gitBaum, true, undefined, () => true, ereignis).exit, 0, `${ereignis}: nur Warnung`)
 for (const weg of ['p', 'u', 'b']) assert.deepEqual(bau(`node lies.mjs ${weg}:data/frei.json`).version, OHNE, `Lesen über ${weg}: kein Abdruck`)
 const kind = bau('node -e "require(\'node:child_process\').execFileSync(process.execPath, [\'lies.mjs\', \'data/frei.json\'])"')
 assert.deepEqual(kind.version, OHNE, 'Unterprozess liest freie Datei: kein Abdruck')

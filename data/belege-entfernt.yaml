@@ -925,3 +925,31 @@
   url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
   grund: 'Kanal-Seite B0GFPBT6FG gehört Staffel 3 (182587); die Staffel-1-Blöcke von 150672 stehen seit #3339 an B0B7D5DRV2, der Pauschalblock vom 23.08. ist gelöscht — der Bestandsbau liest die Meldungen jeden Lauf neu und hängte sie sonst wieder an (10.11.2026)'
   entferntAm: '2026-11-10'
+- anilistId: 16894
+  url: https://www.amazon.de/gp/video/detail/B0B6R47YQ3
+  grund: 'Seite B0B6R47YQ3 gehört Kuroko 3rd Season (20725, Handbeleg 28.09., 25 Folgen); die Zeile von 16894 ist ein Staffelwähler-Stummel der Serienseite B09ZJW8HGH ohne Folge (unsere null), 16894 hat B0H47T317D mit 24 Folgen (Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20725
+  url: https://www.amazon.de/gp/video/detail/B0H47T317D
+  grund: 'Seite B0H47T317D gehört Kuroko 2nd Season (16894, Handbeleg 28.09., 25 Folgen, zugeordnete Zeile mit 24 Folgen); die Zeile von 20725 ist ein Staffelwähler-Stummel der Serienseite B0B6R47YQ3 ohne Folge (unsere null) (Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 143277
+  url: https://www.amazon.de/gp/video/detail/B0GQ5Z2KBR
+  grund: 'Seite B0GQ5Z2KBR ist die Serienseite (gti e3405b7b, Handbeleg von 143277 an dieser gti, Staffel 1); die Meldungen vom 16.10. mit Staffel 2 an B0GQ5Z2KBR gehören 155645 (prime-zugeordnet.json seit #1444, Stream B0GXQVM89H) und wurden mit dem Namen „Seasons 1 & 2“ auch an 143277 gehängt — der Bestandsbau legte daraus einen zweiten Handbeleg an und stellte 155645 zurück (Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20462
+  url: https://www.amazon.de/dp/B07LHCSXV6
+  grund: 'Seite B07LHCSXV6 ist dieselbe Staffel-1-Seite wie B07LHFLDBS (Messung 12.11.2026); der Beleg von 20462 steht jetzt an B07LHFLDBS, die alte Zeile nannte „10 Folgen“ (Adresswechsel 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20719
+  url: https://www.amazon.de/dp/B07LHCSXV6
+  grund: 'Seite B07LHCSXV6 gehört Chaika Staffel 1 (20462, 12 Folgen), nicht Avenging Battle (20719, Staffel 2 = B07MXMCF4V, Deutsch nicht belegt; Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 20719
+  url: https://www.amazon.de/gp/video/detail/B07LHFLDBS
+  grund: 'Seite B07LHFLDBS gehört Chaika Staffel 1 (20462, 12 Folgen), nicht Avenging Battle (20719; Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 146493
+  url: https://www.amazon.de/dp/B07LHFLDBS
+  grund: 'Seite B07LHFLDBS gehört Chaika Staffel 1 (20462, Messung 12.11.2026), nicht Ragna Crimson (146493; Fremdzuordnung, 12.11.2026)'
+  entferntAm: '2026-11-12'

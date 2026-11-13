@@ -5,6 +5,28 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 13.11.2026, 10:30 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:08 Uhr, seitdem 0 rote oder abgebrochene Läufe, Deploy ebenfalls ohne Alarm (12). Zugänge, Briefkasten (4090 Meldungen auf 227 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05). Der Rückstand „Belege ohne Fundstelle" sinkt weiter: 48 am 12.11., jetzt 39 — der im letzten Urteil erstmals gemeldete Rückgang setzt sich fort (09). `cartoons` und `cartoon-reihen`, zuvor seit dem 9./10.11. „grün aber leer", liefern wieder Treffer (2 bzw. 1) (06). Issue #3525 („ALARM 2026-11-12: Wache meldet ALARM"), im letzten Urteil zum Schließen vorgeschlagen, steht nicht mehr in der offenen Liste (08).
+
+**Wo ist Verbesserungspotenzial?** `cr-einzelwerke`/`cr-filmbloecke` stehen jetzt 23,8 Tage ohne Erfolg (vorher 22,8), `tv-de` bleibt per HTTP 403 gesperrt (7,4 Tage), beide weiterhin ohne Issue oder PR (06, 08). `messbelege` liefert trotz grünem Lauf seit sieben Tagen (seit 06.11.) 0 Treffer — zuletzt im Urteil vom 10.11. erwähnt, seitdem ohne Gegenmaßnahme und jetzt doppelt so lange (06). `kitsu-folgen`, zuvor nur veraltet, läuft wieder (letzter Erfolg vor 0,8 Tagen), liefert aber seit dem 12.11. 0 Treffer — eine neue Ausprägung desselben stillen Ausfalls (06). Issue #1595 steht jetzt 25 Tage offen, #898 32 Tage, beide unverändert unbearbeitet (08).
+
+**Wo sind echte Risiken und Lücken?** „Nacht-Merger" (mergt freigegebene Pull Requests automatisch, auch wenn niemand wach ist) ist in den letzten 48 Stunden 7x fehlgeschlagen, davon dreimal in den letzten drei Stunden auf main hintereinander (06:00, 07:00, 08:00 Uhr) (01). Gleichzeitig stehen jetzt 30 Pull Requests offen, viele mit „nacht-"-Zweignamen von heute und gestern (08) — gegenüber 18 im Urteil vom 11.11. ein deutlicher Anstieg zurück auf den früheren Höchststand. Ob der wiederholte Ausfall des Mergers diesen Rückstau erklärt, zeigt das Dossier nicht sicher, der zeitliche Zusammenhang ist aber auffällig. Die Terminableitung verwirft unverändert 228 Serien bei „Blöcke und Titel verschieden viele", 43 bei „Folgenzahl geht nicht auf", 4 beim Zeitwiderspruch (07) — seit mehreren Urteilen ohne Gegenmaßnahme. Die zuvor gemeldete Patch Note „mehr-deutsche-folgen-netflix-prime" (im Vorrat seit 04.11.) erscheint nicht mehr; stattdessen steht jetzt „hyouka-folgen-der-zweiten-haelfte" seit 05.11. im Vorrat, mit benanntem Zuordnungsfehler und eigenem Auftrag (02) — ob die erste freigegeben wurde oder nur durch die zweite abgelöst wird, ist nicht prüfbar. Bauer: Ursache der Nacht-Merger-Fehlschläge klären und prüfen, ob sie den PR-Rückstau erklärt.
+
+**Was läuft komplett falsch?** Keine neuen oder fortbestehenden Fälle falsch ausgelieferter Daten im Dossier sichtbar. Der einmalige Deploy-Fehlschlag von 01:20 Uhr liegt vor einem späteren erfolgreichen Deploy (vor 1,0 Stunden) und zeigt keine Fortsetzung (01, 05).
+
+
+## 12.11.2026, 10:04 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:07 Uhr, seitdem 0 rote oder abgebrochene Läufe, Deploy ebenfalls ohne Alarm (12). Die nächtlichen Fehlschläge von „Bestand — zusammenführen und bauen" (5x, 23:05–01:08 Uhr), „PR-Prüfer — Neustart bei Nachtrag" (4x), „Deploy auf GitHub Pages" (1x) und „ADN — laufende Serien" (1x) lagen alle auf main vor dieser Erholung und zeigen seitdem keine Fortsetzung (01, 12). Der Rückstand „Belege ohne Fundstelle" ist von 111 (11.11.) auf 48 gefallen (09) — erstmals seit Wochen ein deutlicher Rückgang statt weiterem Wachstum. Die zuvor wiederholt rot laufenden PRs #3418/#3413/#3354, die PR #3433 (ADN-Datenlauf rot) und #3435 (Ausreißer-Regel für den adn-Verlust) stehen nicht mehr in der offenen Liste (08, 10) — vermutlich gemerged. Der heutige 24-Stunden-Ausschnitt zeigt keinen neuen unerklärten adn- oder primevideo-Synchro-Verlust, nur eine als „erklärt, nicht rot" markierte primevideo-Herabstufung (02). Zugänge, Briefkasten (4115 Meldungen auf 229 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05).
+
+**Wo ist Verbesserungspotenzial?** cr-einzelwerke/cr-filmbloecke stehen jetzt 22,8 Tage ohne Erfolg (vorher 21,8), tv-de bleibt per HTTP 403 gesperrt, jetzt 6,4 Tage ohne Treffer (vorher 5,4), kitsu-folgen liegt 7,8 Tage zurück (vorher 6,8) — alle drei weiterhin ohne Issue oder PR (06, 08). Die Mutationsprobe schlug diesmal 5 von 10 Läufen fehl (3 failure, 2 startup_failure) (01) — mehr als die 4 von 10 im letzten Urteil, seit mehreren Urteilen eine Fehlerquote ohne Gegenmaßnahme oder Prüfung, ob Mutanten überlebten. PR #3528 (aniSearch-Tagesquellen gesammelt) steht mit „Prüfung rot" fest (08) — derselbe Musterfehler wie zuvor bei #3433, diesmal ein anderer Datenlauf. Issue #1595 steht jetzt 24 Tage offen, #898 31 Tage, beide unverändert unbearbeitet (08).
+
+**Wo sind echte Risiken und Lücken?** Issue #3525 „ALARM 2026-11-12: Wache meldet ALARM" steht offen (08), obwohl der aktuelle Stand keinen Alarm mehr zeigt (12) — die nächtliche Rotphase hat das Issue ausgelöst, seit der Erholung hat niemand es geschlossen. Der am 09./10.11. erstmals auffällige Block „grün aber leer" besteht zum dritten Tag größtenteils fort: tmdb-banner, kinoheld, cartoons und cartoon-reihen liefern weiterhin 0 Treffer seit dem 9. bzw. 10.11., youtube-check seit 2 Tagen (06) — ohne Issue oder PR wächst das zum stillen Ausfall mehrerer Quellen gleichzeitig; motn-changes hat sich dagegen schon erholt (jetzt 3 Treffer) (06). Die Terminableitung verwirft unverändert 228 Serien bei „Blöcke und Titel verschieden viele", 43 bei „Folgenzahl geht nicht auf", 4 beim Zeitwiderspruch (07) — seit mehreren Urteilen ohne Gegenmaßnahme. Drei neue PR-Prüfkette-Fehlschläge auf PR-Zweigen (fix/fetch-depth-git-dir, feat/eigene-titel-folge, fix/staffelzaehlung-reste) (01, 08); ob dadurch Daten nicht einfließen, ist nicht prüfbar. Ob PR #3435 auch die vier primevideo-Titel zurückgebracht hat, zeigt das Dossier nicht (02, 10) — nicht prüfbar, aber keine neue unerklärte Lücke sichtbar. Bauer: Issue #3525 nach Prüfung des nächtlichen Rotlaufs schließen, Ursache der „grün aber leer"-Quellen klären.
+
+**Was läuft komplett falsch?** Das Dossier zeigt derzeit keine neu oder weiterhin falsch ausgelieferten Daten; die Patch Notes „mehr-deutsche-folgen-netflix-prime" warten unverändert seit dem 04.11. im Vorrat auf den Nachweis durch den Rohfolgen-Lauf (02) — kein neuer Befund.
+
+
 ## 11.11.2026, 10:05 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Der ALARM aus dem letzten Urteil ist aufgelöst: kein Alarm mehr, letzter grüner Bestandsbau-Lauf heute um 08:05 Uhr, 0 rote oder abgebrochene Läufe danach, Deploy ebenfalls ohne Alarm (12); die zugehörige PR #3316 und Issue #3315 stehen nicht mehr in der offenen Liste (08). Alle geprüften Workflows liegen innerhalb ihrer Frist, Zugänge und Briefkasten unauffällig, alle Adressen gelistet (03, 04, 05). Der Pull-Request-Rückstau ist von den über mehrere Urteile gleich gebliebenen 30 auf 18 offene PRs gesunken (08, 10). Für den adn-Synchro-Verlust vom 10.11. 10:54 Uhr liegt bereits ein Fix bereit: PR #3435 „Ausreißer-Regel zählt fremdsprachig vertonte Folgen" (08).
@@ -786,3 +808,25 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** ADN: JoJo’s Bizarre Adventure (14719) hat den ADN-Weg (`…/444-jojo-s-bizarre-adventure?s=1`) bis `ea68c70d` (10.11. 10:43 UTC, Sammler-Rücknahme) und fehlt ab `d3bbd596` (10:59 UTC, „Bestand neu gebaut“); `data/adn-catalog.json` trägt die Serie weiterhin (Zeile 201, seit #3296). **Nicht belegt:** welche Bauphase den Weg dort fallen ließ; zwischen den beiden Ständen änderte sich keine ADN-Datei im Repo (nur `listen/07-adn.md` das Datum), also liegt es am nicht committeten Cache oder an der Zuordnung. Gleiche Lücke wie am 09.11.: ein Verlust im Bestand bleibt grün und fällt nur der Wache auf.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist; Gegenprobe (Bau mit dem Cache von `d3bbd596` nachstellen, ADN-Phase für 14719, 116589, 170695) steht aus.
+
+
+## 11.11.2026 — Wache meldet „1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger“ (Lauf 43046099714, Issue #3470)
+
+**Was läuft korrekt.** Die Wache hat den Sprung gefunden (Bestandslauf 10.11. 16:55), der Bau war grün. Gemessen über `public/data/titles.json` (`46190f80` → `dcc9b722`): Titel 21462 (Sailor Moon Crystal – Death Busters-hen, 13 Folgen) verlor den ADN-Weg `427-sailor-moon?s=3` (vorher `sharedWith: 2`, zusammen mit Titel 532, Sailor Moon S). Davor lief der ADN-Tiefendurchlauf `a9d13018` (16:44 UTC), der `data/adn-catalog.json` neu schrieb; beide Stände liegen im `headSha`.
+
+**Wo ist Verbesserungspotenzial?** Die Wache kann nicht zwischen „Beleg verloren“ und „falsche Doppelzuordnung aufgelöst“ unterscheiden (wie schon am 10.11. bei Prime/gti). Ein Abgleich gegen `sharedWith` im Vorstand würde den Fall still lassen.
+
+**Wo sind echte Risiken und Lücken?** Gemessen: ADN-Staffel 3 von Sailor Moon hat im Katalog 38 Folgen (Staffeln 1–5: 46/43/38/39/34) — das passt zu Sailor Moon S (532, 38 Folgen), nicht zu Death Busters (13). Der frühere Weg an 21462 war also vermutlich eine falsche Mitzuordnung, der Verlust damit eine Korrektur. **Nicht belegt:** ob der alte Stand im Katalog eine andere Folgenzahl trug (der Katalog des Vorstands wurde nicht ausgezählt).
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da keine Codeursache belegt ist.
+
+
+## 12.11.2026 — Wache rot nur wegen Patch-Notes-Vorrat (Lauf 43253552621, Issue #3599)
+
+**Was läuft korrekt.** Die Wache meldet, was sie soll: Die Patch Notes „mehr-deutsche-folgen-netflix-prime" liegen seit 04.11. im Vorrat. Der Bestand verlor nichts (24 h: Titel 0, Urteile +3, offen +2; alle Lauffristen grün).
+
+**Wo ist Verbesserungspotenzial?** Der Vorrats-Hinweis macht den Lauf rot, obwohl nichts verloren ging, und steht seit 8 Tagen identisch im Befund. Eine Schwelle (rot erst ab Alter X, sonst nur Zeile) würde täglich ein Issue sparen.
+
+**Wo sind echte Risiken und Lücken?** Gemessen in `public/data/cartoons.json`: Peppa Wutz (-12225) Netflix hat weiter nur `dubRanges` 1–13; `titles.json` Tayo (163828) Prime hat keine `dubRanges`. Die Wirkung von PR 2740/2762 ist nicht live, die Patch Note darf nicht freigegeben werden. Warum, nicht untersucht.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da kein Codefehler belegt ist.

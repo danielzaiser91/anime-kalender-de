@@ -20,8 +20,19 @@ export function istWebkanal(netzwerk: string | undefined): boolean {
 }
 
 /** Ein Eintrag der ADN-Handliste (`adnId`) ist durch ADN belegt, auch ohne deutschen TMDB-Anbieter. */
-export function hatAufnahmeBeleg(e: Pick<CartoonEintrag, 'anbieterDe' | 'netzwerk' | 'studios' | 'adnId'>): boolean {
-  if (e.anbieterDe.length || e.adnId) return true
+export function hatAufnahmeBeleg(e: Pick<CartoonEintrag, 'anbieterDe' | 'netzwerk' | 'studios' | 'adnId' | 'tmdbTot'>): boolean {
+  if (e.adnId) return true
+  if (e.tmdbTot) return false
+  if (e.anbieterDe.length) return true
   if (istWebkanal(e.netzwerk)) return false
   return Boolean(e.netzwerk) || (e.studios ?? []).some((s) => !KEIN_STUDIO.includes(s.toLowerCase()))
+}
+
+/**
+ * Die Rohdatei ohne Einträge mit toter TMDB-Kennung (`tmdbTot`), die kein ADN belegt: Jeder Leser von `data/cartoons.json`
+ * außer dem Schreiber `schreibeCartoons` nimmt diesen Filter, sonst hängen News, ADN-Weg und Anbieter am unveröffentlichten Titel.
+ * Ein ADN-belegter Titel bleibt (keine Quelle widerlegt ihn).
+ */
+export function ohneTote(roh: Record<string, CartoonEintrag>): Record<string, CartoonEintrag> {
+  return Object.fromEntries(Object.entries(roh).filter(([, e]) => e.adnId || !e.tmdbTot))
 }

@@ -7,270 +7,990 @@
     "name": "trifft: auch Ordner-Präfix",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "export const trifft = (name, datei) => datei === name",
-    "ersetze": "export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)"
+    "ersetze": "export const trifft = (name, datei) => datei === name || datei.startsWith(`${name}/`)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "trifft: nie",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "export const trifft = (name, datei) => datei === name",
-    "ersetze": "export const trifft = (name, datei) => false"
+    "ersetze": "export const trifft = (name, datei) => false",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "istTest: nie ein Test",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "export const istTest = (datei) => /\\.test\\.[mc]?[jt]sx?$/.test(datei)",
-    "ersetze": "export const istTest = (datei) => false"
+    "ersetze": "export const istTest = (datei) => false",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "istTest: jede Datei",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "export const istTest = (datei) => /\\.test\\.[mc]?[jt]sx?$/.test(datei)",
-    "ersetze": "export const istTest = (datei) => true"
+    "ersetze": "export const istTest = (datei) => true",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: Test zählt immer",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "if (!istTest(pfad) || !DATEN.test(bewegt)) return true",
-    "ersetze": "return true"
+    "ersetze": "return true",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: Fixture-Test zählt als Leser (Zeilenprüfung aus)",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "z.includes(name) && LESEN.test(z)",
-    "ersetze": "true"
+    "ersetze": "true",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: Zeile ohne Dateiname zählt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "z.includes(name) && LESEN.test(z)",
-    "ersetze": "LESEN.test(z)"
+    "ersetze": "LESEN.test(z)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: Zeile ohne Lese-Aufruf zählt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "z.includes(name) && LESEN.test(z)",
-    "ersetze": "z.includes(name)"
+    "ersetze": "z.includes(name)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: ganzer Text statt Zeile",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "z.includes(name) && LESEN.test(z)",
-    "ersetze": "z.includes(name) || LESEN.test(z)"
+    "ersetze": "z.includes(name) || LESEN.test(z)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: data/ zählt nicht als Daten",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/^(data|public|daniel-zum-abarbeiten)\\//",
-    "ersetze": "/^(public|daniel-zum-abarbeiten)\\//"
+    "ersetze": "/^(public|daniel-zum-abarbeiten)\\//",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: public/ zählt nicht als Daten",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/^(data|public|daniel-zum-abarbeiten)\\//",
-    "ersetze": "/^(data|daniel-zum-abarbeiten)\\//"
+    "ersetze": "/^(data|daniel-zum-abarbeiten)\\//",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "liestTestDatei: Daniel-Ordner zählt nicht als Daten",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/^(data|public|daniel-zum-abarbeiten)\\//",
-    "ersetze": "/^(data|public)\\//"
+    "ersetze": "/^(data|public)\\//",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "LESEN: readFile entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/readFile|createReadStream|import\\.meta\\.url|\\bresolve\\(/",
-    "ersetze": "/createReadStream|import\\.meta\\.url|\\bresolve\\(/"
+    "ersetze": "/createReadStream|import\\.meta\\.url|\\bresolve\\(/",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "LESEN: import.meta.url entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/readFile|createReadStream|import\\.meta\\.url|\\bresolve\\(/",
-    "ersetze": "/readFile|createReadStream|\\bresolve\\(/"
+    "ersetze": "/readFile|createReadStream|\\bresolve\\(/",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "LESEN: resolve( entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "/readFile|createReadStream|import\\.meta\\.url|\\bresolve\\(/",
-    "ersetze": "/readFile|createReadStream|import\\.meta\\.url/"
+    "ersetze": "/readFile|createReadStream|import\\.meta\\.url/",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "huelle: Tests geben Tokens weiter",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])",
-    "ersetze": "...(startdatei ? pfadTokens(text) : [])"
+    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text, datei) : [])",
+    "ersetze": "...(startdatei ? pfadTokens(text, datei) : [])",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "huelle: nie Tokens",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text) : [])",
-    "ersetze": "...([])"
+    "suche": "...(startdatei && !istTest(datei) ? pfadTokens(text, datei) : [])",
+    "ersetze": "...([])",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "huelle: Tiefe <= statt <",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const text = tiefe < maxTiefe && LESBAR",
-    "ersetze": "const text = tiefe <= maxTiefe && LESBAR"
+    "ersetze": "const text = tiefe <= maxTiefe && LESBAR",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "huelle: Tiefe ohne Grenze",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const text = tiefe < maxTiefe && LESBAR",
-    "ersetze": "const text = true && LESBAR"
+    "ersetze": "const text = true && LESBAR",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "huelle: Tiefe nicht gezählt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "offen.push([ziel, false, tiefe + 1])",
-    "ersetze": "offen.push([ziel, false, tiefe])"
+    "ersetze": "offen.push([ziel, false, tiefe])",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: Tiefe 1 statt 2",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const RUECK_TIEFE = 2",
-    "ersetze": "const RUECK_TIEFE = 1"
+    "ersetze": "const RUECK_TIEFE = 1",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: Tiefe 3 statt 2",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const RUECK_TIEFE = 2",
-    "ersetze": "const RUECK_TIEFE = 3"
+    "ersetze": "const RUECK_TIEFE = 3",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: ohne Tiefengrenze",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)",
-    "ersetze": "huelle([...rueckLeser, ...bewegterCode], lies)"
+    "ersetze": "huelle([...rueckLeser, ...bewegterCode], lies)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: tools/-Leser zählen alle",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
-    "ersetze": "leser.filter((r) => !istTest(r))"
+    "ersetze": "leser.filter((r) => !istTest(r))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: tools/check-* zählt nicht",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
-    "ersetze": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))"
+    "ersetze": "leser.filter((r) => !r.startsWith('tools/') && !istTest(r))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: Test-Leser zählen",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
-    "ersetze": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')))"
+    "ersetze": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: alle Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
-    "ersetze": "leser"
+    "ersetze": "leser",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: keine Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "leser.filter((r) => (!r.startsWith('tools/') || r.startsWith('tools/check-')) && !istTest(r))",
-    "ersetze": "[]"
+    "ersetze": "[]",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: bewegter Code startet keine Hülle",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)",
-    "ersetze": "huelle([...rueckLeser], lies, RUECK_TIEFE)"
+    "ersetze": "huelle([...rueckLeser], lies, RUECK_TIEFE)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: nur bewegter Code",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)",
-    "ersetze": "huelle([...bewegterCode], lies, RUECK_TIEFE)"
+    "ersetze": "huelle([...bewegterCode], lies, RUECK_TIEFE)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: Treffer nie",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => rueckwaerts.has(x))",
-    "ersetze": "const p = undefined"
+    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "ersetze": "const p = undefined",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: letzter statt erster Treffer",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => rueckwaerts.has(x))",
-    "ersetze": "const p = start.findLast((x) => rueckwaerts.has(x))"
+    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "ersetze": "const p = start.findLast((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Rückrichtung: Grundtext ohne bewegte Dateien",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "(bewegt: ${bewegt.join(', ')})",
-    "ersetze": ""
+    "ersetze": "",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "leserIn: Liste zählt als Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt",
-    "ersetze": "([pfad, text]) => bewegt"
+    "suche": "([pfad, text]) => !LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt",
+    "ersetze": "([pfad, text]) => !istNachrechnenWerkzeug(pfad) && bewegt",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "leserIn: nur Listen",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "([pfad, text]) => !LISTE.test(pfad) && bewegt",
-    "ersetze": "([pfad, text]) => LISTE.test(pfad) && bewegt"
+    "suche": "([pfad, text]) => !LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt",
+    "ersetze": "([pfad, text]) => LISTE.test(pfad) && !istNachrechnenWerkzeug(pfad) && bewegt",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "leserIn: Tests zählen für Daten",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))",
-    "ersetze": "bewegt.some((b) => nennt(text, b))"
+    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))",
+    "ersetze": "bewegt.some((b) => nennt(text, b, pfad))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "leserIn: nennt entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b))",
-    "ersetze": "bewegt.some((b) => liestTestDatei(pfad, text, b))"
+    "suche": "bewegt.some((b) => liestTestDatei(pfad, text, b) && nennt(text, b, pfad))",
+    "ersetze": "bewegt.some((b) => liestTestDatei(pfad, text, b))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "PR-Liste: ganzer Text statt neue Einträge",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\\n') : lies(p)",
-    "ersetze": "const text = lies(p)"
+    "ersetze": "const text = lies(p)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "PR-Liste: main-Stand vertauscht",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const text = LISTE.test(p) ? neueEintraege(p, lies, liesMain).join('\\n')",
-    "ersetze": "const text = LISTE.test(p) ? neueEintraege(p, liesMain, lies).join('\\n')"
+    "ersetze": "const text = LISTE.test(p) ? neueEintraege(p, liesMain, lies).join('\\n')",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "PR-Datei: Test zählt als Nenner",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))",
-    "ersetze": "bewegt.find((x) => nennt(text, x))"
+    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x, p))",
+    "ersetze": "bewegt.find((x) => nennt(text, x, p))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "PR-Datei: nennt entfällt",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x))",
-    "ersetze": "bewegt.find((x) => liestTestDatei(p, text, x))"
+    "suche": "bewegt.find((x) => liestTestDatei(p, text, x) && nennt(text, x, p))",
+    "ersetze": "bewegt.find((x) => liestTestDatei(p, text, x))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "PR-Datei: Test zählt als Ordner-Leser",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))",
-    "ersetze": "ordnerLeser(text, bewegt)"
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))), p)",
+    "ersetze": "ordnerLeser(text, bewegt)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "PR-Datei: Ordner-Leser aus",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || !DATEN.test(x)))",
-    "ersetze": "undefined"
+    "suche": "ordnerLeser(text, bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x))), p)",
+    "ersetze": "undefined",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   },
   {
     "name": "Vorwärts: Hülle ohne Start",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const vorwaerts = [...huelle(start, lies)]",
-    "ersetze": "const vorwaerts = []"
+    "ersetze": "const vorwaerts = []",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Ordner: Endungsfilter ignoriert",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))",
+    "ersetze": "const sichtbar = (b) => true",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Ordner: Filter schließt nie aus (ohne Tests immer sichtbar, mit Tests nie)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const sichtbar = (b) => tests.length === 0 || tests.some((t) => t(b))",
+    "ersetze": "const sichtbar = (b) => tests.length === 0",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Ordner: endsWith-Literal nicht erkannt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const lit = [...code.matchAll(ENDUNG_LITERAL)]",
+    "ersetze": "const lit = []",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Ordner: Regex-Filter nicht erkannt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "for (const m of code.matchAll(ENDUNG_REGEX)) {",
+    "ersetze": "for (const m of []) {",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Ordner: Endung exakt statt Ende (Dateiname enthält statt endet)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "(name) => name.endsWith(`.${m[1] ?? m[2]}`)",
+    "ersetze": "(name) => name.includes(`.${m[1] ?? m[2]}`)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Meldung Datenkanal: Dateireihenfolge statt Kern zuerst",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "kernZuerst(leser.filter(istBauLeser)).flatMap(",
+    "ersetze": "leser.filter(istBauLeser).flatMap(",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Meldung Aufruf: Dateireihenfolge statt Kern zuerst",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const l1 = kernZuerst(leser).find(",
+    "ersetze": "const l1 = leser.find(",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Meldung: Kern zuletzt statt zuerst",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "Number(KERN.test(b)) - Number(KERN.test(a))",
+    "ersetze": "Number(KERN.test(a)) - Number(KERN.test(b))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Datenkanal: jeder Leser zählt (bauLeser-Filter entfernt)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "kernZuerst(leser.filter(istBauLeser)).flatMap(",
+    "ersetze": "kernZuerst(leser).flatMap(",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Datenkanal: Tests zählen als Bau-Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const istBauLeser = (datei) => !istTest(datei) && ",
+    "ersetze": "const istBauLeser = (datei) => ",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Datenkanal: Workflows und Aktionen zählen als Leser",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": " && !datei.startsWith('.github/')",
+    "ersetze": "",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Datenkanal: tools/-Werkzeuge außer check-* zählen nicht (alte Positivliste)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "!istTest(datei) && !istShellTest(datei) && !istNachrechnenWerkzeug(datei) && !datei.startsWith('.github/')",
+    "ersetze": "/^(pipeline\\/|shared\\/|tools\\/check-)/.test(datei) && !istTest(datei)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
   },
   {
     "name": "Vorwärts: Tiefe 1",
     "datei": "tools/pr-nachrechnen-leser.mjs",
     "suche": "const vorwaerts = [...huelle(start, lies)]",
-    "ersetze": "const vorwaerts = [...huelle(start, lies, 1)]"
+    "ersetze": "const vorwaerts = [...huelle(start, lies, 1)]",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs",
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Bot-Datei Datenkanal: bewegte Bot-Datei zählt wieder (PR 3490/3474)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)",
+    "ersetze": "bauLeserMitDatei(leser, bewegt, lies)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Datenkanal: je Leser nur die erste genannte bewegte Datei",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return bewegt.filter((x) => liestTestDatei(l, text, x) && nennt(text, x, l)).map((x) => ({ leser: l, bewegt: x }))",
+    "ersetze": "const x = bewegt.find((y) => liestTestDatei(l, text, y) && nennt(text, y, l)); return x === undefined ? [] : [{ leser: l, bewegt: x }]",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Datenkanal: nicht lesbarer Leser zählt nicht (fail-closed weg)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "if (text === null) return [{ leser: l, bewegt: bewegt[0] }]",
+    "ersetze": "if (text === null) return []",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Bot-Datei Rückweg: ohneBot ist immer rueckwaerts",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts :",
+    "ersetze": "const ohneBot = true ? rueckwaerts :",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Bot-Datei Rückweg: auch Code des PR nutzt ohneBot",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "ersetze": "const p = start.find((x) => ohneBot.has(x))",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Bot-Datei Rückweg: Leser der Bot-Datei bleiben im Filter",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "wirksam.some((b) => liestTestDatei(l, lies(l), b) && nennt(lies(l), b, l))",
+    "ersetze": "true",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Bot-Datei Rückweg: wirksam enthält die Bot-Datei",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const wirksam = bewegt.filter((b) => !botBewegt.includes(b))",
+    "ersetze": "const wirksam = bewegt",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Verdrahtung: botSprungAusnahme gibt keine Bot-Dateien weiter",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))",
+    "ersetze": "liestBewegtes(bewegt, prDateien, [])",
+    "tests": [
+      "node tools/pr-nachrechnen-bot-sprung.test.mjs"
+    ]
+  },
+  {
+    "name": "Verdrahtung: botSprungAusnahme gibt alle bewegten Dateien als Bot weiter",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))",
+    "ersetze": "liestBewegtes(bewegt, prDateien, bewegt)",
+    "tests": [
+      "node tools/pr-nachrechnen-bot-sprung.test.mjs"
+    ]
+  },
+  {
+    "name": "Verdrahtung: datenpfadGrund reicht die Bot-Dateien nicht an den Git-Leser",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "kopf: pr.headRefOid, main, bot })",
+    "ersetze": "kopf: pr.headRefOid, main })",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Verdrahtung: gitLeser reicht refs.bot nicht an bewegtesGelesen",
+    "datei": "tools/pr-nachrechnen-leser-git.mjs",
+    "suche": "paketSkripte, botBewegt: refs.bot })",
+    "ersetze": "paketSkripte })",
+    "tests": [
+      "node tools/pr-nachrechnen-leser-git.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: Anzeigegrenze 4 statt 5",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "export const LESER_ANZEIGE = 5",
+    "ersetze": "export const LESER_ANZEIGE = 4",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: Anzeigegrenze 6 statt 5",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "export const LESER_ANZEIGE = 5",
+    "ersetze": "export const LESER_ANZEIGE = 6",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: „weitere“ schon bei genau 5 (>= 0)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const mehr = namen.length - LESER_ANZEIGE",
+    "ersetze": "const mehr = namen.length - LESER_ANZEIGE + 1",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: „weitere“ erst ab 7 (> 1)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "${mehr > 0 ? ` und",
+    "ersetze": "${mehr > 1 ? ` und",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: „weitere“ nennt die Gesamtzahl",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "` und ${mehr} weitere`",
+    "ersetze": "` und ${namen.length} weitere`",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: Abschnitte ohne Trenner",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "}).join('; ')",
+    "ersetze": "}).join(' ')",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: nur der erste Leser im Grund",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "(${leserText(bauLeser)})",
+    "ersetze": "(${leserText(bauLeser.slice(0, 1))})",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Alle Leser: nur die erste bewegte Datei im Grund",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "(${leserText(bauLeser)})",
+    "ersetze": "(${leserText(bauLeser.filter((p) => p.bewegt === bauLeser[0].bewegt))})",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Ordner-Leser: Ausführungsliste zählt als bewegte Datei (LISTE-Filter entfernt)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "bewegt.filter((x) => !istTest(p) || (!DATEN.test(x) && !LISTE.test(x)))",
+    "ersetze": "bewegt.filter((x) => !istTest(p) || !DATEN.test(x))",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: Pfad nicht an tools/ verankert",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/[\\w-]*-test(-[\\w-]+)?\\.sh$/.test(datei)",
+    "ersetze": "/-test(-[\\w-]+)?\\.sh$/.test(datei)",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: zählt als Bau-Leser (istShellTest entfernt)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "!istShellTest(datei) && !istNachrechnenWerkzeug(datei)",
+    "ersetze": "!istNachrechnenWerkzeug(datei)",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: Muster ohne „-“ (trifft attest.sh)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "test(-[\\w-]+)?\\.sh$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: Zusatz „-beleg“ nicht erlaubt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "-test\\.sh$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: Muster ohne Ende (trifft a-test.sh.bak)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "-test(-[\\w-]+)?\\.sh/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Shell-Test: jedes .sh",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "-test(-[\\w-]+)?\\.sh$/",
+    "ersetze": "\\.sh$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: Schalter wirkungslos",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "  if (trocken) {",
+    "ersetze": "  if (false) {",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: Exit 0 statt 1",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "nichts geschlossen, geöffnet oder kommentiert`)\n    return 1",
+    "ersetze": "nichts geschlossen, geöffnet oder kommentiert`)\n    return 0",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: main erkennt --trocken nicht",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "const trocken = argv.includes('--trocken')",
+    "ersetze": "const trocken = false",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: main reicht den Schalter nicht weiter",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "paare, undefined, umfang, trocken)",
+    "ersetze": "paare, undefined, umfang)",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: Argument --trocken bleibt in der Nummernliste",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "const args = argv.filter((a) => a !== '--trocken')",
+    "ersetze": "const args = argv",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: Standardwert true",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "umfang = standardUmfang, trocken = false)",
+    "ersetze": "umfang = standardUmfang, trocken = true)",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Trocken: schreibt erst nach dem Trockenlauf-Zweig (Reihenfolge)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "  if (trocken) {\n",
+    "ersetze": "  anstossen(gh, nummer, main, warte)\n  if (trocken) {\n",
+    "tests": [
+      "node tools/pr-nachrechnen.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Anhang im Schreibaufruf zählt als Leser (Filter weg)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": ".filter((m) => lesenderAnhang(code, m))",
+    "ersetze": "",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: lesenderAnhang nie lesend",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])",
+    "ersetze": "return false",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Semikolon trennt nicht (Schreiben und Lesen in einer Zeile)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "\\(([^;]*)$/i",
+    "ersetze": "\\(([^]*)$/i",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Suche über die Zeile hinaus (Vorzeile entlastet)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "const zeilenStart = code.lastIndexOf('\\n', m.index) + 1",
+    "ersetze": "const zeilenStart = 0",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesen (read…) gilt als Schreiben",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|mkdir\\w*|rm\\w*)",
+    "ersetze": "|mkdir\\w*|rm\\w*|read\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: copyFile gilt wieder als Schreiben (PR 3555)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "|mkdir\\w*|rm\\w*)",
+    "ersetze": "|mkdir\\w*|copyFile\\w*|rm\\w*)",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesung im Schreibaufruf wird weggefiltert (PR 3555)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "return schreib === null || LESUNG_IM_ARGUMENT.test(schreib[1])",
+    "ersetze": "return schreib === null",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Schreibzugriff: Lesung im Argument zählt nie (Lesungs-Muster ohne read)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/\\b(?:read|lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
+    "ersetze": "/\\b(?:lies|glob|opendir|scandir|copyFile)\\w*\\(/i",
+    "tests": [
+      "node tools/pr-nachrechnen-leser.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: istBauLeser ohne Familien-Ausnahme (PR 3557)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "&& !istNachrechnenWerkzeug(datei) &&",
+    "ersetze": "&&",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: nur pr-nachrechnen, nachrechnen- fehlt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",
+    "ersetze": "/^tools\\/(pr-nachrechnen)[\\w.-]*$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: jedes tools/pr-* zählt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",
+    "ersetze": "/^tools\\/(pr-|nachrechnen-)[\\w.-]*$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: nenntName ohne Grenze (Teilstring)",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: Grenze ohne Bindestrich",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`(?<![\\\\w.])${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Namensende: Grenze ohne Punkt",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "`(?<![\\\\w.-])${name.replace(",
+    "ersetze": "`(?<![\\\\w-])${name.replace(",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
+  },
+  {
+    "name": "Werkzeug-Familie: Unterordner zählt mit",
+    "datei": "tools/pr-nachrechnen-leser.mjs",
+    "suche": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w.-]*$/",
+    "ersetze": "/^tools\\/(pr-nachrechnen|nachrechnen-)[\\w./-]*$/",
+    "tests": [
+      "node tools/pr-nachrechnen-fehlalarme.test.mjs"
+    ]
   }
 ]

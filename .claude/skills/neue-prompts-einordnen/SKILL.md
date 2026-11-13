@@ -109,6 +109,19 @@ sieht Werkzeuge laufen und weiß nicht, wozu.
 
 **Mit Subagenten:** Laufen Agenten (Skill `delegieren-und-parallelisieren`), ist Schublade A zugleich die Frage, ob ein laufender Auftrag noch stimmt. Ich ändere oder stoppe ihn (`SendMessage`/`TaskStop`), statt den Bericht abzuwarten. Ein Wechsel (B) lässt laufende Bauer weiterarbeiten, solange sie die neue Sache nicht anfasst; das Einsammeln ihrer Berichte steht im Stand (Schritt 3).
 
+## Nachrichten mitten im Turn: die Eingangsordnung (Daniel, 12.11.2026)
+
+Anlass: Fünf Nachrichten in acht Minuten, und jede warf die halbe PayPal-Auswertung um. Daniel: „angefangenes hat
+immer vorrang, außer etwas kritisches drängelt sich vor … es darf nie etwas vergessen werden“.
+
+1. **Merken heißt eintragen** (Schritt 1): als Zeile in der Task-Liste, mit Schublade; Neues ans Ende.
+2. **Angefangenes zu Ende**, bis zum Ergebnis (Befund belegt, Daniels Teil nachgeführt). Ausnahmen nach Schritt 2:
+   B drängelt vor, A wird in den laufenden Punkt eingebaut. Ein unterbrochener Punkt bleibt als Zeile stehen.
+3. **Fragen sofort, Arbeit nach Reihe:** Eine reine Frage wird in der nächsten Antwort beantwortet; Bauen, Messen
+   und PRs warten auf ihren Platz („Reihenfolge, wenn mehrere Sachen offen sind“).
+4. **Abgleich vor dem Turn-Ende:** Jede Nachricht seit der letzten Antwort bekommt in der Endantwort eine Zeile
+   (erledigt / Antwort / eingereiht). Was der Abgleich nicht findet, gilt als vergessen.
+
 ## Was fertig ist, wird sofort gemeldet — nicht am Ende der Liste
 
 **Sobald ein Punkt einen Stand erreicht, den Daniel ansehen oder testen kann,

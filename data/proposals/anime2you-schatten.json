@@ -230,6 +230,121 @@
         "stichprobe": 0,
         "rest": 1
       }
+    },
+    {
+      "am": "2026-11-11",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.4611289999999997,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-11",
+      "artikel": 4,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.127768000000003,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 4,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 4
+      }
+    },
+    {
+      "am": "2026-11-12",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.8816300000000012,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-12",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.6204209999999932,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
+    },
+    {
+      "am": "2026-11-12",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 3.566320000000019,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
+    },
+    {
+      "am": "2026-11-12",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 1,
+      "nurClaude": 0,
+      "ms": 2.9531159999999943,
+      "faelle": [
+        {
+          "artikelId": "1070797",
+          "seite": "nurRegel",
+          "titel": "Detektiv Conan",
+          "plattform": "crunchyroll"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
     }
   ]
 }

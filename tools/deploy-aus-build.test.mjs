@@ -3,10 +3,11 @@
  * Aufruf: node tools/deploy-aus-build.test.mjs
  */
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parse } from 'yaml'
-import { KETTEN_WORKFLOWS, baumPasst, githubUnbedenklich, waehleLauf, waehlePR } from './deploy-aus-build.mjs'
+import { KETTEN_WORKFLOWS, baumPasst, githubUnbedenklich, laufe, waehleLauf, waehlePR } from './deploy-aus-build.mjs'
 
 const SHA = 'a'.repeat(40)
 const BAUM = 'b'.repeat(40)
@@ -85,35 +86,110 @@ assert.equal(yamlFall('jobs:\n  a:\n    steps: [{run: x}]\n  b:\n    uses: ./.gi
 assert.equal(yamlFall('jobs:\n  b:\n    uses: org/repo/.github/workflows/x.yml@v1\n'), 1, 'Job-Ebene fremd')
 assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: ./.github/actions/../workflows/x.yml\n'), 1, 'aus actions/ heraus')
 assert.equal(yamlFall('jobs:\n  a:\n    steps:\n      - uses: ./tools/action\n'), 1, 'lokale Action außerhalb .github/actions/')
+// Lauf: je Aufruf genau eine Zeile „Treffer: …“ bzw. „kein Treffer: <Grund>“ im Log, Ausgang `treffer=1` nur bei Treffer (Kulisse mit drei Läufen, der richtige in der Mitte).
+const VERSION = JSON.stringify({ baum: BAUM })
+const kulisse = (zusatz = {}) => ({
+  git: (a) => (a[0] === 'rev-parse' ? BAUM : a[0] === 'diff' ? '' : ''),
+  api: (pfad) => (pfad.includes('/jobs') ? { jobs: [{ name: 'PR-Prüfkette', conclusion: 'success' }] } : pfad.includes('/pulls') ? [pr()] : { workflow_runs: [1, 2, 3].map((id) => ({ id: 900 + id, event: 'pull_request', head_sha: 'c'.repeat(40), head_repository: { full_name: 'o/r' } })) }),
+  laden: () => 'x.tar',
+  version: () => VERSION,
+  kopieren: () => {},
+  ...zusatz,
+})
+const probe = (w) => {
+  const zeilen = []
+  const ausgang = []
+  const ergebnis = laufe({ env: { GITHUB_REPOSITORY: 'o/r', GITHUB_SHA: SHA, GITHUB_OUTPUT: 'aus.txt' }, ziel: 'z.tar' }, w, (d, t) => ausgang.push(t), (z) => zeilen.push(z))
+  return { ergebnis, zeilen, ausgang }
+}
+const gut = probe(kulisse())
+assert.deepEqual([gut.ergebnis, gut.zeilen.length, gut.ausgang], [true, 1, ['treffer=1\n']], 'Treffer: eine Zeile, Ausgang gesetzt')
+assert.match(gut.zeilen[0], /^Treffer: PR #7, Lauf 903$/, 'neuester Lauf, Treffer-Zeile')
+const ohnePR = probe(kulisse({ api: () => [] }))
+assert.deepEqual([ohnePR.ergebnis, ohnePR.ausgang], [false, []], 'kein PR: kein Ausgang')
+assert.equal(ohnePR.zeilen.join('|'), 'kein Treffer: kein gemergter PR mit diesem Squash-Commit', 'Grund steht im Log')
+const abweichung = probe(kulisse({ version: () => JSON.stringify({ baum: 'e'.repeat(40) }) }))
+assert.match(abweichung.zeilen.join('|'), /^kein Treffer: Baum und Abdruck des Baus aus Lauf 903 weichen ab/, 'Baum weicht ab: Grund nennt den Lauf')
+assert.deepEqual(abweichung.ausgang, [], 'Abweichung: kein Ausgang')
+const abgelaufen = probe(kulisse({ laden: () => { throw new Error('weg') } }))
+assert.match(abgelaufen.zeilen.join('|'), /^kein Treffer: Artefakt von Lauf 903 nicht abrufbar/, 'Artefakt abgelaufen')
 for (const datei of KETTEN_WORKFLOWS) {
   const wf = parse(readFileSync(resolve(import.meta.dirname, '..', datei), 'utf8'))
   assert.deepEqual(unzulaessigeAufrufe(wf), [], `${datei} ruft etwas außerhalb von .github/actions/`)
 }
 
-// Verdrahtung in deploy.yml: Fallback auf den Neubau bleibt, und ohne Treffer läuft alles wie vorher.
+// Verdrahtung in deploy.yml (geparst, 10.11.2026): `build` und `pruefen` laufen parallel und prüfen die Herkunft je als ersten Schritt (Composite), kein eigener Job `herkunft`.
 const wf = parse(readFileSync(resolve(import.meta.dirname, '../.github/workflows/deploy.yml'), 'utf8'))
 const jobs = wf.jobs
-assert.ok(jobs.herkunft, 'Job herkunft fehlt')
+assert.deepEqual(Object.keys(jobs), ['build', 'pruefen', 'deploy_hart', 'deploy_schlank', 'abschluss'], 'fünf Jobs, in drei Wellen: (build, pruefen) -> deploy -> abschluss')
 for (const id of ['build', 'pruefen']) {
-  assert.ok([jobs[id].needs].flat().includes('herkunft'), `${id} wartet auf herkunft`)
-  assert.match(jobs[id].if, /needs\.herkunft\.outputs\.treffer != '1'/, `${id} entfällt nur bei Treffer`)
+  assert.equal(jobs[id].needs, undefined, `${id} wartet auf nichts (parallel, kein Hop vorweg)`)
+  assert.ok(jobs[id].if.includes("github.event.workflow_run.conclusion == 'success'"), `${id}: gescheiterter Datenlauf veröffentlicht nichts`)
+  assert.ok(!jobs[id].if.includes('treffer'), `${id} entfällt bei Treffer nicht als Job, nur seine Schritte`)
+  assert.deepEqual(jobs[id].permissions, { contents: 'read', actions: 'read', 'pull-requests': 'read' }, `${id}: Rechte der Herkunftsprüfung, weder pages noch id-token`)
+  const checkout = jobs[id].steps.find((s) => String(s.uses).startsWith('actions/checkout'))
+  assert.ok(checkout.with['fetch-depth'] >= 2, `${id}: Elterncommit für den .github-Vergleich`)
+  assert.deepEqual(checkout.with['sparse-checkout'].split(String.fromCharCode(10)).filter(Boolean), ['tools', '.github/actions'], `${id}: dünner Checkout mit lokaler Aktion`)
+  const herkunft = jobs[id].steps.find((s) => s.id === 'herkunft')
+  assert.equal(herkunft.uses, './.github/actions/herkunft-holen', `${id}: dieselbe Herkunftsprüfung (kein kopierter Block)`)
+  assert.equal(herkunft['timeout-minutes'], 5, `${id}: Frist der früheren herkunft`)
 }
+const aktion = parse(readFileSync(resolve(import.meta.dirname, '../.github/actions/herkunft-holen/action.yml'), 'utf8'))
+const holen = aktion.runs.steps[0]
+assert.equal(aktion.outputs.treffer.value, '${{ steps.holen.outputs.treffer }}')
+assert.ok(holen.if.includes("!contains(github.event.head_commit.message, '[schlank]')"), 'schlanker Weg holt keinen Bau')
+assert.equal(holen['continue-on-error'], true, 'Fehler beim Holen heißt nur: kein Treffer')
+assert.ok(holen.run.includes('node tools/deploy-aus-build.mjs'), 'die Aktion ruft deploy-aus-build')
+// Hochladen nur in build (zwei Jobs mit dem Namen github-pages wären ein Konflikt).
+const hochladen = jobs.build.steps.find((s) => s.id === 'hochladen')
+assert.ok(hochladen.if.includes("steps.herkunft.outputs.treffer == '1'"), 'Hochladen nur nach Treffer')
+assert.equal(hochladen.with.name, 'github-pages', 'deploy-pages sucht diesen Namen')
+assert.equal(hochladen['continue-on-error'], true, 'scheitert der Upload, baut der Deploy neu')
+assert.equal(jobs.pruefen.steps.filter((s) => String(s.uses).startsWith('actions/upload-')).length, 0, 'pruefen lädt nichts hoch')
+// Bei Treffer entfallen alle Schritte nach der Herkunftsprüfung bzw. dem Hochladen, davor läuft alles immer.
+const nach = (job, id, bedingung) => {
+  const s = jobs[job].steps
+  const rest = s.slice(s.findIndex((x) => x.id === id) + 1).filter((x) => x.id !== 'hochladen' && x.name !== 'Melder bereitlegen')
+  assert.ok(rest.length > 7, `${job}: Bau- und Prüfschritte stehen hinter ${id}`)
+  for (const x of rest) assert.ok(String(x.if).includes(bedingung), `${job}: Schritt „${x.name ?? x.uses ?? x.run}“ entfällt bei Treffer`)
+}
+nach('build', 'hochladen', "steps.hochladen.outcome != 'success'")
+nach('pruefen', 'herkunft', "steps.herkunft.outputs.treffer != '1'")
 const hart = jobs.deploy_hart
-assert.deepEqual([hart.needs].flat().sort(), ['build', 'herkunft', 'pruefen'])
-assert.match(hart.if, /needs\.herkunft\.outputs\.treffer == '1'/, 'Treffer deployt ohne Neubau')
-assert.match(hart.if, /needs\.build\.result == 'success' && needs\.pruefen\.result == 'success'/, 'ohne Treffer: Bau und Prüfung grün')
-assert.match(hart.if, /needs\.herkunft\.result == 'success'/, 'ohne laufenden Herkunftsjob kein Deploy')
-assert.match(hart.if, /!cancelled\(\)/, 'übersprungene Needs dürfen den Deploy nicht verhindern')
-assert.match(jobs.abschluss.if, /needs\.herkunft\.result != 'skipped'/, 'Abschluss hängt nicht mehr am Bau')
-assert.ok([jobs.abschluss.needs].flat().includes('herkunft'))
-const schritt = (id) => jobs.herkunft.steps.find((s) => s.id === id)
-assert.match(schritt('holen').if, /!contains\(github\.event\.head_commit\.message, '\[schlank\]'\)/, 'schlanker Weg holt keinen Bau')
-assert.equal(schritt('holen')['continue-on-error'], true, 'Fehler beim Holen heißt nur: kein Treffer')
-assert.equal(jobs.herkunft.steps[0].with['fetch-depth'], 2, 'Elterncommit für den .github-Vergleich')
-assert.match(schritt('hochladen').if, /steps\.holen\.outputs\.treffer == '1'/, 'Hochladen nur nach Treffer')
-assert.match(jobs.herkunft.outputs.treffer, /steps\.hochladen\.outcome == 'success'/, 'Treffer erst, wenn das Artefakt liegt')
-assert.equal(schritt('hochladen').with.name, 'github-pages', 'deploy-pages sucht diesen Namen')
-assert.equal(schritt('hochladen')['continue-on-error'], true, 'scheitert der Upload, baut der Deploy neu (treffer bleibt leer)')
-assert.deepEqual(jobs.herkunft.permissions, { contents: 'read', actions: 'read', 'pull-requests': 'read' }, 'herkunft braucht weder pages noch id-token')
-assert.equal(jobs.herkunft.steps[0].with['sparse-checkout'], 'tools', 'dünner Checkout: spart Zeit vor jedem Deploy ohne Treffer')
+assert.deepEqual([hart.needs].flat().sort(), ['build', 'pruefen'])
+assert.ok(hart.if.includes("needs.build.result == 'success' && needs.pruefen.result == 'success'"), 'Bau und Prüfung grün (bei Treffer sind beide ohne Schritte grün)')
+assert.ok(hart.if.includes('!cancelled()'), 'übersprungene Needs dürfen den Deploy nicht verhindern')
+assert.ok(hart.if.includes("!contains(github.event.head_commit.message, '[schlank]')"), 'schlanker Commit deployt über deploy_schlank')
+assert.equal(jobs.deploy_schlank.needs, 'build', 'schlank wartet nur auf den Bau')
+assert.ok(jobs.abschluss.if.includes("needs.build.result != 'skipped'"), 'Abschluss hängt nicht am Deploy')
+assert.deepEqual([jobs.abschluss.needs].flat().sort(), ['build', 'deploy_hart', 'deploy_schlank', 'pruefen'])
+// A1 (Prüfer 3367): jeder Job hat eine Frist, und `abschluss` (hält die Gruppe `pages`) hat sie an jedem Schritt; die Summe bleibt unter der Job-Frist,
+// damit kein Job-Abbruch den Lauf rot macht. Einrichten und Messung der Kachelränder sind Befund, nie roter Lauf.
+for (const [id, job] of Object.entries(jobs)) assert.ok(Number.isInteger(job['timeout-minutes']) && job['timeout-minutes'] > 0, `Job ${id} hat timeout-minutes`)
+const abschlussSchritte = jobs.abschluss.steps
+for (const s of abschlussSchritte) assert.ok(Number.isInteger(s['timeout-minutes']) && s['timeout-minutes'] > 0, `abschluss: Schritt „${s.name ?? s.uses}“ hat timeout-minutes`)
+const fristSumme = abschlussSchritte.reduce((summe, s) => summe + s['timeout-minutes'], 0)
+assert.ok(fristSumme <= jobs.abschluss['timeout-minutes'], `abschluss: Summe der Schritt-Fristen (${fristSumme}) <= Job-Frist (${jobs.abschluss['timeout-minutes']})`)
+const messSchritte = abschlussSchritte.filter((s) => String(s.uses).endsWith('kette-einrichten') || s.name === 'Kachelränder live messen')
+assert.equal(messSchritte.length, 2, 'abschluss: Einrichten und Messung der Kachelränder')
+for (const s of messSchritte) assert.equal(s['continue-on-error'], true, `abschluss: „${s.name ?? s.uses}“ macht den Lauf nicht rot`)
+assert.equal(abschlussSchritte.find((s) => s.name === 'Lauf abmelden')['continue-on-error'], true, 'abschluss: Abmeldung macht den Lauf nicht rot')
+
+// A3 (Prüfer 3367): fail-closed, wenn build und pruefen die Herkunft verschieden beurteilen. Beide Jobs geben ihr Urteil aus, der erste Schritt von deploy_hart
+// vergleicht es vor dem Deploy; der Vergleich wird als echtes Skript ausgeführt (Wertepaare: gleich, build allein, pruefen allein).
+for (const id of ['build', 'pruefen']) assert.ok(jobs[id].outputs.treffer.includes('steps.herkunft.outputs.treffer'), `${id} gibt das Herkunftsurteil aus`)
+const vergleich = hart.steps[0]
+assert.equal(hart.steps.indexOf(vergleich) < hart.steps.findIndex((s) => s.id === 'deployment'), true, 'der Vergleich steht vor dem Deploy')
+assert.ok(vergleich.env.BAU_TREFFER.includes('needs.build.outputs.treffer') && vergleich.env.PRUEF_TREFFER.includes('needs.pruefen.outputs.treffer'), 'Vergleich liest die Urteile beider Jobs')
+assert.equal(vergleich['continue-on-error'], undefined, 'ein Widerspruch macht den Job rot')
+assert.equal(vergleich.if, undefined, 'der Vergleich läuft immer')
+assert.equal(hart.steps.find((s) => s.id === 'deployment').if, undefined, 'der Deploy läuft nur, wenn der Vergleich bestanden hat (kein always())')
+const vergleichLauf = (bau, pruef) => spawnSync('bash', ['-c', vergleich.run], { encoding: 'utf8', windowsHide: true, timeout: 20_000, env: { ...process.env, BAU_TREFFER: bau, PRUEF_TREFFER: pruef } })
+for (const [bau, pruef] of [['1', '1'], ['', '']]) assert.equal(vergleichLauf(bau, pruef).status, 0, `gleiches Urteil (build '${bau}', pruefen '${pruef}') deployt`)
+for (const [bau, pruef] of [['', '1'], ['1', '']]) {
+  const r = vergleichLauf(bau, pruef)
+  assert.equal(r.status, 1, `verschiedenes Urteil (build '${bau}', pruefen '${pruef}') ist rot`)
+  assert.ok(r.stdout.includes('::error::Kein Deploy'), 'mit Meldung')
+  assert.ok(r.stdout.includes(`build (Treffer '${bau}')`) && r.stdout.includes(`pruefen (Treffer '${pruef}')`), 'Meldung nennt beide Urteile')
+}
 console.log('deploy-aus-build.test: ok')

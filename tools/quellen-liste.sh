@@ -109,6 +109,8 @@ QUELLEN=(
   data/adn-vde-historie.json
   # Wann die Serien des ADN-Katalogs zuletzt gefragt wurden — ohne sie wäre die Warteschlange nach einem Checkout wieder dieselbe (05.10.2026).
   data/adn-katalog-stand.json
+  # Läufe in Folge mit leerer Antwort je Katalogserie: die zweite streicht sie (Ablauffrist, 11.11.2026).
+  data/adn-leer-folge.json
   # Dasselbe für aniSearch: 110 Seiten liegen im Repo, jede weitere, die ein
   # Lauf holt, fiele ohne diese Zeile unter den Tisch — und ein Abruf über 2.612
   # Seiten ist genau das, was das Archiv ersparen soll.

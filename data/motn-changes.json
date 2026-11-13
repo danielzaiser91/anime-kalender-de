@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 36
+    "2026-11": 40
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1338,7 +1338,7 @@
       "imdbId": "tt0102962",
       "tmdbId": "tv/47357",
       "dienst": "prime",
-      "am": "2026-10-07",
+      "am": "2026-11-13",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -1481,7 +1481,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-11-01",
+      "am": "2026-11-13",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -2735,7 +2735,7 @@
       "imdbId": "tt2805096",
       "tmdbId": "tv/58841",
       "dienst": "prime",
-      "am": "2026-11-07",
+      "am": "2026-11-13",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -2990,7 +2990,7 @@
       "imdbId": "tt0460627",
       "tmdbId": "tv/1911",
       "dienst": "prime",
-      "am": "2026-10-31",
+      "am": "2026-11-13",
       "deutsch": true,
       "deutschBeiDienst": false
     },
@@ -3335,8 +3335,9 @@
       "imdbId": "tt1628033",
       "tmdbId": "tv/45",
       "dienst": "prime",
-      "am": "2026-10-12",
-      "deutsch": false
+      "am": "2026-11-13",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "removed:5136:prime": {
       "art": "removed",
@@ -7384,7 +7385,7 @@
       "imdbId": "tt2802850",
       "tmdbId": "tv/60622",
       "dienst": "prime",
-      "am": "2026-11-06",
+      "am": "2026-11-13",
       "deutsch": true,
       "deutschBeiDienst": true
     },
@@ -11273,7 +11274,139 @@
       "am": "2026-11-10",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:26343460:netflix": {
+      "art": "new",
+      "titel": "The Body",
+      "originalTitel": "The Body",
+      "imdbId": "tt8014982",
+      "tmdbId": "tv/291507",
+      "dienst": "netflix",
+      "am": "2026-11-11",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27301081:netflix": {
+      "art": "new",
+      "titel": "ChiaroScuro",
+      "originalTitel": "ChiaroScuro",
+      "imdbId": "tt37214564",
+      "tmdbId": "tv/336243",
+      "dienst": "netflix",
+      "am": "2026-11-11",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27299844:netflix": {
+      "art": "new",
+      "titel": "Alicia's Law",
+      "originalTitel": "La Ley de Alicia",
+      "imdbId": "tt39390491",
+      "tmdbId": "tv/338562",
+      "dienst": "netflix",
+      "am": "2026-11-11",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27520721:prime": {
+      "art": "new",
+      "titel": "LOL: Last One Laughing Halloween UK",
+      "originalTitel": "LOL: Last One Laughing Halloween UK",
+      "imdbId": "tt44385073",
+      "tmdbId": "tv/339754",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:433:prime": {
+      "art": "new",
+      "titel": "Mr. Bean",
+      "originalTitel": "Mr. Bean",
+      "imdbId": "tt0096657",
+      "tmdbId": "tv/4327",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:19844329:prime": {
+      "art": "new",
+      "titel": "Baby Born",
+      "originalTitel": "Baby Born",
+      "imdbId": "tt29232751",
+      "tmdbId": "tv/283082",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:27518443:netflix": {
+      "art": "new",
+      "titel": "Taken: Natalee Holloway",
+      "originalTitel": "Taken: Natalee Holloway",
+      "imdbId": "tt43681696",
+      "tmdbId": "tv/338684",
+      "dienst": "netflix",
+      "am": "2026-11-13",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27066585:prime": {
+      "art": "new",
+      "titel": "Campus Drivers",
+      "originalTitel": "Campus Drivers",
+      "imdbId": "tt39943756",
+      "tmdbId": "tv/303044",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "removed:1129:netflix": {
+      "art": "removed",
+      "titel": "The Great",
+      "originalTitel": "The Great",
+      "imdbId": "tt2235759",
+      "tmdbId": "tv/93812",
+      "dienst": "netflix",
+      "am": "2026-11-13",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "removed:2439812:prime": {
+      "art": "removed",
+      "titel": "Thicker Than Water",
+      "originalTitel": "Jusqu'ici tout va bien",
+      "imdbId": "tt27124268",
+      "tmdbId": "tv/222559",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "removed:375:prime": {
+      "art": "removed",
+      "titel": "Desperate Housewives",
+      "originalTitel": "Desperate Housewives",
+      "imdbId": "tt0410975",
+      "tmdbId": "tv/693",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "removed:19870817:prime": {
+      "art": "removed",
+      "titel": "Pau Gasol: It’s About the Journey",
+      "originalTitel": "Pau Gasol - Lo importante es el Viaje",
+      "imdbId": "tt16154804",
+      "tmdbId": "tv/138473",
+      "dienst": "prime",
+      "am": "2026-11-13",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-11T04:07:33.989Z"
+  "fetchedAt": "2026-11-13T04:11:25.236Z"
 }

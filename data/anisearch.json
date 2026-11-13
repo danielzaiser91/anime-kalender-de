@@ -696323,6 +696323,7 @@
       ],
       "format": "Film",
       "episodes": 1,
+      "runtimeMinutes": 129,
       "season": "Herbst 2026",
       "studios": [
         "ufotable, Inc."
@@ -696351,7 +696352,7 @@
         "Mahoyo Movie"
       ]
     },
-    "fetchedAt": "2026-10-14T04:01:36.293Z"
+    "fetchedAt": "2026-11-13T06:01:02.295Z"
   },
   "143145": {
     "anisearchId": 16947,
@@ -852225,7 +852226,7 @@
         "Lord of The Mysteries Special: Prey"
       ]
     },
-    "fetchedAt": "2026-10-13T04:00:51.897Z"
+    "fetchedAt": "2026-11-12T06:01:07.453Z"
   },
   "199449": {
     "anisearchId": 21206,
@@ -880227,5 +880228,58 @@
       ]
     },
     "fetchedAt": "2026-11-09T06:01:22.258Z"
+  },
+  "219798": {
+    "anisearchId": 22099,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nanatsuya: Shinobu no Housekibako",
+          "titleNative": "Nanatsuya: Shinobu no Hōsekibako",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "J.C.STAFF Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Tomoko NINOMIYA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Chiaki KON",
+          "role": "Direction"
+        },
+        {
+          "name": "Mai FURUKI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/nanatsuya_pr"
+        },
+        {
+          "name": "Nanatsuya Shinobu Anime",
+          "url": "https://nanatsuya-shinobu-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Nanatsuya: Shinobu and Her Jewelry Box"
+      ]
+    },
+    "fetchedAt": "2026-11-13T06:01:09.471Z"
   }
 }

@@ -3,19 +3,21 @@
  * gehört** (29.10.2026, Anlass: fünf Fehlzuordnungen — vier Netflix-Cartoonseiten an Hero Mask, Swordgai ×2, Pokémon und eine
  * Serienseite an einem Film —, live unsichtbar, weil `adresseFremdBelegt` sie im Bau überspringt, im Bestand aber geblieben).
  * Besitzer: ein Cartoon oder Titel ohne Synchro (`streams`) oder ein Handbeleg einer anderen Kennung.
- * Die 7 Altfälle (Stand 30.10.2026, vorher 35 nach der Sichtung: 40 von 75 gesperrt) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
+ * Die 4 Altfälle (Stand 12.11.2026; 30.10.2026 waren es 7, vorher 35 nach der Sichtung: 40 von 75 gesperrt) stehen in `data/zuordnung-fremd-bekannt.json`: neue Treffer sind rot, ein Eintrag ohne Treffer auch (streichen).
  * Dazu (29.10.2026): keine Seite an Titeln verschiedener Reihen (`franchiseId`), Fälle in `check-zuordnung-fremd.ts`.
  * Liest `public/data` und gehört deshalb in `check:bestand`; die Fälle ohne Bestand stehen in `check-zuordnung-fremd.ts`.
  */
 import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import { melde } from './lib/quarantaene.ts'
-import { fremdZugeordneteImBestand, gegenBekannt, geteilteSeitenImBestand } from './lib/zuordnung-fremd-bestand.ts'
+import { besitzerMitHerkunft, fremdZugeordneteImBestand, gegenBekannt, geteilteSeitenImBestand } from './lib/zuordnung-fremd-bestand.ts'
 import { beschreibeGeteilte } from './lib/zuordnung-geteilt.ts'
 
 const treffer = fremdZugeordneteImBestand('.')
 const bekannt = JSON.parse(readFileSync('data/zuordnung-fremd-bekannt.json', 'utf8')) as string[]
 const { neu, veraltet } = gegenBekannt(treffer, bekannt)
 const geteilt = geteilteSeitenImBestand('.')
+const belege = (yaml.load(readFileSync('data/dub-confirmed.yaml', 'utf8')) as Parameters<typeof besitzerMitHerkunft>[1] | null) ?? []
 for (const id of new Set(neu.map((t) => t.titleId))) melde(id, 'zuordnung-fremd', 'Zuordnung an der Adresse eines anderen Titels')
 
 let verletzt = 0
@@ -29,7 +31,7 @@ console.log('\nZuordnung an fremder Adresse:')
 pruefe(
   'Keine neue Zuordnung liegt an der Adresse eines anderen Titels (sonst Eintrag in data/belege-entfernt.yaml oder Beleg richtigstellen)',
   neu.length === 0,
-  neu.map((t) => `Titel ${t.titleId}, Adresse ${t.adresse}, Besitzer ${t.besitzer.join(', ')}`),
+  neu.map((t) => `Titel ${t.titleId}, Adresse ${t.adresse}, Besitzer ${besitzerMitHerkunft(t, belege).join(', ')}`),
 )
 pruefe(
   'Keine Seite liegt an Titeln verschiedener Reihen (Staffeln derselben Reihe teilen Seiten legitim; sonst Zuordnung sperren in data/belege-entfernt.yaml)',

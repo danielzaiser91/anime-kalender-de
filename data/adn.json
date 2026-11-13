@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-11-11T04:07:32.971Z",
+  "scrapedAt": "2026-11-13T04:11:22.453Z",
   "window": {
-    "from": "2026-09-27",
-    "to": "2027-01-25"
+    "from": "2026-09-29",
+    "to": "2027-01-27"
   },
   "shows": [
     {
@@ -422,6 +422,19 @@
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps1_320x180.jpg"
         },
         {
+          "date": "2026-10-24",
+          "time": "19:00",
+          "episode": 2,
+          "url": "https://animationdigitalnetwork.com/de/video/887-dreamland/32721-folge-2",
+          "season": "1",
+          "seasonReference": "dreamland_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1380,
+          "title": "Reisender",
+          "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps2_320x180.jpg"
+        },
+        {
           "date": "2026-10-31",
           "time": "18:00",
           "episode": 3,
@@ -435,7 +448,7 @@
           "image": "https://image.animationdigitalnetwork.com/license/dreamland/tv/web/eps3_320x180.jpg"
         }
       ],
-      "batch": true
+      "batch": false
     },
     {
       "showId": 1319,

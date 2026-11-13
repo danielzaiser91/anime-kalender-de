@@ -30,6 +30,7 @@ export const OHNE_LESER_WORKFLOWS = ['anisearch-raw', 'crunchyroll-raw', 'crunch
 export const ZAEHLT = (pfad) => !istDatenpfad(pfad) && !OHNE_LESER_WORKFLOWS.some((p) => pfad === p || pfad.startsWith(`${p}/`))
 export const WORKFLOW = 'deploy.yml'
 export const JOB = 'pruefen'
+export const LETZTER_PRUEFSCHRITT = 'Erweiterung prüfen'
 /** Läufe, die der Abruf der Deploy-Historie höchstens liest (neueste zuerst); die Checkout-Tiefe (30 Commits) begrenzt ohnehin, was lokal lesbar ist. */
 export const LAEUFE_HOECHSTENS = 50
 /** Gleicher Abdruck, aber Job nicht grün: so viele solcher Läufe werden höchstens nach ihren Jobs gefragt. */
@@ -49,8 +50,12 @@ export function abdruckAusBaum(roh) {
   return abdruckVon(gezaehlt)
 }
 
-/** Ist der Job `pruefen` unter diesen Jobs erfolgreich (nicht übersprungen, nicht abgebrochen)? */
-export const pruefenGruen = (jobs) => jobs.some((j) => j.name === JOB && j.conclusion === 'success')
+/**
+ * Haben die Prüfungen unter diesen Jobs gelaufen und bestanden? Der Job `pruefen` ist seit 10.11.2026 bei Treffer des geprüften Baus grün, ohne zu prüfen
+ * (die Herkunftsprüfung steht als Schritt in ihm, nicht mehr als eigener Job davor): deshalb zählt der letzte Prüfschritt „Erweiterung prüfen“ (grün, nicht übersprungen).
+ */
+export const pruefenGruen = (jobs) =>
+  jobs.some((j) => j.name === JOB && j.conclusion === 'success' && (j.steps ?? []).some((s) => s.name === LETZTER_PRUEFSCHRITT && s.conclusion === 'success'))
 
 /**
  * Neuester Lauf (ohne den eigenen), dessen Stand denselben Abdruck hat und dessen Job `pruefen` grün war, sonst null.

@@ -52,8 +52,8 @@ export const FRISTEN = {
   /*
     Quellen, die bei jedem Tageslauf (refresh-data.yml) oder öfter laufen und bis zum 26.10.2026 unbemerkt auf der
     Standardfrist standen. Frist 3 = Taktung plus zwei Tage Luft, wie `crunchyroll-neu`; Gesundheitsdatei vom 26.10.2026:
-    alle zuletzt vor weniger als einem Tag erfolgreich. `tv-de` und `messbelege` laufen stündlich; `messbelege` zählt
-    eine leere Warteschlange als Erfolg (`leerIstOk`).
+    alle zuletzt vor weniger als einem Tag erfolgreich. `messbelege` läuft stündlich und zählt
+    eine leere Warteschlange als Erfolg (`leerIstOk`). `tv-de` steht seit 12.11.2026 auf Frist 30 (Runner-Sperre, s. unten).
   */
   adn: 3,
   anime2you: 3,
@@ -61,7 +61,13 @@ export const FRISTEN = {
   'anisearch-zuordnung': 3,
   messbelege: 3,
   toggo: 3,
-  'tv-de': 3,
+  /*
+    tv.de antwortet GitHub-Runnern seit dem 06.11.2026 mit HTTP 403 (lastOk 05.11.2026 23:04 UTC; vom eigenen Rechner
+    HTTP 200). Eine Sperre aus der Cloud umgehen wir nicht (CLAUDE.md); der Lauf fragt weiter einmal täglich und beendet
+    sich beim ersten 403, ein Ende der Sperre heilt die Quelle von selbst. 30 Tage statt 3: der tägliche Alarm
+    meldete nur das Bekannte (quellen.md, „tv.de sperrt GitHub-Runner“).
+  */
+  'tv-de': 30,
   /*
     Ebenfalls im Tageslauf, aber hier ist nicht belegt, dass ein Lauf jeden Tag etwas zählt (Warteschlange, neue Titel):
     bewusst die bisherige Standardfrist von 4 Tagen, jetzt eingetragen, damit der Wächter `quellen-fristen-takt.test.mjs`
@@ -129,6 +135,16 @@ export const FRISTEN = {
     der Normalfall und kein Ausfall.
   */
   'wikidata-titel': 9,
+  /*
+    Nur im Wochenlauf (refresh-weekly.yml), ohne Eintrag galt die Standardfrist 4 Tage (Alarm bei 8): ein einziger
+    verpasster oder zurückgehaltener Wochenlauf löste ALARM aus (kitsu-folgen, 12.11.2026). Wochentakt plus zwei Tage Luft.
+  */
+  'anisearch-slugs': 9,
+  kinoheld: 9,
+  'kitsu-folgen': 9,
+  'rtlplus-folgen': 9,
+  'tmdb-banner': 9,
+  'tmdb-poster': 9,
   /**
    * Monatlich — die Taktung kommt hier nicht vom Nutzen, sondern vom
    * Kontingent.

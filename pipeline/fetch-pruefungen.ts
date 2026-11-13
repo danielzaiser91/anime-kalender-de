@@ -25,9 +25,10 @@ import {
   begrenzeAufFolgenzahl,
   bildeBereiche,
   ordneNachStaffelliste,
-  verteileAufStaffeln,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
+import { bereicheDerStaffel, bereicheJeAdnTitel } from './lib/meldungen-bereiche.ts'
+import { ladeAdnStaffelzuordnung } from './lib/adn-staffelzuordnung.ts'
 import { leseAnbieterStaffeln, summeFuerGruppe } from './lib/staffelsumme-gruppe.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
@@ -48,6 +49,7 @@ import { schalterOderAbbruch } from './lib/schalter.ts'
 import { folgenzahlIstBefund, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb, sperreAufPruefungen } from './lib/meldungen-stapel.ts'
 import { baueNachUrl } from './lib/nach-url.ts'
+import { berlinDatum, ladeBesitz, zieheFremdeBelegeZurueck } from './lib/beleg-fremd-zugeordnet.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -336,11 +338,6 @@ function ausSuchadresse(url: string): number[] {
   return []
 }
 
-/** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin. */
-function berlinDatum(iso: string): string {
-  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date(iso))
-}
-
 const heute = berlinDatum(new Date().toISOString())
 const kanalJa = kanalJaAdressKerne(loadDubChecks())
 const zeilen: string[] = []
@@ -381,6 +378,7 @@ const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data
   : {}
 
 const ohneZuordnung: OhneZuordnung[] = []
+const besitz = ladeBesitz(ROOT)
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>(gesperrt)
 
@@ -847,6 +845,7 @@ for (const gruppe of jeAdresse.values()) {
     ist ein offener Punkt und kein erledigter.
   */
   let geschrieben = 0
+  const von = zeilen.length
   let staffeln = staffelnDerAdresse(ids)
 
   /**
@@ -978,12 +977,14 @@ for (const gruppe of jeAdresse.values()) {
     continue
   }
 
-  const verteilbar = bereiche.length > 0 && staffeln.length > 1 && !anbieterStaffeln
+  const adnJeTitel = p.plattform === 'adn' ? bereicheJeAdnTitel(gruppe, staffeln, ladeAdnStaffelzuordnung()) : undefined
+  const verteilbar = adnJeTitel !== undefined || (bereiche.length > 0 && staffeln.length > 1 && !anbieterStaffeln)
 
   for (const id of ids) {
     const t = liste.find((x) => x.id === id)
     /** Die Bereiche dieser Staffel, in ihrer eigenen Zählung. */
     let eigene = bereiche
+    const widerspruch = adnJeTitel?.get(id)?.widersprueche ?? widersprueche
     if (nichtGefuehrt.has(id)) {
       // Der Anbieter führt diese Staffel nicht — dann ist der Verweis falsch,
       // und über den deutschen Ton ist damit nichts gesagt.
@@ -998,10 +999,7 @@ for (const gruppe of jeAdresse.values()) {
       if (!meldungen?.length) continue
       eigene = bildeBereiche(meldungen).bereiche
     } else if (verteilbar) {
-      eigene = bereiche
-        .flatMap((b) => verteileAufStaffeln(b, staffeln))
-        .filter((v) => v.staffel.id === id)
-        .map((v) => ({ von: v.von, bis: v.bis, dub: v.dub, belegt: [] as number[] }))
+      eigene = adnJeTitel ? (adnJeTitel.get(id)?.bereiche ?? []) : bereicheDerStaffel(bereiche, staffeln, id)
       // Keine geprüfte Folge in dieser Staffel — dann gibt es auch nichts zu
       // melden. Schweigen ist hier die richtige Antwort.
       if (!eigene.length) continue
@@ -1168,9 +1166,9 @@ for (const gruppe of jeAdresse.values()) {
     zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
     const notiz = [
       eigene.length ? beschreibeBereiche(eigene) : '',
-      verteilbar ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
+      verteilbar && !adnJeTitel ? `Anbieter zählt durch, hier auf die Staffel umgerechnet` : '',
       sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
-      widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
+      widerspruch.length ? `Widersprüchliche Meldungen zu Folge ${widerspruch.join(', ')}` : '',
       mitWegVermerk(notizJeStaffel.get(id) ?? p.notiz ?? '', !weg && !urteilsMeldung(gruppe)),
       summe?.ok ? summe.vermerk : '',
     ]
@@ -1181,8 +1179,9 @@ for (const gruppe of jeAdresse.values()) {
     geschrieben++
   }
   /* Nichts geschrieben und nicht abgehakt (der Kanal-Zweig oben hakt selbst ab): sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
+  geschrieben -= zieheFremdeBelegeZurueck(besitz, zeilen, von, gruppe, p, offenGeblieben, ohneZuordnung)
   if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
-  else if (!erledigteIds.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
+  else if (!erledigteIds.has(gruppe[0]!.id) && !besitz.gruppen.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
 if (!TROCKEN) haengeBelegeAn({ datei: resolve(ROOT, 'data/dub-confirmed.yaml'), zeilen, meldungen: pruefungen, heute, log, warn })
@@ -1198,7 +1197,7 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
 }
 
 log(
-  `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
+  `${pruefungen.length} Prüfungen abgeholt, ${uebernommen - besitz.verschoben} Einträge geschrieben` +
     (ausMeldungZugeordnet ? `, ${ausMeldungZugeordnet} von der Meldung selbst benannt` : '') +
     (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
     (ueberFolgentitel ? `, ${ueberFolgentitel} Folge(n) über den Folgentitel` : '') +
@@ -1211,6 +1210,7 @@ log(
     (nachFolgentitelZugeordnet
       ? `, ${nachFolgentitelZugeordnet} über den Folgentitel an die Nebenausgabe`
       : '') +
+    (besitz.verschoben ? `, ${besitz.verschoben} Beleg(e) an der Adresse eines anderen Titels nicht geschrieben (Meldung bleibt liegen)` : '') +
     (ausgelassenKanal
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
       : ''),

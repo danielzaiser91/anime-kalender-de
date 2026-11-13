@@ -2,17 +2,22 @@
 /**
  * Misst die Zellen der Bühne: Tippziele (≥ 44 px, nur Handy-Zellen) und Textkontrast (WCAG AA, alle Zellen, hell und dunkel).
  *
- * **Maßstab ist Vorher.** „Vorher" ist die Vorher-Zelle desselben Mockups, kein Vergleich gegen main: Ein Befund, den
- * App-Code in beide Zellen bringt, fällt hier nicht auf.
+ * **Maßstab ist Vorher — und die Basis.** „Vorher" ist die Vorher-Zelle desselben Mockups. Ein Befund, den App-Code in
+ * beide Zellen bringt, fällt dort nicht auf; darum gibt `--basis <datei>` die Messung der Vorher-Zellen auf main vor (erzeugt mit
+ * `--schreibe <datei>` und `BUEHNE_DIST` auf die Bühne von main): Neu gegenüber der Basis ist rot („App-Basis …“).
  * Was die echte App heute schon verfehlt, steht als „bestehend" in der Zählung; rot wird der Lauf nur
  * für Befunde, die das Nachher (die Variante des Mockups) NEU hinzubringt — ein Mockup darf nichts verschlechtern.
  * Ein Mockup mit Vorher = Nachher (die Proben) ist damit immer grün, zeigt aber die Zahl des Bestands.
  *
  * Aufruf: node tools/buehne-messen.mjs [--mockup <Namensteil>] [--liste]   (`--liste` zeigt auch die bestehenden Befunde)
+ *         node tools/buehne-messen.mjs --basis <datei> --nur-vorher   (Kopf: nur Vorher-Zellen der ersten Variante, gegen die Basis)
+ *         node tools/buehne-messen.mjs --schreibe <datei>  (nur Vorher-Zellen der ersten Variante als Basis speichern)
  *         npm run buehne:messen        (baut die Bühne vorher neu)
  */
+import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { argument, durchlaufe, starteBuehne } from './buehne-seite.mjs'
+import { meldeDeckung } from './buehne-basis-warnung.mjs'
 import { kontrastImRahmen, MIN_TIPPZIEL, tippzieleImRahmen } from './buehne-messung.mjs'
 
 const LISTE = process.argv.includes('--liste')
@@ -52,8 +57,36 @@ async function bestaendige(neu, zelle, alt, andere) {
   return neu.filter(({ art, f }) => zweit.has(`${art}:${f.schluessel}`))
 }
 
+/** Schreibt die Basis-Messung; Abstürze und eine leere Messung setzen Exit 1 (der Aufrufer wertet das als „Basis nicht messbar“). */
+export function schreibeBasis(ziel, m, rot, ausgabe = console.log) {
+  const fehler = Object.keys(m).length ? rot : [...rot, 'keine einzige Zelle gemessen — Bühne oder Selektor kaputt']
+  writeFileSync(ziel, JSON.stringify(m))
+  if (fehler.length) process.exitCode = 1
+  ausgabe(`Basis: ${Object.keys(m).length} Zellen nach ${ziel}${fehler.map((r) => `\n  ✕ ${r}`).join('')}`)
+}
+
+/** `--basis`/`--schreibe` des Aufrufs: gelesene Basis bzw. Schreibfunktion für `lauf`. */
+function basisAusAufruf() {
+  const lese = argument('--basis', '')
+  const ziel = argument('--schreibe', '')
+  const schreibe = (m, rot) => schreibeBasis(ziel, m, rot)
+  return { basis: lese ? JSON.parse(readFileSync(lese, 'utf8')) : null, schreibe: ziel ? schreibe : null, nurVorher: process.argv.includes('--nur-vorher') }
+}
+
+/** Neue Befunde einer Vorher-Zelle gegenüber derselben Zelle auf main (`basis`); ohne Eintrag (neues Mockup) bleibt es leer. */
+async function appBefunde(z, vorFall, vorher, basis) {
+  const [geraet, thema] = ort(z.schluessel).split('-')
+  const anders = thema === 'hell' ? 'dunkel' : 'hell'
+  const alt = basis[`${vorFall}/${geraet}-${thema}`]
+  if (!alt) return []
+  const andere = basis[`${vorFall}/${geraet}-${anders}`]
+  const neu = await bestaendige(neueBefunde(vorher.get(`${vorFall}/${geraet}-${thema}`), alt, andere), z, alt, andere)
+  return neu.map(({ art, f }) => `${vorFall} App-Basis ${ort(z.schluessel)}: ${zeile(art, f)}`)
+}
+
 /** Der ganze Lauf; `starte` und `ausgabe` sind austauschbar (Test mit Attrappe-Browser). Setzt `process.exitCode` bei Befunden. */
-export async function lauf({ starte, filter, ausgabe, liste = LISTE }) {
+export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = null, schreibe = null, nurVorher = false, zusammenfassung = process.env.GITHUB_STEP_SUMMARY }) {
+  nurVorher ||= Boolean(schreibe)
   const { browser, seite, fremde } = await starte()
   const vorher = new Map()
   let rot = []
@@ -63,7 +96,12 @@ export async function lauf({ starte, filter, ausgabe, liste = LISTE }) {
       /* Befunde dieser Einheit: nur der erfolgreiche Versuch zählt (durchlaufe übernimmt ihn), sonst stünden sie nach einer Wiederholung doppelt. */
       const befunde = []
       const schluesselVorFall = `${mockup}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''}`
-      for (const z of zellen.filter((c) => c.schluessel.startsWith('vorher'))) vorher.set(`${schluesselVorFall}/${ort(z.schluessel)}`, await messeZelle(z))
+      for (const z of zellen.filter((c) => c.schluessel.startsWith('vorher'))) {
+        vorher.set(`${schluesselVorFall}/${ort(z.schluessel)}`, await messeZelle(z))
+        if (basis) befunde.push(...(await appBefunde(z, schluesselVorFall, vorher, basis)))
+        if (nurVorher) gemessen++
+      }
+      if (nurVorher) return befunde
       for (const z of zellen.filter((c) => c.schluessel.startsWith('nachher'))) {
         const messung = await messeZelle(z)
         const [geraet, thema] = ort(z.schluessel).split('-')
@@ -77,17 +115,20 @@ export async function lauf({ starte, filter, ausgabe, liste = LISTE }) {
         if (liste) for (const art of ['tipp', 'kontrast']) for (const f of messung[art]) ausgabe(`      ${art === 'tipp' ? 'Tippziel' : 'Kontrast'} ${zeile(art, f)}`)
       }
       return befunde
-    })
+    }, { nurErsteVariante: nurVorher })
   } finally {
     await browser.close()
   }
+  if (basis) meldeDeckung({ basis, vorher, ausgabe, zusammenfassung })
+  if (schreibe) return schreibe(Object.fromEntries(vorher), rot)
   if (!gemessen) rot.push('keine einzige Zelle gemessen — Bühne oder Selektor kaputt')
   if (fremde.length) rot.push(`${fremde.length} Anfragen nach draußen, z. B. ${fremde[0]}`)
   if (rot.length) {
     ausgabe(`\n  ✕ ${rot.length} neue Befunde:`)
     for (const r of rot.slice(0, 40)) ausgabe(`    ${r}`)
     process.exitCode = 1
-  } else ausgabe(`\n  ok  ${gemessen} Nachher-Zellen gemessen, nichts gegenüber Vorher verschlechtert`)
+  } else if (nurVorher) ausgabe(`\n  ok  ${gemessen} Vorher-Zellen gemessen, nichts gegenüber der Basis (main) verschlechtert`)
+  else ausgabe(`\n  ok  ${gemessen} Nachher-Zellen gemessen, nichts gegenüber Vorher verschlechtert`)
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) await lauf({ starte: starteBuehne, filter: argument('--mockup', ''), ausgabe: console.log })
+if (import.meta.url === pathToFileURL(process.argv[1]).href) await lauf({ starte: starteBuehne, filter: argument('--mockup', ''), ausgabe: console.log, ...basisAusAufruf() })

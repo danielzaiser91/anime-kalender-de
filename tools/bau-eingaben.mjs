@@ -23,7 +23,15 @@ export function frei(pfad) {
 }
 
 /** Freie Pfade, die der Seitenbau liest (gemessen per Spur); ein Eintrag mit `/` am Ende gilt für den ganzen Ordner. */
-export const BAU_EINGABEN = ['data/cartoon-umzug.json', 'data/kennungen.json', 'data/patchnotes/']
+export const BAU_EINGABEN = [
+  'data/anilist-cover-masse.json',
+  'data/cartoon-cover-masse.json',
+  'data/cartoon-umzug.json',
+  'data/cover-eigen-masse.json',
+  'data/kennungen.json',
+  'data/patchnotes/',
+  'data/tmdb-poster.json',
+]
 
 const eingabe = (pfad) => BAU_EINGABEN.some((e) => (e.endsWith('/') ? `${pfad}/`.startsWith(e) : pfad === e))
 
@@ -128,8 +136,8 @@ export function befehlErlaubt(befehl) {
   return typeof befehl === 'string' && befehl.split(' && ').every((teil) => FESTE_SCHRITTE.has(teil) || /^tsx pipeline\/[\w-]+\.ts$/.test(teil))
 }
 
-/** Führt `befehl` mit Spur aus und ergänzt `abdruck` in `version.json`; Rückgabe: 1, wenn der Befehl scheitert (auch durch ein Signal), sonst 0. */
-export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.log, starte = spawnSync, befehlPruefen = befehlErlaubt }) {
+/** Führt `befehl` mit Spur aus und ergänzt `abdruck` in `version.json`; Rückgabe: 1, wenn der Befehl scheitert (auch durch ein Signal) oder in der PR-Kette (`ereignis` = pull_request) eine unerklärte Lesung bleibt, sonst 0. */
+export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.log, starte = spawnSync, befehlPruefen = befehlErlaubt, ereignis = process.env.GITHUB_EVENT_NAME }) {
   const ordner = mkdtempSync(join(tmpdir(), 'bau-spur-'))
   const vorlader = join(wurzel, 'tools', 'bau-eingaben-spur.cjs').replace(/\\/g, '/')
   const env = { ...process.env, BAU_SPUR: ordner, NODE_OPTIONS: `${process.env.NODE_OPTIONS ?? ''} --require ${vorlader}`.trim() }
@@ -145,6 +153,10 @@ export function bauMitSpur(befehl, { wurzel, versionDatei, git, log = console.lo
     return 0
   }
   const offen = unerklaert(spur.zeilen, spur.kennungen)
+  if (offen.length > 0 && ereignis === 'pull_request') {
+    log(`::error::Bau liest außerhalb von BAU_EINGABEN oder startet Fremdes: ${offen.join(', ')}. Ausweg: Datei in BAU_EINGABEN (tools/bau-eingaben.mjs) aufnehmen, sonst fehlt abdruck und der Deploy baut neu.`)
+    return 1
+  }
   if (offen.length > 0) {
     log(`::warning::Bau liest außerhalb von BAU_EINGABEN oder startet Fremdes (tools/bau-eingaben.mjs), Deploy baut neu: ${offen.join(', ')}`)
     return 0

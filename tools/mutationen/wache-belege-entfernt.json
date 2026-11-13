@@ -10,7 +10,7 @@
   { "name": "urteilRest: Belege doppelt", "datei": "pipeline/lib/bestand-delta.ts", "suche": "d('entferntProtokolliert')) - anbieter.beleg", "ersetze": "d('entferntProtokolliert')) - 2 * anbieter.beleg" },
   { "name": "anbieterBefunde: rest ohne Beleg", "datei": "pipeline/lib/bestand-delta.ts", "suche": "const rest = weg - begruendet - durchBeleg", "ersetze": "const rest = weg - begruendet" },
   { "name": "anbieterBefunde: Beleg bekommt weg statt Rest", "datei": "pipeline/lib/bestand-delta.ts", "suche": "belegErklaerung(anbieter, weg - begruendet, belege, befund)", "ersetze": "belegErklaerung(anbieter, weg, belege, befund)" },
-  { "name": "anbieterBefunde: Text ohne Beleg", "datei": "pipeline/lib/bestand-delta.ts", "suche": "(begruendet + durchBeleg + durchLink ?", "ersetze": "(begruendet + durchLink ?" },
+  { "name": "anbieterBefunde: Text ohne Beleg", "datei": "pipeline/lib/bestand-delta.ts", "suche": "(weg - rest ? `", "ersetze": "(weg - rest - durchBeleg ? `" },
   { "name": "anbieterBefunde: ganzer Anbieter ohne Beleg", "datei": "pipeline/lib/bestand-delta.ts", "suche": "if (alt - durchBeleg > 0)", "ersetze": "if (alt > 0)" },
   { "name": "anbieterBefunde: ganzer Anbieter Beleg nicht gezählt", "datei": "pipeline/lib/bestand-delta.ts", "suche": "      belegGesamt += durchBeleg\n      if (alt", "ersetze": "      if (alt" },
   { "name": "anbieterBefunde: belegGesamt nicht gezählt", "datei": "pipeline/lib/bestand-delta.ts", "suche": "    belegGesamt += durchBeleg\n    const durchLink", "ersetze": "    const durchLink" },
