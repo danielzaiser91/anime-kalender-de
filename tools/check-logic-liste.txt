@@ -591,6 +591,7 @@ pipeline/check-verweis-ziel.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
+pipeline/check-vorlieben.ts
 pipeline/check-weg-adresse-bezugsweg.ts
 pipeline/check-weg-aus-meldung.ts
 pipeline/check-weg-nein-gti.ts
