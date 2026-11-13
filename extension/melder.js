@@ -16,50 +16,12 @@
  * Netzzugriff. Verbunden sind sie über `window.postMessage`.
  */
 
-/**
- * Lebt die Verbindung zur Erweiterung noch?
- *
- * Chrome trennt beim Neuladen der Erweiterung alle laufenden
- * Content-Scripts von ihr. Sie laufen weiter, aber jeder `chrome.*`-Zugriff
- * wirft „Extension context invalidated" (Daniel, 23.08.2026, mit Bild aus
- * der Fehlerkonsole). Das trifft jede offene Seite nach jedem Neuladen.
- *
- * `chrome.runtime.id` ist der zuverlässige Prüfstein: Sie verschwindet mit
- * der Verbindung.
- */
-function verbindungLebt() {
-  try {
-    return Boolean(chrome?.runtime?.id)
-  } catch {
-    return false
-  }
-}
+/* Tot-sicherer Zugriff auf `chrome.*`: `kontext.js` (Erweiterung neu geladen = Kontext tot, 23.08.2026). */
+const verbindungLebt = () => globalThis.akKontext.lebt()
 
-/**
- * Ein Speicherzugriff, der einen toten Kontext überlebt.
- *
- * Gibt `null` zurück, statt zu werfen — der Aufrufer entscheidet, was das
- * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
- * los ist, statt mitten im Aufbau abzubrechen.
- */
-async function speicherLesen(schluessel) {
-  if (!verbindungLebt()) return null
-  try {
-    return await chrome.storage.local.get(schluessel)
-  } catch {
-    return null
-  }
-}
-
-async function speicherSchreiben(werte) {
-  if (!verbindungLebt()) return false
-  try {
-    await chrome.storage.local.set(werte)
-    return true
-  } catch {
-    return false
-  }
-}
+/** Der Speicher, der einen toten Kontext überlebt: `null`, statt zu werfen (siehe `kontext.js`). */
+const speicherLesen = async (schluessel) => globalThis.akKontext.lesen(schluessel)
+const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 /* Höchstens so viele Meldungen je Anfrage nimmt der Worker an (PRUEFUNG_STAPEL_HOECHSTENS). */
@@ -749,7 +711,7 @@ function ausWeiterleitung() {
     if (frisch && stand.reihe) {
       netflixWeiterleitungen = { ...netflixWeiterleitungen, [String(stand.reihe)]: String(zuletztGeoeffnet.id) }
       zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true, zielReihe: String(stand.reihe) }
-      void chrome.storage.local.set({ netflixWeiterleitungen, zuletztGeoeffnet })
+      void globalThis.akKontext.schreiben({ netflixWeiterleitungen, zuletztGeoeffnet })
     }
     return frisch
   } catch {
@@ -972,7 +934,7 @@ async function vorfallMelden(art, daten = {}) {
     if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
     VORFALL_GEMELDET.add(schluessel)
     vorfallZahl++
-    const { token } = await chrome.storage.sync.get('token')
+    const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return
     await fetch(WORKER.replace('/pruefung', '/vorfall'), {
       method: 'POST',
@@ -981,7 +943,7 @@ async function vorfallMelden(art, daten = {}) {
         plattform: 'netflix',
         art,
         url: location.href.split('?')[0],
-        version: chrome.runtime?.getManifest?.()?.version ?? null,
+        version: globalThis.akKontext.version(),
         ...daten,
       }),
     })
@@ -991,7 +953,7 @@ async function vorfallMelden(art, daten = {}) {
 }
 
 async function fundSchicken(fund) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return
   try {
     await fetch(WORKER.replace('/pruefung', '/netzfund'), {
@@ -1211,7 +1173,7 @@ async function melden({ automatisch = false } = {}) {
   if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return zeigeErgebnis('Kein Token — Rechtsklick aufs Symbol, dann Optionen', false)
 
   try {
@@ -1863,9 +1825,11 @@ let erledigt = {}
 let netflixWeiterleitungen = {}
 /** Besitzer des Durchgangs (`netflix-durchgang-steuerung.js`); `undefined` = noch nicht geladen. */
 let durchgangBesitzer
-const erledigtGeladen = chrome.storage.local
-  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen', 'netflixDurchgangBesitzer'])
+const erledigtGeladen = Promise.resolve(
+  globalThis.akKontext.lesen(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen', 'netflixDurchgangBesitzer']),
+)
   .then((x) => {
+    x = x ?? {}
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
     zuletztGeoeffnet = akNetflixEigenerSprung(x.zuletztGeoeffnet, meinTab)
@@ -3188,7 +3152,7 @@ async function durchlaufStandLaden(reihe) {
     /* Kein Netz — dann der letzte bekannte Stand. */
   }
   try {
-    const gespeichert = await chrome.storage.local.get(durchlaufSchluessel(reihe))
+    const gespeichert = (await globalThis.akKontext.lesen(durchlaufSchluessel(reihe))) ?? {}
     DURCHLAUF.gemeldet = new Set(gespeichert[durchlaufSchluessel(reihe)] ?? [])
   } catch {
     DURCHLAUF.gemeldet = new Set()
@@ -3197,11 +3161,8 @@ async function durchlaufStandLaden(reihe) {
 
 async function durchlaufStandSchreiben(reihe) {
   if (!reihe) return
-  try {
-    await chrome.storage.local.set({ [durchlaufSchluessel(reihe)]: [...DURCHLAUF.gemeldet] })
-  } catch {
-    /* Ohne Speicher fängt der nächste Durchlauf von vorn an, mehr nicht. */
-  }
+  /* Ohne Speicher fängt der nächste Durchlauf von vorn an, mehr nicht. */
+  await globalThis.akKontext.schreiben({ [durchlaufSchluessel(reihe)]: [...DURCHLAUF.gemeldet] })
 }
 
 /**
@@ -3737,7 +3698,7 @@ document.addEventListener('ak-weiterleitung-vergessen', async (e) => {
     console.log("[Anime-Kalender] Zum Löschen: { detail: '<reihenId>' } oder { detail: 'alle' }")
     return
   }
-  await chrome.storage.local.set({ netflixWeiterleitungen })
+  await globalThis.akKontext.schreiben({ netflixWeiterleitungen })
   console.log('[Anime-Kalender] vorher:', vorher, '→ jetzt:', netflixWeiterleitungen)
 })
 
@@ -4256,7 +4217,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   /* `bisNummer` steht nur noch in der Notiz — gefiltert wird von den Aufrufern. */
   /* Welche Folgen wirklich abgespielt wurden; nur die gehen als `gemessen` raus. */
   const gemessen = new Set(gemessenNr.map(Number))
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token || !akNetflixSeitentreu(DURCHLAUF, titelDerAdresse(), folgen)) return 0
   const reihe = gemeinteReihe()
   let gemeldet = 0
@@ -4377,7 +4338,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
 }
 
 async function durchlaufMelden(folge, echte, deutsch) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token || !akNetflixSeitentreu(DURCHLAUF, titelDerAdresse(), [folge])) return false
   /*
     **Die Staffel der Folge schlaegt die des Players — und sie gilt fuer beides.**
@@ -6082,7 +6043,7 @@ setInterval(() => void standHolen(), 5 * 60 * 1000)
  * gemeldeten Titel, nicht bei seinen Geschwistern.
  */
 async function staffelWegMelden(reihe, st, titelId, titel) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return { ok: false, text: 'Kein Token' }
   try {
     const antwort = await fetch(WORKER, {
@@ -6110,7 +6071,7 @@ async function staffelWegMelden(reihe, st, titelId, titel) {
 }
 
 async function totMelden(id, titel) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return { ok: false, text: 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' }
   try {
     const antwort = await fetch(WORKER, {
@@ -6151,8 +6112,7 @@ async function totMelden(id, titel) {
  * Der Listener steht auf oberster Ebene und laeuft beim Skriptstart -- ohne
  * diese Pruefung stirbt das ganze Skript, bevor es den Knopf zeichnet.
  */
-if (verbindungLebt())
-  chrome.storage.onChanged.addListener((aenderungen, bereich) => {
+globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
   if (bereich !== 'local') return
   // Ein Klick in einem anderen Tab sagt uns, welcher Titel gemeint ist.
   if (aenderungen.zuletztGeoeffnet) {
@@ -6215,7 +6175,7 @@ function nfBericht() {
   }
   return {
     erzeugtAm: new Date().toISOString(),
-    version: sicher(() => chrome.runtime.getManifest().version),
+    version: globalThis.akKontext.version(),
     adresse: location.pathname + location.search,
     stand: sicher(() => ({
       reihe: stand.reihe,

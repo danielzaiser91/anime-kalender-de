@@ -119,7 +119,7 @@
   const senden = (token, body) => SENDEN.sendeMitKoerper({ sende: NETZ.sende, holen: (...a) => fetch(...a), url: WORKER, token, body })
 
   async function melden() {
-    const { token } = await chrome.storage.sync.get('token')
+    const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', { klasse: 'schlecht' })
     const offen = offene()
     let fehler = null
@@ -135,7 +135,7 @@
   }
 
   async function wegMelden() {
-    const { token } = await chrome.storage.sync.get('token')
+    const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', { klasse: 'schlecht' })
     const antwort = await senden(token, L.wegMeldung(S.serie, S.url))
     const grund = antwort.daten?.error ? ` (${antwort.daten.error})` : ''
@@ -177,7 +177,7 @@
   function bericht() {
     return {
       erzeugtAm: new Date().toISOString(),
-      version: chrome.runtime?.getManifest?.()?.version ?? null,
+      version: globalThis.akKontext.version(),
       adresse: location.href,
       url: S.url,
       serie: S.serie,
