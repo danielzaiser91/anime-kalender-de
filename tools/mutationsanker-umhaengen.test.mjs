@@ -76,6 +76,16 @@ try {
   pruefe('Prozess mit Schalter: Zeile „1 Anker umgehängt“ und Liste geändert', /1 Anker umgehängt/.test(mit.stdout) && readFileSync(listePfad, 'utf8') === neu.text)
   const nochmal = fahre('--umhaengen')
   pruefe('Prozess zweiter Lauf: nichts mehr umgehängt, mehrdeutiger bleibt gemeldet', !/umgehängt/.test(nochmal.stdout) && nochmal.stderr.includes('nur gemeldet'))
+  // Schalter vor der Liste (A2) und `--alle` (A1): jeweils frische Liste.
+  writeFileSync(listePfad, vorlage)
+  const vorn = spawnSync(process.execPath, [skript, '--umhaengen', 'tools/mutationen/l.json'], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true })
+  pruefe('Prozess Schalter vor der Liste: Liste geändert, „1 Anker umgehängt“', /1 Anker umgehängt/.test(vorn.stdout) && readFileSync(listePfad, 'utf8') === neu.text)
+  writeFileSync(listePfad, vorlage)
+  const alleNur = fahre('--alle')
+  pruefe('Prozess --alle ohne Schalter: Exit 1, Liste unverändert', alleNur.status === 1 && alleNur.stderr.includes('alt.ts -> neu.ts') && readFileSync(listePfad, 'utf8') === vorlage)
+  const alleMit = spawnSync(process.execPath, [skript, '--alle', '--umhaengen'], { cwd: wurzel, encoding: 'utf8', timeout: 60000, windowsHide: true })
+  pruefe('Prozess --alle --umhaengen: „1 Anker umgehängt“, Liste geändert', /^1 Anker umgehängt$/m.test(alleMit.stdout) && readFileSync(listePfad, 'utf8') === neu.text)
+  pruefe('Prozess --alle --umhaengen: mehrdeutiger nur als →-Zeile', alleMit.stderr.includes('→') && alleMit.stderr.includes('nur gemeldet'))
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

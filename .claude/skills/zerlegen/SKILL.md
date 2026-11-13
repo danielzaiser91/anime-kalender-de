@@ -39,7 +39,7 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
   der Ursprungsdatei herauslösen (Zieldatei = neue Datei), dann die große Funktion dorthin.
 - **Tote Mutationsanker nach dem Verschieben** (13.11.2026): `node tools/mutationsanker.mjs --alle --umhaengen`
   trägt bei totem Anker die einzige Quelldatei ein, die die `suche` enthält (Tests zählen nicht);
-  mehrere oder keine Treffer meldet es nur (`→`-Zeile), die trägst du von Hand um.
+  mehrere oder keine Treffer meldet es nur (`→`-Zeile), die trägst du von Hand um. Der Exit-Code bleibt im selben Lauf 1; danach erneut laufen lassen.
 - Zeilennummern nach jedem Schritt per `grep -n` auf einen Ankertext neu bestimmen — der neue
   Import kommt als eigene Zeile oder in einen vorhandenen Importsatz, die Verschiebung ist 0 oder 1.
 - **`<bis>` ist die letzte Zeile einer ganzen Anweisung**: Endet der Bereich auf `if (x)`, dessen
