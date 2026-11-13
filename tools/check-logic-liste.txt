@@ -76,6 +76,7 @@ pipeline/check-anisearch-traeger-geplant.ts
 pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-ansicht-scroll.ts
+pipeline/check-antwort-film-naht.ts
 pipeline/check-antwort-jetzt.ts
 pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
