@@ -38,6 +38,7 @@ export function codeFunde(wurzel) {
     cwd: wurzel,
     encoding: 'utf8',
     maxBuffer: 1 << 28,
+    timeout: 300_000,
   })
   if (lauf.status > 1 || !lauf.stdout) throw new Error(`eslint lief nicht durch: ${lauf.stderr || lauf.status}`)
   const funde = {}

@@ -4,7 +4,7 @@
  * (check:logic) ruft den Wächter wirklich auf (Pflichtmutant „Aufruf entfernt“).
  */
 import assert from 'node:assert/strict'
-import { spawnSync } from 'node:child_process'
+import { spawnMitLimit } from './kind-mit-limit.mjs'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -15,7 +15,7 @@ const werkzeug = join(tools, 'stumme-pfade.mjs')
 const ordner = mkdtempSync(join(tmpdir(), 'stumme-pfade-'))
 
 function lauf(wurzel, grenzen, ...optionen) {
-  return spawnSync(process.execPath, [werkzeug, '--wurzel', wurzel, '--grenzen', grenzen, ...optionen], { encoding: 'utf8' })
+  return spawnMitLimit(process.execPath, [werkzeug, '--wurzel', wurzel, '--grenzen', grenzen, ...optionen], { encoding: 'utf8' })
 }
 
 function baum(name, dateien) {
