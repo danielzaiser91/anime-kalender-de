@@ -4,7 +4,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, rmSync, symlinkSync,
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende } from './diff-mutanten.mjs'
+import { geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -49,10 +49,10 @@ pruefe('Gleichstand ?: erzeugt genau einen Mutanten (Zahlen 5 und 7 dazu)', muta
 pruefe('.tsx-Datei mit JSX wird gelesen', mutantenListe('a.tsx', 'const x = <div>{a && b}</div>', new Set([1])).length === 1)
 pruefe('gleicher Text auf früherer Zeile zählt nicht mit', mutantenListe('a.mjs', 'f(a && b)\nf(a && b)', new Set([2]))[0].aenderungen[0].nr === undefined)
 const drei = mutantenListe('a.mjs', 'x = (a && b) + (a && b) + (a && b)', new Set([1])).filter((m) => m.name.includes('&&'))
-pruefe('drei gleiche Ausdrücke: nr 1 (fehlt), 2, 3', drei.length === 3 && drei[2].aenderungen[0].nr === 3)
+pruefe('drei gleiche Ausdrücke: nr 1, 2, 3', drei.length === 3 && drei[0].aenderungen[0].nr === 1 && drei[2].aenderungen[0].nr === 3)
 
 const amAnfang = mutantenListe('a.mjs', 'a && b', new Set([1])).filter((m) => m.name.includes('&&'))
-pruefe('Ausdruck ganz am Dateianfang (Index 0) wird gefunden', amAnfang.length === 1 && amAnfang[0].aenderungen[0].nr === undefined)
+pruefe('Einzelner Ausdruck am Dateianfang (Index 0): kein nr nötig', amAnfang.length === 1 && amAnfang[0].aenderungen[0].nr === undefined)
 const zeile2 = mutantenListe('a.mjs', 'x\nf(a && b) + f(a && b)', new Set([2])).filter((m) => m.name.includes('&&'))
 const ab0 = mutantenListe('a.mjs', 'a && b, a && b', new Set([1])).filter((m) => m.name.includes('&&'))
 pruefe('erster gleicher Ausdruck bei Index 0 zählt: zweiter trägt nr 2', ab0.length === 2 && ab0[1].aenderungen[0].nr === 2)
@@ -70,7 +70,7 @@ const m0 = alle('x = a && b')[0]
 pruefe('Name trägt Datei:Zeile und Art', m0.name === 'a.mjs:1 && → ||')
 pruefe('Läuferformat: datei, suche, ersetze, zeile, tests', m0.aenderungen[0].datei === 'a.mjs' && m0.aenderungen[0].zeile === 1 && m0.tests[0] === 't')
 const zwei = mutantenListe('a.mjs', 'x = f(a, b) && f(a, b)', new Set([1]), ['t']).filter((m) => m.name.includes('Argumente'))
-pruefe('gleicher Text zweimal auf der Zeile: zweites Vorkommen trägt nr 2', zwei.length === 2 && zwei[0].aenderungen[0].nr === undefined && zwei[1].aenderungen[0].nr === 2)
+pruefe('gleicher Text zweimal auf der Zeile: erstes nr 1, zweites nr 2', zwei.length === 2 && zwei[0].aenderungen[0].nr === 1 && zwei[1].aenderungen[0].nr === 2)
 pruefe('ohne tests: Feld fehlt', !('tests' in mutantenListe('a.mjs', 'x = a && b', new Set([1]))[0]))
 
 // Diff lesen
@@ -113,6 +113,8 @@ const global = listeAusDiff('+++ b/pipeline/x.ts\n@@ -1 +1 @@\n+x = a && b\n', (
 pruefe('--test überschreibt die Zuordnung', global.liste[0].tests[0] === 'mein test' && global.ohneTest.length === 0)
 
 // Läuferausgabe
+const LAEUFER = 'rot            a (Exit 1)\nmehrdeutig     b:1 && → || (b: mehrdeutig (2-mal))\nwirkungslos    c:2 Zahl (x)\nnicht gefunden d:3 ?: (y)\nGRÜN           e:4 (alle Tests grün)\n'
+pruefe('Unbrauchbare aus der Läuferausgabe: alle drei Urteile, sonst nichts', unbrauchbare(LAEUFER).length === 3 && unbrauchbare(LAEUFER)[0].startsWith('mehrdeutig b:1') && unbrauchbare(LAEUFER)[2].startsWith('nicht gefunden d:3'))
 pruefe('Überlebende aus der Läuferausgabe', ueberlebende('rot   a\nGRÜN           b:1 && → || (alle Tests grün)\nGRÜN           Kontrolle\n').join('|') === 'b:1 && → |||Kontrolle')
 
 // Ganzer Lauf in einem Wegwerf-Repo: der Test fängt nur den ersten Mutanten, der zweite überlebt
@@ -138,7 +140,7 @@ try {
   pruefe('Lauf: Exit 0 (Überlebende sind gelb, nicht rot)', lauf.status === 0)
   pruefe('Lauf: Überlebender erscheint als „Überlebt: Datei:Zeile Mutant“', aus.includes('! Überlebt: tools/lib.mjs:1 && → ||'))
   pruefe('Lauf: vom Test gefangener Mutant erscheint nicht', !aus.includes('Überlebt: tools/lib.mjs:1 ?: Zweige vertauscht'))
-  pruefe('Lauf: Schlusszeile zählt', /diff-mutanten: \d+ Mutanten, [1-9]\d* überlebt\./.test(aus))
+  pruefe('Lauf: Schlusszeile zählt', /diff-mutanten: \d+ Mutanten, [1-9]\d* überlebt, 0 unbrauchbar\./.test(aus))
   const nur = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--liste'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
   pruefe('--liste: JSON im Läuferformat, nichts gefahren', Array.isArray(JSON.parse(nur.stdout)) && !nur.stdout.includes('mutationslaeufer'))
   const tmp = join(wurzel, 'tmp')
@@ -159,6 +161,12 @@ try {
   git('commit', '-q', '-am', 'rot')
   const rot = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
   pruefe('Grundlauf rot: Läuferausgabe erscheint auf stderr', rot.stderr.includes('Grundlauf ohne Mutation ist rot'))
+  // Läufer meldet unbrauchbare Mutanten (Ersatz-Läufer): eigene Zeile und Zahl in der Schlusszeile, nie als „gefangen“ gezählt
+  writeFileSync(join(wurzel, 'tools/mutationslaeufer.mjs'), `console.log(${JSON.stringify(LAEUFER)})\n`)
+  const kaputt = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  pruefe('Unbrauchbare: eigene Zeile je Mutant', kaputt.stdout.includes('! Unbrauchbar (nie getestet): mehrdeutig b:1 && → ||') && kaputt.stdout.includes('! Unbrauchbar (nie getestet): nicht gefunden d:3'))
+  pruefe('Unbrauchbare: Schlusszeile nennt Überlebende und Unbrauchbare', /1 überlebt, 3 unbrauchbar\./.test(kaputt.stdout))
+  git('checkout', '--', 'tools/mutationslaeufer.mjs')
   pruefe('Quelldatei nach dem Lauf unverändert (keine .mutlauf-orig)', git('status', '--short').trim() === '?? node_modules' || git('status', '--short').trim() === '')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

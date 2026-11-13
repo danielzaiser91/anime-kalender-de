@@ -77,13 +77,16 @@ function mutantenVon(node, q) {
   return []
 }
 
-/** Nummer des Vorkommens von `suche` unter denen, die auf derselben Zeile wie `von` beginnen (Läufer: zeile + nr). */
+/** Läuferfelder zur Eindeutigkeit: `nr` (n-tes Vorkommen von `suche` auf `zeile`) nur, wenn `suche` dort mehrfach steht. */
 function vorkommenAufZeile(q, suche, von, zeile) {
   let nr = 0
-  for (let i = q.indexOf(suche); i >= 0 && i <= von; i = q.indexOf(suche, i + suche.length)) {
-    if (q.slice(0, i).split('\n').length === zeile) nr++
+  let gesamt = 0
+  for (let i = q.indexOf(suche); i >= 0; i = q.indexOf(suche, i + suche.length)) {
+    if (q.slice(0, i).split('\n').length !== zeile) continue
+    gesamt++
+    if (i <= von) nr++
   }
-  return nr
+  return gesamt > 1 ? { nr } : {}
 }
 
 /** Mutantenliste (Läuferformat) einer Datei für die geänderten Zeilen `zeilen` (Set); `tests` je Mutant, wenn gegeben. */
@@ -98,7 +101,7 @@ export function mutantenListe(datei, quelle, zeilen, tests) {
         const ersetze = quelle.slice(node.getStart(), m.von) + m.ersetze + quelle.slice(m.bis, node.end)
         if (suche === ersetze) continue
         const nr = vorkommenAufZeile(quelle, suche, node.getStart(), zeile)
-        liste.push({ name: `${datei}:${zeile} ${m.art}`, aenderungen: [{ datei, suche, ersetze, zeile, ...(nr > 1 ? { nr } : {}) }], ...(tests ? { tests } : {}) })
+        liste.push({ name: `${datei}:${zeile} ${m.art}`, aenderungen: [{ datei, suche, ersetze, zeile, ...nr }], ...(tests ? { tests } : {}) })
       }
     }
     ts.forEachChild(node, besuche)
@@ -135,6 +138,11 @@ export function ueberlebende(ausgabe) {
   return ausgabe.split('\n').filter((z) => z.startsWith('GRÜN ')).map((z) => z.slice(5).trim().replace(/ \(alle Tests grün\)$/, ''))
 }
 
+/** Mutanten, die der Läufer nicht testen konnte (Anker nicht gefunden, mehrdeutig, wirkungslos): Zeilen `<Urteil>  <name> (<Grund>)`. */
+export function unbrauchbare(ausgabe) {
+  return ausgabe.split('\n').filter((z) => /^(nicht gefunden|mehrdeutig|wirkungslos) /.test(z)).map((z) => z.replace(/\s+/, ' ').trim())
+}
+
 function main(argv) {
   const tests = argv.flatMap((a, i) => (a === '--test' ? [argv[i + 1]] : []))
   const diff = execFileSync('git', ['diff', '-U0', '--no-renames', 'origin/main...HEAD'], { encoding: 'utf8', maxBuffer: 1 << 28 })
@@ -151,7 +159,9 @@ function main(argv) {
     const aus = `${lauf.stdout}${lauf.stderr}`
     const lebt = ueberlebende(aus)
     for (const n of lebt) console.log(`  ! Überlebt: ${n}`)
-    console.log(`diff-mutanten: ${fahrbar.length} Mutanten, ${lebt.length} überlebt.`)
+    const kaputt = unbrauchbare(aus)
+    for (const n of kaputt) console.log(`  ! Unbrauchbar (nie getestet): ${n}`)
+    console.log(`diff-mutanten: ${fahrbar.length} Mutanten, ${lebt.length} überlebt, ${kaputt.length} unbrauchbar.`)
     if (lauf.status === 2) console.error(aus.slice(-1500))
   } finally {
     rmSync(ordner, { recursive: true, force: true })
