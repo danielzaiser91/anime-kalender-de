@@ -211,7 +211,7 @@ function keinNachtPushOhneUhrzeit() {
       for (let t = start; t < start + 4 * 86_400_000; t += 300_000) {
         if (!pushIstErschienen(e, new Date(t)) || pushIstErschienen(e, new Date(t - 300_000))) continue
         neu++
-        const h = Number(new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', hour12: false }).format(new Date(t)))
+        const h = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', hourCycle: 'h23' }).format(new Date(t)))
         if (h >= 23 || h < 7) nachts++
       }
       pruefe(neu === 1 && nachts === 0, `${datum} ${art.platform}/${art.releaseType}: ${neu} Übergang, davon nachts ${nachts}`)
