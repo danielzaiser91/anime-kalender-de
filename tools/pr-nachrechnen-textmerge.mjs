@@ -6,27 +6,8 @@
  * Beide Hunk-Listen stehen in Zeilen von main: PR-Hunks aus `main..Test-Merge` (alte Seite), main-Hunks aus `basis..main` (neue Seite).
  * Fail-closed: ohne Hunks (Binärdatei, Moduswechsel, Löschung), bei Konflikt oder Git-Fehler bleibt die Datei ein Grund.
  */
+import { hunks, hunksFrei } from './pr-nachrechnen-hunks.mjs'
 import { gitAufruf } from './pr-nachrechnen-leser-git.mjs'
-
-export const ABSTAND = 3
-const HUNK = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/
-
-/** Zeilenbereich eines Hunks: Anzahl 0 (reine Einfügung/Löschung) ist eine Position. */
-const bereich = (start, anzahl) => [start, anzahl === 0 ? start : start + anzahl - 1]
-
-/** Hunks einer `git diff -U0`-Ausgabe als { alt, neu } (je [von, bis]). */
-export function hunks(diff) {
-  return diff.split(/\r?\n/).flatMap((zeile) => {
-    const m = HUNK.exec(zeile)
-    if (m === null) return []
-    return [{ alt: bereich(Number(m[1]), m[2] === undefined ? 1 : Number(m[2])), neu: bereich(Number(m[3]), m[4] === undefined ? 1 : Number(m[4])) }]
-  })
-}
-
-export const beruehren = (a, b) => a[0] - b[1] <= ABSTAND && b[0] - a[1] <= ABSTAND
-
-/** Frei = beide Seiten haben Hunks und keiner des PR (alt) berührt einen von main (neu). */
-export const hunksFrei = (prHunks, mainHunks) => prHunks.length > 0 && mainHunks.length > 0 && !prHunks.some((p) => mainHunks.some((m) => beruehren(p.alt, m.neu)))
 
 /** Test-Merge von main und Kopf; null bei Konflikt (Exit 1), sonst die Baum-ID. Andere Fehler werfen. */
 function testMerge(git, main, kopf) {

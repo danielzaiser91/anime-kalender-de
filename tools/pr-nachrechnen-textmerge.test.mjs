@@ -9,7 +9,8 @@ import path from 'node:path'
 import { botSprungAusnahme, datenpfadAusnahme, datenpfadGrund } from './pr-nachrechnen.mjs'
 import { bewegtesGelesen } from './pr-nachrechnen-leser.mjs'
 import { gitAufruf } from './pr-nachrechnen-leser-git.mjs'
-import { ABSTAND, beruehren, hunks, hunksFrei, textmergeFrei } from './pr-nachrechnen-textmerge.mjs'
+import { ABSTAND, beruehren, hunks, hunksFrei } from './pr-nachrechnen-hunks.mjs'
+import { textmergeFrei } from './pr-nachrechnen-textmerge.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
