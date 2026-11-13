@@ -14,11 +14,9 @@ import { reihenGruppen } from '../web/src/components/detail/reihen-gruppen.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { ladeRemakeVonHand, markiereRemakes, remakePaareAusKanten, zaehltAlsNeuverfilmung } from './bau/remake-von.ts'
 import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, warnzeilenZaehlung } from './lib/remake-zaehlung-pruefung.ts'
-import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
+import { BEKANNT_DOPPELT_OHNE_REMAKE, BEKANNT_HOECHSTENS } from './lib/remake-zaehlung-bekannt.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
-
-/** Obergrenze der Schlüsselliste (Stand 11.11.2026, nach Spin-offs und Urusei Yatsura 2022; vorher 37, 19): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet (data/spinoff-von-hand.yaml). */
-const BEKANNT_HOECHSTENS = 14
+import { ueberHoechstens } from './lib/hoechstens-ratsche.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -276,7 +274,7 @@ function bekanntenAbgleich(): void {
   pruefe('Warnzeilen: nur neu', warnzeilenZaehlung({ neu: ['X|1/-', 'Y|2/-'], weg: [] }).length === 1 && warnzeilenZaehlung({ neu: ['X|1/-', 'Y|2/-'], weg: [] })[0].includes('2 neue doppelte'))
   pruefe('Warnzeilen: nur weg', warnzeilenZaehlung({ neu: [], weg: ['X|1/-'] }).length === 1 && warnzeilenZaehlung({ neu: [], weg: ['X|1/-'] })[0].includes('aus remake-zaehlung-bekannt.ts streichen'))
   pruefe('Warnzeilen: gleicher Stand ohne Zeile', warnzeilenZaehlung(b).length === 0)
-  pruefe(`Ratsche: höchstens ${BEKANNT_HOECHSTENS} bekannte doppelte Nummern (jetzt ${BEKANNT_DOPPELT_OHNE_REMAKE.length}) — einen neuen Fall als Spin-off kennzeichnen statt die Liste zu verlängern`, BEKANNT_DOPPELT_OHNE_REMAKE.length <= BEKANNT_HOECHSTENS)
+  pruefe(`Ratsche: höchstens ${BEKANNT_HOECHSTENS} bekannte doppelte Nummern (jetzt ${BEKANNT_DOPPELT_OHNE_REMAKE.length}) — einen neuen Fall als Spin-off kennzeichnen statt die Liste zu verlängern`, !ueberHoechstens(BEKANNT_DOPPELT_OHNE_REMAKE.length, BEKANNT_HOECHSTENS))
 }
 
 bekanntenAbgleich()

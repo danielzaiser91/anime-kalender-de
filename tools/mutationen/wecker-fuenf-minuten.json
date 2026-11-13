@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": [],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan faelligeEintraege: 5-Minuten-Filter wirkungslos (alle Einträge)",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "(!nurFuenfMinutenCron || p.auchImFuenfMinutenCron === true)", "ersetze": "(true)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan faelligeEintraege: Filter lässt Einträge ohne Feld durch",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "p.auchImFuenfMinutenCron === true", "ersetze": "p.auchImFuenfMinutenCron !== false" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteFaelligeLaeufe: Filter nicht durchgereicht",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "faelligeEintraege(jetzt, undefined, nurFuenfMinutenCron)", "ersetze": "faelligeEintraege(jetzt, undefined)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteSchnelleLaeufe: volle Stunde nicht ausgelassen (Doppelstart)",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "getUTCMinutes() === 0", "ersetze": "getUTCMinutes() === 99" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteSchnelleLaeufe: ruft ohne Filter auf",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "await starteFaelligeLaeufe(env, jetzt, true)", "ersetze": "await starteFaelligeLaeufe(env, jetzt, false)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "index scheduled: 5-Minuten-Zweig ruft den Wecker nicht",
+    "aenderungen": [
+      { "datei": "worker/src/index.ts", "suche": "starteSchnelleLaeufe(env, now).catch(", "ersetze": "Promise.resolve().catch(" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan nacht-merger: Mindestabstand 40 statt 15",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 15, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 40, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan nacht-merger: Mindestabstand 20 statt 15 (Takt 25 min)",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 15, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 20, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "weckplan nacht-merger: Mindestabstand 10 statt 15",
+    "aenderungen": [
+      { "datei": "shared/weckplan.ts", "suche": "abstandMin: 15, auchImFuenfMinutenCron: true", "ersetze": "abstandMin: 10, auchImFuenfMinutenCron: true" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starte: Läufe nicht lesbar, 5-Minuten-Zweig startet trotzdem",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "if (laeufe === null && schnell) {", "ersetze": "if (false) {" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starte: Läufe nicht lesbar, auch der Stunden-Cron startet nicht",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "if (laeufe === null && schnell) {", "ersetze": "if (laeufe === null) {" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker letzteLaeufe: Fehlerantwort als leere Liste",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "if (!r.ok) return null", "ersetze": "if (!r.ok) return []" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  },
+  {
+    "name": "wecker starteFaelligeLaeufe: Schnellzweig-Kennzeichen nicht an starte durchgereicht",
+    "aenderungen": [
+      { "datei": "worker/src/wecker.ts", "suche": "p.workflow, jetzt, nurFuenfMinutenCron)", "ersetze": "p.workflow, jetzt, false)" }
+    ],
+    "tests": ["npx tsx tools/worker-wecker.test.ts"]
+  }
+]
