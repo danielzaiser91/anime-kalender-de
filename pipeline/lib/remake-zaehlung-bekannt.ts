@@ -24,3 +24,6 @@ export const BEKANNT_DOPPELT_OHNE_REMAKE: readonly string[] = [
   'The Seven Deadly Sins|4/-',
   'Tokyo Ghoul|2/-',
 ]
+
+/** Obergrenze der Schlüsselliste (Stand 11.11.2026, nach Spin-offs und Urusei Yatsura 2022; vorher 37, 19): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet (data/spinoff-von-hand.yaml). */
+export const BEKANNT_HOECHSTENS = 14
