@@ -7,7 +7,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { ReleaseEvent, VermerkAusgeblieben } from '../shared/types.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
-import { VerpasstMarke } from '../web/src/components/kalender/Marken.tsx'
+import { VerpasstMarke, verpasstHinweis } from '../web/src/components/kalender/Marken.tsx'
 import { VermerkAuskunft } from '../web/src/components/detail/vermerk.tsx'
 
 let fehler = 0
@@ -24,6 +24,9 @@ const ev = (v: Partial<VermerkAusgeblieben>) => ({ id: 'x@2026-10-14', date: '20
 
 const nachgereicht = renderToStaticMarkup(createElement(VerpasstMarke, { event: ev({ erschienenAm: SPAET, verzugStunden: 1 }), t: T }))
 pruefe('„kam …“ nennt den Berliner Tag', nachgereicht.includes('kam 2026-10-14'), nachgereicht)
+
+const hinweis = verpasstHinweis({ erwartetAm: SPAET, neuErwartet: SPAET } as VermerkAusgeblieben, (k, v) => (v ? `${k}:${Object.values(v).join(',')}` : k))
+pruefe('Tooltip „neu erwartet“ nennt den Berliner Tag', hinweis.includes('card.missedNext:2026-10-14'), hinweis)
 
 const auskunft = (v: Partial<VermerkAusgeblieben>) =>
   renderToStaticMarkup(createElement(VermerkAuskunft, { vermerk: { erwartetAm: SPAET, ...v } as VermerkAusgeblieben, ausgeblieben: false, episode: 3, anbieter: 'Crunchyroll', today: '2026-10-20', T }))

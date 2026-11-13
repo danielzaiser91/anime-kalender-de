@@ -1,6 +1,6 @@
 import { zeitMitMarke } from '@shared/zeit-text.ts'
 import { toIsoDate } from '@shared/time.ts'
-import type { ReleaseEvent } from '@shared/types.ts'
+import type { ReleaseEvent, VermerkAusgeblieben } from '@shared/types.ts'
 import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import type { KachelAngabe } from '@shared/laeuft-jetzt.ts'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -84,14 +84,9 @@ export function anbieterZeile(event: ReleaseEvent, t: Translate, buendel: Releas
   return art === 'imAngebot' ? folgeOhneAnbieter(event, t, buendel) : anbieterUndFolge(event, t, buendel)
 }
 
-/**
- * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen
- * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen.
- */
-export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
-  const v = event.verpasst
-  if (!v) return null
-  const hinweis = [
+/** Der Tooltip-Text eines nicht eingehaltenen Termins; Tage in Berliner Zeit. */
+export function verpasstHinweis(v: VermerkAusgeblieben, t: Translate): string {
+  return [
     t('card.missed'),
     v.folgenVerfuegbar != null && t('card.missedCount', { n: v.folgenVerfuegbar }),
     v.neuErwartet ? t('card.missedNext', { d: toIsoDate(new Date(v.neuErwartet)) }) : t('card.missedCheck'),
@@ -99,6 +94,16 @@ export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate 
   ]
     .filter(Boolean)
     .join(' · ')
+}
+
+/**
+ * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen
+ * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen.
+ */
+export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
+  const v = event.verpasst
+  if (!v) return null
+  const hinweis = verpasstHinweis(v, t)
   return (
     <Tooltip text={hinweis} seite="oben">
       <span className="rounded bg-ak-fehler-grund px-1 text-[11px] font-semibold text-ak-fehler-text">
