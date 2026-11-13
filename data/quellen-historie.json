@@ -6805,6 +6805,18 @@
   ],
   "yaiba-samurai-legend-prosieben-maxx": [
     {
+      "url": "https://www.tvspielfilm.de/tv-programm/sendungen/?filter=1&order=time&date=2026-11-13",
+      "name": "tvspielfilm.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.tv.de/sender/prosieben-maxx/17.11.2026/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-10",
@@ -6917,6 +6929,18 @@
     }
   ],
   "one-piece-whole-cake-island-prosieben-maxx": [
+    {
+      "url": "https://www.tvspielfilm.de/tv-programm/sendungen/?filter=1&order=time&date=2026-11-13",
+      "name": "tvspielfilm.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.tv.de/sender/prosieben-maxx/17.11.2026/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1059541/",
       "name": "anime2you.de",
@@ -8721,6 +8745,34 @@
       "url": "https://www.anime2you.de/news/1066831/joyn-25-anime-neuzugaenge/",
       "name": "anime2you.de",
       "gesehenAm": "2026-11-12",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-20613-tv-prosieben-fun": [
+    {
+      "url": "https://tv.de/sendung/r/s,2471801965/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/61223",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-139630-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sendung/r/s,2471807058/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/65930",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-11-13",
       "stand": "aktuell"
     }
   ]
