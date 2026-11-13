@@ -20,7 +20,7 @@
   try {
     const wurzel = document.documentElement
     if (!wurzel) return
-    void Promise.resolve(chrome.storage.local.get('akRuhig')).then((x) => {
+    void Promise.resolve(globalThis.akKontext.lesen('akRuhig')).then((x) => {
       if (x?.akRuhig) wurzel.classList.add('ak-ruhig')
     })
   } catch {

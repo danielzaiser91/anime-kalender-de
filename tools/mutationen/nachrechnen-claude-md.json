@@ -56,22 +56,29 @@
   {
     "name": "grundText: grober Grund immer vorangestellt",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`",
-    "ersetze": "return `${daten}; ${bot}`",
+    "suche": "(daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)",
+    "ersetze": "(`${daten}; ${bot}`)",
     "tests": ["node tools/pr-nachrechnen-claude-md.test.mjs"]
   },
   {
-    "name": "grundText: kettenweiter Grund verliert den Vorspann",
+    "name": "grundText: Grund der feinen Stufe ohne Bedingung (Vorspann 'der PR berührt' geht verloren)",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`",
-    "ersetze": "return bot",
-    "tests": ["node tools/pr-nachrechnen-claude-md.test.mjs"]
-  },
-  {
-    "name": "grundText: Bedingung nur auf bot (Vorspann 'der PR berührt' geht verloren)",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`",
-    "ersetze": "return !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`",
+    "suche": "(daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)",
+    "ersetze": "(bot)",
     "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "grundText: Vorspann nur bei „main bewegte“ der feinen Stufe verworfen (alte Bedingung)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "(daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)",
+    "ersetze": "(daten === bot || (daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ')) ? bot : `${daten}; ${bot}`)",
+    "tests": ["node tools/pr-nachrechnen-claude-md.test.mjs"]
+  },
+  {
+    "name": "grundText: Vorspann bleibt auch bei „main bewegte“ der groben Stufe",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "(daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)",
+    "ersetze": "(daten === bot ? bot : `${daten}; ${bot}`)",
+    "tests": ["node tools/pr-nachrechnen-claude-md.test.mjs"]
   }
 ]

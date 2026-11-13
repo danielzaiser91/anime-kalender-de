@@ -22,6 +22,7 @@ import { resolve } from 'node:path'
 import { SYNOPSIS_GROUPS, anbieterName, type Release, type Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
+import { hauptRelease } from './lib/haupt-release.ts'
 import { ARTIKEL_STIL as STIL, SITE, esc, titelName, titelInhalt, titelKopf } from './lib/titel-seite.ts'
 import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
 import { belegteTermine, uebersichtTexte } from './lib/termine-uebersicht.ts'
@@ -170,12 +171,12 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const dir = resolve(DIST, teilenPfad(adresse))
     mkdirSync(dir, { recursive: true })
     const eigene = r.jeTitel.get(t.id) ?? []
-    const haupt = naechsterTermin(eigene, r.today)
+    const haupt = hauptRelease(eigene, r.today)
     /* Cartoons tragen ihre Beschreibung am Titel, nicht in `synopses/`. */
     const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
     const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
     const umfeld = umfeldFuer(t, `${SITE}${teilenPfad(adresse)}`, umfeldRahmen)
-    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld, r.standardKennung, false, r.masse)
+    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld, eigene.length > 1) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld, r.standardKennung, false, r.masse)
     const inhalt = haupt
       ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, adresse, umfeld)
       : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene, umfeld)
@@ -207,12 +208,6 @@ function schreibeUmleitungen(paare: [number, string | number][]): void {
       'utf8',
     )
   }
-}
-
-/** Der nächste Termin eines Titels, sonst der letzte. */
-function naechsterTermin(rs: Release[], today: string): Release | undefined {
-  const nachDatum = [...rs].sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
-  return nachDatum.find((r) => r.schedule.firstEpisodeDate >= today) ?? nachDatum[nachDatum.length - 1]
 }
 
 function terminZeile(release: Release, titel: Title | undefined, adresse: string): string {
