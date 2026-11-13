@@ -17,7 +17,7 @@ Grundlage: `public/data/events.json` (Stand `e4f182ed`), Termine ab 13.11.2026; 
 | Titel | Feld | Beleg | Stand |
 |---|---|---|---|
 | Steel Ball Run – 2nd & 3rd STAGE (`steel-ball-run-2nd-3rd-stage`) | `timeEstimated` | Sichtung 25.09.2026: Folge 2 fehlte 09:35, war 10:11 da (Fenster < 60 min), Kommentar `shared/logic.ts:258`, Eintrag `data/curated/batch-2026.yaml:173` | **PR 3766** (offen) trägt `time` + `timeSighting` + `zeiten` nach; hier nicht doppelt angefasst |
-| Space Mercenary (`cr-GT00384006`), Folge 7 am 15.11. | `estimated` | Crunchyroll-Wochenprogramm 09.–15.11. (`data/crunchyroll-woche.json`): Folge 7, `de`, Tag 15.11. | Kein Eintrag in `data/curated/` (Crunchyroll-Auto-Eintrag), Änderung wäre Bau-Code → Vorschlag 2, nicht in diesem PR |
+| Space Mercenary (`cr-GT00384006`), Folge 7 am 15.11. | `estimated` | Crunchyroll-Wochenprogramm 09.–15.11. (`data/crunchyroll-woche.json`): Folge 7, `de`, Tag 15.11. | Kein Eintrag in `data/curated/` (Crunchyroll-Auto-Eintrag), Änderung wäre Bau-Code → Vorschlag 3, nicht in diesem PR |
 | Overgeared (`cr-GT00384004`), Folge 8 am 15.11. | `estimated` | wie oben: Folge 8, `de`, 15.11. | wie oben |
 
 Damit gibt es **keinen** belegten Fall, der sich allein mit einer Korrektur in `data/curated/` beheben lässt, außer dem schon offenen Steel Ball Run. Deshalb enthält dieser PR nur den Bericht.
