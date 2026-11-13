@@ -6,7 +6,9 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { parse } from 'yaml'
 import { baueDateien } from './pr-kettenlog.mjs'
+import { MARKE_OHNE_MODELL } from './pruefer-unfertig-wache.mjs'
 import { kettenLaeuft, kettenOffen, main } from './pr-pruefer-kette-offen.mjs'
 
 const fehler = []
@@ -61,6 +63,29 @@ try {
   gleich('main(--nur-lauf): laufende Kette', main(['--nur-lauf', f('offen3.txt', offen)]), 0)
   gleich('main(--nur-lauf): fertige Kette', main(['--nur-lauf', f('fertig3.txt', fertig)]), 1)
   gleich('main(--nur-lauf): Datei fehlt', main(['--nur-lauf', path.join(ordner, 'gibtsnicht.txt')]), 1)
+
+  // Der run-Text des Schritts „Kette läuft noch“ aus pr-pruefer.yml, wirklich in bash ausgeführt (Prüfer-Befund 13.11.2026).
+  const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8'))
+  const schritt = wf.jobs.pruefen.steps.find((s) => s.name === 'Kette läuft noch')
+  const KOPF_SHA = 'b'.repeat(40)
+  const schrittLauf = (name, kettenlog) => {
+    const temp = path.join(ordner, `schritt-${name}`)
+    fs.mkdirSync(path.join(temp, 'pruefer'), { recursive: true })
+    if (kettenlog !== null) fs.writeFileSync(path.join(temp, 'pruefer', 'kettenlog.txt'), kettenlog)
+    const ausgabe = path.join(temp, 'ausgabe.txt')
+    fs.writeFileSync(ausgabe, '')
+    const r = spawnSync('bash', ['-e', '-c', schritt.run], { cwd: new URL('..', import.meta.url).pathname, encoding: 'utf8', timeout: 30_000, env: { ...process.env, RUNNER_TEMP: temp, HEAD_SHA: KOPF_SHA, GITHUB_OUTPUT: ausgabe } })
+    const lies = (n) => (fs.existsSync(path.join(temp, 'pruefer', n)) ? fs.readFileSync(path.join(temp, 'pruefer', n), 'utf8') : null)
+    return { status: r.status, ausgabe: fs.readFileSync(ausgabe, 'utf8'), urteil: lies('urteil.json'), protokoll: lies('protokoll.md') }
+  }
+  const laeuft = schrittLauf('laeuft', offen)
+  gleich('Schritt, Kette läuft: Exit 0 und Ausgabe laeuft=ja', [laeuft.status, laeuft.ausgabe], [0, 'laeuft=ja\n'])
+  gleich('Schritt, Kette läuft: urteil.json gültig, aendern für den Kopf', JSON.parse(laeuft.urteil ?? 'null'), { urteil: 'aendern', sha: KOPF_SHA })
+  gleich('Schritt, Kette läuft: protokoll.md nicht leer, mit Marke der Wache', Boolean(laeuft.protokoll?.includes(MARKE_OHNE_MODELL)), true)
+  for (const [name, text] of [['fertig', fertig], ['rot', rot], ['basis-offen', basis], ['fehlt', null]]) {
+    const r = schrittLauf(name, text)
+    gleich(`Schritt, Kette ${name}: Exit 0, keine Ausgabe, keine Dateien (Modell läuft)`, [r.status, r.ausgabe, r.urteil, r.protokoll], [0, '', null, null])
+  }
 } finally {
   fs.rmSync(ordner, { recursive: true, force: true })
 }

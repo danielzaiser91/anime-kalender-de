@@ -6,6 +6,7 @@
 import fs from 'node:fs'
 import { parse } from 'yaml'
 import { MARKE_KETTE_OFFEN } from './pr-pruefer-kette-offen.mjs'
+import { MARKE_OHNE_MODELL } from './pruefer-unfertig-wache.mjs'
 import { MAX_NEUSTARTS, entscheide, letztesUrteil, main } from './pr-pruefer-nach-kette.mjs'
 
 const fehler = []
@@ -45,6 +46,10 @@ gleich('kein Prüfer-Lauf', los({ lauf: null }), false)
 gleich('Grenze: Neustarts erlaubt bis zur Anzahl', MAX_NEUSTARTS, 2)
 gleich('zweites Kette-offen: noch Neustart', los({ kommentare: [OFFEN(), OFFEN()] }), true)
 gleich('drittes Kette-offen: Schluss (Schleifenschutz)', los({ kommentare: [OFFEN(), OFFEN(), OFFEN()] }), false)
+// Läufe ohne Modell (Kette lief beim Start) verbrauchen die Neustart-Grenze nicht (Prüfer-Befund 13.11.2026), echte „Kette offen“ weiter.
+const STUB = (kopf = KOPF) => ({ user: { login: BOT }, body: `${OFFEN(kopf).body}\n${MARKE_OHNE_MODELL}\n` })
+gleich('drei Läufe ohne Modell: weiter Neustart', los({ kommentare: [STUB(), STUB(), STUB(), STUB()] }), true)
+gleich('drei Läufe ohne Modell und drei echte Kette-offen: Schluss', los({ kommentare: [STUB(), STUB(), STUB(), OFFEN(), OFFEN(), OFFEN()] }), false)
 gleich('letztesUrteil: neuester zum Kopf, nicht der zum alten Kopf', letztesUrteil([OFFEN(), AENDERN(ALT)], KOPF).body.includes('nicht beurteilt'), true)
 
 // Ablauf mit eingespeistem gh. `laeufe`: Prüfer-Läufe neueste zuerst; `stand`: Status je Abfrage, danach der letzte Wert.

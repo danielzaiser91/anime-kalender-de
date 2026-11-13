@@ -10,6 +10,7 @@ import { CI_BOT } from './pr-nachtraege.mjs'
 import { holeLauf } from './pr-kettenlog.mjs'
 import { basisNummer } from './pr-pruefer-basis-offen.mjs'
 import { MARKE_KETTE_OFFEN } from './pr-pruefer-kette-offen.mjs'
+import { MARKE_OHNE_MODELL } from './pruefer-unfertig-wache.mjs'
 import { neuesterLauf, neustart } from './pr-pruefer-neustart.mjs'
 
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
@@ -35,7 +36,8 @@ export function entscheide({ kommentare, kopf, pr, lauf, basisOffen = false, ket
   const letztes = letztesUrteil(kommentare, kopf)
   if (!letztes || !String(letztes.body).includes(MARKE_KETTE_OFFEN)) return { los: false, grund: 'letztes Urteil war nicht „Kette offen“' }
   const kurz = `**Prüfer-Review** für ${kopf.slice(0, 9)} `
-  const bisher = kommentare.filter((k) => k.user?.login === CI_BOT && String(k.body ?? '').startsWith(kurz) && String(k.body).includes(MARKE_KETTE_OFFEN)).length
+  // Läufe ohne Modell (Kette lief beim Start, 13.11.2026) kosten fast nichts und zählen nicht gegen die Grenze.
+  const bisher = kommentare.filter((k) => k.user?.login === CI_BOT && String(k.body ?? '').startsWith(kurz) && String(k.body).includes(MARKE_KETTE_OFFEN) && !String(k.body).includes(MARKE_OHNE_MODELL)).length
   if (bisher > MAX_NEUSTARTS) return { los: false, grund: `schon ${bisher} Mal „Kette offen“ (Grenze ${MAX_NEUSTARTS})` }
   // Stapel-PR, Basis noch offen: eine rote Kette ist erwartet, der Prüfer urteilt erst nach grüner Kette (Marke „Basis offen“).
   if (basisOffen && kette?.conclusion !== 'success') return { los: false, grund: 'Basis noch offen und Kette nicht grün' }
