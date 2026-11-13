@@ -207,7 +207,7 @@ function nfpInstallieren() {
   })
   nfpFetchUmhuellen()
   window.addEventListener('message', nfpListeAufzeichnen)
-  log('start', { version: chrome.runtime.getManifest?.().version ?? null, pfad: location.pathname })
+  log('start', { version: globalThis.akKontext.version(), pfad: location.pathname })
 }
 
 nfpInstallieren()
