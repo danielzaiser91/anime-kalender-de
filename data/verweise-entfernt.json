@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-12T23:10:57.202Z",
+  "stand": "2026-11-13T13:34:48.648Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1627,7 +1627,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-13",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 108623,
@@ -2947,7 +2947,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-13",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 13331,
@@ -5169,7 +5169,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-13",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 11061,
@@ -6418,7 +6418,7 @@
       "titleId": 108307,
       "titel": "Psycho-Pass 3",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/B0869M8QCJ",
+      "url": "https://www.amazon.de/gp/video/detail/B0C7F9NTVC",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6913,7 +6913,7 @@
       "titleId": 144932,
       "titel": "Edens Zero: Season 2",
       "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
+      "url": "https://www.amazon.de/gp/video/detail/B0FD47PJBZ",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -7446,7 +7446,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-13",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 179950,
@@ -7779,6 +7779,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B07FBGYPR6",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-13",
+      "letzterWeg": true
+    },
+    {
       "titleId": 102883,
       "titel": "JoJo’s Bizarre Adventure: Golden Wind",
       "plattform": "adn",
@@ -7867,6 +7878,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 177509,
+      "titel": "Kakushite! Makina-san!!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DYMHT915",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-13",
+      "letzterWeg": true
+    },
+    {
       "titleId": 141534,
       "titel": "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd",
       "plattform": "netflix",
@@ -7876,6 +7898,28 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-13",
       "letzterWeg": false
+    },
+    {
+      "titleId": 108307,
+      "titel": "Psycho-Pass 3",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0869M8QCJ",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-13",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 144932,
+      "titel": "Edens Zero: Season 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-13",
+      "letzterWeg": true
     },
     {
       "titleId": 20462,
@@ -8289,17 +8333,6 @@
       "titel": "Digimon",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0CHHNJJW3",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-19",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 10015,
-      "titel": "Yu-Gi-Oh! Zexal",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B07FBGYPR6",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
