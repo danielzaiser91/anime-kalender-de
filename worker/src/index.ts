@@ -46,7 +46,7 @@ import { handleCrZugang } from './cr-zugang.ts'
 import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
 import { EMAIL_RE, mitAnmeldeSchutz } from './anmelde-schutz.ts'
 import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
-import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
+import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe, starteSchnelleLaeufe } from './wecker.ts'
 
 export { Ereignisse }
 export { Schnellmesser } from './schnellmesser.ts'
@@ -1437,7 +1437,7 @@ export default {
       ctx.waitUntil(digestMitLog(env, now))
       return
     }
-    if (event.cron === PUSH_CRON) return ctx.waitUntil(pushSchnellMitLog(env, now, () => loadEvents(env)))
+    if (event.cron === PUSH_CRON) return ctx.waitUntil(Promise.all([starteSchnelleLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e)), pushSchnellMitLog(env, now, () => loadEvents(env))]))
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.

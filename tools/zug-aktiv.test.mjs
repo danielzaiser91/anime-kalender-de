@@ -8,7 +8,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { liegegut, liegegutFunde, naechsterSchritt, stapelKandidat } from './liegegut.mjs'
+import { liegegut, liegegutAlleFunde, liegegutFunde, naechsterSchritt, stapelKandidat } from './liegegut.mjs'
 import { nachrechnen } from './pr-nachrechnen.mjs'
 import { SCHALTER_DATEI, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 
@@ -116,21 +116,24 @@ function ghAttrappe(basis, gemergteBasis) {
 const zeilen = (basis, gemergt, aktiv) => liegegutFunde(ghAttrappe(basis, gemergt), () => '', JETZT, () => {}, new Set(), aktiv).map((f) => f.zeile)
 {
   const ohneSchalter = liegegutFunde(ghAttrappe('zug', []), () => '', JETZT, () => {}, new Set()).map((f) => f.zeile)
-  pruefe('ohne Schalter-Argument gilt der eingecheckte Schalter (aus): MERGEN wie vorher', ohneSchalter.length === 1 && /^PR 7: MERGEN – /.test(ohneSchalter[0]), ohneSchalter)
+  pruefe('ohne Schalter-Argument gilt der eingecheckte Schalter (aus): MERGEN wie vorher', ohneSchalter.length === 1 && /^anime-kalender-de PR 7: MERGEN – /.test(ohneSchalter[0]), ohneSchalter)
   const aus = zeilen('zug', [], false)
-  pruefe('aus: PR auf zug, freigegeben und ruhend -> MERGEN wie vorher', aus.length === 1 && /^PR 7: MERGEN – Signal 1 Freigabe/.test(aus[0]), aus)
+  pruefe('aus: PR auf zug, freigegeben und ruhend -> MERGEN wie vorher', aus.length === 1 && /^anime-kalender-de PR 7: MERGEN – Signal 1 Freigabe/.test(aus[0]), aus)
   const an = zeilen('zug', [], true)
-  pruefe('an: PR auf zug -> Zug-Reihe statt Merge-Reihe', an.length === 1 && /^PR 7: AUF ZUG MERGEN \(merge-reihe-zug\.sh\) – Signal 1 Freigabe/.test(an[0]), an)
+  pruefe('an: PR auf zug -> Zug-Reihe statt Merge-Reihe', an.length === 1 && /^anime-kalender-de PR 7: AUF ZUG MERGEN \(merge-reihe-zug\.sh\) – Signal 1 Freigabe/.test(an[0]), an)
   const main = zeilen('main', [], true)
-  pruefe('an: PR auf main bleibt MERGEN', main.length === 1 && /^PR 7: MERGEN – /.test(main[0]), main)
+  pruefe('an: PR auf main bleibt MERGEN', main.length === 1 && /^anime-kalender-de PR 7: MERGEN – /.test(main[0]), main)
   const stapelAus = zeilen('zug', [{ number: 5 }], false)
-  pruefe('aus: Basis zug mit gemergtem „Basis-PR“ -> Stapel-Signal 9 wie vorher', /Signal [^–]*9 Basis #5/.test(stapelAus[0]) && /^PR 7: STAPEL/.test(stapelAus[0]), stapelAus)
+  pruefe('aus: Basis zug mit gemergtem „Basis-PR“ -> Stapel-Signal 9 wie vorher', /Signal [^–]*9 Basis #5/.test(stapelAus[0]) && /^anime-kalender-de PR 7: STAPEL/.test(stapelAus[0]), stapelAus)
   const stapelAn = zeilen('zug', [{ number: 5 }], true)
-  pruefe('an: Basis zug löst nie Stapel-Signal 9 aus', !/Basis #5/.test(stapelAn[0]) && /^PR 7: AUF ZUG MERGEN/.test(stapelAn[0]), stapelAn)
+  pruefe('an: Basis zug löst nie Stapel-Signal 9 aus', !/Basis #5/.test(stapelAn[0]) && /^anime-kalender-de PR 7: AUF ZUG MERGEN/.test(stapelAn[0]), stapelAn)
   const ueberWrapper = liegegut(ghAttrappe('zug', []), () => '', JETZT, () => {}, new Set(), true)
   pruefe('liegegut() reicht den Schalter durch (Zug-Reihe in der Textzeile)', ueberWrapper.length === 1 && /AUF ZUG MERGEN/.test(ueberWrapper[0]), ueberWrapper)
+  // Zug-Logik gilt nur im Haupt-Repo: gleiche Nummer 7 mit Basis zug in beiden Repos, Schalter an.
+  const beide = liegegutAlleFunde(ghAttrappe('zug', []), () => '', JETZT, () => {}, new Set(), true).map((f) => f.zeile)
+  pruefe('an: Haupt-PR 7 trägt den Zug-Schritt, nativ-PR 7 nicht', beide.length === 2 && /^anime-kalender-de PR 7: AUF ZUG MERGEN/.test(beide[0]) && /^anime-kalender-nativ PR 7: MERGEN – Signal 1/.test(beide[1]), beide)
   const feature = zeilen('feature/x', [{ number: 5 }], true)
-  pruefe('an: andere Stapel-Basis löst Signal 9 weiter aus', /^PR 7: STAPEL/.test(feature[0]), feature)
+  pruefe('an: andere Stapel-Basis löst Signal 9 weiter aus', /^anime-kalender-de PR 7: STAPEL/.test(feature[0]), feature)
 }
 
 fs.rmSync(wurzel, { recursive: true, force: true })

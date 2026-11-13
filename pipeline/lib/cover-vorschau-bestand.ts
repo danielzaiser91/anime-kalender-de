@@ -9,6 +9,7 @@
  */
 import { teilbarerSlug } from '../../shared/teilen.ts'
 import type { Title } from '../../shared/types.ts'
+import { ueberHoechstens } from './hoechstens-ratsche.ts'
 import { vorschauBild, type PlakatMasse } from './titel-vorschau.ts'
 
 const STANDARD = 'standard'
@@ -22,7 +23,7 @@ export function standardTrotzCoverTitel(titel: Title[], mitTermin: ReadonlySet<n
 
 /** Meldung bei Überschreitung samt den jüngsten Kennungen (der Zuwachs liegt meist bei neuen Titeln), sonst nichts. */
 export function coverVorschauBestandMangel(treffer: Title[], hoechstens: number, zeigen = 10): string | undefined {
-  if (treffer.length <= hoechstens) return undefined
+  if (!ueberHoechstens(treffer.length, hoechstens)) return undefined
   const juengste = treffer
     .map((t) => t.id)
     .sort((a, b) => b - a)

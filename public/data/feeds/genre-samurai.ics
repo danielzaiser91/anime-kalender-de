@@ -8,36 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T172500Z
-DTEND:20261105T175500Z
-SUMMARY:YAIBA: Samurai Legend – Folge 1/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:yaiba-samurai-legend-joyn@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T175000Z
-DTEND:20261105T182000Z
-SUMMARY:YAIBA: Samurai Legend – Folge 1/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
-  https://anime-kalender.de/t/15908/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T175000Z
-DTEND:20261105T182000Z
-SUMMARY:ONE PIECE – Folge 780/877
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T172500Z
