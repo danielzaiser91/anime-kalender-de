@@ -51,6 +51,13 @@ pruefe('gleicher Text auf früherer Zeile zählt nicht mit', mutantenListe('a.mj
 const drei = mutantenListe('a.mjs', 'x = (a && b) + (a && b) + (a && b)', new Set([1])).filter((m) => m.name.includes('&&'))
 pruefe('drei gleiche Ausdrücke: nr 1 (fehlt), 2, 3', drei.length === 3 && drei[2].aenderungen[0].nr === 3)
 
+const amAnfang = mutantenListe('a.mjs', 'a && b', new Set([1])).filter((m) => m.name.includes('&&'))
+pruefe('Ausdruck ganz am Dateianfang (Index 0) wird gefunden', amAnfang.length === 1 && amAnfang[0].aenderungen[0].nr === undefined)
+const zeile2 = mutantenListe('a.mjs', 'x\nf(a && b) + f(a && b)', new Set([2])).filter((m) => m.name.includes('&&'))
+const ab0 = mutantenListe('a.mjs', 'a && b, a && b', new Set([1])).filter((m) => m.name.includes('&&'))
+pruefe('erster gleicher Ausdruck bei Index 0 zählt: zweiter trägt nr 2', ab0.length === 2 && ab0[1].aenderungen[0].nr === 2)
+pruefe('zwei gleiche Ausdrücke auf Zeile 2: nr 2 am zweiten', zeile2.length === 2 && zeile2[1].aenderungen[0].nr === 2)
+
 // Genauigkeit: nichts in Zeichenketten, Kommentaren, Regex; Typ-Literale bleiben
 pruefe('Operator in Zeichenkette erzeugt nichts', alle("x = 'a && b'").length === 0)
 pruefe('Operator im Kommentar erzeugt nichts', alle('x = 1 // a && b').every((m) => !m.name.includes('&&')))
