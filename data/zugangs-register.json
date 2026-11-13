@@ -186,25 +186,6 @@
       "folge": "aniSearch-Abruf scheitert oder wird gesperrt; Synchro-Liste und Katalog veralten, der Bau meldet die Quelle über data:check."
     },
     {
-      "id": "ANILIST_TOKEN",
-      "ort": "github-secret",
-      "wofuer": "AniList-API (höheres Limit beim Katalog-Abgleich).",
-      "workflows": [
-        "anisearch-katalog.yml",
-        "daten-auf-abruf.yml"
-      ],
-      "gueltig": {
-        "text": "Laufzeit nicht belegt",
-        "beleg": "Suche in docs/wissen/quellen.md ohne Treffer, 08.10.2026",
-        "gueltigBis": null
-      },
-      "erneuerung": {
-        "art": "handgriff",
-        "text": "Neuen Token im AniList-Konto erzeugen, gh secret set"
-      },
-      "folge": "AniList-Abrufe scheitern am Limit oder laufen ohne Token; Katalogabgleich verlangsamt."
-    },
-    {
       "id": "TMDB_API_KEY",
       "ort": "github-secret",
       "wofuer": "TMDB-API (Folgen, Streamingzuordnung, Bilder).",

@@ -1495,6 +1495,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1069280": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
     "1069314": {
       "am": "2026-11-10",
       "vorschlaege": 0
@@ -1628,9 +1632,43 @@
       "am": "2026-11-12",
       "vorschlaege": 8
     },
+    "1070748": {
+      "am": "2026-11-13",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070797": {
       "am": "2026-11-12",
       "vorschlaege": 0
+    },
+    "1070995": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071032": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071143": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071187": {
+      "am": "2026-11-13",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1071343": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071384": {
+      "am": "2026-11-13",
+      "vorschlaege": 4
+    },
+    "1071396": {
+      "am": "2026-11-13",
+      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -12648,6 +12686,54 @@
       "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
       "veroeffentlicht": "2026-11-12",
       "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Anja und die vier Jahreszeiten",
+      "zitat": "Zu den aktuellen Neuzugängen gehört der rund 61-minütige Anime-Film »Anja und die vier Jahreszeiten« aus dem Jahr 1980, der ohne Zusatzkosten mit deutscher Synchronisation angesehen werden kann.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071396",
+      "artikel": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+      "zitat": "Darüber hinaus steht mit »Code Geass: Akito the Exiled – The Wyvern Arrives« der rund 51-minütige erste Teil der fünfteiligen OVA-Reihe mit deutscher Sprachfassung auf Abruf zur Verfügung. Die Originalversion wird nicht angeboten.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071396",
+      "artikel": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
     }
   ]
 }

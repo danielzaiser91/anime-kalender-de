@@ -12,7 +12,8 @@ import path from 'node:path'
 import { mitWiederholung } from './buehne-absturz.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
-export const BUEHNE = path.join(WURZEL, 'buehne-dist')
+/** `BUEHNE_DIST` zeigt auf die Bühne einer Basis (main), die der Lauf des PR zum Vergleich mitmisst. */
+export const BUEHNE = process.env.BUEHNE_DIST ? path.resolve(process.env.BUEHNE_DIST) : path.join(WURZEL, 'buehne-dist')
 const ADRESSE = 'http://buehne.test/buehne.html'
 
 const EIN_PUNKT = Buffer.from(
@@ -120,7 +121,7 @@ export async function oeffneZellen(seite, { mockup, variante, fall, teil, zeit }
  * `beiZellen` darf Zeilen (Befunde) zurückgeben; übernommen wird nur die des erfolgreichen Versuchs, damit eine Wiederholung nach
  * halber Messung nichts doppelt meldet. Rückgabe: alle Zeilen plus je zweimal abgestürzter Einheit eine „Absturz …“-Zeile.
  */
-export async function durchlaufe(seite, filter, beiZellen) {
+export async function durchlaufe(seite, filter, beiZellen, { nurErsteVariante = false } = {}) {
   const mockups = (await listeMockups(seite)).filter((m) => !filter || m.name.includes(filter))
   if (!mockups.length) throw new Error(`kein Mockup${filter ? ` mit „${filter}“` : ''} gefunden`)
   const zeilen = []
@@ -129,6 +130,7 @@ export async function durchlaufe(seite, filter, beiZellen) {
     for (const fall of m.faelle) {
       for (const zeit of m.zeiten.length ? m.zeiten : [undefined]) {
         for (const [i, variante] of m.varianten.entries()) {
+          if (nurErsteVariante && i > 0) break
           const einheit = async (s) => beiZellen({ mockup: m.name, fall, variante, zeit, zellen: await oeffneZellen(s, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher', zeit }) })
           const { seite: benutzt, absturz, ergebnis } = await mitWiederholung(aktuell, einheit, ersetzeSeite)
           aktuell = benutzt
