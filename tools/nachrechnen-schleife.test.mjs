@@ -121,7 +121,7 @@ console.log('nachrechnen-schleife: Verdrahtung in liegegut')
     throw Object.assign(new Error('kein Treffer'), { status: 1 })
   }
   const zeilen = liegegut(gh([pr(31, [kommentar(5), kommentar(4), kommentar(3)]), pr(32, [kommentar(5), kommentar(4)]), pr(33, [kommentar(15), kommentar(14), kommentar(13)])]), git, JETZT)
-  pruefe('PR mit 3 Durchgängen bekommt eine Zeile (SCHLEIFE, Signal 10), PR mit 2 keine, PR mit 3 Durchgängen vor dem Kopf-Commit (10 h) keine', zeilen.length === 1 && /^PR 31: SCHLEIFE .*Signal 10 Nachrechnen 3×/.test(zeilen[0]), zeilen)
+  pruefe('PR mit 3 Durchgängen bekommt eine Zeile (SCHLEIFE, Signal 10), PR mit 2 keine, PR mit 3 Durchgängen vor dem Kopf-Commit (10 h) keine', zeilen.length === 1 && /^anime-kalender-de PR 31: SCHLEIFE .*Signal 10 Nachrechnen 3×/.test(zeilen[0]), zeilen)
   const funde = [{ nr: 31, signale: [{ nr: 10, seit: JETZT - 5 * 3600 * 1000 }] }]
   pruefe('LIEGT-Zeile nennt „Nachrechnen-Schleife“ mit Stunden', liegtZeile(funde, JETZT) === 'LIEGT: 31 (Nachrechnen-Schleife 5 h)', liegtZeile(funde, JETZT))
   pruefe('Schritt: Signale 10 und 8 zusammen -> SCHLEIFE (Reihenfolge egal); 8 allein bleibt STILLSTAND', naechsterSchritt([10, 8], [], false).startsWith('SCHLEIFE') && naechsterSchritt([8, 10], [], false).startsWith('SCHLEIFE') && naechsterSchritt([8], [], false) === 'STILLSTAND')

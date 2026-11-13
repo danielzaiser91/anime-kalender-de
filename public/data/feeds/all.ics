@@ -14,9 +14,8 @@ DTSTART:20261106T080000Z
 DTEND:20261106T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 8/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -64,7 +63,7 @@ UID:auto-158871-tv-super-rtl@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T151500Z
 DTEND:20261106T154500Z
-SUMMARY:Pokémon Horizonte – Folge 26
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -114,7 +113,7 @@ UID:auto-158871-tv-toggo-plus@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261106T161500Z
 DTEND:20261106T164500Z
-SUMMARY:Pokémon Horizonte – Folge 26
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -413,7 +412,7 @@ UID:auto-158871-tv-super-rtl@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261107T115500Z
 DTEND:20261107T122500Z
-SUMMARY:Pokémon Horizonte – Folge 134
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -423,7 +422,7 @@ UID:auto-158871-tv-toggo-plus@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261107T125500Z
 DTEND:20261107T132500Z
-SUMMARY:Pokémon Horizonte – Folge 134
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -644,7 +643,7 @@ UID:auto-158871-tv-super-rtl@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T151500Z
 DTEND:20261109T154500Z
-SUMMARY:Pokémon Horizonte – Folge 27
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -674,7 +673,7 @@ UID:auto-158871-tv-toggo-plus@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T161500Z
 DTEND:20261109T164500Z
-SUMMARY:Pokémon Horizonte – Folge 27
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -826,7 +825,7 @@ UID:auto-158871-tv-super-rtl@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261110T151500Z
 DTEND:20261110T154500Z
-SUMMARY:Pokémon Horizonte – Folge 28
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -856,7 +855,7 @@ UID:auto-158871-tv-toggo-plus@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261110T161500Z
 DTEND:20261110T164500Z
-SUMMARY:Pokémon Horizonte – Folge 28
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -998,7 +997,7 @@ UID:auto-158871-tv-super-rtl@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T151500Z
 DTEND:20261111T154500Z
-SUMMARY:Pokémon Horizonte – Folge 29
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -1028,7 +1027,7 @@ UID:auto-158871-tv-toggo-plus@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T161500Z
 DTEND:20261111T164500Z
-SUMMARY:Pokémon Horizonte – Folge 29
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -1140,7 +1139,7 @@ UID:auto-158871-tv-super-rtl@2026-11-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261112T151500Z
 DTEND:20261112T154500Z
-SUMMARY:Pokémon Horizonte – Folge 30
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -1170,7 +1169,7 @@ UID:auto-158871-tv-toggo-plus@2026-11-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261112T161500Z
 DTEND:20261112T164500Z
-SUMMARY:Pokémon Horizonte – Folge 30
+SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -1254,10 +1253,59 @@ DTSTART:20261113T080000Z
 DTEND:20261113T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 9/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-13#54@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T085000Z
+DTEND:20261113T092000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-super-rtl@2026-11-13#55@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T090000Z
+DTEND:20261113T093000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/18191/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-13#54@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T095000Z
+DTEND:20261113T102000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-10012621-tv-toggo-plus@2026-11-13#55@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T100000Z
+DTEND:20261113T103000Z
+SUMMARY:Super Wings
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/18191/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T151500Z
+DTEND:20261113T154500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:apothecary-diaries-s3-cour1@2026-11-13@anime-kalender-de
@@ -1265,10 +1313,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261113T160000Z
 DTEND:20261113T163000Z
 SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16914/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1280,6 +1326,16 @@ SUMMARY:Firefly Wedding – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T161500Z
+DTEND:20261113T164500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:tokyo-revengers-s3-disneyplus@2026-11-13@anime-kalender-de
@@ -1329,6 +1385,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T201500Z
+DTEND:20261113T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:virgin-road-vol1@2026-11-13@anime-kalender-de
@@ -1879,9 +1945,8 @@ DTSTART:20261120T080000Z
 DTEND:20261120T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 10/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -2556,9 +2621,8 @@ DTSTART:20261127T080000Z
 DTEND:20261127T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 11/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -3067,9 +3131,8 @@ DTSTART:20261204T080000Z
 DTEND:20261204T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 12/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT

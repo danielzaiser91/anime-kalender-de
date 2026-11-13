@@ -645,8 +645,8 @@
   {
     "name": "Verdrahtung: datenpfadGrund reicht die Bot-Dateien nicht an den Git-Leser",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "kopf: pr.headRefOid, main, bot })",
-    "ersetze": "kopf: pr.headRefOid, main })",
+    "suche": "kopf: pr.headRefOid, main, bot, frei, basis })",
+    "ersetze": "kopf: pr.headRefOid, main, frei, basis })",
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
     ]
@@ -654,8 +654,8 @@
   {
     "name": "Verdrahtung: gitLeser reicht refs.bot nicht an bewegtesGelesen",
     "datei": "tools/pr-nachrechnen-leser-git.mjs",
-    "suche": "paketSkripte, botBewegt: refs.bot })",
-    "ersetze": "paketSkripte })",
+    "suche": "paketSkripte, botBewegt: refs.bot, frei: refs.frei, kennung",
+    "ersetze": "paketSkripte, frei: refs.frei, kennung",
     "tests": [
       "node tools/pr-nachrechnen-leser-git.test.mjs"
     ]
@@ -843,8 +843,8 @@
   {
     "name": "Trocken: Standardwert true",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "umfang = standardUmfang, trocken = false)",
-    "ersetze": "umfang = standardUmfang, trocken = true)",
+    "suche": "umfang = standardUmfang, trocken = false,",
+    "ersetze": "umfang = standardUmfang, trocken = true,",
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
     ]

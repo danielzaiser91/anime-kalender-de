@@ -1,15 +1,87 @@
 {
-  "scrapedAt": "2026-11-12T18:02:37.083Z",
+  "scrapedAt": "2026-11-13T18:01:42.280Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
+    "schon in einem Rubrik-Feed gelesen": 11,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Termin von »Multi-Mind Mayhem: Isekai Tensei Soudouki« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1070995/multi-mind-mayhem-termin/",
+      "publishedAt": "2026-11-13",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-01-06",
+          "context": "hem: Isekai Tensei Soudouki« wurde heute verkündet, dass die Serie am 6. Januar 2027 im japanischen Fernsehen startet. Einen neuen Trailer f"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
+      "articleUrl": "https://www.anime2you.de/news/1071143/animoon-black-weeks-2026-rabattaktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "assen die Details zusammen. 26 % Rabatt mit Gutscheincode Vom 13. bis 30. November 2026 erhalten Kunden im Rahmen der »AniMoon Black Weeks«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Bis zu 74 % Rabatt: Hardball Films startet großen Black-Week-Sale",
+      "articleUrl": "https://www.anime2you.de/news/1071343/hardball-films-black-week-2026-sale/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "Ende November 2026 Die Black-Week-Rabattaktion läuft vom 13. bis zum 30. November 2026 und umfasst einen Großteil der lieferbaren DVDs und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime Planet startet große Black-Weeks-Aktion mit fast 500 Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1071187/anime-planet-black-week-3-fuer-2-aktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": ". Bis Ende November 2026 Die neue 3-für-2-Aktion, die vom 13. bis zum 30. November 2026 läuft, umfasst unter anderem die Komplett- und Staff"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Start des Action-Anime »Tsugumi Project« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1070626/start-von-tsugumi-project/",
@@ -35,7 +107,32 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Detektiv Conan",
+          "zusatz": "Episode 1 bis 150",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll"
+          ],
+          "datum": "2026-11-12",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Fafner",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll"
+          ],
+          "folgen": 26,
+          "datum": "2026-11-12",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -48,15 +145,20 @@
       "dates": [
         {
           "iso": "2027-03-19",
-          "context": "es der zweiten Staffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […]"
+          "context": "s der zweiten Staffel von »Demon Slave: The Chained Soldier« , die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich auc"
         },
         {
           "iso": "2027-05-21",
-          "context": "ffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […] Der Beitrag Neu"
+          "context": "fel von »Demon Slave: The Chained Soldier« , die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich auch in einer Limited"
+        },
+        {
+          "iso": "2026-12-04",
+          "context": "Order« -Filme vorbestellbar. Die Veröffentlichung ist jeweils für den 4. Dezember 2026 geplant. Alle DVDs und Blu-rays gibt es nachfolgend i"
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "volltextGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
@@ -139,7 +241,7 @@
           "folgen": 25
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Große Anime-Rabattaktion mit Serien und Filmen bei Amazon gestartet",
@@ -545,7 +647,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
@@ -857,7 +959,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -946,23 +1048,7 @@
       ],
       "dates": [],
       "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Freitag",
-          "zeit": "18:00",
-          "satz": "»The Iceblade Sorcerer Shall Rule the World« – Staffel 2 »The Vermilion Mask« »Firefly Wedding« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Crunchyroll , Prime Video Handl"
-        },
-        {
-          "tag": "Donnerstag",
-          "zeit": "19:00",
-          "satz": "sessenheit bringt sie in große Gefahr. »The Iceblade Sorcerer Shall Rule the World« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Donnerstag um 19:00 Uhr Stream: Crunchyroll , Prime Video Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "11:30",
-          "satz": "Iceblade Sorcerer verbirgt, der zu den mächtigsten Magiern der Welt zählt. »The Vermilion Mask« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 11:30 Uhr Stream: Crunchyroll , Prime Video Handl"
-        }
-      ],
+      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
@@ -1057,7 +1143,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-13"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -1237,7 +1323,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -1288,18 +1374,6 @@
       ],
       "dates": [],
       "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:15",
-          "satz": "ch: »Magic Knight Rayearth« »The Detective Is Already Dead« – Staffel 2 »Magic Knight Rayearth« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr Stream: Crunchyroll , Prime Video Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:30",
-          "satz": "e drei Mädchen Prinzessin Emeraude zur Hilfe eilen. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Stream: Crunchyroll , Prime Video Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
