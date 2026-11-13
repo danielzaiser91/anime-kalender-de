@@ -8166,6 +8166,17 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Messung: Sendung am 30.09. 17:30 Pazifikzeit liegt in Berlin am 01.10., gilt nicht als am Meldungstag gelaufen', spaeter?.includes('S1DE') === true, spaeter)
     const frueher = mitSendung('GT4', '2026-10-01T05:00:00+09:00')
     pruefe('Messung: Sendung am 01.10. 05:00 japanischer Zeit liegt in Berlin am 30.09., gilt als am Meldungstag gelaufen', frueher?.includes('S2DE') === true, frueher)
+    /* Beide Staffeln liefen bis zum Meldungstag; zeitlich ist ZA (30.09. 06:00 UTC) später als ZB (30.09. 01:00 UTC), als Text aber früher. */
+    const reihenfolge = (serie: string) => {
+      const items = [
+        { episode_number: 11, season_title: 'Season 2', episode_air_date: '2026-09-30T01:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'ZB' }] },
+        { episode_number: 11, season_title: 'Season 3', episode_air_date: '2026-09-29T23:00:00-07:00', versions: [{ audio_locale: 'de-DE', guid: 'ZA' }] },
+      ]
+      writeFileSync(join(dir, `${serie}.de.json.gz`), gzipSync(JSON.stringify({ holtAm: '2026-10-02T11:00:00Z', episodes: { s1: { items } } })))
+      return messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: `https://www.crunchyroll.com/de/series/${serie}/`, name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung?.zeilen.join()
+    }
+    const juengste = reihenfolge('GT5')
+    pruefe('Messung: Staffeln mit verschiedenem Offset werden nach Zeitpunkt, nicht nach Text sortiert (jüngste zuerst)', juengste?.includes('ZA') === true && !juengste.includes('ZB'), juengste)
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
   }
