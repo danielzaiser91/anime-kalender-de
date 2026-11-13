@@ -4985,61 +4985,7 @@ function durchlaufKnopfBauen() {
   }
   DURCHLAUF.knopf = document.createElement('button')
   DURCHLAUF.knopf.className = 'ak-durchlauf'
-  akKlick(
-    DURCHLAUF.knopf,
-    (e) => {
-      /*
-        Läuft schon etwas, tut ein Klick nichts mehr.
-
-        Daniel am 26.08.2026: „da steht danach aber immer noch klickbar …
-        mach es direkt nicht klickbar, sonst könnte es issues geben."
-        Abgebrochen wird über den Knopftext (der zeigt dann „abbrechen") und
-        über Escape — ein zweiter Start mitten im Lauf wäre etwas anderes.
-      */
-      /*
-        **Der Klick sagt, was er tut — zweimal geraten reicht.**
-
-        Daniel am 26.08.2026: „nichts passiert bei klick. diagnose oder weiter
-        raten?" Ein Klick, der still endet, ist von einem, der gar nicht
-        ankommt, nicht zu unterscheiden. Jetzt nennt er den Zustand, an dem er
-        scheitert.
-      */
-      const zustand = {
-        laeuft: DURCHLAUF.laeuft,
-        offen: durchlaufOffen().length,
-        folgenBekannt: DURCHLAUF.folgen.length,
-        gemeldet: DURCHLAUF.gemeldet.size,
-        auftrag: durchlaufAuftrag()?.map((f) => f.nummer) ?? null,
-        shift: e.shiftKey,
-      }
-      /*
-        **Im Lauf bricht der Klick ab — der Knopf sagt „abbrechen"** (21.09.2026). Bis 4.20.48
-        verwarf er den Klick („läuft schon"), und Daniel stand vor einem Knopf, der
-        abbrechen anbot und nichts tat. Ein zweiter Start bleibt ausgeschlossen.
-      */
-      if (DURCHLAUF.laeuft || DURCHLAUF.mehrfach) {
-        DURCHLAUF.abbruch = true
-        /* Zwischen zwei Staffeln läuft kein Durchlauf — der Abbruch muss dann an die Schleife. */
-        if (DURCHLAUF.mehrfach) DURCHLAUF.mehrfach.abbruch = true
-        console.log('[Anime-Kalender] Abbruch per Knopf:', zustand)
-        durchlaufKnopfZeigen()
-        return
-      }
-      /* „Alle Folgen anzeigen": alle offenen Staffeln nacheinander (24.09.2026). */
-      if (alleStaffelnAnsicht()) {
-        void alleStaffelnPruefen()
-        return
-      }
-      /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
-      if (!durchlaufOffen().length) {
-        console.warn('[Anime-Kalender] Klick verworfen — nichts offen:', zustand)
-        return
-      }
-      console.log('[Anime-Kalender] Durchlauf startet:', zustand)
-      /* `durchlaufStarten()` liest den Auftrag aus der Prüfliste und fällt sonst auf erste und letzte offene Folge zurück; einen vollen Lauf von Hand gibt es nicht. */
-      void durchlaufStarten()
-    },
-  )
+  akKlick(DURCHLAUF.knopf, durchlaufKnopfKlick)
   /*
     **Den Modus-Umschalter gibt es seit dem 10.09.2026 nicht mehr.**
 
@@ -5054,30 +5000,7 @@ function durchlaufKnopfBauen() {
     letzter offener Folge — dem sparsamen Weg, der seit dem 26.08.2026 der
     richtige ist.
   */
-
-  /**
-   * **Was nur der Rechtsklick konnte, kann jetzt ein Knopf.**
-   *
-   * „Stand für einen Lauf übergehen" stand im Tooltip des Hauptknopfs — also
-   * an einer Stelle, die niemand liest, bevor er sie braucht. Daniel am
-   * 10.09.2026: „rechtsklick verhalten ist versteckt, mach es sichtbar, es
-   * sollte kein verstecktes wissen geben, erweiterung muss klar und deutlich
-   * ihr verhalten kommunizieren."
-   *
-   * Der Rechtsklick bleibt — er ist der schnellere Weg für den, der ihn
-   * kennt. Neu ist, dass man ihn nicht kennen muss.
-   */
-  DURCHLAUF.nochmalKnopf = document.createElement('button')
-  DURCHLAUF.nochmalKnopf.className = 'ak-durchlauf ak-grenze'
-  DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
-  DURCHLAUF.nochmalKnopf.title =
-    'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
-  akKlick(DURCHLAUF.nochmalKnopf, () => {
-    console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
-    void durchlaufStandVergessen()
-  })
-  DURCHLAUF.leiste.appendChild(DURCHLAUF.nochmalKnopf)
-
+  nochmalKnopfBauen()
   DURCHLAUF.knopf.addEventListener(
     'contextmenu',
     (e) => {
@@ -5097,6 +5020,85 @@ function durchlaufKnopfBauen() {
   netflixDebugZeile(kasten)
   durchgangEndeZeigen()
   schutzflaecheZeigen(true)
+}
+
+/** Klick auf den Durchlauf-Knopf (aus `durchlaufKnopfBauen` herausgelöst). */
+function durchlaufKnopfKlick(e) {
+  /*
+    Läuft schon etwas, tut ein Klick nichts mehr.
+
+    Daniel am 26.08.2026: „da steht danach aber immer noch klickbar …
+    mach es direkt nicht klickbar, sonst könnte es issues geben."
+    Abgebrochen wird über den Knopftext (der zeigt dann „abbrechen") und
+    über Escape — ein zweiter Start mitten im Lauf wäre etwas anderes.
+  */
+  /*
+    **Der Klick sagt, was er tut — zweimal geraten reicht.**
+
+    Daniel am 26.08.2026: „nichts passiert bei klick. diagnose oder weiter
+    raten?" Ein Klick, der still endet, ist von einem, der gar nicht
+    ankommt, nicht zu unterscheiden. Jetzt nennt er den Zustand, an dem er
+    scheitert.
+  */
+  const zustand = {
+    laeuft: DURCHLAUF.laeuft,
+    offen: durchlaufOffen().length,
+    folgenBekannt: DURCHLAUF.folgen.length,
+    gemeldet: DURCHLAUF.gemeldet.size,
+    auftrag: durchlaufAuftrag()?.map((f) => f.nummer) ?? null,
+    shift: e.shiftKey,
+  }
+  /*
+    **Im Lauf bricht der Klick ab — der Knopf sagt „abbrechen"** (21.09.2026). Bis 4.20.48
+    verwarf er den Klick („läuft schon"), und Daniel stand vor einem Knopf, der
+    abbrechen anbot und nichts tat. Ein zweiter Start bleibt ausgeschlossen.
+  */
+  if (DURCHLAUF.laeuft || DURCHLAUF.mehrfach) {
+    DURCHLAUF.abbruch = true
+    /* Zwischen zwei Staffeln läuft kein Durchlauf — der Abbruch muss dann an die Schleife. */
+    if (DURCHLAUF.mehrfach) DURCHLAUF.mehrfach.abbruch = true
+    console.log('[Anime-Kalender] Abbruch per Knopf:', zustand)
+    durchlaufKnopfZeigen()
+    return
+  }
+  /* „Alle Folgen anzeigen": alle offenen Staffeln nacheinander (24.09.2026). */
+  if (alleStaffelnAnsicht()) {
+    void alleStaffelnPruefen()
+    return
+  }
+  /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
+  if (!durchlaufOffen().length) {
+    console.warn('[Anime-Kalender] Klick verworfen — nichts offen:', zustand)
+    return
+  }
+  console.log('[Anime-Kalender] Durchlauf startet:', zustand)
+  /* `durchlaufStarten()` liest den Auftrag aus der Prüfliste und fällt sonst auf erste und letzte offene Folge zurück; einen vollen Lauf von Hand gibt es nicht. */
+  void durchlaufStarten()
+}
+
+/**
+ * **Was nur der Rechtsklick konnte, kann jetzt ein Knopf.**
+ *
+ * „Stand für einen Lauf übergehen" stand im Tooltip des Hauptknopfs — also
+ * an einer Stelle, die niemand liest, bevor er sie braucht. Daniel am
+ * 10.09.2026: „rechtsklick verhalten ist versteckt, mach es sichtbar, es
+ * sollte kein verstecktes wissen geben, erweiterung muss klar und deutlich
+ * ihr verhalten kommunizieren."
+ *
+ * Der Rechtsklick bleibt — er ist der schnellere Weg für den, der ihn
+ * kennt. Neu ist, dass man ihn nicht kennen muss.
+ */
+function nochmalKnopfBauen() {
+  DURCHLAUF.nochmalKnopf = document.createElement('button')
+  DURCHLAUF.nochmalKnopf.className = 'ak-durchlauf ak-grenze'
+  DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
+  DURCHLAUF.nochmalKnopf.title =
+    'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
+  akKlick(DURCHLAUF.nochmalKnopf, () => {
+    console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
+    void durchlaufStandVergessen()
+  })
+  DURCHLAUF.leiste.appendChild(DURCHLAUF.nochmalKnopf)
 }
 
 /**
