@@ -8151,10 +8151,15 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Messung: bei mehreren Staffeln mit derselben Folgennummer nur die zum Meldungstag laufende', mehrere?.zeilen.length === 1 && mehrere.zeilen[0]!.includes('S3DE'), JSON.stringify(mehrere))
     /* Crunchyroll liefert Sendedaten mit fremdem Offset; der Meldungstag (30.09.) ist ein Berliner Tag. */
     const mitSendung = (serie: string, luft: string) => {
-      writeFileSync(join(dir, `${serie}.de.json.gz`), gzipSync(JSON.stringify({ holtAm: '2026-10-02T11:00:00Z', episodes: { s1: { items: [
+      const items = [
         { episode_number: 11, season_title: 'Season 1', episode_air_date: '2021-03-22T00:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'S1DE' }] },
         { episode_number: 11, season_title: 'Season 2', episode_air_date: luft, versions: [{ audio_locale: 'de-DE', guid: 'S2DE' }] },
-      ] } } })))
+      ]
+      const roh = {
+        holtAm: '2026-10-02T11:00:00Z',
+        episodes: { s1: { items } },
+      }
+      writeFileSync(join(dir, `${serie}.de.json.gz`), gzipSync(JSON.stringify(roh)))
       return messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: `https://www.crunchyroll.com/de/series/${serie}/`, name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung?.zeilen.join()
     }
     const spaeter = mitSendung('GT3', '2026-09-30T17:30:00-07:00')
