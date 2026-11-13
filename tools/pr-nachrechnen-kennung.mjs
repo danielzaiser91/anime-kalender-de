@@ -2,12 +2,15 @@
  * Kennungsschnitt im Datenkanal (13.11.2026, F133, Daniel „ja“ 15:25; lockert die Auflage A1/A3 der Prüfer zu PR 3490/3474 und das
  * Restrisiko aus Prüfer 3497): Ein reiner Handdaten-PR (`data/**.yaml`, z. B. dub-confirmed.yaml, curated/*) kippt nicht mit jeder
  * bewegten Datei, die ein Bau-Leser nennt, sondern nur, wenn main eine Kennung berührt, die der PR ändert (AniList-ID, Slug/Release-ID,
- * ASIN, gelesen aus den geänderten Zeilen des PR-Diffs), oder Code des Bau-Pfads bewegt, der die Handdaten verarbeitet. Bewegte
+ * ASIN, gelesen aus den geänderten Zeilen des PR-Diffs und dem ganzen Eintrag, in dem sie liegen: die Kennung steht meist in einer
+ * unveränderten Zeile des Eintrags; 13.11.2026 Rückrechnung: 13 von 127 Restfällen ohne das), oder Code des Bau-Pfads bewegt, der die Handdaten verarbeitet. Bewegte
  * Bot-Dateien zählen wie bisher nicht (Entscheidung 10.11.2026: der Bestandsbau prüft nach dem Merge). Fail-closed: keine Kennung
  * lesbar, Git-Fehler, Binärdiff -> die bisherigen Regeln gelten. Bewusste Grenze: Code außerhalb des Bau-Pfads (`pipeline/lib/`, Prüfungen)
  * entwertet nur über seine Nennung der Kennung; Code, der die Handdaten ohne Kennung liest, fällt nicht auf (F133).
  */
-const HANDDATEN = /^data\/.+\.ya?ml$/
+import { hunks } from './pr-nachrechnen-hunks.mjs'
+
+const HANDDATEN =/^data\/.+\.ya?ml$/
 /** Code des Baus, der die Handdaten verarbeitet (Auftrag F133): Phasen, Hauptbau, Statuslogik. */
 export const BAU_PFAD = /^(pipeline\/build\.ts|pipeline\/bau\/.+|shared\/logic\.ts)$/
 
@@ -40,6 +43,36 @@ const geaendert = (diff) => diff.split(/\r?\n/).filter((z) => (z.startsWith('+')
 
 /** Menge der Kennungen, die der PR-Diff ändert. */
 export const kennungenAus = (diff) => new Set(geaendert(diff).flatMap(kennungenInZeile))
+
+/** Beginn eines Eintrags in den Handdaten-YAML: Listenelement oder Schlüssel in Spalte 0 (Kommentare und Leerzeilen nicht). */
+const EINTRAG_START = /^(?:-\s|[^\s#])/
+/** Mehr Zeilen je Eintrag lesen wir nicht (Datei ohne Eintragsgrenzen). */
+const EINTRAG_MAX = 300
+
+/** Kennungen der Einträge, die die Zeilen von..bis (1-basiert) von `text` berühren: die Kennung steht oft in einer unveränderten Zeile des Eintrags. */
+export function eintragsKennungen(text, von, bis) {
+  const zeilen = text.split(/\r?\n/)
+  if (zeilen.length === 0 || von > zeilen.length) return []
+  let start = Math.max(Math.min(von, zeilen.length) - 1, 0)
+  while (start > 0 && !EINTRAG_START.test(zeilen[start])) start--
+  let ende = Math.min(Math.max(bis, von), zeilen.length) - 1
+  while (ende + 1 < zeilen.length && !EINTRAG_START.test(zeilen[ende + 1])) ende++
+  return zeilen.slice(start, Math.min(ende + 1, start + EINTRAG_MAX)).flatMap(kennungenInZeile)
+}
+
+/** Kennungen der geänderten Zeilen und ihrer Einträge; `lies(seite, datei)` liefert den Text der alten ('alt') oder neuen ('neu') Seite. */
+export function kennungenMitEintrag(diff, lies) {
+  const menge = kennungenAus(diff)
+  for (const abschnitt of diff.split(/^diff --git /m).slice(1)) {
+    const datei = abschnitt.split('\n')[0].split(' b/').pop()
+    for (const h of hunks(abschnitt)) {
+      eintragsKennungen(lies('alt', datei), h.alt[0], h.alt[1]).forEach((k) => menge.add(k))
+      eintragsKennungen(lies('neu', datei), h.neu[0], h.neu[1]).forEach((k) => menge.add(k))
+    }
+  }
+  return menge
+}
+
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
@@ -87,7 +120,15 @@ export function kennungsDaten(git, refs, handdaten, bewegt) {
     const prDiff = git(['diff', '-U0', '--no-renames', `${refs.main}...${refs.kopf}`, '--', ...handdaten])
     const mainDiff = bewegt.length === 0 ? '' : git(['diff', '-U0', '--no-renames', refs.basis, refs.main, '--', ...bewegt])
     if (/^Binary files /m.test(mainDiff)) return { fehler: 'Binärdiff auf main' }
-    return { kennungen: kennungenAus(prDiff), mainDiff }
+    const basis = git(['merge-base', refs.main, refs.kopf])
+    const lies = (seite, datei) => {
+      try {
+        return git(['show', `${seite === 'alt' ? basis : refs.kopf}:${datei}`])
+      } catch {
+        return ''
+      }
+    }
+    return { kennungen: kennungenMitEintrag(prDiff, lies), mainDiff }
   } catch (e) {
     return { fehler: String(e.message).split('\n')[0].slice(0, 120) }
   }
