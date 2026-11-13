@@ -8,7 +8,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { liegegut, liegegutFunde, naechsterSchritt, stapelKandidat } from './liegegut.mjs'
+import { liegegut, liegegutAlleFunde, liegegutFunde, naechsterSchritt, stapelKandidat } from './liegegut.mjs'
 import { nachrechnen } from './pr-nachrechnen.mjs'
 import { SCHALTER_DATEI, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 
@@ -129,6 +129,9 @@ const zeilen = (basis, gemergt, aktiv) => liegegutFunde(ghAttrappe(basis, gemerg
   pruefe('an: Basis zug löst nie Stapel-Signal 9 aus', !/Basis #5/.test(stapelAn[0]) && /^anime-kalender-de PR 7: AUF ZUG MERGEN/.test(stapelAn[0]), stapelAn)
   const ueberWrapper = liegegut(ghAttrappe('zug', []), () => '', JETZT, () => {}, new Set(), true)
   pruefe('liegegut() reicht den Schalter durch (Zug-Reihe in der Textzeile)', ueberWrapper.length === 1 && /AUF ZUG MERGEN/.test(ueberWrapper[0]), ueberWrapper)
+  // Zug-Logik gilt nur im Haupt-Repo: gleiche Nummer 7 mit Basis zug in beiden Repos, Schalter an.
+  const beide = liegegutAlleFunde(ghAttrappe('zug', []), () => '', JETZT, () => {}, new Set(), true).map((f) => f.zeile)
+  pruefe('an: Haupt-PR 7 trägt den Zug-Schritt, nativ-PR 7 nicht', beide.length === 2 && /^anime-kalender-de PR 7: AUF ZUG MERGEN/.test(beide[0]) && /^anime-kalender-nativ PR 7: MERGEN – Signal 1/.test(beide[1]), beide)
   const feature = zeilen('feature/x', [{ number: 5 }], true)
   pruefe('an: andere Stapel-Basis löst Signal 9 weiter aus', /^anime-kalender-de PR 7: STAPEL/.test(feature[0]), feature)
 }
