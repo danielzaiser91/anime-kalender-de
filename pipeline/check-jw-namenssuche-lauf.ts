@@ -137,7 +137,7 @@ function laeufe(plan: { tag: string; args?: string[]; modus?: string }[], kuliss
       abstaende: zeilen.slice(1).map((z, i) => Number(z[0]) - Number(zeilen[i][0])),
     }
   } finally {
-    rmSync(wurzel, { recursive: true, force: true })
+    rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
   }
 }
 
