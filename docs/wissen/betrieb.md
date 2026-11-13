@@ -2271,3 +2271,7 @@ Eine über die Staffelsumme (F100, PR 2703) zugeordnete spätere Staffel steht a
 2. Den Handbeleg in `data/dub-confirmed.yaml` löschen oder auf den richtigen Bereich umstellen; wer ihn als falsch entfernt, trägt Kennung und Adresse in `data/belege-entfernt.yaml` ein (Regel und Ausnahme bei echten Ja-Blöcken: `datensatz.md`, „Entfernte Fehlbelege“).
 3. `npx tsx pipeline/check-handbelege.ts` (ein Vermerk „Staffelsumme“ ohne „bestätigt durch:“ ist rot) und `node tools/erneut-melden.mjs --pruefen`.
 4. `OFFEN_OHNE_ZUORDNUNG` darf nur sinken: ein Eintrag fliegt erst raus, wenn die Zuordnung belegt ist, und kommt nie wieder hinein.
+
+## Stumme Fehlerpfade sind eine Ratsche in `check:logic` (13.11.2026)
+
+`tools/stumme-pfade.mjs` (Regeln: `eslint.stumm.config.js`, Grenzen je Datei: `tools/stumme-pfade-grenzen.json`) macht neue leere `catch`-Blöcke, `catch` mit nur `return null/undefined/[]/{}` und `|| true`/`|| echo` in `.github/workflows` ohne `# stumm: <Grund>` rot; Bestand 13.11.2026: 90 Fälle in 78 Dateien, 42 in 21 Workflows, nur sinkend (`commit-data.sh` schreibt fest). Ein Kommentar mit Warum im `catch` genügt; `eslint-disable` gilt dort nicht.

@@ -388,6 +388,11 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       hinzu tools/design-klassen-grenzen.json
     fi
 
+    # Dasselbe für stumme catch-Blöcke und unbegründetes `|| true` (tools/stumme-pfade.mjs).
+    if node tools/stumme-pfade.mjs --festschreiben > /dev/null 2>&1; then
+      hinzu tools/stumme-pfade-grenzen.json
+    fi
+
     # Dasselbe für die echte Uhr in Tests (tools/uhr-in-tests.mjs).
     if node tools/uhr-in-tests.mjs --festschreiben > /dev/null 2>&1; then
       hinzu tools/uhr-in-tests-grenzen.json
