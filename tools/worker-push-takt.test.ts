@@ -135,7 +135,7 @@ async function ohneTermin() {
   pushZeiten.length = 0
   const db = neueDatenbank()
   const env = await umgebung(db, [YAIBA], 'ak:177476')
-  await takt(env, FUENF, utc('17:05'))
+  await takt({ ...env, GITHUB_WECKER_TOKEN: undefined } as typeof env, FUENF, utc('17:05')) // ohne Wecker-Token: gemessen wird nur der Push-Takt (der Wecker kostet je Aufruf 1 GET, alle 20 min 1 POST)
   pruefe(zaehler.d1 === 0 && zaehler.sql.length === 0, `keine D1-Anweisung (${zaehler.d1})`)
   pruefe(zaehler.fetch === 1, `ein Abruf (die Termindatei), keine Meldungen und kein Monitor (${zaehler.fetch})`)
   pruefe(zaehler.objekt === 0 && zaehler.einzelmails === 0, 'Schnellmesser und Mail bleiben aus')

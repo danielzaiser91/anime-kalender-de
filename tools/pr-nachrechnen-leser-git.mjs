@@ -4,7 +4,8 @@
  * Jeder Fehler wird zum Grund „nicht ermittelbar“, der PR gilt dann als veraltet.
  */
 import { execFileSync } from 'node:child_process'
-import { LESBAR, bewegtesGelesen, geaenderteSkripte, leserIn } from './pr-nachrechnen-leser.mjs'
+import { handdatenDateien, kennungsDaten } from './pr-nachrechnen-kennung.mjs'
+import { LESBAR, bewegtesGelesen, geaenderteSkripte, leserIn, ohneLeser } from './pr-nachrechnen-leser.mjs'
 
 export const SUCHORDNER = ['pipeline', 'shared', 'tools', 'web', 'worker', 'extension', '.github']
 
@@ -41,6 +42,12 @@ export function inhalte(git, ref, pfade) {
 /** Lesbare Code-Dateien (Skripte, Workflows) der Ordner im Stand `ref`. */
 export const codeDateien = (git, ref) => git(['ls-tree', '-r', '--name-only', ref, '--', ...SUCHORDNER]).split(/\r?\n/).filter((p) => LESBAR.test(p))
 
+/** Daten für den Kennungsschnitt, nur wenn der PR Handdaten-YAML ändert (sonst undefined); bewegte Bot-Dateien zählen dort nicht. */
+const kennungVon = (git, refs, bewegt, pr) => {
+  const hand = handdatenDateien(pr, ohneLeser)
+  return hand.length === 0 ? undefined : kennungsDaten(git, refs, hand, bewegt.filter((b) => !(refs.bot ?? []).includes(b)))
+}
+
 /** Leser für `botSprungAusnahme`: (bewegt, prDateien, { nummer, kopf, main }) -> null | Grund. */
 export const gitLeser = (git) => (bewegt, pr, refs) => {
   try {
@@ -51,7 +58,7 @@ export const gitLeser = (git) => (bewegt, pr, refs) => {
     const lies = (pfad) => kopfTexte.get(pfad) ?? mainTexte.get(pfad) ?? null
     const paket = (ref) => inhalte(git, ref, ['package.json']).get('package.json') ?? null
     const paketSkripte = pr.includes('package.json') ? geaenderteSkripte(paket(refs.main), paket(refs.kopf)) : null
-    return bewegtesGelesen({ bewegt, pr, leser: leserIn(mainTexte, bewegt), lies, liesMain: (pfad) => mainTexte.get(pfad) ?? null, paketSkripte, botBewegt: refs.bot })
+    return bewegtesGelesen({ bewegt, pr, leser: leserIn(mainTexte, bewegt), lies, liesMain: (pfad) => mainTexte.get(pfad) ?? null, paketSkripte, botBewegt: refs.bot, frei: refs.frei, kennung: kennungVon(git, refs, bewegt, pr) })
   } catch (e) {
     return `Leser nicht ermittelbar (${String(e.message).split('\n')[0].slice(0, 120)})`
   }

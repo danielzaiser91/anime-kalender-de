@@ -23,7 +23,7 @@ const ERLAUBT: Record<string, Record<string, string>> = {
   'web/src/components/news-abgeloest.tsx': { 'm.ersetzt.quelle': 'nur nach istLink(m.ersetzt.quelle)' },
   'web/src/components/Quellenuebersicht.tsx': { 'r.url': 'aus terminQuellenJeHost: istLink-gefiltert' },
   'web/src/components/detail/abschnitte.tsx': { 'plot.quelle.url': 'aniSearch-/ANN-Handlungsseite' },
-  'web/src/components/detail/antwort-kasten.tsx': { q: 'Quellenliste einer Antwort: Wiki-/Katalogseiten' },
+  'web/src/components/detail/antwort-kasten-teile.tsx': { q: 'Quellenliste einer Antwort: Wiki-/Katalogseiten' },
   'web/src/components/detail/termin-offen-karte.tsx': { url: 'Anbieter-Adresse des Titels (Weg in streams), keine Beleg-Quelle', quelle: 'Artikel der Ankündigung aus data/ankuendigungen.yaml (https-Seite)' },
   'web/src/components/detail/flaggen.tsx': { 'verweis.ziel': 'Anbieterseite (Stream, Shop), aus den Wegen des Titels' },
   'web/src/components/detail/handlung-quelle.tsx': { 'q.url': 'Handlungsquelle (aniSearch, ANN, TMDB-Seite)', lizenzSeite: 'feste Lizenzseite' },
