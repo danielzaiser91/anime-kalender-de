@@ -10,7 +10,7 @@ const { readFileSync } = require('node:fs')
 const KONTEXT = readFileSync(`${__dirname}/kontext.js`, 'utf8')
 
 function brauchtKontext(code, kontext) {
-  if (!String(code).includes('akKontext')) return false
+  if (code === KONTEXT || !String(code).includes('akKontext')) return false
   try {
     return vm.runInContext('typeof globalThis.akKontext', kontext) !== 'object'
   } catch {

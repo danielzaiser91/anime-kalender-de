@@ -20,11 +20,28 @@ function pruefe(name, bedingung, gefunden) {
 const manifest = JSON.parse(lies('manifest.json'))
 const dateien = new Set()
 for (const c of manifest.content_scripts) if (c.world !== 'MAIN') c.js.forEach((j) => dateien.add(j))
-const ohneKommentare = (q) => q.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '').replace(/\s\/\/ .*$/gm, '')
+const ohneKommentare = (q) => q.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
+/** Jede Verwendung des Namens `chrome` (auch `chrome['x']`, `= chrome`, als Argument) außer in Kommentaren und „chrome://“. */
+const rohZugriffe = (quelle) => ohneKommentare(quelle).match(/(?<![.\w$])chrome\b(?!:)/g) ?? []
+
+/* Negativprobe: Die Ratsche muss die rohen Formen finden und die harmlosen lassen. */
+for (const [text, erwartet] of [
+  ['chrome.storage.local.get(x)', 1],
+  ['chrome?.runtime?.id', 1],
+  ["chrome['storage'].local", 1],
+  ['const { storage } = chrome', 1],
+  ['f(chrome, 1)', 1],
+  ['x() // chrome.storage.local.get(x)', 1],
+  ['/* chrome.storage */ y()', 0],
+  ['// chrome.storage.local\nz()', 0],
+  ["a('In chrome://extensions auf Aktualisieren')", 0],
+  ["globalThis.akKontext.lesen('k')", 0],
+]) pruefe(`Ratsche: ${JSON.stringify(text)} → ${erwartet}`, rohZugriffe(text).length === erwartet, rohZugriffe(text))
+
 const roh = []
 for (const datei of dateien) {
   if (datei === 'kontext.js') continue
-  const treffer = ohneKommentare(lies(datei)).match(/\bchrome\s*\??\./g) ?? []
+  const treffer = rohZugriffe(lies(datei))
   if (treffer.length) roh.push(`${datei} (${treffer.length})`)
 }
 pruefe('kontext.js steht im Manifest', dateien.has('kontext.js'))
@@ -91,6 +108,14 @@ async function haupt() {
     !lebend.wurf && geschrieben.length === 1 && geschrieben[0].akZustandsprotokoll.length === 2,
     geschrieben,
   )
+
+  const text = (chrome) => {
+    const k = vm.createContext({ chrome })
+    vm.runInContext(lies('kontext.js'), k)
+    return k.akKontext.keinTokenText()
+  }
+  pruefe('toter Kontext sagt „neu geladen“, nicht „Kein Token“', /neu geladen/.test(text({})), text({}))
+  pruefe('lebender Kontext sagt „Kein Token“', /^Kein Token/.test(text({ runtime: { id: 'x' } })))
 
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) rot`)

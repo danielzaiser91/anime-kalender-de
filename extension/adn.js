@@ -120,7 +120,7 @@
 
   async function melden() {
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
-    if (!token) return zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', { klasse: 'schlecht' })
+    if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
     const offen = offene()
     let fehler = null
     for (let i = 0; i < offen.length && !fehler; i += STAPEL) {
@@ -136,7 +136,7 @@
 
   async function wegMelden() {
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
-    if (!token) return zeige('Kein Token — Rechtsklick aufs Symbol, dann Optionen', { klasse: 'schlecht' })
+    if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
     const antwort = await senden(token, L.wegMeldung(S.serie, S.url))
     const grund = antwort.daten?.error ? ` (${antwort.daten.error})` : ''
     zeige(`${S.serie.titel}\n${antwort.ok ? '✓ „nicht im Angebot" gemeldet' : `${antwort.fehler}${grund} — Klick sendet erneut`}`, {

@@ -729,7 +729,7 @@
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) {
       signal('gemeldet', { ok: false })
-      return zeigePruefung('Kein Token — Rechtsklick aufs Symbol, dann Optionen', {
+      return zeigePruefung(globalThis.akKontext.keinTokenText(), {
         klasse: 'schlecht',
       })
     }

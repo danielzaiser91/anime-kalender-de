@@ -65,11 +65,16 @@ globalThis.akKontext = (() => {
     }
   }
 
+  /** Der Text, wenn kein Token da ist — im toten Kontext liegt es nicht am Token, sondern an der Verbindung. */
+  const keinTokenText = () =>
+    lebt() ? 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' : 'Erweiterung neu geladen — Seite neu laden'
+
   /** Wie `chrome.storage.local` (`get`/`set`), aber tot-sicher — für Bauteile, die einen Speicher gereicht bekommen. */
   const lokal = {
     get: async (schluessel) => (await lesen(schluessel)) ?? {},
     set: schreiben,
   }
 
-  return { lebt, lesen, schreiben, beiAenderung, version, lokal }
+  return { lebt, lesen, schreiben, beiAenderung, version, keinTokenText, lokal }
 })()
+/* Die Folgeskripte im Manifest beginnen mit `;` (huellen-semikolon.test.cjs): Diese Datei endet ohne Semikolon. */

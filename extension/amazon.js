@@ -8226,7 +8226,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     if (!token) {
       abweisen('kein Token')
-      knopf.textContent = 'Kein Token — Rechtsklick aufs Symbol, dann Optionen'
+      knopf.textContent = globalThis.akKontext.keinTokenText()
       return
     }
     sendetGerade = true

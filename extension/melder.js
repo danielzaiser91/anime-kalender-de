@@ -1174,7 +1174,7 @@ async function melden({ automatisch = false } = {}) {
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
-  if (!token) return zeigeErgebnis('Kein Token — Rechtsklick aufs Symbol, dann Optionen', false)
+  if (!token) return zeigeErgebnis(globalThis.akKontext.keinTokenText(), false)
 
   try {
     const antwort = await fetch(WORKER, {
@@ -6072,7 +6072,7 @@ async function staffelWegMelden(reihe, st, titelId, titel) {
 
 async function totMelden(id, titel) {
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
-  if (!token) return { ok: false, text: 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' }
+  if (!token) return { ok: false, text: globalThis.akKontext.keinTokenText() }
   try {
     const antwort = await fetch(WORKER, {
       method: 'POST',
