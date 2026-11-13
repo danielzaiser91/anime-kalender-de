@@ -1,7 +1,7 @@
 // PreToolUse(Bash), eingebunden über hauptordner-sperre.js: In der Hauptsitzung verschiebt ein `cd` in einen Unterordner des Hauptordners
 // (außerhalb einer Subshell) das Arbeitsverzeichnis dauerhaft; die Mods (relative Plugin-Pfade) verschwinden, spätere relative
 // Befehle laufen im falschen Ordner (dreimal am 10.11.2026). Gesperrt: `cd`/`pushd`, dessen Ziel unterhalb des Hauptordners liegt
-// (auch relativ zum bis dahin verfolgten Verzeichnis). Frei: Ziel = Hauptordner selbst, Ziele außerhalb (Worktrees), nicht bestimmbare
+// (auch relativ zum bis dahin verfolgten Verzeichnis), auch hinter Vorsatzwörtern samt Optionen (`time -p cd`) und `eval`. Frei: Ziel = Hauptordner selbst, Ziele außerhalb (Worktrees), nicht bestimmbare
 // Ziele (`$X`, `~`, `-`), `cd` in Klammern/`$(…)`/Backticks (wirkt nur dort), eigene Arbeitsbäume unter dem Hauptordner (`.git` vorhanden).
 // Erkennung Hauptsitzung: `agent_id`/`agent_type` fehlen nur dort (gleiche Annahme wie subagent-schreibsperre.js, befehlsregister.js);
 // Subagenten haben ihr eigenes Arbeitsverzeichnis und bleiben frei. Nur Bash-Eingaben kommen an (Filter in hauptordner-sperre.js).
@@ -13,7 +13,13 @@ const istVorsatz = (t) => VORSATZ.has(t) || SEGMENTANFANG.has(t) || /^[A-Za-z_]\
 /** Ziel-Token eines `cd`/`pushd`-Segments (Optionen wie -P/-L übersprungen), '' ohne Ziel, null wenn das Segment kein cd ist. */
 function cdZiel(tokens) {
   let i = 0
-  while (tokens[i] !== undefined && istVorsatz(tokens[i])) i++
+  while (tokens[i] !== undefined && istVorsatz(tokens[i])) {
+    i++
+    // Optionen eines Vorsatzworts (`time -p cd x`, `command -p cd x`) gehören nicht zum Befehl.
+    if (VORSATZ.has(tokens[i - 1])) while (tokens[i]?.startsWith('-')) i++
+  }
+  // `eval` fügt seine Argumente neu zusammen und führt sie in der laufenden Shell aus (`eval "cd x"` wirkt wie `cd x`).
+  if (tokens[i] === 'eval') return cdZiel(tokens.slice(i + 1).join(' ').split(/\s+/).filter(Boolean))
   if (tokens[i] !== 'cd' && tokens[i] !== 'pushd') return null
   i++
   while (tokens[i] !== undefined && tokens[i].startsWith('-') && tokens[i] !== '-') i++
