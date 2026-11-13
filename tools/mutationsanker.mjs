@@ -129,8 +129,9 @@ function schlageVor(listen, umhaengen) {
   const dateiListe = () => {
     try {
       return execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }).split('\n').filter(Boolean)
-    } catch {
-      return [] // kein Git-Arbeitsverzeichnis: keine Vorschläge, der Befund bleibt rot
+    } catch (fehler) {
+      console.warn(`mutationsanker: git ls-files fehlgeschlagen (${fehler.message}), keine Vorschläge; der Befund bleibt rot`)
+      return []
     }
   }
   let geaendert = 0
