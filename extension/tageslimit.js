@@ -1,4 +1,4 @@
-/**
+;/**
  * **Tageslimit des Workers: pausieren statt weiter senden** (11.10.2026).
  *
  * Das Gratis-Kontingent der Datenbank (100.000 geschriebene Zeilen am Tag) ist endlich; ein
@@ -67,11 +67,8 @@
   }
 
   function speichern(werte) {
-    try {
-      chrome.storage.local.set(werte)
-    } catch {
-      /* Ohne Speicher gilt der Stand nur in diesem Frame. */
-    }
+    /* Ohne Speicher (toter Kontext) gilt der Stand nur in diesem Frame. */
+    void globalThis.akKontext.schreiben(werte)
   }
 
   /** Pause für `sekunden`; `grundArt` ist `'server'` bei Serverfehlern, sonst das Tageslimit. */
@@ -161,24 +158,21 @@
     }
   }
 
-  try {
-    chrome.storage.local.get([SCHLUESSEL, ART, FEHLER]).then((s) => {
-      if (Number(s?.[SCHLUESSEL]) > bis) {
-        bis = Number(s[SCHLUESSEL])
-        art = s[ART] ?? null
-      }
-      reihe = Number(s?.[FEHLER]) || reihe
-      if (aktiv()) hinweisZeigen()
-    })
-    chrome.storage.onChanged.addListener((aenderung, bereich) => {
-      if (bereich !== 'local') return
-      if (aenderung[SCHLUESSEL]) bis = Number(aenderung[SCHLUESSEL].newValue) || 0
-      if (aenderung[ART]) art = aenderung[ART].newValue ?? null
-      if (aenderung[FEHLER]) reihe = Number(aenderung[FEHLER].newValue) || 0
-    })
-  } catch {
-    /* Außerhalb der Erweiterung (Sandkasten-Test) gibt es keinen Speicher. */
-  }
+  /* Außerhalb der Erweiterung (Sandkasten-Test) und im toten Kontext gibt es keinen Speicher. */
+  void Promise.resolve(globalThis.akKontext.lesen([SCHLUESSEL, ART, FEHLER])).then((s) => {
+    if (Number(s?.[SCHLUESSEL]) > bis) {
+      bis = Number(s[SCHLUESSEL])
+      art = s[ART] ?? null
+    }
+    reihe = Number(s?.[FEHLER]) || reihe
+    if (aktiv()) hinweisZeigen()
+  })
+  globalThis.akKontext.beiAenderung((aenderung, bereich) => {
+    if (bereich !== 'local') return
+    if (aenderung[SCHLUESSEL]) bis = Number(aenderung[SCHLUESSEL].newValue) || 0
+    if (aenderung[ART]) art = aenderung[ART].newValue ?? null
+    if (aenderung[FEHLER]) reihe = Number(aenderung[FEHLER].newValue) || 0
+  })
 
   globalThis.AK_TAGESLIMIT = { aktiv, text, grund, hinweisAnhaengen, merken, fehlgeschlagen, zurueckstellen, rest, ausFrame }
 })()
