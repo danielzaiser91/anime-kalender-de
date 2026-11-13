@@ -8206,7 +8206,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
      */
     const mitFrist = (zusage, was) =>
       Promise.race([
-        zusage,
+        Promise.resolve(zusage).then((r) => r ?? Promise.reject(new Error(`${was} antwortet nicht`))),
         new Promise((_, ab) => setTimeout(() => ab(new Error(`${was} antwortet nicht`)), 15000)),
       ])
 
@@ -8214,9 +8214,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     let token
     try {
       knopf.textContent = 'hole Zugangsschlüssel …'
-      const gelesen = await mitFrist(globalThis.akKontext.lesen('token', 'sync'), 'Der Speicher')
-      if (!gelesen) throw new Error('Der Speicher antwortet nicht')
-      ;({ token } = gelesen)
+      ;({ token } = await mitFrist(globalThis.akKontext.lesen('token', 'sync'), 'Der Speicher'))
     } catch (err) {
       abweisen(err.message)
       knopf.textContent = err.message

@@ -65,7 +65,7 @@ async function lauf(chrome) {
 }
 
 const TOT = 'Extension context invalidated.'
-;(async () => {
+async function haupt() {
   const ohneStorage = await lauf({})
   pruefe('chrome.storage undefined: kein Wurf, kein unbehandelter Fehler', !ohneStorage.wurf && !ohneStorage.unbehandelt.length, ohneStorage)
 
@@ -96,4 +96,5 @@ const TOT = 'Extension context invalidated.'
     console.error(`\n${fehler.length} Zusicherung(en) rot`)
     process.exit(1)
   }
-})()
+}
+haupt()
