@@ -102,36 +102,7 @@ export function kuenftigeAntwort({ kuenftig, hatSynchro, title, raus, today, rel
     freitags · 0 von 24 Folgen erschienen" über einer Steelbook-Box.
   */
   if (!ohneDisc.length) {
-    const quelle = releases.find((r) => expandEvents(r).some((e) => e.date === n.date))
-    /*
-      **Jeder Band mit seinem Termin, nicht nur der nächste.**
-
-      Der Bandname steht in `name` („Banana Fish – Vol. 1"); abgezogen wird
-      der Titel selbst, sonst stünde er in jeder Zeile noch einmal. Bleibt
-      nichts übrig — bei einer einzelnen Gesamtausgabe der Normalfall —,
-      trägt die Zeile nur ihr Datum.
-    */
-    const eigenerName = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
-    const baende = releases
-      .flatMap((r) =>
-        expandEvents(r).map((e) => ({
-          name:
-            r.name && r.name !== eigenerName
-              ? r.name.replace(eigenerName, '').replace(/^[\s:–—-]+/, '').trim() || undefined
-              : undefined,
-          datum: e.date,
-          raus: istErschienen(e, jetzt),
-        })),
-      )
-      .sort((a, b) => a.datum.localeCompare(b.datum))
-    return {
-      art: 'disc' as const,
-      datum: n.date,
-      publisher: quelle?.publisher,
-      edition: quelle?.edition,
-      baende: baende.length > 1 ? baende : undefined,
-      ...bandAngaben(quelle, title),
-    }
+    return discAntwort(releases, title, n, jetzt)
   }
   /*
     **„Noch X bis zum Finale" zählt die Ausgabe der nächsten Folge, nicht alle.**
@@ -160,5 +131,39 @@ export function kuenftigeAntwort({ kuenftig, hatSynchro, title, raus, today, rel
     vermerk: istAusgeblieben(n)
       ? n.verpasst
       : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.verpasst,
+  }
+}
+
+/** Die Disc-Auskunft, wenn alle Termine von einer Kaufausgabe stammen (aus `kuenftigeAntwort` herausgelöst). */
+function discAntwort(releases: Release[], title: Title, n: ReleaseEvent, jetzt: Date) {
+  const quelle = releases.find((r) => expandEvents(r).some((e) => e.date === n.date))
+  /*
+    **Jeder Band mit seinem Termin, nicht nur der nächste.**
+
+    Der Bandname steht in `name` („Banana Fish – Vol. 1"); abgezogen wird
+    der Titel selbst, sonst stünde er in jeder Zeile noch einmal. Bleibt
+    nichts übrig — bei einer einzelnen Gesamtausgabe der Normalfall —,
+    trägt die Zeile nur ihr Datum.
+  */
+  const eigenerName = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
+  const baende = releases
+    .flatMap((r) =>
+      expandEvents(r).map((e) => ({
+        name:
+          r.name && r.name !== eigenerName
+            ? r.name.replace(eigenerName, '').replace(/^[\s:–—-]+/, '').trim() || undefined
+            : undefined,
+        datum: e.date,
+        raus: istErschienen(e, jetzt),
+      })),
+    )
+    .sort((a, b) => a.datum.localeCompare(b.datum))
+  return {
+    art: 'disc' as const,
+    datum: n.date,
+    publisher: quelle?.publisher,
+    edition: quelle?.edition,
+    baende: baende.length > 1 ? baende : undefined,
+    ...bandAngaben(quelle, title),
   }
 }
