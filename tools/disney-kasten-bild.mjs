@@ -26,7 +26,7 @@ import { readFileSync } from 'node:fs'
 import { sperreNetz } from './netz-sperre.mjs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
-const box = readFileSync('extension/box.js', 'utf8')
+const box = readFileSync('extension/kontext.js', 'utf8') + '\n' + readFileSync('extension/box.js', 'utf8')
 const melder = readFileSync('extension/disney.js', 'utf8')
 
 /* Die Klassen müssen im Melder wirklich vorkommen — sonst bildet das Werkzeug

@@ -67,7 +67,7 @@ function zurueckBis(grund, datum, jetzt) {
  * `umgebung` (nur Tests): `{ speicher, jetzt, datum }`.
  */
 globalThis.akNetflixZurueckNeu = (titel, fertig, umgebung = {}) => {
-  const speicher = umgebung.speicher ?? chrome.storage.local
+  const speicher = umgebung.speicher ?? globalThis.akKontext.lokal
   const jetzt = umgebung.jetzt ?? Date.now
   const datum = umgebung.datum ?? (() => globalThis.erscheinungsdatum?.())
   let stand = {}
