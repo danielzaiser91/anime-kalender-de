@@ -57,6 +57,9 @@ const a = K.auswerten(
 )
 assert.deepEqual(titel(a.rangliste), ['kritisch', 'angefangen-spaeter', 'auftrag-sofort', 'auftrag-hoch-auto-alt', 'auftrag-hoch-auto-jung', 'auftrag-hoch-live5', 'auftrag-hoch-daten', 'auftrag-normal', 'eigen-hoch'])
 assert.deepEqual(a.fehler, [], 'anderer Abschnitt zählt nicht')
+// Ziel „Code“ hat seit 13.11.2026 Rang 1: bei Gleichstand vor Autonomie, obwohl jünger
+const c = K.auswerten(stand([], [z('auto', 'eigen', 'normal', 'Autonomie', '01.11.'), z('code', 'eigen', 'normal', 'Code', '05.11.')]), JETZT)
+assert.deepEqual(titel(c.rangliste), ['code', 'auto'], 'Code vor Autonomie')
 // Gleichstand in allem: Dateireihenfolge; Jahreswechsel: 30.12. am 05.01. ist älter als 02.01.
 const g = K.auswerten(stand([], [z('zwei', 'eigen', 'normal', '-', '02.01.'), z('eins', 'eigen', 'normal', '-', '30.12.'), z('drei', 'eigen', 'normal', '-', '02.01.')]), Date.parse('2027-01-05T12:00:00Z'))
 assert.deepEqual(titel(g.rangliste), ['eins', 'zwei', 'drei'], 'Eingang über den Jahreswechsel, Gleichstand nach Reihenfolge')
