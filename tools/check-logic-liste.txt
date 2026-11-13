@@ -443,6 +443,7 @@ pipeline/check-prime-kaufweg.ts
 pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-phase-laufzeit.ts
 pipeline/check-prime-pille.ts
+pipeline/check-prime-seite-ohne-weg-bestand-lauf.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-suchadresse-tot.ts
