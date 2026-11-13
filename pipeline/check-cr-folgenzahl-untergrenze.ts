@@ -14,7 +14,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 /** Release aus einem Kalender-Slot ohne AniList-Folgenzahl; aniSearch nennt `anisearch`. */
-function bau(beobachtet: { episode: number; date: string }[], anisearch: { count: number; estimated: boolean } | undefined): Release['schedule'] | undefined {
+function bau(beobachtet: { episode?: number; date: string }[], anisearch: { count: number; estimated: boolean } | undefined): Release['schedule'] | undefined {
   const slot = {
     time: '17:30',
     weekday: 0,
@@ -50,6 +50,20 @@ const ohne = bau(drei, undefined)
 pruefe('ohne aniSearch: zwölf als übliche Länge, geraten', ohne?.episodeCount === 12 && ohne.episodeCountAssumed === true, ohne)
 const mehr = bau(drei, { count: 2, estimated: false })
 pruefe('aniSearch nennt 2, Folge 3 gesehen: mindestens 3, geraten', mehr?.episodeCount === 3 && mehr.episodeCountAssumed === true, mehr)
+
+/* Ohne Folgennummer zählt die früheste gesehene Folge als 1: drei Tage belegen Folge 3. */
+const ohneNummer = ['2026-10-05', '2026-10-12', '2026-10-19'].map((date) => ({ date }))
+const ohneFest = bau(ohneNummer, { count: 3, estimated: false })
+pruefe('ohne Folgennummer, drei Tage, aniSearch nennt 3: 3, nicht geraten', ohneFest?.episodeCount === 3 && !ohneFest.episodeCountAssumed, ohneFest)
+const ohneKurz = bau(ohneNummer, { count: 2, estimated: false })
+pruefe('ohne Folgennummer, drei Tage, aniSearch nennt 2: mindestens 3, geraten', ohneKurz?.episodeCount === 3 && ohneKurz.episodeCountAssumed === true, ohneKurz)
+
+/* Fortsetzung ab Folge 13: die Untergrenze ist Folge 15, nicht drei Folgen. */
+const ab13 = [13, 14, 15].map((episode, i) => ({ episode, date: ['2026-10-05', '2026-10-12', '2026-10-19'][i]! }))
+const fortFest = bau(ab13, { count: 15, estimated: false })
+pruefe('Folgen 13–15 gesehen, aniSearch nennt 15: 15, nicht geraten', fortFest?.episodeCount === 15 && !fortFest.episodeCountAssumed, fortFest)
+const fortKurz = bau(ab13, { count: 14, estimated: false })
+pruefe('Folgen 13–15 gesehen, aniSearch nennt 14: Zahl widerlegt, Durchzählung ab Folge 13 mit 3 Folgen', fortKurz?.firstEpisodeNumber === 13 && fortKurz.episodeCount === 3, fortKurz)
 
 if (verletzt) {
   console.error(`${verletzt} Zusicherung(en) verletzt.`)
