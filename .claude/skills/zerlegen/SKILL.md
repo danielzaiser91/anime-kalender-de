@@ -52,6 +52,8 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
   `bauQuelltext()` liest sie in dieser Reihenfolge für die Text-Zusicherungen in `check:logic`.
   Ebenso `panelQuelltext()` (Panel) und `workerQuelltext()` (Worker).
 - Kommentare wandern mit; Chronik dabei auf ein bis drei Zeilen kürzen.
+- **Mutationslisten ziehen im selben PR mit** (13.11.2026: 5 von 8 Nacht-Zerlegungen rot): vor dem Schieben `grep -rln "<Datei oder Zeilentext>" tools/mutationen/`, danach `datei` und `suche` (Einrückung!) in jeder Liste auf die neue Stelle setzen.
+  Vor dem Push läuft `node tools/mutationsanker-alle.test.mjs`; dort muss „0 tote Anker“ stehen.
 
 ## 4. Beweisen
 
