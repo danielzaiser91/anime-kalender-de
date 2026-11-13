@@ -37,6 +37,9 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 - **Ziel nie gleich Quelle** (12.11.2026): `abschnitt <datei> … <datei> fn` überschreibt die
   Datei und verliert die neue Funktion. Teilschritte einer schon ausgelagerten Funktion zuerst in
   der Ursprungsdatei herauslösen (Zieldatei = neue Datei), dann die große Funktion dorthin.
+- **Tote Mutationsanker nach dem Verschieben** (13.11.2026): `node tools/mutationsanker.mjs --alle --umhaengen`
+  trägt bei totem Anker die einzige Quelldatei ein, die die `suche` enthält (Tests zählen nicht);
+  mehrere oder keine Treffer meldet es nur (`→`-Zeile), die trägst du von Hand um. Der Exit-Code bleibt im selben Lauf 1; danach erneut laufen lassen.
 - Zeilennummern nach jedem Schritt per `grep -n` auf einen Ankertext neu bestimmen — der neue
   Import kommt als eigene Zeile oder in einen vorhandenen Importsatz, die Verschiebung ist 0 oder 1.
 - **`<bis>` ist die letzte Zeile einer ganzen Anweisung**: Endet der Bereich auf `if (x)`, dessen
@@ -52,6 +55,8 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
   `bauQuelltext()` liest sie in dieser Reihenfolge für die Text-Zusicherungen in `check:logic`.
   Ebenso `panelQuelltext()` (Panel) und `workerQuelltext()` (Worker).
 - Kommentare wandern mit; Chronik dabei auf ein bis drei Zeilen kürzen.
+- **Mutationslisten ziehen im selben PR mit** (13.11.2026: 5 von 8 Nacht-Zerlegungen rot): vor dem Schieben `grep -rln "<Datei oder Zeilentext>" tools/mutationen/`, danach `datei` und `suche` (Einrückung!) in jeder Liste auf die neue Stelle setzen.
+  Vor dem Push läuft `node tools/mutationsanker-alle.test.mjs`; dort muss „0 tote Anker“ stehen.
 
 ## 4. Beweisen
 

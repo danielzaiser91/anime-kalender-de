@@ -6,6 +6,7 @@
  * die „Seite“, so lässt sich nach dem Melden eine neue Seite aufbauen und fragen, was sie liest.
  */
 const { readFileSync } = require('node:fs')
+const vm = require('node:vm')
 
 const lies = (datei) => readFileSync(`${__dirname}/${datei}`, 'utf8')
 
@@ -66,12 +67,25 @@ function uhrNeu(t) {
   return uhr
 }
 
+/** Der echte `akKontext` (`kontext.js`) gegen das `chrome` der Kulisse; `runtime.id` gesetzt = lebender Kontext. */
+function kontextNeu(chromeHolen) {
+  const chrome = new Proxy({}, {
+    get: (_, name) => (name === 'runtime' ? { id: 'test' } : chromeHolen()?.[name]),
+  })
+  const k = vm.createContext({ chrome })
+  vm.runInContext(lies('kontext.js'), k)
+  return k.akKontext
+}
+
 /**
  * Macht aus dem Handler-Text eine Funktion, die in der Kulisse läuft. `werteObjekt` (Name → Wert) ist echt,
  * jeder andere Name ist stumm; setzt der Handler einen Namen, landet er in `werte`. `DateDerSeite` ersetzt `Date`.
  */
 function handlerKompilieren(handler, werteObjekt, DateDerSeite = Date) {
   const werte = new Map(Object.entries(werteObjekt))
+  if (!werte.has('globalThis')) werte.set('globalThis', {})
+  const welt = werte.get('globalThis')
+  if (welt && typeof welt === 'object' && !welt.akKontext) welt.akKontext = kontextNeu(() => werte.get('chrome'))
   const stumm = stummNeu()
   const kulisse = new Proxy({}, {
     has: (_, name) => typeof name === 'string' && !NATIV.has(name),
@@ -82,4 +96,4 @@ function handlerKompilieren(handler, werteObjekt, DateDerSeite = Date) {
   return { klick, werte }
 }
 
-module.exports = { lies, stummNeu, knopfNeu, ausschnitt, speicherNeu, uhrNeu, handlerKompilieren }
+module.exports = { kontextNeu, lies, stummNeu, knopfNeu, ausschnitt, speicherNeu, uhrNeu, handlerKompilieren }
