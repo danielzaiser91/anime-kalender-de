@@ -1,9 +1,9 @@
-// Stop (Hauptsitzung): Im autonomen Modus endet kein Turn, solange Agenten-Plätze frei sind und der Vorrat
-// startfertige Aufträge hat (oder leer ist). Daniel 13.10.2026: „wieso sind nicht automatisch immer 5 belegt?“
-// Vorrat = <projekt>/daniel-zum-abarbeiten/vorrat/*.md, je Datei ein vollständiger Auftrag; erste Zeile = Titel.
+// Stop (Hauptsitzung): Im autonomen Modus endet kein Turn, solange der Vorrat unvergebene Aufträge hat und lokal
+// ein Platz frei ist. Ein leerer Vorrat schweigt: lokal muss nichts laufen, die Cloud-Routinen sieht der Hook nicht
+// (Daniel, 13.11.2026: „lokal max 2 min 0“). Vorrat = <projekt>/daniel-zum-abarbeiten/vorrat/*.md, erste Zeile = Titel.
 const fs = require('node:fs')
 const path = require('node:path')
-const { laufendeAgenten, grenze } = require('./agenten-grenze.js')
+const { laufendeAgenten, GRENZE } = require('./agenten-grenze.js')
 
 // Je Sitzung ein Marker (Daniel, 14.10.2026): Routinen und andere Sitzungen sollen nicht mitlaufen.
 const markerVon = (sitzung) => require('path').join(require('os').homedir(), '.claude', 'autonomer-modus', `${sitzung}.txt`)
@@ -54,7 +54,6 @@ function pruefe(input, jetzt = Date.now()) {
   if (!ordner) return null
   const subagents = path.join(input.transcript_path.replace(/\.jsonl$/, ''), 'subagents')
   const laufend = laufendeAgenten(subagents, jetzt).filter((a) => a.typ !== 'pruefer')
-  const GRENZE = grenze()
   const frei = GRENZE - laufend.length
   if (frei <= 0) return null
   // `z-…` = blockiert (Grund steht in der Datei), `erledigt-…` = abgeschlossen; nie zum Start vorschlagen.
@@ -62,9 +61,9 @@ function pruefe(input, jetzt = Date.now()) {
   const besetzt = vergeben(subagents, laufend, alle)
   // Zeile `**Vergeben:** <PR-Link>` = ein PR trägt den Auftrag schon (Doppelvergabe 3200, 08.11.2026).
   const dateien = alle.filter((d) => !besetzt.has(d) && !/^\*\*Vergeben:\*\*/m.test(fs.readFileSync(path.join(ordner, d), 'utf8')))
-  if (!dateien.length) return `Agenten-Vorrat: ${frei} von ${GRENZE} Plätzen frei und ${ordner} ist leer. Schreibe startfertige Aufträge aus stand.md „Als Nächstes“ hinein (eine Datei je Auftrag, erste Zeile Titel) und starte sie.`
+  if (!dateien.length) return null
   const naechste = dateien.slice(0, frei).map((d) => `${path.join(ordner, d)} (${titel(path.join(ordner, d))})`)
-  return `Agenten-Vorrat: ${frei} von ${GRENZE} Plätzen frei. Starte jetzt: ${naechste.join(' · ')}. Den Dateipfad in den Auftragstext schreiben (dann gilt sie als vergeben), sobald ein PR steht, die Zeile „**Vergeben:** <PR-Link>“ in die Datei, erst nach dem Merge löschen; vorher die stand.md-Zeile zum Thema greppen (der Stand im Plan kann veraltet sein); ist ein Auftrag blockiert, Grund in die Datei schreiben, nach hinten umbenennen (mv) und Links in stand.md nachziehen.`
+  return `Agenten-Vorrat: ${frei} von ${GRENZE} lokalen Plätzen frei. Vergib jetzt, bevorzugt als Cloud-Routine (Vermerk „**Vergeben:** Routine <Name>“): ${naechste.join(' · ')}. Lokal: den Dateipfad in den Auftragstext schreiben (dann gilt sie als vergeben), sobald ein PR steht, die Zeile „**Vergeben:** <PR-Link>“ in die Datei, erst nach dem Merge löschen; vorher die stand.md-Zeile zum Thema greppen (der Stand im Plan kann veraltet sein); ist ein Auftrag blockiert, Grund in die Datei schreiben, nach hinten umbenennen (mv) und Links in stand.md nachziehen.`
 }
 
 module.exports = { pruefe, markerVon }
