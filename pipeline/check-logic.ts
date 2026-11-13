@@ -6464,7 +6464,7 @@ pruefe(
   pruefe('ein sinnloser Begriff findet nichts', such('xqzvwkkk').length === 0)
 }
 {
-  /* Löschfristen (09.10.2026): Datenschutztext sagt 60 Minuten Ratenbegrenzung und 7 Tage unbestätigte Anmeldung — der Worker löscht entsprechend, und `scheduled` ruft es auf. */
+  /* Löschfristen (09.10.2026): Datenschutztext sagt 60 Minuten Ratenbegrenzung und 7 Tage unbestätigte Anmeldung — der Worker löscht entsprechend; der Aufruf aus `scheduled` steht in `tools/worker-loeschlauf-scheduled.test.ts`. */
   const aufrufe: { sql: string; grenze: string }[] = []
   const attrappe = { DB: { prepare: (sql: string) => ({ bind: (grenze: string) => ({ run: async () => (aufrufe.push({ sql, grenze }), { meta: { changes: 2 } }) }) }) } }
   const jetzt = new Date('2026-10-09T12:00:00.000Z')
@@ -6472,7 +6472,6 @@ pruefe(
   pruefe('Löschlauf: Ratenbegrenzung älter als 60 Minuten', aufrufe[0]?.sql === SQL_RATE_LIMIT_LOESCHEN && aufrufe[0].grenze === '2026-10-09T11:00:00.000Z', JSON.stringify(aufrufe[0]))
   pruefe('Löschlauf: nur unbestätigte Anmeldungen älter als 7 Tage', aufrufe[1]?.sql === SQL_UNBESTAETIGT_LOESCHEN && aufrufe[1].grenze === '2026-10-02T12:00:00.000Z' && SQL_UNBESTAETIGT_LOESCHEN.includes("status = 'pending'"), JSON.stringify(aufrufe[1]))
   pruefe('Löschlauf meldet die Zahlen', n.rateLimit === 2 && n.unbestaetigt === 2)
-  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,600}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
 }
 {
   /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */
