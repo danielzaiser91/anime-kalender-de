@@ -19,17 +19,21 @@ const KOPF = (env: Env) => ({
   'X-GitHub-Api-Version': '2022-11-28',
 })
 
-/** Die letzten Läufe dieses Workflows (neuester zuerst); leer, wenn die API nicht antwortet (dann wird gestartet). */
-async function letzteLaeufe(env: Env, repo: string, workflow: string): Promise<LaufStand[]> {
+/** Die letzten Läufe dieses Workflows (neuester zuerst); `null`, wenn die API nicht antwortet (der Stunden-Cron startet dann trotzdem, der 5-Minuten-Cron nicht). */
+async function letzteLaeufe(env: Env, repo: string, workflow: string): Promise<LaufStand[] | null> {
   const r = await fetch(`https://api.github.com/repos/${repo}/actions/workflows/${workflow}/runs?per_page=10`, { headers: KOPF(env) })
-  if (!r.ok) return []
+  if (!r.ok) return null
   return ((await r.json()) as { workflow_runs?: LaufStand[] }).workflow_runs ?? []
 }
 
-async function starte(env: Env, repo: string, workflow: string, jetzt: Date): Promise<void> {
+async function starte(env: Env, repo: string, workflow: string, jetzt: Date, schnell: boolean): Promise<void> {
   /* Doppelstarts abfangen: Am 05.10.2026 kamen zwei Starts im Abstand von zehn Sekunden; Ursache ungeklärt, der Schutz gilt unabhängig davon. */
-  const laeufe = await letzteLaeufe(env, repo, workflow).catch(() => [])
-  if (!startErlaubt(workflow, laeufe, jetzt)) {
+  const laeufe = await letzteLaeufe(env, repo, workflow).catch(() => null)
+  if (laeufe === null && schnell) {
+    console.log(`[wecker] ${repo}/${workflow}: Läufe nicht lesbar, im 5-Minuten-Cron kein Start`)
+    return
+  }
+  if (!startErlaubt(workflow, laeufe ?? [], jetzt)) {
     console.log(`[wecker] ${repo}/${workflow}: übersprungen (Mindestabstand oder Lauf aktiv)`)
     return
   }
@@ -42,7 +46,13 @@ async function starte(env: Env, repo: string, workflow: string, jetzt: Date): Pr
 }
 
 /** Jede volle Stunde aufgerufen (`scheduled`): startet alles, was jetzt fällig ist. Ein Ausfall eines Starts hält die anderen nicht auf. */
-export async function starteFaelligeLaeufe(env: Env, jetzt: Date = new Date()): Promise<void> {
+export async function starteFaelligeLaeufe(env: Env, jetzt: Date = new Date(), nurFuenfMinutenCron = false): Promise<void> {
   if (!env.GITHUB_WECKER_TOKEN) return
-  await Promise.all(faelligeEintraege(jetzt).map((p) => starte(env, p.repo ?? STANDARD_REPO, p.workflow, jetzt).catch((e) => fehlerLog(`[wecker] ${p.workflow}`, e))))
+  await Promise.all(faelligeEintraege(jetzt, undefined, nurFuenfMinutenCron).map((p) => starte(env, p.repo ?? STANDARD_REPO, p.workflow, jetzt, nurFuenfMinutenCron).catch((e) => fehlerLog(`[wecker] ${p.workflow}`, e))))
+}
+
+/** Der 5-Minuten-Cron: startet nur Einträge mit `auchImFuenfMinutenCron`. Zur vollen Stunde nicht: dort läuft zeitgleich der Stunden-Cron, zwei Aufrufe überholten sich beim Doppelstart-Schutz. */
+export async function starteSchnelleLaeufe(env: Env, jetzt: Date): Promise<void> {
+  if (jetzt.getUTCMinutes() === 0) return
+  await starteFaelligeLaeufe(env, jetzt, true)
 }
