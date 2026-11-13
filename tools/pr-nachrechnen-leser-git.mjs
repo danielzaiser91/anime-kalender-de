@@ -39,7 +39,7 @@ export function inhalte(git, ref, pfade) {
 }
 
 /** Lesbare Code-Dateien (Skripte, Workflows) der Ordner im Stand `ref`. */
-const codeDateien = (git, ref) => git(['ls-tree', '-r', '--name-only', ref, '--', ...SUCHORDNER]).split(/\r?\n/).filter((p) => LESBAR.test(p))
+export const codeDateien = (git, ref) => git(['ls-tree', '-r', '--name-only', ref, '--', ...SUCHORDNER]).split(/\r?\n/).filter((p) => LESBAR.test(p))
 
 /** Leser für `botSprungAusnahme`: (bewegt, prDateien, { nummer, kopf, main }) -> null | Grund. */
 export const gitLeser = (git) => (bewegt, pr, refs) => {
