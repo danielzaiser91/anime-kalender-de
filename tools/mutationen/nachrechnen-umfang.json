@@ -153,8 +153,8 @@
   {
     "name": "botSprungAusnahme: Grenzdatei bleibt unter den Dateien für die Leser-Regel",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN)",
-    "ersetze": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d))",
+    "suche": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET)",
+    "ersetze": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== PAKET)",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
@@ -162,8 +162,8 @@
   {
     "name": "botSprungAusnahme: Umfang vor der Berührung des PR gefragt",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`\n  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null",
-    "ersetze": "  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null\n  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`",
+    "suche": "  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`\n  const paketGrund = vergleich.dateien.includes(PAKET) ? paket() : null\n  if (paketGrund !== null) return paketGrund\n  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null",
+    "ersetze": "  const paketGrund = vergleich.dateien.includes(PAKET) ? paket() : null\n  if (paketGrund !== null) return paketGrund\n  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null\n  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
@@ -180,8 +180,8 @@
   {
     "name": "botSprungAusnahme: Standard-Messer sagt ok statt Grund (nicht fail-closed)",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft') {",
-    "ersetze": "export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => null, trocken = false) {",
+    "suche": "umfang = () => 'Umfang nicht geprüft', paket = () =>",
+    "ersetze": "umfang = () => null, paket = () =>",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
@@ -189,8 +189,8 @@
   {
     "name": "datenpfadGrund: Messer ohne Basis aufgerufen",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))",
-    "ersetze": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main }))",
+    "suche": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket(",
+    "ersetze": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main }), () => paket(",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
@@ -198,8 +198,8 @@
   {
     "name": "datenpfadGrund: Messer wird nicht durchgereicht",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))",
-    "ersetze": "() => null)",
+    "suche": "() => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket(",
+    "ersetze": "() => null, () => paket(",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]

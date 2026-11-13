@@ -6,6 +6,8 @@
  *
  * Aufruf: node tools/mutationsanker.mjs <liste.json>…   prüft genau diese Listen
  *         node tools/mutationsanker.mjs --alle          prüft alle Listen, Exit 1 bei totem Anker
+ *         --umhaengen (zusätzlich)                      totem Anker: enthält genau eine Quelldatei (ohne Tests) die `suche`, wird sie eingetragen;
+ *                                                       mehrere oder keine Treffer: nur gemeldet (tools/mutationsanker-umhaengen.mjs)
  * tests-alle fährt dasselbe über tools/mutationsanker-alle.test.mjs für jeden PR (Merge-Ref = Stand von main):
  * so fallen Rennen paralleler PRs auf, die der Diff-Filter unten nicht sieht.
  * Mutanten ohne `tests`-Eintrag meldet der Aufruf mit Listen als Warnung (⚠, Exit unverändert); die Ratsche steht in
@@ -14,8 +16,9 @@
  * Mutanten eine Datei des Diffs nennen (der Code kann dorthin gewandert sein); übrige Listen bleiben unberührt.
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { ankerVorschlaege, umhaengenText, vorschlagZeilen } from './mutationsanker-umhaengen.mjs'
 import { normalisiereListe, normalisierePfad, parseListeText, planeMutant } from './mutationslaeufer.mjs'
 
 const LISTEN_ORDNER = 'tools/mutationen/'
@@ -121,8 +124,32 @@ export function ankerRot(dateien, lies = leseDatei, alle = listenAufPlatte) {
   return pruefeListen(listen, lies).fehler.map((f) => `Mutationsanker: ${f}`)
 }
 
+/** Meldet zu toten Ankern die Dateivorschläge; mit `umhaengen` schreibt es die eindeutigen in die Listen. Rückgabe: Zahl der geänderten Anker. */
+function schlageVor(listen, umhaengen) {
+  const dateiListe = () => {
+    try {
+      return execFileSync('git', ['ls-files'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }).split('\n').filter(Boolean)
+    } catch {
+      return [] // kein Git-Arbeitsverzeichnis: keine Vorschläge, der Befund bleibt rot
+    }
+  }
+  let geaendert = 0
+  for (const name of listen) {
+    const text = leseDatei(name)
+    if (text === null) continue
+    const vorschlaege = ankerVorschlaege(text, leseDatei, dateiListe)
+    for (const z of vorschlagZeilen(name, vorschlaege)) console.error(`  → ${z}`)
+    if (!umhaengen) continue
+    const neu = umhaengenText(text, vorschlaege)
+    if (neu.geaendert) writeFileSync(name, neu.text)
+    geaendert += neu.geaendert
+  }
+  return geaendert
+}
+
 function main() {
-  const args = process.argv.slice(2)
+  const umhaengen = process.argv.includes('--umhaengen')
+  const args = process.argv.slice(2).filter((a) => a !== '--umhaengen')
   if (args.includes('--alle')) {
     const alle = listenAufPlatte()
     for (const name of alle) {
@@ -131,6 +158,10 @@ function main() {
     }
     const gesamt = pruefeListen(alle)
     for (const f of gesamt.fehler) console.error(`  ✖ ${f}`)
+    if (gesamt.fehler.length) {
+      const n = schlageVor(alle, umhaengen)
+      if (n) console.log(`${n} Anker umgehängt`)
+    }
     console.log(`Mutationsanker (alle): ${alle.length} Listen, ${gesamt.anzahl} Mutanten, ${gesamt.fehler.length} Anker nicht auffindbar`)
     return gesamt.fehler.length ? 1 : 0
   }
@@ -141,6 +172,10 @@ function main() {
   }
   const { fehler, anzahl } = pruefeListen(args)
   for (const f of fehler) console.error(`  ✖ ${f}`)
+  if (fehler.length) {
+    const n = schlageVor(args, umhaengen)
+    if (n) console.log(`${n} Anker umgehängt`)
+  }
   for (const z of testsLueckenZeilen(args)) console.error(`  ⚠ ${z}`)
   console.log(`Mutationsanker: ${args.length} Listen, ${anzahl} Mutanten, ${fehler.length} Anker nicht auffindbar`)
   return fehler.length ? 1 : 0
