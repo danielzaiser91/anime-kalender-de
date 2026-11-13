@@ -18,11 +18,11 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:devils-crest-primevideo@2026-11-06@anime-kalender-de
+UID:devils-crest-primevideo@2026-11-06#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
-SUMMARY:Devils' Crest – Folge 1/≈12
+SUMMARY:Devils' Crest – Folge 1–2/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17221/
 CATEGORIES:Prime Video
@@ -73,11 +73,9 @@ UID:devils-crest-primevideo@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261113
 DTEND;VALUE=DATE:20261114
-SUMMARY:Devils' Crest – Folge 2/≈12
+SUMMARY:Devils' Crest – Folge 3/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17221/
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17221/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -97,7 +95,7 @@ UID:devils-crest-primevideo@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:Devils' Crest – Folge 3/≈12
+SUMMARY:Devils' Crest – Folge 4/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -121,7 +119,7 @@ UID:devils-crest-primevideo@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261127
 DTEND;VALUE=DATE:20261128
-SUMMARY:Devils' Crest – Folge 4/≈12
+SUMMARY:Devils' Crest – Folge 5/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -145,7 +143,7 @@ UID:devils-crest-primevideo@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
-SUMMARY:Devils' Crest – Folge 5/≈12
+SUMMARY:Devils' Crest – Folge 6/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -169,7 +167,7 @@ UID:devils-crest-primevideo@2026-12-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261211
 DTEND;VALUE=DATE:20261212
-SUMMARY:Devils' Crest – Folge 6/≈12
+SUMMARY:Devils' Crest – Folge 7/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -203,7 +201,7 @@ UID:devils-crest-primevideo@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218
 DTEND;VALUE=DATE:20261219
-SUMMARY:Devils' Crest – Folge 7/≈12
+SUMMARY:Devils' Crest – Folge 8/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -215,7 +213,7 @@ UID:devils-crest-primevideo@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261225
 DTEND;VALUE=DATE:20261226
-SUMMARY:Devils' Crest – Folge 8/≈12
+SUMMARY:Devils' Crest – Folge 9/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -227,7 +225,7 @@ UID:devils-crest-primevideo@2027-01-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270101
 DTEND;VALUE=DATE:20270102
-SUMMARY:Devils' Crest – Folge 9/≈12
+SUMMARY:Devils' Crest – Folge 10/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -239,7 +237,7 @@ UID:devils-crest-primevideo@2027-01-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270108
 DTEND;VALUE=DATE:20270109
-SUMMARY:Devils' Crest – Folge 10/≈12
+SUMMARY:Devils' Crest – Folge 11/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
  nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
@@ -251,18 +249,6 @@ UID:devils-crest-primevideo@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
-SUMMARY:Devils' Crest – Folge 11/≈12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/17221/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:devils-crest-primevideo@2027-01-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270122
-DTEND;VALUE=DATE:20270123
 SUMMARY:Devils' Crest – Folge 12/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
