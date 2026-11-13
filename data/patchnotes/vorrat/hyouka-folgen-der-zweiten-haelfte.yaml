@@ -1,5 +1,5 @@
 kategorie: bugfix
 text: Hyouka zeigt alle 22 Folgen auf Deutsch
 untertitel: Auch die zweite Hälfte läuft bei Prime Video auf Deutsch
-wartetAuf: Behebung des Zuordnungsfehlers laut daniel-zum-abarbeiten/vorrat/hyouka-zweite-haelfte-fehlt.md (Folgen 13–22 fehlen in dubRanges von titles.json Hyouka, al 12189; eigener Auftrag)
+wartetAuf: 'Folge 4: Fix 3616 wirkt (13.11. titles.json und live Prime dubRanges 1–3 und 5–22, Folgen 13–22 da), aber Folge 4 fehlt weiter (Meldung 1 meldet sie nicht deutsch); „alle 22“ gilt erst mit belegter Folge 4, sonst auf „Folgen 5–22“ kürzen oder streichen'
 seit: '2026-11-05'
