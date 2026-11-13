@@ -116,8 +116,8 @@ pruefe('pfadTokens: jeder Ordnerkopf zählt', pfadTokens(['.github/a.yml', 'data
 for (const [ende, ziel] of [['.ts', 'a/b.ts'], ['.tsx', 'a/b.tsx'], ['.mjs', 'a/b.mjs'], ['.cjs', 'a/b.cjs'], ['.mts', 'a/b.mts'], ['/index.ts', 'a/b/index.ts']]) {
   pruefe(`importZiele: Kandidat ${ende}`, importZiele('a/c.ts', "import './b'").includes(ziel), importZiele('a/c.ts', "import './b'"))
 }
-// Datenkanal (Auflage A1/A3 des CI-Prüfers): ein PR mit Datenänderung, die der Bau mit der bewegten Datei zusammen liest, bleibt veraltet,
-// auch wenn sein Code sie nicht nennt. Handbelege, kuratierte Daten und Sammlerdaten, je einzeln; ohne Leser der bewegten Datei gilt er nicht.
+// Datenkanal (Auflage A1/A3 des CI-Prüfers; seit 13.11.2026 (F133) für reine Handdaten-PR gelockert: `pr-nachrechnen-kennung.test.mjs`): ein PR mit Datenänderung, die der Bau mit der bewegten Datei zusammen liest, bleibt veraltet,
+// solange keine Kennungsdaten vorliegen (Parameter `kennung` fehlt oder trägt `fehler`, fail-closed) und für jeden PR mit Code; auch wenn sein Code sie nicht nennt. Handbelege, kuratierte Daten und Sammlerdaten, je einzeln; ohne Leser der bewegten Datei gilt er nicht.
 // Der Grund nennt Leser und die bewegte Datei, die dieser Leser nennt (11.11.2026); ist sein Text nicht lesbar, die erste bewegte.
 const leserEnde = (pfad, bewegt = F) => new RegExp(`\\(Leser: ${pfad.replace(/[./]/g, '\\$&')}, nennt ${bewegt.replace(/[./]/g, '\\$&')}\\)$`)
 for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'data/anbieter-staffeln.json', 'data/curated/ordner/tief/a.yaml']) {
@@ -143,6 +143,7 @@ const ADN = ['data/adn-staffelzuordnung.yaml']
 pruefe('PR 3490: Bot-Datei bewegt, Leser nennt nur sie -> null', bewegtesGelesen({ bewegt: [BAUER, F], pr: ADN, leser: LESER, lies, paketSkripte: null, botBewegt: [F] }) === null)
 pruefe('PR 3490 Kontrolle: ohne botBewegt derselbe Fall -> Grund (nennt F)', leserEnde('pipeline/bau/cr.ts').test(bewegtesGelesen({ bewegt: [BAUER, F], pr: ADN, leser: LESER, lies, paketSkripte: null })))
 // Gegenfall: bewegter Code mit Leser bleibt Grund, auch wenn zugleich eine Bot-Datei bewegt ist; der Grund nennt die Datei dieses Lesers, nicht die erste.
+// Gilt ohne Kennungsdaten (hier nie übergeben); mit ihnen entscheidet bei reinen Handdaten-PR der Kennungsschnitt (F133, 13.11.2026), bewegter Code des Bau-Pfads bleibt dort Grund.
 const CODE = 'pipeline/lib/neu.ts'
 const texte = { ...BAUM, 'pipeline/bau/b.ts': "import { n } from '../lib/neu'\n// pipeline/lib/neu.ts\nconst pfad = 'pipeline/lib/neu.ts'\n" }
 const gemischt = bewegtesGelesen({ bewegt: [F, CODE], pr: ADN, leser: ['pipeline/bau/cr.ts', 'pipeline/bau/b.ts'], lies: (p) => texte[p] ?? null, paketSkripte: null, botBewegt: [F] })

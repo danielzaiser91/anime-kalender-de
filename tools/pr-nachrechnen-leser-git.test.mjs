@@ -57,6 +57,7 @@ try {
   const botGrund = leser([F], ['tools/neu.mjs', 'data/dub-confirmed.yaml'], { ...refs, bot: [F] })
   pruefe('echtes git: dieselben Handbelege, bewegt ist nur die Bot-Datei (refs.bot) -> null', botGrund === null, botGrund)
   pruefe('echtes git: package.json im Kopf unverändert -> kein Skript geändert, null', leser([F], ['package.json', 'tools/neu.mjs'], refs) === null)
+  pruefe('echtes git: PR berührt eine bewegte Datei -> Grund, mit refs.frei (Textmerge) -> null', /^der PR berührt docs\/wissen\/x\.md/.test(leser([F, 'docs/wissen/x.md'], ['docs/wissen/x.md'], refs)) && leser([F, 'docs/wissen/x.md'], ['docs/wissen/x.md'], { ...refs, frei: new Set(['docs/wissen/x.md']) }) === null)
   const kaputt = gitLeser(gitAufruf)([F], ['tools/neu.mjs'], { ...refs, nummer: 99 })
   pruefe('echtes git: Kopf nicht abrufbar (kein refs/pull/99/head) -> nicht ermittelbar', /^Leser nicht ermittelbar \(/.test(kaputt), kaputt)
 } finally {

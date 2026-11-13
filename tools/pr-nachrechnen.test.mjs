@@ -323,7 +323,7 @@ const leserStub = (antwort) => {
   pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
   pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien', k.meldungen)
   const a = stub.aufrufe[0]
-  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'] }), stub.aufrufe)
+  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify({ ...a.refs, frei: [...a.refs.frei] }) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'], frei: [], basis: BASIS }), stub.aufrufe)
 }
 {
   const stub = leserStub('der PR liest data/crunchyroll-woche.json (tools/x.mjs)')
