@@ -23,7 +23,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { recordSource } from './lib/health.ts'
-import { einzelwerkFund, ersterEinzelwerkTreffer, offeneOhneSerienkennung } from './lib/cr-abruf-logik.ts'
+import { einzelwerkFund, ersterEinzelwerkTreffer, filmbloeckeZusammen, offeneOhneSerienkennung } from './lib/cr-abruf-logik.ts'
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36'
 const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
@@ -71,7 +71,17 @@ for (const o of offen) {
   const zeichen = !treffer ? '—' : audio.includes('de-DE') ? 'DE' : audio.length ? audio.join(',').slice(0, 24) : '?'
   console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? '').slice(0, 44).padEnd(46)} ${zeichen}`)
 }
-writeFileSync('data/cr-einzelwerke.json', JSON.stringify(funde, null, 2) + '\n')
+/* Ein Lauf ergänzt und berichtigt: ein Schweigen löscht keinen alten Treffer (wie bei den Filmblöcken). */
+const vorher = (() => {
+  try {
+    return JSON.parse(readFileSync('data/cr-einzelwerke.json', 'utf8'))
+  } catch {
+    return []
+  }
+})()
+const { gesamt, neuDazu, ersetzt, behalten } = filmbloeckeZusammen(vorher, funde)
+console.log(`\n${neuDazu} neu, ${ersetzt} aktualisiert, ${behalten} alter Treffer gegen ein Schweigen behalten, ${gesamt.length} Einträge insgesamt`)
+writeFileSync('data/cr-einzelwerke.json', JSON.stringify(gesamt, null, 2) + '\n')
 const mitTreffer = funde.filter((f) => f.treffer)
 console.log(`\n${mitTreffer.length} von ${funde.length} im deutschen Katalog gefunden`)
 console.log(`  mit de-DE: ${mitTreffer.filter((f) => f.treffer.audio.includes('de-DE')).length}`)
