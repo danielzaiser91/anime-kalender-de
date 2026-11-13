@@ -38,6 +38,7 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('belegFuer: ein Nein zu einer anderen Adresse gilt für die Kanal-Zeile nicht', belegOhneGenaueAdresse([fremdesNein], 1, lader, 185262, hellUrl) === undefined)
   pruefe('belegFuer: ohne Kanal-Zeile bleibt der Rückfall bei einem Weg', belegOhneGenaueAdresse([fremdesNein], 1, lader, 185262, andere) === fremdesNein)
   pruefe('belegFuer: ab zwei Wegen gibt der Rückfall nichts', belegOhneGenaueAdresse([fremdesNein], 2, lader, 185262, andere) === undefined)
+  suchadresseProben(pruefe, lader)
   const stumm = kanalAdressenOhneAussage([ohneKanalSprache(hellBeleg)])
   const entfernt = (url: string, plattform = 'primevideo') => [{ titleId: 185262, plattform, url, grund: 'belegtes Nein' }]
   pruefe('D-26: Kanal-Weg ohne eigene Aussage in verweise-entfernt wird gemeldet', kanalWegEntfernt(entfernt(hellUrl), stumm).length === 1)
@@ -99,4 +100,18 @@ export function kanalWegProben(pruefe: Pruefe): void {
   const echt = [{ platform: 'primevideo', url: 'https://www.amazon.de/dp/B0AAAAAAAA' }] as StreamLink[]
   pruefe('Amazon-Suche: ein echter Prime-Weg bleibt', ersetztSucheUndMeldetWeg(echt, strongWorld) && echt[0]!.url.endsWith('B0AAAAAAAA'))
   pruefe('Amazon-Suche: ohne Prime-Weg legt der Aufruf nichts an', !ersetztSucheUndMeldetWeg([{ platform: 'adn', url: 'x' }] as StreamLink[], strongWorld))
+}
+
+/** Ragna Crimson (12.11.2026): Das Nein zu einer genannten Seite entfernt eine Amazon-Suchadresse nicht; ein Ja oder ein Nein ohne Adresse gilt weiter. */
+function suchadresseProben(pruefe: Pruefe, lader: DubCheck[]): void {
+  const suche = 'https://www.amazon.de/s?k=Ragna%20Crimson&i=instant-video'
+  const beleg = (extra: Partial<DubCheck>) => ({ anilistId: 146493, platform: 'primevideo', checkedAt: '2026-11-12', ...extra }) as DubCheck
+  const nein = beleg({ url: 'https://www.amazon.de/dp/B0F1XK58VQ', available: false })
+  const keinDeutsch = beleg({ url: 'https://www.amazon.de/dp/B0F1XK58VR', dub: false })
+  const ja = beleg({ url: 'https://www.amazon.de/gp/video/detail/B0D75XMMB1', dub: true, checkedAt: '2026-09-28' })
+  const plattformNein = beleg({ available: false })
+  pruefe('Suchadresse: ein Nein (nicht verfügbar) zu einer genannten Seite gilt nicht für sie', belegOhneGenaueAdresse([nein], 1, lader, 146493, suche) === undefined)
+  pruefe('Suchadresse: ein Nein (kein Deutsch) zu einer genannten Seite gilt nicht für sie', belegOhneGenaueAdresse([keinDeutsch], 1, lader, 146493, suche) === undefined)
+  pruefe('Suchadresse: hinter dem Nein zählt das jüngste Ja als Korrektur', belegOhneGenaueAdresse([nein, ja], 1, lader, 146493, suche) === ja)
+  pruefe('Suchadresse: ein Nein ohne Adresse gilt für die Plattform', belegOhneGenaueAdresse([plattformNein], 1, lader, 146493, suche) === plattformNein)
 }

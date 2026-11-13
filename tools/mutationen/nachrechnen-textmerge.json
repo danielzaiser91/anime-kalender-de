@@ -1,0 +1,13 @@
+[
+  {"name":"Kontrolle (unmutiert)","aenderungen":[]},
+  {"name":"Abstand: genau ABSTAND zählt nicht mehr als Berührung","datei":"tools/pr-nachrechnen-hunks.mjs","suche":"a[0] - b[1] <= ABSTAND","ersetze":"a[0] - b[1] < ABSTAND","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"hunksFrei: Datei ohne Hunks gilt als frei","datei":"tools/pr-nachrechnen-hunks.mjs","suche":"prHunks.length > 0 && mainHunks.length > 0 && ","ersetze":"","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"Hunk-Anzahl 0 zählt als Zeile mehr","datei":"tools/pr-nachrechnen-hunks.mjs","suche":"anzahl === 0 ? start : start + anzahl - 1","ersetze":"start + anzahl","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"Leser-Regel: freie Datei zählt weiter als berührt","datei":"tools/pr-nachrechnen-leser.mjs","suche":"bewegt.includes(p) && !frei.has(p))","ersetze":"bewegt.includes(p))","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"botSprungAusnahme: freie Datei zählt weiter als berührt","datei":"tools/pr-nachrechnen.mjs","suche":"const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p) && !frei.has(p))","ersetze":"const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"datenpfadAusnahme: freie Datei zählt weiter als berührt","datei":"tools/pr-nachrechnen.mjs","suche":"(vergleich.dateien.includes(p) && !frei.has(p)))","ersetze":"(vergleich.dateien.includes(p)))","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"bewegteDesPr: Textmerge auch ohne Vorrücken von main","datei":"tools/pr-nachrechnen.mjs","suche":"vergleich.status === 'ahead' ? prDateien","ersetze":"true ? prDateien","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"Verdrahtung: freie Menge erreicht den Git-Leser nicht","datei":"tools/pr-nachrechnen.mjs","suche":"main, bot, frei, basis })","ersetze":"main, bot, basis })","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]},
+  {"name":"Verdrahtung: gitLeser reicht refs.frei nicht an bewegtesGelesen","datei":"tools/pr-nachrechnen-leser-git.mjs","suche":"botBewegt: refs.bot, frei: refs.frei, kennung","ersetze":"botBewegt: refs.bot, kennung","tests":["node tools/pr-nachrechnen-leser-git.test.mjs"]},
+  {"name":"Verdrahtung: Textmerge bekommt die Basis nicht","datei":"tools/pr-nachrechnen.mjs","suche":"{ nummer: pr.number, kopf: pr.headRefOid, main, basis })\n  const daten","ersetze":"{ nummer: pr.number, kopf: pr.headRefOid, main })\n  const daten","tests":["node tools/pr-nachrechnen-textmerge.test.mjs"]}
+]

@@ -830,3 +830,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Gemessen in `public/data/cartoons.json`: Peppa Wutz (-12225) Netflix hat weiter nur `dubRanges` 1–13; `titles.json` Tayo (163828) Prime hat keine `dubRanges`. Die Wirkung von PR 2740/2762 ist nicht live, die Patch Note darf nicht freigegeben werden. Warum, nicht untersucht.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da kein Codefehler belegt ist.
+
+
+## 13.11.2026 — Wache rot nur wegen Patch-Notes-Vorrat „hyouka-folgen-der-zweiten-haelfte“ (Lauf 43452219800, Issue #3785)
+
+**Was läuft korrekt.** Die Wache meldet, was sie soll. Der Bestand verlor nichts (24 h: Titel 0, Urteile +2, offen +2), alle Lauffristen grün. Gemessen in `public/data/titles.json`: Hyouka (al 12189) trägt am Prime-Weg B0B5JVJKCD jetzt `dubRanges` 1–3 und 5–22; der Zuordnungsfehler, auf den der Vorrat wartet, ist also behoben.
+
+**Wo ist Verbesserungspotenzial?** Der Vorrat wartete auf eine Behebung, die schon live ist; die Wache prüft die Wartebedingung nicht selbst, sondern nennt nur das Alter. Eine maschinenlesbare Bedingung würde das tägliche rote Issue sparen (wie am 12.11. vermerkt).
+
+**Wo sind echte Risiken und Lücken?** Folge 4 fehlt weiter in den Bereichen (laut Vorrat-Datei nicht deutsch gemeldet, eigene Frage); die Patch Note darf das nicht behaupten.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, kein Codefehler. Vorrat kann freigegeben werden (Text auf „Folgen 5–22“ prüfen).

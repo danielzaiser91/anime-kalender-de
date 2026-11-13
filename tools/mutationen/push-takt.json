@@ -138,8 +138,8 @@
     "aenderungen": [
       {
         "datei": "worker/src/index.ts",
-        "suche": "return ctx.waitUntil(pushSchnellMitLog(env, now, () => loadEvents(env)))",
-        "ersetze": "return ctx.waitUntil(pushStuendlich(env, now, () => loadEvents(env), () => loadNews(env)).then(() => undefined))"
+        "suche": "pushSchnellMitLog(env, now, () => loadEvents(env))]))",
+        "ersetze": "pushStuendlich(env, now, () => loadEvents(env), () => loadNews(env)).then(() => undefined)]))"
       }
     ]
   },
