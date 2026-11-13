@@ -272,6 +272,7 @@ pipeline/check-handbelege-anbieter-zaehlung-lauf.ts
 pipeline/check-handbelege-veraltet-lauf.ts
 pipeline/check-handlung-eigen-hinweis.ts
 pipeline/check-handlung-eigen.ts
+pipeline/check-haupt-release.ts
 pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
@@ -413,7 +414,6 @@ pipeline/check-nur-omu-hauptbestand.ts
 pipeline/check-offizielle-lauf.ts
 pipeline/check-offizielle-news.ts
 pipeline/check-og-schaetz.ts
-pipeline/check-haupt-release.ts
 pipeline/check-og-termin.ts
 pipeline/check-ohne-synchro-namen.ts
 pipeline/check-omu-ohne-termin.ts
