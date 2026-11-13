@@ -158,6 +158,14 @@ Drei Punkte, die dabei zählen:
 Braucht die Antwort mehrere Werte, kommen sie in **eine** Zeichenkette — nicht in mehrere
 Aufrufe.
 
+## 4c · Läufe, die Dateien schreiben, nie im Hauptordner (13.11.2026)
+
+Ein Befehl, der Repo-Dateien schreibt (`npm run data:…`, Generatoren), läuft für Daniel in einem
+eigenen Worktree (`git -C <haupt> worktree add C:/code/_worktrees/<repo>/<thema> origin/main &&
+npm --prefix <worktree> run …`) oder bringt sein Zurücksetzen gleich mit. Anlass: E66 lief
+`data:cr-einzelwerke` und `data:cr-filmbloecke` im Hauptordner. Danach brach dort `git pull --ff-only` an drei geänderten
+Dateien ab, und das Zurücksetzen wurde ein eigener Handgriff (E68), den mir die Hauptordner-Sperre verbietet.
+
 ## 5 · Abschlussprüfung
 
 > **Öffne ein Fenster im Benutzerordner, füge den Block ein — läuft er?**
