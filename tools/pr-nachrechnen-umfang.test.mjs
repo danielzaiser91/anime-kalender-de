@@ -192,7 +192,7 @@ try {
     const b = lauf([G], [G], 'unerreichbar')
     pruefe('PR berührt die Grenzdatei selbst -> berührt, Umfang nicht gefragt', b.r === `der PR berührt ${G}` && b.umfangAufrufe === 0, b)
     const w = lauf([G, 'package.json'], ['pipeline/a.ts'], null)
-    pruefe('Grenzen (ok) + package.json bewegt -> package.json entwertet weiter', w.r === 'main bewegte package.json', w)
+    pruefe('Grenzen (ok) + package.json bewegt, Paket nicht beurteilt -> im Zweifel entwertet', w.r === 'main bewegte package.json (nicht geprüft)', w)
     const s = lauf([G, '.github/workflows/pr-pruefung.yml'], ['pipeline/a.ts'], null)
     pruefe('Grenzen (ok) + Kettendefinition bewegt -> entwertet weiter', s.r === 'main bewegte .github/workflows/pr-pruefung.yml', s)
     const v = botSprungAusnahme(bewegt([G]), ['pipeline/a.ts'], liest)
