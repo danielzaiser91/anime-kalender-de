@@ -47,8 +47,9 @@ mit Datum und Ablaufbedingung. Tote Rückfallzweige nicht schreiben. Schlanker C
 Arbeitsgrundlage; bei gleichem Ergebnis die sparsamere Bauweise (Skill
 `gleicher-effekt-weniger-aufwand`).
 
-**Übergabe-Dateien** unter `C:\code\ai\__assets\_shared files user to agent\` (samt
-Unterordnern) nach Gebrauch ungefragt löschen oder, wenn noch nötig, verschieben.
+**Übergabe-Dateien** (Downloads, `C:\code\ai\__assets\_shared files user to agent\` samt
+Unterordnern) beim Empfang sofort aus Daniels Sicht verschieben (Scratchpad oder Worktree) und
+löschen, sobald die Aufgabe erledigt ist — Daniel sieht nie Reste (13.11.2026).
 
 **Prüftisch: alles wird laufend auf Schwachstellen geprüft, ohne Anstoß (Daniel, 16.10.2026)** — Architektur, Workflows, Delegation, Priorisierung, Code, Prüfung, Tooling, Skills, Regeln; gefundene Verbesserungen setze ich selbst um. Was Daniel selbst finden musste, gilt als Lücke des Prüftischs (Rhythmus und Ablauf: Skill `prueftisch`).
 
