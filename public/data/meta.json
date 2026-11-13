@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-12T22:19:47.343Z",
+  "generatedAt": "2026-11-13T16:56:41.663Z",
   "titleCount": 2923,
   "belegtCount": 2595,
   "releaseCount": 873,
-  "eventCount": 4465,
+  "eventCount": 4472,
   "genres": [
     "Action",
     "Adventure",
@@ -192,8 +192,8 @@
     "Amazon Prime (Aniverse)",
     "Ausgabe bei aniSearch",
     "Akibapass",
-    "Sky Store",
     "Rakuten TV",
+    "Sky Store",
     "Amazon Video",
     "Amazon (DVD / Blu-ray)",
     "Videobuster",
@@ -244,7 +244,6 @@
     "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
     "Flimmerkistetv Amazon Channel",
-    "Joyn",
     "Jpc",
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
@@ -271,6 +270,7 @@
     "Ard Plus Apple Tv Channel",
     "Asiatic Amazon Channel",
     "Filmzie",
+    "Joyn",
     "Kika",
     "KSM Anime — Complete Edition (AKIBA PASS Shop)",
     "Medimops",
@@ -306,7 +306,7 @@
     2009,
     2008
   ],
-  "patchnotesStand": "2026-11-12",
+  "patchnotesStand": "2026-11-13",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

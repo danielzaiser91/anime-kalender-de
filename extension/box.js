@@ -86,7 +86,7 @@ function akBox(kennung, fuerAdresse) {
     sonst leeren Kasten sichtbar machen.
   */
   try {
-    kasten.dataset.version = chrome.runtime.getManifest().version
+    kasten.dataset.version = globalThis.akKontext.version()
   } catch {
     /* Nach einem Neuladen der Erweiterung ist der alte Kontext tot — dann ohne Fähnchen. */
   }
@@ -369,28 +369,23 @@ function akIconStarten() {
     /* Während eines Durchgangs bleibt der Kasten offen: kein Kippen, kein Schreiben. */
     if (akIcon.ariaDisabled === 'true') return
     akZu = !akZu
-    try {
-      chrome.storage.local.set({ [AK_ZU_SCHLUESSEL]: akZu })
-    } catch {
-      /* Kontext tot (Erweiterung neu geladen) — der Zustand gilt dann nur auf dieser Seite. */
-    }
+    /* Kontext tot (Erweiterung neu geladen): der Zustand gilt dann nur auf dieser Seite. */
+    void globalThis.akKontext.schreiben({ [AK_ZU_SCHLUESSEL]: akZu })
     akIconZeichnen()
   })
   akWurzelAnhaengen(akIcon)
   akIconZeichnen()
-  try {
-    chrome.storage.local.get(AK_ZU_SCHLUESSEL).then((x) => {
-      akZu = akZuAusSpeicher(x?.[AK_ZU_SCHLUESSEL])
-      akIconZeichnen()
-    })
-    chrome.storage.onChanged.addListener((aenderung, bereich) => {
-      if (bereich !== 'local' || !(AK_ZU_SCHLUESSEL in aenderung)) return
-      akZu = akZuAusSpeicher(aenderung[AK_ZU_SCHLUESSEL].newValue)
-      akIconZeichnen()
-    })
-  } catch {
-    /* ohne Speicher bleibt der Standard „eingeklappt" */
-  }
+  /* ohne Speicher bleibt der Standard „eingeklappt" */
+  void Promise.resolve(globalThis.akKontext.lesen(AK_ZU_SCHLUESSEL)).then((x) => {
+    if (!x) return
+    akZu = akZuAusSpeicher(x[AK_ZU_SCHLUESSEL])
+    akIconZeichnen()
+  })
+  globalThis.akKontext.beiAenderung((aenderung, bereich) => {
+    if (bereich !== 'local' || !(AK_ZU_SCHLUESSEL in aenderung)) return
+    akZu = akZuAusSpeicher(aenderung[AK_ZU_SCHLUESSEL].newValue)
+    akIconZeichnen()
+  })
   let geplant = false
   const pruefen = () => {
     if (geplant) return

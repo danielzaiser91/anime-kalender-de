@@ -1,5 +1,5 @@
 // Stop (Hauptsitzung): Im autonomen Modus endet kein Turn, solange Agenten-Plätze frei sind und der Vorrat
-// startfertige Aufträge hat (oder leer ist). Daniel 13.10.2026: „wieso sind nicht automatisch immer 5 belegt?“
+// startfertige Aufträge hat. Daniel 13.10.2026: „wieso sind nicht automatisch immer 5 belegt?“; seit 13.11.2026 lokal 2, remote zuerst.
 // Vorrat = <projekt>/daniel-zum-abarbeiten/vorrat/*.md, je Datei ein vollständiger Auftrag; erste Zeile = Titel.
 const fs = require('node:fs')
 const path = require('node:path')
@@ -62,9 +62,10 @@ function pruefe(input, jetzt = Date.now()) {
   const besetzt = vergeben(subagents, laufend, alle)
   // Zeile `**Vergeben:** <PR-Link>` = ein PR trägt den Auftrag schon (Doppelvergabe 3200, 08.11.2026).
   const dateien = alle.filter((d) => !besetzt.has(d) && !/^\*\*Vergeben:\*\*/m.test(fs.readFileSync(path.join(ordner, d), 'utf8')))
-  if (!dateien.length) return `Agenten-Vorrat: ${frei} von ${GRENZE} Plätzen frei und ${ordner} ist leer. Schreibe startfertige Aufträge aus stand.md „Als Nächstes“ hinein (eine Datei je Auftrag, erste Zeile Titel) und starte sie.`
+  // Leerer Vorrat schweigt: lokal muss nichts laufen, und die Cloud-Routinen sieht dieser Hook nicht (13.11.2026).
+  if (!dateien.length) return null
   const naechste = dateien.slice(0, frei).map((d) => `${path.join(ordner, d)} (${titel(path.join(ordner, d))})`)
-  return `Agenten-Vorrat: ${frei} von ${GRENZE} Plätzen frei. Starte jetzt: ${naechste.join(' · ')}. Den Dateipfad in den Auftragstext schreiben (dann gilt sie als vergeben), sobald ein PR steht, die Zeile „**Vergeben:** <PR-Link>“ in die Datei, erst nach dem Merge löschen; vorher die stand.md-Zeile zum Thema greppen (der Stand im Plan kann veraltet sein); ist ein Auftrag blockiert, Grund in die Datei schreiben, nach hinten umbenennen (mv) und Links in stand.md nachziehen.`
+  return `Agenten-Vorrat: startfertig sind ${naechste.join(' · ')}. Starte sie remote (Daniel 13.11.2026: „versuch bevorzugt remote sessions zu nutzen, lokal max 2 min 0“): Cloud-Sitzung, in einer Wachphase eine Routine per RemoteTrigger, Auftragstext selbsttragend; lokal nur, was Daniels Rechner braucht (${frei} von ${GRENZE} lokal frei), und nur, was sich nicht ausbremst. Den Dateipfad in den Auftragstext schreiben (dann gilt sie als vergeben), sobald ein PR steht, die Zeile „**Vergeben:** <PR-Link>“ in die Datei, erst nach dem Merge löschen; vorher die stand.md-Zeile zum Thema greppen (der Stand im Plan kann veraltet sein); ist ein Auftrag blockiert, Grund in die Datei schreiben, nach hinten umbenennen (mv) und Links in stand.md nachziehen.`
 }
 
 module.exports = { pruefe, markerVon }

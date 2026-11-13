@@ -69,7 +69,7 @@ assert.equal(w.waechter(naechstes(lang(400)), JETZT), '', '400 Zeichen')
 assert.equal(w.waechter(naechstes(lang(401)), JETZT), ZU_LANG, '401 Zeichen, Fett-Titel')
 const ohneFett = '- 🔵 ' + 'y'.repeat(500)
 assert.equal(w.waechter(naechstes(ohneFett), JETZT), `Als Nächstes: 1 Zeile (${ohneFett.slice(0, 50)}) länger als 400 Zeichen — kürzen`, 'ohne Fett: Anfang 50 Zeichen')
-for (const icon of ['🔴', '🟠', '🔵', '📅', '⏳', '🚫']) assert.equal(w.waechter(naechstes(`- ${icon} x`), JETZT), '', `Icon ${icon}`)
+for (const icon of ['🔴', '🟠', '🔵', '📅', '⏳', '🚫']) assert.equal(w.waechter(naechstes(`- ${icon} ${icon === '📅' ? '12:00 ' : ''}x`), JETZT), '', `Icon ${icon}`)
 assert.equal(w.waechter(naechstes('- **Ohne** Icon'), JETZT), OHNE('1 Zeile (Ohne)'), 'ohne Icon')
 assert.equal(w.waechter(naechstes('- ohne Fett und ohne Icon'), JETZT), OHNE('1 Zeile (- ohne Fett und ohne Icon)'))
 assert.equal(w.waechter(naechstes('- x 🔴'), JETZT), OHNE('1 Zeile (- x 🔴)'), 'Icon nicht am Anfang')
@@ -174,7 +174,12 @@ assert.equal(w.waechter(jetzt('- 🔵 **Form?**').replace('### Jetzt', '### Heut
 assert.equal(w.waechter(jetzt('- 🔵 **F7 X** (Kann nicht: y)'), JETZT), '', 'Grund groß geschrieben')
 assert.equal(w.waechter(jetzt('- 🔵 **F7 Form?** (kann nichts tun)'), JETZT), GRUND.replace('Form?', 'F7 Form?'), 'kann nichts ist kein Grund')
 assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT, () => true), KENNUNG, 'Kennung nur im Link-Ziel zählt nicht')
-console.log('stand-waechter.test: ok (Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
+// 📅-Zeilen: Zeit am Titelanfang (Daniel 12.11.2026 zu E57)
+for (const gut of ['- 📅 **23:30 E57 Git**', '- 📅 **13.11. 08:50 Steel Ball Run**', '- 📅 16.11. **Fristen**', '- 📅 [klein] **19.11. Probe**', '- 📅 **Do 05.11.** Termin']) {
+  assert.equal(w.waechter(jetzt(gut), JETZT), '', gut)
+}
+assert.equal(w.waechter(jetzt('- 📅 **E57 Git ab 23:30** — x'), JETZT), '📅: 1 Zeile (E57 Git ab 23:30) ohne Zeit am Anfang — „HH:MM“, „TT.MM.“ oder „TT.MM. HH:MM“ vor den Titel', 'Zeit hinten')
+console.log('stand-waechter.test: ok (📅 Zeit vorn, Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
 
 // Zeitstempel „Aktualisiert:“ in der Zukunft: 12:05 Berlin genau erlaubt (5 min), 12:06 nicht; ohne Zeile nichts
 const aktualisiert = (hhmm) => stand(FRISCH).replace('# Stand', `# Stand\nAktualisiert: 2026-10-20 ${hhmm} — x`)
@@ -224,4 +229,49 @@ if (process.platform === 'win32') {
 } else {
   console.log('stand-waechter.test: Standard-Dateisystemfall übersprungen (nur win32); Fall mit abgebildetem Pfad lief')
 }
-console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem)')
+// Jetzt-Dateien: fester Aufbau (Kennung in der Überschrift, Abschnittsreihenfolge)
+const GUT = '# F7 Titel\n\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n## Archiv\nx\n'
+const jetztStand = (zeile) => ['# Stand', '## Daniel-Todo', '### Jetzt', zeile, '### Später', '', `## In Arbeit${FRISCH}`, '', '## Als Nächstes', ...hand(40, '🔵 '), ''].join('\n')
+const ZEILE = '- 🟠 **F7** Frage, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md)) {eigen · normal · - · 01.10.}'
+const mitDatei = (inhalt) => w.waechter(jetztStand(ZEILE), JETZT, () => true, (p) => (p === 'C:/code/ai/jetzt-f7.md' ? inhalt : null))
+assert.equal(mitDatei(GUT), '', 'Jetzt-Datei gut')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung fehlt')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# F77 Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'F77 ist nicht F7')
+assert.equal(
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst; Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
+  'falsche Reihenfolge',
+)
+assert.equal(
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  'Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
+  'Archiv vor Worum',
+)
+assert.equal(mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'), '', 'Archiv darf fehlen')
+// Pflichtabschnitte je genau einmal (nur Archiv darf fehlen)
+assert.equal(
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Worum es geht“ fehlt; Jetzt-Datei F7: Abschnitt „Warum ich es nicht selbst tue“ fehlt',
+  'nur Aufgabe',
+)
+assert.equal(
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ fehlt; Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst',
+  'Aufgabe fehlt',
+)
+assert.equal(mitDatei(GUT.replace('## Deine Aufgabe\nx\n', '## Deine Aufgabe\nx\n## Deine Aufgabe\nx\n')), 'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ doppelt', 'Aufgabe doppelt')
+assert.equal(mitDatei(`${GUT}## Archiv\nx\n`), 'Jetzt-Datei F7: Abschnitt „Archiv“ doppelt', 'Archiv doppelt')
+// Unbekannte erste Überschrift; Kennung nur im Fließtext zählt nicht
+assert.equal(mitDatei(GUT.replace('## Deine Aufgabe', '## Aufgabe\nx\n## Deine Aufgabe')), 'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst', 'unbekannte erste Überschrift')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel\nF7 im Text')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung nur im Fließtext')
+// Kennung nur im Link-Ziel und Zeilen ohne „- “ führen zu keiner Dateiprüfung
+const GUT_E8 = GUT.replace('# F7', '# E8')
+const lies2 = (p) => (p === 'C:/code/ai/jetzt-e8.md' ? GUT_E8 : 'kaputt')
+const E8 = '- 🟠 **E8** Handgriff, kann nicht ([Datei](file:///C:/code/ai/jetzt-e8.md)) {eigen · normal · - · 01.10.}'
+assert.doesNotMatch(w.waechter(jetztStand('- 🟠 Frage, kann nicht ([Datei](file:///C:/code/ai/F57-x.md))'), JETZT, () => true, lies2), /Jetzt-Datei/, 'Kennung nur im Link-Ziel')
+assert.equal(w.waechter(jetztStand([E8, '  - **F7** Unterpunkt, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md))', E8].join('\n')), JETZT, () => true, lies2), '', 'eingerückte Zeile')
+assert.equal(w.waechter(jetztStand([E8, '**F7** lose Zeile, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md))', E8].join('\n')), JETZT, () => true, lies2), '', 'Nicht-Listenzeile')
+assert.equal(w.waechter(jetztStand('- 🟠 **F7** Frage, kann nicht'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
+assert.equal(w.waechter(jetztStand(ZEILE), JETZT, () => true, () => null), '', 'Datei nicht lesbar: keine Meldung')
+assert.equal(w.waechter(jetztStand(ZEILE.replace('jetzt-f7.md', 'jetzt-f7.txt')), JETZT, () => true, () => 'kaputt'), '', 'kein .md-Link: keine Meldung')
+console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Pflichtabschnitte je einmal, Archiv optional, ohne Link, Link-Ziel, Nicht-Listenzeile)')
