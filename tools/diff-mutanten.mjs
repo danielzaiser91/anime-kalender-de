@@ -156,13 +156,17 @@ function main(argv) {
     const pfad = join(ordner, 'liste.json')
     writeFileSync(pfad, JSON.stringify(fahrbar))
     const lauf = spawnSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'mutationslaeufer.mjs'), pfad], { encoding: 'utf8', maxBuffer: 1 << 28 })
-    const aus = `${lauf.stdout}${lauf.stderr}`
+    const aus = `${lauf.stdout ?? ''}${lauf.stderr ?? ''}`
+    if (lauf.status !== 0 && lauf.status !== 1) {
+      console.error(`diff-mutanten: Läufer ohne Ergebnis (Exit ${lauf.status ?? lauf.signal ?? lauf.error?.message}), nichts bewertet.\n${aus.slice(-1500)}`)
+      process.exitCode = 2
+      return
+    }
     const lebt = ueberlebende(aus)
     for (const n of lebt) console.log(`  ! Überlebt: ${n}`)
     const kaputt = unbrauchbare(aus)
     for (const n of kaputt) console.log(`  ! Unbrauchbar (nie getestet): ${n}`)
     console.log(`diff-mutanten: ${fahrbar.length} Mutanten, ${lebt.length} überlebt, ${kaputt.length} unbrauchbar.`)
-    if (lauf.status === 2) console.error(aus.slice(-1500))
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }

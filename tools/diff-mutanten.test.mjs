@@ -161,6 +161,12 @@ try {
   git('commit', '-q', '-am', 'rot')
   const rot = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
   pruefe('Grundlauf rot: Läuferausgabe erscheint auf stderr', rot.stderr.includes('Grundlauf ohne Mutation ist rot'))
+  pruefe('Grundlauf rot: Exit 2, Fehlzeile mit Exit-Status, keine Bilanzzeile', rot.status === 2 && rot.stderr.includes('Läufer ohne Ergebnis (Exit 2), nichts bewertet') && !rot.stdout.includes('überlebt'))
+  // Läufer stirbt durch Signal (Zeitüberschreitung, Speicher): status null, ebenfalls keine Bilanz
+  writeFileSync(join(wurzel, 'tools/mutationslaeufer.mjs'), "process.kill(process.pid, 'SIGKILL')\n")
+  const tot = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  pruefe('Läufer durch Signal beendet: Exit 2, Signal in der Fehlzeile, keine Bilanzzeile', tot.status === 2 && tot.stderr.includes('Läufer ohne Ergebnis (Exit SIGKILL)') && !tot.stdout.includes('überlebt'))
+  git('checkout', '--', 'tools/mutationslaeufer.mjs')
   // Läufer meldet unbrauchbare Mutanten (Ersatz-Läufer): eigene Zeile und Zahl in der Schlusszeile, nie als „gefangen“ gezählt
   writeFileSync(join(wurzel, 'tools/mutationslaeufer.mjs'), `console.log(${JSON.stringify(LAEUFER)})\n`)
   const kaputt = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
