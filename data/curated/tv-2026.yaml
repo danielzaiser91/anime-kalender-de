@@ -53,6 +53,9 @@
     time: "18:25"
     episodeCount: 24
     wochentage: [1, 2, 3, 4, 5]
+    # 13.11.2026: ProSieben MAXX zeigte 17:30-20:15 Fußball (U21 Deutschland - Belgien), Folge 7 lief nicht
+    # (Joyn führt nur 1-6); Beleg tvspielfilm.de, Sendersicht ProSieben MAXX. tv.de sperrt die Runner.
+    skipDates: ["2026-11-13"]
   hinweis: "Nach der TV-Ausstrahlung sind die Folgen kostenlos auf Joyn abrufbar (seit 05.11.2026 belegt)."
   # Handbeleg Premiere (10.10.2026): Anime2You 1059480 nennt es „deutsche TV-Premiere der ersten Staffel“;
   # davor weder deutsche Disc (erste am 04.12.2026) noch deutscher Stream (Akibapass, ADN nur OmU).
@@ -62,6 +65,7 @@
   sources:
     - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
     - https://www.anime2you.de/news/1059541/
+    - https://www.tvspielfilm.de/tv-programm/sendungen/?filter=1&order=time&date=2026-11-13
 
 # One Piece — Anime2You 1059541, 10.10.2026 (Programmplan von ProSieben MAXX): ab 5. November 2026 montags
 # bis freitags um 18:50 Uhr jeweils eine Folge mit deutscher Vertonung, Marine-Rookies-Arc (780–782) und
@@ -81,6 +85,9 @@
     time: "18:50"
     episodeCount: 98
     wochentage: [1, 2, 3, 4, 5]
+    # 13.11.2026: Fußball statt One Piece (siehe Yaiba), Folge 786 entfällt an diesem Tag.
+    skipDates: ["2026-11-13"]
   hinweis: "Wiederholung der Folgen 780 bis 877; die Characters-Log-Specials laufen nur im Originalton mit Untertiteln."
   sources:
     - https://www.anime2you.de/news/1059541/
+    - https://www.tvspielfilm.de/tv-programm/sendungen/?filter=1&order=time&date=2026-11-13
