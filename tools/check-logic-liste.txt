@@ -31,6 +31,7 @@ pipeline/check-adn-sprachriegel.ts
 pipeline/check-adn-staffel-luecken.ts
 pipeline/check-adn-staffel-meldungen.ts
 pipeline/check-adn-titelliste-abruf.ts
+pipeline/check-adresse-kern.ts
 pipeline/check-adressen-schreiben.ts
 pipeline/check-adressen.ts
 pipeline/check-ak-umleitung-lauf.ts
