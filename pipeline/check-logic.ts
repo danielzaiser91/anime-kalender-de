@@ -7841,6 +7841,8 @@ console.log('\nErschienene Folgen:')
   pruefe('Erschienen: die Wikipedia-Liste darf weiter reichen als aniSearch', erschieneneFolgen(f, 5, '2026-10-04').length === 5)
   pruefe('Erschienen: ganz ohne Datum bleibt die Liste, wie sie ist', erschieneneFolgen([{ nr: 1 }, { nr: 2 }], 0, '2026-10-04').length === 2)
   pruefe('Erschienen: nur Zukünftiges ergibt keine Liste', erschieneneFolgen([{ nr: 1, datum: '2027-01-01' }, { nr: 2, datum: '2027-01-08' }], 0, '2026-10-04').length === 0)
+  const nurKuenftig = [1, 2, 3].map((nr) => ({ nr, datum: '2027-01-01' }))
+  pruefe('Erschienen: nur künftige aniSearch-Daten, Wikipedia führt Folge 2: bis Folge 2', erschieneneFolgen(nurKuenftig, 2, '2026-10-04').length === 2, erschieneneFolgen(nurKuenftig, 2, '2026-10-04').length)
 }
 /* Eine Crunchyroll-Serie mit einer Staffel gehört einem Titel (Tokyo Revengers, 04.10.2026) — aber nur bei eindeutigem Eigentümer. */
 console.log('\nGeteilte Crunchyroll-Serie:')
