@@ -72,7 +72,7 @@
   },
   {
     "name": "09-5: Aufruf von japanStartTag ersetzt durch alte Zeile",
-    "datei": "pipeline/bau/09-5-weitere-quellen.ts",
+    "datei": "pipeline/bau/09-5-0-erstausgabe.ts",
     "suche": "const jpTag = japanStartTag(asDe)",
     "ersetze": "const jpTag = tagAus(asDe.find((l) => l.language === 'Japanisch')?.released)"
   },

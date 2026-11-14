@@ -8,6 +8,7 @@ import { tvJetzt } from '../../lib/tv-jetzt.ts'
 import { ErsteSendung, JetztLinie, SenderZeile, UhrzeitMitLaeuft } from './TvJetzt.tsx'
 import { buendeleTermine } from '../../lib/buendel.ts'
 import { coverBild } from '../../lib/cover.ts'
+import { kachelAnlegen } from '../../lib/reihe-fokus.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FernsehZeichen } from './Zeichen.tsx'
 import { BereichAuge, type Auge } from './BereichAuge.tsx'
@@ -121,7 +122,7 @@ function TvZeile({
   const premiere = tvPremiere(ev, data)
   const letzte = zeitMitMarke(weitere[weitere.length - 1] ?? {}, '≈ ')
   return (
-    <li data-tv-zeile className={[kachel ? REIHE_KACHEL : '', vorbei ? 'ak-vorbei' : ''].join(' ')} {...zeiger}>
+    <li data-tv-zeile className={[kachel ? REIHE_KACHEL : '', vorbei ? 'ak-vorbei' : ''].join(' ')} onFocus={kachelAnlegen} {...zeiger}>
       <button
         type="button"
         data-schliesst
