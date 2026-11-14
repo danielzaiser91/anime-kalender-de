@@ -21,6 +21,8 @@ export function ghMitWiederholung(gh, schlafen = schlafe) {
     try {
       return gh(args)
     } catch (e) {
+      // Merge nie wiederholen: nach einem 504 kann er schon durch sein (sonst falsches „already merged“); `merge` prüft den Zustand selbst
+      if (args[0] === 'pr' && args[1] === 'merge') throw e
       if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
       schlafen(GH_5XX_PAUSE_MS)
       return gh(args)
@@ -28,6 +30,17 @@ export function ghMitWiederholung(gh, schlafen = schlafe) {
   }
   mitWiederholung.wiederholt5xx = true
   return mitWiederholung
+}
+
+/** Squash-Merge; bei GitHub-5xx entscheidet der Zustand des PR (`MERGED` = durch, sonst Fehler weiterreichen). */
+export function mergeMit5xxPruefung(gh, pr) {
+  try {
+    return gh(['pr', 'merge', String(pr.nummer), '--squash', '--subject', `${pr.titel} (#${pr.nummer})`, '--match-head-commit', pr.kopf])
+  } catch (e) {
+    if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
+    if (gh(['pr', 'view', String(pr.nummer), '--json', 'state', '--jq', '.state']).trim() === 'MERGED') return ''
+    throw e
+  }
 }
 
 export const ghEcht = ghMitWiederholung((args) => mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS }))
@@ -115,6 +128,7 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
       return id !== '' && id !== 'null' && bauCommittetGerade(JSON.parse(gh(['run', 'view', id, '--json', 'jobs'])).jobs)
     },
     bestandRot: () => bestandIstRot(JSON.parse(gh(['run', 'list', '--workflow', BAU, '--limit', '30', '--json', 'status,conclusion,createdAt'])), Date.now()),
-    merge: (pr) => gh(['pr', 'merge', String(pr.nummer), '--squash', '--subject', `${pr.titel} (#${pr.nummer})`, '--match-head-commit', pr.kopf]),
+    jetzt: () => Date.now(),
+    merge: (pr) => mergeMit5xxPruefung(gh, pr),
   }
 }

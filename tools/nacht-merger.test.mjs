@@ -3,8 +3,8 @@
  * Erwartete Werte stehen fest im Test. Der Ablauf läuft mit einer Attrappe-Welt; die Verdrahtung (nachrechnen vor jedem Merge, Riegel,
  * Trockenlauf) prüfen die Fälle über `lauf`, nie über den Quelltext.
  */
-import { argumente, lauf } from './nacht-merger.mjs'
-import { bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghLesend, ghMitAnstossRiegel, ghMitWiederholung, stufeVon } from './nacht-merger-welt.mjs'
+import { BUDGET_MS, argumente, exitCode, lauf } from './nacht-merger.mjs'
+import { bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghLesend, ghMitAnstossRiegel, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
 import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
 let fehler = 0
@@ -154,6 +154,7 @@ pruefe('gleiche Zeit: kleinere Nummer zuerst', nr(reihenfolge([pr({ nummer: 9, e
 function welt(prs, o = {}) {
   const log = { zeilen: [], aufrufe: [], gemergt: [], details: [] }
   const exits = o.exits ?? {}
+  let uhr = 0
   const w = {
     log,
     zeile: (t) => log.zeilen.push(t),
@@ -162,8 +163,16 @@ function welt(prs, o = {}) {
       log.details.push(p.nummer)
       return p
     },
-    kopfVon: (n) => (o.neuerKopf?.[n] ?? prs.find((p) => p.nummer === n).kopf),
-    warte: (ms) => log.aufrufe.push(`warte ${ms}`),
+    // Attrappe-Uhr: jede Kopfabfrage kostet o.proPr ms, jede Wartezeit ihre Dauer
+    jetzt: () => uhr,
+    kopfVon: (n) => {
+      uhr += o.proPr ?? 0
+      return o.neuerKopf?.[n] ?? prs.find((p) => p.nummer === n).kopf
+    },
+    warte: (ms) => {
+      uhr += ms
+      log.aufrufe.push(`warte ${ms}`)
+    },
     mergeStatus: (n) => {
       log.aufrufe.push(`status ${n}`)
       const folge = o.status?.[n]
@@ -247,6 +256,29 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
   const w4 = welt(vier().slice(0, 1), { exits: { 11: 2 } })
   lauf(w4, { hoechstens: 3 })
   pruefe('0 Merges wegen nachrechnen Exit 2: Warnung', w4.log.zeilen.some((z) => z.startsWith('::warning::') && z.includes('#11')))
+}
+{
+  // Zeitbudget (Attrappe-Uhr): Grenze genau an, eins drüber; danach geordnet aufhören, Rest als unentschieden, Exit 1
+  const liste = () => vier().slice(0, 3)
+  const bis = (proPr) => {
+    const w = welt(liste(), { proPr })
+    const r = lauf(w, { hoechstens: 3, budgetMs: 1000 })
+    return { w, r }
+  }
+  const gleich = bis(500)
+  pruefe('Budget: genau an der Grenze (Uhr 1000 bei 1000) läuft weiter, alle drei gemergt', gleich.r.gemergt.join(',') === '11,12,13')
+  const knapp = bis(501)
+  pruefe('Budget: eins drüber stoppt, Rest mit Grund übersprungen', knapp.r.gemergt.join(',') === '11,12' && knapp.w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #13') && z.includes('Zeitbudget')))
+  const aus = (() => {
+    const w = welt(liste(), { proPr: 2000 })
+    return { w, r: lauf(w, { hoechstens: 3, budgetMs: 1000 }) }
+  })()
+  pruefe('Budget: nach dem ersten PR erschöpft, nur dieser gemergt, kein Stillstand (es wurde gemergt)', aus.r.gemergt.join(',') === '11' && aus.r.stillstand === false)
+  const keiner = welt(liste(), { proPr: 0, exits: {} })
+  const sofort = lauf(keiner, { hoechstens: 3, budgetMs: -1 })
+  pruefe('Budget schon vor dem ersten PR erschöpft: 0 Merges, alle genannt, Stillstand', sofort.gemergt.length === 0 && sofort.stillstand === true && keiner.log.zeilen.some((z) => z.includes('#11, #12, #13')))
+  pruefe('exitCode: Stillstand und Merge-Fehler sind rot, sonst 0', exitCode({ gemergt: [], fehler: 0, stillstand: true }) === 1 && exitCode({ gemergt: [1], fehler: 1, stillstand: false }) === 1 && exitCode({ gemergt: [], fehler: 0, stillstand: false }) === 0 && exitCode(sofort) === 1)
+  pruefe('Vorgabe: Budget 15 min unter der Jobgrenze von 20 min', BUDGET_MS === 900_000)
 }
 {
   // Andere Exit-2-Gründe (Konflikt) und Exit 1 (Kette neu angestoßen) werden nicht wiederholt, es wird nicht gewartet
@@ -336,7 +368,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const gh = (args) => {
     aufrufe.push(args.join(' '))
     const s = args.join(' ')
-    if (s.startsWith('pr list')) return JSON.stringify([{ number: 7, title: 'Titel 7', body: null, headRefOid: KOPF, headRefName: 'fix/a', isDraft: false, createdAt: '2026-11-01T01:00:00Z', reviewDecision: 'APPROVED', mergeStateStatus: 'CLEAN', changedFiles: 2 }])
+    if (s.startsWith('pr list')) return JSON.stringify([{ number: 7, title: 'Titel 7', body: null, headRefOid: KOPF, headRefName: 'fix/a', isDraft: false, createdAt: '2026-11-01T01:00:00Z', reviewDecision: 'APPROVED', mergeStateStatus: 'UNKNOWN', changedFiles: 2 }])
     if (s.includes('/files')) return 'web/src/a.tsx\ndocs/alt.md\n'
     if (s.includes('/comments')) return `${JSON.stringify(urteil(KOPF, 'ok'))}\n${JSON.stringify(nachtrag(KOPF))}\n`
     if (s.startsWith('pr view 7 --json statusCheckRollup')) return JSON.stringify(gruen)
@@ -349,6 +381,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const liste = w.offene()
   const voll = w.details(liste[0])
   pruefe('echteWelt: Liste wird abgebildet', liste.length === 1 && liste[0].nummer === 7 && liste[0].beschreibung === '' && liste[0].zweig === 'fix/a' && liste[0].geaenderteDateien === 2)
+  pruefe('echteWelt: Liste in der echten gh-Antwortform mit mergeStateStatus UNKNOWN (Stand 14.11.2026) bleibt Kandidat der Vorauswahl', liste[0].mergeStateStatus === 'UNKNOWN' && vorabGrund(liste[0]) === null)
   pruefe('echteWelt: Dateiliste fragt auch den Umbenennungsursprung', aufrufe.some((s) => s.includes('/pulls/7/files') && s.includes('previous_filename')))
   pruefe('echteWelt: Kommentarliste fragt Nutzer, Verband, Zeit und Text', aufrufe.some((s) => s.includes('/issues/7/comments') && s.includes('login: .user.login, assoc: .author_association, at: .created_at, body: .body')))
   pruefe('echteWelt: Details aus Dateien, Kommentaren, Checks, Stufe', voll.stufe === 0 && voll.pfade.join(',') === 'web/src/a.tsx,docs/alt.md' && voll.kommentare.length === 2 && voll.checks.length === 2)
@@ -450,6 +483,29 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const meldung = lauf5([new Error('gh: HTTP 502 Bad Gateway'), 'ok'])
   pruefe('5xx nur in der Fehlermeldung (ohne stderr): ebenfalls einmal wiederholt', meldung.wert === 'ok')
   pruefe('Erfolg: weder Pause noch zweiter Aufruf', lauf5(['x']).aufrufe === 'gh pr')
+  // Merge wird von der Wiederholung ausgenommen (504 nach erfolgtem Merge gäbe „already merged“)
+  const merge504 = []
+  const ohneMerge = ghMitWiederholung((args) => { merge504.push(args.join(' ')); throw f504() }, () => merge504.push('pause'))
+  let geworfen = false
+  try { ohneMerge(['pr', 'merge', '5']) } catch { geworfen = true }
+  pruefe('ghMitWiederholung: pr merge nie wiederholt, Fehler weitergereicht', geworfen && merge504.join('|') === 'pr merge 5')
+  // mergeMit5xxPruefung: 504, PR ist MERGED -> kein Fehler; 504 und OPEN -> Fehler; 404 -> Fehler ohne Zustandsabfrage
+  const mitZustand = (zustand, fehlerBei) => {
+    const aufrufe = []
+    const gh = (args) => {
+      aufrufe.push(args.slice(0, 2).join(' '))
+      if (args[1] === 'merge') throw fehlerBei
+      return `${zustand}\n`
+    }
+    let ok = true
+    try { mergeMit5xxPruefung(gh, { nummer: 5, titel: 'T', kopf: KOPF }) } catch { ok = false }
+    return { ok, aufrufe: aufrufe.join(',') }
+  }
+  const nachErfolg = mitZustand('MERGED', f504())
+  pruefe('504 beim Merge, PR danach MERGED: kein Fehler (kein falsches MERGE FEHLGESCHLAGEN)', nachErfolg.ok && nachErfolg.aufrufe === 'pr merge,pr view')
+  pruefe('504 beim Merge, PR noch OPEN: Fehler bleibt', !mitZustand('OPEN', f504()).ok)
+  const nicht5xx = mitZustand('MERGED', new Error('HTTP 405: already merged'))
+  pruefe('anderer Merge-Fehler: Fehler, keine Zustandsabfrage', !nicht5xx.ok && nicht5xx.aufrufe === 'pr merge')
   pruefe('ghEcht (Standard von echteWelt) ist mit der 5xx-Wiederholung verdrahtet', ghEcht.wiederholt5xx === true)
   // echteWelt.mergeStatus fragt den einen PR ab und schneidet den Zeilenumbruch ab
   const abfragen = []
