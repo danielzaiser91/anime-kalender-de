@@ -584,6 +584,7 @@ pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
 pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
+pipeline/check-termine-katalog-lauf.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
