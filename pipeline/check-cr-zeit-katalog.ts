@@ -72,6 +72,24 @@ const doppel = zeitenAusBlock(serie(VM, ['2026-10-31T09:30:00Z', '2026-10-31T10:
 pruefe('Zwei Folgen am selben Tag: die höhere Nummer ist die jüngste (11:00)', gleich(doppel, { time: '11:00', zeiten: { 1: '10:30' } }), doppel)
 const doppelRueck = zeitenAusBlock(serie(VM, ['2026-10-31T10:00:00Z', '2026-10-31T09:30:00Z']), { 1: '2026-10-31', 2: '2026-10-31' })
 pruefe('Zwei Folgen am selben Tag, Katalog umgekehrt: weiterhin die höhere Nummer (10:30)', gleich(doppelRueck, { time: '10:30', zeiten: { 1: '11:00' } }), doppelRueck)
+const ungeordneteFolgen = [
+  { nummer: 2, guid: 'g1', verfuegbarAb: '2026-10-31T10:00:00Z' },
+  { nummer: 1, guid: 'g0', verfuegbarAb: '2026-10-31T09:30:00Z' },
+]
+const ungeordneteStaffel = {
+  name: 'Staffel 1',
+  deutsch: 2,
+  folgen: 12,
+  deutscheFolgen: ungeordneteFolgen,
+}
+const ungeordnet = {
+  url: VM,
+  seriesId: 'GT00384015',
+  katalog: 'de',
+  staffeln: [ungeordneteStaffel],
+} as never
+const doppelListe = zeitenAusBlock(ungeordnet, { 1: '2026-10-31', 2: '2026-10-31' })
+pruefe('Zwei Folgen am selben Tag, Folge 2 vor Folge 1 im Katalog: die höhere Nummer gewinnt (11:00)', gleich(doppelListe, { time: '11:00', zeiten: { 1: '10:30' } }), doppelListe)
 
 /* setzeKatalogZeit: wann der Termin angefasst wird. */
 const sched = (extra: Partial<Schedule> = {}): Schedule => ({ firstEpisodeDate: '2026-10-31', time: '10:30', observed: { ...VM_TAGE }, ...extra }) as Schedule
