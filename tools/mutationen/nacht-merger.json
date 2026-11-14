@@ -5,7 +5,7 @@
   { "name": "wahl urteilIstOk: Präfix statt Wort (okay)", "datei": "tools/nacht-merger-wahl.mjs", "suche": "/^ok(,|$)/.test(titel)", "ersetze": "/^ok/.test(titel)" },
   { "name": "wahl urteilIstOk: Komma-Hinweis nicht erlaubt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "/^ok(,|$)/.test(titel)", "ersetze": "/^ok$/.test(titel)" },
   { "name": "wahl freigabe: jeder Nutzer als Prüfer", "datei": "tools/nacht-merger-wahl.mjs", "suche": ".filter((k) => k.login === PRUEFER_LOGIN)", "ersetze": ".filter(() => true)" },
-  { "name": "wahl freigabe: Nachtrag nie", "datei": "tools/nacht-merger-wahl.mjs", "suche": "const nachtrag = kommentare.find((k) => entscheide(", "ersetze": "const nachtrag = kommentare.find((k) => false && entscheide(" },
+  { "name": "wahl freigabe: Nachtrag nie", "datei": "tools/nacht-merger-wahl.mjs", "suche": "kommentare.some((k) => entscheide(", "ersetze": "kommentare.some((k) => false && entscheide(" },
   { "name": "wahl freigabe: Name ohne [bot]", "datei": "tools/nacht-merger-wahl.mjs", "suche": "PRUEFER_LOGIN = 'github-actions[bot]'", "ersetze": "PRUEFER_LOGIN = 'github-actions'" },
   { "name": "wahl freigabe: Urteil zu jedem Kopf", "datei": "tools/nacht-merger-wahl.mjs", "suche": "kopf.startsWith(u.treffer[1])", "ersetze": "true" },
   { "name": "wahl freigabe: älteste statt jüngstes Urteil (Sortierung)", "datei": "tools/nacht-merger-wahl.mjs", "suche": "Date.parse(a.at) - Date.parse(b.at)", "ersetze": "Date.parse(b.at) - Date.parse(a.at)" },
