@@ -40,6 +40,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   sonst `gh workflow run deploy.yml` (PR 824, 11.10.2026: kein Deploy ausgelöst).
 - **Kein Merge auf main, solange ein Deploy einen erwarteten Live-Fix trägt (26.10.2026):** Ein push-Deploy bricht den laufenden ab (Gruppe `pages`); der Merge von PR 2108 warf den Appraisal-Deploy nach 10 min weg. Vorher `gh run list --workflow deploy.yml -L 1` — läuft er und wartet Daniel auf seinen Inhalt, Merge danach.
 - **Erste Zeile des CI-Prüfers (seit 18.10.2026):** „ok“ allein heißt Pflicht-Checks des Kopfes grün; „ok, Checks rot/laufen noch/Stand unbekannt“ ist keine Merge-Freigabe — erst den Check-Stand klären.
+- **Check-Stand maschinell lesen (Lehre 62, 14.11.2026):** `gh pr checks N --json name,bucket` statt `awk` auf die Textausgabe — Check-Namen enthalten Leerzeichen, die Spalten verrutschen. Mergebereit heißt `bucket` nirgends `fail`/`pending` und `mergeStateStatus == CLEAN`.
 - **Gesetzter Auto-Merge ist kein Merge (13.10.2026):** Der CI-Prüfer läuft nach jedem Push neu und kann
   „aendern“ sagen; dann hängt der PR still auf BLOCKED (1069 und 1074 je 20 min). In der nächsten Wachphase
   `reviewDecision` lesen; bei CHANGES_REQUESTED den letzten Prüfprotokoll-Kommentar holen
