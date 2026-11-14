@@ -1370,6 +1370,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1068336": {
+      "am": "2026-11-14",
+      "vorschlaege": 2
+    },
     "1068364": {
       "am": "2026-11-06",
       "vorschlaege": 0
@@ -13067,6 +13071,51 @@
       "artikelId": "1071578",
       "artikel": "Zweite »Gushing Over Magical Girls«-Staffel startet 2027 + Teaser",
       "quelle": "https://www.anime2you.de/news/1071578/zweite-gushing-over-magical-girls-staffel-2-startet-2027/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die dritte Staffel startete am 2. Oktober 2026 im Simulcast, während die zweite Staffel ab Dezember 2026 auf DVD und Blu-ray erscheint.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-02",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1068336",
+      "artikel": "Neue Figur von Maomao aus »The Apothecary Diaries« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1068336/apothecary-diaries-maomao-medicine-curiousity-figur/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "Die dritte Staffel startete am 2. Oktober 2026 im Simulcast, während die zweite Staffel ab Dezember 2026 auf DVD und Blu-ray erscheint.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1068336",
+      "artikel": "Neue Figur von Maomao aus »The Apothecary Diaries« vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1068336/apothecary-diaries-maomao-medicine-curiousity-figur/",
       "veroeffentlicht": "2026-11-14",
       "gelesenAm": "2026-11-14"
     }
