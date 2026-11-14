@@ -64,6 +64,12 @@ const lang = baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: lauf(1, '
 assert.ok(lang.endsWith(`${'x'.repeat(5999)}a\n`), 'Ergebnistext wird bei genau 6000 Zeichen gekappt')
 assert.ok(!baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: null, tabelle: '' }], uebersprungen: [] }).includes('UNVERTRAUENSWÜRDIGE'), 'ohne Tabelle kein Hinweis nötig')
 
+const LEER_ZEILE = '- keine Mutantenliste im Diff: Probe nicht gelaufen, keine Aussage über die Tests dieses PR'
+assert.ok(baueBericht({ kopf: KOPF, ergebnisse: [], uebersprungen: [] }).includes(`\n${LEER_ZEILE}\n`), 'leerer Lauf nennt, dass keine Aussage vorliegt')
+assert.ok(!baueBericht({ kopf: KOPF, ergebnisse: [], uebersprungen: [{ liste: L2, grund: 'weil' }] }).includes('keine Mutantenliste'), 'übersprungene Liste ist nicht „keine Liste“')
+assert.ok(!baueBericht({ kopf: KOPF, ergebnisse: [{ liste: L1, lauf: null, tabelle: '' }], uebersprungen: [] }).includes('keine Mutantenliste'), 'gestartete Liste ist nicht „keine Liste“')
+assert.ok(!baueBericht({ kopf: KOPF, ergebnisse: [], uebersprungen: [], fehler: 'HTTP 502' }).includes('keine Mutantenliste'), 'Abruffehler ist nicht „keine Liste“')
+
 // --- Start und Warten mit Attrappe ---
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mutprobe-pr-'))
 try {
@@ -195,7 +201,7 @@ try {
     const text = await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => 1000, schlafen: async () => { schlaf++ }, hole: () => '' })
     assert.equal(schlaf, 0)
     assert.equal(aufrufe.filter((a) => a[0] === 'run').length, 0)
-    assert.equal(text, `Mutationsprobe zum Kopf ${KOPF} (Prüfstufe 2, Mutantenliste im Diff)\n`)
+    assert.equal(text, `Mutationsprobe zum Kopf ${KOPF} (Prüfstufe 2, Mutantenliste im Diff)\n${LEER_ZEILE}\n`, 'Fall 3838: keine Liste im Diff nennt es im Bericht')
   }
 
   // Warten: läuft zweimal, dann fertig; die Tabelle kommt hinter den Hinweis; Datei liegt im Ordner

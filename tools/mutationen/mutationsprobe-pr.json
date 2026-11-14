@@ -80,5 +80,9 @@
   {"name":"mutationsprobe.yml: concurrency bricht nicht ab (A4)","datei":".github/workflows/mutationsprobe.yml","suche":"cancel-in-progress: true","ersetze":"cancel-in-progress: false","tests":["node tools/mutationsprobe-workflow.test.mjs"]},
   {"name":"mutationsprobe.yml: concurrency ohne Liste in der Gruppe","datei":".github/workflows/mutationsprobe.yml","suche":"group: mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}","ersetze":"group: mutationsprobe-${{ inputs.zweig }}","tests":["node tools/mutationsprobe-workflow.test.mjs"]},
   {"name":"mutationsprobe.yml: Ergebnis nennt die Läufer-Herkunft nicht","datei":".github/workflows/mutationsprobe.yml","suche":" Läufer aus main, Liste und Tests vom Kopf.\"","ersetze":"\"","tests":["node tools/mutationsprobe-workflow.test.mjs"]},
+  {"name":"baueBericht: Leer-Zeile fehlt","datei":"tools/mutationsprobe-pr.mjs","suche":"if (!fehler && ergebnisse.length === 0 && uebersprungen.length === 0) z.push(KEINE_LISTE)","ersetze":"","tests":["node tools/mutationsprobe-pr.test.mjs"]},
+  {"name":"baueBericht: Leer-Zeile auch bei Abruffehler","datei":"tools/mutationsprobe-pr.mjs","suche":"if (!fehler && ergebnisse.length === 0","ersetze":"if (ergebnisse.length === 0","tests":["node tools/mutationsprobe-pr.test.mjs"]},
+  {"name":"baueBericht: Leer-Zeile trotz Läufen","datei":"tools/mutationsprobe-pr.mjs","suche":"if (!fehler && ergebnisse.length === 0 && uebersprungen","ersetze":"if (!fehler && uebersprungen","tests":["node tools/mutationsprobe-pr.test.mjs"]},
+  {"name":"baueBericht: Leer-Zeile trotz Übersprungenen","datei":"tools/mutationsprobe-pr.mjs","suche":"&& uebersprungen.length === 0) z.push(KEINE_LISTE)","ersetze":") z.push(KEINE_LISTE)","tests":["node tools/mutationsprobe-pr.test.mjs"]},
   {"name":"Kontrolle ohne Mutation","aenderungen":[],"tests":["node tools/mutationsprobe-pr.test.mjs"]}
 ]

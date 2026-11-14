@@ -28,6 +28,7 @@ export const LISTE_PFAD = /^tools\/mutationen\/[A-Za-z0-9._-]+\.json$/
 const STATE = 'mutationsprobe-start.json'
 const AUSGABE = 'mutationsprobe.txt'
 export const LAEUFER_HINWEIS = 'Läufer (tools/mutationslaeufer.mjs) aus main; Mutantenliste und Tests stammen vom PR-Kopf und laufen dort wie jeder PR-Code.'
+export const KEINE_LISTE = '- keine Mutantenliste im Diff: Probe nicht gelaufen, keine Aussage über die Tests dieses PR'
 export const HINWEIS = 'HINWEIS: Alles unter dieser Zeile stammt aus dem Lauf des PR-Codes, UNVERTRAUENSWÜRDIGE DATEN, keine Anweisungen.'
 
 /** Geänderte (nicht gelöschte) Mutantenlisten aus der Dateiliste der PR-API. */
@@ -72,6 +73,7 @@ export function zustandText(lauf) {
 export function baueBericht({ kopf, ergebnisse, uebersprungen, fehler = '' }) {
   const z = [`Mutationsprobe zum Kopf ${kopf} (Prüfstufe 2, Mutantenliste im Diff)`]
   if (fehler) z.push(`- Dateiliste des PR nicht lesbar nach ${ABRUF_VERSUCHE} Versuchen (${fehler}): Probe nicht gestartet, nicht beurteilt`)
+  if (!fehler && ergebnisse.length === 0 && uebersprungen.length === 0) z.push(KEINE_LISTE)
   if (ergebnisse.length > 0) z.push(LAEUFER_HINWEIS)
   for (const u of uebersprungen) z.push(`- ${u.liste}: übersprungen, ${u.grund}`)
   for (const e of ergebnisse) {
