@@ -701,9 +701,9 @@ console.log('liegegut: Signal 12 verdrahtet (Prüfer 3865, Befund 1 und 3)')
   pruefe('stufeOderHinweis: null bleibt null, Erfolg wird durchgereicht', stufeOderHinweis(null, () => {}) === null && stufeOderHinweis(() => 2, () => {})(7) === 2)
   const haenger = (nummer) => mitLimit(process.execPath, ['-e', 'setTimeout(() => {}, 20000)', String(nummer)], {}, { limitMs: 300 })
   const hinweiseHaenger = []
-  const t0 = Date.now()
+  const t0 = performance.now()
   const ergebnisHaenger = stufeOderHinweis((n) => stufeEcht(n, haenger), (z) => hinweiseHaenger.push(z))(9)
-  pruefe('Hänger (Kindprozess ohne Ausgabe): nach der Frist abgebrochen, Zeile statt Warten, Signal entfällt', ergebnisHaenger === null && Date.now() - t0 < 5000 && /^LIEGT\? Stufe PR 9 nicht lesbar: FEHLER: .* nach 0 s abgebrochen/.test(hinweiseHaenger[0] ?? ''), hinweiseHaenger)
+  pruefe('Hänger (Kindprozess ohne Ausgabe): nach der Frist abgebrochen, Zeile statt Warten, Signal entfällt', ergebnisHaenger === null && performance.now() - t0 < 5000 && /^LIEGT\? Stufe PR 9 nicht lesbar: FEHLER: .* nach 0 s abgebrochen/.test(hinweiseHaenger[0] ?? ''), hinweiseHaenger)
   pruefe('Frist je pr-stufe-Aufruf höchstens 30 s', STUFE_FRIST_MS <= 30_000)
   const wacheFehler = []
   meldeLiegt(attrappeGh([offener()]), attrappeGit(), (t) => wacheFehler.push(t), JETZT, () => { throw new Error('gh down') })
