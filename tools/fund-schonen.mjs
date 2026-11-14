@@ -46,15 +46,9 @@ const jung = (e) => Date.parse(e?.lastRun ?? '') || 0
 
 /** Gesundheitsdatei: main-Fassung + Einträge des Funds, außer für Quellen mit verworfener Datei; je Quelle gilt der jüngere `lastRun`. Zeilenende am Dateiende wie bei main. */
 export function healthZusammenfuehren(mainText, fundText, verworfenePfade) {
-  const lies = (t) => {
-    try {
-      return JSON.parse(t)
-    } catch {
-      return {}
-    }
-  }
-  const main = lies(mainText)
-  const fund = lies(fundText)
+  // Unlesbare Fassung: Fehler statt leerer Stand — sonst gingen alle Einträge still verloren.
+  const main = JSON.parse(mainText)
+  const fund = JSON.parse(fundText)
   const raus = { ...main }
   for (const [quelle, eintrag] of Object.entries(fund)) {
     if (quelleBetroffen(quelle, verworfenePfade)) continue

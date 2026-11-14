@@ -50,6 +50,9 @@ pruefe('jüngerer Fund-Eintrag unbetroffener Quelle gewinnt', h.alt.lastCount ==
 pruefe('neue Quelle aus dem Fund kommt dazu', h.neu?.lastCount === 5, h.neu)
 pruefe('ohne Verwerfen gewinnt der jüngere Fund-Eintrag je Quelle', JSON.parse(healthZusammenfuehren(mainH, fundH, []))['tmdb-titles'].lastCount === 8)
 pruefe('Dateiende ohne Zeilenumbruch bleibt', !healthZusammenfuehren(mainH, fundH, []).endsWith('\n'))
+const wirft = (f) => { try { f(); return false } catch { return true } }
+pruefe('unlesbare Fund-Gesundheit: Fehler statt leerem Stand', wirft(() => healthZusammenfuehren(mainH, '{kaputt', [])))
+pruefe('unlesbare main-Gesundheit: Fehler statt leerem Stand', wirft(() => healthZusammenfuehren('', fundH, [])))
 pruefe('Dateiende mit Zeilenumbruch bleibt', healthZusammenfuehren(`${mainH}\n`, fundH, []).endsWith('\n'))
 pruefe('Hinweis leer ohne Verworfene', hinweisZeilen([]).length === 0)
 pruefe('Hinweis nennt jede Datei', hinweisZeilen(ent.verwerfen).some((z) => z.includes(`${D}/spaeter.json`)) && hinweisZeilen(ent.verwerfen).length === 2)
