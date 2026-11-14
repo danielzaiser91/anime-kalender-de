@@ -57,6 +57,7 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 - Kommentare wandern mit; Chronik dabei auf ein bis drei Zeilen kürzen.
 - **Mutationslisten ziehen im selben PR mit** (13.11.2026: 5 von 8 Nacht-Zerlegungen rot): vor dem Schieben `grep -rln "<Datei oder Zeilentext>" tools/mutationen/`, danach `datei` und `suche` (Einrückung!) in jeder Liste auf die neue Stelle setzen.
   Vor dem Push läuft `node tools/mutationsanker-alle.test.mjs`; dort muss „0 tote Anker“ stehen.
+- **Neue Nahtstelle = neue Prüfung** (14.11.2026, PR 3672): Jede Stelle, an der der Rest jetzt ein ausgelagertes Modul aufruft, bekommt im selben PR eine Prüfung mit Mutationsliste. Danach wird die Länge jeder Funktion gemessen, auch die des Rests: Keine darf über 80 Zeilen liegen.
 
 ## 4. Beweisen
 
