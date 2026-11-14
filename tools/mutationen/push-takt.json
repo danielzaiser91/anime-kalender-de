@@ -297,5 +297,35 @@
         "ersetze": "import { fehlerLog } from './werte.ts'\nimport { istErschienen } from '../../shared/logic.ts'"
       }
     ]
+  },
+  {
+    "name": "pushIstErschienen: Termin ohne Uhrzeit zählt wie sonst (Bedingung weg)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "Boolean(e.time) && istErschienen(e, zeit, false)",
+        "ersetze": "istErschienen(e, zeit, false)"
+      }
+    ]
+  },
+  {
+    "name": "pushIstErschienen: nur Termine ohne Uhrzeit lösen aus (Bedingung verneint)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "Boolean(e.time) && istErschienen(e, zeit, false)",
+        "ersetze": "!e.time && istErschienen(e, zeit, false)"
+      }
+    ]
+  },
+  {
+    "name": "pushIstErschienen: dritter Parameter true statt false",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "Boolean(e.time) && istErschienen(e, zeit, false)",
+        "ersetze": "Boolean(e.time) && istErschienen(e, zeit, true)"
+      }
+    ]
   }
 ]
