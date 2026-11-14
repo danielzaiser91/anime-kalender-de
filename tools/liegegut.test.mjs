@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { nachtragSignal, stufeEcht, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { nachtragSignal, stufeEcht, stufeOderHinweis, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -687,14 +687,20 @@ console.log('liegegut: Signal 12 verdrahtet (Prüfer 3865, Befund 1 und 3)')
   pruefe('main reicht die Stufenfunktion durch', ausgabe.some((t) => /Signal 12/.test(t)), ausgabe)
   const aufraeumen = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'laeufe-aufraeumen.mjs'), 'utf8')
   pruefe('Wachphase (laeufe-aufraeumen) übergibt stufeEcht an meldeLiegt', /meldeLiegt\(.*Date\.now\(\), stufeEcht\)/.test(aufraeumen))
-  const log = []
-  const echt = (aus) => { const alt = console.error; console.error = (t) => log.push(t); try { return stufeEcht(5, aus) } finally { console.error = alt } }
-  pruefe('stufeEcht: Stufe 2 aus der JSON-Ausgabe', echt(() => '{"stufe":2}') === 2 && log.length === 0)
-  pruefe('stufeEcht: Stufe 0 bleibt 0', echt(() => '{"stufe":0}') === 0)
-  pruefe('stufeEcht: Ausgabe ohne stufe → null', echt(() => '{}') === null)
-  pruefe('stufeEcht: Stufe als Text → null', echt(() => '{"stufe":"2"}') === null)
-  log.length = 0
-  pruefe('stufeEcht: Prozess scheitert → null und Fehlerzeile mit PR-Nummer', echt(() => { throw new Error('Frist\nzweite') }) === null && /PR 5 nicht lesbar \(Frist\)/.test(log[0] ?? ''), log)
+  const wirft = (aus) => { try { stufeEcht(5, aus); return null } catch (e) { return e.message } }
+  pruefe('stufeEcht: Stufe 2 aus der JSON-Ausgabe', stufeEcht(5, () => '{"stufe":2}') === 2)
+  pruefe('stufeEcht: Stufe 0 bleibt 0', stufeEcht(5, () => '{"stufe":0}') === 0)
+  pruefe('stufeEcht: Ausgabe ohne stufe wirft', wirft(() => '{}') === 'Ausgabe ohne Stufe')
+  pruefe('stufeEcht: Stufe als Text wirft', wirft(() => '{"stufe":"2"}') === 'Ausgabe ohne Stufe')
+  pruefe('stufeEcht: Müll statt JSON wirft', wirft(() => 'kein json') !== null)
+  pruefe('stufeEcht: Prozess scheitert → wirft die Fehlermeldung', wirft(() => { throw new Error('Frist') }) === 'Frist')
+  const hinweise = []
+  const sicher = stufeOderHinweis(() => { throw new Error('Frist\nzweite') }, (t) => hinweise.push(t))
+  pruefe('stufeOderHinweis: Fehler → null und Zeile „LIEGT? Stufe PR n nicht lesbar“', sicher(7) === null && hinweise.join() === 'LIEGT? Stufe PR 7 nicht lesbar: Frist', hinweise)
+  pruefe('stufeOderHinweis: null bleibt null, Erfolg wird durchgereicht', stufeOderHinweis(null, () => {}) === null && stufeOderHinweis(() => 2, () => {})(7) === 2)
+  const wacheFehler = []
+  meldeLiegt(attrappeGh([offener()]), attrappeGit(), (t) => wacheFehler.push(t), JETZT, () => { throw new Error('gh down') })
+  pruefe('meldeLiegt: Stufenfehler erscheint als LIEGT?-Zeile in der Wachphase', wacheFehler.some((t) => t === 'LIEGT? Stufe PR 8 nicht lesbar: gh down'), wacheFehler)
 }
 
 if (fehler.length > 0) {

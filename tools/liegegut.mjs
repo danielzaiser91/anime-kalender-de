@@ -134,14 +134,23 @@ const letzteAktivitaet = (pr, kopfZeit) => {
 
 const prStufeLauf = (nummer) => mitLimit(process.execPath, ['tools/pr-stufe.mjs', String(nummer)], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }, { limitMs: 30_000 })
 
-/** Prüfstufe über `pr-stufe` (dasselbe Werkzeug wie der Nacht-Merger), Frist 30 s je Aufruf; unlesbar → null (kein Signal statt Fehlalarm bei jedem ok-PR). */
+/** Prüfstufe über `pr-stufe` (dasselbe Werkzeug wie der Nacht-Merger), Frist 30 s je Aufruf; Fehler und Ausgabe ohne Stufe werfen (sichtbar macht sie `stufeOderHinweis`). */
 export function stufeEcht(nummer, ausfuehren = prStufeLauf) {
-  try {
-    const s = JSON.parse(ausfuehren(nummer)).stufe
-    return Number.isInteger(s) ? s : null
-  } catch (e) {
-    console.error(`liegegut: pr-stufe PR ${nummer} nicht lesbar (${String(e.message).split("\n")[0]}), Signal 12 entfällt`)
-    return null
+  const s = JSON.parse(ausfuehren(nummer)).stufe
+  if (!Number.isInteger(s)) throw new Error('Ausgabe ohne Stufe')
+  return s
+}
+
+/** Stufenfunktion, die statt zu werfen eine Hinweiszeile gibt und null liefert (Signal 12 entfällt dann nur für diesen PR, nicht still). */
+export function stufeOderHinweis(stufeFn, hinweis) {
+  if (stufeFn === null) return null
+  return (nummer) => {
+    try {
+      return stufeFn(nummer)
+    } catch (e) {
+      hinweis(`LIEGT? Stufe PR ${nummer} nicht lesbar: ${String(e.message).split("\n")[0]}`)
+      return null
+    }
   }
 }
 
@@ -416,8 +425,9 @@ export function liegegutFunde(ghFn, gitFn, jetzt, hinweis, standText = null, zug
   const offen = alle.filter((p) => !p.isDraft)
   const geteilt = geteilteEntscheidungen(offen, offeneEntscheidungen(standText))
   const karte = kopfZeiten(gh)
+  const stufe = stufeOderHinweis(stufeFn, hinweis)
   const stapel = stapelBasen(gh, offen, zug)
-  return alle.map((pr) => bewertePr(gh, git, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number), istZugPr(pr, zug), repo.name, repo.slug ? null : stufeFn)).filter((f) => f !== null)
+  return alle.map((pr) => bewertePr(gh, git, pr, geteilt.get(pr.number), jetzt, karte, stapel.get(pr.number), istZugPr(pr, zug), repo.name, repo.slug ? null : stufe)).filter((f) => f !== null)
 }
 
 /** Funde aller überwachten Repos (REPOS), Haupt-Repo zuerst; ein Abruffehler in einem Repo schlägt durch. */
@@ -441,7 +451,7 @@ export function liegtZeile(funde, jetzt) {
 /** Wachphase: Sammelzeile oder eigene Fehlerzeile, wirft nie (kein stilles „nichts“). */
 export function meldeLiegt(ghFn, gitFn, log, jetzt, stufeFn = null) {
   try {
-    const zeile = liegtZeile(liegegutAlleFunde(ghFn, gitFn, jetzt, undefined, standImProjekt(gitFn, log), undefined, stufeFn), jetzt)
+    const zeile = liegtZeile(liegegutAlleFunde(ghFn, gitFn, jetzt, log, standImProjekt(gitFn, log), undefined, stufeFn), jetzt)
     if (zeile) log(zeile)
   } catch (e) {
     log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
