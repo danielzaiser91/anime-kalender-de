@@ -169,6 +169,7 @@ globalThis.akNetflixBremseTakt = (bremse, jetzt, tun) => {
   const text = bremse.text(jetzt)
   if (!text) return false
   tun.zeigen(text)
+  tun.raeumen?.()
   return true
 }
 
@@ -204,6 +205,85 @@ globalThis.akNetflixPauseZeigen = (zeileHolen, text) => {
     el.textContent = text
   } catch {
     /* Eine Anzeige darf den Takt nicht aufhalten. */
+  }
+}
+
+/**
+ * Der Fortschritt des Durchgangs: `gezaehlt` = Sprünge dieses Laufs (der aktuelle Titel zählt schon), `grenze` = bei Laufbeginn
+ * offene Titel, `titel` = der gerade geprüfte. `null`, solange es keine Zahlen gibt.
+ */
+globalThis.akNetflixFortschritt = (gezaehlt, grenze, titel) => {
+  if (!(grenze > 0) || !(gezaehlt > 0)) return null
+  const geprueft = Math.min(gezaehlt - 1, grenze)
+  return { text: `Durchgang: ${geprueft} von ${grenze} geprüft${titel ? ` · gerade: ${titel}` : ''}`, anteil: geprueft / grenze }
+}
+
+const ZEILE_FORTSCHRITT = 'ak-hinweis ak-durchgang-fortschritt'
+const ZEILE_BALKEN = 'ak-durchgang-balken'
+
+/** Fortschrittszeile und schmaler Balken im Kasten (`fortschritt` = `null` entfernt beide). */
+globalThis.akNetflixFortschrittZeigen = (zeileHolen, fortschritt) => {
+  try {
+    const zeile = zeileHolen()
+    if (!zeile) return
+    let text = zeile.querySelector('.ak-durchgang-fortschritt')
+    let balken = zeile.querySelector(`.${ZEILE_BALKEN}`)
+    if (!fortschritt) {
+      text?.remove()
+      return balken?.remove()
+    }
+    if (!text) {
+      text = document.createElement('div')
+      text.className = ZEILE_FORTSCHRITT
+      zeile.appendChild(text)
+    }
+    if (!balken) {
+      balken = document.createElement('div')
+      balken.className = ZEILE_BALKEN
+      zeile.appendChild(balken)
+    }
+    text.textContent = fortschritt.text
+    balken.style.setProperty('--ak-anteil', `${Math.round(fortschritt.anteil * 100)}%`)
+  } catch {
+    /* Eine Anzeige darf den Takt nicht aufhalten. */
+  }
+}
+
+/**
+ * Steht ein Titelfenster ohne Inhalt (grauer Hintergrund) auf `/title/<id>`, geht es auf die Startseite zurück — sonst bliebe der
+ * Hintergrund stehen. Geräumt wird nur das Fenster, das der Durchgang selbst geöffnet hat: `o.sprung` (`zuletztGeoeffnet`) ist sein
+ * Sprung in diesem Tab (`o.tab`) auf genau diese Kennung und mindestens `akNetflixLeerNach` ms her (vorher lädt der Inhalt noch). Ein
+ * Titel, den Daniel selbst öffnet, bleibt. `gehe`: Navigation ohne Neuladen.
+ */
+globalThis.akNetflixFensterRaeumen = (doc, loc, gehe, o) => {
+  const lage = akNetflixFensterlage(doc, loc)
+  if (!lage?.hintergrund || lage.inhalt) return false
+  const id = /^\/(?:[a-z-]+\/)?title\/(\d+)/.exec(lage.pfad)?.[1]
+  const s = o?.sprung
+  if (!id || !s?.durchgang || s.tab !== o.tab || String(s.id) !== id || !(o.jetzt - s.zeit >= akNetflixLeerNach)) return false
+  gehe('/browse')
+  return true
+}
+
+const ZAEHLER_SCHLUESSEL = 'ak-netflix-zaehler'
+
+/** Zähler und Nenner des Fortschritts überstehen das volle Neuladen (`akNetflixVollLaden`): aus dem `sessionStorage`, sonst `{ gezaehlt: 0, grenze: null }`. */
+globalThis.akNetflixZaehlerStand = (speicher = sitzungSpeicher()) => {
+  try {
+    const z = JSON.parse(speicher?.getItem(ZAEHLER_SCHLUESSEL) ?? 'null')
+    return Number.isFinite(z?.gezaehlt) && z.grenze > 0 ? { gezaehlt: z.gezaehlt, grenze: z.grenze } : { gezaehlt: 0, grenze: null }
+  } catch {
+    return { gezaehlt: 0, grenze: null }
+  }
+}
+
+/** Merkt Zähler und Nenner; `null` als Zähler vergisst sie (Ende des Durchgangs). */
+globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher()) => {
+  try {
+    if (gezaehlt === null) speicher?.removeItem(ZAEHLER_SCHLUESSEL)
+    else speicher?.setItem(ZAEHLER_SCHLUESSEL, JSON.stringify({ gezaehlt, grenze }))
+  } catch {
+    /* Ohne Speicher gilt der Stand bis zum Neuladen. */
   }
 }
 
@@ -325,13 +405,25 @@ globalThis.akNetflixSelbstTakt = (o, tun) => {
 
 /**
  * Die Rückrufe des Takts (`akNetflixSelbstTakt`). `d`: `{ titelBericht, kasten (netflixKasten), speichern (speicherSchreiben),
- * beenden (laufBeenden), weiter (selbstWeiter) }`.
+ * beenden (laufBeenden), weiter (selbstWeiter), gehe (Navigation ohne Neuladen), fortschritt (`akNetflixFortschritt` des Laufs),
+ * sprung (`zuletztGeoeffnet`), tab (`meinTab`) }`.
  */
 globalThis.akNetflixTaktTun = (d) => ({
   schreiben: (besitzer) => void d.speichern({ netflixDurchgangBesitzer: besitzer }),
   beenden: d.beenden,
-  sehen: () => d.titelBericht.sehen(akNetflixFensterlage(document, location), Date.now()),
+  sehen: () => {
+    d.titelBericht.sehen(akNetflixFensterlage(document, location), Date.now())
+    akNetflixFortschrittZeigen(() => d.kasten().querySelector('.ak-z-melden'), d.fortschritt?.() ?? null)
+  },
   zeigen: (text) => akNetflixPauseZeigen(() => d.kasten().querySelector('.ak-z-melden'), text),
+  raeumen: () => akNetflixFensterRaeumen(document, location, d.gehe, { sprung: d.sprung?.(), tab: d.tab, jetzt: Date.now() }),
+  /** Ende des Durchgangs: Pausen- und Fortschrittszeile weg, Zähler vergessen, kein eigener grauer Hintergrund übrig. */
+  aufraeumen() {
+    this.zeigen(null)
+    akNetflixFortschrittZeigen(() => d.kasten().querySelector('.ak-z-melden'), null)
+    akNetflixZaehlerSetze(null)
+    this.raeumen()
+  },
   weiter: d.weiter,
 })
 

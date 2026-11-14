@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-11-13T04:12:16.061Z",
+  "geholtAm": "2026-11-14T04:10:15.200Z",
   "titel": {
     "21": {
       "seite": "One Piece (Anime)/Episodenliste",
@@ -14842,6 +14842,859 @@
         }
       ]
     },
+    "21459": {
+      "seite": "My Hero Academia/Episodenliste",
+      "folgen": [
+        {
+          "nr": 1,
+          "st": 1,
+          "dt": "Izuku Midoriya: Origin",
+          "ead": "2018-03-14"
+        },
+        {
+          "nr": 2,
+          "st": 2,
+          "dt": "Voraussetzung zum Helden",
+          "ead": "2018-03-21"
+        },
+        {
+          "nr": 3,
+          "st": 3,
+          "dt": "Stöhnt, ihr Muskeln!",
+          "ead": "2018-03-28"
+        },
+        {
+          "nr": 4,
+          "st": 4,
+          "dt": "Startlinie",
+          "ead": "2018-03-30"
+        },
+        {
+          "nr": 5,
+          "st": 5,
+          "dt": "Was ich jetzt zu tun vermag",
+          "ead": "2018-03-30"
+        },
+        {
+          "nr": 6,
+          "st": 6,
+          "dt": "Werd wild, Scheißnerd!",
+          "ead": "2018-05-15"
+        },
+        {
+          "nr": 7,
+          "st": 7,
+          "dt": "Deku vs. Kat-chan",
+          "ead": "2018-05-22"
+        },
+        {
+          "nr": 8,
+          "st": 8,
+          "dt": "Katsukis Startlinie",
+          "ead": "2018-05-29"
+        },
+        {
+          "nr": 9,
+          "st": 9,
+          "dt": "Gut so, gib alles, Tenya!",
+          "ead": "2018-06-05"
+        },
+        {
+          "nr": 10,
+          "st": 10,
+          "dt": "Begegnung mit dem Unbekannten",
+          "ead": "2018-08-16"
+        },
+        {
+          "nr": 11,
+          "st": 11,
+          "dt": "Game over",
+          "ead": "2018-08-17"
+        },
+        {
+          "nr": 12,
+          "st": 12,
+          "dt": "All Might",
+          "ead": "2018-08-17"
+        },
+        {
+          "nr": 13,
+          "st": 13,
+          "dt": "In eines jeden Herzen",
+          "ead": "2018-08-17"
+        },
+        {
+          "nr": 14,
+          "st": 1,
+          "dt": "So sieht’s aus, Ochako",
+          "ead": "2019-05-16"
+        },
+        {
+          "nr": 15,
+          "st": 2,
+          "dt": "Brülle, Sportfest",
+          "ead": "2019-05-23"
+        },
+        {
+          "nr": 16,
+          "st": 3,
+          "dt": "Jeder auf seine spezielle Art",
+          "ead": "2019-05-30"
+        },
+        {
+          "nr": 17,
+          "st": 4,
+          "dt": "Taktik, Taktik, Taktik",
+          "ead": "2019-05-31"
+        },
+        {
+          "nr": 18,
+          "st": 5,
+          "dt": "Das Finale des Reiterkampfes",
+          "ead": "2019-05-31"
+        },
+        {
+          "nr": 19,
+          "st": 6,
+          "dt": "Der Junge, dem alles in die Wiege gelegt wurde",
+          "ead": "2019-06-20"
+        },
+        {
+          "nr": 20,
+          "st": 7,
+          "dt": "Sieg oder Niederlage",
+          "ead": "2019-06-27"
+        },
+        {
+          "nr": 21,
+          "st": 8,
+          "dt": "Erzittert, Herausforderer!",
+          "ead": "2019-06-28"
+        },
+        {
+          "nr": 22,
+          "st": 9,
+          "dt": "Katsuki vs. Ochako",
+          "ead": "2019-06-28"
+        },
+        {
+          "nr": 23,
+          "st": 10,
+          "dt": "Shoto Todoroki: Origin",
+          "ead": "2019-06-28"
+        },
+        {
+          "nr": 24,
+          "st": 11,
+          "dt": "Kämpfe, Tenya!",
+          "ead": "2019-07-25"
+        },
+        {
+          "nr": 25,
+          "st": 12,
+          "dt": "Shoto vs. Katsuki",
+          "ead": "2019-07-26"
+        },
+        {
+          "nr": 26,
+          "st": 13,
+          "dt": "Suchen wir uns Namen aus",
+          "ead": "2019-07-26"
+        },
+        {
+          "nr": 27,
+          "st": 14,
+          "dt": "Gespenstisch! Gran Torinos Auftritt",
+          "ead": "2019-07-26"
+        },
+        {
+          "nr": 28,
+          "st": 15,
+          "dt": "Izuku und Tomura",
+          "ead": "2019-07-26"
+        },
+        {
+          "nr": 29,
+          "st": 16,
+          "dt": "Heldenmörder Stain vs. Schüler der Yuei",
+          "ead": "2019-08-29"
+        },
+        {
+          "nr": 30,
+          "st": 17,
+          "dt": "Die Entscheidung",
+          "ead": "2019-09-05"
+        },
+        {
+          "nr": 31,
+          "st": 18,
+          "dt": "Der Heldenmörder Stain und die Auswirkungen",
+          "ead": "2019-09-05"
+        },
+        {
+          "nr": 32,
+          "st": 19,
+          "dt": "Die Praktika der Anderen",
+          "ead": "2019-09-05"
+        },
+        {
+          "nr": 33,
+          "st": 20,
+          "dt": "Zuhören! Eine alte Geschichte",
+          "ead": "2019-09-05"
+        },
+        {
+          "nr": 34,
+          "st": 21,
+          "dt": "Vorbereiten auf die Prüfungen!",
+          "ead": "2019-10-03"
+        },
+        {
+          "nr": 35,
+          "st": 22,
+          "dt": "Momo: Rising",
+          "ead": "2019-10-04"
+        },
+        {
+          "nr": 36,
+          "st": 23,
+          "dt": "Die Fassade bröckelt",
+          "ead": "2019-10-04"
+        },
+        {
+          "nr": 37,
+          "st": 24,
+          "dt": "Katsuki Bakugo: Origin",
+          "ead": "2019-10-04"
+        },
+        {
+          "nr": 38,
+          "st": 25,
+          "dt": "Encounter",
+          "ead": "2019-10-04"
+        },
+        {
+          "nr": 39,
+          "st": 1,
+          "dt": "Game Start",
+          "ead": "2020-07-30"
+        },
+        {
+          "nr": 40,
+          "st": 2,
+          "dt": "Wild Wild Pussycats",
+          "ead": "2020-08-06"
+        },
+        {
+          "nr": 41,
+          "st": 3,
+          "dt": "Kota",
+          "ead": "2020-08-06"
+        },
+        {
+          "nr": 42,
+          "st": 4,
+          "dt": "Mein Held",
+          "ead": "2020-08-06"
+        },
+        {
+          "nr": 43,
+          "st": 5,
+          "dt": "Fliegende Stahlfaust!!!",
+          "ead": "2020-08-06"
+        },
+        {
+          "nr": 44,
+          "st": 6,
+          "dt": "Brüllende Bedrohung",
+          "ead": "2020-09-24"
+        },
+        {
+          "nr": 45,
+          "st": 7,
+          "dt": "Von Ort zu Ort zu Ort",
+          "ead": "2020-10-01"
+        },
+        {
+          "nr": 46,
+          "st": 8,
+          "dt": "Von Tenya an Izuku",
+          "ead": "2020-10-01"
+        },
+        {
+          "nr": 47,
+          "st": 9,
+          "dt": "All For One",
+          "ead": "2020-10-01"
+        },
+        {
+          "nr": 48,
+          "st": 10,
+          "dt": "Das Symbol des Friedens",
+          "ead": "2020-10-01"
+        },
+        {
+          "nr": 49,
+          "st": 11,
+          "dt": "One For All",
+          "ead": "2020-11-26"
+        },
+        {
+          "nr": 50,
+          "st": 12,
+          "dt": "Das Ende vom Anfang und der Anfang vom Ende",
+          "ead": "2020-12-03"
+        },
+        {
+          "nr": 51,
+          "st": 13,
+          "dt": "Ab ins Wohnheim",
+          "ead": "2020-12-03"
+        },
+        {
+          "nr": 52,
+          "st": 14,
+          "dt": "Spezialtechniken ausarbeiten",
+          "ead": "2020-12-03"
+        },
+        {
+          "nr": 53,
+          "st": 15,
+          "dt": "The Prüfung",
+          "ead": "2020-12-03"
+        },
+        {
+          "nr": 54,
+          "st": 16,
+          "dt": "Die Shiketsu kriecht heran"
+        },
+        {
+          "nr": 55,
+          "st": 17,
+          "dt": "Klasse 1-A"
+        },
+        {
+          "nr": 56,
+          "st": 18,
+          "dt": "Rush!"
+        },
+        {
+          "nr": 57,
+          "st": 19,
+          "dt": "Rettungsübung"
+        },
+        {
+          "nr": 58,
+          "st": 20,
+          "dt": "Special: Rettet die Erde mit der Kraft der Liebe!"
+        },
+        {
+          "nr": 59,
+          "st": 21,
+          "dt": "Was machst du denn da!?"
+        },
+        {
+          "nr": 60,
+          "st": 22,
+          "dt": "Es geht um deine Spezialität"
+        },
+        {
+          "nr": 61,
+          "st": 23,
+          "dt": "Deku vs. Kat-chan 2"
+        },
+        {
+          "nr": 62,
+          "st": 24,
+          "dt": "Die Jahreszeit der Begegnungen"
+        },
+        {
+          "nr": 63,
+          "st": 25,
+          "dt": "Unbesiegbar"
+        },
+        {
+          "nr": 64,
+          "st": 1,
+          "dt": "Yuei-Klasse 1-A im Blickpunkt"
+        },
+        {
+          "nr": 65,
+          "st": 2,
+          "dt": "Overhaul"
+        },
+        {
+          "nr": 66,
+          "st": 3,
+          "dt": "Boy meets …"
+        },
+        {
+          "nr": 67,
+          "st": 4,
+          "dt": "Gegen das Schicksal"
+        },
+        {
+          "nr": 68,
+          "st": 5,
+          "dt": "Zeig Mumm! Auf geht’s, Red Riot!"
+        },
+        {
+          "nr": 69,
+          "st": 6,
+          "dt": "Ein unangenehmes Gespräch"
+        },
+        {
+          "nr": 70,
+          "st": 7,
+          "dt": "Go!!"
+        },
+        {
+          "nr": 71,
+          "st": 8,
+          "dt": "Suneater von den Big Three"
+        },
+        {
+          "nr": 72,
+          "st": 9,
+          "dt": "Red Riot"
+        },
+        {
+          "nr": 73,
+          "st": 10,
+          "dt": "Delegation"
+        },
+        {
+          "nr": 74,
+          "st": 11,
+          "dt": "Lemillion"
+        },
+        {
+          "nr": 75,
+          "st": 12,
+          "dt": "Eine unvorhersehbare Hoffnung"
+        },
+        {
+          "nr": 76,
+          "st": 13,
+          "dt": "100 Prozent ohne Limit"
+        },
+        {
+          "nr": 77,
+          "st": 14,
+          "dt": "Eine strahlende Zukunft"
+        },
+        {
+          "nr": 78,
+          "st": 15,
+          "dt": "Schwelende Flammen"
+        },
+        {
+          "nr": 79,
+          "st": 16,
+          "dt": "Gewinnt die Herzen der kleinen Racker!"
+        },
+        {
+          "nr": 80,
+          "st": 17,
+          "dt": "Der kuschelige Prüfungssonderkurs"
+        },
+        {
+          "nr": 81,
+          "st": 18,
+          "dt": "Das Schulfest"
+        },
+        {
+          "nr": 82,
+          "st": 19,
+          "dt": "Die Vorbereitungen sind das Schönste am Schulfest, oder?"
+        },
+        {
+          "nr": 83,
+          "st": 20,
+          "dt": "Gold Tips Imperial"
+        },
+        {
+          "nr": 84,
+          "st": 21,
+          "dt": "Deku vs. Gentle Criminal"
+        },
+        {
+          "nr": 85,
+          "st": 22,
+          "dt": "Das Schulfest ist eröffnet!!"
+        },
+        {
+          "nr": 86,
+          "st": 23,
+          "dt": "Lass es laufen! Das Schulfest!"
+        },
+        {
+          "nr": 87,
+          "st": 24,
+          "dt": "Die Hero Billboard Charts Japan"
+        },
+        {
+          "nr": 88,
+          "st": 25,
+          "dt": "Neuanfang"
+        },
+        {
+          "nr": 89,
+          "st": 1,
+          "dt": "Klasse 1-A, alle zum Einsatz!"
+        },
+        {
+          "nr": 90,
+          "st": 2,
+          "dt": "Nachbilder"
+        },
+        {
+          "nr": 91,
+          "st": 3,
+          "dt": "Konfrontation! Klasse A vs. Klasse B"
+        },
+        {
+          "nr": 92,
+          "st": 4,
+          "dt": "Auf geht’s, Hitoshi!"
+        },
+        {
+          "nr": 93,
+          "st": 5,
+          "dt": "Operation „Neue Technik improvisieren“"
+        },
+        {
+          "nr": 94,
+          "st": 6,
+          "dt": "Vorausschauen"
+        },
+        {
+          "nr": 95,
+          "st": 7,
+          "dt": "Das dritte Match"
+        },
+        {
+          "nr": 96,
+          "st": 8,
+          "dt": "Die Entscheidung des dritten Matchs"
+        },
+        {
+          "nr": 97,
+          "st": 9,
+          "dt": "Der Erste gewinnt"
+        },
+        {
+          "nr": 98,
+          "st": 10,
+          "dt": "Nachfolger"
+        },
+        {
+          "nr": 99,
+          "st": 11,
+          "dt": "Unser wilder Kampf"
+        },
+        {
+          "nr": 100,
+          "st": 12,
+          "dt": "Eine neue Kraft und One For All"
+        },
+        {
+          "nr": 101,
+          "st": 13,
+          "dt": "Merry! Christmas!"
+        },
+        {
+          "nr": 102,
+          "st": 14,
+          "dt": "Auf zu Endeavors Agentur!"
+        },
+        {
+          "nr": 103,
+          "st": 15,
+          "dt": "Eins nach dem anderen"
+        },
+        {
+          "nr": 104,
+          "st": 16,
+          "dt": "Es ist lange her, Herr Selkie"
+        },
+        {
+          "nr": 105,
+          "st": 17,
+          "dt": "Shotos höllengleiches Elternhaus"
+        },
+        {
+          "nr": 106,
+          "st": 18,
+          "dt": "Der, dem nicht vergeben wird"
+        },
+        {
+          "nr": 107,
+          "st": 19,
+          "dt": "Du bist mehr Held als jeder andere"
+        },
+        {
+          "nr": 108,
+          "st": 20,
+          "dt": "My Villain Academia"
+        },
+        {
+          "nr": 109,
+          "st": 21,
+          "dt": "Das Fest der Wiederkunft"
+        },
+        {
+          "nr": 110,
+          "st": 22,
+          "dt": "Die Parade des traurigen Mannes"
+        },
+        {
+          "nr": 111,
+          "st": 23,
+          "dt": "Tenko Shimura: Origin"
+        },
+        {
+          "nr": 112,
+          "st": 24,
+          "dt": "Tomura Shigaraki: Origin"
+        },
+        {
+          "nr": 113,
+          "st": 25,
+          "dt": "Der Himmel, weit und kobaltblau"
+        },
+        {
+          "nr": 114,
+          "st": 1,
+          "dt": "Ein stiller Anfang"
+        },
+        {
+          "nr": 115,
+          "st": 2,
+          "dt": "Mirko, die Nummer fünf"
+        },
+        {
+          "nr": 116,
+          "st": 3,
+          "dt": "One’s Justice"
+        },
+        {
+          "nr": 117,
+          "st": 4,
+          "dt": "Nachfolge"
+        },
+        {
+          "nr": 118,
+          "st": 5,
+          "dt": "Eine zerstörerische Spannung"
+        },
+        {
+          "nr": 119,
+          "st": 6,
+          "dt": "Encounter 2"
+        },
+        {
+          "nr": 120,
+          "st": 7,
+          "dt": "Disaster Walker"
+        },
+        {
+          "nr": 121,
+          "st": 8,
+          "dt": "Schurkenliga vs. Yuei-Schüler"
+        },
+        {
+          "nr": 122,
+          "st": 9,
+          "dt": "Katsuki Bakugo: Rising"
+        },
+        {
+          "nr": 123,
+          "st": 10,
+          "dt": "Die Personen in unserem Inneren"
+        },
+        {
+          "nr": 124,
+          "st": 11,
+          "dt": "Dabi-Dance"
+        },
+        {
+          "nr": 125,
+          "st": 12,
+          "dt": "Hoffnungsfäden"
+        },
+        {
+          "nr": 126,
+          "st": 13,
+          "dt": "Last Stage"
+        },
+        {
+          "nr": 127,
+          "st": 14,
+          "dt": "Die reinste Hölle"
+        },
+        {
+          "nr": 128,
+          "st": 15,
+          "dt": "Tartaros"
+        },
+        {
+          "nr": 129,
+          "st": 16,
+          "dt": "Shotos Familienhölle 2"
+        },
+        {
+          "nr": 130,
+          "st": 17,
+          "dt": "Wie man ein Feuer nicht löscht"
+        },
+        {
+          "nr": 131,
+          "st": 18,
+          "dt": "Izuku Midoriya und Tomura Shigaraki"
+        },
+        {
+          "nr": 132,
+          "st": 19,
+          "dt": "Mit aller Kraft!!"
+        },
+        {
+          "nr": 133,
+          "st": 20,
+          "dt": "Die Attentäterin"
+        },
+        {
+          "nr": 134,
+          "st": 21,
+          "dt": "Die bildschöne Lady Nagant"
+        },
+        {
+          "nr": 135,
+          "st": 22,
+          "dt": "Freunde"
+        },
+        {
+          "nr": 136,
+          "st": 23,
+          "dt": "Deku vs. Klasse A"
+        },
+        {
+          "nr": 137,
+          "st": 24,
+          "dt": "Erklärung eines Mädchens"
+        },
+        {
+          "nr": 138,
+          "st": 25,
+          "dt": "Verbinden und verbinden"
+        },
+        {
+          "nr": 139,
+          "st": 1,
+          "dt": "Top-Notch Support aus dem Westen in letzter Sekunde!"
+        },
+        {
+          "nr": 140,
+          "st": 2,
+          "dt": "Geist"
+        },
+        {
+          "nr": 141,
+          "st": 3,
+          "dt": "Schurke"
+        },
+        {
+          "nr": 142,
+          "st": 4,
+          "dt": "Diese Geschichte erzählt von der Zeit, bis wir alle zu Helden werden"
+        },
+        {
+          "nr": 143,
+          "st": 5,
+          "dt": "Let you down"
+        },
+        {
+          "nr": 144,
+          "st": 6,
+          "dt": "Division"
+        },
+        {
+          "nr": 145,
+          "st": 7,
+          "dt": "Inflation"
+        },
+        {
+          "nr": 146,
+          "st": 8,
+          "dt": "Zwei Glühende Fäuste"
+        },
+        {
+          "nr": 147,
+          "st": 9,
+          "dt": "Extras"
+        },
+        {
+          "nr": 148,
+          "st": 10,
+          "dt": "Der brennende Körper, der das Leben erhellt! Ein verletzter Held!"
+        },
+        {
+          "nr": 149,
+          "st": 11,
+          "dt": "Light Fades To Rain"
+        },
+        {
+          "nr": 150,
+          "st": 12,
+          "dt": "Die, die Schaden abwenden, und die, die Schaden anrichten"
+        },
+        {
+          "nr": 151,
+          "st": 13,
+          "dt": "Über Zeiten hinweg"
+        },
+        {
+          "nr": 152,
+          "st": 14,
+          "dt": "Gemeinsam mit Mezo"
+        },
+        {
+          "nr": 153,
+          "st": 15,
+          "dt": "Butterfly Effect"
+        },
+        {
+          "nr": 154,
+          "st": 16,
+          "dt": "Die Verkettung der Ereignisse, die hierhergeführt haben"
+        },
+        {
+          "nr": 155,
+          "st": 17,
+          "dt": "Hopes"
+        },
+        {
+          "nr": 156,
+          "st": 18,
+          "dt": "It's A Small World"
+        },
+        {
+          "nr": 157,
+          "st": 19,
+          "dt": "I Am Here"
+        },
+        {
+          "nr": 158,
+          "st": 20,
+          "dt": "Das Ego eines Mädchens"
+        },
+        {
+          "nr": 159,
+          "st": 21,
+          "dt": "Ein Kampf ohne Spezialitäten"
+        }
+      ]
+    },
     "118399": {
       "seite": "Yashahime: Princess Half-Demon",
       "folgen": [
@@ -15903,7 +16756,8 @@
         {
           "nr": 1370,
           "st": 47,
-          "dt": "Stellares Finale"
+          "dt": "Stellares Finale",
+          "ead": "2026-11-13"
         },
         {
           "nr": 1371,
@@ -15913,7 +16767,7 @@
         {
           "nr": 1372,
           "st": 2,
-          "dt": "—1"
+          "dt": "Doppelgänger-Dilemma"
         },
         {
           "nr": 1373,

@@ -8,31 +8,11 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00383999@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T160000Z
-DTEND:20261106T163000Z
-SUMMARY:Firefly Wedding – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17358/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:failure-frame-box@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Failure Frame – Komplettbox (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15656/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T195500Z
 DTEND:20261109T202500Z
-SUMMARY:Hell’s Paradise – Folge 11
+SUMMARY:Hell’s Paradise – Folge 11/13
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -42,7 +22,7 @@ UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T202000Z
 DTEND:20261109T205000Z
-SUMMARY:Hell’s Paradise – Folge 12
+SUMMARY:Hell’s Paradise – Folge 12/13
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -56,6 +36,16 @@ SUMMARY:Firefly Wedding – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T202000Z
+DTEND:20261116T205000Z
+SUMMARY:Hell’s Paradise – Folge 13/13
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-20@anime-kalender-de

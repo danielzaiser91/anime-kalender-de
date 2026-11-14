@@ -1,5 +1,5 @@
 import type { Release } from '../../shared/types.ts'
-import { berlinToUtc } from '../../shared/time.ts'
+import { berlinToUtc, diffDays } from '../../shared/time.ts'
 import { expandEvents, istErschienen } from '../../shared/logic.ts'
 
 /**
@@ -32,6 +32,9 @@ export function hoechsteFolgeJeAnbieter(releases: Release[], heute: string): Map
 function wochenAbStart(r: Release, heute: string): number {
   const start = r.schedule.firstEpisodeDate
   if (!start || start > heute) return 0
-  const tage = (Date.parse(`${heute}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / 86_400_000
-  return (r.schedule.firstEpisodeNumber ?? 1) - 1 + Math.floor(tage / 7) + 1
+  // Belegtes Ende schlägt Fortschreibung; eine Sendepause am Sendetag bringt keine Folge (wie expandEvents).
+  const ende = r.schedule.lastEpisodeDate && r.schedule.lastEpisodeDate < heute ? r.schedule.lastEpisodeDate : heute
+  const tage = diffDays(start, ende)
+  const pausen = (r.schedule.skipDates ?? []).filter((d) => d >= start && d <= ende && diffDays(start, d) % 7 === 0).length
+  return (r.schedule.firstEpisodeNumber ?? 1) - 1 + Math.floor(tage / 7) + 1 - pausen
 }

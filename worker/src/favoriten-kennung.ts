@@ -19,10 +19,10 @@ export async function ladeKennungen(env: Pick<Env, 'SITE_URL'>): Promise<Kennung
   return { umleitung: await ladeUmleitung(env).catch(() => undefined) }
 }
 
-/** Nur ganze Zahlen übernehmen — die Liste kommt aus dem Browser; `ak: 1` kennzeichnet sie als unsere Kennung. */
+/** Nur ganze Zahlen außer 0 übernehmen (Titel ohne AniList-Kennung sind negativ) — die Liste kommt aus dem Browser; `ak: 1` kennzeichnet sie als unsere Kennung. */
 export function schreibeFavoriten(input: unknown, ak: unknown): string {
   if (!Array.isArray(input)) return ''
-  const liste = [...new Set(input.map(Number).filter((v) => Number.isInteger(v) && v > 0))].join(',')
+  const liste = [...new Set(input.map(Number).filter((v) => Number.isInteger(v) && v !== 0))].join(',')
   return liste && ak === 1 ? VORSATZ + liste : liste
 }
 
