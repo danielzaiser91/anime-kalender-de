@@ -250,6 +250,17 @@ function suche(el, klasse) {
   return null
 }
 
+/** Die Klassen jeder Listenzeile (`ak-zeile`) in Anzeigereihenfolge. */
+function zeilenKlassen(body) {
+  const klassen = []
+  const sammle = (el) => {
+    if (String(el?.className).split(/\s+/).includes('ak-zeile')) klassen.push([...el.classList._])
+    for (const k of el?.kinder ?? []) sammle(k)
+  }
+  sammle(body)
+  return klassen
+}
+
 /** Eigener Filter (15.11.2026): Knopf mit Zahl, Zeile markiert und ans Ende sortiert, offene Zeilen unberührt. */
 function pruefeZurueckZeilen(body) {
   const alle = []
@@ -563,6 +574,22 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     sammle(einer.body)
     pruefe('1 gemeldet, 1 zurückgestellt, 1 offen: Kopfzeile „1 Titel zu prüfen · 1 zurückgestellt“', texte.includes('1 Titel zu prüfen · 1 zurückgestellt'), texte.filter((t) => /zu prüfen/.test(t) && t.length < 60))
     pruefe('… und der Schalter „1 gemeldet zeigen“', texte.includes('1 gemeldet zeigen'), texte.filter((t) => /gemeldet/.test(t) && t.length < 40))
+    const folge = zeilenKlassen(einer.body)
+    pruefe('Reihenfolge: offen, dann zurückgestellt, dann gemeldet', folge.length === 3 && !folge[0].includes('ak-zurueck') && !folge[0].includes('ak-abgehakt') && folge[1].includes('ak-zurueck') && folge[2].includes('ak-abgehakt'), folge)
+  }
+  /* Ohne zurückgestellte Titel gibt es weder Filterknopf noch markierte Zeile. */
+  {
+    const keiner = lade('/title/81186100', KULISSE)
+    for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    await vm.runInContext('dialogOeffnen()', vm.createContext(keiner.umgebung))
+    const texte = []
+    const sammle = (el) => {
+      texte.push(String(el?.textContent ?? ''))
+      for (const k of el?.kinder ?? []) sammle(k)
+    }
+    sammle(keiner.body)
+    pruefe('ohne zurückgestellte Titel: kein Filterknopf „zurückgestellt zeigen“', !texte.some((t) => /zurückgestellt (zeigen|ausblenden)/.test(t)), texte.filter((t) => /zurückgestellt/.test(t)))
+    pruefe('ohne zurückgestellte Titel: keine Zeile mit ak-zurueck', zeilenKlassen(keiner.body).length === 3 && zeilenKlassen(keiner.body).every((k) => !k.includes('ak-zurueck')), zeilenKlassen(keiner.body))
   }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
