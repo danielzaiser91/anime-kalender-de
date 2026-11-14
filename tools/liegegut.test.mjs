@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { nachtragSignal, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -649,6 +649,25 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   const ohneDatei = fahre()
   pruefe('Prozess: stand.md fehlt → sichtbare Hinweiszeile, Exit 0, Signal 6 wieder da', ohneDatei.status === 0 && /liegegut: .*stand\.md fehlt – offene F-Nummern unbekannt/.test(ohneDatei.stdout) && /; 6 Gleiche offene/.test(ohneDatei.stdout), { o: ohneDatei.stdout, e: ohneDatei.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
+}
+
+console.log('liegegut: Signal 12 – Stufe-2-PR mit Prüfer-ok, aber ohne Nachtrag zum aktuellen Kopf (14.11.2026: 3661, 3717, 3720, 3726)')
+{
+  const k9 = KOPF.slice(0, 9)
+  const nachtrag = (stunden, kopf) => ({ ...daniel(stunden, `## Nachtrag (Abnahme Dirigent)\nKopf ${kopf.slice(0, 9)}`), authorAssociation: 'OWNER' })
+  const signal = (kommentare, stufe, kopfStunden = 1) => nachtragSignal(pr(7, { comments: kommentare }), JETZT - kopfStunden * 3600 * 1000, JETZT, () => stufe).map((s) => s.nr)
+  pruefe('Stufe 2, Prüfer-ok zum alten Kopf, Nachtrag nur zum alten Kopf → Signal 12', JSON.stringify(signal([bot(5, ALT, 'ok'), nachtrag(4, ALT)], 2)) === '[12]')
+  pruefe('Stufe 2, Prüfer-ok, Nachtrag zum neuen Kopf → kein Signal', signal([bot(5, ALT, 'ok'), nachtrag(0.5, KOPF)], 2).length === 0)
+  pruefe('Stufe 1 → kein Signal', signal([bot(5, ALT, 'ok')], 1).length === 0)
+  pruefe('Stufe 2, jüngstes Urteil ändern → kein Signal (Sache der Nachbesserung)', signal([bot(6, ALT, 'ok'), bot(5, ALT, 'aendern')], 2).length === 0)
+  pruefe('Stufe 2, Kopf-Commit jünger als 10 min → noch kein Signal', signal([bot(5, ALT, 'ok')], 2, 9 / 60).length === 0)
+  pruefe('Stufe 2, Kopf-Commit 11 min alt → Signal', signal([bot(5, ALT, 'ok')], 2, 11 / 60).length === 1)
+  const text = nachtragSignal(pr(7, { comments: [bot(5, KOPF, 'ok')] }), JETZT - 3600 * 1000, JETZT, () => 2)[0]?.text
+  pruefe('Text nennt den Kopf kurz', text === `Stufe 2: Nachtrag zum Kopf ${k9} fehlt (Nacht-Merger überspringt)`, text)
+  let gefragt = 0
+  nachtragSignal(pr(7, { comments: [bot(5, ALT, 'aendern')] }), JETZT - 3600 * 1000, JETZT, () => { gefragt++; return 2 })
+  pruefe('Stufe wird nur erfragt, wenn alles andere zutrifft (pr-stufe lädt den Diff)', gefragt === 0)
+  pruefe('Ohne Stufenquelle (null) kein Signal', nachtragSignal(pr(7, { comments: [bot(5, KOPF, 'ok')] }), JETZT - 3600 * 1000, JETZT, null).length === 0)
 }
 
 if (fehler.length > 0) {
