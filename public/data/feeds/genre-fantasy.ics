@@ -75,8 +75,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261108T153000Z
-DTEND:20261108T160000Z
+DTSTART:20261108T143000Z
+DTEND:20261108T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17645/
@@ -288,16 +288,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GT00383994@2026-11-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261111T151500Z
-DTEND:20261111T154500Z
-SUMMARY:Magic Knight Rayearth – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16013/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T151500Z
@@ -336,6 +326,16 @@ SUMMARY:Pokémon Horizonte
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00383994@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T163000Z
+DTEND:20261111T170000Z
+SUMMARY:Magic Knight Rayearth – Folge 3/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16013/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-11#67@anime-kalender-de
@@ -440,16 +440,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-11-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261112T170000Z
-DTEND:20261112T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 3/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261112T172500Z
@@ -480,6 +470,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261112T180500Z
+DTEND:20261112T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 3/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-112153-tv-toggo-plus@2026-11-12@anime-kalender-de
@@ -673,8 +673,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261115T153000Z
-DTEND:20261115T160000Z
+DTSTART:20261115T143000Z
+DTEND:20261115T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -798,18 +798,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GT00383994@2026-11-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261118T151500Z
-DTEND:20261118T154500Z
-SUMMARY:Magic Knight Rayearth – Folge 4/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16013/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-18#76@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T160500Z
@@ -818,6 +806,18 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00383994@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T163000Z
+DTEND:20261118T170000Z
+SUMMARY:Magic Knight Rayearth – Folge 4/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16013/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-18#77@anime-kalender-de
@@ -882,18 +882,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-11-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261119T170000Z
-DTEND:20261119T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 4/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261119T172500Z
@@ -924,6 +912,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261119T180500Z
+DTEND:20261119T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 4/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:the-last-naruto-the-movie-2026-11-19@2026-11-19@anime-kalender-de
@@ -1111,8 +1111,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261122T153000Z
-DTEND:20261122T160000Z
+DTSTART:20261122T143000Z
+DTEND:20261122T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -1210,8 +1210,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2026-11-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261125T151500Z
-DTEND:20261125T154500Z
+DTSTART:20261125T163000Z
+DTEND:20261125T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -1257,18 +1257,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-11-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261126T170000Z
-DTEND:20261126T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 5/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261126T172500Z
@@ -1304,6 +1292,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261126T180500Z
+DTEND:20261126T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 5/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-156040-primevideo@2026-11-26@anime-kalender-de
@@ -1439,8 +1439,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261129T153000Z
-DTEND:20261129T160000Z
+DTSTART:20261129T143000Z
+DTEND:20261129T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -1550,8 +1550,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2026-12-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261202T151500Z
-DTEND:20261202T154500Z
+DTSTART:20261202T163000Z
+DTEND:20261202T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -1597,18 +1597,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-12-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261203T170000Z
-DTEND:20261203T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 6/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-12-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261203T172500Z
@@ -1644,6 +1632,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261203T180500Z
+DTEND:20261203T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 6/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-12-04@anime-kalender-de
@@ -1838,8 +1838,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261206T153000Z
-DTEND:20261206T160000Z
+DTSTART:20261206T143000Z
+DTEND:20261206T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -1937,8 +1937,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2026-12-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261209T151500Z
-DTEND:20261209T154500Z
+DTSTART:20261209T163000Z
+DTEND:20261209T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -1984,18 +1984,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-12-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261210T170000Z
-DTEND:20261210T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 7/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-12-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261210T172500Z
@@ -2031,6 +2019,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-12-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261210T180500Z
+DTEND:20261210T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 7/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-1313-disc@2026-12-10@anime-kalender-de
@@ -2128,8 +2128,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261213T153000Z
-DTEND:20261213T160000Z
+DTSTART:20261213T143000Z
+DTEND:20261213T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -2177,8 +2177,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2026-12-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261216T151500Z
-DTEND:20261216T154500Z
+DTSTART:20261216T163000Z
+DTEND:20261216T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -2199,18 +2199,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-12-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261217T170000Z
-DTEND:20261217T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 8/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261217T175000Z
@@ -2221,6 +2209,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-12-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261217T180500Z
+DTEND:20261217T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 8/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-18@anime-kalender-de
@@ -2377,8 +2377,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2026-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261223T151500Z
-DTEND:20261223T154500Z
+DTSTART:20261223T163000Z
+DTEND:20261223T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -2399,18 +2399,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-12-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261224T170000Z
-DTEND:20261224T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 9/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261224T175000Z
@@ -2421,6 +2409,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-12-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261224T180500Z
+DTEND:20261224T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 9/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-25@anime-kalender-de
@@ -2523,8 +2523,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2026-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261230T151500Z
-DTEND:20261230T154500Z
+DTSTART:20261230T163000Z
+DTEND:20261230T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -2545,18 +2545,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2026-12-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261231T170000Z
-DTEND:20261231T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 10/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261231T175000Z
@@ -2567,6 +2555,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2026-12-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261231T180500Z
+DTEND:20261231T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 10/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-01@anime-kalender-de
@@ -2669,8 +2669,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2027-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270106T151500Z
-DTEND:20270106T154500Z
+DTSTART:20270106T163000Z
+DTEND:20270106T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -2691,18 +2691,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2027-01-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20270107T170000Z
-DTEND:20270107T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 11/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270107T175000Z
@@ -2713,6 +2701,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2027-01-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270107T180500Z
+DTEND:20270107T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 11/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-08@anime-kalender-de
@@ -2790,8 +2790,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383994@2027-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270113T151500Z
-DTEND:20270113T154500Z
+DTSTART:20270113T163000Z
+DTEND:20270113T170000Z
 SUMMARY:Magic Knight Rayearth – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -2812,18 +2812,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GDKHZEP21@2027-01-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20270114T170000Z
-DTEND:20270114T173000Z
-SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 12/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/17631/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270114T175000Z
@@ -2834,6 +2822,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GDKHZEP21@2027-01-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270114T180500Z
+DTEND:20270114T183500Z
+SUMMARY:The Iceblade Sorcerer Shall Rule the World II – Folge 12/≈12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/17631/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-15@anime-kalender-de

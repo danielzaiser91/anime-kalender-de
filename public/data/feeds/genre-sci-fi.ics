@@ -18,6 +18,17 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00384006@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T140000Z
+DTEND:20261108T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! Staffel 1 – Folge 6/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-11-08#20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T142000Z
@@ -38,17 +49,6 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GT00384006@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261108T150000Z
-DTEND:20261108T153000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 6/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T153000Z
@@ -63,8 +63,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261109T143000Z
-DTEND:20261109T150000Z
+DTSTART:20261109T153000Z
+DTEND:20261109T160000Z
 SUMMARY:PSYREN – Folge 3/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17232/
@@ -181,6 +181,19 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00384006@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261115T140000Z
+DTEND:20261115T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! Staffel 1 – Folge 7/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
+ bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
+ et.\nDetails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-11-15#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261115T142500Z
@@ -201,19 +214,6 @@ DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GT00384006@2026-11-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261115T150000Z
-DTEND:20261115T153000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 7/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261115T153000Z
@@ -228,8 +228,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261116T143000Z
-DTEND:20261116T150000Z
+DTSTART:20261116T153000Z
+DTEND:20261116T160000Z
 SUMMARY:PSYREN – Folge 4/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -404,8 +404,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261122T150000Z
-DTEND:20261122T153000Z
+DTSTART:20261122T140000Z
+DTEND:20261122T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
@@ -429,8 +429,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261123T143000Z
-DTEND:20261123T150000Z
+DTSTART:20261123T153000Z
+DTEND:20261123T160000Z
 SUMMARY:PSYREN – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -462,8 +462,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261129T150000Z
-DTEND:20261129T153000Z
+DTSTART:20261129T140000Z
+DTEND:20261129T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
@@ -487,8 +487,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-11-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261130T143000Z
-DTEND:20261130T150000Z
+DTSTART:20261130T153000Z
+DTEND:20261130T160000Z
 SUMMARY:PSYREN – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -511,8 +511,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261206T150000Z
-DTEND:20261206T153000Z
+DTSTART:20261206T140000Z
+DTEND:20261206T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
@@ -536,8 +536,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-12-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261207T143000Z
-DTEND:20261207T150000Z
+DTSTART:20261207T153000Z
+DTEND:20261207T160000Z
 SUMMARY:PSYREN – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -578,8 +578,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261213T150000Z
-DTEND:20261213T153000Z
+DTSTART:20261213T140000Z
+DTEND:20261213T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
@@ -603,8 +603,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-12-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261214T143000Z
-DTEND:20261214T150000Z
+DTSTART:20261214T153000Z
+DTEND:20261214T160000Z
 SUMMARY:PSYREN – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -615,8 +615,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261220T150000Z
-DTEND:20261220T153000Z
+DTSTART:20261220T140000Z
+DTEND:20261220T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
@@ -640,8 +640,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-12-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261221T143000Z
-DTEND:20261221T150000Z
+DTSTART:20261221T153000Z
+DTEND:20261221T160000Z
 SUMMARY:PSYREN – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -652,8 +652,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261227T150000Z
-DTEND:20261227T153000Z
+DTSTART:20261227T140000Z
+DTEND:20261227T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
@@ -665,8 +665,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2026-12-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261228T143000Z
-DTEND:20261228T150000Z
+DTSTART:20261228T153000Z
+DTEND:20261228T160000Z
 SUMMARY:PSYREN – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -677,8 +677,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2027-01-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270104T143000Z
-DTEND:20270104T150000Z
+DTSTART:20270104T153000Z
+DTEND:20270104T160000Z
 SUMMARY:PSYREN – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -689,8 +689,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371866@2027-01-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270111T143000Z
-DTEND:20270111T150000Z
+DTSTART:20270111T153000Z
+DTEND:20270111T160000Z
 SUMMARY:PSYREN – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
