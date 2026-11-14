@@ -7,7 +7,7 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 
 const SKRIPT = resolve(import.meta.dirname, 'pr-vorpruefung.mjs')
 const UHR = resolve(import.meta.dirname, 'uhr-in-tests.mjs')
@@ -15,6 +15,14 @@ const MODULE = resolve(import.meta.dirname, '../node_modules')
 const wurzel = mkdtempSync(join(tmpdir(), 'vorpruefung-lauf-'))
 const git = (cwd, ...a) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd, stdio: 'ignore' })
 const SORTIERT = '# k\npipeline/check-a-b.ts\npipeline/check-a.ts\n'
+
+/** Zusatzdateien (Pfad -> Text) im Arbeitsbaum; Ordner werden angelegt. */
+function schreibeExtra(arbeit, extra = {}) {
+  for (const [pfad, inhalt] of Object.entries(extra)) {
+    mkdirSync(dirname(join(arbeit, pfad)), { recursive: true })
+    writeFileSync(join(arbeit, pfad), inhalt)
+  }
+}
 
 /** Klon mit einem Zweigcommit (Prüfliste `liste`, Testdatei `testText`); `erlaubt` ist die Uhr-Grenze der Basis. */
 function lauf(name, liste, testText = 'export const x = 1\n', erlaubt = 0, opt = {}) {
@@ -29,6 +37,7 @@ function lauf(name, liste, testText = 'export const x = 1\n', erlaubt = 0, opt =
   writeFileSync(join(arbeit, 'tools/pr-nachrechnen-bot-pfade.test.mjs'), opt.waechter ?? "console.log('Bot-Pfade grün')\n")
   writeFileSync(join(arbeit, 'README.md'), 'k\na b\n')
   writeFileSync(join(arbeit, '.gitignore'), 'node_modules\n')
+  schreibeExtra(arbeit, opt.basis)
   symlinkSync(MODULE, join(arbeit, 'node_modules'), 'junction')
   git(arbeit, 'add', '.')
   git(arbeit, 'commit', '-q', '-m', 'basis')
@@ -39,6 +48,7 @@ function lauf(name, liste, testText = 'export const x = 1\n', erlaubt = 0, opt =
   if (!opt.nurReadme) writeFileSync(join(arbeit, 'tools/check-logic-liste.txt'), liste)
   if (!opt.nurReadme) writeFileSync(join(arbeit, 'tools/zeit.test.mjs'), testText)
   if (opt.readme) writeFileSync(join(arbeit, 'README.md'), opt.readme)
+  schreibeExtra(arbeit, opt.extra)
   git(arbeit, 'add', '.')
   git(arbeit, 'commit', '-q', '-m', 'liste')
   const kopf = opt.nurReadme ? 'README.md geändert.' : 'tools/check-logic-liste.txt und tools/zeit.test.mjs neu (Prüfung der Liste).'
@@ -76,7 +86,17 @@ try {
   assert.match(bot.text, /Bot-Pfade-Wächter .*rot:[\s\S]*tools\/x\.test\.mjs\|beispiel\.json/, 'Meldung nennt Datei und Literal des Wächters')
   const botAus = lauf('botaus', SORTIERT, undefined, 0, { waechter: ROT, nurReadme: true, readme: 'k\na b\nc\n' })
   assert.equal(botAus.status, 0, `ohne Kettendatei im Diff läuft der Wächter nicht: ${botAus.text}`)
-  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün, Daten-Titel rot, Bot-Pfade-Wächter bei Kettendatei rot, ohne Kettendatei nicht gefahren)')
+  const MUT = JSON.stringify([{ name: 'neu', aenderungen: [{ datei: 'a.ts', suche: 'a', ersetze: 'b' }] }])
+  const mutant = lauf('mutant', SORTIERT, undefined, 0, { basis: { 'a.ts': 'a' }, extra: { 'tools/mutationen/x.json': MUT }, zusatz: ' tools/mutationen/x.json' })
+  assert.match(mutant.text, /! Hinweis: tools\/mutationen\/x\.json: neuer Mutant „neu“ ohne Feld tests/, 'main meldet den Mutanten ohne tests')
+  assert.equal(mutant.status, 0, `der Hinweis bricht nicht ab: ${mutant.text}`)
+  // Ein alter Stempel (feste Vergangenheit, nie „heute“) bei umgeschriebenem Eintrag; ein neuer Eintrag löst nichts aus.
+  const alt = { 'data/patchnotes/a.yaml': 'text: x\n', 'data/patchnotes/_ueberarbeitet-bis.txt': '2000-01-01\n' }
+  const stempel = lauf('stempel', SORTIERT, undefined, 0, { basis: alt, extra: { 'data/patchnotes/a.yaml': 'text: y\n' }, zusatz: ' data/patchnotes/a.yaml' })
+  assert.match(stempel.text, /! Hinweis: Patch-Notes-Texte umgeschrieben, .* steht auf 2000-01-01/, 'main meldet den alten Stempel')
+  const neuerEintrag = lauf('neueintrag', SORTIERT, undefined, 0, { basis: alt, extra: { 'data/patchnotes/b.yaml': 'text: y\n' }, zusatz: ' data/patchnotes/b.yaml' })
+  assert.doesNotMatch(neuerEintrag.text, /Patch-Notes-Texte umgeschrieben/, 'neuer Eintrag löst keinen Stempel-Hinweis aus')
+  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün, Daten-Titel rot, Bot-Pfade-Wächter bei Kettendatei rot, ohne Kettendatei nicht gefahren, Mutant ohne tests und alter Stempel als Hinweis, neuer Eintrag ohne Stempel-Hinweis)')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }

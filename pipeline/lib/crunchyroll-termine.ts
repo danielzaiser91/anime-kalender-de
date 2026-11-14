@@ -483,15 +483,9 @@ function zeitAusBeleg(t: CrTermin, seriesId: string | undefined, belege: WocheBe
  * die Ableitung.
  */
 export function beobachtungenAusBlock(serie: CrSerie, beobachtet: Record<number, string>): Record<number, string> {
-  if (serie.katalog !== 'de') return {}
-  const gesehen = Object.entries(beobachtet)
-  if (!gesehen.length) return {}
-  const treffer = (serie.staffeln ?? []).flatMap((st) => {
-    const zaehlung = ZAEHLUNGEN.find((art) => passtZaehlung(st, art, gesehen))
-    return zaehlung ? [{ st, zaehlung }] : []
-  })
-  if (treffer.length !== 1) return {}
-  const { st, zaehlung } = treffer[0]!
+  const block = blockZumTermin(serie, beobachtet)
+  if (!block) return {}
+  const { st, zaehlung } = block
   const raus: Record<number, string> = {}
   for (const f of datierte(st)) {
     const datum = nachBerlin(f.verfuegbarAb!)?.datum
@@ -514,6 +508,21 @@ export function reichsteSerieJeKennung(serien: CrSerie[]): Map<string, CrSerie> 
     if (!bisher || gewicht(s) > gewicht(bisher)) raus.set(s.seriesId, s)
   }
   return raus
+}
+
+/** Der eine deutsche Block samt Zählung, dessen beobachtete Folgen am selben Tag stehen (Regel bei `beobachtungenAusBlock`). */
+export function blockZumTermin(
+  serie: CrSerie,
+  beobachtet: Record<number, string>,
+): { st: CrStaffel; zaehlung: (typeof ZAEHLUNGEN)[number] } | undefined {
+  if (serie.katalog !== 'de') return undefined
+  const gesehen = Object.entries(beobachtet)
+  if (!gesehen.length) return undefined
+  const treffer = (serie.staffeln ?? []).flatMap((st) => {
+    const zaehlung = ZAEHLUNGEN.find((art) => passtZaehlung(st, art, gesehen))
+    return zaehlung ? [{ st, zaehlung }] : []
+  })
+  return treffer.length === 1 ? treffer[0] : undefined
 }
 
 /** Die Zählungen eines Blocks: Crunchyrolls Folgennummer, dann die Stelle im Block (Apothekerin Staffel 3: 49–51 gegen 1–3). */
