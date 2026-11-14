@@ -157,6 +157,7 @@ pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-dub-katalog.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
+pipeline/check-cr-folgenzahl-untergrenze.ts
 pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
