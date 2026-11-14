@@ -178,8 +178,10 @@ function main() {
   const liesBasis = (name) => {
     try {
       return git('show', `origin/main:${name}`)
-    } catch {
-      return null
+    } catch (e) {
+      // Neue Datei: auf main gibt es keine Basis; jeder andere Fehler soll laut werden
+      if (/does not exist in|exists on disk, but not in/.test(String(e.stderr ?? e.message))) return null
+      throw e
     }
   }
   const hinweise = [...urteil.gelb, ...mutantenOhneTestsHinweise(dateien, lies, liesBasis), ...stempelHinweise(nameStatus, lies('data/patchnotes/_ueberarbeitet-bis.txt'), heuteBerlin())]
