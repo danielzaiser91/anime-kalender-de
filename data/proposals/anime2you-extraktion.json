@@ -1618,6 +1618,16 @@
       "am": "2026-11-14",
       "vorschlaege": 0
     },
+    "1070442": {
+      "am": "2026-11-14",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1070502": {
+      "am": "2026-11-14",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070621": {
       "am": "2026-11-12",
       "vorschlaege": 0,
@@ -1670,6 +1680,10 @@
       "am": "2026-11-13",
       "vorschlaege": 0
     },
+    "1071367": {
+      "am": "2026-11-14",
+      "vorschlaege": 2
+    },
     "1071384": {
       "am": "2026-11-13",
       "vorschlaege": 4
@@ -1686,6 +1700,10 @@
       "am": "2026-11-13",
       "vorschlaege": 7
     },
+    "1071559": {
+      "am": "2026-11-14",
+      "vorschlaege": 0
+    },
     "1071578": {
       "am": "2026-11-14",
       "vorschlaege": 2
@@ -1697,6 +1715,10 @@
     "1071705": {
       "am": "2026-11-14",
       "vorschlaege": 2
+    },
+    "1071723": {
+      "am": "2026-11-14",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -13116,6 +13138,54 @@
       "artikelId": "1068336",
       "artikel": "Neue Figur von Maomao aus »The Apothecary Diaries« vorgestellt",
       "quelle": "https://www.anime2you.de/news/1068336/apothecary-diaries-maomao-medicine-curiousity-figur/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "Fruits Basket",
+      "zitat": "»Fruits Basket« – Staffel 1 Episoden: 25 (komplett) Sprache: Japanisch (UT)",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "plutotv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "25",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Pluto TV“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „pluto tv“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071367",
+      "artikel": "Pluto TV ergänzt zwei weitere Anime-Neuzugänge",
+      "quelle": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "My Hero Academia",
+      "zitat": "»My Hero Academia« – Staffel 2 Episoden: 13 von 25 Sprache: Deutsch",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "plutotv",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Pluto TV",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13 von 25",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Pluto TV“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „pluto tv“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071367",
+      "artikel": "Pluto TV ergänzt zwei weitere Anime-Neuzugänge",
+      "quelle": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
       "veroeffentlicht": "2026-11-14",
       "gelesenAm": "2026-11-14"
     }
