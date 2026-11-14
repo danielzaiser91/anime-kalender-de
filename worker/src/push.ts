@@ -6,7 +6,7 @@ import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennun
 import { istErschienen } from '../../shared/logic.ts'
 
 /** Mit Uhrzeit wie `istErschienen`; ohne Uhrzeit nie ein Push (Daniel, 14.11.2026: die 23:59-Regel meldete nachts, rund 11 h nach dem echten Start). */
-export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => Boolean(e.time) && istErschienen(e, zeit, false)
+export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => Boolean(e.time) && istErschienen(e, zeit)
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).

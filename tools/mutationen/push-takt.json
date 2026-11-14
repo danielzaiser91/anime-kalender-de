@@ -303,8 +303,8 @@
     "aenderungen": [
       {
         "datei": "worker/src/push.ts",
-        "suche": "Boolean(e.time) && istErschienen(e, zeit, false)",
-        "ersetze": "istErschienen(e, zeit, false)"
+        "suche": "Boolean(e.time) && istErschienen(e, zeit)",
+        "ersetze": "istErschienen(e, zeit)"
       }
     ]
   },
@@ -313,18 +313,18 @@
     "aenderungen": [
       {
         "datei": "worker/src/push.ts",
-        "suche": "Boolean(e.time) && istErschienen(e, zeit, false)",
-        "ersetze": "!e.time && istErschienen(e, zeit, false)"
+        "suche": "Boolean(e.time) && istErschienen(e, zeit)",
+        "ersetze": "!e.time && istErschienen(e, zeit)"
       }
     ]
   },
   {
-    "name": "pushIstErschienen: dritter Parameter true statt false",
+    "name": "pushIstErschienen: Termin mit Uhrzeit löst nie aus",
     "aenderungen": [
       {
         "datei": "worker/src/push.ts",
-        "suche": "Boolean(e.time) && istErschienen(e, zeit, false)",
-        "ersetze": "Boolean(e.time) && istErschienen(e, zeit, true)"
+        "suche": "Boolean(e.time) && istErschienen(e, zeit)",
+        "ersetze": "Boolean(e.time) && istErschienen(e, zeit) && false"
       }
     ]
   }
