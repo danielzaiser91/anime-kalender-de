@@ -12,6 +12,7 @@ import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { legeCrWegeAusKatalogAn } from './09-4-4-1-katalog-wege.ts'
 import { quellenMitZeit, zeitHinweis } from '../lib/cr-zeit-woche.ts'
 import { ladeZeitBelege, merkeZeitKorrekturen } from '../lib/cr-zeit-merkliste.ts'
+import { setzeKatalogZeit } from '../lib/cr-zeit-katalog.ts'
 
 export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, verschwunden, usNeinOffen, nachUrl, releases, jetzt }: {
   titles: Map<number, Title>
@@ -50,7 +51,8 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       ein Block datierte Folgen hat und dessen Folgenzahl exakt zur unseren
       passt. Was sie liegen lässt, lässt sie mit Absicht liegen.
     */
-    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt, ladeZeitBelege())
+    const zeitBelege = ladeZeitBelege()
+    const crTermine = alleTermine(crDub.serien, nachUrl, jetzt, zeitBelege)
     merkeZeitKorrekturen(crTermine)
     let termineNeu = 0
     let termineSchonDa = 0
@@ -152,6 +154,7 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
     /* Vorhandene Wochentermine bekommen die Tage der Folgen, die das Kalenderfenster nicht sah — siehe `beobachtungenAusBlock()`. */
     const crNachKennung = reichsteSerieJeKennung(crDub.serien)
     let folgenDatiert = 0
+    let zeitenKorrigiert = 0
     for (const r of releases) {
       if (r.platform !== 'crunchyroll' || r.releaseType !== 'weekly' || !r.schedule.observed) continue
       const kennung = /series\/([A-Z0-9]+)/.exec(r.platformUrl ?? '')?.[1]
@@ -164,8 +167,11 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       )
       for (const [n, datum] of neu) r.schedule.observed[Number(n)] = datum
       folgenDatiert += neu.length
+      /* Nur Termine aus dem Crunchyroll-Kalender (`06-cr-simuldubs.ts`, Slug `cr-…`): ihre Zeit stammt aus dem Wochenprogramm. */
+      if (r.slug.startsWith('cr-') && setzeKatalogZeit(r.schedule, serie, zeitBelege)) zeitenKorrigiert++
     }
     if (folgenDatiert) log(`${folgenDatiert} Crunchyroll-Folgen mit ihrem deutschen Tag nachgetragen (vorher geschätzt)`)
+    if (zeitenKorrigiert) log(`${zeitenKorrigiert} Crunchyroll-Wochentermine mit der Uhrzeit aus dem Katalog statt aus dem Wochenprogramm`)
 }
 
 /** Schreibt die verworfenen Serien der Terminableitung in die Datei und meldet einen Zuwachs. */

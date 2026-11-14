@@ -3333,6 +3333,15 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   die jüngsten 600 Folgen) und er die Serie in genau der gesuchten Staffel führt (Ascendance of a Bookworm steht dort als „Staffel 4“).
   **Eine Ankündigung zählt nie als Beobachtung:** Kalender-Einträge mit `quelle: 'woche'` und Folgentage in `schedule.observed`, die eine
   Wochenprogramm-Zeile wiedergeben, bestätigen keinen Termin. Wächter: `check-termine-katalog-lauf.ts`.
+- **Uhrzeit: Katalogstempel statt Wochenprogramm (14.11.2026).** Der Anlass oben war keine fehlende Folge: The Vermilion Mask Folge 3
+  (`GE00384365DEDE`, „Die Rauchmaske“) steht mit `verfuegbarAb` 10:30 UTC = 11:30 Berlin im Katalog (Abruf 12:01 UTC, der um 11:01 Berlin
+  hatte sie noch nicht); das Wochenprogramm nannte 10:30, und so stand Folge 3 eine Stunde zu früh als erschienen da. Der Sendezeiten-Lauf
+  danach strich den Vermerk zu Recht („die Folge kam am erwarteten Tag“). Messung über 37 Wochenprogramm-Zeilen seit 20.10.: der Stempel
+  passte in 32 von 32 messbaren Fällen zum stündlichen Abruf, die Wochenprogramm-Zeit in 22 nicht (28.10.–01.11. 1 h zu spät, ab 02.11.
+  1 h zu früh). Seitdem setzt `lib/cr-zeit-katalog.ts` in Phase 09-4-4 die Zeit der Kalendertermine (`cr-…`) aus dem Stempel der jüngsten
+  gepaarten Folge, frühere abweichende Folgen in `schedule.zeiten`; am ersten Tag bleibt die Psyren-Regel (`cr-zeit-woche.ts`). Kuratierte
+  Termine und geschätzte Zeiten bleiben. Wächter: `check-cr-zeit-katalog.ts`. Offen: ob die Psyren-Regel am ersten Tag selbst stimmt — das
+  Wochenprogramm lag 28.10.–01.11. eine Stunde zu spät.
 - **Foto-Belege (Folgepunkt, 27.10.2026):** `messbelege.ts` legt keine Kalenderfotos mehr an (`lib/messbeleg-auftraege.ts`, `KALENDER_ERREICHBAR = false`): das
   Bild von `kalenderTag(tag)` zeigte die Zielseite der Umleitung, nicht den Tag. Bereits abgelegte Fotos bleiben. Wächter: `check-messbelege-kalender.ts`.
 - **Nicht gebaut:** News-Artikel unter `/de/news/latest` (`cr-news-api-service…`) als zweite Quelle. Kein Bedarf aus der Messung; Sprache
