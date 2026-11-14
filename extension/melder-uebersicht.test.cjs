@@ -93,7 +93,7 @@ function macheElement(tag) {
  * das ist der Zweck: Ein Skript, das im Sandkasten nicht durchläuft, läuft auch
  * im Browser nicht durch.
  */
-function baueUmgebung(pfad, suche = '') {
+function baueUmgebung(pfad, suche = '', start = {}) {
   const body = macheElement('body')
   /** Alles, was das Skript per setInterval anmeldet — der Test löst es selbst aus. */
   const takte = []
@@ -128,7 +128,7 @@ function baueUmgebung(pfad, suche = '') {
   }
   /* Eigene Wurzeln hängen an <html> (akWurzelAnhaengen); die Sucher des Tests lesen den body. */
   doc.documentElement.appendChild = (k) => body.appendChild(k)
-  const speicher = {}
+  const speicher = { ...start }
   const chrome = {
     storage: {
       local: {
@@ -209,10 +209,11 @@ function baueUmgebung(pfad, suche = '') {
  * @param liste Ersetzt die ausgelieferte Auftragsliste. Wird gebraucht, um den
  *   leeren Fall zu prüfen, ohne dass die Zusicherung am Datenstand hängt.
  */
-function lade(pfad, liste, suchteil = '') {
-  const { umgebung, body, takte } = baueUmgebung(pfad, suchteil)
+function lade(pfad, liste, suchteil = '', start = {}) {
+  const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, start)
   const kontext = vm.createContext(umgebung)
   /* `box.js` lädt im Browser vor `melder.js` — hier genauso, sonst fehlt akBox(). */
+  vm.runInContext(readFileSync(__dirname + '/kontext.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-zurueckgestellt.js', 'utf8'), kontext)
@@ -488,6 +489,36 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
         bloecke.map((b) => b.slice(0, 80)),
       )
     }
+  }
+  /**
+   * **Zurückgestellt zählt nicht als offen** (F135 C, Daniel 14.11.2026): Berserk ist bis in ferne Zukunft zurückgestellt
+   * (`netflixZurueckgestellt` im Speicher), die beiden anderen Titel sind offen. Knopf und Kopfzeile der Liste nennen dieselbe Zahl.
+   */
+  {
+    const bis = Number.MAX_SAFE_INTEGER
+    const zurueck = lade('/title/81186100', KULISSE, '', { netflixZurueckgestellt: { 80243876: { grund: 'Erinnern statt Folgenliste', bis } } })
+    for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    const zknopf = suche(zurueck.body, 'ak-uebersicht')
+    pruefe('zurückgestellt: der Knopf zählt 2 offene Titel (3 in der Liste, Berserk zurückgestellt)', Number(/(\d+)/.exec(String(zknopf?.textContent))?.[1]) === 2, zknopf?.textContent)
+    await vm.runInContext('dialogOeffnen()', vm.createContext(zurueck.umgebung))
+    const kopfzeile = (function finde(el) {
+      if (String(el?.tagName) === 'STRONG' && /Titel zu prüfen|Alles geprüft/.test(String(el.textContent))) return el
+      for (const k of el?.kinder ?? []) {
+        const t = finde(k)
+        if (t) return t
+      }
+      return null
+    })(zurueck.body)
+    pruefe('zurückgestellt: die Kopfzeile der Liste sagt „2 Titel zu prüfen · 1 zurückgestellt“', kopfzeile?.textContent === '2 Titel zu prüfen · 1 zurückgestellt', kopfzeile?.textContent)
+    const gemeldetKnopf = (function finde(el) {
+      if (/gemeldet (zeigen|ausblenden)/.test(String(el?.textContent ?? '')) && !(el.kinder ?? []).length) return el
+      for (const k of el?.kinder ?? []) {
+        const t = finde(k)
+        if (t) return t
+      }
+      return null
+    })(zurueck.body)
+    pruefe('zurückgestellt: ein zurückgestellter Titel zählt nicht als „gemeldet“ (kein Knopf „gemeldet zeigen“)', gemeldetKnopf === null, gemeldetKnopf?.textContent)
   }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')

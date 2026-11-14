@@ -2142,7 +2142,7 @@ async function merkeErledigt(id, staffel, folge) {
  * viele Staffeln darin stecken, steht im Tooltip des Knopfes.
  */
 function offeneTitelZahl() {
-  return Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
+  return Object.entries(offeneTitel).filter(([id]) => !selbstUebersprungen.nichtOffen(id)).length
 }
 
 function fertig(id, eintrag) {
@@ -2409,10 +2409,10 @@ function laufStarten() {
     Jetzt wird zuerst gefragt und nur gestartet, wenn es etwas zu holen gibt. Der Rückgabewert
     sagt dem Knopf, was er anzeigen soll.
   */
-  const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined
+  const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined && !selbstUebersprungen.zurueckgestellt(gemeinteReihe())
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
-  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, fertig).length))
+  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length))
   selbstVersucht = null
   selbstUebersprungen.clear()
   bremse.zuruecksetzen()
@@ -2473,7 +2473,7 @@ let selbstVersucht = null
 let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text); mit Ablauf auch im Speicher (`netflix-zurueckgestellt.js`). */
-const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig)
+const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen() })
 /** Tab, Bremse (kein Titelfenster in Folge = Sitzung, nicht Titel), Bericht je Titel und Takt-Verdrahtung (`netflix-durchgang-steuerung.js`). */
 const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
@@ -2752,7 +2752,7 @@ function selbstWeiter(frei = 0) {
   /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
   if (bremse.pause(Date.now())) return
-  selbstGrenze ??= akNetflixBericht.offene(offeneTitel, fertig).length
+  selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
   const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
@@ -5361,8 +5361,8 @@ async function dialogOeffnen() {
   })
   const titelzeile = document.createElement('strong')
   /* Dieselbe Zahl wie am Knopf — aus derselben Funktion, nicht nachgerechnet. */
-  const nochOffen = offeneTitelZahl()
-  titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles geprüft'
+  const [nochOffen, zurueck] = [offeneTitelZahl(), selbstUebersprungen.zurueckZahl()]
+  titelzeile.textContent = akNetflixKopfText(nochOffen, zurueck)
   kopf.appendChild(titelzeile)
 
   const suche = document.createElement('input')
@@ -5406,15 +5406,15 @@ async function dialogOeffnen() {
     Streifen an der Zeile.
   */
 
-  if (eintraege.length - nochOffen > 0) {
+  if (eintraege.length - nochOffen - zurueck > 0) {
     const umschalter = document.createElement('button')
     umschalter.className = 'ak-umschalter'
-    umschalter.textContent = `${eintraege.length - nochOffen} gemeldet zeigen`
+    umschalter.textContent = `${eintraege.length - nochOffen - zurueck} gemeldet zeigen`
     akKlick(umschalter, () => {
       const zeigen = kasten.classList.toggle('ak-mit-erledigten')
       umschalter.textContent = zeigen
-        ? `${eintraege.length - nochOffen} gemeldet ausblenden`
-        : `${eintraege.length - nochOffen} gemeldet zeigen`
+        ? `${eintraege.length - nochOffen - zurueck} gemeldet ausblenden`
+        : `${eintraege.length - nochOffen - zurueck} gemeldet zeigen`
     })
     kopf.appendChild(umschalter)
 
