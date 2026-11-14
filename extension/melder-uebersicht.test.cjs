@@ -520,6 +520,24 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     })(zurueck.body)
     pruefe('zurückgestellt: ein zurückgestellter Titel zählt nicht als „gemeldet“ (kein Knopf „gemeldet zeigen“)', gemeldetKnopf === null, gemeldetKnopf?.textContent)
   }
+  /* Genau ein gemeldeter Titel (Testreihe, „tot“), einer zurückgestellt (Berserk), einer offen: „1 gemeldet zeigen“, nicht 2 und nicht keiner. */
+  {
+    const bis = Number.MAX_SAFE_INTEGER
+    const einer = lade('/title/81186100', KULISSE, '', {
+      erledigt: { 81186100: ['tot'] },
+      netflixZurueckgestellt: { 80243876: { grund: 'Erinnern statt Folgenliste', bis } },
+    })
+    for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    await vm.runInContext('dialogOeffnen()', vm.createContext(einer.umgebung))
+    const texte = []
+    const sammle = (el) => {
+      texte.push(String(el?.textContent ?? ''))
+      for (const k of el?.kinder ?? []) sammle(k)
+    }
+    sammle(einer.body)
+    pruefe('1 gemeldet, 1 zurückgestellt, 1 offen: Kopfzeile „1 Titel zu prüfen · 1 zurückgestellt“', texte.includes('1 Titel zu prüfen · 1 zurückgestellt'), texte.filter((t) => /zu prüfen/.test(t) && t.length < 60))
+    pruefe('… und der Schalter „1 gemeldet zeigen“', texte.includes('1 gemeldet zeigen'), texte.filter((t) => /gemeldet/.test(t) && t.length < 40))
+  }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)
