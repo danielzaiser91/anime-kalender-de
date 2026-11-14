@@ -122,3 +122,9 @@ export function kanalAusNotiz(notiz: string | null | undefined): string | undefi
   )
   return namen.size === 1 ? [...namen][0] : undefined
 }
+
+/** Video-Detailseite oder Produktseite (`/dp/`); hinter `/dp/` kann auch eine Disc liegen. Geteilt von `check-links.ts` und `anisearch-amazon-adressen.ts`. */
+export const AMAZON_VIDEO = /amazon\.[a-z.]+\/(gp\/video\/detail|dp)\//i
+
+/** Suchadresse statt Produktseite. */
+export const SUCHADRESSE = /amazon\.[a-z.]+\/s\?|[?&]k=/i

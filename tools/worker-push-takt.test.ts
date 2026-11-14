@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs'
 import type { DatabaseSync } from 'node:sqlite'
 import worker from '../worker/src/index.ts'
 import { pushFaellig } from '../worker/src/push-takt.ts'
-import { pushVersand } from '../worker/src/push.ts'
+import { pushIstErschienen, pushVersand } from '../worker/src/push.ts'
 import { istErschienen } from '../shared/logic.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
@@ -135,7 +135,7 @@ async function ohneTermin() {
   pushZeiten.length = 0
   const db = neueDatenbank()
   const env = await umgebung(db, [YAIBA], 'ak:177476')
-  await takt(env, FUENF, utc('17:05'))
+  await takt({ ...env, GITHUB_WECKER_TOKEN: undefined } as typeof env, FUENF, utc('17:05')) // ohne Wecker-Token: gemessen wird nur der Push-Takt (der Wecker kostet je Aufruf 1 GET, alle 20 min 1 POST)
   pruefe(zaehler.d1 === 0 && zaehler.sql.length === 0, `keine D1-Anweisung (${zaehler.d1})`)
   pruefe(zaehler.fetch === 1, `ein Abruf (die Termindatei), keine Meldungen und kein Monitor (${zaehler.fetch})`)
   pruefe(zaehler.objekt === 0 && zaehler.einzelmails === 0, 'Schnellmesser und Mail bleiben aus')
@@ -178,20 +178,45 @@ function fenster() {
   pruefe(!pushFaellig([], t), 'keine Termine: nicht fällig')
 }
 
-/** Katalogstart ohne Uhrzeit: für den Push erst 23:59, nicht 00:00 (Netflix schaltet gegen 9 Uhr frei). */
+/** Termin ohne Uhrzeit: Push erst am Folgetag 08:00 Berlin, nie nachts (Devils' Crest, 14.11.2026: Push um 00:00). */
 async function katalogstartOhneUhrzeit() {
-  zeige('Katalogstart ohne Uhrzeit (batch):')
+  zeige('Termin ohne Uhrzeit (batch):')
   const batch = { ...YAIBA, id: 'k@2026-11-06', titleId: 177478, date: '2026-11-06', time: undefined, releaseType: 'batch', platform: 'netflix', tvPremiere: false } as unknown as ReleaseEvent
   pruefe(!pushFaellig([batch], new Date('2026-11-05T23:05:00.000Z')), 'pushFaellig 00:05 Berlin am Starttag: nicht fällig')
-  pruefe(pushFaellig([batch], new Date('2026-11-06T23:05:00.000Z')), 'pushFaellig 00:05 Berlin am Folgetag (23:59 überschritten): fällig')
+  pruefe(!pushFaellig([batch], new Date('2026-11-06T23:05:00.000Z')), 'pushFaellig 00:05 Berlin am Folgetag: nicht mehr nachts fällig')
+  pruefe(pushFaellig([batch], new Date('2026-11-07T07:05:00.000Z')), 'pushFaellig 08:05 Berlin am Folgetag: fällig')
   const db = neueDatenbank()
   const env = await umgebung(db, [batch], 'ak:177478')
   pushZeiten.length = 0
   await takt(env, STUNDE, new Date('2026-11-05T23:00:00.000Z'))
   await takt(env, FUENF, new Date('2026-11-05T23:05:00.000Z'))
-  pruefe(pushZeiten.length === 0, `Stunden- und Fünf-Minuten-Lauf um 00:00/00:05 Berlin am Starttag: kein Push (${pushZeiten.length})`)
   await takt(env, STUNDE, new Date('2026-11-06T23:00:00.000Z'))
-  pruefe(pushZeiten.length === 1, `Stundenlauf nach 23:59 Berlin des Starttags: Push (${pushZeiten.length})`)
+  pruefe(pushZeiten.length === 0, `Stundenlauf und Takt um 00:00 Berlin (Starttag, Folgetag): kein Push (${pushZeiten.length})`)
+  await takt(env, STUNDE, new Date('2026-11-07T07:00:00.000Z'))
+  pruefe(pushZeiten.length === 1, `Stundenlauf um 08:00 Berlin am Folgetag: ein Push (${pushZeiten.length})`)
+  await takt(env, FUENF, new Date('2026-11-07T07:05:00.000Z'))
+  pruefe(pushZeiten.length === 1, `Takt um 08:05 danach: kein doppelter Push (${pushZeiten.length})`)
+}
+
+/** Wächter: in keinem Fünf-Minuten-Schritt zwischen 23:00 und 07:00 Berlin wird ein Termin ohne Uhrzeit neu (Winter- und Sommerzeit, alle Arten). */
+function keinNachtPushOhneUhrzeit() {
+  zeige('Termine ohne Uhrzeit: nie ein Push zwischen 23:00 und 07:00 Berlin:')
+  const arten = [{ releaseType: 'weekly', platform: 'primevideo' }, { releaseType: 'batch', platform: 'netflix' }, { releaseType: 'weekly', platform: 'tv' }]
+  for (const datum of ['2026-11-13', '2026-03-28', '2026-10-24']) {
+    for (const art of arten) {
+      const e = { ...YAIBA, ...art, date: datum, time: undefined } as unknown as ReleaseEvent
+      const start = Date.parse(`${datum}T00:00:00Z`) - 86_400_000
+      let nachts = 0
+      let neu = 0
+      for (let t = start; t < start + 4 * 86_400_000; t += 300_000) {
+        if (!pushIstErschienen(e, new Date(t)) || pushIstErschienen(e, new Date(t - 300_000))) continue
+        neu++
+        const h = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', hourCycle: 'h23' }).format(new Date(t)))
+        if (h >= 23 || h < 7) nachts++
+      }
+      pruefe(neu === 1 && nachts === 0, `${datum} ${art.platform}/${art.releaseType}: ${neu} Übergang, davon nachts ${nachts}`)
+    }
+  }
 }
 
 async function tageswechselUndCpu() {
@@ -240,6 +265,7 @@ await ohneTermin()
 await jetztAuchBei()
 fenster()
 await katalogstartOhneUhrzeit()
+keinNachtPushOhneUhrzeit()
 await tageswechselUndCpu()
 wrangler()
 zeige(fehler ? `${fehler} Prüfung(en) FEHL` : 'Push-Takt: alle Prüfungen ok (Yaiba 17:25 UTC, volle Stunde, Fenster, Trigger)')

@@ -5,6 +5,28 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 14.11.2026, 10:09 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:09 Uhr, Deploy ebenfalls ohne Alarm (12). „Nacht-Merger" lief in den letzten 48 Stunden 27x erfolgreich und zeigt keinen der am 13.11. gemeldeten Fehlschläge mehr (01). `cr-einzelwerke` und `cr-filmbloecke`, zuvor über drei Wochen ohne Erfolg, liefern jetzt wieder je 1 Treffer, letzter Erfolg vor 0,7 Tagen (06) — der Dauerausfall aus dem letzten Urteil ist aufgelöst. Zugänge, Briefkasten (4090 Meldungen auf 227 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05). Die Zahl offener Pull Requests ist von 30 (13.11.) auf 25 gesunken (08, 10).
+
+**Wo ist Verbesserungspotenzial?** `tv-de` bleibt per HTTP 403 gesperrt, jetzt 8,4 Tage ohne Treffer (vorher 7,4), weiterhin ohne Issue oder PR (06). Der Rückstand „Belege ohne Fundstelle" ist nach dem Rückgang auf 39 am 13.11. heute wieder auf 42 gestiegen (09) — der zuletzt gemeldete Rückgang setzt sich nicht fort. `kitsu-folgen` liefert weiterhin 0 Treffer seit dem 12.11. (jetzt 1,7 Tage), `tmdb-banner` und `kinoheld` bleiben seit dem 9. bzw. 10.11. „grün aber leer" (06). Issue #1595 steht jetzt 26 Tage offen, #898 33 Tage, beide weiterhin unbearbeitet (08). Unter den 25 offenen PRs liegen viele reine Umbau-PRs seit dem 12./13.11. unverändert fest (08).
+
+**Wo sind echte Risiken und Lücken?** `messbelege` liefert trotz grünem Lauf jetzt seit 8 Tagen (seit 06.11.) durchgehend 0 Treffer, seit mehreren Urteilen ohne Gegenmaßnahme und weiter wachsend (06). `cartoon-reihen`, das am 13.11. nach einer Stillstandsphase wieder einen Treffer gezeigt hatte, ist heute erneut auf 0 Treffer zurückgefallen, „grün aber leer seit 2026-11-14" (06) — ein neuer Rückfall. Die Terminableitung verwirft bei „Blöcke und Titel verschieden viele" jetzt 229 Serien statt zuvor über mehrere Urteile konstant 228 (02, 07, 09) — ein leichter Anstieg ohne erkennbare Gegenmaßnahme. Bauer: Ursache von `messbelege` und dem Rückfall von `cartoon-reihen` klären.
+
+**Was läuft komplett falsch?** Keine neuen oder fortbestehenden Fälle falsch ausgelieferter Daten im Dossier sichtbar (01, 02, 11). Der einmalige Deploy-Fehlschlag von 01:22 Uhr liegt vor einem späteren erfolgreichen Deploy (vor 0,7 Stunden) und zeigt keine Fortsetzung (01, 05).
+
+
+## 13.11.2026, 10:30 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:08 Uhr, seitdem 0 rote oder abgebrochene Läufe, Deploy ebenfalls ohne Alarm (12). Zugänge, Briefkasten (4090 Meldungen auf 227 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05). Der Rückstand „Belege ohne Fundstelle" sinkt weiter: 48 am 12.11., jetzt 39 — der im letzten Urteil erstmals gemeldete Rückgang setzt sich fort (09). `cartoons` und `cartoon-reihen`, zuvor seit dem 9./10.11. „grün aber leer", liefern wieder Treffer (2 bzw. 1) (06). Issue #3525 („ALARM 2026-11-12: Wache meldet ALARM"), im letzten Urteil zum Schließen vorgeschlagen, steht nicht mehr in der offenen Liste (08).
+
+**Wo ist Verbesserungspotenzial?** `cr-einzelwerke`/`cr-filmbloecke` stehen jetzt 23,8 Tage ohne Erfolg (vorher 22,8), `tv-de` bleibt per HTTP 403 gesperrt (7,4 Tage), beide weiterhin ohne Issue oder PR (06, 08). `messbelege` liefert trotz grünem Lauf seit sieben Tagen (seit 06.11.) 0 Treffer — zuletzt im Urteil vom 10.11. erwähnt, seitdem ohne Gegenmaßnahme und jetzt doppelt so lange (06). `kitsu-folgen`, zuvor nur veraltet, läuft wieder (letzter Erfolg vor 0,8 Tagen), liefert aber seit dem 12.11. 0 Treffer — eine neue Ausprägung desselben stillen Ausfalls (06). Issue #1595 steht jetzt 25 Tage offen, #898 32 Tage, beide unverändert unbearbeitet (08).
+
+**Wo sind echte Risiken und Lücken?** „Nacht-Merger" (mergt freigegebene Pull Requests automatisch, auch wenn niemand wach ist) ist in den letzten 48 Stunden 7x fehlgeschlagen, davon dreimal in den letzten drei Stunden auf main hintereinander (06:00, 07:00, 08:00 Uhr) (01). Gleichzeitig stehen jetzt 30 Pull Requests offen, viele mit „nacht-"-Zweignamen von heute und gestern (08) — gegenüber 18 im Urteil vom 11.11. ein deutlicher Anstieg zurück auf den früheren Höchststand. Ob der wiederholte Ausfall des Mergers diesen Rückstau erklärt, zeigt das Dossier nicht sicher, der zeitliche Zusammenhang ist aber auffällig. Die Terminableitung verwirft unverändert 228 Serien bei „Blöcke und Titel verschieden viele", 43 bei „Folgenzahl geht nicht auf", 4 beim Zeitwiderspruch (07) — seit mehreren Urteilen ohne Gegenmaßnahme. Die zuvor gemeldete Patch Note „mehr-deutsche-folgen-netflix-prime" (im Vorrat seit 04.11.) erscheint nicht mehr; stattdessen steht jetzt „hyouka-folgen-der-zweiten-haelfte" seit 05.11. im Vorrat, mit benanntem Zuordnungsfehler und eigenem Auftrag (02) — ob die erste freigegeben wurde oder nur durch die zweite abgelöst wird, ist nicht prüfbar. Bauer: Ursache der Nacht-Merger-Fehlschläge klären und prüfen, ob sie den PR-Rückstau erklärt.
+
+**Was läuft komplett falsch?** Keine neuen oder fortbestehenden Fälle falsch ausgelieferter Daten im Dossier sichtbar. Der einmalige Deploy-Fehlschlag von 01:20 Uhr liegt vor einem späteren erfolgreichen Deploy (vor 1,0 Stunden) und zeigt keine Fortsetzung (01, 05).
+
+
 ## 12.11.2026, 10:04 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:07 Uhr, seitdem 0 rote oder abgebrochene Läufe, Deploy ebenfalls ohne Alarm (12). Die nächtlichen Fehlschläge von „Bestand — zusammenführen und bauen" (5x, 23:05–01:08 Uhr), „PR-Prüfer — Neustart bei Nachtrag" (4x), „Deploy auf GitHub Pages" (1x) und „ADN — laufende Serien" (1x) lagen alle auf main vor dieser Erholung und zeigen seitdem keine Fortsetzung (01, 12). Der Rückstand „Belege ohne Fundstelle" ist von 111 (11.11.) auf 48 gefallen (09) — erstmals seit Wochen ein deutlicher Rückgang statt weiterem Wachstum. Die zuvor wiederholt rot laufenden PRs #3418/#3413/#3354, die PR #3433 (ADN-Datenlauf rot) und #3435 (Ausreißer-Regel für den adn-Verlust) stehen nicht mehr in der offenen Liste (08, 10) — vermutlich gemerged. Der heutige 24-Stunden-Ausschnitt zeigt keinen neuen unerklärten adn- oder primevideo-Synchro-Verlust, nur eine als „erklärt, nicht rot" markierte primevideo-Herabstufung (02). Zugänge, Briefkasten (4115 Meldungen auf 229 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05).
@@ -819,3 +841,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Gemessen in `public/data/cartoons.json`: Peppa Wutz (-12225) Netflix hat weiter nur `dubRanges` 1–13; `titles.json` Tayo (163828) Prime hat keine `dubRanges`. Die Wirkung von PR 2740/2762 ist nicht live, die Patch Note darf nicht freigegeben werden. Warum, nicht untersucht.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da kein Codefehler belegt ist.
+
+
+## 13.11.2026 — Wache rot nur wegen Patch-Notes-Vorrat „hyouka-folgen-der-zweiten-haelfte“ (Lauf 43452219800, Issue #3785)
+
+**Was läuft korrekt.** Die Wache meldet, was sie soll. Der Bestand verlor nichts (24 h: Titel 0, Urteile +2, offen +2), alle Lauffristen grün. Gemessen in `public/data/titles.json`: Hyouka (al 12189) trägt am Prime-Weg B0B5JVJKCD jetzt `dubRanges` 1–3 und 5–22; der Zuordnungsfehler, auf den der Vorrat wartet, ist also behoben.
+
+**Wo ist Verbesserungspotenzial?** Der Vorrat wartete auf eine Behebung, die schon live ist; die Wache prüft die Wartebedingung nicht selbst, sondern nennt nur das Alter. Eine maschinenlesbare Bedingung würde das tägliche rote Issue sparen (wie am 12.11. vermerkt).
+
+**Wo sind echte Risiken und Lücken?** Folge 4 fehlt weiter in den Bereichen (laut Vorrat-Datei nicht deutsch gemeldet, eigene Frage); die Patch Note darf das nicht behaupten.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, kein Codefehler. Vorrat kann freigegeben werden (Text auf „Folgen 5–22“ prüfen).

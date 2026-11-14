@@ -1495,6 +1495,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1069280": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
     "1069314": {
       "am": "2026-11-10",
       "vorschlaege": 0
@@ -1628,9 +1632,51 @@
       "am": "2026-11-12",
       "vorschlaege": 8
     },
+    "1070748": {
+      "am": "2026-11-13",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1070797": {
       "am": "2026-11-12",
       "vorschlaege": 0
+    },
+    "1070995": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071032": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071143": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071187": {
+      "am": "2026-11-13",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1071343": {
+      "am": "2026-11-13",
+      "vorschlaege": 0
+    },
+    "1071384": {
+      "am": "2026-11-13",
+      "vorschlaege": 4
+    },
+    "1071396": {
+      "am": "2026-11-13",
+      "vorschlaege": 2
+    },
+    "1071426": {
+      "am": "2026-11-13",
+      "vorschlaege": 3
+    },
+    "1071494": {
+      "am": "2026-11-13",
+      "vorschlaege": 7
     }
   },
   "vorschlaege": [
@@ -12648,6 +12694,281 @@
       "quelle": "https://www.anime2you.de/news/1070699/prosiebensat-1-anime-deal-mit-plaion-pictures/",
       "veroeffentlicht": "2026-11-12",
       "gelesenAm": "2026-11-12"
+    },
+    {
+      "titel": "Anja und die vier Jahreszeiten",
+      "zitat": "Zu den aktuellen Neuzugängen gehört der rund 61-minütige Anime-Film »Anja und die vier Jahreszeiten« aus dem Jahr 1980, der ohne Zusatzkosten mit deutscher Synchronisation angesehen werden kann.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071396",
+      "artikel": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+      "zitat": "Darüber hinaus steht mit »Code Geass: Akito the Exiled – The Wyvern Arrives« der rund 51-minütige erste Teil der fünfteiligen OVA-Reihe mit deutscher Sprachfassung auf Abruf zur Verfügung. Die Originalversion wird nicht angeboten.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "primevideo",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Prime Video",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Prime Video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „prime video“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071396",
+      "artikel": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "quelle": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Pokémon",
+      "zitat": "Nach aktuellem Stand könnte die Lizenz von polyband bereits Ende 2026 auslaufen. Daran würde sich voraussichtlich eine sechsmonatige Abverkaufsphase bis Mitte 2027 anschließen.",
+      "art": "abgang",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "polyband",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Die genauen Fristen stehen laut Artikel noch nicht endgültig fest, da polyband weiterhin über eine mögliche kurzfristige Verlängerung verhandelt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071426",
+      "artikel": "polyband verliert Lizenz: Weltweites Aus für »Pokémon« auf DVD",
+      "quelle": "https://www.anime2you.de/news/1071426/polyband-verliert-pokemon-lizenz/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Pokémon Horizonte",
+      "zitat": "Die dritte Staffel von »Pokémon Horizonte« erscheint nicht mehr auf DVD.",
+      "art": "abgang",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "polyband",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „polyband“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071426",
+      "artikel": "polyband verliert Lizenz: Weltweites Aus für »Pokémon« auf DVD",
+      "quelle": "https://www.anime2you.de/news/1071426/polyband-verliert-pokemon-lizenz/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Pokémon",
+      "zitat": "Vor dem Lizenzende plant polyband noch acht sogenannte Generationsboxen , die sämtliche 25 Staffeln der ursprünglichen »Pokémon«-Anime-Serie umfassen sollen. Erste Boxen sind für Ende 2026 angedacht, weitere sollen Anfang 2027 folgen.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "polyband",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071426",
+      "artikel": "polyband verliert Lizenz: Weltweites Aus für »Pokémon« auf DVD",
+      "quelle": "https://www.anime2you.de/news/1071426/polyband-verliert-pokemon-lizenz/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Zum Auftakt erscheinen am 21. Mai 2027 die ersten drei Episoden, gefolgt von den Episoden 4 bis 6 am 28. Mai 2027 und den Episoden 7 bis 9 am 4. Juni 2027.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2027-05-21",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–3",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Zum Auftakt erscheinen am 21. Mai 2027 die ersten drei Episoden, gefolgt von den Episoden 4 bis 6 am 28. Mai 2027 und den Episoden 7 bis 9 am 4. Juni 2027.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2027-05-28",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "4–6",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Zum Auftakt erscheinen am 21. Mai 2027 die ersten drei Episoden, gefolgt von den Episoden 4 bis 6 am 28. Mai 2027 und den Episoden 7 bis 9 am 4. Juni 2027.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2027-06-04",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7–9",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Die letzten vier Episoden sind ab dem 11. Juni 2027 verfügbar.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2027-06-11",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Folgenzahlen für diesen letzten Block nennt der Artikel nicht explizit (nur „letzten vier Episoden“).",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Die 13-teilige erste Staffel von »Avatar: Die sieben Häfen« feierte im Oktober 2026 ihre Premiere und steht mittlerweile vollständig sowohl mit deutscher Synchronisation als auch in der Originalfassung mit Untertiteln bei Paramount+ zur Verfügung.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "paramountplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1–13",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Darüber hinaus wurde bestätigt, dass die dritte Staffel mit ebenfalls 13 Episoden noch 2027 auf Paramount+ erscheinen wird.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Die Animationsserie soll mit der vierten Staffel abgeschlossen werden, die bislang noch keinen Starttermin hat.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071494",
+      "artikel": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "veroeffentlicht": "2026-11-13",
+      "gelesenAm": "2026-11-13"
     }
   ]
 }

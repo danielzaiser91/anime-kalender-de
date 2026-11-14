@@ -937,6 +937,14 @@
   url: https://www.amazon.de/gp/video/detail/B0GQ5Z2KBR
   grund: 'Seite B0GQ5Z2KBR ist die Serienseite (gti e3405b7b, Handbeleg von 143277 an dieser gti, Staffel 1); die Meldungen vom 16.10. mit Staffel 2 an B0GQ5Z2KBR gehören 155645 (prime-zugeordnet.json seit #1444, Stream B0GXQVM89H) und wurden mit dem Namen „Seasons 1 & 2“ auch an 143277 gehängt — der Bestandsbau legte daraus einen zweiten Handbeleg an und stellte 155645 zurück (Fremdzuordnung, 12.11.2026)'
   entferntAm: '2026-11-12'
+- anilistId: 2571
+  url: https://www.amazon.de/gp/video/detail/B013PTWL2W
+  grund: 'Amazon-Seite B013PTWL2W gehört der Biene Maja von 1982 (8373), nicht der Serie von 1975; Belege getauscht (#3605, 12.11.2026)'
+  entferntAm: '2026-11-12'
+- anilistId: 8373
+  url: https://www.amazon.de/gp/video/detail/B013PQIF2U
+  grund: 'Amazon-Seite B013PQIF2U gehört der Biene Maja von 1975 (2571), nicht der Serie von 1982; Belege getauscht (#3605, 12.11.2026)'
+  entferntAm: '2026-11-12'
 - anilistId: 20462
   url: https://www.amazon.de/dp/B07LHCSXV6
   grund: 'Seite B07LHCSXV6 ist dieselbe Staffel-1-Seite wie B07LHFLDBS (Messung 12.11.2026); der Beleg von 20462 steht jetzt an B07LHFLDBS, die alte Zeile nannte „10 Folgen“ (Adresswechsel 12.11.2026)'

@@ -37,32 +37,9 @@
 */
 if (window.top && window !== window.top && window.name !== 'ak-durchgang') return
 
-/**
- * Lebt die Verbindung zur Erweiterung noch?
- *
- * Chrome trennt beim Neuladen der Erweiterung alle laufenden
- * Content-Scripts von ihr. Sie laufen weiter, aber jeder `chrome.*`-Zugriff
- * wirft „Extension context invalidated" (Daniel, 23.08.2026, mit Bild aus
- * der Fehlerkonsole). Das trifft jede offene Seite nach jedem Neuladen.
- *
- * `chrome.runtime.id` ist der zuverlässige Prüfstein: Sie verschwindet mit
- * der Verbindung.
- */
-function verbindungLebt() {
-  try {
-    return Boolean(chrome?.runtime?.id)
-  } catch {
-    return false
-  }
-}
+/* Tot-sicherer Zugriff auf `chrome.*`: `kontext.js` (Erweiterung neu geladen = Kontext tot, 23.08.2026). */
+const verbindungLebt = () => globalThis.akKontext.lebt()
 
-/**
- * Ein Speicherzugriff, der einen toten Kontext überlebt.
- *
- * Gibt `null` zurück, statt zu werfen — der Aufrufer entscheidet, was das
- * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
- * los ist, statt mitten im Aufbau abzubrechen.
- */
 /**
  * Liest den Speicher — und gibt synchron zurück, wo das möglich ist.
  *
@@ -72,24 +49,9 @@ function verbindungLebt() {
  * Reihe kam — der Sandkasten führt auch keine Timer aus. Ein Test, der deshalb
  * einen anderen Zustand prüft als den gemeinten, ist schlechter als keiner.
  */
-function speicherLesen(schluessel) {
-  if (!verbindungLebt()) return null
-  try {
-    return chrome.storage.local.get(schluessel)
-  } catch {
-    return null
-  }
-}
+const speicherLesen = (schluessel) => globalThis.akKontext.lesen(schluessel)
 
-async function speicherSchreiben(werte) {
-  if (!verbindungLebt()) return false
-  try {
-    await chrome.storage.local.set(werte)
-    return true
-  } catch {
-    return false
-  }
-}
+const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   /**
    * Der Seiten-Quelltext, einmal je Takt statt achtmal.
    *
@@ -371,7 +333,7 @@ async function speicherSchreiben(werte) {
       if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
       VORFALL_GEMELDET.add(schluessel)
       vorfallZahl++
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) return
       await fetch(WORKER.replace('/pruefung', '/vorfall'), {
         method: 'POST',
@@ -380,7 +342,7 @@ async function speicherSchreiben(werte) {
           plattform: 'primevideo',
           art,
           url: location.href.split('?')[0],
-          version: chrome.runtime?.getManifest?.()?.version ?? null,
+          version: globalThis.akKontext.version(),
           ...daten,
         }),
       })
@@ -1111,11 +1073,8 @@ async function speicherSchreiben(werte) {
   document.addEventListener?.('ak-ruhig', () => {
     const an = !(document.documentElement?.classList?.contains('ak-ruhig') ?? false)
     ruhigSetzen(an)
-    try {
-      void chrome.storage.local.set({ akRuhig: an })
-    } catch {
-      /* Ohne Speicher gilt er nur für diese Seite. */
-    }
+    /* Ohne Speicher gilt er nur für diese Seite. */
+    void globalThis.akKontext.schreiben({ akRuhig: an })
     console.log('[Anime-Kalender] Ruhemodus ' + (an ? 'an' : 'aus') + ' — Hintergrund steht still.')
   })
 
@@ -1178,7 +1137,7 @@ async function speicherSchreiben(werte) {
         ...new Set(String(seitenHtml() ?? '').match(/amzn1\.dv\.gti\.[0-9a-f-]{36}/g) ?? []),
       ].slice(0, 80)),
       erzeugtAm: new Date().toISOString(),
-      version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
+      version: globalThis.akKontext.version() ?? 'unbekannt',
       /* Der Durchgang und wie der letzte endete — die Spur überlebt den Seitenwechsel. */
       durchgang: sicher(() => ({ lauf: primeLaufLesen(), ende: primeLaufEndeLesen() })),
       adresse: location.href,
@@ -2014,7 +1973,7 @@ async function speicherSchreiben(werte) {
   const QUELLE = 'https://anime-kalender.de/data/prime-suche.json'
   ;(async () => {
     try {
-      const { primeSuche } = await chrome.storage.local.get('primeSuche')
+      const { primeSuche } = (await globalThis.akKontext.lesen('primeSuche')) ?? {}
       if (primeSuche?.stand && Date.now() - primeSuche.stand < FRISCH_MS) {
         if (primeSuche.liste) uebernehmen(primeSuche.liste)
         return
@@ -2023,7 +1982,7 @@ async function speicherSchreiben(werte) {
       if (!antwort.ok) return
       const frisch = await antwort.json()
       if (frisch && typeof frisch === 'object' && Object.keys(frisch).length) {
-        await chrome.storage.local.set({ primeSuche: { stand: Date.now(), liste: frisch } })
+        await globalThis.akKontext.schreiben({ primeSuche: { stand: Date.now(), liste: frisch } })
         uebernehmen(frisch)
       }
     } catch {
@@ -3518,7 +3477,7 @@ async function speicherSchreiben(werte) {
     knopf.textContent = 'meldet …'
     try {
       /* Der Schlüssel liegt im Sitzungs-Speicher, wie beim Melde-Knopf auch. */
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) throw new Error('kein Schlüssel hinterlegt')
       const antwort = await fetch(WORKER, {
         method: 'POST',
@@ -3729,169 +3688,7 @@ async function speicherSchreiben(werte) {
           ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
           : []
 
-      if (befund.art === 'genau') {
-        /*
-          **Zwei richtige Treffer sind keine Verlegenheit, sondern zwei Wege.**
-
-          „One Punch Man" steht bei Prime zweimal: einmal als Kauftitel, einmal
-          über den Crunchyroll-Kanal — beide mit vier Staffeln, beide korrekt.
-          Bis hierher nahm der Kasten `treffer[0]`, also den, der zufällig oben
-          stand.
-
-          **Der Kauftitel ist der bessere.** Bei einem Kanal-Titel nennt Amazon
-          die Sprachen des Kanals, nicht der Folge — an „Kill Blue" gemessen:
-          zwölf behauptete deutsche Folgen, vier echte (CLAUDE.md, 24.08.2026).
-          Die Karten tragen ihre Zugangsart als `data-card-entitlement` mit, also
-          wird danach sortiert und nicht nach Reihenfolge.
-
-          Angeboten werden trotzdem beide: Welcher Weg im Kalender stehen soll,
-          entscheidet Daniel — der Kauftitel steht nur oben.
-        */
-        const kanalKarte = (k) => /channel|subscription/i.test(String(k.zugang ?? ''))
-        const sortiert = befund.treffer.slice().sort((a, b) => Number(kanalKarte(a)) - Number(kanalKarte(b)))
-        const t = sortiert[0]
-        /*
-          **Die zweite Ausgabe geht mit, sonst sieht sie nie jemand wieder.**
-
-          Prime führt „My First Girlfriend Is a Gal" zweimal: als Kauftitel mit
-          FSK 16 und elf Folgen und über den Crunchyroll-Kanal mit FSK 18 und
-          zehn — andere Folgentitel, zwei Verlage. Meldet Daniel eine davon,
-          fiel der Auftrag aus der Liste, und die andere blieb ungeprüft
-          (30.08.2026: „ich sehe keinen prüfliste eintrag für die kaufbare
-          option?").
-
-          Hier steht die Trefferliste noch vollständig da. Ihre Kennungen gehen
-          als `weitere=` in die Notiz — daraus legt `extension-offene-amazon.mjs`
-          eigene Aufträge an. Über die Notiz, weil die Meldetabelle keine Spalte
-          dafür hat und eine Migration für zwei Kennungen zu viel wäre.
-        */
-        try {
-          weitereAusgaben = sortiert
-            .slice(1, 4)
-            .map((z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(z.url ?? '')?.[1])
-            .filter(Boolean)
-          /*
-            **Die Kennungen müssen den Sprung überleben.**
-
-            Gemeldet wird fast immer auf der **Titelseite**, nicht auf der
-            Suchseite — und dorthin führt ein Seitenwechsel. Eine Variable im
-            Skript ist danach leer; gemessen am 31.08.2026: Von 78 offenen
-            Meldungen trug **keine einzige** ein `weitere=`, obwohl der Weg seit
-            4.0.22 eingebaut ist.
-
-            Der Suchauftrag liegt im `sessionStorage` und überlebt den Wechsel.
-          */
-          if (weitereAusgaben.length) {
-            suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, weitere: weitereAusgaben })
-          }
-        } catch {
-          weitereAusgaben = []
-        }
-        const ziel = ohneParameter(t.url)
-        const zielKennung = kennungAus(ziel)
-        /*
-          Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
-          Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
-          sogar im Player einer fremden Serie und behauptete dort, die Meldung
-          laufe unter „Angels of Death" (27.08.2026, mit Bild).
-        */
-        suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: zielKennung })
-        hinweisKasten(
-          auftrag.titel,
-          folgen,
-          /*
-            Hier stand „Treffer: <Name> (<Typ>)" — entfernt am 02.09.2026.
-            Der Kopf nennt den Titel, die Auswahlzeilen nennen die Ausgaben; die
-            Zeile dazwischen wiederholte beides.
-          */
-          ...begriffZeile,
-          /*
-            **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
-            einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
-            es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
-          */
-          /*
-            **Vorher ankreuzen, was zusammengehört — dann weiß der Auftrag es.**
-
-            Prime führt denselben Anime regelmäßig zweimal: über einen Kanal
-            (aniverse, Crunchyroll) und als Kauftitel. Beide sind Wege, und der
-            Bau kennt höchstens eine Adresse — welche Karten dasselbe Werk
-            meinen, sieht nur ein Mensch.
-
-            Bis zum 02.09.2026 galt der Auftrag deshalb nach **einer** Meldung
-            als erledigt, und die zweite Seite ließ sich nicht mehr melden.
-            Drei Versuche, das abzuleiten, gingen daneben.
-
-            Sein Vorschlag: „auf search seite checkboxen anbieten, welche titel
-            erwartet werden sollen … so kann es vorher getracked werden und du
-            musst keine fehleranfällige implementierung bauen."
-
-            Was hier angekreuzt und bestätigt wird, ist die Erwartung. Ob eine
-            davon schon gemeldet ist, sagt der Briefkasten — nicht ein lokaler
-            Zähler.
-          */
-          ...erwartungsAuswahl(auftrag, sortiert),
-          /*
-            Hier standen „Zum Anime springen" und darunter „Stattdessen: …" —
-            dieselben Kennungen ein zweites Mal. Seit dem 02.09.2026 sitzt der
-            Sprung als ↗ an der Auswahlzeile selbst. Ohne Auswahl — also bei nur einer Karte — bleibt der
-            Hinweis unten stehen.
-          */
-          /*
-            **Der Knopf nennt die Karte, die er meint — und markiert sie.**
-
-            Er hieß „Öffnen — dort werden die Tonspuren gelesen" und übergab
-            keine Kennung. Damit fiel er aus beidem heraus, was `kastenKnopf`
-            für die Zuordnung tut: kein `(ASIN)` im Label, und beim Überfahren
-            blieb die Trefferkachel unmarkiert.
-
-            Der Hinweis auf die Tonspuren ist im selben Zug entfallen — er
-            erklärt die Arbeitsweise der Erweiterung, und die kennt der einzige
-            Leser dieses Kastens („ist sinnlos, ich weiß wie die extension
-            funktioniert").
-          */
-          sortiert.length < 2 && ziel
-            ? kastenKnopf(
-                `Suchtreffer anklicken: ${(t.titel ?? auftrag.titel ?? 'Treffer').slice(0, 60)}`,
-                () => {
-                  location.href = ziel
-                },
-                zielKennung,
-              )
-            : null,
-          /*
-            Hier standen bis zu zwei „Stattdessen: …"-Knöpfe für die weiteren
-            Karten. Seit dem 02.09.2026 stehen dieselben Ausgaben als
-            Ankreuzfelder darüber, jede mit eigenem „öffnen" — der Knopf war
-            damit dieselbe Kennung ein zweites Mal.
-          */
-          /*
-            Hier stand „Beim Kanal-Titel nennt Amazon die Sprachen des Kanals…" —
-            entfernt am 02.09.2026 auf Daniels Wunsch. Wer beide Ausgaben
-            ankreuzt und meldet, braucht die Belehrung nicht; die Unterscheidung
-            steht ohnehin an jeder Auswahlzeile („Kanal-Abo" / „Kauf/Abo").
-          */
-          null,
-          /*
-            **Auch ein gefundener Treffer kann der falsche sein.**
-
-            Daniel am 31.08.2026 an „Ronja Räubertochter": Der Namensvergleich
-            fand eine Karte, und sie heißt tatsächlich so — nur ist es Viaplays
-            **Realverfilmung**, nicht der Anime von 1984. Der Kasten bot „Zum
-            Anime springen" an und sonst nichts; um „nicht bei Prime" zu melden,
-            hätte der Treffer erst verschwinden müssen.
-
-            Der Knopf steht deshalb auch hier, hinter den Sprungzielen: Wer
-            hinsieht und merkt, dass es der falsche Titel ist, kann es sofort
-            sagen. Er ist derselbe wie im Kein-Treffer-Kasten und meldet unter
-            der Suchadresse.
-          */
-          istGemeldet(auftrag.suchUrl)
-            ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
-            : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k, zeichnen)),
-        )
-        return
-      }
+      if (befund.art === 'genau') return genauZeigen(auftrag, zeichnen, befund, begriffZeile, folgen)
 
       if (befund.art === 'unklar') {
         hinweisKasten(auftrag.titel, folgen, kastenZeile('ak-such-hinweis', 'Ergebnisse noch nicht gelesen …'))
@@ -4099,6 +3896,108 @@ async function speicherSchreiben(werte) {
     zeichnen()
     setTimeout(zeichnen, 1500)
     return true
+  }
+
+  /** Der Kasten bei genauem Treffer (aus `zeigeSuchhinweis` herausgelöst). */
+  function genauZeigen(auftrag, zeichnen, befund, begriffZeile, folgen) {
+    const sortiert = genauSortiert(auftrag, befund)
+    const t = sortiert[0]
+    const ziel = ohneParameter(t.url)
+    const zielKennung = kennungAus(ziel)
+    /*
+      Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
+      Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
+      sogar im Player einer fremden Serie und behauptete dort, die Meldung
+      laufe unter „Angels of Death" (27.08.2026, mit Bild).
+    */
+    suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: zielKennung })
+    hinweisKasten(
+      auftrag.titel,
+      folgen,
+      /* Keine Zeile „Treffer: <Name> (<Typ>)": Kopf und Auswahlzeilen nennen beides schon (02.09.2026). */
+      ...begriffZeile,
+      ...genauZusatz(auftrag, befund, zeichnen, sortiert, t, ziel, zielKennung),
+    )
+    return
+  }
+
+  /** Die Treffer, Kauftitel vor Kanal-Titel; die weiteren Ausgaben merkt sich der Suchauftrag. */
+  function genauSortiert(auftrag, befund) {
+    /*
+      **Zwei richtige Treffer sind keine Verlegenheit, sondern zwei Wege.**
+
+      „One Punch Man" steht bei Prime zweimal: einmal als Kauftitel, einmal
+      über den Crunchyroll-Kanal — beide mit vier Staffeln, beide korrekt.
+
+      **Der Kauftitel ist der bessere.** Bei einem Kanal-Titel nennt Amazon
+      die Sprachen des Kanals, nicht der Folge — an „Kill Blue" gemessen:
+      zwölf behauptete deutsche Folgen, vier echte (CLAUDE.md, 24.08.2026).
+      Die Karten tragen ihre Zugangsart als `data-card-entitlement` mit, also
+      wird danach sortiert und nicht nach Reihenfolge.
+
+      Angeboten werden trotzdem beide: Welcher Weg im Kalender stehen soll,
+      entscheidet Daniel — der Kauftitel steht nur oben.
+    */
+    const kanalKarte = (k) => /channel|subscription/i.test(String(k.zugang ?? ''))
+    const sortiert = befund.treffer.slice().sort((a, b) => Number(kanalKarte(a)) - Number(kanalKarte(b)))
+    /*
+      **Die zweite Ausgabe geht mit, sonst sieht sie nie jemand wieder** (30.08.2026: zwei Ausgaben
+      mit anderen Folgen, nach einer Meldung fiel der Auftrag aus der Liste). Ihre Kennungen gehen als
+      `weitere=` in die Notiz; daraus legt `extension-offene-amazon.mjs` eigene Aufträge an.
+    */
+    try {
+      weitereAusgaben = sortiert
+        .slice(1, 4)
+        .map((z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(z.url ?? '')?.[1])
+        .filter(Boolean)
+      /* Gemeldet wird auf der Titelseite; nur der Suchauftrag im `sessionStorage` überlebt den Sprung (31.08.2026). */
+      if (weitereAusgaben.length) {
+        suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, weitere: weitereAusgaben })
+      }
+    } catch {
+      weitereAusgaben = []
+    }
+    return sortiert
+  }
+
+  /** Auswahl, Sprungknopf und Meldeknopf unter dem Kasten eines genauen Treffers, in Anzeigereihenfolge. */
+  function genauZusatz(auftrag, befund, zeichnen, sortiert, t, ziel, zielKennung) {
+    return [
+      /*
+        **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
+        einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
+        es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
+      */
+      /*
+        **Vorher ankreuzen, was zusammengehört — dann weiß der Auftrag es.** Prime führt denselben
+        Anime oft zweimal (Kanal und Kauftitel); welche Karten dasselbe Werk meinen, sieht nur ein
+        Mensch (Daniel, 02.09.2026). Angekreuzt wird die Erwartung; ob schon gemeldet, sagt der Briefkasten.
+      */
+      ...erwartungsAuswahl(auftrag, sortiert),
+      /*
+        Der Sprung sitzt als ↗ an der Auswahlzeile (seit 02.09.2026); nur bei einer Karte ohne Auswahl
+        steht hier ein Knopf. Er nennt die Karte und übergibt ihre Kennung, damit `kastenKnopf` sie markiert.
+      */
+      sortiert.length < 2 && ziel
+        ? kastenKnopf(
+            `Suchtreffer anklicken: ${(t.titel ?? auftrag.titel ?? 'Treffer').slice(0, 60)}`,
+            () => {
+              location.href = ziel
+            },
+            zielKennung,
+          )
+        : null,
+      /* Platz der früheren „Stattdessen"-Knöpfe und der Kanal-Belehrung (beide entfernt am 02.09.2026). */
+      null,
+      /*
+        **Auch ein gefundener Treffer kann der falsche sein** (31.08.2026, „Ronja Räubertochter": die
+        gleichnamige Realverfilmung). Der Knopf steht deshalb auch hier; er ist derselbe wie im
+        Kein-Treffer-Kasten und meldet unter der Suchadresse.
+      */
+      istGemeldet(auftrag.suchUrl)
+        ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
+        : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k, zeichnen)),
+    ]
   }
 
   /**
@@ -4779,7 +4678,7 @@ async function speicherSchreiben(werte) {
    * Stand, den sich alle Tabs teilen.
    */
   try {
-    chrome.storage?.onChanged?.addListener?.((aenderungen, bereich) => {
+    globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
       if (bereich !== 'local') return
       if (aenderungen.amazonSuche) suchErledigt = aenderungen.amazonSuche.newValue ?? {}
       if (!aenderungen.amazonErledigt) return uebersichtZeichnen()
@@ -5296,7 +5195,7 @@ async function speicherSchreiben(werte) {
   async function erwartungMelden(suchUrl, kennungen) {
     try {
       /* Dasselbe wie an jeder anderen Meldestelle — es gibt kein tokenHolen(). */
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) return false
       const antwort = await fetch(WORKER, {
         method: 'POST',
@@ -8247,7 +8146,7 @@ async function speicherSchreiben(werte) {
      */
     const mitFrist = (zusage, was) =>
       Promise.race([
-        zusage,
+        Promise.resolve(zusage).then((r) => r ?? Promise.reject(new Error(`${was} antwortet nicht`))),
         new Promise((_, ab) => setTimeout(() => ab(new Error(`${was} antwortet nicht`)), 15000)),
       ])
 
@@ -8255,7 +8154,7 @@ async function speicherSchreiben(werte) {
     let token
     try {
       knopf.textContent = 'hole Zugangsschlüssel …'
-      ;({ token } = await mitFrist(chrome.storage.sync.get('token'), 'Der Speicher'))
+      ;({ token } = await mitFrist(globalThis.akKontext.lesen('token', 'sync'), 'Der Speicher'))
     } catch (err) {
       abweisen(err.message)
       knopf.textContent = err.message
@@ -8267,7 +8166,7 @@ async function speicherSchreiben(werte) {
     }
     if (!token) {
       abweisen('kein Token')
-      knopf.textContent = 'Kein Token — Rechtsklick aufs Symbol, dann Optionen'
+      knopf.textContent = globalThis.akKontext.keinTokenText()
       return
     }
     sendetGerade = true

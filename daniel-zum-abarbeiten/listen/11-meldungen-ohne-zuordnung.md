@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-11-13
+Stand: 2026-11-14
 
 ## Was hier zu tun ist
 
@@ -242,7 +242,7 @@ nicht. Vier Fälle, vier Handgriffe:
 | netflix | https://www.netflix.com/title/81245457 | Bee and PuppyCat — Staffel 1: Anbieter 16 Folgen, wir 10 (Bee and PuppyCat) | St.1/Flg.1 dub, St.1/Flg.2 dub, St.1/Flg.3 dub, St.1/Flg.4 dub, St.1/Flg.5 dub, St.1/Flg.6 dub, St.1/Flg.7 dub, St.1/Flg.8 dub, St.1/Flg.9 dub, St.1/Flg.10 dub, St.1/Flg.11 dub, St.1/Flg.12 dub, St.1/Flg.13 dub, St.1/Flg.14 dub, St.1/Flg.15 dub, St.1/Flg.16 dub | [Bee and PuppyCat](https://anilist.co/anime/-205783)<br>[Bee and PuppyCat](https://anilist.co/anime/-61174) | Vorschlag bestätigen, dann Adresse eintragen |
 | netflix | https://www.netflix.com/title/81245457 | Bee and PuppyCat — Staffel 1: Anbieter 16 Folgen, wir 10 (Bee and PuppyCat) | St.2/Flg.1 dub, St.2/Flg.2 dub, St.2/Flg.3 dub, St.2/Flg.4 dub, St.2/Flg.5 dub, St.2/Flg.6 dub, St.2/Flg.7 dub, St.2/Flg.8 dub, St.2/Flg.9 dub, St.2/Flg.10 dub, St.2/Flg.11 dub, St.2/Flg.12 dub | [Bee and PuppyCat](https://anilist.co/anime/-205783)<br>[Bee and PuppyCat](https://anilist.co/anime/-61174) | Vorschlag bestätigen, dann Adresse eintragen |
 | netflix | https://www.netflix.com/title/81245457 | Bee and PuppyCat — Staffel 1: Anbieter 16 Folgen, wir 10 (Bee and PuppyCat) | St.3/Flg.1 dub, St.3/Flg.2 dub, St.3/Flg.3 dub, St.3/Flg.4 dub, St.3/Flg.5 dub, St.3/Flg.6 dub, St.3/Flg.7 dub, St.3/Flg.8 dub, St.3/Flg.9 dub, St.3/Flg.10 dub, St.3/Flg.11 dub, St.3/Flg.12 dub, St.3/Flg.13 dub, St.3/Flg.14 dub, St.3/Flg.15 dub, St.3/Flg.16 dub, St.3/Flg.17 dub, St.3/Flg.18 dub, St.3/Flg.19 dub | [Bee and PuppyCat](https://anilist.co/anime/-205783)<br>[Bee and PuppyCat](https://anilist.co/anime/-61174) | Vorschlag bestätigen, dann Adresse eintragen |
-| primevideo | https://www.amazon.de/gp/video/detail/B0FW93J46S | Food Wars! Shokugeki no Soma (Food Wars!) — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Food Wars! Shokugeki no Soma](https://anilist.co/anime/20923) | Seite B0CK66ZZ8G als Verweis an den Titel von Staffel 3 eintragen |
+| primevideo | https://www.amazon.de/gp/video/detail/B0FW93J46S | Food Wars! Shokugeki no Soma (Food Wars!) — Staffel 3 in der Reihe nicht zu bestimmen | weg | [Food Wars! Shokugeki no Soma](https://anilist.co/anime/20923)<br>[Food Wars! The Second Plate](https://anilist.co/anime/21518) | Seite B0CK66ZZ8G als Verweis an den Titel von Staffel 3 eintragen |
 | netflix | https://www.netflix.com/title/81272431 | Zahlenblocks — Folgentitel widersprechen sich — Staffel 1 des Anbieters: nur 1 von 20 Titeln liegen im selben Block (Versatz 15) | dub | [Numberblocks](https://anilist.co/anime/-106009) | Meldung des Blocks prüfen |
 | netflix | https://www.netflix.com/title/81272431 | Zahlenblocks — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Numberblocks](https://anilist.co/anime/-106009) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://www.amazon.de/gp/video/detail/B0GFGTTR3N | Fruits Basket Staffel 2 (Fruits Basket Season 2) — Staffel 1 der Seite B0G55X7DZK gehört nicht zum Auftragstitel | kein_dub | [Fruits Basket Staffel 2](https://anilist.co/anime/111762) | Seite B0G55X7DZK als Verweis an ihren Staffel-Titel eintragen |

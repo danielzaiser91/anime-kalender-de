@@ -1,15 +1,125 @@
 {
-  "scrapedAt": "2026-11-13T04:15:03.663Z",
+  "scrapedAt": "2026-11-14T04:13:18.095Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 62,
-    "schon in einem Rubrik-Feed gelesen": 25,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "schon in einem Rubrik-Feed gelesen": 31,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Termin von »Multi-Mind Mayhem: Isekai Tensei Soudouki« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1070995/multi-mind-mayhem-termin/",
+      "publishedAt": "2026-11-13",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-01-06",
+          "context": "hem: Isekai Tensei Soudouki« wurde heute verkündet, dass die Serie am 6. Januar 2027 im japanischen Fernsehen startet. Einen neuen Trailer f"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Anja und die vier Jahreszeiten",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-14"
+    },
+    {
+      "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
+      "articleUrl": "https://www.anime2you.de/news/1071143/animoon-black-weeks-2026-rabattaktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "assen die Details zusammen. 26 % Rabatt mit Gutscheincode Vom 13. bis 30. November 2026 erhalten Kunden im Rahmen der »AniMoon Black Weeks«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Bis zu 74 % Rabatt: Hardball Films startet großen Black-Week-Sale",
+      "articleUrl": "https://www.anime2you.de/news/1071343/hardball-films-black-week-2026-sale/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "Ende November 2026 Die Black-Week-Rabattaktion läuft vom 13. bis zum 30. November 2026 und umfasst einen Großteil der lieferbaren DVDs und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime Planet startet große Black-Weeks-Aktion mit fast 500 Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1071187/anime-planet-black-week-3-fuer-2-aktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": ". Bis Ende November 2026 Die neue 3-für-2-Aktion, die vom 13. bis zum 30. November 2026 läuft, umfasst unter anderem die Komplett- und Staff"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-05-21",
+          "context": "Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen« startet am 21. Mai 2027 bei Paramount+ in Deutschland, Österreich und der Schweiz"
+        },
+        {
+          "month": "2027-05",
+          "context": "even Havens«) verkündet. Wir fassen nachfolgend zusammen. Fortsetzung ab Mai 2027 Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Start des Action-Anime »Tsugumi Project« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1070626/start-von-tsugumi-project/",
@@ -352,7 +462,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -690,7 +800,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -763,7 +873,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -819,7 +929,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -1165,7 +1275,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -2066,7 +2176,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-11"
+      "discGelesen": "2026-11-14"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
