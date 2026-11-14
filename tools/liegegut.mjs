@@ -137,7 +137,8 @@ export function stufeEcht(nummer) {
   try {
     const s = JSON.parse(mitLimit(process.execPath, ['tools/pr-stufe.mjs', String(nummer)], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }, { limitMs: 60_000 })).stufe
     return Number.isInteger(s) ? s : null
-  } catch {
+  } catch (e) {
+    console.error(`liegegut: pr-stufe PR ${nummer} nicht lesbar (${String(e.message).split("\n")[0]}), Signal 12 entfällt`)
     return null
   }
 }
