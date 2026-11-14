@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-13",
+  "stand": "2026-11-14",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -14157,6 +14157,76 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 387
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/|Anja und die vier Jahreszeiten||start|primevideo",
+      "erstGesehen": "2026-11-14",
+      "fingerabdruck": "e389feea3817",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+          "veroeffentlicht": "2026-11-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Anja und die vier Jahreszeiten",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Anja und die vier Jahreszeiten«\nLaufzeit: 61 Minuten\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 3751,
+          "name": "Anja und die vier Jahreszeiten",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 284
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/|Code Geass: Akito the Exiled – The Wyvern Arrives||start|primevideo",
+      "erstGesehen": "2026-11-14",
+      "fingerabdruck": "ba89c64050a1",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+          "veroeffentlicht": "2026-11-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Code Geass: Akito the Exiled – The Wyvern Arrives«\nLaufzeit: 51 Minuten\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 8888,
+          "name": "Code Geass: Akito the Exiled - The Wyvern Arrives",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 304
       }
     }
   ]

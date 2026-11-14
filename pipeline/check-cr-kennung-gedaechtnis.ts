@@ -39,7 +39,7 @@ erwarte('Wache: fremder Host mit /series/ zählt nicht', wache('https://example.
 erwarte('Katalog-Form: fremder Host mit /series/ zählt (lockerer Pfad)', bau('https://example.org/de/series/FREMD1234/x'), 'FREMD1234')
 
 // Verdrahtung: der Baukatalog benutzt die Funktion wirklich
-const katalog = readFileSync(new URL('./bau/09-4-3-katalog.ts', import.meta.url), 'utf8')
+const katalog = readFileSync(new URL('./bau/09-4-3-2-katalog-kennung.ts', import.meta.url), 'utf8')
 erwarte('09-4-3 ruft kennungMitAdressgedaechtnis auf', /kennungMitAdressgedaechtnis\(/.test(katalog), true)
 
 if (fehler.length) {

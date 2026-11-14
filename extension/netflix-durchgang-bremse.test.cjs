@@ -143,26 +143,46 @@ for (const [name, inhalt] of [['kaputtes JSON', '{{'], ['falsche Form', '{"folge
 
 /* --- Liste warten: Bremse statt Überspringen --- */
 {
-  const lauf = (merkmale, { erinnern = false, dauer = 21000, bremse } = {}) => {
+  const lauf = (merkmale, { erinnern = false, dauer = 21000, bremse, netz = () => 0, voll } = {}) => {
     const gebucht = new Map()
     const b = bremse ?? k.akNetflixBremseOeffnen(gebucht, undefined, null)
     const aufrufe = { spur: [], weiter: 0, ok: 0 }
     const ok = b.ok.bind(b)
     b.ok = () => { aufrufe.ok++; ok() }
-    const o = { seite: '70155614', reihe: '70155614', erinnern, frist: 20000, jetzt: T0 + dauer, durchlauf: { folgen: [], listeFuer: null }, merkmale: () => merkmale }
+    const o = { seite: '70155614', reihe: '70155614', erinnern, frist: 20000, jetzt: T0 + dauer, durchlauf: { folgen: [], listeFuer: null }, merkmale: () => merkmale, netz }
     const tun = { spur: (w) => aufrufe.spur.push(w), uebersprungen: gebucht, weiter: () => aufrufe.weiter++, bremse: b }
+    aufrufe.geladen = 0
+    if (voll !== undefined) tun.vollLaden = { versucht: () => voll, laden: () => aufrufe.geladen++ }
     const rest = k.akNetflixListeWarten({ seite: '70155614', seit: T0 }, o, tun)
     return { gebucht, b, aufrufe, rest }
   }
   let r = lauf(BERICHT_LEER)
   pruefe('leeres Fenster nach der Frist: Störung der Sitzung, nicht übersprungen', r.gebucht.size === 0 && r.b.offen() === 1 && r.aufrufe.weiter === 1 && r.aufrufe.spur[0] === 'Titelfenster ohne Inhalt' && r.aufrufe.ok === 0, r)
   pruefe('… entschieden (kein zweites Zählen auf derselben Seite)', r.rest.entschieden === true)
-  r = lauf(BERICHT_LEER, { dauer: 20000 })
-  pruefe('leeres Fenster genau an der Frist: noch warten', r.aufrufe.weiter === 0 && r.b.offen() === 0)
+  r = lauf(BERICHT_LEER, { dauer: 8000 })
+  pruefe('leeres Fenster genau an der Leer-Frist (8 s): noch warten', r.aufrufe.weiter === 0 && r.b.offen() === 0)
+  r = lauf(BERICHT_LEER, { dauer: 8001 })
+  pruefe('leeres Fenster 1 ms danach: Störung der Sitzung, Grund nennt 8 s', r.b.offen() === 1 && r.aufrufe.weiter === 1 && /in 8 s/.test(r.b.bericht().titel['70155614']), r.b.bericht())
+  r = lauf(BERICHT_LEER, { dauer: 7900 })
+  pruefe('leeres Fenster ohne Netzantwort bei 7,9 s: noch nichts gebucht (Mutant 8000 -> 3000 wird rot)', r.aufrufe.weiter === 0 && r.b.offen() === 0 && r.aufrufe.geladen === 0, r.b.bericht())
+  r = lauf(BERICHT_LEER, { dauer: 8001, voll: false })
+  pruefe('leeres Fenster ohne Netzantwort nach 8 s: Seite wird voll geladen', r.aufrufe.geladen === 1 && r.b.offen() === 0)
+  r = lauf(BERICHT_LEER, { dauer: 7900, voll: true })
+  pruefe('Inhalt kommt bei 7,9 s nach vollem Laden: nichts gebucht, kein Weiter', r.aufrufe.weiter === 0 && r.b.offen() === 0 && r.gebucht.size === 0)
+  r = lauf(BERICHT_LEER, { dauer: 8001, voll: true, netz: () => 2 })
+  pruefe('Netzantwort kam: auch nach 8 s nach vollem Laden nichts gebucht, es bleibt bei der Listenfrist', r.aufrufe.weiter === 0 && r.b.offen() === 0 && r.aufrufe.geladen === 0, r.b.bericht())
+  r = lauf(BERICHT_LEER, { dauer: 8001, netz: () => null })
+  pruefe('keine Auskunft über das Netz (null): wie eine Antwort, Listenfrist', r.aufrufe.weiter === 0 && r.b.offen() === 0)
+  r = lauf(BERICHT_LEER, { dauer: 20001, netz: () => 2, voll: true })
+  pruefe('mit Netzantwort nach der Listenfrist: Störung mit „20 s"', r.b.offen() === 1 && /in 20 s/.test(r.b.bericht().titel['70155614']), r.b.bericht())
+  r = lauf(BERICHT_YAKARI, { dauer: 8001 })
+  pruefe('echter Titel ohne Folgenliste nach 8 s: wartet weiter auf die Liste (Frist 20 s)', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.aufrufe.ok === 0)
   r = lauf(BERICHT_LEER, { erinnern: true, dauer: 3000 })
   pruefe('„Erinnern" aus dem Billboard bei leerem Fenster: nach 3 s noch keine Entscheidung', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.b.offen() === 0)
-  r = lauf(BERICHT_LEER, { erinnern: true, dauer: 20001 })
-  pruefe('… nach der Frist zählt es als Störung, nicht als „Erinnern statt Folgenliste"', r.b.offen() === 1 && r.gebucht.size === 0)
+  r = lauf(BERICHT_LEER, { erinnern: true, dauer: 8000 })
+  pruefe('… genau an der Leer-Frist (8 s) mit „Erinnern": noch warten', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.b.offen() === 0)
+  r = lauf(BERICHT_LEER, { erinnern: true, dauer: 8001 })
+  pruefe('… nach der Leer-Frist zählt es als Störung, nicht als „Erinnern statt Folgenliste"', r.b.offen() === 1 && r.gebucht.size === 0)
   r = lauf(BERICHT_YAKARI)
   pruefe('echter Titel ohne Folgenliste (Yakari): wie bisher übersprungen, Bremse meldet Erfolg', r.gebucht.get('70155614') === 'keine Folgenliste in 20 s' && r.aufrufe.ok === 1 && r.b.offen() === 0, [...r.gebucht])
   r = lauf(BERICHT_YAKARI, { erinnern: true, dauer: 3000 })
