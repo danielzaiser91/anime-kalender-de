@@ -10,6 +10,9 @@ import { TrefferName, FundstellenZeichen } from './Suchtreffer.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { type RelevanzArt } from '../lib/db-relevanz.ts'
 
+const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
+const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
+
 export function KartenText({ main, t, keinDub, favorite, statusZeigen, status, gruppe, ab, staffel, platform }: {
   main: Title
   t: Translate
@@ -180,9 +183,6 @@ function LinkeMarken({ main, angekuendigt }: { main: Title; angekuendigt: boolea
     </span>
   )
 }
-
-const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
-const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
 
 /**
  * Die Bedienung steht oben rechts immer an derselben Stelle; die FSK-Marke sitzt links (`LinkeMarken`) und schiebt sie nicht mehr.
