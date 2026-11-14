@@ -306,7 +306,7 @@
   {
     "name": "Rückrichtung: Treffer nie",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "suche": "const p = start.find((x) => ohneBot.has(x))",
     "ersetze": "const p = undefined",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
@@ -316,8 +316,8 @@
   {
     "name": "Rückrichtung: letzter statt erster Treffer",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
-    "ersetze": "const p = start.findLast((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
+    "suche": "const p = start.find((x) => ohneBot.has(x))",
+    "ersetze": "const p = start.findLast((x) => ohneBot.has(x))",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs",
       "node tools/pr-nachrechnen-fehlalarme.test.mjs"
@@ -591,17 +591,17 @@
   {
     "name": "Bot-Datei Rückweg: ohneBot ist immer rueckwaerts",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts :",
+    "suche": "const ohneBot = botBewegt.length === 0 ? rueckwaerts :",
     "ersetze": "const ohneBot = true ? rueckwaerts :",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
     ]
   },
   {
-    "name": "Bot-Datei Rückweg: auch Code des PR nutzt ohneBot",
+    "name": "Bot-Datei Rückweg (F136): auch Code des PR nutzt rueckwaerts statt ohneBot",
     "datei": "tools/pr-nachrechnen-leser.mjs",
-    "suche": "const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))",
-    "ersetze": "const p = start.find((x) => ohneBot.has(x))",
+    "suche": "const p = start.find((x) => ohneBot.has(x))",
+    "ersetze": "const p = start.find((x) => rueckwaerts.has(x))",
     "tests": [
       "node tools/pr-nachrechnen-leser.test.mjs"
     ]
