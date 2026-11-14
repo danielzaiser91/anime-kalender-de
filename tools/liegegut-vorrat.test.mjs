@@ -87,8 +87,8 @@ const lauf = (haupt) => {
 }
 delete process.env.AK_VORRAT_ORDNER
 const mit = lauf(hauptMitVorrat)
-pruefe('meldeLiegt: eine LIEGT-VORRAT-Zeile, nur die Datei ohne offenen PR', mit.aus.length === 1 && /^LIEGT-VORRAT: vergeben-liegt\.md \(\d+ h vergeben, kein PR-Link – PR prüfen\)$/.test(mit.aus[0]), mit.aus)
-pruefe('main: Zeile steht vor der Schlusszeile, Exit 0', mit.exit === 0 && /^LIEGT-VORRAT: vergeben-liegt\.md/.test(mit.ausMain.at(-2)) && /^liegegut: 0 auffällige PRs$/.test(mit.ausMain.at(-1)), mit.ausMain)
+pruefe('meldeLiegt: eine LIEGT-VORRAT-Zeile, nur die Datei ohne offenen PR', mit.aus.length === 1 && /^LIEGT-VORRAT: vergeben-liegt\.md \(51 h vergeben, kein PR-Link – PR prüfen\)$/.test(mit.aus[0]), mit.aus)
+pruefe('main: Zeile steht vor der Schlusszeile, Exit 0', mit.exit === 0 && /^LIEGT-VORRAT: vergeben-liegt\.md \(51 h/.test(mit.ausMain.at(-2)) && /^liegegut: 0 auffällige PRs$/.test(mit.ausMain.at(-1)), mit.ausMain)
 aufrufe.length = 0
 const ohneHaupt = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-leer-'))
 const ohne = lauf(ohneHaupt)
