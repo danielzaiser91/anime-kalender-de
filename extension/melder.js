@@ -5356,7 +5356,8 @@ async function dialogOeffnen() {
    * Er soll dann wenigstens nicht mehr obenauf liegen.
    */
   const eintraege = Object.entries(offeneTitel).sort((a, b) => {
-    const d = Number(fertig(a[0], a[1])) - Number(fertig(b[0], b[1]))
+    const rang = ([id, e]) => Number(fertig(id, e)) * 2 + Number(selbstUebersprungen.zurueckgestellt(id))
+    const d = rang(a) - rang(b)
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
   })
   const titelzeile = document.createElement('strong')
@@ -5399,12 +5400,8 @@ async function dialogOeffnen() {
     kopf.appendChild(selbst)
   }
 
-  /*
-    Einen eigenen Filter für Wiedervorlagen gab es kurz (4.20.46–4.20.49). Er wirkte gegen
-    „gemeldet ausblenden" und erzeugte Zwischenzustände; Daniel: „die toggle führen zu diesen
-    komischen zuständen". Die Wiedervorlage ist jetzt nur noch Farbe: blaue ↻-Pillen, blauer
-    Streifen an der Zeile.
-  */
+  /* Wiedervorlage bleibt nur Farbe (blauer Streifen, 4.20.49). Zurückgestellte haben einen eigenen Filter, unabhängig von „gemeldet". */
+  if (zurueck > 0) kopf.appendChild(akNetflixZurueckListe.filterKnopf(kasten, zurueck, akKlick))
 
   if (eintraege.length - nochOffen - zurueck > 0) {
     const umschalter = document.createElement('button')
@@ -5816,6 +5813,7 @@ async function dialogOeffnen() {
     if (fertig(id, eintrag)) {
       zeile.classList.add('ak-abgehakt')
     }
+    akNetflixZurueckListe.markieren(zeile, selbstUebersprungen.zurueckInfo(id), Date.now())
     liste.appendChild(zeile)
   }
   kasten.appendChild(liste)

@@ -113,6 +113,7 @@ export default [
         akNetflixTitelfensterLeer: 'readonly',
         akNetflixZurueckNeu: 'readonly',
         akNetflixKopfText: 'readonly',
+        akNetflixZurueckListe: 'readonly',
         akNetflixBericht: 'readonly',
         akNetflixVollMelden: 'readonly',
         akNetflixRandNotiz: 'readonly',
