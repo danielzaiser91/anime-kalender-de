@@ -114,15 +114,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         if (mitNummern) eintraege.push({ url: r.url, folge_nr: r.folge_nr, staffel: r.staffel })
       }
       /* Nur seit dem letzten Datenlauf lesen — Begründung über der Funktion. */
-      let seitStand: string | null = null
-      try {
-        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
-          cf: { cacheTtl: 60 },
-        } as RequestInit)
-        if (res.ok) seitStand = ((await res.json()) as { erzeugtAm?: string }).erzeugtAm ?? null
-      } catch {
-        /* Ohne Prüfstand zählen alle Meldungen. */
-      }
+      const seitStand = await holeSeitStand(env)
       const abfrage = (spalte: 'url' | 'such_url' | 'seiten_kennung') => seitStandAbfrage(env, seitStand, spalte)
       /**
        * **„Liegt hier noch was?" ist nicht „wurde das gemeldet?"**
@@ -143,61 +135,87 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
        * Die Erweiterung wertet nur Vermerke nach dem Prüfstand (`akVermerkGilt`). `DISTINCT`: mehrere Zeilen je Adresse.
        */
       const gemeldet = await gemeldeteAdressen(env, seitStand, abfrage('url'))
-      /*
-        **Und die Suchadressen, unter denen gemeldet wurde.**
-
-        Ein Suchauftrag wird auf der Titelseite gemeldet; ohne dieses Feld erfährt
-        die Erweiterung nie, dass die Suche erledigt ist, und muss sich auf einen
-        lokalen Vermerk verlassen. Der ist nicht abgeglichen — wird die Meldung
-        hier verworfen, sperrt er den Auftrag, und nur ein Konsolenbefehl half
-        (02.09.2026, „Is This a Zombie?").
-      */
-      const { results: suchen } = await abfrage('such_url').all<{ such_url: string }>()
-      const gemeldeteSuchen = (suchen ?? []).map((r) => r.such_url)
-      /*
-        **Und die Seiten, auf denen wirklich nachgesehen wurde.**
-
-        Prime führt denselben Anime regelmäßig zweimal: über einen Kanal (aniverse,
-        Crunchyroll) und als Kauftitel. Beide sind Antworten auf „wo kann ich das
-        sehen", und nur die Meldung sagt uns, dass es sie gibt — vorher kennt der
-        Bau höchstens eine Adresse.
-
-        Ein Auftrag steuert, **was** zu prüfen ist. Er darf nicht verbieten, eine
-        zweite Seite desselben Titels zu melden: Am 02.09.2026 war nach der
-        Kauftitel-Meldung die aniverse-Meldung gesperrt, weil die Suchadresse als
-        erledigt galt. Mit dieser Liste entscheidet die **Seite**, nicht der
-        Auftrag.
-      */
-      /*
-        **Gezählt wird seit dem Prüfstand — wie bei `?stand=1`.**
-
-        Bis zum 15.09.2026 kamen hier die Seiten **aller** Meldungen. Eine Meldung,
-        die der Bau eingearbeitet hat und die trotzdem kein Urteil ergab (eine
-        Kanal-Meldung ohne Folgenbefund), sperrte ihre Seite damit für immer: Bei
-        Touken Ranbu (`B0FQXKKXQW`) verschwand der Melde-Knopf, bei Nukitashi stand
-        „gemeldet ✓" auf einem Titel, den die Prüfliste als offen führte. Die
-        Ziele zählen seit dem 14.09. nur Meldungen nach `erzeugtAm`; die Seiten
-        zählten weiter alles, und die Erweiterung zeigte zwei Stände zugleich.
-        Ohne Prüfstand bleibt es beim alten Verhalten.
-      */
-      const { results: seiten } = await abfrage('seiten_kennung').all<{ seiten_kennung: string }>()
-      const gemeldeteSeiten = seitenMitOffenen((seiten ?? []).map((r) => r.seiten_kennung), results ?? [])
+      const { gemeldeteSuchen, gemeldeteSeiten } = await gemeldeteSuchenUndSeiten(abfrage, results)
       /* Die bestätigten Erwartungen — siehe Migration 026. */
-      const { results: erw } = await env.DB.prepare(
-        'SELECT such_url, kennungen FROM such_erwartung',
-      ).all<{ such_url: string; kennungen: string }>()
-      const erwartungen: Record<string, string[]> = {}
-      for (const r of erw ?? []) {
-        try {
-          const l = JSON.parse(r.kennungen)
-          if (Array.isArray(l) && l.length) erwartungen[r.such_url] = l
-        } catch {
-          /* Eine kaputte Zeile darf die Antwort nicht mitreißen. */
-        }
-      }
+      const erwartungen = await ladeErwartungen(env)
       return antwort(
         mitNummern
           ? { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten, erwartungen, eintraege }
           : { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten, erwartungen },
       )
+}
+
+/** `erzeugtAm` des letzten Datenlaufs; ohne Prüfstand `null`. */
+async function holeSeitStand(env: Env): Promise<string | null> {
+  let seitStand: string | null = null
+  try {
+    const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
+      cf: { cacheTtl: 60 },
+    } as RequestInit)
+    if (res.ok) seitStand = ((await res.json()) as { erzeugtAm?: string }).erzeugtAm ?? null
+  } catch {
+    /* Ohne Prüfstand zählen alle Meldungen. */
+  }
+  return seitStand
+}
+
+/** Such- und Seitenkennungen, unter denen seit dem Prüfstand gemeldet wurde. */
+async function gemeldeteSuchenUndSeiten(abfrage: (spalte: 'url' | 'such_url' | 'seiten_kennung') => ReturnType<typeof seitStandAbfrage>, results: Awaited<ReturnType<typeof offeneZeilen>>) {
+  /*
+    **Und die Suchadressen, unter denen gemeldet wurde.**
+
+    Ein Suchauftrag wird auf der Titelseite gemeldet; ohne dieses Feld erfährt
+    die Erweiterung nie, dass die Suche erledigt ist, und muss sich auf einen
+    lokalen Vermerk verlassen. Der ist nicht abgeglichen — wird die Meldung
+    hier verworfen, sperrt er den Auftrag, und nur ein Konsolenbefehl half
+    (02.09.2026, „Is This a Zombie?").
+  */
+  const { results: suchen } = await abfrage('such_url').all<{ such_url: string }>()
+  const gemeldeteSuchen = (suchen ?? []).map((r) => r.such_url)
+  /*
+    **Und die Seiten, auf denen wirklich nachgesehen wurde.**
+
+    Prime führt denselben Anime regelmäßig zweimal: über einen Kanal (aniverse,
+    Crunchyroll) und als Kauftitel. Beide sind Antworten auf „wo kann ich das
+    sehen", und nur die Meldung sagt uns, dass es sie gibt — vorher kennt der
+    Bau höchstens eine Adresse.
+
+    Ein Auftrag steuert, **was** zu prüfen ist. Er darf nicht verbieten, eine
+    zweite Seite desselben Titels zu melden: Am 02.09.2026 war nach der
+    Kauftitel-Meldung die aniverse-Meldung gesperrt, weil die Suchadresse als
+    erledigt galt. Mit dieser Liste entscheidet die **Seite**, nicht der
+    Auftrag.
+  */
+  /*
+    **Gezählt wird seit dem Prüfstand — wie bei `?stand=1`.**
+
+    Bis zum 15.09.2026 kamen hier die Seiten **aller** Meldungen. Eine Meldung,
+    die der Bau eingearbeitet hat und die trotzdem kein Urteil ergab (eine
+    Kanal-Meldung ohne Folgenbefund), sperrte ihre Seite damit für immer: Bei
+    Touken Ranbu (`B0FQXKKXQW`) verschwand der Melde-Knopf, bei Nukitashi stand
+    „gemeldet ✓" auf einem Titel, den die Prüfliste als offen führte. Die
+    Ziele zählen seit dem 14.09. nur Meldungen nach `erzeugtAm`; die Seiten
+    zählten weiter alles, und die Erweiterung zeigte zwei Stände zugleich.
+    Ohne Prüfstand bleibt es beim alten Verhalten.
+  */
+  const { results: seiten } = await abfrage('seiten_kennung').all<{ seiten_kennung: string }>()
+  const gemeldeteSeiten = seitenMitOffenen((seiten ?? []).map((r) => r.seiten_kennung), results ?? [])
+  return { gemeldeteSuchen, gemeldeteSeiten }
+}
+
+/** Die bestätigten Erwartungen je Suchadresse. */
+async function ladeErwartungen(env: Env): Promise<Record<string, string[]>> {
+  const { results: erw } = await env.DB.prepare(
+    'SELECT such_url, kennungen FROM such_erwartung',
+  ).all<{ such_url: string; kennungen: string }>()
+  const erwartungen: Record<string, string[]> = {}
+  for (const r of erw ?? []) {
+    try {
+      const l = JSON.parse(r.kennungen)
+      if (Array.isArray(l) && l.length) erwartungen[r.such_url] = l
+    } catch {
+      /* Eine kaputte Zeile darf die Antwort nicht mitreißen. */
+    }
+  }
+  return erwartungen
 }
