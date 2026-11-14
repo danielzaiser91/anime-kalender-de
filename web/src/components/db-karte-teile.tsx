@@ -1,17 +1,14 @@
 /** Teile der Datenbank-Kachel: Cover mit Marken und Knöpfen, Textblock mit Status und Plattform. */
 
-import { type Title } from '@shared/types.ts'
-import { useLang } from '../lib/i18n.tsx'
-import { FskBadge, Tooltip, FavoriteStar, HideEye, ShareIcon } from './ui.tsx'
+import type { PlatformId, ReleaseStatus, Title } from '@shared/types.ts'
+import { useLang, type Translate } from '../lib/i18n.tsx'
+import { FskBadge, Tooltip, FavoriteStar, HideEye, ShareIcon, StatusBadge, PlatformBadge } from './ui.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { titelSynchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { erscheintErst } from '@shared/logic.ts'
-import type { Translate } from '../lib/i18n.tsx'
 import { TrefferName, FundstellenZeichen } from './Suchtreffer.tsx'
 import { anzeigeName } from '@shared/titles.ts'
-import { StatusBadge, PlatformBadge } from './ui.tsx'
 import { type RelevanzArt } from '../lib/db-relevanz.ts'
-import type { ReleaseStatus, PlatformId } from '../../../shared/types.ts'
 
 export function KartenText({ main, t, keinDub, favorite, statusZeigen, status, gruppe, ab, staffel, platform }: {
   main: Title
@@ -184,6 +181,9 @@ function LinkeMarken({ main, angekuendigt }: { main: Title; angekuendigt: boolea
   )
 }
 
+const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
+const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
+
 /**
  * Die Bedienung steht oben rechts immer an derselben Stelle; die FSK-Marke sitzt links (`LinkeMarken`) und schiebt sie nicht mehr.
  *
@@ -211,7 +211,3 @@ function KartenKnoepfe({ favorite, onToggleFavorite, onToggleHidden, onShare, co
     </span>
   )
 }
-
-const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
-
-const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'

@@ -7,8 +7,7 @@ import { ueberschriftSagtStatus, type RelevanzArt } from '../lib/db-relevanz.ts'
 import { istOhneBelegteSynchro } from '../lib/titel-sortierung.ts'
 import { teilbarerSlug } from '@shared/teilen.ts'
 import { HideEye } from './ui.tsx'
-import { KartenText } from './db-karte-teile.tsx'
-import { KartenCover } from './db-karte-teile.tsx'
+import { KartenCover, KartenText } from './db-karte-teile.tsx'
 
 export interface DbKarteProps {
   main: Title
