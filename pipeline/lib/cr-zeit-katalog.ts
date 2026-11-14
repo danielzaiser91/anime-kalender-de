@@ -4,8 +4,8 @@
  *
  * Gemessen am 14.11.2026 über 37 Wochenprogramm-Zeilen seit dem 20.10.: Der Stempel `verfuegbarAb` passte in 32 von 32
  * messbaren Fällen zum stündlichen Abruf (zuletzt ohne, erstmals mit der Folge), die Wochenprogramm-Zeit in 22 davon nicht
- * (28.10.–01.11. eine Stunde zu spät, ab 02.11. eine Stunde zu früh). Am ersten Tag bleibt die Wochenprogramm-Regel
- * (`cr-zeit-woche.ts`, Psyren), weil sich dort keine der beiden Zeiten messen ließ.
+ * (28.10.–01.11. eine Stunde zu spät, ab 02.11. eine Stunde zu früh). Am ersten Tag gilt das Wochenprogramm
+ * nur in der Woche nach einer Umstellung (`cr-zeit-woche.ts`, Psyren), danach der Stempel (Vermilion).
  */
 import type { Schedule } from '../../shared/types.ts'
 import type { CrSerie } from './crunchyroll-dub.ts'
