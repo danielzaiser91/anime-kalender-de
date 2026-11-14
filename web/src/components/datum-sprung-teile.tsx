@@ -1,11 +1,10 @@
 /** Teile des Datumssprungs: Kopf, Monats- und Tagesraster, Fußzeile. */
-import { monthName } from '@shared/time.ts'
+import { formatDate, monthName } from '@shared/time.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import type { Translate } from '../lib/i18n.tsx'
-import { formatDate } from '@shared/time.ts'
 
 export function SprungFuss({ kopfKnopf, springe, von, t, heute, bis }: {
-  kopfKnopf: 'cursor-pointer rounded-md px-2 py-1 text-sm transition hover:bg-ak-flaeche-2 disabled:cursor-default disabled:opacity-45'
+  kopfKnopf: string
   springe: (d: string) => void
   von: string
   t: Translate
@@ -29,7 +28,7 @@ export function SprungFuss({ kopfKnopf, springe, von, t, heute, bis }: {
 
 export function SprungKopf({ monat, kopfKnopf, jahr, minJahr, setJahr, t, maxJahr, setMonat, springe, monatKey }: {
   monat: number | null
-  kopfKnopf: 'cursor-pointer rounded-md px-2 py-1 text-sm transition hover:bg-ak-flaeche-2 disabled:cursor-default disabled:opacity-45'
+  kopfKnopf: string
   jahr: number
   minJahr: number
   setJahr: Dispatch<SetStateAction<number>>
@@ -120,7 +119,7 @@ export function MonatsRaster({ monatKey, jeMonat, date, monatErlaubt, setMonat, 
   date: string
   monatErlaubt: (m: number) => boolean
   setMonat: Dispatch<SetStateAction<number | null>>
-  zelle: 'flex cursor-pointer flex-col items-center justify-center rounded-lg py-1.5 text-xs transition disabled:cursor-default disabled:opacity-45'
+  zelle: string
   heute: string
 }) {
   return (

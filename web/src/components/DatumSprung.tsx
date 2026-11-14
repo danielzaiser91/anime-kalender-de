@@ -6,10 +6,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { sprungLage, type SprungLage } from '../lib/sprung-lage.ts'
 import { sichtbareBreite } from '../lib/sichtbare-breite.ts'
 import { Tooltip } from './ui.tsx'
-import { SprungFuss } from './datum-sprung-teile.tsx'
-import { SprungKopf } from './datum-sprung-teile.tsx'
-import { TageRaster } from './datum-sprung-teile.tsx'
-import { MonatsRaster } from './datum-sprung-teile.tsx'
+import { MonatsRaster, SprungFuss, SprungKopf, TageRaster } from './datum-sprung-teile.tsx'
 
 /**
  * **Sprung zu einem Datum**.
