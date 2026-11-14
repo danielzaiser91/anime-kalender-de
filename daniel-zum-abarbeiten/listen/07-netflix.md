@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-11-14 · **175 offene Verweise** in **132 Zeilen**.
+Stand 2026-11-15 · **176 offene Verweise** in **132 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -9,13 +9,13 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
-| 2 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 3 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
-| 4 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
-| 5 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 6 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
-| 7 | 2026-10-08 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
+| 1 | 2026-11-15 | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) · [Staffel 2](https://www.netflix.com/title/80070071) |
+| 2 | 2026-11-06 | A Silent Voice | [Hauptserie](https://www.netflix.com/title/80223226) |
+| 3 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
+| 4 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
+| 5 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
+| 6 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 7 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
 | 8 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 9 | 2026-10-02 | Chainsaw Man | [Hauptserie](https://www.netflix.com/title/81215627) |
 | 10 | 2026-09-28 | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |

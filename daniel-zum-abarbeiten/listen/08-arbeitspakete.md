@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-14 · **185 offene Verweise** in **141 Zeilen**,
+Stand 2026-11-15 · **186 offene Verweise** in **141 Zeilen**,
 aufgeteilt in **8 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -62,35 +62,35 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 |---|---|---|---|
 | 21 | Netflix | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
 | 22 | Netflix | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
-| 23 | Netflix | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
-| 24 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 25 | Netflix | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
-| 26 | Netflix | A Couple of Cuckoos | [Hauptserie](https://www.netflix.com/title/81594245) |
-| 27 | Netflix | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
-| 28 | Netflix | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
-| 29 | Netflix | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
-| 30 | Netflix | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
-| 31 | Netflix | In Another World with My Smartphone | [Hauptserie](https://www.netflix.com/title/80196595) · [2](https://www.netflix.com/title/80196595) |
-| 32 | Netflix | Tokyo Revengers | [Hauptserie](https://www.netflix.com/title/81442520) |
-| 33 | Netflix | Ich bin eine Spinne, na und? | [Hauptserie](https://www.netflix.com/title/81392169) |
-| 34 | Netflix | Kaguya-sama: Love Is War | [Hauptserie](https://www.netflix.com/title/81061754) · [?](https://www.netflix.com/title/81061754) |
-| 35 | Pluto TV | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
-| 36 | Netflix | Darling in the Franxx | [Hauptserie](https://www.netflix.com/title/81010668) |
-| 37 | Netflix | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
-| 38 | Netflix | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
-| 39 | Netflix | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
-| 40 | Netflix | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
+| 23 | Netflix | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) · [Staffel 2](https://www.netflix.com/title/80070071) |
+| 24 | Netflix | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
+| 25 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 26 | Netflix | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
+| 27 | Netflix | A Couple of Cuckoos | [Hauptserie](https://www.netflix.com/title/81594245) |
+| 28 | Netflix | Parasyte: The Maxim | [Hauptserie](https://www.netflix.com/title/80191008) |
+| 29 | Netflix | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
+| 30 | Netflix | Mashle: Magic and Muscles | [Hauptserie](https://www.netflix.com/title/81685164) · [The Divine Visionary Candidate Exam Arc](https://www.netflix.com/title/81685164) |
+| 31 | Netflix | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
+| 32 | Netflix | In Another World with My Smartphone | [Hauptserie](https://www.netflix.com/title/80196595) · [2](https://www.netflix.com/title/80196595) |
+| 33 | Netflix | Tokyo Revengers | [Hauptserie](https://www.netflix.com/title/81442520) |
+| 34 | Netflix | Ich bin eine Spinne, na und? | [Hauptserie](https://www.netflix.com/title/81392169) |
+| 35 | Netflix | Kaguya-sama: Love Is War | [Hauptserie](https://www.netflix.com/title/81061754) · [?](https://www.netflix.com/title/81061754) |
+| 36 | Pluto TV | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
+| 37 | Netflix | Darling in the Franxx | [Hauptserie](https://www.netflix.com/title/81010668) |
+| 38 | Netflix | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
+| 39 | Netflix | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 40 | Netflix | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
 
 ## Paket 3 — Zeilen 41 bis 60
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 41 | Prime Video | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 42 | Netflix | To Your Eternity | [Hauptserie](https://www.netflix.com/title/81333467) |
-| 43 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 44 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) · [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
-| 45 | Netflix | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
-| 46 | Netflix | Kamisama Kiss | [Hauptserie](https://www.netflix.com/title/80070071) |
+| 41 | Netflix | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
+| 42 | Prime Video | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 43 | Netflix | To Your Eternity | [Hauptserie](https://www.netflix.com/title/81333467) |
+| 44 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 45 | Netflix | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) · [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
+| 46 | Netflix | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
 | 47 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 48 | Netflix | Vampire Knight | [Guilty](https://www.netflix.com/title/70309457) |
 | 49 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
