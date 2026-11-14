@@ -317,8 +317,31 @@ function typenAufloesen(ein, zielPfad) {
   return [...jeModul].map(([modul, typen]) => `import type { ${[...typen].join(', ')} } from '${modul}'`)
 }
 
+/**
+ * Bricht ab, wenn Ziel und Quelle dieselbe Datei sind oder der Bereich eine Anweisung anschneidet
+ * (`if (x)` ohne Rumpfzeile, `{` ohne `}`) — beides verschob das Werkzeug sonst still falsch (12.11.2026).
+ */
+function pruefeBereich(quelle, quellPfad, zielPfad, von, bis) {
+  if (quellPfad === zielPfad) throw new Error('Ziel ist die Quelldatei — erst in eine neue Datei herauslösen (Skill `zerlegen`).')
+  const zeile = (pos) => quelle.getLineAndCharacterOfPosition(pos).line + 1
+  const besuche = (k) => {
+    if (k.parent && (ts.isBlock(k.parent) || ts.isSourceFile(k.parent))) {
+      const a = zeile(k.getStart(quelle))
+      const e = zeile(k.end)
+      const ueberlappt = a <= bis && e >= von
+      const innen = a >= von && e <= bis
+      const umfasst = a < von && e > bis
+      if (ueberlappt && !innen && !umfasst)
+        throw new Error(`Zeilen ${von}–${bis} schneiden die Anweisung in Zeile ${a}–${e} an — Grenzen auf ganze Anweisungen legen.`)
+    }
+    ts.forEachChild(k, besuche)
+  }
+  besuche(quelle)
+}
+
 function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   const { pruefer, quelle } = programm(quellPfad)
+  pruefeBereich(quelle, quellPfad, zielPfad, von, bis)
   const { ein, aendert, aus, benutzt, hatReturn, istAsync, endetMitReturn } = schnittstelle(quelle, pruefer, von, bis)
   if (hatReturn && (!endetMitReturn || aus.size))
     throw new Error('Der Abschnitt enthält `return`, endet aber nicht damit (oder liefert Werte) — Grenzen anders wählen.')

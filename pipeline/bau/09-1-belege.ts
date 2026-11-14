@@ -1,20 +1,18 @@
-import { type PlatformId, type StreamLink, type Release, type Title } from '../../shared/types.ts'
+import { type PlatformId, type Release, type Title } from '../../shared/types.ts'
 import { type CrunchyrollEntry } from '../lib/crunchyroll.ts'
-import { log, readJson } from '../lib/util.ts'
-import { type Zugangsart } from '../../shared/zugangsart.ts'
-import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '../lib/dub-confirmed.ts'
-import { kanalWissen } from '../lib/kanal-wissen.ts'
-import { ersetztBeleg, vergleicheBelege } from '../lib/staerkste-seite.ts'
-import { providerToPlatform } from './titel-hilfen.ts'
+import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
-import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
-import { belegOhneGenaueAdresse } from '../lib/kanal-titel.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
 import { serienkennungenMitNullBlock, slotBelegt } from '../lib/cr-ja-deckung.ts'
+import { ergaenzeJoynAusJustwatch } from './09-1-0-joyn-justwatch.ts'
+import { belegFuerAus, checksNachPlattform, ergaenzeZweiteAusgaben, kanalUndZugangJeAdresse } from './09-1-1-beleg-index.ts'
+import { crKatalogUndUsNein } from './09-1-2-cr-katalog-deutsch.ts'
+import { reparierePfadloseWege } from './09-1-3-pfadlose-wege.ts'
+import { checksUndYoutube } from './09-1-4-checks-youtube.ts'
 
 /**
  * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
@@ -91,67 +89,7 @@ export function sammleBelege({
   /** Adresskern → `belegtAm` der von Hand bestätigten Wege (für `handSticht`, 22.09.2026). */
   const vonHandBelegtAm = ergaenzeVerweiseVonHand(titles)
 
-  /**
-   * **Joyn-Angebote von JustWatch werden Joyn-Verweise** (22.09.2026).
-   *
-   * `providerToPlatform` ordnet „Joyn" und „Joyn Plus" der eigenen Plattform `joyn` zu. Die
-   * JustWatch-Runden unten überspringen solche Angebote, weil ein Verweis mit Sprachurteil sie
-   * trägt — nur legte für Joyn niemand einen an. Gemessen am 22.09.2026: JustWatch nennt 81
-   * Joyn-Adressen, im Datensatz standen 2. Naruto, Detektiv Conan, Frieren, Solo Leveling,
-   * My Hero Academia waren dort nicht zu finden, obwohl kostenlos abrufbar.
-   *
-   * Joyn selbst taugt nicht als Quelle: Das Impressum behält Text- und Data-Mining nach § 44b
-   * UrhG ausdrücklich vor, `api.joyn.de` sperrt per robots.txt alles. JustWatch ist der
-   * erlaubte Weg (docs/wissen/quellen.md).
-   *
-   * Stichprobe am selben Tag, 7 Seiten: 6 leben, die Lizenz stimmt mit JustWatch überein
-   * (ADS = kostenlos, Joyn Plus = Abo); der Film „Ame & Yuki" lieferte 404. Tote Adressen
-   * nimmt die Linkprüfung weiter unten heraus (`linkBefunde`), sobald sie gemessen sind.
-   * Joyn zeigt oft nur ein rollendes Fenster (Frieren: 5 Folgen) — der Verweis sagt „läuft
-   * dort", nicht „alle Folgen".
-   *
-   * Ein Special unter der TMDB-Kennung einer TV-Serie erbt deren Angebote nicht (`tvJeTmdb`).
-   */
-  let joynVonJw = 0
-  /*
-    Adresse → Zugang, aus JustWatchs `art`. TMDB kennt nur flatrate/rent/buy, keine
-    Werbefinanzierung, und `joyn` steht in der Abo-Liste von `zugangsart()` — ohne diese Karte
-    stünde jeder kostenlose Joyn-Titel als „Abo" da (Angels of Death: JustWatch ADS, Pille „abo").
-  */
-  const joynZugang = new Map<string, Zugangsart>()
-  {
-    const jw = readJson<Record<string, { angebote?: { anbieter: string; art?: string; url?: string }[] }>>(
-      'data/justwatch-audio.json',
-      {},
-    )
-    /*
-      Ein Joyn-Weg von Hand bringt seine Zugangsart mit (`verweise-von-hand.yaml`, Feld `zugang`) —
-      Dragon Ball Super stand sonst als „Abo" da, obwohl die Folgen kostenlos sind (22.09.2026).
-      Die Karte gilt vor JustWatch: `zugangsart()` setzt sonst später „abo".
-    */
-    for (const t of titles.values())
-      for (const st of t.streams ?? []) if (st.platform === 'joyn' && st.zugang) joynZugang.set(st.url, st.zugang)
-    for (const b of Object.values(jw))
-      for (const x of b.angebote ?? []) {
-        if (!x.url || providerToPlatform(x.anbieter) !== 'joyn') continue
-        /* Kostenlos schlägt Abo: Dieselbe Seite steht bei JustWatch oft als „Joyn" und „Joyn Plus". */
-        if (x.art === 'ADS' || x.art === 'FREE') { if (!joynZugang.has(x.url) || joynZugang.get(x.url) === 'abo') joynZugang.set(x.url, 'kostenlos') }
-        else if (!joynZugang.has(x.url)) joynZugang.set(x.url, 'abo')
-      }
-    for (const title of titles.values()) {
-      if ((title.streams ?? []).some((s) => s.platform === 'joyn')) continue
-      if (tmdbMehrdeutig.has(String(title.id))) continue
-      const info = tmdbTitles[title.id]
-      if (title.format !== 'TV' && info && tvJeTmdb.has(`${info.kind}${info.tmdbId}`)) continue
-      const a = (jw[String(title.id)]?.angebote ?? []).find(
-        (x) => x.url && providerToPlatform(x.anbieter) === 'joyn' && !toteAdressen.has(x.url),
-      )
-      if (!a?.url) continue
-      title.streams = [...(title.streams ?? []), { platform: 'joyn', url: a.url } as StreamLink]
-      joynVonJw++
-    }
-  }
-  if (joynVonJw) log(`${joynVonJw} Joyn-Verweise aus JustWatch ergänzt`)
+  const { joynZugang } = ergaenzeJoynAusJustwatch({ titles, tmdbMehrdeutig, tmdbTitles, tvJeTmdb, toteAdressen })
 
   /**
    * Was ein Mensch nachgesehen hat, schlägt jede Ableitung.
@@ -183,174 +121,11 @@ export function sammleBelege({
    * machen darf.
    */
   const alleChecks = loadDubChecks()
-  /*
-    **Der Zusatzkanal hängt an der Adresse, nicht am Sprachurteil** (21.09.2026). Gelesen
-    wird er aus dem jüngsten Beleg der Adresse, der Abos nennt — auch aus einem ohne
-    Urteil. Genau die Kanal-Pillen ohne Urteil (ein Kanal-Nein wird bewusst nicht
-    übernommen) brauchen den Hinweis am meisten; Golden Wind stand nach dem ersten
-    Anlauf als nacktes „Prime Video" da, obwohl die Meldung „Abos: crunchyrollde" trug.
-  */
-  const kanalJeAdresse = new Map<string, string | undefined>()
-  /*
-    **Und die Zugangsart, die die Erweiterung auf genau dieser Seite gemessen hat** (21.09.2026).
-    Sie stand in jeder Meldung („zugang=kauf") und wurde nie gelesen; die Pille nahm JustWatchs
-    Angabe je Titel oder die Vorgabe „Prime = Abo". Gemessen über 700 Prime-Seiten mit Angabe:
-    111 zeigten die falsche Zugangsart — 46 als Kauf, obwohl im Abo, 65 als Abo, obwohl nur zu
-    kaufen oder zu leihen. Lupin III. Part 6 stand als Abo da, Daniels Bild zeigte „Als
-    Kauftitel verfügbar". JustWatch spricht über den Titel, die Meldung über die Ausgabe.
-  */
-  const zugangJeAdresse = new Map<string, 'abo' | 'kauf'>()
-  for (const c of [...alleChecks].sort((a, b) => (b.checkedAt ?? '').localeCompare(a.checkedAt ?? ''))) {
-    if (c.platform !== 'primevideo' || !c.url) continue
-    const k = adressKern(c.url)
-    if (/Abos: /.test(c.note ?? '') && !kanalJeAdresse.has(k)) kanalJeAdresse.set(k, kanalAusNotiz(c.note))
-    const z = /zugang=([a-z_]+)/.exec(c.note ?? '')?.[1]
-    if (z && !zugangJeAdresse.has(k)) {
-      if (z === 'abo' || z === 'abo_und_kauf') zugangJeAdresse.set(k, 'abo')
-      else if (z === 'kauf' || z === 'kauf_oder_leihe') zugangJeAdresse.set(k, 'kauf')
-    }
-  }
-  const checksJePlattform = new Map<string, DubCheck[]>()
-  for (const c of alleChecks) {
-    /*
-      **Adressbelege bleiben draußen — sie tragen keine Aussage über den Verweis.**
+  const { zugangJeAdresse, kanalJeAdresse } = kanalUndZugangJeAdresse({ alleChecks })
+  const { checksJePlattform } = checksNachPlattform({ alleChecks })
 
-      `dub-confirmed.yaml` führt neben den Urteilen auch Zeilen, die nur die
-      Herkunft einer Adresse festhalten („Verweis aus Netflix' eigener
-      Staffelliste erschlossen"): mit `url`, ohne `dub` und ohne `available`.
-      Solange `loadDubChecks()` beide verschmolz, fiel das nicht auf; seit der
-      Trennung je Ausgabe (07.09.2026) gewann der Adressbeleg gegen das Urteil,
-      weil er die passende Adresse trug — fünf Staffeln „My Hero Academia"
-      standen so trotz belegtem Nein im Datensatz.
-
-      **`available` gehört dazu, `dub` allein genügt nicht.** Ein erster Anlauf
-      filterte nur auf `dub` und warf 262 „nicht verfügbar"-Belege weg; aus
-      sechs Meldungen in `check:handbelege` wurden 268. Beide Felder sind
-      verschiedene Aussagen (siehe `DubCheck.available`), aber beide sind
-      Aussagen.
-    */
-    if (typeof c.dub !== 'boolean' && typeof c.available !== 'boolean') continue
-    const k = dubKey(c.anilistId, c.platform)
-    const liste = checksJePlattform.get(k) ?? []
-    liste.push(c)
-    checksJePlattform.set(k, liste)
-  }
-  /*
-    **Der jüngste Beleg steht vorn — einmal sortiert, nicht bei jedem Aufruf.**
-
-    `belegFuer()` greift in jeder Stufe den ersten passenden Eintrag. Ohne
-    Sortierung ist das der erste der Datei, und bei 26 Verweisen war das ein
-    Beleg, den ein jüngerer längst überholt hatte (07.09.2026). Die Reihenfolge
-    ist für alle Aufrufe dieselbe, also wird sie einmal hier festgelegt.
-  */
-  for (const liste of checksJePlattform.values()) {
-    liste.sort(vergleicheBelege)
-  }
-
-  /**
-   * **Eine zweite Ausgabe mit Deutsch wird ein eigener Verweis.**
-   *
-   * Digimon stand mit genau einer Prime-Adresse im Bestand, der
-   * Crunchyroll-Kanal-Ausgabe `B0CHHNJJW3` — ohne deutschen Ton. Die Ausgabe
-   * „In Prime enthalten" (`B0CGRJGJX1`) hat ihn, und ihr Beleg trägt die
-   * Adresse. `belegFuer()` nimmt bei einem einzigen Weg aber zuerst den Beleg mit
-   * **derselben** Adresse; das Nein zur Kanal-Seite gewann, der Verweis flog
-   * heraus, und das Ja zur anderen Seite fand keinen Weg, an dem es hängen
-   * konnte.
-   *
-   * Angelegt wird nur, wenn **jeder** vorhandene Weg dieser Plattform belegt
-   * ohne Deutsch ist. Sonst ist die Adresse im Beleg eine Korrektur (siehe
-   * `belegFuer()`), und ein zusätzlicher Verweis wäre eine Dublette. Nur für
-   * Amazon-Titelseiten: Dort sind Ausgaben mit eigener Kennung die Regel.
-   */
-  let ausgabeErgaenzt = 0
-  for (const [schluessel, liste] of checksJePlattform) {
-    const [idRoh, plattform] = schluessel.split('|')
-    const title = titles.get(Number(idRoh))
-    if (!title) continue
-    const wege = title.streams.filter((s) => s.platform === plattform)
-    if (!wege.length) continue
-    /* Je Adresse zählt der jüngste Beleg — die Liste ist oben schon sortiert. */
-    const neuestes = new Map<string, DubCheck>()
-    for (const c of liste) if (c.url && !neuestes.has(adressKern(c.url))) neuestes.set(adressKern(c.url), c)
-    if (!wege.every((s) => neuestes.get(adressKern(s.url))?.dub === false)) continue
-    for (const c of neuestes.values()) {
-      if (c.dub !== true || !/amazon\.de\/(?:dp|gp\/video\/detail)\//.test(c.url ?? '')) continue
-      if (title.streams.some((s) => adressGleich(s.url, c.url))) continue
-      title.streams.push({ platform: plattform as PlatformId, url: c.url! } as StreamLink)
-      ausgabeErgaenzt++
-    }
-  }
-  if (ausgabeErgaenzt) log(`${ausgabeErgaenzt} Verweise auf eine zweite Ausgabe mit deutschem Ton angelegt`)
-  const belegFuer = (
-    titleId: number,
-    plattform: PlatformId,
-    url?: string,
-    /** Wie viele Verweise dieser Plattform der Titel hat — entscheidet über die Strenge. */
-    anzahlWege = 1,
-  ): DubCheck | undefined => {
-    const alle = checksJePlattform.get(dubKey(titleId, plattform))
-    if (!alle?.length) return undefined
-    /*
-      **Ein Beleg ohne Sprachurteil ist kein Sprachbeleg.**
-
-      In `dub-confirmed.yaml` stehen zwei Arten von Einträgen: Sprachurteile
-      (`dub: true|false`) und **Adressbelege** — Zeilen, die nur festhalten, wo
-      ein Verweis herkommt („Verweis aus Netflix' eigener Staffelliste
-      erschlossen"). Die zweite Art trägt eine `url` und kein `dub`.
-
-      Seit die Belege je Ausgabe getrennt geführt werden (07.09.2026), standen
-      beide Arten nebeneinander in derselben Liste — und weil der Adressbeleg
-      die passende `url` trug, gewann er nach Regel 1 gegen das Urteil, das
-      keine hatte. Fünf Staffeln „My Hero Academia" waren auf Netflix als „ohne
-      deutsche Tonspur" geprüft und standen trotzdem im Datensatz;
-      `check:handbelege` hat es gemeldet und den Datenlauf rot gemacht.
-
-      Für die Auswahl zählen deshalb nur Einträge mit einer **Aussage über den
-      Verweis** — `dub` (gibt es dort deutschen Ton?) oder `available` (gibt es
-      dort überhaupt ein Angebot?). Was ein Adressbeleg beiträgt, die richtige
-      Adresse, wird an anderer Stelle gelesen.
-
-      **`available` gehört ausdrücklich dazu.** Ein erster Anlauf filterte nur
-      auf `dub` und warf damit 262 „nicht verfügbar"-Belege weg — aus sechs
-      Meldungen in `check:handbelege` wurden 268. Die beiden Felder sind
-      verschiedene Aussagen (siehe `DubCheck.available`), aber beide sind
-      Aussagen; nur der Adressbeleg ist keine.
-    */
-    /*
-      **Und innerhalb jeder Stufe gewinnt der jüngste Beleg.**
-
-      `loadDubChecks()` ließ den jüngeren gewinnen, solange es je Schlüssel nur
-      einen Eintrag gab. Seit der Trennung je Ausgabe liegen mehrere
-      nebeneinander, und `find()` nahm schlicht den ersten der Datei — bei 26
-      Verweisen war das ein Beleg, den ein jüngerer längst überholt hatte
-      (gemessen 07.09.2026, `check:handbelege` meldet solche Fälle namentlich).
-
-      Ein Sortiervorgang je Aufruf wäre Verschwendung: Die Reihenfolge ist für
-      alle Aufrufe dieselbe, also wird sie einmal beim Aufbau der Karte gesetzt.
-    */
-    const liste = alle
-    if (!liste.length) return undefined
-    if (url) {
-      const genau = liste.find((c) => c.url && adressGleich(c.url, url))
-      if (genau) return genau
-    }
-    const ohneAdresse = liste.find((c) => !c.url)
-    if (ohneAdresse) return ohneAdresse
-    /*
-      **Bei einem einzigen Weg ist die Adresse im Beleg eine Korrektur, keine
-      Unterscheidung.**
-
-      Genau dafür ist das Feld da (siehe `DubCheck.url`): „Die richtige
-      Adresse, falls die im Datensatz danebenliegt." Wer hier streng vergleicht,
-      wirft 60 Belege weg, die den Verweis gerade richtigstellen sollen.
-
-      **Erst ab zwei Wegen wird die Adresse zur Unterscheidung** — dann gibt es
-      zwei Ausgaben, und ein Beleg für die eine sagt nichts über die andere. Das
-      ist der Date-a-Live-Fall vom 07.09.2026.
-    */
-    return belegOhneGenaueAdresse(liste, anzahlWege, kanalWissen(alleChecks), titleId, url)
-  }
+  ergaenzeZweiteAusgaben({ checksJePlattform, titles })
+  const { belegFuer } = belegFuerAus({ checksJePlattform, alleChecks })
   /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
   /**
    * **Eine nackte Domain ist kein Weg zu einem Titel.**
@@ -411,122 +186,11 @@ export function sammleBelege({
    */
   const crNamen = crNamensindexAusDatei()
   const crAdresseZu = (name: string): string | undefined => crAdresseNachName(crNamen, name)
-  /**
-   * Welche Serien der deutsche Katalog mit deutscher Tonspur führt.
-   *
-   * Nur für die Frage „lohnt ein Verweis überhaupt" — als Sprachbeleg taugt die
-   * Liste nicht: Sie gilt der Reihe, nicht der Folge (CLAUDE.md, 22.08.2026).
-   */
-  const crKatalogDeutsch = new Set(
-    (readJson<{ eintraege?: { id?: string; audio?: string[]; tonspuren?: string[] }[] }>('data/cr-katalog-de.json', {})
-      .eintraege ?? [])
-      .filter((e) => (e.audio ?? e.tonspuren ?? []).includes('de-DE'))
-      .map((e) => e.id ?? '')
-      .filter(Boolean),
-  )
-  /**
-   * **Ein „nicht mehr verfügbar" aus dem US-Katalog gilt nicht, wo der deutsche Katalog die Serie führt.**
-   *
-   * Gemessen am 17.09.2026: 109 Serien tragen `nichtVerfuegbar` aus dem Lauf vom
-   * 21.08. mit `katalog: us`; 33 davon führt der deutsche Katalog mit deutscher
-   * Tonspur — Death Note, One-Punch Man, vier InuYasha-Filme. Der Bau entfernte
-   * ihre Verweise trotzdem, und weil sich die Warteschlange des Dub-Laufs aus
-   * den Verweisen bildet, kamen sie nie mehr zur Prüfung mit deutschem Zugang.
-   * CLAUDE.md sagt es seit dem 22.08.: „Wo eine Serienkennung bekannt ist,
-   * entscheidet der Katalog und nicht die Seite." Der Verweis bleibt deshalb
-   * ohne Urteil stehen, bis der deutsche Lauf ihn beurteilt.
-   *
-   * **Nur, wenn es noch keinen deutschen Befund gibt.** 19 der 33 sind unter einer
-   * anderen Schreibweise der Adresse längst mit deutschem Zugang geprüft
-   * (`/kiss-him-not-me` neben `/de/kiss-him-not-me`); dort entscheidet dieser
-   * Befund, und die US-Adresse fliegt wie bisher. Der erste Bau mit der breiten
-   * Regel kostete fünf „DE ✓" (Durarara!!, Lupin III. Part 6 …). Übrig bleiben 14.
-   */
-  let crDeutschGeprueft: Set<string> | undefined
-  const usNeinWiderlegt = (serie: { nichtVerfuegbar?: boolean; katalog?: string; seriesId?: string | null }): boolean => {
-    if (!serie.nichtVerfuegbar || serie.katalog === 'de' || !serie.seriesId || !crKatalogDeutsch.has(serie.seriesId))
-      return false
-    /* `crDub` lädt `pruefeSynchroJePlattform` vor dieser Phase. */
-    crDeutschGeprueft ??= new Set(
-      crDub.serien.filter((c) => c.katalog === 'de' && c.seriesId).map((c) => c.seriesId as string),
-    )
-    return !crDeutschGeprueft.has(serie.seriesId)
-  }
+  const { usNeinWiderlegt, crKatalogDeutsch } = crKatalogUndUsNein({ crDub })
 
-  /** Was am Ende übrig bleibt und niemand automatisch auflösen kann. */
-  const suchOffen: { id: number; titel: string; plattform: string; url: string }[] = []
-  /** Titel und Anbieter, für die die Suchfrage beantwortet ist — ein Nein oder ein Beleg mit Adresse. */
-  const beantworteteSuchen = new Set(
-    alleChecks.filter((c) => c.available === false || c.url).map((c) => `${c.anilistId}|${c.platform}`),
-  )
+  const { beantworteteSuchen, suchOffen } = reparierePfadloseWege({ alleChecks, titles, crAdresseZu })
 
-  let ohnePfad = 0
-  let ohnePfadWeg = 0
-  for (const title of titles.values()) {
-    if (!title.streams?.length) continue
-    const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? ''
-    title.streams = title.streams.filter((stream) => {
-      let pfad = ''
-      try {
-        pfad = new URL(stream.url).pathname
-      } catch {
-        pfad = ''
-      }
-      if (pfad !== '' && pfad !== '/') return true
-      if (stream.platform === 'crunchyroll' && name) {
-        const echte = crAdresseZu(name)
-        if (echte) {
-          stream.url = echte
-          ohnePfad++
-          return true
-        }
-      }
-      /*
-        **Ins Gedächtnis kommt das nicht**: Es ist kein belegtes Nein, sondern
-        eine kaputte Adresse. Taucht dieselbe Serie später mit einer echten
-        Adresse auf, soll sie kommen dürfen.
-      */
-      ohnePfadWeg++
-      /*
-        **Eine beantwortete Frage kommt nicht wieder** (22.09.2026). Overgeared stand weiter als
-        Suchadresse in der Statusanzeige und führte auf Crunchyrolls Startseite, obwohl Daniel am
-        20.09. geantwortet hatte: „dort gibt es keine Serienseite" (`available: false`).
-      */
-      if (!beantworteteSuchen.has(`${title.id}|${stream.platform}`))
-        suchOffen.push({ id: title.id, titel: name, plattform: stream.platform, url: stream.url })
-      return false
-    })
-  }
-  if (ohnePfad) log(`${ohnePfad} Verweise ohne Pfad über den deutschen Katalog auf ihre Serienadresse gesetzt`)
-  if (ohnePfadWeg) log(`${ohnePfadWeg} Verweise ohne Pfad entfernt — eine nackte Domain ist kein Weg zu einem Titel`)
-
-  const checks = new Map<string, DubCheck>()
-  for (const c of alleChecks) {
-    const k = dubKey(c.anilistId, c.platform)
-    if (ersetztBeleg(checks.get(k), c)) checks.set(k, c)
-  }
-  /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
-  const youtubeBefunde = readJson<Record<string, { art: string; inDE: number; unklar?: boolean }>>(
-    'data/youtube-check.json',
-    {},
-  )
-  /**
-   * Der YouTube-Kanal je Adresse, aus `pipeline/check-youtube.mjs`.
-   *
-   * Er entscheidet über kostenlos oder Kauf: Was auf „YouTube Movies" liegt,
-   * muss bezahlt werden, trägt aber eine ganz gewöhnliche `watch?v=`-Adresse.
-   * Die Datei liegt seit dem 22.08.2026 im Repo und wurde nie ausgewertet —
-   * 40 Titel standen deshalb als kostenlos, die es nicht sind.
-   */
-  const ytKanal: Record<string, string> = {}
-  /**
-   * Adressen mit belegtem Kaufangebot — die Videoseite nennt eine `offerId`.
-   *
-   * Der Kanalname allein reicht nicht: Bei einem HTTP 401 gibt oEmbed keinen
-   * heraus, und genau diese neun Verweise standen bis zum 24.08.2026 als
-   * "kostenlos" im Kalender, obwohl sechs davon Geld kosten.
-   */
-  const ytKauf = new Set<string>()
+  const { ytKanal, ytKauf, youtubeBefunde, checks } = checksUndYoutube({ alleChecks })
   return {
     ytKanal,
     ytKauf,

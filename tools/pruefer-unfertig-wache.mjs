@@ -8,13 +8,15 @@ export const MINDEST_URTEILE = 10
 export const WARN_ANTEIL = 0.1
 
 const BOT = 'github-actions[bot]'
+/** Steht im Kommentar eines Prüfer-Laufs, der bei laufender Kette ohne Modell endete (pr-pruefer.yml, 13.11.2026): kein Urteil, zählt nicht. */
+export const MARKE_OHNE_MODELL = '<!-- pruefer-ohne-modell -->'
 const URTEIL = /^\*\*Prüfer-Review\*\* für \S+ - Urteil: \*\*(.*)\*\*/
 
 /** Urteilszeilen (Text hinter „Urteil:“) der Prüfer-Kommentare des Bots, neueste zuerst wie geliefert, höchstens `n`. */
 export function urteile(kommentare, n = LETZTE_URTEILE) {
   const aus = []
   for (const k of kommentare) {
-    if (k.user?.login !== BOT) continue
+    if (k.user?.login !== BOT || String(k.body ?? '').includes(MARKE_OHNE_MODELL)) continue
     const treffer = URTEIL.exec(String(k.body ?? '').split('\n')[0])
     if (treffer) aus.push(treffer[1])
   }

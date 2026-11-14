@@ -22,7 +22,7 @@ import { readFileSync, mkdirSync } from 'node:fs'
 import { sperreNetz } from './netz-sperre.mjs'
 
 const css = readFileSync('extension/melder.css', 'utf8')
-const box = readFileSync('extension/box.js', 'utf8')
+const box = readFileSync('extension/kontext.js', 'utf8') + '\n' + readFileSync('extension/box.js', 'utf8')
 /* Der längste Knopftext — die Stichprobe samt ihrer Folge (11.09.2026). */
 const KNOPF = process.env.KNOPF ?? '▶ E2 + E25 prüfen → gilt für E2-25'
 const BILD = process.env.BILD ?? 'docs/netflix-kasten.png'

@@ -8,17 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:motn-11617-primevideo@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Highschool D×D (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/5532/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1218@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T080000Z

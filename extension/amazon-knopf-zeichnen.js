@@ -561,316 +561,7 @@ with (globalThis.AK_ZEICHNEN_WELT) {
       return
     }
 
-    if (!geladen) {
-      /**
-       * Auch eine tote Seite bleibt gemeldet, wenn sie gemeldet wurde.
-       *
-       * Dieser Zweig lief **vor** den Regeln weiter unten und setzte den Knopf
-       * bei jedem Takt zurück auf „nicht abrufbar — melden" — Sekunden nach der
-       * Meldung war er wieder anklickbar. Auf einer
-       * Fehlerseite gibt es keine geladenen Folgen, also kam der Code nie dort
-       * an, wo „✓ gemeldet" steht.
-       */
-      const totAbgehakt = erledigt[listenId]
-      /*
-        **Eine Seite, auf der noch niemand nachgesehen hat, ist nicht „gemeldet".**
-
-        Der Auftrag läuft unter der Adresse aus dem Bestand — bei einem
-        Suchauftrag also unter der Suchadresse. Wer den Kauftitel gemeldet hat,
-        hat damit den Auftrag berührt, aber nicht die zweite Ausgabe: Prime führt
-        denselben Anime über einen Kanal **und** als Kauftitel.
-
-        Am 02.09.2026 sperrte genau das die zweite Meldung („kein melden möglich
-        bei #3"), obwohl der Briefkasten die aniverse-Kennung gar nicht führte.
-        `seiteOffen()` fragt ihn: Steht die Kennung dieser Seite nicht unter den
-        gemeldeten, ist hier noch nichts passiert.
-      */
-      if ((gemeldeteStaffel !== null || Object.keys(totAbgehakt?.staffeln ?? {}).length) && !seiteOffen()) {
-        /*
-          **Gemeldet ist gemeldet — und das ist kein toter Verweis.**
-
-          Die Farbe haengt an , und der Wert blieb hier stehen, wie
-          ihn der Zustand davor hinterlassen hatte. Nach dem Melden eines Films
-          mit Kauf- und Leihangebot stand deshalb ein rotes "alles gemeldet" da,
-          obwohl die Meldung durchging (Daniel, 25.08.2026, Zaehler 77 auf 76).
-
-          Rot heisst in dieser Oberflaeche "hier ist nichts mehr" — genau das
-          Gegenteil dessen, was gerade passiert ist.
-        */
-        /*
-          **„Alles gemeldet" braucht keinen Knopf — die Checkliste sagt es schon.**
-
-          Daniel am 02.09.2026: „alles gemeldet kann komplett entfernt werden,
-          weil es durch die checkbox box schon klar ist das alles gemeldet wurde."
-          Ein Knopf, der nichts auslöst, ist Fläche ohne Handlung; die Haken in
-          der Zeile darüber stehen ohnehin da und sagen dasselbe genauer.
-
-          **Auf einer toten Seite gibt es diese Haken nicht** (Daniel, 19.09.2026,
-          Peace Maker Kurogane: „nach reload ist der meldeknopf weg, obwohl dort
-          gemeldet stehen müsste"). Eine 404 hat keine Staffeln, also keine
-          Checkliste — und der Merker „eben gemeldet" hängt an der Sitzung, nach
-          dem Neuladen ist er weg. Hier sagt es deshalb die Marke.
-        */
-        knopf.style.display = 'none'
-        knopf.disabled = true
-        gemeldetMarke(true)
-        return
-      }
-      /**
-       * **Dieselbe Staffel zweimal im Auswahlfeld — die zweite ist erledigt.**
-       *
-       * JoJo führt „Staffel 3" und „Staffel 4" je zweimal: einmal mit
-       * Kaufsymbol und vollständiger Folgenliste, einmal im Abo und ohne jede
-       * Folge. Wer die Kauffassung gemeldet hat, hat die Staffel beantwortet —
-       * die leere Zwillingsseite darf daraus kein zweites, widersprechendes
-       * `weg` machen. Daniel am 25.08.2026: „diese doppelt gelisteten staffeln
-       * bereiten probleme".
-       *
-       * Der Vergleich läuft über die Nummer, nicht über die Kennung: Beide
-       * Fassungen tragen dieselbe Staffelnummer, und genau darauf kommt es an.
-       */
-      const dieseStaffel = staffelSchluessel()
-      /*
-        Auch hier gilt: Eine Seite, deren Kennung der Briefkasten nicht führt, ist
-        offen — was auch immer lokal abgehakt wurde. Derselbe Griff wie im Zweig
-        darüber; er fehlte hier, und der Knopf blieb gesperrt (02.09.2026).
-      */
-      if (totAbgehakt?.staffeln?.[dieseStaffel] && !seiteOffen()) {
-        knopf.disabled = true
-        knopf.textContent = `✓ Staffel ${staffelText(dieseStaffel)} gemeldet`
-        knopf.title =
-          'Diese Staffel steht im Auswahlfeld zweimal — gemeldet wurde die Fassung mit Folgen.'
-        return
-      }
-      if (stoerung) {
-        // Eine Störung ist kein Befund — hier wird nicht gemeldet.
-        knopf.dataset.tot = 'false'
-        knopf.disabled = true
-        knopf.textContent = 'Amazon meldet einen Fehler — Seite neu laden'
-        return
-      }
-      /**
-       * Eine Staffel ohne Folgenliste ist nicht „nicht abrufbar".
-       *
-       * Amazon führt dieselbe Staffel zweimal, wenn es sie im Abo **und** zum
-       * Kauf gibt — und die Fassung, die im Abo fehlt, hat gar keine
-       * Folgenliste: kein „Folgen"-Reiter, nur „Ähnliches" und „Details".
-       * Belegt am 25.08.2026 an JoJo (B0CG7SS9KL): Das Auswahlfeld führt
-       * „Staffel 3" und „Staffel 4" je zweimal, einmal mit Kaufsymbol. Die
-       * Fassung mit Symbol trägt 48 deutsche Folgen, die andere nichts.
-       *
-       * Ein `weg` von hier würde den **ganzen Verweis** entfernen — für eine
-       * Serie, die woanders vollständig dasteht. Der Knopf schickt Daniel
-       * deshalb zur anderen Fassung, statt eine Meldung anzubieten.
-       *
-       * Erkannt wird es am fehlenden Reiter, nicht am Kaufsymbol: Der Reiter
-       * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
-       */
-      const hatFolgenReiter = seitenLage().hatFolgenReiter
-      /**
-       * `!fehlerseite` gehört dazu — sonst frisst die Regel den toten Verweis.
-       *
-       * Eine Amazon-Fehlerseite („Suchen Sie etwas?") hat naturgemäß auch
-       * keinen „Folgen"-Reiter, und die Regel schickte Daniel dort zu einer
-       * anderen Fassung, die es nicht gibt: „inu ni kann ich nicht als toten
-       * link melden" (25.08.2026, Minuten nach dem Einbau).
-       *
-       * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
-       * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
-       */
-      /**
-       * **Ein Film hat keinen „Folgen"-Reiter — und ist trotzdem in Ordnung.**
-       *
-       * Daniel am 25.08.2026 an „Bayonetta: Bloody Fate [dt./OV]": Nach dem
-       * Wechsel aus der Prüfliste stand dort erst „Tonspuren noch nicht
-       * geladen" und danach „✕ keine Folgen für diese Staffel — melden". Die
-       * Seite zeigt aber genau das, was ein Film zeigt: 1 Std. 26 Min.,
-       * „Ähnliches", „Details" — keine Folgenliste, weil es keine gibt.
-       *
-       * Die zweite Meldung ist die gefährlichere: Ein Klick darauf hätte einen
-       * gültigen Verweis als tot eingetragen. Der Titel trägt „[dt./OV]" im
-       * Namen, die deutsche Fassung ist also nicht einmal strittig.
-       *
-       * **Der zweite Fall am selben Tag war noch schärfer.** Bei „Heidi —
-       * Kindheit in den Bergen" (1 Std. 28 Min., ebenfalls ein Film) stand nach
-       * dem Wechsel „24 von 48 — Abschnitte selbst öffnen": die Zahlen des
-       * **vorigen** Titels, an einem Film. Eine Meldung von dort hätte ihm
-       * achtundvierzig Folgen zugeschrieben. Nach einem Neuladen sagte derselbe
-       * Knopf korrekt „🇩🇪 Deutsch · Film · Kauf/Leihe".
-       *
-       * Der Unterschied zwischen den beiden Fällen ist nur, wie weit der alte
-       * Zählstand schon gefüllt war — die Ursache ist dieselbe.
-       *
-       * Warum die vorhandene Film-Behandlung nicht griff: Nach einem Wechsel
-       * ohne Neuladen ist der Quelltext der des **vorigen** Titels, und der
-       * Nachlade-Abruf holt eine `EpisodeList` — die es bei einem Film nicht
-       * gibt. Es bleibt also nichts zu lesen, und dann ist die einzige ehrliche
-       * Auskunft dieselbe wie beim Staffelwechsel: neu laden.
-       */
-      /*
-        **Ein Film mit frischem Quelltext hatte keinen Zweig — er fiel durch.**
-
-        Der Zweig direkt darunter verlangt `quelltextVeraltet()`, die beiden
-        danach sind durch `!istFilmSeite()` gesperrt. Für einen Film, dessen
-        Quelltext in Ordnung ist, blieb damit nichts übrig: Der Ablauf lief bis
-        zum Warte-Zweig durch und stand dort fest — erst „Folgen werden geladen
-        …", nach acht Sekunden „Tonspuren nicht gefunden — Seite neu laden".
-        Neu laden half nicht, denn der Quelltext war nie das Problem (Daniel,
-        28.08.2026, „Blood-C: The Last Dark" und „Have A Nice Day").
-
-        Hier stehen die Tonspuren aus dem Block der Seite, gelesen ohne Umweg.
-        Danach greift der reguläre Weg: eine Einheit, eine Sprachliste, der
-        Knopf schreibt „Film".
-      */
-      if (istFilmSeite() && !quelltextVeraltet() && !gesehen.jeFolge.size) {
-        const film = filmAusSeite()
-        if (film) {
-          gesehen.fuerAdresse = location.pathname + location.search
-          gesehen.gesamt = null
-          gesehen.jeFolge.set(1, film.sprachen)
-          gesehen.nummern.add(1)
-          gesehen.metaJeFolge ??= new Map()
-          gesehen.metaJeFolge.set(1, {
-            kennung: film.kennung,
-            nummer: 1,
-            titel: film.titel,
-            erschienen: film.erschienen,
-            dauerSek: film.dauerSek,
-            sprachen: film.sprachen,
-            untertitel: film.untertitel,
-          })
-          letzterFortschritt = Date.now()
-        }
-      }
-      if (istFilmSeite() && quelltextVeraltet()) {
-        knopf.dataset.tot = 'false'
-        knopf.disabled = false
-        knopf.textContent = '↻ Seite neu laden — Film, Daten noch vom vorigen Titel'
-        knopf.title =
-          'Ein Film hat keine Folgenliste, die nachgeladen werden könnte. Nach einem Wechsel ' +
-          'ohne Neuladen steht im Quelltext noch der vorige Titel.'
-        return
-      }
-      /*
-        Kein Reiter **und** keine Folgenzahl: Dann führt die Staffel bei Amazon
-        nichts — anders als eine Seite, die nur noch lädt.
-
-        **Eine Fehlerseite ist keine Staffel ohne Folgen** (Daniel, 19.09.2026,
-        Peace Maker Kurogane `B0D59HJGBZ`, mit zwei Bildern): Auf Amazons 404
-        stand erst richtig „✕ nicht abrufbar — melden", nach acht Sekunden
-        sprang der Knopf auf das gesperrte „führt keine Folgen" — die tote
-        Adresse ließ sich nicht mehr melden. Auf einer Fehler-, Region- oder
-        Nicht-verfügbar-Seite gilt deshalb der Melde-Knopf darunter.
-      */
-      if (
-        !hatFolgenReiter &&
-        !fehlerseite &&
-        !nichtAbrufbar &&
-        !regionWeg &&
-        !seitenLage().folgenLautSeite &&
-        !istFilmSeite() &&
-        Date.now() - letzterFortschritt > 8000
-      ) {
-        notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
-        knopf.disabled = true
-        knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
-        return
-      }
-      if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet && !istFilmSeite()) {
-        /**
-         * **Gesperrt war zu viel** (Daniel, 25.08.2026: „keine folgen für die
-         * staffel - melden nicht möglich", an „Space Dandy" Staffel 2).
-         *
-         * Die Regel entstand für JoJo, wo dieselbe Staffel zweimal im
-         * Auswahlfeld steht und nur die Kauffassung Folgen führt — dort ist
-         * eine Meldung falsch, die andere Fassung ist einen Klick entfernt.
-         * „Space Dandy" hat aber genau zwei Staffeln, eine davon ohne jede
-         * Folge, und keine Alternative dazu. Der Knopf schickte Daniel zu einer
-         * Fassung, die es nicht gibt.
-         *
-         * Welcher der beiden Fälle vorliegt, sieht der Mensch vor dem Bildschirm
-         * am Auswahlfeld — die Erweiterung sieht es nicht. Also entscheidet er:
-         * Der Knopf sagt, was er weiß, lässt melden und warnt im Tooltip.
-         *
-         * Gefährlich ist das nicht: Ein `weg` löscht nichts, es landet in der
-         * Arbeitsliste (`fetch-pruefungen.ts`) und wird dort vorgelegt.
-         */
-        knopf.dataset.tot = 'true'
-        knopf.disabled = false
-        knopf.textContent = '✕ keine Folgen für diese Staffel — melden'
-        knopf.title =
-          'Steht dieselbe Staffel noch einmal im Auswahlfeld (meist mit Kaufsymbol), ' +
-          'dort nachsehen statt melden — dann führt nur die andere Fassung die Folgen.'
-        return
-      }
-
-      /**
-       * **Eine Seite, die "48 Folgen" schreibt, ist nicht "nicht abrufbar".**
-       *
-       * Hierher fuehrt jeder Weg, auf dem keine einzige Folge gelesen wurde —
-       * auch der, auf dem der Quelltext bewusst verworfen wurde und der
-       * Mitleser noch nichts geliefert hat. Das ist "unbekannt", nicht
-       * "nichts", und der Unterschied entscheidet ueber eine Meldung, die
-       * einen Verweis loescht.
-       *
-       * Daniel am 25.08.2026 an JoJo Staffel 3: Nach dem Neuladen stand
-       * "nicht abrufbar - melden" ueber einer Seite mit achtundvierzig
-       * sichtbaren Folgen.
-       *
-       * Zeigt die Seite eine Folgenzahl an, wird deshalb gesperrt statt
-       * gemeldet. Lieber nicht melden koennen als falsch melden.
-       */
-      if (seitenLage().folgenLautSeite && !regionWeg && !nichtAbrufbar && !fehlerseite) {
-        knopf.dataset.tot = 'false'
-        knopf.disabled = true
-        /*
-          **„Noch nicht geladen" liest sich wie ein Fehler — meistens ist es
-          Warten.** Nach einem Wechsel ohne Neuladen holt der Mitleser die
-          Folgenliste; gemessen am 25.08.2026 dauerte das rund drei Sekunden,
-          der Abruf selbst 554 ms. Daniels Eindruck war trotzdem „geht nicht",
-          und das lag an diesem Satz.
-
-          Also sagt der Knopf, was gerade geschieht — und ab wann es wirklich
-          hakt. Die Grenze liegt bei acht Sekunden: Das ist mehr als das
-          Doppelte des gemessenen Falls und immer noch kurz genug, dass niemand
-          ins Leere wartet.
-        */
-        knopf.textContent =
-          ladeFristReif
-            ? 'Tonspuren nicht gefunden — Seite neu laden'
-            : 'Folgen werden geladen …'
-        /*
-          **Ab hier steht fest, dass nichts kam — und das gehört gemeldet.**
-
-          Acht Sekunden sind mehr als das Doppelte des gemessenen Normalfalls
-          (554 ms). Was danach noch „nicht gefunden" heißt, ist ein Vorfall:
-          Vielleicht hat Amazon den Seitenaufbau geändert, vielleicht greift ein
-          Muster nicht mehr. Stünde das nur auf dem Knopf oder in der Konsole,
-          erführe es niemand.
-
-          Netflix meldet denselben Zustand seit 4.17.11 als `ohne_tonspur`.
-          Der Riegel „je Art und Seite einmal" fängt den Takt ab, in dem
-          `zeichnen()` läuft.
-        */
-        if (ladeFristReif) {
-          void vorfallMelden('ohne_tonspur', {
-            text: 'Nach acht Sekunden keine Tonspur auf der Seite gefunden',
-          })
-        }
-        return
-      }
-      knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)
-      knopf.disabled = false
-      knopf.textContent = regionWeg
-        ? '✕ in dieser Region nicht mehr verfügbar — melden'
-        : nichtAbrufbar
-          ? '✕ derzeit nicht verfügbar — melden'
-          : wartet
-            ? 'Tonspuren noch nicht geladen'
-            : '✕ nicht abrufbar — melden'
-      if (!regionWeg && !nichtAbrufbar && wartet) knopf.disabled = true
-      return
-    }
+    if (!geladen) return zeichnenUngeladen({ stoerung, fehlerseite, regionWeg, nichtAbrufbar, wartet, ladeFristReif })
     knopf.dataset.tot = 'false'
     /**
      * Folgen, die in dieser Region nicht mehr laufen, fehlen nicht — sie sind weg.
@@ -1900,5 +1591,291 @@ with (globalThis.AK_ZEICHNEN_WELT) {
     }
     knopf.textContent = neuerText
     knopf.dataset.teilweise = String(!vollstaendig)
+  }
+  /** Der Knopf, solange noch keine Folge geladen ist (aus `zeichnenRoh` herausgelöst). */
+  const zeichnenUngeladen = ({ stoerung, fehlerseite, regionWeg, nichtAbrufbar, wartet, ladeFristReif }) => {
+    if (ungeladenGemeldet()) return
+    if (stoerung) {
+      // Eine Störung ist kein Befund — hier wird nicht gemeldet.
+      knopf.dataset.tot = 'false'
+      knopf.disabled = true
+      knopf.textContent = 'Amazon meldet einen Fehler — Seite neu laden'
+      return
+    }
+    /**
+     * Eine Staffel ohne Folgenliste ist nicht „nicht abrufbar".
+     *
+     * Amazon führt dieselbe Staffel zweimal, wenn es sie im Abo **und** zum
+     * Kauf gibt — und die Fassung, die im Abo fehlt, hat gar keine
+     * Folgenliste: kein „Folgen"-Reiter, nur „Ähnliches" und „Details".
+     * Belegt am 25.08.2026 an JoJo (B0CG7SS9KL): Das Auswahlfeld führt
+     * „Staffel 3" und „Staffel 4" je zweimal, einmal mit Kaufsymbol. Die
+     * Fassung mit Symbol trägt 48 deutsche Folgen, die andere nichts.
+     *
+     * Ein `weg` von hier würde den **ganzen Verweis** entfernen — für eine
+     * Serie, die woanders vollständig dasteht. Der Knopf schickt Daniel
+     * deshalb zur anderen Fassung, statt eine Meldung anzubieten.
+     *
+     * Erkannt wird es am fehlenden Reiter, nicht am Kaufsymbol: Der Reiter
+     * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
+     */
+    const hatFolgenReiter = seitenLage().hatFolgenReiter
+    if (ungeladenFilm()) return
+    if (ungeladenOhneReiter({ hatFolgenReiter, fehlerseite, regionWeg, nichtAbrufbar, wartet })) return
+    if (ungeladenLautSeite({ regionWeg, nichtAbrufbar, fehlerseite, wartet, ladeFristReif })) return
+    knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)
+    knopf.disabled = false
+    knopf.textContent = regionWeg
+      ? '✕ in dieser Region nicht mehr verfügbar — melden'
+      : nichtAbrufbar
+        ? '✕ derzeit nicht verfügbar — melden'
+        : wartet
+          ? 'Tonspuren noch nicht geladen'
+          : '✕ nicht abrufbar — melden'
+    if (!regionWeg && !nichtAbrufbar && wartet) knopf.disabled = true
+    return
+  }
+  /**
+   * Auch eine tote Seite bleibt gemeldet: Eine Fehlerseite hat keine geladenen Folgen und erreicht
+   * „✓ gemeldet" weiter unten nie — ohne diese Prüfung wäre der Knopf nach dem Melden gleich wieder offen.
+   */
+  const ungeladenGemeldet = () => {
+    const totAbgehakt = erledigt[listenId]
+    /*
+      **Eine Seite, auf der noch niemand nachgesehen hat, ist nicht „gemeldet".**
+
+      Der Auftrag läuft unter der Adresse aus dem Bestand — bei einem
+      Suchauftrag also unter der Suchadresse. Wer den Kauftitel gemeldet hat,
+      hat damit den Auftrag berührt, aber nicht die zweite Ausgabe: Prime führt
+      denselben Anime über einen Kanal **und** als Kauftitel.
+
+      Am 02.09.2026 sperrte genau das die zweite Meldung („kein melden möglich
+      bei #3"), obwohl der Briefkasten die aniverse-Kennung gar nicht führte.
+      `seiteOffen()` fragt ihn: Steht die Kennung dieser Seite nicht unter den
+      gemeldeten, ist hier noch nichts passiert.
+    */
+    if ((gemeldeteStaffel !== null || Object.keys(totAbgehakt?.staffeln ?? {}).length) && !seiteOffen()) {
+      /*
+        **Gemeldet ist gemeldet — und das ist kein toter Verweis.**
+
+        Die Farbe haengt an , und der Wert blieb hier stehen, wie
+        ihn der Zustand davor hinterlassen hatte. Nach dem Melden eines Films
+        mit Kauf- und Leihangebot stand deshalb ein rotes "alles gemeldet" da,
+        obwohl die Meldung durchging (Daniel, 25.08.2026, Zaehler 77 auf 76).
+
+        Rot heisst in dieser Oberflaeche "hier ist nichts mehr" — genau das
+        Gegenteil dessen, was gerade passiert ist.
+      */
+      /*
+        **„Alles gemeldet" braucht keinen Knopf — die Checkliste sagt es schon.**
+
+        Daniel am 02.09.2026: „alles gemeldet kann komplett entfernt werden,
+        weil es durch die checkbox box schon klar ist das alles gemeldet wurde."
+        Ein Knopf, der nichts auslöst, ist Fläche ohne Handlung; die Haken in
+        der Zeile darüber stehen ohnehin da und sagen dasselbe genauer.
+
+        **Auf einer toten Seite gibt es diese Haken nicht** (Daniel, 19.09.2026,
+        Peace Maker Kurogane: „nach reload ist der meldeknopf weg, obwohl dort
+        gemeldet stehen müsste"). Eine 404 hat keine Staffeln, also keine
+        Checkliste — und der Merker „eben gemeldet" hängt an der Sitzung, nach
+        dem Neuladen ist er weg. Hier sagt es deshalb die Marke.
+      */
+      knopf.style.display = 'none'
+      knopf.disabled = true
+      gemeldetMarke(true)
+      return true
+    }
+    /**
+     * **Dieselbe Staffel zweimal im Auswahlfeld — die zweite ist erledigt.**
+     *
+     * JoJo führt „Staffel 3" und „Staffel 4" je zweimal: einmal mit
+     * Kaufsymbol und vollständiger Folgenliste, einmal im Abo und ohne jede
+     * Folge. Wer die Kauffassung gemeldet hat, hat die Staffel beantwortet —
+     * die leere Zwillingsseite darf daraus kein zweites, widersprechendes
+     * `weg` machen. Daniel am 25.08.2026: „diese doppelt gelisteten staffeln
+     * bereiten probleme".
+     *
+     * Der Vergleich läuft über die Nummer, nicht über die Kennung: Beide
+     * Fassungen tragen dieselbe Staffelnummer, und genau darauf kommt es an.
+     */
+    const dieseStaffel = staffelSchluessel()
+    /*
+      Auch hier gilt: Eine Seite, deren Kennung der Briefkasten nicht führt, ist
+      offen — was auch immer lokal abgehakt wurde. Derselbe Griff wie im Zweig
+      darüber; er fehlte hier, und der Knopf blieb gesperrt (02.09.2026).
+    */
+    if (totAbgehakt?.staffeln?.[dieseStaffel] && !seiteOffen()) {
+      knopf.disabled = true
+      knopf.textContent = `✓ Staffel ${staffelText(dieseStaffel)} gemeldet`
+      knopf.title =
+        'Diese Staffel steht im Auswahlfeld zweimal — gemeldet wurde die Fassung mit Folgen.'
+      return true
+    }
+    return false
+  }
+  /**
+   * **Ein Film hat keinen „Folgen"-Reiter — und ist trotzdem in Ordnung** (25.08.2026, „Bayonetta:
+   * Bloody Fate", „Heidi"): Ohne diesen Zweig stand dort „✕ keine Folgen — melden" oder die Zahlen
+   * des vorigen Titels. Nach einem Wechsel ohne Neuladen ist der Quelltext der des vorigen Titels, und
+   * eine `EpisodeList` gibt es bei Filmen nicht; die einzige ehrliche Auskunft ist dann: neu laden.
+   *
+   * **Ein Film mit frischem Quelltext** liest seine Tonspuren direkt aus dem Block der Seite
+   * (28.08.2026, „Blood-C: The Last Dark"); sonst lief er bis zum Warte-Zweig durch und stand fest.
+   */
+  const ungeladenFilm = () => {
+    if (istFilmSeite() && !quelltextVeraltet() && !gesehen.jeFolge.size) {
+      const film = filmAusSeite()
+      if (film) {
+        gesehen.fuerAdresse = location.pathname + location.search
+        gesehen.gesamt = null
+        gesehen.jeFolge.set(1, film.sprachen)
+        gesehen.nummern.add(1)
+        gesehen.metaJeFolge ??= new Map()
+        gesehen.metaJeFolge.set(1, {
+          kennung: film.kennung,
+          nummer: 1,
+          titel: film.titel,
+          erschienen: film.erschienen,
+          dauerSek: film.dauerSek,
+          sprachen: film.sprachen,
+          untertitel: film.untertitel,
+        })
+        letzterFortschritt = Date.now()
+      }
+    }
+    if (istFilmSeite() && quelltextVeraltet()) {
+      knopf.dataset.tot = 'false'
+      knopf.disabled = false
+      knopf.textContent = '↻ Seite neu laden — Film, Daten noch vom vorigen Titel'
+      knopf.title =
+        'Ein Film hat keine Folgenliste, die nachgeladen werden könnte. Nach einem Wechsel ' +
+        'ohne Neuladen steht im Quelltext noch der vorige Titel.'
+      return true
+    }
+    return false
+  }
+  /**
+   * `!fehlerseite` gehört dazu — sonst frisst die Regel den toten Verweis.
+   *
+   * Eine Amazon-Fehlerseite („Suchen Sie etwas?") hat naturgemäß auch
+   * keinen „Folgen"-Reiter, und die Regel schickte Daniel dort zu einer
+   * anderen Fassung, die es nicht gibt: „inu ni kann ich nicht als toten
+   * link melden" (25.08.2026, Minuten nach dem Einbau).
+   *
+   * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
+   * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
+   */
+  const ungeladenOhneReiter = ({ hatFolgenReiter, fehlerseite, regionWeg, nichtAbrufbar, wartet }) => {
+    /*
+      Kein Reiter **und** keine Folgenzahl: Dann führt die Staffel bei Amazon
+      nichts — anders als eine Seite, die nur noch lädt.
+
+      **Eine Fehlerseite ist keine Staffel ohne Folgen** (Daniel, 19.09.2026,
+      Peace Maker Kurogane `B0D59HJGBZ`, mit zwei Bildern): Auf Amazons 404
+      stand erst richtig „✕ nicht abrufbar — melden", nach acht Sekunden
+      sprang der Knopf auf das gesperrte „führt keine Folgen" — die tote
+      Adresse ließ sich nicht mehr melden. Auf einer Fehler-, Region- oder
+      Nicht-verfügbar-Seite gilt deshalb der Melde-Knopf darunter.
+    */
+    if (
+      !hatFolgenReiter &&
+      !fehlerseite &&
+      !nichtAbrufbar &&
+      !regionWeg &&
+      !seitenLage().folgenLautSeite &&
+      !istFilmSeite() &&
+      Date.now() - letzterFortschritt > 8000
+    ) {
+      notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
+      knopf.disabled = true
+      knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
+      return true
+    }
+    if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet && !istFilmSeite()) {
+      /**
+       * **Gesperrt war zu viel** (Daniel, 25.08.2026: „keine folgen für die
+       * staffel - melden nicht möglich", an „Space Dandy" Staffel 2).
+       *
+       * Die Regel entstand für JoJo, wo dieselbe Staffel zweimal im
+       * Auswahlfeld steht und nur die Kauffassung Folgen führt — dort ist
+       * eine Meldung falsch, die andere Fassung ist einen Klick entfernt.
+       * „Space Dandy" hat aber genau zwei Staffeln, eine davon ohne jede
+       * Folge, und keine Alternative dazu. Der Knopf schickte Daniel zu einer
+       * Fassung, die es nicht gibt.
+       *
+       * Welcher der beiden Fälle vorliegt, sieht der Mensch vor dem Bildschirm
+       * am Auswahlfeld — die Erweiterung sieht es nicht. Also entscheidet er:
+       * Der Knopf sagt, was er weiß, lässt melden und warnt im Tooltip.
+       *
+       * Gefährlich ist das nicht: Ein `weg` löscht nichts, es landet in der
+       * Arbeitsliste (`fetch-pruefungen.ts`) und wird dort vorgelegt.
+       */
+      knopf.dataset.tot = 'true'
+      knopf.disabled = false
+      knopf.textContent = '✕ keine Folgen für diese Staffel — melden'
+      knopf.title =
+        'Steht dieselbe Staffel noch einmal im Auswahlfeld (meist mit Kaufsymbol), ' +
+        'dort nachsehen statt melden — dann führt nur die andere Fassung die Folgen.'
+      return true
+    }
+    return false
+  }
+  /**
+   * **Eine Seite, die "48 Folgen" schreibt, ist nicht "nicht abrufbar".**
+   *
+   * Hierher fuehrt jeder Weg, auf dem keine einzige Folge gelesen wurde —
+   * auch der, auf dem der Quelltext bewusst verworfen wurde und der
+   * Mitleser noch nichts geliefert hat. Das ist "unbekannt", nicht
+   * "nichts", und der Unterschied entscheidet ueber eine Meldung, die
+   * einen Verweis loescht.
+   *
+   * Daniel am 25.08.2026 an JoJo Staffel 3: Nach dem Neuladen stand
+   * "nicht abrufbar - melden" ueber einer Seite mit achtundvierzig
+   * sichtbaren Folgen.
+   *
+   * Zeigt die Seite eine Folgenzahl an, wird deshalb gesperrt statt
+   * gemeldet. Lieber nicht melden koennen als falsch melden.
+   */
+  const ungeladenLautSeite = ({ regionWeg, nichtAbrufbar, fehlerseite, wartet, ladeFristReif }) => {
+    if (seitenLage().folgenLautSeite && !regionWeg && !nichtAbrufbar && !fehlerseite) {
+      knopf.dataset.tot = 'false'
+      knopf.disabled = true
+      /*
+        **„Noch nicht geladen" liest sich wie ein Fehler — meistens ist es
+        Warten.** Nach einem Wechsel ohne Neuladen holt der Mitleser die
+        Folgenliste; gemessen am 25.08.2026 dauerte das rund drei Sekunden,
+        der Abruf selbst 554 ms. Daniels Eindruck war trotzdem „geht nicht",
+        und das lag an diesem Satz.
+
+        Also sagt der Knopf, was gerade geschieht — und ab wann es wirklich
+        hakt. Die Grenze liegt bei acht Sekunden: Das ist mehr als das
+        Doppelte des gemessenen Falls und immer noch kurz genug, dass niemand
+        ins Leere wartet.
+      */
+      knopf.textContent =
+        ladeFristReif
+          ? 'Tonspuren nicht gefunden — Seite neu laden'
+          : 'Folgen werden geladen …'
+      /*
+        **Ab hier steht fest, dass nichts kam — und das gehört gemeldet.**
+
+        Acht Sekunden sind mehr als das Doppelte des gemessenen Normalfalls
+        (554 ms). Was danach noch „nicht gefunden" heißt, ist ein Vorfall:
+        Vielleicht hat Amazon den Seitenaufbau geändert, vielleicht greift ein
+        Muster nicht mehr. Stünde das nur auf dem Knopf oder in der Konsole,
+        erführe es niemand.
+
+        Netflix meldet denselben Zustand seit 4.17.11 als `ohne_tonspur`.
+        Der Riegel „je Art und Seite einmal" fängt den Takt ab, in dem
+        `zeichnen()` läuft.
+      */
+      if (ladeFristReif) {
+        void vorfallMelden('ohne_tonspur', {
+          text: 'Nach acht Sekunden keine Tonspur auf der Seite gefunden',
+        })
+      }
+      return true
+    }
+    return false
   }
 }

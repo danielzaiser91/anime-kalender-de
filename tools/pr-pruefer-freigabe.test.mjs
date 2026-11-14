@@ -56,12 +56,13 @@ esac
 `
 
 /** Die env des Schritts aus der YAML; nur die beiden bekannten Ausdrücke werden eingesetzt. */
-function werteEnv(zustand, checks, modus = '', frei = '') {
+function werteEnv(zustand, checks, modus = '', frei = '', kette = '') {
   const ausdruecke = {
     'steps.modus.outputs.modus': modus,
     'steps.modus.outputs.aendern-frei': frei,
     'steps.eingang.outputs.zustand': zustand,
     'steps.checks.outputs.stand': checks,
+    'steps.kette.outputs.laeuft': kette,
     'secrets.GITHUB_TOKEN': TOKEN,
     'github.event.pull_request.number': '7',
     'github.event.pull_request.head.sha': KOPF,
@@ -100,7 +101,7 @@ function laufe(f) {
     Object.assign(env, {
       GITHUB_REPOSITORY: 'o/r',
       RUNNER_TEMP: temp,
-      ...werteEnv(f.zustand, f.checks ?? 'gruen', f.modus, f.frei),
+      ...werteEnv(f.zustand, f.checks ?? 'gruen', f.modus, f.frei, f.kette),
       ATTRAPPE_LOG: log,
       ATTRAPPE_KOMMENTAR: kommentar,
       ATTRAPPE_AKTUELL: f.aktuell ?? KOPF,
@@ -231,6 +232,12 @@ const KETTE_GRUEN = kettenlog({ id: 9, status: 'completed', conclusion: 'success
 const AUSSTEHEND = '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Kette lief noch**'
 const offenFall = (extra) => laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_LAEUFT, ...extra })
 const kOffen = offenFall({})
+// Platzhalter-Urteil des Schritts „Kette läuft noch“ (13.11.2026, Prüfer startet bei laufender Kette ohne Modell): auch bei
+// leerem oder unvollständigem Diff-Zustand „nicht beurteilt“ mit Marke, nie ein Änderungswunsch auf Platzhalter-Grundlage.
+for (const zustand of ['ok', 'unvollstaendig', '']) {
+  const platzhalter = offenFall({ kette: 'ja', zustand, protokoll: 'Die PR-Prüfkette lief beim Start des Prüfers noch; er hat nichts geprüft.\n' })
+  pruefe(`Kette läuft beim Start (Diff „${zustand}“): nur Kommentar „nicht beurteilt“ mit Marke, kein Review`, nurKommentar(platzhalter) && ersteZeile(platzhalter) === AUSSTEHEND && platzhalter.kommentar.includes('<!-- pruefer-kette-offen -->'), platzhalter)
+}
 pruefe('Kette offen, Urteil aendern: nur Kommentar, kein Review, Titel „nicht beurteilt“, Marke, Hinweis vor dem Protokoll',
   nurKommentar(kOffen) && ersteZeile(kOffen) === AUSSTEHEND && kOffen.kommentar.includes('<!-- pruefer-kette-offen -->') && kOffen.kommentar.includes('lief beim Urteil noch') && kOffen.kommentar.indexOf('lief beim Urteil noch') < kOffen.kommentar.indexOf('Alles gut.'), kOffen)
 pruefe('Kette offen, Marke steht vor der Modus-Marke (der Modus liest die letzte Zeile)', marke(kOffen) === '<!-- pruefer-modus: voll -->', kOffen.kommentar)

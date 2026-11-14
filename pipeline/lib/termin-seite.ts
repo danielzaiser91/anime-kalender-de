@@ -6,7 +6,7 @@ import { anzeigeFolge, expandEvents } from '../../shared/logic.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
 import { GENRE_DE } from '../../shared/mappings.ts'
 import { andereNamen } from './titel-namen.ts'
-import { SITE, esc, namenZeile, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, synopsenAbsatz, type SynopsenText } from './titel-seite.ts'
+import { SITE, esc, namenZeile, titelName, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, synopsenAbsatz, type SynopsenText } from './titel-seite.ts'
 import { type Umfeld } from './titel-umfeld.ts'
 import { teilenPfad, titelAdresse, titelHash } from '../../shared/teilen.ts'
 import { zeitMitMarke } from '../../shared/zeit-text.ts'
@@ -307,12 +307,13 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
   return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
 }
 
-export function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string, umfeld: Umfeld): string {
+/** `mehrereReleases`: Hat der Titel mehrere, nennt der Seitentitel den Titel, nicht den Namen des einen Releases („… – Vol. 1“). */
+export function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string, umfeld: Umfeld, mehrereReleases = false): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}${teilenPfad(adresse)}`
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
-  const headline = seitenTitel(release.name, title, true)
+  const headline = seitenTitel(mehrereReleases && title ? titelName(title) : release.name, title, true)
   const description = describe(release, title, today)
   const hash = titelHash(ak, adresse, next?.date)
 

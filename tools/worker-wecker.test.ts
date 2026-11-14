@@ -8,7 +8,7 @@
  */
 import worker from '../worker/src/index.ts'
 import { starteFaelligeLaeufe } from '../worker/src/wecker.ts'
-import { faelligeLaeufe } from '../shared/weckplan.ts'
+import { WECKPLAN, faelligeEintraege, faelligeLaeufe } from '../shared/weckplan.ts'
 import type { Env } from '../worker/src/env.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 import { festeUhr } from './feste-uhr.ts'
@@ -41,6 +41,8 @@ let fremdStatus = 204
 const kopfZeilen: string[] = []
 /** Antwort der Attrappe auf "letzte Läufe" (neuester zuerst); leer = nie gelaufen. */
 let bisherige: { created_at: string; status: string; conclusion: string }[] = []
+/** Antwort der Attrappe auf die Lauf-Abfrage (403 und 500: GitHub nicht lesbar). */
+let laeufeStatus = 200
 
 /** Hängt sich vor die Attrappe und merkt sich, welche Workflows per `dispatches` gestartet wurden. */
 function mitAufzeichnung(): void {
@@ -57,7 +59,7 @@ function mitAufzeichnung(): void {
     if (treffer && init?.method === 'POST' && treffer[1] !== HAUPT && fremdStatus !== 204) return new Response('{}', { status: fremdStatus })
     const abfrage = /repos\/([^/]+\/[^/]+)\/actions\/workflows\/([^/]+)\/runs\?/.exec(url)
     if (abfrage && abfrage[1] !== HAUPT) fremdAbgefragt.push(`${abfrage[1]}/${abfrage[2]}`)
-    if (url.includes('/runs?')) return new Response(JSON.stringify({ workflow_runs: bisherige }), { status: 200 })
+    if (url.includes('/runs?')) return new Response(JSON.stringify({ workflow_runs: bisherige }), { status: laeufeStatus })
     return weiter(eingabe, init)
   }) as typeof fetch
 }
@@ -156,6 +158,45 @@ pruefe(gleich(await cron(new Date('2026-10-19T05:00:00.000Z'), 'attrappe'), ['re
 pruefe(gleich(await cron(new Date('2026-10-19T04:00:30.000Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'claude-anime2you-extraktion.yml', 'tonspuren-monatlich.yml']), 'Cron 30 Sekunden nach der Stunde: dieselbe Stunde')
 pruefe(gleich(await cron(new Date('2026-10-19T03:59:59.999Z'), 'attrappe'), ['refresh-hourly.yml', 'nacht-merger.yml', 'claude-anime2you-extraktion.yml', 'meldungskopie.yml']), 'Cron eine Millisekunde vor 04:00: Stunde 03')
 pruefe((await cron(MONTAG_VIER, undefined)).length === 0, 'Cron ohne Wecker-Token: nichts gestartet')
+
+stumm('scheduled im 5-Minuten-Cron (F131):')
+async function cronFuenf(zeit: Date, cronText = '*/5 * * * *'): Promise<string[]> {
+  return nach(async () => {
+    const offen: Promise<unknown>[] = []
+    const ctx = { waitUntil: (p: Promise<unknown>) => offen.push(p), passThroughOnException: () => {} } as unknown as ExecutionContext
+    zaehlerZurueck()
+    const e = { ...testEnv(neueDatenbank(), 25), GITHUB_WECKER_TOKEN: 'attrappe' } as Env
+    await worker.scheduled({ cron: cronText, scheduledTime: zeit.getTime(), noRetry: () => {} }, e, ctx)
+    await Promise.allSettled(offen)
+  })
+}
+const FUENF_ZEIT = new Date('2026-10-19T04:25:00.000Z')
+const vorFuenf = (min: number) => [{ created_at: new Date(FUENF_ZEIT.getTime() - min * 60_000).toISOString(), status: 'completed', conclusion: 'success' }]
+bisherige = vorFuenf(21)
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), ['nacht-merger.yml']), '5-Minuten-Cron: Nacht-Merger (letzter Start vor 21 min) startet, kein 40-, 50- oder 600-min-Eintrag')
+bisherige = []
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), ['nacht-merger.yml']), '5-Minuten-Cron ohne frühere Läufe: nur der Nacht-Merger, nie refresh-hourly, Tageslauf oder Anime2You')
+// A2: Der Lauf liegt Sekunden nach dem Takt; 19 min 55 s Abstand müssen starten (Abstand 15), 14 min nicht.
+bisherige = vorFuenf(19 + 55 / 60)
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), ['nacht-merger.yml']), '5-Minuten-Cron: letzter Start vor 19 min 55 s: Nacht-Merger startet (Takt 20 min)')
+bisherige = vorFuenf(14)
+pruefe(gleich(await cronFuenf(FUENF_ZEIT), []), '5-Minuten-Cron: Nacht-Merger vor 14 min gestartet, Mindestabstand 15 sperrt')
+// A1: Läufe-Abfrage scheitert: der 5-Minuten-Zweig startet nicht (sonst bis zu 12 Starts je Stunde), der Stunden-Cron behält sein Verhalten.
+bisherige = []
+for (const status of [403, 500]) {
+  laeufeStatus = status
+  pruefe(gleich(await cronFuenf(FUENF_ZEIT), []), `5-Minuten-Cron: Lauf-Abfrage ${status}: 0 Starts`)
+  pruefe((await cronFuenf(MONTAG_VIER, '0 * * * *')).includes('nacht-merger.yml'), `Stunden-Cron: Lauf-Abfrage ${status}: startet wie bisher`)
+}
+laeufeStatus = 200
+// A3: :20 und :40 starten, die volle Stunde genau einmal (Stunden-Cron), auch wenn beide Cron-Arten feuern.
+pruefe(gleich(await cronFuenf(new Date('2026-10-19T04:20:00.000Z')), ['nacht-merger.yml']), '5-Minuten-Cron :20: startet')
+pruefe(gleich(await cronFuenf(new Date('2026-10-19T04:40:00.000Z')), ['nacht-merger.yml']), '5-Minuten-Cron :40: startet')
+const zurVollenStunde = [...(await cronFuenf(MONTAG_VIER)), ...(await cronFuenf(MONTAG_VIER, '0 * * * *'))]
+pruefe(zurVollenStunde.filter((w) => w === 'nacht-merger.yml').length === 1, 'volle Stunde, beide Cron-Arten: genau ein Nacht-Merger-Start')
+bisherige = []
+pruefe(gleich(await cronFuenf(new Date('2026-10-19T04:00:00.000Z')), []), '5-Minuten-Cron zur vollen Stunde: nichts (der Stunden-Cron startet)')
+pruefe(JSON.stringify(faelligeEintraege(FUENF_ZEIT, WECKPLAN, true).map((p) => p.workflow)) === JSON.stringify(['nacht-merger.yml']), 'Plan: im 5-Minuten-Cron ist nur der Nacht-Merger fällig')
 
 if (fehler) {
   stumm(`\n${fehler} Prüfung(en) rot.`)

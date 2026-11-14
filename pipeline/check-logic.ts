@@ -6464,7 +6464,7 @@ pruefe(
   pruefe('ein sinnloser Begriff findet nichts', such('xqzvwkkk').length === 0)
 }
 {
-  /* Löschfristen (09.10.2026): Datenschutztext sagt 60 Minuten Ratenbegrenzung und 7 Tage unbestätigte Anmeldung — der Worker löscht entsprechend, und `scheduled` ruft es auf. */
+  /* Löschfristen (09.10.2026): Datenschutztext sagt 60 Minuten Ratenbegrenzung und 7 Tage unbestätigte Anmeldung — der Worker löscht entsprechend; der Aufruf aus `scheduled` steht in `tools/worker-loeschlauf-scheduled.test.ts`. */
   const aufrufe: { sql: string; grenze: string }[] = []
   const attrappe = { DB: { prepare: (sql: string) => ({ bind: (grenze: string) => ({ run: async () => (aufrufe.push({ sql, grenze }), { meta: { changes: 2 } }) }) }) } }
   const jetzt = new Date('2026-10-09T12:00:00.000Z')
@@ -6472,7 +6472,6 @@ pruefe(
   pruefe('Löschlauf: Ratenbegrenzung älter als 60 Minuten', aufrufe[0]?.sql === SQL_RATE_LIMIT_LOESCHEN && aufrufe[0].grenze === '2026-10-09T11:00:00.000Z', JSON.stringify(aufrufe[0]))
   pruefe('Löschlauf: nur unbestätigte Anmeldungen älter als 7 Tage', aufrufe[1]?.sql === SQL_UNBESTAETIGT_LOESCHEN && aufrufe[1].grenze === '2026-10-02T12:00:00.000Z' && SQL_UNBESTAETIGT_LOESCHEN.includes("status = 'pending'"), JSON.stringify(aufrufe[1]))
   pruefe('Löschlauf meldet die Zahlen', n.rateLimit === 2 && n.unbestaetigt === 2)
-  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,600}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
 }
 {
   /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */
@@ -7842,6 +7841,8 @@ console.log('\nErschienene Folgen:')
   pruefe('Erschienen: die Wikipedia-Liste darf weiter reichen als aniSearch', erschieneneFolgen(f, 5, '2026-10-04').length === 5)
   pruefe('Erschienen: ganz ohne Datum bleibt die Liste, wie sie ist', erschieneneFolgen([{ nr: 1 }, { nr: 2 }], 0, '2026-10-04').length === 2)
   pruefe('Erschienen: nur Zukünftiges ergibt keine Liste', erschieneneFolgen([{ nr: 1, datum: '2027-01-01' }, { nr: 2, datum: '2027-01-08' }], 0, '2026-10-04').length === 0)
+  const nurKuenftig = [1, 2, 3].map((nr) => ({ nr, datum: '2027-01-01' }))
+  pruefe('Erschienen: nur künftige aniSearch-Daten, Wikipedia führt Folge 2: bis Folge 2', erschieneneFolgen(nurKuenftig, 2, '2026-10-04').length === 2, erschieneneFolgen(nurKuenftig, 2, '2026-10-04').length)
 }
 /* Eine Crunchyroll-Serie mit einer Staffel gehört einem Titel (Tokyo Revengers, 04.10.2026) — aber nur bei eindeutigem Eigentümer. */
 console.log('\nGeteilte Crunchyroll-Serie:')
@@ -8149,6 +8150,34 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     )
     const mehrere = messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: 'https://www.crunchyroll.com/de/series/GT2/', name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung
     pruefe('Messung: bei mehreren Staffeln mit derselben Folgennummer nur die zum Meldungstag laufende', mehrere?.zeilen.length === 1 && mehrere.zeilen[0]!.includes('S3DE'), JSON.stringify(mehrere))
+    /* Crunchyroll liefert Sendedaten mit fremdem Offset; der Meldungstag (30.09.) ist ein Berliner Tag. */
+    const mitSendung = (serie: string, luft: string) => {
+      const items = [
+        { episode_number: 11, season_title: 'Season 1', episode_air_date: '2021-03-22T00:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'S1DE' }] },
+        { episode_number: 11, season_title: 'Season 2', episode_air_date: luft, versions: [{ audio_locale: 'de-DE', guid: 'S2DE' }] },
+      ]
+      const roh = {
+        holtAm: '2026-10-02T11:00:00Z',
+        episodes: { s1: { items } },
+      }
+      writeFileSync(join(dir, `${serie}.de.json.gz`), gzipSync(JSON.stringify(roh)))
+      return messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: `https://www.crunchyroll.com/de/series/${serie}/`, name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung?.zeilen.join()
+    }
+    const spaeter = mitSendung('GT3', '2026-09-30T17:30:00-07:00')
+    pruefe('Messung: Sendung am 30.09. 17:30 Pazifikzeit liegt in Berlin am 01.10., gilt nicht als am Meldungstag gelaufen', spaeter?.includes('S1DE') === true, spaeter)
+    const frueher = mitSendung('GT4', '2026-10-01T05:00:00+09:00')
+    pruefe('Messung: Sendung am 01.10. 05:00 japanischer Zeit liegt in Berlin am 30.09., gilt als am Meldungstag gelaufen', frueher?.includes('S2DE') === true, frueher)
+    /* Beide Staffeln liefen bis zum Meldungstag; zeitlich ist ZA (30.09. 06:00 UTC) später als ZB (30.09. 01:00 UTC), als Text aber früher. */
+    const reihenfolge = (serie: string) => {
+      const items = [
+        { episode_number: 11, season_title: 'Season 2', episode_air_date: '2026-09-30T01:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'ZB' }] },
+        { episode_number: 11, season_title: 'Season 3', episode_air_date: '2026-09-29T23:00:00-07:00', versions: [{ audio_locale: 'de-DE', guid: 'ZA' }] },
+      ]
+      writeFileSync(join(dir, `${serie}.de.json.gz`), gzipSync(JSON.stringify({ holtAm: '2026-10-02T11:00:00Z', episodes: { s1: { items } } })))
+      return messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: `https://www.crunchyroll.com/de/series/${serie}/`, name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung?.zeilen.join()
+    }
+    const juengste = reihenfolge('GT5')
+    pruefe('Messung: Staffeln mit verschiedenem Offset werden nach Zeitpunkt, nicht nach Text sortiert (jüngste zuerst)', juengste?.includes('ZA') === true && !juengste.includes('ZB'), juengste)
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
   }

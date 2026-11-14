@@ -6,6 +6,7 @@
  * Gespielt wird der Quelltext der beiden Stellen aus `amazon.js` (Schnitt, keine Nachbildung) mit denselben Eingaben.
  */
 const { readFileSync } = require('node:fs')
+const { kontextNeu } = require('./melde-geruest.cjs')
 const { resolve } = require('node:path')
 const vm = require('node:vm')
 
@@ -56,6 +57,8 @@ function knopfBietet(e) {
 async function klick(e, umgebung = {}) {
   const knopf = { dataset: { tot: String(e.tot ?? false), ...(umgebung.dataset ?? {}) }, textContent: '', title: '' }
   const abgewiesen = []
+  const chromeTest = { storage: { sync: { get: umgebung.tokenGet ?? (() => Promise.resolve({ token: 'T' })) } } }
+  kasten.akKontext = kontextNeu(() => chromeTest)
   const f = new Function(
     'knopf', 'verbindungLebt', 'standGeladen', 'standFertig', 'erledigt', 'listenId', 'staffelSchluessel', 'letzterStand', 'zeichnen',
     'location', 'htmlNeuLesen', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal',
@@ -69,7 +72,7 @@ async function klick(e, umgebung = {}) {
     () => ({ folgenLautSeite: e.lautSeite ?? 0, regionFolgen: [] }), () => e.kanal ?? false, () => {},
     (grund, ok = false) => abgewiesen.push({ grund, ok }),
     (grund) => abgewiesen.push({ grund, ok: false }),
-    { storage: { sync: { get: umgebung.tokenGet ?? (() => Promise.resolve({ token: 'T' })) } } }, kasten,
+    chromeTest, kasten,
     () => false, null, { querySelector: () => null }, { titel: 'T' }, () => 'A', () => 'A', () => 'T',
   )
   return { sendet: ergebnis === 'sendet', abgewiesen, knopf }
