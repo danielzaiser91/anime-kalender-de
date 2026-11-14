@@ -1,0 +1,16 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "nachtragSignal: Zehn-Minuten-Schwelle entfällt", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": " || stunden(kopfZeit, jetzt) * 60 < NACHTRAG_MIN", "ersetze": "" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "nachtragSignal: Urteil ändern zählt wie ok", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "urteile(pr.comments).at(-1)?.gut !== true", "ersetze": "false" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "nachtragSignal: Stufe 1 meldet auch", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "stufeFn(pr.number) !== 2", "ersetze": "stufeFn(pr.number) !== 1" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "nachtragSignal: Nachtrag zum Kopf zählt nie", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "hatNachtrag(kommentare, pr.headRefOid)", "ersetze": "hatNachtrag(kommentare, \"\")" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "bewertePr: nachtragSignal nicht aufgerufen", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": ", ...nachtragSignal(pr, kopfZeit, jetzt, stufeFn)", "ersetze": "" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "naechsterSchritt: NACHTRAG entfällt", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "  if (hat(12)) return NAECHSTER.NACHTRAG\n", "ersetze": "" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "liegegutFunde: nativ bekommt die Stufenfunktion", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "repo.slug ? null : stufeFn", "ersetze": "stufeFn" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "liegegutAlleFunde: Stufenfunktion nicht durchgereicht", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "zugAktiv, r, stufeFn)", "ersetze": "zugAktiv, r)" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "meldeLiegt: Stufenfunktion nicht durchgereicht", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "undefined, stufeFn), jetzt)", "ersetze": "undefined), jetzt)" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "main: Stufenfunktion nicht durchgereicht", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "melde), undefined, stufeFn)", "ersetze": "melde), undefined)" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "stufeEcht: Text als Stufe gilt", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "Number.isInteger(s) ? s : null", "ersetze": "s ?? null" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "stufeEcht: Fehler ohne Zeile", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "console.error(`liegegut: pr-stufe PR", "ersetze": "(`liegegut: pr-stufe PR" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "laeufe-aufraeumen: stufeEcht vergessen", "aenderungen": [{ "datei": "tools/laeufe-aufraeumen.mjs", "suche": "Date.now(), stufeEcht)", "ersetze": "Date.now())" }], "tests": ["node tools/liegegut.test.mjs"] }
+]

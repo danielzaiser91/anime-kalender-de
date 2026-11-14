@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { nachtragSignal, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { nachtragSignal, stufeEcht, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -668,6 +668,33 @@ console.log('liegegut: Signal 12 – Stufe-2-PR mit Prüfer-ok, aber ohne Nachtr
   nachtragSignal(pr(7, { comments: [bot(5, ALT, 'aendern')] }), JETZT - 3600 * 1000, JETZT, () => { gefragt++; return 2 })
   pruefe('Stufe wird nur erfragt, wenn alles andere zutrifft (pr-stufe lädt den Diff)', gefragt === 0)
   pruefe('Ohne Stufenquelle (null) kein Signal', nachtragSignal(pr(7, { comments: [bot(5, KOPF, 'ok')] }), JETZT - 3600 * 1000, JETZT, null).length === 0)
+}
+
+console.log('liegegut: Signal 12 verdrahtet (Prüfer 3865, Befund 1 und 3)')
+{
+  const offener = () => pr(8, { comments: [bot(5, ALT, 'ok')] })
+  let gefragt = []
+  const stufe = (n) => { gefragt.push(n); return 2 }
+  const zeilen = liegegutAlle(attrappeGh([offener()], [], [offener()]), attrappeGit(), JETZT, () => {}, null, false, stufe)
+  pruefe('liegegutAlle: Signal 12 und Schritt NACHTRAG in der Zeile', zeilen.length === 1 && /: NACHTRAG \(.*Signal 12 Stufe 2: Nachtrag zum Kopf a1b2c3d4e fehlt/.test(zeilen[0]), zeilen)
+  pruefe('Stufe nur für das Haupt-Repo erfragt (nativ hat keinen pr-stufe-Klon)', JSON.stringify(gefragt) === '[8]', gefragt)
+  pruefe('ohne Stufenfunktion kein Signal 12', liegegutAlle(attrappeGh([offener()]), attrappeGit(), JETZT, () => {}, null, false).every((z) => !/Signal 12/.test(z)))
+  const wache = []
+  meldeLiegt(attrappeGh([offener()]), attrappeGit(), (t) => wache.push(t), JETZT, () => 2)
+  pruefe('meldeLiegt reicht die Stufenfunktion durch: Sammelzeile „Nachtrag fehlt“', wache.some((t) => /^LIEGT: 8 \(Nachtrag fehlt \d+ h\)/.test(t)), wache)
+  const ausgabe = []
+  main(attrappeGh([offener()]), attrappeGit(), (t) => ausgabe.push(t), JETZT, () => 2)
+  pruefe('main reicht die Stufenfunktion durch', ausgabe.some((t) => /Signal 12/.test(t)), ausgabe)
+  const aufraeumen = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'laeufe-aufraeumen.mjs'), 'utf8')
+  pruefe('Wachphase (laeufe-aufraeumen) übergibt stufeEcht an meldeLiegt', /meldeLiegt\(.*Date\.now\(\), stufeEcht\)/.test(aufraeumen))
+  const log = []
+  const echt = (aus) => { const alt = console.error; console.error = (t) => log.push(t); try { return stufeEcht(5, aus) } finally { console.error = alt } }
+  pruefe('stufeEcht: Stufe 2 aus der JSON-Ausgabe', echt(() => '{"stufe":2}') === 2 && log.length === 0)
+  pruefe('stufeEcht: Stufe 0 bleibt 0', echt(() => '{"stufe":0}') === 0)
+  pruefe('stufeEcht: Ausgabe ohne stufe → null', echt(() => '{}') === null)
+  pruefe('stufeEcht: Stufe als Text → null', echt(() => '{"stufe":"2"}') === null)
+  log.length = 0
+  pruefe('stufeEcht: Prozess scheitert → null und Fehlerzeile mit PR-Nummer', echt(() => { throw new Error('Frist\nzweite') }) === null && /PR 5 nicht lesbar \(Frist\)/.test(log[0] ?? ''), log)
 }
 
 if (fehler.length > 0) {
