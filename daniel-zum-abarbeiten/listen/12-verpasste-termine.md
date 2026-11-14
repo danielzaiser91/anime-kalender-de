@@ -10,8 +10,8 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-11-14 15:07 · 1 offen, 15 nachgeholt
+Stand: 2026-11-14 16:02 · 1 offen, 15 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
-| A Wild Last Boss Appeared! – Staffel 2 | 5 | 2026-11-14 14:30 | 12 Folgen | 2026-11-14 15:06 | — | **offen** | nein |
+| A Wild Last Boss Appeared! – Staffel 2 | 5 | 2026-11-14 14:30 | 12 Folgen | 2026-11-14 16:01 | — | **offen** | nein |
