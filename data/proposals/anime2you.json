@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-13T18:01:42.280Z",
+  "scrapedAt": "2026-11-14T04:13:18.095Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 11,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 31,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -35,7 +35,26 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Anja und die vier Jahreszeiten",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
@@ -77,6 +96,25 @@
         {
           "iso": "2026-11-30",
           "context": ". Bis Ende November 2026 Die neue 3-für-2-Aktion, die vom 13. bis zum 30. November 2026 läuft, umfasst unter anderem die Komplett- und Staff"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-05-21",
+          "context": "Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen« startet am 21. Mai 2027 bei Paramount+ in Deutschland, Österreich und der Schweiz"
+        },
+        {
+          "month": "2027-05",
+          "context": "even Havens«) verkündet. Wir fassen nachfolgend zusammen. Fortsetzung ab Mai 2027 Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen«"
         }
       ],
       "dub": "unklar",
@@ -424,7 +462,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -762,7 +800,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -835,7 +873,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -891,7 +929,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -1237,7 +1275,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-14"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -2138,7 +2176,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-11"
+      "discGelesen": "2026-11-14"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
