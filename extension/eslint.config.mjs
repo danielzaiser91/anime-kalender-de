@@ -100,6 +100,8 @@ export default [
         akNetflixFensterRaeumen: 'readonly',
         akNetflixZaehlerStand: 'readonly',
         akNetflixZaehlerSetze: 'readonly',
+        akNetflixFertigSet: 'readonly',
+        akNetflixLaufVergessen: 'readonly',
         akNetflixLeerNach: 'readonly',
         akNetflixBremseTakt: 'readonly',
         akNetflixBremseOeffnen: 'readonly',

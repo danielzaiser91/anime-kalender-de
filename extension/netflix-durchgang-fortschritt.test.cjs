@@ -180,6 +180,8 @@ const melder = lies('melder.js')
   pruefe('nach dem Neuladen: Zähler 1 und Nenner 40 bleiben (nicht 0 von 39), der nächste Sprung zählt 2 von 40', JSON.stringify(r.vorher) === '[1,40]' && JSON.stringify(r.nachher) === '[2,40]', r)
   const f = k.akNetflixFortschritt(...r.vorher, 'X')
   pruefe('die Fortschrittszeile direkt nach dem Neuladen zeigt „0 von 40 geprüft" mit demselben Nenner (Zähler 1 = erster Titel läuft)', f.text === 'Durchgang: 0 von 40 geprüft · gerade: X', f)
+  speicher['ak-netflix-fertig'] = '["1"]'
+  speicher['ak-netflix-uebersprungen'] = '[["2","x"]]'
   vm.runInContext('__tun.aufraeumen()', kontext)
   pruefe('Ende des Durchgangs (taktTun.aufraeumen): Speicher leer, der nächste Lauf beginnt bei 0', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}' && Object.keys(speicher).length === 0, speicher)
   speicher['ak-netflix-zaehler'] = '{kaputt'

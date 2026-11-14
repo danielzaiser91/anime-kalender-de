@@ -2389,7 +2389,7 @@ function laufBeenden(grund) {
 /** Wie der letzte Durchgang endete — steht im Kasten, bis der nächste startet. */
 let durchgangEnde = null
 /** Titel, die der Durchgang abgeschlossen hat (nicht übersprungen). */
-const fertigeTitel = new Set()
+const fertigeTitel = akNetflixFertigSet()
 
 function durchgangEndeZeigen() {
   akNetflixEndeZeigen(() => netflixKasten().querySelector('.ak-z-melden'), durchgangEnde, selbstUebersprungen.zurueckText())
