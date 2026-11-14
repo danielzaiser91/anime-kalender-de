@@ -101,7 +101,6 @@ export default [
         akNetflixZaehlerStand: 'readonly',
         akNetflixZaehlerSetze: 'readonly',
         akNetflixLeerNach: 'readonly',
-        akNetflixNetzAntworten: 'readonly',
         akNetflixBremseTakt: 'readonly',
         akNetflixBremseOeffnen: 'readonly',
         akNetflixBremseEnde: 'readonly',

@@ -26,6 +26,7 @@ kontext.globalThis = kontext
 vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
 vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
+vm.runInContext(lies('netflix-bericht.js'), kontext)
 const { akNetflixStoerung, akNetflixTitelUeberspringen, akNetflixUmgeleitet, akNetflixSelbstTakt, akNetflixBremseOeffnen, akNetflixBrowseAuftrag } = kontext
 
 /* --- Störung im Durchlauf --- */
@@ -160,20 +161,26 @@ const weiterLaufen = (o = {}) => {
   const speicher = {}
   const welt = { gegangen: [], speicher, merker: null, beendet: [], begonnen: [], gezaehlt: null, zaehler: [] }
   const f = new Function(
-    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei', 'akNetflixZaehlerSetze',
+    'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig',
     `let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
 ${funktionText('function selbstWeiter(frei = 0)')}
 selbstWeiter(frei)
 ergebnis.merker = zuletztGeoeffnet
-ergebnis.gezaehlt = selbstGezaehlt`,
+ergebnis.gezaehlt = selbstGezaehlt
+ergebnis.grenze = selbstGrenze`,
   )
   f(
-    { 77: { titel: 'Probe' } }, () => null, (g) => welt.beendet.push(g), () => (o.naechster === undefined ? 77 : o.naechster),
+    o.titel ?? { 77: { titel: 'Probe' } }, () => null, (g) => welt.beendet.push(g), () => (o.naechster === undefined ? 77 : o.naechster),
     async (werte) => { Object.assign(speicher, JSON.parse(JSON.stringify(werte))) },
     (adresse) => welt.gegangen.push(adresse), { log() {} }, jetzt(1000), 'k', 1, welt,
-    o.bremse ?? { pause: () => null, offen: () => 0 }, 'tab-1', { beginn: (r, z) => welt.begonnen.push([r, z]) }, o.start ?? 0, o.frei, (g, n) => welt.zaehler.push([g, n]),
+    o.bremse ?? { pause: () => null, offen: () => 0 }, 'tab-1', { beginn: (r, z) => welt.begonnen.push([r, z]) }, o.start ?? 0, o.frei, (g, n) => welt.zaehler.push([g, n]), kontext.akNetflixBericht, (id) => (o.erledigt ?? []).includes(id),
   )
   return welt
+}
+{
+  /* Bericht 14.11.2026: Nenner 233 (alle Titel der Prüfliste) statt 163 (offen). `selbstWeiter` setzt ihn beim ersten Sprung nach einem Neuladen ohne Speicher. */
+  const w = weiterLaufen({ titel: { 77: {}, 78: {}, 79: {}, 80: {} }, erledigt: ['78', '80'] })
+  pruefe('selbstWeiter: der Nenner zählt nur offene Titel (4 in der Prüfliste, 2 fertig → 2)', w.gezaehlt === 1 && JSON.stringify(w.zaehler) === '[[1,2]]', w.zaehler)
 }
 {
   const w = weiterLaufen()
@@ -226,22 +233,29 @@ ergebnis.gezaehlt = selbstGezaehlt`,
 }
 /* `laufStarten` beginnt mit frischer Bremse (sessionStorage überlebt einen wiederhergestellten Tab). */
 {
-  let reset = 0
-  const gemerkt = []
-  const ok = new Function(
-    'titelDerAdresse', 'gemeinteReihe', 'offeneTitel', 'naechsterAuftrag', 'bremse', 'selbstUebersprungen', 'selbstStaffelnGeprueft', 'selbstGesammelt', 'selbstVersuche', 'fertigeTitel', 'durchgangEndeZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'Date', 'dialogSchliessen', 'vielleichtSelbstStarten', 'selbstWeiter', 'akNetflixZaehlerSetze',
-    `let selbstAn = false, selbstGezaehlt = 9, selbstGrenze = null, selbstVersucht = 'x', selbstSammelStand = 1, durchgangEnde = 1\n${funktionText('function laufStarten()')}\nreturn laufStarten() && selbstAn && selbstGezaehlt === 0`,
-  )(() => null, () => null, { 1: {}, 2: {}, 3: {} }, () => '1', { zuruecksetzen: () => reset++ }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {}, (g, n) => gemerkt.push([g, n]))
-  pruefe('laufStarten: Start gelingt und die Bremse beginnt frisch', ok === true && reset === 1, { ok, reset })
-  pruefe('laufStarten merkt Zähler 0 und Nenner (3 offene Titel) im Speicher: Neuladen vor dem ersten Sprung behält den Nenner, ein Rest eines alten Laufs wird überschrieben', JSON.stringify(gemerkt) === '[[0,3]]', gemerkt)
+  /* `fertig`: Kennungen, die die Prüfliste nicht mehr offen zeigt (wie `fertig()` in melder.js); der Nenner zählt nur die offenen. */
+  const starten = (offeneTitel, erledigt = []) => {
+    let reset = 0
+    const gemerkt = []
+    const ok = new Function(
+      'titelDerAdresse', 'gemeinteReihe', 'offeneTitel', 'naechsterAuftrag', 'bremse', 'selbstUebersprungen', 'selbstStaffelnGeprueft', 'selbstGesammelt', 'selbstVersuche', 'fertigeTitel', 'durchgangEndeZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'Date', 'dialogSchliessen', 'vielleichtSelbstStarten', 'selbstWeiter', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig',
+      `let selbstAn = false, selbstGezaehlt = 9, selbstGrenze = null, selbstVersucht = 'x', selbstSammelStand = 1, durchgangEnde = 1\n${funktionText('function laufStarten()')}\nreturn laufStarten() && selbstAn && selbstGezaehlt === 0`,
+    )(() => null, () => null, offeneTitel, () => '1', { zuruecksetzen: () => reset++ }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {}, (g, n) => gemerkt.push([g, n]), kontext.akNetflixBericht, (id) => erledigt.includes(id))
+    return { ok, reset, gemerkt }
+  }
+  let s = starten({ 1: {}, 2: {}, 3: {} })
+  pruefe('laufStarten: Start gelingt und die Bremse beginnt frisch', s.ok === true && s.reset === 1, s)
+  pruefe('laufStarten merkt Zähler 0 und Nenner (3 offene Titel) im Speicher: Neuladen vor dem ersten Sprung behält den Nenner, ein Rest eines alten Laufs wird überschrieben', JSON.stringify(s.gemerkt) === '[[0,3]]', s.gemerkt)
+  /* Bericht 14.11.2026: „13 von 233 geprüft", die Liste hatte 163 offene — der Nenner zählte alle Titel der Prüfliste statt der offenen. */
+  s = starten({ 1: {}, 2: {}, 3: {}, 4: {}, 5: {} }, ['2', '4'])
+  pruefe('laufStarten: der Nenner zählt nur die offenen Titel (5 in der Prüfliste, 2 fertig → 3)', JSON.stringify(s.gemerkt) === '[[0,3]]', s.gemerkt)
 }
 /* `selbstStartenSchritt` gibt der Listenwarte die Bremse und meldet ihr einen Erfolg, sobald die Folgenliste da ist. */
 const schrittLaufen = async (durchlauf) => {
-  const z = { bremseOk: 0, tun: null, ort: null, netzArgs: null, leistung: { marke: 'performance' } }
-  const netz = (leistung, seit) => { z.netzArgs = [leistung, seit]; return 7 }
-  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; z.ort = o; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }, netz, z.leistung]
+  const z = { bremseOk: 0, tun: null, ort: null }
+  const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; z.ort = o; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }]
   const f = new Function(
-    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden', 'akNetflixNetzAntworten', 'performance',
+    'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden',
     `let selbstVersucht = null, selbstWartet = null\n${funktionText('async function selbstStartenSchritt()')}\nreturn selbstStartenSchritt()`,
   )
   try {
@@ -327,7 +341,6 @@ const taktLaufen = (o = {}) => {
   /* Schritt: Verdrahtung der Listenwarte und des Erfolgs. */
   z = await schrittLaufen({ laeuft: false, folgen: [], listeFuer: null })
   pruefe('Schritt ohne Folgenliste: die Listenwarte bekommt die Bremse, kein Erfolg', z.tun?.bremse !== undefined && typeof z.tun.bremse.ok === 'function' && z.tun.vollLaden?.versucht !== undefined && z.bremseOk === 0, z)
-  pruefe('Schritt: die Listenwarte bekommt `netz()` = Netzantworten seit dem Wartebeginn (Resource Timing der Seite)', z.ort?.netz?.() === 7 && z.netzArgs?.[0] === z.leistung && z.netzArgs[1] === 1000, z)
   z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '5' })
   pruefe('Schritt mit Folgenliste dieser Seite: die Bremse meldet Erfolg genau einmal', z.bremseOk === 1 && z.tun === null, z)
   z = await schrittLaufen({ laeuft: false, folgen: [{ videoId: 1, nummer: 1 }], listeFuer: '4' })
