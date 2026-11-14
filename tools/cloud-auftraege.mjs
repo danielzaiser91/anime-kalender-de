@@ -158,6 +158,7 @@ export function lauf(argv, welt) {
   const braucheRegister = befehl !== 'kontingent'
   if (!['vorab', 'eintragen', 'uebersicht', 'kontingent'].includes(befehl)) return fehler(welt, 'Aufruf: vorab|eintragen|uebersicht|kontingent (siehe Kopf von tools/cloud-auftraege.mjs)')
   if (braucheRegister && !registerPfad) return fehler(welt, '--register <pfad.json> fehlt')
+  if (braucheRegister && befehl !== 'eintragen' && !existsSync(registerPfad)) return fehler(welt, `Register ${registerPfad} fehlt (falscher Pfad? nur eintragen legt es an)`)
   const register = braucheRegister ? leseRegister(registerPfad) : []
   if (befehl === 'kontingent') {
     const k = kontingentVon(welt.prs(jetzt - FENSTER_MS), jetzt)
