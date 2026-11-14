@@ -6,10 +6,11 @@
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
+import { mitLimit } from './kind-mit-limit.mjs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { nachtragSignal, stufeEcht, stufeOderHinweis, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { nachtragSignal, stufeEcht, stufeOderHinweis, STUFE_FRIST_MS, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -698,6 +699,12 @@ console.log('liegegut: Signal 12 verdrahtet (Prüfer 3865, Befund 1 und 3)')
   const sicher = stufeOderHinweis(() => { throw new Error('Frist\nzweite') }, (t) => hinweise.push(t))
   pruefe('stufeOderHinweis: Fehler → null und Zeile „LIEGT? Stufe PR n nicht lesbar“', sicher(7) === null && hinweise.join() === 'LIEGT? Stufe PR 7 nicht lesbar: Frist', hinweise)
   pruefe('stufeOderHinweis: null bleibt null, Erfolg wird durchgereicht', stufeOderHinweis(null, () => {}) === null && stufeOderHinweis(() => 2, () => {})(7) === 2)
+  const haenger = (nummer) => mitLimit(process.execPath, ['-e', 'setTimeout(() => {}, 20000)', String(nummer)], {}, { limitMs: 300 })
+  const hinweiseHaenger = []
+  const t0 = Date.now()
+  const ergebnisHaenger = stufeOderHinweis((n) => stufeEcht(n, haenger), (z) => hinweiseHaenger.push(z))(9)
+  pruefe('Hänger (Kindprozess ohne Ausgabe): nach der Frist abgebrochen, Zeile statt Warten, Signal entfällt', ergebnisHaenger === null && Date.now() - t0 < 5000 && /^LIEGT\? Stufe PR 9 nicht lesbar: FEHLER: .* nach 0 s abgebrochen/.test(hinweiseHaenger[0] ?? ''), hinweiseHaenger)
+  pruefe('Frist je pr-stufe-Aufruf höchstens 30 s', STUFE_FRIST_MS <= 30_000)
   const wacheFehler = []
   meldeLiegt(attrappeGh([offener()]), attrappeGit(), (t) => wacheFehler.push(t), JETZT, () => { throw new Error('gh down') })
   pruefe('meldeLiegt: Stufenfehler erscheint als LIEGT?-Zeile in der Wachphase', wacheFehler.some((t) => t === 'LIEGT? Stufe PR 8 nicht lesbar: gh down'), wacheFehler)

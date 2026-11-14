@@ -132,7 +132,8 @@ const letzteAktivitaet = (pr, kopfZeit) => {
   return Math.max(...zeiten.filter((z) => !Number.isNaN(z)))
 }
 
-const prStufeLauf = (nummer) => mitLimit(process.execPath, ['tools/pr-stufe.mjs', String(nummer)], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }, { limitMs: 30_000 })
+export const STUFE_FRIST_MS = 30_000
+const prStufeLauf = (nummer) => mitLimit(process.execPath, ['tools/pr-stufe.mjs', String(nummer)], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }, { limitMs: STUFE_FRIST_MS })
 
 /** Prüfstufe über `pr-stufe` (dasselbe Werkzeug wie der Nacht-Merger), Frist 30 s je Aufruf; Fehler und Ausgabe ohne Stufe werfen (sichtbar macht sie `stufeOderHinweis`). */
 export function stufeEcht(nummer, ausfuehren = prStufeLauf) {

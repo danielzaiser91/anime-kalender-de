@@ -13,5 +13,6 @@
   { "name": "main: Stufenfunktion nicht durchgereicht", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "melde), undefined, stufeFn)", "ersetze": "melde), undefined)" }], "tests": ["node tools/liegegut.test.mjs"] },
   { "name": "stufeEcht: Text als Stufe gilt", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "if (!Number.isInteger(s)) throw", "ersetze": "if (false) throw" }], "tests": ["node tools/liegegut.test.mjs"] },
   { "name": "stufeOderHinweis: Fehler ohne Zeile", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "hinweis(`LIEGT? Stufe PR", "ersetze": "(`LIEGT? Stufe PR" }], "tests": ["node tools/liegegut.test.mjs"] },
+  { "name": "stufeEcht: Frist 60 s statt 30 s", "aenderungen": [{ "datei": "tools/liegegut.mjs", "suche": "STUFE_FRIST_MS = 30_000", "ersetze": "STUFE_FRIST_MS = 60_000" }], "tests": ["node tools/liegegut.test.mjs"] },
   { "name": "laeufe-aufraeumen: stufeEcht vergessen", "aenderungen": [{ "datei": "tools/laeufe-aufraeumen.mjs", "suche": "Date.now(), stufeEcht)", "ersetze": "Date.now())" }], "tests": ["node tools/liegegut.test.mjs"] }
 ]
