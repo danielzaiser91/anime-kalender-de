@@ -1,6 +1,6 @@
 /**
  * Zwischenform des Antwort-Kastens am Starttag eines Katalogstarts ohne Uhrzeit (Bass X Machina, Netflix, 03.11.2026) an der echten
- * Komponente `AntwortKasten`: ab 00:00 „Alle 6 Folgen heute, Uhrzeit offen" statt „6 von 6", Netflix-Pille samt „Deutsch" sichtbar,
+ * Komponente `AntwortKasten`: ab 00:00 „Alle 6 Folgen heute, genaue Uhrzeit unbekannt" statt „6 von 6", Netflix-Pille samt „Deutsch" sichtbar,
  * keine Leiste; ab dem Folgetag „Alle 6 Folgen auf Deutsch". Die Logik der Antwort prüft `check-katalogstart-tag.ts`.
  * Aufruf: npx tsx pipeline/check-katalogstart-kasten.ts
  */
@@ -60,34 +60,34 @@ async function kasten(heute: string, jetzt: string, time?: string, art = 'batch'
 }
 
 const nachts = await kasten('2026-11-03', '2026-11-02T23:30:00Z')
-pruefe('00:30 ohne Uhrzeit: „Alle 6 Folgen heute, Uhrzeit offen“', nachts.text.includes('Alle 6 Folgen heute, Uhrzeit offen'), nachts.text)
+pruefe('00:30 ohne Uhrzeit: „Alle 6 Folgen heute, genaue Uhrzeit unbekannt“', nachts.text.includes('Alle 6 Folgen heute, genaue Uhrzeit unbekannt'), nachts.text)
 pruefe('00:30 ohne Uhrzeit: kein „6 von 6“, kein „Alle 6 Folgen auf Deutsch“', !nachts.text.includes('6 von 6') && !nachts.text.includes('Alle 6 Folgen auf Deutsch'), nachts.text)
 pruefe('00:30 ohne Uhrzeit: Netflix-Pille samt Sprachhinweis sichtbar', nachts.text.includes('PILLE-NETFLIX-DE'), nachts.text)
 pruefe('00:30 ohne Uhrzeit: keine Fortschrittsleiste', !nachts.balken)
 
 const abends = await kasten('2026-11-03', '2026-11-03T21:00:00Z')
-pruefe('22:00 ohne Uhrzeit: weiter die Zwischenform', abends.text.includes('Uhrzeit offen'), abends.text)
+pruefe('22:00 ohne Uhrzeit: weiter die Zwischenform', abends.text.includes('genaue Uhrzeit unbekannt'), abends.text)
 
 const folgetag = await kasten('2026-11-04', '2026-11-04T10:00:00Z')
-pruefe('Folgetag: „Alle 6 Folgen auf Deutsch“, ohne „Uhrzeit offen“', folgetag.text.includes('Alle 6 Folgen auf Deutsch') && !folgetag.text.includes('Uhrzeit offen'), folgetag.text)
+pruefe('Folgetag: „Alle 6 Folgen auf Deutsch“, ohne „genaue Uhrzeit unbekannt“', folgetag.text.includes('Alle 6 Folgen auf Deutsch') && !folgetag.text.includes('genaue Uhrzeit unbekannt'), folgetag.text)
 
 const mitZeit = await kasten('2026-11-03', '2026-11-03T21:00:00Z', '09:00')
-pruefe('Mit Uhrzeit 09:00, 22:00: „Alle 6 Folgen auf Deutsch“, ohne „Uhrzeit offen“', mitZeit.text.includes('Alle 6 Folgen auf Deutsch') && !mitZeit.text.includes('Uhrzeit offen'), mitZeit.text)
+pruefe('Mit Uhrzeit 09:00, 22:00: „Alle 6 Folgen auf Deutsch“, ohne „genaue Uhrzeit unbekannt“', mitZeit.text.includes('Alle 6 Folgen auf Deutsch') && !mitZeit.text.includes('genaue Uhrzeit unbekannt'), mitZeit.text)
 
 /* Kontrolle: Beim Wochentakt ohne Uhrzeit (laeuft, 0) bleibt die Stream-Pille verborgen — die Pille oben ist also keine Selbstverständlichkeit. */
 const woche = await kasten('2026-11-03', '2026-11-02T23:30:00Z', undefined, 'weekly')
-pruefe('Wochentakt ohne Uhrzeit, 00:30: Pille verborgen, keine Zwischenform', !woche.text.includes('PILLE-NETFLIX-DE') && !woche.text.includes('Uhrzeit offen'), woche.text)
+pruefe('Wochentakt ohne Uhrzeit, 00:30: Pille verborgen, keine Zwischenform', !woche.text.includes('PILLE-NETFLIX-DE') && !woche.text.includes('genaue Uhrzeit unbekannt'), woche.text)
 
 /* B1: Teil 1 am 20.10. (3 Folgen) ist schon da, Teil 2 heute ohne Uhrzeit — „Alle 6 Folgen heute“ wäre falsch. */
 const teil = (datum: string, ab: number): Release => ({ ...release(), slug: `k900401-teil${ab}`, schedule: { firstEpisodeDate: datum, firstEpisodeNumber: ab, episodeCount: 3 } }) as Release
 const zweiTeile = await kasten('2026-11-03', '2026-11-03T07:00:00Z', undefined, 'batch', [teil('2026-10-20', 1), teil('2026-11-03', 4)])
-pruefe('Teil 1 am 20.10., Teil 2 heute: kein „heute“ / „Uhrzeit offen“', !zweiTeile.text.includes('heute') && !zweiTeile.text.includes('Uhrzeit offen'), zweiTeile.text)
+pruefe('Teil 1 am 20.10., Teil 2 heute: kein „heute“ / „genaue Uhrzeit unbekannt“', !zweiTeile.text.includes('heute') && !zweiTeile.text.includes('genaue Uhrzeit unbekannt'), zweiTeile.text)
 
 /* B2: abgeschlossenes Werk, Katalogstart heute, dazu ein künftiger Prime-Termin — die Zwischenform bleibt. */
 const mitDisc = { ...titel, jpEnd: '2026-06-01' } as unknown as Title
 const disc = { ...release(), slug: 'k900401-disc', platform: 'prime', releaseType: 'batch', schedule: { firstEpisodeDate: '2026-12-01', time: '09:00', episodeCount: 6 } } as unknown as Release
 const mitDiscKasten = await kasten('2026-11-03', '2026-11-03T07:00:00Z', undefined, 'batch', [release(), disc], mitDisc)
-pruefe('Abgeschlossenes Werk, Katalogstart heute + künftiger Prime-Termin: Zwischenform bleibt', mitDiscKasten.text.includes('Uhrzeit offen'), mitDiscKasten.text)
+pruefe('Abgeschlossenes Werk, Katalogstart heute + künftiger Prime-Termin: Zwischenform bleibt', mitDiscKasten.text.includes('genaue Uhrzeit unbekannt'), mitDiscKasten.text)
 
 globalThis.fetch = echteAbfrage
 if (verletzt > 0) process.exit(1)
