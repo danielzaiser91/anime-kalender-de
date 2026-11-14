@@ -23,7 +23,8 @@ const wurzel = mkdtempSync(join(tmpdir(), 'cr-zeit-woche-'))
 mkdirSync(join(wurzel, 'data', 'curated'), { recursive: true })
 process.env.AK_ROOT = wurzel
 const { alleTermine } = await import('./lib/crunchyroll-termine.ts')
-const { zeitAusWochenprogramm, zeitHinweis, quellenMitZeit } = await import('./lib/cr-zeit-woche.ts')
+const { zeitAusWochenprogramm, zeitHinweis, quellenMitZeit, inUmstellungswoche } = await import('./lib/cr-zeit-woche.ts')
+const { expandEvents, istErschienen } = await import('../shared/logic.ts')
 const { legeCrVerweiseUndTermineAn } = await import('./bau/09-4-4-termine.ts')
 const { BELEGE_DATEI } = await import('./lib/woche-beleg.ts')
 const { belegeMitKorrekturen, korrekturenNach } = await import('./lib/cr-zeit-merkliste.ts')
@@ -76,6 +77,45 @@ pruefe('Folgen mit verschiedenen API-Zeiten (kein Termin-time): nichts wird erfu
 const spaeterTag = termine([API_NOV, '2026-11-02T14:30:00Z'], B16)[0]
 pruefe('Beleg gilt für den ersten Tag, der Rest bleibt in den Folgen: Termin 16:30', spaeterTag?.time === '16:30' && spaeterTag?.firstEpisodeDate === '2026-10-26', spaeterTag)
 pruefe('Beleg ohne Zeit ändert nichts', termine([API_NOV], belegeAus(beleg('GT00371866', 1, '2026-10-26', null)))[0]?.time === '15:30')
+
+/* Erster Tag nach der Umstellungswoche (14.11.2026, Vermilion Mask): der Stempel gewinnt, das Wochenprogramm war ab dem 02.11. eine Stunde zu früh. */
+const umstellungsFenster: [string, boolean][] = [
+  ['2026-10-24', false], ['2026-10-25', true], ['2026-11-01', true], ['2026-11-02', false],
+  ['2027-03-27', false], ['2027-03-28', true], ['2027-04-04', true], ['2027-04-05', false],
+]
+for (const [tag, drin] of umstellungsFenster) pruefe(`Umstellungswoche ${tag}: ${drin}`, inUmstellungswoche(tag) === drin)
+const VM_ID = 'GT00384015'
+const B_VM = belegeAus(beleg(VM_ID, 1, '2026-11-07', '10:30'))
+pruefe('Beleg 10:30 nach der Umstellungswoche: kein Beleg für den Termin', zeitAusWochenprogramm(B_VM, VM_ID, '2026-11-07') === undefined)
+const vmTermin = alleTermine(
+  [{ ...serie(['2026-11-07T10:30:00Z']), url: PS, seriesId: VM_ID } as never],
+  new Map([[PS, [psyren as never]]]),
+  Date.parse('2026-11-08T05:00:00Z'),
+  B_VM,
+)[0]
+pruefe('Vermilion-Muster: Start 07.11. mit Stempel 11:30 und Beleg 10:30 → 11:30, keine Quelle', vmTermin?.time === '11:30' && vmTermin?.zeitQuelle === undefined, vmTermin)
+
+/*
+ * Fortschreibung über die Umstellung: CR hält die Berliner Ortszeit (nach einer Woche stehengebliebener UTC-Stempel springt der Stempel
+ * wieder um +60 min UTC; gemessen 14.11.2026: 14 Paare mit UTC gleich in der ersten Woche, 3 mit +1 h danach). Die Ortszeit bleibt 10:30.
+ */
+const fortgeschrieben = expandEvents({
+  slug: 'cr-x',
+  titleId: 1,
+  name: 'x',
+  platform: 'crunchyroll',
+  platformUrl: PS,
+  releaseType: 'weekly',
+  year: 2027,
+  sources: [PS],
+  schedule: { firstEpisodeDate: '2027-03-21', time: '10:30', episodeCount: 4 },
+} as never)
+const um = fortgeschrieben.find((e) => e.date === '2027-03-28')
+pruefe('Fortschreibung: Termin 28.03.2027 behält 10:30 Ortszeit', um?.time === '10:30', fortgeschrieben)
+pruefe('28.03.2027 08:29 UTC (= 10:29 MESZ): noch nicht erschienen', um !== undefined && !istErschienen(um, new Date('2027-03-28T08:29:00Z')))
+pruefe('28.03.2027 08:30 UTC (= 10:30 MESZ): erschienen, nicht erst um 09:30 UTC', um !== undefined && istErschienen(um, new Date('2027-03-28T08:30:00Z')))
+const vorher = fortgeschrieben.find((e) => e.date === '2027-03-21')
+pruefe('21.03.2027 09:30 UTC (= 10:30 MEZ): erschienen, vor der Umstellung', vorher !== undefined && istErschienen(vorher, new Date('2027-03-21T09:30:00Z')))
 
 /* Der Wächter selbst: nie gewinnt die API-Zeit gegen einen Beleg desselben Tages (Winter wie Sommer, auch nach 28.03.2027). */
 const paare: [string, string, string][] = [

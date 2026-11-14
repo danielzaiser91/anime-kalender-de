@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-14T11:01:49.059Z",
+  "scrapedAt": "2026-11-14T16:02:17.667Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -70436,7 +70436,7 @@
       "seriesId": "GRE50KV36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-07",
+      "geprueftAm": "2026-11-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -71515,9 +71515,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00385471JAJP",
-          "folgen": 6,
-          "kacheln": 6,
-          "deutsch": 1,
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 2,
           "fremd": 3,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -71526,11 +71526,18 @@
               "guid": "GE00385472DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-11-07T16:00:00Z"
+            },
+            {
+              "nummer": 172,
+              "guid": "GE00385473DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-11-14T16:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00385473DEDE",
         "GE00385472DEDE"
       ]
     },
@@ -177989,7 +177996,7 @@
       "seriesId": "GRE50KV36",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-07",
+      "geprueftAm": "2026-11-14",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -179068,9 +179075,9 @@
         {
           "name": "Staffel 2",
           "staffelId": "GS00385471JAJP",
-          "folgen": 6,
-          "kacheln": 6,
-          "deutsch": 1,
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 2,
           "fremd": 3,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -179079,11 +179086,18 @@
               "guid": "GE00385472DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-11-07T16:00:00Z"
+            },
+            {
+              "nummer": 172,
+              "guid": "GE00385473DEDE",
+              "laufend": 2,
+              "verfuegbarAb": "2026-11-14T16:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00385473DEDE",
         "GE00385472DEDE"
       ]
     },
