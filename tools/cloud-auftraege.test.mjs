@@ -346,6 +346,7 @@ gleich('eintragen --pr schreibt die Nummer', [ruf(['eintragen', 'nb', '--routine
 ruf(['eintragen', 'oh', '--routine', 'trig_oh', '--register', regNb])
 pruefe('eintragen ohne --pr schreibt kein Feld pr', !('pr' in lies(regNb).find((e) => e.id === 'oh')))
 gleich('eintragen --pr abc → 2, Register unverändert', [ruf(['eintragen', 'x', '--routine', 't', '--pr', 'abc', '--register', regNb]).exit, lies(regNb).length], [2, 2])
+gleich('eintragen --pr 0 → 2, Register unverändert', [ruf(['eintragen', 'x', '--routine', 't', '--pr', '0', '--register', regNb]).exit, lies(regNb).length], [2, 2])
 const uebNb = ruf(['uebersicht', '--register', regNb], { prs: alle(GEMERGT_A) })
 pruefe('uebersicht: Nachbesserung an gemergtem PR zählt als fertig', /Fertig \(PR gemergt\/geschlossen\): 1/.test(uebNb.ausgabe.join('\n')), uebNb.ausgabe.join('|'))
 
