@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 14.11.2026, 10:09 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:09 Uhr, Deploy ebenfalls ohne Alarm (12). „Nacht-Merger" lief in den letzten 48 Stunden 27x erfolgreich und zeigt keinen der am 13.11. gemeldeten Fehlschläge mehr (01). `cr-einzelwerke` und `cr-filmbloecke`, zuvor über drei Wochen ohne Erfolg, liefern jetzt wieder je 1 Treffer, letzter Erfolg vor 0,7 Tagen (06) — der Dauerausfall aus dem letzten Urteil ist aufgelöst. Zugänge, Briefkasten (4090 Meldungen auf 227 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05). Die Zahl offener Pull Requests ist von 30 (13.11.) auf 25 gesunken (08, 10).
+
+**Wo ist Verbesserungspotenzial?** `tv-de` bleibt per HTTP 403 gesperrt, jetzt 8,4 Tage ohne Treffer (vorher 7,4), weiterhin ohne Issue oder PR (06). Der Rückstand „Belege ohne Fundstelle" ist nach dem Rückgang auf 39 am 13.11. heute wieder auf 42 gestiegen (09) — der zuletzt gemeldete Rückgang setzt sich nicht fort. `kitsu-folgen` liefert weiterhin 0 Treffer seit dem 12.11. (jetzt 1,7 Tage), `tmdb-banner` und `kinoheld` bleiben seit dem 9. bzw. 10.11. „grün aber leer" (06). Issue #1595 steht jetzt 26 Tage offen, #898 33 Tage, beide weiterhin unbearbeitet (08). Unter den 25 offenen PRs liegen viele reine Umbau-PRs seit dem 12./13.11. unverändert fest (08).
+
+**Wo sind echte Risiken und Lücken?** `messbelege` liefert trotz grünem Lauf jetzt seit 8 Tagen (seit 06.11.) durchgehend 0 Treffer, seit mehreren Urteilen ohne Gegenmaßnahme und weiter wachsend (06). `cartoon-reihen`, das am 13.11. nach einer Stillstandsphase wieder einen Treffer gezeigt hatte, ist heute erneut auf 0 Treffer zurückgefallen, „grün aber leer seit 2026-11-14" (06) — ein neuer Rückfall. Die Terminableitung verwirft bei „Blöcke und Titel verschieden viele" jetzt 229 Serien statt zuvor über mehrere Urteile konstant 228 (02, 07, 09) — ein leichter Anstieg ohne erkennbare Gegenmaßnahme. Bauer: Ursache von `messbelege` und dem Rückfall von `cartoon-reihen` klären.
+
+**Was läuft komplett falsch?** Keine neuen oder fortbestehenden Fälle falsch ausgelieferter Daten im Dossier sichtbar (01, 02, 11). Der einmalige Deploy-Fehlschlag von 01:22 Uhr liegt vor einem späteren erfolgreichen Deploy (vor 0,7 Stunden) und zeigt keine Fortsetzung (01, 05).
+
+
 ## 13.11.2026, 10:30 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Kein Alarm: letzter grüner Bestandsbau-Lauf heute um 08:08 Uhr, seitdem 0 rote oder abgebrochene Läufe, Deploy ebenfalls ohne Alarm (12). Zugänge, Briefkasten (4090 Meldungen auf 227 Adressen, alle gelistet) und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen (03, 04, 05). Der Rückstand „Belege ohne Fundstelle" sinkt weiter: 48 am 12.11., jetzt 39 — der im letzten Urteil erstmals gemeldete Rückgang setzt sich fort (09). `cartoons` und `cartoon-reihen`, zuvor seit dem 9./10.11. „grün aber leer", liefern wieder Treffer (2 bzw. 1) (06). Issue #3525 („ALARM 2026-11-12: Wache meldet ALARM"), im letzten Urteil zum Schließen vorgeschlagen, steht nicht mehr in der offenen Liste (08).
