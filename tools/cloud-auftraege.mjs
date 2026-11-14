@@ -55,7 +55,7 @@ export function kontingentVon(prs, jetztMs) {
   const seit = jetztMs - FENSTER_MS
   const je = new Map()
   for (const p of prs) {
-    if (p.offen || !p.gemergtAm || Date.parse(p.gemergtAm) < seit || !istCodePr(p)) continue
+    if (!p.gemergtAm || Date.parse(p.gemergtAm) < seit || !istCodePr(p)) continue
     je.set(stundeVon(p.gemergtAm), (je.get(stundeVon(p.gemergtAm)) ?? 0) + 1)
   }
   const durchsatz = je.size === 0 ? 0 : median([...je.values()])

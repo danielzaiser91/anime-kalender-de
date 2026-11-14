@@ -166,13 +166,13 @@ const regAlt = pfad('r-alt.json')
 writeFileSync(regAlt, JSON.stringify([{ ...eintrag('x'), start: '2026-11-01T00:00:00.000Z' }]))
 gleich('vorab: älterer Registerstart weitet das Fenster', ruf(['vorab', 'neu', '--register', regAlt], { prs: [] }).aufrufe.prs, [Date.parse('2026-11-01T00:00:00Z')])
 writeFileSync(pfad('kaputt.json'), '{"a":1}')
-let wurf = false
+let wurf = null
 try {
   ruf(['vorab', 'neu', '--register', pfad('kaputt.json')])
-} catch {
-  wurf = true
+} catch (e) {
+  wurf = /keine Liste/.test(e.message) ? 'keine Liste' : e.message
 }
-pruefe('Register, das keine Liste ist, wirft (Abruffehler-Pfad, Exit 2 in main)', wurf)
+pruefe('Register, das keine Liste ist, wirft „keine Liste“ (Exit 2 in main)', wurf === 'keine Liste')
 
 // eintragen
 const reg2 = pfad('r2.json')
@@ -241,6 +241,7 @@ gleich('Sitzung running 45 min still → kein Alarm', sitzungVon({ worker_status
 pruefe('Sitzung running 46 min still → Alarm', sitzungVon(lauf46, true, JETZT, JETZT).alarm !== null)
 gleich('Sitzung idle ohne PR, Start genau 30 min → kein Alarm', sitzungVon({ worker_status: 'idle', ms: JETZT }, false, JETZT - 30 * 60_000, JETZT).alarm, null)
 pruefe('Sitzung idle ohne PR, Start 31 min → Alarm', sitzungVon({ worker_status: 'idle', ms: JETZT }, false, JETZT - 31 * 60_000, JETZT).alarm !== null)
+gleich('Sitzung running, frisches Ereignis, kein PR, Start lange her → kein Alarm (arbeitet noch)', sitzungVon({ worker_status: 'running', ms: JETZT - 60_000 }, false, JETZT - 120 * 60_000, JETZT).alarm, null)
 gleich('Sitzung idle mit PR, Start lange her → kein Alarm', sitzungVon({ worker_status: 'idle', ms: JETZT - 600 * 60_000 }, true, JETZT - 700 * 60_000, JETZT).alarm, null)
 gleich('Sitzung running, lange still, kein PR → Alarm wegen running', sitzungVon(lauf46, false, JETZT, JETZT).alarm !== null, true)
 gleich('Sitzung ohne Lauf → unbekannt', sitzungVon(undefined, false, JETZT - 999 * 60_000, JETZT), { zustand: 'unbekannt', alarm: null })
@@ -281,6 +282,13 @@ try {
   zuViel = e.message
 }
 pruefe('listePrs: über 1000 PRs im Fenster → Fehler statt Abschneiden', /mehr als 1000/.test(zuViel ?? ''), String(zuViel))
+let zehnVoll = null
+try {
+  listePrs(ghRest({ open: [[OFFEN_A]], closed: Array.from({ length: 10 }, (_, i) => fuell(i * 100, GEMERGT_A)) }), REPO, JETZT - 72 * 3600_000)
+} catch (e) {
+  zehnVoll = e.message
+}
+pruefe('listePrs: zehn volle Seiten und eine elfte Anfrage → Fehler (Grenze genau bei 1000)', /mehr als 1000/.test(zehnVoll ?? ''), String(zehnVoll))
 let offenZuViel = null
 try {
   listePrs(ghRest({ open: Array.from({ length: 11 }, (_, i) => fuell(i * 100, OFFEN_A)) }), REPO, JETZT)
@@ -302,7 +310,7 @@ const mergerAttrappe = (pr, extra = {}) => ({ offene: () => [pr], details: (p) =
 const stand = (pr, extra) => echteWelt({ gh: ghRest({}), repo: REPO, merger: mergerAttrappe(pr, extra) }).pruefstand(63)
 gleich('Prüfstand bereit → Kandidat ja', stand(mergerPr()), { kette: 'Kette grün', kandidat: true, grund: 'Stufe 1, Kette grün, Prüfer-Urteil ok zum Kopf' })
 gleich('Prüfstand Mergestatus UNKNOWN → nein mit Grund', stand(mergerPr({ mergeStateStatus: 'UNKNOWN' })).grund, 'Mergestatus UNKNOWN, nicht CLEAN')
-gleich('Prüfstand Entwurf → nein', stand(mergerPr({ entwurf: true })).grund, 'Entwurf')
+gleich('Prüfstand Entwurf → nein', [stand(mergerPr({ entwurf: true })).kandidat, stand(mergerPr({ entwurf: true })).grund], [false, 'Entwurf'])
 gleich('Prüfstand Daten-PR (chore(data)-Zweig) → nein', stand(mergerPr({ titel: 'chore(data): x', zweig: 'daten/1-x' })).grund, 'Daten-PR (Sache des Sammlers)')
 gleich('Prüfstand Kette rot → Kettengrund', stand(mergerPr(), { checks: [{ __typename: 'CheckRun', name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'FAILURE' }] }).kette, 'Check rot: PR-Prüfkette')
 let nichtDa = null
