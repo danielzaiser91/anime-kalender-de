@@ -1,0 +1,549 @@
+[
+  {
+    "name": "tools/modul-umzug.mjs:82 Zahl 0 → 1",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "0",
+        "ersetze": "1",
+        "zeile": 82
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:84 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "r.startsWith('..') ? null : `@shared/${r}`",
+        "ersetze": "r.startsWith('..') ? `@shared/${r}` : null",
+        "zeile": 84
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:92 Argumente getauscht relative(dirname(zuDatei), datei).replaceAll",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "relative(dirname(zuDatei), datei).replaceAll('\\\\', '/')",
+        "ersetze": "relative(dirname(zuDatei), datei).replaceAll('/', '\\\\')",
+        "zeile": 92
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:138 Zahl 1 → 0",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "1",
+        "ersetze": "0",
+        "zeile": 138
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:138 Zahl 0 → 1",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "0",
+        "ersetze": "1",
+        "zeile": 138
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:139 Argumente getauscht text.slice",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "text.slice(bereiche[i].end, start)",
+        "ersetze": "text.slice(start, bereiche[i].end)",
+        "zeile": 139
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:148 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "hinten.length ? hinten[hinten.length - 1].end : s.end",
+        "ersetze": "hinten.length ? s.end : hinten[hinten.length - 1].end",
+        "zeile": 148
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:153 Argumente getauscht kopfStart",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "kopfStart(text, s)",
+        "ersetze": "kopfStart(s, text)",
+        "zeile": 153
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:161 Argumente getauscht text.slice",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "text.slice(0, von)",
+        "ersetze": "text.slice(von, 0)",
+        "zeile": 161
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:167 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "d ? `${d}${leer ? '\\n\\n' : '\\n'}${n}` : n",
+        "ersetze": "d ? n : `${d}${leer ? '\\n\\n' : '\\n'}${n}`",
+        "zeile": 167
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:171 && → ||",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "ts.isVariableStatement(s) &&\n  Boolean(s.declarationList.flags & ts.NodeFlags.Const)",
+        "ersetze": "ts.isVariableStatement(s) ||\n  Boolean(s.declarationList.flags & ts.NodeFlags.Const)",
+        "zeile": 171
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:182 Argumente getauscht bezeichnerIn",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "bezeichnerIn(s, benutzt)",
+        "ersetze": "bezeichnerIn(benutzt, s)",
+        "zeile": 182
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:185 Argumente getauscht bezeichnerIn",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "bezeichnerIn(s, anderswo)",
+        "ersetze": "bezeichnerIn(anderswo, s)",
+        "zeile": 185
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:189 !== → ===",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "s !== c",
+        "ersetze": "s === c",
+        "zeile": 189
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:231 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "zeile.length <= 120 ? zeile : `import ${kopf}{\\n${elemente.map((e) => `  ${e},`).join('\\n')}\\n} from '${modul}'`",
+        "ersetze": "zeile.length <= 120 ? `import ${kopf}{\\n${elemente.map((e) => `  ${e},`).join('\\n')}\\n} from '${modul}'` : zeile",
+        "zeile": 231
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:231 Zahl 120 → 0",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "120",
+        "ersetze": "0",
+        "zeile": 231
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:240 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "jeModul.set(s.moduleSpecifier.text, [...(jeModul.get(s.moduleSpecifier.text) ?? []), s])",
+        "ersetze": "void 0",
+        "zeile": 240
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:248 Argumente getauscht ts.createSourceFile",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)",
+        "ersetze": "ts.createSourceFile(text, pfad, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)",
+        "zeile": 248
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:252 < → >=",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "saetze.length < 2",
+        "ersetze": "saetze.length >= 2",
+        "zeile": 252
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:252 > → <=",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "standards.length > 1",
+        "ersetze": "standards.length <= 1",
+        "zeile": 252
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:256 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "s.importClause.isTypeOnly || e.isTypeOnly ? 'type ' : ''",
+        "ersetze": "s.importClause.isTypeOnly || e.isTypeOnly ? '' : 'type '",
+        "zeile": 256
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:258 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "aenderungen.push([saetze[0].getStart(), saetze[0].end, importSatz(modul, standards[0]?.importClause.name.text, sortiert)])",
+        "ersetze": "void 0",
+        "zeile": 258
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:258 Argumente getauscht importSatz",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "importSatz(modul, standards[0]?.importClause.name.text, sortiert)",
+        "ersetze": "importSatz(standards[0]?.importClause.name.text, modul, sortiert)",
+        "zeile": 258
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:259 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "aenderungen.push([s.getStart(), text[s.end] === '\\n' ? s.end + 1 : s.end, ''])",
+        "ersetze": "void 0",
+        "zeile": 259
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:259 Zahl 1 → 0",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "1",
+        "ersetze": "0",
+        "zeile": 259,
+        "nr": 2
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:262 Argumente getauscht neu.slice",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "neu.slice(0, von)",
+        "ersetze": "neu.slice(von, 0)",
+        "zeile": 262
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:263 Argumente getauscht writeFileSync",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "writeFileSync(pfad, neu)",
+        "ersetze": "writeFileSync(neu, pfad)",
+        "zeile": 263
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:275 Argumente getauscht ts.createSourceFile",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "ts.createSourceFile('x.tsx', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)",
+        "ersetze": "ts.createSourceFile(text, 'x.tsx', ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)",
+        "zeile": 275
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:285 Argumente getauscht alt.slice",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "alt.slice(0, stelle)",
+        "ersetze": "alt.slice(stelle, 0)",
+        "zeile": 285
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:287 Argumente getauscht writeFileSync",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "writeFileSync(zielPfad, `${teile.join('\\n\\n')}\\n`)",
+        "ersetze": "writeFileSync(`${teile.join('\\n\\n')}\\n`, zielPfad)",
+        "zeile": 287
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:303 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "bezeichnerIn(s, benutzt)",
+        "ersetze": "void 0",
+        "zeile": 303
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:310 Argumente getauscht exportiert",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "exportiert(text, s, false)",
+        "ersetze": "exportiert(s, text, false)",
+        "zeile": 310
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:311 Argumente getauscht importsaetze",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "importsaetze(quellPfad, karte, benutzt, zielPfad)",
+        "ersetze": "importsaetze(karte, quellPfad, benutzt, zielPfad)",
+        "zeile": 311
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:317 Argumente getauscht endeMitZeilenkommentar",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "endeMitZeilenkommentar(text, s)",
+        "ersetze": "endeMitZeilenkommentar(s, text)",
+        "zeile": 317
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:320 Argumente getauscht neu.slice",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "neu.slice(0, stelle)",
+        "ersetze": "neu.slice(stelle, 0)",
+        "zeile": 320
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:322 Argumente getauscht nachbearbeiten",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "nachbearbeiten(quellPfad, zielPfad)",
+        "ersetze": "nachbearbeiten(zielPfad, quellPfad)",
+        "zeile": 322
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:381 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "ohneAnnotation(d) ? pruefer.getBaseTypeOfLiteralType(pruefer.getTypeAtLocation(k)) : pruefer.getTypeAtLocation(k)",
+        "ersetze": "ohneAnnotation(d) ? pruefer.getTypeAtLocation(k) : pruefer.getBaseTypeOfLiteralType(pruefer.getTypeAtLocation(k))",
+        "zeile": 381
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:504 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "nachbearbeiten(quellPfad, zielPfad)",
+        "ersetze": "void 0",
+        "zeile": 504
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:546 Argumente getauscht nachbearbeiten",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "nachbearbeiten(quellPfad, zielPfad)",
+        "ersetze": "nachbearbeiten(zielPfad, quellPfad)",
+        "zeile": 546
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  }
+]

@@ -34,6 +34,12 @@ node tools/modul-umzug.mjs aufraeumen <datei…>                        # unbenu
 Es verschiebt wörtlich, setzt Parameter/Props mit Typen vom Typprüfer (eingeengt am Ort der
 Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 
+- **Importe, Alias, Kommentare, Konstanten macht das Werkzeug** (14.11.2026): je Quelle genau ein
+  Importsatz (Namen sortiert, in Quelle und Ziel); `@shared/…` im Ziel, wenn dessen tsconfig den
+  Alias kennt (Worker nicht: dort bleibt es relativ); der Kommentarblock ohne Leerzeile direkt über
+  einer Deklaration wandert mit (ein durch Leerzeile getrennter bleibt); Konstanten, die nur die
+  verschobenen Teile benutzen, wandern mit und stehen hinter den Importen des Ziels („mitgenommen“-Zeile).
+  Nach dem Lauf trotzdem `git diff` lesen — nicht von Hand nachziehen, was das Werkzeug kann.
 - **Ziel nie gleich Quelle** (12.11.2026): `abschnitt <datei> … <datei> fn` überschreibt die
   Datei und verliert die neue Funktion. Teilschritte einer schon ausgelagerten Funktion zuerst in
   der Ursprungsdatei herauslösen (Zieldatei = neue Datei), dann die große Funktion dorthin.
@@ -48,6 +54,11 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 - `ändert` (neu zugewiesene äußere `let`) meldet es nur — dann die Variable in die Funktion
   holen, die sie als einzige erhöht, und zurückgeben (so bei `adnVerweiseErgaenzt`).
 - Ein Abschnitt mit `return` muss mit `return` enden; der Aufruf wird `return await fn(…)`.
+- **Nachher-Prüfliste** (14.11.2026, Anlass 3703–3705: je eine Nachbesserung): Das Werkzeug weitet
+  Literal-Typen ohne Typangabe selbst (`'a b'` → `string`, `5` → `number`; angegebene und eingeengte
+  Typen bleiben), setzt je Quelle einen Import und holt Konstanten an den Dateianfang des Ziels.
+  Trotzdem im Diff gegenlesen: Literal-Typen geweitet, ein Import je Quelle, Konstanten am
+  Dateianfang, Kommentare bei ihren Deklarationen. Was dort abweicht, ist ein Werkzeugfehler: melden.
 - „braucht Namen der obersten Ebene": diese Deklarationen zuerst mit `namen` auslagern. Aus
   `build.ts` wird nie importiert (es ruft beim Laden `main()` auf).
 - Lange Typen (Warnung) durch Namen ersetzen: `ReturnType<typeof f>`, ein exportierter Typ.
