@@ -83,8 +83,14 @@ function frageMain(pfad, fundZeit) {
   let letzter
   for (let versuch = 1; versuch <= 3; versuch++) {
     try {
-      const antwort = JSON.parse(execFileSync('gh', ['api', url], { encoding: 'utf8', timeout: 60000, windowsHide: true }))
-      return antwort[0]?.commit?.committer?.date ?? null
+      // Für den Test steht FUND_SCHONEN_GH auf ein Node-Skript, das `gh` ersetzt (läuft so unter Windows und Linux gleich).
+      const [befehl, ...vorn] = process.env.FUND_SCHONEN_GH ? [process.execPath, process.env.FUND_SCHONEN_GH] : ['gh']
+      const antwort = JSON.parse(execFileSync(befehl, [...vorn, 'api', url], { encoding: 'utf8', timeout: 60000, windowsHide: true }))
+      if (!Array.isArray(antwort)) throw new Error(`Antwort ist keine Commit-Liste: ${JSON.stringify(antwort).slice(0, 200)}`)
+      if (antwort.length === 0) return null
+      const datum = antwort[0]?.commit?.committer?.date
+      if (!Date.parse(datum)) throw new Error(`Commit ohne lesbares Datum: ${JSON.stringify(antwort[0]).slice(0, 200)}`)
+      return datum
     } catch (e) {
       letzter = e
       console.error(`gh api für ${pfad} fehlgeschlagen (Versuch ${versuch} von 3): ${String(e.stderr ?? e.message).slice(0, 300)}`)
