@@ -41,14 +41,14 @@ pruefe('fremde Quelle nicht betroffen', !quelleBetroffen('adn', [`${D}/tmdb-titl
 
 // Gesundheitsdatei zusammenführen
 const eintrag = (t, n) => ({ lastOk: t, lastRun: t, lastCount: n })
-const mainH = JSON.stringify({ adn: eintrag('2026-11-14T04:00:00Z', 1), 'tmdb-titles': eintrag('2026-11-12T04:00:00Z', 2), alt: eintrag('2026-11-14T05:00:00Z', 3) }, null, 2)
+const mainH = JSON.stringify({ adn: eintrag('2026-11-14T04:00:00Z', 1), 'tmdb-titles': eintrag('2026-11-09T04:00:00Z', 2), alt: eintrag('2026-11-14T05:00:00Z', 3) }, null, 2)
 const fundH = JSON.stringify({ adn: eintrag('2026-11-10T04:30:00Z', 9), 'tmdb-titles': eintrag('2026-11-10T04:30:00Z', 8), alt: eintrag('2026-11-14T06:00:00Z', 7), neu: eintrag('2026-11-10T04:30:00Z', 5) }, null, 2)
 const h = JSON.parse(healthZusammenfuehren(mainH, fundH, [`${D}/tmdb-titles.json`]))
 pruefe('betroffene Quelle behält main-Eintrag', h['tmdb-titles'].lastCount === 2, h['tmdb-titles'])
 pruefe('ältere Fund-Zeile überschreibt main nicht', h.adn.lastCount === 1, h.adn)
 pruefe('jüngerer Fund-Eintrag unbetroffener Quelle gewinnt', h.alt.lastCount === 7, h.alt)
 pruefe('neue Quelle aus dem Fund kommt dazu', h.neu?.lastCount === 5, h.neu)
-pruefe('ohne Verwerfen gewinnt der jüngere Fund-Eintrag je Quelle', JSON.parse(healthZusammenfuehren(mainH, fundH, []))['tmdb-titles'].lastCount === 2)
+pruefe('ohne Verwerfen gewinnt der jüngere Fund-Eintrag je Quelle', JSON.parse(healthZusammenfuehren(mainH, fundH, []))['tmdb-titles'].lastCount === 8)
 pruefe('Dateiende ohne Zeilenumbruch bleibt', !healthZusammenfuehren(mainH, fundH, []).endsWith('\n'))
 pruefe('Dateiende mit Zeilenumbruch bleibt', healthZusammenfuehren(`${mainH}\n`, fundH, []).endsWith('\n'))
 pruefe('Hinweis leer ohne Verworfene', hinweisZeilen([]).length === 0)
