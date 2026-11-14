@@ -27,7 +27,7 @@ import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDaten
 import { haengerWache } from './job-haenger.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { alarmZeilenMitFixPrs } from './fix-pr-hinweis.mjs'
-import { git, meldeLiegt } from './liegegut.mjs'
+import { git, meldeLiegt, stufeEcht } from './liegegut.mjs'
 import { prueferZeilen } from './pruefer-unfertig-wache.mjs'
 import { startBudgetZeilen } from './start-budget-wache.mjs'
 import { secretZeilen } from './zugangs-secret-wache.mjs'
@@ -143,7 +143,7 @@ async function main() {
   // Ein hängender Server verzögert die ALARM-Zeilen dafür um höchstens 30 s; die Zeilen selbst erscheinen weiter nach allen Alarmen.
   const synchroZeilen = await synchroWartezeitZeilen(holeSynchroJson, Date.now())
   meldeRoteSammlerPrs()
-  meldeLiegt((a) => gh(...a), git, console.log, Date.now())
+  meldeLiegt((a) => gh(...a), git, console.log, Date.now(), stufeEcht)
   await stillstandMelden()
   const rotZeilen = rotAlarmText(gh, REPO, Date.now()).split('\n')
   for (const zeile of alarmZeilenMitFixPrs(rotZeilen, gh, REPO, Date.now())) console.log(zeile)

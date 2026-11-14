@@ -6,10 +6,11 @@
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
+import { mitLimit } from './kind-mit-limit.mjs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { nachtragSignal, stufeEcht, stufeOderHinweis, STUFE_FRIST_MS, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -649,6 +650,64 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   const ohneDatei = fahre()
   pruefe('Prozess: stand.md fehlt → sichtbare Hinweiszeile, Exit 0, Signal 6 wieder da', ohneDatei.status === 0 && /liegegut: .*stand\.md fehlt – offene F-Nummern unbekannt/.test(ohneDatei.stdout) && /; 6 Gleiche offene/.test(ohneDatei.stdout), { o: ohneDatei.stdout, e: ohneDatei.stderr })
   fs.rmSync(werk, { recursive: true, force: true })
+}
+
+console.log('liegegut: Signal 12 – Stufe-2-PR mit Prüfer-ok, aber ohne Nachtrag zum aktuellen Kopf (14.11.2026: 3661, 3717, 3720, 3726)')
+{
+  const k9 = KOPF.slice(0, 9)
+  const nachtrag = (stunden, kopf) => ({ ...daniel(stunden, `## Nachtrag (Abnahme Dirigent)\nKopf ${kopf.slice(0, 9)}`), authorAssociation: 'OWNER' })
+  const signal = (kommentare, stufe, kopfStunden = 1) => nachtragSignal(pr(7, { comments: kommentare }), JETZT - kopfStunden * 3600 * 1000, JETZT, () => stufe).map((s) => s.nr)
+  pruefe('Stufe 2, Prüfer-ok zum alten Kopf, Nachtrag nur zum alten Kopf → Signal 12', JSON.stringify(signal([bot(5, ALT, 'ok'), nachtrag(4, ALT)], 2)) === '[12]')
+  pruefe('Stufe 2, Prüfer-ok, Nachtrag zum neuen Kopf → kein Signal', signal([bot(5, ALT, 'ok'), nachtrag(0.5, KOPF)], 2).length === 0)
+  pruefe('Stufe 1 → kein Signal', signal([bot(5, ALT, 'ok')], 1).length === 0)
+  pruefe('Stufe 2, jüngstes Urteil ändern → kein Signal (Sache der Nachbesserung)', signal([bot(6, ALT, 'ok'), bot(5, ALT, 'aendern')], 2).length === 0)
+  pruefe('Stufe 2, Kopf-Commit jünger als 10 min → noch kein Signal', signal([bot(5, ALT, 'ok')], 2, 9 / 60).length === 0)
+  pruefe('Stufe 2, Kopf-Commit 11 min alt → Signal', signal([bot(5, ALT, 'ok')], 2, 11 / 60).length === 1)
+  const text = nachtragSignal(pr(7, { comments: [bot(5, KOPF, 'ok')] }), JETZT - 3600 * 1000, JETZT, () => 2)[0]?.text
+  pruefe('Text nennt den Kopf kurz', text === `Stufe 2: Nachtrag zum Kopf ${k9} fehlt (Nacht-Merger überspringt)`, text)
+  let gefragt = 0
+  nachtragSignal(pr(7, { comments: [bot(5, ALT, 'aendern')] }), JETZT - 3600 * 1000, JETZT, () => { gefragt++; return 2 })
+  pruefe('Stufe wird nur erfragt, wenn alles andere zutrifft (pr-stufe lädt den Diff)', gefragt === 0)
+  pruefe('Ohne Stufenquelle (null) kein Signal', nachtragSignal(pr(7, { comments: [bot(5, KOPF, 'ok')] }), JETZT - 3600 * 1000, JETZT, null).length === 0)
+}
+
+console.log('liegegut: Signal 12 verdrahtet (Prüfer 3865, Befund 1 und 3)')
+{
+  const offener = () => pr(8, { comments: [bot(5, ALT, 'ok')] })
+  let gefragt = []
+  const stufe = (n) => { gefragt.push(n); return 2 }
+  const zeilen = liegegutAlle(attrappeGh([offener()], [], [offener()]), attrappeGit(), JETZT, () => {}, null, false, stufe)
+  pruefe('liegegutAlle: Signal 12 und Schritt NACHTRAG in der Zeile', zeilen.length === 1 && /: NACHTRAG \(.*Signal 12 Stufe 2: Nachtrag zum Kopf a1b2c3d4e fehlt/.test(zeilen[0]), zeilen)
+  pruefe('Stufe nur für das Haupt-Repo erfragt (nativ hat keinen pr-stufe-Klon)', JSON.stringify(gefragt) === '[8]', gefragt)
+  pruefe('ohne Stufenfunktion kein Signal 12', liegegutAlle(attrappeGh([offener()]), attrappeGit(), JETZT, () => {}, null, false).every((z) => !/Signal 12/.test(z)))
+  const wache = []
+  meldeLiegt(attrappeGh([offener()]), attrappeGit(), (t) => wache.push(t), JETZT, () => 2)
+  pruefe('meldeLiegt reicht die Stufenfunktion durch: Sammelzeile „Nachtrag fehlt“', wache.some((t) => /^LIEGT: 8 \(Nachtrag fehlt \d+ h\)/.test(t)), wache)
+  const ausgabe = []
+  main(attrappeGh([offener()]), attrappeGit(), (t) => ausgabe.push(t), JETZT, () => 2)
+  pruefe('main reicht die Stufenfunktion durch', ausgabe.some((t) => /Signal 12/.test(t)), ausgabe)
+  const aufraeumen = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'laeufe-aufraeumen.mjs'), 'utf8')
+  pruefe('Wachphase (laeufe-aufraeumen) übergibt stufeEcht an meldeLiegt', /meldeLiegt\(.*Date\.now\(\), stufeEcht\)/.test(aufraeumen))
+  const wirft = (aus) => { try { stufeEcht(5, aus); return null } catch (e) { return e.message } }
+  pruefe('stufeEcht: Stufe 2 aus der JSON-Ausgabe', stufeEcht(5, () => '{"stufe":2}') === 2)
+  pruefe('stufeEcht: Stufe 0 bleibt 0', stufeEcht(5, () => '{"stufe":0}') === 0)
+  pruefe('stufeEcht: Ausgabe ohne stufe wirft', wirft(() => '{}') === 'Ausgabe ohne Stufe')
+  pruefe('stufeEcht: Stufe als Text wirft', wirft(() => '{"stufe":"2"}') === 'Ausgabe ohne Stufe')
+  pruefe('stufeEcht: Müll statt JSON wirft', wirft(() => 'kein json') !== null)
+  pruefe('stufeEcht: Prozess scheitert → wirft die Fehlermeldung', wirft(() => { throw new Error('Frist') }) === 'Frist')
+  const hinweise = []
+  const sicher = stufeOderHinweis(() => { throw new Error('Frist\nzweite') }, (t) => hinweise.push(t))
+  pruefe('stufeOderHinweis: Fehler → null und Zeile „LIEGT? Stufe PR n nicht lesbar“', sicher(7) === null && hinweise.join() === 'LIEGT? Stufe PR 7 nicht lesbar: Frist', hinweise)
+  pruefe('stufeOderHinweis: null bleibt null, Erfolg wird durchgereicht', stufeOderHinweis(null, () => {}) === null && stufeOderHinweis(() => 2, () => {})(7) === 2)
+  const haenger = (nummer) => mitLimit(process.execPath, ['-e', 'setTimeout(() => {}, 20000)', String(nummer)], {}, { limitMs: 300 })
+  const hinweiseHaenger = []
+  const t0 = performance.now()
+  const ergebnisHaenger = stufeOderHinweis((n) => stufeEcht(n, haenger), (z) => hinweiseHaenger.push(z))(9)
+  pruefe('Hänger (Kindprozess ohne Ausgabe): nach der Frist abgebrochen, Zeile statt Warten, Signal entfällt', ergebnisHaenger === null && performance.now() - t0 < 5000 && /^LIEGT\? Stufe PR 9 nicht lesbar: FEHLER: .* nach 0 s abgebrochen/.test(hinweiseHaenger[0] ?? ''), hinweiseHaenger)
+  pruefe('Frist je pr-stufe-Aufruf höchstens 30 s', STUFE_FRIST_MS <= 30_000)
+  const wacheFehler = []
+  meldeLiegt(attrappeGh([offener()]), attrappeGit(), (t) => wacheFehler.push(t), JETZT, () => { throw new Error('gh down') })
+  pruefe('meldeLiegt: Stufenfehler erscheint als LIEGT?-Zeile in der Wachphase', wacheFehler.some((t) => t === 'LIEGT? Stufe PR 8 nicht lesbar: gh down'), wacheFehler)
 }
 
 if (fehler.length > 0) {

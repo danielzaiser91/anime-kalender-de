@@ -25,13 +25,15 @@ export const VORRANG_ZEILE = /^\s*Behebt (den )?roten Bestandsbau\b/im
 /** Urteil „ok“ mit oder ohne Hinweis auf noch laufende oder unbekannte Checks; „ok, Checks rot“ und „aendern…“ sind nicht frei. */
 export const urteilIstOk = (titel) => /^ok(,|$)/.test(titel) && !/rot/i.test(titel)
 
+/** Gibt es einen Nachtrag des Inhabers (`## Nachtrag (Abnahme Dirigent` mit Kopf-Präfix) zu genau diesem Kopf? Eine Regel für Nacht-Merger und liegegut. */
+export const hatNachtrag = (kommentare, kopf) => kommentare.some((k) => entscheide({ autor: k.login, assoziation: k.assoc, text: k.body, kopf }).art === 'frei')
+
 /**
  * Freigabe für `kopf` aus den Kommentaren (`{ login, assoc, at, body }`): { frei, weg, grund }.
  * Der Nachtrag des Inhabers (`## Nachtrag (Abnahme Dirigent` mit Kopf-Präfix) gibt frei; sonst entscheidet das jüngste CI-Urteil zu diesem Kopf.
  */
 export function freigabe(kommentare, kopf) {
-  const nachtrag = kommentare.find((k) => entscheide({ autor: k.login, assoziation: k.assoc, text: k.body, kopf }).art === 'frei')
-  if (nachtrag) return { frei: true, weg: 'nachtrag', grund: 'Nachtrag des Dirigenten zum Kopf' }
+  if (hatNachtrag(kommentare, kopf)) return { frei: true, weg: 'nachtrag', grund: 'Nachtrag des Dirigenten zum Kopf' }
   const urteile = kommentare
     .filter((k) => k.login === PRUEFER_LOGIN)
     .map((k) => ({ at: k.at, treffer: URTEIL.exec(k.body) }))
