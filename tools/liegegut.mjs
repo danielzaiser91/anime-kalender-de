@@ -12,6 +12,7 @@ import { istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
 import { schleifeSignal } from './nachrechnen-schleife.mjs'
 import { PRAEFIX as ABNAHME_PRAEFIX } from './abnahme-freigabe.mjs'
 import { hatNachtrag } from './nacht-merger-wahl.mjs'
+import { vorratMeldung } from './liegegut-vorrat.mjs'
 
 const STUNDE = 3600 * 1000
 
@@ -454,6 +455,8 @@ export function meldeLiegt(ghFn, gitFn, log, jetzt, stufeFn = null) {
   try {
     const zeile = liegtZeile(liegegutAlleFunde(ghFn, gitFn, jetzt, log, standImProjekt(gitFn, log), undefined, stufeFn), jetzt)
     if (zeile) log(zeile)
+    const vorrat = vorratMeldung(ghFn, hauptordner(gitFn), jetzt)
+    if (vorrat) log(vorrat)
   } catch (e) {
     log(`LIEGT? liegegut nicht lesbar: ${String(e.message).split('\n')[0]}`)
   }
@@ -491,6 +494,8 @@ export function main(ghFn, gitFn, melde, jetzt, stufeFn = null) {
   try {
     const zeilen = liegegutAlle(ghFn, gitFn, jetzt, melde, standImProjekt(gitFn, melde), undefined, stufeFn)
     for (const z of zeilen) melde(z)
+    const vorrat = vorratMeldung(ghFn, hauptordner(gitFn), jetzt)
+    if (vorrat) melde(vorrat)
     melde(`liegegut: ${zeilen.length} auffällige PRs`)
     return 0
   } catch (e) {

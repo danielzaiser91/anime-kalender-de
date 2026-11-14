@@ -12,6 +12,9 @@ import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { nachtragSignal, stufeEcht, stufeOderHinweis, STUFE_FRIST_MS, liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
+// Der echte Vorrat im Hauptordner darf diese Fälle nicht färben (Vorrat-Signal: tools/liegegut-vorrat.test.mjs).
+process.env.AK_VORRAT_ORDNER = path.join(os.tmpdir(), 'liegegut-ohne-vorrat')
+
 const fehler = []
 const pruefe = (name, ok, info) => {
   if (ok) return console.log(`  ✓ ${name}`)
