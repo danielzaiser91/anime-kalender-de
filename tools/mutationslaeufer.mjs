@@ -130,7 +130,14 @@ function beendeBaum(kind) {
 export function laufTest(befehl, cwd, timeoutSek) {
   return new Promise((fertig) => {
     let ausgabe = ""
-    const kind = spawn(befehl, { cwd, shell: true, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"], windowsHide: true })
+    let kind
+    try {
+      kind = spawn(befehl, { cwd, shell: true, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"], windowsHide: true })
+    } catch (e) {
+      // Startfehler (z. B. ungültiges Argument) wirft synchron: als roter Test werten, nicht den Lauf abbrechen.
+      fertig({ gruen: false, abgelaufen: false, code: -1, ausgabe: String(e) })
+      return
+    }
     const sammle = (d) => {
       ausgabe = (ausgabe + d).slice(-4000)
     }
@@ -252,6 +259,22 @@ export function registriereSignale(proc, abhaengigkeiten) {
   for (const sig of SIGNALE) proc.on(sig, () => beiSignal(abhaengigkeiten))
 }
 
+// Spielt jede Datei einzeln zurück (ein Fehler bei einer stoppt die übrigen nicht); die Sicherungskopie
+// bleibt bei Fehler liegen. Rückgabe: Fehlertexte.
+export function spieleOriginaleZurueck(originale) {
+  const fehler = []
+  for (const [pfad, bytes] of originale) {
+    try {
+      // Nur schreiben, wenn nötig: eine unveränderte, schreibgeschützte Datei darf den Rückweg nicht stoppen.
+      if (!existsSync(pfad) || !readFileSync(pfad).equals(bytes)) writeFileSync(pfad, bytes)
+      if (existsSync(`${pfad}.mutlauf-orig`)) unlinkSync(`${pfad}.mutlauf-orig`)
+    } catch (e) {
+      fehler.push(`${pfad}: ${e.message}`)
+    }
+  }
+  return fehler
+}
+
 // Kontrolle ohne eigenes tests und ohne --test fährt die tests aller echten Mutanten (wie der Grundlauf).
 export function kontrollenMitTests(mutanten, global) {
   const alle = [...new Set(mutanten.filter((m) => m.aenderungen.length > 0).flatMap((m) => m.tests ?? global))]
@@ -281,10 +304,9 @@ export async function main(argv) {
   if (opt.log) mkdirSync(opt.log, { recursive: true })
   for (const [pfad, bytes] of originale) writeFileSync(`${pfad}.mutlauf-orig`, bytes)
   const zuruecksetzen = () => {
-    for (const [pfad, bytes] of originale) {
-      writeFileSync(pfad, bytes)
-      if (existsSync(`${pfad}.mutlauf-orig`)) unlinkSync(`${pfad}.mutlauf-orig`)
-    }
+    const fehler = spieleOriginaleZurueck(originale)
+    if (fehler.length > 0) console.error(`Rückspiel fehlgeschlagen:\n${fehler.join("\n")}`)
+    return fehler
   }
   registriereSignale(process, { kinder: laufendeKinder, beendeBaum, zuruecksetzen, exit: (code) => process.exit(code) })
   try {
@@ -297,7 +319,7 @@ export async function main(argv) {
     console.log(`\n${schlusszeile(zeilen)}`)
     return schlecht > 0 ? 1 : 0
   } finally {
-    zuruecksetzen()
+    if (zuruecksetzen().length > 0) throw new Error("Rückspiel kaputt: Dateien prüfen, Sicherungskopien `.mutlauf-orig` sind das Original")
   }
 }
 

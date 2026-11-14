@@ -13,7 +13,7 @@ export function leseFavoriten(raw: string | null | undefined, kennungen: Kennung
   const zahlen = (text.startsWith(VORSATZ) ? text.slice(VORSATZ.length) : text)
     .split(',')
     .map((v) => Number(v.trim()))
-    .filter((v) => Number.isInteger(v) && v > 0)
+    .filter((v) => Number.isInteger(v) && v !== 0)
   const { umleitung } = kennungen
   return new Set(umleitung ? zahlen.map((id) => umleitung.get(id) ?? id) : zahlen)
 }

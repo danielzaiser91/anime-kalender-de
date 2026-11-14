@@ -14,10 +14,31 @@
   Die Schonzeit hält Reste einer vorigen Seite und eine noch ladende Liste auseinander von der Seite.
 */
 const ERINNERN_NACH_MS = 3000
+/*
+  Ein Titelfenster ohne Inhalt (Startseite unter `/title/…`, Hintergrund ohne Dialog; Bericht 12.11.2026: Hintergrund nach 1 s, Inhalt
+  nie) wartet nicht die volle Listenfrist (20 s je Versuch, mit vollem Laden gut 45 s je Titel): nach 8 s gilt es als leer, aber nur, wenn seit dem Sprung keine Netzantwort kam.
+*/
+const LEER_NACH_MS = 8000
+globalThis.akNetflixLeerNach = LEER_NACH_MS
+
+/**
+ * Wie viele Antworten auf `fetch`/XHR an netflix.com seit `seit` (Date-Zeit) fertig waren (Resource Timing der Seite), sonst `null`
+ * (kein Timing, oder der Puffer ist voll und neue Einträge fehlen — dann gilt „keine Auskunft“, nie „keine Antwort“).
+ */
+globalThis.akNetflixNetzAntworten = (leistung, seit) => {
+  try {
+    const alle = leistung.getEntriesByType('resource')
+    if (alle.length >= 250) return null
+    const ab = seit - leistung.timeOrigin
+    return alle.filter((e) => /^(?:fetch|xmlhttprequest)$/.test(e.initiatorType) && e.responseEnd > 0 && e.startTime >= ab && /(?:^|\.)netflix\.com\//.test(String(e.name).replace(/^https?:\/\//, ''))).length
+  } catch {
+    return null
+  }
+}
 
 /**
  * Ein Takt des Wartens auf die Folgenliste. `wartet`: `{ seite, seit, entschieden? }` oder `null`;
- * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale? }` (`merkmale()`: Seitenmerkmale für die Spur); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter, bremse? }` (`bremse`: `netflix-durchgang-steuerung.js`).
+ * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale?, netz? }` (`merkmale()`: Seitenmerkmale für die Spur; `netz()`: Netzantworten seit Seitenbeginn, `akNetflixNetzAntworten`); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter, bremse? }` (`bremse`: `netflix-durchgang-steuerung.js`).
  * Gibt den neuen Wartestand zurück.
  */
 globalThis.akNetflixListeWarten = (wartet, o, tun) => {
@@ -26,11 +47,13 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   const dauer = o.jetzt - wartet.seit
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
   const erinnernJetzt = o.erinnern && dauer >= ERINNERN_NACH_MS
-  if (!erinnernJetzt && dauer <= o.frist) return wartet
+  /* Die kurze Frist gilt nur, wenn seit dem Sprung gar keine Netzantwort kam (`netz()` = 0); mit Antwort oder ohne Auskunft (`null`) bleibt es bei der Listenfrist. */
+  const leerFrist = o.netz?.() === 0 ? Math.min(o.frist, LEER_NACH_MS) : o.frist
+  if (!erinnernJetzt && dauer <= leerFrist) return wartet
   const merkmale = o.merkmale?.()
-  /* Ohne Titelfenster stammt auch „Erinnern" aus dem Billboard der Startseite: die ganze Frist warten, dann zählt es als Störung der Sitzung. */
+  /* Ohne Titelfenster stammt auch „Erinnern" aus dem Billboard der Startseite: `leerFrist` warten, dann zählt es als Störung der Sitzung. */
   if (tun.bremse && globalThis.akNetflixTitelfensterLeer(merkmale)) {
-    if (dauer <= o.frist) return wartet
+    if (dauer <= leerFrist) return wartet
     /* Der Sprung per pushState (`gehe`) ist unser eigener Weg und könnte das Fenster verhindern: erst einmal voll laden, wie ein Klick auf den Link. */
     if (tun.vollLaden && !tun.vollLaden.versucht(o.reihe)) {
       tun.spur('Titelfenster ohne Inhalt: Seite wird voll geladen', { ...dazu, seite: merkmale })
@@ -39,10 +62,11 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
     }
     tun.spur('Titelfenster ohne Inhalt', { ...dazu, seite: merkmale })
     const nachLaden = tun.vollLaden ? ', auch nach vollem Laden' : ''
-    tun.bremse.stoerung(o.reihe, `Titelfenster ohne Inhalt in ${Math.round(o.frist / 1000)} s${nachLaden}`, o.jetzt)
+    tun.bremse.stoerung(o.reihe, `Titelfenster ohne Inhalt in ${Math.round(leerFrist / 1000)} s${nachLaden}`, o.jetzt)
     tun.weiter()
     return { ...wartet, entschieden: true }
   }
+  if (!erinnernJetzt && dauer <= o.frist) return wartet
   tun.bremse?.ok()
   if (erinnernJetzt) {
     tun.spur('Erinnern statt Folgenliste', { ...dazu, seite: merkmale })
@@ -75,7 +99,7 @@ globalThis.akNetflixGrundOffen = (versuche) => {
   nichts (ein Nein hat mehrere Gründe, siehe oben); der Titel steht mit Grund in der Endliste und
   bleibt einen Tag zurückgestellt.
 */
-const NETFLIX_UMLEITUNG_NACH_MS = 4000
+const NETFLIX_UMLEITUNG_NACH_MS = 1500
 /* Wie überall bei `zuletztGeoeffnet`: ein Sprung, der länger her ist, gehört nicht mehr dem Durchgang. */
 const NETFLIX_UMLEITUNG_BIS_MS = 60 * 1000
 

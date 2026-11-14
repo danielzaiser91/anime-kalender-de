@@ -338,9 +338,11 @@ async function katalogOhneUhrzeit() {
   }
   pruefe((await lauf('2026-11-02T23:30:00Z', '2026-11-02T22:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 00:30 Berlin am Starttag: kein Push')
   pruefe((await lauf('2026-11-03T08:00:00Z', '2026-11-03T07:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 09:00 Berlin: kein Push')
-  pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 1, 'batch ohne Uhrzeit, 00:30 am Folgetag: ein Push')
+  pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 00:30 am Folgetag: kein Nachtpush')
+  pruefe((await lauf('2026-11-04T07:30:00Z', '2026-11-04T06:00:00.000Z')) === 1, 'batch ohne Uhrzeit, 08:30 am Folgetag: ein Push')
   ereignis.releaseType = 'weekly'
-  pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 1, 'weekly ohne Uhrzeit bleibt bei 23:59')
+  pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 0, 'weekly ohne Uhrzeit, 00:30 am Folgetag: kein Nachtpush')
+  pruefe((await lauf('2026-11-04T07:30:00Z', '2026-11-04T06:00:00.000Z')) === 1, 'weekly ohne Uhrzeit, 08:30 am Folgetag: ein Push')
 }
 
 await katalogOhneUhrzeit()
