@@ -447,6 +447,21 @@ html:not(.dark) .ak-punkt {
   outline-offset: 2px;
   box-shadow: 0 0 0 1px var(--art), 0 0 0 2px var(--ak-flaeche);
 }
+/*
+  Merken-Knopf im Zustand „gemerkt“ (Daniel, 14.11.2026, Variante C): Goldverlauf von links oben, Goldrand, Stern in Gold.
+  Höchstens 46 % Gold: an der hellsten Ecke hält die Schrift im dunklen Thema so 4,8:1 (bei 58 % waren es 3,5:1; gerechnet 13.11.2026).
+*/
+.ak-merken-an {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ak-favorit) 38%, var(--ak-flaeche)), color-mix(in srgb, var(--ak-favorit) 8%, var(--ak-flaeche)) 55%, color-mix(in srgb, var(--ak-favorit) 24%, var(--ak-flaeche)));
+  border-color: var(--ak-favorit-rand);
+  color: var(--ak-text);
+}
+.ak-merken-an svg {
+  color: var(--ak-favorit-text);
+}
+.ak-merken-an:hover {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ak-favorit) 46%, var(--ak-flaeche)), color-mix(in srgb, var(--ak-favorit) 18%, var(--ak-flaeche)) 55%, color-mix(in srgb, var(--ak-favorit) 34%, var(--ak-flaeche)));
+}
 /* Katalog-Release: Ring und leises Leuchten in der Farbe der Fahne heben ihn von Start und Finale ab; ersetzt den Ring der Klasse `ring-2`, weil beide `box-shadow` setzen. */
 .ak-katalog-glanz {
   box-shadow: 0 0 0 2px var(--ak-katalog), 0 0 18px -2px var(--ak-katalog);
