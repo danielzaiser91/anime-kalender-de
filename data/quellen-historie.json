@@ -6205,7 +6205,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6235,7 +6235,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6265,7 +6265,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6649,7 +6649,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -7633,7 +7633,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-17"
     }
   ],
@@ -7657,7 +7657,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7673,7 +7673,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7697,7 +7697,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7721,7 +7721,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -8572,7 +8572,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-07",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-11-18"
     }
   ],
@@ -8794,6 +8794,12 @@
   ],
   "auto-139630-tv-prosieben-maxx": [
     {
+      "url": "https://de.wikipedia.org/wiki/My_Hero_Academia/Episodenliste",
+      "name": "de.wikipedia.org",
+      "gesehenAm": "2026-11-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://tv.de/sendung/r/s,2471807058/",
       "name": "tv.de",
       "gesehenAm": "2026-11-13",
@@ -8803,7 +8809,7 @@
       "url": "https://www.themoviedb.org/tv/65930",
       "name": "themoviedb.org",
       "gesehenAm": "2026-11-13",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ]
 }
