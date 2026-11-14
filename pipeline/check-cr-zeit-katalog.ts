@@ -117,6 +117,14 @@ for (const [name, extra] of unberuehrt) {
   const vorher = JSON.stringify(s)
   pruefe(`unberührt: ${name}`, setzeKatalogZeit(s, serie(VM, VM_STEMPEL), {}) === false && JSON.stringify(s) === vorher, s)
 }
+/* Erster Tag nach der Umstellungswoche (Vermilion-Muster): Wochenprogramm 10:30, Stempel 11:30 → Stempel. Ohne Stempel: nichts erfunden. */
+const VM_NEU = ['2026-11-07T10:30:00Z', '2026-11-14T10:30:00Z']
+const s8 = sched({ firstEpisodeDate: '2026-11-07', time: '10:30', observed: { 1: '2026-11-07', 2: '2026-11-14' } })
+pruefe('Start 07.11. mit Beleg 10:30 und Stempel 11:30: Termin wird 11:30, keine zeiten', setzeKatalogZeit(s8, serie(VM, VM_NEU), beleg('GT00384015', '2026-11-07', '10:30')) === true && s8.time === '11:30' && !('zeiten' in s8), s8)
+const s9 = sched({ firstEpisodeDate: '2026-10-31', time: '10:30', observed: { 1: '2026-10-31', 2: '2026-11-07' } })
+pruefe('Start in der Umstellungswoche (31.10.) mit Beleg 10:00: Folge 1 behält 10:00', setzeKatalogZeit(s9, serie(VM, VM_STEMPEL), beleg('GT00384015', '2026-10-31', '10:00')) === true && gleich(s9.zeiten, { 1: '10:00' }), s9)
+const s10 = sched({ firstEpisodeDate: '2026-11-07', time: '10:30', observed: { 1: '2026-11-07' } })
+pruefe('Start ohne Stempel: Termin bleibt bei 10:30', setzeKatalogZeit(s10, serie(VM, [undefined]), beleg('GT00384015', '2026-11-07', '10:30')) === false && s10.time === '10:30', s10)
 const s7 = sched()
 pruefe('kein Block (Katalog us): unberührt', setzeKatalogZeit(s7, serie(VM, VM_STEMPEL, 'us'), {}) === false && s7.time === '10:30', s7)
 
