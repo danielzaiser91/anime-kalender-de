@@ -94,8 +94,10 @@ export function TrailerKino({
   )
 }
 
+type Trailer = NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>
+
 /** Beschriftung und Suchadresse der Trailer-Pille, nach Sprache des Trailers. */
-function trailerAngaben(trailer: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']> | undefined, titel: string, t: Translate) {
+function trailerAngaben(trailer: Trailer | undefined, titel: string, t: Translate) {
   /*
     **Ein fremdsprachiger Trailer sagt, dass er einer ist.** Nur 56 der 700
     Filme haben einen deutschen; für 442 weitere kennt TMDB einen englischen
@@ -127,7 +129,7 @@ function trailerAngaben(trailer: NonNullable<Parameters<typeof TrailerKino>[0]['
 /** Die Pille, die das Kino öffnet. */
 function kinoPille({ t, trailer, deutsch, knopfText, setOffen }: {
   t: Translate
-  trailer?: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>
+  trailer?: Trailer
   deutsch: boolean
   knopfText: string
   setOffen: (offen: boolean) => void
@@ -163,7 +165,7 @@ function kinoPille({ t, trailer, deutsch, knopfText, setOffen }: {
 function kinoDialog({ t, titel, trailer, deutsch, spracheName, suche, setOffen }: {
   t: Translate
   titel: string
-  trailer?: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>
+  trailer?: Trailer
   deutsch: boolean
   spracheName: string
   suche: string
@@ -223,7 +225,7 @@ function kinoDialog({ t, titel, trailer, deutsch, spracheName, suche, setOffen }
 }
 
 /** Das eingebettete Video — oder, ohne Trailer, der Weg zur YouTube-Suche. */
-function kinoVideo({ t, titel, trailer, suche }: { t: Translate; titel: string; trailer?: NonNullable<Parameters<typeof TrailerKino>[0]['trailer']>; suche: string }) {
+function kinoVideo({ t, titel, trailer, suche }: { t: Translate; titel: string; trailer?: Trailer; suche: string }) {
   return trailer ? (
     <iframe
       src={`https://www.youtube-nocookie.com/embed/${trailer.video}?autoplay=1&rel=0`}
