@@ -4,9 +4,14 @@ import { imTagesfenster } from './push-fenster.ts'
 import { istPushDienst } from './push-dienst.ts'
 import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
 import { istErschienen } from '../../shared/logic.ts'
+import { addDays } from '../../shared/time.ts'
 
-/** Für Push gilt ein Katalogstart ohne Uhrzeit erst um 23:59 als erschienen: Netflix schaltet gegen 9 Uhr frei, "Jetzt auf Deutsch" um 00:00 käme zu früh. */
-export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => istErschienen(e, zeit, false)
+/** Ein Termin ohne Uhrzeit gilt für den Push erst am Folgetag um 08:00 Berlin als neu (14.11.2026): die 23:59-Regel meldete ihn um 00:00 nachts, rund 11 h nach dem echten Start. */
+export const PUSH_OHNE_UHRZEIT = '08:00'
+
+/** Mit Uhrzeit wie `istErschienen`; ohne Uhrzeit Folgetag ab `PUSH_OHNE_UHRZEIT` (Ausbleiben und Lücke zählen weiter). */
+export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean =>
+  istErschienen(e.time ? e : { ...e, date: addDays(e.date, 1), time: PUSH_OHNE_UHRZEIT }, zeit, false)
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).

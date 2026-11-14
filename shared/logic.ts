@@ -60,18 +60,40 @@ function isoWochentag(datum: string): number {
  * Woche; mit Sendetagen der nächste davon — „Dragon Ball DAIMA" bei TOGGO plus
  * springt vom Freitag auf den Montag.
  */
-export function sendeplatz(s: Release['schedule'], datum: string, schritte: number): string {
+export function sendeplatz(
+  s: Release['schedule'],
+  datum: string,
+  schritte: number,
+  pausen?: ReadonlySet<string>,
+): string {
   const tage = (s.wochentage ?? []).filter((t) => t >= 1 && t <= 7)
-  if (!tage.length) return addDays(datum, 7 * schritte)
+  if (!tage.length && !pausen?.size) return addDays(datum, 7 * schritte)
   const richtung = schritte < 0 ? -1 : 1
   let rest = Math.abs(schritte)
   let d = datum
   let guard = 0
   while (rest > 0 && guard++ < 7 * 400) {
-    d = addDays(d, richtung)
-    if (tage.includes(isoWochentag(d))) rest--
+    d = addDays(d, tage.length ? richtung : 7 * richtung)
+    /* Ein Pausentag ist kein Sendeplatz: die Zählung rückt nach (wie in `lastEpisodeDate`). */
+    if ((!tage.length || tage.includes(isoWochentag(d))) && !pausen?.has(d)) rest--
   }
   return d
+}
+
+/** Fällt der Start auf eine Pause, rückt Folge 1 auf den nächsten freien Sendeplatz, statt wegzufallen. */
+function ersterSendeplatz(s: Release['schedule'], pausen: ReadonlySet<string>): string {
+  return pausen.has(s.firstEpisodeDate) ? sendeplatz(s, s.firstEpisodeDate, 1, pausen) : s.firstEpisodeDate
+}
+
+/** Termin aus der Originaltabelle (`nachOriginal`), über Pausentage geschoben — eine Regel für Plan und Ende. */
+function nachOriginalFrei(
+  s: Release['schedule'],
+  folge: number,
+  anker: { episode: number; date: string } | undefined,
+  pausen: ReadonlySet<string>,
+): string | undefined {
+  const tag = folgeNachOriginal(s.nachOriginal, folge, anker)
+  return tag && erstesFreiesDatum(tag, pausen)
 }
 
 /**
@@ -92,9 +114,9 @@ export function lastEpisodeDate(release: Release): string | undefined {
   const first = Math.max(1, s.firstEpisodeNumber ?? 1)
   const letzte = first + s.episodeCount - 1
   const anker = stuetzpunkte(s).filter((a) => a.episode >= first && a.episode <= letzte).at(-1)
-  const nachOriginal = folgeNachOriginal(s.nachOriginal, letzte, anker)
-  if (nachOriginal) return erstesFreiesDatum(nachOriginal, skips)
-  let date = anker?.date ?? s.firstEpisodeDate
+  const nachOriginal = nachOriginalFrei(s, letzte, anker, skips)
+  if (nachOriginal) return nachOriginal
+  let date = anker?.date ?? ersterSendeplatz(s, skips)
   let produced = anker?.episode ?? first
   let guard = 0
   while (produced < letzte && guard++ < 400) {
@@ -430,7 +452,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       alle auf dem 22.09., dem Tag von Folge 20 (16.09.2026).
     */
     if (danach && anchor && anchor.episode !== episode && s.wochentage?.length) {
-      const nachPlan = sendeplatz(s, anchor.date, episode - anchor.episode)
+      const nachPlan = sendeplatz(s, anchor.date, episode - anchor.episode, skips)
       if (nachPlan <= danach.date) return nachPlan
     }
     if (danach && anchor && anchor.episode !== episode) {
@@ -465,12 +487,12 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
      * ebenfalls hinter der belegten.
      */
     if (danach && !anchor) {
-      return sendeplatz(s, danach.date, -(danach.episode - episode))
+      return sendeplatz(s, danach.date, -(danach.episode - episode), skips)
     }
 
     return anchor
-      ? (folgeNachOriginal(s.nachOriginal, episode, anchor) ?? sendeplatz(s, anchor.date, episode - anchor.episode))
-      : sendeplatz(s, s.firstEpisodeDate, episode - first)
+      ? (nachOriginalFrei(s, episode, anchor, skips) ?? sendeplatz(s, anchor.date, episode - anchor.episode, skips))
+      : sendeplatz(s, ersterSendeplatz(s, skips), episode - first, skips)
   }
 
   const events: ReleaseEvent[] = []
@@ -604,7 +626,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       schutz++ < 60 &&
       events.some((a) => a !== ev && a.date === ev.date && (a.episode ?? 0) < (ev.episode ?? 0))
     ) {
-      const weiter = sendeplatz(s, ev.date, 1)
+      const weiter = sendeplatz(s, ev.date, 1, skips)
       /* Hinter einem belegten Ende wird nichts mehr angesetzt — dort gilt der Abbruch von oben. */
       if (s.lastEpisodeDate && weiter > s.lastEpisodeDate) break
       ev.date = weiter
