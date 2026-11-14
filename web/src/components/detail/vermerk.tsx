@@ -230,7 +230,7 @@ export function VermerkAuskunft({
     zeilen.push(
       T('antwort.vermerkUeberfaellig', {
         n: episode ?? '',
-        datum: formatDate(String(vermerk.erwartetAm).slice(0, 10)),
+        datum: formatDate(String(vermerk.erwartetAm)),
       }),
     )
   }
@@ -280,7 +280,7 @@ export function VermerkAuskunft({
       </>,
     )
   } else if (offen && vermerk.rechercheAm) {
-    zeilen.push(T('antwort.vermerkRechercheLeer', { datum: formatDate(vermerk.rechercheAm.slice(0, 10)) }))
+    zeilen.push(T('antwort.vermerkRechercheLeer', { datum: formatDate(vermerk.rechercheAm) }))
   }
   const plan = planZeile()
   if (plan) zeilen.push(plan)

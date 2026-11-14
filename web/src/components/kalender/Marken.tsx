@@ -1,5 +1,6 @@
 import { zeitMitMarke } from '@shared/zeit-text.ts'
-import type { ReleaseEvent } from '@shared/types.ts'
+import { toIsoDate } from '@shared/time.ts'
+import type { ReleaseEvent, VermerkAusgeblieben } from '@shared/types.ts'
 import { PLATFORMS, anbieterName } from '@shared/types.ts'
 import type { KachelAngabe } from '@shared/laeuft-jetzt.ts'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -83,6 +84,18 @@ export function anbieterZeile(event: ReleaseEvent, t: Translate, buendel: Releas
   return art === 'imAngebot' ? folgeOhneAnbieter(event, t, buendel) : anbieterUndFolge(event, t, buendel)
 }
 
+/** Der Tooltip-Text eines nicht eingehaltenen Termins; Tage in Berliner Zeit. */
+export function verpasstHinweis(v: VermerkAusgeblieben, t: Translate): string {
+  return [
+    t('card.missed'),
+    v.folgenVerfuegbar != null && t('card.missedCount', { n: v.folgenVerfuegbar }),
+    v.neuErwartet ? t('card.missedNext', { d: toIsoDate(new Date(v.neuErwartet)) }) : t('card.missedCheck'),
+    v.recherche,
+  ]
+    .filter(Boolean)
+    .join(' · ')
+}
+
 /**
  * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen
  * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen.
@@ -90,19 +103,12 @@ export function anbieterZeile(event: ReleaseEvent, t: Translate, buendel: Releas
 export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
   const v = event.verpasst
   if (!v) return null
-  const hinweis = [
-    t('card.missed'),
-    v.folgenVerfuegbar != null && t('card.missedCount', { n: v.folgenVerfuegbar }),
-    v.neuErwartet ? t('card.missedNext', { d: v.neuErwartet.slice(0, 10) }) : t('card.missedCheck'),
-    v.recherche,
-  ]
-    .filter(Boolean)
-    .join(' · ')
+  const hinweis = verpasstHinweis(v, t)
   return (
     <Tooltip text={hinweis} seite="oben">
       <span className="rounded bg-ak-fehler-grund px-1 text-[11px] font-semibold text-ak-fehler-text">
         {v.erschienenAm && v.verzugStunden != null
-          ? `↻ ${t('card.missedLateBadge', { d: v.erschienenAm.slice(0, 10) })}`
+          ? `↻ ${t('card.missedLateBadge', { d: toIsoDate(new Date(v.erschienenAm)) })}`
           : `⚠ ${t('card.missedBadge')}`}
       </span>
     </Tooltip>
