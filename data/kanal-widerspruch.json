@@ -1,4 +1,16 @@
 {
-  "standAm": "2026-11-09",
-  "faelle": []
+  "standAm": "2026-11-10",
+  "faelle": [
+    {
+      "art": "andere-ausgabe",
+      "titleId": 4898,
+      "titel": "Black Butler",
+      "platform": "primevideo",
+      "quelle": "JustWatch 2026-11-09",
+      "ton": "de, en, es, fr, hi, ja, pt, ta, te, th",
+      "anbieter": "Crunchyroll Amazon Channel",
+      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5#0",
+      "seit": "2026-11-10"
+    }
+  ]
 }
