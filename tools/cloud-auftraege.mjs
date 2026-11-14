@@ -5,7 +5,7 @@
  *
  * Exit 0 = ja, 1 = nein (Grund in einer Zeile), 2 = Aufruf- oder Abruffehler (nie stilles „nein“ oder „ja“).
  *   vorab <id> --register <pfad>
- *   eintragen <id> --routine <trig_id> --register <pfad> [--vorrat <datei.md>]
+ *   eintragen <id> --routine <trig_id> --register <pfad> [--vorrat <datei.md>] [--pr <n>]  (--pr: Nachbesserung an bestehendem PR; gilt als fertig, sobald er gemergt/geschlossen ist)
  *   uebersicht --register <pfad> [--runs <runs.json>] [--json]
  *   kontingent
  */
@@ -26,6 +26,9 @@ const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 /** PR, dessen Beschreibung die Zeile `Auftrag: <id>` trägt (die Zeile darf weitere Teile hinter ` · ` haben). */
 export const traegtAuftrag = (pr, id) => new RegExp(`^\\s*Auftrag:\\s*${esc(id)}(?=\\s|·|$)`, 'm').test(pr.beschreibung ?? '')
 const erledigt = (pr) => pr !== undefined && !pr.offen
+
+/** PR eines Register-Eintrags: bei `pr` (Nachbesserung an bestehendem PR, ohne eigene Auftragszeile) genau dieser, sonst über die Zeile `Auftrag: <id>`. */
+export const prDesEintrags = (prs, e) => (e.pr === undefined ? prZuAuftrag(prs, e.id) : prs.find((p) => p.nummer === e.pr))
 
 /** Neuester PR mit der Auftragszeile (offene zuerst, dann nach Nummer). */
 export function prZuAuftrag(prs, id) {
@@ -70,11 +73,11 @@ export const kontingentZeile = (k) => `Kontingent: ${k.offen}/${k.grenze} (Durch
 /** Darf der Auftrag starten? { ok, grund } nach den vier Regeln a–d; die erste Abweisung zählt. */
 export function vorabUrteil(id, register, prs, kontingent) {
   const eintrag = register.find((e) => e.id === id)
-  if (eintrag && !erledigt(prZuAuftrag(prs, id))) return { ok: false, grund: `${id} steht im Register und sein PR ist weder gemergt noch geschlossen` }
+  if (eintrag && !erledigt(prDesEintrags(prs, eintrag))) return { ok: false, grund: `${id} steht im Register und sein PR ist weder gemergt noch geschlossen` }
   const offener = prs.find((p) => p.offen && traegtAuftrag(p, id))
   if (offener) return { ok: false, grund: `offener PR #${offener.nummer} trägt „Auftrag: ${id}“` }
   if (kontingent.voll) return { ok: false, grund: kontingentZeile(kontingent) }
-  const aktiv = register.filter((e) => !erledigt(prZuAuftrag(prs, e.id))).length
+  const aktiv = register.filter((e) => !erledigt(prDesEintrags(prs, e))).length
   if (aktiv >= AKTIV_HOECHSTENS) return { ok: false, grund: `${aktiv} aktive Cloud-Sitzungen im Register (höchstens ${AKTIV_HOECHSTENS - 1} plus der neue)` }
   return { ok: true, grund: 'darf starten' }
 }
@@ -109,7 +112,7 @@ export function sitzungVon(lauf, hatPr, startMs, jetztMs) {
 
 /** Eine Zeile je Eintrag als Objekt; `pruefstand(nummer)` liefert { kette, kandidat, grund } oder wirft. */
 export function eintragStand(eintrag, prs, runs, pruefstand, jetztMs, letzterCommit) {
-  const pr = prZuAuftrag(prs, eintrag.id)
+  const pr = prDesEintrags(prs, eintrag)
   if (erledigt(pr)) return { id: eintrag.id, fertig: true, pr: pr.nummer }
   const sitzung = sitzungVon(letzterEvent(runs?.[eintrag.routine]), pr !== undefined, Date.parse(eintrag.start), jetztMs)
   const stand = { id: eintrag.id, fertig: false, start: eintrag.start, pr: pr?.nummer ?? null, commit: null, kette: null, kandidat: null, grund: null, sitzung: sitzung.zustand, alarm: sitzung.alarm }
@@ -184,6 +187,7 @@ function fehler(welt, text) {
 
 function befehlEintragen(id, o, register, welt, jetzt) {
   if (!o.routine) return fehler(welt, '--routine <trig_id> fehlt')
+  if (o.pr !== undefined && !/^[1-9]\d*$/.test(o.pr)) return fehler(welt, `--pr braucht eine PR-Nummer, nicht „${o.pr}“`)
   let vorrat = null
   if (o.vorrat) {
     if (!existsSync(o.vorrat)) return fehler(welt, `Vorratsdatei ${o.vorrat} fehlt`)
@@ -193,7 +197,7 @@ function befehlEintragen(id, o, register, welt, jetzt) {
       return 1
     }
   }
-  writeFileSync(o.register, `${JSON.stringify(mitEintrag(register, { id, routine: o.routine, start: new Date(jetzt).toISOString() }), null, 2)}\n`)
+  writeFileSync(o.register, `${JSON.stringify(mitEintrag(register, { id, routine: o.routine, start: new Date(jetzt).toISOString(), ...(o.pr === undefined ? {} : { pr: Number(o.pr) }) }), null, 2)}\n`)
   if (vorrat !== null) writeFileSync(o.vorrat, vorrat)
   welt.zeile(`eingetragen: ${id} → ${o.routine}`)
   return 0

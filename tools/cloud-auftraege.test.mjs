@@ -8,7 +8,7 @@
 import { mkdtempSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { kontingentVon, kontingentZeile, lauf, median, mitEintrag, prZuAuftrag, sitzungVon, traegtAuftrag, vergebenZeile, vorabUrteil, vorratMitVergeben } from './cloud-auftraege.mjs'
+import { eintragStand, kontingentVon, kontingentZeile, lauf, median, mitEintrag, prZuAuftrag, sitzungVon, traegtAuftrag, vergebenZeile, vorabUrteil, vorratMitVergeben } from './cloud-auftraege.mjs'
 import { echteWelt, listePrs, prVonRest } from './cloud-auftraege-welt.mjs'
 
 let fehler = 0
@@ -327,6 +327,28 @@ const einmal = echteWelt({ gh: ghRest({}), repo: REPO, merger: { offene: () => {
 einmal.pruefstand(63)
 einmal.pruefstand(63)
 gleich('Prüfstand: Liste der offenen nur einmal je Lauf geholt', zaehlt, 1)
+
+// --- Nachbesserung: Eintrag mit --pr (kein eigener PR mit Auftragszeile) --------------------------------------------------
+const nachb = { id: 'nb', routine: 'trig_nb', start: '2026-11-14T08:00:00.000Z', pr: 3709 }
+const standNb = (e, prs) => eintragStand(e, prs, {}, () => ({}), JETZT, () => null)
+gleich('Nachbesserung ohne PR-Eintrag: kein PR (Altlast)', standNb({ ...nachb, pr: undefined }, alle(GEMERGT_A)).pr, null)
+gleich('Nachbesserung an gemergtem PR zählt nicht mehr als offen', standNb(nachb, alle(GEMERGT_A)), { id: 'nb', fertig: true, pr: 3709 })
+gleich('Nachbesserung an geschlossenem PR ist fertig', standNb({ ...nachb, pr: 3644 }, alle(GESCHLOSSEN)).fertig, true)
+gleich('Nachbesserung an offenem PR bleibt offen', standNb({ ...nachb, pr: 3828 }, alle(OFFEN_A)).fertig, false)
+gleich('Nachbesserung: anderer PR gemergt ändert nichts', standNb(nachb, alle(GEMERGT_B)).fertig, false)
+const vier = ['a', 'b', 'c', 'd'].map(eintrag)
+pruefe('vorab (d): vier aktive plus Nachbesserung an gemergtem PR → ja', vorabUrteil('neu', [...vier, nachb], alle(GEMERGT_A), frei).ok)
+pruefe('vorab (d): vier aktive plus Nachbesserung ohne gemergten PR → nein', !vorabUrteil('neu', [...vier, nachb], [], frei).ok)
+pruefe('vorab (a): Nachbesserungs-id im Register, PR gemergt → ja', vorabUrteil('nb', [nachb], alle(GEMERGT_A), frei).ok)
+gleich('kontingent zählt das Register nicht (nur PRs)', kontingentVon(alle(GEMERGT_A), JETZT).offen, 0)
+const regNb = pfad('rnb.json')
+gleich('eintragen --pr schreibt die Nummer', [ruf(['eintragen', 'nb', '--routine', 'trig_nb', '--pr', '3709', '--register', regNb]).exit, lies(regNb)[0].pr], [0, 3709])
+ruf(['eintragen', 'oh', '--routine', 'trig_oh', '--register', regNb])
+pruefe('eintragen ohne --pr schreibt kein Feld pr', !('pr' in lies(regNb).find((e) => e.id === 'oh')))
+gleich('eintragen --pr abc → 2, Register unverändert', [ruf(['eintragen', 'x', '--routine', 't', '--pr', 'abc', '--register', regNb]).exit, lies(regNb).length], [2, 2])
+gleich('eintragen --pr 0 → 2, Register unverändert', [ruf(['eintragen', 'x', '--routine', 't', '--pr', '0', '--register', regNb]).exit, lies(regNb).length], [2, 2])
+const uebNb = ruf(['uebersicht', '--register', regNb], { prs: alle(GEMERGT_A) })
+pruefe('uebersicht: Nachbesserung an gemergtem PR zählt als fertig', /Fertig \(PR gemergt\/geschlossen\): 1/.test(uebNb.ausgabe.join('\n')), uebNb.ausgabe.join('|'))
 
 if (fehler > 0) {
   console.error(`${fehler} Fehler`)
