@@ -234,18 +234,29 @@ ergebnis.grenze = selbstGrenze`,
 /* `laufStarten` beginnt mit frischer Bremse (sessionStorage überlebt einen wiederhergestellten Tab). */
 {
   /* `fertig`: Kennungen, die die Prüfliste nicht mehr offen zeigt (wie `fertig()` in melder.js); der Nenner zählt nur die offenen. */
-  const starten = (offeneTitel, erledigt = []) => {
+  const starten = (offeneTitel, erledigt = [], eigene = {}) => {
     let reset = 0
     const gemerkt = []
     const ok = new Function(
       'titelDerAdresse', 'gemeinteReihe', 'offeneTitel', 'naechsterAuftrag', 'bremse', 'selbstUebersprungen', 'selbstStaffelnGeprueft', 'selbstGesammelt', 'selbstVersuche', 'fertigeTitel', 'durchgangEndeZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'Date', 'dialogSchliessen', 'vielleichtSelbstStarten', 'selbstWeiter', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig',
       `let selbstAn = false, selbstGezaehlt = 9, selbstGrenze = null, selbstVersucht = 'x', selbstSammelStand = 1, durchgangEnde = 1\n${funktionText('function laufStarten()')}\nreturn laufStarten() && selbstAn && selbstGezaehlt === 0`,
-    )(() => null, () => null, offeneTitel, () => '1', { zuruecksetzen: () => reset++ }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {}, (g, n) => gemerkt.push([g, n]), kontext.akNetflixBericht, (id) => erledigt.includes(id))
+    )(() => null, () => null, offeneTitel, () => '1', { zuruecksetzen: () => reset++ }, eigene.uebersprungen ?? { clear() {} }, { clear() {} }, { clear() {} }, { clear() {} }, eigene.fertig ?? { clear() {} }, () => {}, { setItem() {} }, 'k', jetzt(1000), () => {}, () => {}, () => {}, (g, n) => gemerkt.push([g, n]), kontext.akNetflixBericht, (id) => erledigt.includes(id))
     return { ok, reset, gemerkt }
   }
   let s = starten({ 1: {}, 2: {}, 3: {} })
   pruefe('laufStarten: Start gelingt und die Bremse beginnt frisch', s.ok === true && s.reset === 1, s)
   pruefe('laufStarten merkt Zähler 0 und Nenner (3 offene Titel) im Speicher: Neuladen vor dem ersten Sprung behält den Nenner, ein Rest eines alten Laufs wird überschrieben', JSON.stringify(s.gemerkt) === '[[0,3]]', s.gemerkt)
+  /* Ein nicht sauber beendeter Lauf (Tab-Absturz, Frist) lässt seinen Stand im sessionStorage; der Start räumt ihn über die echte laufStarten-Zeile (Prüfer 3841 R2, A1). */
+  {
+    const sitzung = new Map([['ak-netflix-fertig', '["1"]'], ['ak-netflix-uebersprungen', '[["2","keine Folgenliste in 20 s"]]']])
+    const ss = { getItem: (k) => (sitzung.has(k) ? sitzung.get(k) : null), setItem: (k, w) => void sitzung.set(k, String(w)), removeItem: (k) => void sitzung.delete(k) }
+    const fertig = kontext.akNetflixFertigSet(ss)
+    const Karte = kontext.akNetflixLaufMap(ss, 'ak-netflix-uebersprungen')
+    const karte = new Karte()
+    const vorher = [fertig.size, karte.size]
+    starten({ 1: {} }, [], { fertig, uebersprungen: karte })
+    pruefe('laufStarten räumt den Stand eines nicht beendeten Laufs: Set, Merkliste und beide Schlüssel leer', vorher.join() === '1,1' && fertig.size === 0 && karte.size === 0 && !sitzung.has('ak-netflix-fertig') && !sitzung.has('ak-netflix-uebersprungen'), [vorher, fertig.size, karte.size, [...sitzung.keys()]])
+  }
   /* Bericht 14.11.2026: „13 von 233 geprüft", die Liste hatte 163 offene — der Nenner zählte alle Titel der Prüfliste statt der offenen. */
   s = starten({ 1: {}, 2: {}, 3: {}, 4: {}, 5: {} }, ['2', '4'])
   pruefe('laufStarten: der Nenner zählt nur die offenen Titel (5 in der Prüfliste, 2 fertig → 3)', JSON.stringify(s.gemerkt) === '[[0,3]]', s.gemerkt)

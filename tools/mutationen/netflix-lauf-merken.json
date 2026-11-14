@@ -175,5 +175,31 @@
    "tests": [
     "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
    ]
+  },
+  {
+   "name": "laufStarten: fertigeTitel.clear() entfernt",
+   "aenderungen": [
+    {
+     "datei": "extension/melder.js",
+     "suche": "  durchgangEnde = null\n  fertigeTitel.clear()\n",
+     "ersetze": "  durchgangEnde = null\n"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-titel-gesperrt.test.cjs"
+   ]
+  },
+  {
+   "name": "laufStarten: selbstUebersprungen.clear() entfernt",
+   "aenderungen": [
+    {
+     "datei": "extension/melder.js",
+     "suche": "  bremse.zuruecksetzen()\n  selbstUebersprungen.clear()\n",
+     "ersetze": "  bremse.zuruecksetzen()\n"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-titel-gesperrt.test.cjs"
+   ]
   }
 ]
