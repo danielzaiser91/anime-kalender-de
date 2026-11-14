@@ -1,8 +1,8 @@
 [
   { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
-  { "name": "AusBlock: mehrere passende Blöcke genügen", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "if (treffer.length !== 1) return {}", "ersetze": "if (treffer.length < 1) return {}" }] },
+  { "name": "AusBlock: mehrere passende Blöcke genügen", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "return treffer.length === 1 ? treffer[0] : undefined", "ersetze": "return treffer.length >= 1 ? treffer[0] : undefined" }] },
   { "name": "AusBlock: Beobachtung wird überschrieben", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "if (nr && datum && !beobachtet[nr]) raus[nr] = datum", "ersetze": "if (nr && datum) raus[nr] = datum" }] },
-  { "name": "AusBlock: Katalog nicht deutsch zählt", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "if (serie.katalog !== 'de') return {}\n  const gesehen", "ersetze": "const gesehen" }] },
+  { "name": "AusBlock: Katalog nicht deutsch zählt", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "if (serie.katalog !== 'de') return undefined\n  const gesehen", "ersetze": "const gesehen" }] },
   { "name": "AusBlock: nur die Nummer", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "const ZAEHLUNGEN = ['nummer', 'laufend'] as const", "ersetze": "const ZAEHLUNGEN = ['nummer'] as const" }] },
   { "name": "AusBlock: nur die Stelle", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "const ZAEHLUNGEN = ['nummer', 'laufend'] as const", "ersetze": "const ZAEHLUNGEN = ['laufend'] as const" }] },
   { "name": "AusBlock: Stelle vor Nummer", "aenderungen": [{ "datei": "pipeline/lib/crunchyroll-termine.ts", "suche": "const ZAEHLUNGEN = ['nummer', 'laufend'] as const", "ersetze": "const ZAEHLUNGEN = ['laufend', 'nummer'] as const" }] },
