@@ -1,5 +1,6 @@
 import { DIENSTE, type MotnDaten } from '../lib/motn.ts'
 import { STICHTAG_AB, stichtagSchluessel } from './angebot-stichtag.ts'
+import { toIsoDate } from '../../shared/time.ts'
 
 type Meldung = { art?: 'new' | 'removed'; imdbId?: string; dienst?: string; am?: string; deutsch?: boolean; deutschBeiDienst?: boolean }
 // `deutsch` zählt jeden Dienst in DE und ist kein Beleg für diesen Anbieter; maßgeblich ist deutschBeiDienst.
@@ -66,7 +67,7 @@ export function feedEintrag(art: 'new' | 'removed', show: FeedShow, c: FeedAende
     imdbId: show.imdbId,
     tmdbId: show.tmdbId,
     dienst: c.service?.id,
-    am: c.timestamp ? new Date(c.timestamp * 1000).toISOString().slice(0, 10) : undefined,
+    am: c.timestamp ? toIsoDate(new Date(c.timestamp * 1000)) : undefined,
     ...tonspuren(optionen, c.service?.id),
   }
 }

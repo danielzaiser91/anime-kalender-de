@@ -25,7 +25,9 @@
  * **Nur im gelesenen Fenster.** `data/crunchyroll.json` trägt, welchen Zeitraum
  * der Scrape abgedeckt hat. Ein Termin davor hat keine Beobachtung, weil
  * niemand hingesehen hat — ihn als verpasst zu führen wäre eine Behauptung
- * über etwas Ungeprüftes.
+ * über etwas Ungeprüftes. Seit der Kalender tot ist (Fenster bis 21.10.2026),
+ * urteilt der Katalog `crunchyroll-neu.json` über spätere Termine, und eine
+ * Ankündigung im Wochenprogramm zählt nie als Beobachtung (`lib/verpasst-ankuendigung.ts`).
  *
  * Was hier landet, gehört gelesen: `daniel-zum-abarbeiten/listen/12-verpasste-termine.md`
  * listet die Fälle samt Feldern für die Handrecherche. Ein dort eingetragener
@@ -40,6 +42,7 @@ import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFri
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { katalogBeobachtungen, katalogOhneTag, katalogStaffel, keinVerworfen } from './lib/verpasst-katalog.ts'
+import { angekuendigteFolgen, darfUrteilen, ohneAnkuendigung, staffelImKatalog } from './lib/verpasst-ankuendigung.ts'
 import { toIsoDate } from '../shared/time.ts'
 import type { NeueFolge } from './lib/cr-neu-wache.ts'
 import type { Title } from '../shared/types.ts'
@@ -81,6 +84,8 @@ interface Beobachtung {
   episode?: number
   /** Tag aus dem ersten Katalogfund: belegt „war da“, nicht den Erscheinungstag. */
   rueckfall?: true
+  /** `woche`: aus dem Wochenprogramm angehängt — eine Ankündigung, keine Sichtung. */
+  quelle?: string
 }
 interface Kalender {
   scrapedAt?: string
@@ -199,7 +204,8 @@ const vorDemStart = (v: { slug: string; erwartetAm: string }) => {
 }
 
 /* Der Katalog (`crunchyroll-neu.json`) sieht deutsche Folgen, die der Simulcast-Kalender nicht zeigt (Aristocrat S3 F2, 26.10.2026). */
-const katalogFolgen = readJson<{ folgen?: NeueFolge[] }>('data/crunchyroll-neu.json', {}).folgen ?? []
+const katalog = readJson<{ geholtAm?: string; folgen?: NeueFolge[] }>('data/crunchyroll-neu.json', {})
+const katalogFolgen = katalog.folgen ?? []
 const ohneTag = katalogOhneTag(katalogFolgen)
 if (ohneTag.length) {
   console.log(`⚠ Katalogfolgen ohne Tag (zählen nicht als Beleg): ${ohneTag.length} — ${ohneTag.map((f) => `${f.serie} ${f.staffel} F${f.nummer}`).join('; ')}`)
@@ -208,13 +214,26 @@ const katalogVerworfen = keinVerworfen()
 const alleTitel = readJson<Title[]>('public/data/titles.json', [])
 const titelIdJeSlug = new Map(veroeffentlichungen.map((r) => [r.slug, r.titleId]))
 
+/* Angekündigte Folgen (Wochenprogramm): Sie machen einen Termin prüfbar, bestätigen ihn aber nicht (`lib/verpasst-ankuendigung.ts`). */
+const wocheBelege = readJson<WocheBelege>(BELEGE_DATEI, {})
+const kalenderWoche = Object.values(kalender.german ?? {}).flatMap((g) =>
+  (g.observations ?? []).filter((o) => o.quelle === 'woche' && o.episode != null).map((o) => ({ seriesId: adressKern(g.seriesUrl ?? ''), episode: o.episode!, date: o.date })),
+)
+const angekuendigt = angekuendigteFolgen(wocheFolgen, wocheBelege, kalenderWoche)
+
+/** Serienkennung und Katalog-Staffel einer Veröffentlichung; die Staffel ist `undefined`, wenn sie nicht eindeutig ist. */
+function katalogSuche(slug: string): { serieId: string | undefined; staffel: number | undefined } {
+  const titel = alleTitel.find((t) => t.id === titelIdJeSlug.get(slug))
+  return { serieId: /\/series\/([A-Z0-9]+)/i.exec(adresseJeSlug.get(slug) ?? '')?.[1], staffel: katalogStaffel(titel, alleTitel) }
+}
+
 function beobachtungen(slug: string): Beobachtung[] {
   const adresse = adresseJeSlug.get(slug)
   const ausKalender = adresse ? (gesehen.get(adressKern(adresse)) ?? []) : []
-  const titel = alleTitel.find((t) => t.id === titelIdJeSlug.get(slug))
-  const serieId = /\/series\/([A-Z0-9]+)/i.exec(adresse ?? '')?.[1]
-  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, katalogStaffel(titel, alleTitel), toIsoDate(JETZT), katalogVerworfen)
-  return [...ausKalender, ...ausKatalog, ...beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)]
+  const { serieId, staffel } = katalogSuche(slug)
+  const ausKatalog = katalogBeobachtungen(katalogFolgen, serieId, staffel, toIsoDate(JETZT), katalogVerworfen)
+  const ausRelease = beobachtetAusRelease(folgentageJeSlug.get(slug), JETZT)
+  return [...ohneAnkuendigung(ausKalender, serieId, angekuendigt), ...ausKatalog, ...ohneAnkuendigung(ausRelease, serieId, angekuendigt)]
 }
 
 function zeitpunkt(e: Ereignis): Date {
@@ -272,7 +291,7 @@ const bekannt = new Set(verpasst.map((v) => v.id))
 let neu = 0
 for (const e of ereignisse) {
   const kennung = adressKern(adresseJeSlug.get(e.releaseSlug) ?? '')
-  if (bekannt.has(e.id) || !terminPruefen(e, kennung, wocheFolgen)) continue
+  if (bekannt.has(e.id) || !terminPruefen(e, kennung, angekuendigt)) continue
   /*
     **Nur Crunchyroll — dort gibt es einen Kalender, den wir lesen.**
 
@@ -288,8 +307,10 @@ for (const e of ereignisse) {
     hingesehen hat.
   */
   if (e.platform !== 'crunchyroll') continue
-  /* Und nur im gelesenen Fenster — davor hat auch bei Crunchyroll niemand hingesehen. */
-  if (e.date < von || e.date > bis) continue
+  /* Und nur im gelesenen Fenster — davor hat auch bei Crunchyroll niemand hingesehen; danach sieht nur noch der Katalog hin. */
+  const suche = katalogSuche(e.releaseSlug)
+  const staffelEindeutig = staffelImKatalog(katalogFolgen, suche.serieId, suche.staffel)
+  if (!darfUrteilen(e, { von, bis }, { frist: frist(e), jetzt: JETZT, geholtAm: katalog.geholtAm, staffelEindeutig })) continue
   if (JETZT.getTime() - frist(e).getTime() < 0) continue
   const gesehenHier = beobachtungen(e.releaseSlug)
   const folge = folgeAmVerpasstenTermin(
@@ -305,7 +326,6 @@ for (const e of ereignisse) {
 }
 
 /* Das Bild der Ankündigung im Wochenprogramm kommt an jeden Vermerk, zu dem eine Zeile vorliegt — auch an bestehende (Tomb Raider King F12). */
-const wocheBelege = readJson<WocheBelege>(BELEGE_DATEI, {})
 const wocheBelegNeu = belegeAnhaengen(verpasst, wocheBelege, (slug) => adressKern(adresseJeSlug.get(slug) ?? ''))
 if (wocheBelegNeu) log(`${wocheBelegNeu} Vermerk(e) mit dem Bild der Wochenprogramm-Ankündigung versehen`)
 
@@ -408,8 +428,9 @@ const titelJeId = new Map(titel.map((t) => [t.id, t]))
 let hinweiseNeu = 0
 for (const v of verpasst) {
   if (v.erschienenAm || v.gestrichen) continue
-  if (kalender.scrapedAt && kalender.scrapedAt > v.erwartetAm && (!v.geprueftAm || kalender.scrapedAt > v.geprueftAm)) {
-    v.geprueftAm = kalender.scrapedAt
+  /* Seit dem Ende des Simulcast-Kalenders (21.10.2026) sieht der Katalog nach (`geholtAm`). */
+  for (const gelesen of [kalender.scrapedAt, katalog.geholtAm]) {
+    if (gelesen && gelesen > v.erwartetAm && (!v.geprueftAm || gelesen > v.geprueftAm)) v.geprueftAm = gelesen
   }
   if (a2y.scrapedAt && a2y.scrapedAt > v.erwartetAm) v.newsGeprueftAm = a2y.scrapedAt
   const t = titelJeId.get(v.titleId)
@@ -469,5 +490,5 @@ writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/12-verpasste-termine.m
 
 log(
   `${neu} Termin(e) neu als verpasst vermerkt, ${nachgeholt} nachgeholt, ${offen.length} offen ` +
-    `(Fenster ${von} bis ${bis})`,
+    `(Fenster ${von} bis ${bis}, danach Katalog vom ${katalog.geholtAm ?? '–'})`,
 )

@@ -80,6 +80,7 @@ try {
     const r = lauf(baum(`stumm-${datei}`, { ...SAUBER, [`tools/${datei}`]: code }), grenzen)
     assert.equal(r.status, 1, `${datei} rot`)
     assert.match(r.stderr, new RegExp(`tools/${datei}: 1 statt höchstens 0`))
+    assert.match(r.stderr, /Kommentar im Block genügt nur beim leeren catch/, `${datei}: Meldung unterscheidet leeren catch und Leerwert-return`)
   }
 
   // Zulässig: Kommentar mit Warum im catch; weitere Anweisung neben dem return.

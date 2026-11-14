@@ -89,6 +89,7 @@ pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-ann-rollen.ts
 pipeline/check-ansicht-scroll.ts
+pipeline/check-antwort-film-naht.ts
 pipeline/check-antwort-jetzt.ts
 pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
@@ -585,6 +586,7 @@ pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
 pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
+pipeline/check-termine-katalog-lauf.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts

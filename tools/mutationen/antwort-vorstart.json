@@ -34,7 +34,7 @@
   { "name": "Kasten Stream: Nebenzeile bleibt", "datei": "web/src/components/detail/antwort-kopf.tsx", "suche": "[betont(vorstart), '', undefined, '']", "ersetze": "[betont(vorstart), neben, undefined, '']" },
   { "name": "Kasten Stream: Releases nicht übergeben", "datei": "web/src/components/detail/antwort-kopf.tsx", "suche": "vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)", "ersetze": "vorstartSatz(antwort, Boolean(ohneSprachbeleg))" },
   { "name": "Kasten Stream: Sprachbeleg ignoriert", "datei": "web/src/components/detail/antwort-kopf.tsx", "suche": "vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)", "ersetze": "vorstartSatz(antwort, false, releases)" },
-  { "name": "berechneAntwort: Bandangaben weg", "datei": "web/src/components/detail/antwort-berechnen.ts", "suche": "...bandAngaben(quelle, title),", "ersetze": "" },
+  { "name": "berechneAntwort: Bandangaben weg", "datei": "web/src/components/detail/antwort-zweige.ts", "suche": "...bandAngaben(quelle, title),", "ersetze": "" },
   { "name": "discKopf: erschienen wie offen", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": "b.raus ? 'antwort.discSeit' : 'antwort.discAm'", "ersetze": "false ? 'antwort.discSeit' : 'antwort.discAm'" },
   { "name": "discKopf: Trenner", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": ".join(' · ')", "ersetze": ".join(' ')" },
   { "name": "discKopf: Bandname weg", "datei": "web/src/components/detail/antwort-disc-kopf.ts", "suche": "[b.name, T(", "ersetze": "[undefined, T(" },
@@ -48,5 +48,5 @@
   {"name":"discSatz: Trenner","datei":"web/src/components/detail/antwort-vorstart.ts","suche":"return [erster, ...weitere].join(' · ')","ersetze":"return [erster, ...weitere].join(' ')"},
   {"name":"discSatz: weitere ab dem ersten","datei":"web/src/components/detail/antwort-vorstart.ts","suche":".slice(1).map(","ersetze":".slice(0).map("},
   {"name":"vorstartSatz: Releases nicht durchgereicht","datei":"web/src/components/detail/antwort-vorstart.ts","suche":"discVorStream(releases, antwort.haupt.date)","ersetze":"false"},
-  {"name":"berechneAntwort: letzter statt frühester Termin","datei":"web/src/components/detail/antwort-berechnen.ts","suche":"const n = kuenftig[0]!","ersetze":"const n = kuenftig.at(-1)!"}
+  {"name":"berechneAntwort: letzter statt frühester Termin","datei":"web/src/components/detail/antwort-zweige.ts","suche":"const n = kuenftig[0]!","ersetze":"const n = kuenftig.at(-1)!"}
 ]

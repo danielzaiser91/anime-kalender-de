@@ -10,7 +10,8 @@ einmal täglich im Netz (Anbieter-News, Social Media, Anime2You) und schreibt `r
 `rechercheQuelle`, `rechercheAm` und — nur mit Quelle, die den Tag nennt — `neuErwartet`.
 Nach zwei Wochen wöchentlich, nach zwei Monaten nicht mehr. Von Hand eintragen geht weiterhin.
 
-Stand: 2026-11-14 10:01 · 0 offen, 15 nachgeholt
+Stand: 2026-11-14 10:57 · 1 offen, 15 nachgeholt
 
 | Titel | Folge | erwartet | beim Anbieter | Kalender gelesen | Anime2You | Recherche | fällig |
 |---|---|---|---|---|---|---|---|
+| The Vermilion Mask | 3 | 2026-11-14 09:30 | 2 Folgen | 2026-11-14 10:01 | — | **offen** | nein |
