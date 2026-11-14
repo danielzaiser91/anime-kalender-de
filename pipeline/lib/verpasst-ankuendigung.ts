@@ -64,7 +64,6 @@ export const KATALOG_URTEIL_STUNDEN = 24
  * hätten die pünktlichen Folgen 23 und 24 als ausgeblieben gegolten.
  */
 export function staffelImKatalog(folgen: NeueFolge[], serieId: string | undefined, staffel: number | undefined): boolean {
-  if (!serieId || staffel === undefined) return false
   const derSerie = folgen.filter((f) => f.serieId === serieId)
   return derSerie.length > 0 && derSerie.every((f) => staffelDerFolge(f) === staffel)
 }

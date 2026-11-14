@@ -33,6 +33,10 @@ interface Fall {
   estimated?: boolean
   observed?: Record<string, string>
   staffeln?: string[]
+  /** Eine echte Kalender-Sichtung (ohne `quelle`) dieser Folge an diesem Tag. */
+  kalenderTag?: string
+  /** Der Titel ist die zweite Staffel seiner Reihe (Vorgänger von 2020). */
+  zweiteStaffel?: boolean
 }
 /* Ohne Angabe: geschätzter Termin am 14.11. 10:30 (09:30 UTC), Folge 3, Katalog führt Folge 1 in Staffel 1. */
 const faelle: Fall[] = [
@@ -51,6 +55,13 @@ const faelle: Fall[] = [
   { slug: 'gemischt', staffeln: ['Staffel 1', 'Staffel 2'] },
   { slug: 'imfenster', date: '2026-10-15' },
   { slug: 'vorher', date: '2026-10-01' },
+  { slug: 'vontag', date: '2026-10-12' },
+  { slug: 'bistag', date: '2026-10-21' },
+  { slug: 'ohneank', estimated: false },
+  { slug: 'kalecht', date: '2026-10-15', kalenderTag: '2026-10-15' },
+  { slug: 'relecht', date: '2026-10-15', observed: { 3: '2026-10-15' } },
+  { slug: 'gleichname', staffeln: ['gleichname'] },
+  { slug: 'zweite', staffeln: ['Staffel 2'], zweiteStaffel: true },
   { slug: 'nach', date: undefined, observed: { 3: '2026-11-14' } },
   { slug: 'nachkat', date: undefined },
 ]
@@ -74,8 +85,10 @@ try {
     mitTermin.map((f, i) => ({ id: `${f.slug}@${f.date ?? '2026-11-14'}`, releaseSlug: f.slug, titleId: 900100 + i, name: f.slug, platform: 'crunchyroll', date: f.date ?? '2026-11-14', time: f.time ?? '10:30', episode: f.episode ?? 3, estimated: f.estimated ?? true })),
   )
   schreibe('public/data/releases.json', faelle.map((f, i) => ({ slug: f.slug, titleId: 900100 + i, platformUrl: ADRESSE(f.slug), schedule: { observed: f.observed } })))
-  /* Jeder Titel steht allein in seiner Reihe: Der Lauf sucht im Katalog Staffel 1. */
-  schreibe('public/data/titles.json', faelle.map((f, i) => ({ id: 900100 + i, franchiseId: 900100 + i, titleDe: f.slug })))
+  /* Jeder Titel steht allein in seiner Reihe (der Lauf sucht im Katalog Staffel 1), außer `zweiteStaffel`: Staffel 2. */
+  const titel = faelle.map((f, i) => ({ id: 900100 + i, franchiseId: 900100 + i, titleDe: f.slug, format: 'TV', episodes: 12, jpYear: 2022 }))
+  const vorgaenger = faelle.flatMap((f, i) => (f.zweiteStaffel ? [{ id: 900199, franchiseId: 900100 + i, titleDe: `${f.slug} eins`, format: 'TV', episodes: 12, jpYear: 2020 }] : []))
+  schreibe('public/data/titles.json', [...titel, ...vorgaenger])
   schreibe('data/crunchyroll-neu.json', {
     geholtAm: GEHOLT,
     folgen: [
@@ -89,14 +102,26 @@ try {
   schreibe('data/crunchyroll.json', {
     scrapedAt: '2026-10-21T08:00:00.000Z',
     window: { from: '2026-10-12', to: '2026-10-21' },
-    german: { a: woche('verm', 3), b: woche('kalohne'), c: woche('kalrel', 3) },
+    german: {
+      a: woche('verm', 3),
+      b: woche('kalohne'),
+      c: woche('kalrel', 3),
+      ...Object.fromEntries(faelle.filter((f) => f.kalenderTag).map((f) => [f.slug, { seriesUrl: ADRESSE(f.slug), observations: [{ date: f.kalenderTag, episode: 3 }] }])),
+    },
     slots: [],
   })
   schreibe('data/crunchyroll-woche.json', { uebernommen: [{ seriesId: kennung('verm'), episode: 3, date: '2026-11-14' }] })
   const zeile = (slug: string, von: number, bis: number) => ({ seriesId: kennung(slug), titel: slug, von, bis, datum: '2026-11-14', zeit: '10:30', artikel: 'https://x/', erstmalsAm: '2026-11-10T10:00:00.000Z', bild: `${slug}.webp`, bildAm: '2026-11-10T10:05:00.000Z' })
   schreibe('data/crunchyroll-woche-belege.json', { a: zeile('verm', 3, 3), b: zeile('nurrel', 3, 3), c: zeile('spanne', 3, 5), d: zeile('nach', 3, 3) })
   const offen = (slug: string) => ({ id: `${slug}@2026-11-07`, slug, titleId: 1, name: slug, platform: 'crunchyroll', episode: 2, erwartetAm: '2026-11-07T09:30:00.000Z', bemerktAm: '2026-11-07T12:00:00.000Z', erschienenAm: null })
-  schreibe('data/termine-verpasst.json', [offen('nach'), offen('nachkat')])
+  /* „Zuletzt nachgesehen“: nur ein Stand nach dem Termin und nach dem bisherigen Stand zählt. */
+  schreibe('data/termine-verpasst.json', [
+    offen('nach'),
+    offen('nachkat'),
+    { ...offen('spaet'), erwartetAm: '2026-11-14T10:30:00.000Z' },
+    { ...offen('gleich'), erwartetAm: GEHOLT },
+    { ...offen('frischer'), geprueftAm: '2026-11-14T10:30:00.000Z' },
+  ])
 
   const umgebung = { ...process.env, BESTAND_ERLAUBT: '', BESTAND_SPUR: '' }
   const lauf = spawnSync(process.execPath, [join(arbeit, 'node_modules', 'tsx', 'dist', 'cli.mjs'), 'pipeline/termine-pruefen.ts', '--jetzt', '2026-11-14T11:00:00Z'], { cwd: arbeit, encoding: 'utf8', env: umgebung, timeout: 120_000 })
@@ -105,8 +130,8 @@ try {
   const je = (slug: string) => vermerke.find((v) => v.slug === slug)
   const vermerkt = vermerke.map((v) => v.slug).sort()
   console.log('\ntermine-pruefen.ts als Prozess, Kalender tot, Katalog vom 14.11. 11:00:')
-  pruefe('der Lauf endet ohne Fehler, Logzeile nennt 8 neue Vermerke und den Katalogstand', lauf.status === 0 && lauf.stdout.includes('8 Termin(e) neu als verpasst vermerkt') && lauf.stdout.includes(`danach Katalog vom ${GEHOLT}`), { status: lauf.status, aus: lauf.stdout.slice(-400), fehler: lauf.stderr.slice(-400) })
-  const soll = ['geholt', 'imfenster', 'kalohne', 'kalrel', 'nach', 'nachkat', 'nurrel', 'spanne', 'tag', 'verm']
+  pruefe('der Lauf endet ohne Fehler, Logzeile nennt 12 neue Vermerke und den Katalogstand', lauf.status === 0 && lauf.stdout.includes('12 Termin(e) neu als verpasst vermerkt') && lauf.stdout.includes(`danach Katalog vom ${GEHOLT}`), { status: lauf.status, aus: lauf.stdout.slice(-400), fehler: lauf.stderr.slice(-400) })
+  const soll = ['bistag', 'frischer', 'geholt', 'gleich', 'gleichname', 'imfenster', 'kalohne', 'kalrel', 'nach', 'nachkat', 'nurrel', 'spaet', 'spanne', 'tag', 'verm', 'vontag', 'zweite']
   pruefe('genau die erwarteten Termine stehen als verpasst', JSON.stringify(vermerkt) === JSON.stringify(soll), vermerkt)
   pruefe('Vermilion-Fall: angekündigt (Woche, Kalender, observed), Katalog ohne Folge 3 → nicht erschienen, nachgesehen = Katalogstand', je('verm')?.erschienenAm === null && je('verm')?.geprueftAm === GEHOLT, je('verm'))
   pruefe('Katalog zeigt Folge 3 pünktlich → kein Vermerk', !je('da'))
@@ -122,6 +147,16 @@ try {
   pruefe('im Kalenderfenster urteilt der Lauf wie bisher, davor nicht', je('imfenster') !== undefined && !je('vorher'), vermerkt)
   pruefe('ein offener Vermerk wird nicht über eine Ankündigung nachgeholt', je('nach')?.erschienenAm === null && !je('nach')?.gestrichen, je('nach'))
   pruefe('ein offener Vermerk wird über den Katalog nachgeholt (Kontrolle)', je('nachkat')?.erschienenAm === '2026-11-13T09:30:00.000Z', je('nachkat'))
+  pruefe('Ränder des Kalenderfensters (12.10. und 21.10.) urteilen wie im Fenster', je('vontag') !== undefined && je('bistag') !== undefined, vermerkt)
+  pruefe('ein nicht angekündigter, nicht geschätzter Termin wird nicht geprüft', !je('ohneank'), je('ohneank'))
+  pruefe('eine echte Kalender-Sichtung und ein Folgentag ohne Ankündigung bestätigen weiter', !je('kalecht') && !je('relecht'), vermerkt)
+  pruefe('Katalogstaffel unter dem Seriennamen gilt als Staffel 1 → Urteil', je('gleichname') !== undefined, vermerkt)
+  pruefe('zweite Staffel der Reihe, Katalog „Staffel 2“ → Urteil über den eigenen Titel', je('zweite') !== undefined, vermerkt)
+  pruefe(
+    '„Zuletzt nachgesehen“ nur nach dem Termin und nur, wenn neuer als der bisherige Stand',
+    je('nach')?.geprueftAm === GEHOLT && !je('spaet')?.geprueftAm && !je('gleich')?.geprueftAm && je('frischer')?.geprueftAm === '2026-11-14T10:30:00.000Z',
+    ['nach', 'spaet', 'gleich', 'frischer'].map((s) => je(s)?.geprueftAm),
+  )
 } finally {
   rmSync(arbeit, { recursive: true, force: true })
 }
