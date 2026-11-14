@@ -294,6 +294,19 @@ async function stapelFaelle() {
   pruefe('der Abgleich mit dem Briefkasten steht da, am Ende „✓ gemeldet“', arten(s).includes('abgleich') && s.text() === '✓ gemeldet', arten(s))
 }
 
+/** Scheitert der Abruf selbst (offline), steht der Post trotzdem mit Titel und Folgen im Protokoll. */
+async function fehlerPostFall() {
+  const s = await seite()
+  s.env.fetch = async () => {
+    throw new Error('offline')
+  }
+  s.run('nfpFetchUmhuellen()')
+  await s.run("fetch('https://x.example/pruefung', { method: 'POST', body: JSON.stringify({ stapel: [{ url: 'https://www.netflix.com/title/70234488', folge: 81036036, folge_nr: 1 }] }) }).catch(() => null)")
+  await s.warte()
+  const post = s.run('akProtokoll.liste()').find((e) => e.art === 'worker-post')
+  pruefe('Abruf scheitert: der Post steht mit Fehler, Titel und Folgen da', post?.fehler === 'offline' && post.reihe === '70234488' && post.folgen === '1', post)
+}
+
 async function grenzFaelle() {
   const s = await seite()
   for (let i = 0; i < 250; i++) s.run(`akProtokoll('probe', { i: ${i} })`)
@@ -316,6 +329,7 @@ void (async () => {
   console.log('Netflix: Zustandsprotokoll\n')
   await ablaufFaelle()
   await stapelFaelle()
+  await fehlerPostFall()
   await grenzFaelle()
   console.log('')
   if (faelle.includes(false)) {
