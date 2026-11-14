@@ -64,7 +64,7 @@ async function messeTastatur(seite, selektor) {
       const li = document.activeElement?.closest(`${sel} [data-tv-zeile]`)
       return li ? { nr: li.dataset.nr } : null
     }, selektor)
-    if (hier && start.verdeckt.includes(hier.nr)) return { fokusAufVerdeckter: true, scrollVorher: start.scroll, ...(await nachEinrasten(seite, selektor)) }
+    if (hier && start.verdeckt.includes(hier.nr)) return { fokusAufVerdeckter: true, scrollVorher: start.scroll, ...(await nachEinrasten(seite, selektor, start.scroll)) }
   }
   return { fokusAufVerdeckter: false, scrollVorher: start.scroll, scrollNachher: start.scroll, sichtbar: false }
 }
@@ -72,17 +72,19 @@ async function messeTastatur(seite, selektor) {
 /**
  * Lage der fokussierten Kachel, nachdem die Reihe zur Ruhe kam: `snap-mandatory` rastet nach dem Fokus-Scroll
  * animiert ein, auf langsamen CI-Läufern dauerte das länger als feste 150 ms (14.11.2026: 3 von 11 Läufen rot).
+ * Ruhe zählt erst, wenn die Reihe sich bewegt hat; sonst gälte ein noch nicht begonnener Scroll als fertig.
  */
-async function nachEinrasten(seite, selektor) {
+async function nachEinrasten(seite, selektor, scrollVorher) {
   let vorher = null
   for (let i = 0; i < 20; i++) {
-    const jetzt = await seite.evaluate((sel) => {
+    const jetzt = await seite.evaluate(({ sel, scrollVorher }) => {
       const li = document.activeElement?.closest(`${sel} [data-tv-zeile]`)
+      if (!li) return { scrollNachher: scrollVorher, sichtbar: false }
       const r = li.getBoundingClientRect()
       const u = li.parentElement.getBoundingClientRect()
       return { scrollNachher: li.parentElement.scrollLeft, sichtbar: r.left >= u.left - 1 && r.right <= u.right + 1 }
-    }, selektor)
-    if (vorher && vorher.scrollNachher === jetzt.scrollNachher) return jetzt
+    }, { sel: selektor, scrollVorher })
+    if (vorher && jetzt.scrollNachher !== scrollVorher && vorher.scrollNachher === jetzt.scrollNachher) return jetzt
     vorher = jetzt
     await seite.waitForTimeout(100)
   }
