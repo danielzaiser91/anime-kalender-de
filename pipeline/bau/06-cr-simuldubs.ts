@@ -134,7 +134,7 @@ export function ergaenzeCrSimuldubs({
       // aniSearch pflegt die Zahl — sonst bleibt zwölf als übliche Cour-Länge.
       // Die Untergrenze ist in beiden Fällen das, was tatsächlich gesehen
       // wurde: sonst fielen belegte Termine hinten heraus.
-      const mindestens = (slot.earliest.episode ?? 1) + seenDates.length
+      const mindestens = (slot.earliest.episode ?? 1) + seenDates.length - 1
       const ausAnisearch = anisearchEpisodes(title?.id)
       episodeCount = Math.max(ausAnisearch?.count ?? 12, mindestens)
       // Nicht mehr geraten, sobald aniSearch die Zahl bestätigt — und sie
