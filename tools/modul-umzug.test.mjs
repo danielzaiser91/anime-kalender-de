@@ -48,7 +48,7 @@ fall('ganze Anweisungen in eine neue Datei: verschoben', 7, 10, 'b.ts', 'ok')
 
 
 // ---- Importe, Alias, Kommentare, Konstanten (14.11.2026) ----
-const SHARED = 'export interface TA { n: number }\nexport const fa = (x: number) => x\nexport const fb = () => 1\n'
+const SHARED = 'export interface TA { n: number }\nexport interface Aa { a: number }\nexport const fa = (x: number) => x\nexport const fb = () => 1\n'
 const HILFE = [
   "import type { TA } from '../../shared/sub/x.ts'",
   'export interface TH { m: number }',
@@ -104,6 +104,7 @@ const zaehle = (text, muster) => (text.match(muster) ?? []).length
 const NAMEN = (w, quelle, ziel, namen) => umzug(w, 'namen', join(w, quelle), join(w, ziel), namen)
 
 /** Jeder Fall bekommt einen frischen Baum aus den gemeinsamen Dateien plus `extra`; ein Rückgabetext ist der Fehler. */
+let bestanden = 0
 function pruefe(name, aufgabe, extra = {}) {
   const dateien = {
     'shared/sub/x.ts': SHARED,
@@ -118,6 +119,7 @@ function pruefe(name, aufgabe, extra = {}) {
   try {
     const meldung = aufgabe(wurzel)
     if (meldung) throw new Error(meldung)
+    bestanden++
     console.log(`  ✓ ${name}`)
   } catch (e) {
     fehler.push(name)
@@ -309,6 +311,44 @@ for (const [laenge, mehrzeilig] of [[120, false], [121, true]]) {
   })
 }
 
+// Dieselbe Grenze beim Zusammenführen in der Quelle (relativer Pfad, 5 Zeichen länger als der Alias).
+for (const [laenge, mehrzeilig] of [[120, false], [121, true]]) {
+  pruefe(`zusammengeführter Import mit ${laenge} Zeichen ${mehrzeilig ? 'wird mehrzeilig' : 'bleibt einzeilig'}`, (w) => {
+    const { namen, x } = langerImport(laenge - 5)
+    const q = [
+      `import { ${namen.slice(0, 2).join(', ')} } from '../../shared/sub/x.ts'`,
+      `import { ${namen[2]} } from '../../shared/sub/x.ts'`,
+      `export const behalten = ${namen.join(' + ')}`,
+      'export const mv = 1',
+      '',
+    ].join('\n')
+    writeFileSync(join(w, 'shared/sub/x.ts'), x)
+    writeFileSync(join(w, 'web/src/lang.ts'), q)
+    NAMEN(w, 'web/src/lang.ts', 'web/src/lang2.ts', 'mv')
+    const einzeilig = `import { ${namen.join(', ')} } from '../../shared/sub/x.ts'`
+    const erwartet = mehrzeilig ? `import {\n${namen.map((n) => `  ${n},`).join('\n')}\n} from '../../shared/sub/x.ts'` : einzeilig
+    if (einzeilig.length !== laenge) return `Testfehler: Zeilenlänge ${einzeilig.length}`
+    if (!lies(w, 'web/src/lang.ts').startsWith(erwartet)) return `Quelle:\n${lies(w, 'web/src/lang.ts')}`
+  })
+}
+
+pruefe('Import mit `type` wird beim Zusammenführen nach dem Namen einsortiert (ohne `type`, Groß-/Kleinschreibung egal)', (w) => {
+  const q = "import { fb } from '../../shared/sub/x.ts'\nimport type { Aa } from '../../shared/sub/x.ts'\nexport const behalten = (x: Aa) => fb()\nexport const mv = 1\n"
+  writeFileSync(join(w, 'web/src/t.ts'), q)
+  NAMEN(w, 'web/src/t.ts', 'web/src/t2.ts', 'mv')
+  const quelle = lies(w, 'web/src/t.ts')
+  if (!quelle.startsWith("import { type Aa, fb } from '../../shared/sub/x.ts'\n")) return `Quelle:\n${quelle}`
+})
+
+pruefe('Leerzeile nur davor oder nur dahinter bleibt als eine Leerzeile erhalten', (w) => {
+  writeFileSync(join(w, 'web/src/e1.ts'), 'export const p = 1\nexport const q = 2\n\nexport const r = 3\n')
+  NAMEN(w, 'web/src/e1.ts', 'web/src/e1b.ts', 'q')
+  if (!lies(w, 'web/src/e1.ts').includes('export const p = 1\n\nexport const r = 3')) return `nur danach:\n${lies(w, 'web/src/e1.ts')}`
+  writeFileSync(join(w, 'web/src/e2.ts'), 'export const p = 1\n\nexport const q = 2\nexport const r = 3\n')
+  NAMEN(w, 'web/src/e2.ts', 'web/src/e2b.ts', 'q')
+  if (!lies(w, 'web/src/e2.ts').includes('export const p = 1\n\nexport const r = 3')) return `nur davor:\n${lies(w, 'web/src/e2.ts')}`
+})
+
 pruefe('Namensraum- und Nebenwirkungs-Import bleiben unberührt, Einzelimport behält seine Reihenfolge', (w) => {
   const q = "import * as H from './h.ts'\nimport './h.ts'\nimport { fb, fa } from '../../shared/sub/x.ts'\nexport function f() { return H.ha() }\nexport const beides = fb() + fa(1)\n"
   writeFileSync(join(w, 'web/src/n.ts'), q)
@@ -336,4 +376,4 @@ if (fehler.length) {
   console.error(`modul-umzug.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('modul-umzug.test: 4 Fälle (abschnitt) und 15 Fälle (Importe, Alias, Kommentare, Konstanten, Leerzeilen, Literal-Typen) ok.')
+console.log(`modul-umzug.test: 4 Fälle (abschnitt) und ${bestanden} Fälle (Importe, Alias, Kommentare, Konstanten, Leerzeilen, Literal-Typen) ok.`)
