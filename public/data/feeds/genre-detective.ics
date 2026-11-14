@@ -8,26 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:apothecary-diaries-s3-cour1@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T160000Z
-DTEND:20261106T163000Z
-SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16914/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T165500Z
-DTEND:20261106T172500Z
-SUMMARY:Detektiv Conan – Folge 170
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T170000Z
@@ -50,8 +30,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261111T133000Z
-DTEND:20261111T140000Z
+DTSTART:20261111T143000Z
+DTEND:20261111T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 3/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/14415/
@@ -83,17 +63,15 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261113T160000Z
 DTEND:20261113T163000Z
 SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16914/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261118T133000Z
-DTEND:20261118T140000Z
+DTSTART:20261118T143000Z
+DTEND:20261118T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -112,6 +90,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T170000Z
+DTEND:20261120T173000Z
+SUMMARY:Detektiv Conan – Folge 175
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:call-of-the-night-s2-vol2@2026-11-20@anime-kalender-de
@@ -147,8 +135,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261125T133000Z
-DTEND:20261125T140000Z
+DTSTART:20261125T143000Z
+DTEND:20261125T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 5/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -171,8 +159,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-12-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261202T133000Z
-DTEND:20261202T140000Z
+DTSTART:20261202T143000Z
+DTEND:20261202T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 6/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -205,8 +193,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-12-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261209T133000Z
-DTEND:20261209T140000Z
+DTSTART:20261209T143000Z
+DTEND:20261209T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 7/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -229,8 +217,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-12-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261216T133000Z
-DTEND:20261216T140000Z
+DTSTART:20261216T143000Z
+DTEND:20261216T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -263,8 +251,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261223T133000Z
-DTEND:20261223T140000Z
+DTSTART:20261223T143000Z
+DTEND:20261223T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -287,8 +275,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2026-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261230T133000Z
-DTEND:20261230T140000Z
+DTSTART:20261230T143000Z
+DTEND:20261230T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -311,8 +299,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2027-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270106T133000Z
-DTEND:20270106T140000Z
+DTSTART:20270106T143000Z
+DTEND:20270106T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -335,8 +323,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2027-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270113T133000Z
-DTEND:20270113T140000Z
+DTSTART:20270113T143000Z
+DTEND:20270113T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -359,8 +347,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1N334@2027-01-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270120T133000Z
-DTEND:20270120T140000Z
+DTSTART:20270120T143000Z
+DTEND:20270120T150000Z
 SUMMARY:The Detective Is Already Dead Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An

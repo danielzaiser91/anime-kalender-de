@@ -1,7 +1,11 @@
 // Zusicherungen für tools/zugangs-waechter.mjs: Kontingent-Erkennung und Register gegen die Workflows.
 import assert from 'node:assert/strict'
-import { readFileSync, readdirSync } from 'node:fs'
-import { ausloeser, kontingentFunde, pruefeLauf, registerBefunde, spezMitFrist, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
+import { spawnSync } from 'node:child_process'
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { ausloeser, kontingentFunde, zahlBefunde, pruefeLauf, registerBefunde, spezMitFrist, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
 
 const schritt = (name, conclusion, von, bis) => ({ name, conclusion, started_at: von, completed_at: bis })
 
@@ -88,5 +92,42 @@ assert.deepEqual(pruefeLauf('x.yml', { fristStunden: null }, attrappe([]), JETZT
 assert.equal(readFileSync(new URL('data/zugangs-register.json', wurzel), 'utf8').includes('fristStunden'), false)
 assert.deepEqual(spezMitFrist('a.yml', { name: 'A', claude: true }, { 'a.yml': 7 }), { name: 'A', claude: true, fristStunden: 7 })
 assert.equal(spezMitFrist('b.yml', { name: 'B' }, { 'a.yml': 7 }).fristStunden, null)
+
+// Zahl „N Zugänge“ in betrieb.md gegen die Registereinträge (Anlass: „18“ stand wochenlang bei 21).
+const abschnitt = (z) => `## Register der Zugänge und Wächter (08.10.2026)\n\nAlles: ${z} Zugänge (Namen) mit Zweck.\n`
+assert.deepEqual(zahlBefunde(abschnitt('20'), 20), [])
+assert.equal(zahlBefunde(abschnitt('18'), 21).length, 1)
+assert.equal(zahlBefunde(abschnitt('22'), 21).length, 1)
+assert.match(zahlBefunde(abschnitt('18'), 21)[0], /18.*21/)
+assert.equal(zahlBefunde('## Register der Zugänge und Wächter (08.10.2026)\n\nAlles ohne Zahl.\n', 20).length, 1)
+assert.equal(zahlBefunde('## Anderes\n\nSieben Zugänge\n', 20).length, 1)
+// Eine Zahl aus einem anderen Abschnitt zählt nicht.
+assert.equal(zahlBefunde(`${abschnitt('20')}\n## Weiter\n\n5 Zugänge\n`, 20).length, 0)
+assert.equal(zahlBefunde('## Davor\n\n20 Zugänge\n\n## Register der Zugänge und Wächter (x)\n\nohne\n', 20).length, 1)
+// Echte betrieb.md gegen das echte Register.
+assert.deepEqual(zahlBefunde(readFileSync(new URL('docs/wissen/betrieb.md', wurzel), 'utf8'), JSON.parse(readFileSync(new URL('data/zugangs-register.json', wurzel), 'utf8')).zugaenge.length), [])
+
+// main() mit --register-pruefen als eigener Prozess an einer Wegwerf-Kopie: die Zahlprüfung muss im Lauf verdrahtet sein (WURZEL hängt an import.meta.url).
+function registerLauf(zahl) {
+  const kopie = mkdtempSync(join(tmpdir(), 'zugangs-waechter-'))
+  try {
+    const quelle = fileURLToPath(wurzel)
+    for (const teil of ['tools/zugangs-waechter.mjs', 'tools/wache-fristen.mjs', 'tools/zugangs-secret-wache.mjs', 'data/zugangs-register.json', 'shared/weckplan.ts', '.github/workflows']) cpSync(join(quelle, teil), join(kopie, teil), { recursive: true })
+    const betrieb = readFileSync(join(quelle, 'docs/wissen/betrieb.md'), 'utf8').split(/^## /m)
+    const i = betrieb.findIndex((a) => a.startsWith('Register der Zugänge'))
+    betrieb[i] = betrieb[i].replace(/\d+ Zugänge/, `${zahl} Zugänge`)
+    mkdirSync(join(kopie, 'docs/wissen'), { recursive: true })
+    writeFileSync(join(kopie, 'docs/wissen/betrieb.md'), betrieb.join('## '))
+    return spawnSync(process.execPath, [join(kopie, 'tools/zugangs-waechter.mjs'), '--register-pruefen'], { encoding: 'utf8', timeout: 60000, windowsHide: true })
+  } finally {
+    rmSync(kopie, { recursive: true, force: true })
+  }
+}
+const echteZahl = JSON.parse(readFileSync(new URL('data/zugangs-register.json', wurzel), 'utf8')).zugaenge.length
+const richtig = registerLauf(echteZahl)
+assert.equal(richtig.status, 0, richtig.stderr)
+const falsch = registerLauf(echteZahl - 1)
+assert.equal(falsch.status, 1)
+assert.match(falsch.stderr, new RegExp(`nennt ${echteZahl - 1} Zugänge`))
 
 console.log('zugangs-waechter: Zusicherungen ok')

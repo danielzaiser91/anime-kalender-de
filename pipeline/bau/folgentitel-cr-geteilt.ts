@@ -1,4 +1,5 @@
 import type { Title } from '../../shared/types.ts'
+import { nachBerlin } from '../lib/crunchyroll-termine.ts'
 import { abgleich } from './folgentitel-abgleich.ts'
 import { titelJeKennung, type CrArchiv, type CrSerie } from './folgentitel-cr.ts'
 
@@ -15,7 +16,8 @@ type Staffel = NonNullable<CrSerie['staffeln']>[number]
 
 /** Erster deutscher Starttag (JJJJ-MM-TT) der Staffel oder `undefined`. */
 function ersterTag(st: Staffel): string | undefined {
-  return (st.deutscheFolgen ?? []).map((f) => f.verfuegbarAb?.slice(0, 10)).filter((d): d is string => Boolean(d)).sort()[0]
+  // Crunchyroll liefert UTC; der Tag gilt in Berlin (Silvester 23:30 UTC ist schon Neujahr).
+  return (st.deutscheFolgen ?? []).map((f) => (f.verfuegbarAb ? nachBerlin(f.verfuegbarAb)?.datum : undefined)).filter((d): d is string => Boolean(d)).sort()[0]
 }
 
 /** Die Nummern der Staffel, wenn sie ohne Lücke und Doppelte aufeinander folgen; sonst `undefined`. */

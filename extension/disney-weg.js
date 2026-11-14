@@ -44,7 +44,7 @@
 
   /** Ein Titel, den Disney+ hier gar nicht führt; `true`, wenn die Meldung ankam und lokal vermerkt ist. */
   globalThis.akDisneyWegSenden = async (e, { worker, anbieterStaffeln, weg: vermerk }) => {
-    const { token } = await chrome.storage.sync.get('token')
+    const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return false
     try {
       const antwort = await fetch(worker, {

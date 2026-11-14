@@ -7,6 +7,7 @@
  */
 import worker from '../worker/src/index.ts'
 import { schneideFeed } from '../worker/src/favoriten-feed-schnitt.ts'
+import { leseFavoriten, schreibeFavoriten } from '../worker/src/favoriten-kennung.ts'
 import { buildIcs } from '../shared/ics.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { abonnenten, fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
@@ -134,7 +135,16 @@ async function handler() {
   pruefe(kaputt.status !== 200 && cache.size === 0, 'Quelle nicht abrufbar: kein 200 und nichts im Cache')
 }
 
+/* Titel ohne AniList-Kennung tragen eine negative ak (LEGO One Piece: -318918, Stand 13.11.2026 23 Titel); auch sie sind merkbar. */
+function negativeKennung() {
+  const gespeichert = schreibeFavoriten([-318918, 7, 0, 1.5], 1)
+  pruefe(gespeichert === 'ak:-318918,7', `schreibeFavoriten behält negative Kennung (gefunden: ${gespeichert})`)
+  const gelesen = [...leseFavoriten('ak:-318918,7')].join()
+  pruefe(gelesen === '-318918,7', `leseFavoriten behält negative Kennung (gefunden: ${gelesen})`)
+}
+
 ausschnitte()
+negativeKennung()
 await handler()
 console.log(fehler ? `\n${fehler} Prüfung(en) fehlgeschlagen.` : '\nPersönlicher Feed: alle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

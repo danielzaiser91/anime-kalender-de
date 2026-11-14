@@ -43,9 +43,9 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
       Apothekerin-Eintrag entstand aus der Schätzung „01.10."; als die
       Ankündigung den 02.10. belegte, beschrieb er einen Tag, den nie jemand
       angekündigt hatte. Gezählt wird nur,
-      was **ab** dem geltenden Start liegt.
+      was **ab** dem geltenden Start liegt — als Berliner Tag, `erwartetAm` ist UTC.
     */
-    .filter((v) => v.slug === slug && v.episode != null && (!ab || v.erwartetAm.slice(0, 10) >= ab))
+    .filter((v) => v.slug === slug && v.episode != null && (!ab || toIsoDate(new Date(v.erwartetAm)) >= ab))
     .sort((a, b) => a.erwartetAm.localeCompare(b.erwartetAm))
   if (!hier.length) return undefined
   return Object.fromEntries(

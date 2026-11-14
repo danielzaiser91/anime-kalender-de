@@ -8,14 +8,14 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:banana-fish-vol2@2026-11-06@anime-kalender-de
+UID:auto-20613-tv-prosieben-fun@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Banana Fish – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8868/
-CATEGORIES:DVD / Blu-ray
+DTSTART:20261116T195500Z
+DTEND:20261116T202500Z
+SUMMARY:Akame ga Kill: Schwerter der Assassinen – Folge 1
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/7169/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-10021751-netflix@2026-11-26@anime-kalender-de

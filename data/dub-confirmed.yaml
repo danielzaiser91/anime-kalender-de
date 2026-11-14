@@ -6585,7 +6585,7 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FVM9QYHR: Film geprüft, Abos: crunchyrollde, Seitenadresse: B0FWYBHG1D, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 2571
+- anilistId: 8373
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PTWL2W
@@ -7239,7 +7239,7 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DF15B196: alle 13 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B0CWCSDVF5, laut Adresse Staffel 1, zugang=kauf"
-- anilistId: 8373
+- anilistId: 2571
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PQIF2U
@@ -17623,7 +17623,7 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DM9XZT23: alle 13 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.7ab1d8ca-f4dc-cb15-4576-ee0a9f218561"
-- anilistId: 2571
+- anilistId: 8373
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PTWL2W
@@ -17634,7 +17634,7 @@
       dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B013PTWL2W: alle 52 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.1aa9f6db-87d3-a1ce-2929-45d5360badc1"
-- anilistId: 8373
+- anilistId: 2571
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PQIF2U
@@ -39394,6 +39394,13 @@
   dub: true
   checkedAt: '2026-11-12'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/ (2026-11-08): „Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden.“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
+- anilistId: 146493
+  title: "Ragna Crimson"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F1XK58VQ
+  available: false
+  checkedAt: '2026-11-12'
+  note: "Amazon-Seite B0F1XK58VQ: „Seite wurde nicht gefunden“ („Tut uns leid. Die eingegebene Webadresse ist keine funktionsfähige Seite auf unserer Website.“), Edge-Abruf 12.11.2026; Adresse stammt nur aus aniSearch (Partnerlink)"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-12 ---
 
 - anilistId: 146493
@@ -39413,3 +39420,32 @@
   available: false
   checkedAt: '2026-10-24'
   note: "Amazon-Seite B0FJZP9BK5: nur 0 von 11 Folgen geladen — Rest ungeprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.f258a729-c5d4-4ba2-a227-17d80b96bb0d, regionsperre=laut Seite nicht mehr im Abo"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-14 ---
+
+- anilistId: -61071
+  title: "Yakari"
+  platform: netflix
+  url: https://www.netflix.com/title/70234488
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-11-14'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der Häuptlingsschmuck/Der mit dem Menschen zieht"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-14 ---
+
+- anilistId: -94107
+  title: "LEGO City Abenteuer"
+  platform: netflix
+  url: https://www.netflix.com/title/81121910
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+  checkedAt: '2026-11-14'
+  note: "Folgen 1–2 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, he|Hebräisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, hr|Kroatisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 2, dazwischen nicht geprüft — Folge 1: LEGO City: Spezialsammlung 1 — Netflix: LEGO City 2017"

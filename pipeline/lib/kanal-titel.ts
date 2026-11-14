@@ -56,11 +56,14 @@ function kanalMenge(checks: DubCheck[]): Set<string> {
 /**
  * Rückfall von `belegFuer()` (09-1-belege.ts), wenn kein Beleg die Adresse nennt: bei einem einzigen Weg der jüngste Beleg als Korrektur,
  * ab zwei Wegen keiner. Eine Kanal-Zeile ohne Aussage hält ihre Adresse: Das Nein einer fremden Adresse gilt für sie nicht
- * (Goblin Slayer II, JoJo Diamond is Unbreakable, 12.10.2026).
+ * (Goblin Slayer II, JoJo Diamond is Unbreakable, 12.10.2026). Dasselbe gilt für eine Amazon-Suchadresse: Das Nein zu einer genannten
+ * Seite sagt nichts über die Suche (Ragna Crimson, 12.11.2026: das Nein zu B0F1XK58VQ entfernte die Suche, B0D75XMMB1 ging mit verloren).
  */
 export function belegOhneGenaueAdresse(liste: DubCheck[], anzahlWege: number, alleChecks: DubCheck[], titelId: number, url: string | undefined): DubCheck | undefined {
   if (url && kanalMenge(alleChecks).has(kanalSchluessel(titelId, url))) return undefined
-  return anzahlWege > 1 ? undefined : liste[0]
+  if (anzahlWege > 1) return undefined
+  const suche = !!url && /amazon\.[a-z.]+\/s\?/i.test(url)
+  return suche ? liste.find((c) => !(c.url && (c.available === false || c.dub === false))) : liste[0]
 }
 
 /** Die Seite, die die Notiz eines Belegs ausdrücklich nennt („Amazon-Seite <ASIN>“). */

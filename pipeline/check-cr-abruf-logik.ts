@@ -212,7 +212,7 @@ function grenzenZusammen(): void {
 function aufruferPruefen(): void {
   const text = (datei: string) => readFileSync(new URL(`./${datei}`, import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|\s)\/\/.*$/gm, '')
   const soll: Record<string, string[]> = {
-    'fetch-cr-einzelwerke.mjs': ['const offen = offeneOhneSerienkennung(titles, cr)', 'treffer = ersterEinzelwerkTreffer(r?.data, namen)', 'const fund = einzelwerkFund(o, treffer)'],
+    'fetch-cr-einzelwerke.mjs': ['const offen = offeneOhneSerienkennung(titles, cr)', 'treffer = ersterEinzelwerkTreffer(r?.data, namen)', 'const fund = einzelwerkFund(o, treffer)', '= filmbloeckeZusammen(vorher, funde)', "writeFileSync('data/cr-einzelwerke.json', JSON.stringify(gesamt, null, 2)"],
     'fetch-cr-katalog.mjs': ['for (const it of seite) alle.push(katalogEintrag(it, typ))', 'const offen = offeneOhneUrteil(titles)', 'const zuordnung = katalogZuordnung(offen, alle)'],
     'fetch-cr-filmbloecke.mjs': [
       'const offen = offeneFilmbloecke(titles, cr)',

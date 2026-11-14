@@ -323,7 +323,7 @@ const leserStub = (antwort) => {
   pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
   pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien', k.meldungen)
   const a = stub.aufrufe[0]
-  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify(a.refs) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'] }), stub.aufrufe)
+  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify({ ...a.refs, frei: [...a.refs.frei] }) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'], frei: [], basis: BASIS }), stub.aufrufe)
 }
 {
   const stub = leserStub('der PR liest data/crunchyroll-woche.json (tools/x.mjs)')
@@ -408,7 +408,7 @@ for (const fremd of ['.github/workflows/claude-animenyou-extraktion.yml', '.gith
   const code3 = main(['7'], k3.gh, k3.melde, k3.warte, stub3)
   pruefe(`C: PR berührt ${fremd} selbst -> 1, Leser nicht gefragt`, code3 === 1 && stub3.aufrufe.length === 0 && k3.meldungen.join().includes(`der PR berührt ${fremd}`), { code3, m: k3.meldungen })
 }
-for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['.github/workflows/pr-pruefer.yml', false], ['.github/actions/kette-einrichten/action.yml', true], ['.github/actionsx/a.yml', false], ['package.json', true], ['package-lock.json', true], ['tsconfig.json', true], ['pipeline/check-x.ts', false], ['pipeline/bau/x.ts', false], ['tools/check-logic-liste.txt', false], ['tools/check-x.json', false], ['tools/check-x.mjs', true], ['tools/x.mjs', false], ['eslint.config.js', true], ['tools/andere-liste.txt', false], ['tools/check-y.ts', true], ['tools/check-y.cjs', true], ['tools/check-y.js', true], ['web/package.json', false], ['tools/x.test.mjs', false], ['tools/umfang-grenzen.json', true], ['docs/wissen/design-regeln.md', true], ['extension/manifest.json', false], ['web/src/a.tsx', false]]) {
+for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['.github/workflows/pr-pruefer.yml', false], ['.github/actions/kette-einrichten/action.yml', true], ['.github/actionsx/a.yml', false], ['package.json', false], ['package-lock.json', true], ['tsconfig.json', true], ['pipeline/check-x.ts', false], ['pipeline/bau/x.ts', false], ['tools/check-logic-liste.txt', false], ['tools/check-x.json', false], ['tools/check-x.mjs', true], ['tools/x.mjs', false], ['eslint.config.js', true], ['tools/andere-liste.txt', false], ['tools/check-y.ts', true], ['tools/check-y.cjs', true], ['tools/check-y.js', true], ['web/package.json', false], ['web/tsconfig.json', false], ['pipeline/package-lock.json', false], ['tools/x.test.mjs', false], ['tools/umfang-grenzen.json', true], ['docs/wissen/design-regeln.md', true], ['extension/manifest.json', false], ['web/src/a.tsx', false]]) {
   pruefe(`kettenweit(${datei}) = ${erwartet}`, kettenweit(datei) === erwartet)
 }
 {

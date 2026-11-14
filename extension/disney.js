@@ -46,7 +46,7 @@
       if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
       VORFALL_GEMELDET.add(schluessel)
       vorfallZahl++
-      const { token } = await chrome.storage.sync.get('token')
+      const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
       if (!token) return
       await fetch(WORKER.replace('/pruefung', '/vorfall'), {
         method: 'POST',
@@ -55,7 +55,7 @@
           plattform: 'disneyplus',
           art,
           url: location.href.split('?')[0],
-          version: chrome.runtime?.getManifest?.()?.version ?? null,
+          version: globalThis.akKontext.version(),
           ...daten,
         }),
       })
@@ -726,10 +726,10 @@
       (r) => r.sprachen && !gemeldeteNummern.has(folgenSchluessel(r.staffel, r.nummer)),
     )
     if (!echte.length) return signal('gemeldet', { ok: true })
-    const { token } = await chrome.storage.sync.get('token')
+    const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) {
       signal('gemeldet', { ok: false })
-      return zeigePruefung('Kein Token — Rechtsklick aufs Symbol, dann Optionen', {
+      return zeigePruefung(globalThis.akKontext.keinTokenText(), {
         klasse: 'schlecht',
       })
     }
@@ -980,7 +980,7 @@
     }
     return {
       erzeugtAm: new Date().toISOString(),
-      version: sicher(() => chrome.runtime.getManifest().version),
+      version: globalThis.akKontext.version(),
       adresse: location.href,
       eintrag: sicher(() => (eintrag ? { titel: eintrag.titel, url: eintrag.url, staffeln: eintrag.staffeln } : null)),
       folgen: sicher(() =>

@@ -90,8 +90,10 @@ pruefe('Leser: Test liest nur die Datendatei, nicht die .claude-Datei -> aktuell
 const SKILL = '.claude/skills/delegieren-und-parallelisieren/SKILL.md'
 const echt = grund({ ...BAUM, 'extension/melder.js': "const A = 'dub-confirmed.yaml'\n" }, [SKILL, 'data/dub-confirmed.yaml'], ['extension/melder.js'], 13)
 pruefe('Grund: SKILL.md zuerst bewegt, echter Leser data/dub-confirmed.yaml -> Grund nennt den Leser, nicht SKILL.md', veraltet(echt) && /dub-confirmed\.yaml \(extension\/melder\.js\)/.test(echt.grund) && !echt.grund.includes('SKILL.md'), echt)
-const kette = grund(BAUM, [SKILL, 'package.json'], ['extension/melder.js'], 14)
-pruefe('Grund: kettenweite Datei (package.json) bleibt „main bewegte …“ mit Vorspann', veraltet(kette) && kette.grund === `main bewegte ${SKILL}; main bewegte package.json`, kette)
+const kette = grund(BAUM, [SKILL, 'tsconfig.json'], ['extension/melder.js'], 14)
+pruefe('Grund: kettenweite Datei (tsconfig.json) steht allein, ohne .claude-Vorspann (12.11. 16:41)', veraltet(kette) && kette.grund === 'main bewegte tsconfig.json', kette)
+const kette2 = grund(BAUM, ['.claude/agents/bauer.md', 'tools/check-x.mjs', 'tsconfig.json'], ['extension/melder.js'], 15)
+pruefe('Grund: zwei kettenweite Dateien, die erste kettenweite zählt, kein Vorspann', veraltet(kette2) && kette2.grund === 'main bewegte tools/check-x.mjs', kette2)
 
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-claude-md.test: ${fehler.length} rot`)

@@ -8,18 +8,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:steel-ball-run-2nd-3rd-stage@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T080000Z
-DTEND:20261106T083000Z
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
- lge 8/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
@@ -50,9 +38,8 @@ DTSTART:20261113T080000Z
 DTEND:20261113T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 9/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -86,9 +73,8 @@ DTSTART:20261120T080000Z
 DTEND:20261120T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 10/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -133,9 +119,8 @@ DTSTART:20261127T080000Z
 DTEND:20261127T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 11/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -169,9 +154,8 @@ DTSTART:20261204T080000Z
 DTEND:20261204T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 12/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT

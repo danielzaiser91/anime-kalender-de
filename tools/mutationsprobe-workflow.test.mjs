@@ -22,15 +22,17 @@ const schritt = (job, name) => {
 
 // Aufbau
 assert.deepEqual(Object.keys(wf.on), ['workflow_dispatch'])
-assert.deepEqual(Object.keys(wf.on.workflow_dispatch.inputs), ['zweig', 'liste', 'test', 'pr', 'timeout'])
-for (const n of ['zweig', 'liste', 'test']) assert.equal(wf.on.workflow_dispatch.inputs[n].required, true, n)
+assert.deepEqual(Object.keys(wf.on.workflow_dispatch.inputs), ['zweig', 'liste', 'test', 'pr', 'kopf', 'timeout'])
+for (const n of ['zweig', 'liste']) assert.equal(wf.on.workflow_dispatch.inputs[n].required, true, n)
+for (const n of ['test', 'kopf']) assert.equal(wf.on.workflow_dispatch.inputs[n].required, false, `${n} optional`)
+assert.equal(wf['run-name'], 'Mutationsprobe ${{ inputs.liste }} @ ${{ inputs.kopf }}', 'Lauftitel, an dem der Prüfer den Lauf findet')
 assert.deepEqual(wf.permissions, { contents: 'read' })
 assert.equal(mutation.permissions, undefined, 'der Lauf des Zweig-Codes bekommt nur contents: read')
 assert.deepEqual(kommentar.permissions, { 'pull-requests': 'write' })
 assert.equal(kommentar.needs, 'mutation')
 assert.match(kommentar.if, /inputs\.pr != ''/)
 assert.match(kommentar.if, /always\(\)/)
-assert.equal(mutation.steps.find((s) => s.uses?.startsWith('actions/checkout'))?.with.ref, '${{ inputs.zweig }}')
+assert.equal(mutation.steps.find((s) => s.uses?.startsWith('actions/checkout'))?.with.ref, '${{ inputs.kopf || inputs.zweig }}')
 assert.ok(kommentar.steps.every((s) => !s.uses?.startsWith('actions/checkout')), 'Kommentar-Job lädt keinen Zweig-Code')
 for (const job of [mutation, kommentar]) {
   for (const s of job.steps) assert.ok(!/\$\{\{/.test(s.run ?? ''), `Ausdruck in run (nur über env): ${s.name}`)
@@ -43,35 +45,67 @@ assert.ok(einrichtenIdx < mutation.steps.findIndex((s) => s.name === 'Mutanten e
 assert.equal(mutation.steps[einrichtenIdx].with.playwright, 'true', 'Chromium wird installiert')
 assert.equal(mutation.steps[einrichtenIdx].with.cache, 'aus')
 
+// A4: je Liste und Zweig ein Lauf, ein neuer ersetzt den laufenden
+assert.deepEqual(wf.concurrency, { group: 'mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}', 'cancel-in-progress': true })
+// A2: zweiter Checkout holt nur den Läufer aus main (Standardzweig), nach dem des Zweigs und vor Einrichten und Lauf
+const checkouts = mutation.steps.map((s, i) => ({ s, i })).filter((x) => x.s.uses?.startsWith('actions/checkout'))
+assert.equal(checkouts.length, 2, 'zwei Checkouts: Zweig und Läufer aus main')
+const [zweigCo, mainCo] = checkouts
+assert.deepEqual(mainCo.s.with, { ref: '${{ github.event.repository.default_branch }}', path: '_main', 'sparse-checkout': 'tools/mutationslaeufer.mjs', 'sparse-checkout-cone-mode': false, 'persist-credentials': false })
+const sichernIdx = mutation.steps.findIndex((s) => s.name === 'Läufer sichern')
+assert.ok(zweigCo.i < mainCo.i && mainCo.i < sichernIdx && sichernIdx < einrichtenIdx, 'Reihenfolge: Zweig, Läufer aus main, sichern, einrichten')
+const laufRun = schritt(mutation, 'Mutanten einspielen und Tests laufen lassen').run
+assert.ok(laufRun.includes('node "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs"') && !laufRun.includes('node tools/mutationslaeufer.mjs'), 'der Lauf startet den Läufer aus RUNNER_TEMP, nicht den aus dem Zweig')
+
 // Laufzeit
 const dir = mkdtempSync(join(tmpdir(), 'mutprobe-'))
 const bash = (script, env, cwd) =>
   spawnMitLimit('bash', ['-c', script], { cwd, env: { ...process.env, ...env }, encoding: 'utf8', windowsHide: true })
 try {
   const pruefen = schritt(mutation, 'Eingaben prüfen').run
-  const gut = { PR: '12', TIMEOUT: '300', LISTE: 'tools/mutationen/x.json' }
+  const gut = { PR: '12', TIMEOUT: '300', LISTE: 'tools/mutationen/x.json', KOPF: '' }
   assert.equal(bash(pruefen, gut, dir).status, 0)
+  assert.equal(bash(pruefen, { ...gut, KOPF: 'a'.repeat(40) }, dir).status, 0, 'ein SHA ist erlaubt')
+  for (const kopf of ['a'.repeat(39), 'a'.repeat(41), 'G'.repeat(40), `${'a'.repeat(39)};`]) {
+    assert.equal(bash(pruefen, { ...gut, KOPF: kopf }, dir).status, 2, `kopf ${kopf}`)
+  }
   assert.equal(bash(pruefen, { ...gut, PR: '' }, dir).status, 0, 'ohne PR ist erlaubt')
   for (const schlecht of [{ PR: '1; echo' }, { TIMEOUT: '' }, { TIMEOUT: '5s' }, { LISTE: '../x.json' }, { LISTE: '/etc/x.json' }]) {
     assert.equal(bash(pruefen, { ...gut, ...schlecht }, dir).status, 2, JSON.stringify(schlecht))
   }
 
+  // Läufer sichern: kopiert die Datei aus _main nach RUNNER_TEMP und entfernt _main aus dem Arbeitsordner
+  {
+    const ws = join(dir, 'sichern')
+    mkdirSync(join(ws, '_main/tools'), { recursive: true })
+    writeFileSync(join(ws, '_main/tools/mutationslaeufer.mjs'), '// aus main\n')
+    const temp = join(dir, 'sichern-temp')
+    mkdirSync(temp)
+    const r = bash(schritt(mutation, 'Läufer sichern').run, { RUNNER_TEMP: temp }, ws)
+    assert.equal(r.status, 0, r.stdout + r.stderr)
+    assert.equal(readFileSync(join(temp, 'laeufer/mutationslaeufer.mjs'), 'utf8'), '// aus main\n')
+    assert.ok(!existsSync(join(ws, '_main')), '_main ist aus dem Arbeitsordner entfernt')
+    assert.notEqual(bash(schritt(mutation, 'Läufer sichern').run, { RUNNER_TEMP: temp }, ws).status, 0, 'fehlt der Läufer in _main, scheitert der Schritt (nie still weiter)')
+  }
+
   // Mutationslauf mit der echten Läufer-Datei in einer Wegwerf-Kopie
   const arbeit = join(dir, 'arbeit')
   mkdirSync(join(arbeit, 'tools'), { recursive: true })
-  copyFileSync(join(WURZEL, 'tools/mutationslaeufer.mjs'), join(arbeit, 'tools/mutationslaeufer.mjs'))
+  // A2: der Läufer im Arbeitsordner (Kopf des PR) ist manipuliert und meldet immer Erfolg; es gilt nur der Läufer aus main in RUNNER_TEMP.
+  writeFileSync(join(arbeit, 'tools/mutationslaeufer.mjs'), "console.log('alle Mutanten rot (gefälscht)')\nprocess.exit(0)\n")
   writeFileSync(join(arbeit, 'a.txt'), 'wert=1\n')
   writeFileSync(join(arbeit, 'pruef.mjs'), "import{readFileSync as r}from'node:fs';process.exit(r('a.txt','utf8').includes('wert=1')?0:1)\n")
   const rot = { name: 'rot', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2' }
   const grün = { name: 'grün', datei: 'a.txt', suche: 'a', ersetze: 'a' }
-  const lauf = (liste) => {
+  const lauf = (liste, test = 'node pruef.mjs') => {
     writeFileSync(join(arbeit, 'liste.json'), JSON.stringify(liste))
     const temp = join(dir, `temp-${Math.random().toString(36).slice(2)}`)
-    mkdirSync(temp)
+    mkdirSync(join(temp, 'laeufer'), { recursive: true })
+    copyFileSync(join(WURZEL, 'tools/mutationslaeufer.mjs'), join(temp, 'laeufer', 'mutationslaeufer.mjs'))
     const summary = join(temp, 'summary.md')
     const r = bash(schritt(mutation, 'Mutanten einspielen und Tests laufen lassen').run, {
       LISTE: 'liste.json',
-      TEST: 'node pruef.mjs',
+      TEST: test,
       TIMEOUT: '60',
       ZWEIG: 'feat/x',
       RUNNER_TEMP: temp,
@@ -86,10 +120,19 @@ try {
   assert.equal(alleRot.status, 0, alleRot.stdout + alleRot.stderr)
   assert.match(alleRot.ergebnis, /^## Mutationsprobe für `feat\/x` \(`liste\.json`\)\n\nExit 0 /)
   assert.match(alleRot.ergebnis, /actions\/runs\/77/)
+  assert.match(alleRot.ergebnis, /Kopf: `unbekannt`\./, 'ohne Git-Stand steht „unbekannt“, nie eine leere Angabe')
   assert.match(alleRot.ergebnis, /\| rot /)
   assert.equal(alleRot.summary, alleRot.ergebnis, 'Zusammenfassung = Ergebnis')
+  // Leerer Standardtest (Prüfer-Lauf): jeder Mutant trägt eigene tests, der Läufer bekommt kein „--test“.
+  const eigene = lauf([{ ...rot, tests: ['node pruef.mjs'] }, { name: 'Kontrolle', aenderungen: [] }], '')
+  assert.equal(eigene.status, 0, eigene.stdout + eigene.stderr)
+  assert.match(eigene.ergebnis, /\| Kontrolle \| - \| GRÜN/, 'die Kontrolle fährt die tests der Mutanten, ein leeres --test würde sie ersetzen')
+  assert.match(eigene.ergebnis, /\| rot /)
+  assert.equal(lauf([rot], '').status, 2, 'ohne Standardtest und ohne eigene tests bleibt es ein Aufruffehler')
   const ueberlebt = lauf([rot, grün])
-  assert.equal(ueberlebt.status, 1, 'ein Überlebender macht den Lauf rot')
+  assert.equal(ueberlebt.status, 1, 'ein Überlebender macht den Lauf rot, auch wenn der Läufer im Kopf „alle rot“ meldet (A2)')
+  assert.ok(!ueberlebt.stdout.includes('gefälscht'), 'der manipulierte Läufer aus dem Kopf läuft nicht')
+  assert.match(ueberlebt.ergebnis, /Läufer aus main, Liste und Tests vom Kopf\.$/m)
   assert.match(ueberlebt.ergebnis, /\nExit 1 /)
   assert.match(ueberlebt.ergebnis, /GRÜN|grün/i)
   const grundrot = lauf([{ name: 'x', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2', tests: ['node -e "process.exit(1)"'] }])
@@ -97,11 +140,19 @@ try {
   assert.match(grundrot.ergebnis, /\nExit 2 /)
   assert.ok(grundrot.ergebnis.includes('Grundlauf ohne Mutation ist rot'), 'ohne Tabelle steht das Log-Ende im Ergebnis')
   assert.equal(readFileSync(join(arbeit, 'a.txt'), 'utf8'), 'wert=1\n', 'Datei nach allen Läufen zurückgesetzt')
+  // Im Git-Stand trägt das Ergebnis den echten Kopf-SHA (der Prüfer ordnet den Kommentar daran dem Push zu).
+  const git = (...a) => spawnMitLimit('git', a, { cwd: arbeit, encoding: 'utf8', windowsHide: true })
+  git('init', '-q')
+  git('add', '-A')
+  git('-c', 'user.email=t@example.org', '-c', 'user.name=t', 'commit', '-q', '-m', 'x')
+  const sha = git('rev-parse', 'HEAD').stdout.trim()
+  assert.match(sha, /^[0-9a-f]{40}$/)
+  assert.ok(lauf([rot]).ergebnis.includes(`Kopf: \`${sha}\`. Lauf:`), 'Kopf-SHA im Ergebnis')
 
   // Kommentar mit gefälschtem gh
   const bin = join(dir, 'bin')
   mkdirSync(bin)
-  writeFileSync(join(bin, 'gh'), '#!/bin/sh\necho "$@" > "$GH_PROTOKOLL"\ncat "$5" >> "$GH_PROTOKOLL"\n')
+  writeFileSync(join(bin, 'gh'), '#!/bin/sh\necho "$@" > "$GH_PROTOKOLL"\ncat "${4#body=@}" >> "$GH_PROTOKOLL"\n')
   chmodSync(join(bin, 'gh'), 0o755)
   const kommentiere = (mitErgebnis) => {
     const k = mkdtempSync(join(dir, 'k-'))
@@ -123,9 +174,10 @@ try {
     return readFileSync(protokoll, 'utf8')
   }
   const mit = kommentiere(true)
-  assert.match(mit, /^pr comment 12 --body-file ergebnis\/ergebnis\.md\n## Tabelle/)
+  // REST (issues/N/comments), nie `gh pr comment`: Letzteres läuft über GraphQL und scheiterte dort (PR 3567).
+  assert.match(mit, /^api repos\/o\/r\/issues\/12\/comments -F body=@ergebnis\/ergebnis\.md\n## Tabelle/)
   const ohne = kommentiere(false)
-  assert.match(ohne, /^pr comment 12 --body-file ergebnis\/ergebnis\.md\n## Mutationsprobe ohne Ergebnis/)
+  assert.match(ohne, /^api repos\/o\/r\/issues\/12\/comments -F body=@ergebnis\/ergebnis\.md\n## Mutationsprobe ohne Ergebnis/)
   assert.match(ohne, /actions\/runs\/77/)
 } finally {
   rmSync(dir, { recursive: true, force: true })

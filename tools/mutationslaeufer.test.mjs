@@ -2,11 +2,11 @@
 // Wegwerf-Dateien unter os.tmpdir(); der Läufer ist als eigener Prozess aufgerufen (Exit-Code, Zurücksetzen).
 import assert from "node:assert/strict"
 import { spawn, spawnSync } from "node:child_process"
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { beiSignal, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE } from "./mutationslaeufer.mjs"
+import { beiSignal, laufTest, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE, spieleOriginaleZurueck } from "./mutationslaeufer.mjs"
 
 const hier = dirname(fileURLToPath(import.meta.url))
 const laeufer = process.argv[2] ?? join(hier, "mutationslaeufer.mjs")
@@ -269,6 +269,43 @@ const k6g = lauf([kontrolle], [], [])
 assert.equal(k6g.exit, 2, k6g.aus)
 assert.match(k6g.aus, /Kein Testbefehl/)
 unversehrt()
+
+// 11. Ausnahme mitten im Mutanten (zweite Datei schreibgeschützt, Schreiben wirft): die erste, schon mutierte Datei
+// wird trotzdem zurückgespielt. Der erste Mutant (nur b, Anker fehlt) legt die Reihenfolge b vor a fest — ohne
+// Einzelrückspiel stoppt der Rückweg an b und a bliebe mutiert.
+chmodSync(join(ordner, "b.mjs"), 0o444)
+const ausnahme = lauf([
+  { name: "b-fehlt", datei: "b.mjs", suche: "gibt es nicht", ersetze: "x" },
+  {
+    name: "a-dann-b",
+    aenderungen: [
+      { datei: "a.mjs", suche: "A = 1", ersetze: "A = 0" },
+      { datei: "b.mjs", suche: "B = 1", ersetze: "B = 0" },
+    ],
+  },
+])
+chmodSync(join(ordner, "b.mjs"), 0o666)
+if (process.getuid?.() !== 0) {
+  assert.equal(ausnahme.exit, 2, ausnahme.aus)
+  assert.match(ausnahme.aus, /EPERM|EACCES/)
+}
+unversehrt()
+
+// 12. Rückspiel einzeln: ein Fehler bei der ersten Datei (Verzeichnis statt Datei) stoppt die zweite nicht, die Kopie bleibt.
+const dir = join(ordner, "dir.mjs")
+mkdirSync(dir)
+writeFileSync(join(ordner, "x.mjs"), "mutiert\n")
+const fehler = spieleOriginaleZurueck(new Map([[dir, Buffer.from("o")], [join(ordner, "x.mjs"), Buffer.from("original\n")]]))
+assert.equal(fehler.length, 1)
+assert.equal(readFileSync(join(ordner, "x.mjs"), "utf8"), "original\n")
+rmSync(dir, { recursive: true })
+
+// 13. Testprozess startet nicht: synchroner Startfehler (NUL im Befehl) und fehlender Ordner sind rot, kein Abbruch.
+for (const [befehl, cwd] of [["x\0y", ordner], [`${knoten} test.mjs`, join(ordner, "gibt-es-nicht")]]) {
+  const r = await laufTest(befehl, cwd, 5)
+  assert.equal(r.gruen, false)
+  assert.equal(r.code, -1)
+}
 
 rmSync(ordner, { recursive: true, force: true })
 console.log("mutationslaeufer.test: ok")

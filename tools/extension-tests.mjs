@@ -37,7 +37,7 @@ console.log(`Zusicherungen der Erweiterung — ${dateien.length} Dateien\n`)
 
 const rot = []
 for (const datei of dateien) {
-  const lauf = spawnSync(process.execPath, [join(ordner, datei)], { encoding: 'utf8' })
+  const lauf = spawnSync(process.execPath, ['--require', join(ordner, 'test-kontext.cjs'), join(ordner, datei)], { encoding: 'utf8' })
   const ausgabe = (lauf.stdout ?? '') + (lauf.stderr ?? '')
   if (lauf.status === 0) {
     const treffer = (ausgabe.match(/✓/g) ?? []).length

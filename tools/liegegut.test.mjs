@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -263,6 +263,8 @@ const LISTE = [
   pr(1700, { isDraft: true, mergeable: 'CONFLICTING', comments: [daniel(90, 'Hinweis')] }),
   pr(1390, { comments: [bot(30, KOPF, 'aendern')], title: 'feat(netflix): Meldung meldet die Staffel' }),
   pr(1701, { comments: [daniel(2, 'frisch')] }),
+  pr(1702, { isDraft: true, comments: [daniel(13, 'Hinweis')] }),
+  pr(1703, { isDraft: true, comments: [daniel(2, 'Hinweis')] }),
 ]
 // Patch je PR: 1437/1390 bringen Namen, die auf main schon stehen; 1438 hat denselben Titel wie 1437, aber einen neuen Namen; alle anderen eine neue Datei.
 const patchVon = (url) => {
@@ -272,9 +274,12 @@ const patchVon = (url) => {
   if (url.includes('/1438/')) return text('pipeline/bau/urteil-schliesst-luecken.ts', 'export function ganzAndereSache(weg) {')
   return text('andere.ts', 'const voelligNeuHier = 1')
 }
-const attrappeGh = (liste, aufrufe = []) => (args) => {
+const NATIV = 'danielzaiser91/anime-kalender-nativ'
+// `listeNativ` kommt für Aufrufe an das nativ-Repo (`--repo`, Adresse oder graphql-Name), sonst `liste`; ohne Angabe ist nativ leer.
+const attrappeGh = (liste, aufrufe = [], listeNativ = []) => (args) => {
   aufrufe.push(args.join(' '))
-  if (args[0] === 'pr') return JSON.stringify(liste)
+  const nativ = args.some((a) => a.includes(NATIV) || a === 'name=anime-kalender-nativ')
+  if (args[0] === 'pr') return JSON.stringify(nativ ? listeNativ : liste)
   if (args[1].includes('/commits/')) return h(100)
   if (args[1].endsWith('/files')) return patchVon(args[1])
   throw new Error(`unerwartet: ${args.join(' ')}`)
@@ -305,6 +310,15 @@ console.log('liegegut: Kopf-Zeiten in einem Aufruf')
   pruefe('Gesamtlauf: genau ein graphql-Aufruf für alle PRs', alle.filter((x) => x.includes('graphql')).length === 1, alle)
 }
 
+console.log('liegegut: Signal 11 Entwurf liegt (12 h)')
+{
+  const ent = (p, kopfStunden) => entwurfSignal(p, JETZT - kopfStunden * 3600 * 1000, JETZT)
+  pruefe('Kopf 12 h alt → genau an der Grenze noch nicht', ent(pr(1), 12).length === 0)
+  pruefe('Kopf 13 h alt → Signal 11 seit dem Kopf', JSON.stringify(ent(pr(1), 13).map((s) => s.nr)) === '[11]')
+  pruefe('Kommentar vor 2 h setzt zurück (Kopf 100 h)', ent(pr(2, { comments: [daniel(2, 'Hinweis')] }), 100).length === 0)
+  pruefe('KURZ-Name steht in der Sammelzeile', /Entwurf liegt \d+ h/.test(liegtZeile(liegegutAlleFunde(attrappeGh([pr(5, { isDraft: true, comments: [daniel(13, 'x')] })]), attrappeGit(), JETZT), JETZT) ?? ''))
+}
+
 console.log('liegegut: Signal 8 Stillstand (48 h)')
 {
   const still = (p, kopfStunden) => stillstandSignal(p, JETZT - kopfStunden * 3600 * 1000, JETZT)
@@ -320,7 +334,7 @@ console.log('liegegut: Signal 8 Stillstand (48 h)')
   pruefe('ohne reviews-Feld kein Absturz', still({ ...pr(7), reviews: undefined }, 49).length === 1)
   pruefe('nur Signal 8 → Schritt STILLSTAND, mit Signal 3 → NACHBESSERN', naechsterSchritt([8], [], false) === 'STILLSTAND' && naechsterSchritt([3, 8], [], false) === 'NACHBESSERN')
   const lauf = liegegut(attrappeGh([pr(11, { comments: [daniel(60, 'Hinweis')] })]), attrappeGit(), JETZT)
-  pruefe('Gesamtlauf: still wartender PR bekommt eine Zeile', lauf.length === 1 && /^PR 11: STILLSTAND – Signal 8 Stillstand/.test(lauf[0]), lauf)
+  pruefe('Gesamtlauf: still wartender PR bekommt eine Zeile', lauf.length === 1 && /^anime-kalender-de PR 11: STILLSTAND – Signal 8 Stillstand/.test(lauf[0]), lauf)
   const zwei = () => [pr(21, { body: 'F109', comments: [daniel(2, 'frisch')] }), pr(22, { body: 'F109', comments: [daniel(2, 'frisch')] })]
   const signal6 = (standText) => liegegut(attrappeGh(zwei()), attrappeGit(), JETZT, () => {}, standText).filter((z) => z.includes('Signal 6')).length
   pruefe('Gesamtlauf: F109 nur außerhalb von Jetzt → kein Signal 6 (Verdrahtung)', signal6('### Jetzt\n### Später\n- F109 = A') === 0)
@@ -333,19 +347,21 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
   const gh = []
   const git = []
   const zeilen = liegegut(attrappeGh(LISTE, gh), attrappeGit(STAND_MAIN, git), JETZT)
-  const nach = (n) => zeilen.find((z) => z.startsWith(`PR ${n}:`))
-  pruefe('1676 → MERGEN mit „keine Treffer“', /^PR 1676: MERGEN – Signal 1 Freigabe \+ grün \+ ruhend – seit \d\d\.\d\d\. [\d:]+; Gegenprobe: keine Treffer$/.test(nach(1676) ?? ''), nach(1676))
-  pruefe('1437 → ÜBERHOLT? mit Fundstelle der Funktion auf main', /^PR 1437: ÜBERHOLT\? – Signal 3 Konflikt liegt.*Treffer pipeline\/bau\/urteil-schliesst-luecken\.ts:7 loescheKennzeichnung$/.test(nach(1437) ?? ''), nach(1437))
-  pruefe('1438 gleicher Titel und gleiche Datei wie 1437, aber neuer Name → NACHBESSERN, kein Fehlalarm', /^PR 1438: NACHBESSERN – Signal 3 .*keine Treffer$/.test(nach(1438) ?? ''), nach(1438))
-  pruefe('1530 → NACHBESSERN (Konflikt, kein Treffer)', /^PR 1530: NACHBESSERN – Signal 3 .*keine Treffer$/.test(nach(1530) ?? ''), nach(1530))
-  pruefe('1397 → NACHBESSERN (Daniel ändern zuletzt)', /^PR 1397: NACHBESSERN – Signal 2/.test(nach(1397) ?? ''), nach(1397))
-  pruefe('1513 → DANIEL (Bot zuletzt, F39)', /^PR 1513: DANIEL – Signal 2 .*; 5 .*; 6 Gleiche offene Entscheidung F39/.test(nach(1513) ?? ''), nach(1513))
-  pruefe('1508 → DANIEL (nur F39 geteilt), ohne Gegenprobe', /^PR 1508: DANIEL – Signal 6 Gleiche offene Entscheidung F39 – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1508) ?? ''), nach(1508))
-  pruefe('1390 nur Signal 5 mit Treffer → ÜBERHOLT? (Gegenprobe läuft auch für Signal 5)', /^PR 1390: ÜBERHOLT\? – Signal 5 .*Treffer extension\/melder\.js:3 MELDEKASTEN$/.test(nach(1390) ?? ''), nach(1390))
+  const nach = (n) => zeilen.find((z) => z.startsWith(`anime-kalender-de PR ${n}:`))
+  pruefe('1676 → MERGEN mit „keine Treffer“', /^anime-kalender-de PR 1676: MERGEN – Signal 1 Freigabe \+ grün \+ ruhend – seit \d\d\.\d\d\. [\d:]+; Gegenprobe: keine Treffer$/.test(nach(1676) ?? ''), nach(1676))
+  pruefe('1437 → ÜBERHOLT? mit Fundstelle der Funktion auf main', /^anime-kalender-de PR 1437: ÜBERHOLT\? – Signal 3 Konflikt liegt.*Treffer pipeline\/bau\/urteil-schliesst-luecken\.ts:7 loescheKennzeichnung$/.test(nach(1437) ?? ''), nach(1437))
+  pruefe('1438 gleicher Titel und gleiche Datei wie 1437, aber neuer Name → NACHBESSERN, kein Fehlalarm', /^anime-kalender-de PR 1438: NACHBESSERN – Signal 3 .*keine Treffer$/.test(nach(1438) ?? ''), nach(1438))
+  pruefe('1530 → NACHBESSERN (Konflikt, kein Treffer)', /^anime-kalender-de PR 1530: NACHBESSERN – Signal 3 .*keine Treffer$/.test(nach(1530) ?? ''), nach(1530))
+  pruefe('1397 → NACHBESSERN (Daniel ändern zuletzt)', /^anime-kalender-de PR 1397: NACHBESSERN – Signal 2/.test(nach(1397) ?? ''), nach(1397))
+  pruefe('1513 → DANIEL (Bot zuletzt, F39)', /^anime-kalender-de PR 1513: DANIEL – Signal 2 .*; 5 .*; 6 Gleiche offene Entscheidung F39/.test(nach(1513) ?? ''), nach(1513))
+  pruefe('1508 → DANIEL (nur F39 geteilt), ohne Gegenprobe', /^anime-kalender-de PR 1508: DANIEL – Signal 6 Gleiche offene Entscheidung F39 – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1508) ?? ''), nach(1508))
+  pruefe('1390 nur Signal 5 mit Treffer → ÜBERHOLT? (Gegenprobe läuft auch für Signal 5)', /^anime-kalender-de PR 1390: ÜBERHOLT\? – Signal 5 .*Treffer extension\/melder\.js:3 MELDEKASTEN$/.test(nach(1390) ?? ''), nach(1390))
   pruefe('„seit“ 1508: Kopf-Commit (17.10. 11:00 Berlin)', (nach(1508) ?? '').endsWith('seit 17.10. 11:00'), nach(1508))
   pruefe('„seit“ 1513: frühester Zeitpunkt aller Signale (Kopf-Commit des Signals 6)', (nach(1513) ?? '').includes('seit 17.10. 11:00;'), nach(1513))
   pruefe('„seit“ 1676: Kommentar (20.10. 19:00 Berlin)', (nach(1676) ?? '').includes('seit 20.10. 19:00;'), nach(1676))
-  pruefe('Entwurf und frischer PR ohne Zeile', nach(1700) === undefined && nach(1701) === undefined)
+  pruefe('frischer PR ohne Zeile', nach(1701) === undefined)
+  pruefe('Entwurf 90 h ohne Aktivität (mit Konflikt) → nur Signal 11, keine Gegenprobe', /^anime-kalender-de PR 1700: ENTWURF[^–]*– Signal 11 Entwurf liegt – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1700) ?? ''), nach(1700))
+  pruefe('Entwurf 13 h → gemeldet, Entwurf 2 h → nicht', nach(1702) !== undefined && nach(1703) === undefined, [nach(1702), nach(1703)])
   pruefe('Gegenprobe nur für Signale 1, 3, 5: 1508 (nur Signal 6) ruft die Dateiliste nicht ab', !gh.some((a) => a.includes('/pulls/1508/files')) && gh.some((a) => a.includes('/pulls/1437/files')))
   pruefe('git grep auf origin/main, je PR eine Datei, nie git log', git.length > 0 && git.every((a) => /^grep -n -w -F -e \S+ origin\/main -- \S+$/.test(a)), git)
 }
@@ -360,7 +376,7 @@ console.log('liegegut: Nichtauskunft und Startlogik')
   pruefe('gh wirft → Exit 2', main(() => { throw new Error('HTTP 502') }, attrappeGit(), (t) => aus.push(t), JETZT) === 2 && /FEHLER HTTP 502/.test(aus.join()))
   const ok = []
   const code = main(attrappeGh(LISTE), attrappeGit(), (t) => ok.push(t), JETZT)
-  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 8 auffällige PRs', ok.at(-1))
+  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 10 auffällige PRs', ok.at(-1))
   const leer = []
   pruefe('ohne Funde → Exit 0, „0 auffällige PRs“', main(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] })]), attrappeGit(), (t) => leer.push(t), JETZT) === 0 && leer.at(-1) === 'liegegut: 0 auffällige PRs')
 }
@@ -441,9 +457,9 @@ console.log('liegegut: Signal 9 Stapel-PR nach gesquashtem Basis-PR (Fall 3091, 
   }
   const teil2 = pr(3091, { baseRefName: 'feat/teil-1', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
   const zeilen = liegegut(mitMerged([teil2]), attrappeGit(), JETZT)
-  pruefe('Basiszweig gehört zu gemergtem PR → STAPEL-Zeile mit Basis-Nummer', zeilen.length === 1 && /^PR 3091: STAPEL – Signal 9 Basis #3090 gesquasht → main hineinmergen/.test(zeilen[0]), zeilen)
+  pruefe('Basiszweig gehört zu gemergtem PR → STAPEL-Zeile mit Basis-Nummer', zeilen.length === 1 && /^anime-kalender-de PR 3091: STAPEL – Signal 9 Basis #3090 gesquasht → main hineinmergen/.test(zeilen[0]), zeilen)
   const ausBody = pr(3092, { baseRefName: 'main', body: 'erst nach #3090 (Teil 2)\n\nText', mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [daniel(2, 'frisch')] })
-  pruefe('Basis main, Konflikt und „erst nach #3090“ (gemergt) → STAPEL', /^PR 3092: STAPEL/.test(liegegut(mitMerged([ausBody]), attrappeGit(), JETZT)[0] ?? ''))
+  pruefe('Basis main, Konflikt und „erst nach #3090“ (gemergt) → STAPEL', /^anime-kalender-de PR 3092: STAPEL/.test(liegegut(mitMerged([ausBody]), attrappeGit(), JETZT)[0] ?? ''))
   const ohneKonflikt = pr(3093, { baseRefName: 'main', body: 'erst nach #3090', comments: [daniel(2, 'frisch')] })
   pruefe('„erst nach #3090“ ohne Konflikt (schon sauber) → keine Zeile', liegegut(mitMerged([ohneKonflikt]), attrappeGit(), JETZT).length === 0)
   const offeneBasis = pr(3094, { baseRefName: 'main', body: 'erst nach #3095', mergeable: 'CONFLICTING', comments: [daniel(2, 'frisch')] })
@@ -523,6 +539,41 @@ console.log('liegegut: Signal 2 mit Abnahme-Nachtrag des Dirigenten (Fälle 1716
   pruefe('Kontrolle: ok, dann Dirigent „Prüfer …: ändern“ → Widerspruch bleibt', nummern(pr(1, { comments: [bot(30, KOPF, 'ok'), daniel(20, 'Prüfer Runde 2: ändern')] })).includes(2))
 }
 
+console.log('liegegut: zweites Repo anime-kalender-nativ (erfundene PR-Listen beider Repos)')
+{
+  // gleiche Nummer 5 in beiden Repos; nativ: 7 Stillstand, 8 Konflikt (Gegenprobe gäbe es nur mit Klon), 9 mit F77 wie 6 im Haupt-Repo
+  const haupt = [pr(5, { comments: [daniel(60, 'Hinweis')] }), pr(6, { body: 'F77', comments: [daniel(2, 'frisch')] })]
+  const nativ = [pr(5, { comments: [daniel(60, 'Hinweis')] }), pr(7, { comments: [daniel(60, 'Hinweis')] }), pr(8, { mergeable: 'CONFLICTING', mergeStateStatus: 'DIRTY', comments: [bot(40, KOPF, 'ok')] }), pr(9, { body: 'F77', comments: [daniel(2, 'frisch')] })]
+  const gh = []
+  const git = []
+  const zeilen = liegegutAlle(attrappeGh(haupt, gh, nativ), attrappeGit(STAND_MAIN, git), JETZT, () => {}, '### Jetzt\n- F77 offen\n')
+  const nr = (repo, n) => zeilen.find((z) => z.startsWith(`${repo} PR ${n}:`))
+  pruefe('jede Zeile nennt ihr Repo', zeilen.length === 4 && zeilen.every((z) => /^anime-kalender-(de|nativ) PR \d+: /.test(z)), zeilen)
+  pruefe('gleiche Nummer 5 in beiden Repos → zwei getrennte Zeilen', /Signal 8 Stillstand/.test(nr('anime-kalender-de', 5) ?? '') && /Signal 8 Stillstand/.test(nr('anime-kalender-nativ', 5) ?? ''), zeilen)
+  pruefe('nativ 7 → STILLSTAND', /^anime-kalender-nativ PR 7: STILLSTAND – Signal 8/.test(nr('anime-kalender-nativ', 7) ?? ''), zeilen)
+  pruefe('nativ 8 Konflikt → NACHBESSERN ohne Gegenprobe-Text (kein Klon, kein git grep)', /^anime-kalender-nativ PR 8: NACHBESSERN – Signal 3 Konflikt liegt – seit [\d.: ]+$/.test(nr('anime-kalender-nativ', 8) ?? '') && git.every((a) => !a.startsWith('grep')), { zeilen, git })
+  pruefe('F77 in Haupt-Repo 6 und nativ 9 ist keine gemeinsame Entscheidung (je Repo gerechnet)', zeilen.every((z) => !z.includes('Signal 6')), zeilen)
+  pruefe('nativ-Aufrufe: pr list mit --repo, Commit-Abruf mit Repo-Adresse', gh.some((a) => a.startsWith('pr list') && a.endsWith(`--repo ${NATIV}`)) && gh.some((a) => a.includes(`repos/${NATIV}/commits/`)), gh)
+  pruefe('Haupt-Repo-Aufrufe bleiben ohne --repo und ohne nativ-Adresse', gh.filter((a) => !a.includes(NATIV) && !a.includes('anime-kalender-nativ')).some((a) => a.startsWith('pr list')) && gh.filter((a) => a.includes('--repo')).every((a) => a.includes(NATIV)), gh)
+  const nurHaupt = liegegut(attrappeGh(haupt, [], nativ), attrappeGit(), JETZT, () => {}, null)
+  pruefe('liegegut() (ohne Alle) bleibt beim Haupt-Repo', nurHaupt.length === 1 && nurHaupt.every((z) => z.startsWith('anime-kalender-de PR ')), nurHaupt)
+  const ausgabe = []
+  const code = main(attrappeGh(haupt, [], nativ), attrappeGit(), (t) => ausgabe.push(t), JETZT)
+  pruefe('main: Funde beider Repos, Schlusszeile zählt beide, Exit 0', code === 0 && ausgabe.at(-1) === 'liegegut: 4 auffällige PRs' && ausgabe.some((z) => z.startsWith('anime-kalender-nativ PR 8')), ausgabe)
+  const nurNativ = []
+  main(attrappeGh([], [], nativ), attrappeGit(), (t) => nurNativ.push(t), JETZT)
+  pruefe('nativ allein auffällig → trotzdem gemeldet', nurNativ.at(-1) === 'liegegut: 3 auffällige PRs', nurNativ)
+  const nativKaputt = (args) => {
+    if (args.includes(NATIV)) throw new Error('HTTP 404 nativ')
+    return attrappeGh(haupt)(args)
+  }
+  const kaputt = []
+  pruefe('Abruffehler nur im nativ-Repo → Exit 2 mit FEHLER, kein stilles „nichts“', main(nativKaputt, attrappeGit(), (t) => kaputt.push(t), JETZT) === 2 && kaputt.some((z) => /FEHLER HTTP 404 nativ/.test(z)), kaputt)
+  const funde = liegegutAlleFunde(attrappeGh(haupt, [], nativ), attrappeGit(), JETZT, () => {}, null)
+  const sammel = liegtZeile(funde, JETZT)
+  pruefe('Sammelzeile: nativ-PR mit Repo-Namen, Haupt-PR ohne', /LIEGT: 5 \(Stillstand/.test(sammel) && /anime-kalender-nativ#7 \(Stillstand/.test(sammel), sammel)
+}
+
 console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)')
 {
   const werk = fs.mkdtempSync(path.join(os.tmpdir(), 'liegegut-'))
@@ -536,6 +587,8 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
     [`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`]: { aus: '+++ b/tools/x.mjs\n@@ -1 +1,2 @@\n+nagel = 1\n' },
     'rev-parse --git-common-dir': { aus: `${path.join(werk, 'haupt', '.git')}\n` },
   }
+  // nativ-Repo: leere Listen (die Ablaufschlüssel tragen --repo)
+  for (const k of Object.keys(daten)) if (k.startsWith('pr list')) daten[`${k} --repo ${NATIV}`] = { aus: '[]' }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(daten))
   const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
   const skript = fileURLToPath(new URL('./liegegut.mjs', import.meta.url))
@@ -548,7 +601,7 @@ console.log('liegegut: eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)'
   // Offene F-Nummern: stand.md im Hauptordner, zwei PRs nennen F39 (Verdrahtung von main() zum Leser)
   const zwei = [pr(1676, { body: 'F39', comments: [bot(1, KOPF, 'ok')] }), pr(1677, { body: 'F39', comments: [bot(1, KOPF, 'ok')] })]
   const mitF39 = { ...daten, 'rev-parse --git-common-dir': { aus: `${path.join(werk, 'arbeit', '.git')}\n` }, [`api repos/{owner}/{repo}/pulls/1677/files --paginate --jq ${JQ_PATCHES}`]: daten[`api repos/{owner}/{repo}/pulls/1676/files --paginate --jq ${JQ_PATCHES}`] }
-  for (const k of Object.keys(mitF39)) if (k.startsWith('pr list')) mitF39[k] = { aus: JSON.stringify(zwei) }
+  for (const k of Object.keys(mitF39)) if (k.startsWith('pr list') && !k.endsWith(NATIV)) mitF39[k] = { aus: JSON.stringify(zwei) }
   fs.writeFileSync(path.join(werk, 'daten.json'), JSON.stringify(mitF39))
   const standOrdner = path.join(werk, 'arbeit', 'daniel-zum-abarbeiten')
   const standDatei = path.join(standOrdner, 'stand.md')
@@ -572,4 +625,4 @@ if (fehler.length > 0) {
   console.error(`liegegut.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('liegegut.test: alle Fälle grün (9 Signale, Stapel, offene F-Nummern aus stand.md, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')
+console.log('liegegut.test: alle Fälle grün (9 Signale, zweites Repo nativ, Stapel, offene F-Nummern aus stand.md, Grenzen, Gesamtlauf, Nichtauskunft, Prozess)')

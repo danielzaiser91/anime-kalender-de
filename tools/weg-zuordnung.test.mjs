@@ -18,11 +18,12 @@ const URL = 'https://www.disneyplus.com/de-de/series/bleach/4Afet1Q421gy'
 /* Die Erweiterung: mehrere Staffeln, mehrere IDs → die Meldung trägt keine titelId. */
 const k = vm.createContext({ Date, Set, Array, Number, Object, Boolean, String })
 k.globalThis = k
+vm.runInContext(lies('kontext.js'), k)
 vm.runInContext(lies('pruefstand-zeit.js'), k)
 vm.runInContext(lies('disney-staffeln.js'), k)
 vm.runInContext(lies('disney-weg.js'), k)
 const gesendet = []
-k.chrome = { storage: { sync: { get: async () => ({ token: 't' }) } } }
+k.chrome = { runtime: { id: 'test' }, storage: { sync: { get: async () => ({ token: 't' }) } } }
 k.fetch = async (u, o) => (gesendet.push(JSON.parse(o.body)), { ok: true })
 const staffeln = [
   { nr: 1, id: 'a1', folgen: 16 },

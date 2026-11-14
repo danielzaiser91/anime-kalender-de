@@ -25,11 +25,13 @@ vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
 vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
 vm.runInContext(lies('netflix-zurueckgestellt.js'), kontext)
+vm.runInContext(lies('netflix-uebernahme.js'), kontext)
 const neu = kontext.akNetflixZurueckNeu
 pruefe('Fabrik erreichbar', typeof neu === 'function')
 
 const SCHLUESSEL = 'netflixZurueckgestellt'
 const TAG = 24 * 3600 * 1000
+const STUNDE = 3600 * 1000
 /* 15.10.2026, 12:00 Berlin (Sommerzeit bis 25.10.2026). */
 const JETZT = Date.UTC(2026, 9, 15, 10, 0)
 
@@ -91,14 +93,14 @@ async function tagesgrenze() {
   /* Ohne Jahr gilt ein Datum von heute an: heute lesbar, gestern unlesbar (7 Tage), morgen lesbar. */
   const bis = kontext.akZurueckBis
   const heute = bis('Erinnern', '15. Oktober', JETZT)
-  pruefe('Datum = heute (15. Oktober): lesbar, Beginn dieses Tages (14.10. 22:00 UTC)', heute === berlin(2026, 10, 14, 22), heute)
+  pruefe('Datum = heute (15. Oktober): lesbar, nur 1 Stunde (F135)', heute === JETZT + STUNDE, heute)
   const gestern = bis('Erinnern', '14. Oktober', JETZT)
   pruefe('Datum = gestern (14. Oktober): unlesbar, 7 Tage', gestern === JETZT + 7 * TAG, gestern)
   const morgen = bis('Erinnern', '16. Oktober', JETZT)
   pruefe('Datum = morgen (16. Oktober): lesbar, 15.10. 22:00 UTC', morgen === berlin(2026, 10, 15, 22), morgen)
   const spaetAbends = berlin(2026, 10, 15, 21) + 59 * 60 * 1000
   const heuteSpaet = bis('Erinnern', '15. Oktober', spaetAbends)
-  pruefe('23:59 Berlin am 15.10.: „15. Oktober“ ist weiter heute', heuteSpaet === berlin(2026, 10, 14, 22), heuteSpaet)
+  pruefe('23:59 Berlin am 15.10.: „15. Oktober“ ist weiter heute, 1 Stunde', heuteSpaet === spaetAbends + STUNDE, heuteSpaet)
   /* 00:30 Berlin am 16.10. = 22:30 UTC am 15.10.: in UTC wäre „15. Oktober“ noch heute, in Berlin ist er gestern. */
   const nachMitternacht = berlin(2026, 10, 15, 22) + 30 * 60 * 1000
   const gesternBerlin = bis('Erinnern', '15. Oktober', nachMitternacht)
@@ -106,7 +108,7 @@ async function tagesgrenze() {
   /* Nacht der Zeitumstellung (25.10.2026, 03:00 → 02:00 Berlin): der Umstellungstag hat 25 Stunden. */
   const umstellung = berlin(2026, 10, 25, 1) + 30 * 60 * 1000
   const tagDerUmstellung = bis('Erinnern', '25. Oktober', umstellung)
-  pruefe('Nach der Umstellung (02:30 Berlin am 25.10.): „25. Oktober“ ist heute, Beginn 24.10. 22:00 UTC', tagDerUmstellung === berlin(2026, 10, 24, 22), tagDerUmstellung)
+  pruefe('Nach der Umstellung (02:30 Berlin am 25.10.): „25. Oktober“ ist heute, 1 Stunde', tagDerUmstellung === umstellung + STUNDE, tagDerUmstellung)
   const nachUmstellung = bis('Erinnern', '26. Oktober', umstellung)
   pruefe('Nach der Umstellung: „26. Oktober“ beginnt 25.10. 23:00 UTC (Winterzeit)', nachUmstellung === berlin(2026, 10, 25, 23), nachUmstellung)
 }
@@ -174,7 +176,7 @@ async function anzeige() {
   pruefe('Endanzeige zählt nur Titel der Prüfliste (3 gespeichert, einer nicht gelistet → 2)', lauf.karte.zurueckText() === ' · 2 zurückgestellt', lauf.karte.zurueckText())
   lauf.karte.set('1', 'keine Folgenliste in 20 s')
   pruefe('… und nicht doppelt, was dieser Lauf schon namentlich nennt (1 übersprungen → 1)', lauf.karte.zurueckText() === ' · 1 zurückgestellt', lauf.karte.zurueckText())
-  pruefe('Knopf ohne Auftrag: sind offene Titel zurückgestellt, sagt er das', lauf.karte.keinAuftrag().text === 'alle offenen zurückgestellt', lauf.karte.keinAuftrag())
+  pruefe('Knopf ohne Auftrag: sind offene Titel zurückgestellt, sagt er das', lauf.karte.keinAuftrag().text === 'nichts offen · 2 zurückgestellt', lauf.karte.keinAuftrag())
   const leer = await seite(speicherNeu(), {})
   pruefe('… ohne zurückgestellte Titel bleibt der alte Text', leer.karte.keinAuftrag().text === 'nichts offen — Seite neu laden', leer.karte.keinAuftrag())
   const fertigeEintraege = await seite(a, { fertig: () => true, nichtGelistet: ['3'] })
@@ -195,7 +197,46 @@ async function verdrahtung() {
 
 }
 
+/**
+ * Bericht 14.11.2026 (11:55 UTC): 139 Titel besucht, jeder Titel lädt die Seite neu; am Ende stand „gemessen 0, übersprungen 4“,
+ * obwohl 156 zurückgestellt waren. `fertigeTitel` und die Merkliste des Laufs lagen nur im Arbeitsspeicher.
+ */
+async function laufUeberNeuladen() {
+  const sitzung = new Map()
+  const ss = { getItem: (k) => (sitzung.has(k) ? sitzung.get(k) : null), setItem: (k, w) => void sitzung.set(k, String(w)), removeItem: (k) => void sitzung.delete(k) }
+  const a = speicherNeu()
+  const seiteMit = async () => {
+    const titel = new Proxy({}, { get: () => ({}) })
+    const karte = neu(titel, () => false, { speicher: a, jetzt: () => JETZT, datum: () => null, sitzung: ss })
+    await ruhe()
+    return { karte, fertige: kontext.akNetflixFertigSet(ss) }
+  }
+  const eins = await seiteMit()
+  eins.karte.set('11', 'Netflix leitet auf die Startseite um')
+  eins.fertige.add('12')
+  const zwei = await seiteMit()
+  zwei.karte.set('13', 'keine Folgenliste in 20 s')
+  const drei = await seiteMit()
+  const ende = kontext.akNetflixEnde('kein offener Auftrag mehr', drei.karte, drei.fertige, 3, { 11: { staffeln: [{ offen: true }] } }, new Set())
+  pruefe('nach zwei Neuladungen: gemessen 1 (nicht 0), zwei übersprungene Titel mit Grund', ende.zaehlung.gemessen === 1 && ende.zaehlung.uebersprungen === 2 && ende.uebersprungenText.includes("übersprungen: 2 (1× ") && !ende.rot, ende)
+  pruefe('die übersprungenen zählen nicht noch einmal als „zurückgestellt“', drei.karte.zurueckText() === '', drei.karte.zurueckText())
+  drei.karte.clear()
+  drei.fertige.clear()
+  const vier = await seiteMit()
+  pruefe('Start eines neuen Durchgangs (clear): nach dem Neuladen ist nichts mehr gemerkt', vier.karte.size === 0 && vier.fertige.size === 0, [vier.karte.size, vier.fertige.size])
+  vier.karte.set('14', 'keine Folgenliste in 20 s')
+  vier.fertige.add('15')
+  kontext.akNetflixLaufVergessen(ss)
+  const fuenf = await seiteMit()
+  pruefe('Ende des Durchgangs (akNetflixLaufVergessen): nichts bleibt für den nächsten Seitenaufruf stehen', fuenf.karte.size === 0 && fuenf.fertige.size === 0, [fuenf.karte.size, fuenf.fertige.size])
+  pruefe('ohne sessionStorage (null): kein Absturz, Merkliste nur im Arbeitsspeicher', (() => { const m = neu({}, () => false, { speicher: a, jetzt: () => JETZT, sitzung: null }); m.set('9', 'x'); return m.has('9') && kontext.akNetflixFertigSet(null).add('1').size === 1 })())
+  pruefe('kaputter oder fremder Speicherinhalt: leere Liste statt Absturz', kontext.akNetflixLaufLesen({ getItem: () => '{kaputt' }, 'x').length === 0 && kontext.akNetflixLaufLesen({ getItem: () => '{"a":1}' }, 'x').length === 0)
+  const melder = lies('melder.js')
+  pruefe('Verdrahtung: melder.js legt fertigeTitel über akNetflixFertigSet() an', /const fertigeTitel = akNetflixFertigSet\(\)/.test(melder))
+}
+
 async function haupt() {
+  await laufUeberNeuladen()
   await ablaufJeGrund()
   await tagesgrenze()
   await neustart()
