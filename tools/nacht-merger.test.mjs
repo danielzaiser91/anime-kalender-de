@@ -244,18 +244,33 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
 }
 {
   // Wächter: 0 Merges und technisch Unentschiedene -> Warnzeile; mit Merge oder ohne Unentschiedene nicht
-  const w = welt(vier().slice(0, 2), { status: { 11: ['UNKNOWN', 'UNKNOWN'], 12: ['BLOCKED'] } })
+  const w = welt(vier().slice(0, 2), { status: { 11: ['UNKNOWN', 'UNKNOWN'], 12: ['UNKNOWN', 'UNKNOWN'] } })
   const r = lauf(w, { hoechstens: 3 })
   pruefe('0 Merges, zwei technisch unentschieden: Warnzeile nennt beide', r.gemergt.length === 0 && w.log.zeilen.includes('::warning::Nacht-Merger: 0 Merges, 2 PR technisch nicht entschieden (#11, #12)'))
+  // Echte Abweisungen (Konflikt, DIRTY, BLOCKED) sind nicht unentschieden: kein Stillstand, sonst wäre der Lauf rot, solange so ein PR liegt
+  const NOCH_NICHT = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKNOWN), gleich erneut aufrufen' }
+  const KONFLIKT = { exit: 2, text: 'PR 11 hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu' }
+  const konflikt = welt(vier().slice(0, 1), { folge: { 11: [KONFLIKT] } })
+  const rk = lauf(konflikt, { hoechstens: 3 })
+  pruefe('nur ein Konflikt-PR offen (nachrechnen Exit 2, echte Meldung): kein Stillstand, Exit 0', rk.gemergt.length === 0 && rk.stillstand === false && exitCode(rk) === 0 && konflikt.log.zeilen.every((z) => !z.startsWith('::warning')) && konflikt.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #11') && z.includes('Konflikt')))
+  const dirty = welt(vier().slice(0, 2), { status: { 11: ['DIRTY'], 12: ['BLOCKED'] } })
+  const rd = lauf(dirty, { hoechstens: 3 })
+  pruefe('nur DIRTY und BLOCKED in der Einzelabfrage: kein Stillstand, Exit 0', rd.gemergt.length === 0 && rd.stillstand === false && exitCode(rd) === 0)
+  const nurUnknown = welt(vier().slice(0, 1), { folge: { 11: [NOCH_NICHT, NOCH_NICHT] } })
+  const ru = lauf(nurUnknown, { hoechstens: 3 })
+  pruefe('Gegenprobe: nachrechnen dauerhaft „noch nicht berechnet“: Stillstand, Exit 1, eine Wiederholung', ru.stillstand === true && exitCode(ru) === 1 && nurUnknown.log.aufrufe.join(',') === 'nachrechnen 11,warte 20000,nachrechnen 11')
+  const unknownStatus = welt(vier().slice(0, 1), { status: { 11: ['UNKNOWN', 'UNKNOWN'] } })
+  const rs = lauf(unknownStatus, { hoechstens: 3 })
+  pruefe('Gegenprobe: Einzelabfrage dauerhaft UNKNOWN: Stillstand, Exit 1', rs.stillstand === true && exitCode(rs) === 1)
   const w2 = welt(vier(), { exits: { 11: 2 } })
   lauf(w2, { hoechstens: 3 })
   pruefe('Exit 2 bei einem PR, andere gemergt: keine Warnung', w2.log.zeilen.every((z) => !z.startsWith('::warning')))
   const w3 = welt(vier(), { exits: { 11: 1, 12: 1, 13: 1, 14: 1 } })
   lauf(w3, { hoechstens: 3 })
   pruefe('0 Merges nur wegen Exit 1 (Kette neu angestoßen): keine Warnung', w3.log.zeilen.every((z) => !z.startsWith('::warning')))
-  const w4 = welt(vier().slice(0, 1), { exits: { 11: 2 } })
+  const w4 = welt(vier().slice(0, 1), { folge: { 11: [{ exit: 2, text: 'noch nicht berechnet' }, { exit: 2, text: 'noch nicht berechnet' }] } })
   lauf(w4, { hoechstens: 3 })
-  pruefe('0 Merges wegen nachrechnen Exit 2: Warnung', w4.log.zeilen.some((z) => z.startsWith('::warning::') && z.includes('#11')))
+  pruefe('0 Merges wegen nachrechnen Exit 2 „noch nicht berechnet“: Warnung', w4.log.zeilen.some((z) => z.startsWith('::warning::') && z.includes('#11')))
 }
 {
   // Zeitbudget (Attrappe-Uhr): Grenze genau an, eins drüber; danach geordnet aufhören, Rest als unentschieden, Exit 1
@@ -492,6 +507,14 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   let geworfen = false
   try { ohneMerge(['pr', 'merge', '5']) } catch { geworfen = true }
   pruefe('ghMitWiederholung: pr merge nie wiederholt, Fehler weitergereicht', geworfen && merge504.join('|') === 'pr merge 5')
+  // close/reopen (aus pr-nachrechnen) ebenso: nach einem 504 kann der Zustandswechsel schon durch sein
+  for (const kommando of ['close', 'reopen']) {
+    const spur = []
+    const ohne = ghMitWiederholung((args) => { spur.push(args.join(' ')); throw f504() }, () => spur.push('pause'))
+    let wirft = false
+    try { ohne(['pr', kommando, '5']) } catch { wirft = true }
+    pruefe(`ghMitWiederholung: pr ${kommando} nie wiederholt, Fehler weitergereicht`, wirft && spur.join('|') === `pr ${kommando} 5`)
+  }
   // mergeMit5xxPruefung: 504, PR ist MERGED -> kein Fehler; 504 und OPEN -> Fehler; 404 -> Fehler ohne Zustandsabfrage
   const mitZustand = (zustand, fehlerBei) => {
     const aufrufe = []

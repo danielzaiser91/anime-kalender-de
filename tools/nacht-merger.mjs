@@ -15,7 +15,7 @@ import { kandidat, reihenfolge, vorabGrund } from './nacht-merger-wahl.mjs'
 
 export const HOECHSTENS_VORGABE = 3
 /** Wartezeit vor der einen Wiederholung, wenn GitHub die Mergebarkeit noch rechnet (UNKNOWN, gemessen 07.11.2026 bei #2994/#3049: wenig später CLEAN). */
-export const UNKNOWN_WARTE_MS = 20_000
+export const UNKNOWN_WARTE_MS = Number(process.env.NACHT_MERGER_WARTE_MS) || 20_000 // Umgebungswert nur für den Prozesstest (wie WACHE_LIMIT_MS)
 /** Zeitbudget je Lauf: der Job hat 20 min (nacht-merger.yml), je UNKNOWN-PR kommen bis zu 40 s Wartezeit dazu; danach geordnet aufhören. */
 export const BUDGET_MS = 15 * 60_000
 const NOCH_NICHT_BERECHNET = /noch nicht berechnet/
@@ -28,14 +28,14 @@ export function nachrechnenMitWiederholung(welt, nummer) {
   return welt.nachrechnen(nummer)
 }
 
-/** Einzelabfrage des Mergestatus vor dem Merge: null = CLEAN, sonst der Grund; UNKNOWN (noch nicht berechnet) wird einmal nach Wartezeit wiederholt. */
+/** Einzelabfrage des Mergestatus vor dem Merge: null = CLEAN, sonst { grund, unentschieden }; UNKNOWN wird einmal nach Wartezeit wiederholt und ist als einziger Status technisch unentschieden (DIRTY/BLOCKED sind echte Abweisungen). */
 export function mergeStatusGrund(welt, nummer) {
   let status = welt.mergeStatus(nummer)
   if (status === 'UNKNOWN') {
     welt.warte(UNKNOWN_WARTE_MS)
     status = welt.mergeStatus(nummer)
   }
-  return status === 'CLEAN' ? null : `Mergestatus in der Einzelabfrage ${status}, nicht CLEAN`
+  return status === 'CLEAN' ? null : { grund: `Mergestatus in der Einzelabfrage ${status}, nicht CLEAN`, unentschieden: status === 'UNKNOWN' }
 }
 
 /** Warnzeile (GitHub-Anmerkung), wenn ein Lauf nichts merget, obwohl PRs technisch nicht entschieden werden konnten; sonst null. */
@@ -85,14 +85,14 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false, b
     }
     const r = nachrechnenMitWiederholung(welt, pr.nummer)
     if (r.exit !== 0) {
-      if (r.exit === 2) unentschieden.push(`#${pr.nummer}`)
+      if (r.exit === 2 && NOCH_NICHT_BERECHNET.test(r.text)) unentschieden.push(`#${pr.nummer}`)
       abgewiesen(pr, `Kette nicht als aktuell bestätigt (nachrechnen Exit ${r.exit}): ${r.text}`)
       continue
     }
     const statusGrund = mergeStatusGrund(welt, pr.nummer)
     if (statusGrund !== null) {
-      unentschieden.push(`#${pr.nummer}`)
-      abgewiesen(pr, statusGrund)
+      if (statusGrund.unentschieden) unentschieden.push(`#${pr.nummer}`)
+      abgewiesen(pr, statusGrund.grund)
       continue
     }
     if (welt.bauCommittet()) {

@@ -21,8 +21,8 @@ export function ghMitWiederholung(gh, schlafen = schlafe) {
     try {
       return gh(args)
     } catch (e) {
-      // Merge nie wiederholen: nach einem 504 kann er schon durch sein (sonst falsches „already merged“); `merge` prüft den Zustand selbst
-      if (args[0] === 'pr' && args[1] === 'merge') throw e
+      // merge/close/reopen nie wiederholen: nach einem 504 kann die Änderung schon durch sein (sonst falsches „already merged/closed“); `merge` prüft den Zustand selbst
+      if (args[0] === 'pr' && ['merge', 'close', 'reopen'].includes(args[1])) throw e
       if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
       schlafen(GH_5XX_PAUSE_MS)
       return gh(args)
