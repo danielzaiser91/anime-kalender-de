@@ -138,7 +138,7 @@ function argument(name, vorgabe) {
 function melden(zuhoch, hoch) {
   if (hoch.length) console.error(`✖ Grenzdatei von Hand angehoben:\n  ${hoch.join('\n  ')}`)
   if (zuhoch.code.length)
-    console.error(`✖ Neue stumme catch-Blöcke (leer oder nur Leerwert-return):\n  ${zuhoch.code.join('\n  ')}\n  Loggen, werfen oder das Warum als Kommentar in den Block schreiben.`)
+    console.error(`✖ Neue stumme catch-Blöcke (leer oder nur Leerwert-return):\n  ${zuhoch.code.join('\n  ')}\n  Loggen oder werfen. Ein Kommentar im Block genügt nur beim leeren catch; ein catch mit bloßem return {}/null/[] bleibt auch mit Kommentar stumm.`)
   if (zuhoch.workflows.length)
     console.error(`✖ Neues „|| true“/„|| echo“ ohne Begründung:\n  ${zuhoch.workflows.join('\n  ')}\n  „# stumm: <Grund>“ in dieselbe oder die Vorzeile.`)
   console.error('Fundstellen: node tools/stumme-pfade.mjs --liste. Die Grenzen werden nicht angehoben.')
