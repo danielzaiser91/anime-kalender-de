@@ -169,9 +169,9 @@ const melder = lies('melder.js')
     for (let i = 1; i <= titelZahl; i++) offen[i] = { titel: `T${i}` }
     const ergebnis = {}
     new Function(
-      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'ergebnis',
+      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis',
       `${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
-    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, ergebnis)
+    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis)
     return ergebnis
   }
   let r = seite(40)
