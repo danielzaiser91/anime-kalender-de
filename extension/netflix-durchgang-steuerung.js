@@ -288,6 +288,81 @@ globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher
 }
 
 /*
+  **Was der Lauf bisher getan hat, überlebt das volle Neuladen** (14.11.2026). `fertigeTitel` und die übersprungenen Titel lagen nur im
+  Arbeitsspeicher; jeder Titel lädt die Seite neu, am Ende stand „besucht 139, gemessen 0, übersprungen 4“ (Bericht 11:55 UTC).
+  Beides liegt jetzt im `sessionStorage` (je Tab, wie der Zähler).
+*/
+globalThis.akNetflixSitzungSpeicher = sitzungSpeicher
+
+/** Die Einträge (Liste) unter `schluessel`, sonst `[]`. */
+globalThis.akNetflixLaufLesen = (speicher, schluessel) => {
+  try {
+    const x = JSON.parse(speicher?.getItem(schluessel) ?? '[]')
+    return Array.isArray(x) ? x : []
+  } catch {
+    return []
+  }
+}
+
+globalThis.akNetflixLaufSchreiben = (speicher, schluessel, eintraege) => {
+  try {
+    if (eintraege.length) speicher?.setItem(schluessel, JSON.stringify(eintraege))
+    else speicher?.removeItem(schluessel)
+  } catch {
+    /* Ohne Speicher gilt der Stand bis zum Neuladen. */
+  }
+}
+
+const FERTIG_SCHLUESSEL = 'ak-netflix-fertig'
+
+/** Die abgeschlossenen Titel des Laufs als `Set`, das sich im `sessionStorage` merkt (`add` und `clear` schreiben). */
+globalThis.akNetflixFertigSet = (speicher = sitzungSpeicher()) => {
+  class Fertig extends Set {
+    constructor() {
+      super(globalThis.akNetflixLaufLesen(speicher, FERTIG_SCHLUESSEL))
+    }
+
+    add(k) {
+      super.add(k)
+      globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [...this])
+      return this
+    }
+
+    clear() {
+      super.clear()
+      globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])
+    }
+  }
+  return new Fertig()
+}
+
+/** Eine `Map` (Kennung → Grund), die sich unter `schluessel` im `sessionStorage` merkt (`set` und `clear` schreiben, der Konstruktor lädt). */
+globalThis.akNetflixLaufMap = (speicher, schluessel) =>
+  class LaufMap extends Map {
+    constructor() {
+      super()
+      for (const [k, g] of globalThis.akNetflixLaufLesen(speicher, schluessel)) super.set(k, g)
+    }
+
+    set(k, g) {
+      super.set(k, g)
+      globalThis.akNetflixLaufSchreiben(speicher, schluessel, [...this])
+      return this
+    }
+
+    clear() {
+      super.clear()
+      globalThis.akNetflixLaufSchreiben(speicher, schluessel, [])
+    }
+  }
+
+/** Ende des Durchgangs: gemerkte Titel des Laufs vergessen (Zähler: `akNetflixZaehlerSetze(null)`). */
+globalThis.akNetflixLaufVergessen = (speicher = sitzungSpeicher()) => {
+  globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])
+  globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-uebersprungen', [])
+}
+
+/*
   **Der Durchgang gehört einem Tab** (12.11.2026). `sessionStorage` gilt je Tab, der Besitzer aber steht in
   `chrome.storage.local` (`netflixDurchgangBesitzer`: `{ tab, puls }`), damit ein zweiter Tab ihn sieht.
   Ein lebender Besitzer (Puls jünger als `BESITZER_FRIST_MS`) hält jeden anderen Tab vom Start ab und
@@ -422,6 +497,7 @@ globalThis.akNetflixTaktTun = (d) => ({
     this.zeigen(null)
     akNetflixFortschrittZeigen(() => d.kasten().querySelector('.ak-z-melden'), null)
     akNetflixZaehlerSetze(null)
+    akNetflixLaufVergessen()
     this.raeumen()
   },
   weiter: d.weiter,

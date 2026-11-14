@@ -41,6 +41,11 @@ export function katalogOhneTag(folgen: NeueFolge[]): NeueFolge[] {
   return folgen.filter((f) => !katalogTag(f))
 }
 
+/** Die Staffel, unter der der Katalog die Folge führt: 1, wenn sie wie die Serie heißt, sonst die Zahl im Namen (`NaN` ohne Zahl). */
+export function staffelDerFolge(f: NeueFolge): number {
+  return f.staffel === f.serie ? 1 : Number(STAFFEL_IM_NAMEN.exec(f.staffel ?? '')?.[1])
+}
+
 /** Zähler der Verwerfungspfade von `katalogBeobachtungen` (Skill stille-ausfaelle-verhindern). */
 export interface KatalogVerworfen {
   /** Aufruf ohne Serienkennung oder Staffel: der Titel hat nichts zum Suchen. */
@@ -89,8 +94,7 @@ export function katalogBeobachtungen(
       verworfen.ohneNummer++
       continue
     }
-    const ihre = f.staffel === f.serie ? 1 : Number(STAFFEL_IM_NAMEN.exec(f.staffel ?? '')?.[1])
-    if (ihre !== staffel) {
+    if (staffelDerFolge(f) !== staffel) {
       verworfen.andereStaffel++
       continue
     }

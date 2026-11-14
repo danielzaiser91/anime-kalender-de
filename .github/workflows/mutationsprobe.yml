@@ -1,10 +1,15 @@
 name: Mutationsprobe
 
+# Der Lauftitel nennt Liste und Kopf: der Prüfer (tools/mutationsprobe-pr.mjs) findet den Lauf zum Kopf daran.
+run-name: Mutationsprobe ${{ inputs.liste }} @ ${{ inputs.kopf }}
+
 # Die Mutationsprobe läuft hier und nicht auf Daniels Rechner (F40, Schritt 2, 29.10.2026).
 # Start per Knopf (workflow_dispatch) mit Zweig, Mutantenliste und Testbefehl; Ergebnis im Job-Log,
 # in der Zusammenfassung und, wenn eine PR-Nummer mitgegeben ist, als Kommentar am PR.
-# Es läuft `tools/mutationslaeufer.mjs` aus dem geprüften Zweig; die Liste muss dort liegen
-# (Vorbilder: tools/mutationen/*.json). Der Lauf schreibt nichts ins Repo.
+# Liste und Tests kommen aus dem geprüften Zweig (Vorbilder: tools/mutationen/*.json), der Läufer
+# `tools/mutationslaeufer.mjs` und damit der Exit-Code aus main (zweiter Checkout, Prüfer-Auflage A2 PR 3591:
+# ein PR kann den Läufer nicht gegen „alle rot“ austauschen). Die Tests des Zweigs laufen weiter als PR-Code.
+# Der Lauf schreibt nichts ins Repo.
 #
 # Aufruf: gh workflow run mutationsprobe.yml --repo danielzaiser91/anime-kalender-de \
 #           -f zweig=<zweig> -f liste=tools/mutationen/<liste>.json -f test="npx tsx pipeline/check-x.ts" [-f pr=<nr>]
@@ -20,11 +25,17 @@ on:
         required: true
         type: string
       test:
-        description: 'Testbefehl (Standard für Mutanten ohne eigenes "tests")'
-        required: true
+        description: 'Testbefehl (Standard für Mutanten ohne eigenes "tests"; leer, wenn jeder Mutant eigene tests trägt)'
+        required: false
+        default: ''
         type: string
       pr:
         description: 'PR-Nummer für den Ergebnis-Kommentar (leer = kein Kommentar)'
+        required: false
+        default: ''
+        type: string
+      kopf:
+        description: 'Kopf-SHA (40 Hex), den der Lauf prüft; leer = Spitze von zweig (Prüfer startet mit SHA, tools/mutationsprobe-pr.mjs)'
         required: false
         default: ''
         type: string
@@ -37,6 +48,12 @@ on:
 permissions:
   contents: read
 
+# Ein neuer Lauf derselben Liste desselben Zweigs ersetzt den laufenden (Push, Rerun des Prüfers): je Liste und Zweig
+# höchstens ein Lauf mit npm ci und Chromium, nie fünf Läufe à 50 min nebeneinander (A4, PR 3591).
+concurrency:
+  group: mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}
+  cancel-in-progress: true
+
 jobs:
   mutation:
     runs-on: ubuntu-latest
@@ -48,13 +65,30 @@ jobs:
           PR: ${{ inputs.pr }}
           TIMEOUT: ${{ inputs.timeout }}
           LISTE: ${{ inputs.liste }}
+          KOPF: ${{ inputs.kopf }}
         run: |
+          case "$KOPF" in '') ;; *[!0-9a-f]*) echo "kopf muss ein SHA (40 Hex) sein: $KOPF"; exit 2 ;; *) [ "${#KOPF}" = 40 ] || { echo "kopf muss 40 Zeichen haben: $KOPF"; exit 2; } ;; esac
           case "$PR" in ''|*[!0-9]*) [ -z "$PR" ] || { echo "pr muss eine Zahl sein: $PR"; exit 2; } ;; esac
           case "$TIMEOUT" in ''|*[!0-9]*) echo "timeout muss eine Zahl sein: $TIMEOUT"; exit 2 ;; esac
           case "$LISTE" in *..*|/*) echo "liste muss ein Pfad im Repo sein: $LISTE"; exit 2 ;; esac
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.zweig }}
+          ref: ${{ inputs.kopf || inputs.zweig }}
+      # Läufer aus main: nur diese eine Datei, nach dem Checkout des Zweigs (der räumt den Arbeitsordner), dann aus dem
+      # Arbeitsordner heraus: Tests des Zweigs sehen den Ordner nicht, ein Zweig kann die Datei nicht ersetzen.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: _main
+          sparse-checkout: tools/mutationslaeufer.mjs
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Läufer sichern
+        run: |
+          set -e
+          mkdir -p "$RUNNER_TEMP/laeufer"
+          cp _main/tools/mutationslaeufer.mjs "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs"
+          rm -rf _main
       # Node, npm ci und Chromium (Browser-Tests wie check-beleg-sammelartikel) wie in den Datenläufen.
       # cache: aus, weil die Mutantentests keine Rohdaten aus data/cache lesen (sie laufen auf dem Zweig-Stand).
       - uses: ./.github/actions/einrichten
@@ -71,12 +105,17 @@ jobs:
           mkdir -p "$RUNNER_TEMP/mutation"
           set -o pipefail
           code=0
-          node tools/mutationslaeufer.mjs "$LISTE" --test "$TEST" --timeout "$TIMEOUT" \
+          # Leerer Standardtest: ohne --test (jeder Mutant trägt eigene tests).
+          test_arg=(); [ -z "$TEST" ] || test_arg=(--test "$TEST")
+          node "$RUNNER_TEMP/laeufer/mutationslaeufer.mjs" "$LISTE" "${test_arg[@]}" --timeout "$TIMEOUT" \
             --log "$RUNNER_TEMP/mutation/log" 2>&1 | tee "$RUNNER_TEMP/mutation/lauf.txt" || code=$?
+          # Kopf-SHA des geprüften Stands: ohne ihn lässt sich ein Kommentar nicht einem Push zuordnen.
+          # stumm: ohne lesbaren Kopf steht „unbekannt“ im Kommentar, der Lauf soll trotzdem berichten
+          kopf=$(git rev-parse HEAD 2>/dev/null || echo unbekannt)
           {
             echo "## Mutationsprobe für \`$ZWEIG\` (\`$LISTE\`)"
             echo
-            echo "Exit $code (0 = alle Mutanten rot, 1 = Überlebende oder unbrauchbare, 2 = Aufruf oder Grundlauf rot). Lauf: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "Exit $code (0 = alle Mutanten rot, 1 = Überlebende oder unbrauchbare, 2 = Aufruf oder Grundlauf rot). Kopf: \`$kopf\`. Lauf: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID. Läufer aus main, Liste und Tests vom Kopf."
             echo
             if [ -f "$RUNNER_TEMP/mutation/log/tabelle.md" ]; then cat "$RUNNER_TEMP/mutation/log/tabelle.md"; else tail -n 40 "$RUNNER_TEMP/mutation/lauf.txt"; fi
           } > "$RUNNER_TEMP/mutation/ergebnis.md"
@@ -117,4 +156,5 @@ jobs:
             printf '## Mutationsprobe ohne Ergebnis\n\nDer Lauf hat keine Tabelle geliefert: %s/%s/actions/runs/%s\n' \
               "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > ergebnis/ergebnis.md
           fi
-          gh pr comment "$PR" --body-file ergebnis/ergebnis.md
+          # REST statt `gh pr comment`: der Befehl läuft über GraphQL und scheiterte dort mit einem Fehler (PR 3567, 12.11.2026).
+          gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@ergebnis/ergebnis.md

@@ -3326,11 +3326,22 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   (`artikel` in `crunchyroll-woche.json`), reine Kalendertermine behalten den historischen Link `/de/simulcastcalendar` (leitet auf
   `/de/simulcasts` um; kein besserer Beleg für damals gemessene Termine). Meldungslinks (`quelle`) und die Quellenseite verweisen seit dem Folge-PR auf die Übersicht `/de/news/seasonal-lineup` (stabil, der Wochenartikel wechselt je Woche); die Foto-Belege (`messBeleg`) behalten den Kalenderlink, sonst verschmölze das Entdoppeln sie mit dem Wochenartikel. Die Wochendatei liest `crQuelleUrl` einmal je Prozess. Früher nicht angefasst:
   `lib/news-verspaetung.ts` (`kalenderTag`, Meldungslink) und die Quellenseite in `web/src/components/StaticViews.tsx`.
-- **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag); `termine-pruefen.ts` urteilt nur im
-  Fenster. **Die Ausgeblieben-/Verpasst-Erkennung für Crunchyroll endet damit mit dem Kalender:** Termine nach dem 21.10. kann sie nicht
-  mehr als verpasst führen (vom Prüfer mit altem und neuem Fenster gemessen: 0/0/0 neu/nachgeholt/verpasst, `termine-verpasst.json`
-  byte-gleich); das Wochenprogramm bestätigt nur, es belegt kein Ausbleiben. Möglicher kleiner Ersatz (nicht gebaut): Wochenprogramm-Zeile
-  vorhanden, Folge am Sendetag nicht im Crunchyroll-Katalog (`crunchyroll-neu`) → „ausgeblieben“-Kandidat.
+- **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag). Bis 14.11.2026 urteilte
+  `termine-pruefen.ts` nur in diesem Fenster, die Verpasst-Erkennung für Crunchyroll stand also still (The Vermilion Mask Folge 3, 14.11.:
+  angekündigt, nicht geliefert, ohne Vermerk). **Seit 14.11.2026 urteilt nach dem Fenster der Katalog** (`crunchyroll-neu.json`,
+  `lib/verpasst-ankuendigung.ts`, `darfUrteilen`): nur wenn er nach der Frist geholt ist, die Frist höchstens 24 h zurückliegt (er liest nur
+  die jüngsten 600 Folgen) und er die Serie in genau der gesuchten Staffel führt (Ascendance of a Bookworm steht dort als „Staffel 4“).
+  **Eine Ankündigung zählt nie als Beobachtung:** Kalender-Einträge mit `quelle: 'woche'` und Folgentage in `schedule.observed`, die eine
+  Wochenprogramm-Zeile wiedergeben, bestätigen keinen Termin. Wächter: `check-termine-katalog-lauf.ts`.
+- **Uhrzeit: Katalogstempel statt Wochenprogramm (14.11.2026).** Der Anlass oben war keine fehlende Folge: The Vermilion Mask Folge 3
+  (`GE00384365DEDE`, „Die Rauchmaske“) steht mit `verfuegbarAb` 10:30 UTC = 11:30 Berlin im Katalog (Abruf 12:01 UTC, der um 11:01 Berlin
+  hatte sie noch nicht); das Wochenprogramm nannte 10:30, und so stand Folge 3 eine Stunde zu früh als erschienen da. Der Sendezeiten-Lauf
+  danach strich den Vermerk zu Recht („die Folge kam am erwarteten Tag“). Messung über 37 Wochenprogramm-Zeilen seit 20.10.: der Stempel
+  passte in 32 von 32 messbaren Fällen zum stündlichen Abruf, die Wochenprogramm-Zeit in 22 nicht (28.10.–01.11. 1 h zu spät, ab 02.11.
+  1 h zu früh). Seitdem setzt `lib/cr-zeit-katalog.ts` in Phase 09-4-4 die Zeit der Kalendertermine (`cr-…`) aus dem Stempel der jüngsten
+  gepaarten Folge, frühere abweichende Folgen in `schedule.zeiten`; am ersten Tag bleibt die Psyren-Regel (`cr-zeit-woche.ts`). Kuratierte
+  Termine und geschätzte Zeiten bleiben. Wächter: `check-cr-zeit-katalog.ts`. Offen: ob die Psyren-Regel am ersten Tag selbst stimmt — das
+  Wochenprogramm lag 28.10.–01.11. eine Stunde zu spät.
 - **Foto-Belege (Folgepunkt, 27.10.2026):** `messbelege.ts` legt keine Kalenderfotos mehr an (`lib/messbeleg-auftraege.ts`, `KALENDER_ERREICHBAR = false`): das
   Bild von `kalenderTag(tag)` zeigte die Zielseite der Umleitung, nicht den Tag. Bereits abgelegte Fotos bleiben. Wächter: `check-messbelege-kalender.ts`.
 - **Nicht gebaut:** News-Artikel unter `/de/news/latest` (`cr-news-api-service…`) als zweite Quelle. Kein Bedarf aus der Messung; Sprache

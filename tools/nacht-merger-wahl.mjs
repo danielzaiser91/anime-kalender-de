@@ -10,7 +10,8 @@
  *  3. kein Pfad unter `.github/workflows/` (auch kein Umbenennungs-Ursprung)
  *  4. die Prüfkette (`PR-Prüfkette`) ist am aktuellen Kopf grün, kein anderer Check rot, wartend oder abgebrochen
  *  5. Freigabe für genau diesen Kopf: jüngstes CI-Urteil „ok“ zu seinem Kurz-Hash, oder der Nachtrag des Inhabers
- *  6. GitHub meldet APPROVED und CLEAN
+ *  6. GitHub meldet APPROVED und CLEAN oder noch UNKNOWN (= nicht berechnet, gemessen 14.11.2026 auch bei frisch gemergten PRs);
+ *     vor dem Merge bestätigt der Läufer CLEAN per Einzelabfrage, `pr-nachrechnen` MERGEABLE
  */
 import { entscheide } from './abnahme-freigabe.mjs'
 
@@ -88,7 +89,7 @@ export function vorabGrund(pr) {
   if (pr.zweig.startsWith('daten/')) return 'Daten-PR (Sache des Sammlers)'
   if (!(pr.geaenderteDateien > 0)) return 'leer (Inhalt schon auf main?)'
   if (pr.reviewDecision !== 'APPROVED') return `Review-Stand ${pr.reviewDecision || 'leer'}, nicht APPROVED`
-  if (pr.mergeStateStatus !== 'CLEAN') return `Mergestatus ${pr.mergeStateStatus}, nicht CLEAN`
+  if (pr.mergeStateStatus !== 'CLEAN' && pr.mergeStateStatus !== 'UNKNOWN') return `Mergestatus ${pr.mergeStateStatus}, nicht CLEAN`
   return null
 }
 

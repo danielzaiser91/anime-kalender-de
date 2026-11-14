@@ -5,7 +5,7 @@ export const TEXTE_ANTWORT = {
   'antwort.kinoZuletzt': 'Zuletzt im Kino: {monat}',
   'antwort.fertigUngefaehr': 'Auf Deutsch, {count} Folgen',
   // Katalogstart ohne belegte Uhrzeit am Starttag: Folgen sind da, wann genau ist unbekannt.
-  'antwort.heuteUhrzeitOffen': 'Alle {count} Folgen heute, Uhrzeit offen',
+  'antwort.heuteUhrzeitOffen': 'Alle {count} Folgen heute, genaue Uhrzeit unbekannt',
   // Nebenzeile unter „26 von 41 Folgen auf Deutsch“: woher die deutsche Zahl stammt.
   'antwort.deFolgenQuelle': 'Laut {quelle}: „{zitat}“',
   // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.

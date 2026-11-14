@@ -174,6 +174,16 @@ export function weckplanLuecken(weckplanText, workflows, ausnahmen = OHNE_WECKPL
   return b
 }
 
+/** Die Zahl „N Zugänge“ im Abschnitt „Register der Zugänge“ von betrieb.md muss die Registereinträge zählen (leer = stimmig). */
+export function zahlBefunde(betriebText, anzahl) {
+  const abschnitt = betriebText.split(/^## /m).find((a) => a.startsWith('Register der Zugänge'))
+  if (abschnitt === undefined) return ['betrieb.md: Abschnitt „Register der Zugänge“ fehlt']
+  const m = abschnitt.match(/(\d+) Zugänge/)
+  if (!m) return ['betrieb.md, Register der Zugänge: keine Zahl „N Zugänge“ gefunden']
+  if (Number(m[1]) !== anzahl) return [`betrieb.md nennt ${m[1]} Zugänge, das Register hat ${anzahl} Einträge`]
+  return []
+}
+
 function workflowTexte() {
   const verz = new URL('.github/workflows/', WURZEL)
   return Object.fromEntries(readdirSync(verz).filter((d) => d.endsWith('.yml')).map((d) => [d, readFileSync(new URL(d, verz), 'utf8')]))
@@ -190,6 +200,7 @@ function main() {
   }
   if (process.argv.includes('--register-pruefen')) {
     const b = registerBefunde()
+    b.push(...zahlBefunde(readFileSync(new URL('docs/wissen/betrieb.md', WURZEL), 'utf8'), register.zugaenge.length))
     b.push(...wachePlanBefunde(readFileSync(new URL('shared/weckplan.ts', WURZEL), 'utf8'), readFileSync(new URL('.github/workflows/wecker-wache.yml', WURZEL), 'utf8')))
     b.push(...weckplanLuecken(readFileSync(new URL('shared/weckplan.ts', WURZEL), 'utf8'), workflowTexte()))
     if (b.length) {
