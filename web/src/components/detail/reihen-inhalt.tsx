@@ -24,28 +24,11 @@ export type ReihenListeProps = {
   setReiheSuche: Dispatch<SetStateAction<{ reihe: number; text: string; }>>
 }
 
-/*
-  **Vier Gruppen mit Überschrift, nicht zwei Töpfe.**
-
-  Bei „One Piece" standen 64 Teile in einer Liste, und der erste
-  sichtbare war eine ONA von 2018.
-
-  Die Reihenfolge folgt dem, was jemand sucht: erst die
-  Hauptserie, dann das Beiwerk, dann die Filme — und ganz unten,
-  was es noch nicht gibt. Innerhalb jeder Gruppe chronologisch.
-*/
-/*
-  **Ein Titel ohne Jahr gehört ans Ende, nicht an den Anfang.**
-
-  `?? 0` machte aus „unbekannt" das Jahr null. Bei „One Piece"
-  standen dadurch drei undatierte Kurzformate vor der Serie von
-  1999, und sie selbst hieß in der Liste „Staffel 4" (Daniel,
-  03.09.2026, mit Bild).
-*/
 /** Wie die Reihe geordnet wird: Hauptstaffeln, Gruppen, Staffelnummern. */
 function reihenOrdnung(reihenTeile: FranchiseMember[], reihenName: string, t: Translate) {
   const jahr = new Date().getFullYear()
   const kuenftig = (m: FranchiseMember) => istKuenftig(m, jahr)
+  /* Ein Titel ohne Jahr gehört ans Ende: `?? 0` stellte undatierte Kurzformate vor die Serie von 1999 (One Piece, 03.09.2026). */
   const nachJahr = nachJahrUndId
 
   /*
@@ -102,6 +85,7 @@ function reihenOrdnung(reihenTeile: FranchiseMember[], reihenName: string, t: Tr
   */
   const nachStandUndJahr = (a: FranchiseMember, b: FranchiseMember) =>
     Number(kuenftig(a)) - Number(kuenftig(b)) || nachJahr(a, b)
+  /* Vier Gruppen mit Überschrift (Hauptserie, Beiwerk, Filme), je chronologisch: bei „One Piece" standen 64 Teile in einer Liste. */
   const gruppen = reihenGruppen(reihenTeile, istHauptstaffel, nachStandUndJahr, t)
 
   /*
