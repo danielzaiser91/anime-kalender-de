@@ -1520,13 +1520,55 @@
     ]
   },
   {
-    "name": "tools/modul-umzug.mjs:429 Argumente getauscht aliasFuer",
+    "name": "tools/modul-umzug.mjs:327 && → ||",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "(ts.isVariableDeclaration(d) || ts.isParameter(d)) && !d.type",
+        "ersetze": "(ts.isVariableDeclaration(d) || ts.isParameter(d)) || !d.type",
+        "zeile": 327
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:327 || → &&",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "ts.isVariableDeclaration(d) || ts.isParameter(d)",
+        "ersetze": "ts.isVariableDeclaration(d) && ts.isParameter(d)",
+        "zeile": 327
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:381 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "tools/modul-umzug.mjs",
+        "suche": "ohneAnnotation(d) ? pruefer.getBaseTypeOfLiteralType(pruefer.getTypeAtLocation(k)) : pruefer.getTypeAtLocation(k)",
+        "ersetze": "ohneAnnotation(d) ? pruefer.getTypeAtLocation(k) : pruefer.getBaseTypeOfLiteralType(pruefer.getTypeAtLocation(k))",
+        "zeile": 381
+      }
+    ],
+    "tests": [
+      "node tools/modul-umzug.test.mjs"
+    ]
+  },
+  {
+    "name": "tools/modul-umzug.mjs:432 Argumente getauscht aliasFuer",
     "aenderungen": [
       {
         "datei": "tools/modul-umzug.mjs",
         "suche": "aliasFuer(zielPfad, datei)",
         "ersetze": "aliasFuer(datei, zielPfad)",
-        "zeile": 429
+        "zeile": 432
       }
     ],
     "tests": [
@@ -1534,13 +1576,13 @@
     ]
   },
   {
-    "name": "tools/modul-umzug.mjs:429 Argumente getauscht spezifizierer",
+    "name": "tools/modul-umzug.mjs:432 Argumente getauscht spezifizierer",
     "aenderungen": [
       {
         "datei": "tools/modul-umzug.mjs",
         "suche": "spezifizierer(zielPfad, datei)",
         "ersetze": "spezifizierer(datei, zielPfad)",
-        "zeile": 429
+        "zeile": 432
       }
     ],
     "tests": [
@@ -1548,13 +1590,13 @@
     ]
   },
   {
-    "name": "tools/modul-umzug.mjs:501 Aufruf entfernt",
+    "name": "tools/modul-umzug.mjs:504 Aufruf entfernt",
     "aenderungen": [
       {
         "datei": "tools/modul-umzug.mjs",
         "suche": "nachbearbeiten(quellPfad, zielPfad)",
         "ersetze": "void 0",
-        "zeile": 501
+        "zeile": 504
       }
     ],
     "tests": [
@@ -1562,13 +1604,13 @@
     ]
   },
   {
-    "name": "tools/modul-umzug.mjs:501 Argumente getauscht nachbearbeiten",
+    "name": "tools/modul-umzug.mjs:504 Argumente getauscht nachbearbeiten",
     "aenderungen": [
       {
         "datei": "tools/modul-umzug.mjs",
         "suche": "nachbearbeiten(quellPfad, zielPfad)",
         "ersetze": "nachbearbeiten(zielPfad, quellPfad)",
-        "zeile": 501
+        "zeile": 504
       }
     ],
     "tests": [
@@ -1576,13 +1618,13 @@
     ]
   },
   {
-    "name": "tools/modul-umzug.mjs:543 Aufruf entfernt",
+    "name": "tools/modul-umzug.mjs:546 Aufruf entfernt",
     "aenderungen": [
       {
         "datei": "tools/modul-umzug.mjs",
         "suche": "nachbearbeiten(quellPfad, zielPfad)",
         "ersetze": "void 0",
-        "zeile": 543
+        "zeile": 546
       }
     ],
     "tests": [
@@ -1590,13 +1632,13 @@
     ]
   },
   {
-    "name": "tools/modul-umzug.mjs:543 Argumente getauscht nachbearbeiten",
+    "name": "tools/modul-umzug.mjs:546 Argumente getauscht nachbearbeiten",
     "aenderungen": [
       {
         "datei": "tools/modul-umzug.mjs",
         "suche": "nachbearbeiten(quellPfad, zielPfad)",
         "ersetze": "nachbearbeiten(zielPfad, quellPfad)",
-        "zeile": 543
+        "zeile": 546
       }
     ],
     "tests": [
