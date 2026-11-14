@@ -81,7 +81,7 @@ function aliasFuer(zielPfad, datei) {
   if (!ziele) return null
   const wurzel = resolve(o.pathsBasePath ?? o.baseUrl ?? dirname(zielPfad), ziele[0].replace(/\*$/, ''))
   const r = relative(wurzel, datei).replaceAll('\\', '/')
-  return r.startsWith('..') || r.startsWith('/') || /^[A-Za-z]:/.test(r) ? null : `@shared/${r}`
+  return r.startsWith('..') ? null : `@shared/${r}`
 }
 
 const relModul = (vonDatei, modul, zuDatei) => {
@@ -223,42 +223,44 @@ function importeAufraeumen(pfad, alles = false) {
 }
 
 /** Der Name eines Importelements ohne `type`, zum Sortieren. */
-const elementName = (t) => t.replace(/^type /, '').replace(/^.* as /, '').toLowerCase()
+const elementName = (t) => t.replace(/^type /, '').toLowerCase()
 
 function importSatz(modul, standard, elemente) {
-  const liste = elemente.join(', ')
-  const kopf = standard ? (elemente.length ? `${standard}, ` : standard) : ''
-  if (!elemente.length) return `import ${standard} from '${modul}'`
-  const zeile = `import ${kopf}{ ${liste} } from '${modul}'`
+  const kopf = standard ? `${standard}, ` : ''
+  const zeile = `import ${kopf}{ ${elemente.join(', ')} } from '${modul}'`
   return zeile.length <= 120 ? zeile : `import ${kopf}{\n${elemente.map((e) => `  ${e},`).join('\n')}\n} from '${modul}'`
+}
+
+/** Die Importsätze der Datei mit benannten Importen, je Quelle gesammelt (Namensraum- und Nebenwirkungs-Importe zählen nicht). */
+function importeJeQuelle(sf) {
+  const jeModul = new Map()
+  for (const s of sf.statements) {
+    if (!ts.isImportDeclaration(s) || !s.importClause) continue
+    if (s.importClause.namedBindings && ts.isNamespaceImport(s.importClause.namedBindings)) continue
+    jeModul.set(s.moduleSpecifier.text, [...(jeModul.get(s.moduleSpecifier.text) ?? []), s])
+  }
+  return jeModul
 }
 
 /** Je Quelle genau ein Importsatz: mehrere Sätze derselben Quelle werden in den ersten gelegt, Namen sortiert. */
 function importeZusammenfuehren(pfad) {
   const text = readFileSync(pfad, 'utf8')
-  const sf = ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true, pfad.endsWith('x') ? ts.ScriptKind.TSX : ts.ScriptKind.TS)
-  const jeModul = new Map()
-  for (const s of sf.statements) {
-    const c = ts.isImportDeclaration(s) && s.importClause
-    if (!c || (c.namedBindings && ts.isNamespaceImport(c.namedBindings))) continue
-    jeModul.set(s.moduleSpecifier.text, [...(jeModul.get(s.moduleSpecifier.text) ?? []), s])
-  }
+  const sf = ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
   const aenderungen = []
-  for (const [modul, saetze] of jeModul) {
+  for (const [modul, saetze] of importeJeQuelle(sf)) {
     const standards = saetze.filter((s) => s.importClause.name)
-    if (saetze.length < 2 || standards.length > 1 || standards.some((s) => s.importClause.isTypeOnly)) continue
+    if (saetze.length < 2 || standards.length > 1) continue
     const elemente = new Set()
     for (const s of saetze)
       for (const e of s.importClause.namedBindings?.elements ?? [])
         elemente.add(`${s.importClause.isTypeOnly || e.isTypeOnly ? 'type ' : ''}${e.propertyName ? `${e.propertyName.text} as ` : ''}${e.name.text}`)
-    for (const e of [...elemente]) if (e.startsWith('type ') && elemente.has(e.slice(5))) elemente.delete(e)
-    const sortiert = [...elemente].sort((a, b) => (elementName(a) < elementName(b) ? -1 : elementName(a) > elementName(b) ? 1 : 0))
+    const sortiert = [...elemente].sort((a, b) => elementName(a).localeCompare(elementName(b)))
     aenderungen.push([saetze[0].getStart(), saetze[0].end, importSatz(modul, standards[0]?.importClause.name.text, sortiert)])
     for (const s of saetze.slice(1)) aenderungen.push([s.getStart(), text[s.end] === '\n' ? s.end + 1 : s.end, ''])
   }
   let neu = text
   for (const [von, bis, ersatz] of aenderungen.sort((a, b) => b[0] - a[0])) neu = neu.slice(0, von) + ersatz + neu.slice(bis)
-  if (neu !== text) writeFileSync(pfad, neu)
+  writeFileSync(pfad, neu)
 }
 
 function nachbearbeiten(quellPfad, zielPfad) {
@@ -278,13 +280,11 @@ function nachImporten(text) {
 /** `anfang` (Konstanten der verschobenen Teile) kommt direkt hinter die Importe des Ziels, `rumpf` ans Ende. */
 function anhaengen(zielPfad, kopf, rumpf, anfang = '') {
   const alt = existsSync(zielPfad) ? readFileSync(zielPfad, 'utf8') : ''
-  const kopfText = kopf.length ? `${kopf.join('\n')}\n` : ''
   const stelle = nachImporten(alt)
-  const vorn = alt.slice(0, stelle).trimEnd()
-  const hinten = alt.slice(stelle).trim()
-  const teile = [vorn, anfang.trim(), hinten, rumpf.trim()].filter(Boolean)
   // Neue Importe vor die bisherigen; mehrere Sätze derselben Quelle führt `importeZusammenfuehren` zusammen.
-  writeFileSync(zielPfad, `${kopfText}${kopfText && vorn ? '' : kopfText ? '\n' : ''}${teile.join('\n\n')}\n`)
+  const importe = [...kopf, alt.slice(0, stelle).trim()].filter(Boolean).join('\n')
+  const teile = [importe, anfang.trim(), alt.slice(stelle).trim(), rumpf.trim()].filter(Boolean)
+  writeFileSync(zielPfad, `${teile.join('\n\n')}\n`)
 }
 
 function verschiebeNamen(quellPfad, zielPfad, namen) {
@@ -316,7 +316,8 @@ function verschiebeNamen(quellPfad, zielPfad, namen) {
   let neu = text
   for (const s of [...wandern, ...mit].sort((a, b) => b.end - a.end)) neu = schneideWeg(neu, kopfStart(text, s), endeMitZeilenkommentar(text, s))
   const stelle = nachImporten(neu)
-  if (wanderNamen.length) neu = `${neu.slice(0, stelle)}\nimport { ${liste} } from '${spezifizierer(quellPfad, zielPfad)}'${neu.slice(stelle)}`
+  const zielImport = `import { ${liste} } from '${spezifizierer(quellPfad, zielPfad)}'`
+  if (wanderNamen.length) neu = stelle ? `${neu.slice(0, stelle)}\n${zielImport}${neu.slice(stelle)}` : `${zielImport}\n\n${neu}`
   writeFileSync(quellPfad, neu)
   nachbearbeiten(quellPfad, zielPfad)
   console.log(`${wanderNamen.length} Deklaration(en) nach ${zielPfad}: ${wanderNamen.join(', ')}`)
