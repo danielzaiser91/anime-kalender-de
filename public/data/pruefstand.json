@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-13T18:16:37.100Z",
+ "erzeugtAm": "2026-11-14T11:27:21.953Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -387,9 +387,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 769,
+   "gemeldet": 770,
    "gesamt": 1087,
-   "offen": 318,
+   "offen": 317,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -1233,11 +1233,6 @@
      "url": "https://www.netflix.com/title/70171947",
      "titel": "Mission Scooby-Doo",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/70234488",
-     "titel": "Yakari",
-     "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/70234440",
