@@ -3,8 +3,8 @@
  * Erwartete Werte stehen fest im Test. Der Ablauf läuft mit einer Attrappe-Welt; die Verdrahtung (nachrechnen vor jedem Merge, Riegel,
  * Trockenlauf) prüfen die Fälle über `lauf`, nie über den Quelltext.
  */
-import { argumente, lauf } from './nacht-merger.mjs'
-import { bauCommittetGerade, bestandIstRot, echteWelt, ghLesend, ghMitAnstossRiegel, stufeVon } from './nacht-merger-welt.mjs'
+import { BUDGET_MS, argumente, exitCode, lauf } from './nacht-merger.mjs'
+import { bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghLesend, ghMitAnstossRiegel, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
 import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
 let fehler = 0
@@ -137,6 +137,8 @@ pruefe('Änderungswunsch-Review nie', !wahl({ reviewDecision: 'CHANGES_REQUESTED
 pruefe('Mergestatus BLOCKED nie', wahl({ mergeStateStatus: 'BLOCKED' }).grund.includes('BLOCKED'))
 pruefe('Mergestatus DIRTY nie', !wahl({ mergeStateStatus: 'DIRTY' }).kandidat)
 pruefe('vorabGrund: Basisfall null', vorabGrund(pr()) === null)
+pruefe('Mergestatus UNKNOWN weist in der Vorauswahl nicht ab', vorabGrund(pr({ mergeStateStatus: 'UNKNOWN' })) === null && wahl({ mergeStateStatus: 'UNKNOWN' }).kandidat)
+pruefe('Mergestatus BEHIND, UNSTABLE, DRAFT, leer weisen weiter ab', ['BEHIND', 'UNSTABLE', 'DRAFT', '', undefined].every((s) => vorabGrund(pr({ mergeStateStatus: s })) !== null))
 
 // --- reihenfolge -------------------------------------------------------------------------------------------------
 const a = pr({ nummer: 1, erstellt: '2026-11-01T01:00:00Z' })
@@ -152,6 +154,7 @@ pruefe('gleiche Zeit: kleinere Nummer zuerst', nr(reihenfolge([pr({ nummer: 9, e
 function welt(prs, o = {}) {
   const log = { zeilen: [], aufrufe: [], gemergt: [], details: [] }
   const exits = o.exits ?? {}
+  let uhr = 5000
   const w = {
     log,
     zeile: (t) => log.zeilen.push(t),
@@ -160,8 +163,21 @@ function welt(prs, o = {}) {
       log.details.push(p.nummer)
       return p
     },
-    kopfVon: (n) => (o.neuerKopf?.[n] ?? prs.find((p) => p.nummer === n).kopf),
-    warte: (ms) => log.aufrufe.push(`warte ${ms}`),
+    // Attrappe-Uhr: jede Kopfabfrage kostet o.proPr ms, jede Wartezeit ihre Dauer
+    jetzt: () => uhr,
+    kopfVon: (n) => {
+      uhr += o.proPr ?? 0
+      return o.neuerKopf?.[n] ?? prs.find((p) => p.nummer === n).kopf
+    },
+    warte: (ms) => {
+      uhr += ms
+      log.aufrufe.push(`warte ${ms}`)
+    },
+    mergeStatus: (n) => {
+      log.aufrufe.push(`status ${n}`)
+      const folge = o.status?.[n]
+      return folge !== undefined && folge.length > 0 ? folge.shift() : 'CLEAN'
+    },
     nachrechnen: (n) => {
       log.aufrufe.push(`nachrechnen ${n}`)
       const folge = o.folge?.[n]
@@ -185,7 +201,7 @@ const vier = () => [pr({ nummer: 11, erstellt: '2026-11-01T01:00:00Z' }), pr({ n
   pruefe('Riegel: genau zwei Merges', r.gemergt.join(',') === '11,12' && w.log.gemergt.join(',') === '11,12')
   pruefe('Riegel: Rest mit Grund zurückgestellt', w.log.zeilen.filter((z) => z.startsWith('ÜBERSPRUNGEN') && z.includes('Riegel: höchstens 2')).length === 2)
   pruefe('je Merge eine Protokollzeile mit Grund', w.log.zeilen.filter((z) => z.startsWith('GEMERGT #1') && z.includes('Prüfer-Urteil ok zum Kopf')).length === 2)
-  pruefe('nachrechnen läuft vor jedem Merge, nicht dahinter', w.log.aufrufe.join(',') === 'nachrechnen 11,merge 11,nachrechnen 12,merge 12')
+  pruefe('nachrechnen läuft vor jedem Merge, nicht dahinter', w.log.aufrufe.join(',') === 'nachrechnen 11,status 11,merge 11,nachrechnen 12,status 12,merge 12')
   pruefe('Schlusszeile zählt', w.log.zeilen.at(-1) === 'Nacht-Merger: 2 gemergt, 0 Fehler, 4 Kandidaten')
 }
 {
@@ -199,13 +215,88 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
   // UNKNOWN: nach kurzer Wartezeit genau eine zweite Abfrage; ist sie grün, wird gemergt
   const w = welt(vier(), { folge: { 11: [UNKNOWN, { exit: 0, text: 'aktuell' }] } })
   const r = lauf(w, { hoechstens: 1 })
-  pruefe('UNKNOWN, dann aktuell: nach 20 s Wartezeit gemergt', r.gemergt.join(',') === '11' && w.log.aufrufe.join(',') === 'nachrechnen 11,warte 20000,nachrechnen 11,merge 11')
+  pruefe('UNKNOWN, dann aktuell: nach 20 s Wartezeit gemergt', r.gemergt.join(',') === '11' && w.log.aufrufe.join(',') === 'nachrechnen 11,warte 20000,nachrechnen 11,status 11,merge 11')
 }
 {
   // Zweimal UNKNOWN: nur eine Wiederholung, dann übersprungen; der nächste Kandidat kommt dran
   const w = welt(vier(), { folge: { 11: [UNKNOWN, UNKNOWN] } })
   const r = lauf(w, { hoechstens: 1 })
   pruefe('zweimal UNKNOWN: genau zwei Abfragen, nicht gemergt, Abweisung nennt den Grund', r.gemergt.join(',') === '12' && w.log.aufrufe.filter((x) => x === 'nachrechnen 11').length === 2 && w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #11') && z.includes('UNKNOWN')))
+}
+{
+  // Liste zeigt UNKNOWN: Einzelabfrage bestätigt CLEAN, dann wird gemergt (nachrechnen davor, Status danach)
+  const liste = vier().map((p) => ({ ...p, mergeStateStatus: 'UNKNOWN' }))
+  const w = welt(liste)
+  const r = lauf(w, { hoechstens: 1 })
+  pruefe('Liste UNKNOWN, Einzelabfrage CLEAN: gemergt, Status erst nach nachrechnen', r.gemergt.join(',') === '11' && w.log.aufrufe.join(',') === 'nachrechnen 11,status 11,merge 11' && w.log.zeilen.every((z) => !z.startsWith('::warning')))
+}
+{
+  // Einzelabfrage UNKNOWN, dann CLEAN: eine Wiederholung nach 20 s
+  const w = welt(vier(), { status: { 11: ['UNKNOWN', 'CLEAN'] } })
+  const r = lauf(w, { hoechstens: 1 })
+  pruefe('Einzelabfrage UNKNOWN, dann CLEAN: nach 20 s gemergt', r.gemergt.join(',') === '11' && w.log.aufrufe.join(',') === 'nachrechnen 11,status 11,warte 20000,status 11,merge 11')
+}
+{
+  // Einzelabfrage DIRTY oder dauerhaft UNKNOWN: nie gemergt; die übrigen kommen dran
+  const w = welt(vier(), { status: { 11: ['DIRTY'], 12: ['UNKNOWN', 'UNKNOWN'] } })
+  const r = lauf(w, { hoechstens: 1 })
+  pruefe('Einzelabfrage nicht CLEAN: nicht gemergt, Grund genannt, nächster Kandidat kommt dran', r.gemergt.join(',') === '13' && w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #11') && z.includes('DIRTY')) && w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #12') && z.includes('UNKNOWN')))
+}
+{
+  // Wächter: 0 Merges und technisch Unentschiedene -> Warnzeile; mit Merge oder ohne Unentschiedene nicht
+  const w = welt(vier().slice(0, 2), { status: { 11: ['UNKNOWN', 'UNKNOWN'], 12: ['UNKNOWN', 'UNKNOWN'] } })
+  const r = lauf(w, { hoechstens: 3 })
+  pruefe('0 Merges, zwei technisch unentschieden: Warnzeile nennt beide', r.gemergt.length === 0 && w.log.zeilen.includes('::warning::Nacht-Merger: 0 Merges, 2 PR technisch nicht entschieden (#11, #12)'))
+  // Echte Abweisungen (Konflikt, DIRTY, BLOCKED) sind nicht unentschieden: kein Stillstand, sonst wäre der Lauf rot, solange so ein PR liegt
+  const NOCH_NICHT = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKNOWN), gleich erneut aufrufen' }
+  const KONFLIKT = { exit: 2, text: 'PR 11 hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu' }
+  const konflikt = welt(vier().slice(0, 1), { folge: { 11: [KONFLIKT] } })
+  const rk = lauf(konflikt, { hoechstens: 3 })
+  pruefe('nur ein Konflikt-PR offen (nachrechnen Exit 2, echte Meldung): kein Stillstand, Exit 0', rk.gemergt.length === 0 && rk.stillstand === false && exitCode(rk) === 0 && konflikt.log.zeilen.every((z) => !z.startsWith('::warning')) && konflikt.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #11') && z.includes('Konflikt')))
+  const dirty = welt(vier().slice(0, 2), { status: { 11: ['DIRTY'], 12: ['BLOCKED'] } })
+  const rd = lauf(dirty, { hoechstens: 3 })
+  pruefe('nur DIRTY und BLOCKED in der Einzelabfrage: kein Stillstand, Exit 0', rd.gemergt.length === 0 && rd.stillstand === false && exitCode(rd) === 0)
+  const nurUnknown = welt(vier().slice(0, 1), { folge: { 11: [NOCH_NICHT, NOCH_NICHT] } })
+  const ru = lauf(nurUnknown, { hoechstens: 3 })
+  pruefe('Gegenprobe: nachrechnen dauerhaft „noch nicht berechnet“: Stillstand, Exit 1, eine Wiederholung', ru.stillstand === true && exitCode(ru) === 1 && nurUnknown.log.aufrufe.join(',') === 'nachrechnen 11,warte 20000,nachrechnen 11')
+  const unknownStatus = welt(vier().slice(0, 1), { status: { 11: ['UNKNOWN', 'UNKNOWN'] } })
+  const rs = lauf(unknownStatus, { hoechstens: 3 })
+  pruefe('Gegenprobe: Einzelabfrage dauerhaft UNKNOWN: Stillstand, Exit 1', rs.stillstand === true && exitCode(rs) === 1)
+  const w2 = welt(vier(), { exits: { 11: 2 } })
+  lauf(w2, { hoechstens: 3 })
+  pruefe('Exit 2 bei einem PR, andere gemergt: keine Warnung', w2.log.zeilen.every((z) => !z.startsWith('::warning')))
+  const w3 = welt(vier(), { exits: { 11: 1, 12: 1, 13: 1, 14: 1 } })
+  lauf(w3, { hoechstens: 3 })
+  pruefe('0 Merges nur wegen Exit 1 (Kette neu angestoßen): keine Warnung', w3.log.zeilen.every((z) => !z.startsWith('::warning')))
+  const w4 = welt(vier().slice(0, 1), { folge: { 11: [{ exit: 2, text: 'noch nicht berechnet' }, { exit: 2, text: 'noch nicht berechnet' }] } })
+  lauf(w4, { hoechstens: 3 })
+  pruefe('0 Merges wegen nachrechnen Exit 2 „noch nicht berechnet“: Warnung', w4.log.zeilen.some((z) => z.startsWith('::warning::') && z.includes('#11')))
+}
+{
+  // Zeitbudget (Attrappe-Uhr): Grenze genau an, eins drüber; danach geordnet aufhören, Rest als unentschieden, Exit 1
+  const liste = () => vier().slice(0, 3)
+  const bis = (proPr) => {
+    const w = welt(liste(), { proPr })
+    const r = lauf(w, { hoechstens: 3, budgetMs: 1000 })
+    return { w, r }
+  }
+  const gleich = bis(500)
+  pruefe('Budget: genau an der Grenze (Uhr 1000 bei 1000) läuft weiter, alle drei gemergt', gleich.r.gemergt.join(',') === '11,12,13')
+  const knapp = bis(501)
+  pruefe('Budget: eins drüber stoppt, Rest mit Grund übersprungen', knapp.r.gemergt.join(',') === '11,12' && knapp.w.log.zeilen.some((z) => z.startsWith('ÜBERSPRUNGEN #13') && z.includes('Zeitbudget')))
+  const aus = (() => {
+    const w = welt(liste(), { proPr: 2000 })
+    return { w, r: lauf(w, { hoechstens: 3, budgetMs: 1000 }) }
+  })()
+  pruefe('Budget: nach dem ersten PR erschöpft, nur dieser gemergt, kein Stillstand (es wurde gemergt)', aus.r.gemergt.join(',') === '11' && aus.r.stillstand === false)
+  const keiner = welt(liste(), { proPr: 0, exits: {} })
+  const sofort = lauf(keiner, { hoechstens: 3, budgetMs: -1 })
+  pruefe('Budget schon vor dem ersten PR erschöpft: 0 Merges, alle genannt, Stillstand', sofort.gemergt.length === 0 && sofort.stillstand === true && keiner.log.zeilen.some((z) => z.includes('#11, #12, #13')))
+  pruefe('exitCode: Stillstand und Merge-Fehler sind rot, sonst 0', exitCode({ gemergt: [], fehler: 0, stillstand: true }) === 1 && exitCode({ gemergt: [1], fehler: 1, stillstand: false }) === 1 && exitCode({ gemergt: [], fehler: 0, stillstand: false }) === 0 && exitCode(sofort) === 1)
+  pruefe('Vorgabe: Budget 15 min unter der Jobgrenze von 20 min', BUDGET_MS === 900_000)
+  // Standardbudget ohne Angabe: Uhr 0, 600 s, 1200 s -> der dritte PR kommt nach 15 min nicht mehr dran
+  const standard = welt(liste(), { proPr: 600_000 })
+  pruefe('Standardbudget wirkt ohne Option: dritter PR nach 20 min Uhrzeit übersprungen', lauf(standard, { hoechstens: 3 }).gemergt.join(',') === '11,12')
 }
 {
   // Andere Exit-2-Gründe (Konflikt) und Exit 1 (Kette neu angestoßen) werden nicht wiederholt, es wird nicht gewartet
@@ -235,7 +326,7 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
 {
   const w = welt(vier(), { mergeFehler: 11 })
   const r = lauf(w)
-  pruefe('Merge scheitert: Fehler gezählt, Lauf stoppt, erste Zeile des Fehlers im Protokoll', r.fehler === 1 && r.gemergt.length === 0 && w.log.aufrufe.join(',') === 'nachrechnen 11,merge 11' && w.log.zeilen.some((z) => z === 'MERGE FEHLGESCHLAGEN #11: GraphQL: Fehler'))
+  pruefe('Merge scheitert: Fehler gezählt, Lauf stoppt, erste Zeile des Fehlers im Protokoll', r.fehler === 1 && r.gemergt.length === 0 && w.log.aufrufe.join(',') === 'nachrechnen 11,status 11,merge 11' && w.log.zeilen.some((z) => z === 'MERGE FEHLGESCHLAGEN #11: GraphQL: Fehler'))
 }
 {
   const p = [
@@ -295,7 +386,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const gh = (args) => {
     aufrufe.push(args.join(' '))
     const s = args.join(' ')
-    if (s.startsWith('pr list')) return JSON.stringify([{ number: 7, title: 'Titel 7', body: null, headRefOid: KOPF, headRefName: 'fix/a', isDraft: false, createdAt: '2026-11-01T01:00:00Z', reviewDecision: 'APPROVED', mergeStateStatus: 'CLEAN', changedFiles: 2 }])
+    if (s.startsWith('pr list')) return JSON.stringify([{ number: 7, title: 'Titel 7', body: null, headRefOid: KOPF, headRefName: 'fix/a', isDraft: false, createdAt: '2026-11-01T01:00:00Z', reviewDecision: 'APPROVED', mergeStateStatus: 'UNKNOWN', changedFiles: 2 }])
     if (s.includes('/files')) return 'web/src/a.tsx\ndocs/alt.md\n'
     if (s.includes('/comments')) return `${JSON.stringify(urteil(KOPF, 'ok'))}\n${JSON.stringify(nachtrag(KOPF))}\n`
     if (s.startsWith('pr view 7 --json statusCheckRollup')) return JSON.stringify(gruen)
@@ -308,6 +399,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const liste = w.offene()
   const voll = w.details(liste[0])
   pruefe('echteWelt: Liste wird abgebildet', liste.length === 1 && liste[0].nummer === 7 && liste[0].beschreibung === '' && liste[0].zweig === 'fix/a' && liste[0].geaenderteDateien === 2)
+  pruefe('echteWelt: Liste in der echten gh-Antwortform mit mergeStateStatus UNKNOWN (Stand 14.11.2026) bleibt Kandidat der Vorauswahl', liste[0].mergeStateStatus === 'UNKNOWN' && vorabGrund(liste[0]) === null)
   pruefe('echteWelt: Dateiliste fragt auch den Umbenennungsursprung', aufrufe.some((s) => s.includes('/pulls/7/files') && s.includes('previous_filename')))
   pruefe('echteWelt: Kommentarliste fragt Nutzer, Verband, Zeit und Text', aufrufe.some((s) => s.includes('/issues/7/comments') && s.includes('login: .user.login, assoc: .author_association, at: .created_at, body: .body')))
   pruefe('echteWelt: Details aus Dateien, Kommentaren, Checks, Stufe', voll.stufe === 0 && voll.pfade.join(',') === 'web/src/a.tsx,docs/alt.md' && voll.kommentare.length === 2 && voll.checks.length === 2)
@@ -379,6 +471,72 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     zweiter = true
   }
   pruefe('ghMitAnstossRiegel: derselbe PR zählt einmal, ein weiterer PR über der Grenze wirft; Lesen und Reopen zählen nie', zweiter && ghMitAnstossRiegel(() => 'x', 0)(['pr', 'view', '1']) === 'x')
+}
+{
+  // GitHub-5xx: eine Wiederholung nach Pause; zweiter 504 sichtbar; andere Fehler und Erfolg ohne Pause
+  const f504 = () => Object.assign(new Error('Command failed: gh pr list'), { stderr: 'HTTP 504: Gateway Timeout (https://api.github.com/graphql)' })
+  const lauf5 = (antworten) => {
+    const aufrufe = []
+    const gh = ghMitWiederholung((args) => {
+      aufrufe.push(`gh ${args[0]}`)
+      const a = antworten.shift()
+      if (a instanceof Error) throw a
+      return a
+    }, (ms) => aufrufe.push(`pause ${ms}`))
+    let fehlerText = null
+    let wert = null
+    try {
+      wert = gh(['pr'])
+    } catch (e) {
+      fehlerText = e.stderr ?? e.message
+    }
+    return { aufrufe: aufrufe.join(','), fehlerText, wert }
+  }
+  const einmal = lauf5([f504(), 'ok'])
+  pruefe('504 dann Erfolg: eine Pause von 5000 ms, zwei Aufrufe, Wert geliefert', einmal.aufrufe === 'gh pr,pause 5000,gh pr' && einmal.wert === 'ok' && einmal.fehlerText === null)
+  const zweimal = lauf5([f504(), f504(), 'nie'])
+  pruefe('zweimal 504: genau eine Wiederholung, der Fehler bleibt sichtbar', zweimal.aufrufe === 'gh pr,pause 5000,gh pr' && zweimal.fehlerText.includes('HTTP 504'))
+  const andere = lauf5([new Error('HTTP 404: Not Found'), 'nie'])
+  pruefe('HTTP 404: keine Wiederholung', andere.aufrufe === 'gh pr' && andere.fehlerText.includes('404'))
+  const meldung = lauf5([new Error('gh: HTTP 502 Bad Gateway'), 'ok'])
+  pruefe('5xx nur in der Fehlermeldung (ohne stderr): ebenfalls einmal wiederholt', meldung.wert === 'ok')
+  pruefe('Erfolg: weder Pause noch zweiter Aufruf', lauf5(['x']).aufrufe === 'gh pr')
+  // Merge wird von der Wiederholung ausgenommen (504 nach erfolgtem Merge gäbe „already merged“)
+  const merge504 = []
+  const ohneMerge = ghMitWiederholung((args) => { merge504.push(args.join(' ')); throw f504() }, () => merge504.push('pause'))
+  let geworfen = false
+  try { ohneMerge(['pr', 'merge', '5']) } catch { geworfen = true }
+  pruefe('ghMitWiederholung: pr merge nie wiederholt, Fehler weitergereicht', geworfen && merge504.join('|') === 'pr merge 5')
+  // close/reopen (aus pr-nachrechnen) ebenso: nach einem 504 kann der Zustandswechsel schon durch sein
+  for (const kommando of ['close', 'reopen']) {
+    const spur = []
+    const ohne = ghMitWiederholung((args) => { spur.push(args.join(' ')); throw f504() }, () => spur.push('pause'))
+    let wirft = false
+    try { ohne(['pr', kommando, '5']) } catch { wirft = true }
+    pruefe(`ghMitWiederholung: pr ${kommando} nie wiederholt, Fehler weitergereicht`, wirft && spur.join('|') === `pr ${kommando} 5`)
+  }
+  // mergeMit5xxPruefung: 504, PR ist MERGED -> kein Fehler; 504 und OPEN -> Fehler; 404 -> Fehler ohne Zustandsabfrage
+  const mitZustand = (zustand, fehlerBei) => {
+    const aufrufe = []
+    const gh = (args) => {
+      aufrufe.push(args.slice(0, 2).join(' '))
+      if (args[1] === 'merge') throw fehlerBei
+      return `${zustand}\n`
+    }
+    let ok = true
+    try { mergeMit5xxPruefung(gh, { nummer: 5, titel: 'T', kopf: KOPF }) } catch { ok = false }
+    return { ok, aufrufe: aufrufe.join(',') }
+  }
+  const nachErfolg = mitZustand('MERGED', f504())
+  pruefe('504 beim Merge, PR danach MERGED: kein Fehler (kein falsches MERGE FEHLGESCHLAGEN)', nachErfolg.ok && nachErfolg.aufrufe === 'pr merge,pr view')
+  pruefe('504 beim Merge, PR noch OPEN: Fehler bleibt', !mitZustand('OPEN', f504()).ok)
+  const nicht5xx = mitZustand('MERGED', new Error('HTTP 405: already merged'))
+  pruefe('anderer Merge-Fehler: Fehler, keine Zustandsabfrage', !nicht5xx.ok && nicht5xx.aufrufe === 'pr merge')
+  pruefe('ghEcht (Standard von echteWelt) ist mit der 5xx-Wiederholung verdrahtet', ghEcht.wiederholt5xx === true)
+  // echteWelt.mergeStatus fragt den einen PR ab und schneidet den Zeilenumbruch ab
+  const abfragen = []
+  const status = echteWelt({ trocken: true, gh: (args) => { abfragen.push(args.join(' ')); return 'UNKNOWN\n' }, repo: 'o/r', zeileAus: () => {} }).mergeStatus(42)
+  pruefe('echteWelt.mergeStatus: Einzelabfrage des PR, getrimmter Status', status === 'UNKNOWN' && abfragen.join('|') === 'pr view 42 --json mergeStateStatus --jq .mergeStateStatus')
 }
 pruefe('echteWelt: ohne Repo-Angabe Fehler', (() => { try { echteWelt({ trocken: true, gh: () => '', repo: '' }); return false } catch { return true } })())
 pruefe('argumente: Vorgabe', JSON.stringify(argumente([])) === '{"trocken":false,"hoechstens":3}')

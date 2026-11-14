@@ -323,7 +323,7 @@ async function bedingterUpsert() {
   pruefe(geaendert() === 1, 'andere Zeit: eine Schreibzeile')
 }
 
-/** Katalogstart ohne Uhrzeit (Netflix, batch): kein Push um 00:30, erst nach 23:59 — mit dem echten `istErschienen` des Workers. */
+/** Termin ohne Uhrzeit (Netflix batch, weekly): nie ein Push, auch nicht am Folgetag (Daniel, 14.11.2026) — mit dem echten `pushIstErschienen`. */
 async function katalogOhneUhrzeit() {
   console.log('Katalogstart ohne Uhrzeit:')
   const db = neueDatenbank()
@@ -339,10 +339,12 @@ async function katalogOhneUhrzeit() {
   pruefe((await lauf('2026-11-02T23:30:00Z', '2026-11-02T22:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 00:30 Berlin am Starttag: kein Push')
   pruefe((await lauf('2026-11-03T08:00:00Z', '2026-11-03T07:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 09:00 Berlin: kein Push')
   pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 00:30 am Folgetag: kein Nachtpush')
-  pruefe((await lauf('2026-11-04T07:30:00Z', '2026-11-04T06:00:00.000Z')) === 1, 'batch ohne Uhrzeit, 08:30 am Folgetag: ein Push')
+  pruefe((await lauf('2026-11-04T07:30:00Z', '2026-11-04T06:00:00.000Z')) === 0, 'batch ohne Uhrzeit, 08:30 am Folgetag: kein Push')
   ereignis.releaseType = 'weekly'
   pruefe((await lauf('2026-11-03T23:30:00Z', '2026-11-03T20:00:00.000Z')) === 0, 'weekly ohne Uhrzeit, 00:30 am Folgetag: kein Nachtpush')
-  pruefe((await lauf('2026-11-04T07:30:00Z', '2026-11-04T06:00:00.000Z')) === 1, 'weekly ohne Uhrzeit, 08:30 am Folgetag: ein Push')
+  pruefe((await lauf('2026-11-04T07:30:00Z', '2026-11-04T06:00:00.000Z')) === 0, 'weekly ohne Uhrzeit, 08:30 am Folgetag: kein Push')
+  ereignis.time = '08:00'
+  pruefe((await lauf('2026-11-03T07:30:00Z', '2026-11-03T06:00:00.000Z')) === 1, 'Kontrolle: weekly mit Uhrzeit 08:00, 08:30 Berlin am Starttag: ein Push')
 }
 
 await katalogOhneUhrzeit()

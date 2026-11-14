@@ -24,9 +24,71 @@
     "cancel-in-progress": true
   },
   "jobs": {
+    "mutationsprobe": {
+      "name": "Mutationsprobe (Prüfstufe 2)",
+      "if": "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 15,
+      "permissions": {
+        "contents": "read",
+        "pull-requests": "read",
+        "actions": "write"
+      },
+      "env": {
+        "PR": "${{ github.event.pull_request.number }}",
+        "HEAD_SHA": "${{ github.event.pull_request.head.sha }}"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "persist-credentials": false
+          }
+        },
+        {
+          "name": "Prüfstufe",
+          "id": "stufe",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "GH_REPO": "${{ github.repository }}"
+          },
+          "run": "T=\"$RUNNER_TEMP/pruefer\"; mkdir -p \"$T\"\nstufe=2\nif node tools/pr-stufe.mjs \"$PR\" > \"$T/stufe.json\"; then\n  stufe=$(node -e 'console.log(JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\")).stufe)' \"$T/stufe.json\") || stufe=2\nfi\necho \"stufe=$stufe\" >> \"$GITHUB_OUTPUT\"\n"
+        },
+        {
+          "name": "Mutationsprobe starten",
+          "if": "steps.stufe.outputs.stufe == '2'",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "ZWEIG": "${{ github.head_ref }}"
+          },
+          "run": "node tools/mutationsprobe-pr.mjs start \"$PR\" \"$HEAD_SHA\" \"$ZWEIG\" \"$RUNNER_TEMP/pruefer\" || echo \"Mutationsprobe nicht gestartet\""
+        },
+        {
+          "name": "Mutationsprobe abwarten",
+          "if": "steps.stufe.outputs.stufe == '2'",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "GITHUB_REPOSITORY": "${{ github.repository }}"
+          },
+          "run": "node tools/mutationsprobe-pr.mjs warte \"$RUNNER_TEMP/pruefer\" || echo \"Mutationsprobe nicht abgewartet\""
+        },
+        {
+          "name": "Ergebnis weitergeben",
+          "if": "steps.stufe.outputs.stufe == '2'",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "mutationsprobe",
+            "path": "${{ runner.temp }}/pruefer/mutationsprobe.txt",
+            "retention-days": 3,
+            "if-no-files-found": "ignore"
+          }
+        }
+      ]
+    },
     "pruefen": {
       "name": "Prüfer-Review",
-      "if": "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
+      "needs": "mutationsprobe",
+      "if": "!cancelled() && github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
       "runs-on": "ubuntu-latest",
       "timeout-minutes": 60,
       "env": {
@@ -78,6 +140,16 @@
           "name": "Kette läuft noch",
           "id": "kette",
           "run": "T=\"$RUNNER_TEMP/pruefer\"\nif node tools/pr-pruefer-kette-offen.mjs --nur-lauf \"$T/kettenlog.txt\"; then\n  echo \"laeuft=ja\" >> \"$GITHUB_OUTPUT\"\n  printf '{\"urteil\":\"aendern\",\"sha\":\"%s\"}' \"$HEAD_SHA\" > \"$T/urteil.json\"\n  printf '%s\\n%s\\n' \"Die PR-Prüfkette lief beim Start des Prüfers noch; er hat nichts geprüft.\" \"<!-- pruefer-ohne-modell -->\" > \"$T/protokoll.md\"\nfi\n"
+        },
+        {
+          "name": "Mutationsprobe einlesen",
+          "if": "steps.stufe.outputs.stufe == '2' && steps.diff.outputs.diff-zustand == 'ok'",
+          "continue-on-error": true,
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "mutationsprobe",
+            "path": "${{ runner.temp }}/pruefer"
+          }
         },
         {
           "name": "Prüfer-Eingang prüfen",

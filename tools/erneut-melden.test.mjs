@@ -44,7 +44,8 @@ datei('tools/pr-attrappe.mjs', `import { execFileSync } from 'node:child_process
 datei('tools/pr-einreichen.sh', '#!/usr/bin/env bash\nexec node tools/pr-attrappe.mjs "$@"\n')
 datei('package.json', JSON.stringify({ name: 'kulisse', private: true, scripts: { 'check:vor-commit': 'node tools/vor-commit-attrappe.mjs' } }))
 datei('public/data/titles.json', JSON.stringify([{ id: 900001, titleDe: 'Testtitel', streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/900001' }] }]))
-datei('public/data/pruefstand.json', JSON.stringify({ anbieter: [{ plattform: 'netflix', ziele: [{ url: 'https://www.netflix.com/title/900001' }] }] }))
+datei('public/data/cartoons.json', JSON.stringify([{ id: -900002, titleEn: 'Testcartoon', streams: [{ platform: 'netflix', url: 'https://www.netflix.com/title/900002' }] }]))
+datei('public/data/pruefstand.json', JSON.stringify({ anbieter: [{ plattform: 'netflix', ziele: [{ url: 'https://www.netflix.com/title/900001' }, { url: 'https://www.netflix.com/title/900002' }] }] }))
 datei('public/data/pruefliste-stand.json', '{}')
 datei('data/erneut-melden.yaml', '[]\n')
 datei('data/dub-confirmed.yaml', '[]\n')
@@ -97,6 +98,20 @@ try {
   for (const d of pr.slice(3)) assert.ok(prText.includes(d), `Erfolg: PR-Text nennt ${d} (sonst Vorprüfung rot)`)
   hauptUnberuehrt('Erfolg')
   aufgeraeumt('Erfolg')
+
+  /* 1b. Cartoon (negative Kennung aus cartoons.json): kommt in YAML und Liste; eine unbekannte negative Kennung bleibt abgelehnt. */
+  const cartoon = lauf(['-900002:netflix', '--grund', 'Probe'])
+  assert.equal(cartoon.status, 0, `Cartoon: Erfolg (${cartoon.stdout}${cartoon.stderr})`)
+  const prC = readFileSync(join(sonde, 'pr.txt'), 'utf8').split('\n')
+  assert.match(prC[2], /^Prüfliste: Testcartoon \(netflix\) erneut melden$/, 'Cartoon: PR-Titel nennt den Cartoon')
+  assert.deepEqual(prC.slice(3).sort(), ['data/erneut-melden.yaml', 'extension/offene-netflix.js'], 'Cartoon: Commit enthält YAML und Liste')
+  hauptUnberuehrt('Cartoon')
+  aufgeraeumt('Cartoon')
+  const fremd = lauf(['-900003:netflix'])
+  assert.notEqual(fremd.status, 0, 'unbekannte Kennung: Exit ungleich 0')
+  assert.match(fremd.stderr, /keine Kennung im Bestand/, 'unbekannte Kennung: abgelehnt')
+  assert.ok(!existsSync(join(sonde, 'pr.txt')), 'unbekannte Kennung: kein PR')
+  aufgeraeumt('unbekannte Kennung')
 
   /* 2. Wurf im Skript (kein Verweis bei Prime): Arbeitsbaum existiert schon, Exit-Handler räumt auf. */
   const wurf = lauf(['900001:primevideo'])

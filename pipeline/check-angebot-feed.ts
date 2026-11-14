@@ -9,6 +9,7 @@ import type { Release, Title } from '../shared/types.ts'
 import { ergaenzeAngebotSeit } from './bau/13-3-angebot-seit.ts'
 import { STICHTAG_AB } from './bau/angebot-stichtag.ts'
 import { feedEintrag, tonspuren, type MotnChanges } from './bau/angebot-feed.ts'
+import { bestandAus } from './lib/motn.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -150,13 +151,21 @@ const zeige = { title: 'Titel', originalTitle: 'Original', imdbId: 'tt7', tmdbId
 const primeEintrag = feedEintrag('new', zeige, { timestamp: stempel, service: { id: 'prime' } }, primeTon)
 pruefe(
   'Schreibstelle: „Ton nur bei Prime" ergibt deutschBeiDienst === true und das ganze Feldbild',
-  JSON.stringify(primeEintrag) === JSON.stringify({ art: 'new', titel: 'Titel', originalTitel: 'Original', imdbId: 'tt7', tmdbId: 'tv/7', dienst: 'prime', am: '2026-10-19', deutsch: true, deutschBeiDienst: true }),
+  JSON.stringify(primeEintrag) === JSON.stringify({ art: 'new', titel: 'Titel', originalTitel: 'Original', imdbId: 'tt7', tmdbId: 'tv/7', dienst: 'prime', am: '2026-10-20', deutsch: true, deutschBeiDienst: true }),
   primeEintrag,
 )
 const netflixEintrag = feedEintrag('removed', zeige, { service: { id: 'netflix' } }, primeTon)
 pruefe('Schreibstelle: dieselben Optionen bei Netflix: deutsch ja, beim Dienst nein, art und fehlender Zeitstempel durchgereicht', netflixEintrag.deutsch === true && netflixEintrag.deutschBeiDienst === false && netflixEintrag.art === 'removed' && netflixEintrag.am === undefined, netflixEintrag)
 const ohneDienst = feedEintrag('new', zeige, { timestamp: stempel }, primeTon)
 pruefe('Schreibstelle: Änderung ohne Dienstkennung: nie deutschBeiDienst', ohneDienst.deutschBeiDienst === false && ohneDienst.dienst === undefined, ohneDienst)
+
+/* Datumsgrenze: 19.10. 23:30 UTC ist in Berlin schon der 20.10. — die Daten führen Berliner Tage. */
+pruefe('Schreibstelle: am ist der Berliner Tag des Zeitstempels', primeEintrag.am === '2026-10-20', primeEintrag.am)
+const ablauf = Date.UTC(2026, 11, 31, 23, 30) / 1000
+const motnFolge = { seasonNumber: 1, episodeNumber: 1, streamingOptions: { de: [{ service: { id: 'netflix' }, audios: [{ language: 'deu' }], availableSince: stempel, expiresOn: ablauf }] } }
+const motnBestand = bestandAus({ imdbId: 'tt8', seasons: [{ seasonNumber: 1, episodes: [motnFolge] }] } as Parameters<typeof bestandAus>[0], '2026-10-21')
+pruefe('motn.json: seit ist der Berliner Tag von availableSince', motnBestand?.dienste.netflix?.seit === '2026-10-20', motnBestand?.dienste.netflix)
+pruefe('motn.json: laeuftAusAm ist der Berliner Tag von expiresOn (Jahreswechsel)', motnBestand?.dienste.netflix?.laeuftAusAm === '2027-01-01', motnBestand?.dienste.netflix)
 
 if (verletzt) {
   console.error(`\n${verletzt} von ${faelle} Zusicherung(en) verletzt.`)

@@ -89,6 +89,7 @@ pipeline/check-ankuendigung-news.ts
 pipeline/check-ankuendigung-sichtbar.ts
 pipeline/check-ann-rollen.ts
 pipeline/check-ansicht-scroll.ts
+pipeline/check-antwort-film-naht.ts
 pipeline/check-antwort-jetzt.ts
 pipeline/check-antwort-vorstart.ts
 pipeline/check-auf-deutsch-vorstart.ts
@@ -180,6 +181,7 @@ pipeline/check-cr-teilseiten-bestand-kulisse.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-cr-termine-neu.ts
 pipeline/check-cr-us-nein-adresse.ts
+pipeline/check-cr-zeit-katalog.ts
 pipeline/check-cr-zeit-woche.ts
 pipeline/check-datei-kennungen.ts
 pipeline/check-daten-adressen.ts
@@ -478,6 +480,7 @@ pipeline/check-prime-kaufweg.ts
 pipeline/check-prime-nein-beleg.ts
 pipeline/check-prime-phase-laufzeit.ts
 pipeline/check-prime-pille.ts
+pipeline/check-prime-seite-ohne-weg-bestand-lauf.ts
 pipeline/check-prime-seite-richten.ts
 pipeline/check-prime-seiten-sperre.ts
 pipeline/check-prime-suchadresse-tot.ts
@@ -584,6 +587,7 @@ pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
 pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
+pipeline/check-termine-katalog-lauf.ts
 pipeline/check-termine-observed-lauf.ts
 pipeline/check-termine-uebersicht.ts
 pipeline/check-termine-woche-lauf.ts
