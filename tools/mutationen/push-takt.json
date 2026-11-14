@@ -306,7 +306,8 @@
         "suche": "Boolean(e.time) && istErschienen(e, zeit)",
         "ersetze": "istErschienen(e, zeit)"
       }
-    ]
+    ],
+    "tests": ["npx tsx tools/worker-push-takt.test.ts", "npx tsx tools/worker-push-versand.test.ts"]
   },
   {
     "name": "pushIstErschienen: nur Termine ohne Uhrzeit lösen aus (Bedingung verneint)",
@@ -316,7 +317,8 @@
         "suche": "Boolean(e.time) && istErschienen(e, zeit)",
         "ersetze": "!e.time && istErschienen(e, zeit)"
       }
-    ]
+    ],
+    "tests": ["npx tsx tools/worker-push-takt.test.ts", "npx tsx tools/worker-push-versand.test.ts"]
   },
   {
     "name": "pushIstErschienen: Termin mit Uhrzeit löst nie aus",
@@ -326,6 +328,7 @@
         "suche": "Boolean(e.time) && istErschienen(e, zeit)",
         "ersetze": "Boolean(e.time) && istErschienen(e, zeit) && false"
       }
-    ]
+    ],
+    "tests": ["npx tsx tools/worker-push-takt.test.ts", "npx tsx tools/worker-push-versand.test.ts"]
   }
 ]
