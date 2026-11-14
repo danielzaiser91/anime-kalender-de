@@ -7,7 +7,7 @@ const WEGWERF_WURZEL = {
   'tools/bestand-handbelege-schritt.test.mjs': ['data/meldungen-uebernahme.json', 'data/meldungen-zurueckgestellt.json'],
   'tools/briefkasten-wache.test.mjs': ['daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md', 'data/meldungen-uebernahme.json', 'data/meldungen-zurueckgestellt.json'],
   'tools/fund-schonen.test.mjs': ['data/source-health.json'],
-  'tools/link-check-ende.test.ts':['data/source-health.json'],
+  'tools/link-check-ende.test.ts': ['data/source-health.json'],
   'tools/link-check-zeitbudget.test.ts': ['data/source-health.json'],
   'tools/meldungen-eingrenzen.test.mjs': ['daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md', 'data/meldungen-uebernahme.json', 'data/meldungs-auffaelligkeiten.json'],
   'tools/meldungen-stapel.test.mjs': ['data/meldungen-uebernahme.json'],
