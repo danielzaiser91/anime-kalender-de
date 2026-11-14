@@ -4,6 +4,8 @@
  * Crunchyrolls API stempelt Folgen nach einer Zeitumstellung weiter mit der alten Zeit (`2026-10-26T14:30:00Z` = 16:30 MESZ, in Berlin
  * aber 15:30 MEZ), das Wochenprogramm zeigt die echte Ortszeit: 4 von 4 Paaren ab dem 25.10. wichen um genau 1 h ab, alle 15 davor
  * stimmten. Die nächste Umstellung ist am 28.03.2027 — dann wiederholt sich das. Belege liegen in `data/crunchyroll-woche-belege.json`.
+ * Nachtrag 14.11.2026: Ab der zweiten Folge gilt der Katalogstempel (`cr-zeit-katalog.ts`) — dort lag das Wochenprogramm in 22 von 32
+ * gemessenen Fällen daneben, der Stempel in keinem.
  */
 /** Nur die Felder, die hier gelesen werden (die Beleg-Datei selbst: `woche-beleg.ts`, bewusst nicht importiert: der Bau darf keinen Sammler-Code ziehen). */
 export type WocheBelege = Record<string, { seriesId: string; datum: string; zeit: string | null; artikel: string }>

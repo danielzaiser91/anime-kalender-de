@@ -8,31 +8,11 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:cr-GT00383999@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T160000Z
-DTEND:20261106T163000Z
-SUMMARY:Firefly Wedding – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17358/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:failure-frame-box@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Failure Frame – Komplettbox (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15656/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T195500Z
 DTEND:20261109T202500Z
-SUMMARY:Hell’s Paradise – Folge 11
+SUMMARY:Hell’s Paradise – Folge 11/13
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -42,7 +22,7 @@ UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261109T202000Z
 DTEND:20261109T205000Z
-SUMMARY:Hell’s Paradise – Folge 12
+SUMMARY:Hell’s Paradise – Folge 12/13
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
@@ -50,18 +30,28 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261113T160000Z
-DTEND:20261113T163000Z
+DTSTART:20261113T170000Z
+DTEND:20261113T173000Z
 SUMMARY:Firefly Wedding – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T202000Z
+DTEND:20261116T205000Z
+SUMMARY:Hell’s Paradise – Folge 13/13
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261120T160000Z
-DTEND:20261120T163000Z
+DTSTART:20261120T170000Z
+DTEND:20261120T173000Z
 SUMMARY:Firefly Wedding – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -82,8 +72,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261127T160000Z
-DTEND:20261127T163000Z
+DTSTART:20261127T170000Z
+DTEND:20261127T173000Z
 SUMMARY:Firefly Wedding – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -94,8 +84,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261204T160000Z
-DTEND:20261204T163000Z
+DTSTART:20261204T170000Z
+DTEND:20261204T173000Z
 SUMMARY:Firefly Wedding – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -106,8 +96,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261211T160000Z
-DTEND:20261211T163000Z
+DTSTART:20261211T170000Z
+DTEND:20261211T173000Z
 SUMMARY:Firefly Wedding – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -118,8 +108,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261218T160000Z
-DTEND:20261218T163000Z
+DTSTART:20261218T170000Z
+DTEND:20261218T173000Z
 SUMMARY:Firefly Wedding – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -130,8 +120,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261225T160000Z
-DTEND:20261225T163000Z
+DTSTART:20261225T170000Z
+DTEND:20261225T173000Z
 SUMMARY:Firefly Wedding – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -142,8 +132,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2027-01-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270101T160000Z
-DTEND:20270101T163000Z
+DTSTART:20270101T170000Z
+DTEND:20270101T173000Z
 SUMMARY:Firefly Wedding – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -154,8 +144,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2027-01-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270108T160000Z
-DTEND:20270108T163000Z
+DTSTART:20270108T170000Z
+DTEND:20270108T173000Z
 SUMMARY:Firefly Wedding – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -166,8 +156,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270115T160000Z
-DTEND:20270115T163000Z
+DTSTART:20270115T170000Z
+DTEND:20270115T173000Z
 SUMMARY:Firefly Wedding – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An

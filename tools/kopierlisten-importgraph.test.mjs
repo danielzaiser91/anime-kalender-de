@@ -25,7 +25,7 @@ const QUELLEN_PR_AUSNAHMEN = ['daten-pr-mergen.sh']
 
 // `if node tools/<x>.mjs --festschreiben` in commit-data.sh ist ein Ratschen-Aufruf, der im Wegwerf-Repo bewusst ins Leere läuft;
 // kopiert, würde er dort Grenzdateien festschreiben. umfang-ketten.mjs kommt nur über umfang-pruefen.mjs.
-const COMMIT_AUSNAHMEN = ['design-klassen.mjs', 'heute-utc.mjs', 'uhr-in-tests.mjs', 'umfang-pruefen.mjs', 'umfang-ketten.mjs']
+const COMMIT_AUSNAHMEN = ['design-klassen.mjs', 'heute-utc.mjs', 'uhr-in-tests.mjs', 'umfang-pruefen.mjs', 'umfang-ketten.mjs', 'stumme-pfade.mjs']
 
 function prueffaelleGraph() {
   assert.deepEqual(direkteNachbarn('a.mjs', "import { x } from './b.mjs'\nconst c = require('./c.cjs')\nawait import('./d.mjs')\nimport y from 'node:fs'\nimport z from '../pipeline/z.ts'\n"), ['b.mjs', 'c.cjs', 'd.mjs'])

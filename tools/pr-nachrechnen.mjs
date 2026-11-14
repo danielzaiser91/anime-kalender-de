@@ -27,7 +27,9 @@ import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
 import { basisAusJobLogs } from './nachrechnen-joblog.mjs'
 import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
+import { standardPaket } from './pr-nachrechnen-paket-git.mjs'
 import { prueferSperre } from './pr-nachrechnen-pruefer.mjs'
+import { standardTextmerge } from './pr-nachrechnen-textmerge.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -62,6 +64,7 @@ export function hindernis(pr) {
 export const DATENPFADE = ['public/data/', 'data/cache/']
 /** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
 export const COMPARE_GRENZE = 300
+const PAKET = 'package.json'
 
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei) || istBotBild(datei)
 
@@ -82,17 +85,17 @@ const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_
  * mit dem PR (`bewegtesGelesen`: Berührung, Nennung, Import in beide Richtungen). Anlass: Nacht-Merger, 15 Merges in 59 Läufen,
  * 148 Abweisungen „main bewegte …“ (Auswertung 09.11.2026).
  */
-export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package(-lock)?\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
+export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package-lock\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
 
 const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
 
-/** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. */
-export function datenpfadAusnahme(vergleich, prDateien) {
+/** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. `frei`: bewegte Dateien des PR ohne Berührung im Textmerge (`pr-nachrechnen-textmerge.mjs`). */
+export function datenpfadAusnahme(vergleich, prDateien, frei = new Set()) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (!vergleich.vollstaendig && vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten${lokal(vergleich)}`
   const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d))
   if (fremd !== undefined) return `main bewegte ${fremd}`
-  const beruehrt = prDateien.find((p) => istDatenpfad(p) || vergleich.dateien.includes(p))
+  const beruehrt = prDateien.find((p) => istDatenpfad(p) || (vergleich.dateien.includes(p) && !frei.has(p)))
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
   return null
 }
@@ -105,18 +108,20 @@ export function datenpfadAusnahme(vergleich, prDateien) {
  * Ausnahme unter den kettenweiten: `tools/umfang-grenzen.json` (Bestandsbau senkt sie bei jedem Lauf) entwertet nicht, wenn `umfang()` null liefert
  * (Grenzen nicht erhöht, PR hält sie auf dem Merge-Stand, `pr-nachrechnen-umfang.mjs`); sonst der Grund aus `umfang()`.
  */
-export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft') {
+export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft', paket = () => 'main bewegte package.json (nicht geprüft)', frei = new Set()) {
   if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
   if (!vergleich.vollstaendig && abgeschnitten(vergleich)) return `Vergleich evtl. abgeschnitten${lokal(vergleich)}`
-  const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p))
+  const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p) && !frei.has(p))
   if (reinerBotSprung(vergleich, prDateien)) return beruehrt === undefined ? null : `der PR berührt ${beruehrt}`
   const kette = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && kettenweit(d))
   const fremd = kette.find((d) => d !== UMFANG_GRENZEN)
   if (fremd !== undefined) return `main bewegte ${fremd}`
   if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
+  const paketGrund = vergleich.dateien.includes(PAKET) ? paket() : null
+  if (paketGrund !== null) return paketGrund
   const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null
   if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`
-  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN)
+  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET)
   return liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))
 }
 
@@ -170,14 +175,21 @@ function mitCommits(vergleich, basis, main, paare) {
   return r.fehler === undefined ? { ...vergleich, commits: r.commits } : vergleich
 }
 
+/** Dateien, die der PR ändert und main seit dem Kettenlauf bewegte, aber ohne Berührung im Textmerge; ohne Treffer kein git-Aufruf. */
+function bewegteDesPr(vergleich, prDateien, textmerge, refs) {
+  const beide = vergleich.status === 'ahead' ? prDateien.filter((p) => vergleich.dateien.includes(p)) : []
+  return beide.length === 0 ? new Set() : textmerge(refs, beide)
+}
+
 /** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
-export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang = () => 'Umfang nicht geprüft') {
+export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang = () => 'Umfang nicht geprüft', paket = standardPaket, textmerge = standardTextmerge) {
   const api = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
   const vergleich = mitCommits(vervollstaendige(api, basis, main, voll), basis, main, paare)
   const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
-  const daten = datenpfadAusnahme(vergleich, prDateien)
+  const frei = bewegteDesPr(vergleich, prDateien, textmerge, { nummer: pr.number, kopf: pr.headRefOid, main, basis })
+  const daten = datenpfadAusnahme(vergleich, prDateien, frei)
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }))
+  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot, frei, basis }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket({ nummer: pr.number, kopf: pr.headRefOid, main, basis }, prDateien), frei)
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
   if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
   return { grund: grundText(daten, bot) }
@@ -185,13 +197,10 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
 
 /**
  * Der Grund der feineren Stufe (`bot`) entscheidet; die grobe („main bewegte <erste Fremddatei>“) hat sonst nur den Namen der ersten Datei geliefert, die
- * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Leser-Grund, PR 3481/3548/3556). Ein Grund, der selbst
- * „main bewegte …“ lautet (kettenweite Datei), bleibt mit dem groben davor.
+ * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Grund, PR 3481/3548/3556; 16:41 dasselbe vor package.json,
+ * neun PRs). Auch ein Grund „main bewegte …“ der feinen Stufe (kettenweite Datei) steht allein: er nennt die Datei, die die Kette trägt.
  */
-const grundText = (daten, bot) => {
-  if (daten === bot) return daten
-  return daten.startsWith('main bewegte ') && !bot.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`
-}
+const grundText = (daten, bot) => (daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)
 
 const kurz = (sha) => sha.slice(0, 9)
 
@@ -284,7 +293,7 @@ function basisDesLaufs(gh, pr, warte) {
 }
 
 /** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false) {
+export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false, textmerge = standardTextmerge) {
   const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
   const ersatz = ersetzer(nummer, gh)
   if (ersatz !== null) {
@@ -315,7 +324,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
     return 0
   }
-  const urteil = datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang)
+  const urteil = datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang, standardPaket, textmerge)
   if (urteil.ausnahme !== undefined) {
     melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
     return 0

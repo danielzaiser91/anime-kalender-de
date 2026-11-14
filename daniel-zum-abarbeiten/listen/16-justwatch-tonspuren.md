@@ -1,6 +1,6 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-12. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-14. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
@@ -42,16 +42,13 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-269 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+267 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
 | Titel | Angebote laut JustWatch |
 |---|---|
 | [Dusk Beyond the End of the World](https://anime-kalender.de/#/datenbank?t=195153) | [Aniverse Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Animation Digital Network](https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world/30005-folge-1), [Anime Digital Network Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.13bde570-6de4-421c-8495-4979bd84ff87), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.32466d79-d505-4816-9cfe-41adaff4075e) |
-| [Larva Island: Der Film](https://anime-kalender.de/#/datenbank?t=10015403) | [Netflix](https://www.netflix.com/title/80991326), [Netflix Standard with Ads](https://www.netflix.com/title/80991326) |
-| [The Witcher: Nightmare of the Wolf](https://anime-kalender.de/#/datenbank?t=10020173) | [Netflix](https://www.netflix.com/title/81037868), [Netflix Standard with Ads](https://www.netflix.com/title/81037868) |
-| [The Witcher: Sirens of the Deep](https://anime-kalender.de/#/datenbank?t=10020216) | [Netflix](https://www.netflix.com/title/81484026), [Netflix Standard with Ads](https://www.netflix.com/title/81484026) |
 | [Mein Bruder, der Minotaurus](https://anime-kalender.de/#/datenbank?t=-316832) | [Apple TV](https://tv.apple.com/de/episode/lorcan-und-der-wahnsinn/umc.cmc.2m341hrww75wvt0oegl05z9kn?at=1000l3V2&ct=app_tvplus&itscg=30200&itsct=justwatch_tv&playableId=tvs.sbd.4000%3AA0018301001&showId=umc.cmc.2xp2k3if93s921ariv5tlhr1p) 🇩🇪, [Apple TV Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d39f0f59-cd40-4995-9636-c3054a0df9af) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-296756) | [HBO Max](https://www.hbomax.com/de/en/show/a3313dd3-2d1f-4072-8525-1434643403a8/s1/e1-pilot/56393299-c6fa-4114-bb75-5d3696391aa4), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.f05f8539-e6cf-4c1b-a39b-68508bd24f5a) 🇩🇪, [MagentaTV](https://www.magenta.tv/serie/president-curtis/staffel-1/GN_SEASON_33285879_DE_1) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/president-curtis/umc.cmc.3kn2xy6zqpzys2l91werz67ht?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-255760) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8) |
@@ -303,6 +300,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-670) | [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/86647/baby-looney-tunes-die-serie?campaign=vb50feed#rental&rental-dvd), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a612caa1-3a72-4300-8472-8742b57699a7), [Apple TV Store](https://tv.apple.com/de/show/baby-looney-tunes/umc.cmc.5dhl9mblk3usd6f9z0kjlqryh?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [Teenage Robot](https://anime-kalender.de/#/datenbank?t=-178) | [Apple TV Store](https://tv.apple.com/de/show/teenage-robot/umc.cmc.60z8x0c5bl0t3od3aazf66jdq?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.74bc5af8-dcce-02d9-070b-b2cf23c9f5d3), [Amazon DVD / Blu-ray](https://www.amazon.de/dp/B0F7HBRV3X?tag=movie0c6-21&linkCode=osi&th=1&psc=1) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-12620) | [Kixi Select Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.60bbc577-3aab-6e10-f097-8500be9202bb) 🇩🇪, [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.36b5a951-e9b9-ae0b-9a11-5530e9404a0d) 🇩🇪 |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-5195) | [Apple TV Store](https://tv.apple.com/de/show/dumbland/umc.cmc.2o1h8mebt5r454y73u3ubeekq?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-4332) | [Apple TV Store](https://tv.apple.com/de/show/stanley/umc.cmc.36bv0t9s2x4w1k2uav5t0mihs?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.761b5f62-92cc-4af1-851a-0663f5431798) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-3793) | [Apple TV Store](https://tv.apple.com/de/show/invader-zim/umc.cmc.4zk9quj0u2h9ltu69c04rj1py?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6d8ba270-963e-48ce-8f27-e750c027306a) 🇩🇪, [JPC](https://www.jpc.de/jpcng/movie/detail/-/art/invader-zim-die-komplette-serie/hnum/6604636) 🇩🇪, [Buecher](https://www.awin1.com/pclick.php?p=43811357853&a=400165&m=14584) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-2723) | [HBO Max](https://www.hbomax.com/de/en/show/3e782d6a-3f32-4494-af91-9110dd9ec558/s1/e1-i/066c6fd5-d341-49ea-b31b-0ad14597a25d), [HBO Max Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.29156a52-bcc5-48c8-98d7-03e8e10983eb) 🇩🇪, [Apple TV Store](https://tv.apple.com/de/show/samurai-jack/umc.cmc.3672mfstbnm9m2w4vd1ub6v6l?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.5f3a830d-5796-4e15-99ec-aa429236955a) |

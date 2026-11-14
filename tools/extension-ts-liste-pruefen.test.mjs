@@ -26,7 +26,7 @@ const original = fs.readFileSync(tsconfig, 'utf8')
 
 const a = lauf()
 assert.equal(a.code, 0, a.aus)
-assert.match(a.aus, /22 Ausnahmen, 0 Fehler/)
+assert.match(a.aus, /23 Ausnahmen, 0 Fehler/)
 
 fs.writeFileSync(path.join(ordner, 'neu-x.js'), '')
 const b = lauf()

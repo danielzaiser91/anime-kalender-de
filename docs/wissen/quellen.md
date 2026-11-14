@@ -2271,6 +2271,10 @@ auseinandergehen, ist die Ursache nie die Quelle.
 Wirkung an einem Vormittag: Crunchyroll von 28 auf 11 Verweise ohne
 Sprachurteil, ohne einen einzigen neuen Abruf.
 
+## Linkprüfung: jede aniSearch-Amazon-Adresse kommt in die Schlange (12.11.2026)
+
+Bisher prüfte `check-links` aniSearch-Amazon-Adressen nur bei Titeln mit Prime-Such-Stream; so blieben Wege ohne Befund, darunter die tote Seite von Ragna Crimson (B0F1XK58VQ, Prime-Handbeleg ohne Stream). Jetzt kommt jede aniSearch-Amazon-Adresse in die Schlange (`pipeline/lib/anisearch-amazon-adressen.ts`), Vorrang haben weiter nur Titel mit Suchadresse; eine tote Seite wird als 404 festgehalten. **Je ASIN einmal:** aniSearch führt `/dp/ASIN`, Streams und Bestand dieselbe Seite als `/gp/video/detail/ASIN`; nach ASIN entdoppelt (der Bestand allein enthielt 827 solcher Doppel). Gemessen 12.11.2026 an `origin/main` `ce42c3d05` (aniSearch-Amazon-Adressen gegen Bestandsschlüssel, Streams und watchLinks): 1166 Adressen, 56 nicht als Adresse in der Schlange, davon 33 mit schon geprüfter ASIN, **23 wirklich neue ASINs**. Neue Adressen sind je Lauf auf `ZUSATZ_JE_LAUF` (40) begrenzt, damit sie Altbefunde nicht aus dem Limit drängen.
+
 ## Die Linkprüfung maß Amazons Shop-Adresse, nicht die Video-Seite
 
 Am 18.09.2026 stand der Bau rot: `check:tote-adressen` fand Horimiya und Mob Psycho 100 mit
@@ -3322,11 +3326,22 @@ Weg darf nicht davon abhängen, welche Stelle ihn zufällig gefunden hat.
   (`artikel` in `crunchyroll-woche.json`), reine Kalendertermine behalten den historischen Link `/de/simulcastcalendar` (leitet auf
   `/de/simulcasts` um; kein besserer Beleg für damals gemessene Termine). Meldungslinks (`quelle`) und die Quellenseite verweisen seit dem Folge-PR auf die Übersicht `/de/news/seasonal-lineup` (stabil, der Wochenartikel wechselt je Woche); die Foto-Belege (`messBeleg`) behalten den Kalenderlink, sonst verschmölze das Entdoppeln sie mit dem Wochenartikel. Die Wochendatei liest `crQuelleUrl` einmal je Prozess. Früher nicht angefasst:
   `lib/news-verspaetung.ts` (`kalenderTag`, Meldungslink) und die Quellenseite in `web/src/components/StaticViews.tsx`.
-- **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag); `termine-pruefen.ts` urteilt nur im
-  Fenster. **Die Ausgeblieben-/Verpasst-Erkennung für Crunchyroll endet damit mit dem Kalender:** Termine nach dem 21.10. kann sie nicht
-  mehr als verpasst führen (vom Prüfer mit altem und neuem Fenster gemessen: 0/0/0 neu/nachgeholt/verpasst, `termine-verpasst.json`
-  byte-gleich); das Wochenprogramm bestätigt nur, es belegt kein Ausbleiben. Möglicher kleiner Ersatz (nicht gebaut): Wochenprogramm-Zeile
-  vorhanden, Folge am Sendetag nicht im Crunchyroll-Katalog (`crunchyroll-neu`) → „ausgeblieben“-Kandidat.
+- **Folge, Grenze:** `data/crunchyroll.json` `window.to` steht auf 21.10. (letzter gelesener Tag). Bis 14.11.2026 urteilte
+  `termine-pruefen.ts` nur in diesem Fenster, die Verpasst-Erkennung für Crunchyroll stand also still (The Vermilion Mask Folge 3, 14.11.:
+  angekündigt, nicht geliefert, ohne Vermerk). **Seit 14.11.2026 urteilt nach dem Fenster der Katalog** (`crunchyroll-neu.json`,
+  `lib/verpasst-ankuendigung.ts`, `darfUrteilen`): nur wenn er nach der Frist geholt ist, die Frist höchstens 24 h zurückliegt (er liest nur
+  die jüngsten 600 Folgen) und er die Serie in genau der gesuchten Staffel führt (Ascendance of a Bookworm steht dort als „Staffel 4“).
+  **Eine Ankündigung zählt nie als Beobachtung:** Kalender-Einträge mit `quelle: 'woche'` und Folgentage in `schedule.observed`, die eine
+  Wochenprogramm-Zeile wiedergeben, bestätigen keinen Termin. Wächter: `check-termine-katalog-lauf.ts`.
+- **Uhrzeit: Katalogstempel statt Wochenprogramm (14.11.2026).** Der Anlass oben war keine fehlende Folge: The Vermilion Mask Folge 3
+  (`GE00384365DEDE`, „Die Rauchmaske“) steht mit `verfuegbarAb` 10:30 UTC = 11:30 Berlin im Katalog (Abruf 12:01 UTC, der um 11:01 Berlin
+  hatte sie noch nicht); das Wochenprogramm nannte 10:30, und so stand Folge 3 eine Stunde zu früh als erschienen da. Der Sendezeiten-Lauf
+  danach strich den Vermerk zu Recht („die Folge kam am erwarteten Tag“). Messung über 37 Wochenprogramm-Zeilen seit 20.10.: der Stempel
+  passte in 32 von 32 messbaren Fällen zum stündlichen Abruf, die Wochenprogramm-Zeit in 22 nicht (28.10.–01.11. 1 h zu spät, ab 02.11.
+  1 h zu früh). Seitdem setzt `lib/cr-zeit-katalog.ts` in Phase 09-4-4 die Zeit der Kalendertermine (`cr-…`) aus dem Stempel der jüngsten
+  gepaarten Folge, frühere abweichende Folgen in `schedule.zeiten`; am ersten Tag bleibt die Psyren-Regel (`cr-zeit-woche.ts`). Kuratierte
+  Termine und geschätzte Zeiten bleiben. Wächter: `check-cr-zeit-katalog.ts`. Offen: ob die Psyren-Regel am ersten Tag selbst stimmt — das
+  Wochenprogramm lag 28.10.–01.11. eine Stunde zu spät.
 - **Foto-Belege (Folgepunkt, 27.10.2026):** `messbelege.ts` legt keine Kalenderfotos mehr an (`lib/messbeleg-auftraege.ts`, `KALENDER_ERREICHBAR = false`): das
   Bild von `kalenderTag(tag)` zeigte die Zielseite der Umleitung, nicht den Tag. Bereits abgelegte Fotos bleiben. Wächter: `check-messbelege-kalender.ts`.
 - **Nicht gebaut:** News-Artikel unter `/de/news/latest` (`cr-news-api-service…`) als zweite Quelle. Kein Bedarf aus der Messung; Sprache
@@ -4374,3 +4389,12 @@ Die Quelle mit dem besten Umfang für lineares Free-TV (MAXX, Folgennummer, Folg
 - **Belegter Umfang (Stichprobe 12.11.2026, nur Detektiv Conan):** Sender „ProSieben MAXX“ im Quelltext; je Serie die Seite `/<serie>/sendetermine` mit Beginn–Ende, Folgennummer und Folgentitel (z. B. 12.11. 17:55–18:25, Nr. 185 „Rache verjährt nicht (1)“). Vorlauf rund drei Wochen (bis 02.12.2026 gelistet). Kein iCal, RSS oder API gefunden; Auslesen nur über HTML.
 - **Offen:** Stichprobe weiterer MAXX-Titel (z. B. One Piece) nicht gemessen. Ein Test aus einem Runner ist erst nach Genehmigung sinnvoll, weil Azure-Adressen gesperrt sein können; lokal liefert 200 keine Aussage.
 - **Bis zur Genehmigung kein Abruf, keine Übernahme.** wunschliste.de (gleicher Betreiber, gleicher Impressum-Wortlaut) gilt ebenso als „auf Anfrage“.
+
+## Handzuordnungen TMDB → Titel messbar (`tools/tmdb-abgleich.mjs`, 13.11.2026)
+
+`node tools/tmdb-abgleich.mjs` hält jede Zeile aus `data/tmdb-von-hand.yaml` gegen AniList: Name (TMDB-Name aus `data/tmdb-titles.json` muss in Romaji/Englisch/Original des Titels oder seiner Reihe stecken), Startdatum (TMDB-Staffel mit dem nächsten Starttag aus `data/tmdb-folgen.json` gegen `jpStart`; Film: Jahr) und Folgenzahl. Nur Repo-Dateien, keine Korrektur.
+
+- **Erste Messung (Bau 2026-11-13T08:20Z):** 25 Zuordnungen mit Kennung; Name 20 geprüft / 5 Abweichungen, Start 18 / 0, Folgenzahl 17 / 1. Alle 18 Starttage stimmen auf den Tag.
+- **Echter Befund:** Dragon Ball Super (21175) trägt in `tmdb-titles.json` noch den Namen „ドラゴンボール超 ビルス“ der früheren Kennung 312359, obwohl `tmdbId` schon 62715 ist; die Handzeile ersetzt nur die Kennung, nicht die mitgeholten Felder.
+- **Kein Fehler:** Kakegurui ××, Magilumiere, Tayo, Kitaro — TMDBs Name ist deutsch, AniList kennt keinen deutschen. Pokémon Reisen (112153): TMDB-Staffel 23 hat 48 Folgen, AniList 136; die Staffeln 23–25 haben zusammen 147, weil AniList die letzten 11 Folgen als eigenen Titel führt (158870, Start 2023-01-13 = TMDB S25E47).
+- **Nicht prüfbar** (keine TMDB-Folgen oder kein Name im Repo): 9 Zeilen, darunter die vier Dragon-Ball-Serien ohne Folgen-Cache.

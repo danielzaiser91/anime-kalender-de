@@ -9,7 +9,8 @@ import type { FranchiseMember, Title } from '../shared/types.ts'
 import { alleRemakePaare, markiereRemakes } from './bau/remake-von.ts'
 import { markiereEigeneWerke } from './bau/cartoon-reihen.ts'
 import { abweichungVomBekannten, doppelteNummern, remakeMitOriginalInGruppe, warnzeilenZaehlung } from './lib/remake-zaehlung-pruefung.ts'
-import { BEKANNT_DOPPELT_OHNE_REMAKE } from './lib/remake-zaehlung-bekannt.ts'
+import { BEKANNT_DOPPELT_OHNE_REMAKE, BEKANNT_HOECHSTENS } from './lib/remake-zaehlung-bekannt.ts'
+import { ratschenWarnzeilen } from './lib/hoechstens-ratsche.ts'
 import { melde } from './lib/quarantaene.ts'
 
 /** Der Anlassfall: Yaiba (2025) ist die Neuverfilmung von Legendary Brave Swordsman Yaiba (1993) — laut Handliste. */
@@ -51,6 +52,8 @@ console.log('\nNeuverfilmungen und Zählgruppen im ausgelieferten Datensatz:')
   for (const d of mitRemake) for (const id of d.ids) melde(id, 'remake-zaehlung-bestand', `Staffelnummer ${d.nummer} doppelt in einer Reihe mit Neuverfilmung`)
   pruefe('In Reihen mit Neuverfilmung kommt keine Staffelnummer doppelt vor', mitRemake.length === 0, mitRemake.slice(0, 5))
   for (const zeile of warnzeilenZaehlung(abweichungVomBekannten(doppelt, BEKANNT_DOPPELT_OHNE_REMAKE))) console.log(zeile)
+  const ohneRemake = new Set(doppelt.filter((d) => !d.mitRemake).map((d) => `${d.reihe}|${d.nummer}`))
+  for (const zeile of ratschenWarnzeilen('Zählung', [...ohneRemake], BEKANNT_HOECHSTENS)) console.log(zeile)
 
   const imBestand = Object.values(roh).flat().filter((m) => m.remakeVon !== undefined).length
   if (imBestand !== neuverfilmungen.length) console.log(`  ⚠ WARNUNG Zählung: franchises.json trägt remakeVon an ${imBestand} statt ${neuverfilmungen.length} Teilen — der nächste Bestandsbau schreibt sie, sonst fehlt die Verdrahtung in 13-4-zusatzdateien.ts`)

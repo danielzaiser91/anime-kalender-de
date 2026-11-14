@@ -21,8 +21,28 @@
   },
   {
     "name": "kettenOffen: Basiszeile wird nicht gelesen",
-    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": " || BASIS_ZEILE.test(z)", "ersetze": "" }],
+    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": " || kopf(text).some((z) => BASIS_ZEILE.test(z))", "ersetze": "" }],
     "tests": ["node tools/pr-pruefer-basis-offen.test.mjs", "node tools/pr-pruefer-freigabe.test.mjs"]
+  },
+  {
+    "name": "Schritt „Kette läuft noch“: ohne --nur-lauf (Basis offen würde den Modelllauf auslassen)",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "pr-pruefer-kette-offen.mjs --nur-lauf", "ersetze": "pr-pruefer-kette-offen.mjs" }],
+    "tests": ["node tools/pr-pruefer-kette-offen.test.mjs"]
+  },
+  {
+    "name": "Schritt „Kette läuft noch“: Marke der Wache fehlt im Protokoll",
+    "aenderungen": [{ "datei": ".github/workflows/pr-pruefer.yml", "suche": "\"<!-- pruefer-ohne-modell -->\" > ", "ersetze": "\"\" > " }],
+    "tests": ["node tools/pr-pruefer-kette-offen.test.mjs"]
+  },
+  {
+    "name": "nach-kette: Läufe ohne Modell zählen gegen die Neustart-Grenze",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-nach-kette.mjs", "suche": " && !String(k.body).includes(MARKE_OHNE_MODELL)", "ersetze": "" }],
+    "tests": ["node tools/pr-pruefer-nach-kette.test.mjs"]
+  },
+  {
+    "name": "kettenLaeuft: Basiszeile zählt als laufende Kette (Prüfer würde bei fertiger Kette nicht urteilen)",
+    "aenderungen": [{ "datei": "tools/pr-pruefer-kette-offen.mjs", "suche": "return kopf(text).some((z) => OFFEN.test(z))", "ersetze": "return kopf(text).some((z) => OFFEN.test(z) || BASIS_ZEILE.test(z))" }],
+    "tests": ["node tools/pr-pruefer-kette-offen.test.mjs"]
   },
   {
     "name": "kettenlog: Basiszeile nicht an baueDateien gereicht",

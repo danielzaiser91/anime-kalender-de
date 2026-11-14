@@ -72,7 +72,13 @@ const sekunden = (schlüssel, muster) => {
 const kettenlog = sekunden('Kettenlog bereitlegen', /pr-kettenlog\.mjs "\$HEAD_SHA" "\$RUNNER_TEMP\/pruefer" (\d+)/)
 const checkStand = sekunden('Check-Stand des Kopfes', /pr-checks-stand\.mjs "\$HEAD_SHA" (\d+)/)
 const timeout = wf.jobs.pruefen['timeout-minutes']
-pruefe('Fristen lesbar: Kettenlog und Check-Stand', kettenlog > 0 && checkStand > 0, { kettenlog, checkStand })
+pruefe('Fristen lesbar: Kettenlog und Check-Stand', kettenlog >= 0 && checkStand > 0, { kettenlog, checkStand })
+// 13.11.2026: der Prüfer hält keinen Runner, um auf die Kette zu warten (Frist 0); läuft sie, entfallen alle Modellschritte.
+pruefe('Kettenlog: Frist 0 (kein Warten auf die Kette)', kettenlog === 0, kettenlog)
+const modellSchritte = schritte.filter((s) => String(s.uses ?? '').startsWith('anthropics/claude-code-action'))
+pruefe('drei Modellschritte, alle übersprungen bei laufender Kette', modellSchritte.length === 3 && modellSchritte.every((s) => String(s.if).includes("steps.kette.outputs.laeuft != 'ja'")), modellSchritte.map((s) => s.if))
+pruefe('Check-Stand entfällt bei laufender Kette', String(schritte.find((s) => s.name === 'Check-Stand des Kopfes')?.if).includes("steps.kette.outputs.laeuft != 'ja'"))
+pruefe('Schritt „Kette läuft noch“ steht nach Kettenlog und vor den Prüfern', ['Kettenlog bereitlegen', 'Kette läuft noch', 'Prüfer (Stufe 0, schlank)'].map((n) => schritte.findIndex((s) => s.name === n)).every((v, i, a) => v >= 0 && (i === 0 || v > a[i - 1])))
 const summe = VORLAUF_MIN + kettenlog / 60 + PRUEFER_MAX_MIN + checkStand / 60
 pruefe(`Budget: ${VORLAUF_MIN} + Kettenlog ${kettenlog / 60} + Prüfer ${PRUEFER_MAX_MIN} + Check-Stand ${checkStand / 60} = ${summe} min <= Timeout ${timeout} min`, summe <= timeout, { summe, timeout })
 pruefe('Check-Stand: nach dem Prüfer, vor Protokoll und Freigabe', ['Prüfer', 'Check-Stand des Kopfes', 'Protokoll und Freigabe'].map((n) => schritte.findIndex((s) => s.name === n)).every((v, i, a) => v >= 0 && (i === 0 || v > a[i - 1])))

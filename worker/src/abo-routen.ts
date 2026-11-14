@@ -434,13 +434,6 @@ export async function handleConfirm(request: Request, env: Env): Promise<Respons
 }
 
 /**
- * Gleicht die Favoriten eines Abonnenten ab.
- *
- * Nötig, weil die Favoriten im Browser des Nutzers liegen und sich dort
- * jederzeit ändern, ohne dass der Dienst davon erfährt. Jede Mail trägt einen
- * Link hierher; die Seite schickt beim Öffnen ihren aktuellen Stand.
- */
-/**
  * Der Rückweg: die gespeicherten Favoriten abrufen.
  *
  * Ohne ihn nützte auch der beste Wiederherstellungslink nichts: Er brächte den
@@ -471,6 +464,13 @@ export async function handleFavoritesGet(request: Request, env: Env): Promise<Re
   return json(env, { ok: true, favorites: [...leseFavoriten(row.favorites, await ladeKennungen(env))], email: row.email })
 }
 
+/**
+ * Gleicht die Favoriten eines Abonnenten ab.
+ *
+ * Nötig, weil die Favoriten im Browser des Nutzers liegen und sich dort
+ * jederzeit ändern, ohne dass der Dienst davon erfährt. Jede Mail trägt einen
+ * Link hierher; die Seite schickt beim Öffnen ihren aktuellen Stand.
+ */
 export async function handleFavorites(request: Request, env: Env): Promise<Response> {
   let payload: { token?: string; favorites?: number[]; ak?: number }
   try {
@@ -496,19 +496,6 @@ export async function handleFavorites(request: Request, env: Env): Promise<Respo
   return json(env, { ok: true, count: zaehleFavoriten(favorites) })
 }
 
-/**
- * Abmelden aus dem verbundenen Browser heraus.
- *
- * Der Abmeldelink aus der Mail trägt den `unsub_token`, die Seite kennt aber
- * nur den `pref_token`. Wer verbunden war, musste deshalb erst eine alte Mail
- * heraussuchen — dabei weiß die Seite in dem Moment genau, um welches Abo es
- * geht.
- *
- * Dasselbe Vertrauensniveau: Auch der `pref_token` stammt aus einer Mail an
- * dieses Postfach. Und Abmelden leichter zu machen ist nie der Fehler — die
- * DSGVO verlangt genau das, und ein Abo, das man nicht loswird, wird als Spam
- * gemeldet.
- */
 /**
  * Liest und ändert die Einstellungen eines verbundenen Browsers.
  *
@@ -584,6 +571,19 @@ export async function handlePrefsPost(request: Request, env: Env): Promise<Respo
   return json(env, { ok: true })
 }
 
+/**
+ * Abmelden aus dem verbundenen Browser heraus.
+ *
+ * Der Abmeldelink aus der Mail trägt den `unsub_token`, die Seite kennt aber
+ * nur den `pref_token`. Wer verbunden war, musste deshalb erst eine alte Mail
+ * heraussuchen — dabei weiß die Seite in dem Moment genau, um welches Abo es
+ * geht.
+ *
+ * Dasselbe Vertrauensniveau: Auch der `pref_token` stammt aus einer Mail an
+ * dieses Postfach. Und Abmelden leichter zu machen ist nie der Fehler — die
+ * DSGVO verlangt genau das, und ein Abo, das man nicht loswird, wird als Spam
+ * gemeldet.
+ */
 export async function handleUnsubscribeByPref(request: Request, env: Env): Promise<Response> {
   let payload: { token?: string }
   try {

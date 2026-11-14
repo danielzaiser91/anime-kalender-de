@@ -47,6 +47,8 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     reviews: [],
     statusCheckRollup: [],
   }
+  const KOPF_NATIV = 'f1e2d3c4b5a60718293a4b5c6d7e8f9012345678'
+  const stillNativ = { ...still, number: 77, headRefOid: KOPF_NATIV }
   let graphqlSchluessel = ''
   kopfZeiten((args) => {
     graphqlSchluessel = args.join(' ')
@@ -55,10 +57,15 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
   const liste = `pr list --state open --limit 100 --json ${LEICHT}`
   const daten = {
     [liste]: { aus: JSON.stringify([still]) },
+    // zweites Repo (nativ): ein stiller PR 77
+    [`${liste} --repo danielzaiser91/anime-kalender-nativ`]: { aus: JSON.stringify([stillNativ]) },
+    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup --repo danielzaiser91/anime-kalender-nativ': { aus: JSON.stringify([stillNativ]) },
+    'pr list --state open --limit 100 --json number,comments --repo danielzaiser91/anime-kalender-nativ': { aus: JSON.stringify([stillNativ]) },
     'rev-parse --git-common-dir': { aus: '.git\n' },
     'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([still]) },
     'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([still]) },
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
+    [graphqlSchluessel.replace('owner={owner}', 'owner=danielzaiser91').replace('name={repo}', 'name=anime-kalender-nativ')]: { aus: `${KOPF_NATIV} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
     'api repos/danielzaiser91/anime-kalender-de/issues/comments?sort=created&direction=desc&per_page=100': { aus: '[]' },
     'api repos/danielzaiser91/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
@@ -88,7 +95,7 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
   const ok = starte(daten)
   pruefe('Kulisse kennt jeden gh-Aufruf der Wachphase', unbekannteGh(daten).length === 0 && !/nicht lesbar: Command failed/.test(ok.stdout), { unbekannt: unbekannteGh(daten), o: ok.stdout })
   pruefe('Wächter: ein Aufruf ohne Antwort wird gemeldet', unbekannteGh({}).length > 0)
-  pruefe('Prozess: Sammelzeile LIEGT: für den stillen PR (Wachphase lief durch)', /^LIEGT: 2377 \(Stillstand \d+ h\)$/m.test(ok.stdout) && /Status-Worker nicht erreichbar/.test(ok.stderr), { s: ok.status, o: ok.stdout, e: ok.stderr })
+  pruefe('Prozess: Sammelzeile LIEGT: für den stillen PR und den nativ-PR (Wachphase lief durch)', /^LIEGT: 2377 \(Stillstand \d+ h\), anime-kalender-nativ#77 \(Stillstand \d+ h\)$/m.test(ok.stdout) && /Status-Worker nicht erreichbar/.test(ok.stderr), { s: ok.status, o: ok.stdout, e: ok.stderr })
   const kaputtDaten = { ...daten, [liste]: { fehler: 'HTTP 502' } }
   const kaputt = starte(kaputtDaten)
   pruefe('Kulisse kennt jeden gh-Aufruf auch im Fehlerfall', unbekannteGh(kaputtDaten).length === 0, unbekannteGh(kaputtDaten))

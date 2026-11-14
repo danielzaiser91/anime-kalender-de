@@ -5,7 +5,7 @@
  *   node tools/erneut-melden.mjs 99088 20966:primevideo 196144 --grund "Test 4.21.0"
  *   node tools/erneut-melden.mjs --pruefen      (Teil von check:vor-commit)
  *
- * Eingabe ist nur die AniList-Kennung, wahlweise mit Anbieter. Ohne Anbieter kommt der Titel
+ * Eingabe ist nur die Kennung (AniList; bei Cartoons die negative aus `cartoons.json`), wahlweise mit Anbieter. Ohne Anbieter kommt der Titel
  * bei jedem Anbieter mit Prüfliste zurück, bei dem er einen Verweis hat (Netflix, Prime, Disney+).
  *
  * Daniel am 22.09.2026: „vereinfach das, sodass du nur an einer stelle sagen musst welche
@@ -22,7 +22,7 @@
  * die YAML-Datei von Hand ändert und die Listen vergisst, bekommt einen roten Lauf statt einer
  * stillen Lücke.
  */
-import { readFileSync, appendFileSync } from 'node:fs'
+import { readFileSync, appendFileSync, existsSync } from 'node:fs'
 import { execFileSync, execSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -62,7 +62,9 @@ const DATEIEN = [
 const lies = (p) => readFileSync(resolve(wurzel, p), 'utf8')
 const lauf = (befehl) => execSync(befehl, { cwd: wurzel, stdio: 'inherit' })
 const roh = JSON.parse(lies('public/data/titles.json'))
-const titel = new Map((Array.isArray(roh) ? roh : roh.titles).map((t) => [t.id, t]))
+/* Cartoons tragen negative Kennungen (cartoons.json); die Erzeuger der Prüflisten lesen sie ohnehin mit. */
+const cartoons = existsSync(resolve(wurzel, 'public/data/cartoons.json')) ? JSON.parse(lies('public/data/cartoons.json')) : []
+const titel = new Map([...(Array.isArray(roh) ? roh : roh.titles), ...cartoons].map((t) => [t.id, t]))
 const name = (id) => titel.get(id)?.titleDe ?? titel.get(id)?.titleEn ?? `#${id}`
 
 /** Steht der Titel in der Prüfliste und im Prüfstand seines Anbieters? Leer heißt: ja. */
@@ -124,7 +126,7 @@ const neu = []
 for (const k of nurNeu ? [] : kennungen) {
   const [idText, plattform] = k.split(':')
   const id = Number(idText)
-  if (!titel.has(id)) throw new Error(`${k}: keine AniList-Kennung im Bestand`)
+  if (!titel.has(id)) throw new Error(`${k}: keine Kennung im Bestand (titles.json, cartoons.json)`)
   const moeglich = [...new Set((titel.get(id).streams ?? []).map((s) => s.platform))].filter((p) => ANBIETER[p])
   const ziele = plattform ? [plattform] : moeglich
   if (!ziele.length) throw new Error(`${name(id)} (${id}): kein Verweis bei Netflix, Prime oder Disney+`)

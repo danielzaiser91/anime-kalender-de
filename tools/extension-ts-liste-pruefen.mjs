@@ -24,6 +24,7 @@ export const AUSNAHMEN = [
   'disney-netz.js',
   'disney-weg.js',
   'disney.js',
+  'kontext.js',
   'leser.js',
   'melder.js',
   'netflix-gemeldet.js',

@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { gunzipSync } from 'node:zlib'
 import type { NewsEintrag } from '../../shared/types.ts'
+import { toIsoDate } from '../../shared/time.ts'
 
 interface CrFolge {
   episode_number?: number
@@ -20,9 +21,10 @@ function liesSerie(serie: string, verzeichnis: string): { holtAm: string; folgen
 
 /** Eine Serienkennung bündelt alle Staffeln mit Folge 11: Gemeint ist die jüngste, die zum Tag der Meldung schon lief — sonst die jüngste überhaupt. */
 function neuesteStaffel(treffer: CrFolge[], tag: string): CrFolge | undefined {
-  const nachDatum = (a: CrFolge, b: CrFolge) => (b.episode_air_date ?? '').localeCompare(a.episode_air_date ?? '')
-  const sortiert = [...treffer].sort(nachDatum)
-  return sortiert.find((f) => (f.episode_air_date ?? '').slice(0, 10) <= tag) ?? sortiert[0]
+  // Sendedaten tragen fremde Offsets (Z, +09:00, -07:00): als Zeitpunkt bzw. Berliner Tag vergleichen, nicht als Text.
+  const zeit = (f: CrFolge) => (f.episode_air_date ? Date.parse(f.episode_air_date) : -Infinity)
+  const sortiert = [...treffer].sort((a, b) => zeit(b) - zeit(a))
+  return sortiert.find((f) => !f.episode_air_date || toIsoDate(new Date(f.episode_air_date)) <= tag) ?? sortiert[0]
 }
 
 /**

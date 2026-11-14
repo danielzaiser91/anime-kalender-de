@@ -15,7 +15,9 @@ import { kandidat, reihenfolge, vorabGrund } from './nacht-merger-wahl.mjs'
 
 export const HOECHSTENS_VORGABE = 3
 /** Wartezeit vor der einen Wiederholung, wenn GitHub die Mergebarkeit noch rechnet (UNKNOWN, gemessen 07.11.2026 bei #2994/#3049: wenig später CLEAN). */
-export const UNKNOWN_WARTE_MS = 20_000
+export const UNKNOWN_WARTE_MS = Number(process.env.NACHT_MERGER_WARTE_MS) || 20_000 // Umgebungswert nur für den Prozesstest (wie WACHE_LIMIT_MS)
+/** Zeitbudget je Lauf: der Job hat 20 min (nacht-merger.yml), je UNKNOWN-PR kommen bis zu 40 s Wartezeit dazu; danach geordnet aufhören. */
+export const BUDGET_MS = 15 * 60_000
 const NOCH_NICHT_BERECHNET = /noch nicht berechnet/
 
 /** `pr-nachrechnen` mit genau einer Wiederholung, wenn die Mergebarkeit oder der Test-Merge noch nicht berechnet war (Exit 2, nichts angestoßen). */
@@ -26,13 +28,30 @@ export function nachrechnenMitWiederholung(welt, nummer) {
   return welt.nachrechnen(nummer)
 }
 
+/** Einzelabfrage des Mergestatus vor dem Merge: null = CLEAN, sonst { grund, unentschieden }; UNKNOWN wird einmal nach Wartezeit wiederholt und ist als einziger Status technisch unentschieden (DIRTY/BLOCKED sind echte Abweisungen). */
+export function mergeStatusGrund(welt, nummer) {
+  let status = welt.mergeStatus(nummer)
+  if (status === 'UNKNOWN') {
+    welt.warte(UNKNOWN_WARTE_MS)
+    status = welt.mergeStatus(nummer)
+  }
+  return status === 'CLEAN' ? null : { grund: `Mergestatus in der Einzelabfrage ${status}, nicht CLEAN`, unentschieden: status === 'UNKNOWN' }
+}
+
+/** Warnzeile (GitHub-Anmerkung), wenn ein Lauf nichts merget, obwohl PRs technisch nicht entschieden werden konnten; sonst null. */
+export function stillstandWarnung(gemergt, unentschieden) {
+  if (gemergt > 0 || unentschieden.length === 0) return null
+  return `::warning::Nacht-Merger: 0 Merges, ${unentschieden.length} PR technisch nicht entschieden (${unentschieden.join(', ')})`
+}
+
 /**
  * Ein Lauf. `welt` bringt alle Seiteneffekte mit (im Test eine Attrappe):
  *   offene() -> PRs der Liste; details(pr) -> pr + { kopf, stufe, pfade, checks, kommentare }; kopfVon(n); nachrechnen(n) -> { exit, text };
  *   bauCommittet(); bestandRot(); merge(pr); zeile(text).
  * Rückgabe { gemergt: [Nummern], fehler: Zahl }.
  */
-export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } = {}) {
+export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false, budgetMs = BUDGET_MS } = {}) {
+  const start = welt.jetzt()
   const abgewiesen = (pr, grund) => welt.zeile(`ÜBERSPRUNGEN #${pr.nummer}: ${grund}`)
   const kandidaten = []
   for (const pr of welt.offene()) {
@@ -47,8 +66,14 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
     else abgewiesen(pr, urteil.grund)
   }
   const gemergt = []
+  const unentschieden = []
   let fehler = 0
   for (const pr of reihenfolge(kandidaten, welt.bestandRot())) {
+    if (welt.jetzt() - start > budgetMs) {
+      unentschieden.push(`#${pr.nummer}`)
+      abgewiesen(pr, `Zeitbudget ${Math.round(budgetMs / 60_000)} min erschöpft, kommt im nächsten Lauf dran`)
+      continue
+    }
     if (gemergt.length >= hoechstens) {
       abgewiesen(pr, `Riegel: höchstens ${hoechstens} Merges je Lauf, kommt im nächsten Lauf dran`)
       continue
@@ -60,7 +85,14 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
     }
     const r = nachrechnenMitWiederholung(welt, pr.nummer)
     if (r.exit !== 0) {
+      if (r.exit === 2 && NOCH_NICHT_BERECHNET.test(r.text)) unentschieden.push(`#${pr.nummer}`)
       abgewiesen(pr, `Kette nicht als aktuell bestätigt (nachrechnen Exit ${r.exit}): ${r.text}`)
+      continue
+    }
+    const statusGrund = mergeStatusGrund(welt, pr.nummer)
+    if (statusGrund !== null) {
+      if (statusGrund.unentschieden) unentschieden.push(`#${pr.nummer}`)
+      abgewiesen(pr, statusGrund.grund)
       continue
     }
     if (welt.bauCommittet()) {
@@ -83,8 +115,13 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
     welt.zeile(`GEMERGT #${pr.nummer}: ${pr.grund}`)
   }
   welt.zeile(`Nacht-Merger: ${gemergt.length} ${trocken ? 'wären gemergt' : 'gemergt'}, ${fehler} Fehler, ${kandidaten.length} Kandidaten`)
-  return { gemergt, fehler }
+  const warnung = stillstandWarnung(gemergt.length, unentschieden)
+  if (warnung !== null) welt.zeile(warnung)
+  return { gemergt, fehler, stillstand: warnung !== null }
 }
+
+/** Exit 1 bei einem fehlgeschlagenen Merge oder bei Stillstand (0 Merges, PR technisch unentschieden): der rote Lauf fällt der Wache auf. */
+export const exitCode = (ergebnis) => (ergebnis.fehler > 0 || ergebnis.stillstand ? 1 : 0)
 
 /** Argumente: `--trocken`, `--hoechstens N`; sonst null (Aufruffehler). */
 export function argumente(argv) {
@@ -105,5 +142,5 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   }
   const { echteWelt } = await import('./nacht-merger-welt.mjs')
   const ergebnis = lauf(echteWelt({ trocken: opt.trocken }), opt)
-  process.exit(ergebnis.fehler > 0 ? 1 : 0)
+  process.exit(exitCode(ergebnis))
 }

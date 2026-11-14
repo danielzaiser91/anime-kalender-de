@@ -54,6 +54,7 @@ Ziel (Daniel, 08.10.2026): Daten aktuell halten und Neuigkeiten einarbeiten, ohn
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| Wache 13.11. (#3785): Patch-Notes-Vorrat hyouka-folgen-der-zweiten-haelfte wartet seit 05.11. | 1 | Kein Verlust im Bestand. Wartebedingung erfüllt: live hat Hyouka Prime dubRanges 1–3, 5–22. Offen: Vorrat freigeben (Text prüfen, Folge 4 fehlt weiter). Auswertung: daniel-zum-abarbeiten/00-wache-auswertung.md |
 | Wache 12.11. (#3599): Patch-Notes-Vorrat mehr-deutsche-folgen-netflix-prime wartet seit 04.11. | 1 | Beantwortet durch daniel-zum-abarbeiten/berichte/rohfolgen-peppa-tayo-2026-11-12.md: Erwartung im Vorrat war falsch (Tayo Prime bekommt nie dubRanges, Peppa Netflix meldet nur eine Zeile je Seite). Eintrag ersetzt durch `tayo-staffel-1-prime-deutsch` (belegt: 26 von 26 Folgen), Netflix-Behauptung entfällt. Offen, eigener Auftrag: warum Netflix-Cartoons nur eine Zeile je Seite melden. Auswertung: daniel-zum-abarbeiten/00-wache-auswertung.md |
 | Wache 11.11. (#3470): Sailor Moon Crystal Death Busters (21462) verliert ADN-Weg 427 s=3 | 1 | Vermutlich Korrektur: ADN-Staffel 3 hat 38 Folgen = Sailor Moon S (532), nicht 13. Offen: alten Katalogstand auszählen. Auswertung: daniel-zum-abarbeiten/00-wache-auswertung.md |
 | Wache 10.11. (#3374): ADN-Weg JoJo/86/I Parry Everything fehlt ab Bau d3bbd596 | 2 | Prime −4 ist gewollt (#3295, gleiche gti). ADN-Ursache nicht belegt: Bau mit Cache von d3bbd596 nachstellen, ADN-Phase prüfen. Auswertung: daniel-zum-abarbeiten/00-wache-auswertung.md |

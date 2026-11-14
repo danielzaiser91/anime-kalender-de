@@ -185,7 +185,8 @@ export function deutscheBereicheSeit(crDub: CrDubData, url: string | undefined, 
   const nummern = (serie?.staffeln ?? [])
     .filter((st) => Number(STAFFEL_IM_NAMEN.exec(st.name)?.[1]) === staffel)
     .flatMap((st) => st.deutscheFolgen ?? [])
-    .filter((f) => f.verfuegbarAb !== undefined && f.verfuegbarAb.slice(0, 10) >= ab)
+    // Berliner Kalendertag: Crunchyroll stempelt in UTC, die Widerlegung trägt einen Berliner Tag.
+    .filter((f) => f.verfuegbarAb !== undefined && toIsoDate(new Date(f.verfuegbarAb)) >= ab)
     .map((f) => f.nummer)
     .filter((n): n is number => Number.isInteger(n) && (n as number) > 0)
   const bereiche: { from: number; to: number; dub: boolean }[] = []

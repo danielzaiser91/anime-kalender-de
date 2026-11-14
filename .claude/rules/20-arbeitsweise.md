@@ -47,8 +47,10 @@ mit Datum und Ablaufbedingung. Tote Rückfallzweige nicht schreiben. Schlanker C
 Arbeitsgrundlage; bei gleichem Ergebnis die sparsamere Bauweise (Skill
 `gleicher-effekt-weniger-aufwand`).
 
-**Übergabe-Dateien** unter `C:\code\ai\__assets\_shared files user to agent\` (samt
-Unterordnern) nach Gebrauch ungefragt löschen oder, wenn noch nötig, verschieben.
+**Übergabe-Dateien** (Downloads, `C:\code\ai\__assets\_shared files user to agent\` samt
+Unterordnern) beim Empfang sofort aus Daniels Sicht verschieben (Scratchpad; Personendaten nur
+dorthin) und löschen, sobald die Aufgabe erledigt ist — Daniel sieht nie Reste (13.11.2026;
+Skill `regeln-im-detail`).
 
 **Prüftisch: alles wird laufend auf Schwachstellen geprüft, ohne Anstoß (Daniel, 16.10.2026)** — Architektur, Workflows, Delegation, Priorisierung, Code, Prüfung, Tooling, Skills, Regeln; gefundene Verbesserungen setze ich selbst um. Was Daniel selbst finden musste, gilt als Lücke des Prüftischs (Rhythmus und Ablauf: Skill `prueftisch`).
 
@@ -83,7 +85,7 @@ Auftrag über einen Zeitraum braucht als Erstes einen Wecker (Skill `autonomer-m
 
 **Keine vorgeschlagenen Aufgaben als Chip** — Nebenfunde in `stand.md` und `status.md`.
 
-**Fragen blockieren nie (Daniel, 10.10.2026): kein `AskUserQuestion`, keine Klick-Abfrage — nach einer Filtersperre keine Variante versuchen, sofort E-Zeile (04.11.2026).** Jede Frage trägt ein Kürzel `F<n>` (13.10.2026), jeder Handgriff ohne Frage `E<n>` (20.10.2026), nennt kurz mit Verb den Grund, warum Daniel es tut und nicht ich — „kann nicht“ (Claude-Sicherheitsfilter sperrt), „darf nicht“ (Projektregel: Geld), „soll nicht“ (deine Entscheidung) (Daniel, 20.10.2026) — und sagt, ob ein „ja“ im Chat genügt, damit ich es selbst tue (auch gegen eine Filtersperre), oder ob es nur Daniel selbst kann, und kommt als Zeile
+**Fragen blockieren nie (Daniel, 10.10.2026): kein `AskUserQuestion`, keine Klick-Abfrage — nach einer Filtersperre keine Variante versuchen, sofort E-Zeile (04.11.2026).** Jede Frage trägt ein Kürzel `F<n>` (13.10.2026), jeder Handgriff ohne Frage `E<n>` (20.10.2026), nennt kurz mit Verb den Grund, warum Daniel es tut und nicht ich — „kann nicht“ (Claude-Sicherheitsfilter sperrt), „darf nicht“ (Projektregel: Geld), „soll nicht“ (deine Entscheidung) (Daniel, 20.10.2026) — und sagt, ob ein „E<n> ja“ (mit Kürzel; ein bloßes „ja“ gilt nur als Antwort auf genau diese Frage im Chat, Daniel 14.11.2026) im Chat genügt, damit ich es selbst tue (auch gegen eine Filtersperre), oder ob es nur Daniel selbst kann, und kommt als Zeile
 unter `### Jetzt` in `stand.md`, verlinkt auf eine eigene kleine Datei mit genau dem, was er für
 diesen einen Punkt braucht (Optionen und Empfehlung bzw. Klickanleitung, nie ein langer Bericht), Daniel
 beantwortet sie asynchron; ist er gerade da, frage ich zusätzlich direkt im Chat (14.10.2026); bis dahin arbeite ich mit der Empfehlung weiter, wo das umkehrbar ist,

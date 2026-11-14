@@ -10,12 +10,11 @@
  *
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
-import type { PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
 import { OFFENE_PFADE, mitEingang } from './auffangnetz.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
 import { handleVerlauf } from './verlauf.ts'
 import { ladeKennungen } from './favoriten-kennung.ts'
-import { anbieterName } from '../../shared/types.ts'
+import { anbieterName, type PlatformId, type Release, type ReleaseEvent } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { handleFavoritenFeed } from './favoriten-feed.ts'
 import { sendeUndZaehle, tagesstand } from './mail-zaehler.ts'
@@ -43,7 +42,7 @@ import { mitAnmeldeSchutz } from './anmelde-schutz.ts'
 import { digestStand, mitPlatzpruefung, wochenAboFaellig } from './newsletter-kapazitaet.ts'
 import { handleBeleg } from './beleg.ts'
 import { loescheAbgelaufenes } from './loeschfristen.ts'
-import { starteFaelligeLaeufe } from './wecker.ts'
+import { starteFaelligeLaeufe, starteSchnelleLaeufe } from './wecker.ts'
 import { cors, json } from './antwort.ts'
 import { handleSubscribe, imRahmen, handleRestore, handleSync, handleRhythmus, handleRestoreConfirm, handleConfirm, handleFavoritesGet, handleFavorites, handlePrefsGet, handlePrefsPost, handleUnsubscribeByPref, handleUnsubscribe, handleFeedToken } from './abo-routen.ts'
 
@@ -765,7 +764,7 @@ export default {
       ctx.waitUntil(digestMitLog(env, now))
       return
     }
-    if (event.cron === PUSH_CRON) return ctx.waitUntil(pushSchnellMitLog(env, now, () => loadEvents(env)))
+    if (event.cron === PUSH_CRON) return ctx.waitUntil(Promise.all([starteSchnelleLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e)), pushSchnellMitLog(env, now, () => loadEvents(env))]))
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.

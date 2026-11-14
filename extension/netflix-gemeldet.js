@@ -37,7 +37,7 @@ globalThis.AK_GEMELDET = (() => {
 
   /** Merker und Prüfstand holen (beim ersten `zeigen`); danach wird der Knopf neu gezeichnet. */
   async function laden() {
-    merker = (await chrome.storage.local.get(SCHLUESSEL).catch(() => ({})))[SCHLUESSEL] ?? {}
+    merker = ((await globalThis.akKontext.lesen(SCHLUESSEL)) ?? {})[SCHLUESSEL] ?? {}
     stand = (await globalThis.akPruefstand?.()) ?? null
     protokoll('merker-gelesen', { merker, pruefstandAm: stand?.pruefstandAm ?? null, standGeladen: Boolean(stand) })
     globalThis.durchlaufKnopfZeigen?.() /* Funktion aus melder.js, gleicher Scope */
@@ -52,7 +52,7 @@ globalThis.AK_GEMELDET = (() => {
   const protokoll = (art, daten) => globalThis.nfpAufzeichnen?.(art, daten)
 
   /* Ohne Speicher gilt der Abschluss nur bis zum Neuladen. */
-  const schreiben = () => chrome.storage.local.set({ [SCHLUESSEL]: merker }).catch(() => {})
+  const schreiben = () => void globalThis.akKontext.schreiben({ [SCHLUESSEL]: merker })
 
   const nurEineStaffel = (alleFolgen) => new Set(alleFolgen.map((f) => String(f.seasonId ?? ''))).size <= 1
 

@@ -2,7 +2,7 @@
 // Zeile trägt `{<Art> · <Dringlichkeit> · <Ziel> · <Eingang TT.MM.> [· wartet: <worauf>]}`. Eine Quelle für Hook (stand-prs.js), tools/naechster.mjs und Mod (liegt in der Mod, weil Hook und Mod unter ~/.claude dieselbe Lage zueinander haben wie im Repo).
 const ARTEN = ['kritisch', 'angefangen', 'auftrag', 'eigen']
 const DRINGLICHKEITEN = ['sofort', 'hoch', 'normal', 'später']
-const ZIELE = ['Autonomie', 'Live5', 'Daten', '-']
+const ZIELE = ['Code', 'Autonomie', 'Live5', 'Daten', '-']
 const KENNZEICHEN = new RegExp(`\\{(${ARTEN.join('|')}) · (${DRINGLICHKEITEN.join('|')}) · (${ZIELE.join('|')}) · (\\d\\d)\\.(\\d\\d)\\.(?: · wartet: ([^}]*\\S))?\\}`, 'u')
 // Beginnt eine Klammer mit einer Art, gilt sie als Kennzeichen-Versuch (sonst ist sie ein Status wie {arbeit-agent}).
 const VERSUCH = new RegExp(`\\{(?:${ARTEN.join('|')})\\b[^}]*\\}`, 'u')

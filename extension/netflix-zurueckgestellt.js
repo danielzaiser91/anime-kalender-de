@@ -15,6 +15,7 @@
   Grund „fertig" und jeder abgelaufene. Kein Worker, keine D1.
 */
 const ZURUECK_SCHLUESSEL = 'netflixZurueckgestellt'
+const LAUF_UEBERSPRUNGEN = 'ak-netflix-uebersprungen'
 const ZURUECK_TAG_MS = 24 * 3600 * 1000
 const ZURUECK_HOECHSTENS_TAGE = 30
 const ZURUECK_MONATE = ['jan', 'feb', 'mär', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dez']
@@ -67,7 +68,7 @@ function zurueckBis(grund, datum, jetzt) {
  * `umgebung` (nur Tests): `{ speicher, jetzt, datum }`.
  */
 globalThis.akNetflixZurueckNeu = (titel, fertig, umgebung = {}) => {
-  const speicher = umgebung.speicher ?? chrome.storage.local
+  const speicher = umgebung.speicher ?? globalThis.akKontext.lokal
   const jetzt = umgebung.jetzt ?? Date.now
   const datum = umgebung.datum ?? (() => globalThis.erscheinungsdatum?.())
   let stand = {}
@@ -104,7 +105,8 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, umgebung = {}) => {
     })
     .catch(() => {})
 
-  class Zurueckgestellt extends Map {
+  /* Die Einträge dieses Laufs überstehen das volle Neuladen jedes Titels (`akNetflixLaufMap`). */
+  class Zurueckgestellt extends globalThis.akNetflixLaufMap(umgebung.sitzung ?? globalThis.akNetflixSitzungSpeicher?.(), LAUF_UEBERSPRUNGEN) {
     has(kennung) {
       return super.has(kennung) || aktiv(String(kennung))
     }

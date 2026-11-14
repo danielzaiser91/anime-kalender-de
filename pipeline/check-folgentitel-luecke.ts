@@ -142,6 +142,10 @@ jahreswechsel.staffeln![0].deutscheFolgen![3].verfuegbarAb = '2026-01-11T08:00:0
 const jahrArchiv = archivMit({ 'G0-1': 'Startlinie', 'G0-2': 'Denkende Schilfe', 'G0-3': 'Die Aufnahme', 'G0-4': 'Das Ziel' })
 pruefe('Staffel beginnt 2025 und endet 2026: für einen Titel von 2026 nichts', crFolgentitelGeteilt({ ...aoashi, episodes: 4 } as Title, jahreswechsel, jahrArchiv, belegtS2) === undefined)
 pruefe('dieselbe Staffel für einen Titel von 2025: sie gilt', crFolgentitelGeteilt({ ...aoashi, jpYear: 2025, episodes: 4 } as Title, jahreswechsel, jahrArchiv, belegtS2)?.size === 4)
+/* 31.12.2025 23:30 UTC ist in Berlin der 01.01.2026 um 00:30: das Beginnjahr ist 2026. */
+const silvester = serieMit([{ name: 'Staffel 2', ab: '2026-01-07', von: 1, bis: 4 }])
+silvester.staffeln![0].deutscheFolgen![0].verfuegbarAb = '2025-12-31T23:30:00Z'
+pruefe('erste Folge am 01.01. 00:30 Berliner Zeit (31.12. UTC): für einen Titel von 2026 gilt die Staffel', crFolgentitelGeteilt({ ...aoashi, episodes: 4 } as Title, silvester, jahrArchiv, belegtS2)?.size === 4)
 /* Zwei Staffeln im selben Jahr mit derselben Staffelzahl im Namen: keine Wahl, nichts. */
 const zweimalZwei = serieMit([{ name: 'Staffel 2', ab: '2026-03-04', von: 1, bis: 4 }, { name: 'Season 2', ab: '2026-06-04', von: 1, bis: 4 }])
 const zweimalArchiv = archivMit({ 'G0-1': 'Startlinie', 'G0-2': 'Denkende Schilfe', 'G0-3': 'Die Aufnahme', 'G1-1': 'Startlinie', 'G1-2': 'Denkende Schilfe', 'G1-3': 'Die Aufnahme' })

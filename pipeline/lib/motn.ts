@@ -46,6 +46,7 @@
  */
 import { releaseStatus } from '../../shared/logic.ts'
 import type { PlatformId, Release, Title } from '../../shared/types.ts'
+import { toIsoDate } from '../../shared/time.ts'
 
 /** Eine Anbieter-Option, wie die API sie je Folge liefert. */
 export interface MotnOption {
@@ -265,7 +266,7 @@ export function addonId(option: MotnOption): string | undefined {
 
 function isoAus(sekunden: number | undefined): string | undefined {
   if (!sekunden || !Number.isFinite(sekunden)) return undefined
-  return new Date(sekunden * 1000).toISOString().slice(0, 10)
+  return toIsoDate(new Date(sekunden * 1000))
 }
 
 /**
