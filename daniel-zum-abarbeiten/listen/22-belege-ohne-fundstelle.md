@@ -1,11 +1,12 @@
-# Belege ohne Fundstelle (39)
+# Belege ohne Fundstelle (42)
 
 Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termin gefunden hat (Fundstelle nur außerhalb des Bildausschnitts zählt nicht; Adressen ohne zugeordneten Titel und aniSearch-Kurzadressen neben ihrer Slug-Form fehlen). Von Hand prüfen: steht der Name im Seitentext, hat das Lesen die Marke verloren (der Lauf meldet es als Warnung „stehen im Seitentext, haben aber keine Marke“); sonst nennt der Artikel den Titel oder den Termin nicht, oder in verschiedenen Zeilen. Fehlt eines davon, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
 - https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/ (gelesen 2026-10-28) — Beelzebub (9513)
 - https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/ (gelesen 2026-10-28) — The Ribbon Hero (211308)
 - https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray (gelesen 2026-11-07) — Kami wa Game ni Ueteiru. (144176)
-- https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray (gelesen 2026-11-07) — Sakamoto Days: Teil 2 – Vol. 3 (184237)
+- https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray (gelesen 2026-11-14) — Sakamoto Days: Teil 2 – Vol. 3 (184237)
+- https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray (gelesen 2026-11-14) — Sakamoto Days: Teil 2 – Vol. 4 (184237)
 - https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/ (gelesen 2026-11-12) — I Was Reincarnated as the 7th Prince So I Can Take My Time Perfecting My Magical Ability (156415)
 - https://www.anime2you.de/news/1044479/afro-samurai-steelbook-blu-ray-edition/ (gelesen 2026-11-01) — Afro Samurai + Afro Samurai Resurrection (1292)
 - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/ (gelesen 2026-11-12) — Watashi no Shiawase na Kekkon Tokubetsu-hen (190054)
@@ -33,6 +34,7 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-11-02) — Beyblade X – Staffel 2 - Teil 2 (165159)
 - https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/ (gelesen 2026-11-09) — Snowball Earth (196144)
 - https://www.anime2you.de/news/1060828/disney-plus-dragon-ball-super-beerus-und-mehr/ (gelesen 2026-11-09) — Snowball Earth (196144)
+- https://www.joyn.de/filme/boruto-naruto-the-movie (gelesen 2026-11-14) — Boruto: Naruto the Movie (21220)
 - https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/ (gelesen 2026-11-02) — Shingeki no Kyojin (16498)
 - https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/ (gelesen 2026-11-02) — Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anisearch.de/article/214968,bocchi-the-rock-staffel-1-vol-1-3-limited-platinum-vip-edition-blu-ray-sammelschuber (gelesen 2026-11-13) — Bocchi the Rock! – Vol. 1 (130003)
@@ -41,3 +43,4 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/ (gelesen 2026-11-09) — BORUTO-ボルト- NARUTO NEXT GENERATIONS (97938)
 - https://www.joyn.de/serien/clannad-dpp0mkvw37d3 (gelesen 2026-11-07) — ＣＬＡＮＮＡＤ -クラナド- (2167), ＣＬＡＮＮＡＤ ~After Story~ クラナド アフターストーリー (4181)
 - https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/ (gelesen 2026-11-10) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
+- https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/ (gelesen 2026-11-14) — Dragon Ball Super (21175), Dan Da Dan (171018), Dan Da Dan: Staffel 2 (185660), Shingeki no Kyojin (16498)

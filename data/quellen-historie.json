@@ -2172,6 +2172,12 @@
   ],
   "adn-1160-s1-20241003-171018": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1160",
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
@@ -2183,11 +2189,17 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2024-10-03"
     }
   ],
   "adn-1160-s1-20241003-185660": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-14",
+      "stand": "aktuell"
+    },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1160",
       "name": "ADN API",
@@ -2200,7 +2212,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2025-07-03"
     }
   ],
@@ -2287,10 +2299,16 @@
   ],
   "adn-662": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-05",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/",
@@ -2617,10 +2635,16 @@
   ],
   "adn-999": [
     {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-14",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-30",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/999",
@@ -6181,7 +6205,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6211,7 +6235,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6241,7 +6265,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6625,7 +6649,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -6805,6 +6829,18 @@
   ],
   "yaiba-samurai-legend-prosieben-maxx": [
     {
+      "url": "https://www.tvspielfilm.de/tv-programm/sendungen/?filter=1&order=time&date=2026-11-13",
+      "name": "tvspielfilm.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.tv.de/sender/prosieben-maxx/17.11.2026/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-10",
@@ -6917,6 +6953,18 @@
     }
   ],
   "one-piece-whole-cake-island-prosieben-maxx": [
+    {
+      "url": "https://www.tvspielfilm.de/tv-programm/sendungen/?filter=1&order=time&date=2026-11-13",
+      "name": "tvspielfilm.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.tv.de/sender/prosieben-maxx/17.11.2026/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1059541/",
       "name": "anime2you.de",
@@ -7585,7 +7633,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-17"
     }
   ],
@@ -7609,7 +7657,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7625,7 +7673,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7649,7 +7697,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7673,7 +7721,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -8524,7 +8572,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-07",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-13",
+      "gelesenAm": "2026-11-14",
       "bestaetigt": "2026-11-18"
     }
   ],
@@ -8546,6 +8594,12 @@
     }
   ],
   "devils-crest-primevideo": [
+    {
+      "url": "https://www.amazon.de/dp/B0HKLZZ54Y",
+      "name": "amazon.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1068059/prime-video-devils-crest-und-mehr/",
       "name": "anime2you.de",
@@ -8722,6 +8776,40 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-12",
       "stand": "aktuell"
+    }
+  ],
+  "auto-20613-tv-prosieben-fun": [
+    {
+      "url": "https://tv.de/sendung/r/s,2471801965/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/61223",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-139630-tv-prosieben-maxx": [
+    {
+      "url": "https://de.wikipedia.org/wiki/My_Hero_Academia/Episodenliste",
+      "name": "de.wikipedia.org",
+      "gesehenAm": "2026-11-14",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://tv.de/sendung/r/s,2471807058/",
+      "name": "tv.de",
+      "gesehenAm": "2026-11-13",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/65930",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-11-13",
+      "stand": "vermutlich-ueberholt"
     }
   ]
 }
