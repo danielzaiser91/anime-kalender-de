@@ -299,11 +299,18 @@ export function kopfZeitVon(ghFn, pr, karte) {
   return Date.parse(ghFn(['api', `repos/{owner}/{repo}/commits/${pr.headRefOid}`, '--jq', '.commit.committer.date']).trim())
 }
 
+/** Gründe, die ein Entwurf zusätzlich zum Liegen hat (die Signale 3/4 gelten nur für ready-PRs); leer = keine. */
+export function entwurfGruende(pr) {
+  return [pr.mergeable === 'CONFLICTING' ? 'Konflikt' : null, checkStand(pr.statusCheckRollup).art === 'rot' ? 'Checks rot' : null].filter((g) => g !== null)
+}
+
 /** Entwurf: nur Signal 11, ohne Gegenprobe; null, wenn er jünger als ENTWURF_H ist. */
 function bewerteEntwurf(pr, kopfZeit, jetzt, repo) {
   const signale = entwurfSignal(pr, kopfZeit, jetzt)
   if (signale.length === 0) return null
-  const text = zeile(pr.number, NAECHSTER.ENTWURF, signale.map((s) => `${s.nr} ${s.text}`), signale[0].seit, [], false, repo)
+  const gruende = entwurfGruende(pr)
+  const texte = signale.map((s) => `${s.nr} ${s.text}${gruende.length > 0 ? ` (${gruende.join(', ')})` : ''}`)
+  const text = zeile(pr.number, NAECHSTER.ENTWURF, texte, signale[0].seit, [], false, repo)
   return { nr: pr.number, repo, signale: [{ nr: 11, seit: signale[0].seit }], zeile: text }
 }
 

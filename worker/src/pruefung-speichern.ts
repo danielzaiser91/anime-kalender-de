@@ -103,6 +103,49 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
     return await speichereStapel({ request, antwort, token, env, ctx }, stapel)
   }
 
+  const auftrag = await fuehreAuftragAus(env, antwort, daten)
+  if (auftrag) return auftrag
+
+  const erwartung = await speichereErwartung(env, antwort, daten)
+  if (erwartung) return erwartung
+
+  const url = String(daten.url ?? '').trim()
+  if (!url) return antwort({ error: 'url fehlt' }, 400)
+  const abgeleitet = leiteAb(daten)
+  if ('fehler' in abgeleitet) return antwort({ error: abgeleitet.fehler }, 400)
+  const { befund, vorhanden, tonDe, art } = abgeleitet
+  /* Dieselbe Folge zweimal geschickt: der jüngere Blick gilt (Schlüssel und Begründung: `folgeVon`). */
+  const { folgeNr, staffelNr, seitenKennung } = folgeVon(daten)
+  /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
+  const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
+  if (unveraendert) {
+    return antwort({ ok: true, befund, unveraendert: true })
+  }
+  /* Netflix und Disney+: die eine Rohfolge steht in der Zeile der Meldung (Migration 054), `prime_folge` bleibt leer. */
+  const rohfolge = await rohfolgeFuerMeldung(daten, url, seitenKennung)
+  /* Rohfolgen vor der Zeile, deren Hash den nächsten Klick „unveraendert“ macht (sonst Verlust bei D1-Export, 16.10.2026). */
+  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
+  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
+  const roh = rohfolgeFuerZeile(offene, { url, folgeNr, staffelNr, seitenKennung }, rohfolge)
+  await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, ...roh })
+
+  /*
+    Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE
+    uebernommen = 0`) und schickte die Zahl zurück. Kein Melder las sie; an jenem Tag waren es
+    1.904 Zählungen und 560.000 gelesene Zeilen — ein Zehntel des Tageskontingents.
+  */
+  /*
+    **Die Anzeige erfährt es sofort, nicht beim nächsten Nachfragen.**
+
+    Über `ctx.waitUntil`, damit die Erweiterung nicht auf den Versand wartet:
+    Sie hat ihre Arbeit getan, sobald die Meldung in der Datenbank steht.
+  */
+  ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(daten.plattform ?? 'unbekannt') }))
+  return antwort({ ok: true, befund })
+}
+
+/** Aufträge der Pipeline: wieder öffnen, Rohfolgen und Meldungen abhaken. `null`, wenn keiner vorliegt. */
+async function fuehreAuftragAus(env: Kontext['env'], antwort: Kontext['antwort'], daten: Record<string, unknown>): Promise<Response | null> {
   /**
    * Abhaken, was die Pipeline wirklich eingetragen hat.
    *
@@ -111,32 +154,32 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
    * (22.08.2026). Jetzt sagt die Pipeline, was angekommen ist.
    */
   /*
-      **Abgehakt ist nicht dasselbe wie eingearbeitet.**
+    **Abgehakt ist nicht dasselbe wie eingearbeitet.**
 
-      Am 26.08.2026 hakte der Uebernahme-Lauf 508 Disney-Meldungen ab und
-      schrieb daraus einen einzigen Eintrag. Die uebrigen liessen sich nicht
-      zuordnen — falsche Adresse im Bestand, abweichende Staffelzahlen — und
-      verschwanden trotzdem aus dem Briefkasten. Daniels Arbeit eines ganzen
-      Abends war damit unerreichbar.
+    Am 26.08.2026 hakte der Uebernahme-Lauf 508 Disney-Meldungen ab und
+    schrieb daraus einen einzigen Eintrag. Die uebrigen liessen sich nicht
+    zuordnen — falsche Adresse im Bestand, abweichende Staffelzahlen — und
+    verschwanden trotzdem aus dem Briefkasten. Daniels Arbeit eines ganzen
+    Abends war damit unerreichbar.
 
-      Die Zeilen stehen noch in der Datenbank; nur `uebernommen` trennt sie vom
-      Briefkasten. Diese Route dreht das zurueck, damit ein berichtigter Lauf
-      sie erneut sieht.
+    Die Zeilen stehen noch in der Datenbank; nur `uebernommen` trennt sie vom
+    Briefkasten. Diese Route dreht das zurueck, damit ein berichtigter Lauf
+    sie erneut sieht.
 
-      Sie ist ein Werkzeug fuer den Notfall, kein Teil des Ablaufs: Ohne Angabe
-      von Plattform und Datum tut sie nichts.
-    */
-    if (daten.reoeffnen && typeof daten.reoeffnen === 'object') {
-      const { plattform, seit } = daten.reoeffnen as { plattform?: string; seit?: string }
-      if (!plattform || !seit) return antwort({ error: 'plattform und seit noetig' }, 400)
-      const { meta } = await env.DB.prepare(
-        `UPDATE pruefung SET uebernommen = 0
+    Sie ist ein Werkzeug fuer den Notfall, kein Teil des Ablaufs: Ohne Angabe
+    von Plattform und Datum tut sie nichts.
+  */
+  if (daten.reoeffnen && typeof daten.reoeffnen === 'object') {
+    const { plattform, seit } = daten.reoeffnen as { plattform?: string; seit?: string }
+    if (!plattform || !seit) return antwort({ error: 'plattform und seit noetig' }, 400)
+    const { meta } = await env.DB.prepare(
+      `UPDATE pruefung SET uebernommen = 0
            WHERE uebernommen = 1 AND plattform = ? AND gemeldet_am >= ?`,
-      )
-        .bind(plattform, seit)
-        .run()
-      return antwort({ ok: true, reoeffnet: meta?.changes ?? 0 })
-    }
+    )
+      .bind(plattform, seit)
+      .run()
+    return antwort({ ok: true, reoeffnet: meta?.changes ?? 0 })
+  }
 
   /**
    * **Rohfolgen abhaken — sonst wächst die Tabelle für immer.**
@@ -171,7 +214,11 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
     await env.DB.batch(abhakAnweisungen(env, 'pruefung', 'uebernommen', ids))
     return antwort({ ok: true, markiert: ids.length })
   }
+  return null
+}
 
+/** Die bestätigte Auswahl zu einem Suchauftrag. `null`, wenn die Meldung keine Erwartung trägt. */
+async function speichereErwartung(env: Kontext['env'], antwort: Kontext['antwort'], daten: Record<string, unknown>): Promise<Response | null> {
   /*
     **Welche Ausgaben zu einem Suchauftrag gehören — vom Menschen bestätigt.**
 
@@ -214,40 +261,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
       return antwort({ ok: true, erwartung: liste.length })
     }
   }
-
-  const url = String(daten.url ?? '').trim()
-  if (!url) return antwort({ error: 'url fehlt' }, 400)
-  const abgeleitet = leiteAb(daten)
-  if ('fehler' in abgeleitet) return antwort({ error: abgeleitet.fehler }, 400)
-  const { befund, vorhanden, tonDe, art } = abgeleitet
-  /* Dieselbe Folge zweimal geschickt: der jüngere Blick gilt (Schlüssel und Begründung: `folgeVon`). */
-  const { folgeNr, staffelNr, seitenKennung } = folgeVon(daten)
-  /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
-  const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
-  if (unveraendert) {
-    return antwort({ ok: true, befund, unveraendert: true })
-  }
-  /* Netflix und Disney+: die eine Rohfolge steht in der Zeile der Meldung (Migration 054), `prime_folge` bleibt leer. */
-  const rohfolge = await rohfolgeFuerMeldung(daten, url, seitenKennung)
-  /* Rohfolgen vor der Zeile, deren Hash den nächsten Klick „unveraendert“ macht (sonst Verlust bei D1-Export, 16.10.2026). */
-  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
-  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
-  const roh = rohfolgeFuerZeile(offene, { url, folgeNr, staffelNr, seitenKennung }, rohfolge)
-  await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, ...roh })
-
-  /*
-    Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE
-    uebernommen = 0`) und schickte die Zahl zurück. Kein Melder las sie; an jenem Tag waren es
-    1.904 Zählungen und 560.000 gelesene Zeilen — ein Zehntel des Tageskontingents.
-  */
-  /*
-    **Die Anzeige erfährt es sofort, nicht beim nächsten Nachfragen.**
-
-    Über `ctx.waitUntil`, damit die Erweiterung nicht auf den Versand wartet:
-    Sie hat ihre Arbeit getan, sobald die Meldung in der Datenbank steht.
-  */
-  ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(daten.plattform ?? 'unbekannt') }))
-  return antwort({ ok: true, befund })
+  return null
 }
 
 export type Kontext = {

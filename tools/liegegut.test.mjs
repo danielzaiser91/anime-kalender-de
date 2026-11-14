@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, stapelKandidat, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -319,6 +319,36 @@ console.log('liegegut: Signal 11 Entwurf liegt (12 h)')
   pruefe('KURZ-Name steht in der Sammelzeile', /Entwurf liegt \d+ h/.test(liegtZeile(liegegutAlleFunde(attrappeGh([pr(5, { isDraft: true, comments: [daniel(13, 'x')] })]), attrappeGit(), JETZT), JETZT) ?? ''))
 }
 
+console.log('liegegut: Sammelzeile je Signalnummer (Tabelle, PR 3854: 8 überlebende Mutanten an KURZ und istZugPr)')
+{
+  // Signalnummer → Kurzname; 7 hat keinen Eintrag in KURZ (Signal 7 ist nur Gegenprobe, nie ein eigenes Signal).
+  const tabelle = [[1, 'Freigabe ruht'], [2, 'Urteile widersprechen'], [3, 'Konflikt'], [4, 'rot'], [5, 'Ändern offen'], [6, 'gleiche Entscheidung'], [8, 'Stillstand'], [9, 'Stapel'], [10, 'Nachrechnen-Schleife'], [11, 'Entwurf liegt']]
+  for (const [nr, kurz] of tabelle) {
+    const ist = liegtZeile([{ nr: 77, repo: 'anime-kalender-de', signale: [{ nr, seit: JETZT - 5 * 3600 * 1000 }] }], JETZT)
+    pruefe(`Signal ${nr} → „${kurz}“ mit Stundenzahl`, ist === `LIEGT: 77 (${kurz} 5 h)`, ist)
+  }
+  const zwei = liegtZeile([{ nr: 8, repo: 'anime-kalender-nativ', signale: [{ nr: 3, seit: JETZT - 30.9 * 3600 * 1000 }, { nr: 8, seit: JETZT - 52 * 3600 * 1000 }] }], JETZT)
+  pruefe('zwei Signale: Reihenfolge, abgerundete Stunden, Repo-Präfix', zwei === 'LIEGT: anime-kalender-nativ#8 (Konflikt 30 h, Stillstand 52 h)', zwei)
+  const kand = (base, zug) => stapelKandidat({ baseRefName: base, mergeable: 'MERGEABLE', body: '' }, zug)
+  pruefe('stapelKandidat: Basis zug bei aktivem Zug → kein Stapel (Zug-PR)', kand('zug', true) === false)
+  pruefe('stapelKandidat: Basis zug ohne aktiven Zug → Stapel', kand('zug', false) === true)
+  pruefe('stapelKandidat: andere Basis bei aktivem Zug → Stapel', kand('anderer-zweig', true) === true)
+  pruefe('stapelKandidat: Basis main → kein Stapel', kand('main', true) === false && kand('main', false) === false)
+}
+
+console.log('liegegut: Entwurf nennt Konflikt und rote Kette als Grund')
+{
+  const zeileVon = (felder) => liegegut(attrappeGh([pr(9, { isDraft: true, comments: [daniel(13, 'x')], ...felder })]), attrappeGit(), JETZT)[0] ?? ''
+  const rot = [{ status: 'COMPLETED', conclusion: 'FAILURE', completedAt: h(1) }]
+  const ende = / – seit \d\d\.\d\d\. [\d:]+$/
+  pruefe('Entwurf ohne Konflikt, Kette grün → kein Grund', /Signal 11 Entwurf liegt – seit/.test(zeileVon({})) && !/liegt \(/.test(zeileVon({})), zeileVon({}))
+  pruefe('Entwurf mit Konflikt → „(Konflikt)“', /Signal 11 Entwurf liegt \(Konflikt\)/.test(zeileVon({ mergeable: 'CONFLICTING' })) && ende.test(zeileVon({ mergeable: 'CONFLICTING' })), zeileVon({ mergeable: 'CONFLICTING' }))
+  pruefe('Entwurf mit roter Kette (1 h alt, unter ROT_H) → „(Checks rot)“', /Signal 11 Entwurf liegt \(Checks rot\) – seit/.test(zeileVon({ statusCheckRollup: rot })), zeileVon({ statusCheckRollup: rot }))
+  pruefe('Entwurf mit Konflikt und roter Kette → beide Gründe', /Signal 11 Entwurf liegt \(Konflikt, Checks rot\) – seit/.test(zeileVon({ mergeable: 'CONFLICTING', statusCheckRollup: rot })), zeileVon({ mergeable: 'CONFLICTING', statusCheckRollup: rot }))
+  pruefe('Entwurf mit offener Kette (ohne Checks) → kein Grund', !/liegt \(/.test(zeileVon({ statusCheckRollup: [] })))
+  pruefe('Entwurf unter 12 h mit Konflikt → weiter keine Zeile', liegegut(attrappeGh([pr(9, { isDraft: true, mergeable: 'CONFLICTING', comments: [daniel(2, 'x')] })]), attrappeGit(), JETZT).length === 0)
+}
+
 console.log('liegegut: Signal 8 Stillstand (48 h)')
 {
   const still = (p, kopfStunden) => stillstandSignal(p, JETZT - kopfStunden * 3600 * 1000, JETZT)
@@ -360,7 +390,7 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
   pruefe('„seit“ 1513: frühester Zeitpunkt aller Signale (Kopf-Commit des Signals 6)', (nach(1513) ?? '').includes('seit 17.10. 11:00;'), nach(1513))
   pruefe('„seit“ 1676: Kommentar (20.10. 19:00 Berlin)', (nach(1676) ?? '').includes('seit 20.10. 19:00;'), nach(1676))
   pruefe('frischer PR ohne Zeile', nach(1701) === undefined)
-  pruefe('Entwurf 90 h ohne Aktivität (mit Konflikt) → nur Signal 11, keine Gegenprobe', /^anime-kalender-de PR 1700: ENTWURF[^–]*– Signal 11 Entwurf liegt – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1700) ?? ''), nach(1700))
+  pruefe('Entwurf 90 h ohne Aktivität (mit Konflikt) → nur Signal 11, keine Gegenprobe', /^anime-kalender-de PR 1700: ENTWURF[^–]*– Signal 11 Entwurf liegt \(Konflikt\) – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1700) ?? ''), nach(1700))
   pruefe('Entwurf 13 h → gemeldet, Entwurf 2 h → nicht', nach(1702) !== undefined && nach(1703) === undefined, [nach(1702), nach(1703)])
   pruefe('Gegenprobe nur für Signale 1, 3, 5: 1508 (nur Signal 6) ruft die Dateiliste nicht ab', !gh.some((a) => a.includes('/pulls/1508/files')) && gh.some((a) => a.includes('/pulls/1437/files')))
   pruefe('git grep auf origin/main, je PR eine Datei, nie git log', git.length > 0 && git.every((a) => /^grep -n -w -F -e \S+ origin\/main -- \S+$/.test(a)), git)

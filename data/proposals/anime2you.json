@@ -1,15 +1,61 @@
 {
-  "scrapedAt": "2026-11-14T04:13:18.095Z",
+  "scrapedAt": "2026-11-14T18:02:09.623Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 31,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
+    "schon in einem Rubrik-Feed gelesen": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 9,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Pluto TV ergänzt zwei weitere Anime-Neuzugänge",
+      "articleUrl": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+      "publishedAt": "2026-11-14",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Black Friday 2026: Erste große Anime-Rabattaktionen gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1071723/black-friday-2026-erste-anime-rabattaktionen/",
+      "publishedAt": "2026-11-14",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "mit zahlreichen Anime-Angeboten. Wir geben euch einen Überblick. Bis 30. November 2026 Im AniMoon-Shop gibt es bis zum 30. November 2026 mi"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix bringt »KPop Demon Hunters«-Konzerte nach Deutschland + Termine",
+      "articleUrl": "https://www.anime2you.de/news/1071559/kpop-demon-hunters-konzerte-deutschland/",
+      "publishedAt": "2026-11-14",
+      "category": "allgemein",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-06",
+          "context": "en zusammen. Fünf Konzerte in Deutschland Die Tour startet demzufolge im Juni 2027 in Nordamerika und wird ab September 2027 in Europa fortg"
+        },
+        {
+          "month": "2027-09",
+          "context": "land Die Tour startet demzufolge im Juni 2027 in Nordamerika und wird ab September 2027 in Europa fortgesetzt. In […] Der Beitrag Netflix"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Termin von »Multi-Mind Mayhem: Isekai Tensei Soudouki« + Trailer",
       "articleUrl": "https://www.anime2you.de/news/1070995/multi-mind-mayhem-termin/",
