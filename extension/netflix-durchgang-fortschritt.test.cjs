@@ -23,6 +23,7 @@ kontext.globalThis = kontext
 vm.createContext(kontext)
 vm.runInContext(lies('netflix-erinnern.js'), kontext)
 vm.runInContext(lies('netflix-durchgang-steuerung.js'), kontext)
+vm.runInContext(lies('netflix-bericht.js'), kontext)
 const k = kontext
 
 /* --- Fortschrittstext --- */
@@ -104,23 +105,6 @@ const raeumen = (uia, pfad, { sprung = EIGEN, alter = 600000, tab = 'a' } = {}) 
   pruefe('kaputtes Dokument: kein Absturz, nichts', k.akNetflixFensterRaeumen({}, {}, () => { throw new Error('nie') }, { sprung: EIGEN, tab: 'a', jetzt: J + 99999 }) === false)
 }
 
-/* --- Netzantworten seit dem Sprung (Resource Timing) --- */
-{
-  const T = 5000000
-  const eintrag = (name, art, start, ende = start + 50) => ({ name, initiatorType: art, startTime: start, responseEnd: ende })
-  const leistung = (liste) => ({ timeOrigin: T - 100000, getEntriesByType: () => liste })
-  const vor = eintrag('https://www.netflix.com/api/x', 'fetch', 90000)
-  const gut = eintrag('https://web.prod.cloud.netflix.com/graphql', 'fetch', 100500)
-  pruefe('keine Einträge: 0', k.akNetflixNetzAntworten(leistung([]), T) === 0)
-  pruefe('nur eine Antwort VOR dem Sprung: 0', k.akNetflixNetzAntworten(leistung([vor]), T) === 0)
-  pruefe('fetch an netflix.com nach dem Sprung: 1', k.akNetflixNetzAntworten(leistung([vor, gut]), T) === 1)
-  pruefe('XHR zählt auch', k.akNetflixNetzAntworten(leistung([eintrag('https://www.netflix.com/nq/x', 'xmlhttprequest', 101000)]), T) === 1)
-  pruefe('Bild, Skript und fremder Host zählen nicht', k.akNetflixNetzAntworten(leistung([eintrag('https://occ-0.nflximg.net/a.jpg', 'img', 101000), eintrag('https://www.netflix.com/a.js', 'script', 101000), eintrag('https://example.org/graphql', 'fetch', 101000)]), T) === 0)
-  pruefe('Antwort noch nicht fertig (responseEnd 0): zählt nicht', k.akNetflixNetzAntworten(leistung([eintrag('https://www.netflix.com/api/y', 'fetch', 101000, 0)]), T) === 0)
-  pruefe('Puffer voll (250 Einträge): keine Auskunft (null), nie „0"', k.akNetflixNetzAntworten(leistung(Array.from({ length: 250 }, () => vor)), T) === null)
-  pruefe('kaputtes Timing: null', k.akNetflixNetzAntworten({}, T) === null)
-}
-
 /* --- Pause: der Takt räumt, ein Takt ohne Pause nicht --- */
 {
   const T0 = Date.UTC(2026, 10, 12, 19, 0, 0)
@@ -185,9 +169,9 @@ const melder = lies('melder.js')
     for (let i = 1; i <= titelZahl; i++) offen[i] = { titel: `T${i}` }
     const ergebnis = {}
     new Function(
-      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'ergebnis',
+      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'ergebnis',
       `${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
-    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, ergebnis)
+    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, ergebnis)
     return ergebnis
   }
   let r = seite(40)
@@ -196,6 +180,8 @@ const melder = lies('melder.js')
   pruefe('nach dem Neuladen: Zähler 1 und Nenner 40 bleiben (nicht 0 von 39), der nächste Sprung zählt 2 von 40', JSON.stringify(r.vorher) === '[1,40]' && JSON.stringify(r.nachher) === '[2,40]', r)
   const f = k.akNetflixFortschritt(...r.vorher, 'X')
   pruefe('die Fortschrittszeile direkt nach dem Neuladen zeigt „0 von 40 geprüft" mit demselben Nenner (Zähler 1 = erster Titel läuft)', f.text === 'Durchgang: 0 von 40 geprüft · gerade: X', f)
+  speicher['ak-netflix-fertig'] = '["1"]'
+  speicher['ak-netflix-uebersprungen'] = '[["2","x"]]'
   vm.runInContext('__tun.aufraeumen()', kontext)
   pruefe('Ende des Durchgangs (taktTun.aufraeumen): Speicher leer, der nächste Lauf beginnt bei 0', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}' && Object.keys(speicher).length === 0, speicher)
   speicher['ak-netflix-zaehler'] = '{kaputt'

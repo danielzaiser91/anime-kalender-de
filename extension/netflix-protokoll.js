@@ -7,7 +7,7 @@
   wird verschluckt, nie weitergegeben. Der Puffer selbst steht in `protokoll.js`. Die Namen tragen
   `nfp`, weil alle Skripte einer Seite einen Scope teilen.
 */
-const nfpMerk = { nummern: new WeakMap(), zaehler: 0, knopf: '', kasten: null }
+const nfpMerk = { nummern: new WeakMap(), zaehler: 0, knopf: '', kasten: null, gepostet: new Set() }
 
 /** `[1,2,3,5]` → „1–3, 5". */
 function nfpBereiche(nummern) {
@@ -141,10 +141,23 @@ function nfpListeAufzeichnen(e) {
   })
 }
 
+/**
+ * Was ein Stapel meldet: Titelkennung (aus der Adresse), Folgennummern als Bereiche und `wiederholt` = dieselbe Folge dieses Titels
+ * ging in diesem Seitenaufruf schon einmal raus (`schon`: Set aus Adresse und Folge). So zeigt der Bericht eine Doppelmeldung.
+ */
+function nfpPostInhalt(body, schon) {
+  const stapel = Array.isArray(body?.stapel) ? body.stapel : []
+  const reihe = /\/title\/(\d+)/.exec(String(stapel[0]?.url ?? ''))?.[1] ?? null
+  const schluessel = stapel.map((m) => `${m?.url}|${m?.folge}`)
+  const wiederholt = schluessel.some((k) => schon.has(k))
+  schluessel.forEach((k) => schon.add(k))
+  return { reihe, folgen: nfpBereiche(stapel.map((m) => m?.folge_nr)), wiederholt }
+}
+
 /** Eine Antwort des Workers auf eine Meldung: Status und wie viele Einträge des Stapels bestätigt sind. */
-function nfpPostAufzeichnen(antwort, anzahl, ms) {
+function nfpPostAufzeichnen(antwort, anzahl, ms, inhalt = {}) {
   const kopie = typeof antwort.clone === 'function' ? antwort.clone() : antwort
-  const daten = { anzahl, status: antwort.status ?? null, ok: Boolean(antwort.ok), ms }
+  const daten = { anzahl, ...inhalt, status: antwort.status ?? null, ok: Boolean(antwort.ok), ms }
   Promise.resolve(kopie.json())
     .then((j) => {
       const e = Array.isArray(j?.ergebnisse) ? j.ergebnisse : null
@@ -162,21 +175,24 @@ function nfpFetchUmhuellen() {
     if (opt?.method !== 'POST' || !String(url).endsWith('/pruefung')) return original.call(this, url, opt)
     const t0 = Date.now()
     let anzahl = 1
+    let inhalt = {}
     try {
-      anzahl = JSON.parse(opt.body)?.stapel?.length ?? 1
+      const body = JSON.parse(opt.body)
+      anzahl = body?.stapel?.length ?? 1
+      inhalt = nfpPostInhalt(body, nfpMerk.gepostet)
     } catch {
       /* Keine Zahl, kein Problem. */
     }
     try {
       const antwort = await original.call(this, url, opt)
       try {
-        nfpPostAufzeichnen(antwort, anzahl, Date.now() - t0)
+        nfpPostAufzeichnen(antwort, anzahl, Date.now() - t0, inhalt)
       } catch {
         /* Messen darf nie stören. */
       }
       return antwort
     } catch (fehler) {
-      nfpAufzeichnen('worker-post', { anzahl, fehler: String(fehler?.message ?? fehler), ms: Date.now() - t0 })
+      nfpAufzeichnen('worker-post', { anzahl, ...inhalt, fehler: String(fehler?.message ?? fehler), ms: Date.now() - t0 })
       throw fehler
     }
   }

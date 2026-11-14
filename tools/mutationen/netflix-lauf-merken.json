@@ -1,0 +1,205 @@
+[
+  {
+   "name": "Kontrolle (unmutiert)",
+   "aenderungen": [],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs",
+    "node --require ./extension/test-kontext.cjs extension/netflix-durchgang-fortschritt.test.cjs"
+   ]
+  },
+  {
+   "name": "melder: fertigeTitel nur im Arbeitsspeicher",
+   "aenderungen": [
+    {
+     "datei": "extension/melder.js",
+     "suche": "const fertigeTitel = akNetflixFertigSet()",
+     "ersetze": "const fertigeTitel = new Set()"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Fertig-Set: add schreibt nicht",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [...this])",
+     "ersetze": "void 0"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Fertig-Set: clear schreibt nicht",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "super.clear()\n      globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])",
+     "ersetze": "super.clear()"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Fertig-Set: Konstruktor lädt nicht",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "super(globalThis.akNetflixLaufLesen(speicher, FERTIG_SCHLUESSEL))",
+     "ersetze": "super()"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "LaufVergessen: Fertig bleibt",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])\n  globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-uebersprungen', [])",
+     "ersetze": "globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-uebersprungen', [])"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "LaufVergessen: Übersprungene bleiben",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])\n  globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-uebersprungen', [])",
+     "ersetze": "globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "aufraeumen: Lauf nicht vergessen (Verdrahtung)",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "    akNetflixZaehlerSetze(null)\n    akNetflixLaufVergessen()",
+     "ersetze": "    akNetflixZaehlerSetze(null)"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-durchgang-fortschritt.test.cjs"
+   ]
+  },
+  {
+   "name": "LaufLesen: kaputtes JSON wirft",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "    return Array.isArray(x) ? x : []\n  } catch {\n    return []",
+     "ersetze": "    return Array.isArray(x) ? x : []\n  } catch (e) {\n    throw e"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Merkliste: Konstruktor lädt nicht",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "for (const [k, g] of globalThis.akNetflixLaufLesen(speicher, schluessel)) super.set(k, g)",
+     "ersetze": "void 0"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Merkliste: set schreibt nicht",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "super.set(k, g)\n      globalThis.akNetflixLaufSchreiben(speicher, schluessel, [...this])",
+     "ersetze": "super.set(k, g)"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Merkliste: clear leert den Speicher nicht",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-durchgang-steuerung.js",
+     "suche": "super.clear()\n      globalThis.akNetflixLaufSchreiben(speicher, schluessel, [])\n    }\n  }",
+     "ersetze": "super.clear()\n    }\n  }"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Merkliste: Sitzungsspeicher nicht angebunden",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-zurueckgestellt.js",
+     "suche": "umgebung.sitzung ?? globalThis.akNetflixSitzungSpeicher?.()",
+     "ersetze": "null"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "Merkliste: eigener Schlüssel fehlt",
+   "aenderungen": [
+    {
+     "datei": "extension/netflix-zurueckgestellt.js",
+     "suche": "akNetflixSitzungSpeicher?.(), LAUF_UEBERSPRUNGEN)",
+     "ersetze": "akNetflixSitzungSpeicher?.(), 'andere')"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-zurueckgestellt.test.cjs"
+   ]
+  },
+  {
+   "name": "laufStarten: fertigeTitel.clear() entfernt",
+   "aenderungen": [
+    {
+     "datei": "extension/melder.js",
+     "suche": "  durchgangEnde = null\n  fertigeTitel.clear()\n",
+     "ersetze": "  durchgangEnde = null\n"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-titel-gesperrt.test.cjs"
+   ]
+  },
+  {
+   "name": "laufStarten: selbstUebersprungen.clear() entfernt",
+   "aenderungen": [
+    {
+     "datei": "extension/melder.js",
+     "suche": "  selbstVersucht = null\n  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n",
+     "ersetze": "  selbstVersucht = null\n  bremse.zuruecksetzen()\n"
+    }
+   ],
+   "tests": [
+    "node --require ./extension/test-kontext.cjs extension/netflix-titel-gesperrt.test.cjs"
+   ]
+  }
+]
