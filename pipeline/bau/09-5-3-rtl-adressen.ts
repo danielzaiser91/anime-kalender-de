@@ -36,6 +36,7 @@ export function stelleRtlAdressenUm({ titles }: {
       }
       return raus
     } catch {
+      // Datei fehlt oder ist kein gültiges YAML: dann gelten keine Handadressen (leere Zuordnung)
       return {}
     }
   })()
