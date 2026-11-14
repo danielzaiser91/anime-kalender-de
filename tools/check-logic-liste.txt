@@ -1,6 +1,8 @@
 # Prüfungen von npm run check:logic, bis zu 6 gleichzeitig (tools/arbeiterpool.mjs), erster Fehler bricht ab.
 # Alphabetisch sortiert (check-logic-alle.mjs verlangt es): ein neuer Check kommt an die passende Stelle, nicht ans Ende.
 # Zwei Zweige, die verschiedene Checks ergänzen, ändern dann verschiedene Stellen und kollidieren nicht. Die Reihenfolge ist sonst egal.
+# Bestandsprüfungen (meist pipeline/check-*-bestand.ts, lesen public/data) stehen absichtlich nicht hier: sie laufen in npm run check:bestand
+# (package.json, samt tools/check-bestand-liste.txt) nach dem Bau in tools/commit-data.sh, im PR über tools/pr-bestand-vergleich.mjs.
 pipeline/check-09-2-linkpruefung-laufzeit.ts
 pipeline/check-09-4-1-serien-laufzeit.ts
 pipeline/check-09-4-2-bloecke-laufzeit.ts
@@ -155,6 +157,7 @@ pipeline/check-cr-doppelt-weg.ts
 pipeline/check-cr-dub-katalog.ts
 pipeline/check-cr-einzelwerk-urteil.ts
 pipeline/check-cr-film-wege.ts
+pipeline/check-cr-folgenzahl-untergrenze.ts
 pipeline/check-cr-folgestaffel.ts
 pipeline/check-cr-frisch.ts
 pipeline/check-cr-ja-deckung.ts
@@ -528,6 +531,7 @@ pipeline/check-screenshot-wiederholen.ts
 pipeline/check-seite-nicht-werk.ts
 pipeline/check-seiten-ansicht.ts
 pipeline/check-seiten-seo.ts
+pipeline/check-sendepause-folge.ts
 pipeline/check-serien-vorsatz.ts
 pipeline/check-serienbeleg-folgenbereich.ts
 pipeline/check-share-pages-doppellauf.ts

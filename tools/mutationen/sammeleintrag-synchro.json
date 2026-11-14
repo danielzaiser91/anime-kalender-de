@@ -23,10 +23,10 @@
   { "name": "Bestandsregel: Handeintrag der Erstausgabe zaehlt nicht", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "[b.handbelegt, b.kartei, b.handErstausgabe, b.tv]", "ersetze": "[b.handbelegt, b.kartei, b.tv]" },
   { "name": "Bestandsregel: TV zaehlt nicht", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "[b.handbelegt, b.kartei, b.handErstausgabe, b.tv]", "ersetze": "[b.handbelegt, b.kartei, b.handErstausgabe]" },
   { "name": "Bestandsregel: Belege gelten fuer alle Titel", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": ".some((menge) => menge.has(t.id))", "ersetze": ".some((menge) => menge.size > 0)" },
-  { "name": "Bau: Titel gelten nie als Sammeleintrag", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "sammeleintrag.has(title.id)", "ersetze": "false" },
-  { "name": "Bau: leere Titelliste fuer den Sammeleintrag", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "sammeleintragTitel(anisearchBruecke(), titles.keys(), ladeJustwatchDeutsch())", "ersetze": "sammeleintragTitel(anisearchBruecke(), [], ladeJustwatchDeutsch())" },
-  { "name": "Bau: leere Bruecke", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "sammeleintragTitel(anisearchBruecke(), titles.keys(), ladeJustwatchDeutsch())", "ersetze": "sammeleintragTitel(new Map(), titles.keys(), ladeJustwatchDeutsch())" },
-  { "name": "Bau: alle Titel gelten als Sammeleintrag", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "sammeleintrag.has(title.id)", "ersetze": "true" },
+  { "name": "Bau: Titel gelten nie als Sammeleintrag", "datei": "pipeline/bau/09-5-0-erstausgabe.ts", "suche": "sammeleintrag.has(title.id)", "ersetze": "false" },
+  { "name": "Bau: leere Titelliste fuer den Sammeleintrag", "datei": "pipeline/bau/09-5-0-erstausgabe.ts", "suche": "sammeleintragTitel(anisearchBruecke(), titles.keys(), ladeJustwatchDeutsch())", "ersetze": "sammeleintragTitel(anisearchBruecke(), [], ladeJustwatchDeutsch())" },
+  { "name": "Bau: leere Bruecke", "datei": "pipeline/bau/09-5-0-erstausgabe.ts", "suche": "sammeleintragTitel(anisearchBruecke(), titles.keys(), ladeJustwatchDeutsch())", "ersetze": "sammeleintragTitel(new Map(), titles.keys(), ladeJustwatchDeutsch())" },
+  { "name": "Bau: alle Titel gelten als Sammeleintrag", "datei": "pipeline/bau/09-5-0-erstausgabe.ts", "suche": "sammeleintrag.has(title.id)", "ersetze": "true" },
   { "name": "Ohne Synchro: Jahr unbekannt gilt als alt (alte Regel)", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "(t.jpYear !== undefined && t.jpYear < 2023)", "ersetze": "((t.jpYear ?? 0) < 2023)" },
   { "name": "Ohne Synchro: Grenze 2024", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "t.jpYear < 2023", "ersetze": "t.jpYear < 2024" },
   { "name": "Ohne Synchro: Grenze 2022", "datei": "pipeline/bau/synchro-belegt.ts", "suche": "t.jpYear < 2023", "ersetze": "t.jpYear < 2022" },
@@ -43,7 +43,7 @@
   { "name": "JustWatch: Befund ohne Treffer zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "!b.ohneTreffer && ", "ersetze": "" },
   { "name": "JustWatch: geteilte Kennung zaehlt", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "jeKennung.get(b.jwId) === 1", "ersetze": "jeKennung.get(b.jwId)" },
   { "name": "JustWatch: Japanisch statt Deutsch", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "a.audio?.includes('de')", "ersetze": "a.audio?.includes('ja')" },
-  { "name": "JustWatch: Bau liest die Befunde nicht", "datei": "pipeline/bau/09-5-weitere-quellen.ts", "suche": "titles.keys(), ladeJustwatchDeutsch())", "ersetze": "titles.keys())" },
+  { "name": "JustWatch: Bau liest die Befunde nicht", "datei": "pipeline/bau/09-5-0-erstausgabe.ts", "suche": "titles.keys(), ladeJustwatchDeutsch())", "ersetze": "titles.keys())" },
   { "name": "JustWatch: Einzelquelle liest die Befunde nicht", "datei": "pipeline/lib/belegstaerke.ts", "suche": "titel.map((t) => t.id), ladeJustwatchDeutsch())", "ersetze": "titel.map((t) => t.id))", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] },
   { "name": "Eigener Beleg: Handlink mit Tonbereich zaehlt fuer die Stufe nicht", "datei": "pipeline/lib/anisearch-sammeleintrag.ts", "suche": "Boolean(t.watchLinks?.some((w) => w.dubRanges?.some((r) => r.dub))) ||", "ersetze": "", "tests": ["npx tsx pipeline/check-belegstaerke-handbelegt.ts"] }
 ]
