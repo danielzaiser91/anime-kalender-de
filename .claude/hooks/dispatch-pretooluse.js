@@ -1,4 +1,4 @@
-// PreToolUse-Bündel (Edit|Write|NotebookEdit|MultiEdit|Bash|preview_start): alle Sperren in einem Prozess.
+// PreToolUse-Bündel (Edit|Write|NotebookEdit|MultiEdit|Bash|preview_start|mcp__ccd_turn__wrap_up): alle Sperren in einem Prozess.
 // Jedes Modul prüft das Werkzeug selbst. Ausgabe: deny eines Moduls gewinnt (mehrere Gründe untereinander), sonst die Eskalation
 // von guard; sonst nichts. `rtk hook claude` und pruefrunden.js (Matcher Agent) bleiben eigene Einträge in settings.json.
 // Module, die nur lokal liegen (nicht im öffentlichen Repo), sind über require erreichbar; fehlt eine Datei, wird sie mit einer
@@ -29,6 +29,8 @@ const MODULE = [
   ['subagent-schreibsperre.js', 'grund'],
   // Vorrat-Sperre (25.10.2026, F63): vorrat/*.md erst nach Bericht löschen oder verschieben (Marke `# nach-bericht`).
   ['vorrat-sperre.js', 'grund'],
+  // Wrap-up-Sperre (14.11.2026): Abschlusskasten nur mit recap, ohne Frage und Knöpfe.
+  ['wrapup-sperre.js', 'grund'],
   // Befehls-Register (13.10.2026): protokolliert nur, ändert den Befehl nicht (seit 10.11.2026 ohne updatedInput) und entscheidet nie.
   ['befehlsregister.js', 'objekt'],
 ]

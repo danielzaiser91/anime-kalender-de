@@ -40,6 +40,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   sonst `gh workflow run deploy.yml` (PR 824, 11.10.2026: kein Deploy ausgelöst).
 - **Kein Merge auf main, solange ein Deploy einen erwarteten Live-Fix trägt (26.10.2026):** Ein push-Deploy bricht den laufenden ab (Gruppe `pages`); der Merge von PR 2108 warf den Appraisal-Deploy nach 10 min weg. Vorher `gh run list --workflow deploy.yml -L 1` — läuft er und wartet Daniel auf seinen Inhalt, Merge danach.
 - **Erste Zeile des CI-Prüfers (seit 18.10.2026):** „ok“ allein heißt Pflicht-Checks des Kopfes grün; „ok, Checks rot/laufen noch/Stand unbekannt“ ist keine Merge-Freigabe — erst den Check-Stand klären.
+- **Check-Stand maschinell lesen (Lehre 62, 14.11.2026):** `gh pr checks N --json name,bucket` statt `awk` auf die Textausgabe — Check-Namen enthalten Leerzeichen, die Spalten verrutschen. Mergebereit heißt `bucket` nirgends `fail`/`pending` und `mergeStateStatus == CLEAN`.
 - **Gesetzter Auto-Merge ist kein Merge (13.10.2026):** Der CI-Prüfer läuft nach jedem Push neu und kann
   „aendern“ sagen; dann hängt der PR still auf BLOCKED (1069 und 1074 je 20 min). In der nächsten Wachphase
   `reviewDecision` lesen; bei CHANGES_REQUESTED den letzten Prüfprotokoll-Kommentar holen
@@ -97,6 +98,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   treffen, tun, in `stand.md` melden. Rückfrage nur bei den bekannten Grenzen: Geld,
   Außenwirkung, schwer Umkehrbares, Serverstart, Umkehr einer Entscheidung, Rechtsgrauzone —
   und bei Dingen, die nur Daniel kann (Login, Hardware, Geschmack ohne Messbares).
+  **Ob oder wann Besucher etwas bekommen (Push, Mail, Feed), ist eine Produktregel:** Die eigene Wahl wird gebaut, die Variante „gar nicht“ geht als F-Zeile nach „Jetzt“ (14.11.2026, Lehre 70: Push ohne Uhrzeit, 08:00 statt gar nicht).
 - Ein Auftrag an Daniel steht nur unter „Daniel-Todo“ in `stand.md`, wenn es ohne ihn nicht geht.
 - Merge auf `main` erst, wenn kein Bestandslauf läuft (sonst Doppelbau); Zweig-Push ist jederzeit ok.
 - **Ist main an mehreren Stellen rot, gehören die Fixes in einen PR** — jeder Einzel-PR bleibt sonst an der jeweils anderen roten Stelle hängen, und die Regeln sperren den Merge (26.10.2026: Kachel-Fix #2096 und Wächter-Fix #2098 blockierten sich, #2100 bündelt beide Commits). Vor dem Start eines Fix-Bauers fragen: Welche Ketten sind auf main rot, und deckt dieser PR alle? Bei rotem main steht der Fix-PR in der Merge-Reihe vorne; andere PRs erst danach (Vorschlags-Ledger, 01.11.2026). **„Vorne“ heißt: sofort einzeln `merge-reihe.sh <PR>` neben der laufenden Reihe** (einzige Ausnahme von „keine zweite daneben“) — der Nachschub hängt hinten an; 05.11.2026 lag 2913 (Fix für roten Bestandsbau) freigegeben hinter 30 PRs, Bestand 2,5 h rot. Vor jedem Nachschub fragen: Behebt dieser PR einen roten Lauf auf main?
