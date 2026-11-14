@@ -1,21 +1,17 @@
 /** Bausteine der News-Seite: Eintragszeile mit aufklappbaren Meldungen und die Filterknöpfe je Art. */
-import { type NewsMeldung } from '@shared/types.ts'
+import type { Dispatch, SetStateAction } from 'react'
+import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.ts'
 import { istLink, hostVon } from '@shared/quelle.ts'
 import { QuellenKnopf } from './beleg-dialog.tsx'
-import { type NewsArt } from '@shared/types.ts'
-import { type Stand } from '../lib/news-verlauf.ts'
+import type { Stand, Verlaeufe } from '../lib/news-verlauf.ts'
 import { NEWS_FARBE } from './news-farben.ts'
-import { artLabel, newsSatz } from '../lib/news-text.ts'
+import { artLabel, newsKurz, newsSatz } from '../lib/news-text.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
 import { NachtragText } from './news-nachtrag.tsx'
 import { Klapptext } from './klapptext.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
-import type { Dispatch, SetStateAction } from 'react'
 import type { Translate } from '../lib/i18n.tsx'
 import { NewsCover } from './news-kachel.tsx'
-import { newsKurz } from '../lib/news-text.ts'
-import { type NewsEintrag } from '@shared/types.ts'
-import type { Verlaeufe } from '../lib/news-verlauf.ts'
 
 export function NewsEintragInhalt({ umschalten, e, auf, erste, t, arten, sortiert, oeffne, verlaeufe }: {
   umschalten: (e: NewsEintrag) => void
@@ -154,41 +150,6 @@ export function NewsFilterKnoepfe({ setFilter, filter, t, jeArt }: {
   )
 }
 
-/**
- * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
- *
- * Daniel am 12.09.2026: „pro tag max 1 eintrag je anime - alle infos zu diesem
- * anime (neue folgen, disc release, ankündigung zu weiteren folgen/staffeln,
- * etc.) müssen unter diesem anime gebündelt aufgelistet sein. und die übersicht
- * muss noch kompakter, damit man nicht so viel scrollen muss. interaktion für
- * mehr details, pills oder sonstige darstellungsweise für übersicht."
- *
- * ## Woher der Aufbau kommt
- *
- * Zehn Listen dieser Art gemessen (Zeilenhöhe und Schriftgrößen im Browser
- * abgelesen, nicht geschätzt): Sentry 119 px, Discourse 88 px, LiveChart
- * 80–92 px, GitHub 64–71 px, Wikipedias erweiterte Letzte Änderungen 22 px.
- * Zwei Befunde tragen diesen Entwurf:
- *
- * 1. **Keine dieser Listen mischt beliebig viele Ereignisarten in eine Zeile.**
- *    Wer feste Arten hat, nimmt Spalten (Sentry: Events/Users; Discourse:
- *    Antworten/Aufrufe); wer wechselnde hat, nimmt Chips. Unsere Arten
- *    schwanken je Tag — also Chips.
- * 2. **Der Zähler ist der Aufklapper** (Wikipedia „3 Änderungen", incident.io
- *    „6 components ⌄"). Aufgeklappt wird **inline**: Der Kontext bleibt stehen,
- *    die Scrollposition auch, und auf einem Touchgerät braucht es keinen
- *    Hover-Zustand, den es dort nicht gibt.
- *
- * Übernommen ist deshalb Sentrys Zeilenaufbau (Bild, zwei Textgrößen, Chips
- * rechts) mit Wikipedias Aufklapper. Gegenüber der ersten Fassung — eine Zeile
- * je Meldung, 58 px — kostet ein Titel mit drei Meldungen an einem Tag jetzt
- * eine Zeile statt drei.
- *
- * **Die Sätze entstehen hier und nicht im Bau**, sonst stünde die deutsche
- * Fassung fest in einer Datei. Kurz in der Übersicht, ausführlich beim
- * Aufklappen: Die Übersicht beantwortet „ist etwas passiert", das Detail
- * „was genau".
- */
 /** Gewählter Filter (eins von n), einheitlich mit Reitern und Segmenten (design-regeln.md). */
 const GEWAEHLT = 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt'
 
@@ -201,7 +162,8 @@ const GEWAEHLT = 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt'
 export const ARTEN = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'rhythmus', 'takt', 'offiziell', 'kino', 'disc', 'folgen'] as const satisfies readonly NewsArt[]
 
 /* Fehlt eine `NewsArt` in `ARTEN`, ist diese Zuweisung ein Typfehler (sonst ohne Chip und mit Rang -1). */
-export const _artenVollstaendig: Exclude<NewsArt, (typeof ARTEN)[number]> extends never ? true : never = true
+const _artenVollstaendig: Exclude<NewsArt, (typeof ARTEN)[number]> extends never ? true : never = true
+void _artenVollstaendig
 
 /**
  * **Eine Meldungszeile** — Art-Pille, Teil-Nennung, Satz und Quelle (29.09.2026 herausgelöst: Die

@@ -11,10 +11,7 @@ import { KinoPlakette } from './news-kachel.tsx'
 import { PatchnotesKnopf } from './PatchnotesKnopf.tsx'
 import { ohneEingeordnete, verlaeufeAus } from '../lib/news-verlauf.ts'
 import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
-import { NewsEintragInhalt } from './news-eintrag.tsx'
-import { NewsFilterKnoepfe } from './news-eintrag.tsx'
-import { ARTEN, _artenVollstaendig } from './news-eintrag.tsx'
-void _artenVollstaendig
+import { ARTEN, NewsEintragInhalt, NewsFilterKnoepfe } from './news-eintrag.tsx'
 
 
 /*
@@ -141,6 +138,41 @@ export function KinoKarussell({
   )
 }
 
+/**
+ * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
+ *
+ * Daniel am 12.09.2026: „pro tag max 1 eintrag je anime - alle infos zu diesem
+ * anime (neue folgen, disc release, ankündigung zu weiteren folgen/staffeln,
+ * etc.) müssen unter diesem anime gebündelt aufgelistet sein. und die übersicht
+ * muss noch kompakter, damit man nicht so viel scrollen muss. interaktion für
+ * mehr details, pills oder sonstige darstellungsweise für übersicht."
+ *
+ * ## Woher der Aufbau kommt
+ *
+ * Zehn Listen dieser Art gemessen (Zeilenhöhe und Schriftgrößen im Browser
+ * abgelesen, nicht geschätzt): Sentry 119 px, Discourse 88 px, LiveChart
+ * 80–92 px, GitHub 64–71 px, Wikipedias erweiterte Letzte Änderungen 22 px.
+ * Zwei Befunde tragen diesen Entwurf:
+ *
+ * 1. **Keine dieser Listen mischt beliebig viele Ereignisarten in eine Zeile.**
+ *    Wer feste Arten hat, nimmt Spalten (Sentry: Events/Users; Discourse:
+ *    Antworten/Aufrufe); wer wechselnde hat, nimmt Chips. Unsere Arten
+ *    schwanken je Tag — also Chips.
+ * 2. **Der Zähler ist der Aufklapper** (Wikipedia „3 Änderungen", incident.io
+ *    „6 components ⌄"). Aufgeklappt wird **inline**: Der Kontext bleibt stehen,
+ *    die Scrollposition auch, und auf einem Touchgerät braucht es keinen
+ *    Hover-Zustand, den es dort nicht gibt.
+ *
+ * Übernommen ist deshalb Sentrys Zeilenaufbau (Bild, zwei Textgrößen, Chips
+ * rechts) mit Wikipedias Aufklapper. Gegenüber der ersten Fassung — eine Zeile
+ * je Meldung, 58 px — kostet ein Titel mit drei Meldungen an einem Tag jetzt
+ * eine Zeile statt drei.
+ *
+ * **Die Sätze entstehen hier und nicht im Bau**, sonst stünde die deutsche
+ * Fassung fest in einer Datei. Kurz in der Übersicht, ausführlich beim
+ * Aufklappen: Die Übersicht beantwortet „ist etwas passiert", das Detail
+ * „was genau".
+ */
 export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: number) => void }): React.JSX.Element {
   const { t } = useLang()
   const [meldungen, setMeldungen] = useState<NewsEintrag[] | null>(null)
