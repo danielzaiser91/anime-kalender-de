@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-antwort-film-naht.ts"] },
+  { "name": "filmAntwort: fester alter Stichtag", "aenderungen": [{ "datei": "web/src/components/detail/antwort-berechnen.ts", "suche": "return filmAntwort({ title, releases, today, hatSynchro, raus, gesamt })", "ersetze": "return filmAntwort({ title, releases, today: '2020-01-01', hatSynchro, raus, gesamt })" }], "tests": ["npx tsx pipeline/check-antwort-film-naht.ts"] },
+  { "name": "filmAntwort: Gesamtzahl fehlt", "aenderungen": [{ "datei": "web/src/components/detail/antwort-berechnen.ts", "suche": "return filmAntwort({ title, releases, today, hatSynchro, raus, gesamt })", "ersetze": "return filmAntwort({ title, releases, today, hatSynchro, raus, gesamt: undefined })" }], "tests": ["npx tsx pipeline/check-antwort-film-naht.ts"] },
+  { "name": "filmAntwort: Aufruf entfernt", "aenderungen": [{ "datei": "web/src/components/detail/antwort-berechnen.ts", "suche": "return filmAntwort({ title, releases, today, hatSynchro, raus, gesamt })", "ersetze": "return undefined" }], "tests": ["npx tsx pipeline/check-antwort-film-naht.ts"] },
+  { "name": "imKino: Spielzeit ohne Heute-Vergleich", "aenderungen": [{ "datei": "web/src/components/detail/antwort-zweige.ts", "suche": "(r.cinemaUntil ? r.cinemaUntil >= today :", "ersetze": "(r.cinemaUntil ? true :" }], "tests": ["npx tsx pipeline/check-antwort-film-naht.ts"] },
+  { "name": "imKino: nie", "aenderungen": [{ "datei": "web/src/components/detail/antwort-zweige.ts", "suche": "(r.cinemaUntil ? r.cinemaUntil >= today :", "ersetze": "(r.cinemaUntil ? false :" }], "tests": ["npx tsx pipeline/check-antwort-film-naht.ts"] }
+]

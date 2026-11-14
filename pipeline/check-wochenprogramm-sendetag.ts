@@ -71,7 +71,8 @@ console.log('\nPrüfung ausgebliebener Termine:')
 {
   /* Das Skript läuft beim Import los (kein Export) — die Anbindung der Weiche wird am Quelltext geprüft. */
   const quelle = readFileSync(new URL('./termine-pruefen.ts', import.meta.url), 'utf8')
-  pruefe('termine-pruefen.ts fragt die Weiche mit der Serienkennung und den Folgen des Wochenprogramms', quelle.includes('!terminPruefen(e, kennung, wocheFolgen)'))
+  /* Seit 14.11.2026 mit allen Ankündigungen (übernommene Folgen, Belege, Kalender); den Lauf belegt `check-termine-katalog-lauf.ts`. */
+  pruefe('termine-pruefen.ts fragt die Weiche mit der Serienkennung und den Folgen des Wochenprogramms', quelle.includes('!terminPruefen(e, kennung, angekuendigt)') && quelle.includes('angekuendigteFolgen(wocheFolgen,'))
   pruefe('termine-pruefen.ts liest die übernommenen Folgen aus data/crunchyroll-woche.json', /const wocheFolgen = readJson<[^\n]*'data\/crunchyroll-woche\.json'[^\n]*\.uebernommen/.test(quelle))
 }
 
