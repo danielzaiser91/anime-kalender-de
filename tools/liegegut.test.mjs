@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
+import { liegegutAlle, liegegutAlleFunde, liegtZeile, offenePrs, checkStand, geteilteEntscheidungen, offeneEntscheidungen, kopfZeitVon, kopfZeiten, liegegut, main, meldeLiegt, hauptordner, standImProjekt, stapelBasis, grepMain, neueBezeichner, naechsterSchritt, signaleEinzel, stillstandSignal, entwurfSignal, ueberholtTreffer, urteile, JQ_PATCHES } from './liegegut.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -263,6 +263,8 @@ const LISTE = [
   pr(1700, { isDraft: true, mergeable: 'CONFLICTING', comments: [daniel(90, 'Hinweis')] }),
   pr(1390, { comments: [bot(30, KOPF, 'aendern')], title: 'feat(netflix): Meldung meldet die Staffel' }),
   pr(1701, { comments: [daniel(2, 'frisch')] }),
+  pr(1702, { isDraft: true, comments: [daniel(13, 'Hinweis')] }),
+  pr(1703, { isDraft: true, comments: [daniel(2, 'Hinweis')] }),
 ]
 // Patch je PR: 1437/1390 bringen Namen, die auf main schon stehen; 1438 hat denselben Titel wie 1437, aber einen neuen Namen; alle anderen eine neue Datei.
 const patchVon = (url) => {
@@ -308,6 +310,15 @@ console.log('liegegut: Kopf-Zeiten in einem Aufruf')
   pruefe('Gesamtlauf: genau ein graphql-Aufruf für alle PRs', alle.filter((x) => x.includes('graphql')).length === 1, alle)
 }
 
+console.log('liegegut: Signal 11 Entwurf liegt (12 h)')
+{
+  const ent = (p, kopfStunden) => entwurfSignal(p, JETZT - kopfStunden * 3600 * 1000, JETZT)
+  pruefe('Kopf 12 h alt → genau an der Grenze noch nicht', ent(pr(1), 12).length === 0)
+  pruefe('Kopf 13 h alt → Signal 11 seit dem Kopf', JSON.stringify(ent(pr(1), 13).map((s) => s.nr)) === '[11]')
+  pruefe('Kommentar vor 2 h setzt zurück (Kopf 100 h)', ent(pr(2, { comments: [daniel(2, 'Hinweis')] }), 100).length === 0)
+  pruefe('KURZ-Name steht in der Sammelzeile', /Entwurf liegt \d+ h/.test(liegtZeile(liegegutAlleFunde(attrappeGh([pr(5, { isDraft: true, comments: [daniel(13, 'x')] })]), attrappeGit(), JETZT), JETZT) ?? ''))
+}
+
 console.log('liegegut: Signal 8 Stillstand (48 h)')
 {
   const still = (p, kopfStunden) => stillstandSignal(p, JETZT - kopfStunden * 3600 * 1000, JETZT)
@@ -348,7 +359,9 @@ console.log('liegegut: Gesamtlauf mit Anlassfällen')
   pruefe('„seit“ 1508: Kopf-Commit (17.10. 11:00 Berlin)', (nach(1508) ?? '').endsWith('seit 17.10. 11:00'), nach(1508))
   pruefe('„seit“ 1513: frühester Zeitpunkt aller Signale (Kopf-Commit des Signals 6)', (nach(1513) ?? '').includes('seit 17.10. 11:00;'), nach(1513))
   pruefe('„seit“ 1676: Kommentar (20.10. 19:00 Berlin)', (nach(1676) ?? '').includes('seit 20.10. 19:00;'), nach(1676))
-  pruefe('Entwurf und frischer PR ohne Zeile', nach(1700) === undefined && nach(1701) === undefined)
+  pruefe('frischer PR ohne Zeile', nach(1701) === undefined)
+  pruefe('Entwurf 90 h ohne Aktivität (mit Konflikt) → nur Signal 11, keine Gegenprobe', /^anime-kalender-de PR 1700: ENTWURF[^–]*– Signal 11 Entwurf liegt – seit \d\d\.\d\d\. [\d:]+$/.test(nach(1700) ?? ''), nach(1700))
+  pruefe('Entwurf 13 h → gemeldet, Entwurf 2 h → nicht', nach(1702) !== undefined && nach(1703) === undefined, [nach(1702), nach(1703)])
   pruefe('Gegenprobe nur für Signale 1, 3, 5: 1508 (nur Signal 6) ruft die Dateiliste nicht ab', !gh.some((a) => a.includes('/pulls/1508/files')) && gh.some((a) => a.includes('/pulls/1437/files')))
   pruefe('git grep auf origin/main, je PR eine Datei, nie git log', git.length > 0 && git.every((a) => /^grep -n -w -F -e \S+ origin\/main -- \S+$/.test(a)), git)
 }
@@ -363,7 +376,7 @@ console.log('liegegut: Nichtauskunft und Startlogik')
   pruefe('gh wirft → Exit 2', main(() => { throw new Error('HTTP 502') }, attrappeGit(), (t) => aus.push(t), JETZT) === 2 && /FEHLER HTTP 502/.test(aus.join()))
   const ok = []
   const code = main(attrappeGh(LISTE), attrappeGit(), (t) => ok.push(t), JETZT)
-  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 8 auffällige PRs', ok.at(-1))
+  pruefe('Funde → Exit 0 und Schlusszeile mit Zahl', code === 0 && ok.at(-1) === 'liegegut: 10 auffällige PRs', ok.at(-1))
   const leer = []
   pruefe('ohne Funde → Exit 0, „0 auffällige PRs“', main(attrappeGh([pr(1, { comments: [daniel(2, 'frisch')] })]), attrappeGit(), (t) => leer.push(t), JETZT) === 0 && leer.at(-1) === 'liegegut: 0 auffällige PRs')
 }
