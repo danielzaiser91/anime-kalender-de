@@ -16,6 +16,7 @@ import { holeWartende } from './pruefung-stand-briefkasten.ts'
 import { gedeckteZiele, netflixZiele } from './pruefung-gedeckt.ts'
 import { suchenSeit } from './pruefung-stand-suchen.ts'
 import { staffelnSeit } from './titelzeile-lesen.ts'
+import { leseZurueck, ohneZurueck } from './pruefung-zurueck.ts'
 
 /** `bekannt` (höchste Folge laut Datensatz je Kennung, 4.24.21) kommt unverändert aus `pruefstand.json`. */
 function bekanntDazu<T extends { plattform: string }>(anbieter: T[], roh: unknown[] = []) {
@@ -30,9 +31,11 @@ type StandKontext = {
   antwort: (body: unknown, status?: number) => Response
   /** Cache der Edge und Schlüssel für die wartenden Meldungen; ohne beides (Tests) wird direkt gelesen. */
   zwischen?: Parameters<typeof holeWartende>[1]
+  /** Jetzt in ms (nur Tests); bestimmt, welche Zurückstellungen noch gelten. */
+  jetzt?: number
 }
 
-export async function berechnePruefstand({ env, antwort, zwischen }: StandKontext) {
+export async function berechnePruefstand({ env, antwort, zwischen, jetzt = Date.now() }: StandKontext) {
       const wartend = await holeWartende(env, zwischen)
       /**
        * **Übernommen ist nicht erledigt — jedenfalls nicht für den Prüfstand.**
@@ -107,6 +110,7 @@ export async function berechnePruefstand({ env, antwort, zwischen }: StandKontex
         staffeln: staffelnGemeldet,
         gedeckt: await gedeckteZiele(env, netflixZiele(stand.anbieter)),
       }
-      const anbieter = (stand.anbieter ?? []).map((roh) => rechneAnbieter(roh, gemeldet))
+      const zurueck = await leseZurueck(env, jetzt)
+      const anbieter = (stand.anbieter ?? []).map((roh) => ohneZurueck(rechneAnbieter(roh, gemeldet), zurueck))
       return antwort({ anbieter: bekanntDazu(anbieter, stand.anbieter), erzeugtAm: new Date().toISOString(), pruefstandAm: seit })
 }
