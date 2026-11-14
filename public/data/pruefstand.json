@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-14T11:27:21.953Z",
+ "erzeugtAm": "2026-11-14T11:56:43.805Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -387,9 +387,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 770,
+   "gemeldet": 771,
    "gesamt": 1087,
-   "offen": 317,
+   "offen": 316,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -1208,11 +1208,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81121910",
-     "titel": "LEGO City Abenteuer",
-     "hinweis": "Staffeln unklar: TMDB zählt 82 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/80178943",
