@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ladeAdnStaffelzuordnung } from '../lib/adn-staffelzuordnung.ts'
 import { adnAdresseSchaerfen } from '../lib/adn-sprachen.ts'
-import { log, ROOT } from '../lib/util.ts'
+import { log, ROOT, warn } from '../lib/util.ts'
 import { type AdnData } from '../lib/adn.ts'
 import { type Release, type Title } from '../../shared/types.ts'
 
@@ -61,8 +61,8 @@ export function ladeAdnAdressen() {
         raus[Number(k)] = Number(v)
       }
       return raus
-    } catch {
-      // Datei fehlt oder ist kein gültiges YAML: dann gelten keine Handadressen (leere Zuordnung)
+    } catch (e) {
+      warn(`data/adn-adressen.yaml nicht lesbar (${(e as Error).message}): keine Handadressen`)
       return {}
     }
   })()

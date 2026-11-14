@@ -1,7 +1,7 @@
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { ROOT, log } from '../lib/util.ts'
+import { ROOT, log, warn } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 
 export function stelleRtlAdressenUm({ titles }: {
@@ -35,8 +35,8 @@ export function stelleRtlAdressenUm({ titles }: {
         raus[Number(k)] = v
       }
       return raus
-    } catch {
-      // Datei fehlt oder ist kein gültiges YAML: dann gelten keine Handadressen (leere Zuordnung)
+    } catch (e) {
+      warn(`data/rtlplus-adressen.yaml nicht lesbar (${(e as Error).message}): keine Handadressen`)
       return {}
     }
   })()
