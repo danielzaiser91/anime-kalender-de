@@ -453,6 +453,31 @@
         "stichprobe": 0,
         "rest": 1
       }
+    },
+    {
+      "am": "2026-11-14",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 1,
+      "ms": 1.6840200000000038,
+      "faelle": [
+        {
+          "artikelId": "1071705",
+          "seite": "nurClaude",
+          "titel": "Re:ZERO – Starting Life in Another World",
+          "plattform": "crunchyroll"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
     }
   ]
 }

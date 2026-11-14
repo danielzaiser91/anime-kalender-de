@@ -1681,6 +1681,18 @@
     "1071494": {
       "am": "2026-11-13",
       "vorschlaege": 7
+    },
+    "1071578": {
+      "am": "2026-11-14",
+      "vorschlaege": 2
+    },
+    "1071673": {
+      "am": "2026-11-14",
+      "vorschlaege": 0
+    },
+    "1071705": {
+      "am": "2026-11-14",
+      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -12973,6 +12985,90 @@
       "quelle": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
       "veroeffentlicht": "2026-11-13",
       "gelesenAm": "2026-11-13"
+    },
+    {
+      "titel": "Re:ZERO – Starting Life in Another World",
+      "zitat": "Der Streaming-Dienst Crunchyroll bietet alle vier Staffeln der Isekai-Serie sowohl mit deutscher Sprachfassung als auch im Originalton mit Untertiteln auf Abruf an.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071705",
+      "artikel": "»Re:ZERO – Starting Life in Another World« erhält fünfte Staffel + Visual",
+      "quelle": "https://www.anime2you.de/news/1071705/re-zero-staffel-5-angekuendigt/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "Re:ZERO – Starting Life in Another World",
+      "zitat": "Die dritte Staffel erscheint seit September 2026 auf DVD und Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071705",
+      "artikel": "»Re:ZERO – Starting Life in Another World« erhält fünfte Staffel + Visual",
+      "quelle": "https://www.anime2you.de/news/1071705/re-zero-staffel-5-angekuendigt/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "Gushing Over Magical Girls",
+      "zitat": "Der Streaming-Dienst ADN bietet alle Episoden in der japanischen Originalvertonung mit deutschen Untertiteln an, während AniMoon Publishing die Serie in drei Volumes mit Sammelschuber auf DVD und Blu-ray veröffentlicht hat.",
+      "art": "sprachfassung",
+      "sprache": "omu",
+      "plattform": "adn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "ADN",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071578",
+      "artikel": "Zweite »Gushing Over Magical Girls«-Staffel startet 2027 + Teaser",
+      "quelle": "https://www.anime2you.de/news/1071578/zweite-gushing-over-magical-girls-staffel-2-startet-2027/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
+    },
+    {
+      "titel": "Gushing Over Magical Girls",
+      "zitat": "Der Streaming-Dienst ADN bietet alle Episoden in der japanischen Originalvertonung mit deutschen Untertiteln an, während AniMoon Publishing die Serie in drei Volumes mit Sammelschuber auf DVD und Blu-ray veröffentlicht hat.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071578",
+      "artikel": "Zweite »Gushing Over Magical Girls«-Staffel startet 2027 + Teaser",
+      "quelle": "https://www.anime2you.de/news/1071578/zweite-gushing-over-magical-girls-staffel-2-startet-2027/",
+      "veroeffentlicht": "2026-11-14",
+      "gelesenAm": "2026-11-14"
     }
   ]
 }
