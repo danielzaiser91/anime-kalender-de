@@ -39434,3 +39434,18 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
   checkedAt: '2026-11-14'
   note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der Häuptlingsschmuck/Der mit dem Menschen zieht"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-14 ---
+
+- anilistId: -94107
+  title: "LEGO City Abenteuer"
+  platform: netflix
+  url: https://www.netflix.com/title/81121910
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+  checkedAt: '2026-11-14'
+  note: "Folgen 1–2 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, he|Hebräisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, hr|Kroatisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 2, dazwischen nicht geprüft — Folge 1: LEGO City: Spezialsammlung 1 — Netflix: LEGO City 2017"
