@@ -1,6 +1,6 @@
 import { test, expect } from 'claude-code/testing'
 
-import { STATUS, hatAusklapp, prioZeichenJeZeile, statusVon, textKlappt, umbruchZeilen, zaehleTopPrios, zeichenJeSpalte, zeilenBedarf } from './prios'
+import { MAX_ZEILEN_PRIO, STATUS, hatAusklapp, kurzfassung, prioZeichenJeZeile, statusVon, textKlappt, umbruchZeilen, zaehleTopPrios, zeichenJeSpalte, zeilenBedarf } from './prios'
 import { STAND_ALTFORMAT } from './stand-altformat'
 
 const T = '# Stand\n\n## Top-Prios\n- **D1** {arbeit-agent} Zuordner nachgebessert — [Plan](https://x.org/a)\n- **Speed** {live} Vorprüfung\n  - Detail eins\n  Detail zwei — [Bericht](file:///C:/x/b.md)\nText\n\n## Anderes\n- **Nein** {live} nicht\n'
@@ -32,19 +32,35 @@ test('Status: alle sieben bekannt; unbekanntes Wort sichtbar rot; fehlender Stat
   expect(zeile!.titel).toBe('Nur Zeile ohne Fett')
 })
 
-test('Länge: höchstens vier Zeilen; länger klappt der Kurztext weg, Details klappen immer', () => {
+test('Länge: höchstens drei Zeilen; länger klappt der Kurztext weg, Details klappen immer', () => {
   const kurz = zaehleTopPrios('## Top-Prios\n- **A** {queue} ' + 'x'.repeat(100) + '\n')[0]!
-  expect(textKlappt(kurz, 40)).toBe(false)
-  expect(textKlappt(kurz, 20)).toBe(true)
-  expect(hatAusklapp(kurz, 40)).toBe(false)
+  expect(textKlappt(kurz, 50)).toBe(false)
+  expect(textKlappt(kurz, 40)).toBe(true)
+  expect(hatAusklapp(kurz, 50)).toBe(false)
   const mit = zaehleTopPrios('## Top-Prios\n- **A** {queue} kurz\n  Detail\n')[0]!
   expect(hatAusklapp(mit, 40)).toBe(true)
 })
 
-test('Länge: genau vier Zeilen passen, fünf klappen', () => {
+test('Länge: genau drei Zeilen passen, vier klappen', () => {
   const mit = (n: number) => zaehleTopPrios('## Top-Prios\n- **A** {queue} ' + 'x'.repeat(n) + '\n')[0]!
-  expect(textKlappt(mit(30), 10)).toBe(false)
-  expect(textKlappt(mit(31), 10)).toBe(true)
+  expect(textKlappt(mit(20), 10)).toBe(false)
+  expect(textKlappt(mit(21), 10)).toBe(true)
+})
+
+test('Kurzfassung: zu langer Text zeigt ganze Satzteile mit „…“, der Rest steht im Ausklapp-Teil, nichts doppelt', () => {
+  const satz = 'Der Zuordner kennt jetzt Cartoons und Handbelege; Prüfung läuft, danach Altzeilen abhaken und den Rest parken'
+  const e = zaehleTopPrios(`## Top-Prios\n- **D1** {arbeit-agent} ${satz}\n`)[0]!
+  expect(kurzfassung(e, 44)).toEqual({ kurz: satz, weg: '' })
+  expect(kurzfassung(e, 30)).toEqual({ kurz: 'Der Zuordner kennt jetzt Cartoons und Handbelege; Prüfung läuft, …', weg: 'danach Altzeilen abhaken und den Rest parken' })
+  const { kurz, weg } = kurzfassung(e, 30)
+  expect(zeilenBedarf({ ...e, rest: kurz }, 30)).toBeLessThanOrEqual(MAX_ZEILEN_PRIO)
+  expect(`${kurz.replace(' …', '')} ${weg}`).toBe(satz)
+})
+
+test('Kurzfassung: passt schon der erste Satzteil nicht, klappt alles weg (nie mitten im Wort)', () => {
+  const e = zaehleTopPrios(`## Top-Prios\n- **A** {queue} ${'abcd '.repeat(30).trim()}; Rest\n`)[0]!
+  expect(kurzfassung(e, 20)).toEqual({ kurz: '', weg: e.rest })
+  expect(textKlappt(e, 20)).toBe(true)
 })
 
 test('Zeile ohne Status-Klammer behält Titel und Kurztext', () => {
@@ -119,13 +135,13 @@ test('Umbruch am Leerzeichen: Wort über der Breite bricht hart, kurze Wörter f
   expect(umbruchZeilen('', 10)).toBe(1)
 })
 
-test('Echte Sätze: passt genau in vier Zeilen -> bleibt sichtbar', () => {
+test('Echte Sätze: passt genau in drei Zeilen -> bleibt ganz sichtbar', () => {
   const satz = 'Der Zuordner kennt jetzt Cartoons und Handbelege; Prüfung läuft, danach Altzeilen abhaken und den Rest parken'
   const e = zaehleTopPrios(`## Top-Prios\n- **D1** {arbeit-agent} ${satz}\n`)[0]!
-  expect(zeilenBedarf(e, 31)).toBe(4)
-  expect(textKlappt(e, 31)).toBe(false)
-  expect(zeilenBedarf(e, 30)).toBe(5)
-  expect(textKlappt(e, 30)).toBe(true)
+  expect(zeilenBedarf(e, 44)).toBe(3)
+  expect(textKlappt(e, 44)).toBe(false)
+  expect(zeilenBedarf(e, 43)).toBe(4)
+  expect(textKlappt(e, 43)).toBe(true)
 })
 
 test('Detailzeile, die den Link des Kopfes wiederholt, ergibt genau einen Knopf', () => {

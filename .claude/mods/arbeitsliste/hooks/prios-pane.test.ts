@@ -41,17 +41,21 @@ test('Pane: Links als Schaltflächen mit grauer Fläche', async ($, on) => {
   await p.unmount()
 })
 
-test('Pane: Details und zu langer Text stehen nur hinter dem Knopf, Klick klappt auf und zu', async ($, on) => {
+const anzahl = (z: string, s: string) => z.split(s).length - 1
+
+test('Pane: Details und Rest des zu langen Texts stehen nur hinter dem Knopf, Klick klappt auf und zu', async ($, on) => {
   const p = await pane($, on)
   let z = zeilen(await p.drawn()).join('\n')
   expect(z).not.toContain('Eine Detailzeile')
-  expect(z).not.toContain('Sehr langer Text')
+  const lang = zeilen(await p.drawn()).find(s => s.includes(' Lang '))!
+  expect(lang.endsWith('Wörtern. …')).toBe(true)
+  expect(lang.length).toBeLessThanOrEqual(3 * 72)
   expect(z).toContain('▸ ')
   await p.press({ key: 'klapp-Speed' })
   await p.press({ key: 'klapp-Lang' })
   z = zeilen(await p.drawn()).join('\n')
   expect(z).toContain('Eine Detailzeile')
-  expect(z).toContain('Sehr langer Text')
+  expect(anzahl(z, 'Sehr langer Text')).toBe(12)
   await p.press({ key: 'klapp-Speed' })
   expect(zeilen(await p.drawn()).join('\n')).not.toContain('Eine Detailzeile')
   await p.unmount()
@@ -106,15 +110,15 @@ test('Pane: echte stand.md im Altformat zeigt lesbare Sätze, Knöpfe, keinen Fe
   await p.unmount()
 })
 
-const LANG = '## Top-Prios\n- **X** {queue} ' + 'abcd '.repeat(68) + '\n'
+const LANG = '## Top-Prios\n- **X** {queue} ' + 'abcd '.repeat(60) + '\n'
 
-test('Pane: Desktop (Proportionalschrift) zeigt 350 Zeichen Kurztext in vier Zeilen', async ($, on) => {
+test('Pane: Desktop (Proportionalschrift) zeigt 300 Zeichen Kurztext in drei Zeilen', async ($, on) => {
   const p = await pane($, on, LANG, [], 'desktop')
   expect(zeilen(await p.drawn()).join(' ')).toContain('abcd abcd abcd')
   await p.unmount()
 })
 
-test('Pane: Terminal klappt denselben Kurztext weg (72 Zeichen je Zeile)', async ($, on) => {
+test('Pane: Terminal klappt denselben Kurztext ohne Satzgrenze ganz weg (72 Zeichen je Zeile)', async ($, on) => {
   const p = await pane($, on, LANG, [], 'terminal')
   expect(zeilen(await p.drawn()).join(' ')).not.toContain('abcd abcd abcd')
   await p.unmount()
