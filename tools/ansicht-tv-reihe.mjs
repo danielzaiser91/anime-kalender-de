@@ -62,14 +62,31 @@ async function messeTastatur(seite, selektor) {
     await seite.waitForTimeout(150)
     const hier = await seite.evaluate((sel) => {
       const li = document.activeElement?.closest(`${sel} [data-tv-zeile]`)
-      if (!li) return null
-      const r = li.getBoundingClientRect()
-      const u = li.parentElement.getBoundingClientRect()
-      return { nr: li.dataset.nr, scroll: li.parentElement.scrollLeft, sichtbar: r.left >= u.left - 1 && r.right <= u.right + 1 }
+      return li ? { nr: li.dataset.nr } : null
     }, selektor)
-    if (hier && start.verdeckt.includes(hier.nr)) return { fokusAufVerdeckter: true, scrollVorher: start.scroll, scrollNachher: hier.scroll, sichtbar: hier.sichtbar }
+    if (hier && start.verdeckt.includes(hier.nr)) return { fokusAufVerdeckter: true, scrollVorher: start.scroll, ...(await nachEinrasten(seite, selektor)) }
   }
   return { fokusAufVerdeckter: false, scrollVorher: start.scroll, scrollNachher: start.scroll, sichtbar: false }
+}
+
+/**
+ * Lage der fokussierten Kachel, nachdem die Reihe zur Ruhe kam: `snap-mandatory` rastet nach dem Fokus-Scroll
+ * animiert ein, auf langsamen CI-Läufern dauerte das länger als feste 150 ms (14.11.2026: 3 von 11 Läufen rot).
+ */
+async function nachEinrasten(seite, selektor) {
+  let vorher = null
+  for (let i = 0; i < 20; i++) {
+    const jetzt = await seite.evaluate((sel) => {
+      const li = document.activeElement?.closest(`${sel} [data-tv-zeile]`)
+      const r = li.getBoundingClientRect()
+      const u = li.parentElement.getBoundingClientRect()
+      return { scrollNachher: li.parentElement.scrollLeft, sichtbar: r.left >= u.left - 1 && r.right <= u.right + 1 }
+    }, selektor)
+    if (vorher && vorher.scrollNachher === jetzt.scrollNachher) return jetzt
+    vorher = jetzt
+    await seite.waitForTimeout(100)
+  }
+  return vorher
 }
 
 /** Liest Pixel (x, y) aus einem PNG. Läuft im Browser. */
