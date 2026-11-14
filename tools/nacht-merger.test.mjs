@@ -154,7 +154,7 @@ pruefe('gleiche Zeit: kleinere Nummer zuerst', nr(reihenfolge([pr({ nummer: 9, e
 function welt(prs, o = {}) {
   const log = { zeilen: [], aufrufe: [], gemergt: [], details: [] }
   const exits = o.exits ?? {}
-  let uhr = 0
+  let uhr = 5000
   const w = {
     log,
     zeile: (t) => log.zeilen.push(t),
@@ -279,6 +279,9 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
   pruefe('Budget schon vor dem ersten PR erschöpft: 0 Merges, alle genannt, Stillstand', sofort.gemergt.length === 0 && sofort.stillstand === true && keiner.log.zeilen.some((z) => z.includes('#11, #12, #13')))
   pruefe('exitCode: Stillstand und Merge-Fehler sind rot, sonst 0', exitCode({ gemergt: [], fehler: 0, stillstand: true }) === 1 && exitCode({ gemergt: [1], fehler: 1, stillstand: false }) === 1 && exitCode({ gemergt: [], fehler: 0, stillstand: false }) === 0 && exitCode(sofort) === 1)
   pruefe('Vorgabe: Budget 15 min unter der Jobgrenze von 20 min', BUDGET_MS === 900_000)
+  // Standardbudget ohne Angabe: Uhr 0, 600 s, 1200 s -> der dritte PR kommt nach 15 min nicht mehr dran
+  const standard = welt(liste(), { proPr: 600_000 })
+  pruefe('Standardbudget wirkt ohne Option: dritter PR nach 20 min Uhrzeit übersprungen', lauf(standard, { hoechstens: 3 }).gemergt.join(',') === '11,12')
 }
 {
   // Andere Exit-2-Gründe (Konflikt) und Exit 1 (Kette neu angestoßen) werden nicht wiederholt, es wird nicht gewartet
