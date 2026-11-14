@@ -26,6 +26,22 @@ export function nachrechnenMitWiederholung(welt, nummer) {
   return welt.nachrechnen(nummer)
 }
 
+/** Einzelabfrage des Mergestatus vor dem Merge: null = CLEAN, sonst der Grund; UNKNOWN (noch nicht berechnet) wird einmal nach Wartezeit wiederholt. */
+export function mergeStatusGrund(welt, nummer) {
+  let status = welt.mergeStatus(nummer)
+  if (status === 'UNKNOWN') {
+    welt.warte(UNKNOWN_WARTE_MS)
+    status = welt.mergeStatus(nummer)
+  }
+  return status === 'CLEAN' ? null : `Mergestatus in der Einzelabfrage ${status}, nicht CLEAN`
+}
+
+/** Warnzeile (GitHub-Anmerkung), wenn ein Lauf nichts merget, obwohl PRs technisch nicht entschieden werden konnten; sonst null. */
+export function stillstandWarnung(gemergt, unentschieden) {
+  if (gemergt > 0 || unentschieden.length === 0) return null
+  return `::warning::Nacht-Merger: 0 Merges, ${unentschieden.length} PR technisch nicht entschieden (${unentschieden.join(', ')})`
+}
+
 /**
  * Ein Lauf. `welt` bringt alle Seiteneffekte mit (im Test eine Attrappe):
  *   offene() -> PRs der Liste; details(pr) -> pr + { kopf, stufe, pfade, checks, kommentare }; kopfVon(n); nachrechnen(n) -> { exit, text };
@@ -47,6 +63,7 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
     else abgewiesen(pr, urteil.grund)
   }
   const gemergt = []
+  const unentschieden = []
   let fehler = 0
   for (const pr of reihenfolge(kandidaten, welt.bestandRot())) {
     if (gemergt.length >= hoechstens) {
@@ -60,7 +77,14 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
     }
     const r = nachrechnenMitWiederholung(welt, pr.nummer)
     if (r.exit !== 0) {
+      if (r.exit === 2) unentschieden.push(`#${pr.nummer}`)
       abgewiesen(pr, `Kette nicht als aktuell bestätigt (nachrechnen Exit ${r.exit}): ${r.text}`)
+      continue
+    }
+    const statusGrund = mergeStatusGrund(welt, pr.nummer)
+    if (statusGrund !== null) {
+      unentschieden.push(`#${pr.nummer}`)
+      abgewiesen(pr, statusGrund)
       continue
     }
     if (welt.bauCommittet()) {
@@ -83,6 +107,8 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false } 
     welt.zeile(`GEMERGT #${pr.nummer}: ${pr.grund}`)
   }
   welt.zeile(`Nacht-Merger: ${gemergt.length} ${trocken ? 'wären gemergt' : 'gemergt'}, ${fehler} Fehler, ${kandidaten.length} Kandidaten`)
+  const warnung = stillstandWarnung(gemergt.length, unentschieden)
+  if (warnung !== null) welt.zeile(warnung)
   return { gemergt, fehler }
 }
 

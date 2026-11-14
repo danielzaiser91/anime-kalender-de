@@ -12,9 +12,25 @@ const BAU = 'bestand-bauen.yml'
 const STUFE_LIMIT_MS = 60_000
 const zeilen = (text) => text.split(/\r?\n/).filter((z) => z.trim() !== '')
 
-export function ghEcht(args) {
-  return mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS })
+/** Pause vor der einen Wiederholung nach einem GitHub-5xx (z. B. HTTP 504, Lauf vom 13.11.2026 23:55 UTC rot). */
+export const GH_5XX_PAUSE_MS = 5000
+
+/** `gh` einmal wiederholen, wenn die Antwort ein GitHub-5xx war; der zweite Fehler (und jeder andere) wird unverändert weitergereicht. */
+export function ghMitWiederholung(gh, schlafen = schlafe) {
+  const mitWiederholung = (args) => {
+    try {
+      return gh(args)
+    } catch (e) {
+      if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
+      schlafen(GH_5XX_PAUSE_MS)
+      return gh(args)
+    }
+  }
+  mitWiederholung.wiederholt5xx = true
+  return mitWiederholung
 }
+
+export const ghEcht = ghMitWiederholung((args) => mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS }))
 
 /** Läuft der Bestandsbau gerade im Schritt „Änderungen committen“? (`jobs`: Antwort von `gh run view --json jobs`.) Ein Merge dann erzwingt einen zweiten Bau. */
 export const bauCommittetGerade = (jobs) => jobs.some((j) => (j.steps ?? []).some((s) => s.status === 'in_progress' && s.name.includes('Änderungen committen')))
@@ -88,6 +104,7 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
     }),
     warte: schlafe,
     kopfVon: (n) => gh(['pr', 'view', String(n), '--json', 'headRefOid', '--jq', '.headRefOid']).trim(),
+    mergeStatus: (n) => gh(['pr', 'view', String(n), '--json', 'mergeStateStatus', '--jq', '.mergeStateStatus']).trim(),
     nachrechnen: (n) => {
       const meldungen = []
       const exit = nachrechnenMain([String(n)], nachrechnenGh, (t) => meldungen.push(t), schlafe)
