@@ -324,8 +324,16 @@ pruefe('Quelle ohne Importe: der Import des Ziels steht in der ersten Zeile', (w
   return gleich(lies(w, 'web/src/o.ts'), "import { p } from './o2.ts'\n\nexport const q = p + 1\n")
 })
 
+pruefe('Literal-Typen ohne Typangabe werden zu string/number geweitet, angegebene bleiben (eingeengt)', (w) => {
+  const q = ['export function g() {', "  const klasse = 'a b'", '  const n = 5', "  const art: 'x' | 'y' = 'x'", '  console.log(klasse, n, art)', '}', ''].join('\n')
+  writeFileSync(join(w, 'web/src/lit.ts'), q)
+  umzug(w, 'abschnitt', join(w, 'web/src/lit.ts'), '5', '5', join(w, 'web/src/lit2.ts'), 'zeige')
+  const ziel = lies(w, 'web/src/lit2.ts')
+  if (!ziel.includes('klasse: string') || !ziel.includes('n: number') || !ziel.includes("art: 'x'")) return `Ziel:\n${ziel}`
+})
+
 if (fehler.length) {
   console.error(`modul-umzug.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('modul-umzug.test: 4 Fälle (abschnitt) und 14 Fälle (Importe, Alias, Kommentare, Konstanten, Leerzeilen) ok.')
+console.log('modul-umzug.test: 4 Fälle (abschnitt) und 15 Fälle (Importe, Alias, Kommentare, Konstanten, Leerzeilen, Literal-Typen) ok.')

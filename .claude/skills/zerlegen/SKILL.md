@@ -54,6 +54,11 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 - `ändert` (neu zugewiesene äußere `let`) meldet es nur — dann die Variable in die Funktion
   holen, die sie als einzige erhöht, und zurückgeben (so bei `adnVerweiseErgaenzt`).
 - Ein Abschnitt mit `return` muss mit `return` enden; der Aufruf wird `return await fn(…)`.
+- **Nachher-Prüfliste** (14.11.2026, Anlass 3703–3705: je eine Nachbesserung): Das Werkzeug weitet
+  Literal-Typen ohne Typangabe selbst (`'a b'` → `string`, `5` → `number`; angegebene und eingeengte
+  Typen bleiben), setzt je Quelle einen Import und holt Konstanten an den Dateianfang des Ziels.
+  Trotzdem im Diff gegenlesen: Literal-Typen geweitet, ein Import je Quelle, Konstanten am
+  Dateianfang, Kommentare bei ihren Deklarationen. Was dort abweicht, ist ein Werkzeugfehler: melden.
 - „braucht Namen der obersten Ebene": diese Deklarationen zuerst mit `namen` auslagern. Aus
   `build.ts` wird nie importiert (es ruft beim Laden `main()` auf).
 - Lange Typen (Warnung) durch Namen ersetzen: `ReturnType<typeof f>`, ein exportierter Typ.

@@ -323,6 +323,9 @@ function verschiebeNamen(quellPfad, zielPfad, namen) {
   console.log(`${wanderNamen.length} Deklaration(en) nach ${zielPfad}: ${wanderNamen.join(', ')}`)
 }
 
+/** Variable ohne Typangabe: ihr Literal-Typ (`'a b'`, `5`) wird zu `string`/`number` geweitet; angegebene Typen bleiben. */
+const ohneAnnotation = (d) => (ts.isVariableDeclaration(d) || ts.isParameter(d)) && !d.type
+
 const aufModulebene = (d) => {
   let p = d.parent
   while (p && !ts.isFunctionLike(p) && !ts.isSourceFile(p)) p = p.parent
@@ -375,7 +378,7 @@ function schnittstelle(quelle, pruefer, von, bis) {
         if (z >= von && z <= bis && (dz < von || dz > bis)) {
           // Der Typ an der ersten Verwendung im Abschnitt — dort ist er schon eingeengt (`if (!x) return`).
           if (!ein.has(sym.name)) {
-            const typ = pruefer.getTypeAtLocation(k)
+            const typ = ohneAnnotation(d) ? pruefer.getBaseTypeOfLiteralType(pruefer.getTypeAtLocation(k)) : pruefer.getTypeAtLocation(k)
             ein.set(sym.name, pruefer.typeToString(typ, huelle, ts.TypeFormatFlags.NoTruncation))
           }
           if (zuweisung(k.parent, k) || zaehlt(k.parent)) aendert.add(sym.name)
