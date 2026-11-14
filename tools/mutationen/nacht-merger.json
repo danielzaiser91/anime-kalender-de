@@ -37,7 +37,7 @@
   { "name": "wahl vorabGrund: Grenze 0 Dateien zählt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "!(pr.geaenderteDateien > 0)", "ersetze": "!(pr.geaenderteDateien >= 0)" },
   { "name": "wahl vorabGrund: Grenze 1 Datei fällt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "!(pr.geaenderteDateien > 0)", "ersetze": "!(pr.geaenderteDateien > 1)" },
   { "name": "wahl vorabGrund: APPROVED egal", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (pr.reviewDecision !== 'APPROVED') return", "ersetze": "if (false) return" },
-  { "name": "wahl vorabGrund: CLEAN egal", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (pr.mergeStateStatus !== 'CLEAN') return", "ersetze": "if (false) return" },
+  { "name": "wahl vorabGrund: CLEAN egal", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (pr.mergeStateStatus !== 'CLEAN' && pr.mergeStateStatus !== 'UNKNOWN') return", "ersetze": "if (false) return" },
   { "name": "wahl kandidat: Vorab-Abweisung nie", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (vorab !== null) return nein(vorab)", "ersetze": "" },
   { "name": "wahl kandidat: Stufe egal", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (![0, 1, 2].includes(pr.stufe)) return", "ersetze": "if (false) return" },
   { "name": "wahl kandidat: Stufe 1 gesperrt", "datei": "tools/nacht-merger-wahl.mjs", "suche": "if (![0, 1, 2].includes(pr.stufe)) return", "ersetze": "if (![0, 2].includes(pr.stufe)) return" },
