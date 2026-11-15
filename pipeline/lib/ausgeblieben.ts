@@ -7,7 +7,7 @@
  *
  * | Stufe | wer | wie oft |
  * |---|---|---|
- * | Anbieter-Kalender lesen | `termine-pruefen.ts` | mit jedem Sendezeiten-Lauf (mehrmals täglich) |
+ * | Katalog-Sichtung lesen (`crunchyroll-neu.json`; der Kalender ist seit 21.10.2026 tot) | `termine-pruefen.ts` | mit jedem Sammlerlauf (stündlich) |
  * | Anime2You-Meldungen abgleichen | `termine-pruefen.ts` | dito, gegen den täglich geholten Feed |
  * | im Netz recherchieren | Cloud-Claude (`claude-verpasst-recherche.yml`) | täglich, ab sechs Stunden Verzug |
  *

@@ -12,7 +12,7 @@
  * `weeklyConfirmed`-Feld, das bei dieser Staffel ausdrücklich `false` sagt.
  *
  * Dieser Lauf schließt sie. Er vergleicht die geschätzten Termine mit dem, was
- * der Anbieter-Kalender wirklich gezeigt hat:
+ * der Anbieter wirklich gezeigt hat (bis 21.10.2026 der Simulcast-Kalender, seither der Katalog `crunchyroll-neu.json`):
  *
  * - **Überfällig** (mehr als fünfzehn Minuten vorbei, keine Beobachtung): Der
  *   Termin wird als verpasst vermerkt. Er verschwindet nicht — er sagt jetzt,
@@ -22,7 +22,7 @@
  * - **Nachgeholt** (später doch eine Beobachtung): Der Eintrag bekommt das
  *   echte Datum und nennt den Verzug.
  *
- * **Nur im gelesenen Fenster.** `data/crunchyroll.json` trägt, welchen Zeitraum
+ * **Nur im gelesenen Fenster** (Kalender, bis 21.10.2026). `data/crunchyroll.json` trägt, welchen Zeitraum
  * der Scrape abgedeckt hat. Ein Termin davor hat keine Beobachtung, weil
  * niemand hingesehen hat — ihn als verpasst zu führen wäre eine Behauptung
  * über etwas Ungeprüftes. Seit der Kalender tot ist (Fenster bis 21.10.2026),

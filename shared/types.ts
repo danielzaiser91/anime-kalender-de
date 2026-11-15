@@ -709,6 +709,8 @@ export interface ReleaseEvent {
    * erschienen ist.
    */
   verpasst?: VermerkAusgeblieben
+  /** Nur angekündigt, noch nicht beim Anbieter gesehen: nach dem Termin „fällig“, nicht „erschienen“ (`shared/termin-zustand.ts`). */
+  ohneSichtung?: boolean
 }
 
 /**
