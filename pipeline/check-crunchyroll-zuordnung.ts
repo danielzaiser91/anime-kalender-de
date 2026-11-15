@@ -936,7 +936,11 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   /* Eine Adresse, die allein aufgeht (zwei Titel, zwei Blöcke), behält ihren Weg und wird von der Vereinigung nicht übersprungen. */
   const adresseC = { ...laufend, url: 'https://example.test/aoashi-eigen' }
   const eigen = new Map([[adresseC.url, [mitUrl(crTitel(4, 3, 2022), adresseC.url), mitUrl(crTitel(5, 5, 2026), adresseC.url)]]])
-  pruefe('Adresse mit eigener passender Paarung: beide Termine bleiben', alleTermine([adresseA, adresseB, adresseC], new Map([...nachUrl, ...eigen]), jetzt).length === 2)
+  pruefe('Adresse mit eigener passender Paarung: beide Termine bleiben (ohne die Zahlenprüfung der Vereinigung würde sie übersprungen)', alleTermine([adresseA, adresseB, adresseC], new Map([...nachUrl, ...eigen]), jetzt).length === 2)
+  /* Nur an (c) kippt der Fall davor: die Vereinigung hat 4 Titel für 2 Blöcke, Adresse C muss ihren eigenen Weg behalten (ohne (c) würde sie übersprungen). */
+  /* Alle Titel an einer Adresse, eine Schwesteradresse ohne Titel steht davor: genau ein Satz Termine, keine Dubletten. */
+  const leer = { ...laufend, url: 'https://example.test/aoashi-leer' }
+  pruefe('Schwesteradresse ohne Titel vor der vollständigen: keine doppelten Termine', alleTermine([leer, adresseC], eigen, jetzt).length === 2)
 }
 
 /**
