@@ -21,6 +21,7 @@ import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { passtFilm, waehlePlakat, type TmdbBild } from './lib/tmdb-plakat.ts'
 import { GRUND_DATEI, plakatEintrag, plakatSuche, type GrundBestand, type PlakatBestand } from './lib/tmdb-plakat-suche.ts'
+import { ohneKennungen } from './lib/tmdb-von-hand.ts'
 import { schreibeCoverListe } from './lib/cover-liste.ts'
 import { ladeEigeneTitel } from './bau/eigene-titel.ts'
 import { eigeneTmdbZuordnung } from './lib/eigene-tmdb.ts'
@@ -44,9 +45,10 @@ async function filmeSuchen(
   apiKey: string,
   zuordnung: Record<string, { tmdbId?: number }>,
   bestand: PlakatBestand,
+  ohne: ReadonlySet<number>,
 ): Promise<number> {
   const filme = readJson<Title[]>('public/data/titles.json', []).filter(
-    (t) => t.format === 'MOVIE' && !zuordnung[String(t.id)]?.tmdbId && !(String(t.id) in bestand),
+    (t) => t.format === 'MOVIE' && !ohne.has(t.id) && !zuordnung[String(t.id)]?.tmdbId && !(String(t.id) in bestand),
   )
   let gefunden = 0
   for (const t of filme) {
@@ -78,7 +80,7 @@ async function filmeSuchen(
  * TMDB-Serie trägt, bekommt das Plakat der Staffel, die `waehleStaffel` sicher zuordnet (Beginn ±100 Tage und Folgenzahl ±1). Gemessen am 07.10.2026
  * an 40 von 623 Kandidaten: 10 Treffer, alle mit Plakat ab 1.000 px; die übrigen sind OVAs, Specials und Filme ohne eigene Staffel und bleiben beim AniList-Cover.
  */
-async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId?: number; kind?: string }>, bestand: PlakatBestand, limit: number): Promise<number> {
+async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId?: number; kind?: string }>, bestand: PlakatBestand, limit: number, ohne: ReadonlySet<number>): Promise<number> {
   const reihen = readJson<Record<string, { id: number; jpStart?: string; episodes?: number }[]>>('public/data/franchises.json', {})
   const serieVon = new Map<number, number>()
   for (const mitglieder of Object.values(reihen)) {
@@ -87,7 +89,7 @@ async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId
   }
   /* Nur, was der Monitor des letzten Baus ohne Zuordnung führt: die übrigen Reihenmitglieder erscheinen nirgends mit Cover. */
   const gesucht = new Set(readJson<{ id: number; grund: string }[]>('data/cover-klein.json', []).filter((k) => k.grund === 'keine TMDB-Zuordnung').map((k) => k.id))
-  const offen = Object.values(reihen).flat().filter((t) => gesucht.has(t.id) && !(String(t.id) in bestand) && serieVon.has(t.id)).slice(0, limit)
+  const offen = Object.values(reihen).flat().filter((t) => gesucht.has(t.id) && !ohne.has(t.id) && !(String(t.id) in bestand) && serieVon.has(t.id)).slice(0, limit)
   const staffeln = new Map<number, TmdbStaffel[]>()
   let gefunden = 0
   for (const t of offen) {
@@ -119,8 +121,8 @@ async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId
  * **Serien und Web-Produktionen, die nur bei aniSearch stehen** (Daniel, 07.10.2026: „Super Wings" hatte kein Cover): Suche bei TMDB nach unseren Namen und dem Jahr, angenommen
  * wird nur ein Treffer, dessen Name und Jahr passen (`passtFilm` mit den Feldern der Serie). Filme erledigt `filmeSuchen`.
  */
-async function serienOhneCover(apiKey: string, bestand: PlakatBestand): Promise<number> {
-  const offen = readJson<Title[]>('public/data/titles.json', []).filter((t) => t.id >= 10_000_000 && t.format !== 'MOVIE' && !t.coverImage && !(String(t.id) in bestand))
+async function serienOhneCover(apiKey: string, bestand: PlakatBestand, ohne: ReadonlySet<number>): Promise<number> {
+  const offen = readJson<Title[]>('public/data/titles.json', []).filter((t) => t.id >= 10_000_000 && !ohne.has(t.id) && t.format !== 'MOVIE' && !t.coverImage && !(String(t.id) in bestand))
   let gefunden = 0
   for (const t of offen) {
     try {
@@ -180,11 +182,12 @@ async function main(): Promise<void> {
     await sleep(120)
     if (++abgerufen % 200 === 0) writeJson('data/tmdb-poster.json', bestand)
   }
-  gefunden += await filmeSuchen(apiKey, zuordnung, bestand)
-  gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT)
+  const ohne = ohneKennungen()
+  gefunden += await filmeSuchen(apiKey, zuordnung, bestand, ohne)
+  gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT, ohne)
   gefunden += await holeStaffel0(apiKey, bestand)
-  gefunden += await serienOhneCover(apiKey, bestand)
-  gefunden += await plakatSuche(apiKey, bestand, KATALOG, 12 * 60_000)
+  gefunden += await serienOhneCover(apiKey, bestand, ohne)
+  gefunden += await plakatSuche(apiKey, bestand, KATALOG, 12 * 60_000, ohne)
   const zuAlt = streicheBilderUeberFrist(bestand, new Date())
   if (zuAlt.length) warn(`${zuAlt.length} Plakate über ${FRIST_TAGE} Tage, Erneuerung gescheitert: aus dem Bestand genommen`)
   writeJson('data/tmdb-poster.json', bestand)

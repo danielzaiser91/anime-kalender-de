@@ -23,6 +23,8 @@ const bestand = (): Abgeleitet => ({
   banner: { 900401: bild, 900402: bild, 900403: bild, 900404: bild },
   folgen: { 900401: { tmdbId: 5 }, 900402: { tmdbId: 6 }, 900403: { tmdbId: 9 }, 900405: { tmdbId: 8 } },
   staffel0: { 900404: {} },
+  poster: { 900401: bild, 900402: bild, 900403: bild },
+  posterGrund: { 900401: { grund: 'kein Treffer' }, 900402: { grund: 'kein Treffer' } },
   verworfen: [],
 })
 const titel = (): Record<string, { tmdbId: number; kind: 'tv' }> => ({ 900401: { tmdbId: 5, kind: 'tv' }, 900402: { tmdbId: 6, kind: 'tv' }, 900405: { tmdbId: 8, kind: 'tv' } })
@@ -36,7 +38,10 @@ console.log('\nTMDB von Hand: reine Funktion')
   pruefe('Titel mit Staffel-0-Zuordnung behält sein Banner', '900404' in a.banner, a)
   pruefe('gleiche Kennung: Folgen bleiben', a.folgen['900405']?.tmdbId === 8, a)
   pruefe('Fremdes ohne Handzeile bleibt', '900403' in a.banner && '900403' in a.folgen, a)
-  pruefe('Verworfenes ist gezählt und benannt', a.verworfen.length === 4 && a.verworfen.includes('Banner 900401') && a.verworfen.includes('Folgen 900402'), a.verworfen)
+  pruefe('ohne: Plakat und Plakatgrund entfallen', !('900401' in a.poster) && !('900401' in a.posterGrund), a)
+  pruefe('neue Kennung: Plakat bleibt (nur ohne räumt es ab)', '900402' in a.poster && '900402' in a.posterGrund, a)
+  pruefe('Fremdes ohne Handzeile behält Plakat', '900403' in a.poster, a)
+  pruefe('Verworfenes ist gezählt und benannt', a.verworfen.length === 6 && a.verworfen.includes('Banner 900401') && a.verworfen.includes('Folgen 900402') && a.verworfen.includes('Plakat 900401') && a.verworfen.includes('Plakatgrund 900401'), a.verworfen)
   pruefe('Rückgabe zählt Titeländerungen: 900401 ohne, 900402 neu', n === 2, n)
   const c = titel()
   const folgenNeu = bestand()
@@ -45,7 +50,7 @@ console.log('\nTMDB von Hand: reine Funktion')
   pruefe('Kennungswechsel: Folgen, die schon zur neuen Kennung gehören, bleiben', folgenNeu.folgen['900402']?.tmdbId === 7, folgenNeu)
   const leer = bestand()
   uebernimmVonHand({}, [{ anilistId: 900403, ohne: true }], 'x', leer)
-  pruefe('ohne: auch ohne Bestandseintrag werden Altfälle gestrichen', !('900403' in leer.banner) && !('900403' in leer.folgen), leer)
+  pruefe('ohne: auch ohne Bestandseintrag werden Altfälle gestrichen', !('900403' in leer.banner) && !('900403' in leer.folgen) && !('900403' in leer.poster), leer)
 }
 
 console.log('\nTMDB von Hand: Lauf von fetch-tmdb-titles.ts')
@@ -59,6 +64,8 @@ try {
   schreibeD('tmdb-titles.json', JSON.stringify(titel()))
   schreibeD('tmdb-banner.json', JSON.stringify(bestand().banner))
   schreibeD('tmdb-folgen.json', JSON.stringify({ ...bestand().folgen, 900404: { tmdbId: 4 } }))
+  schreibeD('tmdb-poster.json', JSON.stringify(bestand().poster))
+  schreibeD('tmdb-poster-grund.json', JSON.stringify(bestand().posterGrund))
   schreibeD('tmdb-staffel0.json', JSON.stringify(bestand().staffel0))
   schreibeD('tmdb-folgen-404.json', '{}')
   schreibeD('tmdb-von-hand.yaml', '- anilistId: 900401\n  ohne: true\n- anilistId: 900402\n  tmdbId: 7\n  kind: tv\n- anilistId: 900404\n  ohne: true\n')
@@ -76,6 +83,7 @@ try {
   pruefe('Banner: nur die Titel ohne Handzeile (und mit Staffel 0) bleiben', Object.keys(banner).join() === '900403,900404', Object.keys(banner))
   pruefe('Folgen: nur die Titel ohne Handzeile bleiben', Object.keys(folgen).join() === '900403,900405', Object.keys(folgen))
   pruefe('Staffel 0 mit Handzeile ohne: Banner bleibt, Folgen fallen', '900404' in banner && !('900404' in folgen) && r.stdout.includes('Folgen 900404') && !r.stdout.includes('Banner 900404'), [Object.keys(banner), Object.keys(folgen)])
+  pruefe('Lauf: Plakat und Plakatgrund nur der ohne-Titel fallen', Object.keys(liesD('tmdb-poster.json')).join() === '900402,900403' && Object.keys(liesD('tmdb-poster-grund.json')).join() === '900402', [Object.keys(liesD('tmdb-poster.json')), Object.keys(liesD('tmdb-poster-grund.json'))])
   pruefe('das Log nennt die verworfenen Einträge', r.stdout.includes('Banner 900401') && r.stdout.includes('Folgen 900402'), r.stdout.slice(0, 400))
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
