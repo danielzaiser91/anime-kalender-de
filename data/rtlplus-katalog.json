@@ -1,662 +1,679 @@
 {
-  "19": {
-    "url": "https://plus.rtl.de/monster-p_266712",
-    "slug": "monster-p_266712",
-    "titel": "Monster",
-    "gefundenAm": "2026-11-10"
-  },
   "20": {
     "url": "https://plus.rtl.de/naruto-p_3570",
     "slug": "naruto-p_3570",
     "titel": "Naruto",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "136": {
     "url": "https://plus.rtl.de/hunter-x-hunter-p_69718",
     "slug": "hunter-x-hunter-p_69718",
     "titel": "Hunter x Hunter",
-    "gefundenAm": "2026-08-30"
-  },
-  "149": {
-    "url": "https://plus.rtl.de/loveless-p_210320",
-    "slug": "loveless-p_210320",
-    "titel": "Loveless",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "161": {
     "url": "https://plus.rtl.de/peacemaker-p_8046",
     "slug": "peacemaker-p_8046",
     "titel": "Peace Maker Kurogane",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "249": {
     "url": "https://plus.rtl.de/inu-yasha-p_69846",
     "slug": "inu-yasha-p_69846",
     "titel": "InuYasha",
-    "gefundenAm": "2026-08-30"
-  },
-  "283": {
-    "url": "https://plus.rtl.de/anne-of-green-gables-p_241213",
-    "slug": "anne-of-green-gables-p_241213",
-    "titel": "Anne mit den roten Haaren",
-    "gefundenAm": "2026-11-10"
-  },
-  "385": {
-    "url": "https://plus.rtl.de/gilgamesh-p_29548",
-    "slug": "gilgamesh-p_29548",
-    "titel": "Gilgamesh",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "442": {
     "url": "https://plus.rtl.de/naruto-the-movie-geheimmission-im-land-des-ewigen-schnees-p_225011",
     "slug": "naruto-the-movie-geheimmission-im-land-des-ewigen-schnees-p_225011",
     "titel": "Naruto: The Movie - Geheimmission im Land des ewigen Schnees",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "481": {
     "url": "https://plus.rtl.de/yu-gi-oh-p_8989",
     "slug": "yu-gi-oh-p_8989",
     "titel": "Yu-Gi-Oh!",
-    "gefundenAm": "2026-10-12"
+    "gefundenAm": "2026-10-12",
+    "gattung": "video"
   },
   "482": {
     "url": "https://plus.rtl.de/yu-gi-oh-gx-p_6368",
     "slug": "yu-gi-oh-gx-p_6368",
     "titel": "Yu-Gi-Oh! GX",
-    "gefundenAm": "2026-08-30"
-  },
-  "522": {
-    "url": "https://plus.rtl.de/metropolis-p_204368",
-    "slug": "metropolis-p_204368",
-    "titel": "Robotic Angel",
-    "gefundenAm": "2026-11-10"
-  },
-  "743": {
-    "url": "https://plus.rtl.de/oceanwaves-p_121701",
-    "slug": "oceanwaves-p_121701",
-    "titel": "Flüstern des Meeres: Ocean Waves",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "779": {
     "url": "https://plus.rtl.de/detektiv-conan-der-tickende-wolkenkratzer-p_182048",
     "slug": "detektiv-conan-der-tickende-wolkenkratzer-p_182048",
     "titel": "Detektiv Conan: Der tickende Wolkenkratzer",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "780": {
     "url": "https://plus.rtl.de/detektiv-conan-das-14-ziel-p_204116",
     "slug": "detektiv-conan-das-14-ziel-p_204116",
     "titel": "Detektiv Conan: Das 14. Ziel",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "781": {
     "url": "https://plus.rtl.de/detektiv-conan-der-magier-des-letzten-jahrhunderts-p_204111",
     "slug": "detektiv-conan-der-magier-des-letzten-jahrhunderts-p_204111",
     "titel": "Detektiv Conan: Der Magier des letzten Jahrhunderts",
-    "gefundenAm": "2026-08-30"
-  },
-  "812": {
-    "url": "https://plus.rtl.de/arjuna-p_282122",
-    "slug": "arjuna-p_282122",
-    "titel": "Arjuna",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "1117": {
     "url": "https://plus.rtl.de/pokemon-2-die-macht-des-einzelnen-p_2309",
     "slug": "pokemon-2-die-macht-des-einzelnen-p_2309",
     "titel": "Pokémon 2: Die Macht des Einzelnen",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "1119": {
     "url": "https://plus.rtl.de/pokemon-4-die-zeitlose-begegnung-p_69017",
     "slug": "pokemon-4-die-zeitlose-begegnung-p_69017",
     "titel": "Pokémon 4: Die zeitlose Begegnung",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "1363": {
     "url": "https://plus.rtl.de/detektiv-conan-der-killer-in-ihren-augen-p_204112",
     "slug": "detektiv-conan-der-killer-in-ihren-augen-p_204112",
     "titel": "Detektiv Conan: Der Killer in ihren Augen",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "1364": {
     "url": "https://plus.rtl.de/detektiv-conan-countdown-zum-himmel-p_204113",
     "slug": "detektiv-conan-countdown-zum-himmel-p_204113",
     "titel": "Detektiv Conan: Countdown zum Himmel",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "1365": {
     "url": "https://plus.rtl.de/detektiv-conan-das-phantom-der-baker-street-p_204114",
     "slug": "detektiv-conan-das-phantom-der-baker-street-p_204114",
     "titel": "Detektiv Conan: Das Phantom der Baker Street",
-    "gefundenAm": "2026-08-30"
-  },
-  "1462": {
-    "url": "https://plus.rtl.de/memories-p_245192",
-    "slug": "memories-p_245192",
-    "titel": "Memories",
-    "gefundenAm": "2026-11-10"
-  },
-  "1520": {
-    "url": "https://plus.rtl.de/black-jack-p_217953",
-    "slug": "black-jack-p_217953",
-    "titel": "Black Jack",
-    "gefundenAm": "2026-08-30"
-  },
-  "1535": {
-    "url": "https://plus.rtl.de/death-note-p_130973",
-    "slug": "death-note-p_130973",
-    "titel": "Death Note",
-    "gefundenAm": "2026-08-30"
-  },
-  "1638": {
-    "url": "https://plus.rtl.de/peter-pan-p_277996",
-    "slug": "peter-pan-p_277996",
-    "titel": "Peter Pan",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "1735": {
     "url": "https://plus.rtl.de/naruto-shippuden-p_10234",
     "slug": "naruto-shippuden-p_10234",
     "titel": "Naruto Shippuden",
-    "gefundenAm": "2026-08-30"
-  },
-  "1972": {
-    "url": "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_218087",
-    "slug": "die-abenteuer-des-sherlock-holmes-p_218087",
-    "titel": "Die Abenteuer des Sherlock Holmes",
-    "gefundenAm": "2026-11-10"
-  },
-  "2151": {
-    "url": "https://plus.rtl.de/die-wunderbare-reise-des-kleinen-nils-holgersson-mit-den-wildgansen-p_218080",
-    "slug": "die-wunderbare-reise-des-kleinen-nils-holgersson-mit-den-wildgansen-p_218080",
-    "titel": "Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "2236": {
     "url": "https://plus.rtl.de/das-madchen-das-durch-die-zeit-sprang-p_70203",
     "slug": "das-madchen-das-durch-die-zeit-sprang-p_70203",
     "titel": "Das Mädchen, das durch die Zeit sprang",
-    "gefundenAm": "2026-08-30"
-  },
-  "2265": {
-    "url": "https://plus.rtl.de/transformers-der-film-p_87350",
-    "slug": "transformers-der-film-p_87350",
-    "titel": "Transformers: Der Film",
-    "gefundenAm": "2026-10-12"
-  },
-  "2333": {
-    "url": "https://plus.rtl.de/the-three-musketeers-p_267127",
-    "slug": "the-three-musketeers-p_267127",
-    "titel": "D’Artagnan und die drei Musketiere",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "2472": {
     "url": "https://plus.rtl.de/naruto-shippuden-the-movie-p_220184",
     "slug": "naruto-shippuden-the-movie-p_220184",
     "titel": "Naruto Shippuden: The Movie",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "2542": {
     "url": "https://plus.rtl.de/georgie-p_132658",
     "slug": "georgie-p_132658",
     "titel": "Georgie",
-    "gefundenAm": "2026-08-30"
-  },
-  "2543": {
-    "url": "https://plus.rtl.de/robin-hood-p_236975",
-    "slug": "robin-hood-p_236975",
-    "titel": "Robin Hood",
-    "gefundenAm": "2026-11-10"
-  },
-  "2545": {
-    "url": "https://plus.rtl.de/huckleberry-finn-p_241940",
-    "slug": "huckleberry-finn-p_241940",
-    "titel": "Huckleberry Finn",
-    "gefundenAm": "2026-11-10"
-  },
-  "2559": {
-    "url": "https://plus.rtl.de/die-schwarzen-bruder-p_263883",
-    "slug": "die-schwarzen-bruder-p_263883",
-    "titel": "Die Schwarzen Brüder",
-    "gefundenAm": "2026-08-30"
-  },
-  "2568": {
-    "url": "https://plus.rtl.de/alle-meine-freunde-p_258535",
-    "slug": "alle-meine-freunde-p_258535",
-    "titel": "Alle meine Freunde",
-    "gefundenAm": "2026-08-30"
-  },
-  "2569": {
-    "url": "https://plus.rtl.de/the-jungle-book-p_256296",
-    "slug": "the-jungle-book-p_256296",
-    "titel": "Das Dschungelbuch: Die Serie",
-    "gefundenAm": "2026-11-10"
-  },
-  "2572": {
-    "url": "https://plus.rtl.de/alice-in-wonderland-p_270140",
-    "slug": "alice-in-wonderland-p_270140",
-    "titel": "Alice im Wunderland",
-    "gefundenAm": "2026-11-10"
-  },
-  "2577": {
-    "url": "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_267017",
-    "slug": "the-adventures-of-tom-sawyer-p_267017",
-    "titel": "Tom Sawyers Abenteuer",
-    "gefundenAm": "2026-11-10"
-  },
-  "2618": {
-    "url": "https://plus.rtl.de/treasure-island-p_278200",
-    "slug": "treasure-island-p_278200",
-    "titel": "Die Schatzinsel",
-    "gefundenAm": "2026-11-10"
-  },
-  "2825": {
-    "url": "https://plus.rtl.de/sinbad-the-sailor-p_278142",
-    "slug": "sinbad-the-sailor-p_278142",
-    "titel": "Sindbad",
-    "gefundenAm": "2026-11-02"
-  },
-  "2826": {
-    "url": "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_244797",
-    "slug": "the-wonderful-wizard-of-oz-p_244797",
-    "titel": "Im Land des Zauberers von Oz",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "2836": {
     "url": "https://plus.rtl.de/wickie-und-die-starken-manner-p_5062",
     "slug": "wickie-und-die-starken-manner-p_5062",
     "titel": "Wickie und die starken Männer",
-    "gefundenAm": "2026-08-30"
-  },
-  "2941": {
-    "url": "https://plus.rtl.de/elysium-p_153884",
-    "slug": "elysium-p_153884",
-    "titel": "Elysium",
-    "gefundenAm": "2026-08-30"
-  },
-  "3043": {
-    "url": "https://plus.rtl.de/die-kleine-seejungfrau-p_245356",
-    "slug": "die-kleine-seejungfrau-p_245356",
-    "titel": "Die kleine Seejungfrau",
-    "gefundenAm": "2026-11-10"
-  },
-  "3132": {
-    "url": "https://plus.rtl.de/christoph-columbus-p_87552",
-    "slug": "christoph-columbus-p_87552",
-    "titel": "Christoph Columbus",
-    "gefundenAm": "2026-08-30"
-  },
-  "3186": {
-    "url": "https://plus.rtl.de/swan-lake-p_241758",
-    "slug": "swan-lake-p_241758",
-    "titel": "Schwanensee",
-    "gefundenAm": "2026-11-10"
-  },
-  "3720": {
-    "url": "https://plus.rtl.de/jack-and-the-beanstalk-p_233273",
-    "slug": "jack-and-the-beanstalk-p_233273",
-    "titel": "Tom, Crosby und die Mäusebrigade",
-    "gefundenAm": "2026-11-10"
-  },
-  "3755": {
-    "url": "https://plus.rtl.de/daumelinchen-p_247313",
-    "slug": "daumelinchen-p_247313",
-    "titel": "Däumelinchen",
-    "gefundenAm": "2026-11-10"
-  },
-  "3757": {
-    "url": "https://plus.rtl.de/aladdin-and-the-wonderful-lamp-p_278155",
-    "slug": "aladdin-and-the-wonderful-lamp-p_278155",
-    "titel": "Aladdin und die Wunderlampe",
-    "gefundenAm": "2026-11-10"
-  },
-  "3760": {
-    "url": "https://plus.rtl.de/the-golden-bird-p_163980",
-    "slug": "the-golden-bird-p_163980",
-    "titel": "The Golden Bird",
-    "gefundenAm": "2026-08-30"
-  },
-  "3809": {
-    "url": "https://plus.rtl.de/schneewittchen-p_235349",
-    "slug": "schneewittchen-p_235349",
-    "titel": "Schneewittchen",
-    "gefundenAm": "2026-11-10"
-  },
-  "3811": {
-    "url": "https://plus.rtl.de/der-kleine-prinz-p_144986",
-    "slug": "der-kleine-prinz-p_144986",
-    "titel": "Der kleine Prinz",
-    "gefundenAm": "2026-11-10"
-  },
-  "3843": {
-    "url": "https://plus.rtl.de/ali-baba-and-the-forty-thieves-p_278113",
-    "slug": "ali-baba-and-the-forty-thieves-p_278113",
-    "titel": "Alibaba und die 40 Räuber",
-    "gefundenAm": "2026-11-10"
-  },
-  "3847": {
-    "url": "https://plus.rtl.de/die-wilden-schwane-p_231570",
-    "slug": "die-wilden-schwane-p_231570",
-    "titel": "Die Wilden Schwäne",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "3972": {
     "url": "https://plus.rtl.de/yu-gi-oh-5ds-p_9295",
     "slug": "yu-gi-oh-5ds-p_9295",
     "titel": "Yu-Gi-Oh! 5D’s",
-    "gefundenAm": "2026-08-30"
-  },
-  "4060": {
-    "url": "https://plus.rtl.de/grimms-marchen-p_263506",
-    "slug": "grimms-marchen-p_263506",
-    "titel": "Grimms Märchen",
-    "gefundenAm": "2026-11-10"
-  },
-  "4061": {
-    "url": "https://plus.rtl.de/grimms-marchen-2-p_140383",
-    "slug": "grimms-marchen-2-p_140383",
-    "titel": "Grimms Märchen (2)",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "4437": {
     "url": "https://plus.rtl.de/naruto-shippuden-the-movie-bonds-p_220180",
     "slug": "naruto-shippuden-the-movie-bonds-p_220180",
     "titel": "Naruto Shippuden: The Movie - Bonds",
-    "gefundenAm": "2026-08-30"
-  },
-  "4991": {
-    "url": "https://plus.rtl.de/little-women-p_237395",
-    "slug": "little-women-p_237395",
-    "titel": "Vier schöne Schwestern",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "5114": {
     "url": "https://plus.rtl.de/fullmetal-alchemist-brotherhood-p_9865",
     "slug": "fullmetal-alchemist-brotherhood-p_9865",
     "titel": "Fullmetal Alchemist: Brotherhood",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "5681": {
     "url": "https://plus.rtl.de/summer-wars-p_70205",
     "slug": "summer-wars-p_70205",
     "titel": "Summer Wars",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "6325": {
     "url": "https://plus.rtl.de/naruto-shippuden-the-movie-die-erben-des-willens-des-feuers-p_220185",
     "slug": "naruto-shippuden-the-movie-die-erben-des-willens-des-feuers-p_220185",
     "titel": "Naruto Shippuden: The Movie - Die Erben des Willens des Feuers",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "6951": {
     "url": "https://plus.rtl.de/yu-gi-oh-bonds-beyond-time-p_220187",
     "slug": "yu-gi-oh-bonds-beyond-time-p_220187",
     "titel": "Yu-Gi-Oh!: Bonds Beyond Time",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "10589": {
     "url": "https://plus.rtl.de/naruto-shippuden-the-movie-blood-prison-p_220183",
     "slug": "naruto-shippuden-the-movie-blood-prison-p_220183",
     "titel": "Naruto Shippuden: The Movie 5 - Blood Prison",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "12355": {
     "url": "https://plus.rtl.de/ame-yuki-die-wolfskinder-p_70202",
     "slug": "ame-yuki-die-wolfskinder-p_70202",
     "titel": "Ame & Yuki: Die Wolfskinder",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "13667": {
     "url": "https://plus.rtl.de/road-to-ninja-naruto-the-movie-p_225012",
     "slug": "road-to-ninja-naruto-the-movie-p_225012",
     "titel": "Road to Ninja: Naruto the Movie",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "16498": {
     "url": "https://plus.rtl.de/shingeki-no-kyojin-p_69843",
     "slug": "shingeki-no-kyojin-p_69843",
     "titel": "Attack on Titan",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "16870": {
     "url": "https://plus.rtl.de/the-last-naruto-the-movie-p_226250",
     "slug": "the-last-naruto-the-movie-p_226250",
     "titel": "The Last: Naruto the Movie",
-    "gefundenAm": "2026-08-30"
-  },
-  "19957": {
-    "url": "https://plus.rtl.de/die-abenteuer-des-huckleberry-finn-p_133247",
-    "slug": "die-abenteuer-des-huckleberry-finn-p_133247",
-    "titel": "Die Abenteuer des Huckleberry Finn",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "20464": {
     "url": "https://plus.rtl.de/haikyu-p_68947",
     "slug": "haikyu-p_68947",
     "titel": "Haikyu!!",
-    "gefundenAm": "2026-08-30"
-  },
-  "20617": {
-    "url": "https://plus.rtl.de/ronja-raubertochter-p_87292",
-    "slug": "ronja-raubertochter-p_87292",
-    "titel": "Ronja Räubertochter",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "20981": {
     "url": "https://plus.rtl.de/der-junge-und-das-biest-p_70204",
     "slug": "der-junge-und-das-biest-p_70204",
     "titel": "Der Junge und das Biest",
-    "gefundenAm": "2026-08-30"
-  },
-  "20997": {
-    "url": "https://plus.rtl.de/charlotte-p_23866",
-    "slug": "charlotte-p_23866",
-    "titel": "Charlotte",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "21220": {
     "url": "https://plus.rtl.de/boruto-naruto-the-movie-p_226249",
     "slug": "boruto-naruto-the-movie-p_226249",
     "titel": "Boruto: Naruto the Movie",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "21265": {
     "url": "https://plus.rtl.de/yu-gi-oh-the-dark-side-of-dimensions-p_220182",
     "slug": "yu-gi-oh-the-dark-side-of-dimensions-p_220182",
     "titel": "Yu-Gi-Oh! The Dark Side of Dimensions",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "21356": {
     "url": "https://plus.rtl.de/pokemon-die-tv-serie-xyz-p_10932",
     "slug": "pokemon-die-tv-serie-xyz-p_10932",
     "titel": "Pokémon: Die TV-Serie - XYZ",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "97938": {
     "url": "https://plus.rtl.de/boruto-naruto-next-generations-p_5739",
     "slug": "boruto-naruto-next-generations-p_5739",
     "titel": "Boruto: Naruto Next Generations",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "100723": {
     "url": "https://plus.rtl.de/my-hero-academia-two-heroes-p_182054",
     "slug": "my-hero-academia-two-heroes-p_182054",
     "titel": "My Hero Academia: Two Heroes",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "101302": {
     "url": "https://plus.rtl.de/dragon-ball-super-broly-p_182056",
     "slug": "dragon-ball-super-broly-p_182056",
     "titel": "Dragon Ball Super: Broly",
-    "gefundenAm": "2026-08-30"
-  },
-  "101349": {
-    "url": "https://plus.rtl.de/babylon-p_91712",
-    "slug": "babylon-p_91712",
-    "titel": "Babylon",
-    "gefundenAm": "2026-08-30"
-  },
-  "106240": {
-    "url": "https://plus.rtl.de/hello-world-p_121735",
-    "slug": "hello-world-p_121735",
-    "titel": "Hello World",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "108553": {
     "url": "https://plus.rtl.de/my-hero-academia-heroes-rising-p_182050",
     "slug": "my-hero-academia-heroes-rising-p_182050",
     "titel": "My Hero Academia: The Movie - Heroes Rising",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "108852": {
     "url": "https://plus.rtl.de/bakugan-battle-planet-p_10587",
     "slug": "bakugan-battle-planet-p_10587",
     "titel": "Bakugan: Battle Planet",
-    "gefundenAm": "2026-08-30"
-  },
-  "110224": {
-    "url": "https://plus.rtl.de/the-journey-p_210400",
-    "slug": "the-journey-p_210400",
-    "titel": "The Journey: Die Legende vom guten Dieb",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "113415": {
     "url": "https://plus.rtl.de/jujutsu-kaisen-p_182053",
     "slug": "jujutsu-kaisen-p_182053",
     "titel": "Jujutsu Kaisen",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-11-10",
+    "gattung": "video"
   },
   "116415": {
     "url": "https://plus.rtl.de/bakugan-armored-alliance-p_10406",
     "slug": "bakugan-armored-alliance-p_10406",
     "titel": "Bakugan: Armored Alliance",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "131096": {
     "url": "https://plus.rtl.de/bakugan-geogan-rising-p_5148",
     "slug": "bakugan-geogan-rising-p_5148",
     "titel": "Bakugan: Geogan Rising",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "133898": {
     "url": "https://plus.rtl.de/dragon-ball-super-super-hero-p_182055",
     "slug": "dragon-ball-super-super-hero-p_182055",
     "titel": "Dragon Ball Super: Super Hero",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "141902": {
     "url": "https://plus.rtl.de/one-piece-film-red-p_182058",
     "slug": "one-piece-film-red-p_182058",
     "titel": "One Piece Film: Red",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "142770": {
     "url": "https://plus.rtl.de/suzume-p_182057",
     "slug": "suzume-p_182057",
     "titel": "Suzume",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "146885": {
     "url": "https://plus.rtl.de/bakugan-evolutions-p_8016",
     "slug": "bakugan-evolutions-p_8016",
     "titel": "Bakugan: Evolutions",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "156841": {
     "url": "https://plus.rtl.de/detektiv-conan-das-schwarze-u-boot-p_204115",
     "slug": "detektiv-conan-das-schwarze-u-boot-p_204115",
     "titel": "Detektiv Conan: Das schwarze U-Boot",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "158928": {
     "url": "https://plus.rtl.de/spy-x-family-code-white-p_182049",
     "slug": "spy-x-family-code-white-p_182049",
     "titel": "Spy × Family Code: White",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "165159": {
     "url": "https://plus.rtl.de/beyblade-x-p_9519",
     "slug": "beyblade-x-p_9519",
     "titel": "Beyblade X",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "166062": {
     "url": "https://plus.rtl.de/beyblade-burst-quadstrike-p_8714",
     "slug": "beyblade-burst-quadstrike-p_8714",
     "titel": "Beyblade Burst QuadStrike",
-    "gefundenAm": "2026-09-21"
+    "gefundenAm": "2026-09-21",
+    "gattung": "video"
   },
   "168013": {
     "url": "https://plus.rtl.de/my-hero-academia-youre-next-p_182052",
     "slug": "my-hero-academia-youre-next-p_182052",
     "titel": "My Hero Academia: You’re Next",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "169826": {
     "url": "https://plus.rtl.de/bakugan-legends-p_8181",
     "slug": "bakugan-legends-p_8181",
     "titel": "Bakugan: Legends",
-    "gefundenAm": "2026-08-30"
-  },
-  "177132": {
-    "url": "https://plus.rtl.de/a-new-dawn-p_222654",
-    "slug": "a-new-dawn-p_222654",
-    "titel": "A New Dawn",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "177166": {
     "url": "https://plus.rtl.de/bakugan-p_10539",
     "slug": "bakugan-p_10539",
     "titel": "Bakugan",
-    "gefundenAm": "2026-09-21"
-  },
-  "177887": {
-    "url": "https://plus.rtl.de/leviathan-p_240166",
-    "slug": "leviathan-p_240166",
-    "titel": "Leviathan",
-    "gefundenAm": "2026-11-10"
-  },
-  "185773": {
-    "url": "https://plus.rtl.de/scarlet-p_250744",
-    "slug": "scarlet-p_250744",
-    "titel": "Scarlet",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-09-21",
+    "gattung": "video"
   },
   "187052": {
     "url": "https://plus.rtl.de/sylvanian-families-p_8508",
     "slug": "sylvanian-families-p_8508",
     "titel": "Sylvanian Families",
-    "gefundenAm": "2026-08-30"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "202420": {
     "url": "https://plus.rtl.de/rotschuhchen-und-die-sieben-zwerge-p_1454",
     "slug": "rotschuhchen-und-die-sieben-zwerge-p_1454",
     "titel": "Rotschühchen und die sieben Zwerge",
-    "gefundenAm": "2026-08-30"
-  },
-  "208352": {
-    "url": "https://plus.rtl.de/dandelion-p_134252",
-    "slug": "dandelion-p_134252",
-    "titel": "Dandelion",
-    "gefundenAm": "2026-08-30"
-  },
-  "10003713": {
-    "url": "https://plus.rtl.de/cleopatra-p_267485",
-    "slug": "cleopatra-p_267485",
-    "titel": "Cleopatra und die tollen Römer",
-    "gefundenAm": "2026-11-10"
+    "gefundenAm": "2026-08-30",
+    "gattung": "video"
   },
   "10012621": {
     "url": "https://plus.rtl.de/super-wings-p_9120",
     "slug": "super-wings-p_9120",
     "titel": "Super Wings",
-    "gefundenAm": "2026-10-12"
+    "gefundenAm": "2026-10-12",
+    "gattung": "video"
   },
-  "10021150": {
-    "url": "https://plus.rtl.de/king-of-kings-p_135379",
-    "slug": "king-of-kings-p_135379",
-    "titel": "Der König der Könige",
-    "gefundenAm": "2026-10-12"
+  "_verworfen": {
+    "https://plus.rtl.de/schwanensee-p_21679": "2026-11-15",
+    "https://plus.rtl.de/schwanensee-p_122816": "2026-11-15",
+    "https://plus.rtl.de/swan-lake-p_229571": "2026-11-15",
+    "https://plus.rtl.de/swan-lake-p_240514": "2026-11-15",
+    "https://plus.rtl.de/swan-lake-p_241758": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_21730": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_25245": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_79334": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_90030": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_100323": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_115672": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_119526": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_129973": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_130435": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_136808": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_145201": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_147954": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_150026": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_163693": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_179330": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_200099": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_213262": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_217983": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_223119": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_228700": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_232972": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_247458": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_261795": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_265119": "2026-11-15",
+    "https://plus.rtl.de/peter-pan-p_277996": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_22498": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_22596": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_24444": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_25084": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_29546": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_90706": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_92904": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_95270": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_95582": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_97348": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_101271": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_122074": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_122291": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_122302": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_126291": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_129552": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_132935": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_136677": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_138202": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_143560": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_157440": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_159414": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_195466": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_199297": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_216764": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_217619": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_229010": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_230929": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_236066": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_237431": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_238191": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_247443": "2026-11-15",
+    "https://plus.rtl.de/die-schatzinsel-p_255646": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_265735": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_267064": "2026-11-15",
+    "https://plus.rtl.de/treasure-island-p_278200": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-huckleberry-finn-p_23418": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-huckleberry-finn-p_26614": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-huckleberry-finn-p_125645": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-huckleberry-finn-p_133247": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_23484": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_91779": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_94586": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_95647": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_99885": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_99888": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_101880": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_108617": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_117843": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_120896": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_126934": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_136450": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_161222": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_220936": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_233670": "2026-11-15",
+    "https://plus.rtl.de/schneewittchen-p_235349": "2026-11-15",
+    "https://plus.rtl.de/tom-sawyers-abenteuer-p_23570": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_87752": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_87780": "2026-11-15",
+    "https://plus.rtl.de/tom-sawyers-abenteuer-p_87868": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_87954": "2026-11-15",
+    "https://plus.rtl.de/tom-sawyers-abenteuer-p_88026": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_157842": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_218008": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_228252": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_228385": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_242997": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_257493": "2026-11-15",
+    "https://plus.rtl.de/the-adventures-of-tom-sawyer-p_267017": "2026-11-15",
+    "https://plus.rtl.de/charlotte-p_23866": "2026-11-15",
+    "https://plus.rtl.de/huckleberry-finn-p_24668": "2026-11-15",
+    "https://plus.rtl.de/huckleberry-finn-p_29297": "2026-11-15",
+    "https://plus.rtl.de/huckleberry-finn-p_87699": "2026-11-15",
+    "https://plus.rtl.de/huckleberry-finn-p_228644": "2026-11-15",
+    "https://plus.rtl.de/huckleberry-finn-p_241940": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_24750": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_25908": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_27125": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_92891": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_94070": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_94161": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_97219": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_99393": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_101032": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_101655": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_111679": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_134149": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_140518": "2026-11-15",
+    "https://plus.rtl.de/alice-in-wonderland-p_153934": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_232009": "2026-11-15",
+    "https://plus.rtl.de/alice-in-wonderland-p_236918": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_241694": "2026-11-15",
+    "https://plus.rtl.de/alice-in-wonderland-p_267357": "2026-11-15",
+    "https://plus.rtl.de/alice-im-wunderland-p_269324": "2026-11-15",
+    "https://plus.rtl.de/alice-in-wonderland-p_269441": "2026-11-15",
+    "https://plus.rtl.de/alice-in-wonderland-p_270140": "2026-11-15",
+    "https://plus.rtl.de/die-kleine-seejungfrau-p_26329": "2026-11-15",
+    "https://plus.rtl.de/die-kleine-seejungfrau-p_85742": "2026-11-15",
+    "https://plus.rtl.de/die-kleine-seejungfrau-p_222323": "2026-11-15",
+    "https://plus.rtl.de/die-kleine-seejungfrau-p_245356": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_28274": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_88357": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_92749": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_99036": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_126253": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_126416": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_136961": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-and-the-forty-thieves-p_228948": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-und-die-40-rauber-p_263297": "2026-11-15",
+    "https://plus.rtl.de/ali-baba-and-the-forty-thieves-p_278113": "2026-11-15",
+    "https://plus.rtl.de/monster-p_28277": "2026-11-15",
+    "https://plus.rtl.de/monster-p_266712": "2026-11-15",
+    "https://plus.rtl.de/gilgamesh-p_29548": "2026-11-15",
+    "https://plus.rtl.de/grimms-marchen-p_72387": "2026-11-15",
+    "https://plus.rtl.de/grimms-marchen-p_92450": "2026-11-15",
+    "https://plus.rtl.de/grimms-marchen-p_138776": "2026-11-15",
+    "https://plus.rtl.de/grimms-marchen-p_234501": "2026-11-15",
+    "https://plus.rtl.de/grimms-marchen-p_263506": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_72710": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_76335": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_92769": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_100272": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_102004": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_102081": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_105663": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_142259": "2026-11-15",
+    "https://plus.rtl.de/der-kleine-prinz-p_144986": "2026-11-15",
+    "https://plus.rtl.de/ronja-raubertochter-p_74762": "2026-11-15",
+    "https://plus.rtl.de/ronja-raubertochter-p_87292": "2026-11-15",
+    "https://plus.rtl.de/the-jungle-book-p_83985": "2026-11-15",
+    "https://plus.rtl.de/the-jungle-book-p_217787": "2026-11-15",
+    "https://plus.rtl.de/the-jungle-book-p_238822": "2026-11-15",
+    "https://plus.rtl.de/the-jungle-book-p_247070": "2026-11-15",
+    "https://plus.rtl.de/the-jungle-book-p_256296": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_86736": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_86796": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_92731": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_126275": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_154258": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_229620": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_234230": "2026-11-15",
+    "https://plus.rtl.de/robin-hood-p_236975": "2026-11-15",
+    "https://plus.rtl.de/transformers-der-film-p_87350": "2026-11-15",
+    "https://plus.rtl.de/cleopatra-p_87481": "2026-11-15",
+    "https://plus.rtl.de/cleopatra-p_157488": "2026-11-15",
+    "https://plus.rtl.de/cleopatra-p_230679": "2026-11-15",
+    "https://plus.rtl.de/cleopatra-p_267485": "2026-11-15",
+    "https://plus.rtl.de/christoph-columbus-p_87552": "2026-11-15",
+    "https://plus.rtl.de/babylon-p_91712": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_93634": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_95387": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_100895": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_105264": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_126976": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_133234": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_229271": "2026-11-15",
+    "https://plus.rtl.de/daumelinchen-p_247313": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_94166": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_96115": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_99571": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_108688": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_109844": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_117821": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_217058": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_217590": "2026-11-15",
+    "https://plus.rtl.de/die-abenteuer-des-sherlock-holmes-p_218087": "2026-11-15",
+    "https://plus.rtl.de/loveless-p_94313": "2026-11-15",
+    "https://plus.rtl.de/loveless-p_210320": "2026-11-15",
+    "https://plus.rtl.de/memories-p_94378": "2026-11-15",
+    "https://plus.rtl.de/memories-p_245192": "2026-11-15",
+    "https://plus.rtl.de/die-wilden-schwane-p_103020": "2026-11-15",
+    "https://plus.rtl.de/die-wilden-schwane-p_105196": "2026-11-15",
+    "https://plus.rtl.de/die-wilden-schwane-p_231570": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_121559": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_149479": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_149839": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_161946": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_185856": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_193903": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_217455": "2026-11-15",
+    "https://plus.rtl.de/little-women-p_237395": "2026-11-15",
+    "https://plus.rtl.de/oceanwaves-p_121701": "2026-11-15",
+    "https://plus.rtl.de/hello-world-p_121735": "2026-11-15",
+    "https://plus.rtl.de/aladdin-and-the-wonderful-lamp-p_127174": "2026-11-15",
+    "https://plus.rtl.de/aladdin-und-die-wunderlampe-p_132845": "2026-11-15",
+    "https://plus.rtl.de/aladdin-und-die-wunderlampe-p_142020": "2026-11-15",
+    "https://plus.rtl.de/aladdin-und-die-wunderlampe-p_234537": "2026-11-15",
+    "https://plus.rtl.de/aladdin-and-the-wonderful-lamp-p_278155": "2026-11-15",
+    "https://plus.rtl.de/death-note-p_130973": "2026-11-15",
+    "https://plus.rtl.de/dandelion-p_134252": "2026-11-15",
+    "https://plus.rtl.de/king-of-kings-p_135379": "2026-11-15",
+    "https://plus.rtl.de/grimms-marchen-2-p_140383": "2026-11-15",
+    "https://plus.rtl.de/jack-and-the-beanstalk-p_146869": "2026-11-15",
+    "https://plus.rtl.de/jack-and-the-beanstalk-p_147933": "2026-11-15",
+    "https://plus.rtl.de/jack-and-the-beanstalk-p_147984": "2026-11-15",
+    "https://plus.rtl.de/jack-and-the-beanstalk-p_233273": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_147701": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_164010": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_218038": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_234051": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_236036": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_236936": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_239181": "2026-11-15",
+    "https://plus.rtl.de/the-wonderful-wizard-of-oz-p_244797": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_148317": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_148705": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_156751": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_164864": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_179633": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_217465": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_232108": "2026-11-15",
+    "https://plus.rtl.de/anne-of-green-gables-p_241213": "2026-11-15",
+    "https://plus.rtl.de/elysium-p_153884": "2026-11-15",
+    "https://plus.rtl.de/leviathan-p_163534": "2026-11-15",
+    "https://plus.rtl.de/leviathan-p_215609": "2026-11-15",
+    "https://plus.rtl.de/leviathan-p_240166": "2026-11-15",
+    "https://plus.rtl.de/metropolis-p_163566": "2026-11-15",
+    "https://plus.rtl.de/metropolis-p_204368": "2026-11-15",
+    "https://plus.rtl.de/the-golden-bird-p_163980": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_177007": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_200132": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_217987": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_236494": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_236668": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_237415": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_244594": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_246036": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_253059": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_266253": "2026-11-15",
+    "https://plus.rtl.de/the-three-musketeers-p_267127": "2026-11-15",
+    "https://plus.rtl.de/the-journey-p_210400": "2026-11-15",
+    "https://plus.rtl.de/black-jack-p_217953": "2026-11-15",
+    "https://plus.rtl.de/die-wunderbare-reise-des-kleinen-nils-holgersson-mit-den-wildgansen-p_218080": "2026-11-15",
+    "https://plus.rtl.de/a-new-dawn-p_222654": "2026-11-15",
+    "https://plus.rtl.de/scarlet-p_250744": "2026-11-15",
+    "https://plus.rtl.de/alle-meine-freunde-p_258535": "2026-11-15",
+    "https://plus.rtl.de/die-schwarzen-bruder-p_263883": "2026-11-15",
+    "https://plus.rtl.de/sinbad-the-sailor-p_278142": "2026-11-15",
+    "https://plus.rtl.de/arjuna-p_282122": "2026-11-15"
   }
 }

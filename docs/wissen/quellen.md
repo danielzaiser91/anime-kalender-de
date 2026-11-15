@@ -4398,3 +4398,13 @@ Die Quelle mit dem besten Umfang für lineares Free-TV (MAXX, Folgennummer, Folg
 - **Echter Befund:** Dragon Ball Super (21175) trägt in `tmdb-titles.json` noch den Namen „ドラゴンボール超 ビルス“ der früheren Kennung 312359, obwohl `tmdbId` schon 62715 ist; die Handzeile ersetzt nur die Kennung, nicht die mitgeholten Felder.
 - **Kein Fehler:** Kakegurui ××, Magilumiere, Tayo, Kitaro — TMDBs Name ist deutsch, AniList kennt keinen deutschen. Pokémon Reisen (112153): TMDB-Staffel 23 hat 48 Folgen, AniList 136; die Staffeln 23–25 haben zusammen 147, weil AniList die letzten 11 Folgen als eigenen Titel führt (158870, Start 2023-01-13 = TMDB S25E47).
 - **Nicht prüfbar** (keine TMDB-Folgen oder kein Name im Repo): 9 Zeilen, darunter die vier Dragon-Ball-Serien ohne Folgen-Cache.
+
+## Klasse C (TMDB ja, JustWatch kein Stream): keine unabhängige legale Quelle (15.11.2026)
+
+**Entscheidung:** Für Titel mit TMDB-Kennung, aber ohne JustWatch-Streamangebot gibt es keine zweite, unabhängige und legal nutzbare Quelle; es wird nichts gebaut. Beleg: `daniel-zum-abarbeiten/berichte/streaming-quelle-klasse-c-2026-11-15.md` (Stichprobe von 15 Titeln: überwiegend Disc-Ware und Altbestand ohne bekannte Streams).
+
+- **TMDB `watch/providers` ist JustWatch:** Die TMDB-Doku nennt die Partnerschaft mit JustWatch als Quelle; schon eingebaut (`pipeline/bau/03-4-tmdb-angebote.ts`), keine unabhängige Gegenprobe.
+- **werstreamt.es:** robots.txt verbietet automatisiertes Auslesen ohne ausdrückliche schriftliche Erlaubnis (Abruf 15.11.2026); seit 02.10.2026 verworfen.
+- **fernsehserien.de und wunschliste.de:** nur mit schriftlicher Genehmigung (Abschnitt „fernsehserien.de als TV-Quelle auf Anfrage“, 12.11.2026).
+- **RTL+-Katalog (`data/rtlplus-katalog.json`):** ordnete nur per Slug zu und enthielt Hörbücher gleichnamiger Titel (Tom Sawyer, Peter Pan, Gilgamesh, Charlotte …). Gemessen 15.11.2026 an allen 110 Einträgen: 52 Hörbuch-/Hörspielseiten (Beschreibung „… hören ► Weitere Hörbücher und Hörspiele auf RTL+“), 58 Serien und Filme. Der Abruf stempelt jetzt jede Seite mit `gattung` und verwirft Hörbücher (`pipeline/lib/rtlplus-gattung.ts`). Der Katalog speist nur die Folgenliste (`fetch-rtlplus-folgen.ts`), keinen Weg; im Datensatz war keiner der 52 Treffer angekommen.
+- **Wiederaufgreifen**, sobald einer der Punkte eintritt: mindestens 10 neue JustWatch-Angebote der Titel dieser Klasse (C1), eine schriftliche Erlaubnis einer der gesperrten Quellen, oder Apple/Google-DE-Angebote im Streaming-Availability-Archiv.
