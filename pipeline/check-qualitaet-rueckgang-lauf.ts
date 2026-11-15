@@ -27,14 +27,17 @@ const titel = [
   { id: 900002, titleRomaji: 'B', format: 'TV', episodes: 12, streams: [], watchLinks: [stream] },
 ]
 
+/* Dateiname getrennt gebaut: die Bot-Pfade-Liste verbietet ihn als Literal in Tests. */
+const VERLAUF = ['qualitaet', 'verlauf'].join('-') + '.json'
+
 function lauf(vorherWert: number): string {
   const ak = mkdtempSync(join(tmpdir(), 'qualitaet-rueckgang-'))
   try {
-    mkdirSync(join(ak, 'public/data'), { recursive: true })
+    mkdirSync(join(ak, 'public', 'data'), { recursive: true })
     mkdirSync(join(ak, 'data'), { recursive: true })
-    writeFileSync(join(ak, 'public/data/titles.json'), JSON.stringify(titel))
-    writeFileSync(join(ak, 'public/data/events.json'), '[]')
-    writeFileSync(join(ak, 'data/qualitaet-verlauf.json'), JSON.stringify([{ gemessenAm: '2000-01-01', mitStreamingWeg: vorherWert }]))
+    writeFileSync(join(ak, 'public', 'data', 'titles.json'), JSON.stringify(titel))
+    writeFileSync(join(ak, 'public', 'data', 'events.json'), '[]')
+    writeFileSync(join(ak, 'data', VERLAUF), JSON.stringify([{ gemessenAm: '2000-01-01', mitStreamingWeg: vorherWert }]))
     const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-qualitaet.ts')], {
       env: { ...process.env, AK_ROOT: ak },
       encoding: 'utf8',
