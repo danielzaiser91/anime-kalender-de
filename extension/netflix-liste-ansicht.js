@@ -27,7 +27,7 @@ const ansichtUhr = (ms) => ansichtFormat(ms, { hour: '2-digit', minute: '2-digit
 const ansichtDatum = (ms) => ansichtFormat(ms, { day: 'numeric', month: 'numeric' })
 
 /** Ein lesbarer Zeitpunkt? Fehlende Angabe und unlesbarer Speicherwert sind keiner. */
-const ansichtLesbar = (ms) => typeof ms === 'number' && Number.isFinite(new Date(ms).getTime())
+const ansichtLesbar = (ms) => Number.isFinite(new Date(ms).getTime())
 
 /** „14:30“ am selben Berliner Tag, sonst „20.11.“; ohne lesbaren Zeitpunkt `null`. */
 function ansichtZeit(ms, jetzt) {

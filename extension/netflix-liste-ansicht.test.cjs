@@ -58,7 +58,7 @@ const beendet = []
 const kontext = {
   globalThis: null,
   document: { createElement: element },
-  setInterval: (fn) => takte.push(fn),
+  setInterval: (fn, ms) => takte.push({ fn, ms }),
   clearInterval: (nr) => beendet.push(nr),
 }
 kontext.globalThis = kontext
@@ -177,6 +177,7 @@ const knopf = (wurzel, text) => finde(wurzel, (el) => el.tagName === 'BUTTON' &&
   pruefe('unten: Suchfeld ganz links, dann Durchgang, zurückgestellt, gemeldet', unten.kinder[0] === b.suche && b.suche.className === 'ak-suche' && unten.kinder[1] === b.selbst && unten.kinder.slice(2).map((k) => k.textContent).join('|') === '4 zurückgestellt|71 gemeldet', unten.kinder.map((k) => k.textContent))
   b.klicke(oben.kinder[2])
   pruefe('Schließen ruft zu()', b.gerufen.zu === 1, b.gerufen.zu)
+  pruefe('Schließen und Suchfeld tragen einen Namen für Vorleseprogramme', oben.kinder[2].getAttribute('aria-label') === 'Schließen' && b.suche.getAttribute('aria-label') === 'Suchen' && b.suche.tagName === 'INPUT' && b.suche.type === 'search', [oben.kinder[2].getAttribute('aria-label'), b.suche.getAttribute('aria-label')])
 
   const zurueck = knopf(unten, '4 zurückgestellt')
   pruefe('Umschalter zurückgestellt: anfangs aus', zurueck.getAttribute('aria-pressed') === 'false' && !b.kasten.classList.contains('ak-ansicht-zurueck'))
@@ -199,6 +200,10 @@ const knopf = (wurzel, text) => finde(wurzel, (el) => el.tagName === 'BUTTON' &&
   const t = b.tabelle
   const koepfe = finde(t, (el) => el.tagName === 'TH')
   const sortierung = () => koepfe.map((k) => k.getAttribute('aria-sort')).join(',')
+  const gestalt = (el) => `${el.tagName}.${el.className}`
+  pruefe('Ansicht: Grund-Leiste, Tabelle, „Kein Treffer“', gestalt(t) === 'DIV.ak-zurueck-ansicht' && t.kinder.map(gestalt).join(' ') === 'DIV.ak-zurueck-gruende TABLE.ak-zurueck-tabelle P.ak-zurueck-leer', t.kinder.map(gestalt))
+  pruefe('Tabelle: Kopf mit Sortierknöpfen, dann Rumpf', t.kinder[1].kinder.map(gestalt).join(' ') === 'THEAD. TBODY.' && koepfe.every((k) => gestalt(k.kinder[0]) === 'BUTTON.ak-sortierknopf'), t.kinder[1].kinder.map(gestalt))
+  pruefe('Zeile: vier Zellen mit ihren Klassen', finde(t, (el) => el.tagName === 'TR')[1].kinder.map(gestalt).join(' ') === 'TD.ak-zurueck-titel TD.ak-zurueck-bis TD.ak-zurueck-am TD.ak-zurueck-grund', finde(t, (el) => el.tagName === 'TR')[1]?.kinder.map(gestalt))
   pruefe('Tabelle: Spalten Titel, zurück bis, letzte Messung, Grund', koepfe.map((k) => k.kinder[0].textContent).join('|') === 'Titel|zurück bis|letzte Messung|Grund', koepfe.map((k) => k.kinder[0].textContent))
   pruefe('Tabelle: anfangs nach „zurück bis“ aufsteigend', zeilenTitel(t) === 'Castlevania,Ajin,Berserk,Dorohedoro' && sortierung() === 'none,ascending,none,none', [zeilenTitel(t), sortierung()])
   const zellen = finde(t, (el) => el.tagName === 'TR' && el.kinder[0]?.tagName === 'TD').map((tr) => tr.kinder.map((td) => td.textContent || td.kinder[0]?.textContent).join('|'))
@@ -254,14 +259,14 @@ const knopf = (wurzel, text) => finde(wurzel, (el) => el.tagName === 'BUTTON' &&
   beendet.length = 0
   const b = baue()
   const lauf = b.kopf.kinder[0].kinder[1]
-  pruefe('Minutentakt: genau einer angemeldet', takte.length === 1, takte.length)
+  pruefe('Minutentakt: genau einer angemeldet, alle 60 Sekunden', takte.length === 1 && takte[0].ms === 60000, takte.map((t) => t.ms))
   b.uhr.jetzt = Date.UTC(2026, 10, 15, 22, 40)
-  takte[0]()
+  takte[0].fn()
   pruefe('Takt: die Uhrzeit wandert mit, nach Mitternacht mit Datum', lauf.textContent === 'nächste Übernahme: 16.11. 00:03', lauf.textContent)
   pruefe('Takt: solange der Dialog steht, läuft er weiter', beendet.length === 0, beendet)
   lauf.isConnected = false
   b.uhr.jetzt = JETZT
-  takte[0]()
+  takte[0].fn()
   pruefe('Takt: Dialog zu — Takt beendet, Text bleibt', beendet.length === 1 && lauf.textContent === 'nächste Übernahme: 16.11. 00:03', [beendet, lauf.textContent])
 }
 
@@ -277,7 +282,11 @@ const knopf = (wurzel, text) => finde(wurzel, (el) => el.tagName === 'BUTTON' &&
   pruefe('genau 1 gemeldet: „nächste Übernahme“ steht da', eins.kopf.kinder[0].kinder[1]?.className === 'ak-lauf')
   pruefe('eine einzige Grund-Art: keine Grund-Knöpfe', finde(eins.tabelle, (el) => el.className === 'ak-zurueck-grundknopf').length === 0)
 
-  const viele = ['a', 'b', 'c', 'd', 'e'].map((g, i) => ({ id: String(i), titel: `T${i}`, grund: g, bis: JETZT + i }))
+  const zwei = baue({ zurueck: ZEILEN.slice(0, 2) })
+  pruefe('genau zwei Grund-Arten: zwei Knöpfe', finde(zwei.tabelle, (el) => el.className === 'ak-zurueck-grundknopf').map((g) => g.textContent).join('|') === 'Erinnern statt Folgenliste · 1|nach 3 Versuchen noch offen · 1')
+
+  /* Eingabe gegen das Alphabet: die Reihenfolge der Knöpfe kommt aus der Sortierung, nicht aus der Eingabe. */
+  const viele = ['d', 'c', 'b', 'a', 'e'].map((g, i) => ({ id: String(i), titel: `T${i}`, grund: g, bis: JETZT + i }))
   viele.push({ id: '9', titel: 'T9', grund: 'e', bis: JETZT })
   const voll = baue({ zurueck: viele })
   const knoepfe = finde(voll.tabelle, (el) => el.className === 'ak-zurueck-grundknopf').map((g) => g.textContent)

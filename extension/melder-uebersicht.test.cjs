@@ -286,6 +286,7 @@ async function pruefeZurueckZeilen(body, umgebung) {
   pruefe('Kasten: Kopf, Liste, dahinter die Ansicht der Zurückgestellten', kasten?.kinder.map((k) => k.className).join(' | ') === 'ak-kopf ak-kopf-zeilen | ak-liste | ak-zurueck-ansicht', kasten?.kinder.map((k) => k.className))
   const unten = suche(body, 'ak-kopf-unten')
   pruefe('Kopf: das Suchfeld steht ganz links, der Durchgang gleich daneben', unten?.kinder[0]?.className === 'ak-suche' && /alle durchgehen/.test(String(unten?.kinder[1]?.textContent)), unten?.kinder.map((k) => k.className + ':' + k.textContent))
+  pruefe('Kopf: ohne laufenden Durchgang ist der Knopf nicht hervorgehoben und sagt, was er tut', unten?.kinder[1]?.className === 'ak-umschalter' && /^Geht alle offenen Titel/.test(String(unten?.kinder[1]?.title)), [unten?.kinder[1]?.className, unten?.kinder[1]?.title])
   const links = alleElemente(suche(body, 'ak-zurueck-ansicht')).filter((el) => el.tagName === 'A')
   pruefe('Tabelle: genau der zurückgestellte Titel, mit Verweis auf seine Titelseite', links.length === 1 && links[0].href === 'https://www.netflix.com/title/80243876', links.map((l) => l.href))
   const grund = alleElemente(suche(body, 'ak-zurueck-ansicht')).filter((el) => el.className === 'ak-zurueck-grund')
