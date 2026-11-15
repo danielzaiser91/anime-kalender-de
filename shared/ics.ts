@@ -160,6 +160,12 @@ function veventBody(ev: ReleaseEvent, opts: IcsOptions, bis?: number): string[] 
   return lines
 }
 
+/**
+ * Für Einbinder, die die Seite nie sehen; Kalender-Apps zeigen den Text höchstens in den Kalender-Einstellungen,
+ * Google kürzt ihn bei 255 Zeichen (15.11.2026).
+ */
+export const ICS_BESCHREIBUNG = 'Daten von anime-kalender.de unter CC BY 4.0. Hinweise für Webseiten und Apps: https://anime-kalender.de/#/abo'
+
 /** Kopf der Kalenderdatei bis vor den ersten Termin (jede Zeile mit CRLF). */
 export function icsKopf(calendarName = 'Anime-Kalender DE'): string {
   const lines = [
@@ -169,6 +175,7 @@ export function icsKopf(calendarName = 'Anime-Kalender DE'): string {
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${esc(calendarName)}`,
+    `X-WR-CALDESC:${esc(ICS_BESCHREIBUNG)}`,
     'X-WR-TIMEZONE:Europe/Berlin',
     'REFRESH-INTERVAL;VALUE=DURATION:PT12H',
     'X-PUBLISHED-TTL:PT12H',

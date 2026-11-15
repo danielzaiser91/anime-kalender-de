@@ -25,6 +25,7 @@ import { WiederherstellenKasten } from './newsletter-kaesten.tsx'
 import { AnmeldeFormular } from './newsletter-kaesten.tsx'
 import { UebernommenKasten } from './newsletter-kaesten.tsx'
 import { WORKER_URL, Card, PlatformToggleList, type FormState } from './static-bausteine.tsx'
+import { FuerApps } from './fuer-apps.tsx'
 
 function CopyField({ value }: { value: string }) {
   const { t } = useLang()
@@ -148,6 +149,8 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
         </ol>
         <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{t('sub.note')}</p>
       </Card>
+
+      <FuerApps />
     </div>
   )
 }
@@ -576,7 +579,7 @@ export function ImpressumView() {
           Titelbilder stammen von TMDB, wo es dort ein Plakat gibt, sonst von AniList oder aniSearch; Titel und Beschreibungstexte von AniList und den jeweiligen
           Rechteinhabern und werden hier lediglich eingebunden. Alle Marken- und Bildrechte liegen bei
           ihren Inhabern. Der Quellcode dieser Seite steht unter der MIT-Lizenz, die selbst gepflegten
-          Termindaten unter CC BY 4.0.
+          Termindaten unter CC BY 4.0 (<a className="underline" href="#/abo">Hinweise für Webseiten und Apps</a>).
         </p>
       </div>
 
