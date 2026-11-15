@@ -106,6 +106,19 @@ const bremseLaden = (speicher) => {
   }
 }
 
+const BREMSE_UI_SCHLUESSEL = 'ak-netflix-bremse-ui'
+
+/** Stand für UI3012: `{ bei, beleg }`; unlesbar oder fehlend = 0/falsch (kein Beleg, UI3012 bleibt Sitzungsstörung). */
+const uiLaden = (speicher) => {
+  try {
+    const x = JSON.parse(speicher?.getItem(BREMSE_UI_SCHLUESSEL) ?? 'null')
+    return { bei: Number.isFinite(x?.bei) ? x.bei : 0, beleg: x?.beleg === true }
+  } catch (e) {
+    console.info('[Anime-Kalender] Bremse: Stand unlesbar', String(e?.message ?? e))
+    return { bei: 0, beleg: false }
+  }
+}
+
 /**
  * Die Bremse eines Laufs. `uebersprungen`: Map Kennung → Grund (`selbstUebersprungen`); `speicher`: Vorgabe `sessionStorage`
  * (oder `null`); `beobachter(reihe, grund, stand)`: für den Bericht.
@@ -117,6 +130,15 @@ globalThis.akNetflixBremseOeffnen = (uebersprungen, beobachter, speicher = sitzu
       speicher?.setItem(BREMSE_SCHLUESSEL, JSON.stringify(z))
     } catch {
       /* Ohne Speicher gilt der Stand bis zum Neuladen. */
+    }
+  }
+  let ui = uiLaden(speicher)
+  const uiSetzen = (neu) => {
+    ui = neu
+    try {
+      speicher?.setItem(BREMSE_UI_SCHLUESSEL, JSON.stringify(ui))
+    } catch (e) {
+      console.info('[Anime-Kalender] Bremse: Stand nicht gespeichert', String(e?.message ?? e))
     }
   }
   return {
@@ -153,6 +175,19 @@ globalThis.akNetflixBremseOeffnen = (uebersprungen, beobachter, speicher = sitzu
     zuruecksetzen() {
       z = akNetflixBremseNeu()
       sichern()
+      uiSetzen({ bei: 0, beleg: false })
+    },
+    /** Netflix hat in dieser Sitzung eine eindeutige Antwort geliefert (Umleitung): die Sitzung geht. */
+    beleg: () => uiSetzen({ ...ui, beleg: true }),
+    /**
+     * UI3012 (15.11.2026: Daniels Titel 540533 u. a. sind entfernt) gehört dem Titel, wenn die Sitzung seit dem letzten UI3012
+     * etwas Sauberes geliefert hat (`erfolge` = gemessene Titel dieses Laufs, oder ein Beleg); sonst bleibt es Sitzungsstörung
+     * (12.11.2026: sieben Titel in Folge). Der Zustand überlebt das Neuladen.
+     */
+    ui3012Titel(erfolge) {
+      const titel = erfolge > ui.bei || ui.beleg
+      uiSetzen({ bei: erfolge, beleg: false })
+      return titel
     },
     bericht: () => ({ folge: z.folge, pausen: z.pausen, bis: z.bis, titel: { ...z.titel } }),
   }

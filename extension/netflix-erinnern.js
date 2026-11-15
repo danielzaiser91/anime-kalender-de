@@ -54,6 +54,12 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   if (!erinnernJetzt && dauer <= o.frist) return wartet
   tun.bremse?.ok()
   if (erinnernJetzt) {
+    /* „Erinnern" im Text kann das Billboard der Startseite sein (15.11.2026: 25 Titel, Ablauf „16.11." = dessen Termin): erst nach vollem Laden gilt es; ein Umleiter landet dort auf `/browse` (`akNetflixUmgeleitet`). */
+    if (tun.vollLaden && !tun.vollLaden.versucht(o.reihe)) {
+      tun.spur('Erinnern: Seite wird zur Bestätigung voll geladen', { ...dazu, seite: merkmale })
+      tun.vollLaden.laden(o.reihe)
+      return { ...wartet, entschieden: true }
+    }
     tun.spur('Erinnern statt Folgenliste', { ...dazu, seite: merkmale })
     tun.uebersprungen.set(o.reihe, 'Erinnern statt Folgenliste')
     tun.weiter()
@@ -105,13 +111,15 @@ globalThis.akNetflixStoerung = (durchlauf, code, o) => {
  * UI3012 (Verbindungsfehler, am 12.11.2026 gemessen: sieben Titel in Folge) sagt etwas über die Sitzung, nicht über den Titel: er geht an die
  * `bremse` (`netflix-durchgang-steuerung.js`) statt in `uebersprungen`.
  */
-globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter, bremse, jetzt) => {
+globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter, bremse, jetzt, nichtDa = null) => {
   const sperre = durchlauf.titelSperre
   if (!sperre) return false
   durchlauf.titelSperre = null
   durchlauf.titelUebersprungen = true
   const grund = `Netflix zeigt ihn nicht (${sperre.code})`
-  if (bremse && sperre.code === 'UI3012') bremse.stoerung(sperre.reihe, grund, jetzt)
+  /* UI3012 nach einem sauberen Titel der Sitzung gehört dem Titel („nicht bei Netflix"), sonst der Sitzung (`bremse.ui3012Titel`). */
+  if (bremse && sperre.code === 'UI3012' && nichtDa && bremse.ui3012Titel(nichtDa.erfolge())) nichtDa.urteil(sperre.reihe, 'Abspielfehler UI3012')
+  else if (bremse && sperre.code === 'UI3012') bremse.stoerung(sperre.reihe, grund, jetzt)
   else uebersprungen.set(sperre.reihe, grund)
   weiter()
   return true
@@ -129,9 +137,66 @@ globalThis.akNetflixUmgeleitet = (o, tun) => {
   const seit = o.jetzt - (o.ziel.zeit ?? 0)
   if (seit < NETFLIX_UMLEITUNG_NACH_MS || seit > NETFLIX_UMLEITUNG_BIS_MS) return false
   const kennung = String(o.ziel.id)
-  if (tun.uebersprungen.has(kennung)) return false
+  if (tun.uebersprungen.has(kennung) || o.profilwahl) return false
   tun.spur('Netflix leitet auf die Startseite um', { reihe: kennung })
-  tun.uebersprungen.set(kennung, 'Netflix leitet auf die Startseite um')
+  if (tun.nichtDa) tun.nichtDa.urteil(kennung, 'Umleitung auf Startseite')
+  else tun.uebersprungen.set(kennung, 'Netflix leitet auf die Startseite um')
   tun.weiter()
   return true
+}
+
+/**
+ * Fragt vor dem Sprung bei Netflix an, ob `/title/<id>` auf die Startseite umleitet (angemeldet): dann gibt es den Titel in
+ * Deutschland nicht, und das Urteil liegt sofort vor — ohne Timer. Der Sprung per `pushState` zeigt nie `/browse` (gemessen
+ * 15.11.2026: gut 8 s Leerlauf, dann Neuladen), erst die Antwort des Servers tut es. Alles andere (Login, Fehler, Zeitüberschreitung,
+ * Profilauswahl) ist kein Urteil: `false`. `o`: `{ fetch, profilwahl, spur }`.
+ */
+globalThis.akNetflixUmleitungProbe = async (id, o) => {
+  if (o.profilwahl()) return false
+  const abbruch = new AbortController()
+  const frist = setTimeout(() => abbruch.abort(), 5000)
+  try {
+    const r = await o.fetch(`/title/${id}`, { credentials: 'same-origin', signal: abbruch.signal })
+    abbruch.abort()
+    return Boolean(r.redirected) && /^\/(?:[a-z-]+\/)?browse\/?$/.test(new URL(r.url).pathname)
+  } catch (e) {
+    o.spur('Vorprüfung ohne Antwort', { reihe: String(id), text: String(e?.message ?? e) })
+    return false
+  } finally {
+    clearTimeout(frist)
+  }
+}
+
+/**
+ * Urteil „nicht bei Netflix“ über den Meldeweg des Knopfes (`melden`, Grund in der Notiz). Gelingt die Meldung nicht (kein Token,
+ * Netz), ist es kein Urteil: der Titel wird wie bisher zurückgestellt. `o`: `{ melden(id, titel, grund), titel(id), nichtDa (Map), uebersprungen, spur }`.
+ */
+globalThis.akNetflixNichtDaUrteil = async (kennung, grund, o) => {
+  const id = String(kennung)
+  const r = await o.melden(id, o.titel(id), grund)
+  o.spur(r.ok ? 'nicht bei Netflix gemeldet' : 'Meldung „nicht bei Netflix“ gescheitert', { reihe: id, grund, text: r.text })
+  if (r.ok) o.nichtDa.set(id, grund)
+  else o.uebersprungen.set(id, grund)
+}
+
+/** Der Sprung zum nächsten Titel: erst die Vorprüfung, bei Umleitung Urteil und `weiter(1)` (Sprung zurückgegeben), sonst `gehe`. `tun`: `{ aktiv, gehe, weiter, probe(id), urteil(id, grund), beleg }`. */
+globalThis.akNetflixSprung = async (id, tun) => {
+  const umgeleitet = await tun.probe(id)
+  if (!tun.aktiv()) return
+  if (!umgeleitet) return tun.gehe(`/title/${id}`)
+  tun.beleg()
+  await tun.urteil(id, 'Umleitung auf Startseite')
+  tun.weiter(1)
+}
+
+/**
+ * Die Bausteine des Urteils für `melder.js`: `erfolge()` = in diesem Lauf gemessene Titel, `urteil(id, grund)` meldet und merkt,
+ * `sprung(id)` = `akNetflixSprung` mit Vorprüfung. `o`: `{ melden, offeneTitel, fertig, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch }`.
+ */
+globalThis.akNetflixNichtDaTun = (o) => {
+  const ort = { melden: o.melden, titel: (id) => o.offeneTitel[id]?.titel ?? id, nichtDa: globalThis.akNetflixNichtDa(), uebersprungen: o.uebersprungen, spur: o.spur }
+  const urteil = (id, grund) => globalThis.akNetflixNichtDaUrteil(id, grund, ort)
+  const probe = (id) => globalThis.akNetflixUmleitungProbe(id, { fetch: o.fetch, profilwahl: o.profilwahl, spur: o.spur })
+  const sprung = (id) => globalThis.akNetflixSprung(id, { probe, urteil, aktiv: o.aktiv, gehe: o.gehe, weiter: o.weiter, beleg: () => o.bremse.beleg() })
+  return { erfolge: () => o.fertig.size, urteil, sprung }
 }

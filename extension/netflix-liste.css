@@ -72,8 +72,8 @@
 }
 
 /*
-  Die Ansicht der Zurückgestellten ersetzt die Liste. „gemeldet“ gilt nur für die Liste: Der Knopf tritt zurück,
-  bleibt aber an seinem Platz — sonst spränge „zurückgestellt“ beim Umschalten unter dem Mauszeiger weg.
+  Die Ansicht der Zurückgestellten ersetzt die Liste; „gemeldet“ ebenso (eigene Ansicht). Beide Knöpfe bleiben immer
+  klickbar und an ihrem Platz, ein Klick setzt die Ansicht und schaltet die andere aus.
 */
 .ak-zurueck-ansicht {
   display: none;
@@ -82,10 +82,8 @@
 }
 .ak-kasten.ak-ansicht-zurueck .ak-zurueck-ansicht { display: block; }
 .ak-kasten.ak-ansicht-zurueck .ak-liste { display: none; }
-.ak-kasten.ak-ansicht-zurueck .ak-nur-liste {
-  opacity: 0.35;
-  pointer-events: none;
-}
+/* „gemeldet“ ist eine eigene Ansicht: nur die gemeldeten Zeilen, nie zusammen mit den offenen (15.11.2026). */
+.ak-kasten.ak-ansicht-gemeldet .ak-zeile:not(.ak-abgehakt) { display: none; }
 
 .ak-zurueck-gruende {
   display: flex;
