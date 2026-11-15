@@ -288,7 +288,9 @@ const ECHT = [
   '## Als Nächstes',
 ].join('\n')
 const mitPrio = (zeile, kopf = KOPF_15) => ECHT.replace(/- \*\*Volle Daten\*\*.*/, zeile).replace(KOPF_15, kopf)
-assert.equal(w.waechter(ECHT, JETZT_15, () => true), '', 'echte stand.md: kein Befund')
+// Soll aus der Absicht der Lehre 92: „(PR 3912) … wartet auf Kette“ bei gemergter 3912 ist genau der veraltete Stand, den der Wächter finden soll; die drei anderen Zeilen bleiben ohne Befund.
+assert.equal(w.waechter(ECHT, JETZT_15, () => true), 'Top-Prios: Volle Daten nennt PR 3912 als offen, laut In-Arbeit-Kopf gemergt', 'echte stand.md: veraltete Zeile gefunden')
+assert.equal(w.waechter(ECHT.replace(/- \*\*Volle Daten\*\*.*\n/, ''), JETZT_15, () => true), '', 'echte stand.md ohne die veraltete Zeile: kein Befund')
 const MELDUNG = (ziel, nr) => `Top-Prios: ${ziel} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} Netflix PR 3912 offen, dann Deploy'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR N offen')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} Netflix (PR 3912) offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR N) offen')
@@ -299,12 +301,29 @@ assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen, PR 3922 o
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 offen, Prüfer läuft'), JETZT_15, () => true), '', 'PR nicht gemergt')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; offen: Deploy'), JETZT_15, () => true), '', '„offen:“ ist eine Aufzählung')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR #3912 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR #N offen')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('3890,', '3890) und 3912,')), JETZT_15, () => true), '', 'Nummer nach der Klammer im Kopf zählt nicht')
+// A1: weitere Wendungen
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 wartet auf Kette'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'wartet auf Kette')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 in Prüfung'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'in Prüfung')
+// A2: die Wendung gehört nur zur unmittelbar vorangehenden PR
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; PR 3999 Prüfer läuft'), JETZT_15, () => true), '', 'A2: Semikolon trennt')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt, PR 3999 Prüfer läuft'), JETZT_15, () => true), '', 'A2: nächste PR trennt')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 Prüfer läuft, PR 3912 gemergt'), JETZT_15, () => true), '', 'A2: Wendung vor der gemergten PR')
+// A3 (Entscheidung): „offen:“ leitet eine Aufzählung ein (so steht es in den echten Zeilen), auch direkt hinter der PR keine Meldung — bekannte Grenze
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen: Deploy fehlt'), JETZT_15, () => true), '', 'A3: „offen:“ zählt nicht')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt, noch offen Deploy'), JETZT_15, () => true), '', '„offen“ nicht direkt hinter der PR zählt nicht')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 12 offen', KOPF_15.replace('3912, ', '12, ')), JETZT_15, () => true), '', 'zweistellige Nummer im Kopf zählt nicht')
+// A4: Nummernlisten und Klammern im Kopf
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 und 3913 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3913)}`, 'A4: „und“-Liste')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PRs 3912, 3913 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3913)}`, 'A4: PRs-Liste')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PRs 3912, 3999 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'A4: nur die gemergte der Liste')
+const KOPF_KLAMMER = KOPF_15.replace('gemergt heute 3890,', 'gemergt heute 3890 (Teil 1),').replace('3912, ', '').replace('3919,', '3919, 3912,')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_KLAMMER), JETZT_15, () => true), MELDUNG('Daten', 3912), 'A4: Klammer im Kopf schneidet nicht ab')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('3890,', '3890 (PR 3912),')), JETZT_15, () => true), '', 'A4: Nummer in der Klammer zählt nicht als gemergt')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} (3912) offen, Prüfer läuft'), JETZT_15, () => true), '', 'Nummer ohne „PR“')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('gemergt heute', 'erledigt')), JETZT_15, () => true), '', 'Kopf ohne „gemergt heute“')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '')), JETZT_15, () => true), '', 'Nummer nicht im Kopf')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('; Netflix Teil 2 gemergt', '; PR 3912 gemergt')), JETZT_15, () => true), '', 'Nummer nach dem Semikolon zählt nicht')
 // Zeile außerhalb der Top-Prios löst nichts aus
-assert.equal(w.waechter(ECHT.replace('## Als Nächstes', '## Als Nächstes\n- 🔵 PR 3912 offen, Prüfer läuft'), JETZT_15, () => true), '', 'andere Abschnitte')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} x').replace('## Als Nächstes', '## Als Nächstes\n- 🔵 PR 3912 offen, Prüfer läuft'), JETZT_15, () => true), '', 'andere Abschnitte')
 console.log('stand-waechter.test: Top-Prios gemergt-aber-offen ok')
 console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Pflichtabschnitte je einmal, Archiv optional, ohne Link, Link-Ziel, Nicht-Listenzeile)')
