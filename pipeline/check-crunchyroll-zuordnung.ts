@@ -928,6 +928,15 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     'ist der jüngste Block vollständig deutsch, bleibt es beim Verwerfen (Altbestand)',
     alleTermine([adresseA, adresseB].map((s) => ({ ...s, staffeln: s.staffeln!.map((b) => ({ ...b, folgen: b.deutsch })) })), nachUrl, jetzt).length === 0,
   )
+  /* Riegel der Vereinigung: ein dritter Titel macht die Rechnung ungleich (3 Titel, 2 Blöcke) — nichts wird geraten. */
+  const zuViele = new Map(nachUrl)
+  const adresseD = { ...laufend, url: 'https://example.test/aoashi-drittel' }
+  zuViele.set(adresseD.url, [mitUrl(crTitel(3, 9, 2023), adresseD.url)])
+  pruefe('mehr Titel als Blöcke über alle Adressen: kein Termin', alleTermine([adresseA, adresseB, adresseD], zuViele, jetzt).length === 0)
+  /* Eine Adresse, die allein aufgeht (zwei Titel, zwei Blöcke), behält ihren Weg und wird von der Vereinigung nicht übersprungen. */
+  const adresseC = { ...laufend, url: 'https://example.test/aoashi-eigen' }
+  const eigen = new Map([[adresseC.url, [mitUrl(crTitel(4, 3, 2022), adresseC.url), mitUrl(crTitel(5, 5, 2026), adresseC.url)]]])
+  pruefe('Adresse mit eigener passender Paarung: beide Termine bleiben', alleTermine([adresseA, adresseB, adresseC], new Map([...nachUrl, ...eigen]), jetzt).length === 2)
 }
 
 /**
