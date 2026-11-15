@@ -521,6 +521,10 @@ for (const [text, teil, ort] of [
   pruefe('Titelseite gelungen, Staffel gescheitert: der Titel gilt als frisch gemeldet', frisch({ eigeneOk: true, staffelOk: false }).includes(url), frisch({ eigeneOk: true, staffelOk: false }))
   pruefe('Titelseite und Staffel gelungen: frisch gemeldet', frisch({ eigeneOk: true, staffelOk: true }).includes(url))
 
+  const ohneAdresse = new Set()
+  welt().kontext.akPrimeTitelErgebnis({ titel: 'X' }, 'X', true, undefined, ohneAdresse)
+  pruefe('Titel ohne Adresse in der Liste: keine Marke „undefined“', ohneAdresse.size === 0, [...ohneAdresse])
+
   /* Soll (bewusst): Eine Marke der sichtbaren Seite („gemeldet ✓“) bleibt, auch wenn der Titel-Frame danach scheitert. */
   const m = welt()
   vm.runInContext('primeLaufStarten()', m.kontext)

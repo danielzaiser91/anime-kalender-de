@@ -183,7 +183,9 @@ pruefe(weniger.zahl() === 2, `Worker führt 2 Ziele, Paket 8: Knopf ${weniger.za
   leer.ctx.listeVeraltet = true
   await leer.holen()
   pruefe(leer.knopfText() === 'Prime: alles geprüft', `Stempel veraltet, Worker-Stand da (nichts offen): ${leer.knopfText()}`)
-  leer.ctx.fetch = async () => {
+  /* Der Briefkasten antwortet, nur der Worker-Stand scheitert: nur dort greift der Rückfall auf den früheren Stand. */
+  leer.ctx.fetch = async (adresse: string) => {
+    if (String(adresse).includes('zaehlen=1')) return { ok: true, json: async () => ({ adressen: [], gemeldet: [] }) }
     throw new Error('Netz')
   }
   await leer.holen()
