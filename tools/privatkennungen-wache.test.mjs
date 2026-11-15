@@ -54,6 +54,8 @@ export function unzulaessige(treffer) {
 assert.deepEqual(unzulaessige(['LICENSE', 'docs/x.md']), ['docs/x.md'])
 assert.deepEqual(unzulaessige(['worker/src/sites.ts']), [])
 assert.deepEqual(unzulaessige([]), [])
+// Ein Fehler von git (kein Repo, Exit 128) ist nie „keine Treffer“.
+assert.throws(() => suche(join(tmpdir(), 'privat-wache-gibt-es-nicht')))
 
 // Riegel: Wegwerf-Repo mit eingeschleusten Kennungen (aus Teilen gebaut, ohne ausgeschriebene Adresse)
 const git = (dir, ...a) => execFileSync('git', ['-C', dir, ...a], { timeout: 30000, windowsHide: true, stdio: 'pipe' })
