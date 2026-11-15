@@ -89,20 +89,28 @@ globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
  * wartend (Meldung für jede offene Staffel im Briefkasten, nie geöffnet), übersprungen (nach Grund).
  * Ohne Zählung ließ sich nicht sagen, ob der Durchgang jeden Titel erreicht hat.
  */
-globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null) => {
+globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null, nichtDa = globalThis.akNetflixNichtDa()) => {
   const nichtFertig = [...uebersprungen.keys()].filter((r) => !fertigeTitel.has(r))
   const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
-  const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length }
+  const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length, nichtDa: nichtDa.size }
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
   /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
   void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
   const rot = akNetflixNullGemessen(zaehlung)
-  const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}, wartet auf Übernahme ${wartend}${rot ? ' · ⚠ NICHTS GEMESSEN — der Durchgang hat nichts geliefert, nicht „ok“ melden' : ''}`
+  const urteile = zaehlung.nichtDa ? `, nicht bei Netflix ${zaehlung.nichtDa} (gemeldet)` : ''
+  const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}${urteile}, wartet auf Übernahme ${wartend}${rot ? ' · ⚠ NICHTS GEMESSEN — der Durchgang hat nichts geliefert, nicht „ok“ melden' : ''}`
   return { grund, uebersprungen: nichtFertig, zaehlung, text, rot, uebersprungenText: akNetflixUebersprungenZahlen(nichtFertig, uebersprungen) }
 }
 
-/** Besucht, aber nichts gemessen: der Durchgang war wirkungslos (09.11.2026: 103 besucht, 0 gemessen, niemand merkte es). */
-const akNetflixNullGemessen = (zaehlung) => zaehlung.besucht > 0 && zaehlung.gemessen === 0
+/**
+ * Besucht, aber nichts gemessen und kein Urteil: der Durchgang war wirkungslos (09.11.2026: 103 besucht, 0 gemessen, niemand merkte es).
+ * Ein Urteil „nicht bei Netflix“ (gemeldet) ist eine Auskunft (15.11.2026: sieben Titel, Bericht blieb rot).
+ */
+const akNetflixNullGemessen = (zaehlung) => zaehlung.besucht > 0 && zaehlung.gemessen === 0 && !zaehlung.nichtDa
+
+/** Die Titel, die dieser Lauf als „nicht bei Netflix“ gemeldet hat (Kennung → Grund); überlebt das Neuladen, `clear()` beim Start. */
+let nichtDaMap = null
+globalThis.akNetflixNichtDa = () => (nichtDaMap ??= globalThis.akNetflixLaufMap ? new (globalThis.akNetflixLaufMap(globalThis.akNetflixSitzungSpeicher(), 'ak-netflix-nichtda'))() : new Map())
 
 /** Kopfzeile statt Namensliste (~100 Titel): Zahl je Grund, größte zuerst, gleiche Zahl nach Grund sortiert. */
 const akNetflixUebersprungenZahlen = (kennungen, gruende) => {

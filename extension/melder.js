@@ -1580,15 +1580,7 @@ function knopfEntfernen() {
  * wenn der Knopf steht — dann hat `knopfZeigen()` nichts weiter zu tun.
  */
 function browseWegKnopf() {
-  /*
-    **Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht.**
-
-    Daniel am 19.09.2026 an „Bakugan“ (81659233): „der titel ist nicht bei
-    netflix, der link wird auf homepage weitergeleitet, aber extension hätte
-    … meldung nicht bei netflix möglich sein“ müssen. Der Kasten zeigte nur
-    „alles gemeldet“. Derselbe Befund wie „als tot melden“ in der Liste,
-    jetzt dort angeboten, wo er auffällt — solange der Klick keine Minute her ist.
-  */
+  /* **Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht** (Bakugan 81659233, 19.09.2026): Knopf, und seit 15.11.2026 meldet es sich angemeldet von selbst (Profilauswahl = kein Urteil). */
   if (/^\/(?:[a-z-]+\/)?browse\b/.test(location.pathname)) {
     const auftrag = akNetflixBrowseAuftrag(zuletztGeoeffnet, offeneTitel, Date.now())
     if (auftrag) {
@@ -1608,10 +1600,15 @@ function browseWegKnopf() {
         knopf.onclick = async () => {
           knopf.disabled = true
           knopf.textContent = 'meldet …'
-          const r = await totMelden(auftrag.id, titel)
+          const r = await totMelden(auftrag.id, titel, 'Umleitung auf Startseite')
           knopf.textContent = r.ok ? `✓ „${titel}“ als nicht bei Netflix gemeldet` : r.text
           if (r.ok) zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true }
         }
+        /* Die Profilauswahl rendert erst nach dem Takt: erst nach zwei Profilwahl-Takten gilt sie, und ein Klick dazwischen meldet nicht doppelt. */
+        const wartender = knopf
+        setTimeout(() => {
+          if (!wartender.disabled && !akProfilwahlSeite(document)) void wartender.onclick()
+        }, 2 * AK_PROFILWAHL_TAKT_MS)
       }
       return true
     }
@@ -2479,6 +2476,7 @@ const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n) => selbstWeiter(n), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
 const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschritt(selbstGezaehlt, selbstGrenze, offeneTitel[String(zuletztGeoeffnet?.id)]?.titel) })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
@@ -2767,7 +2765,7 @@ function selbstWeiter(frei = 0) {
   titelBericht.beginn(naechster, sprung.zeit)
   void speicherSchreiben({ zuletztGeoeffnet: sprung })
   zuletztGeoeffnet = sprung
-  gehe(`/title/${naechster}`)
+  void nichtDaTun.sprung(naechster) /* Vorprüfung: Umleitung auf `/browse` = nicht bei Netflix, sofort; sonst `gehe`. */
 }
 
 /** Wie viele Titel dieser Lauf angesprungen hat; `selbstGrenze` = bei Laufbeginn offene Titel (siehe `netflix-durchgang-schutz.js`). */
@@ -2811,8 +2809,8 @@ async function vielleichtSelbstStarten() {
   try {
     if (!akNetflixSelbstTakt({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now(), bremse }, taktTun)) return
     const ziel = zuletztGeoeffnet
-    const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined }
-    if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })) return
+    const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined, profilwahl: akProfilwahlSeite(document) }
+    if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, nichtDa: nichtDaTun })) return
     await selbstStartenSchritt()
   } catch (e) {
     const text = String(e?.message ?? e)
@@ -4018,7 +4016,8 @@ async function durchlaufStarten() {
         dort 1 folge prüfen stehen." Beim ersten Kakegurui-Lauf traf es drei
         von zwölf.
       */
-      DURCHLAUF.ohneSpur = (DURCHLAUF.ohneSpur ?? 0) + 1
+      /* Ein Netflix-Fehler (UI3012, E103) ist „nicht da", nicht „ohne Tonspur" (15.11.2026). */
+      akNetflixOhneSpurZaehlen(DURCHLAUF)
       /*
         **`info`, nicht `warn` — das hier ist kein Fehler.**
 
@@ -4151,7 +4150,7 @@ async function durchlaufStarten() {
     kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
     schließen).
   */
-  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter, bremse, Date.now())) {
+  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter, bremse, Date.now(), nichtDaTun)) {
     /* Netflix zeigt den Titel nicht: übersprungen, der Durchgang geht weiter. */
   } else if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
     laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
@@ -6022,7 +6021,7 @@ async function staffelWegMelden(reihe, st, titelId, titel) {
   }
 }
 
-async function totMelden(id, titel) {
+async function totMelden(id, titel, grund) {
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return { ok: false, text: globalThis.akKontext.keinTokenText() }
   try {
@@ -6036,7 +6035,7 @@ async function totMelden(id, titel) {
         sprachen: [],
         ...beobachtung(false),
         titel: titel || null,
-        notiz: 'Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um',
+        notiz: grund ? `Vom Durchgang als nicht bei Netflix gemeldet — ${grund}` : 'Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um',
       }),
     })
     if (!antwort.ok) {

@@ -106,6 +106,19 @@ const bremseLaden = (speicher) => {
   }
 }
 
+const BREMSE_UI_SCHLUESSEL = 'ak-netflix-bremse-ui'
+
+/** Stand für UI3012: `{ beleg }`; unlesbar oder fehlend = 0/falsch (kein Beleg, UI3012 bleibt Sitzungsstörung). */
+const uiLaden = (speicher) => {
+  try {
+    const x = JSON.parse(speicher?.getItem(BREMSE_UI_SCHLUESSEL) ?? 'null')
+    return { beleg: x?.beleg === true }
+  } catch (e) {
+    console.info('[Anime-Kalender] Bremse: Stand unlesbar', String(e?.message ?? e))
+    return { beleg: false }
+  }
+}
+
 /**
  * Die Bremse eines Laufs. `uebersprungen`: Map Kennung → Grund (`selbstUebersprungen`); `speicher`: Vorgabe `sessionStorage`
  * (oder `null`); `beobachter(reihe, grund, stand)`: für den Bericht.
@@ -119,15 +132,30 @@ globalThis.akNetflixBremseOeffnen = (uebersprungen, beobachter, speicher = sitzu
       /* Ohne Speicher gilt der Stand bis zum Neuladen. */
     }
   }
+  let ui = uiLaden(speicher)
+  const uiSetzen = (neu) => {
+    ui = neu
+    try {
+      speicher?.setItem(BREMSE_UI_SCHLUESSEL, JSON.stringify(ui))
+    } catch (e) {
+      console.info('[Anime-Kalender] Bremse: Stand nicht gespeichert', String(e?.message ?? e))
+    }
+  }
+  /* Der Beleg gilt nur für das nächste UI3012: jede andere Auskunft der Sitzung (Störung, sauberer Titel) verbraucht ihn. */
+  const belegWeg = () => {
+    if (ui.beleg) uiSetzen({ beleg: false })
+  }
   return {
     /** Gibt `true` zurück, wenn dieser Fehlschlag eine Pause ausgelöst hat. */
     stoerung(reihe, grund, jetzt) {
+      belegWeg()
       z = akNetflixBremseStoerung(z, String(reihe), grund, jetzt)
       sichern()
       beobachter?.(String(reihe), grund, z)
       return Boolean(z.bis)
     },
     ok() {
+      belegWeg()
       if (!z.folge && !z.pausen && !z.bis && !Object.keys(z.titel).length) return
       const r = akNetflixBremseOk(z)
       z = r.z
@@ -153,6 +181,19 @@ globalThis.akNetflixBremseOeffnen = (uebersprungen, beobachter, speicher = sitzu
     zuruecksetzen() {
       z = akNetflixBremseNeu()
       sichern()
+      uiSetzen({ beleg: false })
+    },
+    /** Netflix hat in dieser Sitzung eine eindeutige Antwort geliefert (Umleitung): das nächste UI3012 gehört dem Titel. */
+    beleg: () => uiSetzen({ beleg: true }),
+    /**
+     * UI3012 (15.11.2026: Daniels Titel 540533 u. a. sind entfernt) gehört dem Titel nur, wenn Netflix unmittelbar davor eindeutig
+     * geantwortet hat (Beleg: Umleitung auf die Startseite); sonst ist es Sitzungsstörung (12.11.2026: sieben Titel in Folge, auch das
+     * erste nach sauberen Titeln). Der Beleg gilt einmal. Der Zustand überlebt das Neuladen.
+     */
+    ui3012Titel() {
+      const titel = ui.beleg
+      belegWeg()
+      return titel
     },
     bericht: () => ({ folge: z.folge, pausen: z.pausen, bis: z.bis, titel: { ...z.titel } }),
   }

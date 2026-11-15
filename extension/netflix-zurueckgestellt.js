@@ -236,6 +236,12 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
       return super.set(kennung, grund)
     }
 
+    /** Start eines Durchgangs: auch die „nicht bei Netflix“-Urteile des vorigen Laufs gehen (Zählung des Endberichts). */
+    clear() {
+      super.clear()
+      globalThis.akNetflixNichtDa?.().clear()
+    }
+
     /** Zurückgestellte, noch offene Titel der Prüfliste; `neue`: nur die, die dieser Lauf nicht schon selbst nennt. */
     zurueckOffen(neue) {
       return Object.keys(stand).filter((k) => aktiv(k) && gelistet(k) && !(neue && super.has(k)))

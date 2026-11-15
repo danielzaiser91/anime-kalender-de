@@ -195,21 +195,32 @@ function ansichtTabelle(zeilen, o) {
   }
 }
 
-/** Ein Umschalter im Kopf: `schalten()` wechselt den Zustand und gibt ihn zurück; an = hervorgehoben wie der laufende Durchgang. */
-function ansichtSchalter(text, hinweis, klick, schalten) {
+/** Ein Umschalter im Kopf: `schalten()` wechselt den Zustand, `nachher()` gleicht alle Knöpfe ab (`aria-pressed`, an = hervorgehoben wie der laufende Durchgang). */
+function ansichtSchalter(text, hinweis, klick, schalten, nachher) {
   const knopf = ansichtElement('button', 'ak-umschalter', text)
   knopf.type = 'button'
   knopf.title = hinweis
   knopf.setAttribute('aria-pressed', 'false')
-  klick(knopf, () => knopf.setAttribute('aria-pressed', String(schalten())))
+  klick(knopf, () => {
+    schalten()
+    nachher()
+  })
   return knopf
 }
 
-/** Schaltet eine Klasse am Kasten um und meldet, ob sie jetzt gesetzt ist. */
-function ansichtKlasseSchalten(kasten, klasse) {
-  const an = !kasten.classList.contains(klasse)
-  kasten.classList.toggle(klasse, an)
-  return an
+/** Klassen am Kasten je Ansicht; „gemeldet“ nutzt die Erledigten-Zeilen der Liste, blendet aber alle anderen aus. */
+const ANSICHT_MODI = { zurueck: ['ak-ansicht-zurueck'], gemeldet: ['ak-ansicht-gemeldet', 'ak-mit-erledigten'] }
+const ansichtModusAn = (kasten, modus) => ANSICHT_MODI[modus].every((k) => kasten.classList.contains(k))
+
+/**
+ * Genau eine Ansicht gilt (15.11.2026): der Klick setzt sie und schaltet die andere aus, ein zweiter Klick auf dieselbe kehrt zur
+ * Liste zurück. Die Listen werden nie zusammengelegt. Gibt zurück, ob die Ansicht jetzt an ist.
+ */
+function ansichtModusSchalten(kasten, modus) {
+  const war = ansichtModusAn(kasten, modus)
+  for (const klassen of Object.values(ANSICHT_MODI)) for (const k of klassen) kasten.classList.remove(k)
+  if (!war) for (const k of ANSICHT_MODI[modus]) kasten.classList.add(k)
+  return !war
 }
 
 /**
@@ -259,17 +270,19 @@ function ansichtKopf(o) {
   unten.appendChild(suche)
   unten.appendChild(o.selbst)
   let tabelle = null
-  if (o.zurueck.length) {
-    tabelle = ansichtTabelle(o.zurueck, { klick: o.klick, jetzt, geoeffnet: o.geoeffnet })
-    const hinweis = 'Zurückgestellte Titel kommen zu ihrem Termin wieder dran. Hier siehst du sie samt Grund.'
-    unten.appendChild(ansichtSchalter(`${o.zurueck.length} zurückgestellt`, hinweis, o.klick, () => ansichtKlasseSchalten(o.kasten, 'ak-ansicht-zurueck')))
-    suche.addEventListener('input', () => tabelle.filtern(suche.value))
-  }
-  if (o.gemeldet > 0) {
-    const knopf = ansichtSchalter(`${o.gemeldet} gemeldet`, 'Gemeldete Titel in der Liste zeigen', o.klick, () => ansichtKlasseSchalten(o.kasten, 'ak-mit-erledigten'))
-    knopf.classList.add('ak-nur-liste')
+  const schalter = []
+  const abgleich = () => schalter.forEach(([k, modus]) => k.setAttribute('aria-pressed', String(ansichtModusAn(o.kasten, modus))))
+  const neu = (modus, text, hinweis) => {
+    const knopf = ansichtSchalter(text, hinweis, o.klick, () => ansichtModusSchalten(o.kasten, modus), abgleich)
+    schalter.push([knopf, modus])
     unten.appendChild(knopf)
   }
+  if (o.zurueck.length) {
+    tabelle = ansichtTabelle(o.zurueck, { klick: o.klick, jetzt, geoeffnet: o.geoeffnet })
+    neu('zurueck', `${o.zurueck.length} zurückgestellt`, 'Zurückgestellte Titel kommen zu ihrem Termin wieder dran. Hier siehst du sie samt Grund.')
+    suche.addEventListener('input', () => tabelle.filtern(suche.value))
+  }
+  if (o.gemeldet > 0) neu('gemeldet', `${o.gemeldet} gemeldet`, 'Nur die gemeldeten Titel zeigen')
   kopf.appendChild(unten)
   return { kopf, suche, tabelle: tabelle?.wurzel ?? null }
 }

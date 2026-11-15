@@ -32,6 +32,7 @@ function element(tag) {
     hoerer,
     classList: {
       add: (n) => klassen.add(n),
+      remove: (n) => klassen.delete(n),
       contains: (n) => klassen.has(n),
       toggle: (n, an) => (an ? klassen.add(n) : klassen.delete(n)),
     },
@@ -188,11 +189,20 @@ const knopf = (wurzel, text) => finde(wurzel, (el) => el.tagName === 'BUTTON' &&
   pruefe('Klick 2: Ansicht aus', zurueck.getAttribute('aria-pressed') === 'false' && !b.kasten.classList.contains('ak-ansicht-zurueck'))
 
   const gemeldet = knopf(unten, '71 gemeldet')
-  pruefe('Umschalter gemeldet: gilt nur für die Liste (ak-nur-liste)', gemeldet.classList.contains('ak-nur-liste') && !zurueck.classList.contains('ak-nur-liste'))
+  pruefe('Umschalter gemeldet: wie zurückgestellt immer klickbar (kein ak-nur-liste)', !gemeldet.classList.contains('ak-nur-liste') && !zurueck.classList.contains('ak-nur-liste'))
   b.klicke(gemeldet)
-  pruefe('gemeldet Klick 1: an', gemeldet.getAttribute('aria-pressed') === 'true' && b.kasten.classList.contains('ak-mit-erledigten') && !b.kasten.classList.contains('ak-ansicht-zurueck'))
+  pruefe('gemeldet Klick 1: eigene Ansicht an (nur gemeldete Zeilen)', gemeldet.getAttribute('aria-pressed') === 'true' && b.kasten.classList.contains('ak-ansicht-gemeldet') && b.kasten.classList.contains('ak-mit-erledigten') && !b.kasten.classList.contains('ak-ansicht-zurueck'))
   b.klicke(gemeldet)
-  pruefe('gemeldet Klick 2: aus', gemeldet.getAttribute('aria-pressed') === 'false' && !b.kasten.classList.contains('ak-mit-erledigten'))
+  pruefe('gemeldet Klick 2: aus, zurück zur Liste', gemeldet.getAttribute('aria-pressed') === 'false' && !b.kasten.classList.contains('ak-mit-erledigten') && !b.kasten.classList.contains('ak-ansicht-gemeldet'))
+
+  /* Daniel 15.11.2026: bei aktivem „zurückgestellt“ war „gemeldet“ tot, und ohne es wurden die Listen zusammengelegt. */
+  b.klicke(zurueck)
+  b.klicke(gemeldet)
+  pruefe('zurückgestellt an, Klick auf gemeldet: gemeldet an, zurückgestellt aus (beide Knöpfe zeigen es), keine Zusammenlegung', gemeldet.getAttribute('aria-pressed') === 'true' && zurueck.getAttribute('aria-pressed') === 'false' && b.kasten.classList.contains('ak-ansicht-gemeldet') && !b.kasten.classList.contains('ak-ansicht-zurueck'))
+  b.klicke(zurueck)
+  pruefe('gemeldet an, Klick auf zurückgestellt: zurückgestellt an, gemeldet aus samt ak-mit-erledigten', zurueck.getAttribute('aria-pressed') === 'true' && gemeldet.getAttribute('aria-pressed') === 'false' && b.kasten.classList.contains('ak-ansicht-zurueck') && !b.kasten.classList.contains('ak-ansicht-gemeldet') && !b.kasten.classList.contains('ak-mit-erledigten'))
+  b.klicke(zurueck)
+  pruefe('zurückgestellt wieder aus: kein Modus aktiv', !b.kasten.classList.contains('ak-ansicht-zurueck') && !b.kasten.classList.contains('ak-ansicht-gemeldet') && !b.kasten.classList.contains('ak-mit-erledigten'))
 }
 
 {
