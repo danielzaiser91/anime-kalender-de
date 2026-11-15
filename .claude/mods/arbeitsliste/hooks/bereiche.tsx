@@ -23,9 +23,8 @@ export function bereichsKopf(ui: any, id: string, offen: boolean, onPress: () =>
   return <Button key={bereichsKennung(id)} plain dimColor={gedimmt} onPress={onPress} label={label} />
 }
 
-// Was der Kasten vom Pane braucht: Breite, Klappzustand, Öffnen eines Ziels.
+// Was der Kasten vom Pane braucht: Klappzustand, Öffnen eines Ziels.
 export type PrioUmfeld = {
-  zeichenJeZeile: number
   offen: (kennung: string) => boolean
   schalte: (kennung: string) => void
   oeffne: (href: string) => void
