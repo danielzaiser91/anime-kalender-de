@@ -21,7 +21,6 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://press.disneyplus.com/news/next-on-disney-plus-october-2026 (gelesen 2026-11-01) — Tokyo Revengers: War of the Three Titans Arc (178083)
 - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/ (gelesen 2026-11-07) — Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
 - https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/ (gelesen 2026-11-06) — 86: Eighty Six – Teil 2 (131586)
-- https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/ (gelesen 2026-11-08) — Rascal Does Not Dream of a Dear Friend (199340)
 - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/ (gelesen 2026-11-08) — Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
 - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-11-12) — Beelzebub (9513)
 - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-11-12) — Bishoujo Senshi Sailor Moon SuperS (1239), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Sailor Stars (996)
@@ -44,3 +43,4 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://www.joyn.de/serien/clannad-dpp0mkvw37d3 (gelesen 2026-11-07) — ＣＬＡＮＮＡＤ -クラナド- (2167), ＣＬＡＮＮＡＤ ~After Story~ クラナド アフターストーリー (4181)
 - https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/ (gelesen 2026-11-10) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
 - https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/ (gelesen 2026-11-14) — Dragon Ball Super (21175), Dan Da Dan (171018), Dan Da Dan: Staffel 2 (185660), Shingeki no Kyojin (16498)
+- https://de.wikipedia.org/wiki/My_Hero_Academia/Episodenliste (gelesen 2026-11-15) — My Hero Academia Staffel 6 (139630)
