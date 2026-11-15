@@ -451,10 +451,36 @@ function datierte(st: CrStaffel): { nummer?: number; laufend?: number; guid: str
 /** Leitet die Termine für alle Serien ab. `nachUrl` bildet Crunchyroll-Adresse → unsere Titel. */
 export function alleTermine(serien: CrSerie[], nachUrl: Map<string, Title[]>, jetzt = Date.now(), belege: WocheBelege = {}): CrTermin[] {
   const raus: CrTermin[] = []
+  const vereinigt = new Set<string>()
   for (const serie of serien) {
-    for (const t of termineAusSerie(serie, nachUrl.get(serie.url) ?? [], jetzt)) raus.push(zeitAusBeleg(t, serie.seriesId, belege))
+    const gemeinsam = titelAllerAdressen(serie, serien, nachUrl)
+    if (gemeinsam && vereinigt.has(serie.seriesId!)) continue
+    if (gemeinsam) vereinigt.add(serie.seriesId!)
+    for (const t of termineAusSerie(serie, gemeinsam ?? nachUrl.get(serie.url) ?? [], jetzt)) raus.push(zeitAusBeleg(t, serie.seriesId, belege))
   }
   return raus
+}
+
+const kandidatenZahl = (titel: Title[], url: string): number =>
+  titel.filter((t) => t.streams.some((s) => s.platform === 'crunchyroll' && s.url === url && s.dub === true) && (t.episodes ?? 0) > 0).length
+
+/**
+ * Hängen die Staffeln einer Crunchyroll-Serie unter verschiedenen Adressen (`/de/aoashi`, `/de/series/<Kennung>/aoashi`), sieht
+ * jede Adresse nur einen Teil der Titel und Riegel 1 verwirft die Serie („2 Blöcke, 1 Titel“, 15.11.2026: Aoashi Staffel 2).
+ * Nur bei laufender Serie und wenn die Titel **aller** Adressen derselben Kennung genau so viele sind wie die Blöcke,
+ * kommen sie vereinigt zurück, mit auf `serie.url` vereinheitlichter Adresse; sonst `null` (alter Weg). Die Kennung wird so nur einmal ausgewertet (keine Dubletten über Adressen).
+ */
+function titelAllerAdressen(serie: CrSerie, serien: CrSerie[], nachUrl: Map<string, Title[]>): Title[] | null {
+  const bloecke = (serie.staffeln ?? []).filter((st) => datierte(st).length > 0)
+  const blockZahl = bloecke.length
+  const jungster = [...bloecke].sort((a, b) => (erstesDatum(a) < erstesDatum(b) ? -1 : 1)).pop()
+  /* Nur eine laufende Serie (jüngster Block noch nicht vollständig deutsch): Katalog-Altbestand bleibt wie bisher verworfen. */
+  if (!serie.seriesId || serie.katalog !== 'de' || !jungster || jungster.deutsch >= jungster.folgen) return null
+  const adressen = new Set(serien.filter((s) => s.seriesId === serie.seriesId && s.katalog === 'de').map((s) => s.url))
+  const alle = new Map<number, Title>()
+  for (const u of adressen) for (const t of nachUrl.get(u) ?? []) alle.set(t.id, { ...t, streams: t.streams.map((s) => (adressen.has(s.url ?? '') ? { ...s, url: serie.url } : s)) })
+  const titel = [...alle.values()]
+  return kandidatenZahl(titel, serie.url) === blockZahl ? titel : null
 }
 
 /** Gibt es für Serie und ersten Tag eine Wochenprogramm-Zeit, gilt sie vor der API-Zeit; geändert wird nur bei Abweichung. */
