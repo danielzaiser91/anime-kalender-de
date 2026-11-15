@@ -16,6 +16,8 @@ import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { erschieneneSpanne, planGeschaetzt } from '../web/src/components/detail/folgen-spanne.ts'
 import { faelligText } from '../web/src/components/detail/kasten-texte.ts'
+import { antwortKopf } from '../web/src/components/detail/antwort-kopf.tsx'
+import { translate, type TranslationKey } from '../web/src/lib/i18n.tsx'
 
 let fehler = 0
 let faelle = 0
@@ -104,6 +106,43 @@ for (const [name, jetzt] of [['15:05', UHR_15_05], ['15:19', UHR_15_19]] as cons
 pruefe('Folge 7 trägt das Merkmal „ohne Sichtung“', folge(ohne7, 7).ohneSichtung === true)
 pruefe('Folge 6 (beobachtet) trägt es nicht', folge(ohne7, 6).ohneSichtung === undefined)
 pruefe('Folge 8 (noch nicht dran) trägt es', folge(ohne7, 8).ohneSichtung === true)
+
+// Die Hauptzeile des Kastens mit dem echten Übersetzer: Wortlaut und Farbe je Stufe (die Zeile steht über der Zählung „6 von 13“).
+function kastenZeile(jetzt: Date): { text: unknown; farbe: unknown } {
+  const antwort = berechneAntwort({ title: titel(6), releases: [ohne7], today: TAG, jetzt }) as any
+  const kopf = antwortKopf({
+    antwort,
+    relativImSatz: (d) => (d === TAG ? 'heute' : d),
+    T: (k, v) => translate(k as TranslationKey, v),
+    betont: (t) => t,
+    ohneSprachbeleg: undefined,
+    releases: [ohne7],
+    folgenZahl: undefined,
+    deSeitNeben: '',
+    title: titel(6),
+  })
+  const haupt = kopf.haupt as { props?: { className?: string; children?: unknown } }
+  return { text: haupt?.props?.children, farbe: haupt?.props?.className }
+}
+const zeile0 = kastenZeile(new Date('2026-11-15T14:00:30Z'))
+const zeile5 = kastenZeile(UHR_15_05)
+const zeile2h = kastenZeile(UHR_17_00)
+pruefe('Kasten 15:00: wird geprüft', zeile0.text === 'Folge 7 fällig seit 15:00 Uhr, wird geprüft', String(zeile0.text))
+pruefe('Kasten 15:05: noch nicht gesehen', zeile5.text === 'Folge 7 fällig seit 15:00 Uhr, noch nicht gesehen', String(zeile5.text))
+pruefe('Kasten 17:00: nicht erschienen wie angekündigt', zeile2h.text === 'Folge 7 nicht erschienen wie angekündigt (15:00 Uhr)', String(zeile2h.text))
+pruefe('Kasten: abwartend gefärbt, nach zwei Stunden als Fehler', zeile5.farbe === 'text-ak-warnung-text' && zeile2h.farbe === 'text-ak-fehler-text', `${zeile5.farbe} ${zeile2h.farbe}`)
+const nachSichtung = antwortKopf({
+  antwort: berechneAntwort({ title: titel(7), releases: [spaceMercenary({ ...BEOBACHTET_6, 7: TAG })], today: TAG, jetzt: UHR_NACH_15_19 }) as any,
+  relativImSatz: (d) => (d === TAG ? 'heute' : d),
+  T: (k, v) => translate(k as TranslationKey, v),
+  betont: (t) => t,
+  ohneSprachbeleg: undefined,
+  releases: [spaceMercenary({ ...BEOBACHTET_6, 7: TAG })],
+  folgenZahl: undefined,
+  deSeitNeben: '',
+  title: titel(7),
+})
+pruefe('Kasten nach Sichtung: keine Fälligkeitszeile', typeof (nachSichtung.haupt as any)?.props?.children !== 'string' || !String((nachSichtung.haupt as any).props.children).includes('fällig'))
 
 // Nach der Sichtung von Folge 7: erschienen, Spanne 1–7, kein „≈“, nichts fällig.
 const mit7 = spaceMercenary({ ...BEOBACHTET_6, 7: TAG })
