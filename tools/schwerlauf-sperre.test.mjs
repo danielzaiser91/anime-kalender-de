@@ -45,6 +45,7 @@ const GESPERRT = [
   'exec node tools/tests-alle.mjs',
   'nice npm run check:logic',
   'node --import tsx tools/tests-alle.mjs',
+  'node --import ./laden.mjs tools/tests-alle.mjs',
   'npx -y tsx tools/tests-alle.mjs',
   'node -r tools/bestand-sperre.cjs tools/tests-alle.mjs',
   'npx -p tsx tsx tools/tests-alle.mjs',
