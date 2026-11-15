@@ -40,6 +40,21 @@ const anbieter: Anbieter = {
 }
 const zeilen: Zeile[] = [{ plattform: 'primevideo', url: url(3), staffel: 1, uebernommen: 0, gemeldet_am: '2026-10-29T08:00:00Z' }]
 
+/** Attrappen für `uebersichtZeichnen`: gelesen werden `listeVeraltet`, `standZiele`, `liste`; der Knopf ist ein Objekt. */
+function uebersichtAttrappen(k: Record<string, any>) {
+  k.listeVeraltet = false
+  k.uebersichtKnopf = { classList: { add() {} } }
+  k.verbindungLebt = () => true
+  k.suchOffen = () => []
+  k.akZaehler = () => {}
+  k.primeLaufLesen = () => null
+  k.standPruefen = async () => {}
+  k.dialog = null
+  k.setz = (el: Record<string, unknown>, feld: string, wert: unknown) => {
+    el[feld] = wert
+  }
+}
+
 function sandkasten(paket: Record<string, unknown>, antwort: 'stand' | 'fehler' | 'status', stand: unknown) {
   const k: Record<string, any> = {
     Date: class extends Date {
@@ -97,8 +112,14 @@ function sandkasten(paket: Record<string, unknown>, antwort: 'stand' | 'fehler' 
   }
   const offeneZahl = /\n {2}const offeneZahl = .*\n/.exec(q)?.[0]
   if (!offeneZahl) throw new Error('offeneZahl nicht in amazon.js')
-  vm.runInContext([schneide('async function briefkastenHolen('), schneide('function fertig('), offeneZahl].join('\n'), ctx)
+  uebersichtAttrappen(k)
+  vm.runInContext([schneide('async function briefkastenHolen('), schneide('function fertig('), offeneZahl, schneide('function uebersichtZeichnen(')].join('\n'), ctx)
   return {
+    ctx,
+    knopfText: () => {
+      vm.runInContext('uebersichtZeichnen()', ctx)
+      return (ctx.uebersichtKnopf as { textContent: string }).textContent
+    },
     holen: () => vm.runInContext('briefkastenHolen(true)', ctx) as Promise<void>,
     zahl: () => vm.runInContext('offeneZahl()', ctx) as number,
     veraltet: () => (ctx.akPrimeListeVeraltet ? (ctx.akPrimeListeVeraltet(false, ctx.liste) as boolean) : false),
@@ -144,6 +165,36 @@ for (const art of ['fehler', 'status'] as const) {
 const weniger = sandkasten(paketVon(titel), 'stand', { anbieter: [{ ...worker, ziele: worker.ziele.slice(0, 2) }] })
 await weniger.holen()
 pruefe(weniger.zahl() === 2, `Worker führt 2 Ziele, Paket 8: Knopf ${weniger.zahl()}`)
+
+/* 15.11.2026: Nach einem Neuladen stand „Prime-Liste veraltet — neu laden“ — ein Neuladen ändert nichts am Paket. */
+{
+  const veraltetLaut = (laut: boolean, liste: object, standBekannt?: boolean) => voll.ctx.akPrimeListeVeraltet(laut, liste, standBekannt) as boolean
+  const kein = {}
+  pruefe(veraltetLaut(true, kein, false), 'Stempel sagt veraltet, kein Worker-Stand: veraltet')
+  pruefe(!veraltetLaut(true, kein, true), 'Stempel sagt veraltet, aber der Worker-Stand ist da: nicht veraltet (die Liste folgt dem Worker)')
+  pruefe(veraltetLaut(false, { a: { ausStand: true } }, true), 'Worker-Ziel ohne Paket-Eintrag: weiter veraltet')
+  pruefe(!veraltetLaut(false, kein, true), 'weder Stempel noch Worker-Ziel: nicht veraltet')
+  const text = voll.ctx.akPrimeKnopfText(0, 0, true) as string
+  pruefe(text === 'Prime-Liste veraltet — Erweiterung aktualisieren', `ohne Arbeit, veraltet: Text sagt, was zu tun ist: ${text}`)
+  pruefe(voll.ctx.akPrimeKnopfText(0, 0, false) === 'Prime: alles geprüft', 'ohne Arbeit, aktuell: „alles geprüft“')
+
+  /* Durch `uebersichtZeichnen` (die Verdrahtung `Boolean(standZiele)`): veralteter Stempel, Worker führt nichts offen. */
+  const leer = sandkasten(paketVon(titel), 'stand', { anbieter: [{ ...worker, ziele: [] }] })
+  leer.ctx.listeVeraltet = true
+  await leer.holen()
+  pruefe(leer.knopfText() === 'Prime: alles geprüft', `Stempel veraltet, Worker-Stand da (nichts offen): ${leer.knopfText()}`)
+  /* Der Briefkasten antwortet, nur der Worker-Stand scheitert: nur dort greift der Rückfall auf den früheren Stand. */
+  leer.ctx.fetch = async (adresse: string) => {
+    if (String(adresse).includes('zaehlen=1')) return { ok: true, json: async () => ({ adressen: [], gemeldet: [] }) }
+    throw new Error('Netz')
+  }
+  await leer.holen()
+  pruefe(leer.knopfText() === 'Prime: alles geprüft', `zweiter Abruf scheitert: der frühere Worker-Stand bleibt maßgeblich (Rückfall auf den alten Stand): ${leer.knopfText()}`)
+  const ohneStand = sandkasten(paketVon(titel), 'fehler', stand)
+  ohneStand.ctx.listeVeraltet = true
+  await ohneStand.holen()
+  pruefe(ohneStand.knopfText().endsWith('· Liste veraltet'), `Stempel veraltet, kein Worker-Stand: Warnung bleibt: ${ohneStand.knopfText()}`)
+}
 
 if (fehler) {
   console.log(`\n${fehler} Prüfung(en) rot.`)

@@ -5636,7 +5636,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       Titelseite liest die Erweiterung selbst, eine Suchadresse verlangt, den
       richtigen Treffer herauszusuchen.
     */
-    const veraltet = globalThis.akPrimeListeVeraltet(listeVeraltet, liste)
+    const veraltet = globalThis.akPrimeListeVeraltet(listeVeraltet, liste, Boolean(standZiele))
     setz(uebersichtKnopf, 'textContent', globalThis.akPrimeKnopfText(offen, suchen, veraltet))
     setz(
       uebersichtKnopf,
@@ -8979,15 +8979,15 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     globalThis.akPrimeSucheErgebnis(lauf, daten, primeLaufName(lauf))
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
-      /*
-        Die Meldung ging aus dem Frame, nicht von dieser Seite — `frischGemeldet` wusste nichts
-        davon. `?stand=1` läuft beim Worker nach einer Minute ab, statt bei jeder Meldung verworfen
-        zu werden (24.09.2026); ohne diese Zeile blieb ein gemeldeter Titel bis dahin offen, und der
-        Durchgang endete mit „fertig“ neben „1 Prime-Titel zu prüfen“ (Daniel, 26.09.2026, Dating Sim S2).
-      */
-      const url = liste[lauf.titel]?.url
-      if (url) frischGemeldet.add(url)
     }
+    /*
+      Die Meldung ging aus dem Frame, nicht von dieser Seite — `frischGemeldet` wusste nichts
+      davon. `?stand=1` läuft beim Worker nach einer Minute ab, statt bei jeder Meldung verworfen
+      zu werden (24.09.2026); ohne diese Zeile blieb ein gemeldeter Titel bis dahin offen, und der
+      Durchgang endete mit „fertig“ neben „1 Prime-Titel zu prüfen“ (Daniel, 26.09.2026, Dating Sim S2).
+      Nur die eigene Seite des Titels zählt (`akPrimeTitelErgebnis`).
+    */
+    globalThis.akPrimeTitelErgebnis(lauf, f.kennung, Boolean(daten.ok), liste[lauf.titel]?.url, frischGemeldet)
     if (/kein Token/.test(String(daten.grund ?? ''))) return primeLaufBeenden(lauf, 'kein Token in den Optionen')
     if (!lauf.planBekannt) {
       const { eintraege: staffeln, verloren } = globalThis.akPrimePlanEintraege(daten.staffeln, [f.kennung, daten.hier], lauf.plan)
@@ -9000,7 +9000,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(globalThis.akPrimeUebersprungen(primeLaufName(lauf), nr, daten.grund))
+      globalThis.akPrimeUebersprungenDazu(lauf, f.kennung, globalThis.akPrimeUebersprungen(primeLaufName(lauf), nr, daten.grund))
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()
@@ -9095,7 +9095,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (!hier) return
     const ruhig = jetzt - frameZustand.textSeit >= PRIME_RUHE_MS
     const sichtbar = knopf.isConnected && knopf.style.display !== 'none'
-    const bietetMelden = sichtbar && !knopf.disabled && /melden$/.test(text)
+    const bietetMelden = sichtbar && !knopf.disabled && globalThis.akPrimeBietetMelden(text)
     /*
       Nur der **sichtbare** Knopf spricht. Nach dem Melden versteckt ihn die Erweiterung und zeigt die
       grüne Marke — auf dem versteckten Knopf bleibt „trage ein …" stehen (Daniels Bericht,

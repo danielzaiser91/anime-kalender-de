@@ -464,7 +464,73 @@ for (const [text, teil, ort] of [
   w.ergebnis(w.offen()[0], { ok: false, grund: 'Knopf blieb bei: 75 Folgen gelesen (von 100 fehlen Folge 73–97)', abschnitte: ['73–97: 0/25, HTTP 200'], staffeln: [] })
   pruefe('Steuerung: der Eintrag nennt den Grund', /^Naruto – Knopf blieb bei: 75 Folgen gelesen \(von 100 fehlen Folge 73–97\)$/.test(w.lauf().uebersprungen[0]), w.lauf().uebersprungen)
   pruefe('Steuerung: die Spur trägt die Abschnitte', w.lauf().spur.some((s) => s.was === 'seite' && s.abschnitte?.[0] === '73–97: 0/25, HTTP 200'), w.lauf().spur)
-  pruefe('Endanzeige: Titel und Grund stehen in der Liste', /offen \(Fehler beim Melden\): Naruto – Knopf blieb bei: 75 Folgen/.test(w.kontext.akPrimeEndeText({ grund: 'nichts mehr offen', uebersprungen: w.lauf().uebersprungen, suchen: 0 })))
+  pruefe('Endanzeige: Titel und Grund stehen in der Liste, als „selbst prüfen“ benannt', /· selbst prüfen: Naruto – Knopf blieb bei: 75 Folgen/.test(w.kontext.akPrimeEndeText({ grund: 'nichts mehr offen', uebersprungen: w.lauf().uebersprungen, suchen: 0 })))
+}
+
+/*
+  Durchgang-Ende vom 15.11.2026 (Diagnose v4.32.124), mit selbst gebauten Daten:
+  (1) Suchauftrag-Film: Der Knopf endet auf „melden als „Titel"“ — der Frame muss klicken.
+  (2) Dieselbe Seite als Titel und als Staffel scheitert zweimal — die Endanzeige nennt sie einmal.
+  (3) Scheitert eine Staffel eines Titels, gilt er trotz einer gelungenen anderen nicht als frisch gemeldet.
+*/
+{
+  const w = welt({ imFrame: true })
+  w.zeige('🇩🇪 Deutsch · Film · 💰 Kauf/Leihe · melden als „Film Eins mit langem Nam…"', 1500)
+  pruefe('Frame: Knopf „… melden als „Titel"" (Suchauftrag) wird geklickt', w.geklickt === 1, w.geklickt)
+  const o = welt({ imFrame: true })
+  o.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  pruefe('Frame: der einfache Knopf „… melden" wird weiter geklickt', o.geklickt === 1, o.geklickt)
+  const n = welt({ imFrame: true })
+  n.zeige('✓ nicht melden möglich', 1500)
+  const g = welt({ imFrame: true })
+  g.zeige('melden als „x" und mehr', 1500)
+  pruefe('Frame: „melden" mitten im Text ist kein Angebot', n.geklickt === 0 && g.geklickt === 0, [n.geklickt, g.geklickt])
+  /* Handliste je Eintragskennung (nicht je Text): zwei Seiten mit gleichem Grund bleiben zwei Zeilen. */
+  const handliste = () => {
+    const l = welt()
+    vm.runInContext('primeLaufStarten()', l.kontext)
+    const gescheitert = { ok: false, grund: 'Knopf blieb bei: Diese Staffel führt bei Amazon keine Folgen' }
+    l.ergebnis(l.offen()[0], { ...gescheitert, staffeln: STAFFELN })
+    l.ergebnis(l.offen()[0], gescheitert)
+    l.ergebnis(l.offen()[0], gescheitert)
+    return l.lauf().uebersprungen
+  }
+  const zeilen = handliste()
+  pruefe('Handliste: Titelseite und zwei Staffeln mit gleichem Grund, drei Kennungen → drei Zeilen', zeilen.length === 3 && new Set(zeilen).size === 3, zeilen)
+  const lauf = { uebersprungen: [] }
+  const dazu = welt().kontext.akPrimeUebersprungenDazu
+  dazu(lauf, 'B0AAAAAAAA', 'T – g')
+  dazu(lauf, 'B0AAAAAAAA', 'T – g')
+  pruefe('Handliste: derselbe Eintrag zweimal gescheitert (Neuversuch) → eine Zeile', lauf.uebersprungen.length === 1, lauf)
+  dazu(lauf, 'B0AAAAAAAA?ref_=atv_dp_season_select_s2', 'T · Staffel 2 – g')
+  pruefe('Handliste: gleiche ASIN mit anderer Query und gleichem Grund → zweite Zeile', lauf.uebersprungen.length === 2, lauf)
+  dazu(lauf, 'B0BBBBBBBB', 'T – g')
+  pruefe('Handliste: andere Kennung, gleicher Text → eigene Zeile', lauf.uebersprungen.length === 3, lauf)
+
+  /* Der Frame des Titels selbst (Kennung = Titel) meldet zuerst, danach eine Staffel unter anderer Kennung. */
+  const frisch = ({ eigeneOk, staffelOk }) => {
+    const l = welt()
+    vm.runInContext('primeLaufStarten()', l.kontext)
+    const antwort = (ok) => (ok ? {} : { ok: false, grund: 'Knopf blieb bei: x' })
+    l.ergebnis(l.offen()[0], { ...antwort(eigeneOk), staffeln: STAFFELN })
+    l.ergebnis(l.offen()[0], antwort(staffelOk))
+    return [...l.kontext.frischGemeldet]
+  }
+  const url = 'https://www.amazon.de/gp/video/detail/B07VP6VPVR'
+  pruefe('Titelseite gescheitert, andere Staffel gelungen: der Titel gilt nicht als frisch gemeldet (Tsubasa)', !frisch({ eigeneOk: false, staffelOk: true }).includes(url), frisch({ eigeneOk: false, staffelOk: true }))
+  pruefe('Titelseite gelungen, Staffel gescheitert: der Titel gilt als frisch gemeldet', frisch({ eigeneOk: true, staffelOk: false }).includes(url), frisch({ eigeneOk: true, staffelOk: false }))
+  pruefe('Titelseite und Staffel gelungen: frisch gemeldet', frisch({ eigeneOk: true, staffelOk: true }).includes(url))
+
+  const ohneAdresse = new Set()
+  welt().kontext.akPrimeTitelErgebnis({ titel: 'X' }, 'X', true, undefined, ohneAdresse)
+  pruefe('Titel ohne Adresse in der Liste: keine Marke „undefined“', ohneAdresse.size === 0, [...ohneAdresse])
+
+  /* Soll (bewusst): Eine Marke der sichtbaren Seite („gemeldet ✓“) bleibt, auch wenn der Titel-Frame danach scheitert. */
+  const m = welt()
+  vm.runInContext('primeLaufStarten()', m.kontext)
+  m.kontext.frischGemeldet.add(url)
+  m.ergebnis(m.offen()[0], { ok: false, grund: 'Knopf blieb bei: x', staffeln: STAFFELN })
+  pruefe('Marke der sichtbaren Seite bleibt nach gescheitertem Titel-Frame (Meldung war wahr)', m.kontext.frischGemeldet.has(url), [...m.kontext.frischGemeldet])
 }
 
 {
