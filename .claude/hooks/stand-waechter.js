@@ -69,6 +69,31 @@ function topPrios(zeilen, jetzt) {
     return t !== null && jetzt - t > MAX_PRIO_ALTER
   })
   if (alt.length) meldungen.push(`Top-Prios: ${aufzaehlung(alt)} mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen`)
+  meldungen.push(...priosGemergt(liste, zeilen))
+  return meldungen
+}
+
+// Eine PR-Nennung samt Nummernliste („PR 1“, „PRs 1, 2“, „PR 1 und 2“) und dem Text bis zur nächsten PR oder zum „;“.
+const PR_NENNUNG = /PRs?\s*#?(\d+(?:(?:,\s*|\s+und\s+)#?\d+)*)\)?(.*?)(?=PRs?\s*#?\d|;|$)/g
+// „offen“ nur direkt nach den Nummern; „offen:“ leitet eine Aufzählung ein und zählt nicht.
+const OFFEN_WENDUNG = /^\s*offen\b(?!:)|Prüfer läuft|wartet auf (?:Merge|Kette)|in Prüfung/
+
+/** Meldungen zu Top-Prios-Zeilen, die eine PR als offen führen, die der Kopf von „## In Arbeit“ unter „gemergt heute …“ nennt (Lehre 92, 15.11.2026: Ziele-Box blieb nach Merges veraltet). Nur Text, kein gh. */
+function priosGemergt(liste, zeilen) {
+  const kopf = zeilen.find((z) => z.startsWith('## In Arbeit')) || ''
+  // Klammerzusätze („3890 (Teil 1), 3912“) fallen vor dem Zählen weg, damit sie die Liste nicht abschneiden.
+  const kopfListe = /gemergt heute ([^;]*)/.exec(kopf)?.[1].replace(/\([^)]*\)/g, '') || ''
+  const gemergt = new Set(kopfListe.match(/\b\d{3,5}\b/g) || [])
+  const meldungen = []
+  for (const z of liste) {
+    const offen = new Set()
+    for (const m of z.matchAll(PR_NENNUNG)) {
+      if (OFFEN_WENDUNG.test(m[2])) m[1].match(/\d+/g).forEach((nr) => offen.add(nr))
+    }
+    for (const nr of offen) {
+      if (gemergt.has(nr)) meldungen.push(`Top-Prios: ${anfang(z)} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`)
+    }
+  }
   return meldungen
 }
 
