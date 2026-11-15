@@ -24,6 +24,7 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
+import { streamingRueckgang } from './lib/streaming-rueckgang.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -110,6 +111,9 @@ function main(): void {
   log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}`)
   log(`  Lücken: ${zahlen.ohneDeutschenNamen} ohne deutschen Namen${pfeil('ohneDeutschenNamen')}, ${zahlen.serienOhneFolgenzahl} Serien ohne Folgenzahl${pfeil('serienOhneFolgenzahl')}`)
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
+
+  const rueckgang = streamingRueckgang(zahlen.mitStreamingWeg, vorher?.mitStreamingWeg)
+  if (rueckgang) warn(rueckgang)
 
   let kaputt = 0
   for (const k of HART) {
