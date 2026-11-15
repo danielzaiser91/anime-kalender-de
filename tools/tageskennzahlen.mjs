@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url'
 import { gzipBytes } from './kennzahlen.mjs'
 import { bestimmeStufe } from './pr-stufe.mjs'
 import { leseKette } from './pr-stufe-kette.mjs'
+import { aktualisiereAnsicht } from './kennzahlen-daten-erzeugen.mjs'
 import {
   durchsatz, istBot, istRevert, medianDauerMin, rotStundenJeTag, stauAmTagesende, storyPoints,
   tageZwischen, tagBerlin, tagesBeginnMs, tagPlus,
@@ -163,6 +164,8 @@ function main(argv) {
   mkdirSync(dirname(ziel), { recursive: true })
   writeFileSync(ziel, `${zeilen.join('\n')}\n`)
   console.log(`${zeilen.length} Tage nach ${AUSGABE} (${von} bis ${bis}), ${prs.length} PRs, ${laeufe.length} Läufe, ${commits.length} Commits`)
+  aktualisiereAnsicht()
+  console.log('Ansicht: tools/kennzahlen/kernpunkte.yaml und daten.js nachgezogen')
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main(process.argv.slice(2))
