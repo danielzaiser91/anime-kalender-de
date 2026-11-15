@@ -47,8 +47,9 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { todayIso } from '../shared/time.ts'
+import { pruefeGattungen } from './lib/rtlplus-gattung.ts'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const wurzel = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
 const zahl = (name, standard) => {
   const i = args.indexOf(name)
@@ -105,6 +106,7 @@ console.log(`[rtlplus] ${karten.length} Teilkarten, davon ${arbeit.length} in di
 
 const ZIEL = resolve(wurzel, 'data/rtlplus-katalog.json')
 const bestand = existsSync(ZIEL) ? JSON.parse(readFileSync(ZIEL, 'utf8')) : {}
+const vorher = new Set(Object.keys(bestand))
 let neu = 0
 let gesehen = 0
 
@@ -140,7 +142,17 @@ for (const [i, karte] of arbeit.entries()) {
   await new Promise((r) => setTimeout(r, PAUSE))
 }
 
-writeFileSync(ZIEL, `${JSON.stringify(bestand, null, 2)}\n`, 'utf8')
+/*
+  Gleichnamige Hörbücher stehen in derselben Sitemap (Tom Sawyer, Peter Pan …): jede Seite ohne Gattung
+  wird einmal gegen ihre Beschreibung gelesen. Neue Treffer ohne Auskunft kommen nicht in den Bestand.
+*/
+const gattung = await pruefeGattungen(bestand, hole, () => new Promise((r) => setTimeout(r, PAUSE)), console.log)
+for (const id of gattung.unklar) if (!vorher.has(id)) delete gattung.bestand[id]
 console.log(
-  `[rtlplus] ${gesehen} Adressen gelesen, ${neu} neue Treffer, ${Object.keys(bestand).length} im Bestand → ${ZIEL}`,
+  `[rtlplus] Gattung: ${gattung.geprueft} Seiten geprüft, ${gattung.verworfen.length} Hörbücher/Hörspiele verworfen, ${gattung.unklar.length} ohne Auskunft`,
+)
+
+writeFileSync(ZIEL, `${JSON.stringify(gattung.bestand, null, 2)}\n`, 'utf8')
+console.log(
+  `[rtlplus] ${gesehen} Adressen gelesen, ${neu} neue Treffer, ${Object.keys(gattung.bestand).length} im Bestand → ${ZIEL}`,
 )
