@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-15. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-54 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+55 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -49,59 +49,59 @@ Stand: 2026-11-14. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
 | 2027-04 (Monat) | ? | – unklar | [Start der fünften »Minami-ke«-Staffel steht fest + Teaser](https://www.anime2you.de/news/1068978/minami-ke-staffel-5-start/) |
 
-… und 14 weitere.
+… und 15 weitere.
 
-Dazu 62 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 63 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 11 |
-| adn-catalog | 3.5 Tage her | 120 |
+| adn | 0.0 Tage her | 10 |
+| adn-catalog | 4.5 Tage her | 120 |
 | adn-news | 0.1 Tage her | 69 |
-| anilist-voices | 3.5 Tage her | 3012 |
-| anime-offline-database | 3.5 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 99 |
-| anisearch | 0.9 Tage her | 2 |
-| anisearch-cover-eigen | 9.6 Tage her | 138 |
+| anilist-voices | 4.5 Tage her | 3012 |
+| anime-offline-database | 4.5 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 98 |
+| anisearch | 0.9 Tage her | 14881 |
+| anisearch-cover-eigen | 10.6 Tage her | 138 |
 | anisearch-dubs | 1.0 Tage her | 11949 |
-| anisearch-eintraege | 5.0 Tage her | 400 |
-| anisearch-folgen | 3.5 Tage her | 2720 |
-| anisearch-slugs | 3.5 Tage her | 14915 |
+| anisearch-eintraege | 6.0 Tage her | 400 |
+| anisearch-folgen | 4.5 Tage her | 2720 |
+| anisearch-slugs | 4.5 Tage her | 14915 |
 | anisearch-zuordnung | 1.0 Tage her | 18515 |
-| ann-voices | 3.5 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 42 |
-| cartoon-folgen | 5.0 Tage her | 365 |
-| cartoon-reihen | 1.0 Tage her | 1 |
-| cartoons | 1.0 Tage her | 2 |
-| cinestar | 3.5 Tage her | 2 |
-| cr-einzelwerke | 0.5 Tage her | 1 |
-| cr-filmbloecke | 0.5 Tage her | 1 |
+| ann-voices | 4.5 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 38 |
+| cartoon-folgen | 6.0 Tage her | 365 |
+| cartoon-reihen | 1.0 Tage her | 0 |
+| cartoons | 1.0 Tage her | 3 |
+| cinestar | 4.5 Tage her | 2 |
+| cr-einzelwerke | 1.5 Tage her | 1 |
+| cr-filmbloecke | 1.5 Tage her | 1 |
 | crunchyroll-dub | 0.5 Tage her | 1156 |
-| crunchyroll-neu | 0.0 Tage her | 188 |
-| crunchyroll-offene | 5.0 Tage her | 11 |
-| crunchyroll-woche | 0.0 Tage her | 63 |
-| justwatch-audio | 1.0 Tage her | 33 |
-| kinoheld | 3.5 Tage her | 0 |
-| kitsu-folgen | 1.5 Tage her | 0 |
-| link-check | 3.5 Tage her | 32 |
-| messbelege | 0.0 Tage her | 0 |
-| motn | 7.0 Tage her | 2123 |
-| motn-changes | 0.0 Tage her | 46 |
-| rohfolgen | 3.7 Tage her | 0 |
-| rtlplus-folgen | 3.5 Tage her | 3 |
-| tmdb-banner | 5.0 Tage her | 0 |
-| tmdb-folgen | 5.0 Tage her | 930 |
-| tmdb-kino | 5.0 Tage her | 3 |
-| tmdb-poster | 5.0 Tage her | 265 |
-| tmdb-titles | 5.0 Tage her | 400 |
+| crunchyroll-neu | 0.0 Tage her | 190 |
+| crunchyroll-offene | 6.0 Tage her | 11 |
+| crunchyroll-woche | 0.1 Tage her | 63 |
+| justwatch-audio | 1.0 Tage her | 1 |
+| kinoheld | 4.5 Tage her | 0 |
+| kitsu-folgen | 2.5 Tage her | 0 |
+| link-check | 4.5 Tage her | 32 |
+| messbelege | 0.1 Tage her | 0 |
+| motn | 8.0 Tage her | 2123 |
+| motn-changes | 0.0 Tage her | 27 |
+| rohfolgen | 0.1 Tage her | 0 |
+| rtlplus-folgen | 4.5 Tage her | 3 |
+| tmdb-banner | 4.5 Tage her | 110 |
+| tmdb-folgen | 4.5 Tage her | 932 |
+| tmdb-kino | 4.5 Tage her | 3 |
+| tmdb-poster | 4.5 Tage her | 237 |
+| tmdb-titles | 6.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 2 |
-| tv-de | 8.2 Tage her | 0 |
-| tv-programm | 0.0 Tage her | 294 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 3.5 Tage her | 5367 |
-| wikidata-titel | 3.5 Tage her | 16 |
+| trailer | 1.0 Tage her | 1 |
+| tv-de | 9.2 Tage her | 0 |
+| tv-programm | 0.1 Tage her | 252 |
+| vorfaelle | 0.0 Tage her | 3 |
+| wikidata-imdb | 4.5 Tage her | 5367 |
+| wikidata-titel | 4.5 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 10 |
-| youtube-check | 3.5 Tage her | 0 |
+| youtube-check | 4.5 Tage her | 0 |

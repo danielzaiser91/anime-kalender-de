@@ -14,7 +14,7 @@ const os = require('node:os')
 const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const B = require('./stand-prs-block.js')
-const { waechter } = require('./stand-waechter.js')
+const { waechter, LEER } = require('./stand-waechter.js')
 const { vorratErledigt } = require('./vorrat-erledigt.js')
 // Fehlt die Mod-Datei (Hook allein installiert), entfällt nur die Kennzeichen-Meldung; die PR-Block-Pflege läuft weiter.
 let kennzeichenMeldung = () => ''
@@ -259,6 +259,7 @@ function aktualisiere({ datei, gh, jetzt, erfolg }) {
   if (!sperre(sperrdatei, jetzt)) return { ergebnis: 'gesperrt' }
   try {
     const vorher = fs.readFileSync(datei, 'utf8')
+    if (!vorher.trim()) return { ergebnis: `nicht geschrieben: ${LEER}`, laut: true }
     const eol = vorher.includes('\r\n') ? '\r\n' : '\n'
     const hinweis = frisch.fehler ? hinweisZeile(erfolg, frisch.fehler) : ''
     const r = B.ersetzeBlock(vorher.split(eol).join('\n'), frisch.reihen ?? null, hinweis)

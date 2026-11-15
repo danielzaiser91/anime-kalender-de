@@ -5,6 +5,7 @@ const MAX_ZEILEN = 20
 const MAX_NAECHSTES = 80
 const MAX_ZEICHEN = 400
 const ICON = /^- (?:🔴|🟠|🔵|📅|⏳|🚫)/u
+const LEER = 'stand.md ist leer — beschädigt? Sicherung in ~/.claude/file-history'
 const STUNDE = 3600000
 const MAX_ALTER = 24 * STUNDE
 const AKTUALISIERT = /^Aktualisiert: (\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/
@@ -203,6 +204,8 @@ function waechterAbschnitte(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
   const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...terminZeilen(zeilen), ...zukunft(zeilen, jetzt)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
+  // Ein leeres stand.md darf nicht „ok“ heißen (15.11.2026: `sed -i "${n}d"` mit leerem n leerte die Datei).
+  if (!text.trim()) return LEER
   if (kopf < 0) return meldungen.join('; ')
   let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
   if (ende < 0) ende = zeilen.length
@@ -222,4 +225,4 @@ function waechterAbschnitte(text, jetzt) {
   return meldungen.join('; ')
 }
 
-module.exports = { MAX_ZEILEN, MAX_ALTER, MAX_PRIOS, waechter }
+module.exports = { MAX_ZEILEN, MAX_ALTER, MAX_PRIOS, LEER, waechter }

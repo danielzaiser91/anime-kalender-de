@@ -961,3 +961,7 @@
   url: https://www.amazon.de/dp/B07LHFLDBS
   grund: 'Seite B07LHFLDBS gehört Chaika Staffel 1 (20462, Messung 12.11.2026), nicht Ragna Crimson (146493; Fremdzuordnung, 12.11.2026)'
   entferntAm: '2026-11-12'
+- anilistId: 20719
+  url: https://www.amazon.de/gp/video/detail/B07MXMCF4V
+  grund: 'Messung 14.11.2026 23:36 an B07MXMCF4V widerspricht sich: Meldung 27458 zeigt die Staffel-2-Seite gesperrt (10 Folgen), Meldung 27459 Sekunden später Folgen und gti von Staffel 1 (B07LHFLDBS, 12 Folgen). Der Nein-Beleg hätte Avenging Battle den Weg genommen, während prime-zugeordnet.json die Seite Staffel 1 (20462) zuschrieb; erst nach sauberer Neumessung der Seite wieder eintragen (Notizseite-Wächter, 15.11.2026)'
+  entferntAm: '2026-11-15'

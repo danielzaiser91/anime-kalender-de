@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-14T18:02:09.623Z",
+  "scrapedAt": "2026-11-15T04:14:37.297Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 9,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "schon in einem Rubrik-Feed gelesen": 30,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -18,7 +18,29 @@
       "platforms": [],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Fruits Basket",
+          "zusatz": "Staffel 1",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 25
+        },
+        {
+          "titel": "My Hero Academia",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Black Friday 2026: Erste große Anime-Rabattaktionen gestartet",
@@ -1446,7 +1468,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1484,7 +1506,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1702,7 +1724,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1736,7 +1758,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -2257,7 +2279,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",

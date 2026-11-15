@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-14",
+  "stand": "2026-11-15",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -14227,6 +14227,77 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 304
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/|Fruits Basket|Staffel 1|start|",
+      "erstGesehen": "2026-11-15",
+      "fingerabdruck": "2f148e9386a5",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+          "veroeffentlicht": "2026-11-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Fruits Basket",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "nein",
+        "folgen": 25,
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»Fruits Basket« – Staffel 1\nEpisoden: 25 (komplett)\nSprache: Japanisch (UT)\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 105334,
+          "name": "Fruits Basket",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 403
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/|My Hero Academia|Staffel 2|start|",
+      "erstGesehen": "2026-11-15",
+      "fingerabdruck": "ebd836178bbf",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+          "veroeffentlicht": "2026-11-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "My Hero Academia",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»My Hero Academia« – Staffel 2\nEpisoden: 13 von 25\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 21856,
+          "name": "My Hero Academia 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 307
       }
     }
   ]

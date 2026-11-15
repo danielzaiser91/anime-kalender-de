@@ -158,7 +158,12 @@ pruefe('PR 3490 Rückwärtsweg: nur Bot-Datei bewegt, Leser importiert die Handd
 pruefe('PR 3490 Rückwärtsweg Kontrolle: dieselbe Lage ohne botBewegt -> Grund', rueck([BAUER, F], [], LESER) !== null, rueck([BAUER, F], [], LESER))
 pruefe('PR 3490 Rückwärtsweg Gegenfall: bewegter Code erreicht die Handdaten -> Grund, auch mit Bot-Datei', /^data\/adn-staffelzuordnung\.yaml wird von Code genutzt/.test(rueck([F, 'pipeline/lib/neu.ts'], [F], []) ?? ''), rueck([F, 'pipeline/lib/neu.ts'], [F], []))
 const codePr = bewegtesGelesen({ bewegt: [F], pr: ['data/anderes.yaml', 'pipeline/lib/adn.ts'], leser: LESER, lies: (p) => texteR[p] ?? null, paketSkripte: null, botBewegt: [F] })
-pruefe('PR 3490 Gegenfall: PR ändert Code (keine Handdaten), Leser der Bot-Datei nutzt ihn -> Grund bleibt', /^pipeline\/lib\/adn\.ts wird von Code genutzt/.test(codePr ?? ''), codePr)
+pruefe('F136 (Fall PR 3717): PR ändert Code, den nur der Leser der Bot-Datei importiert -> null', codePr === null, codePr)
+const t3717 = { 'pipeline/check-logic.ts': "import { t } from '../worker/src/templates'\nconst d = 'data/termine-verpasst.json'\n", 'worker/src/templates.ts': 'export const t = 1\n' }
+const f3717 = (pr, bot = ['data/termine-verpasst.json']) => bewegtesGelesen({ bewegt: ['data/termine-verpasst.json'], pr, leser: ['pipeline/check-logic.ts'], lies: (p) => t3717[p] ?? null, paketSkripte: null, botBewegt: bot })
+pruefe('F136 echter Fall: PR ändert worker/src/templates.ts -> null', f3717(['worker/src/templates.ts']) === null, f3717(['worker/src/templates.ts']))
+pruefe('F136 Gegenprobe: PR ändert den Leser pipeline/check-logic.ts selbst -> Grund', /^der PR liest data\/termine-verpasst\.json \(pipeline\/check-logic\.ts\)/.test(f3717(['pipeline/check-logic.ts']) ?? ''), f3717(['pipeline/check-logic.ts']))
+pruefe('F136 Kontrolle: ohne botBewegt wäre templates.ts ein Grund', (f3717(['worker/src/templates.ts'], []) ?? '').startsWith('worker/src/templates.ts wird von Code genutzt'), f3717(['worker/src/templates.ts'], []))
 pruefe('Meldung Aufruf: Bau-Leser vor Werkzeug-Leser', /^der PR ruft pipeline\/bau\/cr\.ts auf/.test(grund(['.github/workflows/lesend.yml'], { leser: ['tools/cr-vorschau.ts', 'pipeline/bau/cr.ts'] })))
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)
