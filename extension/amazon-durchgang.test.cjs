@@ -485,14 +485,27 @@ for (const [text, teil, ort] of [
   const g = welt({ imFrame: true })
   g.zeige('melden als „x" und mehr', 1500)
   pruefe('Frame: „melden" mitten im Text ist kein Angebot', n.geklickt === 0 && g.geklickt === 0, [n.geklickt, g.geklickt])
-  const kopie = welt({ imFrame: true })
-  const e = kopie.kontext.akPrimeEndeText
-  const tsubasa = 'Tsubasa Zwei – Knopf blieb bei: Diese Staffel führt bei Amazon keine Folgen'
-  const tsubasaS2 = 'Tsubasa Zwei · Staffel 2 – Knopf blieb bei: Diese Staffel führt bei Amazon keine Folgen'
-  const anderer = 'Anderer – Knopf blieb bei: x'
-  pruefe('Endanzeige: Titel- und Staffelfehler derselben Seite nur einmal (mit Staffel)', e({ grund: 'nichts mehr offen', uebersprungen: [tsubasa, tsubasaS2, anderer] }) === `Durchgang fertig · selbst prüfen: ${tsubasaS2}; ${anderer}`, e({ grund: 'nichts mehr offen', uebersprungen: [tsubasa, tsubasaS2, anderer] }))
-  pruefe('Endanzeige: gleicher Titel mit anderem Grund bleibt stehen', kopie.kontext.akPrimeUebersprungenEinmal([tsubasa, 'Tsubasa Zwei · Staffel 2 – anderer Grund']).length === 2)
-  pruefe('Endanzeige: zwei Staffeln mit gleichem Grund bleiben beide', kopie.kontext.akPrimeUebersprungenEinmal(['T · Staffel 1 – g', 'T · Staffel 2 – g']).length === 2)
+  /* Handliste je Eintragskennung (nicht je Text): zwei Seiten mit gleichem Grund bleiben zwei Zeilen. */
+  const handliste = () => {
+    const l = welt()
+    vm.runInContext('primeLaufStarten()', l.kontext)
+    const gescheitert = { ok: false, grund: 'Knopf blieb bei: Diese Staffel führt bei Amazon keine Folgen' }
+    l.ergebnis(l.offen()[0], { ...gescheitert, staffeln: STAFFELN })
+    l.ergebnis(l.offen()[0], gescheitert)
+    l.ergebnis(l.offen()[0], gescheitert)
+    return l.lauf().uebersprungen
+  }
+  const zeilen = handliste()
+  pruefe('Handliste: Titelseite und zwei Staffeln mit gleichem Grund, drei Kennungen → drei Zeilen', zeilen.length === 3 && new Set(zeilen).size === 3, zeilen)
+  const lauf = { uebersprungen: [] }
+  const dazu = welt().kontext.akPrimeUebersprungenDazu
+  dazu(lauf, 'B0AAAAAAAA', 'T – g')
+  dazu(lauf, 'B0AAAAAAAA', 'T – g')
+  pruefe('Handliste: derselbe Eintrag zweimal gescheitert (Neuversuch) → eine Zeile', lauf.uebersprungen.length === 1, lauf)
+  dazu(lauf, 'B0AAAAAAAA?ref_=atv_dp_season_select_s2', 'T · Staffel 2 – g')
+  pruefe('Handliste: gleiche ASIN mit anderer Query und gleichem Grund → zweite Zeile', lauf.uebersprungen.length === 2, lauf)
+  dazu(lauf, 'B0BBBBBBBB', 'T – g')
+  pruefe('Handliste: andere Kennung, gleicher Text → eigene Zeile', lauf.uebersprungen.length === 3, lauf)
 
   /* Der Frame des Titels selbst (Kennung = Titel) meldet zuerst, danach eine Staffel unter anderer Kennung. */
   const frisch = ({ eigeneOk, staffelOk }) => {
@@ -507,6 +520,13 @@ for (const [text, teil, ort] of [
   pruefe('Titelseite gescheitert, andere Staffel gelungen: der Titel gilt nicht als frisch gemeldet (Tsubasa)', !frisch({ eigeneOk: false, staffelOk: true }).includes(url), frisch({ eigeneOk: false, staffelOk: true }))
   pruefe('Titelseite gelungen, Staffel gescheitert: der Titel gilt als frisch gemeldet', frisch({ eigeneOk: true, staffelOk: false }).includes(url), frisch({ eigeneOk: true, staffelOk: false }))
   pruefe('Titelseite und Staffel gelungen: frisch gemeldet', frisch({ eigeneOk: true, staffelOk: true }).includes(url))
+
+  /* Soll (bewusst): Eine Marke der sichtbaren Seite („gemeldet ✓“) bleibt, auch wenn der Titel-Frame danach scheitert. */
+  const m = welt()
+  vm.runInContext('primeLaufStarten()', m.kontext)
+  m.kontext.frischGemeldet.add(url)
+  m.ergebnis(m.offen()[0], { ok: false, grund: 'Knopf blieb bei: x', staffeln: STAFFELN })
+  pruefe('Marke der sichtbaren Seite bleibt nach gescheitertem Titel-Frame (Meldung war wahr)', m.kontext.frischGemeldet.has(url), [...m.kontext.frischGemeldet])
 }
 
 {

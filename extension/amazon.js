@@ -9000,7 +9000,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
-      lauf.uebersprungen.push(globalThis.akPrimeUebersprungen(primeLaufName(lauf), nr, daten.grund))
+      globalThis.akPrimeUebersprungenDazu(lauf, f.kennung, globalThis.akPrimeUebersprungen(primeLaufName(lauf), nr, daten.grund))
     }
     primeLaufSchreiben(lauf)
     primeKoordinieren()

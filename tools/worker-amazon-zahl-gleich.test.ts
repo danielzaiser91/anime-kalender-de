@@ -40,6 +40,21 @@ const anbieter: Anbieter = {
 }
 const zeilen: Zeile[] = [{ plattform: 'primevideo', url: url(3), staffel: 1, uebernommen: 0, gemeldet_am: '2026-10-29T08:00:00Z' }]
 
+/** Attrappen für `uebersichtZeichnen`: gelesen werden `listeVeraltet`, `standZiele`, `liste`; der Knopf ist ein Objekt. */
+function uebersichtAttrappen(k: Record<string, any>) {
+  k.listeVeraltet = false
+  k.uebersichtKnopf = { classList: { add() {} } }
+  k.verbindungLebt = () => true
+  k.suchOffen = () => []
+  k.akZaehler = () => {}
+  k.primeLaufLesen = () => null
+  k.standPruefen = async () => {}
+  k.dialog = null
+  k.setz = (el: Record<string, unknown>, feld: string, wert: unknown) => {
+    el[feld] = wert
+  }
+}
+
 function sandkasten(paket: Record<string, unknown>, antwort: 'stand' | 'fehler' | 'status', stand: unknown) {
   const k: Record<string, any> = {
     Date: class extends Date {
@@ -97,9 +112,14 @@ function sandkasten(paket: Record<string, unknown>, antwort: 'stand' | 'fehler' 
   }
   const offeneZahl = /\n {2}const offeneZahl = .*\n/.exec(q)?.[0]
   if (!offeneZahl) throw new Error('offeneZahl nicht in amazon.js')
-  vm.runInContext([schneide('async function briefkastenHolen('), schneide('function fertig('), offeneZahl].join('\n'), ctx)
+  uebersichtAttrappen(k)
+  vm.runInContext([schneide('async function briefkastenHolen('), schneide('function fertig('), offeneZahl, schneide('function uebersichtZeichnen(')].join('\n'), ctx)
   return {
     ctx,
+    knopfText: () => {
+      vm.runInContext('uebersichtZeichnen()', ctx)
+      return (ctx.uebersichtKnopf as { textContent: string }).textContent
+    },
     holen: () => vm.runInContext('briefkastenHolen(true)', ctx) as Promise<void>,
     zahl: () => vm.runInContext('offeneZahl()', ctx) as number,
     veraltet: () => (ctx.akPrimeListeVeraltet ? (ctx.akPrimeListeVeraltet(false, ctx.liste) as boolean) : false),
@@ -157,6 +177,21 @@ pruefe(weniger.zahl() === 2, `Worker führt 2 Ziele, Paket 8: Knopf ${weniger.za
   const text = voll.ctx.akPrimeKnopfText(0, 0, true) as string
   pruefe(text === 'Prime-Liste veraltet — Erweiterung aktualisieren', `ohne Arbeit, veraltet: Text sagt, was zu tun ist: ${text}`)
   pruefe(voll.ctx.akPrimeKnopfText(0, 0, false) === 'Prime: alles geprüft', 'ohne Arbeit, aktuell: „alles geprüft“')
+
+  /* Durch `uebersichtZeichnen` (die Verdrahtung `Boolean(standZiele)`): veralteter Stempel, Worker führt nichts offen. */
+  const leer = sandkasten(paketVon(titel), 'stand', { anbieter: [{ ...worker, ziele: [] }] })
+  leer.ctx.listeVeraltet = true
+  await leer.holen()
+  pruefe(leer.knopfText() === 'Prime: alles geprüft', `Stempel veraltet, Worker-Stand da (nichts offen): ${leer.knopfText()}`)
+  leer.ctx.fetch = async () => {
+    throw new Error('Netz')
+  }
+  await leer.holen()
+  pruefe(leer.knopfText() === 'Prime: alles geprüft', `zweiter Abruf scheitert: der frühere Worker-Stand bleibt maßgeblich (Rückfall auf den alten Stand): ${leer.knopfText()}`)
+  const ohneStand = sandkasten(paketVon(titel), 'fehler', stand)
+  ohneStand.ctx.listeVeraltet = true
+  await ohneStand.holen()
+  pruefe(ohneStand.knopfText().endsWith('· Liste veraltet'), `Stempel veraltet, kein Worker-Stand: Warnung bleibt: ${ohneStand.knopfText()}`)
 }
 
 if (fehler) {
