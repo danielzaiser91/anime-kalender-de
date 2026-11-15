@@ -9,7 +9,7 @@ export interface IcsEintrag {
 
 /** Was zwei Folgen gemeinsam haben müssen, um einen Eintrag zu teilen: derselbe Release, Tag, dieselbe Uhrzeit und dieselben Hinweise. */
 const gruppenSchluessel = (e: ReleaseEvent): string =>
-  [e.releaseSlug, e.date, e.time ?? '', e.sprache ?? '', !!e.premiere, !!e.estimated, !!e.timeEstimated].join('|')
+  [e.releaseSlug, e.date, e.time ?? '', e.sprache ?? '', e.zweitanbieter ? `${e.zweitanbieter.erster}${e.zweitanbieter.seit}` : '', !!e.premiere, !!e.estimated, !!e.timeEstimated].join('|')
 
 const zusammenfassbar = (e: ReleaseEvent): boolean => e.releaseType === 'weekly' && !!e.episode && !e.sichtung && !istAusgeblieben(e)
 

@@ -4,6 +4,7 @@
  * erschien. Kürzere Abstände sind Simulcast: beide sind Erste. TV, Disc und Kino liegen außerhalb der Regel,
  * ein Handbeleg „Premiere“ schlägt die Marke. Ein Termin ohne Folgennummer (Katalog, Batch) trägt keine: „Im Angebot seit“
  * ist nicht „erschienen am“ (11.10.2026). Gerechnet wird im Bau, damit Seite, ICS und Newsletter dasselbe sagen.
+ * `anbieterVon` löst den Anbieter eines Termins auf; das Disc-Gegenstück („schon im Streaming“) steht in `streaming-vorher.ts`.
  */
 import type { PlatformId, Release, ReleaseEvent, Title } from './types.ts'
 import { anbieterDesKanals } from './kanal-anbieter.ts'
@@ -28,7 +29,7 @@ declare module './types.ts' {
 
 const KEIN_STREAMING = new Set<PlatformId>(['tv', 'disc', 'kino', 'unbekannt'])
 
-const istStreaming = (e: ReleaseEvent): boolean => !KEIN_STREAMING.has(e.platform) && e.releaseType !== 'disc'
+export const istStreaming = (e: ReleaseEvent): boolean => !KEIN_STREAMING.has(e.platform) && e.releaseType !== 'disc'
 
 const tage = (von: string, bis: string): number => (Date.parse(bis) - Date.parse(von)) / 864e5
 
@@ -48,16 +49,20 @@ export function primeKanalAnbieter(titles: Iterable<Title>): Map<number, Platfor
   return je
 }
 
+/** Der Anbieter eines Streaming-Termins; ein Prime-Weg über einen Kanal mit eigenem Anbieter zählt als dieser. */
+export function anbieterVon(releases: Release[], kanalAnbieter: ReadonlyMap<number, PlatformId>): (e: ReleaseEvent) => PlatformId {
+  /* Der Kanal am Release zuerst: Wege mit Herkunft „termin“ entstehen erst nach dieser Phase (11-7), der Titel kennt ihn hier noch nicht. */
+  const kanalDes = new Map(releases.map((r) => [r.slug, r.kanal]))
+  return (e) => (e.platform === 'primevideo' && (anbieterDesKanals(kanalDes.get(e.releaseSlug)) ?? kanalAnbieter.get(e.titleId))) || e.platform
+}
+
 /** Setzt `zweitanbieter` an die betroffenen Termine; liefert deren Zahl und die Termine, an denen ein Handbeleg widerspricht. */
 export function schreibeZweitanbieter(
   events: ReleaseEvent[],
   releases: Release[],
   kanalAnbieter: ReadonlyMap<number, PlatformId>,
 ): { anzahl: number; kollisionen: string[] } {
-  /* Der Kanal am Release zuerst: Wege mit Herkunft „termin“ entstehen erst nach dieser Phase (11-7), der Titel kennt ihn hier noch nicht. */
-  const kanalDes = new Map(releases.map((r) => [r.slug, r.kanal]))
-  const anbieter = (e: ReleaseEvent): PlatformId =>
-    (e.platform === 'primevideo' && (anbieterDesKanals(kanalDes.get(e.releaseSlug)) ?? kanalAnbieter.get(e.titleId))) || e.platform
+  const anbieter = anbieterVon(releases, kanalAnbieter)
   const katalog = new Set(releases.filter((r) => r.dateMeaning === 'available-from').map((r) => r.slug))
   const stream = events.filter(istStreaming)
   const fruehest = new Map<string, ReleaseEvent>()
