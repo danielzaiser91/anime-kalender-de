@@ -26,14 +26,16 @@ globalThis.fetch = async (url) => {
     const q = u.searchParams.get('query')
     return new Response(JSON.stringify({ results: [{ id: 777, title: q, name: q, original_title: q, original_name: q, release_date: '2024-01-01', first_air_date: '2024-01-01', genre_ids: [16] }] }), { status: 200 })
   }
+  if (u.pathname === '/3/tv/555') return new Response(JSON.stringify({ seasons: [{ season_number: 1, air_date: '2024-01-01', episode_count: 12 }] }), { status: 200 })
   if (u.pathname.endsWith('/images')) return new Response(JSON.stringify({ posters: [{ file_path: '/original.jpg', width: 1200, height: 1600, iso_639_1: 'ja' }] }), { status: 200 })
   return new Response('{}', { status: 404 })
 }
 `
 const titel = (id: number, format: string) => ({ id, slug: `t-${id}`, titleDe: `Fixture ${id}`, titleEn: `Fixture Name ${id}`, jpYear: 2024, format, genres: [], keywords: [], studios: [], streams: [] })
-/* 900501/900502 Film (filmeSuchen), 10900503/10900504 Serie ohne Cover (serienOhneCover), 900505/900506 Serie mit Katalogsuche (plakatSuche). */
-const OHNE = [900501, 10900503, 900505]
-const NORMAL = [900502, 10900504, 900506]
+/* 900501/900502 Film (filmeSuchen), 10900503/10900504 Serie ohne Cover (serienOhneCover), 900505/900506 Serie mit Katalogsuche (plakatSuche),
+   900508/900509 Staffel einer Reihe mit Serienzuordnung 900507 -> tv/555 (staffelPlakate; stehen nicht in titles.json). */
+const OHNE = [900501, 10900503, 900505, 900508]
+const NORMAL = [900502, 10900504, 900506, 900509]
 
 const wurzel = mkdtempSync(join(tmpdir(), 'tmdb-poster-ohne-'))
 try {
@@ -47,6 +49,10 @@ try {
     titel(900505, 'TV'), titel(900506, 'TV'),
   ].map((t) => (t.id >= 10_000_000 ? t : { ...t, coverImage: 'https://example.org/c.jpg' }))
   writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify(alle))
+  const staffel = (id: number) => ({ id, jpStart: '2024-01-01', episodes: 12 })
+  writeFileSync(join(wurzel, 'public/data/franchises.json'), JSON.stringify({ f1: [staffel(900507), staffel(900508), staffel(900509)] }))
+  writeFileSync(join(wurzel, 'data/tmdb-titles.json'), JSON.stringify({ 900507: { tmdbId: 555, kind: 'tv', fetchedAt: '2999-01-01' } }))
+  writeFileSync(join(wurzel, 'data/cover-klein.json'), JSON.stringify([900508, 900509].map((id) => ({ id, grund: 'keine TMDB-Zuordnung' }))))
   const stub = `data:text/javascript,${encodeURIComponent(STUB)}`
   const r = spawnSync(process.execPath, ['--import', 'tsx', '--import', stub, 'pipeline/fetch-tmdb-poster.ts'], {
     encoding: 'utf8',
