@@ -9,6 +9,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { RUECKGANG_ZEILE, VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -27,9 +28,6 @@ const titel = [
   { id: 900002, titleRomaji: 'B', format: 'TV', episodes: 12, streams: [], watchLinks: [stream] },
 ]
 
-/* Dateiname getrennt gebaut: die Bot-Pfade-Liste verbietet ihn als Literal in Tests. */
-const VERLAUF = ['qualitaet', 'verlauf'].join('-') + '.json'
-
 function lauf(vorherWert: number): string {
   const ak = mkdtempSync(join(tmpdir(), 'qualitaet-rueckgang-'))
   try {
@@ -37,7 +35,7 @@ function lauf(vorherWert: number): string {
     mkdirSync(join(ak, 'data'), { recursive: true })
     writeFileSync(join(ak, 'public', 'data', 'titles.json'), JSON.stringify(titel))
     writeFileSync(join(ak, 'public', 'data', 'events.json'), '[]')
-    writeFileSync(join(ak, 'data', VERLAUF), JSON.stringify([{ gemessenAm: '2000-01-01', mitStreamingWeg: vorherWert }]))
+    writeFileSync(join(ak, VERLAUF_DATEI), JSON.stringify([{ gemessenAm: '2000-01-01', mitStreamingWeg: vorherWert }]))
     const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-qualitaet.ts')], {
       env: { ...process.env, AK_ROOT: ak },
       encoding: 'utf8',
@@ -52,9 +50,9 @@ function lauf(vorherWert: number): string {
 }
 
 const mit = lauf(3)
-pruefe('Rückgang 3 → 2 warnt im Lauf', /mitStreamingWeg: 3 → 2/.test(mit), mit)
+pruefe('Rückgang 3 → 2 meldet im Lauf die Zeile', mit.includes(`${RUECKGANG_ZEILE}mitStreamingWeg: 3 → 2`), mit)
 const ohne = lauf(2)
-pruefe('gleicher Wert warnt im Lauf nicht', !/mitStreamingWeg: \d/.test(ohne), ohne)
+pruefe('gleicher Wert meldet im Lauf die Zeile nicht', !ohne.includes(RUECKGANG_ZEILE), ohne)
 
 if (verletzt) process.exit(1)
 console.log('check-qualitaet-rueckgang-lauf: 2 Fälle grün')
