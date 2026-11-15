@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 13.11.2026 um 16:24 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 15.11.2026 um 15:46 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,46 +19,49 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- Patch Notes: hyouka-folgen-der-zweiten-haelfte liegt seit 2026-11-05 im Vorrat (wartet auf: Behebung des Zuordnungsfehlers laut daniel-zum-abarbeiten/vorrat/hyouka-zweite-haelfte-fehlt.md (Folgen 13–22 fehlen in dubRanges von titles.json Hyouka, al 12189; eigener Auftrag)) – prüfen, ob die Wirkung live ist, dann freigeben
+- 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true})
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-⚠  Patch Notes: hyouka-folgen-der-zweiten-haelfte liegt seit 2026-11-05 im Vorrat (wartet auf: Behebung des Zuordnungsfehlers laut daniel-zum-abarbeiten/vorrat/hyouka-zweite-haelfte-fehlt.md (Folgen 13–22 fehlen in dubRanges von titles.json Hyouka, al 12189; eigener Auftrag)) – prüfen, ob die Wirkung live ist, dann freigeben
+29 Läufe in den letzten 1 Tagen (2278 insgesamt)
 
-38 Läufe in den letzten 1 Tagen (2198 insgesamt)
+15.11., 00:48  Bestand — zusammenführ   verweise +4, mitUrteil +4, titelMitSynchro +4, releases -1, termine -24
+            ℹ  erklärt, nicht rot: später ausgeglichen (Stand 15.11., 13:11 gegen Stand davor ohne Verlust): 24 Termine weniger
+15.11., 02:20  Bestand — zusammenführ   verweise -1, mitUrteil -1
+            ⚠  1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true})
+               • Captain Tsubasa: Staffel 2 - Die Junioren (163024) · primevideo · Synchro-Beleg weg (link-check: 200 am 2026-10-05)
+15.11., 04:33  Bestand — zusammenführ   termine -1
+15.11., 13:11  Bestand — zusammenführ   releases +2, termine +25
 
-12.11., 16:17  Bestand — zusammenführ   verweise +1, mitUrteil +1
-12.11., 17:58  Bestand — zusammenführ   verweise +3, mitUrteil +1, ohneUrteil +2, titelMitSynchro +1
-12.11., 19:08  Bestand — zusammenführ   releases +4, termine +4
-13.11., 06:10  Bestand — zusammenführ   termine +7
-13.11., 13:57  Bestand — zusammenführ   verweise +1, mitUrteil +1
+Stand jetzt: 2923 Titel, 2134 Urteile, 475 offen
+Über den Zeitraum: Titel 0, Urteile +3, offen 0
+ℹ  1 Rückgang ausgeglichen
 
-Stand jetzt: 2923 Titel, 2131 Urteile, 475 offen
-Über den Zeitraum: Titel 0, Urteile +2, offen +2
+⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 4090 Meldungen auf 227 Adressen (primevideo 512, adn 158, disneyplus 2217, netflix 1203)
-Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 421 Adressen
+Briefkasten: 4105 Meldungen auf 230 Adressen (primevideo 514, adn 158, disneyplus 2217, netflix 1216)
+Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 426 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
-Übernahme: zuletzt 2026-11-13T00:10:32.770Z (data/meldungen-uebernahme.json)
-✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 3 h)
+Übernahme: zuletzt 2026-11-15T02:10:36.010Z (data/meldungen-uebernahme.json)
+✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 3 h)
 ✓ refresh-data.yml: letzter Erfolg vor 11 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 72 h (Frist 336 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 119 h (Frist 336 h)
 ✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ anisearch-katalog.yml: letzter Erfolg vor 9 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 155 h (Frist 1008 h)
-✓ bestand-bauen.yml: letzter Erfolg vor 0 h (Frist 18 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
-✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 0 h (Frist 3 h)
-✓ claude-wache-urteil.yml: letzter Erfolg vor 6 h (Frist 36 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 203 h (Frist 1008 h)
+✓ bestand-bauen.yml: letzter Erfolg vor 1 h (Frist 18 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 24 h (Frist 48 h)
+✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 1 h (Frist 3 h)
+✓ claude-wache-urteil.yml: letzter Erfolg vor 30 h (Frist 36 h)
 ✓ claude-verpasst-recherche.yml: letzter Erfolg vor 4 h (Frist 36 h)
-✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
-✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
+✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
+✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 1 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, NACHT_MERGER_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
 Zugänge unauffällig.
@@ -70,10 +73,10 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
 (`data/termine-ausgelassen.json`, Skill `stille-ausfaelle-verhindern`).
 
 ```
- 228  Blöcke und Titel verschieden viele (±0)
+ 227  Blöcke und Titel verschieden viele (-2)
   43  Folgenzahl geht nicht auf (±0)
    4  deutscher Termin vor der japanischen Ausstrahlung (±0)
-(Vergleich mit dem Stand vom 2026-11-12)
+(Vergleich mit dem Stand vom 2026-11-14)
 ```
 
 ## Tagebuch
@@ -82,6 +85,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 15.11.2026 15:46 | 2923 / 2134 / 475 | Titel 0, Urteile +3, offen 0 | 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true}) |
 | 13.11.2026 16:24 | 2923 / 2131 / 475 | Titel 0, Urteile +2, offen +2 | Patch Notes: hyouka-folgen-der-zweiten-haelfte liegt seit 2026-11-05 im Vorrat (wartet auf: Behebung des Zuordnungsfehlers laut daniel-zum-abarbeiten/vorrat/hyouka-zweite-haelfte-fehlt.md (Folgen 13–22 fehlen in dubRanges von titles.json Hyouka, al 12189; eigener Auftrag)) – prüfen, ob die Wirkung live ist, dann freigeben |
 | 12.11.2026 17:00 | 2923 / 2128 / 473 | Titel 0, Urteile +3, offen +2 | Patch Notes: mehr-deutsche-folgen-netflix-prime liegt seit 2026-11-04 im Vorrat (wartet auf: Rohfolgen-Lauf mit Wirkung von PR 2740 und 2762 — cartoons.json Peppa Wutz (-12225) Netflix dubRanges über Folge 13 hinaus (04.11. 08:45 noch 1–13), titles.json Tayo (163828) Prime mit dubRanges; dann Beispiele prüfen) – prüfen, ob die Wirkung live ist, dann freigeben |
 | 11.11.2026 16:13 | 2923 / 2125 / 471 | Titel 0, Urteile +3, offen +2 | 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger |
