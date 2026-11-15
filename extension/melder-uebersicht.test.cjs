@@ -591,6 +591,21 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     pruefe('ohne zurückgestellte Titel: kein Filterknopf „zurückgestellt zeigen“', !texte.some((t) => /zurückgestellt (zeigen|ausblenden)/.test(t)), texte.filter((t) => /zurückgestellt/.test(t)))
     pruefe('ohne zurückgestellte Titel: keine Zeile mit ak-zurueck', zeilenKlassen(keiner.body).length === 3 && zeilenKlassen(keiner.body).every((k) => !k.includes('ak-zurueck')), zeilenKlassen(keiner.body))
   }
+  /* Verdrahtung (15.11.2026): das ganze melder.js meldet die gespeicherte Zurückstellung an den Worker; ohne `worker` an der Merkliste bliebe es stumm. */
+  {
+    const bis = Number.MAX_SAFE_INTEGER
+    const gespeichert = { 80243876: { grund: 'Erinnern statt Folgenliste', bis } }
+    const meldung = lade('/title/81186100', KULISSE, '', { netflixZurueckgestellt: gespeichert })
+    const posts = []
+    const standard = meldung.umgebung.fetch
+    meldung.umgebung.fetch = async (adresse, init) => {
+      if (init?.method === 'POST' && String(adresse).includes('zurueck=1')) posts.push({ adresse, init })
+      return standard(adresse, init)
+    }
+    for (let i = 0; i < 12; i++) await new Promise((r) => setImmediate(r))
+    pruefe('melder.js: genau ein POST /pruefung?zurueck=1 an den Worker', posts.length === 1 && posts[0].adresse === 'https://newsletter.animekalender.workers.dev/pruefung?zurueck=1', posts.map((p) => p.adresse))
+    pruefe('melder.js: der POST trägt den Token der Erweiterung und die Zurückstellung', posts[0]?.init.headers['X-Lauf-Token'] === 'test-token' && JSON.parse(posts[0].init.body).eintraege['80243876']?.grund === 'Erinnern statt Folgenliste', posts[0]?.init)
+  }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)

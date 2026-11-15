@@ -12,9 +12,12 @@
   vergangenes Datum ohne Jahr gilt als unlesbar); „Erinnern" ohne (lesbares) Datum → 7 Tage; alles andere (keine
   Folgenliste, nach N Versuchen offen) → 1 Tag; nie mehr als 30 Tage (ein falsch gelesenes Datum sperrt keinen
   Titel für ein Jahr). Ein Titel, der nach dem Worker-Stand fertig ist, fliegt raus, ebenso ein Eintrag mit dem
-  Grund „fertig" und jeder abgelaufene. Kein Worker, keine D1.
+  Grund „fertig" und jeder abgelaufene. Seit 15.11.2026 meldet `zurueckMelden` die Menge an den Worker
+  (`POST ?zurueck=1`, Tabelle `pruefung_zurueck`), damit der Prüfstand dieselbe Zahl nennt wie die Liste.
 */
 const ZURUECK_SCHLUESSEL = 'netflixZurueckgestellt'
+const ZURUECK_GEMELDET = 'netflixZurueckGemeldet'
+const ZURUECK_ABSTAND_MS = 10 * 60 * 1000
 const LAUF_UEBERSPRUNGEN = 'ak-netflix-uebersprungen'
 const ZURUECK_TAG_MS = 24 * 3600 * 1000
 const ZURUECK_STUNDE_MS = 3600 * 1000
@@ -93,17 +96,92 @@ function zurueckFragen(aktiv, gelistet, istFertig, kennungen, bereit, eintrag) {
   }
 }
 
+/** Die gültigen Einträge (`bis` in der Zukunft) nach Kennung sortiert: der Rumpf der Meldung an den Worker. */
+function zurueckEintraege(stand, jetzt) {
+  const gueltig = Object.keys(stand)
+    .filter((k) => stand[k].bis > jetzt)
+    .sort()
+  return Object.fromEntries(gueltig.map((k) => [k, { grund: stand[k].grund, bis: stand[k].bis }]))
+}
+
+/**
+ * Meldet die Zurückstellungen an den Worker, damit sein Prüfstand dieselbe Zahl nennt wie die Liste (15.11.2026).
+ * Höchstens eine Meldung je `ZURUECK_ABSTAND_MS` (auch nach einem Fehlschlag) und nur bei geänderter Menge; der Stand der
+ * letzten Meldung liegt im Speicher und überlebt das Neuladen jedes Titels. `o`: `{ stand(), speicher, jetzt(), worker, token(), holen }`.
+ * Ergebnis `{ art, spaeter? }`; `spaeter` = Millisekunden, nach denen die Änderung nachgeholt wird (auch nach Ablehnung oder Netzfehler).
+ */
+async function zurueckMelden(o) {
+  const eintraege = zurueckEintraege(o.stand(), o.jetzt())
+  const inhalt = JSON.stringify(eintraege)
+  const letzte = (await o.speicher.get(ZURUECK_GEMELDET))?.[ZURUECK_GEMELDET] ?? {}
+  if (letzte.inhalt === inhalt || (letzte.inhalt === undefined && inhalt === '{}')) return { art: 'gleich' }
+  const rest = (letzte.versuch ?? 0) + ZURUECK_ABSTAND_MS - o.jetzt()
+  if (rest > 0) return { art: 'spaeter', spaeter: rest }
+  const token = await o.token()
+  if (!token) return { art: 'ohne-token' }
+  await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt: letzte.inhalt, versuch: o.jetzt() } })
+  try {
+    const antwort = await o.holen(`${o.worker}?zurueck=1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+      body: JSON.stringify({ plattform: 'netflix', eintraege }),
+    })
+    if (!antwort.ok) return { art: 'abgelehnt', spaeter: ZURUECK_ABSTAND_MS }
+  } catch {
+    return { art: 'fehler', spaeter: ZURUECK_ABSTAND_MS }
+  }
+  await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt, versuch: o.jetzt() } })
+  return { art: 'gesendet' }
+}
+
+/** Die Umgebung der Merkliste, deren `geaendert()` zusätzlich meldet (nur mit `worker`); eine Änderung im Abstand holt ein Timer nach. */
+function zurueckMitMelden(roh, stand) {
+  if (!roh.worker) return roh
+  let wartet = false
+  const warten = roh.warten ?? ((fn, ms) => setTimeout(fn, ms))
+  const o = {
+    stand,
+    speicher: roh.speicher ?? globalThis.akKontext.lokal,
+    jetzt: roh.jetzt ?? Date.now,
+    worker: roh.worker,
+    token: roh.token ?? (async () => (await globalThis.akKontext.lesen('token', 'sync'))?.token),
+    holen: roh.holen ?? ((...a) => fetch(...a)),
+  }
+  /* Nacheinander: zwei Änderungen kurz hintereinander (Laden, dann Aufräumen) sollen nicht zweimal melden. */
+  let kette = Promise.resolve()
+  const nachholen = (e) => {
+    if (e.spaeter === undefined || wartet) return
+    wartet = true
+    warten(() => {
+      wartet = false
+      melde()
+    }, e.spaeter)
+  }
+  const melde = () => {
+    kette = kette.then(() => zurueckMelden(o)).then(nachholen).catch(() => {})
+    return kette
+  }
+  return {
+    ...roh,
+    geaendert: () => {
+      melde()
+      roh.geaendert?.()
+    },
+  }
+}
+
 /**
  * Die Merkliste des Durchgangs (`Map` Kennung → Grund) samt dauerhafter Zurückstellung.
  * `titel`: die Prüfliste (Kennung → Eintrag); `fertig(kennung, eintrag)`: Worker-Stand, `true` = nicht mehr offen.
- * `umgebung` (nur Tests): `{ speicher, jetzt, datum }`; `geaendert()` (Melder): nach dem Laden und nach jedem Schreiben,
- * damit die Zähler der Prüfliste neu rechnen.
+ * `roh` (Tests, Melder): `{ speicher, jetzt, datum }`; `geaendert()` (Melder): nach dem Laden und nach jedem Schreiben,
+ * damit die Zähler der Prüfliste neu rechnen; `worker` (Melder): Adresse des Workers, an den die Zurückstellungen gemeldet werden.
  */
-globalThis.akNetflixZurueckNeu = (titel, fertig, umgebung = {}) => {
-  const speicher = umgebung.speicher ?? globalThis.akKontext.lokal
-  const jetzt = umgebung.jetzt ?? Date.now
-  const datum = umgebung.datum ?? (() => globalThis.erscheinungsdatum?.())
+globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
+  const speicher = roh.speicher ?? globalThis.akKontext.lokal
+  const jetzt = roh.jetzt ?? Date.now
+  const datum = roh.datum ?? (() => globalThis.erscheinungsdatum?.())
   let stand = {}
+  const umgebung = zurueckMitMelden(roh, () => stand)
   let bereit = Promise.resolve()
 
   /** Änderungen laufen nacheinander, erst nach dem Laden, und schreiben den ganzen Stand. */
