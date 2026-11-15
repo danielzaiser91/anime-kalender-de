@@ -16,7 +16,10 @@ import { handlePruefung } from '../worker/src/pruefung.ts'
 import { leseZurueck, pruefeZurueck, speichereZurueck } from '../worker/src/pruefung-zurueck.ts'
 
 festeUhr('2026-11-15T00:30:00Z')
-console.error = () => {}
+/* Die Protokollzeilen der Ablehnungen (`wrangler tail`): der Test liest sie, statt sie auszugeben. */
+const protokoll: string[] = []
+console.error = (z: string) => void protokoll.push(z)
+console.warn = (z: string) => void protokoll.push(z)
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string, gefunden?: unknown) => {
@@ -124,14 +127,34 @@ console.log('Meldung: pruefeZurueck')
   pruefe('eintraege' in grund && grund.eintraege['7']?.grund.length === 80 && grund.eintraege['8']?.grund === '', 'Grund auf 80 Zeichen gekürzt, fehlender Grund leer')
   const schlecht = pruefeZurueck({ plattform: 'netflix', eintraege: { 'a b': { grund: 'x', bis: JETZT + 1 }, 7: { grund: 'x', bis: 'morgen' }, 8: { grund: 'x', bis: NaN }, 9: 'x', 10: null, 11: { grund: 'x', bis: JETZT + 1 } } }, JETZT)
   pruefe('eintraege' in schlecht && Object.keys(schlecht.eintraege).join() === '11', 'ungültige Kennung, Zeit oder Form werden verworfen, der Rest bleibt', schlecht)
-  const sortiert = pruefeZurueck({ plattform: 'netflix', eintraege: { 30: { grund: 'x', bis: JETZT + 1 }, 4: { grund: 'x', bis: JETZT + 1 }, 200: { grund: 'x', bis: JETZT + 1 } } }, JETZT)
-  pruefe('eintraege' in sortiert && Object.keys(sortiert.eintraege).join() === '4,30,200', 'Kennungen nach Text sortiert (stabiler Inhalt für den Vergleich im Worker)', sortiert)
+  const eins = { grund: 'x', bis: JETZT + 1 }
+  const vorwaerts = pruefeZurueck({ plattform: 'netflix', eintraege: { aa: eins, mm: eins, zz: eins } }, JETZT)
+  const rueckwaerts = pruefeZurueck({ plattform: 'netflix', eintraege: { zz: eins, mm: eins, aa: eins } }, JETZT)
+  const gemischt = pruefeZurueck({ plattform: 'netflix', eintraege: { mm: eins, zz: eins, aa: eins } }, JETZT)
+  const alsText = (e: typeof vorwaerts) => ('eintraege' in e ? JSON.stringify(e.eintraege) : '')
+  pruefe(alsText(vorwaerts).startsWith('{"aa"') && alsText(vorwaerts).indexOf('"mm"') < alsText(vorwaerts).indexOf('"zz"'), 'Kennungen ohne Zahlenform stehen nach Text sortiert (aa, mm, zz)', alsText(vorwaerts))
+  pruefe(alsText(vorwaerts) === alsText(rueckwaerts) && alsText(vorwaerts) === alsText(gemischt), 'dieselbe Menge in beliebiger Eingabereihenfolge gibt denselben Text (der Vergleich im Upsert braucht stabilen Inhalt)')
   const viele = Object.fromEntries(Array.from({ length: 2001 }, (_, i) => [String(i), { grund: 'x', bis: JETZT + 1 }]))
-  pruefe('status' in pruefeZurueck({ plattform: 'netflix', eintraege: viele }, JETZT), '2001 Einträge: abgelehnt')
+  const zuViele = pruefeZurueck({ plattform: 'netflix', eintraege: viele }, JETZT)
+  pruefe('status' in zuViele && zuViele.status === 400 && zuViele.grund === 'zu viele Einträge', '2001 Einträge: 400 zu viele Einträge', zuViele)
   const grenze = Object.fromEntries(Array.from({ length: 2000 }, (_, i) => [String(i), { grund: 'x', bis: JETZT + 1 }]))
   pruefe('eintraege' in pruefeZurueck({ plattform: 'netflix', eintraege: grenze }, JETZT), '2000 Einträge: erlaubt')
-  pruefe('status' in pruefeZurueck({ plattform: 'primevideo', eintraege: {} }, JETZT), 'unbekannter Anbieter: abgelehnt')
-  pruefe('status' in pruefeZurueck({ plattform: 'netflix' }, JETZT) && 'status' in pruefeZurueck({ plattform: 'netflix', eintraege: [] }, JETZT) && 'status' in pruefeZurueck(null, JETZT), 'ohne eintraege, mit Liste, ohne Rumpf: abgelehnt')
+  const fremd = pruefeZurueck({ plattform: 'primevideo', eintraege: {} }, JETZT)
+  pruefe('status' in fremd && fremd.status === 400 && fremd.grund === 'Anbieter unbekannt', 'unbekannter Anbieter: 400 Anbieter unbekannt', fremd)
+  const ohneAnbieter = pruefeZurueck({ eintraege: {} }, JETZT)
+  pruefe('status' in ohneAnbieter && ohneAnbieter.grund === 'Anbieter unbekannt', 'ohne Anbieter: dieselbe Ablehnung')
+  for (const [name, roh] of [
+    ['ohne eintraege', { plattform: 'netflix' }],
+    ['eintraege null', { plattform: 'netflix', eintraege: null }],
+    ['eintraege Liste', { plattform: 'netflix', eintraege: [] }],
+    ['eintraege Text', { plattform: 'netflix', eintraege: 'text' }],
+    ['eintraege Zahl', { plattform: 'netflix', eintraege: 5 }],
+  ] as const) {
+    const r = pruefeZurueck(roh, JETZT)
+    pruefe('status' in r && r.status === 400 && r.grund === 'eintraege fehlt', `${name}: 400 eintraege fehlt`, r)
+  }
+  const keinRumpf = pruefeZurueck(null, JETZT)
+  pruefe('status' in keinRumpf && keinRumpf.status === 400, 'ohne Rumpf: 400')
   pruefe('eintraege' in pruefeZurueck({ plattform: 'netflix', eintraege: {} }, JETZT), 'leere Menge ist gültig (alles wieder offen)')
 }
 
@@ -177,8 +200,13 @@ console.log('Der ganze Weg über handlePruefung')
   pruefe((await meldung({ plattform: 'netflix', eintraege }, {})).status === 403, 'ohne Token: 403')
   pruefe((await meldung({ plattform: 'netflix', eintraege }, { 'X-Lauf-Token': 'falsch' })).status === 403, 'falscher Token: 403')
   pruefe((await titelJetzt()).titel === 160, 'nach den abgelehnten Versuchen unverändert 160')
-  pruefe((await meldung({ plattform: 'disneyplus', eintraege })).status === 400, 'unbekannter Anbieter: 400')
+  const unbekannt = await meldung({ plattform: 'disneyplus', eintraege })
+  pruefe(unbekannt.status === 400 && ((await unbekannt.json()) as { error: string }).error === 'Anbieter unbekannt', 'unbekannter Anbieter: 400 mit Grund')
+  const zeile = protokoll.map((z) => JSON.parse(z) as { route: string; status: number; grund: string }).find((z) => z.route === 'pruefung-zurueck')
+  pruefe(zeile?.status === 400 && zeile.grund === 'Anbieter unbekannt', 'die Ablehnung steht im Protokoll (Route, Status, Grund)', protokoll)
   pruefe((await meldung({ plattform: 'netflix' })).status === 400, 'ohne eintraege: 400')
+  const kaputt = await handlePruefung(new Request('https://worker.test/pruefung?zurueck=1', { method: 'POST', headers: { 'X-Lauf-Token': 't' }, body: '{kein json' }), env)
+  pruefe(kaputt.status === 400 && ((await kaputt.json()) as { error: string }).error === 'Kein gültiges JSON', 'Rumpf kein JSON: 400 Kein gültiges JSON')
   const vorZeilen = h.geschrieben
   const r = await meldung({ plattform: 'netflix', eintraege })
   const antwort = (await r.json()) as { ok: boolean; eintraege: number }
@@ -216,6 +244,8 @@ console.log('Migration fehlt: 503 mit Grund, Stand unverändert')
   )
   const k = (await r.json()) as { ok: boolean; error: string }
   pruefe(r.status === 503 && !k.ok && /Migration 064/.test(k.error), 'ohne die Tabelle: 503 und der Grund nennt die Migration', [r.status, k])
+  const fehlerZeilen = protokoll.map((z) => JSON.parse(z) as { route: string; status: number; grund: string })
+  pruefe(fehlerZeilen.some((z) => z.route === 'pruefung-zurueck' && z.status === 503 && /Migration 064/.test(z.grund)), 'die fehlende Tabelle steht im Protokoll (503, Grund nennt die Migration)', protokoll)
 }
 
 console.log(fehler ? `\n${fehler} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
