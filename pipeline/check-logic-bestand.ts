@@ -30,7 +30,7 @@ console.log('\nTMDB-Kennungen von Hand (gegen den Bestand)')
 {
   const vomBand = (datei: string) => readFileSync(new URL('../' + datei, import.meta.url), 'utf8')
   const zusicherungen = pruefeTmdbHandBestand(vomBand, pruefe, console.log)
-  pruefe('der TMDB-Block hat 3 Zusicherungen gefahren', zusicherungen === 3, zusicherungen)
+  pruefe('der TMDB-Block hat 4 Zusicherungen gefahren', zusicherungen === 4, zusicherungen)
 }
 
 console.log('\nWerktitel gegen Teiltitel')

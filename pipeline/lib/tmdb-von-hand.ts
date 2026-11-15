@@ -1,4 +1,8 @@
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
 import type { TmdbTitle } from '../fetch-tmdb-titles.ts'
+import { ROOT } from './util.ts'
 
 export interface VonHandEintrag {
   anilistId: number
@@ -14,7 +18,7 @@ export interface Abgeleitet {
   folgen: Record<string, { tmdbId?: number }>
   /** Ein Titel mit Staffel-0-Zuordnung trägt das Standbild seiner Folge, kein Serienbanner: sein Banner bleibt. */
   staffel0: Record<string, unknown>
-  /** Plakat und Abruf-Grund je AniList-ID (`data/tmdb-poster*.json`); bei `ohne` entfallen beide sofort, sonst bliebe ein verworfenes Bild bis zum Ablauf live. */
+  /** Plakat und Abruf-Grund je AniList-ID (`data/tmdb-poster*.json`); bei `ohne` entfallen beide sofort, sonst bliebe ein verworfenes Bild bis zum Ablauf live. Die Plakatsuchen nehmen diese Titel über `ohneKennungen` aus, sonst fände sie der Namensabgleich neu. */
   poster: Record<string, unknown>
   posterGrund: Record<string, unknown>
   verworfen: string[]
@@ -34,6 +38,13 @@ function streicheAbgeleitet(id: number, neu: number | undefined, a: Abgeleitet):
     delete a.folgen[k]
     a.verworfen.push(`Folgen ${k}`)
   }
+}
+
+/** AniList-Kennungen mit `ohne: true` in `data/tmdb-von-hand.yaml`: kein Plakat-Namensabgleich darf sie bedienen, sonst käme das Plakat des Originals zurück. */
+export function ohneKennungen(): Set<number> {
+  const datei = resolve(ROOT, 'data/tmdb-von-hand.yaml')
+  const zeilen = existsSync(datei) ? ((yaml.load(readFileSync(datei, 'utf8')) as VonHandEintrag[] | null) ?? []) : []
+  return new Set(zeilen.filter((e) => e?.ohne && e.anilistId).map((e) => e.anilistId))
 }
 
 /** `ohne`: Plakat und Plakatgrund der Kennungslosen streichen und benennen. */
