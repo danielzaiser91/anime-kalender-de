@@ -1,7 +1,7 @@
 /**
  * Schwarzliste für `.claude/` (Repo ist öffentlich): Namen und Pfade privater Projekte und der Windows-Kontoname in
  * Skill-Pfaden dürfen nicht in den eingesammelten Dateien stehen. Nachname, Adresse und private Domain prüft repoweit
- * `tools/privatkennungen-wache.test.mjs`. Die Suche ist ein reiner Textvergleich
+ * `pipeline/check-privatkennungen.ts`. Die Suche ist ein reiner Textvergleich
  * (`findePrivates`), mit Fällen je Muster; danach läuft sie über alle Dateien des Ordners.
  */
 import assert from 'node:assert/strict'

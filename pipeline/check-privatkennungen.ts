@@ -22,7 +22,7 @@ export const ZUGELASSEN = {
   'web/src/components/StaticViews.tsx': 'Impressum-Anbieter',
   LICENSE: 'Urheberzeile',
   '.claude/mods/arbeitsliste/.claude-plugin/plugin.json': 'Autorfeld der Mod',
-  'tools/privatkennungen-wache.test.mjs': 'trägt die Muster selbst',
+  'pipeline/check-privatkennungen.ts': 'trägt die Muster selbst',
   'pipeline/check-interne-angaben.ts': 'Wächter-Test mit Namensmuster',
   'pipeline/check-folge-zwoelf-hinweis.ts': 'Wächter-Test mit Namensmuster',
   'tools/claude-global-privat.test.mjs': 'Wächter-Test, Fall „Portfolio-Repo“',
@@ -30,7 +30,7 @@ export const ZUGELASSEN = {
 }
 
 /** Ein Aufruf von `git grep`: getrackte Textdateien (ohne node_modules) mit Treffer; Exit 1 = keine. */
-export function suche(wurzel) {
+export function suche(wurzel: string): string[] {
   try {
     const aus = execFileSync('git', ['-C', wurzel, 'grep', '-I', '-l', '-E', MUSTER, '--', '.', ':!node_modules'], {
       encoding: 'utf8',
@@ -39,15 +39,15 @@ export function suche(wurzel) {
       maxBuffer: 16 << 20,
     })
     return aus.split('\n').filter(Boolean)
-  } catch (e) {
+  } catch (e: any) {
     if (e.status === 1) return []
     throw e
   }
 }
 
 /** Treffer, die nicht zugelassen sind. */
-export function unzulaessige(treffer) {
-  return treffer.filter((p) => !(p in ZUGELASSEN))
+export function unzulaessige(treffer: string[]) {
+  return treffer.filter((p: string) => !(p in ZUGELASSEN))
 }
 
 // Fälle der reinen Funktion
@@ -58,7 +58,7 @@ assert.deepEqual(unzulaessige([]), [])
 assert.throws(() => suche(join(tmpdir(), 'privat-wache-gibt-es-nicht')))
 
 // Riegel: Wegwerf-Repo mit eingeschleusten Kennungen (aus Teilen gebaut, ohne ausgeschriebene Adresse)
-const git = (dir, ...a) => execFileSync('git', ['-C', dir, ...a], { timeout: 30000, windowsHide: true, stdio: 'pipe' })
+const git = (dir: string, ...a: string[]) => execFileSync('git', ['-C', dir, ...a], { timeout: 30000, windowsHide: true, stdio: 'pipe' })
 const probe = mkdtempSync(join(tmpdir(), 'privat-wache-'))
 try {
   git(probe, 'init', '-q')
@@ -85,4 +85,4 @@ const treffer = suche(wurzel)
 assert.ok(treffer.includes('LICENSE'), 'Riegel: die zugelassene LICENSE muss gefunden werden, sonst liest die Suche nichts')
 const verletzt = unzulaessige(treffer)
 assert.deepEqual(verletzt, [], `Privatkennung in getrackten Dateien: ${verletzt.join(', ')}`)
-console.log(`privatkennungen-wache.test: ok (${treffer.length} zugelassene Treffer, 0 unzulässige, Probe-Repo schlägt an)`)
+console.log(`check-privatkennungen: ok (${treffer.length} zugelassene Treffer, 0 unzulässige, Probe-Repo schlägt an)`)
