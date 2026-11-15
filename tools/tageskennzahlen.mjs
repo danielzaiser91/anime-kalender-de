@@ -48,7 +48,7 @@ function mitWiederholung(f) {
 function gh(pfad, jq) {
   const alle = []
   for (let seite = 1; ; seite++) {
-    const zeilen = mitWiederholung(() => ausfuehren('gh', ['api', `${pfad}&page=${seite}`, '--jq', jq])).split('\n').filter(Boolean).map((z) => JSON.parse(z))
+    const zeilen = mitWiederholung(() => ausfuehren('gh', ['api', `${pfad}&page=${seite}`, '--jq', jq], { timeout: 60_000 })).split('\n').filter(Boolean).map((z) => JSON.parse(z))
     alle.push(...zeilen)
     if (zeilen.length < 100) return alle
   }
