@@ -1,13 +1,6 @@
 {
-  "stand": "2026-11-15",
+  "stand": "2026-11-16",
   "eintraege": [
-    {
-      "titel": "M.A.S.K.",
-      "id": 5000003,
-      "anbieter": "primevideo",
-      "start": "2026-11-01",
-      "seit": "2026-11-08"
-    },
     {
       "titel": "Inazuma Eleven: The Movie - Team Oger greift an",
       "id": 9032,
@@ -143,6 +136,13 @@
     }
   ],
   "abgeloest": [
+    {
+      "titel": "M.A.S.K.",
+      "id": 5000003,
+      "anbieter": "primevideo",
+      "start": "2026-11-01",
+      "seit": "2026-11-08"
+    },
     {
       "titel": "Fool Night",
       "id": 213457,

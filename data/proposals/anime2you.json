@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-15T22:01:56.096Z",
+  "scrapedAt": "2026-11-15T23:01:40.503Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
@@ -7,7 +7,7 @@
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "schon in einem Rubrik-Feed gelesen": 7,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
-    "Sprachhinweis älter als 45 Tage": 6
+    "Sprachhinweis älter als 45 Tage": 7
   },
   "proposals": [
     {
@@ -4568,19 +4568,6 @@
         }
       ],
       "sammelGelesen": "2026-11-10"
-    },
-    {
-      "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
-      "articleUrl": "https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/",
-      "publishedAt": "2026-10-01",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Design der limitierten »Miss Kobayashi’s Dragon Maid«-Steelbooks enthüllt",
