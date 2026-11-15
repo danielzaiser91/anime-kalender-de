@@ -1,0 +1,1508 @@
+[
+ {
+  "name": "extension/melder.js:2476 Argumente getauscht akNetflixZurueckNeu",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER })",
+    "ersetze": "akNetflixZurueckNeu(fertig, offeneTitel, { geaendert: () => uebersichtZeigen(), worker: WORKER })",
+    "zeile": 2476
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:19 Zahl 10 → 0",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "10",
+    "ersetze": "0",
+    "zeile": 19,
+    "nr": 1
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:19 Zahl 60 → 0",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "60",
+    "ersetze": "0",
+    "zeile": 19
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:19 Zahl 1000 → 0",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "1000",
+    "ersetze": "0",
+    "zeile": 19
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:101 > → >=",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "stand[k].bis > jetzt",
+    "ersetze": "stand[k].bis >= jetzt",
+    "zeile": 101
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:101 > → <=",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "stand[k].bis > jetzt",
+    "ersetze": "stand[k].bis <= jetzt",
+    "zeile": 101
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:113 Argumente getauscht zurueckEintraege",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "zurueckEintraege(o.stand(), o.jetzt())",
+    "ersetze": "zurueckEintraege(o.jetzt(), o.stand())",
+    "zeile": 113
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:116 || → &&",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "letzte.inhalt === inhalt || (letzte.inhalt === undefined && inhalt === '{}')",
+    "ersetze": "letzte.inhalt === inhalt && (letzte.inhalt === undefined && inhalt === '{}')",
+    "zeile": 116
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:116 === → !==",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "letzte.inhalt === inhalt",
+    "ersetze": "letzte.inhalt !== inhalt",
+    "zeile": 116
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:116 && → ||",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "letzte.inhalt === undefined && inhalt === '{}'",
+    "ersetze": "letzte.inhalt === undefined || inhalt === '{}'",
+    "zeile": 116
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:116 === → !==",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "letzte.inhalt === undefined",
+    "ersetze": "letzte.inhalt !== undefined",
+    "zeile": 116
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:116 === → !==",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "inhalt === '{}'",
+    "ersetze": "inhalt !== '{}'",
+    "zeile": 116
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:117 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 117
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:118 > → >=",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "rest > 0",
+    "ersetze": "rest >= 0",
+    "zeile": 118
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:118 > → <=",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "rest > 0",
+    "ersetze": "rest <= 0",
+    "zeile": 118
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:118 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 118
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:121 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt: letzte.inhalt, versuch: o.jetzt() } })",
+    "ersetze": "void 0",
+    "zeile": 121
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:123 Argumente getauscht o.holen",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "o.holen(`${o.worker}?zurueck=1`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    })",
+    "ersetze": "o.holen({\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    }, `${o.worker}?zurueck=1`)",
+    "zeile": 123
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:132 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt, versuch: o.jetzt() } })",
+    "ersetze": "void 0",
+    "zeile": 132
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:140 Argumente getauscht setTimeout",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "setTimeout(fn, ms)",
+    "ersetze": "setTimeout(ms, fn)",
+    "zeile": 140
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:146 Argumente getauscht globalThis.akKontext.lesen",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "globalThis.akKontext.lesen('token', 'sync')",
+    "ersetze": "globalThis.akKontext.lesen('sync', 'token')",
+    "zeile": 146
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:152 || → &&",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "e.spaeter === undefined || wartet",
+    "ersetze": "e.spaeter === undefined && wartet",
+    "zeile": 152
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:152 === → !==",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "e.spaeter === undefined",
+    "ersetze": "e.spaeter !== undefined",
+    "zeile": 152
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:154 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "warten(() => {\n      wartet = false\n      melde()\n    }, e.spaeter)",
+    "ersetze": "void 0",
+    "zeile": 154
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:154 Argumente getauscht warten",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "warten(() => {\n      wartet = false\n      melde()\n    }, e.spaeter)",
+    "ersetze": "warten(e.spaeter, () => {\n      wartet = false\n      melde()\n    })",
+    "zeile": 154
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:156 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "melde()",
+    "ersetze": "void 0",
+    "zeile": 156
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:166 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "melde()",
+    "ersetze": "void 0",
+    "zeile": 166
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:167 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "roh.geaendert?.()",
+    "ersetze": "void 0",
+    "zeile": 167
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "extension/netflix-zurueckgestellt.js:183 Argumente getauscht zurueckMitMelden",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "zurueckMitMelden(roh, () => stand)",
+    "ersetze": "zurueckMitMelden(() => stand, roh)",
+    "zeile": 183
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-stand.ts:113 Argumente getauscht leseZurueck",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-stand.ts",
+    "suche": "leseZurueck(env, jetzt)",
+    "ersetze": "leseZurueck(jetzt, env)",
+    "zeile": 113
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-stand.ts:114 Argumente getauscht ohneZurueck",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-stand.ts",
+    "suche": "ohneZurueck(rechneAnbieter(roh, gemeldet), zurueck)",
+    "ersetze": "ohneZurueck(zurueck, rechneAnbieter(roh, gemeldet))",
+    "zeile": 114
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-stand.ts:114 Argumente getauscht rechneAnbieter",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-stand.ts",
+    "suche": "rechneAnbieter(roh, gemeldet)",
+    "ersetze": "rechneAnbieter(gemeldet, roh)",
+    "zeile": 114
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:22 Argumente getauscht kontext.antwort",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "kontext.antwort({ error: 'Kein gültiges JSON' }, 400)",
+    "ersetze": "kontext.antwort(400, { error: 'Kein gültiges JSON' })",
+    "zeile": 22
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:22 Zahl 400 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "400",
+    "ersetze": "0",
+    "zeile": 22
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:25 Argumente getauscht pruefeZurueck",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "pruefeZurueck(roh, jetzt.getTime())",
+    "ersetze": "pruefeZurueck(jetzt.getTime(), roh)",
+    "zeile": 25
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:27 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "ablehnungLoggen('pruefung-zurueck', geprueft)",
+    "ersetze": "void 0",
+    "zeile": 27
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:27 Argumente getauscht ablehnungLoggen",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "ablehnungLoggen('pruefung-zurueck', geprueft)",
+    "ersetze": "ablehnungLoggen(geprueft, 'pruefung-zurueck')",
+    "zeile": 27
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:28 Argumente getauscht kontext.antwort",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "kontext.antwort({ error: geprueft.grund }, geprueft.status)",
+    "ersetze": "kontext.antwort(geprueft.status, { error: geprueft.grund })",
+    "zeile": 28
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:30 Argumente getauscht mitTagesdeckel",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "mitTagesdeckel({ env: kontext.env, antwort: kontext.antwort }, async (k) => {\n    try {\n      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)\n    } catch (e) {\n      if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e\n      const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'\n      ablehnungLoggen('pruefung-zurueck', { status: 503, grund })\n      return k.antwort({ ok: false, error: grund }, 503)\n    }\n    return k.antwort({ ok: true, eintraege: Object.keys(geprueft.eintraege).length })\n  })",
+    "ersetze": "mitTagesdeckel(async (k) => {\n    try {\n      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)\n    } catch (e) {\n      if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e\n      const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'\n      ablehnungLoggen('pruefung-zurueck', { status: 503, grund })\n      return k.antwort({ ok: false, error: grund }, 503)\n    }\n    return k.antwort({ ok: true, eintraege: Object.keys(geprueft.eintraege).length })\n  }, { env: kontext.env, antwort: kontext.antwort })",
+    "zeile": 30
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:32 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)",
+    "ersetze": "void 0",
+    "zeile": 32
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:32 Argumente getauscht speichereZurueck",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)",
+    "ersetze": "speichereZurueck(geprueft.plattform, k.env, geprueft.eintraege, jetzt)",
+    "zeile": 32
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:36 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "ablehnungLoggen('pruefung-zurueck', { status: 503, grund })",
+    "ersetze": "void 0",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:36 Argumente getauscht ablehnungLoggen",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "ablehnungLoggen('pruefung-zurueck', { status: 503, grund })",
+    "ersetze": "ablehnungLoggen({ status: 503, grund }, 'pruefung-zurueck')",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:36 Zahl 503 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "503",
+    "ersetze": "0",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:37 Argumente getauscht k.antwort",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "k.antwort({ ok: false, error: grund }, 503)",
+    "ersetze": "k.antwort(503, { ok: false, error: grund })",
+    "zeile": 37
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck-route.ts:37 Zahl 503 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "503",
+    "ersetze": "0",
+    "zeile": 37
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:16 Zahl 2000 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "2000",
+    "ersetze": "0",
+    "zeile": 16
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 30 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "30",
+    "ersetze": "0",
+    "zeile": 18
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 24 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "24",
+    "ersetze": "0",
+    "zeile": 18
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 3600 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "3600",
+    "ersetze": "0",
+    "zeile": 18,
+    "nr": 1
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 1000 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "1000",
+    "ersetze": "0",
+    "zeile": 18,
+    "nr": 1
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 3600 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "3600",
+    "ersetze": "0",
+    "zeile": 18,
+    "nr": 2
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 1000 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "1000",
+    "ersetze": "0",
+    "zeile": 18,
+    "nr": 2
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:19 Zahl 80 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "80",
+    "ersetze": "0",
+    "zeile": 19
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:27 ?: Zweige vertauscht",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "roh && typeof roh === 'object' ? roh : {}",
+    "ersetze": "roh && typeof roh === 'object' ? {} : roh",
+    "zeile": 27
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:27 && → ||",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "roh && typeof roh === 'object'",
+    "ersetze": "roh || typeof roh === 'object'",
+    "zeile": 27
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:27 === → !==",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof roh === 'object'",
+    "ersetze": "typeof roh !== 'object'",
+    "zeile": 27
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:28 || → &&",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof daten.plattform !== 'string' || !ZURUECK_PLATTFORMEN.includes(daten.plattform)",
+    "ersetze": "typeof daten.plattform !== 'string' && !ZURUECK_PLATTFORMEN.includes(daten.plattform)",
+    "zeile": 28
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:28 !== → ===",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof daten.plattform !== 'string'",
+    "ersetze": "typeof daten.plattform === 'string'",
+    "zeile": 28
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:29 Zahl 400 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "400",
+    "ersetze": "0",
+    "zeile": 29
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:32 || → &&",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "!e || typeof e !== 'object' || Array.isArray(e)",
+    "ersetze": "!e || typeof e !== 'object' && Array.isArray(e)",
+    "zeile": 32
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:32 || → &&",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "!e || typeof e !== 'object'",
+    "ersetze": "!e && typeof e !== 'object'",
+    "zeile": 32
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:32 !== → ===",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof e !== 'object'",
+    "ersetze": "typeof e === 'object'",
+    "zeile": 32
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:32 Zahl 400 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "400",
+    "ersetze": "0",
+    "zeile": 32
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:34 > → >=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "paare.length > ZURUECK_HOECHSTENS_EINTRAEGE",
+    "ersetze": "paare.length >= ZURUECK_HOECHSTENS_EINTRAEGE",
+    "zeile": 34
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:34 > → <=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "paare.length > ZURUECK_HOECHSTENS_EINTRAEGE",
+    "ersetze": "paare.length <= ZURUECK_HOECHSTENS_EINTRAEGE",
+    "zeile": 34
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:34 Zahl 400 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "400",
+    "ersetze": "0",
+    "zeile": 34
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 ?: Zweige vertauscht",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a < b ? -1 : a > b ? 1 : 0",
+    "ersetze": "a < b ? a > b ? 1 : 0 : -1",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 < → <=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a < b",
+    "ersetze": "a <= b",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 < → >=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a < b",
+    "ersetze": "a >= b",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 Zahl 1 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "1",
+    "ersetze": "0",
+    "zeile": 36,
+    "nr": 1
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 ?: Zweige vertauscht",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a > b ? 1 : 0",
+    "ersetze": "a > b ? 0 : 1",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 > → >=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a > b",
+    "ersetze": "a >= b",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 > → <=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a > b",
+    "ersetze": "a <= b",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 Zahl 1 → 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "1",
+    "ersetze": "0",
+    "zeile": 36,
+    "nr": 2
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:36 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 36
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:37 ?: Zweige vertauscht",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "wert && typeof wert === 'object' ? wert : {}",
+    "ersetze": "wert && typeof wert === 'object' ? {} : wert",
+    "zeile": 37
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:37 && → ||",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "wert && typeof wert === 'object'",
+    "ersetze": "wert || typeof wert === 'object'",
+    "zeile": 37
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:37 === → !==",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof wert === 'object'",
+    "ersetze": "typeof wert !== 'object'",
+    "zeile": 37
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:38 || → &&",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "!KENNUNG.test(kennung) || typeof w.bis !== 'number' || !Number.isFinite(w.bis)",
+    "ersetze": "!KENNUNG.test(kennung) || typeof w.bis !== 'number' && !Number.isFinite(w.bis)",
+    "zeile": 38
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:38 || → &&",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "!KENNUNG.test(kennung) || typeof w.bis !== 'number'",
+    "ersetze": "!KENNUNG.test(kennung) && typeof w.bis !== 'number'",
+    "zeile": 38
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:38 !== → ===",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof w.bis !== 'number'",
+    "ersetze": "typeof w.bis === 'number'",
+    "zeile": 38
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:39 <= → <",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "w.bis <= jetzt",
+    "ersetze": "w.bis < jetzt",
+    "zeile": 39
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:39 <= → >",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "w.bis <= jetzt",
+    "ersetze": "w.bis > jetzt",
+    "zeile": 39
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:40 ?: Zweige vertauscht",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof w.grund === 'string' ? w.grund.slice(0, GRUND_LAENGE) : ''",
+    "ersetze": "typeof w.grund === 'string' ? '' : w.grund.slice(0, GRUND_LAENGE)",
+    "zeile": 40
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:40 === → !==",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof w.grund === 'string'",
+    "ersetze": "typeof w.grund !== 'string'",
+    "zeile": 40
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:40 Argumente getauscht w.grund.slice",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "w.grund.slice(0, GRUND_LAENGE)",
+    "ersetze": "w.grund.slice(GRUND_LAENGE, 0)",
+    "zeile": 40
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:40 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 40
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:41 Argumente getauscht Math.min",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "Math.min(w.bis, jetzt + ZURUECK_HOECHSTENS_MS)",
+    "ersetze": "Math.min(jetzt + ZURUECK_HOECHSTENS_MS, w.bis)",
+    "zeile": 41
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:48 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "await env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())\n    .run()",
+    "ersetze": "void 0",
+    "zeile": 48
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:48 Argumente getauscht env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())",
+    "ersetze": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(JSON.stringify(eintraege), plattform, jetzt.toISOString())",
+    "zeile": 48
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:68 !== → ===",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof z.daten !== 'string'",
+    "ersetze": "typeof z.daten === 'string'",
+    "zeile": 68
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:75 && → ||",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof v?.bis === 'number' && v.bis > jetzt",
+    "ersetze": "typeof v?.bis === 'number' || v.bis > jetzt",
+    "zeile": 75
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:75 === → !==",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof v?.bis === 'number'",
+    "ersetze": "typeof v?.bis !== 'number'",
+    "zeile": 75
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:75 > → >=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "v.bis > jetzt",
+    "ersetze": "v.bis >= jetzt",
+    "zeile": 75
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:75 > → <=",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "v.bis > jetzt",
+    "ersetze": "v.bis <= jetzt",
+    "zeile": 75
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:76 Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "ergebnis.set(z.plattform, Object.fromEntries(aktiv))",
+    "ersetze": "void 0",
+    "zeile": 76
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:76 Argumente getauscht ergebnis.set",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "ergebnis.set(z.plattform, Object.fromEntries(aktiv))",
+    "ersetze": "ergebnis.set(Object.fromEntries(aktiv), z.plattform)",
+    "zeile": 76
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:91 && → ||",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "eintraege !== undefined && Object.hasOwn(eintraege, kennungAus(z.url) ?? '')",
+    "ersetze": "eintraege !== undefined || Object.hasOwn(eintraege, kennungAus(z.url) ?? '')",
+    "zeile": 91
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:91 !== → ===",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "eintraege !== undefined",
+    "ersetze": "eintraege === undefined",
+    "zeile": 91
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:91 Argumente getauscht Object.hasOwn",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "Object.hasOwn(eintraege, kennungAus(z.url) ?? '')",
+    "ersetze": "Object.hasOwn(kennungAus(z.url) ?? '', eintraege)",
+    "zeile": 91
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:93 Argumente getauscht a.ziele.slice",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a.ziele.slice(0, a.titel)",
+    "ersetze": "a.ziele.slice(a.titel, 0)",
+    "zeile": 93
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:93 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 93
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:96 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 96
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung.ts:97 === → !==",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung.ts",
+    "suche": "new URL(request.url).searchParams.get('zurueck') === '1'",
+    "ersetze": "new URL(request.url).searchParams.get('zurueck') !== '1'",
+    "zeile": 97
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ }
+]
