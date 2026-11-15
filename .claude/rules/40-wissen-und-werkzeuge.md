@@ -4,7 +4,7 @@
 Lauf, Daniels Bestätigung) — im Werkzeug-Skill, `ai_agent_learnings.md`, Projekt-`CLAUDE.md`,
 Memory oder am Code; nicht aus einer ungeprüften Vermutung. Jede Hürde darf genau einmal kosten
 (Skill `erkenntnisse-festhalten`).
-**Einmal gesucht, sofort abgelegt (Daniel, 15.11.2026, alle Repos und Werkzeuge):** Was ich suchen oder herausfinden musste (Pfad, Aufruf, Workflow-, Feld- oder Dateiname, Zugang und seine Rechte), steht noch im selben Zug in der Wissensdatenbank `~/.claude/wissen/<kategorie>/` mit Zeile im Index `README.md`; Memory trägt nur den Verweis, gelesen wird bei Bedarf, und eine zweite Suche nach demselben ist ein Fehler. Vor jeder Bitte an Daniel, in einem Dashboard etwas zu tun, prüfe ich `zugaenge/` und my_secrets auf einen Token und belege dessen Rechte per API (E86, 15.11.2026: DNS-Token lag bereit).
+**Einmal gesucht, sofort abgelegt (Daniel, 15.11.2026, alle Repos und Werkzeuge):** Was ich suchen oder herausfinden musste (Pfad, Aufruf, Workflow-, Feld- oder Dateiname, Zugang und seine Rechte), steht noch im selben Zug in der Wissensdatenbank `~/.claude/wissen/<kategorie>/` mit Zeile im Index `README.md`; Memory trägt nur den Verweis, gelesen wird bei Bedarf, und eine zweite Suche nach demselben ist ein Fehler.
 
 **Eine Korrektur gilt der Regel, nicht dem Einzelfall:** Das Dokument, das den Fehler zugelassen
 hat, wird in derselben Antwort geschärft — auch ohne Korrektur, sobald ich den Fehler selbst
@@ -12,7 +12,7 @@ merke (Skill `korrektur-schaerft-die-regel`).
 
 **Vorher nachsehen:** Learnings-Kategorien des Projekttyps in
 `C:\code\ai\ai helper files\ai_agent_learnings.md`; andere Projekte in `ai_agent_projects.md`
-(„gibt es X schon?"); **jedes Werkzeug** in `ai_agent_tools.md` — vor Download, vor Benutzung
+(„gibt es X schon?"); **jedes Werkzeug** in `ai_agent_tools.md`, jeden Zugang (welcher Token darf was) in `~/.claude/wissen/zugaenge/` — vor Download, vor Benutzung
 (dessen Fallstricke lesen), vor „wo liegt X?", vor jedem „das kann ich nicht" **und vor jeder Bitte an Daniel, etwas
 nachzusehen, abzulesen oder zu öffnen** (Konsole, Dashboard, Panel, Login-Bereich — das ist
 dieselbe Absage als Aufgabe getarnt; Search Console: Edge-Erweiterung, 05.10.2026). Steht es dort
