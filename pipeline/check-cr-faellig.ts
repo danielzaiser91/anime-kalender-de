@@ -217,6 +217,7 @@ pruefe('Crunchyroll-Katalogstart bleibt erschienen', istErschienen(expandEvents(
 pruefe('Netflix-Wochenplan bleibt erschienen', istErschienen(folge(fremd({ platform: 'netflix', slug: 'nf-x' }), 7), UHR_15_19))
 // Ein belegter Plan ohne Beobachtung (Altbestand, `estimated: false`) bleibt erschienen: Dort rechnet nichts fort.
 const belegterPlan = { ...(ohne7 as any), schedule: { ...(ohne7 as any).schedule, observed: undefined, zeiten: undefined } } as Release
+pruefe('belegter Plan ohne Beobachtung: Folge 7 am Starttag bleibt erschienen (nicht „fällig“)', istErschienen(folge(belegterPlan, 7), UHR_15_19) && folge(belegterPlan, 7).ohneSichtung === undefined)
 pruefe('belegter Plan ohne Beobachtung bleibt erschienen', istErschienen(folge(belegterPlan, 3), UHR_15_19))
 // Eine Folge vor einer späteren Beobachtung ist sicher erschienen, auch ohne eigene Zeile.
 const luecke = spaceMercenary({ 1: '2026-10-04', 2: '2026-10-11', 3: '2026-10-18', 5: '2026-11-01' })
@@ -252,6 +253,7 @@ pruefe('Uhr-Lauf hat die ganze Woche gespielt', schritte === 2 * 2016 + 2, Strin
 const tageNach = (n: number): Date => new Date(Date.parse('2026-11-15T14:00:00Z') + n * 86_400_000)
 const lange7 = ohneSichtungLange([ohne7], tageNach(8))
 pruefe('Wächter: Folge 7 nach 8 Tagen genannt', lange7.length === 1 && lange7[0]!.folge === 7 && lange7[0]!.slug === 'cr-GT00384006' && lange7[0]!.tage === 8 && lange7[0]!.tage > 0, JSON.stringify(lange7))
+pruefe('Wächter: 8,5 Tage ergeben 8 (abgerundet)', ohneSichtungLange([ohne7], new Date(tageNach(8).getTime() + 12 * 36e5))[0]?.tage === 8)
 pruefe('Wächter: genau 7 Tage noch nicht', ohneSichtungLange([ohne7], tageNach(7)).length === 0)
 pruefe('Wächter: eine Millisekunde über 7 Tage genannt', ohneSichtungLange([ohne7], new Date(tageNach(7).getTime() + 1)).length === 1)
 pruefe('Wächter: beobachtete Folge nie genannt', ohneSichtungLange([mit7], tageNach(30)).every((o) => o.folge !== 7))

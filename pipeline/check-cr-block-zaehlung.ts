@@ -122,6 +122,7 @@ pruefe('Wache: mit allen drei Tagen ist nichts offen', offen(apoRelease({ 1: '20
 pruefe('Wache: ohne Beobachtung ist es eine Ankündigung, nichts offen', offen(apoRelease({})).length === 0)
 pruefe('Wache: Starttag ohne Block in einem Tag Abstand: nichts offen', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-20')).length === 0)
 pruefe('Wache: Starttag einen Tag neben dem Block gilt noch', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-24')).join() === '1,3')
+pruefe('Wache: Folge 3 ohne Sichtung, Termin keine 24 h her („fällig“ zählt hier als verstrichen): offen', offen(apoRelease({ 2: '2026-10-30' }), [apothekerin], new Date('2026-11-06T17:00:00Z')).join() === '1,3', offen(apoRelease({ 2: '2026-10-30' }), [apothekerin], new Date('2026-11-06T17:00:00Z')))
 pruefe('Wache: Folge 3 trägt am 06.11. 16:00 UTC einen Stempel in der Zukunft: erst ab 16:00 offen', offen(apoRelease({ 2: '2026-10-30' }), [apothekerin], new Date('2026-11-06T15:00:00Z')).join() === '1')
 pruefe('Wache: zwei Blöcke am Starttag: nichts wird geraten', offen(apoRelease({ 2: '2026-10-30' }, '2026-10-23'), [{ ...apothekerin, staffeln: [...apothekerin.staffeln!, block('Doppelgänger', folge(60, 1, '2026-10-23T15:00:00Z'))] } as Serie]).length === 0)
 pruefe('Wache: Eintrag mit Wochentermin ohne Serie im Katalog: nichts offen', offen(apoRelease({ 2: '2026-10-30' }), []).length === 0)
