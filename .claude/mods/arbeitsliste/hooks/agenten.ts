@@ -107,10 +107,9 @@ export async function lieseLaufende(d: Dateien, ordner: string, jetzt: number, c
     const bekannt = cache.get(f.name)
     const aktuell = bekannt && (bekannt.key === key || jetzt - bekannt.geprueft < LESE_ABSTAND_MS)
     const urteil: Urteil = aktuell ? { agent: bekannt.agent, merken: false } : await pruefeDatei(d, pfad, f, jetzt, meta, bekannt?.agent)
-    if (urteil.fehler) {
-      fehler.push(urteil.fehler)
-      cache.delete(f.name)
-    } else if (urteil.merken) cache.set(f.name, { key, agent: urteil.agent, geprueft: jetzt })
+    // Ein Fehlurteil wird nie gemerkt: der alte Eintrag hat einen anderen Schlüssel und ist älter als der Lese-Abstand.
+    if (urteil.fehler) fehler.push(urteil.fehler)
+    else if (urteil.merken) cache.set(f.name, { key, agent: urteil.agent, geprueft: jetzt })
     if (urteil.agent) agenten.push({ ...urteil.agent, type: meta.agentType || '?', description: meta.description || '' })
   }
   return { agenten: agenten.sort((a, b) => (a.start ?? 0) - (b.start ?? 0)), fehler }
