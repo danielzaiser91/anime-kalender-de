@@ -567,6 +567,7 @@ pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
 pipeline/check-streaming-kleinfixes.ts
+pipeline/check-streaming-luecke-klassen.ts
 pipeline/check-streaming-luecke.ts
 pipeline/check-streaming-rueckgang.ts
 pipeline/check-streaming-zaehlen.ts

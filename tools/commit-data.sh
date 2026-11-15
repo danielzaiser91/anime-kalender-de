@@ -317,6 +317,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       BESTAND_KAPUTT=1
     else
       cat "$TEMP_LAUF/bestand-pruefung.txt" | tail -3
+      # Keine Warnung, sondern eine Messzeile (Klassen der Streaming-Lücke): steht mitten in der Datei, hinter tail -3 unsichtbar.
+      sed -n '/Streaming-Lücke nach Klassen/p' "$TEMP_LAUF/bestand-pruefung.txt"
       bestand_warnungen
       # Zurückgestellte Titel (meta.quarantaene): Lauf gelb mit der Liste. Die Kalender-Grenzen bleiben stehen, sonst sänken sie um die fehlenden Titel.
       if zurueck="$(node tools/quarantaene.mjs text public/data/meta.json)"; then
