@@ -1,0 +1,85 @@
+# Maßnahmen seit 01.10.2026, an denen die Tageskennzahlen (tage.jsonl) messen, ob sie gewirkt haben.
+# Datum und PR aus `git log origin/main` (Squash-Commit „… (#PR)“, Berlin-Tag des Merge-Commits).
+# Kennzahl = Feld in tage.jsonl; richtung = erwartete Veränderung ab Datum gegenüber den Tagen davor.
+# Die Auswertung (Tagesbericht-App, Teil 2) legt je Maßnahme die Wochen vor und nach `datum` nebeneinander.
+massnahmen:
+  - datum: 2026-10-10
+    pr: 644
+    text: Prüfweg für PRs (PR-Prüfkette und Prüfer-Review) vor jedem Merge
+    kennzahl: reverts
+    richtung: sinkt
+  - datum: 2026-10-10
+    pr: 661
+    text: Prüfstufen 0/1/2 nach Risiko (pr-stufe.mjs); Kleinigkeiten ohne eigenen Prüfer
+    kennzahl: medianOffenBisMergeHandH
+    richtung: sinkt
+  - datum: 2026-10-11
+    pr: 764
+    text: Bestandsbau überspringt den Doppelbau bei Push
+    kennzahl: rotLaeufe
+    richtung: sinkt
+  - datum: 2026-10-20
+    pr: 1496
+    text: Start-Budget-Wächter für das gzip-Gewicht des Erstbesuchs
+    kennzahl: seite.metaGzipKb
+    richtung: nicht-steigend
+  - datum: 2026-10-21
+    pr: 1765
+    text: Liegegut-Wächter findet liegengebliebene offene PRs
+    kennzahl: stau.ueber24h
+    richtung: sinkt
+  - datum: 2026-10-24
+    pr: 1911
+    text: Alarm „Bestandsbau seit N h rot“
+    kennzahl: bestandRotH
+    richtung: sinkt
+  - datum: 2026-10-27
+    pr: 2209
+    text: Abnahme des Dirigenten gibt PRs frei
+    kennzahl: medianOffenBisMergeHandH
+    richtung: sinkt
+  - datum: 2026-10-29
+    pr: 2356
+    text: Mutationsprobe als Job per Knopf (F40 Schritt 2)
+    kennzahl: reverts
+    richtung: sinkt
+  - datum: 2026-11-06
+    pr: 2639
+    text: Nacht-Merger mergt freigegebene PRs in der Cloud (F99)
+    kennzahl: stau.offen
+    richtung: sinkt
+  - datum: 2026-11-09
+    pr: 3309
+    text: Rot-Alarm als GitHub-Issue aus der Wecker-Wache
+    kennzahl: bestandRotH
+    richtung: sinkt
+  - datum: 2026-11-09
+    pr: 3312
+    text: Nacht-Merger mergt Stufe-0/1-PRs trotz fremdem main-Sprung
+    kennzahl: stau.aeltestesH
+    richtung: sinkt
+  - datum: 2026-11-12
+    pr: 3629
+    text: Nacht-Merger mergt auch Prüfstufe 2, Abstand 20 min (F131)
+    kennzahl: stau.ueber24h
+    richtung: sinkt
+  - datum: 2026-11-13
+    pr: 3770
+    text: Prüfer wartet nicht mehr auf die PR-Prüfkette (CI-Stau)
+    kennzahl: medianOffenBisMergeHandH
+    richtung: sinkt
+  - datum: 2026-11-13
+    pr: 3765
+    text: Wächter gegen stumme Fehlerpfade (Ratsche in check:logic)
+    kennzahl: reverts
+    richtung: sinkt
+  - datum: 2026-11-14
+    pr: 3854
+    text: Liegegut meldet liegende Entwürfe (Signal 11)
+    kennzahl: stau.aeltestesH
+    richtung: sinkt
+  - datum: 2026-11-14
+    pr: 3873
+    text: Liegegut meldet vergebene Vorrat-Aufträge ohne PR nach 24 h
+    kennzahl: stau.ueber24h
+    richtung: sinkt
