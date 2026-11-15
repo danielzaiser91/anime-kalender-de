@@ -17,8 +17,10 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { OHNE_DATEIEN, ohneSchluessel, streicheSchluessel } from './fund-ohne.mjs'
 
 export const HEALTH = 'data/source-health.json'
+const OHNE_HAND = 'data/tmdb-von-hand.yaml'
 
 /** Pfade des Funds → übernehmen oder verwerfen; `aenderungen[pfad]` = Zeitpunkt der letzten Änderung auf main (ISO) oder null/fehlend. */
 export function entscheide(pfade, aenderungen, fundZeit) {
@@ -99,8 +101,27 @@ function frageMain(pfad, fundZeit) {
   throw letzter
 }
 
+/** Handdatei lesen; fehlt sie, bricht das Schonen ab (Exit 1), statt den Fund ungefiltert einzureichen. */
+function leseOhneIds() {
+  if (!existsSync(OHNE_HAND)) throw new Error(`${OHNE_HAND} fehlt: die ohne-Schlüssel ließen sich nicht aus dem Fund streichen`)
+  return ohneSchluessel(readFileSync(OHNE_HAND, 'utf8'))
+}
+
+/** Schlüssel mit `ohne` in der TMDB-Handdatei fliegen aus den vom Fund übernommenen Dateien (verworfene und unveränderte tragen den Stand von main). */
+export function streicheOhneAusFund(uebernommen, ids) {
+  if (!ids.length) return
+  for (const pfad of OHNE_DATEIEN) {
+    if (!uebernommen.includes(pfad) || !existsSync(pfad)) continue
+    const { text, entfernt } = streicheSchluessel(readFileSync(pfad, 'utf8'), ids)
+    if (!entfernt.length) continue
+    writeFileSync(pfad, text)
+    console.log(`ohne (tmdb-von-hand): ${entfernt.join(', ')} aus ${pfad} entfernt`)
+  }
+}
+
 /** Verwirft die Dateien (main-Stand zurück bzw. neue Datei entfernen) und führt die Gesundheitsdatei zusammen. Gibt die Entscheidung zurück. */
 export function schone(fundZeit, aenderungen) {
+  const ohneIds = leseOhneIds()
   const pfade = fundPfade()
   const karte = aenderungen ?? Object.fromEntries(pfade.filter((p) => p !== HEALTH).map((p) => [p, frageMain(p, fundZeit)]))
   const entscheidung = entscheide(pfade, karte, fundZeit)
@@ -116,6 +137,7 @@ export function schone(fundZeit, aenderungen) {
     if (verfolgt) git(['checkout', 'HEAD', '--', pfad])
     else rmSync(pfad, { force: true })
   }
+  streicheOhneAusFund(entscheidung.uebernehmen, ohneIds)
   if (pfade.includes(HEALTH)) {
     writeFileSync(HEALTH, healthZusammenfuehren(git(['show', `HEAD:${HEALTH}`]), fundHealth, verworfen))
   }

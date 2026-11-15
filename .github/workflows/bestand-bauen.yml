@@ -312,7 +312,18 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:qualitaet
+        # Rückgang der Titel mit Streaming-Weg: `check-qualitaet.ts` druckt eine Zeile `STREAMING_RUECKGANG …` (Exit bleibt 0),
+        # daraus wird die gelbe Lauf-Meldung (`DATEN_WARNUNG`); der Exit-Code der Messung selbst bleibt erhalten.
+        run: |
+          status=0
+          npm run check:qualitaet > "$RUNNER_TEMP/qualitaet.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/qualitaet.log"
+          if grep -q '^STREAMING_RUECKGANG ' "$RUNNER_TEMP/qualitaet.log"; then
+            rueckgang="$(grep -m1 '^STREAMING_RUECKGANG ' "$RUNNER_TEMP/qualitaet.log" | cut -d' ' -f2-)"
+            echo "::warning::Streaming-Abdeckung: ${rueckgang}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Streaming-Abdeckung gesunken: ${rueckgang}" >> "$GITHUB_ENV"
+          fi
+          exit "$status"
 
       # Fehlt eine deutsche Crunchyroll-Folge der letzten 14 Tage als Termin, bleibt der Bau grün und die Daten gehen raus; die Folge
       # kommt als gelbe Lauf-Meldung (`DATEN_WARNUNG`) in die App und in `laeufe-aufraeumen` (Anlass 25.10.2026: Last Boss S2 #1–2,
