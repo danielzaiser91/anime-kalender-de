@@ -12,7 +12,7 @@
  *   { "name": "Kontrolle", "aenderungen": [] }          // unmutierter Kontrollmutant, muss grün bleiben;
  *     // ohne tests und ohne --test fährt er die tests aller Mutanten der Liste
  * suche darf mehrzeilig sein (\n); kommt sie mehrfach vor, wählt nr (n-tes Vorkommen, ab 1) und/oder zeile
- * (Vorkommen auf dieser Zeile) aus, sonst gilt der Mutant als mehrdeutig. suche "@ENDE" hängt ersetze an.
+ * (Vorkommen auf dieser Zeile) aus, sonst gilt der Mutant als mehrdeutig; ist suche eindeutig, wird zeile ignoriert. suche "@ENDE" hängt ersetze an.
  * Mehrere Änderungen einer Datei beziehen sich alle auf das Original (kein Verschieben der Anker).
  * Sicherung: Kopie `<datei>.mutlauf-orig` neben jeder berührten Datei, Rückspiel bytegleich nach jedem
  * Mutanten, bei Abbruch (Signal) und beim Ende; Rest eines toten Laufs verweigert den Start.
@@ -54,7 +54,8 @@ export function findeStelle(text, a) {
   const suche = passe(a.suche)
   let treffer = alleVorkommen(text, suche)
   if (treffer.length === 0) return { fehler: "nicht gefunden" }
-  if (a.zeile !== undefined) {
+  // zeile ist nur Hinweis: ein eindeutiger Anker gilt, auch wenn die Zeile nach Verschiebungen nicht mehr stimmt.
+  if (a.zeile !== undefined && treffer.length > 1) {
     treffer = treffer.filter((i) => zeileVon(text, i) === a.zeile)
     if (treffer.length === 0) return { fehler: `nicht gefunden auf Zeile ${a.zeile}` }
   }

@@ -9,7 +9,7 @@
  *   node tools/diff-mutanten.mjs --liste          nur die Liste (JSON) auf stdout, fährt der Läufer direkt
  *   node tools/diff-mutanten.mjs --test "<befehl>"  Testbefehl statt der Zuordnung Datei → Test (mehrfach möglich)
  *   node tools/diff-mutanten.mjs --basis <ref>    gegen <ref> statt origin/main vergleichen (Zweig baut auf offenem PR auf)
- * Test je Datei: `<name>.test.(mjs|ts|tsx)` neben der Datei, sonst `pipeline/check-<name>.ts`; ohne Test keine Läuferfahrt.
+ * Test je Datei: `<name>.test.(mjs|cjs|ts|tsx)` neben der Datei, sonst `pipeline/check-<name>.ts`; ohne Test keine Läuferfahrt.
  * Mutantenarten: Vergleich getauscht, Grenze ±1, && ↔ ||, ?:-Zweige vertauscht, Zahl 0/1, Aufruf entfernt, Argumente getauscht.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
@@ -114,12 +114,12 @@ export function mutantenListe(datei, quelle, zeilen, tests) {
 /** Testbefehl für eine Datei: `<name>.test.*` daneben oder `pipeline/check-<name>.ts`; null ohne Treffer. */
 export function testFuer(datei, existiert = existsSync) {
   const basis = datei.replace(CODE, '')
-  const kandidaten = ['mjs', 'ts', 'tsx'].map((e) => `${basis}.test.${e}`)
+  const kandidaten = ['mjs', 'cjs', 'ts', 'tsx'].map((e) => `${basis}.test.${e}`)
   // Kein `tools/${…}`-Literal: die Nachrechnen-Leserregel (pr-nachrechnen-leser.mjs) wertet es als Ordnerleser und entwertet den PR bei jedem bewegten tools/-File.
   kandidaten.push(['tools', `${basename(basis)}.test.mjs`].join('/'), `pipeline/check-${basename(basis)}.ts`)
   const treffer = kandidaten.find(existiert)
   if (!treffer) return null
-  return treffer.endsWith('.mjs') ? `node ${treffer}` : `node node_modules/tsx/dist/cli.mjs ${treffer}`
+  return /\.[cm]js$/.test(treffer) ?`node ${treffer}` : `node node_modules/tsx/dist/cli.mjs ${treffer}`
 }
 
 /** Gesamtliste aus Diff-Text; `lies(datei)` liefert den Quelltext. Mutanten ohne Test tragen kein `tests`; zweite Rückgabe: ihre Dateien. */
