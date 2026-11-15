@@ -31,7 +31,7 @@ function beendet(eintrag) {
   return eintrag.type === 'user' && (text.includes('Report delivered to your caller') || text.includes('interrupted'))
 }
 
-/** Laufende Agenten der Sitzung: [{ id, typ, beschreibung }]. */
+/** Laufende Agenten der Sitzung: [{ id, typ, beschreibung }]. Die Mod arbeitsliste zählt für die Leiste nach (mods/arbeitsliste/hooks/agenten.ts): Regeländerung dort nachführen. */
 function laufendeAgenten(ordner, jetzt = Date.now()) {
   let dateien
   try {
@@ -59,7 +59,7 @@ function laufendeAgenten(ordner, jetzt = Date.now()) {
 
 function pruefe(input, jetzt = Date.now()) {
   const typ = (input.tool_input && input.tool_input.subagent_type) || 'general-purpose'
-  // Ohne effort erbt Opus das medium aus der Agentendefinition; Tier careful heißt Opus high (Daniel, 18.10.2026: Savvy zeigte „Opus 5.5 · medium“).
+  // Ohne effort erbt Opus das medium aus der Agentendefinition; Tier careful heißt Opus high (Daniel, 18.10.2026: die Anzeige zeigte „Opus 5.5 · medium“).
   if (input.tool_input && input.tool_input.model === 'opus' && !input.tool_input.effort) return 'Opus ohne effort startet mit dem medium der Agentendefinition. Tier careful = effort "high" (heavy = "xhigh") ausdrücklich mitgeben. Skill delegieren-und-parallelisieren, Modell je Tier.'
   if (AUSGENOMMEN.has(typ) || !input.transcript_path) return null
   const ordner = path.join(input.transcript_path.replace(/\.jsonl$/, ''), 'subagents')

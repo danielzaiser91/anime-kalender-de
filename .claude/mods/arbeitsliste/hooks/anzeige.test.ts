@@ -2,6 +2,7 @@ import { test, expect, mock } from 'claude-code/testing'
 import type { On } from 'claude-code'
 
 import { STAND, PANE, BAND, zeilen, oeffneAlle, starte } from './testhilfe'
+import { agentenWelt, fakeAgenten } from './agenten-welt'
 
 // Die Leiste: zwei Knöpfe (Agents, Arbeitsliste) und zwei Bälle, eine Zeile, sonst nichts.
 test('Leiste: zwei Knöpfe mit Zahlen, zwei leere Bälle, eine Zeile', async ($, on) => {
@@ -22,13 +23,12 @@ test('Leiste: zwei Knöpfe mit Zahlen, zwei leere Bälle, eine Zeile', async ($,
 
 test('Leiste: Prüfer zählen getrennt („Agents 1+2“), ohne Prüfer nur die Zahl', async ($, on) => {
   starte(on, null, [], true, MIT_DANIEL)
-  const laeuft = [
-    { description: 'Bauer', status: 'running' },
-    { description: 'Prüfer PR 12', status: 'running' },
-    { description: 'Gegenlesen', type: 'pruefer', status: 'running' },
-    { description: 'Prüfer fertig', status: 'done' },
+  agentenWelt.liste = [
+    { id: 'b', type: 'bauer', description: 'Bauer' },
+    { id: 'p1', type: 'general-purpose', description: 'Prüfer PR 12' },
+    { id: 'p2', type: 'pruefer', description: 'Gegenlesen' },
+    { id: 'p3', type: 'pruefer', description: 'Prüfer fertig', bericht: true },
   ]
-  on('state.get', (_$, e, next) => ((e as { plugin?: string }).plugin === 'savvy-progress' ? ({ value: { value: laeuft, version: 1 } } as never) : next(e)))
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   expect((await band.find({ key: 'agents-oeffnen' }))?.props.label).toBe('Agents 1+2')
@@ -134,14 +134,14 @@ test('Leiste auf dem Desktop: Textzeichen statt Bilder, gefüllt = an, leer = au
   await band.unmount()
 })
 
-test('Leiste: die Savvy-Zeile entfällt, nur die eigene bleibt', async ($, on) => {
+test('Leiste: die Zeile eines fremden Moduls entfällt, nur die eigene bleibt', async ($, on) => {
   starte(on, null, [], false)
-  on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'Box', props: {}, children: [{ type: 'Text', props: {}, children: ['savvy'] }] }) as never)
+  on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'Box', props: {}, children: [{ type: 'Text', props: {}, children: ['fremd'] }] }) as never)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).not.toContain('savvy')
+  expect(reihe.s).not.toContain('fremd')
   expect(reihe.s.startsWith('Agents ')).toBe(true)
   await band.unmount()
 })
@@ -245,24 +245,22 @@ test('Klick auf die Zeile: zu → öffnen mit Fokus, dahinter → nach vorn, vor
   await band.unmount()
 })
 
-test('Klick auf „Agents“ zählt nur den Knopf hoch: kein Slash-Befehl im Chat, kein eigenes Pane', async ($, on) => {
+test('Klick auf „Agents“ öffnet das Arbeitsliste-Pane, vorn schließt es; kein Befehl im Chat', async ($, on) => {
   starte(on, null)
+  let vorn = false
   const log: string[] = []
-  on('ui.panes', () => ({ value: [] }) as never)
+  on('ui.panes', () => ({ value: [{ id: 'arbeitsliste', title: 'Arbeitsliste', isShown: vorn, isFocused: vorn, isPlaced: true }] }) as never)
   on('ui.open', (_$, e) => { log.push(`open:${(e as { id?: string }).id}`); return { value: { isPlaced: true } } as never })
+  on('ui.close', (_$, e) => { log.push(`close:${(e as { id?: string }).id}`); return { value: undefined } as never })
   on('command.run', (_$, e) => { log.push(`befehl:${(e as { command?: string }).command}`); return { text: 'ok' } as never })
-  on('state.set', async (_$, e, next) => {
-    const w = e as { key?: string; value?: unknown }
-    if (w.key === 'agentenKnopf') log.push(`knopf:${w.value}`)
-    return next(e)
-  })
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   await band.press({ key: 'agents-oeffnen' })
   await new Promise(r => setTimeout(r, 30))
+  vorn = true
   await band.press({ key: 'agents-oeffnen' })
   await new Promise(r => setTimeout(r, 30))
-  expect(log).toEqual(['knopf:1', 'knopf:2'])
+  expect(log).toEqual(['open:arbeitsliste', 'close:arbeitsliste'])
   await band.unmount()
 })
 
@@ -474,28 +472,16 @@ test('Pane: aufgeklappt gibt es „Text kopieren“, der Druck legt Titel und Re
   await pane.unmount()
 })
 
-// Flackern (Daniel, 11.10.2026): ein State-Abo im Render zeichnete die Leiste bei jedem Savvy-Schritt neu.
+// Flackern (Daniel, 11.10.2026): ein State-Abo im Render zeichnete die Leiste bei jedem Schritt neu.
 test('Leiste: der Render liest nichts nach; die Agentenzahl kommt über den 3-s-Takt', async ($, on) => {
-  const uhr = mock.clock(on)
-  let laeuft = 2
-  let savvyLesen = 0
-  on('session.start', (_$, e) => ({ cwd: e.cwd }))
-  on('ui.status', () => ({ value: undefined }) as never)
-  on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
-  on('fs.read', (_$, e) => (e.path.endsWith('stand.md') ? ({ value: STAND } as never) : ({ deny: 'fehlt' } as never)))
-  on('state.get', (_$, e, next) => {
-    if ((e as { plugin?: string }).plugin !== 'savvy-progress') return next(e)
-    savvyLesen++
-    const liste = Array.from({ length: laeuft }, () => ({ description: 'Bauer', status: 'running' }))
-    return { value: { value: liste, version: savvyLesen } } as never
-  })
+  const uhr = starte(on, null, [], true, STAND, false, 2)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const vorMount = savvyLesen
+  const vorMount = agentenWelt.listAufrufe
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   expect((await band.find({ key: 'agents-oeffnen' }))?.props.label).toBe('Agents 2')
-  expect(savvyLesen).toBe(vorMount)
+  expect(agentenWelt.listAufrufe).toBe(vorMount)
 
-  laeuft = 3
+  agentenWelt.liste = fakeAgenten(3)
   await uhr.advance(3_000)
   expect((await band.find({ key: 'agents-oeffnen' }))?.props.label).toBe('Agents 3')
   await band.unmount()
