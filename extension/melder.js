@@ -1604,7 +1604,11 @@ function browseWegKnopf() {
           knopf.textContent = r.ok ? `✓ „${titel}“ als nicht bei Netflix gemeldet` : r.text
           if (r.ok) zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true }
         }
-        if (!akProfilwahlSeite(document)) void knopf.onclick()
+        /* Die Profilauswahl rendert erst nach dem Takt: erst nach zwei Profilwahl-Takten gilt sie, und ein Klick dazwischen meldet nicht doppelt. */
+        const wartender = knopf
+        setTimeout(() => {
+          if (!wartender.disabled && !akProfilwahlSeite(document)) void wartender.onclick()
+        }, 2 * AK_PROFILWAHL_TAKT_MS)
       }
       return true
     }
@@ -2472,7 +2476,7 @@ const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
-const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, fertig: fertigeTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n) => selbstWeiter(n), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n) => selbstWeiter(n), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
 const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschritt(selbstGezaehlt, selbstGrenze, offeneTitel[String(zuletztGeoeffnet?.id)]?.titel) })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
@@ -4013,7 +4017,7 @@ async function durchlaufStarten() {
         von zwölf.
       */
       /* Ein Netflix-Fehler (UI3012, E103) ist „nicht da", nicht „ohne Tonspur" (15.11.2026). */
-      if (!DURCHLAUF.stoerung) DURCHLAUF.ohneSpur = (DURCHLAUF.ohneSpur ?? 0) + 1
+      akNetflixOhneSpurZaehlen(DURCHLAUF)
       /*
         **`info`, nicht `warn` — das hier ist kein Fehler.**
 

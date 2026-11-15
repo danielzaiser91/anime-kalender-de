@@ -117,12 +117,17 @@ globalThis.akNetflixTitelUeberspringen = (durchlauf, uebersprungen, weiter, brem
   durchlauf.titelSperre = null
   durchlauf.titelUebersprungen = true
   const grund = `Netflix zeigt ihn nicht (${sperre.code})`
-  /* UI3012 nach einem sauberen Titel der Sitzung gehört dem Titel („nicht bei Netflix"), sonst der Sitzung (`bremse.ui3012Titel`). */
-  if (bremse && sperre.code === 'UI3012' && nichtDa && bremse.ui3012Titel(nichtDa.erfolge())) nichtDa.urteil(sperre.reihe, 'Abspielfehler UI3012')
+  /* UI3012 gehört dem Titel („nicht bei Netflix") nur nach einem Umleitungs-Beleg, sonst der Sitzung (`bremse.ui3012Titel`). */
+  if (bremse && sperre.code === 'UI3012' && nichtDa && bremse.ui3012Titel()) nichtDa.urteil(sperre.reihe, 'Abspielfehler UI3012')
   else if (bremse && sperre.code === 'UI3012') bremse.stoerung(sperre.reihe, grund, jetzt)
   else uebersprungen.set(sperre.reihe, grund)
   weiter()
   return true
+}
+
+/** Folge ohne Tonspur binnen der Frist: zählt nur ohne Netflix-Störung (UI3012, E103 sind „nicht da“, nicht „ohne Tonspur“; 15.11.2026). */
+globalThis.akNetflixOhneSpurZaehlen = (durchlauf) => {
+  if (!durchlauf.stoerung) durchlauf.ohneSpur = (durchlauf.ohneSpur ?? 0) + 1
 }
 
 /**
@@ -190,13 +195,13 @@ globalThis.akNetflixSprung = async (id, tun) => {
 }
 
 /**
- * Die Bausteine des Urteils für `melder.js`: `erfolge()` = in diesem Lauf gemessene Titel, `urteil(id, grund)` meldet und merkt,
- * `sprung(id)` = `akNetflixSprung` mit Vorprüfung. `o`: `{ melden, offeneTitel, fertig, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch }`.
+ * Die Bausteine des Urteils für `melder.js`: `urteil(id, grund)` meldet und merkt,
+ * `sprung(id)` = `akNetflixSprung` mit Vorprüfung. `o`: `{ melden, offeneTitel, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch }`.
  */
 globalThis.akNetflixNichtDaTun = (o) => {
   const ort = { melden: o.melden, titel: (id) => o.offeneTitel[id]?.titel ?? id, nichtDa: globalThis.akNetflixNichtDa(), uebersprungen: o.uebersprungen, spur: o.spur }
   const urteil = (id, grund) => globalThis.akNetflixNichtDaUrteil(id, grund, ort)
   const probe = (id) => globalThis.akNetflixUmleitungProbe(id, { fetch: o.fetch, profilwahl: o.profilwahl, spur: o.spur })
   const sprung = (id) => globalThis.akNetflixSprung(id, { probe, urteil, aktiv: o.aktiv, gehe: o.gehe, weiter: o.weiter, beleg: () => o.bremse.beleg() })
-  return { erfolge: () => o.fertig.size, urteil, sprung }
+  return { urteil, sprung }
 }

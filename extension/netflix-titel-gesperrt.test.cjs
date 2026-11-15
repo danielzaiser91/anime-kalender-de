@@ -150,13 +150,13 @@ const quelle = lies('melder.js')
     pruefe('Endstelle: UI3012 geht mit Kennung, Grund und Uhrzeit an die Bremse', JSON.stringify(gerufen) === JSON.stringify([['7', 'Netflix zeigt ihn nicht (UI3012)', 4242]]), gerufen)
   }
   {
-    /* Daniel 15.11.2026: UI3012 nach sauberer Sitzung ist „nicht bei Netflix“, nicht „ohne Tonspur“ und nicht Sitzungsstörung. */
+    /* Daniel 15.11.2026: UI3012 nach einem Umleitungs-Beleg ist „nicht bei Netflix“, nicht „ohne Tonspur“ und nicht Sitzungsstörung. */
     const urteile = []
     const gerufen = []
-    const erfolge = []
-    const bremse = { stoerung: (...a) => gerufen.push(a), ui3012Titel: (n) => { erfolge.push(n); return true } }
-    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: { code: 'UI3012', reihe: '7' }, abbruch: true, stoerung: null }, true, new Map(), () => {}, () => {}, {}, bremse, { now: () => 4242 }, { erfolge: () => 3, urteil: (...a) => urteile.push(a) })
-    pruefe('Endstelle: UI3012 nach sauberer Sitzung geht als Urteil „Abspielfehler UI3012“ raus, nicht an die Bremse', JSON.stringify(urteile) === '[["7","Abspielfehler UI3012"]]' && gerufen.length === 0 && JSON.stringify(erfolge) === '[3]', { urteile, gerufen, erfolge })
+    const fragen = []
+    const bremse = { stoerung: (...a) => gerufen.push(a), ui3012Titel: (...a) => { fragen.push(a); return true } }
+    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: { code: 'UI3012', reihe: '7' }, abbruch: true, stoerung: null }, true, new Map(), () => {}, () => {}, {}, bremse, { now: () => 4242 }, { urteil: (...a) => urteile.push(a) })
+    pruefe('Endstelle: UI3012 mit Beleg geht als Urteil „Abspielfehler UI3012“ raus, nicht an die Bremse', JSON.stringify(urteile) === '[["7","Abspielfehler UI3012"]]' && gerufen.length === 0 && fragen.length === 1, { urteile, gerufen, fragen })
   }
   pruefe('der Reset steht beim Start des Durchlaufs', /DURCHLAUF\.stoerung = null\n  DURCHLAUF\.titelSperre = null/.test(quelle))
 }
@@ -292,22 +292,34 @@ const schrittLaufen = async (durchlauf) => {
 }
 /* `browseWegKnopf`: ein Sprung des Durchgangs bekommt nie den „nicht bei Netflix"-Knopf (Bericht 12.11., Grimgar im neuen Tab). */
 {
+  /** `profil`: `false` (Startseite), `true` (Profilauswahl von Anfang an), `'geklickt'` (Knopf schon gedrückt) oder `'spaeter'` (sie rendert erst nach dem Takt, 15.11.2026). `zeiten`: ms der gesetzten Timer. */
   const knopfFuer = (z, profil = false) => {
     const erzeugt = []
     const gemeldet = []
+    const timer = []
+    let profilDa = profil === true
     const el = () => ({ dataset: {}, classList: { add() {} }, remove() {}, appendChild() {} })
     const r = new Function(
-      'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixBrowseAuftrag', 'Date', 'document', 'netflixKasten', 'totMelden', 'knopfEntfernen', 'akProfilwahlSeite',
+      'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixBrowseAuftrag', 'Date', 'document', 'netflixKasten', 'totMelden', 'knopfEntfernen', 'akProfilwahlSeite', 'setTimeout', 'AK_PROFILWAHL_TAKT_MS',
       `let knopf = null\n${funktionText('function browseWegKnopf()')}\nreturn browseWegKnopf()`,
-    )({ pathname: '/browse' }, z, { 80020759: { titel: 'Grimgar' } }, akNetflixBrowseAuftrag, jetzt(5000), { createElement: () => { const e = el(); erzeugt.push(e); return e } }, () => ({ querySelector: () => el() }), async (...a) => { gemeldet.push(a); return { ok: true } }, () => {}, () => profil)
-    return { r, erzeugt: erzeugt.length, gemeldet }
+    )({ pathname: '/browse' }, z, { 80020759: { titel: 'Grimgar' } }, akNetflixBrowseAuftrag, jetzt(5000), { createElement: () => { const e = el(); erzeugt.push(e); return e } }, () => ({ querySelector: () => el() }), async (...a) => { gemeldet.push(a); return { ok: true } }, () => {}, () => profilDa, (fn, ms) => timer.push([fn, ms]), 500)
+    const vorTakt = gemeldet.length
+    if (profil === 'spaeter') profilDa = true
+    if (profil === 'geklickt') erzeugt[0].disabled = true
+    timer.forEach(([fn]) => fn())
+    return { r, erzeugt: erzeugt.length, gemeldet, zeiten: timer.map((t) => t[1]), vorTakt }
   }
   const stand = knopfFuer({ id: '80020759', zeit: 4000, durchgang: true, tab: 'a' })
   pruefe('Sprung des Durchgangs auf /browse: kein Knopf, nichts gebaut', stand.r === false && stand.erzeugt === 0, stand)
   const klick = knopfFuer({ id: '80020759', zeit: 4000 })
   pruefe('Klick aus der Liste auf /browse: Knopf, und es meldet von selbst (Grund: Umleitung auf Startseite)', klick.r === true && klick.erzeugt === 1 && JSON.stringify(klick.gemeldet) === '[["80020759","Grimgar","Umleitung auf Startseite"]]', klick)
+  pruefe('die Meldung kommt nicht im Takt selbst, sondern zwei Profilwahl-Takte (1000 ms) später', klick.vorTakt === 0 && JSON.stringify(klick.zeiten) === '[1000]', klick)
   const wahl = knopfFuer({ id: '80020759', zeit: 4000 }, true)
   pruefe('Klick aus der Liste, Profilauswahl statt Startseite: Knopf, aber keine Meldung (kein Urteil)', wahl.r === true && wahl.gemeldet.length === 0, wahl)
+  const spaet = knopfFuer({ id: '80020759', zeit: 4000 }, 'spaeter')
+  pruefe('Profilauswahl rendert erst nach dem Takt (600 ms später): keine Meldung', spaet.r === true && spaet.gemeldet.length === 0 && spaet.vorTakt === 0, spaet)
+  const geklickt = knopfFuer({ id: '80020759', zeit: 4000 }, 'geklickt')
+  pruefe('Klick auf den Knopf vor Ablauf der Frist: kein zweites Melden', geklickt.r === true && geklickt.gemeldet.length === 0, geklickt)
 }
 /** `vielleichtSelbstStarten`; `o` überschreibt die Welt. Gibt Zähler für weiter und Schritt zurück. */
 const taktLaufen = (o = {}) => {
