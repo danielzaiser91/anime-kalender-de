@@ -4,6 +4,7 @@
 Lauf, Daniels Bestätigung) — im Werkzeug-Skill, `ai_agent_learnings.md`, Projekt-`CLAUDE.md`,
 Memory oder am Code; nicht aus einer ungeprüften Vermutung. Jede Hürde darf genau einmal kosten
 (Skill `erkenntnisse-festhalten`).
+**Einmal gesucht, sofort abgelegt (Daniel, 15.11.2026, alle Repos und Werkzeuge):** Was ich suchen musste (Pfad, Aufruf, Workflow-, Feld- oder Dateiname), steht noch im selben Zug mit dem Wert selbst in der Memory-Indexzeile oder in `reference-repo-pfade.md`; eine zweite Suche nach demselben ist ein Fehler.
 
 **Eine Korrektur gilt der Regel, nicht dem Einzelfall:** Das Dokument, das den Fehler zugelassen
 hat, wird in derselben Antwort geschärft — auch ohne Korrektur, sobald ich den Fehler selbst
