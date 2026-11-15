@@ -10,7 +10,7 @@ export type RtlGattung = 'video' | 'nicht-video'
 
 export type KatalogEintrag = { url: string; gattung?: RtlGattung; [feld: string]: unknown }
 
-const HOER_MARKE = /hören ►|Hörbüch|Hörspiel|Kinder-Hör/i
+const HOER_MARKE = /hören ►/
 
 export function rtlGattung(html: string): RtlGattung {
   const beschreibung = /<meta[^>]+name="description"[^>]+content="([^"]*)"/.exec(html)?.[1] ?? ''

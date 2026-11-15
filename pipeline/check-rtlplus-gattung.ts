@@ -46,10 +46,12 @@ const lauf = await pruefeGattungen(
     if (!seiten[url]) throw new Error(`HTTP 503 für ${url}`)
     return seiten[url]
   },
-  async () => {},
+  async () => {
+    abrufe.push('Pause')
+  },
   (z) => zeilen.push(z),
 )
-assert.deepEqual(abrufe, ['u/hoer', 'u/serie', 'u/kaputt'])
+assert.deepEqual(abrufe, ['u/hoer', 'Pause', 'u/serie', 'Pause', 'u/kaputt', 'Pause'], 'Pause nach jedem Abruf, gestempelte Einträge ohne Abruf')
 assert.deepEqual(lauf.verworfen, ['1'])
 assert.deepEqual(lauf.unklar, ['4'])
 assert.equal(lauf.geprueft, 3)
@@ -57,6 +59,7 @@ assert.deepEqual(Object.keys(lauf.bestand), ['2', '3', '4'])
 assert.equal(lauf.bestand['2']?.gattung, 'video')
 assert.equal(lauf.bestand['4']?.gattung, undefined, 'ohne Auskunft kein Stempel')
 assert.ok(zeilen.some((z) => z.includes('503')), 'die erste Ursache steht im Log')
+assert.ok(zeilen.some((z) => z.includes('verworfen') && z.includes('u/hoer')), 'jede Verwerfung steht im Log')
 
 // Gesamtlauf des Skripts.
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -115,6 +118,8 @@ rmSync(kulisse, { recursive: true, force: true })
 assert.deepEqual(Object.keys(ergebnis).sort(), ['900001', '900005'], `Serie und Altfall ohne Auskunft bleiben, Hörbücher und Neufall ohne Auskunft nicht: ${ausgabe}`)
 assert.equal(ergebnis['900001']?.gattung, 'video')
 assert.equal(ergebnis['900005']?.gattung, undefined)
+assert.match(ausgabe, /verworfen \(Hörbuch\/Hörspiel\): 900002 /)
+assert.match(ausgabe, /Gattung offen \(900006\): HTTP 503/)
 assert.match(ausgabe, /6 Seiten geprüft, 3 Hörbücher\/Hörspiele verworfen, 2 ohne Auskunft/)
 
 console.log('rtlplus-gattung: Hörbuch/Kinder-Hörbuch raus, Serie/Film bleiben, Abruffehler ohne Stempel, Gesamtlauf mit Kulisse (3 verworfen, 2 ohne Auskunft)')
