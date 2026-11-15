@@ -58,14 +58,29 @@ function laufendeAgenten(ordner, jetzt = Date.now()) {
 }
 
 // Parallelstart (15.11.2026): Mehrere Agent-Aufrufe einer Nachricht lassen ihre Hooks binnen ~10 ms laufen, bevor eine
-// agent-*.jsonl existiert. Jeder Start belegt deshalb atomar (wx) einen von GRENZE Platzdateien; sie verfällt nach
+// agent-*.jsonl existiert. Jeder Start belegt deshalb atomar (link) einen von GRENZE Platzdateien; sie verfällt nach
 // RESERVIERUNG_MS oder sobald eine nach ihr entstandene Agentendatei sie ersetzt.
 const RESERVIERUNG_MS = 120 * 1000
 const platzOrdner = (ordner) => path.join(path.dirname(ordner), 'agent-plaetze')
 
+// Ohne birthtime (ctime springt bei jedem Anhängen) ersetzt keine Datei einen Platz; er verfällt dann nach RESERVIERUNG_MS.
 function geburt(datei) {
-  const st = fs.statSync(datei)
-  return st.birthtimeMs || st.ctimeMs
+  return fs.statSync(datei).birthtimeMs || -Infinity
+}
+
+// Prüfer reservieren nie, ihre Dateien dürfen auch keinen Platz ersetzen.
+function istPruefer(datei) {
+  try {
+    return AUSGENOMMEN.has(JSON.parse(fs.readFileSync(datei.replace(/\.jsonl$/, '.meta.json'), 'utf8')).agentType)
+  } catch {
+    return false
+  }
+}
+
+// Leere oder unlesbare Platzdatei = belegt und frisch (mtime), nie "uralt": sonst würde sie gelöscht und neu vergeben.
+function platzZeit(datei) {
+  const ts = Number(fs.readFileSync(datei, 'utf8'))
+  return ts > 0 ? ts : fs.statSync(datei).mtimeMs
 }
 
 /** Platzdateien aufräumen (verfallene, durch Agentendatei ersetzte); gibt die verbleibenden Plätze zurück. */
@@ -73,13 +88,13 @@ function offeneReservierungen(ordner, jetzt) {
   const pdir = platzOrdner(ordner)
   let plaetze = []
   try {
-    plaetze = fs.readdirSync(pdir).map((d) => {
-      try { return { datei: path.join(pdir, d), ts: Number(fs.readFileSync(path.join(pdir, d), 'utf8')) } } catch { return null }
-    }).filter((p) => p && Number.isFinite(p.ts)).sort((a, b) => a.ts - b.ts)
+    plaetze = fs.readdirSync(pdir).filter((d) => d.startsWith('platz-')).map((d) => {
+      try { return { datei: path.join(pdir, d), ts: platzZeit(path.join(pdir, d)) } } catch { return null }
+    }).filter(Boolean).sort((a, b) => a.ts - b.ts)
   } catch {}
   let geboren = []
   try {
-    geboren = fs.readdirSync(ordner).filter((d) => /^agent-.*\.jsonl$/.test(d)).map((d) => geburt(path.join(ordner, d)))
+    geboren = fs.readdirSync(ordner).filter((d) => /^agent-.*\.jsonl$/.test(d) && !istPruefer(path.join(ordner, d))).map((d) => geburt(path.join(ordner, d)))
   } catch {}
   const offen = []
   for (const p of plaetze) {
@@ -101,9 +116,12 @@ function reserviere(ordner, laufend, jetzt) {
   if (laufend + offeneReservierungen(ordner, jetzt).length >= g) return false
   for (let k = 0; k < g - laufend; k++) {
     const datei = path.join(pdir, `platz-${k}`)
+    // Inhalt erst in eine Temp-Datei, dann per link (schlägt bei vorhandenem Platz fehl): kein Leser sieht eine leere Platzdatei.
+    const tmp = path.join(pdir, `.tmp-${process.pid}-${k}`)
     try {
-      fs.writeFileSync(datei, String(jetzt), { flag: 'wx' })
-    } catch { continue }
+      fs.writeFileSync(tmp, String(jetzt))
+      fs.linkSync(tmp, datei)
+    } catch { continue } finally { try { fs.unlinkSync(tmp) } catch {} }
     // Gleichzeitig angelegte Plätze: ein überzähliger gibt seinen sofort wieder frei.
     if (laufend + offeneReservierungen(ordner, jetzt).length > g) {
       try { fs.unlinkSync(datei) } catch {}

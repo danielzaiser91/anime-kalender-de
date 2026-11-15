@@ -5,7 +5,8 @@ import os from 'node:os'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { createRequire } from 'node:module'
-const hook = path.join(path.dirname(new URL(import.meta.url).pathname), 'agenten-grenze.js')
+import { fileURLToPath } from 'node:url'
+const hook = path.join(path.dirname(fileURLToPath(import.meta.url)), 'agenten-grenze.js')
 const { pruefe } = createRequire(import.meta.url)(hook)
 let fehler = 0
 const pruef = (name, ok) => { if (!ok) { fehler++; console.log('ROT', name) } else console.log('ok ', name) }
@@ -68,6 +69,32 @@ for (let runde = 0; runde < 10; runde++) {
   // Einer fertig → ein Platz frei, und die Ersetzung hat keinen Geist hinterlassen.
   fs.writeFileSync(path.join(s.sub, 'agent-a.meta.json'), JSON.stringify({ agentType: 'bauer', description: 'a', finished: true }))
   pruef('einer fertig → neuer Start erlaubt', pruefe(eingabe(s, 'bauer'), jetzt + 2000) === null)
+}
+
+// 5) Leere Platzdatei (Leser sieht sie zwischen Anlegen und Schreiben): gilt als belegt und frisch, wird nicht gelöscht.
+{
+  const s = neueSitzung()
+  fs.mkdirSync(s.plaetze, { recursive: true })
+  fs.writeFileSync(path.join(s.plaetze, 'platz-0'), '')
+  await new Promise((r) => setTimeout(r, 20))
+  fs.writeFileSync(path.join(s.sub, 'agent-p.jsonl'), '{}\n') // jüngere Agentendatei würde einen "uralten" Platz sofort ersetzen
+  fs.writeFileSync(path.join(s.sub, 'agent-p.meta.json'), JSON.stringify({ agentType: 'pruefer' }))
+  pruef('Start 1 erlaubt (Platz 0 leer belegt, Platz 1 frei)', pruefe(eingabe(s, 'bauer'), Date.now()) === null)
+  pruef('Start 2 verweigert (leere Platzdatei zählt)', pruefe(eingabe(s, 'bauer'), Date.now()) !== null)
+  pruef('leere Platzdatei bleibt bestehen', fs.existsSync(path.join(s.plaetze, 'platz-0')))
+  pruef('keine Temp-Dateien übrig', fs.readdirSync(s.plaetze).every((d) => d.startsWith('platz-')))
+}
+
+// 6) Prüfer-Agentendatei nach der Reservierung ersetzt den Platz nicht (3. Start bleibt verweigert).
+{
+  const s = neueSitzung()
+  const jetzt = Date.now()
+  pruefe(eingabe(s, 'bauer'), jetzt)
+  pruefe(eingabe(s, 'bauer'), jetzt)
+  await new Promise((r) => setTimeout(r, 20))
+  fs.writeFileSync(path.join(s.sub, 'agent-p.jsonl'), JSON.stringify({ type: 'assistant', message: { stop_reason: 'tool_use' } }) + '\n')
+  fs.writeFileSync(path.join(s.sub, 'agent-p.meta.json'), JSON.stringify({ agentType: 'pruefer', description: 'p' }))
+  pruef('Prüferdatei ersetzt keinen Bauer-Platz → 3. Start verweigert', pruefe(eingabe(s, 'bauer'), jetzt + 1000) !== null)
 }
 
 console.log(fehler ? `${fehler} ROT` : 'agenten-grenze-test: alles grün (10 Parallelrunden, Prüfer, Verfall, Ersetzung)')
