@@ -66,6 +66,8 @@ case "$2" in
     [ "${FAKE_BESTAND:-ok}" = warnzeichen ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\n  ✗ Netflix-Liste enthält Cartoon-Adressen — 89\n'; exit 1; }
     # Grüner Lauf mit Warnzeile weit vor den letzten drei Zeilen (tail -3 zeigt sie sonst nicht).
     [ "${FAKE_BESTAND:-ok}" = adn-warnung ] && { printf '  ⚠ WARNUNG ADN-Titelliste: 2 Serie(n) mit „titelliste-fehlt“\n  ✓ a\n  ✓ b\n  ✓ c\n'; exit 0; }
+    # Messzeile der Streaming-Lücke (check-streaming-luecke-bestand.ts) mitten in der Datei, grün.
+    [ "${FAKE_BESTAND:-ok}" = klassenzeile ] && { printf 'Streaming-Lücke nach Klassen: A1a 8, C2 127 (Summe 135)\n  ✓ a\n  ✓ b\n  ✓ c\n'; exit 0; }
     # Zeile in der Form von check-handlung-eigen-bestand.ts (bestandWarnzeile), weit vor den letzten drei Zeilen.
     [ "${FAKE_BESTAND:-ok}" = handlung-warnung ] && { printf '⚠ WARNUNG Eigene Handlung: 2 überholt (Quelle gewinnt): 159309, 133007\n  ✓ a\n  ✓ b\n  ✓ c\n'; exit 0; }
     # Zeile in der Form von herabgestufteWarnzeile (check-handlung-eigen-bestand.ts), grün.
@@ -213,6 +215,13 @@ szenario adnwarnung FAKE_BAU=ok FAKE_BESTAND=adn-warnung
 pruefe "Exit 0, Erzeugnis gepusht" "0 ja" "$CODE $(im_fernstand public/data/titles.json)"
 pruefe "Anmerkung mit dem Text der Warnung" ja "$(grep -q '^::warning::WARNUNG ADN-Titelliste: 2 Serie(n)' "$ARBEIT/adnwarnung/log.txt" && echo ja || echo nein)"
 pruefe "grüner Lauf ohne Warnzeile: keine Anmerkung dazu" nein "$(grep -q 'WARNUNG ADN' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
+
+echo "Klassenzeile der Streaming-Lücke mitten in der grünen Bestandsprüfung: das Lauf-Log zeigt sie, ohne Warnmarke"
+szenario klassenzeile FAKE_BAU=ok FAKE_BESTAND=klassenzeile
+pruefe "Exit 0, Erzeugnis gepusht" "0 ja" "$CODE $(im_fernstand public/data/titles.json)"
+pruefe "Zeile im Log, unverändert" ja "$(grep -q '^Streaming-Lücke nach Klassen: A1a 8, C2 127 (Summe 135)$' "$ARBEIT/klassenzeile/log.txt" && echo ja || echo nein)"
+pruefe "keine Warnung daraus" nein "$(grep -q '::warning::.*Streaming-Lücke' "$ARBEIT/klassenzeile/log.txt" && echo ja || echo nein)"
+pruefe "grüner Lauf ohne Klassenzeile: keine Zeile" nein "$(grep -q 'nach Klassen' "$ARBEIT/gruen/log.txt" && echo ja || echo nein)"
 
 echo "Überholte eigene Handlung (⚠ WARNUNG-Zeile des Bestandschecks): der Lauf zeigt Zahl und Kennungen als ::warning::"
 szenario handlungwarnung FAKE_BAU=ok FAKE_BESTAND=handlung-warnung
