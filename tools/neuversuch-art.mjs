@@ -15,7 +15,7 @@ import { istDatenpfad } from './pr-nachrechnen.mjs'
 import { istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 
 /** Bot-Dateien, die `check:bestand` liest (Test `neuversuch-art-leser.test.mjs`): bei ihrer Bewegung muss `check:bestand` laufen, also nie `nichts`. */
-export const BESTAND_GELESEN = ['tools/kalender-plausibilitaet-grenzen.json']
+export const BESTAND_GELESEN = ['data/tmdb-kino.json', 'tools/kalender-plausibilitaet-grenzen.json']
 
 const istNichtsDatei = (datei) => istBotDatei(datei) && !BESTAND_GELESEN.some((p) => datei === p || datei.startsWith(`${p}/`))
 
