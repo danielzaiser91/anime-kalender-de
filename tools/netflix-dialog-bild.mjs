@@ -122,7 +122,7 @@ await seite.evaluate(({ zeilen, kopfDaten }) => {
   const selbst = document.createElement('button')
   selbst.className = 'ak-umschalter'
   selbst.textContent = '▶ alle durchgehen'
-  const ansicht = akNetflixListeAnsicht.kopf({
+  const ansicht = globalThis.akNetflixListeAnsicht.kopf({
     kasten,
     titel: kopfDaten.titel,
     selbst,
