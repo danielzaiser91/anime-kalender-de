@@ -101,7 +101,7 @@ try {
   const stream = { platform: 'netflix', url: 'https://www.netflix.com/title/1' }
   const titel = [
     { id: 900101, streams: [], watchLinks: [], format: 'TV', jpYear: 2010 },
-    { id: 900301, streams: [], watchLinks: [], format: 'TV', jpYear: 2010 },
+    { id: 900301, streams: [], watchLinks: [], format: 'TV', jpYear: 2026 },
     { id: 900302, streams: [], watchLinks: [], format: 'TV', jpYear: 2010 },
     { id: 900303, streams: [stream], watchLinks: [], format: 'TV', jpYear: 2010 },
   ]
@@ -109,7 +109,6 @@ try {
   writeFileSync(join(wurzel, 'public', 'data', 'releases.json'), '[]')
   writeFileSync(join(wurzel, 'data', 'justwatch-audio.json'), JSON.stringify(q.jw))
   writeFileSync(join(wurzel, 'data', 'verweise-entfernt.json'), JSON.stringify({ verweise: [{ titleId: 900101 }] }))
-  writeFileSync(join(wurzel, 'data', 'tmdb-kino.json'), JSON.stringify({ funde: [{ anilistId: 900301 }, {}] }))
   const r = spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), fileURLToPath(new URL('./check-streaming-luecke-bestand.ts', import.meta.url))], {
     cwd: wurzel,
     env: { ...process.env, AK_ROOT: wurzel },
@@ -119,7 +118,7 @@ try {
   })
   const aus = r.stdout + r.stderr
   pruefe('Prozess endet mit Exit 0 und Schlusszeile', r.status === 0 && /VERSTÖSSE: 0/.test(aus), aus)
-  pruefe('Klassenzeile: A1a 1, C2 1, K 1 (Kino-Fund), Summe 3 = Titel ohne Streaming-Weg', /Streaming-Lücke nach Klassen: A1a 1, K 1, C2 1 \(Summe 3\)/.test(aus) && /ohne Streaming-Weg: 3,/.test(aus), aus)
+  pruefe('Klassenzeile: A1a 1, C2 1, K 1 (Start 2026), Summe 3 = Titel ohne Streaming-Weg', /Streaming-Lücke nach Klassen: A1a 1, K 1, C2 1 \(Summe 3\)/.test(aus) && /ohne Streaming-Weg: 3,/.test(aus), aus)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
