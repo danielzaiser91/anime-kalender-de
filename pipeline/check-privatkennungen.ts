@@ -51,7 +51,7 @@ export function unzulaessige(treffer: string[]) {
 }
 
 // Fälle der reinen Funktion
-assert.deepEqual(unzulaessige(['LICENSE', 'docs/x.md']), ['docs/x.md'])
+assert.deepEqual(unzulaessige(['LICENSE', 'fremd/x.md']), ['fremd/x.md'])
 assert.deepEqual(unzulaessige(['worker/src/sites.ts']), [])
 assert.deepEqual(unzulaessige([]), [])
 // Ein Fehler von git (kein Repo, Exit 128) ist nie „keine Treffer“.
