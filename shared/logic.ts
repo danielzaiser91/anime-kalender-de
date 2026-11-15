@@ -1,6 +1,7 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
-import { addDays, todayIso, berlinToUtc, utcZeitInBerlin, toIsoDate } from './time.ts'
+import { addDays, todayIso, utcZeitInBerlin, toIsoDate } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
+import { istAusgeblieben, istKatalogstartOhneUhrzeit, terminZustand, type TerminFelder } from './termin-zustand.ts'
 import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
 
 /** Berliner Kalendertag eines Vermerk-Zeitpunkts (`erwartetAm`, `neuErwartet` sind UTC). */
@@ -244,7 +245,7 @@ export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>,
  * Der Push bleibt bei 23:59 (`katalogAmTagesbeginn = false`): Netflix schaltet erst gegen 9 Uhr frei.
  */
 export function istErschienen(
-  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string }; nachLuecke?: boolean; releaseType?: string; platform?: string },
+  ereignis: TerminFelder,
   jetzt: Date = new Date(),
   katalogAmTagesbeginn = true,
 ): boolean {
@@ -257,26 +258,11 @@ export function istErschienen(
     Kachel las `verpasst`, die Zählung nur die Uhrzeit — zwei Leitungen für
     dieselbe Frage. Seitdem beantwortet diese Funktion sie für alle.
   */
-  if (istAusgeblieben(ereignis) || ereignis.nachLuecke) return false
-  return berlinToUtc(ereignis.date, ereignis.time ?? tagesGrenze(ereignis, katalogAmTagesbeginn)).getTime() <= jetzt.getTime()
+  return terminZustand(ereignis, jetzt, katalogAmTagesbeginn) === 'erschienen'
 }
 
-/** Ein Katalogstart (`batch`, nicht TV) ohne Uhrzeit: alle Folgen an einem Tag, Zeitpunkt unbekannt (Bass X Machina, 03.11.2026). */
-export function istKatalogstartOhneUhrzeit(e: { time?: string; releaseType?: string; platform?: string }): boolean {
-  return !e.time && e.releaseType === 'batch' && e.platform !== 'tv'
-}
-
-function tagesGrenze(e: { time?: string; releaseType?: string; platform?: string }, amTagesbeginn: boolean): string {
-  return amTagesbeginn && istKatalogstartOhneUhrzeit(e) ? '00:00' : '23:59'
-}
-
-/**
- * Hat der Anbieter diesen Termin verstreichen lassen, ohne die Folge bisher
- * nachzuliefern? Nachgeholt (`erschienenAm`) zählt nicht mehr dazu.
- */
-export function istAusgeblieben(ereignis: { verpasst?: { erschienenAm?: string } }): boolean {
-  return Boolean(ereignis.verpasst && !ereignis.verpasst.erschienenAm)
-}
+/* Seit dem Umbau liegen sie in `termin-zustand.ts`; die Importeure lesen sie weiter von hier. */
+export { istKatalogstartOhneUhrzeit, istAusgeblieben }
 
 /**
  * **Netflix' übliche Uhrzeit für Anime: 17:00 JST = 08:00 UTC** (25.09.2026). Netflix nennt für

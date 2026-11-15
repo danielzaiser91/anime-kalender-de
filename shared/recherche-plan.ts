@@ -6,18 +6,18 @@
  * sie hier.
  */
 
-const STUNDE = 36e5
-const TAG = 24 * STUNDE
+import {
+  RECHERCHE_AB_MS,
+  RECHERCHE_TAKT_FRUEH_MS,
+  RECHERCHE_TAKT_SPAET_MS,
+  RECHERCHE_SPAET_AB_MS,
+  RECHERCHE_BIS_MS,
+} from './ausbleiben-plan.ts'
 
-/** Unter diesem Verzug wird nicht recherchiert — die meisten Fälle erledigen sich vorher. */
-export const RECHERCHE_AB_MS = 6 * STUNDE
-/** Täglich in den ersten zwei Wochen … */
-export const RECHERCHE_TAKT_FRUEH_MS = 20 * STUNDE
-/** … danach wöchentlich: Wer zwei Wochen nichts meldet, meldet selten am dritten Tag. */
-export const RECHERCHE_TAKT_SPAET_MS = 6.5 * TAG
-export const RECHERCHE_SPAET_AB_MS = 14 * TAG
-/** Nach zwei Monaten ohne Folge sucht niemand mehr täglich — der Vermerk bleibt stehen. */
-export const RECHERCHE_BIS_MS = 60 * TAG
+const TAG = 24 * 36e5
+
+/* Die Fristen stehen als Stufen der Art `recherche` in `ausbleiben-plan.ts`; hier bleiben sie für die bisherigen Importeure lesbar. */
+export { RECHERCHE_AB_MS, RECHERCHE_TAKT_FRUEH_MS, RECHERCHE_TAKT_SPAET_MS, RECHERCHE_SPAET_AB_MS, RECHERCHE_BIS_MS }
 /**
  * Der Lauf `claude-verpasst-recherche.yml` startet laut Plan täglich um 11:17 UTC.
  * GitHub startet geplante Läufe oft Stunden später (siehe CLAUDE.md, „Der

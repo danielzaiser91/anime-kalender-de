@@ -64,7 +64,7 @@ Daniel am 13.09.2026, mit zwei Bildern: Die Kalenderkachel trug „⚠ nicht ers
 
 | Stufe | wer | wie oft | steht im Panel als |
 |---|---|---|---|
-| Anbieter-Kalender lesen | `termine-pruefen.ts` | mit jedem Sendezeiten-Lauf | „Wir sehen mehrmals täglich bei Crunchyroll nach … Zuletzt nachgesehen: heute, 16:29 Uhr." |
+| Katalog-Sichtung lesen (Simulcast-Kalender seit 21.10.2026 tot) | `termine-pruefen.ts` | mit jedem Sammlerlauf | „Wir sehen mehrmals täglich bei Crunchyroll nach … Zuletzt nachgesehen: heute, 16:29 Uhr." |
 | Anime2You-Pausenmeldungen abgleichen | dito | dito, gegen den täglichen Feed | Artikel mit Verweis, oder „meldet bisher keine Verschiebung" |
 | Netz-Recherche (News, Social Media) | `claude-verpasst-recherche.yml` | täglich ab 6 h Verzug, nach 14 Tagen wöchentlich, nach 60 nie | Ergebnis mit Quelle, oder „bis zum … nichts gefunden" |
 
