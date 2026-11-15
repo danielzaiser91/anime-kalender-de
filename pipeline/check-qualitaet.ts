@@ -24,6 +24,7 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
+import { RUECKGANG_ZEILE, streamingRueckgang, VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -91,11 +92,11 @@ function main(): void {
     nicht, ob sie steigt. Ein Eintrag je Tag genügt — mehrere Läufe am selben Tag
     überschreiben einander.
   */
-  const verlauf = readJson<Kennzahlen[]>('data/qualitaet-verlauf.json', [])
+  const verlauf = readJson<Kennzahlen[]>(VERLAUF_DATEI, [])
   const ohneHeute = verlauf.filter((v) => v.gemessenAm !== heute)
   ohneHeute.push(zahlen)
   /* Ein Jahr Verlauf genügt, um eine Entwicklung zu sehen. */
-  writeJson('data/qualitaet-verlauf.json', ohneHeute.slice(-370))
+  writeJson(VERLAUF_DATEI, ohneHeute.slice(-370))
 
   const vorher = ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
   const pfeil = (k: keyof Kennzahlen): string => {
@@ -110,6 +111,10 @@ function main(): void {
   log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}`)
   log(`  Lücken: ${zahlen.ohneDeutschenNamen} ohne deutschen Namen${pfeil('ohneDeutschenNamen')}, ${zahlen.serienOhneFolgenzahl} Serien ohne Folgenzahl${pfeil('serienOhneFolgenzahl')}`)
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
+
+  const rueckgang = streamingRueckgang(zahlen.mitStreamingWeg, vorher?.mitStreamingWeg)
+  /* Feste Zeile für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
+  if (rueckgang) console.log(`${RUECKGANG_ZEILE}${rueckgang}`)
 
   let kaputt = 0
   for (const k of HART) {

@@ -500,6 +500,7 @@ pipeline/check-pruefung-ableiten.ts
 pipeline/check-pruefung-stand-anbieter.ts
 pipeline/check-push-dienst.ts
 pipeline/check-push-fenster.ts
+pipeline/check-qualitaet-rueckgang-lauf.ts
 pipeline/check-quarantaene.ts
 pipeline/check-quellen-schreiber.ts
 pipeline/check-quittung-sperre.ts
@@ -565,6 +566,7 @@ pipeline/check-staffelzaehlung.ts
 pipeline/check-stand-halten.ts
 pipeline/check-streaming-kleinfixes.ts
 pipeline/check-streaming-luecke.ts
+pipeline/check-streaming-rueckgang.ts
 pipeline/check-streaming-zaehlen.ts
 pipeline/check-studio-archiv.ts
 pipeline/check-stuetzpunkt-ueberholt.ts
