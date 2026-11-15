@@ -7,10 +7,11 @@
  */
 import { readJson } from './lib/util.ts'
 import { lueckenBilanz, streamingLuecke, type LueckenStand } from './lib/streaming-luecke.ts'
+import { lueckenKlassenZeile, zaehleLueckenKlassen, type LueckenQuellen, type TitelFuerKlasse } from './lib/streaming-luecke-klassen.ts'
 
 const kennungen = (liste: number[]): string => `${liste.slice(0, 10).join(', ')}${liste.length > 10 ? ', …' : ''}`
 
-const titles = readJson<Parameters<typeof streamingLuecke>[0]>('public/data/titles.json', [])
+const titles = readJson<(Parameters<typeof streamingLuecke>[0][number] & TitelFuerKlasse)[]>('public/data/titles.json', [])
 const releases = readJson<{ titleId: number }[]>('public/data/releases.json', [])
 const stand = readJson<LueckenStand>('data/streaming-luecke-stand.json', { stand: '', ohneJedenWeg: [], ohneStreamingWeg: [] })
 const ist = streamingLuecke(titles, new Set(releases.map((r) => r.titleId)))
@@ -23,4 +24,13 @@ if (b.neuOhneJedenWeg.length)
   console.log(`  ⚠ WARNUNG Streaming-Lücke: ${b.neuOhneJedenWeg.length} Titel ohne jeden Weg, die der Stand nicht kennt: ${kennungen(b.neuOhneJedenWeg)}`)
 if (b.erledigt >= 10)
   console.log(`  ⚠ WARNUNG Streaming-Lücke: ${b.erledigt} Kennungen in data/streaming-luecke-stand.json haben inzwischen einen Weg — Listen kürzen (Ratsche)`)
+const quellen: LueckenQuellen = {
+  jw: readJson('data/justwatch-audio.json', {}),
+  tmdb: readJson('data/tmdb-titles.json', {}),
+  anisearch: readJson('data/anisearch.json', {}),
+  verweiseEntfernt: new Set(readJson<{ verweise: { titleId: number }[] }>('data/verweise-entfernt.json', { verweise: [] }).verweise.map((v) => v.titleId)),
+  kino: new Set(readJson<{ funde: { anilistId?: number }[] }>('data/tmdb-kino.json', { funde: [] }).funde.flatMap((f) => (f.anilistId ? [f.anilistId] : []))),
+}
+const ohneWeg = new Set(ist.ohneStreamingWeg)
+console.log(lueckenKlassenZeile(zaehleLueckenKlassen(titles.filter((t) => ohneWeg.has(t.id)), quellen)))
 console.log('VERSTÖSSE: 0')
