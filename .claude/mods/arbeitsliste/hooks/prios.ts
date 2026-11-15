@@ -18,9 +18,6 @@ export const STATUS: Record<string, PrioStatus> = {
 
 export type PrioEintrag = Eintrag & { status: string; details: string[] }
 
-// Zugeklappt höchstens drei Zeilen (Daniel, 15.11.2026); der Rest steht im Ausklapp-Teil.
-export const MAX_ZEILEN_PRIO = 3
-
 // Ohne Kennzeichen (Altzeile) kein Chip und keine Fehlerfarbe.
 export function statusVon(status: string): PrioStatus | null {
   if (!status) return null
@@ -59,57 +56,5 @@ export function zaehleTopPrios(text: string): PrioEintrag[] {
   return aus
 }
 
-// Zeilen eines Textes bei Umbruch am Leerzeichen (wie Ink); ein Wort über der Breite bricht hart.
-export function umbruchZeilen(text: string, breite: number): number {
-  let zeilen = 1
-  let laenge = 0
-  text.split(' ').forEach((wort, i) => {
-    const mit = laenge + (i > 0 ? 1 : 0) + wort.length
-    if (mit <= breite || laenge === 0) laenge = mit
-    else {
-      zeilen++
-      laenge = wort.length
-    }
-    if (laenge > breite) {
-      zeilen += Math.ceil(laenge / breite) - 1
-      laenge -= (Math.ceil(laenge / breite) - 1) * breite
-    }
-  })
-  return zeilen
-}
-
-// Gezeichneter Text des Kopfes (Chip, Titel, Kurztext) so, wie bereiche.tsx ihn setzt.
-export function kopfText(e: PrioEintrag): string {
-  const st = statusVon(e.status)
-  return (st ? ` ${st.label}  ${e.titel}` : e.titel) + (e.rest ? ` ${e.rest}` : '')
-}
-
-// Zeilen, die Chip, Titel und Kurztext umbrochen brauchen.
-export const zeilenBedarf = (e: PrioEintrag, zeichenJeZeile: number): number => umbruchZeilen(kopfText(e), Math.max(8, zeichenJeZeile))
-
-// Satzgrenzen, an denen der Kurztext geteilt werden darf: nach „;“ „:“ „.“ „,“ oder vor „ — “.
-const GRENZE = /(?<=[;:.,])\s+|\s+(?=—\s)/
-
-// Längster Anfang aus ganzen Satzteilen, der samt „…“ in MAX_ZEILEN_PRIO Zeilen passt; der Rest klappt weg (nie mitten im Wort).
-export function kurzfassung(e: PrioEintrag, zeichenJeZeile: number): { kurz: string; weg: string } {
-  if (zeilenBedarf(e, zeichenJeZeile) <= MAX_ZEILEN_PRIO) return { kurz: e.rest, weg: '' }
-  const teile = e.rest.split(GRENZE)
-  const passt = (n: number) => zeilenBedarf({ ...e, rest: `${teile.slice(0, n).join(' ')} …` }, zeichenJeZeile) <= MAX_ZEILEN_PRIO
-  let n = 0
-  while (n < teile.length - 1 && passt(n + 1)) n++
-  return { kurz: n ? `${teile.slice(0, n).join(' ')} …` : '', weg: teile.slice(n).join(' ') }
-}
-
-export const textKlappt = (e: PrioEintrag, zeichenJeZeile: number): boolean => kurzfassung(e, zeichenJeZeile).weg !== ''
-
-export const hatAusklapp = (e: PrioEintrag, zeichenJeZeile: number): boolean => e.details.length > 0 || textKlappt(e, zeichenJeZeile)
-
 // Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026); Terminal 1.
 export const zeichenJeSpalte = (surface: string): number => (surface === 'terminal' ? 1 : 1.6)
-
-// Pane-Rand 2, Kastenrand samt Innenrand 4, Klappknopf 2.
-export const PRIO_RAND = 8
-
-export function prioZeichenJeZeile(bodyColumns: number, surface: string): number {
-  return Math.floor(Math.max(16, (bodyColumns || 38) - PRIO_RAND) * zeichenJeSpalte(surface))
-}
