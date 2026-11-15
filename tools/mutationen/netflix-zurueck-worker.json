@@ -181,21 +181,6 @@
   ]
  },
  {
-  "name": "extension/netflix-zurueckgestellt.js:117 Zahl 0 → 1",
-  "aenderungen": [
-   {
-    "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": "0",
-    "ersetze": "1",
-    "zeile": 117
-   }
-  ],
-  "tests": [
-   "node extension/netflix-zurueck-melden.test.cjs",
-   "node extension/melder-uebersicht.test.cjs"
-  ]
- },
- {
   "name": "extension/netflix-zurueckgestellt.js:118 > → >=",
   "aenderungen": [
    {
@@ -217,21 +202,6 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest <= 0",
-    "zeile": 118
-   }
-  ],
-  "tests": [
-   "node extension/netflix-zurueck-melden.test.cjs",
-   "node extension/melder-uebersicht.test.cjs"
-  ]
- },
- {
-  "name": "extension/netflix-zurueckgestellt.js:118 Zahl 0 → 1",
-  "aenderungen": [
-   {
-    "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": "0",
-    "ersetze": "1",
     "zeile": 118
    }
   ],
@@ -930,13 +900,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:34 > → >=",
+  "name": "worker/src/pruefung-zurueck.ts:35 > → >=",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "paare.length > ZURUECK_HOECHSTENS_EINTRAEGE",
-    "ersetze": "paare.length >= ZURUECK_HOECHSTENS_EINTRAEGE",
-    "zeile": 34
+    "suche": "kennungen.length > ZURUECK_HOECHSTENS_EINTRAEGE",
+    "ersetze": "kennungen.length >= ZURUECK_HOECHSTENS_EINTRAEGE",
+    "zeile": 35
    }
   ],
   "tests": [
@@ -944,13 +914,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:34 > → <=",
+  "name": "worker/src/pruefung-zurueck.ts:35 > → <=",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "paare.length > ZURUECK_HOECHSTENS_EINTRAEGE",
-    "ersetze": "paare.length <= ZURUECK_HOECHSTENS_EINTRAEGE",
-    "zeile": 34
+    "suche": "kennungen.length > ZURUECK_HOECHSTENS_EINTRAEGE",
+    "ersetze": "kennungen.length <= ZURUECK_HOECHSTENS_EINTRAEGE",
+    "zeile": 35
    }
   ],
   "tests": [
@@ -958,13 +928,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:34 Zahl 400 → 0",
+  "name": "worker/src/pruefung-zurueck.ts:35 Zahl 400 → 0",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "400",
     "ersetze": "0",
-    "zeile": 34
+    "zeile": 35
    }
   ],
   "tests": [
@@ -972,141 +942,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:36 ?: Zweige vertauscht",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a < b ? -1 : a > b ? 1 : 0",
-    "ersetze": "a < b ? a > b ? 1 : 0 : -1",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 < → <=",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a < b",
-    "ersetze": "a <= b",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 < → >=",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a < b",
-    "ersetze": "a >= b",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 Zahl 1 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "1",
-    "ersetze": "0",
-    "zeile": 36,
-    "nr": 1
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 ?: Zweige vertauscht",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a > b ? 1 : 0",
-    "ersetze": "a > b ? 0 : 1",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 > → >=",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a > b",
-    "ersetze": "a >= b",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 > → <=",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a > b",
-    "ersetze": "a <= b",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 Zahl 1 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "1",
-    "ersetze": "0",
-    "zeile": 36,
-    "nr": 2
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:36 Zahl 0 → 1",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "0",
-    "ersetze": "1",
-    "zeile": 36
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:37 ?: Zweige vertauscht",
+  "name": "worker/src/pruefung-zurueck.ts:39 ?: Zweige vertauscht",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "wert && typeof wert === 'object' ? wert : {}",
     "ersetze": "wert && typeof wert === 'object' ? {} : wert",
-    "zeile": 37
+    "zeile": 39
    }
   ],
   "tests": [
@@ -1114,13 +956,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:37 && → ||",
+  "name": "worker/src/pruefung-zurueck.ts:39 && → ||",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "wert && typeof wert === 'object'",
     "ersetze": "wert || typeof wert === 'object'",
-    "zeile": 37
+    "zeile": 39
    }
   ],
   "tests": [
@@ -1128,13 +970,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:37 === → !==",
+  "name": "worker/src/pruefung-zurueck.ts:39 === → !==",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "typeof wert === 'object'",
     "ersetze": "typeof wert !== 'object'",
-    "zeile": 37
+    "zeile": 39
    }
   ],
   "tests": [
@@ -1142,13 +984,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:38 || → &&",
+  "name": "worker/src/pruefung-zurueck.ts:40 || → &&",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "!KENNUNG.test(kennung) || typeof w.bis !== 'number' || !Number.isFinite(w.bis)",
     "ersetze": "!KENNUNG.test(kennung) || typeof w.bis !== 'number' && !Number.isFinite(w.bis)",
-    "zeile": 38
+    "zeile": 40
    }
   ],
   "tests": [
@@ -1156,13 +998,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:38 || → &&",
+  "name": "worker/src/pruefung-zurueck.ts:40 || → &&",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "!KENNUNG.test(kennung) || typeof w.bis !== 'number'",
     "ersetze": "!KENNUNG.test(kennung) && typeof w.bis !== 'number'",
-    "zeile": 38
+    "zeile": 40
    }
   ],
   "tests": [
@@ -1170,13 +1012,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:38 !== → ===",
+  "name": "worker/src/pruefung-zurueck.ts:40 !== → ===",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "typeof w.bis !== 'number'",
     "ersetze": "typeof w.bis === 'number'",
-    "zeile": 38
+    "zeile": 40
    }
   ],
   "tests": [
@@ -1184,96 +1026,12 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:39 <= → <",
+  "name": "worker/src/pruefung-zurueck.ts:41 <= → <",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "w.bis <= jetzt",
     "ersetze": "w.bis < jetzt",
-    "zeile": 39
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:39 <= → >",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "w.bis <= jetzt",
-    "ersetze": "w.bis > jetzt",
-    "zeile": 39
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:40 ?: Zweige vertauscht",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "typeof w.grund === 'string' ? w.grund.slice(0, GRUND_LAENGE) : ''",
-    "ersetze": "typeof w.grund === 'string' ? '' : w.grund.slice(0, GRUND_LAENGE)",
-    "zeile": 40
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:40 === → !==",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "typeof w.grund === 'string'",
-    "ersetze": "typeof w.grund !== 'string'",
-    "zeile": 40
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:40 Argumente getauscht w.grund.slice",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "w.grund.slice(0, GRUND_LAENGE)",
-    "ersetze": "w.grund.slice(GRUND_LAENGE, 0)",
-    "zeile": 40
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:40 Zahl 0 → 1",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "0",
-    "ersetze": "1",
-    "zeile": 40
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:41 Argumente getauscht Math.min",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "Math.min(w.bis, jetzt + ZURUECK_HOECHSTENS_MS)",
-    "ersetze": "Math.min(jetzt + ZURUECK_HOECHSTENS_MS, w.bis)",
     "zeile": 41
    }
   ],
@@ -1282,13 +1040,83 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:48 Aufruf entfernt",
+  "name": "worker/src/pruefung-zurueck.ts:41 <= → >",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "w.bis <= jetzt",
+    "ersetze": "w.bis > jetzt",
+    "zeile": 41
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:42 ?: Zweige vertauscht",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof w.grund === 'string' ? w.grund.slice(0, GRUND_LAENGE) : ''",
+    "ersetze": "typeof w.grund === 'string' ? '' : w.grund.slice(0, GRUND_LAENGE)",
+    "zeile": 42
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:42 === → !==",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "typeof w.grund === 'string'",
+    "ersetze": "typeof w.grund !== 'string'",
+    "zeile": 42
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:42 Argumente getauscht w.grund.slice",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "w.grund.slice(0, GRUND_LAENGE)",
+    "ersetze": "w.grund.slice(GRUND_LAENGE, 0)",
+    "zeile": 42
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:42 Zahl 0 → 1",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "0",
+    "ersetze": "1",
+    "zeile": 42
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:50 Aufruf entfernt",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "await env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())\n    .run()",
     "ersetze": "void 0",
-    "zeile": 48
+    "zeile": 50
    }
   ],
   "tests": [
@@ -1296,13 +1124,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:48 Argumente getauscht env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind",
+  "name": "worker/src/pruefung-zurueck.ts:50 Argumente getauscht env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())",
     "ersetze": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(JSON.stringify(eintraege), plattform, jetzt.toISOString())",
-    "zeile": 48
+    "zeile": 50
    }
   ],
   "tests": [
@@ -1310,13 +1138,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:68 !== → ===",
+  "name": "worker/src/pruefung-zurueck.ts:70 !== → ===",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "typeof z.daten !== 'string'",
     "ersetze": "typeof z.daten === 'string'",
-    "zeile": 68
+    "zeile": 70
    }
   ],
   "tests": [
@@ -1324,13 +1152,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:75 && → ||",
+  "name": "worker/src/pruefung-zurueck.ts:77 && → ||",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "typeof v?.bis === 'number' && v.bis > jetzt",
     "ersetze": "typeof v?.bis === 'number' || v.bis > jetzt",
-    "zeile": 75
+    "zeile": 77
    }
   ],
   "tests": [
@@ -1338,13 +1166,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:75 === → !==",
+  "name": "worker/src/pruefung-zurueck.ts:77 === → !==",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "typeof v?.bis === 'number'",
     "ersetze": "typeof v?.bis !== 'number'",
-    "zeile": 75
+    "zeile": 77
    }
   ],
   "tests": [
@@ -1352,13 +1180,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:75 > → >=",
+  "name": "worker/src/pruefung-zurueck.ts:77 > → >=",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "v.bis > jetzt",
     "ersetze": "v.bis >= jetzt",
-    "zeile": 75
+    "zeile": 77
    }
   ],
   "tests": [
@@ -1366,13 +1194,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:75 > → <=",
+  "name": "worker/src/pruefung-zurueck.ts:77 > → <=",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "v.bis > jetzt",
     "ersetze": "v.bis <= jetzt",
-    "zeile": 75
+    "zeile": 77
    }
   ],
   "tests": [
@@ -1380,13 +1208,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:76 Aufruf entfernt",
+  "name": "worker/src/pruefung-zurueck.ts:78 Aufruf entfernt",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "ergebnis.set(z.plattform, Object.fromEntries(aktiv))",
     "ersetze": "void 0",
-    "zeile": 76
+    "zeile": 78
    }
   ],
   "tests": [
@@ -1394,13 +1222,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:76 Argumente getauscht ergebnis.set",
+  "name": "worker/src/pruefung-zurueck.ts:78 Argumente getauscht ergebnis.set",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "ergebnis.set(z.plattform, Object.fromEntries(aktiv))",
     "ersetze": "ergebnis.set(Object.fromEntries(aktiv), z.plattform)",
-    "zeile": 76
+    "zeile": 78
    }
   ],
   "tests": [
@@ -1408,13 +1236,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:91 && → ||",
+  "name": "worker/src/pruefung-zurueck.ts:93 && → ||",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "eintraege !== undefined && Object.hasOwn(eintraege, kennungAus(z.url) ?? '')",
     "ersetze": "eintraege !== undefined || Object.hasOwn(eintraege, kennungAus(z.url) ?? '')",
-    "zeile": 91
+    "zeile": 93
    }
   ],
   "tests": [
@@ -1422,13 +1250,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:91 !== → ===",
+  "name": "worker/src/pruefung-zurueck.ts:93 !== → ===",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "eintraege !== undefined",
     "ersetze": "eintraege === undefined",
-    "zeile": 91
+    "zeile": 93
    }
   ],
   "tests": [
@@ -1436,13 +1264,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:91 Argumente getauscht Object.hasOwn",
+  "name": "worker/src/pruefung-zurueck.ts:93 Argumente getauscht Object.hasOwn",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "Object.hasOwn(eintraege, kennungAus(z.url) ?? '')",
     "ersetze": "Object.hasOwn(kennungAus(z.url) ?? '', eintraege)",
-    "zeile": 91
+    "zeile": 93
    }
   ],
   "tests": [
@@ -1450,13 +1278,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:93 Argumente getauscht a.ziele.slice",
+  "name": "worker/src/pruefung-zurueck.ts:95 Argumente getauscht a.ziele.slice",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "a.ziele.slice(0, a.titel)",
     "ersetze": "a.ziele.slice(a.titel, 0)",
-    "zeile": 93
+    "zeile": 95
    }
   ],
   "tests": [
@@ -1464,13 +1292,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:93 Zahl 0 → 1",
+  "name": "worker/src/pruefung-zurueck.ts:95 Zahl 0 → 1",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "0",
     "ersetze": "1",
-    "zeile": 93
+    "zeile": 95
    }
   ],
   "tests": [
@@ -1478,13 +1306,13 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:96 Zahl 0 → 1",
+  "name": "worker/src/pruefung-zurueck.ts:98 Zahl 0 → 1",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "0",
     "ersetze": "1",
-    "zeile": 96
+    "zeile": 98
    }
   ],
   "tests": [
