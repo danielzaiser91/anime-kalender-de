@@ -179,7 +179,30 @@ async function ohneTokenUndVerdrahtung() {
     await ruhe()
     pruefe('ein Titel wird im Lauf zurückgestellt (set): die Meldung geht ohne weiteres Neuladen raus', s.abrufe.length === 1 && Object.keys(s.abrufe[0].rumpf.eintraege).join() === '7', s.abrufe.length)
   }
+}
 
+/** Ohne eingespeiste Abruf-, Token- und Timerfunktion: die echten Standardwege der Seite (`fetch`, `akKontext.lesen('token', 'sync')`, `setTimeout`). */
+async function standardwege() {
+  console.log('Standardwege der Seite')
+  const abrufe = []
+  const timer = []
+  const gelesen = []
+  kontext.fetch = async (adresse, init) => (abrufe.push({ adresse, token: init.headers['X-Lauf-Token'] }), { ok: true })
+  kontext.setTimeout = (fn, ms) => timer.push({ fn, ms })
+  kontext.akKontext = {
+    lokal: null,
+    lesen: async (schluessel, bereich) => (gelesen.push([schluessel, bereich]), { token: 'seitentoken' }),
+  }
+  const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+  const jetzt = { t: T0 }
+  const karte = neu({ 1: {}, 2: {} }, () => false, { speicher, jetzt: () => jetzt.t, worker: WORKER })
+  await karte.geladen()
+  await ruhe()
+  pruefe('Token kommt aus akKontext.lesen("token", "sync")', gelesen.length === 1 && gelesen[0].join() === 'token,sync', gelesen)
+  pruefe('Abruf geht über das globale fetch, mit diesem Token', abrufe.length === 1 && abrufe[0].token === 'seitentoken' && abrufe[0].adresse === `${WORKER}?zurueck=1`, abrufe)
+  karte.set('2', 'keine Folgenliste')
+  await ruhe()
+  pruefe('Änderung im Abstand: der Nachhol-Timer läuft über das globale setTimeout (Funktion zuerst, Rest danach)', timer.length === 1 && typeof timer[0].fn === 'function' && timer[0].ms === 10 * MINUTE, timer.map((t) => t.ms))
 }
 
 async function alleFaelle() {
@@ -189,6 +212,7 @@ async function alleFaelle() {
   await fehlschlag()
   await leereMenge()
   await ohneTokenUndVerdrahtung()
+  await standardwege()
 }
 
 alleFaelle().then(() => {
