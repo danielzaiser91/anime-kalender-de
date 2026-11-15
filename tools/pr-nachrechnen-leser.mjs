@@ -351,9 +351,10 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest (nennt ${genannte(l1, bewegt, lies)})`
   const rueckwaerts = rueckMenge(leser, bewegt, lies)
-  // Handdaten des PR kippen nur durch bewegte Nicht-Bot-Dateien (Bot-Dateien: nur Berührung, siehe `botBewegt`).
-  const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts : rueckMenge(leserOhneBot(leser, bewegt, botBewegt, lies), bewegt.filter((b) => !botBewegt.includes(b)), lies)
-  const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))
+  // F136 A (15.11.2026): Bot-Dateien entwerten nur, wenn der PR ihren Leser selbst ändert (oben); importiert der Leser nur PR-Code (PR 3717: check-logic.ts -> worker/src/templates.ts),
+  // zählt das nicht. Restlücke: Fehler aus neuem PR-Code mit neuen Bot-Daten zeigt erst der nächste Bestandsbau.
+  const ohneBot = botBewegt.length === 0 ? rueckwaerts : rueckMenge(leserOhneBot(leser, bewegt, botBewegt, lies), bewegt.filter((b) => !botBewegt.includes(b)), lies)
+  const p = start.find((x) => ohneBot.has(x))
   if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`
   return null
 }
