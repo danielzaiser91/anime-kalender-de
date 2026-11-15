@@ -47,7 +47,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { todayIso } from '../shared/time.ts'
-import { pruefeGattungen } from './lib/rtlplus-gattung.ts'
+import { pruefeGattungen, uebernimmKandidaten } from './lib/rtlplus-gattung.ts'
 
 const wurzel = process.env.AK_ROOT ?? resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -106,8 +106,7 @@ console.log(`[rtlplus] ${karten.length} Teilkarten, davon ${arbeit.length} in di
 
 const ZIEL = resolve(wurzel, 'data/rtlplus-katalog.json')
 const bestand = existsSync(ZIEL) ? JSON.parse(readFileSync(ZIEL, 'utf8')) : {}
-const vorher = new Set(Object.keys(bestand))
-let neu = 0
+const kandidaten = new Map()
 let gesehen = 0
 
 for (const [i, karte] of arbeit.entries()) {
@@ -133,26 +132,30 @@ for (const [i, karte] of arbeit.entries()) {
     const t = nachKurz.get(k)
     if (!t) continue
     const url = `https://plus.rtl.de/${pfad}`
-    if (bestand[String(t.id)]?.url === url) continue
-    bestand[String(t.id)] = { url, slug: pfad, titel: t.titleDe ?? t.titleEn ?? null, gefundenAm: todayIso() }
-    neu++
-    console.log(`[rtlplus]   ${t.titleDe ?? t.titleEn} → ${url}`)
+    const liste = kandidaten.get(String(t.id)) ?? []
+    if (!liste.some((k) => k.url === url)) liste.push({ url, slug: pfad, titel: t.titleDe ?? t.titleEn ?? null })
+    kandidaten.set(String(t.id), liste)
   }
-  if ((i + 1) % 20 === 0) console.log(`[rtlplus] ${i + 1}/${arbeit.length} Karten, ${neu} Treffer`)
+  if ((i + 1) % 20 === 0) console.log(`[rtlplus] ${i + 1}/${arbeit.length} Karten, ${kandidaten.size} Titel mit Treffer`)
   await new Promise((r) => setTimeout(r, PAUSE))
 }
 
 /*
-  Gleichnamige Hörbücher stehen in derselben Sitemap (Tom Sawyer, Peter Pan …): jede Seite ohne Gattung
-  wird einmal gegen ihre Beschreibung gelesen. Neue Treffer ohne Auskunft kommen nicht in den Bestand.
+  Gleichnamige Hörbücher stehen in derselben Sitemap (Tom Sawyer, Peter Pan …): jeder Treffer wird vor dem
+  Eintragen gegen die Beschreibung seiner Seite gelesen, ein Hörbuch überschreibt nie einen Videoeintrag.
+  Danach bekommen Altlasten ohne Gattung ihren Stempel. Hörbuch-Treffer ohne Eintrag werden je Lauf erneut gelesen.
 */
-const gattung = await pruefeGattungen(bestand, hole, () => new Promise((r) => setTimeout(r, PAUSE)), console.log)
-for (const id of gattung.unklar) if (!vorher.has(id)) delete gattung.bestand[id]
+const pause = () => new Promise((r) => setTimeout(r, PAUSE))
+const aufnahme = await uebernimmKandidaten(bestand, kandidaten, hole, pause, console.log, todayIso())
+const gattung = await pruefeGattungen(aufnahme.bestand, hole, pause, console.log)
+const verworfen = aufnahme.verworfen.length + gattung.verworfen.length
+const ohneAuskunft = aufnahme.unklar.length + gattung.unklar.length
+const geprueft = aufnahme.neu.length + aufnahme.verworfen.length + aufnahme.unklar.length + gattung.geprueft
 console.log(
-  `[rtlplus] Gattung: ${gattung.geprueft} Seiten geprüft, ${gattung.verworfen.length} Hörbücher/Hörspiele verworfen, ${gattung.unklar.length} ohne Auskunft`,
+  `[rtlplus] Gattung: ${geprueft} Seiten geprüft, ${verworfen} Hörbücher/Hörspiele verworfen, ${ohneAuskunft} ohne Auskunft`,
 )
 
 writeFileSync(ZIEL, `${JSON.stringify(gattung.bestand, null, 2)}\n`, 'utf8')
 console.log(
-  `[rtlplus] ${gesehen} Adressen gelesen, ${neu} neue Treffer, ${Object.keys(gattung.bestand).length} im Bestand → ${ZIEL}`,
+  `[rtlplus] ${gesehen} Adressen gelesen, ${aufnahme.neu.length} neue Treffer, ${Object.keys(gattung.bestand).length} im Bestand → ${ZIEL}`,
 )

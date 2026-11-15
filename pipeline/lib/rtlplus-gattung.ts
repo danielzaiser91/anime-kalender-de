@@ -59,3 +59,50 @@ export async function pruefeGattungen(
   }
   return { bestand: neu, verworfen, unklar, geprueft }
 }
+
+export type Kandidat = { url: string; slug: string; titel: string | null }
+
+export type KandidatenLauf = { bestand: Record<string, KatalogEintrag>; neu: string[]; verworfen: string[]; unklar: string[] }
+
+/**
+ * Sitemap-Treffer je Titel-Kennung (in Sitemap-Reihenfolge) in den Bestand übernehmen. Ein gestempelter Video-Eintrag,
+ * dessen Adresse unter den Treffern steht, bleibt unberührt (kein Abruf, kein Überschreiben durch ein gleichnamiges Hörbuch).
+ * Sonst gilt der erste Treffer mit Gattung `video`; Hörbücher werden verworfen, ein Abruffehler ist keine Auskunft.
+ */
+export async function uebernimmKandidaten(
+  bestand: Record<string, KatalogEintrag>,
+  kandidaten: Map<string, Kandidat[]>,
+  hole: (url: string) => Promise<string>,
+  pause: () => Promise<void>,
+  melde: (zeile: string) => void,
+  heute: string,
+): Promise<KandidatenLauf> {
+  const neu: string[] = []
+  const verworfen: string[] = []
+  const unklar: string[] = []
+  const ergebnis = { ...bestand }
+  for (const [id, liste] of kandidaten) {
+    const alt = ergebnis[id]
+    if (alt?.gattung === 'video' && liste.some((k) => k.url === alt.url)) continue
+    for (const k of liste) {
+      try {
+        const gattung = rtlGattung(await hole(k.url))
+        await pause()
+        if (gattung === 'nicht-video') {
+          verworfen.push(k.url)
+          melde(`[rtlplus] verworfen (Hörbuch/Hörspiel): ${id} ${k.url}`)
+          continue
+        }
+        ergebnis[id] = { url: k.url, slug: k.slug, titel: k.titel, gefundenAm: heute, gattung }
+        neu.push(id)
+        melde(`[rtlplus]   ${k.titel} → ${k.url}`)
+        break
+      } catch (err) {
+        unklar.push(k.url)
+        melde(`[rtlplus] Gattung offen (${id}): ${err instanceof Error ? err.message : String(err)}`)
+        await pause()
+      }
+    }
+  }
+  return { bestand: ergebnis, neu, verworfen, unklar }
+}
