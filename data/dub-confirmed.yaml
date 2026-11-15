@@ -39550,3 +39550,12 @@
   dub: true
   checkedAt: '2026-11-15'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0F79V67YM: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.85cabb58-1af2-42f1-94c1-79f15aa38983"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
+
+- anilistId: 163024
+  title: "Captain Tsubasa: Staffel 2 - Die Junioren"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CM3H8VQS
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht"

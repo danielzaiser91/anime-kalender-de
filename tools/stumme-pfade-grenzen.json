@@ -2,7 +2,6 @@
   "_hinweis": "Wird nur von tools/stumme-pfade.mjs --festschreiben gesenkt (Bestandsbau, tools/commit-data.sh), nie von Hand erhöht. Ausgangswerte 13.11.2026.",
   "code": {
     "pipeline/anime2you-extraktion.ts": 1,
-    "pipeline/bau/09-5-weitere-quellen.ts": 2,
     "pipeline/bau/folgentitel-cr.ts": 1,
     "pipeline/bau/grundlagen.ts": 1,
     "pipeline/check-dub-lesart.ts": 1,
