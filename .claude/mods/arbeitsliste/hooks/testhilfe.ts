@@ -1,6 +1,8 @@
 import { mock } from 'claude-code/testing'
 import type { On } from 'claude-code'
 
+import { agentenWelt, fakeAgenten, haengeAgentenListe, lieseAgentenDatei } from './agenten-welt'
+
 export const STAND = `# Stand
 ## In Arbeit (Stand 10.10.2026)
 
@@ -92,14 +94,13 @@ const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.clau
 
 // `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
 export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false, ziele = '') {
-  mock.clock(on)
+  const uhr = mock.clock(on)
   on('session.start', ($, e) => ({ cwd: e.cwd }))
   on('session.id', () => ({ value: SITZUNG }) as never)
   on('ui.status', ($, e) => { status.push((e as { text?: string }).text); return { value: undefined } as never })
-  if (agenten) {
-    const laeuft = Array.from({ length: agenten }, (_, i) => ({ description: i < pruefer ? 'Prüfer: x' : 'Bauer', status: 'running' }))
-    on('state.get', (_$, e, next) => ((e as { plugin?: string }).plugin === 'savvy-progress' ? ({ value: { value: laeuft, version: 1 } } as never) : next(e)))
-  }
+  Object.assign(agentenWelt, { projekt: 'C--x', root: 'C:/x', cwd: 'C:/x', listFehler: '' })
+  agentenWelt.liste = fakeAgenten(agenten, pruefer)
+  haengeAgentenListe(on)
   if (engine) on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
   on('fs.read', ($, e) => {
     // Der Pfad kommt mit Rückwärtsschrägstrichen an (Windows).
@@ -111,6 +112,9 @@ export function starte(on: On, marker: string | null, status: (string | undefine
     if (FREMDE_MARKER.includes(pfad)) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never
     if (ruhe !== false && e.path.endsWith('ruhemodus.txt')) return { value: ruhe === true ? '' : ruhe } as never
     if (spar && e.path.endsWith('sparmodus.txt')) return { value: '' } as never
+    const agentDatei = lieseAgentenDatei(pfad)
+    if (agentDatei) return agentDatei as never
     return { deny: 'fehlt' } as never
   })
+  return uhr
 }
