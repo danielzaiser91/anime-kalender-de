@@ -83,6 +83,7 @@ const treffer = await uebernimmKandidaten(
   },
   () => {},
   '2026-11-15',
+  {},
 )
 assert.deepEqual(reihenfolge, ['u/hoer', 'Pause', 'u/serie', 'Pause', 'u/kaputt', 'Pause'], 'Pause nach jedem Abruf; Eintrag 3 ohne Abruf')
 assert.deepEqual(treffer.neu, ['1'])
@@ -91,6 +92,37 @@ assert.deepEqual(treffer.unklar, ['u/kaputt'])
 assert.deepEqual(treffer.bestand['1'], { url: 'u/serie', slug: 's2', titel: 'Eins', gefundenAm: '2026-11-15', gattung: 'video' })
 assert.equal(treffer.bestand['2'], undefined)
 assert.deepEqual(Object.keys(vorBestand), ['3'], 'der übergebene Bestand bleibt unverändert')
+assert.deepEqual(treffer.hoerbuecher, { 'u/hoer': '2026-11-15' }, 'verworfene Adresse wird mit dem Tag gemerkt')
+assert.equal(treffer.uebersprungen, 0)
+
+// Bekannte Hörbuch-Adressen: unter 90 Tagen kein Abruf, ab 90 Tagen wieder (Grenze 89/90/91), der alte Tag bleibt bei Überspringen.
+const frist = async (seit: string) => {
+  const abgerufen: string[] = []
+  const bekanntIn = { 'u/hoer': seit }
+  const r = await uebernimmKandidaten(
+    {},
+    new Map([['1', [{ url: 'u/hoer', slug: 's', titel: 'Eins' }]]]),
+    async (url) => {
+      abgerufen.push(url)
+      return seiten[url]!
+    },
+    async () => {},
+    () => {},
+    '2026-11-15',
+    bekanntIn,
+  )
+  return { abgerufen, r, bekanntIn }
+}
+const tag89 = await frist('2026-08-18')
+assert.deepEqual(tag89.abgerufen, [], '89 Tage: bekannt, kein Abruf')
+assert.equal(tag89.r.uebersprungen, 1)
+assert.deepEqual(tag89.r.hoerbuecher, { 'u/hoer': '2026-08-18' }, 'der alte Tag bleibt beim Überspringen')
+const tag90 = await frist('2026-08-17')
+assert.deepEqual(tag90.abgerufen, ['u/hoer'], '90 Tage: wieder lesen')
+assert.equal(tag90.r.uebersprungen, 0)
+assert.deepEqual(tag90.r.hoerbuecher, { 'u/hoer': '2026-11-15' }, 'wieder gelesen: neuer Tag')
+assert.deepEqual(tag90.bekanntIn, { 'u/hoer': '2026-08-17' }, 'die übergebene Liste bleibt unverändert')
+assert.deepEqual((await frist('2026-08-16')).abgerufen, ['u/hoer'], '91 Tage: wieder lesen')
 
 // Gesamtlauf des Skripts, zweimal hintereinander auf dem Ergebnis des ersten.
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -174,7 +206,13 @@ globalThis.fetch = async (url) => {
 }
 `,
 )
-const fahreLauf = (): { ausgabe: string; abrufe: string[]; ergebnis: Record<string, { url?: string; gattung?: string; gefundenAm?: string }> } => {
+type LaufErgebnis = {
+  ausgabe: string
+  abrufe: string[]
+  ergebnis: Record<string, { url?: string; gattung?: string; gefundenAm?: string }>
+  hoerbuecher: Record<string, string>
+}
+const fahreLauf = (): LaufErgebnis => {
   writeFileSync(abrufLog, '')
   const r = spawnSync(
     process.execPath,
@@ -184,7 +222,11 @@ const fahreLauf = (): { ausgabe: string; abrufe: string[]; ergebnis: Record<stri
   const ausgabe = `${r.stdout}${r.stderr}`
   assert.equal(r.status, 0, `Lauf ist durchgelaufen: ${ausgabe}`)
   const abrufe = readFileSync(abrufLog, 'utf8').split('\n').filter((z) => z.includes('-p_')).map((z) => z.replace('https://plus.rtl.de/', ''))
-  return { ausgabe, abrufe, ergebnis: JSON.parse(readFileSync(join(kulisse, 'data/rtlplus-katalog.json'), 'utf8')) }
+  const {
+    _verworfen: hoerbuecher = {},
+    ...ergebnis
+  } = JSON.parse(readFileSync(join(kulisse, 'data/rtlplus-katalog.json'), 'utf8')) as Record<string, any>
+  return { ausgabe, abrufe, ergebnis, hoerbuecher }
 }
 const erster = fahreLauf()
 const zweiter = fahreLauf()
@@ -205,16 +247,23 @@ assert.ok(!erster.abrufe.some((u) => u.startsWith('bestandkulisse')), 'gestempel
 assert.ok(!erster.abrufe.includes('doppelkulisse-p_8'), 'nach dem ersten Videotreffer kein weiterer Abruf')
 assert.match(erster.ausgabe, /verworfen \(Hörbuch\/Hörspiel\): 900002 /)
 assert.match(erster.ausgabe, /Gattung offen \(900006\): HTTP 503/)
-assert.match(erster.ausgabe, /11 Seiten geprüft, 4 Hörbücher\/Hörspiele verworfen, 2 ohne Auskunft/)
+assert.match(erster.ausgabe, /11 Seiten geprüft, 4 Hörbücher\/Hörspiele verworfen, 2 ohne Auskunft, 0 bekannte Hörbuch-Adressen übersprungen/)
 assert.match(erster.ausgabe, /5 neue Treffer, 7 im Bestand/)
 
 // Lauf 2 auf dem Ergebnis: dieselben Einträge, keine Abrufe der Serien und keine neuen Treffer;
 // nur das Hörbuch ohne Eintrag und die zwei Ausfälle werden erneut gelesen.
+assert.deepEqual(Object.keys(erster.hoerbuecher).sort(), [
+  'https://plus.rtl.de/tomsawyerskulisse-p_2',
+  'https://plus.rtl.de/umgekehrtkulisse-p_9',
+  'https://plus.rtl.de/unbestempeltkulisse-p_13',
+])
+assert.match(Object.values(erster.hoerbuecher).join(' '), /^\d{4}-\d{2}-\d{2}( \d{4}-\d{2}-\d{2}){2}$/, 'jede Hörbuch-Adresse trägt den Tag')
 assert.deepEqual(zweiter.ergebnis, erster.ergebnis)
-assert.deepEqual(zweiter.abrufe.sort(), ['altfallausfall-p_5', 'neufallausfall-p_6', 'tomsawyerskulisse-p_2'])
-assert.match(zweiter.ausgabe, /3 Seiten geprüft, 1 Hörbücher\/Hörspiele verworfen, 2 ohne Auskunft/)
+assert.deepEqual(zweiter.hoerbuecher, erster.hoerbuecher, 'bekannte Hörbuch-Adressen bleiben samt Tag erhalten')
+assert.deepEqual(zweiter.abrufe.sort(), ['altfallausfall-p_5', 'neufallausfall-p_6'], 'kein erneuter Abruf der bekannten Hörbücher')
+assert.match(zweiter.ausgabe, /2 Seiten geprüft, 0 Hörbücher\/Hörspiele verworfen, 2 ohne Auskunft, 1 bekannte Hörbuch-Adressen übersprungen/)
 assert.match(zweiter.ausgabe, /0 neue Treffer, 7 im Bestand/)
 
 console.log(
-  'rtlplus-gattung: Hörbuch/Kinder-Hörbuch raus, Serie/Film bleiben, Abruffehler ohne Stempel, Gesamtlauf mit Kulisse in zwei Läufen (Lauf 1: 5 neu, 4 verworfen, 2 ohne Auskunft; Lauf 2: 0 neu, nur 3 Abrufe)',
+  'rtlplus-gattung: Hörbuch/Kinder-Hörbuch raus, Serie/Film bleiben, Abruffehler ohne Stempel, Gesamtlauf mit Kulisse in zwei Läufen (Lauf 1: 5 neu, 4 verworfen, 2 ohne Auskunft; Lauf 2: 0 neu, 2 Abrufe, bekanntes Hörbuch übersprungen)',
 )

@@ -105,7 +105,9 @@ const arbeit = LIMIT > 0 ? karten.slice(0, LIMIT) : karten
 console.log(`[rtlplus] ${karten.length} Teilkarten, davon ${arbeit.length} in diesem Lauf`)
 
 const ZIEL = resolve(wurzel, 'data/rtlplus-katalog.json')
-const bestand = existsSync(ZIEL) ? JSON.parse(readFileSync(ZIEL, 'utf8')) : {}
+const datei = existsSync(ZIEL) ? JSON.parse(readFileSync(ZIEL, 'utf8')) : {}
+// `_verworfen`: Hörbuch-Adressen mit Tag der Feststellung, damit der Wochenlauf sie nicht jedes Mal neu liest.
+const { _verworfen: bekannteHoerbuecher = {}, ...bestand } = datei
 const kandidaten = new Map()
 let gesehen = 0
 
@@ -146,16 +148,16 @@ for (const [i, karte] of arbeit.entries()) {
   Danach bekommen Altlasten ohne Gattung ihren Stempel. Hörbuch-Treffer ohne Eintrag werden je Lauf erneut gelesen.
 */
 const pause = () => new Promise((r) => setTimeout(r, PAUSE))
-const aufnahme = await uebernimmKandidaten(bestand, kandidaten, hole, pause, console.log, todayIso())
+const aufnahme = await uebernimmKandidaten(bestand, kandidaten, hole, pause, console.log, todayIso(), bekannteHoerbuecher)
 const gattung = await pruefeGattungen(aufnahme.bestand, hole, pause, console.log)
 const verworfen = aufnahme.verworfen.length + gattung.verworfen.length
 const ohneAuskunft = aufnahme.unklar.length + gattung.unklar.length
 const geprueft = aufnahme.neu.length + aufnahme.verworfen.length + aufnahme.unklar.length + gattung.geprueft
 console.log(
-  `[rtlplus] Gattung: ${geprueft} Seiten geprüft, ${verworfen} Hörbücher/Hörspiele verworfen, ${ohneAuskunft} ohne Auskunft`,
+  `[rtlplus] Gattung: ${geprueft} Seiten geprüft, ${verworfen} Hörbücher/Hörspiele verworfen, ${ohneAuskunft} ohne Auskunft, ${aufnahme.uebersprungen} bekannte Hörbuch-Adressen übersprungen`,
 )
 
-writeFileSync(ZIEL, `${JSON.stringify(gattung.bestand, null, 2)}\n`, 'utf8')
+writeFileSync(ZIEL, `${JSON.stringify({ ...gattung.bestand, _verworfen: aufnahme.hoerbuecher }, null, 2)}\n`, 'utf8')
 console.log(
   `[rtlplus] ${gesehen} Adressen gelesen, ${aufnahme.neu.length} neue Treffer, ${Object.keys(gattung.bestand).length} im Bestand → ${ZIEL}`,
 )

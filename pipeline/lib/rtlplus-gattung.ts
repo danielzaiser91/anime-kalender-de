@@ -62,7 +62,19 @@ export async function pruefeGattungen(
 
 export type Kandidat = { url: string; slug: string; titel: string | null }
 
-export type KandidatenLauf = { bestand: Record<string, KatalogEintrag>; neu: string[]; verworfen: string[]; unklar: string[] }
+/** Bekannte Hörbuch-Adressen (Adresse → Tag der Feststellung) werden so lange nicht erneut gelesen. */
+export const HOERBUCH_NEU_LESEN_NACH_TAGEN = 90
+
+const tageZwischen = (von: string, bis: string): number => Math.round((Date.parse(bis) - Date.parse(von)) / 86_400_000)
+
+export type KandidatenLauf = {
+  bestand: Record<string, KatalogEintrag>
+  neu: string[]
+  verworfen: string[]
+  unklar: string[]
+  hoerbuecher: Record<string, string>
+  uebersprungen: number
+}
 
 /**
  * Sitemap-Treffer je Titel-Kennung (in Sitemap-Reihenfolge) in den Bestand übernehmen. Ein gestempelter Video-Eintrag,
@@ -76,20 +88,29 @@ export async function uebernimmKandidaten(
   pause: () => Promise<void>,
   melde: (zeile: string) => void,
   heute: string,
+  bekannt: Record<string, string>,
 ): Promise<KandidatenLauf> {
   const neu: string[] = []
   const verworfen: string[] = []
   const unklar: string[] = []
   const ergebnis = { ...bestand }
+  const hoerbuecher = { ...bekannt }
+  let uebersprungen = 0
   for (const [id, liste] of kandidaten) {
     const alt = ergebnis[id]
     if (alt?.gattung === 'video' && liste.some((k) => k.url === alt.url)) continue
     for (const k of liste) {
+      const seit = bekannt[k.url]
+      if (seit !== undefined && tageZwischen(seit, heute) < HOERBUCH_NEU_LESEN_NACH_TAGEN) {
+        uebersprungen++
+        continue
+      }
       try {
         const gattung = rtlGattung(await hole(k.url))
         await pause()
         if (gattung === 'nicht-video') {
           verworfen.push(k.url)
+          hoerbuecher[k.url] = heute
           melde(`[rtlplus] verworfen (Hörbuch/Hörspiel): ${id} ${k.url}`)
           continue
         }
@@ -104,5 +125,5 @@ export async function uebernimmKandidaten(
       }
     }
   }
-  return { bestand: ergebnis, neu, verworfen, unklar }
+  return { bestand: ergebnis, neu, verworfen, unklar, hoerbuecher, uebersprungen }
 }
