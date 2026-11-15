@@ -2473,7 +2473,7 @@ let selbstVersucht = null
 let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text); mit Ablauf auch im Speicher (`netflix-zurueckgestellt.js`). */
-const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen() })
+const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER })
 /** Tab, Bremse (kein Titelfenster in Folge = Sitzung, nicht Titel), Bericht je Titel und Takt-Verdrahtung (`netflix-durchgang-steuerung.js`). */
 const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)

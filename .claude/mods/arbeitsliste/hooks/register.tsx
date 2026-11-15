@@ -10,6 +10,9 @@ import type { LeisteStand } from './leiste'
 import { LOG, MESS_MARKER, haengeAn, messDauer, messStart, unterschied } from './messung'
 import { kopierText } from './kopieren'
 import { istPruefer } from './pruefer'
+import { lieseLaufende, projektName } from './agenten'
+import type { AgentenCache, LaufAgent } from './agenten'
+import { agentenBereich } from './agenten-pane'
 import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
 import type { PrioUmfeld } from './bereiche'
 import { zaehleTopPrios, zeichenJeSpalte } from './prios'
@@ -59,28 +62,28 @@ const ruhe = atom({ plugin: 'arbeitsliste', key: 'ruhe' } as const, null as Ruhe
 const SPAR_MARKER = 'C:/Users/ih/.claude/sparmodus.txt'
 const spar = atom({ plugin: 'arbeitsliste', key: 'spar' } as const, false)
 const offen = atom({ plugin: 'arbeitsliste', key: 'offen' } as const, null as number | null)
-let klickNr = 0 // zählt jeden Pane-Knopfdruck (Agents und Arbeitsliste)
-const agentenKnopf = atom({ plugin: 'arbeitsliste', key: 'agentenKnopf' } as const, 0)
 // Kennungen der ausgeklappten Bereiche („weitere“) und Gruppen (Kleinigkeiten).
 const aufgeklappt = atom({ plugin: 'arbeitsliste', key: 'aufgeklappt' } as const, [] as string[])
 
-// Fremder Zustand von savvy-progress: nur lesen, nie schreiben.
-const savvyAgents = { plugin: 'savvy-progress', key: 'agents' } as const
+// Transkriptordner der Subagenten: Projektordner unter dem Claude-Ordner, wie MARKER_ORDNER fest verdrahtet.
+const PROJEKTE = 'C:/Users/ih/.claude/projects'
 
 let timer: Timer | null = null
 let letzterStatus: string | undefined
 // Leiste nur neu bauen, wenn sich ein angezeigter Wert ändert (Zwischenspeicher je Schlüssel).
 let letzteLeiste: { schluessel: string; element: unknown } | null = null
 // Angezeigte Werte der Leiste: der Hintergrund hält sie aktuell, der Render liest nur diese Variable (kein await,
-// kein State-Abo). Ein Abo auf savvy-progress.agents zeichnete die Leiste bei jedem Fortschrittsschritt neu (Flackern, 11.10.2026).
+// kein State-Abo). Ein Abo auf einen häufig geschriebenen Zustand zeichnete die Leiste bei jedem Schritt neu (Flackern, 11.10.2026).
 type LeistenDaten = Omit<LeisteStand, 'oeffneAgenten' | 'oeffneListe'>
 let leistenDaten: LeistenDaten | null = null
 let leistenSchluessel = ''
 let leistenTimer: Timer | null = null
-let savvyVersion = -1
 let letzteProps: Record<string, unknown> | null = null
-// Agentenliste fürs Pane aus dem Hintergrundtakt: Savvy im Render zu lesen abonniert jeden Fortschrittsschritt.
-let agentenListe: Agent[] = []
+// Agentenliste fürs Pane aus dem Hintergrundtakt; der Render liest nur diese Variable.
+let agentenListe: LaufAgent[] = []
+let agentenFehler: string[] = []
+let letzterAgentenFehler = ''
+const agentenCache: AgentenCache = new Map()
 
 // Jedes Schreiben zeichnet alle Leser neu (Hover geht verloren, Last): geschrieben wird nur bei geändertem Inhalt.
 const gleich = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b)
@@ -121,16 +124,37 @@ function uhrzeit(iso: string): string {
   }
 }
 
-type Agent = { type?: string; description: string; stepDone?: number; stepTotal?: number }
-
-// Laufende Savvy-Agenten; ohne Savvy oder bei Fehler leer.
-async function laufendeAgenten($: EngineInterface): Promise<Agent[]> {
+// Laufende Subagenten dieser Sitzung aus ihrem Transkriptordner (agenten.ts). Der Ordner heißt nach dem Startordner der
+// Sitzung: erst Projektwurzel, dann Arbeitsordner versuchen. Echte Fehler (nicht „Ordner fehlt“) landen in agentenFehler.
+async function laufendeAgenten($: EngineInterface): Promise<LaufAgent[]> {
+  agentenFehler = []
   try {
-    const { value } = (await $.state.get(savvyAgents)) as { value?: (Agent & { status: string })[] }
-    return (value ?? []).filter(a => a.status === 'running')
-  } catch {
-    return []
+    const id = await $.session.id()
+    const jetzt = await $.clock.now()
+    // `$.fs` selbst darf nicht weitergereicht werden (Host-Regel): zwei Aufrufe als Funktionen.
+    const dateien = { list: (p: string) => $.fs.list(p), read: (p: string) => $.fs.read(p) }
+    const orte = await Promise.all([$.session.root().catch(() => ''), $.session.cwd().catch(() => '')])
+    for (const ort of new Set(orte.filter(Boolean))) {
+      const z = await lieseLaufende(dateien, `${PROJEKTE}/${projektName(ort)}/${id}/subagents`, jetzt, agentenCache)
+      agentenFehler.push(...z.fehler)
+      if (z.agenten.length) return z.agenten
+    }
+  } catch (e) {
+    agentenFehler.push(`Sitzung: ${String((e as { message?: string })?.message ?? e)}`)
   }
+  return []
+}
+
+// Ein Zählfehler wird einmal je Wortlaut gemeldet (Protokoll bei Messung, Hinweis in der Oberfläche), nie still als 0 Agenten.
+function meldeAgentenFehler($: EngineInterface): void {
+  const text = agentenFehler.join(' | ')
+  if (text === letzterAgentenFehler) return
+  letzterAgentenFehler = text
+  if (!text) return
+  protokoll($, 'FEHLER', `Agenten: ${text}`)
+  void Promise.resolve()
+    .then(() => $.ui.toast(`Agenten zählen: ${agentenFehler[0]}`))
+    .catch(() => undefined)
 }
 
 // Messung (messung.ts): Merkflag, vom Hintergrundtakt gesetzt, damit der Render nichts erwarten muss.
@@ -156,7 +180,7 @@ function protokoll($: EngineInterface, art: string, text: string): void {
     .catch(() => undefined)
 }
 
-// Werte der Leiste aus den Atomen und dem Savvy-Stand; Lesen außerhalb des Renders abonniert nichts.
+// Werte der Leiste aus den Atomen und den Agentenordnern; Lesen außerhalb des Renders abonniert nichts.
 async function ermittleLeiste($: EngineInterface): Promise<LeistenDaten> {
   const bis = await read($, autonomBis)
   const von = teile(await read($, vonDir), new Date())
@@ -172,21 +196,15 @@ async function ermittleLeiste($: EngineInterface): Promise<LeistenDaten> {
   }
 }
 
-// Wer schreibt savvy-progress.agents und wie oft: nur für die Messung, Version steigt je Schreibzugriff.
-async function protokolliereSavvy($: EngineInterface): Promise<void> {
-  const { version } = (await $.state.get(savvyAgents)) as { version?: number }
-  if (version === savvyVersion) return
-  protokoll($, 'savvy', `agents Version ${savvyVersion} -> ${version}`)
-  savvyVersion = version ?? -1
-}
-
 // Neue Werte übernehmen und die Leiste nur bei echter Änderung neu zeichnen lassen.
 async function aktualisiereLeiste($: EngineInterface, anlass: string): Promise<void> {
   await pruefeMessung($)
-  if (messungAn) await protokolliereSavvy($).catch(() => undefined)
   const neu = await ermittleLeiste($)
-  // Agentennamen gehören in den Schlüssel, damit das Pane einen Wechsel bei gleicher Zahl sieht.
-  const schluessel = JSON.stringify(neu) + agentenListe.map(a => a.description).join('|')
+  meldeAgentenFehler($)
+  // Agentennamen gehören in den Schlüssel, damit das Pane einen Wechsel bei gleicher Zahl sieht; die Laufzeit zählt
+  // minütlich weiter, solange Agenten laufen.
+  const minute = agentenListe.length ? Math.floor((await $.clock.now()) / 60_000) : 0
+  const schluessel = JSON.stringify(neu) + agentenListe.map(a => a.description).join('|') + minute
   if (schluessel === leistenSchluessel) return
   leistenDaten = neu
   leistenSchluessel = schluessel
@@ -205,7 +223,7 @@ function zeichneLeiste($: EngineInterface, e: any, daten: LeistenDaten, start: n
   if (treffer) return letzteLeiste?.element as ReturnType<typeof baueLeiste>
   const element = baueLeiste($.ui.resolve(e), {
     ...stand,
-    oeffneAgenten: () => void schalteSavvyPane($),
+    oeffneAgenten: () => void togglePane($, PANE, 'Arbeitsliste'),
     oeffneListe: () => void togglePane($, PANE, 'Arbeitsliste'),
   })
   letzteLeiste = { schluessel, element }
@@ -268,28 +286,9 @@ async function aktualisiere($: EngineInterface): Promise<void> {
 // Zu oder hinter einem anderen Tab: nach vorn holen und Fokus anfragen (nur eine Anfrage, die
 // Oberfläche darf ablehnen); vorn sichtbar: schließen.
 async function togglePane($: EngineInterface, id: string, title: string): Promise<void> {
-  klickNr++
   const zuVorderst = (await $.ui.panes()).some(p => p.id === id && p.isShown)
   if (zuVorderst) await $.ui.close({ id })
   else await $.ui.open({ id, title, focus: true })
-}
-
-// Das Agents-Pane gehört savvy-progress; ein `$.ui.open` von hier legt ein eigenes, leeres Pane an (11.10.2026), und
-// `$.command.run` schreibt Befehl und Antwort in den Chat (24.10.2026). Savvy hört auf diesen Zähler und schaltet selbst.
-// Ändert sich danach nichts am Pane, hört savvy nicht (Hook fehlt): kurzer Hinweis statt stillem Nichts.
-async function schalteSavvyPane($: EngineInterface): Promise<void> {
-  const meine = ++klickNr
-  const sichtbar = async () => (await $.ui.panes()).some(p => p.id === 'savvy-agents' && p.isShown)
-  const vorher = await sichtbar()
-  await update($, agentenKnopf, n => n + 1)
-  // Die Pane-Liste zieht nach dem Umschalten nach (10.11.2026: Toast trotz geöffnetem Pane): bis ~1 s nachprüfen.
-  // Ein neuerer Klick (11.11.2026) kann den Zustand zurückdrehen: dann ist diese Prüfung hinfällig, kein Hinweis.
-  for (let i = 0; i < 10; i++) {
-    if ((await sichtbar()) !== vorher) return
-    await new Promise(r => setTimeout(r, 100))
-  }
-  if (meine !== klickNr) return
-  $.ui.toast('Agents-Pane: savvy-progress reagiert nicht (CLAUDE_CODE_PLUGIN_DIRS in .claude/settings.json prüfen)')
 }
 
 // Eine Pane-Zeile: fester Präfix, daneben ein umbrechender Inhalt mit hängendem Einzug.
@@ -565,6 +564,7 @@ async function zeichnePane($: EngineInterface, e: any) {
   const { Box } = a
   return (
     <Box flexDirection="column" gap={1} paddingX={1}>
+      {agentenBereich($.ui.resolve(e), agentenListe, d.jetztMs)}
       {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
       {paneJetzt(a, d)}
       {unterwegsBereich(a, d.unterwegs, d.jetztMs)}
@@ -577,6 +577,8 @@ async function zeichnePane($: EngineInterface, e: any) {
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
+    agentenCache.clear()
+    letzterAgentenFehler = ''
     await aktualisiere($)
     return next(e)
   })
@@ -589,8 +591,8 @@ export const register: Register = on => {
     return next(e)
   })
 
-  // Leiste (Daniel, 10.10.2026): zwei Knöpfe und zwei Bälle in einer Zeile. Die Savvy-Leiste (Balken,
-  // Prozent, Avatar) entfällt, weil hier next(e) nicht aufgerufen wird; Fehler fallen auf sie zurück.
+  // Leiste (Daniel, 10.10.2026): zwei Knöpfe und zwei Bälle in einer Zeile. Die Engine-Leiste
+  // entfällt, weil hier next(e) nicht aufgerufen wird; Fehler fallen auf sie zurück.
   on('ui.render', { component: 'AbovePrompt' }, ($, e, next) => {
     if (e.props.hasSurvey) return next(e)
     const start = messStart(messungAn)

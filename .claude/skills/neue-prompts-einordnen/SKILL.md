@@ -180,7 +180,7 @@ Die vier Schubladen oben stammen aus der Zeit, als ich selbst gebaut habe. Seit 
 3. **Gibt es einen passenden laufenden Agenten?** Berührt der Auftrag dasselbe Gebiet oder dieselben Dateien wie ein laufender Bauer, bekommt dieser ihn per `SendMessage` als eigenen Commit. Das ist billiger als ein Neustart, belegt keinen Platz und vermeidet Merge-Konflikte. Beispiel 10.10.: Der Sammel-Favoriten-Knopf ging an den Bauer, der in `web/src` gerade den AniList-Import entfernte.
 4. **Braucht ein laufender Agent ein Update?** Ändert der Auftrag dessen Ziel, Annahmen oder Dateien, informiere ich ihn sofort per `SendMessage`.
 5. **Ist ein Platz frei?** Laufende Agenten zählen (höchstens 5, davon höchstens 2 schwere). Ist ein Platz frei, starte ich sofort einen neuen Agenten. Ist keiner frei, kommt der Auftrag mit Prio als Zeile unter „In Arbeit (Warteschlange)“ in `stand.md` und startet, sobald ein Agent fertig ist. Bei Prio „kritisch“ wird ein weniger wichtiger Agent pausiert.
-6. **Eintragen:** `stand.md`-Zeile und Savvy-Plan im selben Zug.
+6. **Eintragen:** `stand.md`-Zeile im selben Zug.
 
 ## Was das nicht heißt
 

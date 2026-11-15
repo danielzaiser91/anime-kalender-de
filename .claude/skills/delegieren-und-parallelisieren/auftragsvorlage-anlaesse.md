@@ -5,7 +5,7 @@ Archiv (die Zeile zu `umfang-pruefen.mjs` vor `check:vor-commit` ist veraltet: A
 ```
 Ziel: <ein Satz, was am Ende vorliegen soll>
 Rolle: Analyst | Rechercheur | Bauer | Prüfer | Leitagent
-Risiko/Umfang: Risiko 0|1|2 (Stufe laut `tools/pr-stufe.mjs`, vorab nach Pfaden geschätzt) · Umfang S|M|L · Zeitschätzung (nicht für Rolle Prüfer: Prüfer-Aufträge enthalten diese Zeile und den Abschnitt „Schätzung vs. Ist“ nicht): vom Agenten selbst (erst Aufgabe analysieren, nötige Recherche machen, dann `mcp__savvy-progress__step` mit `estimateMin` + `note` aufrufen; bei neuen Erkenntnissen aktualisieren), kein Wert vom Dirigenten
+Risiko/Umfang: Risiko 0|1|2 (Stufe laut `tools/pr-stufe.mjs`, vorab nach Pfaden geschätzt) · Umfang S|M|L · Zeitschätzung (nicht für Rolle Prüfer: Prüfer-Aufträge enthalten diese Zeile und den Abschnitt „Schätzung vs. Ist“ nicht): vom Agenten selbst (erst Aufgabe analysieren, nötige Recherche machen, dann die Dauer in Minuten schätzen und im Bericht nennen), kein Wert vom Dirigenten
 Arbeitsort: <absoluter Pfad / Zweig / Worktree> — „liegt bereit“ nur, wenn ich ihn angelegt habe, sonst „leg an: <Pfad>, Zweig <name>“; Zweig nie `daten/…` (gehört den Sammlern: PR-Prüfung wird übersprungen, der Daten-Merge nimmt nur PRs der App — 13.10.2026 blieb ein geprüfter PR deshalb hängen)
 Bereits ausgeschlossen: <was geprüft und verworfen ist, mit Grund>
 Relevante Dateien: <Pfade, wenn möglich mit Zeilenbereich; Projekt-CLAUDE.md zuerst lesen>

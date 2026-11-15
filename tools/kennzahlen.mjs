@@ -17,7 +17,8 @@ const DATEI = 'ARCHITEKTUR.md'
 const MARKER = /<!-- kennzahlen:([a-z0-9-]+) -->(.*?)<!-- \/kennzahlen -->/g
 
 const kb = (bytes) => (bytes / 1024).toFixed(1).replace('.', ',')
-const gzipKb = (pfad) => kb(gzipSync(readFileSync(pfad), { level: 9 }).length)
+export const gzipBytes = (inhalt) => gzipSync(inhalt, { level: 9 }).length
+const gzipKb = (pfad) => kb(gzipBytes(readFileSync(pfad)))
 
 /** Anzahl Dateien unter `ordner`, rekursiv. */
 export function zaehleDateien(ordner) {
