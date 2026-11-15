@@ -1675,6 +1675,10 @@
       "am": "2026-11-13",
       "vorschlaege": 0
     },
+    "1071048": {
+      "am": "2026-11-15",
+      "vorschlaege": 0
+    },
     "1071118": {
       "am": "2026-11-15",
       "vorschlaege": 0
@@ -1735,6 +1739,10 @@
     "1071723": {
       "am": "2026-11-14",
       "vorschlaege": 0
+    },
+    "1071954": {
+      "am": "2026-11-15",
+      "vorschlaege": 1
     },
     "1071986": {
       "am": "2026-11-15",
@@ -13298,6 +13306,27 @@
       "artikelId": "1071986",
       "artikel": "Vier KSM-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
       "quelle": "https://www.anime2you.de/news/1071986/akiba-pass-ksm-februar-2027-vorbestellbar/",
+      "veroeffentlicht": "2026-11-15",
+      "gelesenAm": "2026-11-15"
+    },
+    {
+      "titel": "Bride of the Barrier Master",
+      "zitat": "Netflix zeigt den Anime ab Januar 2027 im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071954",
+      "artikel": "Neuer Teaser zum Netflix-Anime »Bride of the Barrier Master«",
+      "quelle": "https://www.anime2you.de/news/1071954/bride-of-the-barrier-master-neuer-teaser/",
       "veroeffentlicht": "2026-11-15",
       "gelesenAm": "2026-11-15"
     }
