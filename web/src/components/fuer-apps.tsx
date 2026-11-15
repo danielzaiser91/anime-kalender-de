@@ -1,7 +1,6 @@
 import { CONTACT_EMAIL } from './Datenschutz.tsx'
 import { Card } from './static-bausteine.tsx'
 
-const LIZENZ = 'https://creativecommons.org/licenses/by/4.0/deed.de'
 const link = 'underline hover:text-ak-text'
 
 /**
@@ -15,7 +14,7 @@ export function FuerApps() {
         <summary className="min-h-10 cursor-pointer py-2.5 text-sm font-bold text-ak-text">Für Webseiten und Apps</summary>
         <ul className="mt-2 ml-4 list-disc space-y-1.5 text-sm text-ak-leise">
           <li>
-            Du darfst die Termine unter <a className={link} href={LIZENZ}>CC BY 4.0</a> nutzen, mit Quellenangabe wie „Termine: anime-kalender.de (CC BY 4.0)“.
+            Du darfst die Termine unter <a className={link} href="https://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0</a> nutzen, mit Quellenangabe wie „Termine: anime-kalender.de (CC BY 4.0)“.
           </li>
           <li>Ruf den Feed höchstens einmal pro Stunde ab.</li>
           <li>„(Synchro offen)“ und „(OmU)“ im Titel: Eine deutsche Synchro ist nicht bestätigt, bitte nie als Synchro anzeigen.</li>
