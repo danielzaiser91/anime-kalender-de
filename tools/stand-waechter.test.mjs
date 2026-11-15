@@ -51,7 +51,8 @@ assert.equal(w.waechter(stand(' (Stand 31.12.2999 00:00)'), JETZT), '', 'Zukunft
 assert.equal(w.waechter(stand(' — bereinigt 14.10.'), JETZT), 'Kopfzeile ohne „Stand TT.MM.JJJJ HH:MM“', 'ohne Stand')
 assert.equal(w.waechter(stand('', ...hand(21)), JETZT), '21 Handzeilen (erlaubt 20) — aufräumen; Kopfzeile ohne „Stand TT.MM.JJJJ HH:MM“', 'beides')
 assert.equal(w.waechter('# Stand\n## Als Nächstes\n- 🔵 x\n', JETZT), '', 'kein Abschnitt')
-assert.equal(w.waechter('', JETZT), '', 'leere Datei')
+assert.equal(w.waechter('', JETZT), w.LEER, 'leere Datei')
+assert.equal(w.waechter('\n\n', JETZT), w.LEER, 'nur Leerzeilen')
 // Der Stand einer anderen Überschrift zählt nicht
 assert.match(w.waechter(['## In Arbeit', '- x', '## Andere (Stand 20.10.2026 11:00)'].join('\n'), JETZT), /ohne „Stand/)
 
