@@ -39559,3 +39559,37 @@
   available: false
   checkedAt: '2026-11-15'
   note: "Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
+
+- anilistId: 1816
+  title: "Sonic X"
+  platform: netflix
+  url: https://www.netflix.com/title/60036794
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 105156
+  title: "Cautious Hero: The Hero Is Overpowered but Overly Cautious"
+  platform: netflix
+  url: https://www.netflix.com/title/81196818
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 154967
+  title: "Rascal Does Not Dream of a Sister Venturing Out"
+  platform: netflix
+  url: https://www.netflix.com/title/81765074
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 43
+  title: "Ghost in the Shell"
+  platform: netflix
+  url: https://www.netflix.com/title/540533
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"

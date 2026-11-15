@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-15T14:10:46.856Z",
+ "erzeugtAm": "2026-11-15T19:20:21.713Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -296,8 +296,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 1087,
-   "offen": 316,
+   "gesamt": 1083,
+   "offen": 312,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -466,10 +466,6 @@
     {
      "url": "https://www.netflix.com/title/81763062",
      "titel": "Blue Giant"
-    },
-    {
-     "url": "https://www.netflix.com/title/81765074",
-     "titel": "Rascal Does Not Dream of a Sister Venturing Out"
     },
     {
      "url": "https://www.netflix.com/title/81768275",
@@ -649,10 +645,6 @@
     {
      "url": "https://www.netflix.com/title/81144576",
      "titel": "Astra Lost in Space"
-    },
-    {
-     "url": "https://www.netflix.com/title/81196818",
-     "titel": "Cautious Hero: The Hero Is Overpowered but Overly Cautious"
     },
     {
      "url": "https://www.netflix.com/title/81208104",
@@ -978,10 +970,6 @@
      "titel": "Ghost in the Shell: Stand Alone Complex"
     },
     {
-     "url": "https://www.netflix.com/title/60036794",
-     "titel": "Sonic X"
-    },
-    {
      "url": "https://www.netflix.com/title/80193421",
      "titel": "Kino’s Journey",
      "staffeln": [
@@ -1010,10 +998,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/540533",
-     "titel": "Ghost in the Shell"
     },
     {
      "url": "https://www.netflix.com/title/70020763",

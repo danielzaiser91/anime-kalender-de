@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-11-15 · **176 offene Verweise** in **132 Zeilen**.
+Stand 2026-11-15 · **172 offene Verweise** in **130 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -15,7 +15,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 4 | 2026-11-06 | Highschool D×D | [Hauptserie](https://www.netflix.com/title/80005873) · [New](https://www.netflix.com/title/80005873) · [BorN](https://www.netflix.com/title/80005873) |
 | 5 | 2026-11-06 | NieR:Automata Ver1.1a | [Hauptserie](https://www.netflix.com/title/81680344) |
 | 6 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 7 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell](https://www.netflix.com/title/540533) · [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
+| 7 | 2026-10-11 | Ghost in the Shell: Stand Alone Complex | [Hauptserie](https://www.netflix.com/title/70213091) · [2nd GIG](https://www.netflix.com/title/70213091) · [Solid State Society](https://www.netflix.com/title/70071919) |
 | 8 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 9 | 2026-10-02 | Chainsaw Man | [Hauptserie](https://www.netflix.com/title/81215627) |
 | 10 | 2026-09-28 | Jujutsu Kaisen | [0](https://www.netflix.com/title/81602834) |
@@ -46,98 +46,96 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 35 | 2024-01-30 | Zom 100: Bucket List of the Dead | [Hauptserie](https://www.netflix.com/title/81680101) |
 | 36 | 2024-01-17 | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.netflix.com/title/81234294) |
 | 37 | 2023-10-16 | Ayakashi Triangle | [Hauptserie](https://www.netflix.com/title/81680115) |
-| 38 | 2023-10-01 | Cautious Hero: The Hero Is Overpowered but Overly Cautious | [Hauptserie](https://www.netflix.com/title/81196818) |
-| 39 | 2023-09-18 | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
-| 40 | 2023-07-07 | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
-| 41 | 2023-06-27 | Dead Mount Death Play | [Hauptserie](https://www.netflix.com/title/81686706) |
-| 42 | 2023-06-27 | Raeliana: Warum sie die Verlobte des Dukes wurde | [Hauptserie](https://www.netflix.com/title/81684407) |
-| 43 | 2023-06-23 | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Dreaming Girl](https://www.netflix.com/title/81228006) · [Rascal Does Not Dream of a Sister Venturing Out](https://www.netflix.com/title/81765074) |
-| 44 | 2023-06-19 | In Another World with My Smartphone | [Hauptserie](https://www.netflix.com/title/80196595) · [2](https://www.netflix.com/title/80196595) |
-| 45 | 2023-06-18 | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
-| 46 | 2023-06-16 | Ranking of Kings | [The Treasure Chest of Courage](https://www.netflix.com/title/81644043) |
-| 47 | 2023-04-28 | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
-| 48 | 2023-04-20 | Tomo-chan Is a Girl! | [Hauptserie](https://www.netflix.com/title/81680192) |
-| 49 | 2023-02-17 | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 50 | 2022-09-25 | Lycoris Recoil | [Hauptserie](https://www.netflix.com/title/81620000) |
-| 51 | 2022-09-12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://www.netflix.com/title/81617962) |
-| 52 | 2022-08-12 | Josie, der Tiger und die Fische | [Hauptserie](https://www.netflix.com/title/81508630) |
-| 53 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
-| 54 | 2022-06-21 | I’m Quitting Heroing | [Hauptserie](https://www.netflix.com/title/81594273) |
-| 55 | 2022-05-25 | Deca-Dence | [Hauptserie](https://www.netflix.com/title/81299341) |
-| 56 | 2022-04-15 | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) · [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
-| 57 | 2022-02-04 | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
-| 58 | 2021-12-22 | The World’s Finest Assassin Gets Reincarnated in Another World as an Aristocrat | [Hauptserie](https://www.netflix.com/title/81511191) |
-| 59 | 2021-12-16 | How Heavy Are the Dumbbells You Lift? | [Hauptserie](https://www.netflix.com/title/81143618) |
-| 60 | 2021-09-30 | Higurashi no Naku Koro ni | [Hauptserie](https://www.netflix.com/title/70308793) · [Higurashi: When They Cry Gou](https://www.netflix.com/title/81336986) · [Higurashi: When They Cry Sotsu](https://www.netflix.com/title/81336986) |
-| 61 | 2021-09-18 | Tokyo Revengers | [Hauptserie](https://www.netflix.com/title/81442520) |
-| 62 | 2021-08-30 | To Your Eternity | [Hauptserie](https://www.netflix.com/title/81333467) |
-| 63 | 2021-07-16 | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
-| 64 | 2021-07-03 | Ich bin eine Spinne, na und? | [Hauptserie](https://www.netflix.com/title/81392169) |
-| 65 | 2021-06-27 | Don’t Toy with Me, Miss Nagatoro | [Hauptserie](https://www.netflix.com/title/81427422) |
-| 66 | 2021-04-17 | Cells at Work! | [Hauptserie](https://www.netflix.com/title/81028791) · [! Staffel 2](https://www.netflix.com/title/81028791) · [Code Black](https://www.netflix.com/title/81392162) |
-| 67 | 2021-04-14 | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
-| 68 | 2021-03-26 | Bakugan: Battle Planet | [Bakugan: Armored Alliance](https://www.netflix.com/title/81310654) |
-| 69 | 2021-03-24 | Re:Zero - Starting Life in Another World | [Hauptserie](https://www.netflix.com/title/80131659) · [Staffel 2](https://www.netflix.com/title/80131659) · [Staffel 2](https://www.netflix.com/title/80131659) |
-| 70 | 2020-12-20 | By the Grace of the Gods | [Hauptserie](https://www.netflix.com/title/81341928) |
-| 71 | 2020-12-20 | Iwakakeru! Sport Climbing Girls | [Hauptserie](https://www.netflix.com/title/81403488) |
-| 72 | 2020-12-19 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [Danmachi: Sword Oratoria](https://www.netflix.com/title/80187572) · [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion](https://www.netflix.com/title/81101468) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
-| 73 | 2020-10-16 | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
-| 74 | 2020-09-26 | Rent-a-Girlfriend | [Hauptserie](https://www.netflix.com/title/81299211) |
-| 75 | 2020-06-28 | Gleipnir | [Hauptserie](https://www.netflix.com/title/81263648) |
-| 76 | 2020-06-27 | Kaguya-sama: Love Is War | [Hauptserie](https://www.netflix.com/title/81061754) · [?](https://www.netflix.com/title/81061754) |
-| 77 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 78 | 2020-06-25 | Tower of God | [Hauptserie](https://www.netflix.com/title/81329313) |
-| 79 | 2020-06-21 | Sing “Yesterday” for Me | [Hauptserie](https://www.netflix.com/title/81266992) |
-| 80 | 2019-09-20 | Another World | [Hello World](https://www.netflix.com/title/81295070) |
-| 81 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.netflix.com/title/81144576) |
-| 82 | 2019-09-07 | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
-| 83 | 2019-06-28 | Bungo Stray Dogs | [Hauptserie](https://www.netflix.com/title/80132126) · [2](https://www.netflix.com/title/80132126) · [3](https://www.netflix.com/title/80132126) |
-| 84 | 2019-06-07 | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
-| 85 | 2018-12-28 | Bloom into You | [Hauptserie](https://www.netflix.com/title/81025783) |
-| 86 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](https://www.netflix.com/title/81037377) |
-| 87 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
-| 88 | 2018-09-01 | I Want to Eat Your Pancreas | [Hauptserie](https://www.netflix.com/title/81037593) |
-| 89 | 2018-07-07 | Darling in the Franxx | [Hauptserie](https://www.netflix.com/title/81010668) |
-| 90 | 2018-06-22 | Hinamatsuri | [Hauptserie](https://www.netflix.com/title/80991680) |
-| 91 | 2018-03-27 | A Place Further Than the Universe | [Hauptserie](https://www.netflix.com/title/80995912) |
-| 92 | 2018-03-26 | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
-| 93 | 2018-03-25 | Citrus | [Hauptserie](https://www.netflix.com/title/80231942) |
-| 94 | 2017-12-19 | Juni Taisen: Zodiac War | [Hauptserie](https://www.netflix.com/title/80227111) |
-| 95 | 2017-09-29 | Haikyu!! | [Movie 1 - Ende und Anfang](https://www.netflix.com/title/80134173) · [Movie 2 - Gewinner und Verlierer](https://www.netflix.com/title/80134174) · [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
-| 96 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
-| 97 | 2017-07-15 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
-| 98 | 2017-06-27 | WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us? | [Hauptserie](https://www.netflix.com/title/80193136) |
-| 99 | 2017-06-25 | Eromanga Sensei | [Hauptserie](https://www.netflix.com/title/80193052) |
-| 100 | 2017-06-20 | Akashic Records of Bastard Magical Instructor | [Hauptserie](https://www.netflix.com/title/80192978) |
-| 101 | 2017-06-13 | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
-| 102 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
-| 103 | 2016-12-22 | Küss ihn, nicht mich! | [Hauptserie](https://www.netflix.com/title/81107662) |
-| 104 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
-| 105 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
-| 106 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
-| 107 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
-| 108 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
-| 109 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
-| 110 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
-| 111 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
-| 112 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
-| 113 | 2014-03-30 | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
-| 114 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
-| 115 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
-| 116 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
-| 117 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
-| 118 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
-| 119 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
-| 120 | 2011-05-07 | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
-| 121 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
-| 122 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
-| 123 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
-| 124 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
-| 125 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
-| 126 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
-| 127 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
-| 128 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
-| 129 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 130 | 2004-03-28 | Sonic X | [Hauptserie](https://www.netflix.com/title/60036794) |
-| 131 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
-| 132 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
+| 38 | 2023-09-18 | Masamune-kun’s Revenge | [Hauptserie](https://www.netflix.com/title/80165290) · [R](https://www.netflix.com/title/80165290) |
+| 39 | 2023-07-07 | Resident Evil: Infinite Darkness | [Resident Evil: Death Island](https://www.netflix.com/title/81714596) |
+| 40 | 2023-06-27 | Dead Mount Death Play | [Hauptserie](https://www.netflix.com/title/81686706) |
+| 41 | 2023-06-27 | Raeliana: Warum sie die Verlobte des Dukes wurde | [Hauptserie](https://www.netflix.com/title/81684407) |
+| 42 | 2023-06-19 | In Another World with My Smartphone | [Hauptserie](https://www.netflix.com/title/80196595) · [2](https://www.netflix.com/title/80196595) |
+| 43 | 2023-06-18 | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
+| 44 | 2023-06-16 | Ranking of Kings | [The Treasure Chest of Courage](https://www.netflix.com/title/81644043) |
+| 45 | 2023-04-28 | GREEN DA KA RA × Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.netflix.com/title/81004268) |
+| 46 | 2023-04-20 | Tomo-chan Is a Girl! | [Hauptserie](https://www.netflix.com/title/81680192) |
+| 47 | 2023-02-17 | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 48 | 2022-09-25 | Lycoris Recoil | [Hauptserie](https://www.netflix.com/title/81620000) |
+| 49 | 2022-09-12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://www.netflix.com/title/81617962) |
+| 50 | 2022-08-12 | Josie, der Tiger und die Fische | [Hauptserie](https://www.netflix.com/title/81508630) |
+| 51 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) · [Chopper und das Wunder der Winterkirschblüte](https://www.netflix.com/title/80998780) · [Z](https://www.netflix.com/title/80198443) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.netflix.com/title/81679587) |
+| 52 | 2022-06-21 | I’m Quitting Heroing | [Hauptserie](https://www.netflix.com/title/81594273) |
+| 53 | 2022-05-25 | Deca-Dence | [Hauptserie](https://www.netflix.com/title/81299341) |
+| 54 | 2022-04-15 | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.netflix.com/title/70126871) · [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
+| 55 | 2022-02-04 | The Deer King | [Hauptserie](https://www.netflix.com/title/81700393) |
+| 56 | 2021-12-22 | The World’s Finest Assassin Gets Reincarnated in Another World as an Aristocrat | [Hauptserie](https://www.netflix.com/title/81511191) |
+| 57 | 2021-12-16 | How Heavy Are the Dumbbells You Lift? | [Hauptserie](https://www.netflix.com/title/81143618) |
+| 58 | 2021-09-30 | Higurashi no Naku Koro ni | [Hauptserie](https://www.netflix.com/title/70308793) · [Higurashi: When They Cry Gou](https://www.netflix.com/title/81336986) · [Higurashi: When They Cry Sotsu](https://www.netflix.com/title/81336986) |
+| 59 | 2021-09-18 | Tokyo Revengers | [Hauptserie](https://www.netflix.com/title/81442520) |
+| 60 | 2021-08-30 | To Your Eternity | [Hauptserie](https://www.netflix.com/title/81333467) |
+| 61 | 2021-07-16 | Belle | [Hauptserie](https://www.netflix.com/title/81492822) |
+| 62 | 2021-07-03 | Ich bin eine Spinne, na und? | [Hauptserie](https://www.netflix.com/title/81392169) |
+| 63 | 2021-06-27 | Don’t Toy with Me, Miss Nagatoro | [Hauptserie](https://www.netflix.com/title/81427422) |
+| 64 | 2021-04-17 | Cells at Work! | [Hauptserie](https://www.netflix.com/title/81028791) · [! Staffel 2](https://www.netflix.com/title/81028791) · [Code Black](https://www.netflix.com/title/81392162) |
+| 65 | 2021-04-14 | Lu over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
+| 66 | 2021-03-26 | Bakugan: Battle Planet | [Bakugan: Armored Alliance](https://www.netflix.com/title/81310654) |
+| 67 | 2021-03-24 | Re:Zero - Starting Life in Another World | [Hauptserie](https://www.netflix.com/title/80131659) · [Staffel 2](https://www.netflix.com/title/80131659) · [Staffel 2](https://www.netflix.com/title/80131659) |
+| 68 | 2020-12-20 | By the Grace of the Gods | [Hauptserie](https://www.netflix.com/title/81341928) |
+| 69 | 2020-12-20 | Iwakakeru! Sport Climbing Girls | [Hauptserie](https://www.netflix.com/title/81403488) |
+| 70 | 2020-12-19 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [Hauptserie](https://www.netflix.com/title/80185873) · [Danmachi: Sword Oratoria](https://www.netflix.com/title/80187572) · [Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion](https://www.netflix.com/title/81101468) · [II](https://www.netflix.com/title/80185873) · [III](https://www.netflix.com/title/80185873) |
+| 71 | 2020-10-16 | Demon Slayer: Kimetsu no Yaiba | [The Movie: Mugen Train](https://www.netflix.com/title/81410810) |
+| 72 | 2020-09-26 | Rent-a-Girlfriend | [Hauptserie](https://www.netflix.com/title/81299211) |
+| 73 | 2020-06-28 | Gleipnir | [Hauptserie](https://www.netflix.com/title/81263648) |
+| 74 | 2020-06-27 | Kaguya-sama: Love Is War | [Hauptserie](https://www.netflix.com/title/81061754) · [?](https://www.netflix.com/title/81061754) |
+| 75 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 76 | 2020-06-25 | Tower of God | [Hauptserie](https://www.netflix.com/title/81329313) |
+| 77 | 2020-06-21 | Sing “Yesterday” for Me | [Hauptserie](https://www.netflix.com/title/81266992) |
+| 78 | 2019-09-20 | Another World | [Hello World](https://www.netflix.com/title/81295070) |
+| 79 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.netflix.com/title/81144576) |
+| 80 | 2019-09-07 | The Legend of Luoxiaohei | [The Legend of Hei: Die Kraft in dir](https://www.netflix.com/title/81427481) |
+| 81 | 2019-06-28 | Bungo Stray Dogs | [Hauptserie](https://www.netflix.com/title/80132126) · [2](https://www.netflix.com/title/80132126) · [3](https://www.netflix.com/title/80132126) |
+| 82 | 2019-06-15 | Rascal Does Not Dream of Bunny Girl Senpai | [Rascal Does Not Dream of a Dreaming Girl](https://www.netflix.com/title/81228006) |
+| 83 | 2019-06-07 | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
+| 84 | 2018-12-28 | Bloom into You | [Hauptserie](https://www.netflix.com/title/81025783) |
+| 85 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](https://www.netflix.com/title/81037377) |
+| 86 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.netflix.com/title/81037597) |
+| 87 | 2018-09-01 | I Want to Eat Your Pancreas | [Hauptserie](https://www.netflix.com/title/81037593) |
+| 88 | 2018-07-07 | Darling in the Franxx | [Hauptserie](https://www.netflix.com/title/81010668) |
+| 89 | 2018-06-22 | Hinamatsuri | [Hauptserie](https://www.netflix.com/title/80991680) |
+| 90 | 2018-03-27 | A Place Further Than the Universe | [Hauptserie](https://www.netflix.com/title/80995912) |
+| 91 | 2018-03-26 | Beyblade Burst | [Evolution](https://www.netflix.com/title/81018295) |
+| 92 | 2018-03-25 | Citrus | [Hauptserie](https://www.netflix.com/title/80231942) |
+| 93 | 2017-12-19 | Juni Taisen: Zodiac War | [Hauptserie](https://www.netflix.com/title/80227111) |
+| 94 | 2017-09-29 | Haikyu!! | [Movie 1 - Ende und Anfang](https://www.netflix.com/title/80134173) · [Movie 2 - Gewinner und Verlierer](https://www.netflix.com/title/80134174) · [Movie 3 - Talent Und Gespür](https://www.netflix.com/title/81030151) · [Movie 4 - Ein Kampf der Konzepte](https://www.netflix.com/title/81030152) |
+| 95 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.netflix.com/title/81000505) |
+| 96 | 2017-07-15 | No Game No Life | [Zero](https://www.netflix.com/title/81068687) |
+| 97 | 2017-06-27 | WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us? | [Hauptserie](https://www.netflix.com/title/80193136) |
+| 98 | 2017-06-25 | Eromanga Sensei | [Hauptserie](https://www.netflix.com/title/80193052) |
+| 99 | 2017-06-20 | Akashic Records of Bastard Magical Instructor | [Hauptserie](https://www.netflix.com/title/80192978) |
+| 100 | 2017-06-13 | Mutafukaz | [Hauptserie](https://www.netflix.com/title/81037697) |
+| 101 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
+| 102 | 2016-12-22 | Küss ihn, nicht mich! | [Hauptserie](https://www.netflix.com/title/81107662) |
+| 103 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon S: Schneeprinzessin Kaguya](https://www.netflix.com/title/80116992) · [Pretty Guardian Sailor Moon Crystal](https://www.netflix.com/title/80145747) · [Pretty Guardian Sailor Moon Crystal Season III](https://www.netflix.com/title/80145747) |
+| 104 | 2016-03-28 | Grimgar, Ashes and Illusions | [Hauptserie](https://www.netflix.com/title/80142717) |
+| 105 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [Teil 2](https://www.netflix.com/title/80182163) |
+| 106 | 2015-11-21 | Girls & Panzer | [Girls und Panzer: Der Film](https://www.netflix.com/title/80159876) |
+| 107 | 2015-03-29 | Aldnoah.Zero | [Hauptserie](https://www.netflix.com/title/80040104) · [2](https://www.netflix.com/title/80040104) |
+| 108 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.netflix.com/title/80020759) |
+| 109 | 2014-09-22 | Shojo-Mangaka Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
+| 110 | 2014-07-31 | Dragon Nest: Die Chroniken von Altera | [Hauptserie](https://www.netflix.com/title/80084763) |
+| 111 | 2014-04-03 | Nagi no Asukara | [Hauptserie](https://www.netflix.com/title/80132218) |
+| 112 | 2014-03-30 | Magi: The Labyrinth of Magic | [Magi: The Kingdom of Magic](https://www.netflix.com/title/80028089) |
+| 113 | 2014-03-27 | Love, Chunibyo & Other Delusions! | [Hauptserie](https://www.netflix.com/title/80239860) · [Heart Throb](https://www.netflix.com/title/80239860) |
+| 114 | 2013-06-27 | The Devil Is a Part-Timer! | [Hauptserie](https://www.netflix.com/title/80006149) |
+| 115 | 2013-03-26 | Naruto | [Spin off! Rock Lee & seine Ninja-Kumpels](https://www.netflix.com/title/80151421) |
+| 116 | 2012-12-20 | Btooom! | [Hauptserie](https://www.netflix.com/title/80052713) |
+| 117 | 2012-03-27 | Another | [Hauptserie](https://www.netflix.com/title/80241072) |
+| 118 | 2011-07-02 | Gosick | [Hauptserie](https://www.netflix.com/title/80209888) |
+| 119 | 2011-05-07 | Die Reise nach Agartha | [Hauptserie](https://www.netflix.com/title/80104167) |
+| 120 | 2010-09-24 | Maid-sama | [Hauptserie](https://www.netflix.com/title/81104406) |
+| 121 | 2009-08-14 | TRAVA: FIST PLANET | [Redline](https://www.netflix.com/title/70153298) |
+| 122 | 2008-07-16 | Clannad | [OVA - Das Tomoyo Kapitel](https://www.netflix.com/title/70204963) |
+| 123 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
+| 124 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
+| 125 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.netflix.com/title/81056036) |
+| 126 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.netflix.com/title/70205019) |
+| 127 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
+| 128 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 129 | 2003-09-27 | Mobile Suit Gundam Seed | [Hauptserie](https://www.netflix.com/title/80146549) |
+| 130 | 2001-12-24 | Beyblade | [Hauptserie](https://www.netflix.com/title/70155614) |
