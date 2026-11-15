@@ -48,6 +48,13 @@ function macheElement(tag) {
     },
     appendChild(k) { this.kinder.push(k); return k },
     append(...k) { this.kinder.push(...k) },
+    get children() { return this.kinder },
+    insertBefore(k, vor) {
+      const i = vor ? this.kinder.indexOf(vor) : -1
+      if (i < 0) this.kinder.push(k)
+      else this.kinder.splice(i, 0, k)
+      return k
+    },
     /*
       `contains` ist der Griff, mit dem `uebersichtZeigen()` seit dem 06.09.2026
       fragt, ob sein Knopf noch im Dokument hängt. Fehlt er hier, wirft der
@@ -241,6 +248,35 @@ function suche(el, klasse) {
     if (t) return t
   }
   return null
+}
+
+/** Die Klassen jeder Listenzeile (`ak-zeile`) in Anzeigereihenfolge. */
+function zeilenKlassen(body) {
+  const klassen = []
+  const sammle = (el) => {
+    if (String(el?.className).split(/\s+/).includes('ak-zeile')) klassen.push([...el.classList._])
+    for (const k of el?.kinder ?? []) sammle(k)
+  }
+  sammle(body)
+  return klassen
+}
+
+/** Eigener Filter (15.11.2026): Knopf mit Zahl, Zeile markiert und ans Ende sortiert, offene Zeilen unberührt. */
+function pruefeZurueckZeilen(body) {
+  const alle = []
+  const sammleAlle = (el) => {
+    alle.push(el)
+    for (const k of el?.kinder ?? []) sammleAlle(k)
+  }
+  sammleAlle(body)
+  const zeilen = alle.filter((el) => String(el.className).split(/\s+/).includes('ak-zeile'))
+  const markiert = zeilen.filter((z) => z.classList.contains('ak-zurueck'))
+  pruefe('zurückgestellt: genau eine von drei Zeilen trägt ak-zurueck, und es ist die letzte', zeilen.length === 3 && markiert.length === 1 && zeilen[2] === markiert[0], zeilen.map((z) => [...z.classList._]))
+  pruefe('zurückgestellt: die Zeile trägt Marke „zurückgestellt bis auf Weiteres“ und Tooltip mit Grund', markiert[0]?.kinder.some((k) => k.className === 'ak-zurueck-marke' && k.textContent === 'zurückgestellt bis auf Weiteres') && /Erinnern statt Folgenliste/.test(markiert[0].title), markiert[0]?.title)
+  pruefe('zurückgestellt: die Marke steht hinter dem Titel-Link, nicht am Ende', markiert[0]?.kinder[1]?.className === 'ak-zurueck-marke', markiert[0]?.kinder.map((k) => k.className))
+  pruefe('zurückgestellt: die offenen Zeilen tragen weder ak-zurueck noch eine Marke', zeilen.slice(0, 2).every((z) => !z.classList.contains('ak-zurueck') && !z.kinder.some((k) => k.className === 'ak-zurueck-marke')))
+  const knoepfe = alle.filter((el) => /zurückgestellt/.test(el.textContent) && !(el.kinder ?? []).length)
+  pruefe('zurückgestellt: genau ein Filterknopf „1 zurückgestellt zeigen“', knoepfe.filter((el) => el.textContent === '1 zurückgestellt zeigen').length === 1, knoepfe.map((el) => el.textContent))
 }
 
 console.log('Netflix-Prüfliste: erscheint der Knopf?\n')
@@ -519,6 +555,7 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       return null
     })(zurueck.body)
     pruefe('zurückgestellt: ein zurückgestellter Titel zählt nicht als „gemeldet“ (kein Knopf „gemeldet zeigen“)', gemeldetKnopf === null, gemeldetKnopf?.textContent)
+    pruefeZurueckZeilen(zurueck.body)
   }
   /* Genau ein gemeldeter Titel (Testreihe, „tot“), einer zurückgestellt (Berserk), einer offen: „1 gemeldet zeigen“, nicht 2 und nicht keiner. */
   {
@@ -537,6 +574,22 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     sammle(einer.body)
     pruefe('1 gemeldet, 1 zurückgestellt, 1 offen: Kopfzeile „1 Titel zu prüfen · 1 zurückgestellt“', texte.includes('1 Titel zu prüfen · 1 zurückgestellt'), texte.filter((t) => /zu prüfen/.test(t) && t.length < 60))
     pruefe('… und der Schalter „1 gemeldet zeigen“', texte.includes('1 gemeldet zeigen'), texte.filter((t) => /gemeldet/.test(t) && t.length < 40))
+    const folge = zeilenKlassen(einer.body)
+    pruefe('Reihenfolge: offen, dann zurückgestellt, dann gemeldet', folge.length === 3 && !folge[0].includes('ak-zurueck') && !folge[0].includes('ak-abgehakt') && folge[1].includes('ak-zurueck') && folge[2].includes('ak-abgehakt'), folge)
+  }
+  /* Ohne zurückgestellte Titel gibt es weder Filterknopf noch markierte Zeile. */
+  {
+    const keiner = lade('/title/81186100', KULISSE)
+    for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    await vm.runInContext('dialogOeffnen()', vm.createContext(keiner.umgebung))
+    const texte = []
+    const sammle = (el) => {
+      texte.push(String(el?.textContent ?? ''))
+      for (const k of el?.kinder ?? []) sammle(k)
+    }
+    sammle(keiner.body)
+    pruefe('ohne zurückgestellte Titel: kein Filterknopf „zurückgestellt zeigen“', !texte.some((t) => /zurückgestellt (zeigen|ausblenden)/.test(t)), texte.filter((t) => /zurückgestellt/.test(t)))
+    pruefe('ohne zurückgestellte Titel: keine Zeile mit ak-zurueck', zeilenKlassen(keiner.body).length === 3 && zeilenKlassen(keiner.body).every((k) => !k.includes('ak-zurueck')), zeilenKlassen(keiner.body))
   }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')

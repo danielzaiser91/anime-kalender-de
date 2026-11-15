@@ -74,10 +74,19 @@ globalThis.akNetflixKopfText = (offen, zurueck) => `${offen ? `${offen} Titel zu
  * Fragen der Prüfliste an die Merkliste: Ist ein Titel zurückgestellt oder gemeldet (= nicht offen), wie viele sind es,
  * und `geladen()` (Speicher geladen, jede Änderung geschrieben). Zurückgestellte zählen nicht als offen (F135, 14.11.2026).
  */
-function zurueckFragen(aktiv, gelistet, istFertig, kennungen, bereit) {
+function zurueckFragen(aktiv, gelistet, istFertig, kennungen, bereit, eintrag) {
   const zurueckgestellt = (kennung) => gelistet(String(kennung)) && aktiv(String(kennung))
   return {
     zurueckgestellt,
+    /** Grund und Ablauf eines aktiven Eintrags für die Prüfliste, sonst `null`. */
+    zurueckInfo: (kennung) => {
+      const e = eintrag(String(kennung))
+      if (!e || !zurueckgestellt(kennung)) return null
+      return {
+        grund: e.grund,
+        bis: e.bis,
+      }
+    },
     nichtOffen: (kennung) => istFertig(String(kennung)) || zurueckgestellt(kennung),
     zurueckZahl: () => kennungen().filter(zurueckgestellt).length,
     geladen: () => bereit(),
@@ -165,7 +174,45 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, umgebung = {}) => {
       return { text: 'nichts offen — Seite neu laden', title: 'Die Liste hält gerade keinen offenen Auftrag. Nach einem Neuladen der Seite ist der Prüfstand frisch.' }
     }
   }
-  return Object.assign(new Zurueckgestellt(), zurueckFragen(aktiv, gelistet, istFertig, () => Object.keys(stand), () => bereit))
+  return Object.assign(new Zurueckgestellt(), zurueckFragen(aktiv, gelistet, istFertig, () => Object.keys(stand), () => bereit, (k) => stand[k]))
 }
 
+/** „bis 14:30" am selben Berliner Tag, sonst „bis 20.11." (Europe/Berlin). */
+function zurueckBisText(bis, jetzt) {
+  if (!Number.isFinite(new Date(bis).getTime())) return 'bis auf Weiteres' /* unlesbarer Speicherwert statt Absturz der Liste */
+  const zeit = (opt) => new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', ...opt }).format(new Date(bis))
+  if (zurueckGleich(zurueckBerlinTag(bis), zurueckBerlinTag(jetzt))) return `bis ${zeit({ hour: '2-digit', minute: '2-digit' })}`
+  return `bis ${zeit({ day: 'numeric', month: 'numeric' })}` /* de-DE liefert „20.11.“ samt Punkt */
+}
+
+/**
+ * Prüfliste, zurückgestellte Zeilen (F135, 15.11.2026): ohne Filter weg, mit Filter in Bernstein samt „bis"-Datum.
+ * Markiert die Zeile (`ak-zurueck`) und setzt Marke und Tooltip; ohne `info` bleibt sie unberührt.
+ */
+function zurueckZeileMarkieren(zeile, info, jetzt) {
+  if (!info) return
+  const text = zurueckBisText(info.bis, jetzt)
+  zeile.classList.add('ak-zurueck')
+  zeile.title = `Zurückgestellt ${text} — ${info.grund}`
+  const marke = document.createElement('span')
+  marke.className = 'ak-zurueck-marke'
+  marke.textContent = `zurückgestellt ${text}`
+  zeile.insertBefore(marke, zeile.children[1] ?? null)
+}
+
+/** Der Filterknopf der Prüfliste: blendet die zurückgestellten Zeilen ein und aus (`ak-mit-zurueck` am Kasten); `klick` = `akKlick`. */
+function zurueckFilterKnopf(kasten, zahl, klick) {
+  const knopf = document.createElement('button')
+  knopf.className = 'ak-umschalter'
+  const beschriften = () => (knopf.textContent = `${zahl} zurückgestellt ${kasten.classList.contains('ak-mit-zurueck') ? 'ausblenden' : 'zeigen'}`)
+  beschriften()
+  knopf.title = 'Zurückgestellte Titel kommen zu ihrem Termin wieder dran. Hier siehst du sie samt Grund.'
+  klick(knopf, () => {
+    kasten.classList.toggle('ak-mit-zurueck')
+    beschriften()
+  })
+  return knopf
+}
+
+globalThis.akNetflixZurueckListe = { markieren: zurueckZeileMarkieren, filterKnopf: zurueckFilterKnopf }
 globalThis.akZurueckBis = zurueckBis
