@@ -57,6 +57,81 @@ function laufendeAgenten(ordner, jetzt = Date.now()) {
   return laufend
 }
 
+// Parallelstart (15.11.2026): Mehrere Agent-Aufrufe einer Nachricht lassen ihre Hooks binnen ~10 ms laufen, bevor eine
+// agent-*.jsonl existiert. Jeder Start belegt deshalb atomar (link) einen von GRENZE Platzdateien; sie verfällt nach
+// RESERVIERUNG_MS oder sobald eine nach ihr entstandene Agentendatei sie ersetzt.
+const RESERVIERUNG_MS = 120 * 1000
+const platzOrdner = (ordner) => path.join(path.dirname(ordner), 'agent-plaetze')
+
+// Ohne birthtime (ctime springt bei jedem Anhängen) ersetzt keine Datei einen Platz; er verfällt dann nach RESERVIERUNG_MS.
+function geburt(datei) {
+  return fs.statSync(datei).birthtimeMs || -Infinity
+}
+
+// Prüfer reservieren nie, ihre Dateien dürfen auch keinen Platz ersetzen.
+function istPruefer(datei) {
+  try {
+    return AUSGENOMMEN.has(JSON.parse(fs.readFileSync(datei.replace(/\.jsonl$/, '.meta.json'), 'utf8')).agentType)
+  } catch {
+    return false
+  }
+}
+
+// Leere oder unlesbare Platzdatei = belegt und frisch (mtime), nie "uralt": sonst würde sie gelöscht und neu vergeben.
+function platzZeit(datei) {
+  const ts = Number(fs.readFileSync(datei, 'utf8'))
+  return ts > 0 ? ts : fs.statSync(datei).mtimeMs
+}
+
+/** Platzdateien aufräumen (verfallene, durch Agentendatei ersetzte); gibt die verbleibenden Plätze zurück. */
+function offeneReservierungen(ordner, jetzt) {
+  const pdir = platzOrdner(ordner)
+  let plaetze = []
+  try {
+    plaetze = fs.readdirSync(pdir).filter((d) => d.startsWith('platz-')).map((d) => {
+      try { return { datei: path.join(pdir, d), ts: platzZeit(path.join(pdir, d)) } } catch { return null }
+    }).filter(Boolean).sort((a, b) => a.ts - b.ts)
+  } catch {}
+  let geboren = []
+  try {
+    geboren = fs.readdirSync(ordner).filter((d) => /^agent-.*\.jsonl$/.test(d) && !istPruefer(path.join(ordner, d))).map((d) => geburt(path.join(ordner, d)))
+  } catch {}
+  const offen = []
+  for (const p of plaetze) {
+    // Jede Platzdatei wird von höchstens einer später entstandenen Agentendatei ersetzt (älteste zuerst).
+    const i = geboren.findIndex((g) => g >= p.ts - 1000)
+    if (i >= 0) geboren.splice(i, 1)
+    if (i >= 0 || jetzt - p.ts > RESERVIERUNG_MS) {
+      try { fs.unlinkSync(p.datei) } catch {}
+    } else offen.push(p)
+  }
+  return offen
+}
+
+/** Belegt einen freien Platz für den neuen Start; false = Grenze erreicht. */
+function reserviere(ordner, laufend, jetzt) {
+  const pdir = platzOrdner(ordner)
+  fs.mkdirSync(pdir, { recursive: true })
+  const g = grenze()
+  if (laufend + offeneReservierungen(ordner, jetzt).length >= g) return false
+  for (let k = 0; k < g - laufend; k++) {
+    const datei = path.join(pdir, `platz-${k}`)
+    // Inhalt erst in eine Temp-Datei, dann per link (schlägt bei vorhandenem Platz fehl): kein Leser sieht eine leere Platzdatei.
+    const tmp = path.join(pdir, `.tmp-${process.pid}-${k}`)
+    try {
+      fs.writeFileSync(tmp, String(jetzt))
+      fs.linkSync(tmp, datei)
+    } catch { continue } finally { try { fs.unlinkSync(tmp) } catch {} }
+    // Gleichzeitig angelegte Plätze: ein überzähliger gibt seinen sofort wieder frei.
+    if (laufend + offeneReservierungen(ordner, jetzt).length > g) {
+      try { fs.unlinkSync(datei) } catch {}
+      return false
+    }
+    return true
+  }
+  return false
+}
+
 function pruefe(input, jetzt = Date.now()) {
   const typ = (input.tool_input && input.tool_input.subagent_type) || 'general-purpose'
   // Ohne effort erbt Opus das medium aus der Agentendefinition; Tier careful heißt Opus high (Daniel, 18.10.2026: die Anzeige zeigte „Opus 5.5 · medium“).
@@ -65,8 +140,9 @@ function pruefe(input, jetzt = Date.now()) {
   const ordner = path.join(input.transcript_path.replace(/\.jsonl$/, ''), 'subagents')
   const gezaehlt = laufendeAgenten(ordner, jetzt).filter((a) => !AUSGENOMMEN.has(a.typ))
   const g = grenze()
-  if (gezaehlt.length < g) return null
-  return `Agenten-Grenze: ${gezaehlt.length} von ${g} lokal laufen schon (${gezaehlt.map((a) => a.beschreibung).join(' · ')}). Erst starten, wenn einer fertig ist, oder als Cloud-Sitzung (bis 5 insgesamt, nur wenn sinnvoll parallel); Prüfer (pruefer) zählen nicht. Daniel 13.11.2026, Hook .claude/hooks/agenten-grenze.js.`
+  if (reserviere(ordner, gezaehlt.length, jetzt)) return null
+  const namen = gezaehlt.map((a) => a.beschreibung)
+  return `Agenten-Grenze: ${g} von ${g} lokal laufen oder starten schon (${namen.concat('gerade gestartete').join(' · ')}). Erst starten, wenn einer fertig ist, oder als Cloud-Sitzung (bis 5 insgesamt, nur wenn sinnvoll parallel); Prüfer (pruefer) zählen nicht. Daniel 13.11.2026, Hook .claude/hooks/agenten-grenze.js.`
 }
 
 module.exports = { laufendeAgenten, pruefe, GRENZE, grenze }

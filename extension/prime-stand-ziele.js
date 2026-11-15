@@ -41,12 +41,16 @@ globalThis.akPrimeStandLaden = async (worker, liste, frischGemeldet) => {
   }
 }
 
-/** Veraltet: die Seite sagt es, oder der Worker führt Ziele, die das Paket nicht kennt. */
-globalThis.akPrimeListeVeraltet = (lautSeite, liste) => Boolean(lautSeite) || Object.values(liste).some((e) => e?.ausStand)
+/**
+ * Veraltet: der Worker führt Ziele, die das Paket nicht kennt, oder die Seite sagt es — Letzteres nur ohne Antwort des
+ * Workers: Mit seinem Stand (`standBekannt`) ist die Liste vollständig, der Stempelvergleich der Paketliste besagt dann nichts.
+ */
+globalThis.akPrimeListeVeraltet = (lautSeite, liste, standBekannt = false) =>
+  (Boolean(lautSeite) && !standBekannt) || Object.values(liste).some((e) => e?.ausStand)
 
-/** Der Text des Übersichtsknopfs: beide Zahlen getrennt, bei veralteter Liste mit Hinweis. */
+/** Der Text des Übersichtsknopfs: beide Zahlen getrennt, bei veralteter Liste mit Hinweis. Neuladen der Seite hilft dort nie, die Erweiterung ist die alte. */
 globalThis.akPrimeKnopfText = (offen, suchen, veraltet) => {
-  if (!offen && !suchen) return veraltet ? 'Prime-Liste veraltet — neu laden' : 'Prime: alles geprüft'
+  if (!offen && !suchen) return veraltet ? 'Prime-Liste veraltet — Erweiterung aktualisieren' : 'Prime: alles geprüft'
   const zahlen = offen && suchen ? `${offen} Prime-Titel · ${suchen} Suchen offen` : suchen ? `${suchen} Prime-Suchen offen` : `${offen} Prime-Titel offen`
   return veraltet ? `${zahlen} · Liste veraltet` : zahlen
 }

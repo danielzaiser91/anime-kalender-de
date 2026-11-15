@@ -15,7 +15,7 @@ import type { AgentenCache, LaufAgent } from './agenten'
 import { agentenBereich } from './agenten-pane'
 import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
 import type { PrioUmfeld } from './bereiche'
-import { prioZeichenJeZeile, zaehleTopPrios, zeichenJeSpalte } from './prios'
+import { zaehleTopPrios, zeichenJeSpalte } from './prios'
 import type { PrioEintrag } from './prios'
 import { geradeInArbeit, zaehleZiele } from './ziele'
 import type { ZielStand } from './ziele'
@@ -545,10 +545,9 @@ function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
   )
 }
 
-// Breite und Klappzustand für den Top-Prios-Kasten.
+// Klappzustand und Öffnen für den Top-Prios-Kasten.
 function prioUmfeld($: EngineInterface, e: any, d: PaneDaten, oeffne: (href: string) => Promise<void>): PrioUmfeld {
   return {
-    zeichenJeZeile: prioZeichenJeZeile(e.props.bodyColumns, e.surface),
     offen: kennung => d.ausgeklappt.includes(kennung),
     schalte: kennung => void update($, aufgeklappt, a => schalte(a, kennung)),
     oeffne: href => void oeffne(href),
