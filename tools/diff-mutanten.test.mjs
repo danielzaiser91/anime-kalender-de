@@ -4,7 +4,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmdirSync, rmSync, symlinkSync, w
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
+import { basisAus, geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -126,6 +126,8 @@ const LAEUFER = 'rot            a (Exit 1)\nmehrdeutig     b:1 && → || (b: meh
 pruefe('Unbrauchbare aus der Läuferausgabe: alle drei Urteile, sonst nichts', unbrauchbare(LAEUFER).length === 3 && unbrauchbare(LAEUFER)[0].startsWith('mehrdeutig b:1') && unbrauchbare(LAEUFER)[2].startsWith('nicht gefunden d:3'))
 pruefe('Überlebende aus der Läuferausgabe', ueberlebende('rot   a\nGRÜN           b:1 && → || (alle Tests grün)\nGRÜN           Kontrolle\n').join('|') === 'b:1 && → |||Kontrolle')
 
+pruefe('basisAus: Standard origin/main, --basis <ref> gewinnt, fehlender Wert fällt zurück', basisAus([]) === 'origin/main' && basisAus(['--basis', 'x/y']) === 'x/y' && basisAus(['--basis']) === 'origin/main')
+
 // Ganzer Lauf in einem Wegwerf-Repo: der Test fängt nur den ersten Mutanten, der zweite überlebt
 const wurzel = mkdtempSync(join(tmpdir(), 'diff-mutanten-'))
 try {
@@ -152,6 +154,8 @@ try {
   pruefe('Lauf: Schlusszeile zählt', /diff-mutanten: \d+ Mutanten, [1-9]\d* überlebt, 0 unbrauchbar\./.test(aus))
   const nur = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--liste'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
   pruefe('--liste: JSON im Läuferformat, nichts gefahren', Array.isArray(JSON.parse(nur.stdout)) && !nur.stdout.includes('mutationslaeufer'))
+  const basisHead = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--liste', '--basis', 'HEAD'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  pruefe('--basis HEAD: Diff leer, Liste leer (Standardbasis liefert Mutanten)', basisHead.status === 0 && JSON.parse(basisHead.stdout).length === 0 && JSON.parse(nur.stdout).length > 0)
   const tmp = join(wurzel, 'tmp')
   mkdirSync(tmp)
   const lauf2 = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000, env: { ...process.env, TMPDIR: tmp, TMP: tmp, TEMP: tmp } })
