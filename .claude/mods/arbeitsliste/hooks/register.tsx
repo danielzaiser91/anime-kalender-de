@@ -81,6 +81,8 @@ let leistenTimer: Timer | null = null
 let letzteProps: Record<string, unknown> | null = null
 // Agentenliste fürs Pane aus dem Hintergrundtakt; der Render liest nur diese Variable.
 let agentenListe: LaufAgent[] = []
+let agentenFehler: string[] = []
+let letzterAgentenFehler = ''
 const agentenCache: AgentenCache = new Map()
 
 // Jedes Schreiben zeichnet alle Leser neu (Hover geht verloren, Last): geschrieben wird nur bei geändertem Inhalt.
@@ -123,21 +125,36 @@ function uhrzeit(iso: string): string {
 }
 
 // Laufende Subagenten dieser Sitzung aus ihrem Transkriptordner (agenten.ts). Der Ordner heißt nach dem Startordner der
-// Sitzung: erst Projektwurzel, dann Arbeitsordner versuchen; leer, wenn keiner lesbar ist.
+// Sitzung: erst Projektwurzel, dann Arbeitsordner versuchen. Echte Fehler (nicht „Ordner fehlt“) landen in agentenFehler.
 async function laufendeAgenten($: EngineInterface): Promise<LaufAgent[]> {
+  agentenFehler = []
   try {
     const id = await $.session.id()
+    const jetzt = await $.clock.now()
     // `$.fs` selbst darf nicht weitergereicht werden (Host-Regel): zwei Aufrufe als Funktionen.
     const dateien = { list: (p: string) => $.fs.list(p), read: (p: string) => $.fs.read(p) }
     const orte = await Promise.all([$.session.root().catch(() => ''), $.session.cwd().catch(() => '')])
     for (const ort of new Set(orte.filter(Boolean))) {
-      const liste = await lieseLaufende(dateien, `${PROJEKTE}/${projektName(ort)}/${id}/subagents`, Date.now(), agentenCache)
-      if (liste.length) return liste
+      const z = await lieseLaufende(dateien, `${PROJEKTE}/${projektName(ort)}/${id}/subagents`, jetzt, agentenCache)
+      agentenFehler.push(...z.fehler)
+      if (z.agenten.length) return z.agenten
     }
-  } catch {
-    // Sitzung ohne lesbare Kennung: keine Agenten.
+  } catch (e) {
+    agentenFehler.push(`Sitzung: ${String((e as { message?: string })?.message ?? e)}`)
   }
   return []
+}
+
+// Ein Zählfehler wird einmal je Wortlaut gemeldet (Protokoll bei Messung, Hinweis in der Oberfläche), nie still als 0 Agenten.
+function meldeAgentenFehler($: EngineInterface): void {
+  const text = agentenFehler.join(' | ')
+  if (text === letzterAgentenFehler) return
+  letzterAgentenFehler = text
+  if (!text) return
+  protokoll($, 'FEHLER', `Agenten: ${text}`)
+  void Promise.resolve()
+    .then(() => $.ui.toast(`Agenten zählen: ${agentenFehler[0]}`))
+    .catch(() => undefined)
 }
 
 // Messung (messung.ts): Merkflag, vom Hintergrundtakt gesetzt, damit der Render nichts erwarten muss.
@@ -183,9 +200,10 @@ async function ermittleLeiste($: EngineInterface): Promise<LeistenDaten> {
 async function aktualisiereLeiste($: EngineInterface, anlass: string): Promise<void> {
   await pruefeMessung($)
   const neu = await ermittleLeiste($)
+  meldeAgentenFehler($)
   // Agentennamen gehören in den Schlüssel, damit das Pane einen Wechsel bei gleicher Zahl sieht; die Laufzeit zählt
   // minütlich weiter, solange Agenten laufen.
-  const minute = agentenListe.length ? Math.floor(Date.now() / 60_000) : 0
+  const minute = agentenListe.length ? Math.floor((await $.clock.now()) / 60_000) : 0
   const schluessel = JSON.stringify(neu) + agentenListe.map(a => a.description).join('|') + minute
   if (schluessel === leistenSchluessel) return
   leistenDaten = neu
@@ -561,6 +579,7 @@ async function zeichnePane($: EngineInterface, e: any) {
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     agentenCache.clear()
+    letzterAgentenFehler = ''
     await aktualisiere($)
     return next(e)
   })

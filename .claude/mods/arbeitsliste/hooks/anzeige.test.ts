@@ -487,6 +487,88 @@ test('Leiste: der Render liest nichts nach; die Agentenzahl kommt über den 3-s-
   await band.unmount()
 })
 
+const agentenLabel = async (band: { find: (q: { key: string }) => Promise<{ props: { label?: unknown } } | undefined> }) => (await band.find({ key: 'agents-oeffnen' }))?.props.label
+
+test('Leiste: finished in der Meta ohne Änderung der Transkriptdatei zählt nach dem nächsten Takt nicht mehr', async ($, on) => {
+  const uhr = starte(on, null, [], true, STAND, false, 1)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 1')
+  agentenWelt.liste = fakeAgenten(1).map(a => ({ ...a, finished: true }))
+  await uhr.advance(3_000)
+  expect(await agentenLabel(band)).toBe('Agents 0')
+  await band.unmount()
+})
+
+test('Neue Sitzung leert den Zwischenspeicher: gleicher Schlüssel, anderer Inhalt wird neu gelesen', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 1)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 1')
+  agentenWelt.liste = fakeAgenten(1).map(a => ({ ...a, bericht: true }))
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  expect(await agentenLabel(band)).toBe('Agents 0')
+  await band.unmount()
+})
+
+test('Transkriptordner: liegt er nur unter dem Projektstamm (root), wird er gefunden', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 2)
+  Object.assign(agentenWelt, { projekt: 'C--proj', root: 'C:/proj', cwd: 'C:/x' })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 2')
+  await band.unmount()
+})
+
+test('Transkriptordner: liegt er nur unter dem Arbeitsordner (cwd), wird er gefunden', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 2)
+  Object.assign(agentenWelt, { projekt: 'C--x', root: 'C:/proj', cwd: 'C:/x' })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 2')
+  await band.unmount()
+})
+
+// Ein Zählfehler darf nie still „0 Agenten“ heißen (Prüfer 3918 A2); „Ordner fehlt“ ist kein Fehler.
+test('Zählfehler: kaputte erste Zeile und gesperrter Ordner melden einmal einen Hinweis, fehlender Ordner nichts', async ($, on) => {
+  const uhr = starte(on, null, [], true, STAND, false, 0)
+  const hinweise: string[] = []
+  on('ui.toast', (_$, e) => { hinweise.push(String((e as { text?: string }).text)); return { value: undefined } as never })
+  agentenWelt.liste = [{ id: 'k', type: 'bauer', description: 'Kaputt', erste: '{kaputt' }]
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await uhr.advance(9_000)
+  expect(await agentenLabel(band)).toBe('Agents 1')
+  expect(hinweise).toHaveLength(1)
+  expect(hinweise[0]).toContain('Agenten zählen: Erste Zeile')
+  agentenWelt.listFehler = 'EACCES: gesperrt'
+  await uhr.advance(9_000)
+  expect(hinweise).toHaveLength(2)
+  expect(hinweise[1]).toContain('EACCES')
+  agentenWelt.listFehler = ''
+  agentenWelt.projekt = 'C--nirgends'
+  await uhr.advance(9_000)
+  expect(hinweise).toHaveLength(2)
+  expect(await agentenLabel(band)).toBe('Agents 0')
+  await band.unmount()
+})
+
+// Laufzeit im Pane zählt weiter: bei gleichem Agentenstand wird je Minute einmal neu gezeichnet (Protokollzeilen „stand“).
+test('Leiste: bei gleichem Agentenstand zeichnet jede neue Minute neu', async ($, on) => {
+  let neuGezeichnet = 0
+  const uhr = starte(on, null, [], true, STAND, false, 1)
+  on('fs.exists', (_$, e) => ({ value: e.path.endsWith('messung.an') }) as never)
+  on('fs.write', (_$, e) => {
+    if (e.path.endsWith('messung.log') && / stand /.test((e as { text: string }).text)) neuGezeichnet++
+    return { value: undefined } as never
+  })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await uhr.advance(125_000)
+  await band.unmount()
+  expect(neuGezeichnet).toBeGreaterThanOrEqual(3)
+})
+
 
 // Ein Lauf mit oder ohne Marker messung.an; Rückgabe: alles, was ins Protokoll geschrieben wurde.
 async function messLauf($: any, on: On, marker: boolean): Promise<string> {

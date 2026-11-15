@@ -1,8 +1,9 @@
 import type { On } from 'claude-code'
 
-// Attrappe des Subagenten-Ordners der Testsitzung (cwd C:/x, Sitzung eigene-sitzung). Jede Datei wie im Betrieb:
+// Attrappe des Subagenten-Ordners der Testsitzung (Sitzung eigene-sitzung). Jede Datei wie im Betrieb:
 // agent-<id>.jsonl (erste Zeile mit Zeitstempel, letzte Zeile Arbeit oder abgegebener Bericht) und agent-<id>.meta.json.
-export const AGENTEN_ORDNER = 'C:/Users/ih/.claude/projects/C--x/eigene-sitzung/subagents'
+// Schlüssel (mtime, Größe) setzt allein der Test: die Attrappe leitet sie nie aus dem Inhalt ab, sonst verdeckt sie, dass
+// ein Urteil ohne Änderung des Schlüssels kippen kann.
 // mtimeMs: sehr groß = „gerade geschrieben“ (die Mod liest die Uhr, der Test nicht), 0 = uralt.
 export const FRISCH = 9e15
 
@@ -13,13 +14,24 @@ export type FakeAgent = {
   finished?: boolean
   // Letzte Zeile ist der abgegebene Bericht.
   bericht?: boolean
-  // Transkript über 4 MiB: $.fs.read lehnt ab.
-  gross?: boolean
   mtimeMs?: number
+  size?: number
   start?: string
+  // Rohtext statt der erzeugten ersten/letzten Zeile (kaputte Zeilen).
+  erste?: string
+  letzte?: string
 }
 
-export const agentenWelt = { liste: [] as FakeAgent[], listAufrufe: 0 }
+export const agentenWelt = {
+  liste: [] as FakeAgent[],
+  listAufrufe: 0,
+  // Projektordner, unter dem die Agenten liegen; root und cwd der Sitzung.
+  projekt: 'C--x',
+  root: 'C:/x',
+  cwd: 'C:/x',
+  // Fehlertext, mit dem `$.fs.list` abgelehnt wird.
+  listFehler: '' as string,
+}
 
 // n Agenten, die ersten `pruefer` davon Prüfer.
 export function fakeAgenten(n: number, pruefer = 0): FakeAgent[] {
@@ -27,11 +39,10 @@ export function fakeAgenten(n: number, pruefer = 0): FakeAgent[] {
 }
 
 function jsonl(a: FakeAgent): string {
-  const erste = { type: 'user', timestamp: a.start ?? '2020-01-01T00:00:00.000Z', message: { content: 'Auftrag' } }
-  const letzte = a.bericht
-    ? { type: 'user', message: { content: [{ type: 'tool_result', content: 'Report delivered to your caller' }] } }
-    : { type: 'assistant', message: { content: [{ type: 'text', text: 'arbeite' }] } }
-  return `${JSON.stringify(erste)}\n${JSON.stringify(letzte)}\n`
+  const erste = a.erste ?? JSON.stringify({ type: 'user', timestamp: a.start ?? '2020-01-01T00:00:00.000Z', message: { content: 'Auftrag' } })
+  const bericht = { type: 'user', message: { content: [{ type: 'tool_result', content: 'Report delivered to your caller' }] } }
+  const arbeit = { type: 'assistant', message: { content: [{ type: 'text', text: 'arbeite' }] } }
+  return `${erste}\n${a.letzte ?? JSON.stringify(a.bericht ? bericht : arbeit)}\n`
 }
 
 // Antwort für einen Lesezugriff auf die Attrappe oder undefined, wenn der Pfad nicht dazugehört.
@@ -40,16 +51,19 @@ export function lieseAgentenDatei(pfad: string): { value: string } | { deny: str
   if (!m) return undefined
   const a = agentenWelt.liste.find(x => x.id === m[1])
   if (!a) return { deny: 'fehlt' }
-  if (m[2] === 'jsonl') return a.gross ? { deny: 'über 4 MiB' } : { value: jsonl(a) }
+  if (m[2] === 'jsonl') return { value: jsonl(a) }
   return { value: JSON.stringify({ agentType: a.type, description: a.description, finished: a.finished }) }
 }
 
 export function haengeAgentenListe(on: On): void {
+  on('session.cwd', () => ({ value: agentenWelt.cwd }) as never)
+  on('session.root', () => ({ value: agentenWelt.root }) as never)
   on('fs.list', (_$, e) => {
     agentenWelt.listAufrufe++
     const pfad = (e as { path?: string }).path?.replace(/\\/g, '/') ?? ''
-    if (!pfad.endsWith('/eigene-sitzung/subagents')) return { deny: 'fehlt' } as never
-    const eintraege = agentenWelt.liste.map(a => ({ name: `agent-${a.id}.jsonl`, kind: 'file', size: jsonl(a).length + (a.finished ? 1 : 0), mtimeMs: a.mtimeMs ?? FRISCH, isLink: false }))
+    if (agentenWelt.listFehler) return { deny: agentenWelt.listFehler } as never
+    if (!pfad.endsWith(`/${agentenWelt.projekt}/eigene-sitzung/subagents`)) return { deny: 'ENOENT: no such file' } as never
+    const eintraege = agentenWelt.liste.map(a => ({ name: `agent-${a.id}.jsonl`, kind: 'file', size: a.size ?? 100, mtimeMs: a.mtimeMs ?? FRISCH, isLink: false }))
     return { value: eintraege } as never
   })
 }
