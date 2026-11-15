@@ -149,6 +149,15 @@ const quelle = lies('melder.js')
     ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: { code: 'UI3012', reihe: '7' }, abbruch: true, stoerung: null }, true, new Map(), () => {}, () => {}, {}, { stoerung: (...a) => gerufen.push(a) }, { now: () => 4242 })
     pruefe('Endstelle: UI3012 geht mit Kennung, Grund und Uhrzeit an die Bremse', JSON.stringify(gerufen) === JSON.stringify([['7', 'Netflix zeigt ihn nicht (UI3012)', 4242]]), gerufen)
   }
+  {
+    /* Daniel 15.11.2026: UI3012 nach sauberer Sitzung ist „nicht bei Netflix“, nicht „ohne Tonspur“ und nicht Sitzungsstörung. */
+    const urteile = []
+    const gerufen = []
+    const erfolge = []
+    const bremse = { stoerung: (...a) => gerufen.push(a), ui3012Titel: (n) => { erfolge.push(n); return true } }
+    ausfuehren(akNetflixTitelUeberspringen, { selbst: true, titelSperre: { code: 'UI3012', reihe: '7' }, abbruch: true, stoerung: null }, true, new Map(), () => {}, () => {}, {}, bremse, { now: () => 4242 }, { erfolge: () => 3, urteil: (...a) => urteile.push(a) })
+    pruefe('Endstelle: UI3012 nach sauberer Sitzung geht als Urteil „Abspielfehler UI3012“ raus, nicht an die Bremse', JSON.stringify(urteile) === '[["7","Abspielfehler UI3012"]]' && gerufen.length === 0 && JSON.stringify(erfolge) === '[3]', { urteile, gerufen, erfolge })
+  }
   pruefe('der Reset steht beim Start des Durchlaufs', /DURCHLAUF\.stoerung = null\n  DURCHLAUF\.titelSperre = null/.test(quelle))
 }
 /* Die echten Funktionen `selbstWeiter` und `vielleichtSelbstStarten` laufen mit Attrappen (kein Regex auf den Quelltext). */
