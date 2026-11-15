@@ -1,6 +1,6 @@
 // Bereichskopf mit Klapp-Schalter und Kasten „Top-Prios“ (Daniel, 16.10.2026).
 // Klappzustand: Kennungen `bereich:<id>` in der Liste `aufgeklappt`, gelesen als Abweichung vom Standard.
-import { hatAusklapp, statusVon, textKlappt } from './prios'
+import { hatAusklapp, kurzfassung, statusVon } from './prios'
 import type { PrioEintrag } from './prios'
 import type { Verweis } from './zaehlen'
 import { zielZeile, zielZu } from './ziele'
@@ -52,10 +52,11 @@ function linkKnoepfe(ui: any, e: PrioEintrag, oeffne: (href: string) => void) {
   )
 }
 
-// Chip mit Status-Farbe, fetter Titel, Kurztext in höchstens vier Zeilen (zu lang: nur im Ausklapp-Teil).
+// Chip mit Status-Farbe, fetter Titel, Kurztext in höchstens drei Zeilen (zu lang: ganze Satzteile, Rest im Ausklapp-Teil).
 function prioKopf(ui: any, e: PrioEintrag, u: PrioUmfeld) {
   const { Box, Button, Text } = ui
   const st = statusVon(e.status)
+  const { kurz } = kurzfassung(e, u.zeichenJeZeile)
   const klappt = hatAusklapp(e, u.zeichenJeZeile)
   const auf = u.offen(prioKennung(e))
   return (
@@ -69,7 +70,7 @@ function prioKopf(ui: any, e: PrioEintrag, u: PrioUmfeld) {
             </Text>
           ) : null}
           <Text bold>{`${st ? ' ' : ''}${e.titel}`}</Text>
-          {e.rest && !textKlappt(e, u.zeichenJeZeile) ? <Text>{` ${e.rest}`}</Text> : null}
+          {kurz ? <Text>{` ${kurz}`}</Text> : null}
         </Text>
       </Box>
     </Box>
@@ -79,7 +80,7 @@ function prioKopf(ui: any, e: PrioEintrag, u: PrioUmfeld) {
 function prioDetails(ui: any, e: PrioEintrag, u: PrioUmfeld) {
   const { Box, Text } = ui
   if (!hatAusklapp(e, u.zeichenJeZeile) || !u.offen(prioKennung(e))) return null
-  const zeilen = [textKlappt(e, u.zeichenJeZeile) ? e.rest : '', ...e.details].filter(Boolean)
+  const zeilen = [kurzfassung(e, u.zeichenJeZeile).weg, ...e.details].filter(Boolean)
   // Echte Einrückung (marginLeft), damit umbrochene Folgezeilen unter dem Text bleiben, nicht auf Spalte 0 fallen.
   return zeilen.map((t, k) => (
     <Box key={`det-${e.titel}-${k}`} marginLeft={4}>
