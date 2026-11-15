@@ -145,7 +145,7 @@ for (const [i, karte] of arbeit.entries()) {
 /*
   Gleichnamige Hörbücher stehen in derselben Sitemap (Tom Sawyer, Peter Pan …): jeder Treffer wird vor dem
   Eintragen gegen die Beschreibung seiner Seite gelesen, ein Hörbuch überschreibt nie einen Videoeintrag.
-  Danach bekommen Altlasten ohne Gattung ihren Stempel. Hörbuch-Treffer ohne Eintrag werden je Lauf erneut gelesen.
+  Danach bekommen Altlasten ohne Gattung ihren Stempel. Erkannte Hörbuch-Adressen merkt `_verworfen`; sie werden erst nach 90 Tagen erneut gelesen.
 */
 const pause = () => new Promise((r) => setTimeout(r, PAUSE))
 const aufnahme = await uebernimmKandidaten(bestand, kandidaten, hole, pause, console.log, todayIso(), bekannteHoerbuecher)
