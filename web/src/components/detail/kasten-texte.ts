@@ -48,9 +48,7 @@ export function ausgebliebenTerminText(
 
 const FAELLIG_SCHLUESSEL: Record<WortStufe, string> = {
   'wird-geprueft': 'antwort.faelligWirdGeprueft',
-  verspaetet: 'antwort.faelligVerspaetet',
-  'nicht-erschienen': 'antwort.faelligNichtErschienen',
-}
+  verspaetet: 'antwort.faelligVerspaetet',}
 
 /** Die fällige Folge in Worten: heute nur mit Uhrzeit, an einem anderen Tag mit Datum („14.11.2026, 15:00 Uhr“). */
 export function faelligText(e: ReleaseEvent, stufe: WortStufe, heute: boolean, T: (k: string, v?: Record<string, string | number>) => string): string {

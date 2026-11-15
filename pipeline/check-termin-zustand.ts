@@ -79,6 +79,8 @@ pruefe('genau zur Zeit: erschienen', terminZustand(slot, genau) === 'erschienen'
 pruefe('ohne Sichtung vorher: angekündigt', terminZustand({ ...slot, ohneSichtung: true }, vor) === 'angekuendigt')
 pruefe('ohne Sichtung genau zur Zeit: fällig', terminZustand({ ...slot, ohneSichtung: true }, genau) === 'faellig')
 pruefe('ohne Sichtung später: fällig', terminZustand({ ...slot, ohneSichtung: true }, nach) === 'faellig')
+pruefe('ohne Sichtung genau 24 h danach: noch fällig', terminZustand({ ...slot, ohneSichtung: true }, new Date('2026-11-16T14:00:00Z')) === 'faellig')
+pruefe('ohne Sichtung 24 h und 1 ms danach: erschienen (Deckel)', terminZustand({ ...slot, ohneSichtung: true }, new Date('2026-11-16T14:00:00.001Z')) === 'erschienen')
 pruefe('fällig ist nicht erschienen', !istErschienen({ ...slot, ohneSichtung: true }, nach))
 pruefe('Vermerk schlägt fällig', terminZustand({ ...slot, ohneSichtung: true, verpasst: {} }, nach) === 'ausgeblieben')
 pruefe('nachgeholt, ohne Sichtung: fällig', terminZustand({ ...slot, ohneSichtung: true, verpasst: { erschienenAm: '2026-11-15' } }, nach) === 'faellig')
@@ -104,7 +106,7 @@ pruefe('Tabelle Sichtung', tabelle('sichtung') === [`0:${15 * MIN}:${5 * MIN}`, 
 pruefe('Tabelle Recherche', tabelle('recherche') === [`${6 * H}:${14 * T}:${20 * H}`, `${14 * T}:${60 * T}:${6.5 * T}`].join(' '), tabelle('recherche'))
 
 // Wortstufen.
-const worte: [number, string][] = [[0, 'wird-geprueft'], [5 * MIN - 1, 'wird-geprueft'], [5 * MIN, 'verspaetet'], [2 * H - 1, 'verspaetet'], [2 * H, 'nicht-erschienen'], [T, 'nicht-erschienen']]
+const worte: [number, string][] = [[0, 'wird-geprueft'], [5 * MIN - 1, 'wird-geprueft'], [5 * MIN, 'verspaetet'], [2 * H - 1, 'verspaetet'], [2 * H, 'verspaetet'], [T, 'verspaetet']]
 for (const [abstand, wort] of worte) pruefe(`Wortstufe bei ${abstand}`, wortStufe(abstand) === wort)
 
 // Fälligkeit und nächste Prüfung (Termin = 0).

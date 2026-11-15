@@ -195,9 +195,9 @@ function kopfLaeuft({ antwort, relativImSatz, T, betont, ohneSprachbeleg, releas
   return { neben, gedaempft, haupt, nebenTitel, fakten, anteil, zaehl }
 }
 
-/** Die fällige, beim Anbieter noch nicht gesehene Folge als Hauptzeile: abwartend, nach zwei Stunden als Fehler gefärbt. */
+/** Die fällige, beim Anbieter noch nicht gesehene Folge als Hauptzeile, abwartend gefärbt (nie als Fehler: Ein Ausbleiben ist nicht belegt). */
 function faelligHaupt(e: ReleaseEvent, stufe: WortStufe, heute: boolean, T: KopfEingabe['T']): ReactNode {
-  return <span className={stufe === 'nicht-erschienen' ? 'text-ak-fehler-text' : 'text-ak-warnung-text'}>{faelligText(e, stufe, heute, T)}</span>
+  return <span className="text-ak-warnung-text">{faelligText(e, stufe, heute, T)}</span>
 }
 
 /** Antwortart „teilweise“. */

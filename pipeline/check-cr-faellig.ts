@@ -129,8 +129,18 @@ const zeile5 = kastenZeile(UHR_15_05)
 const zeile2h = kastenZeile(UHR_17_00)
 pruefe('Kasten 15:00: wird geprüft', zeile0.text === 'Folge 7 fällig seit 15:00 Uhr, wird geprüft', String(zeile0.text))
 pruefe('Kasten 15:05: noch nicht gesehen', zeile5.text === 'Folge 7 fällig seit 15:00 Uhr, noch nicht gesehen', String(zeile5.text))
-pruefe('Kasten 17:00: nicht erschienen wie angekündigt', zeile2h.text === 'Folge 7 nicht erschienen wie angekündigt (15:00 Uhr)', String(zeile2h.text))
-pruefe('Kasten: abwartend gefärbt, nach zwei Stunden als Fehler', zeile5.farbe === 'text-ak-warnung-text' && zeile2h.farbe === 'text-ak-fehler-text', `${zeile5.farbe} ${zeile2h.farbe}`)
+pruefe('Kasten 17:00: unverändert „noch nicht gesehen“, nie „nicht erschienen“', zeile2h.text === 'Folge 7 fällig seit 15:00 Uhr, noch nicht gesehen', String(zeile2h.text))
+pruefe('Kasten: immer abwartend gefärbt, nie als Fehler', zeile5.farbe === 'text-ak-warnung-text' && zeile2h.farbe === 'text-ak-warnung-text', `${zeile5.farbe} ${zeile2h.farbe}`)
+// Deckel: Nach 24 Stunden ohne Sichtung gilt die Folge wieder als erschienen (geschätzt), der Kasten sagt nichts mehr von „fällig“.
+const GRENZE = new Date('2026-11-16T14:00:00Z')
+const nachGrenze = new Date('2026-11-16T14:00:01Z')
+const fE = folge(ohne7, 7)
+pruefe('Deckel: genau 24 h nach dem Termin noch fällig', terminZustand(fE, GRENZE) === 'faellig' && !istErschienen(fE, GRENZE))
+pruefe('Deckel: eine Sekunde später erschienen', terminZustand(fE, nachGrenze) === 'erschienen' && istErschienen(fE, nachGrenze))
+pruefe('Deckel: kein Wort mehr', faelligWort(fE, GRENZE) === 'verspaetet' && faelligWort(fE, nachGrenze) === undefined)
+const antwortNach: any = berechneAntwort({ title: titel(6), releases: [ohne7], today: '2026-11-16', jetzt: nachGrenze })
+pruefe('Deckel: Kasten ohne Fälligkeitszeile, Folge 7 zählt wieder (≈)', antwortNach?.faellig === undefined && antwortNach?.raus === 7, `${antwortNach?.faellig} ${antwortNach?.raus}`)
+pruefe('Deckel: Pille 1–7 mit ≈', erschieneneSpanne(expandEvents(ohne7), nachGrenze) === '1–7' && planGeschaetzt(expandEvents(ohne7), [{ from: 1, to: 6, dub: true }], [], nachGrenze))
 const nachSichtung = antwortKopf({
   antwort: berechneAntwort({ title: titel(7), releases: [spaceMercenary({ ...BEOBACHTET_6, 7: TAG })], today: TAG, jetzt: UHR_NACH_15_19 }) as any,
   relativImSatz: (d) => (d === TAG ? 'heute' : d),
@@ -160,6 +170,7 @@ const belegt7 = { ...plan, belegtBis: { folge: 7, am: '2026-11-15' } }
 pruefe('ohneSichtungVon: belegtBis deckt Folge 7', !ohneSichtungVon(ohne7, belegt7, 7))
 pruefe('ohneSichtungVon: belegtBis deckt Folge 8 nicht', ohneSichtungVon(ohne7, belegt7, 8))
 pruefe('ohneSichtungVon: spätere Beobachtung überholt Folge 7', !ohneSichtungVon(ohne7, { ...plan, observed: { ...BEOBACHTET_6, 8: '2026-11-22' } }, 7))
+pruefe('ohneSichtungVon: die jüngste beobachtete Folge selbst nie', !ohneSichtungVon(ohne7, plan, 6))
 pruefe('ohneSichtungVon: ohne jede Beobachtung', ohneSichtungVon(ohne7, { ...plan, observed: undefined }, 1))
 
 // Wortstufen nach Abstand (Folge 7, Termin 15:00 Berlin = 14:00 UTC).
@@ -167,12 +178,27 @@ const f7 = folge(ohne7, 7)
 pruefe('15:00 und 15:04: wird geprüft', faelligWort(f7, new Date('2026-11-15T14:04:59Z')) === 'wird-geprueft')
 pruefe('15:05: verspätet, noch nicht gesehen', faelligWort(f7, UHR_15_05) === 'verspaetet')
 pruefe('16:59: noch verspätet', faelligWort(f7, new Date('2026-11-15T15:59:59Z')) === 'verspaetet')
-pruefe('17:00: nicht erschienen', faelligWort(f7, UHR_17_00) === 'nicht-erschienen' || faelligWort(f7, new Date('2026-11-15T16:00:00Z')) === 'nicht-erschienen')
+pruefe('17:00: weiter nur „noch nicht gesehen“', faelligWort(f7, UHR_17_00) === 'verspaetet')
 pruefe('vor 15:00: kein Wort', faelligWort(f7, UHR_15_00) === undefined)
 const T = (k: string, v?: Record<string, string | number>): string =>
-  ({ 'antwort.faelligWirdGeprueft': 'W {n} {wann}', 'antwort.faelligVerspaetet': 'V {n} {wann}', 'antwort.faelligNichtErschienen': 'N {n} {wann}' })[k]!.replace('{n}', String(v!.n)).replace('{wann}', String(v!.wann))
+  ({ 'antwort.faelligWirdGeprueft': 'W {n} {wann}', 'antwort.faelligVerspaetet': 'V {n} {wann}' })[k]!.replace('{n}', String(v!.n)).replace('{wann}', String(v!.wann))
 pruefe('Text heute: nur Uhrzeit', faelligText(f7, 'verspaetet', true, T) === 'V 7 15:00 Uhr', faelligText(f7, 'verspaetet', true, T))
-pruefe('Text anderer Tag: mit Datum', faelligText(f7, 'nicht-erschienen', false, T) === 'N 7 15.11.2026, 15:00 Uhr', faelligText(f7, 'nicht-erschienen', false, T))
+pruefe('Text anderer Tag: mit Datum', faelligText(f7, 'wird-geprueft', false, T) === 'W 7 15.11.2026, 15:00 Uhr', faelligText(f7, 'wird-geprueft', false, T))
+pruefe('Text mit geschätzter Uhrzeit: „≈“', faelligText({ ...f7, timeEstimated: true }, 'verspaetet', true, T) === 'V 7 ≈ 15:00 Uhr', faelligText({ ...f7, timeEstimated: true }, 'verspaetet', true, T))
+pruefe('Text ohne Uhrzeit: nur Datum', faelligText({ ...f7, time: undefined }, 'verspaetet', false, T) === 'V 7 15.11.2026', faelligText({ ...f7, time: undefined }, 'verspaetet', false, T))
+
+// Termin ohne Uhrzeit: der Tag zählt ab 23:59 Berlin (22:59 UTC) als verstrichen; Wort und Abstand rechnen von dort.
+const zeitlos = { date: TAG, ohneSichtung: true }
+pruefe('ohne Uhrzeit: um 23:59 Berlin fällig, nach 1 Minute „wird geprüft“', faelligWort(zeitlos, new Date('2026-11-15T23:00:00Z')) === 'wird-geprueft')
+pruefe('ohne Uhrzeit: nach 5 Minuten „noch nicht gesehen“', faelligWort(zeitlos, new Date('2026-11-15T23:04:00Z')) === 'verspaetet')
+pruefe('ohne Uhrzeit: um 23:58 Berlin noch angekündigt, kein Wort', faelligWort(zeitlos, new Date('2026-11-15T22:58:00Z')) === undefined)
+
+// `jetzt` wirkt: Fernzukunftstermin (ohne Parameter zählte die echte Uhr und er wäre noch nicht erschienen).
+const fern = [{ date: '2999-01-01', episode: 1, estimated: true }] as ReleaseEvent[]
+pruefe('erschieneneSpanne rechnet mit `jetzt`', erschieneneSpanne(fern, new Date('3000-01-01T00:00:00Z')) === '1' && erschieneneSpanne(fern, new Date('2998-01-01T00:00:00Z')) === undefined)
+pruefe('planGeschaetzt rechnet mit `jetzt`', planGeschaetzt(fern, undefined, [], new Date('3000-01-01T00:00:00Z')) && !planGeschaetzt(fern, undefined, [], new Date('2998-01-01T00:00:00Z')))
+const mit7spaet = spaceMercenary({ ...BEOBACHTET_6, 7: TAG })
+pruefe('erschieneneSpanne: vor dem Termin der beobachteten Folge 7 nur 1–6', erschieneneSpanne(expandEvents(mit7spaet), new Date('2026-11-15T12:00:00Z')) === '1–6')
 
 // Overgeared (15:30, ohne Sichtung von Folge 8): dasselbe Muster, eigener Slot.
 pruefe('Overgeared Folge 8: um 15:35 fällig', terminZustand(folge(overgeared, 8), new Date('2026-11-15T14:35:00Z')) === 'faellig')

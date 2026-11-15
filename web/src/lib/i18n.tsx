@@ -508,7 +508,6 @@ const TEXTE = {
   // Angekündigt und verstrichen, beim Anbieter noch nicht gesehen; das Wort steigt mit dem Abstand (`shared/ausbleiben-plan.ts`).
   'antwort.faelligWirdGeprueft': 'Folge {n} fällig seit {wann}, wird geprüft',
   'antwort.faelligVerspaetet': 'Folge {n} fällig seit {wann}, noch nicht gesehen',
-  'antwort.faelligNichtErschienen': 'Folge {n} nicht erschienen wie angekündigt ({wann})',
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   // Fortgeschriebener Tag (`estimated`): kein vom Anbieter genannter Tag (Wochentakt, Starttag laut Quelle, Meldetag), also „geschätzt“.
