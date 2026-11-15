@@ -1,5 +1,5 @@
 # YouTube: was noch zu prüfen ist
 
-Stand 2026-11-15 · **nichts offen**.
+Stand 2026-11-16 · **nichts offen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**.
