@@ -15,11 +15,39 @@ globalThis.akPrimeHatTitelseite = (eintrag) => /\/detail(?:\/|\?gti=)/.test(Stri
 globalThis.akPrimeVergleich = (liste) => (a, b) =>
   (liste[a].vorrang ?? 9) - (liste[b].vorrang ?? 9) || String(liste[a].titel).localeCompare(String(liste[b].titel), 'de')
 
+/*
+  Der Knopf der Zielseite bietet das Melden an: „… · melden“, bei einem Suchauftrag „… · melden als „Titel““
+  (`zielTeil` in amazon-knopf-zeichnen.js). Mit `/melden$/` klickte der Frame bei Suchaufträgen nie (15.11.2026:
+  vier Kauf/Leihe-Filme blieben 25 s auf dem Knopf stehen und galten als „Fehler beim Melden“).
+*/
+globalThis.akPrimeBietetMelden = (text) => /melden(?: als „.*")?$/.test(String(text ?? ''))
+
+/*
+  Dieselbe Seite scheitert oft zweimal: als Titelseite und als Staffel derselben Kennung (Captain Tsubasa S2,
+  15.11.2026). Gleicher Grund mit und ohne „· Staffel N“ steht einmal da, mit der Staffel.
+*/
+globalThis.akPrimeUebersprungenEinmal = (eintraege) => {
+  const ohneStaffel = (e) => String(e).replace(/ · Staffel \d+ – /, ' – ')
+  const mitStaffel = new Set(eintraege.filter((e) => ohneStaffel(e) !== e).map(ohneStaffel))
+  return [...new Set(eintraege.filter((e) => ohneStaffel(e) !== e || !mitStaffel.has(e)))]
+}
+
 /* Der Vermerk der Prime-Liste, wie der letzte Durchgang endete. */
 globalThis.akPrimeEndeText = (ende) =>
   (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
-  (ende.uebersprungen?.length ? ` · offen (Fehler beim Melden): ${ende.uebersprungen.join('; ')}` : '') +
+  (ende.uebersprungen?.length ? ` · selbst prüfen: ${globalThis.akPrimeUebersprungenEinmal(ende.uebersprungen).join('; ')}` : '') +
   (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+
+/*
+  Ein Titel gilt als frisch gemeldet, wenn **seine eigene Seite** gemeldet hat — nicht, wenn irgendeine Staffel
+  gelang: Eine gelungene Staffel unter anderer Kennung nahm sonst den Titel aus der Liste, obwohl seine Seite
+  scheiterte und der Worker ihn weiter offen führt (Captain Tsubasa, 15.11.2026: „Alles geprüft“).
+*/
+globalThis.akPrimeTitelErgebnis = (lauf, frameKennung, ok, url, frischGemeldet) => {
+  if (!url || frameKennung !== lauf.titel) return
+  if (ok) frischGemeldet.add(url)
+  else frischGemeldet.delete(url)
+}
 
 /* Startkennung eines Titels: die gti aus JustWatchs Adresse, sonst die Kennung der Titelseite. */
 globalThis.akPrimeStartKennung = (url, kennungAus) =>

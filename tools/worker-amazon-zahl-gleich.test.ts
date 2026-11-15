@@ -99,6 +99,7 @@ function sandkasten(paket: Record<string, unknown>, antwort: 'stand' | 'fehler' 
   if (!offeneZahl) throw new Error('offeneZahl nicht in amazon.js')
   vm.runInContext([schneide('async function briefkastenHolen('), schneide('function fertig('), offeneZahl].join('\n'), ctx)
   return {
+    ctx,
     holen: () => vm.runInContext('briefkastenHolen(true)', ctx) as Promise<void>,
     zahl: () => vm.runInContext('offeneZahl()', ctx) as number,
     veraltet: () => (ctx.akPrimeListeVeraltet ? (ctx.akPrimeListeVeraltet(false, ctx.liste) as boolean) : false),
@@ -144,6 +145,19 @@ for (const art of ['fehler', 'status'] as const) {
 const weniger = sandkasten(paketVon(titel), 'stand', { anbieter: [{ ...worker, ziele: worker.ziele.slice(0, 2) }] })
 await weniger.holen()
 pruefe(weniger.zahl() === 2, `Worker führt 2 Ziele, Paket 8: Knopf ${weniger.zahl()}`)
+
+/* 15.11.2026: Nach einem Neuladen stand „Prime-Liste veraltet — neu laden“ — ein Neuladen ändert nichts am Paket. */
+{
+  const veraltetLaut = (laut: boolean, liste: object, standBekannt?: boolean) => voll.ctx.akPrimeListeVeraltet(laut, liste, standBekannt) as boolean
+  const kein = {}
+  pruefe(veraltetLaut(true, kein, false), 'Stempel sagt veraltet, kein Worker-Stand: veraltet')
+  pruefe(!veraltetLaut(true, kein, true), 'Stempel sagt veraltet, aber der Worker-Stand ist da: nicht veraltet (die Liste folgt dem Worker)')
+  pruefe(veraltetLaut(false, { a: { ausStand: true } }, true), 'Worker-Ziel ohne Paket-Eintrag: weiter veraltet')
+  pruefe(!veraltetLaut(false, kein, true), 'weder Stempel noch Worker-Ziel: nicht veraltet')
+  const text = voll.ctx.akPrimeKnopfText(0, 0, true) as string
+  pruefe(text === 'Prime-Liste veraltet — Erweiterung aktualisieren', `ohne Arbeit, veraltet: Text sagt, was zu tun ist: ${text}`)
+  pruefe(voll.ctx.akPrimeKnopfText(0, 0, false) === 'Prime: alles geprüft', 'ohne Arbeit, aktuell: „alles geprüft“')
+}
 
 if (fehler) {
   console.log(`\n${fehler} Prüfung(en) rot.`)
