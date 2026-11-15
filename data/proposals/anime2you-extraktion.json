@@ -1720,6 +1720,10 @@
       "am": "2026-11-13",
       "vorschlaege": 7
     },
+    "1071510": {
+      "am": "2026-11-15",
+      "vorschlaege": 10
+    },
     "1071559": {
       "am": "2026-11-14",
       "vorschlaege": 0
@@ -13340,6 +13344,29 @@
       "artikelId": "1071954",
       "artikel": "Neuer Teaser zum Netflix-Anime »Bride of the Barrier Master«",
       "quelle": "https://www.anime2you.de/news/1071954/bride-of-the-barrier-master-neuer-teaser/",
+      "veroeffentlicht": "2026-11-15",
+      "gelesenAm": "2026-11-15"
+    },
+    {
+      "titel": "Nausicaä aus dem Tal der Winde",
+      "zitat": "Den Abschluss bilden »Wie der Wind sich hebt« um 22:10 Uhr sowie »Nausicaä aus dem Tal der Winde« in der Nacht auf den 7. Dezember 2026 um 00:10 Uhr.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-12-07",
+      "uhrzeit": "00:10",
+      "anbieter": null,
+      "sender": "ProSieben FUN",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Montag",
+      "warnungen": [
+        "sender „ProSieben FUN“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071510",
+      "artikel": "ProSieben FUN zeigt zehn Anime-Filme am Nikolaustag 2026",
+      "quelle": "https://www.anime2you.de/news/1071510/prosieben-fun-nikolaustag-2026-filme/",
       "veroeffentlicht": "2026-11-15",
       "gelesenAm": "2026-11-15"
     }
