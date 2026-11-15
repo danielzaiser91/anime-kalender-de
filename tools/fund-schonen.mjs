@@ -101,12 +101,17 @@ function frageMain(pfad, fundZeit) {
   throw letzter
 }
 
-/** Schlüssel mit `ohne` in der TMDB-Handdatei fliegen aus den übernommenen Fund-Dateien (verworfene Dateien tragen den Stand von main). */
-export function streicheOhneAusFund(verworfen) {
-  if (!existsSync(OHNE_HAND)) return
-  const ids = ohneSchluessel(readFileSync(OHNE_HAND, 'utf8'))
+/** Handdatei lesen; fehlt sie, bricht das Schonen ab (Exit 1), statt den Fund ungefiltert einzureichen. */
+function leseOhneIds() {
+  if (!existsSync(OHNE_HAND)) throw new Error(`${OHNE_HAND} fehlt: die ohne-Schlüssel ließen sich nicht aus dem Fund streichen`)
+  return ohneSchluessel(readFileSync(OHNE_HAND, 'utf8'))
+}
+
+/** Schlüssel mit `ohne` in der TMDB-Handdatei fliegen aus den vom Fund übernommenen Dateien (verworfene und unveränderte tragen den Stand von main). */
+export function streicheOhneAusFund(uebernommen, ids) {
+  if (!ids.length) return
   for (const pfad of OHNE_DATEIEN) {
-    if (verworfen.includes(pfad) || !existsSync(pfad)) continue
+    if (!uebernommen.includes(pfad) || !existsSync(pfad)) continue
     const { text, entfernt } = streicheSchluessel(readFileSync(pfad, 'utf8'), ids)
     if (!entfernt.length) continue
     writeFileSync(pfad, text)
@@ -116,6 +121,7 @@ export function streicheOhneAusFund(verworfen) {
 
 /** Verwirft die Dateien (main-Stand zurück bzw. neue Datei entfernen) und führt die Gesundheitsdatei zusammen. Gibt die Entscheidung zurück. */
 export function schone(fundZeit, aenderungen) {
+  const ohneIds = leseOhneIds()
   const pfade = fundPfade()
   const karte = aenderungen ?? Object.fromEntries(pfade.filter((p) => p !== HEALTH).map((p) => [p, frageMain(p, fundZeit)]))
   const entscheidung = entscheide(pfade, karte, fundZeit)
@@ -131,7 +137,7 @@ export function schone(fundZeit, aenderungen) {
     if (verfolgt) git(['checkout', 'HEAD', '--', pfad])
     else rmSync(pfad, { force: true })
   }
-  streicheOhneAusFund(verworfen)
+  streicheOhneAusFund(entscheidung.uebernehmen, ohneIds)
   if (pfade.includes(HEALTH)) {
     writeFileSync(HEALTH, healthZusammenfuehren(git(['show', `HEAD:${HEALTH}`]), fundHealth, verworfen))
   }

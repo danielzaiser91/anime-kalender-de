@@ -25,7 +25,7 @@ pruefe('echter Bestand: beide ohne-Schlüssel gefunden', echt.includes('10019697
 pruefe('echter Bestand: Eintrag mit Kennung ist kein ohne-Schlüssel', !echt.includes('130622') && !echt.includes('99718'), echt)
 
 // Fälle der Zeilenlesung
-const yaml = ['# Kopf: ohne: true', '- anilistId: 1', '  tmdbId: 5', '  ohne: true', '', '- anilistId: 2 # mit Kommentar', '  ohne: true', '', '- anilistId: 3', '  tmdbId: 9', '', '- anilistId: 4', '  titel: x', '  ohne: false', '- anilistId: 5', '  ohne: true', ''].join('\n')
+const yaml = ['# Kopf: ohne: true', '- anilistId: 1', '  tmdbId: 5', '  ohne: true', '', '- anilistId: 2 # mit Kommentar', '  ohne: true', '', '- anilistId: 3', '  tmdbId: 9', '', '- tmdbId: 8', '  ohne: true', '', '- anilistId: 4', '  titel: x', '  ohne: false', '- anilistId: 5', '  ohne: true', ''].join('\n')
 pruefe('ohne-Lesung: Eintrag mit ohne, mit Kommentar, am Dateiende; false und fehlend nicht', JSON.stringify(ohneSchluessel(yaml)) === JSON.stringify(['1', '2', '5']), ohneSchluessel(yaml))
 pruefe('ohne-Lesung: leere Datei gibt leere Liste', ohneSchluessel('').length === 0)
 pruefe('ohne-Lesung: CRLF', JSON.stringify(ohneSchluessel(yaml.replace(/\n/g, '\r\n'))) === JSON.stringify(['1', '2', '5']))
@@ -48,21 +48,23 @@ try {
   const lies = (n) => readFileSync(join(dir, D, n), 'utf8')
   const mit = (extra) => JSON.stringify({ 1: { n: 1 }, ...extra })
   writeFileSync(join(dir, D, 'tmdb-von-hand.yaml'), HAND)
-  for (const n of ['tmdb-titles', 'tmdb-banner', 'tmdb-folgen']) writeFileSync(join(dir, D, `${n}.json`), mit({}))
+  // main-Stand der Folgen trägt einen ohne-Schlüssel: die verworfene Datei darf ihn behalten (nur übernommene Dateien werden gestrichen)
+  const mainFolgen = mit({ 99717: { n: 9 } })
+  for (const n of ['tmdb-titles', 'tmdb-banner']) writeFileSync(join(dir, D, `${n}.json`), mit({}))
+  writeFileSync(join(dir, D, 'tmdb-folgen.json'), mainFolgen)
   git('add', '.')
   git('commit', '-q', '-m', 'main')
   const fund = mit({ 99717: { n: 2 }, 10019697: { n: 3 }, 130622: { n: 4 } })
-  writeFileSync(join(dir, D, 'tmdb-titles.json'), fund)
-  writeFileSync(join(dir, D, 'tmdb-banner.json'), fund)
-  writeFileSync(join(dir, D, 'tmdb-folgen.json'), fund)
+  for (const n of ['tmdb-titles', 'tmdb-banner', 'tmdb-folgen']) writeFileSync(join(dir, D, `${n}.json`), fund)
   const aend = join(dir, '..', `fund-ohne-aend-${process.pid}.json`)
-  writeFileSync(aend, JSON.stringify({ [`${D}/tmdb-banner.json`]: '2026-11-12T00:00:00Z', [`${D}/tmdb-titles.json`]: null, [`${D}/tmdb-folgen.json`]: null }))
+  writeFileSync(aend, JSON.stringify({ [`${D}/tmdb-folgen.json`]: '2026-11-12T00:00:00Z', [`${D}/tmdb-titles.json`]: null, [`${D}/tmdb-banner.json`]: null }))
   const lauf = sh('node', [werkzeug, '2026-11-10T04:00:00Z', '--aenderungen', aend])
   pruefe('Lauf endet mit Exit 0 und Schlusszeile', lauf.status === 0 && /Fund schonen: 2 Datei\(en\) übernommen, 1 verworfen/.test(lauf.stdout), [lauf.status, lauf.stdout, lauf.stderr])
   const titel = JSON.parse(lies('tmdb-titles.json'))
   pruefe('titles: ohne-Schlüssel raus, Eintrag mit Kennung und Fremdes bleiben', !('99717' in titel) && !('10019697' in titel) && '130622' in titel && '1' in titel, titel)
-  pruefe('folgen: ohne-Schlüssel raus', !('99717' in JSON.parse(lies('tmdb-folgen.json'))) && '130622' in JSON.parse(lies('tmdb-folgen.json')))
-  pruefe('verworfene Datei (banner): main-Stand, nicht der Fund', lies('tmdb-banner.json') === mit({}))
+  const banner = JSON.parse(lies('tmdb-banner.json'))
+  pruefe('banner (übernommen): ohne-Schlüssel raus, Rest bleibt', !('99717' in banner) && !('10019697' in banner) && '130622' in banner && '1' in banner, banner)
+  pruefe('verworfene Datei (folgen): main-Stand mit seinem Schlüssel, nicht gestrichen, nicht der Fund', lies('tmdb-folgen.json') === mainFolgen)
   pruefe('Protokoll nennt Schlüssel und Datei', /10019697, 99717 aus data\/tmdb-titles\.json entfernt/.test(lauf.stdout), lauf.stdout)
 
   // zweiter Lauf auf dem Ergebnis: nichts mehr zu streichen, Datei bleibt byte-gleich
@@ -70,12 +72,13 @@ try {
   const zweit = sh('node', [werkzeug, '2026-11-10T04:00:00Z', '--aenderungen', aend])
   pruefe('zweiter Lauf: Exit 0, Datei unverändert, kein ohne-Protokoll', zweit.status === 0 && lies('tmdb-titles.json') === vorher && !/ohne \(tmdb-von-hand\)/.test(zweit.stdout), zweit.stdout)
 
-  // ohne Handdatei: nichts wird gestrichen, kein Absturz
+  // ohne Handdatei: laut abbrechen, nichts verwerfen, nichts streichen
   git('checkout', '-q', 'HEAD', '--', D)
   rmSync(join(dir, D, 'tmdb-von-hand.yaml'))
-  writeFileSync(join(dir, D, 'tmdb-titles.json'), fund)
+  for (const n of ['tmdb-titles', 'tmdb-banner', 'tmdb-folgen']) writeFileSync(join(dir, D, `${n}.json`), fund)
   const keine = sh('node', [werkzeug, '2026-11-10T04:00:00Z', '--aenderungen', aend])
-  pruefe('ohne Handdatei: Exit 0, Fund unverändert', keine.status === 0 && lies('tmdb-titles.json') === fund, [keine.status, keine.stderr])
+  pruefe('ohne Handdatei: Exit 1 mit Fehlertext', keine.status === 1 && /tmdb-von-hand\.yaml fehlt/.test(keine.stderr), [keine.status, keine.stderr])
+  pruefe('ohne Handdatei: Fund bleibt unberührt (auch die zu verwerfende Datei)', ['tmdb-titles', 'tmdb-banner', 'tmdb-folgen'].every((n) => lies(`${n}.json`) === fund))
   rmSync(aend, { force: true })
 } finally {
   rmSync(dir, { recursive: true, force: true })
@@ -85,4 +88,4 @@ if (fehler.length) {
   console.error(`fund-ohne: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('fund-ohne: Lesung am echten Handbestand, Zeilenfälle (Kommentar, Dateiende, CRLF, false), Streichen, Prozesslauf (3 Dateien, verworfene Datei, zweiter Lauf, ohne Handdatei): alles grün')
+console.log('fund-ohne: Lesung am echten Handbestand, Zeilenfälle (Kommentar, Dateiende, CRLF, false, Eintrag ohne anilistId), Streichen, Prozesslauf (titles und banner übernommen, folgen verworfen, zweiter Lauf, fehlende Handdatei = Exit 1): alles grün')

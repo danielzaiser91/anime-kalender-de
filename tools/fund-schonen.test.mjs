@@ -72,6 +72,7 @@ try {
   schreibe(`${D}/adn.json`, 'main-adn')
   schreibe(`${D}/weg.json`, 'main-weg')
   schreibe(`${D}/source-health.json`, mainH)
+  schreibe(`${D}/tmdb-von-hand.yaml`, '# keine Einträge\n')
   git('add', '.')
   git('commit', '-q', '-m', 'main')
   // der Fund
@@ -170,6 +171,7 @@ console.log(pfad.endsWith('neuer.json') ? JSON.stringify([{ sha: 'abc', commit: 
   const sh2 = (befehl, args, env = {}) => spawnSync(befehl, args, { cwd: repo, encoding: 'utf8', timeout: 60000, windowsHide: true, env: { ...process.env, FUND_SCHONEN_GH: attrappe, GITHUB_REPOSITORY: 'o/r', ...env } })
   const g2 = (...a) => sh2('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a])
   g2('init', '-q', '-b', 'main')
+  writeFileSync(join(repo, D, 'tmdb-von-hand.yaml'), '# keine Einträge\n')
   for (const n of ['neuer', 'alter', 'kaputt', 'format']) writeFileSync(join(repo, D, `${n}.json`), `main-${n}`)
   g2('add', '.')
   g2('commit', '-q', '-m', 'main')
