@@ -94,7 +94,7 @@ test('Rotstunden: über Mitternacht und Sommerzeit-Ende verteilt, Abbruch änder
   assert.equal(r['2026-10-26'], 0.5)
   const offen = rotStundenJeTag([{ createdAt: '2026-11-14T10:00:00Z', conclusion: 'timed_out' }], Date.parse('2026-11-14T12:00:00Z'))
   assert.deepEqual(offen, { '2026-11-14': 2 })
-  assert.deepEqual(rotStundenJeTag([{ createdAt: '2026-11-14T10:00:00Z', conclusion: 'success' }], Date.now()), {})
+  assert.deepEqual(rotStundenJeTag([{ createdAt: '2026-11-14T10:00:00Z', conclusion: 'success' }], Date.parse('2026-11-15T00:00:00Z')), {})
 })
 
 test('Laufdauer: Median nur erfolgreicher Läufe in Minuten', () => {
