@@ -622,6 +622,49 @@
         "stichprobe": 0,
         "rest": 1
       }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 4,
+      "ms": 2.8440219999999954,
+      "faelle": [
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "adn"
+        },
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "crunchyroll"
+        },
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "netflix"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
     }
   ]
 }
