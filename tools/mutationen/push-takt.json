@@ -303,8 +303,8 @@
     "aenderungen": [
       {
         "datei": "worker/src/push.ts",
-        "suche": "Boolean(e.time) && istErschienen(e, zeit)",
-        "ersetze": "istErschienen(e, zeit)"
+        "suche": "Boolean(e.time) && istErschienen({ ...e, ohneSichtung: false }, zeit)",
+        "ersetze": "istErschienen({ ...e, ohneSichtung: false }, zeit)"
       }
     ],
     "tests": ["npx tsx tools/worker-push-takt.test.ts", "npx tsx tools/worker-push-versand.test.ts"]
@@ -314,8 +314,8 @@
     "aenderungen": [
       {
         "datei": "worker/src/push.ts",
-        "suche": "Boolean(e.time) && istErschienen(e, zeit)",
-        "ersetze": "!e.time && istErschienen(e, zeit)"
+        "suche": "Boolean(e.time) && istErschienen({ ...e, ohneSichtung: false }, zeit)",
+        "ersetze": "!e.time && istErschienen({ ...e, ohneSichtung: false }, zeit)"
       }
     ],
     "tests": ["npx tsx tools/worker-push-takt.test.ts", "npx tsx tools/worker-push-versand.test.ts"]
@@ -325,10 +325,21 @@
     "aenderungen": [
       {
         "datei": "worker/src/push.ts",
-        "suche": "Boolean(e.time) && istErschienen(e, zeit)",
-        "ersetze": "Boolean(e.time) && istErschienen(e, zeit) && false"
+        "suche": "Boolean(e.time) && istErschienen({ ...e, ohneSichtung: false }, zeit)",
+        "ersetze": "Boolean(e.time) && istErschienen({ ...e, ohneSichtung: false }, zeit) && false"
       }
     ],
     "tests": ["npx tsx tools/worker-push-takt.test.ts", "npx tsx tools/worker-push-versand.test.ts"]
+  },
+  {
+    "name": "pushIstErschienen: ohneSichtung zählt wieder (der Push würde auf die Sichtung warten)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "Boolean(e.time) && istErschienen({ ...e, ohneSichtung: false }, zeit)",
+        "ersetze": "Boolean(e.time) && istErschienen(e, zeit)"
+      }
+    ],
+    "tests": ["npx tsx tools/worker-push-takt.test.ts"]
   }
 ]
