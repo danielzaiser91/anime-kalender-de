@@ -69,6 +69,23 @@ function topPrios(zeilen, jetzt) {
     return t !== null && jetzt - t > MAX_PRIO_ALTER
   })
   if (alt.length) meldungen.push(`Top-Prios: ${aufzaehlung(alt)} mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen`)
+  meldungen.push(...priosGemergt(liste, zeilen))
+  return meldungen
+}
+
+const OFFEN_OHNE_NUMMER = /Prüfer läuft|wartet auf Merge/
+
+/** Meldungen zu Top-Prios-Zeilen, die eine PR als offen führen, die der Kopf von „## In Arbeit“ unter „gemergt heute …“ nennt (Lehre 92, 15.11.2026: Ziele-Box blieb nach Merges veraltet). Nur Text, kein gh. */
+function priosGemergt(liste, zeilen) {
+  const kopf = zeilen.find((z) => z.startsWith('## In Arbeit')) || ''
+  const gemergt = new Set(/gemergt heute ([^;)]*)/.exec(kopf)?.[1].match(/\d+/g) || [])
+  const meldungen = []
+  for (const z of liste) {
+    for (const nr of new Set([...z.matchAll(/PR\s*#?(\d+)/g)].map((m) => m[1]))) {
+      const offen = new RegExp(`PR\\s*#?${nr}\\b\\)?\\s*offen\\b(?!:)`).test(z) || OFFEN_OHNE_NUMMER.test(z)
+      if (gemergt.has(nr) && offen) meldungen.push(`Top-Prios: ${anfang(z)} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`)
+    }
+  }
   return meldungen
 }
 
