@@ -213,6 +213,15 @@ function keinPushOhneUhrzeit() {
   }
 }
 
+/** Space Mercenary Folge 7 (Crunchyroll, 15.11.2026 15:00): `ohneSichtung` ändert den Push nicht, er bleibt an der Uhrzeit (eigener Umbau folgt). */
+async function ohneSichtungBleibtUhrzeit() {
+  zeige('Termin ohne Sichtung: Push bleibt an der Uhrzeit:')
+  const f7 = { ...YAIBA, platform: 'crunchyroll', date: '2026-11-15', time: '15:00', episode: 7, ohneSichtung: true } as unknown as ReleaseEvent
+  pruefe(!pushIstErschienen(f7, new Date('2026-11-15T13:59:59.000Z')), 'vor 15:00: noch nicht erschienen')
+  pruefe(pushIstErschienen(f7, new Date('2026-11-15T14:00:00.000Z')), '15:00: erschienen trotz ohneSichtung')
+  pruefe(pushFaellig([f7], new Date('2026-11-15T14:05:00.000Z')), '15:05: der Fünf-Minuten-Takt meldet die Folge')
+}
+
 async function tageswechselUndCpu() {
   zeige('Vorfilter über das Datum:')
   const bei = (date: string, time: string) => ({ ...YAIBA, date, time }) as ReleaseEvent
@@ -260,6 +269,7 @@ await jetztAuchBei()
 fenster()
 await katalogstartOhneUhrzeit()
 keinPushOhneUhrzeit()
+await ohneSichtungBleibtUhrzeit()
 await tageswechselUndCpu()
 wrangler()
 zeige(fehler ? `${fehler} Prüfung(en) FEHL` : 'Push-Takt: alle Prüfungen ok (Yaiba 17:25 UTC, volle Stunde, Fenster, Trigger)')

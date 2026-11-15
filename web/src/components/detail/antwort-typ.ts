@@ -6,6 +6,7 @@
  * Darstellung.
  */
 import type { ReleaseEvent, VermerkAusgeblieben } from '@shared/types.ts'
+import type { WortStufe } from '@shared/ausbleiben-plan.ts'
 
 export type Antwort =
   | {
@@ -35,6 +36,8 @@ export type Antwort =
       ausgebliebenBis?: number
       /** Was wir zum Ausfall wissen — am ausgebliebenen Termin, auch wenn ein Ersatztermin vorn steht. */
       vermerk?: VermerkAusgeblieben
+      /** Die nächste Folge ist fällig, aber beim Anbieter noch nicht gesehen: wie weit der Abstand das Wort treibt. */
+      faellig?: WortStufe
     }
   | {
       art: 'fertig'

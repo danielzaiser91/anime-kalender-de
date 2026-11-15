@@ -11,8 +11,8 @@ const spanne = (von: number, bis: number): string => (von === bis ? String(von) 
  * Folge 101 einsetzt, hieße sonst „1–16". Ein Abwurf ohne Nummern („Folge 1–11") zählt vorn dazu, wenn die
  * nummerierten Folgen direkt danach beginnen. Leer, wenn die Nummern Lücken haben — dann sagt nur die Zahl etwas Wahres.
  */
-export function erschieneneSpanne(events: ReleaseEvent[]): string | undefined {
-  const raus = events.filter((e) => istErschienen(e))
+export function erschieneneSpanne(events: ReleaseEvent[], jetzt: Date = new Date()): string | undefined {
+  const raus = events.filter((e) => istErschienen(e, jetzt))
   if (!raus.length) return undefined
   const ohneNummer = raus.filter((e) => e.episode == null).reduce((summe, e) => summe + (e.episodeCount ?? 1), 0)
   const nummern = new Set(raus.filter((e) => e.episode != null).map((e) => e.episode!))
@@ -33,10 +33,11 @@ export function planGeschaetzt(
   events: ReleaseEvent[],
   bereiche: { from: number; to: number; dub: boolean }[] | undefined,
   ergaenzt: number[] = [],
+  jetzt: Date = new Date(),
 ): boolean {
   const belegt = (n: number | undefined): boolean =>
     n != null && !ergaenzt.includes(n) && (bereiche ?? []).some((b) => b.dub && n >= b.from && n <= b.to)
-  return events.some((e) => istErschienen(e) && e.estimated && !belegt(e.episode))
+  return events.some((e) => istErschienen(e, jetzt) && e.estimated && !belegt(e.episode))
 }
 
 /** Steht in den Bereichen eine Folge, die nur der fortgeschriebene Wochenplan liefert (ergänzt, ihr Termin `estimated`)? */

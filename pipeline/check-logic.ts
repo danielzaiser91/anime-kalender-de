@@ -3096,7 +3096,16 @@ console.log('\nVerpasster Termin:')
     erschienen". Die Zählung läuft über `istErschienen`, also hält es die fest.
   */
   const spaeter = new Date('2026-09-01T12:00:00Z')
-  const fuenf = ohneErsatz.find((e) => e.episode === 5)!
+  /* Folge 5 ist hier beobachtet: Ohne Sichtung wäre sie bei Crunchyroll nur „fällig“, nicht erschienen (`pipeline/check-cr-faellig.ts`). */
+  const mitSichtung = expandEvents({
+    ...release,
+    schedule: {
+      ...release.schedule,
+      observed: { 1: '2026-07-26', 2: '2026-08-02', 3: '2026-08-09', 4: '2026-08-16', 5: '2026-08-23' },
+      verpasst: { 6: { erwartetAm: '2026-08-30T15:00:00.000Z' } },
+    },
+  })
+  const fuenf = mitSichtung.find((e) => e.episode === 5)!
   const ausgefallen = ohneErsatz.find((e) => e.episode === 6)!
   pruefe(
     'ein ausgebliebener Termin zaehlt nicht als erschienen, die Folge davor schon',
