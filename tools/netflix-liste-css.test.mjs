@@ -10,6 +10,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { chromium } from 'playwright'
 import { browserDa } from './browser-weiche.mjs'
+import { sperreNetz } from './netz-sperre.mjs'
 
 const EXT = resolve(import.meta.dirname, '..', 'extension')
 const css = ['melder.css', 'netflix-liste.css'].map((d) => readFileSync(resolve(EXT, d), 'utf8')).join('\n')
@@ -33,6 +34,7 @@ if (browserDa('netflix-liste-css', chromium)) {
   const browser = await chromium.launch()
   try {
     const seite = await browser.newPage()
+    await sperreNetz(seite)
     await seite.setContent(SEITE)
     assert.deepEqual(await sichtbar(seite, ''), ['offen1', 'offen2'], 'Standard: nur die offenen Zeilen')
     assert.deepEqual(await sichtbar(seite, 'ak-ansicht-gemeldet ak-mit-erledigten'), ['gemeldet1', 'gemeldet2'], 'gemeldet: nur die gemeldeten Zeilen, keine offenen')
