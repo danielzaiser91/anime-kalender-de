@@ -12,7 +12,8 @@
   vergangenes Datum ohne Jahr gilt als unlesbar); „Erinnern" ohne (lesbares) Datum → 7 Tage; alles andere (keine
   Folgenliste, nach N Versuchen offen) → 1 Tag; nie mehr als 30 Tage (ein falsch gelesenes Datum sperrt keinen
   Titel für ein Jahr). Ein Titel, der nach dem Worker-Stand fertig ist, fliegt raus, ebenso ein Eintrag mit dem
-  Grund „fertig" und jeder abgelaufene. Kein Worker, keine D1.
+  Grund „fertig" und jeder abgelaufene. Seit 15.11.2026 meldet `zurueckMelden` die Menge an den Worker
+  (`POST ?zurueck=1`, Tabelle `pruefung_zurueck`), damit der Prüfstand dieselbe Zahl nennt wie die Liste.
 */
 const ZURUECK_SCHLUESSEL = 'netflixZurueckgestellt'
 const ZURUECK_GEMELDET = 'netflixZurueckGemeldet'
@@ -107,7 +108,7 @@ function zurueckEintraege(stand, jetzt) {
  * Meldet die Zurückstellungen an den Worker, damit sein Prüfstand dieselbe Zahl nennt wie die Liste (15.11.2026).
  * Höchstens eine Meldung je `ZURUECK_ABSTAND_MS` (auch nach einem Fehlschlag) und nur bei geänderter Menge; der Stand der
  * letzten Meldung liegt im Speicher und überlebt das Neuladen jedes Titels. `o`: `{ stand(), speicher, jetzt(), worker, token(), holen }`.
- * Ergebnis `{ art, spaeter? }`; `spaeter` = Millisekunden, nach denen die Änderung nachgeholt wird.
+ * Ergebnis `{ art, spaeter? }`; `spaeter` = Millisekunden, nach denen die Änderung nachgeholt wird (auch nach Ablehnung oder Netzfehler).
  */
 async function zurueckMelden(o) {
   const eintraege = zurueckEintraege(o.stand(), o.jetzt())
@@ -125,9 +126,9 @@ async function zurueckMelden(o) {
       headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
       body: JSON.stringify({ plattform: 'netflix', eintraege }),
     })
-    if (!antwort.ok) return { art: 'abgelehnt' }
+    if (!antwort.ok) return { art: 'abgelehnt', spaeter: ZURUECK_ABSTAND_MS }
   } catch {
-    return { art: 'fehler' }
+    return { art: 'fehler', spaeter: ZURUECK_ABSTAND_MS }
   }
   await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt, versuch: o.jetzt() } })
   return { art: 'gesendet' }

@@ -21,7 +21,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "10",
     "ersetze": "0",
-    "zeile": 19,
+    "zeile": 20,
     "nr": 1
    }
   ],
@@ -37,7 +37,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "60",
     "ersetze": "0",
-    "zeile": 19
+    "zeile": 20
    }
   ],
   "tests": [
@@ -52,7 +52,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "1000",
     "ersetze": "0",
-    "zeile": 19
+    "zeile": 20
    }
   ],
   "tests": [
@@ -67,7 +67,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "stand[k].bis > jetzt",
     "ersetze": "stand[k].bis >= jetzt",
-    "zeile": 101
+    "zeile": 102
    }
   ],
   "tests": [
@@ -82,7 +82,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "stand[k].bis > jetzt",
     "ersetze": "stand[k].bis <= jetzt",
-    "zeile": 101
+    "zeile": 102
    }
   ],
   "tests": [
@@ -97,7 +97,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "zurueckEintraege(o.stand(), o.jetzt())",
     "ersetze": "zurueckEintraege(o.jetzt(), o.stand())",
-    "zeile": 113
+    "zeile": 114
    }
   ],
   "tests": [
@@ -112,7 +112,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === inhalt || (letzte.inhalt === undefined && inhalt === '{}')",
     "ersetze": "letzte.inhalt === inhalt && (letzte.inhalt === undefined && inhalt === '{}')",
-    "zeile": 116
+    "zeile": 117
    }
   ],
   "tests": [
@@ -127,7 +127,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === inhalt",
     "ersetze": "letzte.inhalt !== inhalt",
-    "zeile": 116
+    "zeile": 117
    }
   ],
   "tests": [
@@ -142,7 +142,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === undefined && inhalt === '{}'",
     "ersetze": "letzte.inhalt === undefined || inhalt === '{}'",
-    "zeile": 116
+    "zeile": 117
    }
   ],
   "tests": [
@@ -157,7 +157,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === undefined",
     "ersetze": "letzte.inhalt !== undefined",
-    "zeile": 116
+    "zeile": 117
    }
   ],
   "tests": [
@@ -172,7 +172,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "inhalt === '{}'",
     "ersetze": "inhalt !== '{}'",
-    "zeile": 116
+    "zeile": 117
    }
   ],
   "tests": [
@@ -187,7 +187,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest >= 0",
-    "zeile": 118
+    "zeile": 119
    }
   ],
   "tests": [
@@ -202,7 +202,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest <= 0",
-    "zeile": 118
+    "zeile": 119
    }
   ],
   "tests": [
@@ -217,7 +217,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "0",
     "ersetze": "1",
-    "zeile": 118
+    "zeile": 119
    }
   ],
   "tests": [
@@ -232,7 +232,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt: letzte.inhalt, versuch: o.jetzt() } })",
     "ersetze": "void 0",
-    "zeile": 121
+    "zeile": 122
    }
   ],
   "tests": [
@@ -247,7 +247,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "o.holen(`${o.worker}?zurueck=1`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    })",
     "ersetze": "o.holen({\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    }, `${o.worker}?zurueck=1`)",
-    "zeile": 123
+    "zeile": 124
    }
   ],
   "tests": [
@@ -262,7 +262,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt, versuch: o.jetzt() } })",
     "ersetze": "void 0",
-    "zeile": 132
+    "zeile": 133
    }
   ],
   "tests": [
@@ -277,7 +277,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "setTimeout(fn, ms)",
     "ersetze": "setTimeout(ms, fn)",
-    "zeile": 140
+    "zeile": 141
    }
   ],
   "tests": [
@@ -292,7 +292,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "globalThis.akKontext.lesen('token', 'sync')",
     "ersetze": "globalThis.akKontext.lesen('sync', 'token')",
-    "zeile": 146
+    "zeile": 147
    }
   ],
   "tests": [
@@ -307,7 +307,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "e.spaeter === undefined || wartet",
     "ersetze": "e.spaeter === undefined && wartet",
-    "zeile": 152
+    "zeile": 153
    }
   ],
   "tests": [
@@ -322,7 +322,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "e.spaeter === undefined",
     "ersetze": "e.spaeter !== undefined",
-    "zeile": 152
+    "zeile": 153
    }
   ],
   "tests": [
@@ -337,7 +337,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "warten(() => {\n      wartet = false\n      melde()\n    }, e.spaeter)",
     "ersetze": "void 0",
-    "zeile": 154
+    "zeile": 155
    }
   ],
   "tests": [
@@ -352,7 +352,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "warten(() => {\n      wartet = false\n      melde()\n    }, e.spaeter)",
     "ersetze": "warten(e.spaeter, () => {\n      wartet = false\n      melde()\n    })",
-    "zeile": 154
+    "zeile": 155
    }
   ],
   "tests": [
@@ -367,22 +367,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "melde()",
     "ersetze": "void 0",
-    "zeile": 156
-   }
-  ],
-  "tests": [
-   "node extension/netflix-zurueck-melden.test.cjs",
-   "node extension/melder-uebersicht.test.cjs"
-  ]
- },
- {
-  "name": "extension/netflix-zurueckgestellt.js:166 Aufruf entfernt",
-  "aenderungen": [
-   {
-    "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": "melde()",
-    "ersetze": "void 0",
-    "zeile": 166
+    "zeile": 157
    }
   ],
   "tests": [
@@ -397,7 +382,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "roh.geaendert?.()",
     "ersetze": "void 0",
-    "zeile": 167
+    "zeile": 168
    }
   ],
   "tests": [
@@ -412,7 +397,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "zurueckMitMelden(roh, () => stand)",
     "ersetze": "zurueckMitMelden(() => stand, roh)",
-    "zeile": 183
+    "zeile": 184
    }
   ],
   "tests": [
@@ -645,20 +630,6 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck-route.ts:37 Zahl 503 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck-route.ts",
-    "suche": "503",
-    "ersetze": "0",
-    "zeile": 37
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
   "name": "worker/src/pruefung-zurueck.ts:16 Zahl 2000 → 0",
   "aenderungen": [
    {
@@ -724,36 +695,6 @@
     "ersetze": "0",
     "zeile": 18,
     "nr": 1
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 3600 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "3600",
-    "ersetze": "0",
-    "zeile": 18,
-    "nr": 2
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:18 Zahl 1000 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "1000",
-    "ersetze": "0",
-    "zeile": 18,
-    "nr": 2
    }
   ],
   "tests": [
@@ -901,20 +842,6 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:32 Zahl 400 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "400",
-    "ersetze": "0",
-    "zeile": 32
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
   "name": "worker/src/pruefung-zurueck.ts:35 > → >=",
   "aenderungen": [
    {
@@ -935,20 +862,6 @@
     "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "kennungen.length > ZURUECK_HOECHSTENS_EINTRAEGE",
     "ersetze": "kennungen.length <= ZURUECK_HOECHSTENS_EINTRAEGE",
-    "zeile": 35
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:35 Zahl 400 → 0",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "400",
-    "ersetze": "0",
     "zeile": 35
    }
   ],
@@ -1307,34 +1220,6 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:95 Zahl 0 → 1",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "0",
-    "ersetze": "1",
-    "zeile": 95
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-zurueck.ts:98 Zahl 0 → 1",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "0",
-    "ersetze": "1",
-    "zeile": 98
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
   "name": "worker/src/pruefung.ts:97 === → !==",
   "aenderungen": [
    {
@@ -1346,6 +1231,385 @@
   ],
   "tests": [
    "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "A5 zurueckMelden: spaeter bei abgelehnt entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "return { art: 'abgelehnt', spaeter: ZURUECK_ABSTAND_MS }",
+    "ersetze": "return { art: 'abgelehnt' }"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "A5 zurueckMelden: spaeter bei Netzfehler entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "return { art: 'fehler', spaeter: ZURUECK_ABSTAND_MS }",
+    "ersetze": "return { art: 'fehler' }"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "A5 zurueckMelden: spaeter bei abgelehnt nur 1 ms",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "return { art: 'abgelehnt', spaeter: ZURUECK_ABSTAND_MS }",
+    "ersetze": "return { art: 'abgelehnt', spaeter: 1 }"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "A3 beantworteZurueck: throw e -> if (false)",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e",
+    "ersetze": "if (false) throw e"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "A4 Timer-Rumpf: wartet = false entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "wartet = false\n      melde()",
+    "ersetze": "melde()"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "A1 melder.js: , worker: WORKER entfernt",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "{ geaendert: () => uebersichtZeigen(), worker: WORKER }",
+    "ersetze": "{ geaendert: () => uebersichtZeigen() }"
+   }
+  ],
+  "tests": [
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "A2 berechnePruefstand: jetzt = Date.now() -> 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-stand.ts",
+    "suche": "jetzt = Date.now() }: StandKontext",
+    "ersetze": "jetzt = 0 }: StandKontext"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P1 berechnePruefstand: rechneOhneZurueck-Aufruf entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-stand.ts",
+    "suche": "await rechneOhneZurueck({ env, jetzt, roh: stand.anbieter ?? [], rechne: (r) => rechneAnbieter(r, gemeldet) })",
+    "ersetze": "(stand.anbieter ?? []).map((r) => rechneAnbieter(r, gemeldet))"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P3 rechneOhneZurueck: jetzt an leseZurueck -> 0",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "await leseZurueck(env, jetzt)",
+    "ersetze": "await leseZurueck(env, 0)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P4 rechneOhneZurueck: Lesung durch leere Map ersetzt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "await leseZurueck(env, jetzt)",
+    "ersetze": "new Map()"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P5 ohneZurueck: ziel = a.ziel",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "ziel: offene[0]?.url ?? null",
+    "ersetze": "ziel: a.ziel"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P6 ohneZurueck: Reihenfolge stille vor offene",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "ziele: [...offene, ...stille]",
+    "ersetze": "ziele: [...stille, ...offene]"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P7 ohneZurueck: zurueck:true weg",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "({ ...z, zurueck: true as const })",
+    "ersetze": "({ ...z })"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P8 ohneZurueck: slice(0, a.titel) weg",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "a.ziele.slice(0, a.titel).filter(still)",
+    "ersetze": "a.ziele.filter(still)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P9 ohneZurueck: stille weggelassen (ziele verliert Eintraege)",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "ziele: [...offene, ...stille]",
+    "ersetze": "ziele: [...offene]"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P10 leseZurueck: jeder Fehler -> leer",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "if (/no such table/i.test(String((e as Error)?.message ?? e))) return ergebnis",
+    "ersetze": "return ergebnis"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P12 beantworteZurueck: jetzt = new Date(0)",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "const jetzt = new Date()",
+    "ersetze": "const jetzt = new Date(0)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P14 zurueckMitMelden: if (!roh.worker) -> if (true)",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "if (!roh.worker) return roh",
+    "ersetze": "if (true) return roh"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P15 nachholen: wartet-Sperre weg",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "if (e.spaeter === undefined || wartet) return",
+    "ersetze": "if (e.spaeter === undefined) return"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P16 Timer: wartet = false weg",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "      wartet = false\n      melde()",
+    "ersetze": "      melde()"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P17 zurueckMelden: erstmals leer -> senden",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "(letzte.inhalt === undefined && inhalt === '{}')",
+    "ersetze": "(false)"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P18 zurueckMelden: ohne Token weiter",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "if (!token) return { art: 'ohne-token' }",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P19 zurueckMelden: !ok gilt als gesendet",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "if (!antwort.ok) return",
+    "ersetze": "if (false) return"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P20 aendern: geaendert ohne Melden",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": ".then(() => umgebung.geaendert?.())",
+    "ersetze": ".then(() => roh.geaendert?.())"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P21 akNetflixZurueckNeu: Stand leer gemeldet",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "zurueckMitMelden(roh, () => stand)",
+    "ersetze": "zurueckMitMelden(roh, () => ({}))"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P22 zurueckMelden: Stand vor fetch mit versuch weg",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt: letzte.inhalt, versuch: o.jetzt() } })",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P20a aendern: geaendert ohne Melden",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "return speicher.set({ [ZURUECK_SCHLUESSEL]: stand })\n      })\n      .then(() => umgebung.geaendert?.())",
+    "ersetze": "return speicher.set({ [ZURUECK_SCHLUESSEL]: stand })\n      })\n      .then(() => roh.geaendert?.())"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
+  ]
+ },
+ {
+  "name": "Prüfer R1 P20b Laden: geaendert ohne Melden",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "Object.keys(stand).forEach(aktiv) /* Abgelaufenes fliegt gleich beim Laden raus. */\n    })\n    .then(() => umgebung.geaendert?.())",
+    "ersetze": "Object.keys(stand).forEach(aktiv) /* Abgelaufenes fliegt gleich beim Laden raus. */\n    })\n    .then(() => roh.geaendert?.())"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-zurueck-melden.test.cjs",
+   "node extension/melder-uebersicht.test.cjs"
   ]
  }
 ]

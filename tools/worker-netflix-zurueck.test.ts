@@ -233,6 +233,50 @@ console.log('Der ganze Weg über handlePruefung')
   pruefe(gedeckelt.status === 429, 'Tagesdeckel erreicht: 429 wie bei jeder schreibenden Route', gedeckelt.status)
 }
 
+console.log('Abgelaufene Zurückstellungen zählen nie (Uhr kommt vom Aufrufort, hier festeUhr)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { geschrieben: 0 })
+  stand.erzeugtAm = '2026-11-14T16:00:00.000Z'
+  stand.anbieter = [netflix([900001, 900002, 900003])]
+  const zeile = (ids: number[], bis: number) => JSON.stringify(Object.fromEntries(ids.map((i) => [String(i), { grund: 'Erinnern', bis }])))
+  /* 900001 und 900002 sind abgelaufen (eine Millisekunde vor der Uhr), 900003 gilt noch (eine danach). */
+  db.prepare('INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)').run('netflix', zeile([900001, 900002], JETZT - 1), '2026-11-14T00:00:00.000Z')
+  const abgelaufen = ((await lies(env, 'stand=1')) as { anbieter: { titel: number; zurueck: number }[] }).anbieter[0]!
+  pruefe(abgelaufen.titel === 3 && abgelaufen.zurueck === 0, 'nur Abgelaufenes gespeichert: nichts wird abgezogen (titel 3, zurueck 0)', abgelaufen)
+  db.prepare('UPDATE pruefung_zurueck SET daten = ?1').run(zeile([900003], JETZT + 1))
+  const gilt = ((await lies(env, 'stand=1')) as { anbieter: { titel: number; zurueck: number }[] }).anbieter[0]!
+  pruefe(gilt.titel === 2 && gilt.zurueck === 1, 'Kontrolle: ein noch gültiger Eintrag zieht genau einen ab (titel 2, zurueck 1)', gilt)
+}
+
+console.log('Anderer D1-Fehler beim Speichern: kein 503 „Migration 064 fehlt“')
+{
+  const db = neueDatenbank()
+  const echt = umgebung(db, { geschrieben: 0 }) as unknown as { DB: { prepare: (sql: string) => unknown } }
+  const kaputt = {
+    ...echt,
+    DB: {
+      ...echt.DB,
+      prepare: (sql: string) => {
+        if (!sql.includes('INSERT INTO pruefung_zurueck')) return echt.DB.prepare(sql)
+        const wirf = () => {
+          throw new Error('D1_ERROR: Network connection lost')
+        }
+        return { bind: () => ({ run: wirf }), run: wirf }
+      },
+    },
+  } as never
+  const ergebnis = await handlePruefung(
+    new Request('https://worker.test/pruefung?zurueck=1', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': 't' }, body: JSON.stringify({ plattform: 'netflix', eintraege: { 1: { grund: 'x', bis: JETZT + TAG } } }) }),
+    kaputt,
+  ).then(
+    async (r) => ({ status: r.status, text: await r.text(), geworfen: '' }),
+    (e: Error) => ({ status: 0, text: '', geworfen: e.message }),
+  )
+  pruefe(ergebnis.geworfen === 'D1_ERROR: Network connection lost', 'der Fehler wird weitergeworfen (nicht als Antwort verschluckt)', ergebnis)
+  pruefe(!/Migration 064/.test(ergebnis.text) && ergebnis.status !== 503, 'keine 503 mit dem Grund „Migration 064 fehlt“ für einen fremden Fehler', ergebnis)
+}
+
 console.log('Migration fehlt: 503 mit Grund, Stand unverändert')
 {
   const ohne = new DatabaseSync(':memory:')

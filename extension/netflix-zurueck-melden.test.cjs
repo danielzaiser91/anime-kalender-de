@@ -128,6 +128,29 @@ async function nachholTimer() {
   }
 }
 
+async function zweiteNachholrunde() {
+  console.log('Zwei Nachholrunden: nach dem Nachholen ist wieder ein Timer möglich')
+  const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+  const jetzt = { t: T0 }
+  await seite(speicher, jetzt)
+  jetzt.t = T0 + 4 * MINUTE
+  const s = await seite(speicher, jetzt)
+  s.karte.set('2', 'keine Folgenliste')
+  await ruhe()
+  jetzt.t = T0 + 10 * MINUTE
+  s.timer[0].fn()
+  await ruhe()
+  pruefe('erste Runde: Timer meldet, zwei Einträge', s.abrufe.length === 1 && Object.keys(s.abrufe[0].rumpf.eintraege).join() === '1,2', s.abrufe.length)
+  jetzt.t = T0 + 12 * MINUTE
+  s.karte.set('3', 'keine Folgenliste')
+  await ruhe()
+  pruefe('zweite Änderung im Abstand: ein zweiter Timer mit 8 Minuten Rest', s.timer.length === 2 && s.timer[1].ms === 8 * MINUTE, s.timer.map((t) => t.ms))
+  jetzt.t = T0 + 20 * MINUTE
+  s.timer[1].fn()
+  await ruhe()
+  pruefe('zweite Runde: zweiter POST mit drei Einträgen', s.abrufe.length === 2 && Object.keys(s.abrufe[1].rumpf.eintraege).length === 3, s.abrufe.length)
+}
+
 async function fehlschlag() {
   console.log('Fehlschlag: Abstand gilt trotzdem, Inhalt gilt erst nach Erfolg')
   {
@@ -143,6 +166,15 @@ async function fehlschlag() {
       jetzt.t = T0 + 10 * MINUTE
       const spaeter = await seite(speicher, jetzt)
       pruefe(`${name}: nach 10 Minuten der nächste Versuch`, spaeter.abrufe.length === 1)
+      /* Ohne neuen Seitenaufruf: der Timer holt den Versuch nach, und scheitert er wieder, plant er den nächsten. */
+      const j2 = { t: T0 }
+      const offen = await seite(speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } }), j2, o)
+      pruefe(`${name}: Timer mit 10 Minuten geplant`, offen.timer.length === 1 && offen.timer[0].ms === 10 * MINUTE, offen.timer.map((t) => t.ms))
+      j2.t = T0 + 10 * MINUTE
+      offen.timer[0].fn()
+      await ruhe()
+      pruefe(`${name}: der Timer löst den zweiten Versuch ohne Seitenaufruf aus`, offen.abrufe.length === 2, offen.abrufe.length)
+      pruefe(`${name}: scheitert er wieder, ist der nächste Timer geplant`, offen.timer.length === 2 && offen.timer[1].ms === 10 * MINUTE, offen.timer.map((t) => t.ms))
     }
   }
 }
@@ -209,6 +241,7 @@ async function alleFaelle() {
   await ersteMeldung()
   await abstand()
   await nachholTimer()
+  await zweiteNachholrunde()
   await fehlschlag()
   await leereMenge()
   await ohneTokenUndVerdrahtung()
