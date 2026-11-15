@@ -78,7 +78,7 @@ export const zweitanbieterHinweis = (z: Zweitanbieter): string =>
 
 /** Die deutsche Fassung des Titels lief vor der Disc schon im Streaming (`ReleaseEvent.streamingVorher`). */
 export const streamingVorherHinweis = (s: StreamingVorher): string =>
-  `Auf Deutsch schon bei ${anbieterName(s.anbieter)} im Streaming (${s.mindestens ? 'spätestens ' : ''}seit ${formatDate(s.seit)}).`
+  `Auf Deutsch vor der Disc bei ${anbieterName(s.anbieter)} im Streaming (${s.mindestens ? 'spätestens ' : ''}ab ${formatDate(s.seit)}).`
 
 /** `bis`: die letzte Folge, wenn der Eintrag mehrere Folgen desselben Tages trägt („Folge 13–14/14“). */
 export function eventSummary(ev: ReleaseEvent, bis?: number): string {
