@@ -4,6 +4,7 @@
  * erschien. Kürzere Abstände sind Simulcast: beide sind Erste. TV, Disc und Kino liegen außerhalb der Regel,
  * ein Handbeleg „Premiere“ schlägt die Marke. Ein Termin ohne Folgennummer (Katalog, Batch) trägt keine: „Im Angebot seit“
  * ist nicht „erschienen am“ (11.10.2026). Gerechnet wird im Bau, damit Seite, ICS und Newsletter dasselbe sagen.
+ * `anbieterVon` löst den Anbieter eines Termins auf; das Disc-Gegenstück („schon im Streaming“) steht in `streaming-vorher.ts`.
  */
 import type { PlatformId, Release, ReleaseEvent, Title } from './types.ts'
 import { anbieterDesKanals } from './kanal-anbieter.ts'
