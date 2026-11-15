@@ -852,3 +852,13 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Folge 4 fehlt weiter in den Bereichen (laut Vorrat-Datei nicht deutsch gemeldet, eigene Frage); die Patch Note darf das nicht behaupten.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, kein Codefehler. Vorrat kann freigegeben werden (Text auf „Folgen 5–22“ prüfen).
+
+## 15.11.2026 — Wache meldet „1 Urteile verloren; primevideo: 1 Synchro-Belege weniger“ (Lauf 43726094725, Issue #3934)
+
+**Was läuft korrekt.** Die Wache hat den Rückgang im Bestandslauf 15.11. 02:20 gefunden (Captain Tsubasa: Staffel 2 – Die Junioren (163024), Prime `B0CM3H8VQS`). Gemessen in `data/dub-confirmed.yaml`: Commit `e688a9a0` („Tagesquellen gesammelt“, im `headSha` enthalten) trägt für genau diese Adresse einen Handbeleg `available: false`, `checkedAt 2026-11-15`, Notiz „Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht“. Der Verlust ist also eine Meldung aus der Browser-Prüfliste, keine Quellen- oder Abrufpanne; der Bau war grün.
+
+**Wo ist Verbesserungspotenzial?** Die Wache unterscheidet „Beleg weg“ nicht von „Beleg durch Handmeldung `available: false` widerlegt“ (dritter Fall nach 10.11. und 11.11.). Ein Abgleich gegen Handbelege mit `available: false` am selben Tag würde diesen Fall als erklärt (ℹ) statt rot melden.
+
+**Wo sind echte Risiken und Lücken?** Der link-check für die Adresse steht auf 200 (05.10.2026); die Prüflisten-Meldung widerspricht ihm. Nicht belegt: ob die Seite für den Melder nur regional oder ohne Abo nicht erreichbar war. Eine einzelne Browser-Meldung löscht den Beleg sofort.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da keine Codeursache vorliegt.
