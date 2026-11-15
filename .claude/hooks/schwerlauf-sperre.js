@@ -45,24 +45,28 @@ function laeuftNpmZiel(args) {
 const RUNNER = new Set(['node', 'tsx', 'npx'])
 const PAKET = new Set(['npm', 'pnpm', 'yarn', 'bun'])
 
-function pruefeSegment(tokens) {
+/** `node tools/schwer.mjs …`: startet das Segment die Schlange selbst? */
+const startetSchwer = (args) => ohneEndung(positionsArgumente(args)[0] ?? '') === 'schwer'
+
+function pruefeSegment(tokens, hintergrund) {
   let i = 0
   while (i < tokens.length && istVorsatz(tokens[i])) i++
   if (i >= tokens.length) return null
   const skript = eingebetteterBefehl(tokens, i)
-  if (skript) return pruefeBefehl(skript)
+  if (skript) return pruefeBefehl(skript, hintergrund)
   const p = name(tokens[i])
   const args = tokens.slice(i + 1)
-  if (RUNNER.has(p) && laeuftSkript(args)) return tokens.slice(i, i + 4).join(' ')
-  if (PAKET.has(p) && laeuftNpmZiel(args)) return tokens.slice(i, i + 3).join(' ')
+  if (hintergrund && p === 'node' && startetSchwer(args)) return { lauf: tokens.slice(i, i + 3).join(' '), schwer: true }
+  if (RUNNER.has(p) && laeuftSkript(args)) return { lauf: tokens.slice(i, i + 4).join(' ') }
+  if (PAKET.has(p) && laeuftNpmZiel(args)) return { lauf: tokens.slice(i, i + 3).join(' ') }
   return null
 }
 
-/** Grund (der gestartete Volllauf) oder null. */
-function pruefeBefehl(befehl) {
+/** Fund { lauf, schwer? } (Volllauf bzw. Schlange im Hintergrund) oder null. */
+function pruefeBefehl(befehl, hintergrund = false) {
   for (const { tokens } of zerlege(ohneHeredoc(befehl))) {
     if (!tokens) continue
-    const treffer = pruefeSegment(tokens)
+    const treffer = pruefeSegment(tokens, hintergrund)
     if (treffer) return treffer
   }
   return null
@@ -71,8 +75,10 @@ function pruefeBefehl(befehl) {
 /** Grund der Verweigerung (Text) oder null — Schnittstelle wie die Module des Verteilers. */
 function pruefe(eingabe) {
   if (eingabe.tool_name !== 'Bash') return null
-  const lauf = pruefeBefehl(String(eingabe.tool_input?.command ?? ''))
-  if (!lauf) return null
+  const fund = pruefeBefehl(String(eingabe.tool_input?.command ?? ''), eingabe.tool_input?.run_in_background === true)
+  if (!fund) return null
+  if (fund.schwer) return `„${fund.lauf}“ im Hintergrund gesperrt: schwere Läufe nur im Vordergrund (ein Lauf zugleich, Daniels Rechner bleibt benutzbar). Ohne run_in_background starten, mit timeout unter 270 s.`
+  const lauf = fund.lauf
   return `„${lauf}“ gesperrt: Vollläufe der Prüfkette laufen in der PR-Kette, nicht auf Daniels Rechner (F40; 15.11.2026: ~20 Prozesse, 3,2 GB RAM). Lokal nur berührte Tests (npx tsx <test>) und npx tsc --noEmit -p .; muss es sein, dann ohne run_in_background als: node tools/schwer.mjs <derselbe Befehl>.`
 }
 

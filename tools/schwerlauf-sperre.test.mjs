@@ -120,7 +120,14 @@ const FREI = [
   '',
 ]
 for (const c of FREI) frei(c)
-frei('node tools/schwer.mjs node tools/check-logic-alle.mjs', { run_in_background: true }) // Hintergrund bleibt Sache der Regel, nicht dieser Sperre
+// schwer.mjs im Vordergrund frei (auch mit false/ohne Parameter/anderem Wert), im Hintergrund gesperrt, andere Hintergrundbefehle frei.
+const hintergrundGesperrt = (command) => assert.match(lauf(command, { run_in_background: true }) ?? '', /^„node [^“]*“ im Hintergrund gesperrt: schwere Läufe nur im Vordergrund/, `${command} im Hintergrund gesperrt`)
+for (const c of ['node tools/schwer.mjs node tools/check-logic-alle.mjs', 'node tools/schwer.mjs npm run check:vor-commit', 'PATH=x node tools/schwer.mjs npm run check:bestand', 'timeout 250 node tools/schwer.mjs npm run check:logic', 'cd C:/x && node tools/schwer.mjs node tools/tests-alle.mjs', 'bash -c "node tools/schwer.mjs npm run check:logic"', 'node --require a.cjs tools/schwer.mjs x', 'node C:/code/_worktrees/anime-kalender-de/x/tools/schwer.mjs npm run check:logic', 'node tools/schwer.mjs']) hintergrundGesperrt(c)
+for (const wert of [false, undefined, null, 'true', 1]) assert.equal(lauf('node tools/schwer.mjs npm run check:vor-commit', { run_in_background: wert }), null, `run_in_background=${wert} zählt nicht als Hintergrund`)
+for (const c of ['node tools/bau-vergleich.mjs --katalog', 'npx tsx pipeline/check-takt.ts', 'node tools/umfang-pruefen.mjs', 'node', 'python tools/schwer.mjs x', 'npm run check:handbelege', 'node tools/schwer-bericht.mjs x', 'echo node tools/schwer.mjs x', 'grep -n x tools/schwer.mjs', 'git commit -m "node tools/schwer.mjs"']) frei(c, { run_in_background: true })
+// Der Verteiler reicht den Parameter durch.
+const dh = createRequire(import.meta.url)(join(import.meta.dirname, '..', '.claude', 'hooks', 'dispatch-pretooluse.js')).entscheide({ tool_name: 'Bash', tool_input: { command: 'node tools/schwer.mjs npm run check:logic', run_in_background: true }, cwd: 'C:/code/_worktrees/anime-kalender-de/x' })
+assert.equal(dh?.permissionDecision, 'deny')
 assert.equal(pruefe({ tool_name: 'Edit', tool_input: { command: 'npm run check:vor-commit' } }), null, 'andere Werkzeuge frei')
 assert.equal(pruefe({ tool_name: 'Bash', tool_input: {} }), null, 'ohne Befehl frei')
 assert.equal(pruefe({ tool_name: 'Bash' }), null, 'ohne Eingabe frei')
@@ -145,4 +152,4 @@ assert.match(d.permissionDecisionReason, /node tools\/schwer\.mjs/)
 const ok = entscheide({ tool_name: 'Bash', tool_input: { command: 'node tools/schwer.mjs node tools/check-logic-alle.mjs' }, cwd: 'C:/code/_worktrees/anime-kalender-de/x' })
 assert.ok(!ok?.permissionDecisionReason?.includes('Vollläufe'), 'schwer-Weg vom Verteiler nicht abgewiesen')
 
-console.log(`schwerlauf-sperre.test: ok (${GESPERRT.length + 2} gesperrt: Skripte, npm-Ziele, PATH=, timeout, Ketten, bash -c, run_in_background; ${FREI.length + 1} frei: schwer.mjs, Einzelprüfungen, Text; Prozess, Verteiler)`)
+console.log(`schwerlauf-sperre.test: ok (${GESPERRT.length + 2} gesperrt: Skripte, npm-Ziele, PATH=, timeout, Ketten, bash -c, run_in_background, schwer.mjs im Hintergrund (9); ${FREI.length + 1} frei: schwer.mjs im Vordergrund, Einzelprüfungen, Text; Prozess, Verteiler)`)
