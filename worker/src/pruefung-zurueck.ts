@@ -97,3 +97,11 @@ export function ohneZurueck<A extends { plattform: string; titel: number; ziel: 
   const stille = a.ziele.filter(still).map((z) => ({ ...z, zurueck: true as const }))
   return { ...a, titel: a.titel - zurueckAnzahl, zurueck: zurueckAnzahl, ziel: offene[0]?.url ?? null, ziele: [...offene, ...stille] }
 }
+
+/** Rechnet jeden Anbieter und nimmt die noch gültigen Zurückstellungen heraus (eine D1-Lesung je Aufruf). */
+export async function rechneOhneZurueck<R, A extends { plattform: string; titel: number; ziel: string | null; ziele: Ziel[] }>(
+  { env, jetzt, roh, rechne }: { env: Env; jetzt: number; roh: R[]; rechne: (r: R) => A },
+) {
+  const zurueck = await leseZurueck(env, jetzt)
+  return roh.map((r) => ohneZurueck(rechne(r), zurueck))
+}

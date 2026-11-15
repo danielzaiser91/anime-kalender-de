@@ -93,8 +93,6 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
 
   const token = tokenAusKopf(request)
   if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return nichtErlaubt(antwort)
-
-  if (new URL(request.url).searchParams.get('zurueck') === '1') return await beantworteZurueck({ request, env, antwort })
-
-  return await speichereMitProtokoll({ request, antwort, token, env, ctx })
+  const zurueck = new URL(request.url).searchParams.get('zurueck') === '1'
+  return await (zurueck ? beantworteZurueck({ request, env, antwort }) : speichereMitProtokoll({ request, antwort, token, env, ctx }))
 }

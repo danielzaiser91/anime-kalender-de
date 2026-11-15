@@ -421,41 +421,41 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-stand.ts:113 Argumente getauscht leseZurueck",
+  "name": "worker/src/pruefung-zurueck.ts:105 Argumente getauscht leseZurueck",
   "aenderungen": [
    {
-    "datei": "worker/src/pruefung-stand.ts",
+    "datei": "worker/src/pruefung-zurueck.ts",
     "suche": "leseZurueck(env, jetzt)",
     "ersetze": "leseZurueck(jetzt, env)",
+    "zeile": 105
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-zurueck.ts:106 Argumente getauscht ohneZurueck",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "ohneZurueck(rechne(r), zurueck)",
+    "ersetze": "ohneZurueck(zurueck, rechne(r))",
+    "zeile": 106
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-netflix-zurueck.test.ts"
+  ]
+ },
+ {
+  "name": "worker/src/pruefung-stand.ts:113 Argumente getauscht rechneAnbieter",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-stand.ts",
+    "suche": "rechneAnbieter(r, gemeldet)",
+    "ersetze": "rechneAnbieter(gemeldet, r)",
     "zeile": 113
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-stand.ts:114 Argumente getauscht ohneZurueck",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-stand.ts",
-    "suche": "ohneZurueck(rechneAnbieter(roh, gemeldet), zurueck)",
-    "ersetze": "ohneZurueck(zurueck, rechneAnbieter(roh, gemeldet))",
-    "zeile": 114
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
-  "name": "worker/src/pruefung-stand.ts:114 Argumente getauscht rechneAnbieter",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-stand.ts",
-    "suche": "rechneAnbieter(roh, gemeldet)",
-    "ersetze": "rechneAnbieter(gemeldet, roh)",
-    "zeile": 114
    }
   ],
   "tests": [
@@ -1339,9 +1339,9 @@
   "aenderungen": [
    {
     "datei": "worker/src/pruefung.ts",
-    "suche": "new URL(request.url).searchParams.get('zurueck') === '1'",
-    "ersetze": "new URL(request.url).searchParams.get('zurueck') !== '1'",
-    "zeile": 97
+    "suche": "searchParams.get('zurueck') === '1'",
+    "ersetze": "searchParams.get('zurueck') !== '1'",
+    "zeile": 96
    }
   ],
   "tests": [
