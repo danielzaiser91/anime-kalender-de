@@ -298,6 +298,8 @@ assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen, PR 3922 o
 // Keine Meldung: PR nicht gemergt, „offen:“ als Aufzählung, bloße Nummer ohne „PR“, Kopf ohne „gemergt heute“, andere Nummer im Kopf
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 offen, Prüfer läuft'), JETZT_15, () => true), '', 'PR nicht gemergt')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; offen: Deploy'), JETZT_15, () => true), '', '„offen:“ ist eine Aufzählung')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR #3912 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR #N offen')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('3890,', '3890) und 3912,')), JETZT_15, () => true), '', 'Nummer nach der Klammer im Kopf zählt nicht')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} (3912) offen, Prüfer läuft'), JETZT_15, () => true), '', 'Nummer ohne „PR“')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('gemergt heute', 'erledigt')), JETZT_15, () => true), '', 'Kopf ohne „gemergt heute“')
 assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '')), JETZT_15, () => true), '', 'Nummer nicht im Kopf')

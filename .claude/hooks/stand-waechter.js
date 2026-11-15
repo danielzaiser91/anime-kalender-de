@@ -82,7 +82,7 @@ function priosGemergt(liste, zeilen) {
   const meldungen = []
   for (const z of liste) {
     for (const nr of new Set([...z.matchAll(/PR\s*#?(\d+)/g)].map((m) => m[1]))) {
-      const offen = new RegExp(`PR\\s*#?${nr}\\b\\)?\\s*offen\\b(?!:)`).test(z) || OFFEN_OHNE_NUMMER.test(z)
+      const offen = new RegExp(`PR\\s*#?${nr}\\)?\\s*offen\\b`).test(z) || OFFEN_OHNE_NUMMER.test(z)
       if (gemergt.has(nr) && offen) meldungen.push(`Top-Prios: ${anfang(z)} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`)
     }
   }
