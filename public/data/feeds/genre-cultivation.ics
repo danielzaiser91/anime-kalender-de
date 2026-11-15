@@ -4,6 +4,8 @@ PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Cultivation
+X-WR-CALDESC:Daten von anime-kalender.de unter CC BY 4.0. Hinweise für Web
+ seiten und Apps: https://anime-kalender.de/#/abo
 X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
