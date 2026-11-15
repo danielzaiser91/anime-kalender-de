@@ -13513,7 +13513,7 @@
   url: https://www.amazon.de/dp/B0DJKGJQ7K
   dub: false
   checkedAt: '2026-09-09'
-  nachgemessenAm: '2026-11-11'
+  nachgemessenAm: '2026-11-15'
   zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
 - anilistId: 177476
@@ -14299,6 +14299,7 @@
   url: https://www.amazon.de/dp/B0G6HF46PV
   dub: false
   checkedAt: '2026-10-16'
+  nachgemessenAm: '2026-11-15'
   note: "Staffel 1 hat bei Amazon keine deutsche Tonspur (alle 25 Folgen, Amazon-Seite 27.08.2026; Daniel 16.09.2026). JustWatchs Ton de (07.09.2026) gilt der ganzen Serie, Staffel 3 (B0GDFC7BL6) ist deutsch — eigene Messung schlägt JustWatch; Beleg vom 17.09.2026 (Serienton) zurückgenommen"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-17 ---
 
@@ -34538,14 +34539,14 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0C9FR5F8C
   dub: false
-  checkedAt: '2026-10-15'
+  checkedAt: '2026-11-15'
   note: "Amazon-Seite B0C9FR5F8C: alle 1 Folge geprüft, Abos: keine Angabe, gti=amzn1.dv.gti.83838e8b-056c-4a7a-b4ce-01e88b1d189d, regionsperre=laut Seite nicht mehr im Abo"
 - anilistId: 176158
   title: "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0F2G6NRW2
   dub: false
-  checkedAt: '2026-10-15'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0F2G6NRW2: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.0d65ca7b-9a09-46c2-8dab-b70ff8c61e7f"
 - anilistId: 106479
   title: "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense."
@@ -34737,7 +34738,7 @@
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: en, fr-FR, ja — Widersprüchliche Meldungen zu Folge 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12"
 - anilistId: 140960
   title: "Spy × Family"
@@ -34782,7 +34783,7 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
   # Folge 25 ist das TV-Special „Winter Arc“ (48 Min., Japan 25./26.12.2025; aniSearch 19505 führt es als eigenen Eintrag, Hulu zählt 24 + 1 = 25 Folgen): keine der 24 Folgen des Titels.
   sonderfolgen: [25]
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Folgen 1–25 ohne deutschen Ton — Tonspuren: en, es-419, fr-FR, pt-BR"
 - anilistId: -131532
   title: "Monster High"
@@ -35148,7 +35149,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FDC33SZ3
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FDC33SZ3: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.26a98362-179d-44aa-b4e4-4e8ec9e6323e"
 - anilistId: 21729
   title: "Kingsglaive: Final Fantasy XV"
@@ -35170,7 +35171,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FM8SL11C
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FM8SL11C: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.3ad2ee3b-5643-450e-8867-633a5ec5ca73"
 - anilistId: 97981
   title: "Mary und die Blume der Hexen"
@@ -35201,7 +35202,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0D3KKR2ZW
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: English, Español (España), Español (México), Português (Brasil), 日本語, Español (Latinoamérica) — Amazon-Seite B0D3KKR2ZW: alle 12 Folgen geprüft, Abos: Prime, animedigitalde, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.922bf719-e049-4670-a18e-80fc50c67d20"
 - anilistId: 108553
   title: "My Hero Academia: The Movie - Heroes Rising"
@@ -35431,7 +35432,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B00G0PC16U
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Amazon-Seite B00G0PC16U: alle 1 Folge geprüft, Abos: keine Angabe, gti=amzn1.dv.gti.e4a9f6d2-122a-5f93-70f9-f1c7779b9cab"
 - anilistId: 98873
   title: "Overlord (Movies)"
@@ -35498,7 +35499,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0DRVH7MBP
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0DRVH7MBP: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.e26a1c11-fc78-4e37-9a4c-2659f9997e5a"
 - anilistId: 108307
   title: "Psycho-Pass 3"
@@ -35512,7 +35513,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0C7F9NTVC
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0C7F9NTVC: alle 8 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.fab6fd6d-33c3-b773-a0ff-c196741053e2"
 - anilistId: 105018
   title: "Ride Your Wave"
@@ -35675,7 +35676,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FQP23X45
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FQP23X45: alle 1 Folge geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.198182bc-29a0-49a0-8c54-a2ff8dcbe1f1"
 - anilistId: -62211
   title: "Sonic Boom"
@@ -35939,7 +35940,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FBGJHHXK
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FBGJHHXK: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.03b49366-0767-46f7-91dc-9fa95cd48518"
 - anilistId: 156040
   title: "The Most Heretical Last Boss Queen: From Villainess to Savior"
@@ -36119,7 +36120,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0C55SJB1W
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0C55SJB1W: alle 24 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28dcdb64-3efe-403e-af16-eb617948d933"
 - anilistId: 136430
   title: "Vinland Saga: Staffel 2"
@@ -39434,7 +39435,6 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
   checkedAt: '2026-11-14'
   note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der Häuptlingsschmuck/Der mit dem Menschen zieht"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-14 ---
 
 - anilistId: -94107
@@ -39449,3 +39449,104 @@
       checked: [1, 2]
   checkedAt: '2026-11-14'
   note: "Folgen 1–2 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, he|Hebräisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, hr|Kroatisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 2, dazwischen nicht geprüft — Folge 1: LEGO City: Spezialsammlung 1 — Netflix: LEGO City 2017"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
+
+- anilistId: 112323
+  title: "Arifureta: From Commonplace to World’s Strongest 2nd Season"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B8TQ6TVJ
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0B8TQ6TVJ: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.ee8b14ff-70ba-4add-ae5a-dcf5fc73e5fa, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 101349
+  title: "Babylon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP
+  dub: false
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: 日本語 — Amazon-Seite 0J16B1NAB82TO0O5A5Q8TLG1VP: alle 12 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28b4244a-d006-4bfb-b4b4-fbbabea2d2f6"
+- anilistId: 21311
+  title: "Bungo Stray Dogs"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0825L839L
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0825L839L: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9eb75d22-6a80-a9ba-d4d2-5154c680de69, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 21679
+  title: "Bungo Stray Dogs 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B083TD7BTR
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B083TD7BTR: alle 0 Folgen geprüft, 13 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.70b7d0fd-0eed-3317-2aa2-3f50deebecd4, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C7LZCS5H
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0C7LZCS5H: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.d8790bd8-dd1b-4f82-9bb9-7a9bd658745f, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 100722
+  title: "Date a Live III"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DMB2MKZX
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0DMB2MKZX: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.cf23ee40-7141-4c78-b88e-93475acc804a, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 10719
+  title: "Haganai: I Don’t Have Many Friends"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F2958YWW
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0F2958YWW: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9c74b1e6-c5f9-4e8c-b706-6a51baadcb8b, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 146493
+  title: "Ragna Crimson"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CK4HJ1LT
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CK4HJ1LT: alle 24 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.ea828ab5-cc45-48ff-9252-5fee589465be — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 156040
+  title: "The Most Heretical Last Boss Queen: From Villainess to Savior"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F923DJJ9
+  dub: false
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0F923DJJ9: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.03b49366-0767-46f7-91dc-9fa95cd48518"
+- anilistId: 101348
+  title: "Vinland Saga"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BX1M7K82
+  dub: false
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0BX1M7K82: alle 24 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28dcdb64-3efe-403e-af16-eb617948d933"
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B01EKI0P2U
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B01EKI0P2U: alle 0 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.60aa6831-7117-90e3-5d17-1890e7b6c218, regionsperre=laut Seite nicht mehr im Abo, ausgaben=3 (Zugangsart gilt nur für diese)"
+- anilistId: 10017859
+  title: "Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CKGQST67
+  dub: true
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CKGQST67: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.6e85ece2-b8ad-4849-9079-7eae6f370813"
+- anilistId: 10017058
+  title: "Miraculous World: New York, United Heroez"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FDV3X4X2
+  dub: true
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0FDV3X4X2: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.5a5a7885-273e-4b7a-a9b1-f36457a91c89"
+- anilistId: 10017074
+  title: "Miraculous World: Shanghai, die Legende von Ladydragon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F79V67YM
+  dub: true
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0F79V67YM: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.85cabb58-1af2-42f1-94c1-79f15aa38983"

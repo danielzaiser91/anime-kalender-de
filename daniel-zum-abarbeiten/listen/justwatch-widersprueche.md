@@ -15,7 +15,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
 | disneyplus | 14 | 0 | 0.0 % | Flagge |
-| primevideo | 143 | 1 | 0.7 % | Flagge |
+| primevideo | 146 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (800)
+### Kandidaten für neue Wege (797)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -822,11 +822,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Amazon Video | amazon:amzn1.dv.gti.244e6fdd-f4a4-44c7-95d0-8829720b24c1 | ja |
 | Re:Zero - Starting Life in Another World: Bünde aus Eis (10013951) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.5d11c410-4b4b-4fef-8c75-b1c01805685e | nein |
 | Miraculous World: New York, United Heroez (10017058) | Disney Plus | disney:entity-6b518e9a-5204-4be9-8fee-7ef2e6508b30 | nein |
-| Miraculous World: New York, United Heroez (10017058) | Amazon Video | amazon:amzn1.dv.gti.5a5a7885-273e-4b7a-a9b1-f36457a91c89 | nein |
 | Miraculous World: Shanghai, die Legende von Ladydragon (10017074) | Disney Plus | disney:entity-69553fcf-b2e8-4066-a37c-f90d1d8a1221 | nein |
-| Miraculous World: Shanghai, die Legende von Ladydragon (10017074) | Amazon Video | amazon:amzn1.dv.gti.85cabb58-1af2-42f1-94c1-79f15aa38983 | nein |
 | Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit (10017859) | Crunchyroll | crunchyroll:GZ7UVE793 | nein |
-| Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit (10017859) | Amazon Video | amazon:amzn1.dv.gti.6e85ece2-b8ad-4849-9079-7eae6f370813 | nein |
 | Attack on Titan: The Last Attack (10019527) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89 | nein |
 | The Birth of Kitaro: Das Geheimnis von GeGeGe (10019697) | Amazon Video | amazon:amzn1.dv.gti.fbdee0cb-089f-4cf1-88b1-6a8a73a8c994 | ja |
 <!-- anime:end -->

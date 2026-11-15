@@ -1,18 +1,15 @@
 {
- "erzeugtAm": "2026-11-14T11:56:43.805Z",
+ "erzeugtAm": "2026-11-15T00:48:59.738Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 972,
-   "gesamt": 1024,
-   "offen": 52,
-   "ohneSeite": 4,
+   "gemeldet": 979,
+   "gesamt": 1010,
+   "offen": 31,
+   "ohneSeite": 1,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
-    "https://www.amazon.de/s?k=Miraculous%20World%3A%20New%20York%2C%20United%20Heroez&i=instant-video",
-    "https://www.amazon.de/s?k=Miraculous%20World%3A%20Shanghai%2C%20die%20Legende%20von%20Ladydragon&i=instant-video",
-    "https://www.amazon.de/s?k=Detektiv%20Conan%3A%20Lovestory%20im%20Polizeihauptquartier%20-%20Am%20Abend%20vor%20der%20Hochzeit&i=instant-video"
+    "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B09JLN6S1R",
    "ziele": [
@@ -41,40 +38,12 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DRVH7MBP",
-     "titel": "Promise of Wizard"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0F2G6NRW2",
-     "titel": "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe (Beheneko: The Elf-Girl's Cat is Secretly an S-Ranked Monster!)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0D3KKR2ZW",
-     "titel": "My Deer Friend Nokotan"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0CK4HJ1LT",
-     "titel": "Ragna Crimson"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FM8SL11C",
-     "titel": "Kubo Won’t Let Me Be Invisible (Kubo Won't Let Me Be Invisible)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FBGJHHXK",
-     "titel": "The Most Heretical Last Boss Queen: From Villainess to Savior"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CM3H8VQS",
      "titel": "Captain Tsubasa: Staffel 2 - Die Junioren (Captain Tsubasa: Junior Youth Arc)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0B8TQ6TVJ",
-     "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season (Arifureta: From Commonplace to World's Strongest Season 2)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CJRZY5ND",
@@ -93,52 +62,12 @@
      "titel": "Golden Kamuy 4 (Golden Kamuy Season 4)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0DMB2MKZX",
-     "titel": "Date a Live III"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C55SJB1W",
-     "titel": "Vinland Saga"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP",
-     "titel": "Babylon"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0G6HF46PV",
-     "titel": "Fruits Basket (Fruits Basket (2019))"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7F9NTVC",
-     "titel": "Psycho-Pass 3"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FDC33SZ3",
-     "titel": "Human Lost"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C9FR5F8C",
-     "titel": "Attack on Titan Movie Teil 3: Gebrüll des Erwachens (Attack on Titan: The Roar of Awakening)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CHKG67BC",
      "titel": "Kabaneri of the Iron Fortress"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVBLNC3X",
      "titel": "Die rothaarige Schneeprinzessin: Staffel 2 (Snow White with the Red Hair Season 2)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0825L839L",
-     "titel": "Bungo Stray Dogs"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0FQP23X45",
-     "titel": "Sinbad: The Magic Lamp and the Moving Islands"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B083TD7BTR",
-     "titel": "Bungo Stray Dogs 2"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GX7VDJK3",
@@ -150,11 +79,7 @@
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B07MXMCF4V",
-     "titel": "Chaika, die Sargprinzessin: Avenging Battle (Chaika -The Coffin Princess- AVENGING BATTLE)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0C7LZCS5H",
-     "titel": "Date a Live"
+     "titel": "Chaika, die Sargprinzessin (Chaika -The Coffin Princess-)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
@@ -167,18 +92,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
      "titel": "Jormungand"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B00G0PC16U",
-     "titel": "Onigamiden: Legend of the Millennium Dragon (Legend of the Millennium Dragon)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B01EKI0P2U",
-     "titel": "Yu-Gi-Oh! Zexal"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6b0f25fd-4994-4c67-bd57-228fde6cef40",
-     "titel": "Haganai: I Don’t Have Many Friends (Haganai)"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
@@ -308,7 +221,6 @@
     "B0CFXJPZ1Q": 13,
     "B0F2JH4Y5M": 13,
     "B0B5M7HJ1K": 24,
-    "0J16B1NAB82TO0O5A5Q8TLG1VP": 12,
     "B0CFK9Z37P": 13,
     "B0CW36HBFY": 12,
     "0JGAZGWGB8P5U7ATA79IKTYIF8": 12,
@@ -1436,8 +1348,8 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 183,
-   "gesamt": 342,
-   "offen": 159,
+   "gesamt": 340,
+   "offen": 157,
    "ohneSeite": 14,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -1474,15 +1386,6 @@
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
      "titel": "Welcome to Demon School! Iruma-kun"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
-     "titel": "Ishura",
-     "seit": "2026-10-19"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
-     "titel": "Undead Unluck"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-dc471806-a107-436c-9bec-0e4455c7249c",
