@@ -59,13 +59,18 @@ async function pane($: any, on: any, stand: string, ziele: string) {
   return $.ui.mount({ ...PANE, surface: 'terminal' })
 }
 
-test('Pane: Ziele-Kasten mit Balken unter dem Ziel; „Gerade in Arbeit“ mit fünf Zeilen und Rest', async ($, on) => {
-  const stand = `# Stand\n\n## Top-Prios\n- **Ziel 1 · Autonomie** {arbeit-ich} läuft\n- **Ziel 2 · Live in 5 min** {queue} x\n- **Ziel 3 · Vollständige Daten** {queue} y\n\n${STAND_K}\n`
+test('Pane: Ziele-Kasten mit % in der Zeile, Balken im Ausklapp-Teil; „Gerade in Arbeit“ mit fünf Zeilen und Rest', async ($, on) => {
+  const stand = `# Stand\n\n## Top-Prios\n- **Autonomie** {arbeit-ich} läuft\n- **Live in 5 min** {queue} x\n- **Vollständige Daten** {queue} y\n\n${STAND_K}\n`
   const p = await pane($, on, stand, ZIELE)
-  const z = zeilen(await p.drawn())
-  expect(z[0]).toBe('Ziele')
-  expect(z).toContain('    █████░░░░░ 2 von 4 · Prüfer in der Cloud')
-  expect(z).toContain('    ░░░░░░░░░░ 0 von 1 · Deploy unter 5 min')
+  let z = zeilen(await p.drawn())
+  expect(z.slice(0, 4)).toEqual(['Ziele', ' CLAUDE  Autonomie 50 %', '▸', ' QUEUE  Live in 5 min 0 %'])
+  expect(z).toContain(' QUEUE  Vollständige Daten')
+  expect(z.join('\n')).not.toContain('█')
+  await p.press({ key: 'klapp-Autonomie' })
+  await p.press({ key: 'klapp-Live in 5 min' })
+  z = zeilen(await p.drawn())
+  expect(z).toContain('█████░░░░░ 2 von 4 · Prüfer in der Cloud')
+  expect(z).toContain('░░░░░░░░░░ 0 von 1 · Deploy unter 5 min')
   expect(z.join('\n')).not.toContain('0 von 0')
   expect(z).toContain('▾ Gerade in Arbeit')
   expect(z).toContain('  ● Zwei')

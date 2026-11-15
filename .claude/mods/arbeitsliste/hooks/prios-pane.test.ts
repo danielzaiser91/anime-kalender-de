@@ -21,41 +21,31 @@ async function pane($: any, on: any, stand = MIT_TOP, gestartet: string[][] = []
   return $.ui.mount({ ...PANE, surface })
 }
 
-test('Pane: Top-Prios als Kasten mit Rahmen ganz oben; Chip mit Status vor dem Titel', async ($, on) => {
+test('Pane: Ziele als Kasten mit Rahmen ganz oben; zugeklappt je Ziel nur Chip und Name, Schalter darunter', async ($, on) => {
   const p = await pane($, on)
   const z = zeilen(await p.drawn())
   expect(hat(await p.drawn(), 'borderStyle', 'round')).toBe(true)
-  expect(z[0]).toBe('Ziele')
-  expect(z).toContain('   AGENT  D1 Zuordner nachgebessert, Prüfung läuft')
-  expect(z).toContain('▸  LIVE  Speed Vorprüfung vor dem PR')
+  expect(z.slice(0, 7)).toEqual(['Ziele', ' AGENT  D1', '▸', ' LIVE  Speed', '▸', ' PIPELINE  Lang', '▸'])
   expect(hat(await p.drawn(), 'backgroundColor', 'suggestion')).toBe(true)
   expect(hat(await p.drawn(), 'backgroundColor', 'success')).toBe(true)
   expect(hat(await p.drawn(), 'backgroundColor', 'merged')).toBe(true)
+  expect(hat(await p.drawn(), 'backgroundColor', 'subtle')).toBe(false)
   await p.unmount()
 })
 
-test('Pane: Links als Schaltflächen mit grauer Fläche', async ($, on) => {
-  const p = await pane($, on)
-  expect(hat(await p.drawn(), 'backgroundColor', 'subtle')).toBe(true)
-  expect(zeilen(await p.drawn())).toContain('↗ Plan')
-  await p.unmount()
-})
-
-const anzahl = (z: string, s: string) => z.split(s).length - 1
-
-test('Pane: Details und Rest des zu langen Texts stehen nur hinter dem Knopf, Klick klappt auf und zu', async ($, on) => {
+test('Pane: aufgeklappt Text, Details und Links als Schaltflächen mit grauer Fläche; Klick klappt auf und zu', async ($, on) => {
   const p = await pane($, on)
   let z = zeilen(await p.drawn()).join('\n')
   expect(z).not.toContain('Eine Detailzeile')
-  const lang = zeilen(await p.drawn()).find(s => s.includes(' Lang '))!
-  expect(lang.endsWith('Wörtern. …')).toBe(true)
-  expect(lang.length).toBeLessThanOrEqual(3 * 72)
-  expect(z).toContain('▸ ')
+  expect(z).not.toContain('Sehr langer Text')
   await p.press({ key: 'klapp-Speed' })
-  await p.press({ key: 'klapp-Lang' })
+  await p.press({ key: 'klapp-D1' })
   z = zeilen(await p.drawn()).join('\n')
+  expect(z).toContain('Vorprüfung vor dem PR')
   expect(z).toContain('Eine Detailzeile')
-  expect(anzahl(z, 'Sehr langer Text')).toBe(12)
+  expect(z).toContain('↗ Plan')
+  expect(hat(await p.drawn(), 'backgroundColor', 'subtle')).toBe(true)
+  expect(z).toContain('▾')
   await p.press({ key: 'klapp-Speed' })
   expect(zeilen(await p.drawn()).join('\n')).not.toContain('Eine Detailzeile')
   await p.unmount()
@@ -64,8 +54,8 @@ test('Pane: Details und Rest des zu langen Texts stehen nur hinter dem Knopf, Kl
 test('Pane: unbekannter Status ist sichtbar (rot, mit Wort); Altzeile ohne Status ohne Chip und ohne Rot', async ($, on) => {
   const p = await pane($, on, '## Top-Prios\n- **A** {fertig} x\n- **B** y\n')
   const z = zeilen(await p.drawn())
-  expect(z.some(s => s.includes('?fertig') && s.includes(' A '))).toBe(true)
-  expect(z.some(s => s === '  B y')).toBe(true)
+  expect(z.some(s => s.includes('?fertig') && s.includes(' A'))).toBe(true)
+  expect(z).toContain('B')
   expect(z.filter(s => s.includes('?')).length).toBe(1)
   expect(hat(await p.drawn(), 'backgroundColor', 'error')).toBe(true)
   await p.unmount()
@@ -81,6 +71,7 @@ test('Pane: ohne „## Top-Prios“ kein Kasten und kein Fehler', async ($, on) 
 test('Pane: Klick auf einen Link-Knopf öffnet das Ziel im Explorer', async ($, on) => {
   const gestartet: string[][] = []
   const p = await pane($, on, MIT_TOP, gestartet)
+  await p.press({ key: 'klapp-D1' })
   await p.press({ key: 'link:D1:0' })
   await new Promise(r => setTimeout(r, 30))
   expect(gestartet).toEqual([['explorer.exe', 'https://example.org/d1']])
@@ -89,9 +80,9 @@ test('Pane: Klick auf einen Link-Knopf öffnet das Ziel im Explorer', async ($, 
 
 test('Pane: Details sind eingerückt (marginLeft), nicht per Leerzeichen-Präfix', async ($, on) => {
   const p = await pane($, on)
-  expect(hat(await p.drawn(), 'marginLeft', 4)).toBe(false)
+  expect(hat(await p.drawn(), 'marginLeft', 2)).toBe(false)
   await p.press({ key: 'klapp-Speed' })
-  expect(hat(await p.drawn(), 'marginLeft', 4)).toBe(true)
+  expect(hat(await p.drawn(), 'marginLeft', 2)).toBe(true)
   expect(zeilen(await p.drawn())).toContain('Eine Detailzeile')
   await p.unmount()
 })
@@ -107,19 +98,5 @@ test('Pane: echte stand.md im Altformat zeigt lesbare Sätze, Knöpfe, keinen Fe
   expect(hat(await p.drawn(), 'backgroundColor', 'error')).toBe(false)
   expect(z).not.toContain('?')
   expect(hat(await p.drawn(), 'backgroundColor', 'subtle')).toBe(true)
-  await p.unmount()
-})
-
-const LANG = '## Top-Prios\n- **X** {queue} ' + 'abcd '.repeat(60) + '\n'
-
-test('Pane: Desktop (Proportionalschrift) zeigt 300 Zeichen Kurztext in drei Zeilen', async ($, on) => {
-  const p = await pane($, on, LANG, [], 'desktop')
-  expect(zeilen(await p.drawn()).join(' ')).toContain('abcd abcd abcd')
-  await p.unmount()
-})
-
-test('Pane: Terminal klappt denselben Kurztext ohne Satzgrenze ganz weg (72 Zeichen je Zeile)', async ($, on) => {
-  const p = await pane($, on, LANG, [], 'terminal')
-  expect(zeilen(await p.drawn()).join(' ')).not.toContain('abcd abcd abcd')
   await p.unmount()
 })
