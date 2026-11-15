@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tageskennzahlen</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f7f7f9; --fl: #fff; --tx: #1c1f26; --mu: #5b6270; --li: #d9dce3; --ak: #2457c5; --hi: #eaf0fd; --kl: 42%; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #14161b; --fl: #1d2027; --tx: #e6e8ee; --mu: #9aa1af; --li: #343945; --ak: #7ea6ff; --hi: #252c3d; --kl: 68%; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--tx); font: 14px/1.45 system-ui, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 16px; margin: 24px 0 8px; }
+  p.hinweis { color: var(--mu); margin: 0 0 8px; }
+  .karte { background: var(--fl); border: 1px solid var(--li); border-radius: 8px; padding: 12px; }
+  .scroll { overflow: auto; max-height: 460px; border: 1px solid var(--li); border-radius: 8px; background: var(--fl); }
+  table { border-collapse: collapse; width: max-content; min-width: 100%; }
+  th, td { padding: 4px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--li); }
+  th { position: sticky; top: 0; background: var(--fl); font-weight: 600; z-index: 2; font-size: 12px; }
+  td:first-child, th:first-child { position: sticky; left: 0; background: var(--fl); text-align: left; z-index: 1; }
+  th:first-child { z-index: 3; }
+  tr.gewaehlt td { background: var(--hi); }
+  tr.gewaehlt td:first-child { background: var(--hi); }
+  td.leer { color: var(--mu); }
+  button.auf { border: 0; background: none; color: var(--ak); cursor: pointer; font: inherit; padding: 0 4px; }
+  tr.kern td { white-space: normal; text-align: left; background: var(--bg); }
+  tr.kern td:first-child { position: static; }
+  .vergleich { margin-bottom: 8px; }
+  .vergleich table { width: 100%; }
+  .vergleich td, .vergleich th { position: static; }
+  .opt { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 8px; }
+  .opt label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+  .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  svg { width: 100%; height: auto; display: block; }
+  svg text { fill: var(--mu); font-size: 11px; }
+  .gitter { stroke: var(--li); stroke-width: 1; }
+  .marker { stroke: var(--mu); stroke-width: 1; stroke-dasharray: 3 3; }
+  .marker.treffer { stroke: var(--ak); stroke-dasharray: none; }
+  #tipp { min-height: 2.6em; color: var(--mu); margin-top: 6px; }
+  ol.massnahmen { margin: 6px 0 0; padding-left: 20px; color: var(--mu); }
+  ol.massnahmen li.aktiv { color: var(--tx); }
+  @media (max-width: 520px) { main { padding: 10px; } .scroll { max-height: 380px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tageskennzahlen</h1>
+  <p class="hinweis">Je Tag (Europe/Berlin) aus gh und git. Quelle: <code>tools/kennzahlen/tage.jsonl</code>, Maßnahmen: <code>massnahmen.yaml</code>. Story Points: Grundwert aus geänderten Zeilen ohne Daten und Tests (bis 30 = 1, bis 150 = 2, bis 400 = 3, darüber 5), Prüfstufe 2 +1.</p>
+
+  <h2>Tage</h2>
+  <p class="hinweis">Zwei Tage über das Kästchen wählen, dann erscheint der Vergleich.</p>
+  <div id="vergleich"></div>
+  <div class="scroll"><table id="tabelle"></table></div>
+
+  <h2>Verlauf</h2>
+  <div class="karte">
+    <div class="opt" id="optionen"></div>
+    <div class="opt" id="kurven"></div>
+    <div style="overflow-x:auto"><svg id="grafik" style="min-width:720px" viewBox="0 0 960 340" role="img" aria-label="Liniengrafik der Kennzahlen je Tag"></svg></div>
+    <div id="tipp">Mit der Maus oder dem Finger über die Grafik fahren, um die Werte eines Tages zu sehen. Jede Kurve ist auf ihren eigenen Höchstwert normiert.</div>
+    <ol class="massnahmen" id="massnahmen"></ol>
+  </div>
+</main>
+<script src="daten.js"></script>
+<script>
+(function () {
+  var D = window.KENNZAHLEN_DATEN, NS = 'http://www.w3.org/2000/svg';
+  var STANDARD = ['mergesHand', 'stau.offen', 'medianOffenBisMergeHandH'];
+  var an = {}, wochen = false, markerAn = true, gewaehlt = [], offen = {};
+  D.kennzahlen.forEach(function (k) { an[k.pfad] = STANDARD.indexOf(k.pfad) >= 0; });
+
+  function el(tag, attr, text) {
+    var e = document.createElement(tag);
+    for (var a in attr || {}) e.setAttribute(a, attr[a]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function sv(tag, attr, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var a in attr || {}) e.setAttribute(a, attr[a]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function farbe(i) { return 'hsl(' + ((i * 47) % 360) + ',65%,var(--kl))'; }
+  function zahl(v, k) { return v == null ? '–' : String(v) + (k.einheit ? ' ' + k.einheit : ''); }
+  function wertAm(k, i) { return k.werte[i]; }
+
+  function tabelle() {
+    var t = document.getElementById('tabelle'); t.textContent = '';
+    var kopf = el('tr'); kopf.appendChild(el('th', {}, 'Tag'));
+    D.kennzahlen.forEach(function (k) { kopf.appendChild(el('th', { title: k.pfad }, k.name + (k.einheit ? ' (' + k.einheit + ')' : ''))); });
+    t.appendChild(kopf);
+    for (var i = D.tage.length - 1; i >= 0; i--) (function (i) {
+      var tag = D.tage[i], kp = D.kernpunkte[tag];
+      var tr = el('tr', gewaehlt.indexOf(i) >= 0 ? { 'class': 'gewaehlt' } : {});
+      var z = el('td'), cb = el('input', { type: 'checkbox', 'aria-label': 'Tag ' + tag + ' vergleichen' });
+      cb.checked = gewaehlt.indexOf(i) >= 0;
+      cb.onchange = function () {
+        gewaehlt = gewaehlt.filter(function (x) { return x !== i; });
+        if (cb.checked) gewaehlt.push(i);
+        if (gewaehlt.length > 2) gewaehlt.shift();
+        alles();
+      };
+      z.appendChild(cb); z.appendChild(document.createTextNode(' ' + tag));
+      if (kp) {
+        var b = el('button', { 'class': 'auf', 'aria-expanded': String(!!offen[tag]) }, offen[tag] ? '▾ Kernpunkte' : '▸ Kernpunkte');
+        b.onclick = function () { offen[tag] = !offen[tag]; tabelle(); };
+        z.appendChild(b);
+      }
+      tr.appendChild(z);
+      D.kennzahlen.forEach(function (k) {
+        var v = wertAm(k, i); tr.appendChild(el('td', v == null ? { 'class': 'leer' } : {}, v == null ? '–' : String(v)));
+      });
+      t.appendChild(tr);
+      if (kp && offen[tag]) {
+        var kr = el('tr', { 'class': 'kern' }), kz = el('td', { colspan: String(D.kennzahlen.length + 1) });
+        [['Was geschafft', kp.geschafft], ['Probleme', kp.probleme]].forEach(function (g) {
+          if (!g[1] || !g[1].length) return;
+          kz.appendChild(el('strong', {}, g[0])); var ul = el('ul');
+          g[1].forEach(function (s) { ul.appendChild(el('li', {}, s)); }); kz.appendChild(ul);
+        });
+        kr.appendChild(kz); t.appendChild(kr);
+      }
+    })(i);
+  }
+
+  function vergleich() {
+    var c = document.getElementById('vergleich'); c.textContent = '';
+    if (gewaehlt.length !== 2) return;
+    var s = gewaehlt.slice().sort(function (a, b) { return a - b; });
+    var box = el('div', { 'class': 'scroll vergleich' }), t = el('table'), kopf = el('tr');
+    ['Kennzahl', D.tage[s[0]], D.tage[s[1]], 'Änderung'].forEach(function (h) { kopf.appendChild(el('th', {}, h)); });
+    t.appendChild(kopf);
+    D.kennzahlen.forEach(function (k) {
+      var a = k.werte[s[0]], b = k.werte[s[1]], tr = el('tr');
+      var d = a == null || b == null ? '–' : (b - a > 0 ? '+' : '') + Math.round((b - a) * 100) / 100;
+      [k.name, zahl(a, k), zahl(b, k), d].forEach(function (x) { tr.appendChild(el('td', {}, x)); });
+      t.appendChild(tr);
+    });
+    box.appendChild(t); c.appendChild(box);
+  }
+
+  function optionen() {
+    var o = document.getElementById('optionen'); o.textContent = '';
+    [['Wochenmittel (7 Tage) statt Tageswerte', wochen, function (v) { wochen = v; }], ['Maßnahmen-Marker', markerAn, function (v) { markerAn = v; }]].forEach(function (x) {
+      var l = el('label'), cb = el('input', { type: 'checkbox' }); cb.checked = x[1];
+      cb.onchange = function () { x[2](cb.checked); grafik(); };
+      l.appendChild(cb); l.appendChild(document.createTextNode(x[0])); o.appendChild(l);
+    });
+    var kv = document.getElementById('kurven'); kv.textContent = '';
+    D.kennzahlen.forEach(function (k, i) {
+      var l = el('label'), cb = el('input', { type: 'checkbox' }); cb.checked = an[k.pfad];
+      cb.onchange = function () { an[k.pfad] = cb.checked; grafik(); };
+      var sw = el('span', { 'class': 'sw' }); sw.style.background = farbe(i);
+      l.appendChild(cb); l.appendChild(sw); l.appendChild(document.createTextNode(k.name)); kv.appendChild(l);
+    });
+  }
+
+  var B = 960, H = 340, L = 40, R = 12, T = 22, U = 38;
+  function x(i) { return L + (D.tage.length < 2 ? 0 : i * (B - L - R) / (D.tage.length - 1)); }
+  function reihe(k) { return wochen ? k.wochenmittel : k.werte; }
+
+  function grafik() {
+    var s = document.getElementById('grafik'); s.textContent = '';
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (p) {
+      var y = T + (1 - p) * (H - T - U);
+      s.appendChild(sv('line', { x1: L, x2: B - R, y1: y, y2: y, 'class': 'gitter' }));
+      s.appendChild(sv('text', { x: L - 6, y: y + 4, 'text-anchor': 'end' }, Math.round(p * 100) + '%'));
+    });
+    D.tage.forEach(function (tag, i) {
+      if (i % 7 === 0 || i === D.tage.length - 1) s.appendChild(sv('text', { x: x(i), y: H - U + 16, 'text-anchor': 'middle' }, tag.slice(5)));
+    });
+    var aktivePfade = D.kennzahlen.filter(function (k) { return an[k.pfad]; }).map(function (k) { return k.pfad; });
+    if (markerAn) D.marker.forEach(function (m) {
+      var treffer = aktivePfade.indexOf(m.kennzahl) >= 0;
+      s.appendChild(sv('line', { x1: x(m.index), x2: x(m.index), y1: T - 6, y2: H - U, 'class': 'marker' + (treffer ? ' treffer' : '') }));
+      var tx = sv('text', { x: x(m.index), y: T - 9, 'text-anchor': 'middle' }, '#' + m.pr);
+      tx.appendChild(sv('title', {}, m.datum + ': ' + m.text)); s.appendChild(tx);
+    });
+    D.kennzahlen.forEach(function (k, ki) {
+      if (!an[k.pfad]) return;
+      var r = reihe(k), max = Math.max.apply(null, k.werte.filter(function (v) { return v != null; }).concat([0]));
+      if (max <= 0) max = 1;
+      var pfad = '', stift = false;
+      r.forEach(function (v, i) {
+        if (v == null) { stift = false; return; }
+        var y = T + (1 - v / max) * (H - T - U);
+        pfad += (stift ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y.toFixed(1); stift = true;
+      });
+      s.appendChild(sv('path', { d: pfad, fill: 'none', stroke: farbe(ki), 'stroke-width': 2, 'stroke-linejoin': 'round' }));
+    });
+    var cursor = sv('line', { y1: T, y2: H - U, 'class': 'gitter', visibility: 'hidden' }); s.appendChild(cursor);
+    var flaeche = sv('rect', { x: L, y: 0, width: B - L - R, height: H, fill: 'transparent' }); s.appendChild(flaeche);
+    function zeige(ev) {
+      var p = s.getBoundingClientRect(), px = (ev.clientX - p.left) * B / p.width;
+      var i = Math.max(0, Math.min(D.tage.length - 1, Math.round((px - L) / ((B - L - R) / (D.tage.length - 1)))));
+      cursor.setAttribute('x1', x(i)); cursor.setAttribute('x2', x(i)); cursor.setAttribute('visibility', 'visible');
+      var teile = D.kennzahlen.filter(function (k) { return an[k.pfad]; }).map(function (k) { return k.name + ': ' + zahl(reihe(k)[i], k); });
+      var ms = D.marker.filter(function (m) { return m.index === i; }).map(function (m) { return ' | Maßnahme #' + m.pr + ': ' + m.text; });
+      document.getElementById('tipp').textContent = D.tage[i] + (wochen ? ' (Wochenmittel)' : '') + ' – ' + (teile.join(' · ') || 'keine Kurve gewählt') + ms.join('');
+    }
+    flaeche.addEventListener('pointermove', zeige); flaeche.addEventListener('pointerdown', zeige);
+    liste();
+  }
+
+  function liste() {
+    var o = document.getElementById('massnahmen'); o.textContent = '';
+    D.marker.forEach(function (m) {
+      var li = el('li', an[m.kennzahl] ? { 'class': 'aktiv' } : {}, m.datum + ' #' + m.pr + ' – ' + m.text + ' (' + m.kennzahl + ' ' + m.richtung + ')');
+      o.appendChild(li);
+    });
+  }
+
+  function alles() { tabelle(); vergleich(); }
+  optionen(); alles(); grafik();
+})();
+</script>
+</body>
+</html>
