@@ -33,7 +33,8 @@ export function schaetzungTrotzKatalog(releases: Release[], serien: CrSerie[], j
         .filter((f) => f.verfuegbarAb && Date.parse(f.verfuegbarAb) <= jetzt.getTime())
         .flatMap((f) => [f.nummer, f.laufend]),
     )
-    for (const e of expandEvents(r)) {
+    /* „Fällig ohne Sichtung“ zählt hier als verstrichen: Die Wache sucht gerade die Folgen, die der Katalog führt und die der Plan noch nicht als beobachtet trägt. */
+    for (const e of expandEvents(r).map((x) => ({ ...x, ohneSichtung: false }))) {
       if (istErschienen(e, jetzt) && e.estimated && e.episode != null && gefuehrt.has(e.episode)) raus.push({ slug: r.slug, folge: e.episode })
     }
   }
