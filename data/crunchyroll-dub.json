@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-15T14:01:54.077Z",
+  "scrapedAt": "2026-11-15T16:01:39.172Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -64473,7 +64473,7 @@
       "seriesId": "GG5H5XQMD",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-08",
+      "geprueftAm": "2026-11-15",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -64645,9 +64645,9 @@
         {
           "name": "Staffel 3",
           "staffelId": "GS00384021JAJP",
-          "folgen": 7,
-          "kacheln": 7,
-          "deutsch": 4,
+          "folgen": 8,
+          "kacheln": 8,
+          "deutsch": 5,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -64674,11 +64674,18 @@
               "guid": "GE00384136DEDE",
               "laufend": 4,
               "verfuegbarAb": "2026-11-08T16:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00384137DEDE",
+              "laufend": 5,
+              "verfuegbarAb": "2026-11-15T16:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384137DEDE",
         "GE00384136DEDE",
         "GE00384135DEDE",
         "GE00384134DEDE",
@@ -175943,15 +175950,15 @@
       "seriesId": "GT00384004",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-08",
+      "geprueftAm": "2026-11-15",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00384033JAJP",
-          "folgen": 7,
-          "kacheln": 7,
-          "deutsch": 7,
+          "folgen": 8,
+          "kacheln": 8,
+          "deutsch": 8,
           "fremd": 0,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -175996,11 +176003,18 @@
               "guid": "GE00384234DEDE",
               "laufend": 7,
               "verfuegbarAb": "2026-11-08T14:30:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GE00384235DEDE",
+              "laufend": 8,
+              "verfuegbarAb": "2026-11-15T14:30:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384235DEDE",
         "GE00384234DEDE",
         "GE00384233DEDE",
         "GE00384232DEDE",
