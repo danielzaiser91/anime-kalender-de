@@ -14,6 +14,9 @@ export interface Abgeleitet {
   folgen: Record<string, { tmdbId?: number }>
   /** Ein Titel mit Staffel-0-Zuordnung trägt das Standbild seiner Folge, kein Serienbanner: sein Banner bleibt. */
   staffel0: Record<string, unknown>
+  /** Plakat und Abruf-Grund je AniList-ID (`data/tmdb-poster*.json`); bei `ohne` entfallen beide sofort, sonst bliebe ein verworfenes Bild bis zum Ablauf live. */
+  poster: Record<string, unknown>
+  posterGrund: Record<string, unknown>
   verworfen: string[]
 }
 
@@ -33,6 +36,19 @@ function streicheAbgeleitet(id: number, neu: number | undefined, a: Abgeleitet):
   }
 }
 
+/** `ohne`: Plakat und Plakatgrund der Kennungslosen streichen und benennen. */
+function streichePoster(id: number, a: Abgeleitet): void {
+  const k = String(id)
+  if (k in a.poster) {
+    delete a.poster[k]
+    a.verworfen.push(`Plakat ${k}`)
+  }
+  if (k in a.posterGrund) {
+    delete a.posterGrund[k]
+    a.verworfen.push(`Plakatgrund ${k}`)
+  }
+}
+
 /**
  * Setzt die von Hand nachgesehenen Kennungen (`data/tmdb-von-hand.yaml`) in den Bestand; gibt die Zahl der geänderten Einträge zurück.
  * Wechselt die Kennung, entfallen die Genres der alten (der Genre-Nachtrag holt die der neuen); mit `abgeleitet` auch Banner und Folgen der alten.
@@ -46,7 +62,10 @@ export function uebernimmVonHand(cache: Record<string, TmdbTitle>, eintraege: Vo
         delete cache[e.anilistId]
         gesetzt++
       }
-      if (abgeleitet) streicheAbgeleitet(e.anilistId, undefined, abgeleitet)
+      if (abgeleitet) {
+        streicheAbgeleitet(e.anilistId, undefined, abgeleitet)
+        streichePoster(e.anilistId, abgeleitet)
+      }
       continue
     }
     if (!e.tmdbId) continue
