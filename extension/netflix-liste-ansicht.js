@@ -195,15 +195,15 @@ function ansichtTabelle(zeilen, o) {
   }
 }
 
-/** Ein Umschalter im Kopf: `schalten()` wechselt den Zustand und gibt ihn zurück; an = hervorgehoben wie der laufende Durchgang. */
+/** Ein Umschalter im Kopf: `schalten()` wechselt den Zustand, `nachher()` gleicht alle Knöpfe ab (`aria-pressed`, an = hervorgehoben wie der laufende Durchgang). */
 function ansichtSchalter(text, hinweis, klick, schalten, nachher) {
   const knopf = ansichtElement('button', 'ak-umschalter', text)
   knopf.type = 'button'
   knopf.title = hinweis
   knopf.setAttribute('aria-pressed', 'false')
   klick(knopf, () => {
-    knopf.setAttribute('aria-pressed', String(schalten()))
-    nachher?.()
+    schalten()
+    nachher()
   })
   return knopf
 }

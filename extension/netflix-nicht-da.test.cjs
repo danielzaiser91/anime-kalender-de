@@ -253,7 +253,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   }
   let v = verdrahtet()
   await v.tunW.sprung('5')
-  pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1]]' && v.w.gehe.length === 0, v.w)
+  pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe, Spur', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1]]' && v.w.gehe.length === 0 && v.w.spur.some((s) => s[0] === 'nicht bei Netflix gemeldet' && s[1].reihe === '5'), v.w)
   v = verdrahtet({ profil: true })
   await v.tunW.sprung('5')
   pruefe('melder.js: Profilauswahl sichtbar → kein Abruf, kein Urteil, der Sprung geht (gehe)', v.w.abrufe.length === 0 && v.w.melden.length === 0 && JSON.stringify(v.w.gehe) === '["/title/5"]', v.w)
