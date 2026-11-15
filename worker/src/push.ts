@@ -5,8 +5,12 @@ import { istPushDienst } from './push-dienst.ts'
 import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
 import { istErschienen } from '../../shared/logic.ts'
 
-/** Mit Uhrzeit wie `istErschienen`; ohne Uhrzeit nie ein Push (Daniel, 14.11.2026: die 23:59-Regel meldete nachts, rund 11 h nach dem echten Start). */
-export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => Boolean(e.time) && istErschienen(e, zeit)
+/**
+ * Mit Uhrzeit wie `istErschienen`; ohne Uhrzeit nie ein Push (Daniel, 14.11.2026: die 23:59-Regel meldete nachts, rund 11 h nach dem echten Start).
+ * `ohneSichtung` zählt hier nicht: Der Push bleibt an der Uhrzeit, bis er gesondert auf die Sichtung umgestellt wird;
+ * sonst fiele ein Termin aus dem Push-Fenster, bevor die Sichtung ankommt.
+ */
+export const pushIstErschienen = (e: PushEreignis, zeit: Date): boolean => Boolean(e.time) && istErschienen({ ...e, ohneSichtung: false }, zeit)
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).

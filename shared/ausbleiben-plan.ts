@@ -6,6 +6,8 @@
  * Der Abstand zählt immer vom ursprünglich angekündigten Zeitpunkt des Termins.
  */
 
+import { abstandSeitTermin, terminZustand, type TerminFelder } from './termin-zustand.ts'
+
 const MINUTE = 6e4
 const STUNDE = 36e5
 const TAG = 24 * STUNDE
@@ -92,4 +94,9 @@ export const WORT_NICHT_ERSCHIENEN_AB_MS = 2 * STUNDE
 export function wortStufe(abstandMs: number): WortStufe {
   if (abstandMs >= WORT_NICHT_ERSCHIENEN_AB_MS) return 'nicht-erschienen'
   return abstandMs >= WORT_VERSPAETET_AB_MS ? 'verspaetet' : 'wird-geprueft'
+}
+
+/** Das Wort für einen fälligen Termin; `undefined`, wenn er nicht fällig ist (angekündigt, erschienen, ausgeblieben). */
+export function faelligWort(e: TerminFelder, jetzt: Date): WortStufe | undefined {
+  return terminZustand(e, jetzt) === 'faellig' ? wortStufe(abstandSeitTermin(e, jetzt)) : undefined
 }

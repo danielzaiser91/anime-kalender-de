@@ -1,7 +1,7 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso, utcZeitInBerlin, toIsoDate } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
-import { istAusgeblieben, istKatalogstartOhneUhrzeit, terminZustand, type TerminFelder } from './termin-zustand.ts'
+import { istAusgeblieben, istKatalogstartOhneUhrzeit, markiereOhneSichtung, terminZustand, type TerminFelder } from './termin-zustand.ts'
 import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
 
 /** Berliner Kalendertag eines Vermerk-Zeitpunkts (`erwartetAm`, `neuErwartet` sind UTC). */
@@ -274,7 +274,7 @@ export { istKatalogstartOhneUhrzeit, istAusgeblieben }
 export const NETFLIX_UHRZEIT_UTC = '08:00'
 
 export function expandEvents(release: Release): ReleaseEvent[] {
-  const termine = termineAusPlan(release)
+  const termine = markiereOhneSichtung(release, termineAusPlan(release))
   if (release.dateMeaning === 'available-from') for (const e of termine) e[release.erstausgabe ? 'erstausgabe' : 'imAngebot'] = true
   if (release.platform !== 'netflix' || !release.netflixOriginal) return termine
   return termine.map((e) => (e.time ? e : { ...e, time: utcZeitInBerlin(e.date, NETFLIX_UHRZEIT_UTC), timeEstimated: true }))

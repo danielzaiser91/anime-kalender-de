@@ -11,14 +11,15 @@ import {
   kopfSchluesselOhneBeleg,
 } from './antwort-regeln.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
-import { ausgebliebenTerminText, widerlegtTexte } from './kasten-texte.ts'
+import { ausgebliebenTerminText, faelligText, widerlegtTexte } from './kasten-texte.ts'
+import type { WortStufe } from '@shared/ausbleiben-plan.ts'
 import { Countdown } from './hilfen.tsx'
 import { vorstartSatz } from './antwort-vorstart.ts'
 import { discKopf } from './antwort-disc-kopf.ts'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { formatDate } from '@shared/time.ts'
 import { ankuendigungOhneTermin, titelSynchroAngekuendigt, ankuendigungZeile } from '@shared/ankuendigung.ts'
-import { PLATFORMS, type Release, type Title } from '@shared/types.ts'
+import { PLATFORMS, type Release, type ReleaseEvent, type Title } from '@shared/types.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -190,7 +191,13 @@ function kopfLaeuft({ antwort, relativImSatz, T, betont, ohneSprachbeleg, releas
     : ''
   const vorstart = vorstartSatz(antwort, Boolean(ohneSprachbeleg), releases)
   if (vorstart) [haupt, neben, anteil, zaehl] = [betont(vorstart), '', undefined, '']
+  else if (antwort.faellig) haupt = faelligHaupt(e, antwort.faellig, rel === T('antwort.relHeute'), T)
   return { neben, gedaempft, haupt, nebenTitel, fakten, anteil, zaehl }
+}
+
+/** Die fällige, beim Anbieter noch nicht gesehene Folge als Hauptzeile: abwartend, nach zwei Stunden als Fehler gefärbt. */
+function faelligHaupt(e: ReleaseEvent, stufe: WortStufe, heute: boolean, T: KopfEingabe['T']): ReactNode {
+  return <span className={stufe === 'nicht-erschienen' ? 'text-ak-fehler-text' : 'text-ak-warnung-text'}>{faelligText(e, stufe, heute, T)}</span>
 }
 
 /** Antwortart „teilweise“. */

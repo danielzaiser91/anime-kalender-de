@@ -1,5 +1,6 @@
 import { istBelegtAbgeschlossen, deutschBegonnen, fertigAntwort, gesamtGeschaetzt } from './antwort-regeln.ts'
 import { expandEvents, istErschienen, istAusgeblieben } from '@shared/logic.ts'
+import { faelligWort } from '@shared/ausbleiben-plan.ts'
 import { bandAngaben } from './antwort-vorstart.ts'
 import { filmTermine } from './film-termine.ts'
 import { restUndBlock } from './antwort-block.ts'
@@ -131,6 +132,7 @@ export function kuenftigeAntwort({ kuenftig, hatSynchro, title, raus, today, rel
     vermerk: istAusgeblieben(n)
       ? n.verpasst
       : offen.find((o) => istAusgeblieben(o) && o.episode === n.episode)?.verpasst,
+    faellig: faelligWort(n, jetzt),
   }
 }
 

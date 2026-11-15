@@ -1,4 +1,5 @@
 import { berlinToUtc } from './time.ts'
+import type { Release, ReleaseEvent } from './types.ts'
 
 /**
  * Wo steht ein Termin gerade? Eine Stelle für „erschienen“, „fällig“ und „ausgeblieben“.
@@ -49,4 +50,30 @@ export function terminZustand(e: TerminFelder, jetzt: Date = new Date(), katalog
   const zeitpunkt = berlinToUtc(e.date, e.time ?? tagesGrenze(e, katalogAmTagesbeginn)).getTime()
   if (zeitpunkt > jetzt.getTime()) return 'angekuendigt'
   return e.ohneSichtung ? 'faellig' : 'erschienen'
+}
+
+/** Wie lange der Termin her ist (ms, negativ davor); ohne Uhrzeit zählt der Tagesschluss. */
+export function abstandSeitTermin(e: Pick<TerminFelder, 'date' | 'time'>, jetzt: Date): number {
+  return jetzt.getTime() - berlinToUtc(e.date, e.time ?? '23:59').getTime()
+}
+
+/**
+ * Ist diese Folge eines Crunchyroll-Wochenplans nur angekündigt? Das ist sie, wenn keine Sichtung sie belegt: nicht
+ * beobachtet, nicht von einer späteren Beobachtung überholt (dann ist sie sicher erschienen) und nicht von `belegtBis` gedeckt.
+ * Nur Crunchyroll: Dort sieht der Katalog jede deutsche Folge binnen einer Stunde (`crunchyroll-neu.json`); andere Anbieter haben
+ * keinen Sichtungsweg, ihr Termin bleibt Termin.
+ */
+export function ohneSichtungVon(release: Pick<Release, 'platform' | 'releaseType' | 'tvLetzteSichtung'>, s: NonNullable<Release['schedule']>, episode: number): boolean {
+  if (release.platform !== 'crunchyroll' || release.releaseType !== 'weekly' || release.tvLetzteSichtung) return false
+  if (s.observed?.[episode]) return false
+  if (s.belegtBis && episode <= s.belegtBis.folge) return false
+  const beobachtet = Object.keys(s.observed ?? {}).map(Number)
+  return !beobachtet.some((n) => n > episode)
+}
+
+/** Setzt `ohneSichtung` an den Terminen des Wochenplans, die nur angekündigt sind; der Vermerk „ausgeblieben“ bleibt davon unberührt. */
+export function markiereOhneSichtung(release: Release, termine: ReleaseEvent[]): ReleaseEvent[] {
+  const s = release.schedule
+  if (!s) return termine
+  return termine.map((e) => (e.estimated && e.episode != null && !e.verpasst && ohneSichtungVon(release, s, e.episode) ? { ...e, ohneSichtung: true } : e))
 }
