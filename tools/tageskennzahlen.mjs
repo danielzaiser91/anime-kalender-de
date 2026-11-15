@@ -2,19 +2,21 @@
  * Tageskennzahlen (Europe/Berlin) nach tools/kennzahlen/tage.jsonl: eine JSON-Zeile je Tag, damit Maßnahmen an Zahlen gemessen werden.
  * Quellen nur gh (REST; GraphQL ist in Cloud-Sitzungen gesperrt) und git, nie D1. Rechenregeln: tageskennzahlen-rechnen.mjs.
  *
- *   node tools/tageskennzahlen.mjs [--von=2026-10-01] [--bis=<gestern>]   schreibt die Datei neu (idempotent, gleiche Eingabe = gleiche Zeilen)
+ *   node tools/tageskennzahlen.mjs [--von=2026-10-01] [--bis=<gestern>] [--lehren=<lehren.md>]   schreibt die Datei neu (idempotent, gleiche Eingabe = gleiche Zeilen)
  *
  * Voraussetzung: git-Verlauf ab `--von` (bei flachem Klon: git fetch --shallow-since=<von minus 2 Tage> origin main).
  * Fehlt eine Kennzahl (Datei am Tag nicht vorhanden, keine Läufe), fehlt das Feld; nie geschätzt.
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipBytes } from './kennzahlen.mjs'
 import { bestimmeStufe } from './pr-stufe.mjs'
 import { leseKette } from './pr-stufe-kette.mjs'
 import { aktualisiereAnsicht } from './kennzahlen-daten-erzeugen.mjs'
+import { lehrenAmTag, lehrenJeTag } from './kennzahlen-lehren.mjs'
+import { medianCiGruenBisMergeH, qualitaet, urteileJePr } from './tageskennzahlen-pruefung.mjs'
 import {
   durchsatz, istBot, istRevert, medianDauerMin, rotStundenJeTag, stauAmTagesende, storyPoints,
   tageZwischen, tagBerlin, tagesBeginnMs, tagPlus,
@@ -22,6 +24,7 @@ import {
 
 const REPO = 'danielzaiser91/anime-kalender-de'
 const AUSGABE = 'tools/kennzahlen/tage.jsonl'
+const LEHREN = 'daniel-zum-abarbeiten/berichte/lehren.md'
 const BAU = 'Bestand — zusammenführen und bauen'
 const KETTE = 'PR-Prüfkette'
 const SEITE = [['metaGzipKb', 'meta.json'], ['wocheKachelnGzipKb', 'woche-kacheln.json'], ['titlesGzipKb', 'titles.json']]
@@ -57,14 +60,14 @@ function gh(pfad, jq) {
 
 /** Alle PRs (offen, gemergt, geschlossen) mit Zeitstempeln; `endeAt` = Merge oder Schließung. */
 function holePrs() {
-  const jq = '.[]|{number,author:.user.login,title,createdAt:.created_at,mergedAt:.merged_at,endeAt:(.merged_at // .closed_at)}|tojson'
+  const jq = '.[]|{number,author:.user.login,title,headSha:.head.sha,createdAt:.created_at,mergedAt:.merged_at,endeAt:(.merged_at // .closed_at)}|tojson'
   return gh(`repos/${REPO}/pulls?state=all&sort=created&direction=desc&per_page=100`, jq).map((p) => ({ ...p, bot: istBot(p) }))
 }
 
 /** Läufe aller Workflows in 3-Stunden-Fenstern (die API liefert je Abfrage höchstens 1000 Treffer). */
 function holeLaeufe(von, bis) {
   const laeufe = []
-  const jq = '.workflow_runs[]|{name,createdAt:.created_at,start:.run_started_at,ende:.updated_at,conclusion}|tojson'
+  const jq = '.workflow_runs[]|{name,headSha:.head_sha,createdAt:.created_at,start:.run_started_at,ende:.updated_at,conclusion}|tojson'
   for (let t = von; t <= bis; t = tagPlus(t, 1)) {
     for (const h of [0, 3, 6, 9, 12, 15, 18, 21]) {
       const f = (x) => `${t}T${String(x).padStart(2, '0')}:`
@@ -73,6 +76,24 @@ function holeLaeufe(von, bis) {
     }
   }
   return laeufe
+}
+
+/**
+ * Prüfer-Urteile des CI-Prüfers seit `von` (Kommentare des Bots, Zählweise in tageskennzahlen-pruefung.mjs).
+ * Eigene Seitenzählung: das jq filtert, die Seite endet erst, wenn die ungefilterte Liste unter 100 Kommentaren bleibt.
+ * Keine Rückwärts-Schrägstriche im jq (der Befehls-Hook halbiert sie): Zeichenklassen statt Escapes.
+ */
+function holeUrteile(von) {
+  const treffer = '.[]|select(.user.login=="github-actions[bot]" and (.body|startswith("**Prüfer-Review**")))'
+  const felder = '{pr:(.issue_url|split("/")|last|tonumber),zeit:.created_at,kopf:(.body|capture("^[*][*]Prüfer-Review[*][*] für (?<k>[0-9a-f]+)").k),urteil:(.body|capture("Urteil: [*][*](?<u>[^*]+)[*][*]").u)}'
+  const jq = `{n:length,e:[${treffer}|${felder}]}|tojson`
+  const zeilen = []
+  for (let seite = 1; ; seite++) {
+    const pfad = `repos/${REPO}/issues/comments?since=${von}T00:00:00Z&per_page=100&page=${seite}`
+    const antwort = JSON.parse(mitWiederholung(() => ausfuehren('gh', ['api', pfad, '--jq', jq], { timeout: 60_000 })))
+    zeilen.push(...antwort.e)
+    if (antwort.n < 100) return zeilen
+  }
 }
 
 /**
@@ -118,6 +139,17 @@ function seitenGroesse(tag) {
   return felder
 }
 
+/** Qualität, CI-grün-bis-Merge und Lehren des Tages; ohne belegbare Quelle fehlt das Feld (nie 0 geraten). */
+export function pruefungsfelder(tag, gemergt, daten) {
+  const hand = gemergt.filter((p) => !p.bot)
+  const felder = {
+    pruefer: qualitaet(hand, daten.urteile),
+    medianCiGruenBisMergeHandH: medianCiGruenBisMergeH(hand, daten.laeufe),
+    lehren: lehrenAmTag(daten.lehren, tag),
+  }
+  return Object.fromEntries(Object.entries(felder).filter(([, v]) => v !== undefined))
+}
+
 /** Eine Zeile je Tag aus den gesammelten Rohdaten. */
 function tageszeile(tag, daten) {
   const ende = tagesBeginnMs(tagPlus(tag, 1))
@@ -129,6 +161,7 @@ function tageszeile(tag, daten) {
   const zeile = {
     tag,
     ...durchsatz(gemergt),
+    ...pruefungsfelder(tag, gemergt, daten),
     stau: stauAmTagesende(daten.prs, ende),
     reverts: commits.filter((c) => istRevert(c.betreff)).length,
     sammlerStandZurueck: commits.filter((c) => /Sammler-Stand zurückgenommen/.test(c.betreff)).length,
@@ -140,6 +173,11 @@ function tageszeile(tag, daten) {
   }
   for (const k of ['bauDauerMedianMin', 'ketteDauerMedianMin']) if (zeile[k] === undefined) delete zeile[k]
   return zeile
+}
+
+/** lehren.md liegt lokal (nicht im Repo); fehlt sie, haben alle Tage keine Lehren-Quelle. */
+function leseLehren(pfad) {
+  return existsSync(pfad) ? readFileSync(pfad, 'utf8') : ''
 }
 
 function lies(argv, name, vorgabe) {
@@ -158,7 +196,9 @@ function main(argv) {
   const commits = holeCommits(tagPlus(von, -1))
   const laeufe = holeLaeufe(tagPlus(von, -1), tagPlus(bis, 1))
   const rotJeTag = rotStundenJeTag(laeufe.filter((l) => l.name === BAU), jetzt)
-  const daten = { prs, commits, laeufe, rotJeTag, punkte: punkteJePr(commits, leseKette(process.cwd())) }
+  const lehren = lehrenJeTag(leseLehren(lies(argv, 'lehren', LEHREN)))
+  const urteile = urteileJePr(holeUrteile(von))
+  const daten = { prs, commits, laeufe, rotJeTag, urteile, lehren, punkte: punkteJePr(commits, leseKette(process.cwd())) }
   const zeilen = tageZwischen(von, bis).map((tag) => JSON.stringify(tageszeile(tag, daten)))
   const ziel = resolve(AUSGABE)
   mkdirSync(dirname(ziel), { recursive: true })
