@@ -107,13 +107,6 @@
       "seit": "2026-11-08"
     },
     {
-      "titel": "Fool Night",
-      "id": 213457,
-      "anbieter": "netflix",
-      "start": "2026-11-26",
-      "seit": "2026-11-08"
-    },
-    {
       "titel": "Strike Witches 2",
       "id": 6381,
       "anbieter": "disc",
@@ -149,6 +142,14 @@
       "seit": "2026-11-11"
     }
   ],
-  "abgeloest": [],
+  "abgeloest": [
+    {
+      "titel": "Fool Night",
+      "id": 213457,
+      "anbieter": "netflix",
+      "start": "2026-11-26",
+      "seit": "2026-11-08"
+    }
+  ],
   "belegt": []
 }
