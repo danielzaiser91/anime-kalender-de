@@ -8,6 +8,12 @@
  * Dazu ein Uhr-Lauf in 5-Minuten-Schritten über die ganze Woche 09.–15.11. (Berlin): erschienen ist nie eine Folge ohne Beobachtung.
  * Läuft in `check:logic`.
  */
+import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { ohneSichtungLange, ohneSichtungWarnzeile } from './lib/cr-katalog-schaetzung.ts'
 import { expandEvents, istErschienen } from '../shared/logic.ts'
 import { faelligWort } from '../shared/ausbleiben-plan.ts'
 import { ohneSichtungVon, terminZustand } from '../shared/termin-zustand.ts'
@@ -241,6 +247,35 @@ for (const r of [ohne7, overgeared]) {
   }
 }
 pruefe('Uhr-Lauf hat die ganze Woche gespielt', schritte === 2 * 2016 + 2, String(schritte))
+
+// Bestandswächter „länger als 7 Tage ohne Sichtung“: Funktion, Zeile und der Lauf des echten Skripts auf einem Wegwerf-Bestand.
+const tageNach = (n: number): Date => new Date(Date.parse('2026-11-15T14:00:00Z') + n * 86_400_000)
+const lange7 = ohneSichtungLange([ohne7], tageNach(8))
+pruefe('Wächter: Folge 7 nach 8 Tagen genannt', lange7.length === 1 && lange7[0]!.folge === 7 && lange7[0]!.slug === 'cr-GT00384006' && lange7[0]!.tage === 8 && lange7[0]!.tage > 0, JSON.stringify(lange7))
+pruefe('Wächter: genau 7 Tage noch nicht', ohneSichtungLange([ohne7], tageNach(7)).length === 0)
+pruefe('Wächter: eine Millisekunde über 7 Tage genannt', ohneSichtungLange([ohne7], new Date(tageNach(7).getTime() + 1)).length === 1)
+pruefe('Wächter: beobachtete Folge nie genannt', ohneSichtungLange([mit7], tageNach(30)).every((o) => o.folge !== 7))
+pruefe('Wächter: Grenze als Argument', ohneSichtungLange([ohne7], tageNach(3), 2).length === 1)
+pruefe('Wächter: andere Anbieter nie', ohneSichtungLange([fremd({ platform: 'prime', slug: 'prime-x' })], tageNach(30)).length === 0)
+pruefe('Warnzeile ohne Befund: keine', ohneSichtungWarnzeile([]) === undefined)
+pruefe('Warnzeile nennt Titel, Folge, Tage', ohneSichtungWarnzeile([{ slug: 'x-1', folge: 4, tage: 9 }]) === '⚠ WARNUNG Crunchyroll-Termin seit mehr als 7 Tagen ohne Sichtung: x-1 Folge 4 (9 Tage) — die Seite zeigt ihn als erschienen (≈)')
+
+function bestandLauf(beobachtet: Record<number, string>): { status: number | null; aus: string } {
+  const wurzel = mkdtempSync(join(tmpdir(), 'cr-faellig-bestand-'))
+  mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
+  mkdirSync(join(wurzel, 'data'), { recursive: true })
+  const alt = { ...(ohne7 as any), slug: 'cr-FIXTURE', schedule: { ...(ohne7 as any).schedule, firstEpisodeDate: '2026-01-04', observed: beobachtet, zeiten: undefined } }
+  writeFileSync(join(wurzel, 'public', 'data', 'releases.json'), JSON.stringify([alt]))
+  writeFileSync(join(wurzel, 'data', 'crunchyroll-dub.json'), JSON.stringify({ serien: [] }))
+  const skript = fileURLToPath(new URL('./check-cr-katalog-schaetzung-bestand.ts', import.meta.url))
+  const p = spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), skript], { cwd: wurzel, env: { ...process.env, AK_ROOT: wurzel }, encoding: 'utf8', timeout: 120_000, windowsHide: true })
+  return { status: p.status, aus: `${p.stdout}${p.stderr}` }
+}
+const lauf = bestandLauf({ 1: '2026-01-04', 2: '2026-01-11' })
+pruefe('Bestandslauf: Exit 0 (Warnung, kein Rot) und Schlusszeile da', lauf.status === 0 && lauf.aus.includes('VERSTÖSSE: 0'), lauf.aus.slice(-300))
+pruefe('Bestandslauf: Warnzeile nennt den Titel und Folge 3', lauf.aus.includes('⚠ WARNUNG Crunchyroll-Termin seit mehr als 7 Tagen ohne Sichtung: cr-FIXTURE Folge 3 ('), lauf.aus.slice(0, 400))
+const lauf13 = bestandLauf(Object.fromEntries(Array.from({ length: 13 }, (_, i) => [i + 1, '2026-01-04'])))
+pruefe('Bestandslauf: alles beobachtet, keine Warnzeile', lauf13.status === 0 && !lauf13.aus.includes('WARNUNG') && lauf13.aus.includes('VERSTÖSSE: 0'), lauf13.aus.slice(-300))
 
 console.log(`check-cr-faellig: ${faelle} Fälle, ${fehler} Fehler (Uhr-Lauf ${schritte} Schritte, Space Mercenary Folge 7 und Overgeared Folge 8)`)
 if (fehler) process.exit(1)

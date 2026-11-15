@@ -1,10 +1,11 @@
 /**
  * Bestandswache: Kein laufender Crunchyroll-Wochentermin schätzt („≈“) eine erschienene Folge, die der deutsche Katalog mit Stempel führt
  * (Apothekerin Staffel 3, 08.11.2026). Rot meldet den Titel mit Marke. Regel in `lib/cr-katalog-schaetzung.ts`, Test in `check-cr-block-zaehlung.ts`.
+ * Dazu eine Warnung (kein Rot, Exit bleibt 0): Termine mit mehr als 7 Tagen ohne Sichtung werden namentlich genannt (15.11.2026, `check-cr-faellig.ts`).
  */
 import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
-import { schaetzungTrotzKatalog } from './lib/cr-katalog-schaetzung.ts'
+import { ohneSichtungLange, ohneSichtungWarnzeile, schaetzungTrotzKatalog } from './lib/cr-katalog-schaetzung.ts'
 import { meldeVerletzte } from './lib/quarantaene.ts'
 import type { Release } from '../shared/types.ts'
 import type { CrDubData } from './lib/crunchyroll-dub.ts'
@@ -31,5 +32,7 @@ for (const { slug } of treffer) {
   console.error(`FEHLER: Bestand: ${slug}: Folge ${folgen} geschätzt, der Katalog führt sie`)
 }
 console.log(`Crunchyroll-Wochentermine mit geschätzter Folge trotz Katalog: ${treffer.length} von ${releases.filter((r) => r.platform === 'crunchyroll' && r.releaseType === 'weekly').length}`)
+const warnzeile = ohneSichtungWarnzeile(ohneSichtungLange(releases, new Date()))
+if (warnzeile) console.log(warnzeile)
 console.log(`VERSTÖSSE: ${treffer.length}`)
 process.exit(treffer.length ? 1 : 0)
