@@ -48,6 +48,8 @@ function macheElement(tag) {
     },
     appendChild(k) { this.kinder.push(k); return k },
     append(...k) { this.kinder.push(...k) },
+    /* Die Tabelle der Zurückgestellten zeichnet ihren Rumpf damit neu (netflix-liste-ansicht.js). */
+    replaceChildren(...k) { this.kinder = k },
     get children() { return this.kinder },
     insertBefore(k, vor) {
       const i = vor ? this.kinder.indexOf(vor) : -1
@@ -224,6 +226,7 @@ function lade(pfad, liste, suchteil = '', start = {}) {
   vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-zurueckgestellt.js', 'utf8'), kontext)
+  vm.runInContext(readFileSync(__dirname + '/netflix-liste-ansicht.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-erinnern.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-durchgang-steuerung.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-staffel.js', 'utf8'), kontext)
@@ -261,22 +264,37 @@ function zeilenKlassen(body) {
   return klassen
 }
 
-/** Eigener Filter (15.11.2026): Knopf mit Zahl, Zeile markiert und ans Ende sortiert, offene Zeilen unberührt. */
-function pruefeZurueckZeilen(body) {
-  const alle = []
-  const sammleAlle = (el) => {
-    alle.push(el)
-    for (const k of el?.kinder ?? []) sammleAlle(k)
-  }
-  sammleAlle(body)
+/** Alle Elemente unter `el`, in Dokumentreihenfolge. */
+function alleElemente(el, alle = []) {
+  alle.push(el)
+  for (const k of el?.kinder ?? []) alleElemente(k, alle)
+  return alle
+}
+
+/**
+ * Eigene Ansicht (15.11.2026): Knopf mit Zahl, Zeile in der Liste markiert (dort ausgeblendet) und ans Ende sortiert,
+ * dazu die Tabelle hinter der Liste mit genau diesem Titel; ein Klick darauf merkt den geöffneten Auftrag.
+ */
+async function pruefeZurueckZeilen(body, umgebung) {
+  const alle = alleElemente(body)
   const zeilen = alle.filter((el) => String(el.className).split(/\s+/).includes('ak-zeile'))
   const markiert = zeilen.filter((z) => z.classList.contains('ak-zurueck'))
   pruefe('zurückgestellt: genau eine von drei Zeilen trägt ak-zurueck, und es ist die letzte', zeilen.length === 3 && markiert.length === 1 && zeilen[2] === markiert[0], zeilen.map((z) => [...z.classList._]))
-  pruefe('zurückgestellt: die Zeile trägt Marke „zurückgestellt bis auf Weiteres“ und Tooltip mit Grund', markiert[0]?.kinder.some((k) => k.className === 'ak-zurueck-marke' && k.textContent === 'zurückgestellt bis auf Weiteres') && /Erinnern statt Folgenliste/.test(markiert[0].title), markiert[0]?.title)
-  pruefe('zurückgestellt: die Marke steht hinter dem Titel-Link, nicht am Ende', markiert[0]?.kinder[1]?.className === 'ak-zurueck-marke', markiert[0]?.kinder.map((k) => k.className))
-  pruefe('zurückgestellt: die offenen Zeilen tragen weder ak-zurueck noch eine Marke', zeilen.slice(0, 2).every((z) => !z.classList.contains('ak-zurueck') && !z.kinder.some((k) => k.className === 'ak-zurueck-marke')))
   const knoepfe = alle.filter((el) => /zurückgestellt/.test(el.textContent) && !(el.kinder ?? []).length)
-  pruefe('zurückgestellt: genau ein Filterknopf „1 zurückgestellt zeigen“', knoepfe.filter((el) => el.textContent === '1 zurückgestellt zeigen').length === 1, knoepfe.map((el) => el.textContent))
+  pruefe('zurückgestellt: genau ein Knopf „1 zurückgestellt“, sonst nennt nichts die Zahl', knoepfe.length === 1 && knoepfe[0].textContent === '1 zurückgestellt' && knoepfe[0].tagName === 'BUTTON', knoepfe.map((el) => el.textContent))
+  const kasten = suche(body, 'ak-kasten')
+  pruefe('Kasten: Kopf, Liste, dahinter die Ansicht der Zurückgestellten', kasten?.kinder.map((k) => k.className).join(' | ') === 'ak-kopf ak-kopf-zeilen | ak-liste | ak-zurueck-ansicht', kasten?.kinder.map((k) => k.className))
+  const unten = suche(body, 'ak-kopf-unten')
+  pruefe('Kopf: das Suchfeld steht ganz links, der Durchgang gleich daneben', unten?.kinder[0]?.className === 'ak-suche' && /alle durchgehen/.test(String(unten?.kinder[1]?.textContent)), unten?.kinder.map((k) => k.className + ':' + k.textContent))
+  const links = alleElemente(suche(body, 'ak-zurueck-ansicht')).filter((el) => el.tagName === 'A')
+  pruefe('Tabelle: genau der zurückgestellte Titel, mit Verweis auf seine Titelseite', links.length === 1 && links[0].href === 'https://www.netflix.com/title/80243876', links.map((l) => l.href))
+  const grund = alleElemente(suche(body, 'ak-zurueck-ansicht')).filter((el) => el.className === 'ak-zurueck-grund')
+  pruefe('Tabelle: der Grund aus der Merkliste steht in der Zeile', grund.length === 1 && grund[0].textContent === 'Erinnern statt Folgenliste', grund.map((g) => g.textContent))
+  links[0].closest = () => links[0]
+  vm.runInContext('akKlickVerteilen', vm.createContext(umgebung))({ target: links[0] })
+  for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+  const gemerkt = (await umgebung.chrome.storage.local.get('zuletztGeoeffnet')).zuletztGeoeffnet
+  pruefe('Tabelle: ein Klick auf den Titel merkt ihn als zuletzt geöffnet', gemerkt?.id === '80243876', gemerkt)
 }
 
 console.log('Netflix-Prüfliste: erscheint der Knopf?\n')
@@ -545,17 +563,18 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       }
       return null
     })(zurueck.body)
-    pruefe('zurückgestellt: die Kopfzeile der Liste sagt „2 Titel zu prüfen · 1 zurückgestellt“', kopfzeile?.textContent === '2 Titel zu prüfen · 1 zurückgestellt', kopfzeile?.textContent)
+    pruefe('zurückgestellt: die Überschrift der Liste sagt „2 Titel zu prüfen“', kopfzeile?.textContent === '2 Titel zu prüfen', kopfzeile?.textContent)
     const gemeldetKnopf = (function finde(el) {
-      if (/gemeldet (zeigen|ausblenden)/.test(String(el?.textContent ?? '')) && !(el.kinder ?? []).length) return el
+      if (/^\d+ gemeldet$/.test(String(el?.textContent ?? '')) && !(el.kinder ?? []).length) return el
       for (const k of el?.kinder ?? []) {
         const t = finde(k)
         if (t) return t
       }
       return null
     })(zurueck.body)
-    pruefe('zurückgestellt: ein zurückgestellter Titel zählt nicht als „gemeldet“ (kein Knopf „gemeldet zeigen“)', gemeldetKnopf === null, gemeldetKnopf?.textContent)
-    pruefeZurueckZeilen(zurueck.body)
+    pruefe('zurückgestellt: ein zurückgestellter Titel zählt nicht als „gemeldet“ (kein Knopf „N gemeldet“)', gemeldetKnopf === null, gemeldetKnopf?.textContent)
+    pruefe('ohne Gemeldetes steht keine „nächste Übernahme“ im Kopf', suche(zurueck.body, 'ak-lauf') === null)
+    await pruefeZurueckZeilen(zurueck.body, zurueck.umgebung)
   }
   /* Genau ein gemeldeter Titel (Testreihe, „tot“), einer zurückgestellt (Berserk), einer offen: „1 gemeldet zeigen“, nicht 2 und nicht keiner. */
   {
@@ -572,8 +591,10 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       for (const k of el?.kinder ?? []) sammle(k)
     }
     sammle(einer.body)
-    pruefe('1 gemeldet, 1 zurückgestellt, 1 offen: Kopfzeile „1 Titel zu prüfen · 1 zurückgestellt“', texte.includes('1 Titel zu prüfen · 1 zurückgestellt'), texte.filter((t) => /zu prüfen/.test(t) && t.length < 60))
-    pruefe('… und der Schalter „1 gemeldet zeigen“', texte.includes('1 gemeldet zeigen'), texte.filter((t) => /gemeldet/.test(t) && t.length < 40))
+    pruefe('1 gemeldet, 1 zurückgestellt, 1 offen: Überschrift „1 Titel zu prüfen“, Knopf „1 zurückgestellt“', texte.includes('1 Titel zu prüfen') && texte.includes('1 zurückgestellt'), texte.filter((t) => /zu prüfen|zurückgestellt/.test(t) && t.length < 60))
+    pruefe('… und der Schalter „1 gemeldet“', texte.includes('1 gemeldet'), texte.filter((t) => /gemeldet/.test(t) && t.length < 40))
+    const lauf = suche(einer.body, 'ak-lauf')
+    pruefe('… und oben „nächste Übernahme: <Uhrzeit>“ (Minute 23 des Datenlaufs)', /^nächste Übernahme: (\d{1,2}\.\d{1,2}\. )?\d\d:23$/.test(String(lauf?.textContent)), lauf?.textContent)
     const folge = zeilenKlassen(einer.body)
     pruefe('Reihenfolge: offen, dann zurückgestellt, dann gemeldet', folge.length === 3 && !folge[0].includes('ak-zurueck') && !folge[0].includes('ak-abgehakt') && folge[1].includes('ak-zurueck') && folge[2].includes('ak-abgehakt'), folge)
   }
@@ -588,7 +609,7 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       for (const k of el?.kinder ?? []) sammle(k)
     }
     sammle(keiner.body)
-    pruefe('ohne zurückgestellte Titel: kein Filterknopf „zurückgestellt zeigen“', !texte.some((t) => /zurückgestellt (zeigen|ausblenden)/.test(t)), texte.filter((t) => /zurückgestellt/.test(t)))
+    pruefe('ohne zurückgestellte Titel: kein Knopf „N zurückgestellt“ und keine Tabelle', !texte.some((t) => /^\d+ zurückgestellt/.test(t)) && suche(keiner.body, 'ak-zurueck-ansicht') === null, texte.filter((t) => /zurückgestellt/.test(t)))
     pruefe('ohne zurückgestellte Titel: keine Zeile mit ak-zurueck', zeilenKlassen(keiner.body).length === 3 && zeilenKlassen(keiner.body).every((k) => !k.includes('ak-zurueck')), zeilenKlassen(keiner.body))
   }
   /* Verdrahtung (15.11.2026): das ganze melder.js meldet die gespeicherte Zurückstellung an den Worker; ohne `worker` an der Merkliste bliebe es stumm. */
