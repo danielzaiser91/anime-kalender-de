@@ -10,7 +10,7 @@
  */
 import { expandEvents, istErschienen } from '../shared/logic.ts'
 import { faelligWort } from '../shared/ausbleiben-plan.ts'
-import { terminZustand } from '../shared/termin-zustand.ts'
+import { ohneSichtungVon, terminZustand } from '../shared/termin-zustand.ts'
 import { berlinToUtc } from '../shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
@@ -149,6 +149,18 @@ const mit7 = spaceMercenary({ ...BEOBACHTET_6, 7: TAG })
 pruefe('nach Sichtung: Folge 7 erschienen', istErschienen(folge(mit7, 7), UHR_NACH_15_19) && folge(mit7, 7).ohneSichtung === undefined)
 const antwort7: any = berechneAntwort({ title: titel(7), releases: [mit7], today: TAG, jetzt: UHR_NACH_15_19 })
 pruefe('nach Sichtung: Kasten zählt 7 von 13', antwort7?.raus === 7 && antwort7?.faellig === undefined, `${antwort7?.raus} ${antwort7?.faellig}`)
+
+// Die Bedingungen von `ohneSichtungVon` einzeln: jede allein entscheidet.
+const plan = (ohne7 as any).schedule
+pruefe('ohneSichtungVon: Crunchyroll, Wochenplan, unbeobachtet', ohneSichtungVon(ohne7, plan, 7))
+pruefe('ohneSichtungVon: TV-Sichtung nie', !ohneSichtungVon({ ...ohne7, tvLetzteSichtung: '2026-11-14' } as Release, plan, 7))
+pruefe('ohneSichtungVon: anderer Anbieter nie', !ohneSichtungVon({ ...ohne7, platform: 'netflix' } as Release, plan, 7))
+pruefe('ohneSichtungVon: Katalogstart nie', !ohneSichtungVon({ ...ohne7, releaseType: 'batch' } as Release, plan, 7))
+const belegt7 = { ...plan, belegtBis: { folge: 7, am: '2026-11-15' } }
+pruefe('ohneSichtungVon: belegtBis deckt Folge 7', !ohneSichtungVon(ohne7, belegt7, 7))
+pruefe('ohneSichtungVon: belegtBis deckt Folge 8 nicht', ohneSichtungVon(ohne7, belegt7, 8))
+pruefe('ohneSichtungVon: spätere Beobachtung überholt Folge 7', !ohneSichtungVon(ohne7, { ...plan, observed: { ...BEOBACHTET_6, 8: '2026-11-22' } }, 7))
+pruefe('ohneSichtungVon: ohne jede Beobachtung', ohneSichtungVon(ohne7, { ...plan, observed: undefined }, 1))
 
 // Wortstufen nach Abstand (Folge 7, Termin 15:00 Berlin = 14:00 UTC).
 const f7 = folge(ohne7, 7)
