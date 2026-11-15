@@ -155,8 +155,13 @@ assert.match(lap.detail, /überlappen/)
 const ohneNl = new Map([[normalisierePfad("y", "/w"), Buffer.from("abc")]])
 const anhang = planeMutant({ aenderungen: [{ datei: "y", suche: "@ENDE", ersetze: "d" }] }, ohneNl, "/w")
 assert.equal([...anhang.texte.values()][0], "abc\nd\n")
-const fehltZeile = planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 99 }] }, ohneNl, "/w")
-assert.equal(fehltZeile.detail, "y: nicht gefunden auf Zeile 99")
+// zeile ist nur Hinweis: eindeutiger Anker gilt trotz falscher Zeile; mehrdeutiger mit falscher Zeile und ohne Zeile bleibt Fehler.
+const falscheZeile = planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 99 }] }, ohneNl, "/w")
+assert.equal([...falscheZeile.texte.values()][0], "d")
+const zweimal = new Map([[normalisierePfad("y", "/w"), Buffer.from("abc\nabc")]])
+assert.equal(planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 99 }] }, zweimal, "/w").detail, "y: nicht gefunden auf Zeile 99")
+assert.equal(planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d" }] }, zweimal, "/w").detail, "y: mehrdeutig (2-mal)")
+assert.equal([...planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 2 }] }, zweimal, "/w").texte.values()][0], "abc\nd")
 assert.equal(planeMutant({ aenderungen: [{ datei: "y", suche: "xyz", ersetze: "d" }] }, ohneNl, "/w").detail, "y: nicht gefunden")
 
 // 9. Laufzeit: Sicherungskopie liegt während des Mutanten da; Grundlauf prüft auch die Tests je Mutant; Zeitlimit tötet den Test;
