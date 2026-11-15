@@ -15,6 +15,8 @@ Das gilt für jeden Einzelpunkt einer Nachricht, auch für nebenbei erwähnte W�
 
 **Eine Meinungsfrage ist Diskussion, kein Auftrag (Daniel, 12.11.2026 22:11):** Auf seinen F132-Vorschlag „… oder was denkst du“ legte ich Auftragsdatei und Stand-Zeile „Bau wartet auf freien Platz“ an, statt erst meine Meinung zu sagen; Daniel: „ich hab dich nach deiner meinung gefragt, warum startest du direkt den bau, wenn ich nach deiner meinung frage dann immer erst diskutieren“. Ein eigener Vorschlag mit Rückfrage ist kein Ja — erst Meinung samt Bedenken, dann auf „machen“ warten.
 
+**„[discuss]“ markiert einen Absatz als Diskussion (Daniel, 15.11.2026 15:04):** „[discuss] leite ich in zukunft so ein, und markiere prompts die ich erst mit dir diskutieren will“. Dieselbe Nachricht trug drei [discuss]-Absätze (CR-Push vor Erscheinen, Markierung, AniNews-Quelle); ein unmarkiertes „E75 ja“ mitten im Turn wurde ausgeführt. Also: markierter Absatz = nur besprechen, bis „machen“; unmarkierter Rest = Auftrag wie sonst.
+
 **Eine Warum-Frage ist eine Frage, kein Auftrag** (Daniel, 21.09.2026: „moment ich hab nur
 gefragt, du musst nichts anpassen"). „Warum trifft die Suche X?" wird beantwortet — mit dem
 gemessenen Grund. Umgebaut wird erst, wenn er es sagt oder etwas nachweislich kaputt ist
