@@ -73,3 +73,7 @@ assert.deepEqual(pruefungsfelder('2026-10-22', tagPrs, daten), {
   lehren: 3,
 })
 assert.deepEqual(pruefungsfelder('2026-10-01', [], { urteile, laeufe, lehren: jeTag }), {}, 'ohne Quelle fehlen alle drei Felder')
+
+// Genau eine Nachbesserungsrunde (aendern, dann ok) ist nicht Runde 1: Grenze r === 0, nicht r <= 1.
+const mitEinerRunde = urteileJePr([...kommentare, z(3930, '2026-11-15T10:00:00Z', 'g7', 'aendern'), z(3930, '2026-11-15T10:30:00Z', 'h8', 'ok')])
+assert.deepEqual(qualitaet([{ number: 3920 }, { number: 3911 }, { number: 3930 }], mitEinerRunde), { prs: 3, runde1Prozent: 33.3, nachbesserungenJePr: 1 })
