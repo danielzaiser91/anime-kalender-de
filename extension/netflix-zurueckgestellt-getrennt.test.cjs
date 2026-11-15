@@ -143,10 +143,9 @@ async function tageswechsel() {
 
 function kopfText() {
   const t = kontext.akNetflixKopfText
-  pruefe('Kopf: 3 offen, keine zurückgestellt', t(3, 0) === '3 Titel zu prüfen', t(3, 0))
-  pruefe('Kopf: 0 offen, 156 zurückgestellt', t(0, 156) === 'Alles geprüft · 156 zurückgestellt', t(0, 156))
-  pruefe('Kopf: 1 offen, 1 zurückgestellt', t(1, 1) === '1 Titel zu prüfen · 1 zurückgestellt', t(1, 1))
-  pruefe('Kopf: 0 offen, 0 zurückgestellt', t(0, 0) === 'Alles geprüft', t(0, 0))
+  pruefe('Kopf: 3 offen', t(3) === '3 Titel zu prüfen', t(3))
+  pruefe('Kopf: 1 offen', t(1) === '1 Titel zu prüfen', t(1))
+  pruefe('Kopf: 0 offen', t(0) === 'Alles geprüft', t(0))
 }
 
 /** Der Text einer Funktion aus melder.js (von „function name“ bis zur schließenden Klammer am Zeilenanfang). */

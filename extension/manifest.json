@@ -74,13 +74,15 @@
         "netflix-erinnern.js",
         "netflix-durchgang-steuerung.js",
         "netflix-zurueckgestellt.js",
+        "netflix-liste-ansicht.js",
         "netflix-alle-staffeln.js",
         "melder.js",
         "netflix-bericht.js",
         "netflix-protokoll.js"
       ],
       "css": [
-        "melder.css"
+        "melder.css",
+        "netflix-liste.css"
       ],
       "run_at": "document_idle"
     },

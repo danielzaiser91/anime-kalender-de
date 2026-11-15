@@ -5345,8 +5345,6 @@ async function dialogOeffnen() {
   kasten.className = 'ak-kasten'
   dialog.appendChild(kasten)
 
-  const kopf = document.createElement('div')
-  kopf.className = 'ak-kopf'
   /**
    * Offenes zuerst, Erledigtes ans Ende.
    *
@@ -5360,17 +5358,8 @@ async function dialogOeffnen() {
     const d = rang(a) - rang(b)
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
   })
-  const titelzeile = document.createElement('strong')
   /* Dieselbe Zahl wie am Knopf — aus derselben Funktion, nicht nachgerechnet. */
   const [nochOffen, zurueck] = [offeneTitelZahl(), selbstUebersprungen.zurueckZahl()]
-  titelzeile.textContent = akNetflixKopfText(nochOffen, zurueck)
-  kopf.appendChild(titelzeile)
-
-  const suche = document.createElement('input')
-  suche.className = 'ak-suche'
-  suche.type = 'search'
-  suche.placeholder = 'Suchen'
-  kopf.appendChild(suche)
 
   /**
    * Erledigtes ist standardmäßig weg.
@@ -5388,66 +5377,32 @@ async function dialogOeffnen() {
     „Weiter ansehen" (Weg freigegeben am 01.09.2026). Bis zum 21.09.2026 war es ein
     Schalter, der an blieb — siehe `laufStarten()`.
   */
-  {
-    const selbst = document.createElement('button')
-    selbst.className = 'ak-umschalter' + (selbstAn ? ' ak-selbst-an' : '')
-    selbst.textContent = selbstAn ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
-    selbst.title = selbstAn
-      ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
-      : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
-        'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
-    akKlick(selbst, () => selbstKlick(selbst))
-    kopf.appendChild(selbst)
-  }
+  const selbst = document.createElement('button')
+  selbst.className = 'ak-umschalter' + (selbstAn ? ' ak-selbst-an' : '')
+  selbst.textContent = selbstAn ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
+  selbst.title = selbstAn
+    ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
+    : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
+      'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
+  akKlick(selbst, () => selbstKlick(selbst))
 
-  /* Wiedervorlage bleibt nur Farbe (blauer Streifen, 4.20.49). Zurückgestellte haben einen eigenen Filter, unabhängig von „gemeldet". */
-  if (zurueck > 0) kopf.appendChild(akNetflixZurueckListe.filterKnopf(kasten, zurueck, akKlick))
-
-  if (eintraege.length - nochOffen - zurueck > 0) {
-    const umschalter = document.createElement('button')
-    umschalter.className = 'ak-umschalter'
-    umschalter.textContent = `${eintraege.length - nochOffen - zurueck} gemeldet zeigen`
-    akKlick(umschalter, () => {
-      const zeigen = kasten.classList.toggle('ak-mit-erledigten')
-      umschalter.textContent = zeigen
-        ? `${eintraege.length - nochOffen - zurueck} gemeldet ausblenden`
-        : `${eintraege.length - nochOffen - zurueck} gemeldet zeigen`
-    })
-    kopf.appendChild(umschalter)
-
-    /*
-      **Wann das Gemeldete hier wieder verschwindet.**
-
-      Ein gemeldeter Titel bleibt in der Liste stehen, bis der nächste Lauf ihn
-      übernommen hat — die Liste entsteht beim Datenlauf und weiß nichts vom
-      Briefkasten. Ohne die Uhrzeit ist von außen nicht zu unterscheiden, ob der
-      Lauf noch aussteht oder seine Arbeit nicht getan hat (Daniel, 26.08.2026:
-      „so kann ich es gegenprüfen, dass der lauf sein job gemacht hat").
-    */
-    const lauf = document.createElement('span')
-    lauf.className = 'ak-lauf'
-    lauf.title = 'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. GitHub startet ihn oft ein paar Minuten später.'
-    const zeigeLauf = () => {
-      const z = naechsteUebernahme()
-      const uhr = `${String(z.getHours()).padStart(2, '0')}:${String(z.getMinutes()).padStart(2, '0')}`
-      lauf.textContent = `Übernahme ab ${uhr} — danach hier weg`
-    }
-    zeigeLauf()
-    /* Bleibt der Dialog lange offen, wandert die Uhrzeit mit. */
-    const takt = setInterval(() => {
-      if (!lauf.isConnected) return clearInterval(takt)
-      zeigeLauf()
-    }, 60000)
-    kopf.appendChild(lauf)
-  }
-
-  const zu = document.createElement('button')
-  zu.className = 'ak-zu'
-  zu.textContent = '×'
-  zu.title = 'Schließen (Esc)'
-  akKlick(zu, dialogSchliessen)
-  kopf.appendChild(zu)
-  kasten.appendChild(kopf)
+  /*
+    Kopf in zwei Zeilen samt Ansicht der Zurückgestellten (`netflix-liste-ansicht.js`). Wiedervorlage bleibt nur Farbe
+    (blauer Streifen, 4.20.49); Zurückgestellte zählen nicht als gemeldet.
+  */
+  const ansicht = akNetflixListeAnsicht.kopf({
+    kasten,
+    titel: akNetflixKopfText(nochOffen),
+    selbst,
+    zurueck: akNetflixListeAnsicht.zeilen(eintraege, selbstUebersprungen.zurueckInfo),
+    gemeldet: eintraege.length - nochOffen - zurueck,
+    uebernahme: naechsteUebernahme,
+    zu: dialogSchliessen,
+    klick: akKlick,
+    geoeffnet: (id) => void speicherSchreiben({ zuletztGeoeffnet: { id, zeit: Date.now() } }),
+  })
+  const suche = ansicht.suche
+  kasten.appendChild(ansicht.kopf)
 
   /**
    * Eine Zeile je Titel: Name, die Folgen zum Anklicken, ihr Stand.
@@ -5813,10 +5768,12 @@ async function dialogOeffnen() {
     if (fertig(id, eintrag)) {
       zeile.classList.add('ak-abgehakt')
     }
-    akNetflixZurueckListe.markieren(zeile, selbstUebersprungen.zurueckInfo(id), Date.now())
+    /* Zurückgestellte stehen in ihrer eigenen Ansicht, nicht in der Liste. */
+    if (selbstUebersprungen.zurueckgestellt(id)) zeile.classList.add('ak-zurueck')
     liste.appendChild(zeile)
   }
   kasten.appendChild(liste)
+  if (ansicht.tabelle) kasten.appendChild(ansicht.tabelle)
 
   suche.addEventListener('input', () => {
     const wort = suche.value.trim().toLowerCase()

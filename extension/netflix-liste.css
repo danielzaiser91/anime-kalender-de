@@ -1,0 +1,234 @@
+/*
+  Netflix-Prüfliste: Kopf in zwei Zeilen und die Ansicht der zurückgestellten Titel (15.11.2026).
+  Aufbau: netflix-liste-ansicht.js. Eigene Datei, damit melder.css nicht weiter wächst; lädt nur auf Netflix.
+  Alle Regeln hängen an .ak-kopf-zeilen bzw. .ak-zurueck-ansicht, die Köpfe von Disney+ und Prime bleiben unberührt.
+*/
+.ak-kopf.ak-kopf-zeilen {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px 16px 12px;
+}
+
+/* Oben: Überschrift links mit allem Platz, nächste Übernahme und Schließen rechts. */
+.ak-kopf-oben {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.ak-kopf-oben strong {
+  flex: 1;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.ak-kopf-oben .ak-lauf {
+  color: #8b949e;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ak-kopf-oben button.ak-zu {
+  align-self: center;
+  margin: -6px -6px -6px 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Unten: Suchfeld ganz links, dann die Knöpfe; in schmalen Fenstern rutschen die Knöpfe unter das Feld. */
+.ak-kopf-unten {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ak-kopf-unten .ak-suche {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.ak-kopf-unten .ak-umschalter {
+  padding: 6px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+/* Der Durchgang ist die Hauptaktion: heller als die Umschalter daneben. */
+.ak-kopf-unten .ak-suche + .ak-umschalter {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #e6edf3;
+}
+/* Ein eingeschalteter Umschalter ist hervorgehoben wie der laufende Durchgang (.ak-selbst-an). */
+.ak-kopf-unten .ak-umschalter[aria-pressed="true"] {
+  border-color: #3fb950;
+  background: rgba(63, 185, 80, 0.18);
+  color: #7ee787;
+}
+.ak-kopf-zeilen button:focus-visible,
+.ak-zurueck-ansicht button:focus-visible,
+.ak-zurueck-ansicht a:focus-visible {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
+}
+
+/*
+  Die Ansicht der Zurückgestellten ersetzt die Liste. „gemeldet“ gilt nur für die Liste: Der Knopf tritt zurück,
+  bleibt aber an seinem Platz — sonst spränge „zurückgestellt“ beim Umschalten unter dem Mauszeiger weg.
+*/
+.ak-zurueck-ansicht {
+  display: none;
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+.ak-kasten.ak-ansicht-zurueck .ak-zurueck-ansicht { display: block; }
+.ak-kasten.ak-ansicht-zurueck .ak-liste { display: none; }
+.ak-kasten.ak-ansicht-zurueck .ak-nur-liste {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.ak-zurueck-gruende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 16px 4px;
+}
+button.ak-zurueck-grundknopf {
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8b949e;
+  font: 500 11px/1.6 "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+}
+button.ak-zurueck-grundknopf:hover { border-color: #58a6ff; color: #e6edf3; }
+button.ak-zurueck-grundknopf[aria-pressed="true"] {
+  border-color: #d29922;
+  background: rgba(210, 153, 34, 0.16);
+  color: #e3b341;
+}
+
+table.ak-zurueck-tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: none;
+  color: #e6edf3;
+  font: inherit;
+}
+.ak-zurueck-tabelle th,
+.ak-zurueck-tabelle td {
+  padding: 9px 10px;
+  border: 0;
+  background: none;
+  text-align: left;
+  vertical-align: top;
+}
+.ak-zurueck-tabelle th:first-child,
+.ak-zurueck-tabelle td:first-child { padding-left: 16px; }
+.ak-zurueck-tabelle th:last-child,
+.ak-zurueck-tabelle td:last-child { padding-right: 16px; }
+.ak-zurueck-tabelle th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding-top: 10px;
+  padding-bottom: 8px;
+  background: #10141a;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+}
+button.ak-sortierknopf {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8b949e;
+  font: 600 11px/1.5 "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+button.ak-sortierknopf:hover { color: #e6edf3; }
+/* Der Pfeil steht immer da (kein Springen der Spalten) und ist nur an der sortierten Spalte sichtbar. */
+button.ak-sortierknopf::after {
+  content: "▲";
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 8px;
+  opacity: 0;
+}
+th[aria-sort="ascending"] button.ak-sortierknopf,
+th[aria-sort="descending"] button.ak-sortierknopf { color: #e6edf3; }
+th[aria-sort="ascending"] button.ak-sortierknopf::after { opacity: 1; }
+th[aria-sort="descending"] button.ak-sortierknopf::after { content: "▼"; opacity: 1; }
+
+.ak-zurueck-tabelle td { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.ak-zurueck-tabelle tbody tr:first-child td { border-top: 0; }
+.ak-zurueck-tabelle tbody tr:hover td { background: rgba(255, 255, 255, 0.035); }
+.ak-zurueck-titel a {
+  color: #e6edf3;
+  font-weight: 600;
+  text-decoration: none;
+}
+.ak-zurueck-titel a:hover { color: #79c0ff; text-decoration: underline; }
+td.ak-zurueck-bis,
+td.ak-zurueck-am {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+td.ak-zurueck-bis { color: #e3b341; }
+td.ak-zurueck-am,
+td.ak-zurueck-grund { color: #8b949e; }
+p.ak-zurueck-leer {
+  margin: 0;
+  padding: 18px 16px;
+  color: #8b949e;
+  text-align: center;
+}
+p.ak-zurueck-leer[hidden] { display: none; }
+
+/*
+  Schmales Fenster: keine vier Spalten nebeneinander. Die Spaltenköpfe werden zur Sortierleiste, jede Zeile zur
+  Karte — Titel über die ganze Breite, darunter „bis …“, „gemessen …“ und der Grund.
+*/
+@media (max-width: 640px) {
+  .ak-zurueck-tabelle,
+  .ak-zurueck-tabelle thead,
+  .ak-zurueck-tabelle tbody { display: block; }
+  .ak-zurueck-tabelle thead tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+    padding: 10px 16px 8px;
+    background: #10141a;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .ak-zurueck-tabelle thead { position: sticky; top: 0; z-index: 1; }
+  .ak-zurueck-tabelle th,
+  .ak-zurueck-tabelle th:first-child,
+  .ak-zurueck-tabelle th:last-child {
+    position: static;
+    padding: 0;
+    box-shadow: none;
+  }
+  .ak-zurueck-tabelle tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 12px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .ak-zurueck-tabelle tbody tr:first-child { border-top: 0; }
+  .ak-zurueck-tabelle td,
+  .ak-zurueck-tabelle td:first-child,
+  .ak-zurueck-tabelle td:last-child {
+    padding: 0;
+    border: 0;
+  }
+  .ak-zurueck-tabelle td.ak-zurueck-titel,
+  .ak-zurueck-tabelle td.ak-zurueck-grund { flex: 1 0 100%; }
+  .ak-zurueck-tabelle td[data-name]::before {
+    content: attr(data-name) " ";
+    color: #8b949e;
+  }
+}

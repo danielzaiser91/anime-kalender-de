@@ -21,7 +21,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "10",
     "ersetze": "0",
-    "zeile": 20,
+    "zeile": 21,
     "nr": 1
    }
   ],
@@ -37,7 +37,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "60",
     "ersetze": "0",
-    "zeile": 20
+    "zeile": 21
    }
   ],
   "tests": [
@@ -52,7 +52,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "1000",
     "ersetze": "0",
-    "zeile": 20
+    "zeile": 21
    }
   ],
   "tests": [
@@ -67,7 +67,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "stand[k].bis > jetzt",
     "ersetze": "stand[k].bis >= jetzt",
-    "zeile": 102
+    "zeile": 104
    }
   ],
   "tests": [
@@ -82,7 +82,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "stand[k].bis > jetzt",
     "ersetze": "stand[k].bis <= jetzt",
-    "zeile": 102
+    "zeile": 104
    }
   ],
   "tests": [
@@ -97,7 +97,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "zurueckEintraege(o.stand(), o.jetzt())",
     "ersetze": "zurueckEintraege(o.jetzt(), o.stand())",
-    "zeile": 114
+    "zeile": 116
    }
   ],
   "tests": [
@@ -112,7 +112,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === inhalt || (letzte.inhalt === undefined && inhalt === '{}')",
     "ersetze": "letzte.inhalt === inhalt && (letzte.inhalt === undefined && inhalt === '{}')",
-    "zeile": 117
+    "zeile": 119
    }
   ],
   "tests": [
@@ -127,7 +127,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === inhalt",
     "ersetze": "letzte.inhalt !== inhalt",
-    "zeile": 117
+    "zeile": 119
    }
   ],
   "tests": [
@@ -142,7 +142,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === undefined && inhalt === '{}'",
     "ersetze": "letzte.inhalt === undefined || inhalt === '{}'",
-    "zeile": 117
+    "zeile": 119
    }
   ],
   "tests": [
@@ -157,7 +157,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "letzte.inhalt === undefined",
     "ersetze": "letzte.inhalt !== undefined",
-    "zeile": 117
+    "zeile": 119
    }
   ],
   "tests": [
@@ -172,7 +172,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "inhalt === '{}'",
     "ersetze": "inhalt !== '{}'",
-    "zeile": 117
+    "zeile": 119
    }
   ],
   "tests": [
@@ -187,7 +187,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest >= 0",
-    "zeile": 119
+    "zeile": 121
    }
   ],
   "tests": [
@@ -202,7 +202,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest <= 0",
-    "zeile": 119
+    "zeile": 121
    }
   ],
   "tests": [
@@ -217,7 +217,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "0",
     "ersetze": "1",
-    "zeile": 119
+    "zeile": 121
    }
   ],
   "tests": [
@@ -232,7 +232,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt: letzte.inhalt, versuch: o.jetzt() } })",
     "ersetze": "void 0",
-    "zeile": 122
+    "zeile": 124
    }
   ],
   "tests": [
@@ -247,7 +247,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "o.holen(`${o.worker}?zurueck=1`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    })",
     "ersetze": "o.holen({\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    }, `${o.worker}?zurueck=1`)",
-    "zeile": 124
+    "zeile": 126
    }
   ],
   "tests": [
@@ -262,7 +262,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "await o.speicher.set({ [ZURUECK_GEMELDET]: { inhalt, versuch: o.jetzt() } })",
     "ersetze": "void 0",
-    "zeile": 133
+    "zeile": 135
    }
   ],
   "tests": [
@@ -277,7 +277,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "setTimeout(fn, ms)",
     "ersetze": "setTimeout(ms, fn)",
-    "zeile": 141
+    "zeile": 143
    }
   ],
   "tests": [
@@ -292,7 +292,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "globalThis.akKontext.lesen('token', 'sync')",
     "ersetze": "globalThis.akKontext.lesen('sync', 'token')",
-    "zeile": 147
+    "zeile": 149
    }
   ],
   "tests": [
@@ -307,7 +307,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "e.spaeter === undefined || wartet",
     "ersetze": "e.spaeter === undefined && wartet",
-    "zeile": 153
+    "zeile": 155
    }
   ],
   "tests": [
@@ -322,7 +322,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "e.spaeter === undefined",
     "ersetze": "e.spaeter !== undefined",
-    "zeile": 153
+    "zeile": 155
    }
   ],
   "tests": [
@@ -337,7 +337,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "warten(() => {\n      wartet = false\n      melde()\n    }, e.spaeter)",
     "ersetze": "void 0",
-    "zeile": 155
+    "zeile": 157
    }
   ],
   "tests": [
@@ -352,7 +352,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "warten(() => {\n      wartet = false\n      melde()\n    }, e.spaeter)",
     "ersetze": "warten(e.spaeter, () => {\n      wartet = false\n      melde()\n    })",
-    "zeile": 155
+    "zeile": 157
    }
   ],
   "tests": [
@@ -367,7 +367,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "melde()",
     "ersetze": "void 0",
-    "zeile": 157
+    "zeile": 159
    }
   ],
   "tests": [
@@ -382,7 +382,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "roh.geaendert?.()",
     "ersetze": "void 0",
-    "zeile": 168
+    "zeile": 170
    }
   ],
   "tests": [
@@ -397,7 +397,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "zurueckMitMelden(roh, () => stand)",
     "ersetze": "zurueckMitMelden(() => stand, roh)",
-    "zeile": 184
+    "zeile": 186
    }
   ],
   "tests": [
