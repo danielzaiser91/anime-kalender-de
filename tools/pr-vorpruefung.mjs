@@ -20,6 +20,7 @@ import { ankerRot } from './mutationsanker.mjs'
 import { mutantenOhneTestsHinweise, stempelHinweise } from './pr-vorpruefung-hinweise.mjs'
 import { heuteBerlin } from './patchnotes-stempel-alter.mjs'
 import { BOT_PFADE_TEST, botPfadeRot } from './pr-vorpruefung-bot-pfade.mjs'
+import { kindFristRot } from './pr-vorpruefung-kind-frist.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 
@@ -174,7 +175,8 @@ function main() {
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
   const leerraum = leerraumRot(git('diff', '-U0', '--no-renames', 'origin/main...HEAD'), text)
   const botPfade = botPfadeRot(dateien, process.cwd(), () => waechterRot(BOT_PFADE_TEST, 'Bot-Pfade-Wächter (Dateinamen von Bot-Dateien in Tests der Kette)'))
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...botPfade, ...versionRot(), ...leerraum]
+  const kindFrist = kindFristRot(dateien, () => waechterRot('tools/test-kind-frist.mjs', 'Kindprozess in Tests ohne Frist (test-kind-frist)'))
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...botPfade, ...kindFrist, ...versionRot(), ...leerraum]
   const liesBasis = (name) => {
     try {
       return git('show', `origin/main:${name}`)

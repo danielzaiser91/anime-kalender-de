@@ -1,0 +1,11 @@
+[
+  { "name": "A1 Stand-Datei nicht berührend", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "test-kind-frist(-stand", "ersetze": "test-kind-fristX(-stand" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "A2 nur mjs-Tests", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "(mjs|ts|tsx)", "ersetze": "(mjs)" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "Kulisse-Zweig weg", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "-(kulisse|mock)\\.mjs", "ersetze": "-(mock)\\.mjs" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "Mock-Zweig weg", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "-(kulisse|mock)\\.mjs", "ersetze": "-(kulisse)\\.mjs" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "Ratsche selbst nicht berührend", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "(-stand\\.json|\\.mjs)", "ersetze": "(-stand\\.json)" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "Verankerung am Anfang weg", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "/^tools\\/[^/]+(\\.test", "ersetze": "/tools\\/[^/]+(\\.test" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "kindFristRot fährt immer", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "kindFristNoetig(dateien) ? fahre()", "ersetze": "true ? fahre()" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "kindFristRot fährt nie", "aenderungen": [{ "datei": "tools/pr-vorpruefung-kind-frist.mjs", "suche": "kindFristNoetig(dateien) ? fahre()", "ersetze": "false ? fahre()" }], "tests": ["node tools/pr-vorpruefung-kind-frist.test.mjs"] },
+  { "name": "Kontrolle", "aenderungen": [] }
+]
