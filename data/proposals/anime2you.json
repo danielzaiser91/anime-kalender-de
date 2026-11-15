@@ -1,15 +1,30 @@
 {
-  "scrapedAt": "2026-11-15T04:14:37.297Z",
+  "scrapedAt": "2026-11-15T17:01:41.469Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 30,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "schon in einem Rubrik-Feed gelesen": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "MediaMarkt reduziert zahlreiche Anime-Blu-rays zum Black Friday 2026",
+      "articleUrl": "https://www.anime2you.de/news/1071924/mediamarkt-black-friday-2026-aktion/",
+      "publishedAt": "2026-11-15",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "an. Wir fassen die Angebote zusammen. Bis Ende November 2026 Bis zum 30. November 2026 um 09:00 Uhr gibt es unter anderem die Komplett- und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Pluto TV ergänzt zwei weitere Anime-Neuzugänge",
       "articleUrl": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
