@@ -28,10 +28,11 @@ assert.equal(rtlGattung(HOERBUCH), 'nicht-video')
 assert.equal(rtlGattung(KINDER), 'nicht-video')
 assert.equal(rtlGattung(SERIE), 'video')
 assert.equal(rtlGattung(FILM), 'video')
+assert.equal(rtlGattung(SERIE.replace('</head>', '</head><body>Jetzt hören ► Podcasts</body>')), 'video', 'die Marke zählt nur in der Beschreibung')
 assert.equal(rtlGattung('<html></html>'), 'video', 'ohne Hörmarke bleibt der Eintrag (bisheriges Verhalten)')
 
 // Bausteine: gestempelte Einträge werden nicht erneut abgerufen, ein Abruffehler lässt den Eintrag ungeprüft stehen.
-const seiten: Record<string, string> = { 'u/hoer': HOERBUCH, 'u/serie': SERIE, 'u/film': FILM }
+const seiten: Record<string, string> = { 'u/hoer': HOERBUCH, 'u/serie': SERIE, 'u/film': FILM, 'u/hoer2': HOERBUCH }
 const abrufe: string[] = []
 const zeilen: string[] = []
 const lauf = await pruefeGattungen(
@@ -40,6 +41,7 @@ const lauf = await pruefeGattungen(
     '2': { url: 'u/serie' },
     '3': { url: 'u/film', gattung: 'video' },
     '4': { url: 'u/kaputt' },
+    '5': { url: 'u/hoer2', gattung: 'nicht-video' },
   },
   async (url) => {
     abrufe.push(url)
@@ -51,10 +53,10 @@ const lauf = await pruefeGattungen(
   },
   (z) => zeilen.push(z),
 )
-assert.deepEqual(abrufe, ['u/hoer', 'Pause', 'u/serie', 'Pause', 'u/kaputt', 'Pause'], 'Pause nach jedem Abruf, gestempelte Einträge ohne Abruf')
-assert.deepEqual(lauf.verworfen, ['1'])
+assert.deepEqual(abrufe, ['u/hoer', 'Pause', 'u/serie', 'Pause', 'u/kaputt', 'Pause', 'u/hoer2', 'Pause'], 'Pause nach jedem Abruf, gestempelte Einträge ohne Abruf')
+assert.deepEqual(lauf.verworfen, ['1', '5'])
 assert.deepEqual(lauf.unklar, ['4'])
-assert.equal(lauf.geprueft, 3)
+assert.equal(lauf.geprueft, 4)
 assert.deepEqual(Object.keys(lauf.bestand), ['2', '3', '4'])
 assert.equal(lauf.bestand['2']?.gattung, 'video')
 assert.equal(lauf.bestand['4']?.gattung, undefined, 'ohne Auskunft kein Stempel')
