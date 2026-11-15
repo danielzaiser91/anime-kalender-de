@@ -23,6 +23,8 @@ const MODULE = [
   ['no-verify-sperre.js', 'grund'],
   // Fetch-Tiefe-Sperre (11.11.2026): kein git fetch/pull/clone --depth im Repo oder seinen Worktrees (teilen .git).
   ['fetch-depth-sperre.js', 'grund'],
+  // Schwerlauf-Sperre (15.11.2026): Vollläufe (check-logic-alle, tests-alle, check:vor-commit …) nur über node tools/schwer.mjs.
+  ['schwerlauf-sperre.js', 'grund'],
   // Merge-Riegel (09.11.2026, PR 3266): gh pr merge nur mit node tools/pr-nachrechnen.mjs davor.
   ['merge-riegel.js', 'grund'],
   // Subagenten-Schreibsperre (PR 2942): bauer, pruefer, analyst schreiben nie im Hauptordner.
