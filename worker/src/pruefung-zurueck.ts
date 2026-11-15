@@ -30,10 +30,12 @@ export function pruefeZurueck(roh: unknown, jetzt: number): { plattform: string;
   }
   const e = daten.eintraege
   if (!e || typeof e !== 'object' || Array.isArray(e)) return { status: 400, grund: 'eintraege fehlt' }
-  const paare = Object.entries(e as Record<string, unknown>)
-  if (paare.length > ZURUECK_HOECHSTENS_EINTRAEGE) return { status: 400, grund: 'zu viele Einträge' }
+  /* Sortiert: dieselbe Menge ergibt denselben Text, auf den der Vergleich beim Speichern baut. */
+  const kennungen = Object.keys(e).sort()
+  if (kennungen.length > ZURUECK_HOECHSTENS_EINTRAEGE) return { status: 400, grund: 'zu viele Einträge' }
   const eintraege: ZurueckEintraege = {}
-  for (const [kennung, wert] of paare.sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))) {
+  for (const kennung of kennungen) {
+    const wert = (e as Record<string, unknown>)[kennung]
     const w = (wert && typeof wert === 'object' ? wert : {}) as { grund?: unknown; bis?: unknown }
     if (!KENNUNG.test(kennung) || typeof w.bis !== 'number' || !Number.isFinite(w.bis)) continue
     if (w.bis <= jetzt) continue
