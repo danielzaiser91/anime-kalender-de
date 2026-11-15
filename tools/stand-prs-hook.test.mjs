@@ -15,6 +15,7 @@ const HOOK = join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs.js')
 const ATTRAPPE = join(import.meta.dirname, 'stand-prs-gh-attrappe.mjs')
 const ECHT = JSON.parse(readFileSync(join(import.meta.dirname, 'stand-prs-urteile-echt.json'), 'utf8')).prs
 const h = require(HOOK)
+const w = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-waechter.js'))
 
 const MIN = 60000
 const JETZT = Date.parse('2026-10-19T22:30:00Z') // 00:30 in Berlin am 20.10.: UTC-Tag ≠ Berliner Tag
@@ -298,7 +299,7 @@ try {
   assert.deepEqual(jetztLauf(ghNachbau(daten), JETZT + 40 * MIN), { ergebnis: 'nicht geschrieben: Marken: 2× Anfangs-, 1× Endmarke', laut: true })
   assert.equal(lies(), zweiMarken)
   writeFileSync(datei, '')
-  assert.deepEqual(jetztLauf(ghNachbau(daten), JETZT + 41 * MIN), { ergebnis: 'nicht geschrieben: kein Abschnitt „## In Arbeit“', laut: true })
+  assert.deepEqual(jetztLauf(ghNachbau(daten), JETZT + 41 * MIN), { ergebnis: `nicht geschrieben: ${w.LEER}`, laut: true }, 'leere Datei heißt leer')
   assert.equal(lies(), '')
   rmSync(datei)
   const fehlt = jetztLauf(ghNachbau(daten), JETZT + 42 * MIN)
