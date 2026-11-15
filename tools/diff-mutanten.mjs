@@ -8,6 +8,7 @@
  *                                                 „Überlebt: Datei:Zeile Mutant“ (Exit 0, ein Hinweis, kein Rot)
  *   node tools/diff-mutanten.mjs --liste          nur die Liste (JSON) auf stdout, fährt der Läufer direkt
  *   node tools/diff-mutanten.mjs --test "<befehl>"  Testbefehl statt der Zuordnung Datei → Test (mehrfach möglich)
+ *   node tools/diff-mutanten.mjs --basis <ref>    gegen <ref> statt origin/main vergleichen (Zweig baut auf offenem PR auf)
  * Test je Datei: `<name>.test.(mjs|ts|tsx)` neben der Datei, sonst `pipeline/check-<name>.ts`; ohne Test keine Läuferfahrt.
  * Mutantenarten: Vergleich getauscht, Grenze ±1, && ↔ ||, ?:-Zweige vertauscht, Zahl 0/1, Aufruf entfernt, Argumente getauscht.
  */
@@ -144,9 +145,15 @@ export function unbrauchbare(ausgabe) {
   return ausgabe.split('\n').filter((z) => /^(nicht gefunden|mehrdeutig|wirkungslos) /.test(z)).map((z) => z.replace(/\s+/, ' ').trim())
 }
 
+/** Vergleichsbasis: `--basis <ref>`, sonst origin/main. */
+export function basisAus(argv) {
+  const i = argv.indexOf('--basis')
+  return i < 0 ? 'origin/main' : argv[i + 1] || 'origin/main'
+}
+
 function main(argv) {
   const tests = argv.flatMap((a, i) => (a === '--test' ? [argv[i + 1]] : []))
-  const diff = execFileSync('git', ['diff', '-U0', '--no-renames', 'origin/main...HEAD'], { encoding: 'utf8', maxBuffer: 1 << 28 })
+  const diff = execFileSync('git', ['diff', '-U0', '--no-renames', `${basisAus(argv)}...HEAD`], { encoding: 'utf8', maxBuffer: 1 << 28 })
   const { liste, ohneTest } = listeAusDiff(diff, (d) => readFileSync(d, 'utf8'), tests)
   if (argv.includes('--liste')) return console.log(JSON.stringify(liste, null, 2))
   for (const d of ohneTest) console.log(`  ! Kein Test gefunden für ${d} (--test angeben), keine Mutanten gefahren.`)
