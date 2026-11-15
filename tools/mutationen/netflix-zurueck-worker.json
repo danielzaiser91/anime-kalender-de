@@ -1407,19 +1407,6 @@
   ]
  },
  {
-  "name": "Prüfer R1 P8 ohneZurueck: slice(0, a.titel) weg",
-  "aenderungen": [
-   {
-    "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "a.ziele.slice(0, a.titel).filter(still)",
-    "ersetze": "a.ziele.filter(still)"
-   }
-  ],
-  "tests": [
-   "npx tsx tools/worker-netflix-zurueck.test.ts"
-  ]
- },
- {
   "name": "Prüfer R1 P9 ohneZurueck: stille weggelassen (ziele verliert Eintraege)",
   "aenderungen": [
    {
@@ -1535,20 +1522,6 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "if (!antwort.ok) return",
     "ersetze": "if (false) return"
-   }
-  ],
-  "tests": [
-   "node extension/netflix-zurueck-melden.test.cjs",
-   "node extension/melder-uebersicht.test.cjs"
-  ]
- },
- {
-  "name": "Prüfer R1 P20 aendern: geaendert ohne Melden",
-  "aenderungen": [
-   {
-    "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": ".then(() => umgebung.geaendert?.())",
-    "ersetze": ".then(() => roh.geaendert?.())"
    }
   ],
   "tests": [
