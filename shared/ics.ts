@@ -1,6 +1,8 @@
 import type { ReleaseEvent } from './types.ts'
 import { RELEASE_TYPES, anbieterName } from './types.ts'
-import { addDays, berlinToUtc, toIcsStamp } from './time.ts'
+import { addDays, berlinToUtc, formatDate, toIcsStamp } from './time.ts'
+import type { Zweitanbieter } from './zweitanbieter.ts'
+import type { StreamingVorher } from './streaming-vorher.ts'
 import { istAusgeblieben } from './logic.ts'
 import { premiereHinweis } from './premiere.ts'
 import { fasseFolgenZusammen } from './ics-folgen.ts'
@@ -68,13 +70,29 @@ export const IM_ANGEBOT_HINWEIS = 'Im Angebot seit diesem Tag – nicht der Ersc
 /** Der erste Tag der deutschen Fassung (aniSearch), anders als ein Katalogdatum. */
 export const ERSTAUSGABE_HINWEIS = 'Erster Tag der deutschen Fassung, laut aniSearch.'
 
+/** Dieselbe Folge lief auf Deutsch schon bei einem anderen Streaming-Anbieter (`ReleaseEvent.zweitanbieter`). */
+export const zweitanbieterHinweis = (z: Zweitanbieter): string =>
+  z.mindestens
+    ? `Auf Deutsch spätestens seit ${formatDate(z.seit)} bei ${anbieterName(z.erster)}.`
+    : `Auf Deutsch zuerst bei ${anbieterName(z.erster)} erschienen (${formatDate(z.seit)}).`
+
+/** Die deutsche Fassung des Titels lief vor der Disc schon im Streaming (`ReleaseEvent.streamingVorher`). */
+export const streamingVorherHinweis = (s: StreamingVorher): string =>
+  `Auf Deutsch schon bei ${anbieterName(s.anbieter)} im Streaming (${s.mindestens ? 'spätestens ' : ''}seit ${formatDate(s.seit)}).`
+
 /** `bis`: die letzte Folge, wenn der Eintrag mehrere Folgen desselben Tages trägt („Folge 13–14/14“). */
 export function eventSummary(ev: ReleaseEvent, bis?: number): string {
   const text = summaryOhneMarke(ev, bis)
   return ev.sprache ? `${text} (${SPRACHE_MARKE[ev.sprache]})` : text
 }
 
+/** Bei „Im Angebot seit“ sagt der Titel schon „neu bei <Anbieter>“, dort entfällt die zweite Nennung. */
 function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
+  const text = summaryBasis(ev, bis)
+  return ev.zweitanbieter && !ev.imAngebot ? `${text} (neu bei ${anbieterName(ev.platform, ev.sender)})` : text
+}
+
+function summaryBasis(ev: ReleaseEvent, bis?: number): string {
   const type = RELEASE_TYPES[ev.releaseType]
   /*
     Wer den Kalender abonniert hat, sieht den verstrichenen Termin sonst als
@@ -101,6 +119,8 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
   if (ev.imAngebot) lines.push(IM_ANGEBOT_HINWEIS)
   if (ev.erstausgabe) lines.push(ERSTAUSGABE_HINWEIS)
   if (ev.sprache) lines.push(SPRACHE_HINWEIS[ev.sprache])
+  if (ev.zweitanbieter) lines.push(zweitanbieterHinweis(ev.zweitanbieter))
+  if (ev.streamingVorher) lines.push(streamingVorherHinweis(ev.streamingVorher))
   if (ev.premiere || ev.tvPremiere) lines.push(premiereHinweis(ev.platform, ev.premiereVorher))
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
   if (ev.time && zeitGeschaetzt(ev)) lines.push(ev.timeEstimated && ev.platform === 'netflix' ? 'Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.' : 'Uhrzeit voraussichtlich, nicht gemessen.')
