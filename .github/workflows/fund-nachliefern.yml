@@ -59,6 +59,21 @@ jobs:
           done
           git status --short | head -30
 
+      # Was auf main nach dem Start des Fundlaufs geändert wurde, bleibt auf dem Stand von main (Anlass 14.11.2026: der Fund vom 10.11. hätte neuere Dateien überlagert).
+      # Jede verworfene Datei steht im Log, in der Zusammenfassung und im Titel des PR; scheitert ein Abruf, endet der Schritt rot und nichts wird eingereicht.
+      - name: Funde schonen (neuere Stände auf main behalten)
+        id: schonen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LAUF: ${{ inputs.lauf }}
+        run: |
+          START="$(gh run view "$LAUF" --repo "$GITHUB_REPOSITORY" --json createdAt --jq .createdAt)"
+          echo "Fundlauf $LAUF gestartet: $START"
+          node tools/fund-schonen.mjs "$START" --hinweis "$RUNNER_TEMP/schonen-hinweis.txt" > "$RUNNER_TEMP/schonen.log"
+          cat "$RUNNER_TEMP/schonen.log"
+          { echo '### Fund schonen'; echo '```'; cat "$RUNNER_TEMP/schonen.log"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          echo "hinweis=$(cat "$RUNNER_TEMP/schonen-hinweis.txt")" >> "$GITHUB_OUTPUT"
+
       - uses: ./.github/actions/einrichten
         with:
           cache: 'aus'
@@ -66,7 +81,7 @@ jobs:
       - name: Quellen als Pull Request einreichen
         uses: ./.github/actions/einreichen
         with:
-          nachricht: 'chore(data): Fund nachgeliefert (Lauf ${{ inputs.lauf }})'
+          nachricht: "chore(data): Fund nachgeliefert (Lauf ${{ inputs.lauf }}${{ steps.schonen.outputs.hinweis && format('; {0}', steps.schonen.outputs.hinweis) || '' }})"
           fund: nachgeliefert
           app-id: ${{ secrets.DATEN_APP_ID }}
           app-key: ${{ secrets.DATEN_APP_KEY }}

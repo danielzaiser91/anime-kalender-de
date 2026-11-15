@@ -18,7 +18,8 @@ export const STATUS: Record<string, PrioStatus> = {
 
 export type PrioEintrag = Eintrag & { status: string; details: string[] }
 
-export const MAX_ZEILEN_PRIO = 4
+// Zugeklappt höchstens drei Zeilen (Daniel, 15.11.2026); der Rest steht im Ausklapp-Teil.
+export const MAX_ZEILEN_PRIO = 3
 
 // Ohne Kennzeichen (Altzeile) kein Chip und keine Fehlerfarbe.
 export function statusVon(status: string): PrioStatus | null {
@@ -86,8 +87,20 @@ export function kopfText(e: PrioEintrag): string {
 // Zeilen, die Chip, Titel und Kurztext umbrochen brauchen.
 export const zeilenBedarf = (e: PrioEintrag, zeichenJeZeile: number): number => umbruchZeilen(kopfText(e), Math.max(8, zeichenJeZeile))
 
-// Passt der Kurztext nicht in MAX_ZEILEN_PRIO Zeilen, steht er nur im Ausklapp-Teil (nie abgeschnitten).
-export const textKlappt = (e: PrioEintrag, zeichenJeZeile: number): boolean => zeilenBedarf(e, zeichenJeZeile) > MAX_ZEILEN_PRIO
+// Satzgrenzen, an denen der Kurztext geteilt werden darf: nach „;“ „:“ „.“ „,“ oder vor „ — “.
+const GRENZE = /(?<=[;:.,])\s+|\s+(?=—\s)/
+
+// Längster Anfang aus ganzen Satzteilen, der samt „…“ in MAX_ZEILEN_PRIO Zeilen passt; der Rest klappt weg (nie mitten im Wort).
+export function kurzfassung(e: PrioEintrag, zeichenJeZeile: number): { kurz: string; weg: string } {
+  if (zeilenBedarf(e, zeichenJeZeile) <= MAX_ZEILEN_PRIO) return { kurz: e.rest, weg: '' }
+  const teile = e.rest.split(GRENZE)
+  const passt = (n: number) => zeilenBedarf({ ...e, rest: `${teile.slice(0, n).join(' ')} …` }, zeichenJeZeile) <= MAX_ZEILEN_PRIO
+  let n = 0
+  while (n < teile.length - 1 && passt(n + 1)) n++
+  return { kurz: n ? `${teile.slice(0, n).join(' ')} …` : '', weg: teile.slice(n).join(' ') }
+}
+
+export const textKlappt = (e: PrioEintrag, zeichenJeZeile: number): boolean => kurzfassung(e, zeichenJeZeile).weg !== ''
 
 export const hatAusklapp = (e: PrioEintrag, zeichenJeZeile: number): boolean => e.details.length > 0 || textKlappt(e, zeichenJeZeile)
 
