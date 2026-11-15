@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
 import { test } from 'node:test'
+import { fileURLToPath } from 'node:url'
 import {
   durchsatz, istBot, istRevert, median, medianDauerMin, rotStundenJeTag, stauAmTagesende, storyPoints,
   tagBerlin, tageZwischen, tagesBeginnMs, tagPlus,
@@ -101,4 +103,12 @@ test('Laufdauer: Median nur erfolgreicher Läufe in Minuten', () => {
   const l = (start, ende, conclusion) => ({ start, ende, conclusion })
   assert.equal(medianDauerMin([l('2026-11-14T10:00:00Z', '2026-11-14T10:10:00Z', 'success'), l('2026-11-14T10:00:00Z', '2026-11-14T10:30:00Z', 'success'), l('2026-11-14T10:00:00Z', '2026-11-14T12:00:00Z', 'failure')]), 20)
   assert.equal(medianDauerMin([]), undefined)
+})
+
+test('tageskennzahlen.mjs lehnt ungültige oder verkehrte Tage vor jedem Abruf ab', () => {
+  for (const argumente of [['--von=2026-10-02', '--bis=2026-10-01'], ['--von=gestern'], ['--bis=2026-13']]) {
+    const r = spawnSync('node', [fileURLToPath(new URL('./tageskennzahlen.mjs', import.meta.url)), ...argumente], { encoding: 'utf8', timeout: 20_000 })
+    assert.equal(r.status, 1, argumente.join(' '))
+    assert.match(r.stderr, /FEHLER: --von=/)
+  }
 })

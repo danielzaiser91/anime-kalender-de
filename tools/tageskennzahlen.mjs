@@ -149,6 +149,10 @@ function main(argv) {
   const jetzt = Date.now()
   const von = lies(argv, 'von', '2026-10-01')
   const bis = lies(argv, 'bis', tagPlus(tagBerlin(jetzt), -1))
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(von) || !/^\d{4}-\d{2}-\d{2}$/.test(bis) || von > bis) {
+    console.error(`FEHLER: --von=${von} und --bis=${bis} müssen Tage (JJJJ-MM-TT) sein, von nicht nach bis`)
+    process.exit(1)
+  }
   const prs = holePrs()
   const commits = holeCommits(tagPlus(von, -1))
   const laeufe = holeLaeufe(tagPlus(von, -1), tagPlus(bis, 1))
