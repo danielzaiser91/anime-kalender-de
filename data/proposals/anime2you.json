@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-15T19:02:12.328Z",
+  "scrapedAt": "2026-11-15T22:01:56.096Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 9,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -35,6 +35,21 @@
         {
           "iso": "2026-12-06",
           "context": "en. Zehn Anime-Filme ab 07:50 Uhr Der große Anime-Marathon beginnt am 6. Dezember 2026 um 07:50 Uhr mit »Das Schloss im Himmel«. Danach folg"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 47/2026",
+      "articleUrl": "https://www.anime2you.de/news/1072136/anime-tv-programm-47-2026/",
+      "publishedAt": "2026-11-15",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-22",
+          "context": "amit ihr keine Sendung verpasst! Premieren und Highlights Vom 16. bis 22. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highl"
         }
       ],
       "dub": "unklar",
