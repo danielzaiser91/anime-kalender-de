@@ -17,8 +17,10 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { OHNE_DATEIEN, ohneSchluessel, streicheSchluessel } from './fund-ohne.mjs'
 
 export const HEALTH = 'data/source-health.json'
+const OHNE_HAND = 'data/tmdb-von-hand.yaml'
 
 /** Pfade des Funds → übernehmen oder verwerfen; `aenderungen[pfad]` = Zeitpunkt der letzten Änderung auf main (ISO) oder null/fehlend. */
 export function entscheide(pfade, aenderungen, fundZeit) {
@@ -99,6 +101,19 @@ function frageMain(pfad, fundZeit) {
   throw letzter
 }
 
+/** Schlüssel mit `ohne` in der TMDB-Handdatei fliegen aus den übernommenen Fund-Dateien (verworfene Dateien tragen den Stand von main). */
+export function streicheOhneAusFund(verworfen) {
+  if (!existsSync(OHNE_HAND)) return
+  const ids = ohneSchluessel(readFileSync(OHNE_HAND, 'utf8'))
+  for (const pfad of OHNE_DATEIEN) {
+    if (verworfen.includes(pfad) || !existsSync(pfad)) continue
+    const { text, entfernt } = streicheSchluessel(readFileSync(pfad, 'utf8'), ids)
+    if (!entfernt.length) continue
+    writeFileSync(pfad, text)
+    console.log(`ohne (tmdb-von-hand): ${entfernt.join(', ')} aus ${pfad} entfernt`)
+  }
+}
+
 /** Verwirft die Dateien (main-Stand zurück bzw. neue Datei entfernen) und führt die Gesundheitsdatei zusammen. Gibt die Entscheidung zurück. */
 export function schone(fundZeit, aenderungen) {
   const pfade = fundPfade()
@@ -116,6 +131,7 @@ export function schone(fundZeit, aenderungen) {
     if (verfolgt) git(['checkout', 'HEAD', '--', pfad])
     else rmSync(pfad, { force: true })
   }
+  streicheOhneAusFund(verworfen)
   if (pfade.includes(HEALTH)) {
     writeFileSync(HEALTH, healthZusammenfuehren(git(['show', `HEAD:${HEALTH}`]), fundHealth, verworfen))
   }
