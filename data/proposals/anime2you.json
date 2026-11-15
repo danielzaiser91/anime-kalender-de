@@ -1,10 +1,10 @@
 {
-  "scrapedAt": "2026-11-15T17:01:41.469Z",
+  "scrapedAt": "2026-11-15T19:02:12.328Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 10,
+    "schon in einem Rubrik-Feed gelesen": 9,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
@@ -20,6 +20,21 @@
         {
           "iso": "2026-11-30",
           "context": "an. Wir fassen die Angebote zusammen. Bis Ende November 2026 Bis zum 30. November 2026 um 09:00 Uhr gibt es unter anderem die Komplett- und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben FUN zeigt zehn Anime-Filme am Nikolaustag 2026",
+      "articleUrl": "https://www.anime2you.de/news/1071510/prosieben-fun-nikolaustag-2026-filme/",
+      "publishedAt": "2026-11-15",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-12-06",
+          "context": "en. Zehn Anime-Filme ab 07:50 Uhr Der große Anime-Marathon beginnt am 6. Dezember 2026 um 07:50 Uhr mit »Das Schloss im Himmel«. Danach folg"
         }
       ],
       "dub": "unklar",
