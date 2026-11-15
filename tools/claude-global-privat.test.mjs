@@ -1,6 +1,7 @@
 /**
- * Schwarzliste für `.claude/` (Repo ist öffentlich): Namen und Pfade privater Projekte, der Windows-Kontoname in
- * Skill-Pfaden und der Nachname dürfen nicht in den eingesammelten Dateien stehen. Die Suche ist ein reiner Textvergleich
+ * Schwarzliste für `.claude/` (Repo ist öffentlich): Namen und Pfade privater Projekte und der Windows-Kontoname in
+ * Skill-Pfaden dürfen nicht in den eingesammelten Dateien stehen. Nachname, Adresse und private Domain prüft repoweit
+ * `tools/privatkennungen-wache.test.mjs`. Die Suche ist ein reiner Textvergleich
  * (`findePrivates`), mit Fällen je Muster; danach läuft sie über alle Dateien des Ordners.
  */
 import assert from 'node:assert/strict'
@@ -12,13 +13,12 @@ const MUSTER = [
   { name: 'Bewerbungs-Projekt', treffer: /_bewerbung|ai-bewerbung/ },
   { name: 'Spielprojekt', treffer: /GeoGuessr/ },
   { name: 'Portfolio-Repo', treffer: /Portfolio-daniel/ },
-  { name: 'Nachname', treffer: /Zaiser/, ausser: ['mods/arbeitsliste/.claude-plugin/plugin.json'] },
   { name: 'Kontoname im Skill-Pfad', treffer: /C:[\\/]+Users[\\/]/, nur: 'skills/' },
 ]
 
 /** Liefert die Namen der Muster, die `text` der Datei `pfad` (relativ, mit `/`) verletzen. */
 export function findePrivates(pfad, text) {
-  return MUSTER.filter((m) => m.treffer.test(text) && !m.ausser?.includes(pfad) && (!m.nur || pfad.startsWith(m.nur))).map((m) => m.name)
+  return MUSTER.filter((m) => m.treffer.test(text) && (!m.nur || pfad.startsWith(m.nur))).map((m) => m.name)
 }
 
 const alleDateien = (ordner) => readdirSync(ordner, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? alleDateien(join(ordner, e.name)) : [join(ordner, e.name)]))
@@ -31,8 +31,6 @@ assert.equal(fall('rules/x.md', 'C:\\code\\ai\\_bewerbung\\y'), 'Bewerbungs-Proj
 assert.equal(fall('rules/x.md', '/ai-bewerbung-input-list'), 'Bewerbungs-Projekt')
 assert.equal(fall('skills/a/SKILL.md', 'bei GeoGuessr'), 'Spielprojekt')
 assert.equal(fall('skills/a/SKILL.md', 'danielzaiser91/Portfolio-daniel-zaiser.de'), 'Portfolio-Repo')
-assert.equal(fall('agents/x.md', 'Daniel Zaiser'), 'Nachname')
-assert.equal(fall('mods/arbeitsliste/.claude-plugin/plugin.json', 'Daniel Zaiser'), '', 'Autorfeld der Mod ist erlaubt')
 assert.equal(fall('agents/x.md', 'danielzaiser91/anime-kalender-de'), '', 'GitHub-Kontoname ist öffentlich')
 assert.equal(fall('skills/a/SKILL.md', 'C:/Users/ih/.claude'), 'Kontoname im Skill-Pfad')
 assert.equal(fall('skills/a/SKILL.md', 'C:\\Users\\ih\\.claude'), 'Kontoname im Skill-Pfad')

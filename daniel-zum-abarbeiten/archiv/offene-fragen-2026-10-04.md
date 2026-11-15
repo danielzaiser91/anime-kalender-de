@@ -19,7 +19,7 @@ Alles, wofür ich dich brauche, steht hier; ich arbeite mit allem anderen weiter
 
 ## Betrieb (04.10.2026, 22:00)
 
-- 📅 **Testmail:** Um 21:52 habe ich von `daniel-zaiser@daniel-zaiser.de` an `info@daniel-zaiser.de` geschrieben (Betreff „Test Weiterleitung info@ -> Googlemail (04.10.2026)"; PurelyMail hat sie angenommen). **Dein Teil:** In Gmail nach diesem Betreff suchen (Posteingang und Spam) und mir sagen, ob sie da ist.
+- 📅 **Testmail:** Um 21:52 habe ich von der privaten Adresse an die private Weiterleitungsadresse geschrieben (Betreff „Test Weiterleitung info@ -> Googlemail (04.10.2026)"; PurelyMail hat sie angenommen). **Dein Teil:** In Gmail nach diesem Betreff suchen (Posteingang und Spam) und mir sagen, ob sie da ist.
 - ⏳ **Resend:** DKIM „verified", SPF und Rücklauf noch „pending" (Stand 21:55); die Mail um 07:00 sollte im Posteingang landen.
 
 ## Wartet auf Dritte

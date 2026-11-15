@@ -709,6 +709,7 @@ tools/link-anisearch-amazon.test.ts
 tools/link-check-ende.test.ts
 tools/link-check-zeitbudget.test.ts
 tools/link-faelligkeit.test.ts
+tools/privatkennungen-wache.test.mjs
 tools/quarantaene-pruefungen.test.ts
 tools/quellen-gesundheit.test.ts
 tools/quellen-leer.test.ts

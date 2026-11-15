@@ -1173,7 +1173,7 @@ Migrationen: `CI=true npx wrangler d1 migrations apply DB --remote --config wran
 jede Mail im Spam („nicht authentifiziert", über amazonses.com). Am 04.10.2026 mit dem Cloudflare-Token neu angelegt, die Werte stammen von der Resend-API (`GET /domains/{id}`).
 **Nach jedem Wechsel des DNS-Anbieters:** Einträge der Sendedomain neu anlegen und `POST /domains/{id}/verify` anstoßen; Prüfung: `nslookup -type=TXT resend._domainkey.send.anime-kalender.de 1.1.1.1`.
 
-**Weiterleitung `info@daniel-zaiser.de`** (PurelyMail, Regeln per API `listRoutingRules`): `info`, `kontakt`, `business` … und ein Sammel-Eintrag zeigen auf die private Adresse. Eine Testmail
+**Weiterleitung der privaten Domain** (PurelyMail, Regeln per API `listRoutingRules`): `info`, `kontakt`, `business` … und ein Sammel-Eintrag zeigen auf die private Adresse. Eine Testmail
 **vom eigenen Googlemail-Konto** kommt nicht an (Gmail verwirft die zurückkommende Kopie derselben Nachricht als Duplikat) — Proben von einem anderen Absender senden.
 
 ## D1-Kontingent: Vollexporte in R2 statt im Edge-Cache (05.10.2026)
