@@ -2,9 +2,17 @@
  * Reine Rechenfunktionen für Qualität (Prüfer-Urteile) und „CI grün bis Merge“ der Tageskennzahlen; kein gh, kein git.
  *
  * Zählweise Qualität (gemessen an PR 3920, 3912, 3922, 3911 vom 15.11.2026): Der CI-Prüfer schreibt je Kopf einen Kommentar
- * „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern|nicht beurteilt, …**“. „nicht beurteilt“ (Kette lief noch) ist kein Urteil.
- *   - Prüfrunde eines PR = ein Kopf mit Urteil ≠ ok, der vor dem ersten „ok“ liegt (mehrere Kommentare zum selben Kopf zählen einmal;
- *     ein „aendern“ nach dem ersten „ok“, etwa weil main hereingemergt wurde, ist keine Nachbesserung des Inhalts und zählt nicht).
+ * „**Prüfer-Review** für <Kopf> - Urteil: **ok|aendern|nicht beurteilt, …**“, echt auch mit Zusatz (4 363 Kommentare seit 10.10.2026:
+ * ok 2 636, aendern 1 158, „ok, Checks rot: …“ / „ok, Checks laufen noch: …“ 229, „aendern, Auflagen offen: Dirigent entscheidet“ 146,
+ * „nicht beurteilt, …“ 194). Entscheidung je Form:
+ *   - „nicht beurteilt, …“ (Kette lief noch) ist kein Urteil.
+ *   - „ok“ mit Zusatz ist ok: der Prüfer hat den Inhalt freigegeben, rot oder laufend beschreibt nur die Kette; keine Nachbesserung.
+ *   - „aendern“ mit Zusatz ist aendern.
+ *   - Dasselbe Urteil auf demselben Kopf zählt einmal; bekommt ein Kopf, der „aendern“ hatte, später „ok“ (Neulauf ohne neuen Commit), ist er
+ *     keine Nachbesserung: er hat die Freigabe selbst erhalten.
+ *   - Prüfrunde eines PR = ein Kopf mit Urteil ≠ ok, der vor dem ersten „ok“ liegt und nie selbst „ok“ bekommt
+ *     (ein „aendern“ nach dem ersten „ok“, etwa weil main hereingemergt wurde, ist keine Nachbesserung des Inhalts und zählt nicht).
+ *   - Das ist das Urteil des CI-Prüfers; bei Stufe-2-PRs kann der Prüfer-Agent früher „ändern“ sagen (Handtext, zählt nicht).
  *   - Freigabe in Runde 1 = das erste Urteil des PR ist „ok“, also null Nachbesserungsrunden.
  *   - Es zählen nur PRs von Hand, die am Tag gemergt wurden und mindestens ein Urteil haben (Stufe-0-Kleinigkeiten ohne Urteil fallen heraus).
  * Prüfer-Agent-Kommentare und „Nachtrag (Abnahme Dirigent …“ sind Handtexte mit wechselnder Form und zählen nicht.
@@ -23,7 +31,7 @@ export function urteileJePr(zeilen) {
   for (const z of [...zeilen].sort((a, b) => Date.parse(a.zeit) - Date.parse(b.zeit))) {
     if (z.urteil.startsWith('nicht beurteilt')) continue
     if (!jePr.has(z.pr)) jePr.set(z.pr, [])
-    jePr.get(z.pr).push({ kopf: z.kopf, ok: z.urteil === 'ok' })
+    jePr.get(z.pr).push({ kopf: z.kopf, ok: /^ok(,|$)/.test(z.urteil) })
   }
   return jePr
 }
@@ -32,7 +40,8 @@ export function urteileJePr(zeilen) {
 export function nachbesserungsrunden(urteile) {
   const ersterOk = urteile.findIndex((u) => u.ok)
   const davor = ersterOk < 0 ? urteile : urteile.slice(0, ersterOk)
-  return new Set(davor.map((u) => u.kopf)).size
+  const freigegeben = new Set(urteile.filter((u) => u.ok).map((u) => u.kopf))
+  return new Set(davor.map((u) => u.kopf).filter((k) => !freigegeben.has(k))).size
 }
 
 /** Qualität der am Tag von Hand gemergten PRs; `undefined`, wenn keiner ein Urteil hat. `prs`: [{ number }]. */
