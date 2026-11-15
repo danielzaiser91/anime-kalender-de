@@ -11,7 +11,7 @@ const JA = [
   'tools/test-kind-frist-stand.json',
   'tools/test-kind-frist.mjs',
 ]
-const NEIN = ['README.md', 'tools/x.mjs', 'tools/x.test.js', 'tools/unter/x.test.mjs', 'pipeline/x.test.mjs', 'tools/test-kind-frist.json', 'tools/test-kind-frist-stand.txt']
+const NEIN = ['README.md', 'tools/x.mjs', 'tools/x.test.js', 'tools/unter/x.test.mjs', 'fremd/tools/x.test.mjs', 'pipeline/x.test.mjs', 'tools/test-kind-frist.json', 'tools/test-kind-frist-stand.txt']
 for (const d of JA) assert.equal(kindFristNoetig(['README.md', d]), true, `${d} berührt die Ratsche`)
 for (const d of NEIN) assert.equal(kindFristNoetig([d]), false, `${d} berührt die Ratsche nicht`)
 assert.equal(kindFristNoetig([]), false, 'leerer Diff')
