@@ -2,6 +2,9 @@
  * Datenaufbereitung der Tagesbericht-Ansicht (tools/kennzahlen/kennzahlen.html): reine Funktionen, kein Dateizugriff.
  * Wochenmittel = gleitender Mittelwert über die letzten 7 Tage (nur vorhandene Werte); Marker = Index des Maßnahmen-Tags.
  */
+import { createRequire } from 'node:module'
+
+const logik = createRequire(import.meta.url)('./kennzahlen/kennzahlen-logik.cjs')
 
 /** Kennzahlen der Ansicht: Schlüssel = Pfad in der Tageszeile. */
 export const KENNZAHLEN = [
@@ -45,12 +48,44 @@ export function wochenmittel(werte, fenster = 7) {
   })
 }
 
-/** Maßnahmen auf Tagesindizes abbilden; Maßnahmen außerhalb des Zeitraums entfallen. */
+const WIRKUNG_TAGE = 7
+const WIRKUNG_MIN_TAGE = 3
+const MARKER_ZEILEN = 5
+const MARKER_BREITE = 52
+
+function mittel(werte) {
+  const da = werte.filter((v) => v !== null)
+  if (da.length < WIRKUNG_MIN_TAGE) return null
+  return Math.round((da.reduce((a, b) => a + b, 0) / da.length) * 100) / 100
+}
+
+/**
+ * Wirkung einer Maßnahme am Tag `index`: Mittel der bis zu 7 Tage davor gegen die bis zu 7 Tage danach (der Tag selbst zählt nicht);
+ * je Seite mindestens 3 Werte, sonst null (zu früh). urteil: 'ja' wenn die Veränderung der erwarteten Richtung entspricht.
+ */
+export function wirkung(werte, index, richtung) {
+  const vorher = mittel(werte.slice(Math.max(0, index - WIRKUNG_TAGE), index))
+  const nachher = mittel(werte.slice(index + 1, index + 1 + WIRKUNG_TAGE))
+  if (vorher === null || nachher === null) return { vorher, nachher, urteil: null }
+  const regeln = { sinkt: nachher < vorher, 'nicht-steigend': nachher <= vorher, steigt: nachher > vorher }
+  return { vorher, nachher, urteil: richtung in regeln ? (regeln[richtung] ? 'ja' : 'nein') : null }
+}
+
+/** Maßnahmen auf Tagesindizes abbilden (samt Wirkung und Beschriftungszeile); Maßnahmen außerhalb des Zeitraums entfallen. */
 export function markerZuordnen(massnahmen, tage) {
   const tagIndex = new Map(tage.map((t, i) => [t.tag, i]))
-  return massnahmen
-    .filter((m) => tagIndex.has(m.datum))
-    .map((m) => ({ index: tagIndex.get(m.datum), datum: m.datum, pr: m.pr, text: m.text, kennzahl: m.kennzahl, richtung: m.richtung }))
+  const innen = massnahmen.filter((m) => tagIndex.has(m.datum))
+  const zeilen = logik.staffelZeilen(innen.map((m) => logik.tagPosition(tagIndex.get(m.datum), tage.length)), MARKER_BREITE, MARKER_ZEILEN)
+  return innen.map((m, i) => ({
+    index: tagIndex.get(m.datum),
+    datum: m.datum,
+    pr: m.pr,
+    text: m.text,
+    kennzahl: m.kennzahl,
+    richtung: m.richtung,
+    zeile: zeilen[i],
+    ...wirkung(reihe(tage, m.kennzahl), tagIndex.get(m.datum), m.richtung),
+  }))
 }
 
 /** Alles, was die Seite braucht (wird als daten.js geschrieben). kernpunkte: { 'YYYY-MM-DD': { geschafft: [], probleme: [] } } */

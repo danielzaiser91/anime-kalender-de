@@ -2295,3 +2295,11 @@ Eine über die Staffelsumme (F100, PR 2703) zugeordnete spätere Staffel steht a
 - `… eintragen <id> --routine <trig_id> --register <pfad.json> [--vorrat <datei.md>]`: Eintrag anlegen (gleiche id wird ersetzt); mit `--vorrat` kommt unter die erste Zeile `**Vergeben:** Cloud-Routine https://claude.ai/code/routines/<trig_id> (TT.MM. HH:MM, Berliner Zeit)`, steht dort schon eine, Exit 1 ohne Änderung.
 - `… uebersicht --register <pfad.json> [--runs <runs.json>] [--json]`: je offenem Eintrag PR, letzter Commit, Kette und Merge-Reife (`kandidat()` des Nacht-Mergers), Sitzung aus `runs.json` (`{"<trig_id>": {"data": [{worker_status, last_event_at}]}}`); `ALARM haengt: <id> …` bei running und seit > 45 min ohne Ereignis oder idle ohne PR und Start > 30 min her; fertige Einträge nur als Zahl in der Schlusszeile.
 - `… kontingent`: Grenze = round(Median der Merges je Stunde mit Merge, letzte 72 h, ohne `chore(data)`/github-actions × 2), mindestens 5, höchstens 15; Zeile `Kontingent: <offen>/<grenze> (Durchsatz <x>/h, …)`, Exit 1 bei voll (offene, nicht als Entwurf geführte Code-PRs).
+
+## Tageskennzahlen und ihre Ansicht (15.11.2026)
+
+Ansicht zum Öffnen mit einem Klick (Windows, kein Server): [kennzahlen.html](file:///C:/code/ai/anime-kalender-de/tools/kennzahlen/kennzahlen.html). Sie zeigt je Tag seit 01.10. die Kennzahlen aus `tools/kennzahlen/tage.jsonl`, zwei Tage im Vergleich, Kernpunkte der Tagesberichte, Kurven mit Kästchen, Wochenmittel und die Maßnahmen aus `massnahmen.yaml` samt Mittel 7 Tage davor/danach.
+- Ein Befehl zieht alles nach: `node tools/tageskennzahlen.mjs` schreibt `tage.jsonl`, ergänzt `kernpunkte.yaml` aus `daniel-zum-abarbeiten/berichte/tagesbericht-JJJJ-MM-TT*.md` (`tools/kennzahlen-kernpunkte.mjs`) und erzeugt `daten.js` (`tools/kennzahlen-daten-erzeugen.mjs`). Der Tagesbericht verweist auf den Link oben.
+- `tools/kennzahlen-aufbereiten.test.mjs` wird rot, wenn `daten.js` nicht zu `tage.jsonl`, `massnahmen.yaml` und `kernpunkte.yaml` passt; dann den Erzeuger fahren und `daten.js` mitcommitten.
+- Jede neue Maßnahme bekommt eine Zeile in `tools/kennzahlen/massnahmen.yaml` (Datum, PR, Text, Kennzahl, Richtung).
+- Noch nicht in `tage.jsonl` (Folgeauftrag): Freigabe in Runde 1, Nachbesserungsrunden je PR, neue Lehren je Tag, Zeit CI grün bis Merge.

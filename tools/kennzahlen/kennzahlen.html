@@ -26,6 +26,7 @@
   button.auf { border: 0; background: none; color: var(--ak); cursor: pointer; font: inherit; padding: 0 4px; }
   tr.kern td { white-space: normal; text-align: left; background: var(--bg); }
   tr.kern td:first-child { position: static; }
+  .kernbox { position: sticky; left: 8px; width: min(860px, calc(100vw - 56px)); white-space: normal; text-align: left; }
   .vergleich { margin-bottom: 8px; }
   .vergleich table { width: 100%; }
   .vergleich td, .vergleich th { position: static; }
@@ -57,11 +58,12 @@
   <div class="karte">
     <div class="opt" id="optionen"></div>
     <div class="opt" id="kurven"></div>
-    <div style="overflow-x:auto"><svg id="grafik" style="min-width:720px" viewBox="0 0 960 340" role="img" aria-label="Liniengrafik der Kennzahlen je Tag"></svg></div>
+    <div style="overflow-x:auto"><svg id="grafik" style="min-width:720px" viewBox="0 0 960 372" role="img" aria-label="Liniengrafik der Kennzahlen je Tag"></svg></div>
     <div id="tipp">Mit der Maus oder dem Finger über die Grafik fahren, um die Werte eines Tages zu sehen. Jede Kurve ist auf ihren eigenen Höchstwert normiert.</div>
     <ol class="massnahmen" id="massnahmen"></ol>
   </div>
 </main>
+<script src="kennzahlen-logik.cjs"></script>
 <script src="daten.js"></script>
 <script>
 (function () {
@@ -114,13 +116,13 @@
       });
       t.appendChild(tr);
       if (kp && offen[tag]) {
-        var kr = el('tr', { 'class': 'kern' }), kz = el('td', { colspan: String(D.kennzahlen.length + 1) });
+        var kr = el('tr', { 'class': 'kern' }), kz = el('td', { colspan: String(D.kennzahlen.length + 1) }), box = el('div', { 'class': 'kernbox' });
         [['Was geschafft', kp.geschafft], ['Probleme', kp.probleme]].forEach(function (g) {
           if (!g[1] || !g[1].length) return;
-          kz.appendChild(el('strong', {}, g[0])); var ul = el('ul');
-          g[1].forEach(function (s) { ul.appendChild(el('li', {}, s)); }); kz.appendChild(ul);
+          box.appendChild(el('strong', {}, g[0])); var ul = el('ul');
+          g[1].forEach(function (s) { ul.appendChild(el('li', {}, s)); }); box.appendChild(ul);
         });
-        kr.appendChild(kz); t.appendChild(kr);
+        kz.appendChild(box); kr.appendChild(kz); t.appendChild(kr);
       }
     })(i);
   }
@@ -157,8 +159,8 @@
     });
   }
 
-  var B = 960, H = 340, L = 40, R = 12, T = 22, U = 38;
-  function x(i) { return L + (D.tage.length < 2 ? 0 : i * (B - L - R) / (D.tage.length - 1)); }
+  var K = window.KennzahlenLogik, B = K.BREITE, H = 372, L = K.LINKS, R = K.RECHTS, T = 68, U = 38;
+  function x(i) { return K.tagPosition(i, D.tage.length); }
   function reihe(k) { return wochen ? k.wochenmittel : k.werte; }
 
   function grafik() {
@@ -174,8 +176,8 @@
     var aktivePfade = D.kennzahlen.filter(function (k) { return an[k.pfad]; }).map(function (k) { return k.pfad; });
     if (markerAn) D.marker.forEach(function (m) {
       var treffer = aktivePfade.indexOf(m.kennzahl) >= 0;
-      s.appendChild(sv('line', { x1: x(m.index), x2: x(m.index), y1: T - 6, y2: H - U, 'class': 'marker' + (treffer ? ' treffer' : '') }));
-      var tx = sv('text', { x: x(m.index), y: T - 9, 'text-anchor': 'middle' }, '#' + m.pr);
+      s.appendChild(sv('line', { x1: x(m.index), x2: x(m.index), y1: 19 + m.zeile * 11, y2: H - U, 'class': 'marker' + (treffer ? ' treffer' : '') }));
+      var tx = sv('text', { x: x(m.index), y: 15 + m.zeile * 11, 'text-anchor': x(m.index) > B - 40 ? 'end' : 'middle' }, '#' + m.pr);
       tx.appendChild(sv('title', {}, m.datum + ': ' + m.text)); s.appendChild(tx);
     });
     D.kennzahlen.forEach(function (k, ki) {
@@ -194,7 +196,7 @@
     var flaeche = sv('rect', { x: L, y: 0, width: B - L - R, height: H, fill: 'transparent' }); s.appendChild(flaeche);
     function zeige(ev) {
       var p = s.getBoundingClientRect(), px = (ev.clientX - p.left) * B / p.width;
-      var i = Math.max(0, Math.min(D.tage.length - 1, Math.round((px - L) / ((B - L - R) / (D.tage.length - 1)))));
+      var i = K.naechsterTag(px, D.tage.length);
       cursor.setAttribute('x1', x(i)); cursor.setAttribute('x2', x(i)); cursor.setAttribute('visibility', 'visible');
       var teile = D.kennzahlen.filter(function (k) { return an[k.pfad]; }).map(function (k) { return k.name + ': ' + zahl(reihe(k)[i], k); });
       var ms = D.marker.filter(function (m) { return m.index === i; }).map(function (m) { return ' | Maßnahme #' + m.pr + ': ' + m.text; });
@@ -204,10 +206,16 @@
     liste();
   }
 
+  function wirkungText(m) {
+    if (m.vorher === null || m.nachher === null) return 'noch zu wenig Tage davor oder danach';
+    var u = m.urteil === 'ja' ? 'wie erwartet' : m.urteil === 'nein' ? 'nicht wie erwartet' : 'ohne Urteil';
+    return 'Ø 7 Tage davor ' + m.vorher + ' → danach ' + m.nachher + ', ' + u;
+  }
+
   function liste() {
     var o = document.getElementById('massnahmen'); o.textContent = '';
     D.marker.forEach(function (m) {
-      var li = el('li', an[m.kennzahl] ? { 'class': 'aktiv' } : {}, m.datum + ' #' + m.pr + ' – ' + m.text + ' (' + m.kennzahl + ' ' + m.richtung + ')');
+      var li = el('li', an[m.kennzahl] ? { 'class': 'aktiv' } : {}, m.datum + ' #' + m.pr + ' – ' + m.text + ' (' + m.kennzahl + ' ' + m.richtung + '; ' + wirkungText(m) + ')');
       o.appendChild(li);
     });
   }
