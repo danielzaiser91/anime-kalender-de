@@ -43,6 +43,8 @@ QUELLEN=(
   data/luecken-titel.json
   # Cover-Lückenliste (04.11.2026): vom Bau aus den fertigen Dateien geschrieben (Kennung → Grund).
   data/cover-luecken.json
+  # Mängel-Register (16.11.2026): vom Bau aus den fertigen Dateien geschrieben, `seit` aus der Vorfassung.
+  data/maengel.json
   # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
   data/anisearch-abweichungen.json
   # Abgleich Katalog gegen aniSearch-Titelliste (11.10.2026, `fetch-anisearch-katalog-abgleich.ts`): Bindungen (der Bau liest sie, ein Lauf ergänzt sie nur) und Prüfliste.

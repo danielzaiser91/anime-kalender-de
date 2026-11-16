@@ -332,6 +332,22 @@ jobs:
           fi
           exit "$status"
 
+      # Mängel-Register (`data/maengel.json`, vom Bau): `check-maengel.ts` druckt je Art `MAENGEL_NEU …` und `MAENGEL_RUECKFALL …` (Exit bleibt 0),
+      # daraus wird die gelbe Lauf-Meldung (`DATEN_WARNUNG`) wie beim Streaming-Rückgang. Cover steht nur im Register.
+      - name: Mängel melden
+        continue-on-error: true
+        run: |
+          npm run check:maengel > "$RUNNER_TEMP/maengel.log" 2>&1 || { cat "$RUNNER_TEMP/maengel.log"; exit 1; }
+          cat "$RUNNER_TEMP/maengel.log"
+          for art in NEU:neu RUECKFALL:Rückfall; do
+            if grep -q "^MAENGEL_${art%%:*} " "$RUNNER_TEMP/maengel.log"; then
+              zeilen="$(grep -m1 "^MAENGEL_${art%%:*} " "$RUNNER_TEMP/maengel.log" | cut -d' ' -f2-)"
+              echo "::warning::Mängel ${art##*:}: ${zeilen}"
+              DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Mängel ${art##*:}: ${zeilen}"
+              echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
+            fi
+          done
+
       # Fehlt eine deutsche Crunchyroll-Folge der letzten 14 Tage als Termin, bleibt der Bau grün und die Daten gehen raus; die Folge
       # kommt als gelbe Lauf-Meldung (`DATEN_WARNUNG`) in die App und in `laeufe-aufraeumen` (Anlass 25.10.2026: Last Boss S2 #1–2,
       # Apothekerin S3 #49 fehlten Tage, Widerlegung durch das Wochenprogramm).

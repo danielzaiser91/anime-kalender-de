@@ -25,6 +25,7 @@ import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
 import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
+import { MAENGEL_DATEI, offeneJeArt, type Register } from './lib/maengel-register.ts'
 import { RUECKGANG_ZEILE, streamingRueckgang, VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
 
 interface Kennzahlen {
@@ -44,6 +45,8 @@ interface Kennzahlen {
   dubFalseImBestand: number
   doppelteAdressen: number
   verwaisteTermine: number
+  /** Offene Mängel je Art aus `data/maengel.json` (ab 16.11.2026); fehlt, solange es das Register nicht gibt. */
+  maengel?: Record<string, number>
 }
 
 /** Was nicht null sein darf. Jeder Punkt hier hatte schon einmal einen Fehler. */
@@ -88,6 +91,8 @@ function main(): void {
     doppelteAdressen: doppelt,
     verwaisteTermine: zaehleVerwaisteTermine(events, ids, cartoonIds),
   }
+  const register = readJson<Register | null>(MAENGEL_DATEI, null)
+  if (register) zahlen.maengel = offeneJeArt(register)
 
   /*
     Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
