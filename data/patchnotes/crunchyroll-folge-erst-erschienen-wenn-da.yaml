@@ -1,3 +1,4 @@
 kategorie: bugfix
-text: Crunchyroll-Folgen zählen erst, wenn sie da sind
-untertitel: Bis dahin steht dort „fällig“ statt „erschienen“.
+text: Verspätete Crunchyroll-Folgen zählen nicht mehr als erschienen
+untertitel: Die Detailseite zeigt dann „fällig seit 15:00 Uhr“.
+highlight: true

@@ -30,6 +30,7 @@ Dazu steht das Einreichen mit `if: always()` am Ende **jedes** Jobs: Ein hängen
 - `continue-on-error` allein macht Fehlschläge zu grünen Haken. Schritte laufen über einen Rahmen (`tools/schritt.sh`): Zeitgrenze, Anmerkung, Zusammenfassung, gelbe Meldung.
 - **Was ein Lauf schreibt, muss in einer Liste stehen, die geliefert wird.** Prüfung zur Laufzeit (`quellen_verloren`), nicht nur beim Einrichten: Zwei Ausgaben gingen wochenlang verloren, weil sie fehlten.
 - Ein Alter, das im Dateisystem steht, ist in der CI keins (Checkout setzt alle Zeiten). Alter gehört ins Repo.
+- **`GITHUB_ENV` wirkt erst im nächsten Schritt (16.11.2026, PR 4005):** Hängt ein Schritt zweimal an dieselbe Variable an (`DATEN_WARNUNG=${DATEN_WARNUNG:+…}`), sieht der zweite Zugriff den ersten nicht, und der letzte überschreibt. Den Wert in der Shell mitführen, dann schreiben.
 
 ## Vor jedem Push nach `.github/workflows/`
 

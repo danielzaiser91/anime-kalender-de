@@ -40,24 +40,34 @@ export function blockSchluessel(seriesId: string | undefined, staffelId: string 
 }
 
 /**
- * Blöcke (Kennung und `staffelId`), die irgendein Eintrag der Kennung ohne deutsche Folge führt. Die Einträge einer Kennung sind zu
- * verschiedenen Zeiten geprüft (04.11.2026, Persona 5: derselbe Block 1/0 in drei Einträgen, 1/1 im vierten); widersprechen sie sich,
- * gilt der Block nirgends als deutsch.
+ * Blöcke (Kennung und `staffelId`), die der jüngste Eintrag der Kennung ohne deutsche Folge führt. Die Einträge einer Kennung sind zu
+ * verschiedenen Zeiten geprüft (04.11.2026, Persona 5: derselbe Block 1/0 in drei Einträgen, 1/1 im vierten); widersprechen sie sich bei
+ * gleichem oder fehlendem Prüfdatum, gilt der Block nirgends als deutsch. Ein jüngerer Eintrag mit deutscher Folge hebt ein älteres Null
+ * auf (16.11.2026, Persona 5: Gesamtabruf 2/2 deutsch gegen 1/0 vom 26.10., der Titel fiel aus dem Bestand).
  */
 export function blockSchluesselMitNull(crDub: CrDubData): Set<string> {
   const ids = new Set<string>()
+  const neuester = new Map<string, { datum: string; ohneDeutsch: boolean }>()
   for (const serie of crDub.serien) {
     for (const b of serie.staffeln ?? []) {
       const k = blockSchluessel(serie.seriesId, b.staffelId)
-      if (k && b.folgen > 0 && b.deutsch === 0) ids.add(k)
+      if (!k || b.folgen <= 0) continue
+      const datum = serie.geprueftAm ?? ''
+      const bisher = neuester.get(k)
+      if (!bisher || datum > bisher.datum) neuester.set(k, { datum, ohneDeutsch: b.deutsch === 0 })
+      else if (datum === bisher.datum && b.deutsch === 0) bisher.ohneDeutsch = true
     }
   }
+  for (const [k, v] of neuester) if (v.ohneDeutsch) ids.add(k)
   return ids
 }
 
-/** Führt der Eintrag einen Block, den ein anderer Eintrag derselben Kennung ohne deutsche Folge führt? */
-function hatWiderspruchsBlock(serie: CrSerie, mitNull: Set<string>): boolean {
-  return (serie.staffeln ?? []).some((b) => mitNull.has(blockSchluessel(serie.seriesId, b.staffelId) ?? ''))
+/** Null-Block, der nach dem jüngsten Eintrag noch gilt: Blöcke mit Schlüssel zählen nur, wenn kein jüngerer Eintrag sie deutsch führt. */
+function hatGeltendenNullBlock(serie: CrSerie, mitNull: Set<string>): boolean {
+  return (serie.staffeln ?? []).some((b) => {
+    const k = blockSchluessel(serie.seriesId, b.staffelId)
+    return k ? mitNull.has(k) : b.folgen > 0 && b.deutsch === 0
+  })
 }
 
 function deutschFolgen(serie: CrSerie): number {
@@ -127,7 +137,7 @@ export function crJaOhneDeckung({ titles, mitTermin, mitBeleg, crDub }: Deckungs
   const offen: string[] = []
   const mitNull = blockSchluesselMitNull(crDub)
   for (const serie of crDub.serien) {
-    if (!hatNullBlock(serie) && !hatWiderspruchsBlock(serie, mitNull)) continue
+    if (!hatGeltendenNullBlock(serie, mitNull)) continue
     for (const t of nachUrl.get(serie.url) ?? []) {
       const weg = t.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
       if (!weg?.dub || weg.dubRanges?.length) continue
