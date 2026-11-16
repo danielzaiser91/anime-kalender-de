@@ -6,6 +6,7 @@ import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
 import { berechnePruefstand } from './pruefung-stand.ts'
 import { leseGemeldet } from './pruefung-gemeldet.ts'
 import { GEMELDET_SEKUNDEN, gemeldetSchluessel } from './pruefung-gemeldet-cache.ts'
+import { adressenAusAnfrage, leseGemeldetSammel, SAMMEL_MAX, SAMMEL_SEKUNDEN } from './pruefung-gemeldet-sammel.ts'
 import { wartendSchluessel } from './pruefung-stand-briefkasten.ts'
 import { type AusCache } from './cache-kurz.ts'
 import { allePruefungen, offenePruefungen } from './titelzeile-lesen.ts'
@@ -51,6 +52,11 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
      *
      * Nur Folgennummern, keine Inhalte; deshalb ohne Token.
      */
+    /* Viele Adressen in einer Anfrage (`pruefung-gemeldet-sammel.ts`); kurz gehalten, weil der Schlüssel die ganze Liste ist. */
+    const sammel = adressenAusAnfrage(new URL(request.url).searchParams)
+    if (sammel === 'zuviele') return antwort({ error: `höchstens ${SAMMEL_MAX} Adressen` }, 400)
+    if (sammel) return ausCache(async () => antwort({ adressen: await leseGemeldetSammel(env, sammel) }), SAMMEL_SEKUNDEN)
+
     const fuer = new URL(request.url).searchParams.get('gemeldet')
     if (fuer) {
       return ausCache(
