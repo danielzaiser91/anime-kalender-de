@@ -8,6 +8,7 @@ import { KreuzZeichen } from './Zeichen.tsx'
 import { PILLE_JA, PILLE_NEIN } from '../filter/pille-zustand.ts'
 import { herkunftName } from '../filter/herkunft-gruppe.tsx'
 import type { Herkunft } from '../../lib/herkunft.ts'
+import { wertungEintraege } from '../filter/wertung-gruppe.tsx'
 
 interface Eintrag {
   label: string
@@ -95,6 +96,7 @@ function useEintraege(
   if (filters.confirmedExcluded) liste.push({ label: `⊘ ${t('filter.schnell.bestaetigt')}`, aus: true, weg: aus({ confirmedExcluded: false }) })
   if (filters.availableExcluded) liste.push({ label: `⊘ ${t('filter.schnell.verfuegbar')}`, aus: true, weg: aus({ availableExcluded: false }) })
   if (filters.zweitanbieterExcluded) liste.push({ label: `⊘ ${t('filter.schnell.zweitanbieter')}`, aus: true, weg: aus({ zweitanbieterExcluded: false }) })
+  liste.push(...wertungEintraege(t, filters, aus))
   if (tvAn === false) liste.push({ label: t('filter.ohneTv'), aus: true, weg: () => setTvAn?.(true) })
   return liste
 }

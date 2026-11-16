@@ -7,6 +7,7 @@ import { useStartdaten } from './lib/start-daten.ts'
 import { useEinstellungenOffen } from './lib/einstellungen-offen.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
+import { wertungNurMitVollenDaten } from './lib/filter-wertung.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
 import { titelQuelle } from './lib/titel-quelle.ts'
 import type { Fundstelle } from './lib/search.ts'
@@ -129,8 +130,8 @@ export default function App() {
   }, [data, cartoons, brauchtCartoons])
 
   const { wert: events, veraltet: eventsVeraltet } = useZeitscheibe(
-    () => (data ? eventsFuerAnsichtGen(data, kalenderFilters, today, favorites, tvAus) : leeresErgebnis(LEERE_TERMINE)),
-    [data, kalenderFilters, today, favorites, tvAus],
+    () => (data ? eventsFuerAnsichtGen(data, wertungNurMitVollenDaten(kalenderFilters, !!voll), today, favorites, tvAus) : leeresErgebnis(LEERE_TERMINE)),
+    [data, kalenderFilters, voll, today, favorites, tvAus],
     LEERE_TERMINE,
   )
   const eventListe = events.liste
