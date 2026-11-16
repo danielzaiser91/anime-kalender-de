@@ -73,6 +73,7 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
     loadDataset()
       .then((d) => startTransition(() => setVoll(d)))
       .catch((e: Error) => {
+        geladen.current = false /* ein späterer Anlass (Ansichtswechsel, Knopf) fragt neu */
         console.warn(e.message)
         setError(e.message)
       })

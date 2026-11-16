@@ -22,6 +22,7 @@ const TEXTE = {
   'app.loadingTitles': '{count} Einträge werden geladen …',
   'app.loadError': 'Die Daten laden gerade nicht.',
   'app.loadRetry': 'Erneut versuchen',
+  'app.loadRetryHint': 'Klappt es nicht, versuch es in ein paar Minuten noch einmal.',
 
   'view.woche': 'Woche',
   'view.monat': 'Monat',

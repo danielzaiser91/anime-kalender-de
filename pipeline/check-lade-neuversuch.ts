@@ -1,11 +1,11 @@
 /**
  * Zusicherung: Eine Datendatei, die kurz nicht antwortet, bringt den Besucher nicht auf die Fehlerseite (Anlass 16.11.2026: `releases.json` mit 503).
  * Fälle: einmal 503 dann 200 lädt; viermal 503 endet im Fehler nach genau vier Anfragen; 429 und Netzfehler wie 503; 404 höchstens ein Neuversuch;
- * 403 keiner; abgeschnittene Antwort (kein JSON) wie ein Netzfehler; die Pausen wachsen und kommen aus `pausen`; über `loadJson` gilt dasselbe.
+ * 403 keiner; `gemerkt` gibt Gescheitertes frei; abgeschnittene Antwort (kein JSON) wie ein Netzfehler; die Pausen wachsen und kommen aus `pausen`; über `loadJson` gilt dasselbe.
  *
  * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-lade-neuversuch.ts`
  */
-import { holeMitNeuversuch, NEUVERSUCH_PAUSEN_MS, DatenLadefehler } from '../web/src/lib/lade-neuversuch.ts'
+import { gemerkt, holeMitNeuversuch, NEUVERSUCH_PAUSEN_MS, DatenLadefehler } from '../web/src/lib/lade-neuversuch.ts'
 import { loadJson } from '../web/src/lib/data.ts'
 
 let verletzt = 0
@@ -73,9 +73,12 @@ const kaputt = await lauf(['kaputt', 200])
 pruefe('abgeschnittene Antwort, dann 200: lädt', JSON.stringify(kaputt.ergebnis) === '[1,2]' && kaputt.anfragen === 2, kaputt.anfragen)
 
 const nichtDa = await lauf([404])
-pruefe('immer 404: höchstens ein Neuversuch (zwei Anfragen)', nichtDa.anfragen === 2 && nichtDa.fehler instanceof DatenLadefehler && nichtDa.fehler.status === 404, nichtDa.anfragen)
-const nichtDaDann = await lauf([404, 200])
-pruefe('404, dann 200: lädt', JSON.stringify(nichtDaDann.ergebnis) === '[1,2]', nichtDaDann.anfragen)
+pruefe('404: nie ein Neuversuch (eine Anfrage, keine Pause)', nichtDa.anfragen === 1 && nichtDa.pausen.length === 0 && nichtDa.fehler instanceof DatenLadefehler && nichtDa.fehler.status === 404, nichtDa.anfragen)
+
+for (const status of [500, 502, 504]) {
+  const l = await lauf([status, 200])
+  pruefe(`${status}, dann 200: lädt`, JSON.stringify(l.ergebnis) === '[1,2]' && l.anfragen === 2, l.anfragen)
+}
 
 const verboten = await lauf([403])
 pruefe('403: kein Neuversuch', verboten.anfragen === 1 && verboten.pausen.length === 0, verboten.anfragen)
@@ -97,6 +100,37 @@ globalThis.fetch = (async () => (++anfragen, new Response('', { status: 503 })))
 let loadFehler = ''
 await loadJson('releases.json', { pausen: [0, 0, 0] }).catch((e: Error) => (loadFehler = e.message))
 pruefe('loadJson: immer 503 endet im Fehler nach vier Anfragen', anfragen === 4 && /releases\.json konnte nicht geladen werden \(503\)/.test(loadFehler), [anfragen, loadFehler])
+
+/* `loadVoices`: Fehlt die Datei (404), hat der Titel keine Stimmen — eine Anfrage, kein Verzug (Standardpausen, kein Warten). */
+const { loadVoices, loadNews } = await import('../web/src/lib/data.ts')
+anfragen = 0
+globalThis.fetch = (async () => (++anfragen, new Response('', { status: 404 }))) as typeof fetch
+const stimmen = await Promise.race([loadVoices(900001), new Promise<string>((f) => setTimeout(() => f('zu langsam'), 200))])
+pruefe('loadVoices bei 404: eine Anfrage, kein Verzug, keine Rollen', anfragen === 1 && typeof stimmen === 'object' && stimmen.roles.length === 0, [anfragen, stimmen])
+
+/* `gemerkt`: gescheiterte Zusage wird nicht festgehalten; erfolgreiche bleibt (eine Anfrage), auch mit Ersatz. */
+let laeufe = 0
+const scheitert = () => (++laeufe, Promise.reject(new Error('aus')))
+const erster = await gemerkt('probe-a', scheitert).catch((e: Error) => e.message)
+const zweiter = await gemerkt('probe-a', () => (++laeufe, Promise.resolve('da')))
+pruefe('gemerkt: erster Abruf scheitert endgültig, zweiter Aufruf fragt neu', erster === 'aus' && zweiter === 'da' && laeufe === 2, [erster, zweiter, laeufe])
+const dritter = await gemerkt('probe-a', () => (++laeufe, Promise.resolve('anders')))
+pruefe('gemerkt: erfolgreiche Zusage bleibt (kein dritter Abruf)', dritter === 'da' && laeufe === 2, [dritter, laeufe])
+const mitErsatz = await gemerkt('probe-b', scheitert, () => 'ersatz')
+const danach = await gemerkt('probe-b', () => Promise.resolve('echt'))
+pruefe('gemerkt mit Ersatz: Ersatz für diesen Aufruf, danach fragt der nächste neu', mitErsatz === 'ersatz' && danach === 'echt', [mitErsatz, danach])
+let gleichzeitig = 0
+const langsam = () => (++gleichzeitig, new Promise<number>((r) => setTimeout(() => r(gleichzeitig), 5)))
+await Promise.all([gemerkt('probe-c', langsam), gemerkt('probe-c', langsam)])
+pruefe('gemerkt: zwei gleichzeitige Aufrufer teilen einen Abruf', gleichzeitig === 1, gleichzeitig)
+
+/* Über `loadNews` (eine der umgestellten `??=`-Stellen, Standardpausen ≈ 4,6 s): erst endgültig 503, dann 200 — der zweite Aufruf fragt neu. */
+anfragen = 0
+globalThis.fetch = (async () => (++anfragen <= 4 ? new Response('', { status: 503 }) : new Response('[{"id":"x"}]', { status: 200 }))) as typeof fetch
+const ersteNews = await loadNews().then((l) => l.length, () => -1)
+pruefe('loadNews: erster Aufruf scheitert endgültig (vier Anfragen, leere Liste)', ersteNews === 0 && anfragen === 4, [ersteNews, anfragen])
+const zweiteNews = await loadNews().then((l) => l.length, () => -1)
+pruefe('loadNews: zweiter Aufruf fragt neu (fünfte Anfrage, Antwort 200)', zweiteNews >= 0 && anfragen === 5, [zweiteNews, anfragen])
 globalThis.fetch = echt
 
 console.log(`check-lade-neuversuch: ${gesamt - verletzt} von ${gesamt} Zusicherungen ok`)

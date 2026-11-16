@@ -3,6 +3,7 @@
  * Messung und Bilder: `tools/ladefehler-messen.mjs`.
  */
 export const FEHLER_SATZ = 'Die Daten laden gerade nicht.'
+export const FEHLER_HINWEIS = 'Klappt es nicht, versuch es in ein paar Minuten noch einmal.'
 export const KNOPF_NAME = 'Erneut versuchen'
 /** Wörter, die ein Besucher nie sehen soll: Befehl, Dateiname, Statuscode. */
 export const VERBOTEN = /npm|\.json|\b[45]\d\d\b|data:all|pipeline/i
@@ -22,6 +23,7 @@ export function dauerFehler({ text, knopf, anfragen }) {
   const fehler = []
   if (anfragen < 4) fehler.push(`zu wenige Versuche vor der Fehlerseite (${anfragen}, erwartet 4)`)
   if (!text.includes(FEHLER_SATZ)) fehler.push(`Besuchersatz fehlt („${FEHLER_SATZ}“)`)
+  if (!text.includes(FEHLER_HINWEIS)) fehler.push(`Hinweis fehlt („${FEHLER_HINWEIS}“)`)
   const treffer = VERBOTEN.exec(text)
   if (treffer) fehler.push(`Entwicklertext sichtbar („${treffer[0]}“)`)
   if (!knopf) fehler.push(`Knopf „${KNOPF_NAME}“ fehlt`)
@@ -35,5 +37,14 @@ export function erholungFehler({ fehlerSichtbar, geladen }) {
   const fehler = []
   if (fehlerSichtbar) fehler.push('Fehlerseite bleibt nach „Erneut versuchen“ stehen')
   if (!geladen) fehler.push('Seite lädt nach „Erneut versuchen“ nicht')
+  return fehler
+}
+
+/** Stehende Ansicht: scheitert das Nachladen der vollen Daten endgültig (4 Anfragen), bleibt die Woche stehen, keine Fehlerseite. */
+export function stehendeAnsichtFehler({ anfragen, fehlerSichtbar, kopfDa }) {
+  const fehler = []
+  if (anfragen < 4) fehler.push(`Nachladen nicht bis zum Ende versucht (${anfragen} Anfragen, erwartet 4)`)
+  if (fehlerSichtbar) fehler.push('Fehlerseite ersetzt die stehende Ansicht')
+  if (!kopfDa) fehler.push('stehende Ansicht ist weg')
   return fehler
 }

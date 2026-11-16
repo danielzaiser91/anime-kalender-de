@@ -26,10 +26,27 @@ export class DatenLadefehler extends Error {
   }
 }
 
-/** Wie viele Neuversuche ein Ausgang verdient: Aussetzer drei, ein fehlendes Dateichen (Deploy-Wechsel) einen, alles andere keinen. */
+/** Wie viele Neuversuche ein Ausgang verdient: Aussetzer drei, alles andere keinen. 404 nie: für `voices/`, `sprecher/`, `disc/`, `synopses/` ist es die normale Antwort („hat keine“). */
 function neuversucheFuer(status: number | undefined): number {
-  if (status === undefined || status >= 500 || status === 429) return 3
-  return status === 404 ? 1 : 0
+  return status === undefined || status >= 500 || status === 429 ? 3 : 0
+}
+
+const zusagen = new Map<string, Promise<unknown>>()
+
+/**
+ * Eine Datei einmal laden und die Zusage merken, damit jeder Aufrufer dieselbe bekommt. Scheitert der Abruf, wird sie **nicht** gemerkt:
+ * der nächste Aufruf fragt neu („Erneut versuchen“ heilt so auch Sprecher, Saison, News). Mit `ersatz` schluckt der Aufruf den Fehler und liefert den Ersatzwert.
+ */
+export function gemerkt<T>(schluessel: string, laden: () => Promise<T>, ersatz?: () => T): Promise<T> {
+  const da = zusagen.get(schluessel)
+  if (da) return da as Promise<T>
+  const neu = laden().catch((e: unknown) => {
+    zusagen.delete(schluessel)
+    if (!ersatz) throw e
+    return ersatz()
+  })
+  zusagen.set(schluessel, neu)
+  return neu
 }
 
 const schlafen = (ms: number) => new Promise<void>((fertig) => setTimeout(fertig, ms))

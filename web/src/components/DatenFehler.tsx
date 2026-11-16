@@ -16,6 +16,7 @@ export function DatenFehler({ detail, onNeuLaden }: { detail?: string; onNeuLade
       >
         {t('app.loadRetry')}
       </button>
+      <p className="text-t3 text-ak-leise">{t('app.loadRetryHint')}</p>
       {import.meta.env.DEV && detail ? <p className="text-t4 text-ak-leise">{detail}</p> : null}
     </div>
   )

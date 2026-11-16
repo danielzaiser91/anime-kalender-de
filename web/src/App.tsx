@@ -161,7 +161,8 @@ export default function App() {
   /* Das Such-Symbol im Kalender: in die Datenbank, mit leerer Suche (der Kopf setzt dort den Fokus). */
   const zurSuche = () => navigate({ view: 'datenbank', filters: { ...route.filters, search: '' }, title: undefined, disc: undefined })
 
-  if (error) {
+  /* Nur ohne Anzeigbares: eine stehende Ansicht (Wochen-Daten) bleibt stehen, auch wenn das Nachladen scheitert. */
+  if (error && !data) {
     return <DatenFehler detail={error} onNeuLaden={neuLaden} />
   }
 

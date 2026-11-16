@@ -3,6 +3,8 @@
  *  1. Aussetzer: `releases.json` antwortet einmal mit 503 → die Seite lädt normal, der Abruf kam zweimal.
  *  2. Dauerstörung: immer 503 → der Besuchersatz mit Knopf steht da, ohne „npm“, „.json“ oder Statuscode; Bilder je Breite und Thema.
  *  3. Erholung: Störung behoben, Klick auf „Erneut versuchen“ → die Seite lädt.
+ *  4. `meta.json` fällt aus, Fehlerseite, Störung behoben, Klick → die Seite lädt (gemerkte Zusage wird freigegeben).
+ *  5. Die Woche steht, das Nachladen der vollen Daten scheitert endgültig: keine Fehlerseite.
  * Regeln: `ladefehler-urteil.mjs`. Aufruf: `npm run build`, dann `node tools/ladefehler-messen.mjs` (Bilder nach `<Temp>/ak-ladefehler`, mit `--docs` nach `docs/`).
  */
 import { chromium } from 'playwright'
@@ -12,7 +14,7 @@ import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { browserDa } from './browser-weiche.mjs'
 import { distPruefen } from './dist-frisch.mjs'
-import { aussetzerFehler, dauerFehler, erholungFehler, FEHLER_SATZ, KNOPF_NAME } from './ladefehler-urteil.mjs'
+import { aussetzerFehler, dauerFehler, erholungFehler, stehendeAnsichtFehler, FEHLER_SATZ, KNOPF_NAME } from './ladefehler-urteil.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -30,7 +32,7 @@ function antworter(stoerung, zaehler) {
     const url = new URL(route.request().url())
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
     if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
-    if (/\/releases\.json$/.test(url.pathname)) {
+    if (url.pathname.endsWith(`/${stoerung.datei ?? 'releases'}.json`)) {
       zaehler.releases++
       if (stoerung.aus(zaehler.releases)) return route.fulfill({ status: 503, body: '' })
     }
@@ -100,6 +102,31 @@ async function dauerstoerung(browser, bilder, fehler) {
   }
 }
 
+/** `meta.json` fällt aus, bis der Knopf gedrückt wird: Fehlerseite, dann Neuabruf (die gemerkte Zusage darf den Fehler nicht festhalten). */
+async function metaErholung(browser, fehler) {
+  const stoerung = { datei: 'meta', aus: () => true }
+  const { kontext, seite } = await neueSeite(browser, BREITEN[0], 'dunkel', stoerung)
+  await seite.goto(ADRESSE)
+  await warteAuf(seite.getByText(FEHLER_SATZ), 'visible')
+  if (!(await fehlerDa(seite))) fehler.push('meta.json: Fehlerseite erscheint nicht bei Ausfall')
+  stoerung.aus = () => false
+  await seite.getByRole('button', { name: KNOPF_NAME, exact: true }).click()
+  const ok = await geladen(seite)
+  fehler.push(...erholungFehler({ fehlerSichtbar: await fehlerDa(seite), geladen: ok }).map((f) => `meta.json, Erholung: ${f}`))
+  await kontext.close()
+}
+
+/** Die Woche steht (Wochen-Datei), das Nachladen der vollen Daten scheitert endgültig: keine Fehlerseite. */
+async function stehendeAnsicht(browser, fehler) {
+  const { kontext, seite, zaehler } = await neueSeite(browser, BREITEN[0], 'dunkel', { datei: 'titles-core', aus: () => true })
+  await seite.goto('http://ak.test/#/woche')
+  for (let i = 0; i < 60 && zaehler.releases < 4; i++) await seite.waitForTimeout(500)
+  await seite.waitForTimeout(1500)
+  const kopfDa = await seite.locator('header').first().isVisible()
+  fehler.push(...stehendeAnsichtFehler({ anfragen: zaehler.releases, fehlerSichtbar: await fehlerDa(seite), kopfDa }).map((f) => `Stehende Ansicht: ${f}`))
+  await kontext.close()
+}
+
 async function main() {
   if (!distPruefen(WURZEL)) return
   if (!browserDa('ladefehler-messen', chromium)) return
@@ -108,9 +135,11 @@ async function main() {
   const fehler = []
   await aussetzer(browser, fehler)
   await dauerstoerung(browser, bilder, fehler)
+  await metaErholung(browser, fehler)
+  await stehendeAnsicht(browser, fehler)
   await browser.close()
   for (const f of fehler) console.error(`  ✖ ${f}`)
-  console.log(fehler.length ? `ladefehler-messen: ${fehler.length} Befund(e)` : 'ladefehler-messen: ok (Aussetzer lädt, Dauerstörung zeigt Besuchersatz mit Knopf in 4 Zellen, Erholung per Klick)')
+  console.log(fehler.length ? `ladefehler-messen: ${fehler.length} Befund(e)` : 'ladefehler-messen: ok (Aussetzer lädt, Dauerstörung zeigt Besuchersatz mit Knopf in 4 Zellen, Erholung per Klick, auch bei meta.json; stehende Woche bleibt bei Ausfall des Nachladens)')
   if (fehler.length) process.exitCode = 1
 }
 
