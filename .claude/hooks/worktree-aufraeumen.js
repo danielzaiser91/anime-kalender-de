@@ -3,6 +3,7 @@
 //   PostToolUse(Bash) nach erfolgreichem `gh pr merge`  und  SessionStart (dort zusätzlich die Wächterzeile bei > 20 Worktrees).
 // Entfernt wird nur: sauberer Worktree (`git status --porcelain --ignored` leer, ausgenommen die Junctions node_modules und data/cache), Ordner frei (Probe-Umbenennen), keine Änderung in den letzten 2 h, kein offener PR (Zweigname oder Kopf), kein echter data/cache,
 // Kopf liegt auf mindestens einem Zweig-Ref (`git branch -a --contains` zählt den eigenen Zweig mit und schützt praktisch nur losgelöste HEADs; Zweige bleiben), und eine Frist von 24 h: seit Merge/Schließen des PR mit Kopf == headRefOid, sonst seit der letzten Datei- oder HEAD-Bewegung.
+// Lose reguläre Dateien direkt im Sammelordner (Zwischenausgaben) gehen nach 24 h weg, jüngere und Verknüpfungen bleiben; die Wächterzahl zählt nur Ordner.
 // `--liste` nennt jeden behaltenen Worktree mit Grund.
 // Zweige bleiben. Verknüpfungen (node_modules, data/cache) werden vor dem Entfernen einzeln gelöst, nie rekursiv. Lose Ordner unter _worktrees/<repo>/ ohne Registrierung:
 // nur Verknüpfungen und leere Ordner → weg (Verknüpfung per unlink, vorher/nachher Haupt-node_modules und data/cache da), sonst nur aufgelistet.
@@ -169,11 +170,11 @@ function leseEintrag(p, tiefe = 0) {
 /** Einträge unter einem losen Ordner. */
 const leseKinder = (pfad) => fs.readdirSync(pfad).map((n) => leseEintrag(path.join(pfad, n)))
 
-/** Bewertung eines losen Eintrags: nur ein echter Ordner kommt in Frage (Dateien und Verknüpfungen bleiben). */
+/** Bewertung eines losen Eintrags: ein echter Ordner, oder eine reguläre Datei (nach Alter); Verknüpfungen bleiben. */
 function bewerteLosenPfad(pfad, haupt, jetzt) {
   try {
     const l = fs.lstatSync(pfad)
-    if (l.isSymbolicLink() || !l.isDirectory()) return { aktion: 'behalten', grund: 'kein-ordner' }
+    if (l.isSymbolicLink() || !l.isDirectory()) return L.bewerteLoseDatei({ regulaer: l.isFile(), mtimeMs: l.mtimeMs, jetzt })
     const eintraege = leseKinder(pfad)
     return L.bewerteLosen({ eintraege, jetzt, juengsteAenderungMs: juengsteAenderung(pfad, haupt) })
   } catch { return { aktion: 'behalten', grund: 'unlesbar' } }
@@ -211,7 +212,7 @@ function raeumeLosen(pfad, haupt, unlink = fs.unlinkSync) {
 
 /** Planen und (mit `los`) ausführen. Rückgabe: { worktrees: [{pfad, zweig, aktion, grund}], lose: [...] , entfernt, fehler }. */
 function abbau(haupt, welt, los) {
-  const bericht = { worktrees: [], lose: [], entfernt: 0, fehler: [] }
+  const bericht = { worktrees: [], lose: [], entfernt: 0, entferntDateien: 0, fehler: [] }
   const ctx = { haupt, jetzt: welt.jetzt(), prs: welt.prs(), cacheLeer: welt.cacheLeer, sauber: welt.sauber, aufZweig: welt.aufZweig }
   const alle = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain'))
   if (los) heileProbeOrdner(alle, bericht, welt.umbenennen)
@@ -247,6 +248,7 @@ function vollziehe(haupt, welt, bericht) {
   for (const w of bericht.worktrees.filter((x) => x.aktion === 'weg')) entferneWorktree(welt, w, bericht)
   for (const o of bericht.lose.filter((x) => x.aktion === 'weg')) {
     try {
+      if (o.grund === 'lose-datei') { fs.unlinkSync(o.pfad); bericht.entferntDateien++; continue }
       raeumeLosen(o.pfad, haupt)
       bericht.entfernt++
     } catch (e) { bericht.fehler.push(`${e.message}: ${o.pfad}`) }
@@ -319,7 +321,8 @@ function zaehleWt(haupt) {
   const pfade = L.leseWorktrees(git(haupt, 'worktree', 'list', '--porcelain')).map((w) => L.norm(w.pfad)).filter(L.istWtName)
   let namen = []
   try { namen = fs.readdirSync(wtOrdner(haupt)) } catch {}
-  const lose = namen.map((n) => L.norm(`${wtOrdner(haupt)}/${n}`))
+  const regulaer = (n) => { try { return fs.lstatSync(path.join(wtOrdner(haupt), n)).isFile() } catch { return false } }
+  const lose = L.ordnerNamen(namen.map((name) => ({ name, regulaer: regulaer(name) }))).map((n) => L.norm(`${wtOrdner(haupt)}/${n}`))
   return new Set([...pfade, ...lose]).size
 }
 
@@ -343,8 +346,7 @@ function abbauImVordergrund(los, o = {}) {
   try {
     const b = abbau(haupt, o.welt ?? echteWelt(haupt), los)
     for (const w of [...b.worktrees, ...b.lose]) if (w.aktion !== 'behalten' || (!los && !['haupt', 'fremd'].includes(w.grund))) console.log(w.aktion, w.grund, w.pfad)
-    const behalten = [...b.worktrees, ...b.lose].filter((w) => w.aktion === 'behalten' && !['haupt', 'fremd'].includes(w.grund)).length
-    console.log(`Abbau ${los ? 'fertig' : '(Liste)'}: entfernt ${b.entfernt}, behalten ${behalten}, Fehler ${b.fehler.length}`)
+    console.log(L.schlusszeile(los, b))
     for (const f of b.fehler) console.log(f)
   } finally {
     if (los && liesSperre(sperre)?.pid === process.pid) fs.rmSync(sperre, { force: true })
