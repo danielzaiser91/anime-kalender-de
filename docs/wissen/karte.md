@@ -103,7 +103,7 @@ OG-Tags, `build-share-pages.ts`) bzw. `/t/<titel-slug>/`. Alte Adressen `#/agend
 | Texte (i18n de/en) | `lib/i18n.tsx`, `i18n-kalender.ts`, `i18n-seiten.ts` |
 | Favoriten, Push, Newsletter-Abgleich | `lib/favorites.ts`, `push.ts`, `push-nachfuehren.ts`, `newsletterSync.ts` |
 | Laden der Daten, Caches | `lib/data.ts`; Service Worker `public/sw.js`; `__DATEI_KENNUNGEN__` (Inhalts-Hash je Datei, `tools/daten-kennungen.ts`) und `__BUILD_ID__` (Ersatz) aus `vite.config.ts` |
-| Farben, Schriften | `web/src/styles.css` (`--ak-*`, Tailwind `bg-ak-grund`); Rollen, Zustände, Kontrast: [design-regeln.md](design-regeln.md) (13.10.2026); Schriften selbst gehostet (`@fontsource`) |
+| Farben, Schriften | `web/src/styles.css` (`--ak-*`, Tailwind `bg-ak-grund`); Rollen, Zustände, Kontrast, Aufbau und Bedienung (Tippfläche, Schrift, Länge, Ruhe): [design-regeln.md](design-regeln.md) (13.10.2026, Teil 2 16.11.2026); Schriften selbst gehostet (`@fontsource`) |
 
 Oberflächenregeln, die man kennt, bevor man Text schreibt: keine Information zweimal; `hinweis` (für Besucher; `note` ist intern) vs. `herkunft` (für uns);
 „≈" kennzeichnet Geschätztes; Jede neue arbiträre Tailwind-Klasse im gebauten CSS nachprüfen (verschachtelte `calc` fehlen lautlos).
