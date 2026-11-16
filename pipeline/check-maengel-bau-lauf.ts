@@ -73,7 +73,7 @@ pruefe('Lauf 1: alle 21 Arten im Zähler', Object.keys(r1.zaehler).length === 21
 const alt = readFileSync(join(wurzel, 'data/maengel.json'), 'utf8').replaceAll(/"seit":"[\d-]+"/g, '"seit":"2026-01-01"')
 schreibe('data/maengel.json', alt)
 schreibe('public/data/synopses/3.json', { 3: { de: 'Text' } })
-schreibe('public/data/titles.json', [titel1(), titel(2), kurz(), titel(3,{ bannerImage: undefined, episodes: 1 })])
+schreibe('public/data/titles.json', [titel1(), titel(2), kurz(), titel(3, { bannerImage: undefined, episodes: 1 })])
 pruefe('Lauf 2 endet mit Exit 0', lauf() === 0)
 const r2 = register()
 pruefe('Lauf 2: Cover behoben, Banner von Titel 3 neu, Rest bleibt', schluessel(r2) === 'banner:3:offen cover:1:behoben erschienen-ohne-weg:1:offen folgentitel:2:offen handlung-de:2:offen', schluessel(r2))
