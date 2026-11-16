@@ -628,6 +628,50 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     pruefe('melder.js: genau ein POST /pruefung?zurueck=1 an den Worker', posts.length === 1 && posts[0].adresse === 'https://newsletter.animekalender.workers.dev/pruefung?zurueck=1', posts.map((p) => p.adresse))
     pruefe('melder.js: der POST trägt den Token der Erweiterung und die Zurückstellung', posts[0]?.init.headers['X-Lauf-Token'] === 'test-token' && JSON.parse(posts[0].init.body).eintraege['80243876']?.grund === 'Erinnern statt Folgenliste', posts[0]?.init)
   }
+  /*
+    Dialog öffnen (4058, 16.11.2026): eine Anfrage je Öffnung, egal wie viele Titel; der Dialog steht, bevor die Antwort da ist,
+    und zeichnet sich mit ihr neu. Ein alter Worker (403) fällt auf den Weg je Reihe zurück.
+  */
+  for (const n of [100, 230]) {
+    const liste = {}
+    for (let i = 0; i < n; i++) liste[String(70000000 + i)] = { titel: `Titel ${i}`, staffeln: [{ nr: 1, folgen: 12, film: false, offen: true }] }
+    for (const alterWorker of [false, true]) {
+      const seite = lade('/title/70000000', liste)
+      for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+      const abfragen = []
+      let freigeben
+      const spaet = new Promise((r) => { freigeben = r })
+      seite.umgebung.fetch = async (adresse) => {
+        const a = String(adresse)
+        if (!a.includes('gemeldet')) return { ok: true, json: async () => ({}), text: async () => '' }
+        abfragen.push(a)
+        if (a.includes('gemeldet-liste') && !alterWorker) {
+          await spaet
+          const ersteAdresse = 'https://www.netflix.com/title/70000000'
+          return { ok: true, json: async () => ({ adressen: { [ersteAdresse]: { paare: [{ nummer: 1, staffel: 1, am: '2026-11-16' }] } } }) }
+        }
+        return { ok: alterWorker ? !a.includes('gemeldet-liste') : true, status: 403, json: async () => ({ paare: [] }) }
+      }
+      const knopf = suche(seite.body, 'ak-uebersicht')
+      knopf.closest = () => knopf
+      vm.runInContext('akKlickVerteilen', vm.createContext(seite.umgebung))({ target: knopf })
+      for (let i = 0; i < 8; i++) await new Promise((r) => setImmediate(r))
+      const zeilen = alleElemente(seite.body).filter((el) => String(el.className).split(/\s+/).includes('ak-zeile')).length
+      const gesamt = alterWorker ? 'mit altem Worker' : 'mit Sammelroute'
+      if (!alterWorker) {
+        pruefe(`Dialog bei ${n} Titeln: genau eine Anfrage je Öffnung`, abfragen.length === 1 && abfragen[0].includes('gemeldet-liste='), abfragen.length)
+        pruefe(`Dialog bei ${n} Titeln: steht, bevor die Antwort da ist (${zeilen} Zeilen)`, zeilen === n, zeilen)
+        freigeben()
+        for (let i = 0; i < 12; i++) await new Promise((r) => setImmediate(r))
+        /* Der Attrappen-DOM entfernt nichts (`remove() {}`): gezählt wird der zuletzt angehängte Dialog. */
+        const neu = seite.body.kinder.filter((k) => k.className === 'ak-dialog').pop()
+        const neuZeilen = alleElemente(neu).filter((el) => String(el.className).split(/\s+/).includes('ak-zeile')).length
+        pruefe(`Dialog bei ${n} Titeln: nach der Antwort neu gezeichnet, weiter ${n} Zeilen und genau eine Anfrage`, neu !== undefined && seite.body.kinder.filter((k) => k.className === 'ak-dialog').length === 2 && neuZeilen === n && abfragen.length === 1, [neuZeilen, abfragen.length])
+      } else {
+        pruefe(`Dialog bei ${n} Titeln ${gesamt}: Rückfall auf eine Anfrage je Reihe (1 + ${n})`, abfragen.length === n + 1, abfragen.length)
+      }
+    }
+  }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)

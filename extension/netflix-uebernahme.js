@@ -74,6 +74,40 @@ globalThis.akMeldungenNeuLaden = (reihe, jetzt = Date.now(), frist = 120000) => 
 }
 
 /*
+  **Alle Adressen in einer Anfrage** (`?gemeldet-liste=`, Worker: `pruefung-gemeldet-sammel.ts`; 16.11.2026, 4058): der
+  Dialog fragte je Titel einzeln (98 bis 230 Anfragen je Klick). Antwort: Adresse → `{ nummern, paare }`; `null` bei
+  jedem Fehler (alter Worker, Netz, zu lang) — dann gilt der alte Weg je Adresse.
+*/
+globalThis.akGemeldetSammel = async (worker, adressen, holen = fetch) => {
+  try {
+    const vor = adressen.reduce((v, a) => { let i = 0; while (i < v.length && v[i] === a[i]) i++; return v.slice(0, i) }, adressen[0] ?? '')
+    const anfang = vor.slice(0, vor.lastIndexOf('/') + 1)
+    const enden = adressen.map((a) => a.slice(anfang.length))
+    if (!enden.length || enden.some((e) => e.includes(','))) return null
+    const antwort = await holen(`${worker}?gemeldet-liste=${encodeURIComponent(enden.join(','))}&vor=${encodeURIComponent(anfang)}`, { cache: 'no-store' })
+    if (!antwort.ok) return null
+    const { adressen: je } = await antwort.json()
+    return je && typeof je === 'object' ? new Map(adressen.map((a) => [a, je[a] ?? { paare: [] }])) : null
+  } catch {
+    return null
+  }
+}
+
+/*
+  Der Dialog: alle Reihen in einer Anfrage (`merken` legt eine Antwort je Reihe ab); ohne Antwort (alter Worker) je Reihe
+  einzeln über `abrufen`. `true`: es wurde gefragt, der Dialog zeichnet sich danach neu.
+*/
+globalThis.akMeldungenSammeln = async (reihen, worker, merken, abrufen) => {
+  const offen = reihen.filter((r) => globalThis.akMeldungenNeuLaden(r) !== false)
+  if (!offen.length) return false
+  const adresse = (r) => `https://www.netflix.com/title/${r}`
+  const antwort = await globalThis.akGemeldetSammel(worker, offen.map(adresse))
+  if (antwort) for (const r of offen) merken(r, antwort.get(adresse(r)).paare ?? [])
+  else await Promise.all(offen.map((r) => abrufen(r)))
+  return true
+}
+
+/*
   „nichts da" aus der Übersicht oder von /browse: Der Titel gilt sofort als gemeldet. Ohne den Vermerk
   blieb die Zeile stehen, bis der nächste Stand den Briefkasten kannte — `fertig()` liest bei vorhandenem
   Stand nur ihn, nicht `erledigt.tot` (Daniel, 21.10.2026: drei Titel nach „nichts da" noch offen).
