@@ -24,7 +24,7 @@ try {
   writeFileSync(join(kulisse, 'data/kino-ankuendigungen.yaml'), '[]\n')
   writeFileSync(join(kulisse, 'data/dub-confirmed.yaml'), '# leer\n')
   writeFileSync(
-    join(kulisse, 'data/curated/youtube-kanaele-deutsch.yaml'),
+    join(kulisse, 'data', 'curated', 'youtube-kanaele-deutsch.yaml'),
     `kanaele:\n  - name: ${DE}\n    handle: "@x"\n    begruendung: Test\n  - handle: "@ohnename"\n`,
   )
   const befund = (kanal: string, extra: object = {}) => ({ status: 200, lebt: true, kanal, geprueftAm: '2026-11-16', ...extra })
