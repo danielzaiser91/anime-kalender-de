@@ -47,3 +47,18 @@
     - 'Attrappen und Kulissen (Lehren 71, 74, 75, 76):'
     - 'Fund nachliefern (Lehren 86, 87):'
     - 'Wachwerkzeug mit blindem Fleck (Lehre 81): liegegut blendete Entwürfe aus.'
+'2026-11-15':
+  geschafft:
+    - 'Crunchyroll-Wochentermin ohne Sichtung gilt als fällig, nicht als erschienen (3941): Eine Folge steht erst als erschienen, wenn sie gesehen…'
+    - 'Aoashi Staffel 2 bekommt wieder Termine (3920): Auch wenn die Serie unter mehreren Crunchyroll-Adressen läuft.'
+    - Kalender-Abo zeigt Zweitausstrahlung und Disc nach dem Streaming (3942).
+    - Hinweise für Webseiten und Apps im Abo, Lizenzzeile im Kalenderkopf (3958).
+    - 'Chaika Avenging Battle: widersprüchliche Messung gesperrt (3887).'
+    - Hörbücher fliegen aus dem RTL+-Katalog (3968).
+    - Plakat verschwindet mit dem TMDB-Eintrag (3954).
+    - Newsletter antwortet an kontakt@anime-kalender.de (3957).
+  probleme:
+    - 'Zahlen, die nur an einer Stelle leben (Lehren 88, 99, 100, 103, 104, 105):'
+    - 'Meine eigenen Handgriffe (Lehren 89, 90, 91, 92):'
+    - 'Werkzeug ohne Wirkung (Lehren 93, 94, 102): Lint für tools/ lief ohne Konfiguration grün; ein Hintergrundlauf in einer Subshell meldete sic…'
+    - 'Zusagen und Sicherheit (Lehren 95, 96, 97, 98, 101): Ein Bericht endete ohne Folgeauftrag; ein Mailentwurf versprach einen Bau ohne Entsche…'
