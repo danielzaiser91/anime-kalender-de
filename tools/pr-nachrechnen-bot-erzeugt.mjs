@@ -26,10 +26,8 @@ export const ERZEUGTE_DATEIEN = [
   'anisearch-cover.json',
   'anisearch-dub-ids.json',
   'anisearch-dubs.json',
-  'anisearch-eintraege-ausgelassen.json',
   'anisearch-eintraege.json',
   'anisearch-folgen.json',
-  'anisearch-katalog-abgleich.json',
   'anisearch-mal.json',
   'anisearch-offen.json',
   'anisearch-reihen-abweichungen.json',
@@ -56,12 +54,7 @@ export const ERZEUGTE_DATEIEN = [
   'cover-eigen.json',
   'cover-klein.json',
   'cover-luecken.json',
-  'cr-einzelwerke.json',
-  'cr-filmbloecke.json',
-  'cr-katalog-de.json',
-  'cr-katalog-zuordnung.json',
   'cr-teilseiten-pruefliste.json',
-  'crunchyroll-de-kennungen.json',
   'crunchyroll-dub.json',
   'crunchyroll-neu.json',
   'crunchyroll-offene.json',
@@ -111,7 +104,6 @@ export const ERZEUGTE_DATEIEN = [
   'tmdb-banner.json',
   'tmdb-folgen-404.json',
   'tmdb-folgen.json',
-  'tmdb-katalog-zuordnung.json',
   'tmdb-kino.json',
   'tmdb-poster-grund.json',
   'tmdb-poster.json',
@@ -156,6 +148,15 @@ export const ERZEUGT_AUSNAHMEN = {
   // Mischformen
   'data/anisearch-ids-katalog.json': 'trägt auch von Hand gesichtete Paare',
   'data/cr-vorschlaege.json': 'Lauf nur von Daniels Rechner (deutsche IP), nicht aus der Cloud',
+  // Von Fetch-Skripten geschrieben, aber kein Bot-Lauf hat sie in 45 Tagen auf main geschrieben (Kopfkriterium der Liste, Stand 16.11.2026).
+  'data/anisearch-eintraege-ausgelassen.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/anisearch-katalog-abgleich.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/cr-einzelwerke.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/cr-filmbloecke.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/cr-katalog-de.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/cr-katalog-zuordnung.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/crunchyroll-de-kennungen.json': 'kein Bot-Lauf in 45 Tagen',
+  'data/tmdb-katalog-zuordnung.json': 'kein Bot-Lauf in 45 Tagen',
 }
 
 /** Pfade aus `QUELLEN` unter `data/`, die weder erzeugt noch als Ausnahme begründet sind (Ordner ohne Schrägstrich am Ende). */
