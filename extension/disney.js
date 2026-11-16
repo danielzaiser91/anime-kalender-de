@@ -622,9 +622,7 @@
   async function gemeldeteHolen(url, seit = null, wirf = false) {
     if (typeof globalThis.akGemeldetSeit === 'function') seit = await globalThis.akGemeldetSeit(seit)
     try {
-      const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(url)}`, { cache: 'no-store' })
-      if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
-      const daten = await antwort.json()
+      const daten = await globalThis.akDisneyGemeldet(WORKER, url)
       /* Die Ferne antwortet mit Nummern und Staffeln; der Schlüssel braucht beides. */
       const paare = daten.paare ?? null
       if (seit) {
