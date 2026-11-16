@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-16T17:01:57.247Z",
+  "scrapedAt": "2026-11-16T18:02:57.303Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
@@ -958,7 +958,7 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Honey Lemon Soda",
@@ -1557,7 +1557,7 @@
       "dates": [],
       "dub": "ja",
       "pause": "pause",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Bleach: Thousand-Year Blood War",
