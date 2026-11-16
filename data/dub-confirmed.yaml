@@ -39593,3 +39593,40 @@
   available: false
   checkedAt: '2026-11-15'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-11-16 ---
+- anilistId: 97863
+  title: "My First Girlfriend Is a Gal"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GV5SHH5P
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton en, ja, ru, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 603
+  title: "Pretty Cure"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B6S589JZ
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll, Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 603
+  title: "Pretty Cure"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DFKJ2B99
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 603
+  title: "Pretty Cure"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DF3BVTVB
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
