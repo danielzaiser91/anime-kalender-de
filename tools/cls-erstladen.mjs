@@ -55,7 +55,7 @@ export async function erstladenMessen({ dist, profil, routen = ROUTEN }) {
 /**
  * Zustände, die der CLS-Wert allein am Desktop nicht trennt (der Fuß liegt dort meist ohnehin unter dem Bild):
  * `ladend` = Daten oder Paket kommen noch nicht, nach `warteMs` muss der Platzhalter stehen, der Fuß verborgen sein und der Hinweis „Lädt …“
- * erscheinen (`hinweis`: Anzahl); `frei` = Abruf abgewiesen oder hängend über die Frist von 8 s, dann sind Platzhalter und Hinweis weg und der Fuß sichtbar.
+ * erscheinen (`hinweis`: Anzahl); `frei` = Abruf abgewiesen (erst nach den Neuversuchen der Ladefunktion, zusammen 4,6 s, darum 6,5 s Wartezeit) oder hängend über die Frist von 8 s, dann sind Platzhalter und Hinweis weg und der Fuß sichtbar.
  * `verhalten`: abweisen (Fehler), haengen (nie), verzoegern (`ms` später).
  */
 export const LADEFAELLE = [
@@ -64,8 +64,8 @@ export const LADEFAELLE = [
   { name: 'Saison lädt', route: '#/saison', datei: /saison\.json/, verhalten: 'haengen', warteMs: 1500, erwartet: 'ladend', hinweis: 1 },
   { name: 'Datenbank-Paket lädt', route: '#/datenbank', datei: /DatenbankBereich-.*\.js/, verhalten: 'verzoegern', ms: 2500, warteMs: 1200, erwartet: 'ladend', hinweis: 1 },
   { name: 'Seiten-Paket lädt', route: '#/quellen', datei: /SeitenAnsicht-.*\.js/, verhalten: 'verzoegern', ms: 2500, warteMs: 1200, erwartet: 'ladend', hinweis: 1 },
-  { name: 'News abgewiesen', route: '#/news', datei: /news\.json/, verhalten: 'abweisen', warteMs: 2500, erwartet: 'frei' },
-  { name: 'Saison abgewiesen', route: '#/saison', datei: /saison\.json/, verhalten: 'abweisen', warteMs: 2500, erwartet: 'frei' },
+  { name: 'News abgewiesen', route: '#/news', datei: /news\.json/, verhalten: 'abweisen', warteMs: 6500, erwartet: 'frei' },
+  { name: 'Saison abgewiesen', route: '#/saison', datei: /saison\.json/, verhalten: 'abweisen', warteMs: 6500, erwartet: 'frei' },
   { name: 'Datenbank hängt', route: '#/datenbank', datei: /titles\.json/, verhalten: 'haengen', warteMs: 9500, erwartet: 'frei' },
   { name: 'News hängt', route: '#/news', datei: /news\.json/, verhalten: 'haengen', warteMs: 9500, erwartet: 'frei' },
   { name: 'Saison hängt', route: '#/saison', datei: /saison\.json/, verhalten: 'haengen', warteMs: 9500, erwartet: 'frei' },

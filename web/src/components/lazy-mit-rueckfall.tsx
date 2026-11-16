@@ -8,7 +8,7 @@ export function LadeRueckfall() {
       <button
         type="button"
         onClick={() => window.location.reload()}
-        className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche px-3 py-1 font-bold text-ak-text hover:bg-ak-flaeche-2"
+        className="cursor-pointer min-h-11 rounded-full border border-ak-rand bg-ak-flaeche px-3 font-bold text-ak-text hover:bg-ak-flaeche-2"
       >
         Neu laden
       </button>
