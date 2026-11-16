@@ -89,3 +89,104 @@
   edition: "Collection 6 (Folge 47-52), DVD"
   schedule: { firstEpisodeDate: "2011-04-29" }
   sources: ["https://www.ofdb.de/fassung/21465,328560,Voltron-Der-Besch%C3%BCtzer-des-Universums/"]
+
+# Ergänzt 16.11.2026 aus dem EAN-Lauf (OFDb-Fassungsseiten, deutsche Tonspur wörtlich genannt, EAN 13-stellig).
+# Ohne `titleDe`: Der Titel trägt keinen deutschen Namen, der Bau nimmt sonst den Namen dieser Zeile als deutschen Titel.
+- slug: laughing-under-the-clouds-gaiden-part-1-komplettbox-dvd-2019-07-12
+  anilistId: 98452
+  platform: disc
+  releaseType: disc
+  publisher: "Universum Film"
+  edition: "Komplettbox (Gaiden OVA 1-3), DVD"
+  ean: "4061229099202"
+  note: "Deutsche Tonspur (Dolby Digital 2.0 Stereo); die Box enthält alle drei Gaiden-Filme."
+  schedule: { firstEpisodeDate: "2019-07-12" }
+  sources: ["https://www.ofdb.de/fassung/315633,448593,x/"]
+
+- slug: laughing-under-the-clouds-gaiden-part-1-komplettbox-blu-ray-2019-07-12
+  anilistId: 98452
+  platform: disc
+  releaseType: disc
+  publisher: "Universum Film"
+  edition: "Komplettbox (Gaiden OVA 1-3), Blu-ray"
+  ean: "4061229099219"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Stereo); die Box enthält alle drei Gaiden-Filme."
+  schedule: { firstEpisodeDate: "2019-07-12" }
+  sources: ["https://www.ofdb.de/fassung/315633,448554,x/"]
+
+- slug: laughing-under-the-clouds-gaiden-part-2-komplettbox-dvd-2019-07-12
+  anilistId: 99196
+  platform: disc
+  releaseType: disc
+  publisher: "Universum Film"
+  edition: "Komplettbox (Gaiden OVA 1-3), DVD"
+  ean: "4061229099202"
+  note: "Deutsche Tonspur (Dolby Digital 2.0 Stereo); die Box enthält alle drei Gaiden-Filme."
+  schedule: { firstEpisodeDate: "2019-07-12" }
+  sources: ["https://www.ofdb.de/fassung/315633,448593,x/"]
+
+- slug: laughing-under-the-clouds-gaiden-part-2-komplettbox-blu-ray-2019-07-12
+  anilistId: 99196
+  platform: disc
+  releaseType: disc
+  publisher: "Universum Film"
+  edition: "Komplettbox (Gaiden OVA 1-3), Blu-ray"
+  ean: "4061229099219"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Stereo); die Box enthält alle drei Gaiden-Filme."
+  schedule: { firstEpisodeDate: "2019-07-12" }
+  sources: ["https://www.ofdb.de/fassung/315633,448554,x/"]
+
+- slug: laughing-under-the-clouds-gaiden-part-3-komplettbox-dvd-2019-07-12
+  anilistId: 99197
+  platform: disc
+  releaseType: disc
+  publisher: "Universum Film"
+  edition: "Komplettbox (Gaiden OVA 1-3), DVD"
+  ean: "4061229099202"
+  note: "Deutsche Tonspur (Dolby Digital 2.0 Stereo); die Box enthält alle drei Gaiden-Filme."
+  schedule: { firstEpisodeDate: "2019-07-12" }
+  sources: ["https://www.ofdb.de/fassung/315633,448593,x/"]
+
+- slug: laughing-under-the-clouds-gaiden-part-3-komplettbox-blu-ray-2019-07-12
+  anilistId: 99197
+  platform: disc
+  releaseType: disc
+  publisher: "Universum Film"
+  edition: "Komplettbox (Gaiden OVA 1-3), Blu-ray"
+  ean: "4061229099219"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Stereo); die Box enthält alle drei Gaiden-Filme."
+  schedule: { firstEpisodeDate: "2019-07-12" }
+  sources: ["https://www.ofdb.de/fassung/315633,448554,x/"]
+
+- slug: free-the-final-stroke-the-first-volume-blu-ray-2022-09-01
+  anilistId: 107203
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Film, Blu-ray"
+  ean: "7630017504074"
+  note: "Deutsche Tonspur (DTS-HD MA 5.1)."
+  schedule: { firstEpisodeDate: "2022-09-01" }
+  sources: ["https://www.ofdb.de/fassung/355708,482196,x/"]
+
+- slug: date-a-bullet-dead-or-bullet-blu-ray-2022-02-07
+  anilistId: 111852
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Beide Filme auf einer Disc, Blu-ray"
+  ean: "4260497792376"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Stereo)."
+  schedule: { firstEpisodeDate: "2022-02-07" }
+  sources: ["https://www.ofdb.de/fassung/357952,475820,x/"]
+
+- slug: date-a-bullet-nightmare-or-queen-blu-ray-2022-02-07
+  anilistId: 121034
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Beide Filme auf einer Disc, Blu-ray"
+  ean: "4260497792376"
+  note: "Deutsche Tonspur (DTS-HD MA 2.0 Stereo)."
+  schedule: { firstEpisodeDate: "2022-02-07" }
+  sources: ["https://www.ofdb.de/fassung/357953,475821,x/"]

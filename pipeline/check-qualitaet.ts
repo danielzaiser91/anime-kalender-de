@@ -27,7 +27,7 @@ import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
 import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
 import { VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
 import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
-import { zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
+import { discTitelIds, zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -82,7 +82,7 @@ function main(): void {
     mitVerweis: titles.filter((t) => (t.streams ?? []).length > 0).length,
     mitStreamingWeg: titles.filter(hatStreamingWeg).length,
     ohneVerweis: titles.filter((t) => !(t.streams ?? []).length).length,
-    erstausgabeOhneWeg: zaehleErstausgabeOhneWeg(titles),
+    erstausgabeOhneWeg: zaehleErstausgabeOhneWeg(titles, discTitelIds(readJson('public/data/releases.json', []))),
     mitSynchro,
     verweiseGesamt: verweise,
     ohneSprachurteil,
