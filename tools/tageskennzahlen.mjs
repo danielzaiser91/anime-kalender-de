@@ -12,7 +12,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { mischeZeilen, pruefeKontingent, tagNachLetzterZeile } from './tageskennzahlen-anhaengen.mjs'
+import { dateiInhalt, pruefeKontingent, tagNachLetzterZeile } from './tageskennzahlen-anhaengen.mjs'
 import { gzipBytes } from './kennzahlen.mjs'
 import { bestimmeStufe } from './pr-stufe.mjs'
 import { leseKette } from './pr-stufe-kette.mjs'
@@ -228,6 +228,10 @@ function main(argv) {
   const anhaengen = argv.includes('--anhaengen')
   const von = lies(argv, 'von', anhaengen ? tagNachLetzterZeile(bestehendeZeilen(), '2026-10-01') : '2026-10-01')
   const bis = lies(argv, 'bis', tagPlus(tagBerlin(jetzt), -1))
+  if (anhaengen && !argv.some((a) => a.startsWith('--von=')) && von > bis) {
+    console.log(`Nichts zu tun: ${AUSGABE} reicht schon bis ${bis}`) // zweiter Lauf am selben Tag ist kein Fehler
+    return
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(von) || !/^\d{4}-\d{2}-\d{2}$/.test(bis) || von > bis) {
     console.error(`FEHLER: --von=${von} und --bis=${bis} müssen Tage (JJJJ-MM-TT) sein, von nicht nach bis`)
     process.exit(1)
@@ -256,7 +260,7 @@ function main(argv) {
   const { zeilen, anzahl: [prs, laeufe, commits] } = ergebnis
   const ziel = resolve(AUSGABE)
   mkdirSync(dirname(ziel), { recursive: true })
-  writeFileSync(ziel, `${(anhaengen ? mischeZeilen(bestehendeZeilen(), zeilen) : zeilen).join('\n')}\n`)
+  writeFileSync(ziel, dateiInhalt(bestehendeZeilen(), zeilen, anhaengen))
   console.log(`${zeilen.length} Tage nach ${AUSGABE} (${von} bis ${bis}), ${prs} PRs, ${laeufe} Läufe, ${commits} Commits`)
   aktualisiereAnsicht()
   console.log('Ansicht: tools/kennzahlen/kernpunkte.yaml und daten.js nachgezogen')

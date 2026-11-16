@@ -31,3 +31,8 @@ export function pruefeKontingent(uebrig, tage) {
   const bedarf = geschaetzterBedarf(tage)
   if (uebrig < bedarf) throw new Error(`GitHub-Kontingent zu klein: ${uebrig} Anfragen übrig, geschätzt ${bedarf} nötig für ${tage} Tage (Schätzung: ${FEST} + ${JE_TAG} je Tag, Stand 16.11.2026). Später erneut oder --von/--bis kürzen.`)
 }
+
+/** Neuer Dateiinhalt: mit `anhaengen` bestehende Zeilen mischen, sonst nur die neuen. */
+export function dateiInhalt(bestehend, zeilen, anhaengen) {
+  return `${(anhaengen ? mischeZeilen(bestehend, zeilen) : zeilen).join('\n')}\n`
+}
