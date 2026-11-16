@@ -327,8 +327,10 @@ export function FilterDetails({
   const genreSicht = useGenreSicht(genreListe, visibleGenres, filters, !!suche, t)
   const mitZahl = (n: number | undefined) => (n ? <span className="opacity-70">{n}</span> : null)
   const plattformLabel = t('filter.platform')
-  const genreLabel = t('filter.genre')
   const sichtbarPlattformen = plattformen.filter((p) => zeigePille(suche, plattformLabel, PLATFORMS[p].name))
+  const genre = (
+    <GenreGruppe t={t} suche={suche} genreSicht={genreSicht} tGenre={tGenre} modus={modusVon2('genres', filters.genres.length)} chipState={chipState} pick={pick} zaehlung={genreZaehlung} />
+  )
   return (
     <>
       <div data-filter-scroll tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
@@ -346,9 +348,9 @@ export function FilterDetails({
       {zwischen}
       {/* Ein Rahmen: das Fenster. Die Gruppen trennen Überschriften; weitere (etwa „Herkunft") reihen sich im Raster ein. */}
       <div className="px-3 py-2.5">
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Bereich
-            label={plattformLabel}
+            label={plattformLabel} klasse="sm:col-span-2"
             suche={suche}
             texte={plattformen.map((p) => PLATFORMS[p].name)}
             modus={modusVon2('platforms', filters.platforms.length)}
@@ -369,20 +371,7 @@ export function FilterDetails({
               </Chip>
             ))}
           </Bereich>
-          <Bereich
-            label={genreLabel} klasse="sm:col-start-2 sm:row-span-6"
-            suche={suche}
-            texte={genreSicht.alle.map((g) => tGenre(g))}
-            modus={modusVon2('genres', filters.genres.length)}
-          >
-            {genreSicht.sichtbar.filter((g) => zeigePille(suche, genreLabel, tGenre(g))).map((g) => (
-              <Chip key={g} {...chipState('genres', g)} onClick={() => pick('genres', g)}>
-                {tGenre(g)} {mitZahl(genreZaehlung?.get(g))}
-              </Chip>
-            ))}
-            {genreSicht.mehrChip}
-          </Bereich>
-          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} />
+          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} suche={suche} />
         </div>
 
         {!suche && <MehrKnopf t={t} mehr={mehr} setMehr={setMehr} />}
@@ -408,11 +397,37 @@ export function FilterDetails({
             allKeywords={allKeywords}
             matchingKeywords={matchingKeywords}
             suche={suche}
+            genre={genre}
           />
         )}
       </div>
       </div>
     </>
+  )
+}
+
+/** Genre steht hinter „mehr Filter“, über die ganze Breite (Daniel, 16.11.2026). */
+function GenreGruppe({ t, suche, genreSicht, tGenre, modus, chipState, pick, zaehlung }: {
+  t: Translate
+  suche?: BereichsSuche
+  genreSicht: ReturnType<typeof useGenreSicht>
+  tGenre: (name: string) => string
+  modus: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
+  chipState: <K extends ListKey>(key: K, value: FilterState[K][number]) => { active: boolean; excluded: boolean }
+  pick: <K extends ListKey>(key: K, value: FilterState[K][number]) => void
+  zaehlung?: Map<string, number>
+}) {
+  const label = t('filter.genre')
+  const n = zaehlung ? (g: string) => zaehlung.get(g) : () => undefined
+  return (
+    <Bereich label={label} klasse="col-span-full" suche={suche} texte={genreSicht.alle.map((g) => tGenre(g))} modus={modus}>
+      {genreSicht.sichtbar.filter((g) => zeigePille(suche, label, tGenre(g))).map((g) => (
+        <Chip key={g} {...chipState('genres', g)} onClick={() => pick('genres', g)}>
+          {tGenre(g)} {n(g) ? <span className="opacity-70">{n(g)}</span> : null}
+        </Chip>
+      ))}
+      {genreSicht.mehrChip}
+    </Bereich>
   )
 }
 
@@ -456,6 +471,8 @@ type FilterMehrProps = {
   matchingKeywords: string[]
   /** Die laufende Filtersuche — `undefined`, solange nicht gesucht wird. */
   suche?: BereichsSuche
+  /** Die Genre-Gruppe: steht als Erste hinter „mehr Filter“. */
+  genre: ReactNode
 }
 
 const CONFIDENCE_STUFEN = ['low', 'normal', 'high', 'very-high'] as const
@@ -497,7 +514,7 @@ function HerkunftBereich({ t, filters, chipState, pick, suche }: Pick<FilterMehr
   )
 }
 
-/** Release-Art, FSK und Jahr — stehen seit dem 01.10.2026 oben bei Anbietern und Genre. */
+/** Status, FSK und Jahr — die immer sichtbaren Gruppen neben den Anbietern; Release-Art, Sprecher und Herkunft stehen hinter „mehr Filter“. */
 function Grundgruppen({
   t,
   meta,
@@ -505,22 +522,17 @@ function Grundgruppen({
   modusVon2,
   chipState,
   pick,
-  tRelease,
   suche,
-  set,
-}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'tRelease' | 'suche' | 'set'>) {
-  const artenLabel = t('filter.releaseType')
-  const arten = Object.keys(RELEASE_TYPES) as ReleaseType[]
+}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'suche'>) {
+  const statusLabel = t('filter.status')
   const fskLabel = t('filter.fsk')
   const jahrLabel = t('filter.year')
   return (
     <>
-      <SprecherBereich t={t} filters={filters} set={set} suche={suche} />
-      <HerkunftBereich t={t} filters={filters} chipState={chipState} pick={pick} suche={suche} />
-      <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
-        {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
-          <Chip key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>
-            {tRelease(type)}
+      <Bereich label={statusLabel} suche={suche} texte={STATUS_OPTIONS.map((s) => t(STATUS_LABEL_KEY[s]))}>
+        {STATUS_OPTIONS.filter((s) => zeigePille(suche, statusLabel, t(STATUS_LABEL_KEY[s]))).map((s) => (
+          <Chip key={s} {...chipState('statuses', s)} onClick={() => pick('statuses', s)}>
+            {t(STATUS_LABEL_KEY[s])}
           </Chip>
         ))}
       </Bereich>
@@ -533,7 +545,7 @@ function Grundgruppen({
         ))}
       </Bereich>
 
-      <Bereich label={jahrLabel} suche={suche} texte={meta.years.map(String)} modus={modusVon2('years', filters.years.length)}>
+      <Bereich label={jahrLabel} klasse="sm:col-span-2" suche={suche} texte={meta.years.map(String)} modus={modusVon2('years', filters.years.length)}>
         {meta.years.filter((y) => zeigePille(suche, jahrLabel, String(y))).map((y) => (
           <Chip key={y} {...chipState('years', y)} onClick={() => pick('years', y)}>
             {y}
@@ -545,19 +557,12 @@ function Grundgruppen({
 }
 
 function FilterMehr(props: FilterMehrProps) {
-  const { t, chipState, pick, suche } = props
-  const statusLabel = t('filter.status')
+  const { t, suche, genre } = props
   return (
     <>
-    <div className="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <Bereich label={statusLabel} suche={suche} texte={STATUS_OPTIONS.map((s) => t(STATUS_LABEL_KEY[s]))}>
-        {STATUS_OPTIONS.filter((s) => zeigePille(suche, statusLabel, t(STATUS_LABEL_KEY[s]))).map((s) => (
-          <Chip key={s} {...chipState('statuses', s)} onClick={() => pick('statuses', s)}>
-            {t(STATUS_LABEL_KEY[s])}
-          </Chip>
-        ))}
-      </Bereich>
-
+    <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {genre}
+      <ArtSprecherHerkunft {...props} />
       <FilterMehrRest {...props} />
     </div>
     <FilterSuchHinweis t={t} suche={suche} />
@@ -565,7 +570,26 @@ function FilterMehr(props: FilterMehrProps) {
   )
 }
 
-/** Bezugsquelle, Sicherheit und Keywords — der zweite Teil der „mehr Filter"-Fläche. */
+/** Release-Art, Sprecher und Herkunft — kleine Gruppen, die im Raster nebeneinander stehen. */
+function ArtSprecherHerkunft({ t, filters, set, chipState, pick, tRelease, modusVon2, suche }: FilterMehrProps) {
+  const artenLabel = t('filter.releaseType')
+  const arten = Object.keys(RELEASE_TYPES) as ReleaseType[]
+  return (
+    <>
+      <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
+        {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
+          <Chip key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>
+            {tRelease(type)}
+          </Chip>
+        ))}
+      </Bereich>
+      <SprecherBereich t={t} filters={filters} set={set} suche={suche} />
+      <HerkunftBereich t={t} filters={filters} chipState={chipState} pick={pick} suche={suche} />
+    </>
+  )
+}
+
+/** Belegstärke, Bezugsquelle und Keywords — der zweite Teil der „mehr Filter"-Fläche. */
 function FilterMehrRest(props: FilterMehrProps) {
   const {
     t,
@@ -594,8 +618,20 @@ function FilterMehrRest(props: FilterMehrProps) {
   const keywordLabel = t('filter.keywords', { count: meta.keywords.length })
   return (
     <>
+      {showConfidence && (
+        <Bereich label={confidenceLabel} suche={suche} texte={CONFIDENCE_STUFEN.map((_, i) => confidenceText(t, i))}>
+          {CONFIDENCE_STUFEN.map((c, i) => ({ c, text: confidenceText(t, i) }))
+            .filter(({ text }) => zeigePille(suche, confidenceLabel, text))
+            .map(({ c, text }) => (
+              <Chip key={c} active={filters.minConfidence === c} onClick={() => set({ minConfidence: c })}>
+                {text}
+              </Chip>
+            ))}
+        </Bereich>
+      )}
+
       {meta.providers.length > 0 && (
-        <Bereich label={providerLabel} suche={suche} texte={meta.providers} modus={modusVon2('providers', filters.providers.length)}>
+        <Bereich label={providerLabel} klasse="col-span-full" suche={suche} texte={meta.providers} modus={modusVon2('providers', filters.providers.length)}>
           {sichtbareAnbieter.map((name: string) => (
             <Chip key={name} color="#34d399" {...chipState('providers', name)} onClick={() => pick('providers', name)}>
               {name}
@@ -613,19 +649,7 @@ function FilterMehrRest(props: FilterMehrProps) {
         </Bereich>
       )}
 
-      {showConfidence && (
-        <Bereich label={confidenceLabel} suche={suche} texte={CONFIDENCE_STUFEN.map((_, i) => confidenceText(t, i))}>
-          {CONFIDENCE_STUFEN.map((c, i) => ({ c, text: confidenceText(t, i) }))
-            .filter(({ text }) => zeigePille(suche, confidenceLabel, text))
-            .map(({ c, text }) => (
-              <Chip key={c} active={filters.minConfidence === c} onClick={() => set({ minConfidence: c })}>
-                {text}
-              </Chip>
-            ))}
-        </Bereich>
-      )}
-
-      <div className="sm:col-span-2 xl:col-span-1">
+      <div className="col-span-full">
         <Bereich label={keywordLabel} suche={suche} texte={meta.keywords.map(tKeyword)} modus={modusVon2('keywords', filters.keywords.length)}>
           {shownKeywords.map((k) => (
             <Chip key={k} {...chipState('keywords', k)} onClick={() => pick('keywords', k)}>
