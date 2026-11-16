@@ -71,6 +71,9 @@ Immer in dieser Reihenfolge:
      Auch eine Warnung („WARNUNG im Verlauf …“, bis 16.11.2026 „ROT im Verlauf … warnung“) bekommt in derselben Wachphase einen
      Besitzer (Analyst oder Fix) — der Wochenlauf stand 6 Tage gelb, jede Wachphase sah ihn,
      keine handelte (18.10.2026). Ist sie geprüft und schon behoben, der nächste grüne Lauf aber noch Tage entfernt: mit `node C:/code/ai/__assets/tools/mit-lauf-token.mjs laeufe-aufraeumen C:/code/ai/anime-kalender-de --erledigt <lauf_id> --notiz "behoben durch …, Nachprüfung <Datum>"` abnehmen und die Nachprüfung als 📅 eintragen (23.10.2026).
+   - **Auswertungs-PRs der Wache lesen, nicht nur mergen (16.11.2026):** Ein offener Punkt unter „echte Risiken und Lücken“ bekommt in derselben Wachphase einen Besitzer (Demon Slayer stand elf Stunden ohne Deutsch).
+   - **Uhrzeiten (16.11.2026):** Jede Uhrzeit in `stand.md`, Lehren und Antworten stammt aus `date`, `merged_at` oder dem Systemzeit-Vermerk.
+   - **Abbau-Block (16.11.2026):** Je Wachphase `node tools/maengel.mjs --top 20`, solange kein Abbau-PR offen ist.
    - Hintergrundaufgaben dieser Sitzung (`TaskList`)
    - **Rechnerlast:** `node C:/code/ai/__assets/tools/last-blick.mjs` — jede „ZU VIEL“-Zeile wird in derselben Wachphase behoben (Agent anweisen, Prüfkette serialisieren, Bauer-Zahl senken), nicht nur notiert; Daniel bemerkte 91 bash und Ruckeln vor mir (18.10.2026).
    - **Liegende PRs** (anime-kalender-de, seit 21.10.2026): `node tools/liegegut.mjs` — jede Zeile bekommt in derselben Wachphase einen Besitzer (Merge-Reihe, Nachbesserung in den Vorrat, Schließen mit Beleg); 13 PRs lagen bis zu 4 Tage, weil niemand hinsah.

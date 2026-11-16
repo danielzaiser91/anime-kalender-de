@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-16 · **33 offene Verweise** in **27 Zeilen**,
+Stand 2026-11-16 · **32 offene Verweise** in **26 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -56,7 +56,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Netflix | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
 | 20 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
 
-## Paket 2 — Zeilen 21 bis 27
+## Paket 2 — Zeilen 21 bis 26
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -66,4 +66,3 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 24 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
 | 25 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
 | 26 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 27 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |

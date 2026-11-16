@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-16T20:03:09.167Z",
+ "erzeugtAm": "2026-11-16T20:31:34.746Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -304,8 +304,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 929,
-   "offen": 158,
+   "gesamt": 928,
+   "offen": 157,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -464,10 +464,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/70023531",
-     "titel": "Appleseed"
     },
     {
      "url": "https://www.netflix.com/title/80193421",

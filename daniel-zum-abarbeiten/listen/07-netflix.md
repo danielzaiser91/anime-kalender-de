@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-11-16 · **24 offene Verweise** in **19 Zeilen**.
+Stand 2026-11-16 · **23 offene Verweise** in **18 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -27,4 +27,3 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 16 | 2023-02-17 | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
 | 17 | 2022-04-15 | Detektiv Conan | [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
 | 18 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 19 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
