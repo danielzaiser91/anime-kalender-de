@@ -29,7 +29,7 @@ pruefe('Erstausgabe ohne Synchro-Marke zählt nicht (kein Beleg für Deutsch)', 
 pruefe('mehrere: nur die ohne Weg', zaehleErstausgabeOhneWeg([{ deErstausgabe: erst, streams: [] }, { deErstausgabe: erst, streams: [] }, { deErstausgabe: erst, streams: stream as never }]) === 2)
 
 /* Gaiden Teil 3 (99197) mit dem Disc-Termin der Komplettbox; Teil 4 (fremd) ohne. */
-const disc = discTitelIds([{ titleId: 99197, releaseType: 'disc' }, { titleId: 5, releaseType: 'kino' }, { releaseType: 'disc' }])
+const disc = discTitelIds([{ titleId: 99197, releaseType: 'disc' }, { titleId: 5, releaseType: 'kino' }, { titleId: 6, releaseType: 'tv' }, { releaseType: 'disc' }])
 pruefe('discTitelIds: nur Disc-Termine mit Titelkennung', [...disc].join() === '99197', [...disc])
 pruefe('ein Disc-Termin nimmt den Titel aus der Zählung', zaehleErstausgabeOhneWeg([{ id: 99197, deErstausgabe: erst, streams: [] }], disc) === 0)
 pruefe('Disc-Termin eines anderen Titels nimmt nichts heraus', zaehleErstausgabeOhneWeg([{ id: 99198, deErstausgabe: erst, streams: [] }], disc) === 1)
