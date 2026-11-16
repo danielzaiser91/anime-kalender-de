@@ -240,24 +240,29 @@ if (process.platform === 'win32') {
   console.log('stand-waechter.test: Standard-Dateisystemfall übersprungen (nur win32); Fall mit abgebildetem Pfad lief')
 }
 // Jetzt-Dateien: fester Aufbau (Kennung in der Überschrift, Abschnittsreihenfolge)
-const GUT = '# F7 Titel\n\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n## Archiv\nx\n'
+const GUT = '# F7 Titel\n\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n## Archiv\nx\n'
 const jetztStand = (zeile) => ['# Stand', '## Daniel-Todo', '### Jetzt', zeile, '### Später', '', `## In Arbeit${FRISCH}`, '', '## Als Nächstes', ...hand(40, '🔵 '), ''].join('\n')
 const ZEILE = '- 🟠 **F7 Frage** — [Datei](file:///C:/code/ai/jetzt-f7.md) {eigen · normal · - · 01.10.}'
 const mitDatei = (inhalt) => w.waechter(jetztStand(ZEILE), JETZT, () => true, (p) => (p === 'C:/code/ai/jetzt-f7.md' ? inhalt : null))
 assert.equal(mitDatei(GUT), '', 'Jetzt-Datei gut')
+const OHNE_GRUND = 'Jetzt-Datei F7: Abschnitt „Warum ich es nicht selbst tue“ nennt kein „kann nicht“, „darf nicht“ oder „soll nicht“'
+assert.equal(mitDatei(GUT.replace('kann nicht: x', 'x')), OHNE_GRUND, 'Warum-Abschnitt ohne Grund')
+assert.equal(mitDatei(GUT.replace('kann nicht: x\n', '')), OHNE_GRUND, 'Warum-Abschnitt leer')
+assert.equal(mitDatei(GUT.replace('kann nicht: x', 'x').replace('## Archiv\nx', '## Archiv\nkann nicht')), OHNE_GRUND, 'Grund im Archiv zählt nicht')
+assert.equal(mitDatei(GUT.replace('kann nicht: x', 'Das soll nicht ich entscheiden')), '', 'soll nicht im Fließtext des Abschnitts genügt')
 assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung fehlt')
 assert.equal(mitDatei(GUT.replace('# F7 Titel', '# F77 Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'F77 ist nicht F7')
 assert.equal(
-  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'),
   'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst; Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
   'falsche Reihenfolge',
 )
 assert.equal(
-  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'),
   'Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
   'Archiv vor Worum',
 )
-assert.equal(mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'), '', 'Archiv darf fehlen')
+assert.equal(mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'), '', 'Archiv darf fehlen')
 // Pflichtabschnitte je genau einmal (nur Archiv darf fehlen)
 assert.equal(
   mitDatei('# F7 T\n## Deine Aufgabe\nx\n'),
@@ -265,7 +270,7 @@ assert.equal(
   'nur Aufgabe',
 )
 assert.equal(
-  mitDatei('# F7 T\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n'),
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'),
   'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ fehlt; Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst',
   'Aufgabe fehlt',
 )

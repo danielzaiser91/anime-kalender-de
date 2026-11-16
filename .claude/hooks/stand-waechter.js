@@ -201,7 +201,17 @@ function dateiAufbau(kennung, text) {
   if (bekannt.some((r, i) => i > 0 && r < bekannt[i - 1])) {
     meldungen.push(`Jetzt-Datei ${kennung}: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv`)
   }
+  meldungen.push(...warumGrund(kennung, zeilen))
   return meldungen
+}
+
+/** Der Abschnitt „Warum ich es nicht selbst tue“ nennt „kann/darf/soll nicht“ (der Grund steht dort, nicht in der Jetzt-Zeile; Daniel, 16.11.2026). Fehlt der Abschnitt, meldet das dateiAufbau. */
+function warumGrund(kennung, zeilen) {
+  const von = zeilen.findIndex((z) => z.startsWith('## ') && z.slice(3).trim() === DATEI_ABSCHNITTE[2])
+  if (von < 0) return []
+  let bis = zeilen.findIndex((z, i) => i > von && z.startsWith('## '))
+  if (bis < 0) bis = zeilen.length
+  return GRUND.test(zeilen.slice(von + 1, bis).join('\n')) ? [] : [`Jetzt-Datei ${kennung}: Abschnitt „${DATEI_ABSCHNITTE[2]}“ nennt kein „kann nicht“, „darf nicht“ oder „soll nicht“`]
 }
 
 /** Meldungen zu den Jetzt-Dateien: je Zeile unter „### Jetzt“ mit Kennung und `file:///`-Link auf eine .md-Datei. `lies(pfad)` liefert Text oder null. */
