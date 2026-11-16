@@ -13,6 +13,7 @@ import { SchnellChips } from './schnellfilter.tsx'
 import { FilterSuche } from './filter/filter-suchfeld.tsx'
 import { FilterSuchHinweis } from './filter/such-hinweis.tsx'
 import { FilmSerieChips } from './filter/film-serie-gruppe.tsx'
+import { WertungInhalt, wertungTexte } from './filter/wertung-gruppe.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { nachZahlGeordnet } from '../lib/filter-liste.ts'
 import { zyklusFilter } from '../lib/filter-zyklus.ts'
@@ -531,6 +532,7 @@ function Grundgruppen({
   const fskLabel = t('filter.fsk')
   const jahrLabel = t('filter.year')
   const filmSerieLabel = t('filter.filmSerie')
+  const wertungLabel = t('filter.wertung')
   return (
     <>
       <Bereich label={filmSerieLabel} suche={suche} texte={[tRelease('movie'), t('filter.serie')]}>
@@ -543,6 +545,10 @@ function Grundgruppen({
             {t(STATUS_LABEL_KEY[s])}
           </Chip>
         ))}
+      </Bereich>
+
+      <Bereich label={wertungLabel} info={t('filter.wertung.info')} suche={suche} texte={wertungTexte(t)}>
+        <WertungInhalt t={t} filters={filters} set={set} />
       </Bereich>
 
       <Bereich label={fskLabel} suche={suche} texte={FSK_OPTIONS.map((f) => t('filter.fskFrom', { n: f }))}>

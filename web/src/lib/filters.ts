@@ -17,6 +17,7 @@ import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 import { passtSprecher, type SprecherAuswahl } from './sprecher-auswahl.ts'
 import { herkunftVon, type Herkunft } from './herkunft.ts'
+import { passtWertung } from './filter-wertung.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -96,6 +97,10 @@ export interface FilterState extends FilterLists {
   zweitanbieterExcluded: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
+  /** Mindestwertung auf der Skala der Daten (0–100); 0 = keine Schwelle (`filter-wertung.ts`). */
+  minScore: number
+  /** Titel ohne Wertung ausblenden — wirkt auch ohne Schwelle. */
+  ohneWertungAus: boolean
   /**
    * **Ob mehrere Pills einer Kategorie mit UND oder ODER verknüpft werden.**
    *
@@ -169,6 +174,8 @@ export const EMPTY_FILTERS: FilterState = {
   availableExcluded: false,
   zweitanbieterExcluded: false,
   minConfidence: 'low',
+  minScore: 0,
+  ohneWertungAus: false,
   modus: {},
 }
 
@@ -245,7 +252,9 @@ export function activeFilterCount(f: FilterState): number {
     (f.confirmedExcluded ? 1 : 0) +
     (f.availableExcluded ? 1 : 0) +
     (f.zweitanbieterExcluded ? 1 : 0) +
-    (f.minConfidence !== 'low' ? 1 : 0)
+    (f.minConfidence !== 'low' ? 1 : 0) +
+    (f.minScore > 0 ? 1 : 0) +
+    (f.ohneWertungAus ? 1 : 0)
   )
 }
 
@@ -339,6 +348,7 @@ export function releaseMatches(
   }
   if (f.statuses.length && !f.statuses.includes(status)) return false
   if (f.land.length && !f.land.includes(herkunftOderUnbekannt(title))) return false
+  if (!passtWertung(title?.score, f.minScore, f.ohneWertungAus)) return false
 
   if (f.genres.length && !f.genres.every((g) => genres.includes(g))) return false
   if (f.keywords.length && !f.keywords.every((k) => keywords.includes(k))) return false
@@ -403,7 +413,7 @@ export function* filterTitlesGen(
       yield
       marke = performance.now()
     }
-    if (passtTitel(t, data, f, today, favorites, sprecher)) vorgefiltert.push(t)
+    if (passtTitel(t, data, f, today, favorites, sprecher) && passtWertung(t.score, f.minScore, f.ohneWertungAus)) vorgefiltert.push(t)
   }
   const gesucht = yield* sucheGen(
     vorgefiltert,
