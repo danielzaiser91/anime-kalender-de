@@ -1,15 +1,32 @@
 {
-  "scrapedAt": "2026-11-16T05:02:55.499Z",
+  "scrapedAt": "2026-11-16T14:02:08.596Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 41,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
-    "schon in einem Rubrik-Feed gelesen": 27,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 58,
-    "Sprachhinweis älter als 45 Tage": 7
+    "schon in einem Rubrik-Feed gelesen": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Vier Februar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1072200/anime-planet-februar-neuheiten-2027-vorbestellbar/",
+      "publishedAt": "2026-11-16",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "r fassen nachfolgend alle Details zusammen. Vier Blu-ray-Neuheiten Am 25. Februar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbo"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "MediaMarkt reduziert zahlreiche Anime-Blu-rays zum Black Friday 2026",
       "articleUrl": "https://www.anime2you.de/news/1071924/mediamarkt-black-friday-2026-aktion/",
