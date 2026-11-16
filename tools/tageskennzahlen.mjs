@@ -2,7 +2,8 @@
  * Tageskennzahlen (Europe/Berlin) nach tools/kennzahlen/tage.jsonl: eine JSON-Zeile je Tag, damit Maßnahmen an Zahlen gemessen werden.
  * Quellen nur gh (REST; GraphQL ist in Cloud-Sitzungen gesperrt) und git, nie D1. Rechenregeln: tageskennzahlen-rechnen.mjs.
  *
- *   node tools/tageskennzahlen.mjs [--von=2026-10-01] [--bis=<gestern>] [--lehren=<lehren.md>|--ohne-lehren]   schreibt die Datei neu (idempotent, gleiche Eingabe = gleiche Zeilen)
+ *   node tools/tageskennzahlen.mjs [--von=2026-10-01] [--bis=<gestern>] [--lehren=<lehren.md>|--ohne-lehren]   schreibt die Datei neu (idempotent, gleiche Eingabe = gleiche Zeilen); Volllauf ≈ 5000 Abrufe
+ *   node tools/tageskennzahlen.mjs --anhaengen [--von=…] [--bis=…]   Regelfall: nur diese Tage ersetzen/einsortieren, Rest bleibt; ohne --von ab dem Tag nach der letzten Zeile
  *
  * Voraussetzung: git-Verlauf ab `--von` (bei flachem Klon: git fetch --shallow-since=<von minus 2 Tage> origin main).
  * Fehlt eine Kennzahl (Datei am Tag nicht vorhanden, keine Läufe), fehlt das Feld; nie geschätzt.
@@ -11,6 +12,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { mischeZeilen, pruefeKontingent, tagNachLetzterZeile } from './tageskennzahlen-anhaengen.mjs'
 import { gzipBytes } from './kennzahlen.mjs'
 import { bestimmeStufe } from './pr-stufe.mjs'
 import { leseKette } from './pr-stufe-kette.mjs'
@@ -208,12 +210,23 @@ export function erzeugeZeilen(von, bis, jetzt, q) {
   return { zeilen: tageZwischen(von, bis).map((tag) => JSON.stringify(tageszeile(tag, daten))), anzahl: [prs.length, laeufe.length, commits.length] }
 }
 
+function bestehendeZeilen() {
+  return existsSync(AUSGABE) ? readFileSync(AUSGABE, 'utf8') : ''
+}
+
 function main(argv) {
   const jetzt = Date.now()
-  const von = lies(argv, 'von', '2026-10-01')
+  const anhaengen = argv.includes('--anhaengen')
+  const von = lies(argv, 'von', anhaengen ? tagNachLetzterZeile(bestehendeZeilen(), '2026-10-01') : '2026-10-01')
   const bis = lies(argv, 'bis', tagPlus(tagBerlin(jetzt), -1))
   if (!/^\d{4}-\d{2}-\d{2}$/.test(von) || !/^\d{4}-\d{2}-\d{2}$/.test(bis) || von > bis) {
     console.error(`FEHLER: --von=${von} und --bis=${bis} müssen Tage (JJJJ-MM-TT) sein, von nicht nach bis`)
+    process.exit(1)
+  }
+  try {
+    pruefeKontingent(Number(ausfuehren('gh', ['api', 'rate_limit', '--jq', '.resources.core.remaining']).trim()), tageZwischen(von, bis).length)
+  } catch (fehler) {
+    console.error(`FEHLER: ${fehler.message}`)
     process.exit(1)
   }
   const q = {
@@ -237,7 +250,7 @@ function main(argv) {
   const { zeilen, anzahl: [prs, laeufe, commits] } = ergebnis
   const ziel = resolve(AUSGABE)
   mkdirSync(dirname(ziel), { recursive: true })
-  writeFileSync(ziel, `${zeilen.join('\n')}\n`)
+  writeFileSync(ziel, `${(anhaengen ? mischeZeilen(bestehendeZeilen(), zeilen) : zeilen).join('\n')}\n`)
   console.log(`${zeilen.length} Tage nach ${AUSGABE} (${von} bis ${bis}), ${prs} PRs, ${laeufe} Läufe, ${commits} Commits`)
   aktualisiereAnsicht()
   console.log('Ansicht: tools/kennzahlen/kernpunkte.yaml und daten.js nachgezogen')
