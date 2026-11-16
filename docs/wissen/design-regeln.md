@@ -201,3 +201,54 @@ Pixelprobe der Cover-Zustände (gewählt, künftig, gemerkt): Bühne, Mockup `re
 ## 12. Rückkehr-Funktionen mit Browser-Neuladen ohne App-Code messen (03.11.2026)
 
 Eine Funktion, die nach einem Neuladen den Stand zurückbringt (Lesestelle, Filter, Panel), wird nicht nur für das eigene `location.reload()` gemessen, sondern auch für ein Neuladen, bei dem kein App-Code mehr läuft: Der Browser verwirft verborgene Tabs (Chrome Memory Saver; Edge Schlafende Registerkarten, Standardzeit nicht belegt) und lädt sie bei der Rückkehr neu (`document.wasDiscarded`, Navigationstyp `reload`). Gemerkt werden muss deshalb schon bei `visibilitychange → hidden` und `pagehide` (Chrome-Doku „Page Lifecycle API“: Zustand beim Wechsel zu hidden in `sessionStorage` sichern). `web/src/lib/lesestelle.ts` merkt so, gilt 12 h und stellt nur bei `reload`, `back_forward` oder `wasDiscarded` wieder her (frische Navigation beginnt wie immer). Messung: dist per `page.route`, headless, lesen (y = 900), `hidden` auslösen, `page.reload()` — vorher sprang y weich auf „heute“ (385–611), nachher bleibt y = 900. Die Lesestelle eines Vortags bleibt gültig, wenn ihr Tag noch in der gezeigten Woche steht (der Besucher las dort); ist die Woche weitergezogen, findet sie ihren Tag nicht und fällt nach `FRIST_MS` weg.
+
+## 13. Teil 2: Aufbau und Bedienung (16.11.2026)
+
+Anlass: Beim Filterfenster (PR 4031) landete die Frage „größere Tippflächen oder kompaktes Fenster?“ bei Daniel; er überließ die Entscheidung (16.11.2026 14:05, 14:07) den Regeln. Messgrundlage: Bestandsaufnahme vom 16.11.2026 (App auf d9e398fc8, Handy 390 × 844, Desktop 1600 × 900). Handy = 390 px, Desktop = ab 1280 px. Eine Ausnahme steht nie stillschweigend im Code: Kommentar mit Grund an der Stelle plus Satz im PR. Wer Oberfläche ändert, liest diesen Teil vor dem ersten Edit; ein Verstoß ist beim Prüfer ein Befund.
+
+### E0 Wer entscheidet
+**Regel:** Gestaltungsfragen entscheidet der Dirigent nach diesem Teil und zeigt Daniel das Ergebnis als Bild. **Standard:** entscheiden, bauen, zeigen. **Maß:** keins. **Messweg:** keiner. **Ausnahme:** Zu Daniel gehen nur neue Hauptansicht oder Navigation, Markenbild (Logo, Akzentfarbe, Schrift), Wegfall einer Funktion, Texte mit rechtlicher Wirkung. **Beispiel:** Tippfläche im Filterfenster (PR 4031) war Regelfrage, keine Frage an Daniel.
+
+### E1 Rangfolge bei Zielkonflikten
+**Regel:** Es gewinnt der höhere Rang: 1 Richtigkeit (nichts Falsches oder Unbelegtes zeigen), 2 Bedienbarkeit am Handy, 3 Geschwindigkeit (Budgets in `ZIELE.md`), 4 Platznutzung am Desktop, 5 Schmuck. **Standard:** der Rang entscheidet, nicht der Geschmack. **Maß:** keins. **Messweg:** keiner. **Ausnahme:** keine. **Beispiel:** Filterfenster: 44-px-Chips am Handy (Rang 2) gehen vor einem kürzeren Fenster (Rang 4).
+
+### E2 Tippflächen
+**Regel:** Maß ist die wirksame Trefferfläche (`elementFromPoint`, samt `::after`), nicht die Elementbox. **Standard:** dichte Chips am Handy auf die Tippfläche vergrößern, nicht Gruppen verstecken. **Maß:** Handy mindestens 44 × 44 px (WCAG 2.2, 2.5.5 AAA), Desktop mindestens 24 × 24 px (2.5.8 AA). **Messweg:** `tippzieleImRahmen`, `ansicht-filterfenster.mjs`, `kopf-pruefen.mjs`, `panel-messen.mjs` (Elementbox, nur Bühnen-Handy-Zellen); Desktop-24 und Seiten wie Woche, Abo, Newsletter, News, Fuß: noch keine. **Ausnahme:** Kleiner ist erlaubt, wenn ein Kreis von 24 px um das Ziel kein anderes Ziel schneidet (WCAG 2.5.8); Eintrag in der Tippziel-Ausnahme der Bühne mit Grund. **Beispiel:** richtig: Schnell-Chips im Filterfenster, 32 px Box, 43–44 px Trefferfläche über `ak-tz`. Falsch: Woche Handy, 30 Zeilenknöpfe 328 × 28 px (`WeekView.tsx`).
+
+### E3 Platz nutzen
+**Regel:** Fenster, Panel und Raster haben keine feste Breite ohne Grund; am Desktop wachsen sie mit dem Inhalt bis zu einer Obergrenze. **Standard:** Richtwert 1180 px (Kalender, Filterfenster), Fließtext höchstens 80 Zeichen je Zeile (WCAG 1.4.8 AAA). **Maß:** Handy volle Breite minus Rand, Desktop bis 1180 px; Zeilenlänge ≤ 80 Zeichen. **Messweg:** noch keine (Zeichen je Zeile = Textlänge geteilt durch Zeilenzahl). **Ausnahme:** schmale Lesespalten sind erlaubt, solange die Zeilenlänge hält; Umbruch bei mehr als einem Drittel leerer Breite daneben ist ein Befund nach Bildurteil. **Beispiel:** Filterfenster 1180 px richtig; Abo, Newsletter, Quellen: 7 Absätze mit 85–105 Zeichen je Zeile falsch.
+
+### E4 Reihenfolge und Länge
+**Regel:** Häufiges und Grobes zuerst, Seltenes und Feines später; Listen über 12 Einträge klappen ein („alle anzeigen“) und sind durchsuchbar; der immer sichtbare Teil eines Fensters ist am Handy höchstens zwei Bildschirmhöhen lang, der Rest steht unter „mehr“. **Standard:** einklappen statt verkürzen. **Maß:** 12 Einträge, 2 Bildschirmhöhen (844 px Handy); **Eigenmaß** ohne Quelle in WCAG oder den Web Interface Guidelines. **Messweg:** noch keine. **Ausnahme:** Liste mit eigenem Suchfeld, Eintrag mit Grund. **Beispiel:** richtig: Filterfenster zugeklappt 1,33 Bildschirmhöhen (PR 4031), 13 Gruppen und 155 Chips erst unter „mehr Filter“. Falsch: Genre mit 57 Einträgen ohne Einklappen.
+
+### E5 Nichts doppelt, nichts leer
+**Regel:** Keine Information zweimal auf demselben Bildschirm; kein leerer Kasten, keine leere Bildfläche. **Standard:** Ein Kasten ohne Inhalt sagt, was bekannt ist und was fehlt; ein fehlendes Bild bekommt einen Platzhalter mit Titel. **Maß:** 0 Fälle. **Messweg:** noch keine (die Heuristik der Bestandsaufnahme meldete 4 Treffer, alle Fehlalarm). **Ausnahme:** gleiche Aussage auf verschiedenen Karten ist kein Doppel. **Beispiel:** falsch (Anlass 16.11.2026): „Deutsch synchronisiert“ ohne Weg; Cover-Fläche ohne Bild.
+
+### E6 Zustände
+**Regel:** Jede Ansicht gestaltet laden, leer, Fehler und „Daten unvollständig“; ein Filter ohne Treffer nennt den Filter, der sie nimmt. **Standard:** Besuchertext statt Entwicklertext, mit Weg weiter (Wiederholen). **Maß:** 4 Zustände je Ansicht. **Messweg:** noch keine (nur `check:suchhinweis` für den Suchhinweis). **Ausnahme:** keine. **Beispiel:** richtig: leere Suche in der Datenbank mit Knopf „Auch Anime ohne deutsche Synchro zeigen“. Falsch: Fehlerseite mit „npm run data:all“ (`App.tsx`).
+
+### E7 Lesbarkeit
+**Regel:** Beschriftungen mindestens 11 px (kleinste Stufe im Repo, `panel-messen.mjs`), Fließtext am Handy mindestens 14 px; 10 px ist ein Verstoß. Kontrast AA in beiden Themen (Abschnitt 3), Fokus sichtbar, alles per Tastatur erreichbar, `prefers-reduced-motion` gilt. **Standard:** größer vor dichter. **Maß:** 11 px / 14 px; Text 4,5 : 1, Zeichen 3 : 1. **Messweg:** `design-kontrast.mjs`, `design-fokus.test.mjs`, Kontrast in `buehne-messen.mjs`; Mindestschrift und `prefers-reduced-motion`: noch keine. **Ausnahme:** Marken- und Flaggenschrift, Eintrag mit Grund. **Beispiel:** falsch: „Premiere“ weiß auf `bg-orange-500`, 2,89 : 1 (`PremiereMarke.tsx`). WCAG fordert keine Mindestschrift; 11 px ist die Stufe des Repos.
+
+### E8 Ruhe
+**Regel:** Nichts springt beim Laden, Tippen oder Scrollen; Hinweise der Seite bleiben leise; ein Fenster schließt mit Escape, Zurück-Taste (Handy) und Tippen daneben, und das Tippen daneben löst dahinter nichts aus (Konvention des Projekts, keine WCAG-Pflicht). **Standard:** Platz im Startgerüst reservieren. **Maß:** CLS ≤ 0,1 (`ZIELE.md`), auch am Desktop. **Messweg:** `cls-wechsel.mjs` (nur Woche ↔ Monat), `ansicht-escape-*.mjs`; CLS beim Erstladen am Desktop und Klick außerhalb: noch keine. **Ausnahme:** keine. **Beispiel:** falsch: Fuß im Startgerüst verschwindet beim Laden (Datenbank und News 0,195, Saison 0,315); Desktop-Filterfenster schließt durch Tippen daneben nicht und öffnet dahinter ein Detail-Panel.
+
+### E9 Ein Muster je Aufgabe
+**Regel:** Ein Chip-Muster, ein Schalter-Muster, ein Kästchen-Muster, `ak-*`-Tokens; eine neue Komponente nur, wenn keine passt, und dann in der Bühne. **Standard:** vorhandenes Muster nehmen. **Maß:** 1 Muster je Aufgabe (**Eigenmaß**). **Messweg:** noch keine (`design-klassen.mjs` zählt nur alte Farbklassen). **Ausnahme:** Eintrag in der Bühne mit Grund. **Beispiel:** falsch: dieselben zwei Schalter am Desktop als Schiebeschalter, am Handy als 20-px-Kästchen.
+
+### E10 Beleg vor Abnahme
+**Regel:** Jede sichtbare Änderung liefert Bilder vorher und nachher, die der Dirigent vor dem Merge ansieht. **Standard:** Desktop 1600 px und Handy 390 px, hell und dunkel, jeder geänderte Zustand. **Maß:** 4 Bilder je Zustand. **Messweg:** `node tools/pr-bilder.mjs`, Bühne. **Ausnahme:** reine Doku. **Beispiel:** PR 4031 mit Filterfenster in beiden Breiten.
+
+### Stand 16.11.2026
+Zahlen aus der Bestandsaufnahme (App auf d9e398fc8, lokaler Bau). Die Vorschläge sind Folge-PRs, nicht Teil dieses Teils.
+
+| Regel | Verstöße 16.11.2026 | Fehlende Prüfung (Vorschlag) |
+|---|---|---|
+| E2 | Handy 68 wirksam zu klein (Woche 31, Abo 13, Newsletter 11), Desktop 54 | `tippzieleImRahmen` auf Trefferfläche statt Elementbox; Seiten und Desktop-24 in die Bühne |
+| E3 | 7 Absätze über 75 Zeichen (Maß jetzt 80; Quellen 98–105) | Zeichen je Zeile je Textblock |
+| E4 | 3 Listen über 12 (Jahr, Genre 57, Keywords) | Listenlänge in `ansicht-filterfenster.mjs` |
+| E5 | 0 bestätigt | Leer-Kasten-Heuristik als Hinweis |
+| E6 | 1 (Fehlertext für Entwickler) | Fehlerzustand mit gesperrtem Abruf rendern |
+| E7 | unter 11 px: Datenbank 90, News 22, Woche 6; Kontrast 8 Paare | Mindestschrift und Seitenkontrast als Bühnen-Messung; `prefers-reduced-motion` |
+| E8 | CLS Desktop 3 Ansichten; Klick außerhalb 1 | CLS beim Erstladen am Desktop; Klick außerhalb des Desktop-Filters |
+| E9 | 3 Doppelmuster | Zählung `type="checkbox"` und Chip-Höhen |
