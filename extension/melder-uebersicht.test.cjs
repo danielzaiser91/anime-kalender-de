@@ -672,6 +672,68 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       }
     }
   }
+  /*
+    Zwischenstand, Rückfall nur bei fehlender Route, Bremse (4058, Auflagen A2/A3): Bis die Antwort da ist, steht oben „Gemeldetes
+    wird geladen …“ und der Titel noch offen; danach ist er laut Sammelantwort gemeldet und der Hinweis weg. 429/5xx lösen keine
+    Einzelanfragen aus (nur 403/404/405), und eine zweite Öffnung binnen zwei Minuten fragt nicht erneut.
+  */
+  {
+    const zwei = {
+      70000001: { titel: 'Schon gemeldet', staffeln: [{ nr: 1, folgen: 1, film: false, offen: true }] },
+      70000002: { titel: 'Noch offen', staffeln: [{ nr: 1, folgen: 12, film: false, offen: true }] },
+    }
+    const letzter = (seite) => seite.body.kinder.filter((k) => k.className === 'ak-dialog').pop()
+    const hat = (el, klasse) => alleElemente(el).some((x) => String(x.className).split(/\s+/).includes(klasse))
+    const zeilenVon = (el) => alleElemente(el).filter((x) => String(x.className).split(/\s+/).includes('ak-zeile'))
+    const oeffnen = async (seite) => {
+      const knopf = suche(seite.body, 'ak-uebersicht')
+      knopf.closest = () => knopf
+      vm.runInContext('akKlickVerteilen', vm.createContext(seite.umgebung))({ target: knopf })
+      for (let i = 0; i < 8; i++) await new Promise((r) => setImmediate(r))
+    }
+    const warten = async () => { for (let i = 0; i < 12; i++) await new Promise((r) => setImmediate(r)) }
+    const baue = async (antwort) => {
+      const seite = lade('/title/70000001', zwei)
+      for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+      const abfragen = []
+      seite.umgebung.fetch = async (adresse) => {
+        const a = String(adresse)
+        if (!a.includes('gemeldet')) return { ok: true, json: async () => ({}), text: async () => '' }
+        abfragen.push(a)
+        return antwort(a)
+      }
+      return { seite, abfragen }
+    }
+
+    let freigeben
+    const spaet = new Promise((r) => { freigeben = r })
+    const gemeldetA = { ok: true, json: async () => ({ adressen: { 'https://www.netflix.com/title/70000001': { paare: [{ nummer: 1, staffel: 1, am: '2026-11-16' }] }, 'https://www.netflix.com/title/70000002': { paare: [] } } }) }
+    const z = await baue(async () => (await spaet, gemeldetA))
+    await oeffnen(z.seite)
+    pruefe('Zwischenstand: Hinweis „Gemeldetes wird geladen …“ steht, der Titel noch offen', hat(letzter(z.seite), 'ak-laedt') && !hat(letzter(z.seite), 'ak-fertig'), zeilenVon(letzter(z.seite)).length)
+    freigeben()
+    await warten()
+    const neu = letzter(z.seite)
+    /* Die Folgenkürzel zeigen den Briefkasten: 1e01 laut Sammelantwort gemeldet (`ak-fertig`), der andere Titel bleibt offen. */
+    const fertige = alleElemente(neu).filter((x) => String(x.className).split(/\s+/).includes('ak-fertig')).length
+    pruefe('Sammelantwort: Kürzel vorher offen, nachher gemeldet (genau eines ak-fertig)', fertige === 1, fertige)
+    pruefe('Sammelantwort: der Hinweis ist danach weg', !hat(neu, 'ak-laedt'))
+
+    for (const [status, fallback] of [[429, false], [500, false], [404, true], [405, true]]) {
+      const f = await baue(async (a) => (a.includes('gemeldet-liste') ? { ok: false, status, json: async () => ({}) } : { ok: true, json: async () => ({ paare: [] }) }))
+      await oeffnen(f.seite)
+      await warten()
+      pruefe(`Sammelroute antwortet ${status}: ${fallback ? 'Rückfall auf eine Anfrage je Reihe (1 + 2)' : 'keine Einzelanfragen, lokaler Stand'}`, f.abfragen.length === (fallback ? 3 : 1), f.abfragen.length)
+    }
+
+    const b = await baue(async () => gemeldetA)
+    await oeffnen(b.seite)
+    await warten()
+    vm.runInContext('dialogSchliessen', vm.createContext(b.seite.umgebung))()
+    await oeffnen(b.seite)
+    await warten()
+    pruefe('Dialog zweimal binnen zwei Minuten geöffnet: eine Anfrage', b.abfragen.length === 1 && Boolean(letzter(b.seite)), b.abfragen.length)
+  }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')
   process.exit(schlecht ? 1 : 0)

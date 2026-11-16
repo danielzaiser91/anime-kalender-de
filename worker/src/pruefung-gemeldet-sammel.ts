@@ -14,8 +14,8 @@ import { type Env } from './env.ts'
 import { gemeldetAlt, gemeldetAusZeilen, type ZeileAlt } from './pruefung-gemeldet.ts'
 import { gemeldetAusDaten } from './titelzeile-lesen.ts'
 
-/** Mehr Adressen je Anfrage gibt es nicht (Riegel; die Liste der Erweiterung hat 98, der Bestand wächst langsam). */
-export const SAMMEL_MAX = 400
+/** Mehr Adressen je Anfrage gibt es nicht (Riegel; die größte Liste der Erweiterung hat 230 Titel). */
+export const SAMMEL_MAX = 250
 /** Haltedauer der Sammelantwort im Edge-Cache; eine eigene Meldung überbrückt die Erweiterung (`meldungenMerken`). */
 export const SAMMEL_SEKUNDEN = 120
 /** Anweisungen je `DB.batch`. */
