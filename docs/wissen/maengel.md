@@ -1,0 +1,186 @@
+# Mängel-Inventur (16.11.2026)
+
+Auftrag `maengel-inventur-1611`. Nur gelesen und gemessen, kein Code, keine Daten geändert. Anlass: Titel 10019697 stand ohne Cover live, bemerkt hat es der Betreiber. Alle Zahlen: Stand `main` 16.11.2026 (Bestandsbau 11:22 UTC), Messung lokal an den committeten Dateien; Live-Netz war aus der Sitzung nicht erreichbar.
+
+## Kurzbefund
+
+1. **Gemessen wird viel, gemeldet wird wenig.** Nur `mitStreamingWeg` (Rückgang > 1 %) und drei HART-Zahlen lösen `DATEN_WARNUNG` oder Abbruch aus. Alle übrigen Kennzahlen aus `check-qualitaet.ts` (ohne Verweis 1.208, ohne Sprachurteil 166, ohne deutschen Namen 77, Serien ohne Folgenzahl 16) haben keinen Leser außer der Verlaufsdatei.
+2. **Der Cover-Fall war „gemessen und abgenickt".** Beide heute coverlosen Titel (10019697 „nicht-gefunden", 10020137 „ohne-adresse") stehen auf `data/cover-luecken.json`. Diese Liste schreibt der Bau selbst aus dem Befund; `check-cover-luecken-bestand.ts` warnt nur bei *neuen* Titeln ohne Cover (Exit 0) und wird rot nur bei veralteten Einträgen. Wer auf der Liste steht, ist für jede Wache erledigt.
+3. **Je-Titel-Listen ohne Leser:** `data/luecken-titel.json` (166 Titel mit Lücke) liest nur die Gegenprobe der Handlisten; die Listen je Panel-Feld (`data:lueckenlisten`) laufen in keinem Workflow und liegen außerhalb des Repos.
+4. **Ratschen decken nur Wege und Discs ab**, nicht Cover, Handlung, FSK, Folgentitel, Sprecher, Banner.
+5. **Größte unbeobachtete Lücken** (Abschnitt 2/3): FSK (1.232), Streaming-Weg (990), Sprecher (412), Banner (310), Folgentitel unvollständig (217).
+
+## 1. Was wird schon gemessen?
+
+Spalte „Leser": **Abbruch** = Bau stoppt oder Titel in Quarantäne; **Warnung** = `DATEN_WARNUNG`/`::warning::`; **niemand** = nur Log oder Datei.
+
+### A. Zahlenwerke
+
+| Stelle | zählt | Wert heute | je Titel | Leser |
+|---|---|---|---|---|
+| `pipeline/check-qualitaet.ts` → `data/qualitaet-verlauf.json` (80 Tage ab 28.08.) | Titel, mit Verweis/Streaming-Weg, ohne Verweis, mit Synchro, ohne Sprachurteil, ohne deutschen Namen, Serien ohne Folgenzahl, künftige Termine; HART: dubFalse, doppelte Adressen, verwaiste Termine | 2.923 Titel; Streaming-Weg 1.932; ohne Verweis 1.208; ohne Sprachurteil 166; ohne dt. Namen 77; Serien ohne Folgenzahl 16; künftige Termine 429; HART 0/0/0 | nein | HART > 0: Abbruch; Streaming-Weg-Rückgang > 1 %: Warnung (`bestand-bauen.yml:315`); Rest: niemand |
+| `pipeline/lib/pruefung.ts` (`pruefeErgebnis`) | Termin ohne Quelle, Ende vor Start, Folgenzahl über Werk, Herkunftsland, TMDB-Weg ungekennzeichnet; Warnungen: Folgen gegen AniList, Termin > 1,5 Jahre voraus | keine Zahl gespeichert | nur Log | Fehler: Abbruch; Warnungen: niemand (erreichen `DATEN_WARNUNG` nicht) |
+| `bestand-pruefung.txt` | liegt nicht im Repo: `tools/commit-data.sh` schreibt dort `check:bestand` + `check:logic` hin (`:206–228`) | — | nur in Warnzeilen | Exit ≠ 0: Quarantäne (max. 3 Titel) oder rot; `⚠ WARNUNG` → `::warning::` |
+| `npm run check:bestand` | 15 Skripte + 98 Prüfungen in `tools/check-bestand-liste.txt` (Details B) | s. B | teils | Abbruch/Warnung |
+| `npm run data:validate` | nur kuratierte Eingaben (`data/curated/*.yaml`, Handlisten): Quelle, Plattform, Datum, FSK, Uhrzeit | — | nein | PR-Kette, nicht der Bestandsbau |
+
+### B. `check:bestand` — 98 Prüfungen, zusammengefasst
+
+Rund 60 brechen (Zusicherungen: Cartoon-Aufnahme, Crunchyroll-Batch/Auftakt/Katalog, Netflix-Umleitung, Handbeleg-Staffeln, TMDB-Ablauf > 180 Tage, `ja-hat-weg` …), rund 25 warnen nur (Streaming-Lücke, Disc-Verweise, Joyn, JustWatch ohne TMDB, Netflix-Kennungen, Cover). 51 von 107 Läufen liefen lokal, 56 nicht (`node_modules` fehlt). Aktive Warnungen heute:
+
+- Streaming-Lücke: 990 Haupttitel ohne Streaming-Weg, 201 ohne jeden Weg (Stand-Datei 06.11.: 1.044/316); 194 Kennungen der Stand-Datei haben inzwischen einen Weg.
+- Disc: Namenssuchen 39 gegen Grenze 33; Handlinks 13 gegen 12; Archiv-Disc ohne Verweis 20 (Grenze 20).
+- Cover-Vorschau: 2 neue Kennungen (2842, 100353); Cover-Lücken 100 auf Liste, 0 Verstöße.
+- JustWatch ohne TMDB-Kennung: 714 Titel, 167 nie gefragt, 91 Befund > 28 Tage alt.
+- Joyn: 4 offen; TV-Termin ohne Joyn-Weg 4; 3 MAXX-Serien ohne Fenster.
+- Netflix-Kennungen widersprüchlich (20594, 101597 …); Folgentitel TMDB-Staffel 191788 (7 von 24).
+
+### C. Ratschen (nur sinkende Zahlen)
+
+| Datei | zählt | Wert/Grenze | je Titel | Wirkung |
+|---|---|---|---|---|
+| `data/streaming-luecke-stand.json` | Haupttitel ohne Streaming-Weg / ohne Weg | 06.11.: 1.044/316; heute 990/201 | ja | Warnung |
+| `data/disc-archiv-stand.json`, `disc-handlinks-stand.json`, `disc-suchlinks-stand.json` | Disc ohne Verweis / Handlink ohne EAN / Namenssuche | 20 / 12 (13) / 33 (39) | ja | Warnung |
+| `data/gleiche-adresse-stand.json` | Amazon-Seite mit Handbelegen zweier Titel | Grenze 0, erlaubt 6 | ja | Warnung |
+| `check-cover-vorschau-bestand.ts` | Cover, aber Standardbild als Vorschau | Grenze 27 | ja | Warnung |
+| `check-prime-seite-ohne-weg-bestand.ts` | Prime-Titelseite ohne Weg | Grenze 290 | ja | Abbruch |
+| `tools/kalender-plausibilitaet-grenzen.json` | 6 Kalenderregeln (z. B. erschienen ohne Termin 0, Prime ohne Titelseite 4) | s. Datei | ja | Abbruch |
+| `data/joyn-luecke-ausnahmen.json`, `check-handbelege.ts` `OFFEN_OHNE_ZUORDNUNG` | Joyn ohne Weg 2 Ausnahmen/4 offen; Netflix-Staffelliste 1 | — | ja | Warnung/Abbruch |
+| `tools/design-klassen-grenzen.json`, `umfang-grenzen.json` | alte Farbklassen, Überlängen (Code, nicht Daten) | — | Datei:Zeile | Abbruch (`check:logic`, PR-Kette) |
+
+### D. Ausgelassen, entfernt, widerlegt, verpasst
+
+| Datei | Inhalt | Wert 16.11. | Leser |
+|---|---|---|---|
+| `data/termine-ausgelassen.json` | CR-Termine, die der Bau bewusst nicht erzeugt | 276 (228 Blöcke ≠ Titel, 44 Folgenzahl geht nicht auf, 4 deutscher Termin vor japanischem) | Bau, Wachen; keine Seite |
+| `data/verweise-entfernt.json` | entfernte Streaming-Verweise mit Grund | 852 (Crunchyroll 694, ADN 50, Prime 58, Netflix 26, YouTube 21) | Bau-Gedächtnis, Delta-Wache |
+| `data/termine-verpasst.json` | verspätet erschienene Termine | 16 | Bau, Recherche-Workflow |
+| `data/widerlegte-termine.json` | von Hand widerlegt | 1 | Bau |
+| `data/beleg-fehlschlaege.json` | gescheiterte Belegabrufe | 16 Adressen | `belege-lesen.ts`, sonst niemand |
+| `data/crunchyroll-offene.json` | offene/tote CR-Verweise | 67 | Bau, `check-cr-ja-deckung` |
+
+### E. Prüflisten und Offen-Listen
+
+| Stelle | Inhalt | Wert | je Titel | Leser |
+|---|---|---|---|---|
+| `public/data/pruefstand.json` | Erweiterungs-Prüfstand je Anbieter | Amazon 1.009 gesamt/31 offen/2 ohne Seite; Netflix 934/163 offen; Disney+ 340/157 offen | je Anbieter | Browser-Erweiterung, Workflow; nicht die Webseite |
+| `public/data/pruefliste-stand.json` | nur Prüfsumme der Amazon-Liste | 1 Hash | nein | Erweiterung |
+| `data/luecken-titel.json` | fehlende Felder (titleDe, Jahr, Cover, MAL, Beschreibung) | Hauptbestand 166 Titel (77/6/2/76/23); Katalog 14.018; aniSearch-Zeilen 2.346 | ja | **niemand** (nur Gegenprobe der Handlisten) |
+| `npm run data:lueckenlisten` | je Panel-Feld eine Liste (Cover, Banner, Titel, Handlung, Studio, Jahr, Folgenzahl, Weg, Beleg; Sprecher, Trailer, FSK, Wertung) | schreibt nach `daniel-zum-abarbeiten/` (nicht im Repo), in keinem Workflow | ja | nur Daniel manuell |
+| `data/cover-luecken.json` | Titel ohne Cover samt Grund | 100 (93 ohne Adresse, 6 NSFW, 1 nicht gefunden) | ja | Bau, Wache (nur Warnung bei neuen) |
+| `data/folgentitel-offen.json` | Folgentitel ohne erlaubte Quelle | 67 Titel | ja | Wächter `folgentitel-luecke` |
+| `data/pillen-luecken.json`, `suchadressen-offen.json` | Haken ohne Folgenzahl / Prime nur Suchadresse | 2 / 0 | ja | Erweiterungs-Prüfliste |
+| `data/adn-anisearch-offen.json`, `adn-offen-seit.json` | ADN-Serien ohne aniSearch-Zuordnung | 21 | ja | Wache (warnt nur bei `titelliste-fehlt`: 0) |
+| `data/anisearch-offen.json` | aniSearch ohne eindeutige Zuordnung | 3.075 (1.122 ohne MAL) | ja | Zuordnungslauf; keine Seite |
+| `data/dub-pruefliste-zurueckgestellt.md` | zurückgestellte Prüfzeilen | 18 | ja | niemand (Archiv) |
+| `public/data/ohne-synchro.json` (+`-namen`) | Titel ohne belegte Synchro (Katalog, Schalter) | 17.769 | ja | Webseite |
+| `data/*-pruefliste.json` | Reihen 163, Dubletten 4, Cartoon-Staffeln 348, CR-Teilseiten 116, Prime-Teilseiten 16 | — | ja | je `check-*-bestand` |
+
+### F. Lücken der Messung (belegt)
+
+1. `ohneDeutschenNamen`, `serienOhneFolgenzahl`, `ohneSprachurteil`, `ohneVerweis` haben keinen Leser außer `check-qualitaet.ts` und dem Verlauf. `ohneVerweis` zählt nur `streams` (1.208) statt Streaming-Weg (990).
+2. `luecken-titel.json` und die Panel-Feld-Listen haben keinen Leser (Handlung fehlt bei 23 Titeln ohne jede Ratsche).
+3. Bau-`warn()`-Zeilen aus `pruefung.ts`/`10-termine.ts` erreichen weder `DATEN_WARNUNG` noch einen Workflow.
+4. „Sprache offen" je Weg wird nirgends als Mangelzahl fortgeschrieben (`ohneUrteil` 322 nur in `bestand-historie.jsonl`).
+5. Nicht verifiziert: 56 von 107 Bestandsskripten nicht gelaufen (Heuristik aus Quelltext), `check:logic` (737 Zeilen) nicht ausgewertet.
+
+## 2./3. Was fehlt? Mängel je Art (gemessen 16.11.2026)
+
+Nenner, wenn nicht anders genannt: 2.923 Titel in `public/data/titles.json` (Hauptbestand). Weitere Töpfe: 916 Cartoons, 17.769 Titel ohne Synchro (`ohne-synchro.json`), 876 Releases, 4.515 Events (429 davon ab heute). „Sichtbar" = die Oberfläche zeigt das Feld oder dessen Fehlen. Beispiele sind `titles.json`-Kennungen (bei Events/Releases: `titleId`).
+
+### Fehlend
+
+| Art | Zahl | Anteil | sichtbar | Beispiele | schon gemessen | Behebung | Aufwand |
+|---|---|---|---|---|---|---|---|
+| Cover | 2 | 0,07 % | ja (Kachel/Panel leer) | 10019697, 10020137 | ja: `luecken-titel.json`, `cover-luecken.json` — beide stehen auf der Liste, Wache warnt nur bei neuen; kein Leser | TMDB/aniSearch automatisch, sonst `cover-eigen` von Hand | klein |
+| Banner | 310 | 10,6 % | ja (leerer Farbverlauf im Panel-Kopf) | 65, 448, 507 | nein | TMDB-Banner automatisch (`tmdb-banner.json`), Rest keine Quelle | mittel |
+| deutscher Titel | 77 (16 davon mit Synchro-Weg) | 2,6 % | ja (Romaji-Ersatz) | 65, 495, 733 | ja: `check-qualitaet` `ohneDeutschenNamen`, `luecken-titel.json` | `data/titel-de.yaml` von Hand; teils aniSearch | klein–mittel |
+| deutscher Titel = Romaji (titleEn fehlt, vermutlich unübersetzt) | 56 | 1,9 % | ja | 317, 322, 342 | nein | Verdacht, Handprüfung | klein |
+| Handlung deutsch | 72 (23 ohne jede Handlung) | 2,5 % / 0,8 % | ja (Panel) | 3760, 4614, 8438 | ja für „weder de noch en" (23, `luecken-titel.json` „beschreibung"); de allein nein | `handlung-eigen.yaml`, aniSearch/TMDB | mittel |
+| Folgentitel: keine Datei (Serie ≥ 2 Folgen) | 39 von 1.768 | 2,2 % | ja (Folgenliste) | 3723, 100049, 151384 | teils: `folgentitel-offen.json` | aniSearch/TMDB/Wikipedia automatisch, `folgentitel-hand.yaml` | mittel |
+| Folgentitel: Datei, aber nicht alle Folgen benannt | 217 (120 davon ohne einen einzigen Titel, 76 mit Synchro) | 12,3 % der Serien | ja | 51, 105, 115 | teils (`folgentitel-offen.json`, Umfang nicht geprüft) | wie oben; Titel von Synchro-Serien: 20.506 von 21.374 Folgen haben einen (96 %) | mittel |
+| Folgenzahl (TV/ONA/OVA) | 18 (alle Formate 20) | 0,6 % | ja | 21, 235, 966 | ja: `serienOhneFolgenzahl` (16, nur TV) | AniList/aniSearch; Langläufer (One Piece 21) absichtlich offen | klein |
+| FSK | 1.232 (498 mit Synchro-Weg) | 42 % | ja (Filter/Panel) | 7, 44, 46 | nein | JustWatch/aniSearch automatisch, sonst FSK-Datenbank von Hand | groß |
+| Wertung | 108 | 3,7 % | ja (Sortierung) | 3823, 3828, 8494 | nein | AniList/TMDB automatisch | klein |
+| Studio | 105 | 3,6 % | ja (Panel, Filter) | 2033, 2578, 2884 | nein | AniList/aniSearch | klein |
+| Genre | 173 | 5,9 % | ja (Filter) | 10282, 16570, 99643 | nein | AniList/TMDB | klein |
+| Schlagworte | 194 | 6,6 % | ja (Suche) | 734, 1448, 1572 | nein | automatisch (aniSearch) | klein |
+| Laufzeit je Folge | 307 | 10,5 % | ja (Panel) | 384, 395, 1023 | nein | aniSearch/TMDB | klein |
+| Jahr | 6 | 0,2 % | ja (Sortierung) | 185515, 204584, 204585 | ja: `luecken-titel.json` „jahr" | AniList/aniSearch | klein |
+| Originaltitel | 18 | 0,6 % | ja (Suche) | 105245, 5000001, 5000002 | nein | AniList | klein |
+| Sprecher (Datei ohne Rollen) | 412 (149 mit Synchro-Weg) | 14,1 % | ja (Panel, Sprecher-Suche) | 115, 392, 571 | nein | aniSearch automatisch; Rest Handarbeit | mittel |
+| Weg: weder Stream noch Kauf-/Link | 209 | 7,2 % | ja | 65, 495, 733 | teils: `ohneVerweis` zählt nur Streams (1.208) | automatisch aus Katalogen; Rest nur Betreiber | mittel |
+| Weg: kein Streaming-Weg (nur Kauf oder gar nichts) | 990 (808 mit Stufe ≥ high) | 33,9 % | ja | 7, 24, 26 | ja: `mitStreamingWeg` (1.932), `streaming-luecke-stand.json` | meist Disc-/Ältere Titel ohne Stream — echte Lücke nur, wo ein Anbieter es führt | groß |
+| Trailer | 1.801 | 61,6 % | ja (Panel) | 7, 15, 24 | nein | optional, YouTube-Suche | groß, geringer Nutzen |
+| Termin trotz laufender Serie (TV/ONA, Synchro, kein künftiges Event) | 3 | 0,1 % | ja (Serie ohne Kalendereintrag) | 165159 Beyblade X, 209872 Ranma 1/2 S3, 213805 Ramparts of Ice S2 | nein | Anbieterkalender automatisch | klein |
+| Uhrzeit künftiger Streaming-Folgen | 9 Titel (52 Events von 429) | 12 % der künftigen Events | ja | 20701, 156040, 175914 | nein (`time` wird nur auf Erfindung geprüft, nicht auf Fehlen) | Anbieterkalender; sonst offen lassen | klein |
+
+### Schwach
+
+| Art | Zahl | Anteil | sichtbar | Beispiele | schon gemessen | Behebung | Aufwand |
+|---|---|---|---|---|---|---|---|
+| Sprachurteil offen (Weg, nie `dub` gesetzt) | 167 (35 mit JustWatch-Hinweis) | 5,7 % | ja („🇩🇪 ?") | 5, 54, 147 | ja: `ohneSprachurteil` (166), `pruefliste-stand.json` | Handbelege (`dub-confirmed.yaml`), JustWatch | mittel |
+| `dubConfidence` low | 79 | 2,7 % | ja (Hinweis) | 495, 733, 760 | nein | Belegrecherche | mittel |
+| `dubConfidence` normal | 248 | 8,5 % | teils | 457, 548, 551 | nein | Belegrecherche | mittel |
+| Synchro nur eine Quelle (`einzelquelle`) | 304 | 10,4 % | teils | 571, 673, 1003 | nein | zweite Quelle | mittel |
+| Ja nur angenommen (`dubAbgeleitet`: Joyn pauschal, Kanal erbt) | 135 | 4,6 % | ja (≈) | 15, 21, 161 | nein | Einzelbeleg je Titel | mittel |
+| FSK nur Anbieter-Einstufung | 355 | 12,1 % | ja (Kennzeichnung) | 47, 50, 63 | nein | offizielle FSK | groß |
+| Termine geschätzt (künftig) | 34 Titel (292 Events von 429) | 68 % der künftigen Events | ja (≈) | 21, 532, 996 | teils: `estimated` gekennzeichnet, nicht gezählt | wird mit Sichtung fest | laufend |
+| Folgenzahl angenommen | 29 Titel (729 Events); 33 Releases | — | ja (≈) | 15, 21, 223 | nein | Quelle für Gesamtzahl | klein |
+| Uhrzeit geschätzt | 2 Events | — | ja | 190327, 195539 | ja (`data:validate`, `FESTGELEGTE_ZEITEN`) | — | klein |
+| Termin in Vergangenheit noch geschätzt | 19 Titel (57 Events) | — | ja | 21, 269, 10015 | teils (`termine-verpasst.json`, 7 Releases) | Sichtung | klein |
+| Release nur eine Quelle | 721 (580 ohne Disc) | 82 % | ja (Beleg) | -318918, -204084, -197065 | nein | zweite Quelle | groß |
+| Release ohne `quellen`-Feld (nur `sources`, keine Belegdetails) | 248 (247 Crunchyroll-Wochen/-Pakete, 1 RTL+) | 28 % | ja (kein Belegbild) | 161, 177, 249 | nein | Belegerzeugung nachziehen | mittel |
+| Beleg älter als 90 Tage | 0 (Release-Quellen: älteste jüngste Sichtung 01.10.2026); Handbelege: 68 von 4.819 | 1,4 % | nein | — | nein | Wiedervorlage | — |
+| Streamadresse nie geprüft | 1.035 von 2.462 | 42 % | nein | Crunchyroll 678, ADN 146, YouTube 58 | ja: `link-check.json` (deckt diese Anbieter nicht ab) | Prüfer für Crunchyroll/ADN | mittel |
+| Streamadresse nur 503/unklar (Amazon sperrt) | 99 | 4 % | nein | primevideo | ja (`link-check.json`) | nicht messbar von außen | — |
+
+### Falsch-verdächtig
+
+| Art | Zahl | Anteil | sichtbar | Beispiele | schon gemessen | Behebung | Aufwand |
+|---|---|---|---|---|---|---|---|
+| erschienen laut Termin, aber Titel ohne Weg bei dieser Plattform | 15 | 2 % der Releases | ja | 21 One Piece, 10015 Yu-Gi-Oh! Zexal, 14713 Kamisama Kiss | nein | Weg ergänzen oder Release prüfen | klein |
+| Netflix-Adresse laut Linkprüfung 404 | 58 (39 mit `dub: true`, 12 Titel ohne anderen Weg) | 2 % | ja (toter Link möglich) | 15, 1366, 1735 | ja: `link-check.json`; Regel: ein 404 ist bei Netflix Rauschen (`quellen.md` „Ein einzelnes Netflix-404", 02./05.11.2026) | Zwei-Tage-Regel; kein Eingriff | — |
+| Release-Folgenzahl > Titel-Folgenzahl | 13 | — | ja | 202, 384, 857 | nein | Folgenzahl klären | klein |
+| Folgenliste länger als Folgenzahl | 18 | — | ja | 202, 508, 1816 | teils: `check:folgen` | klären | klein |
+| Folgentitel dreimal gleich in einer Liste | 198 | 6,8 % | ja | 21, 51, 105 | nein (viele sind leere Titel `""`, siehe oben) | Datei bereinigen | mittel |
+| `dubRanges` über Folgenzahl, ohne Teilbereich | 1 | — | ja | 150672 | teils | klären | klein |
+| Stream-Adresse bei mehreren Titeln ohne `sharedWith` | 12 Titel | — | ja | 482, 1726, 11499 | nein | Zuordnung prüfen | klein |
+| gleiches Cover bei Titeln verschiedener Franchises | 2 | — | ja | 12191, 16419 | nein | Cover klären (236 weitere Titel teilen Cover innerhalb einer Franchise: Staffeln, normal) | klein |
+| `jpEnd` vor `jpYear` | 5 | — | ja | 1709, 3782, 5204 | nein | Jahre klären | klein |
+| Releases/Events ohne Titel in `titles.json` | 24 / 38, alle Cartoons (negative Kennung, in `cartoons.json`) | — | nein | -318918, -314271, -284833 | ja (`verwaisteTermine`, 0, prüft gegen Cartoons) | kein Mangel | — |
+| gleiche MAL-/aniSearch-Kennung bei mehreren Titeln | MAL 6; aniSearch 115 Titel in 41 Gruppen, alle derselben Franchise, alle Filme | — | nein | 106169, 106896; 202, 384, 395 | teils (`datensatz.md` „Gleiche MAL-Kennung", 4 echte Dubletten) | aniSearch-Gruppen sind Sammeleinträge, kein Mangel | — |
+
+### Nicht gemessen / nicht messbar
+
+- Lebt die Adresse jetzt? Kein Netz aus der Cloud-Sitzung (Proxy sperrt Anbieter und Bild-Hosts): nur Stand der `link-check.json` (letzter Lauf 16.11.2026).
+- Cover-Dateien erreichbar / Bildinhalt richtig: nicht geprüft (nur Vorhandensein und Doppelungen).
+- Inhaltliche Richtigkeit von Terminen, Folgenzahlen und Synchro-Urteilen: nur Widersprüche zwischen Feldern, nicht gegen die Wirklichkeit.
+- Termine „in der Vergangenheit ohne Sichtung": ein Feld dafür gibt es nicht; `ohneSichtung` ist nur bei künftigen Terminen gesetzt (117, 0 in der Vergangenheit, also Mechanismus gesund).
+- Beleg-Alter einzelner `dubStand`/`dubQuelle` an Streams, aniSearch-Lesedaten: nicht ausgewertet.
+- Mängel in `woche.json`, `franchises.json`, `reihen.json`, `news.json`, `saison*.json`: nicht gemessen.
+- Cartoons (916): 502 ohne deutschen Titel, 4 ohne Cover; ohne Synchro (17.769): 98 ohne Cover, 492 ohne Jahr, 275 TV ohne Folgenzahl (16.267 ohne deutschen Titel erwartbar).
+
+## 4. Zählregeln (Messskript nicht im Repo)
+
+Alles aus `public/data/*.json` mit Datum 16.11.2026; `T` = `titles.json`, `R` = `releases.json`, `E` = `events.json`, `F` = `folgen/<id>.json`, `S` = `synopses/*.json` (nach Kennung), `V` = `voices/<id>.json`, `L` = `data/link-check.json`.
+
+- **Cover/Banner/titleDe/Wertung/Studio/Genre/Schlagworte/Laufzeit/Jahr/native:** Feld in `T` fehlt oder ist leer.
+- **Handlung de / gar keine:** `S[id].de` bzw. `de` und `en` leer oder Eintrag fehlt.
+- **Folgentitel:** Serie = Format TV/ONA/OVA/TV_SHORT mit `episodes` ≥ 2 (1.768); „keine Datei" = kein `F[id]`; „unvollständig" = weniger nichtleere `f[i][1]` als `episodes`.
+- **Folgenzahl:** `episodes` fehlt/0.
+- **FSK:** `fsk` fehlt; „nur Anbieter" = `fskQuelle` gesetzt.
+- **Sprecher:** `V[id].roles` leer.
+- **Weg:** „weder" = `streams` leer und `watchLinks` leer; „kein Streaming-Weg" = `streams` leer und kein `watchLinks` mit `kind: stream` (`tools/streaming-weg-zaehlen.mjs`).
+- **Termin fehlt trotz laufender Serie:** Format TV/ONA, mindestens ein Stream mit `dub: true`, `jpEnd` leer oder ≥ heute, kein Event ab heute.
+- **Uhrzeit künftig:** Event ab heute, Typ weekly/batch, Plattform ≠ tv, ohne `time`.
+- **Schwach (Sprachurteil):** `streams` nicht leer und kein Stream mit `dub` gesetzt; low/normal = `dubConfidence`; `einzelquelle`, `dubAbgeleitet`, `fskQuelle` als Feldvorkommen.
+- **Termine geschätzt / Folgenzahl angenommen:** Events mit `estimated` bzw. `episodeCountAssumed` (Titel = verschiedene `titleId`); Vergangenheit = Datum < heute.
+- **Release nur eine Quelle / ohne `quellen`:** `len(sources)==1` bzw. Feld `quellen` fehlt; Beleg-Alter = jüngstes `quellen[].gesehenAm` vor mehr als 90 Tagen; Handbelege = `checkedAt` in `dub-confirmed.yaml`.
+- **Adresse nie geprüft / 404:** Stream-URL nicht in `L` bzw. `L[url].status` 404/410.
+- **erschienen ohne Weg:** Release (Streamingplattform) mit `firstEpisodeDate` ≤ heute, Titel hat keinen Stream derselben Plattform.
+- **Release-Folgenzahl > Titel / Liste länger:** `schedule.episodeCount` (nicht Disc) bzw. `len(F.f)` größer `episodes`.
+- **Folgentitel dreifach:** ein Titel kommt ≥ 3-mal in `F.f` vor (leere Strings eingeschlossen).
+- **`dubRanges` zu groß:** `to` > `episodes`, Stream ohne `teilBereich` und `sharedWith`.
+- **Adresse bei mehreren Titeln:** gleiche Stream-URL bei verschiedenen Titeln, ohne `sharedWith`.
+- **Gleiches Cover:** gleiche `coverImage` bei Titeln mit verschiedener `franchiseId`; `jpEnd` < `jpYear` nach Jahr.
