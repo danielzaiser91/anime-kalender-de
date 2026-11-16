@@ -39,18 +39,19 @@ pruefe('leere Eingaben: nichts', leer.fehlt.length === 0 && leer.veraltet.length
 
 const ordner = mkdtempSync(join(tmpdir(), 'cover-luecken-wache-'))
 const skript = fileURLToPath(new URL('./check-cover-luecken-bestand.ts', import.meta.url))
-function prozess(name: string, liste: string | null, reihenDatei: unknown, titel: unknown[]): { status: number; out: string; err: string } {
+function prozess(name: string, liste: string | null, reihenDatei: unknown, titel: unknown[], bekannt: string | null = null): { status: number; out: string; err: string } {
   const wurzel = join(ordner, name)
   mkdirSync(join(wurzel, 'data'), { recursive: true })
   mkdirSync(join(wurzel, 'public/data'), { recursive: true })
   if (liste !== null) writeFileSync(join(wurzel, 'data', 'cover-luecken.json'), liste)
+  if (bekannt !== null) writeFileSync(join(wurzel, 'data', 'cover-ohne-bekannt.json'), bekannt)
   writeFileSync(join(wurzel, 'public', 'data', 'franchises.json'), JSON.stringify(reihenDatei))
   writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify(titel))
   writeFileSync(join(wurzel, 'public', 'data', 'ohne-synchro.json'), JSON.stringify([]))
   const lauf = spawnSync(process.execPath, ['--import', 'tsx', skript, wurzel], { encoding: 'utf8', windowsHide: true })
   return { status: lauf.status ?? -1, out: lauf.stdout, err: lauf.stderr }
 }
-const gut = prozess('gut', '{"10021148":"nicht-gefunden"}', { '1': [{ id: 10_021_148 }] }, [{ id: 10_021_148 }])
+const gut = prozess('gut', '{"10021148":"nicht-gefunden"}', { '1': [{ id: 10_021_148 }] }, [{ id: 10_021_148 }], '{"10021148":"Film ohne Bildquelle"}')
 pruefe('Prozess: gedeckt endet mit Exit 0 und ✓-Zeile', gut.status === 0 && gut.out.includes('✓ Cover: jeder Eintrag') && !gut.out.includes('WARNUNG'), gut)
 const luecke = prozess('luecke', '{}', { '1': [{ id: 10_021_148 }] }, [{ id: 10_021_148 }])
 pruefe('Prozess: Eintrag ohne Cover und ohne Liste endet mit Exit 0 und Zeile „⚠ WARNUNG Cover: 1 Eintrag“ mit Kennung', luecke.status === 0 && luecke.out.includes('⚠ WARNUNG Cover: 1 Eintrag') && luecke.out.includes('10021148') && !luecke.out.includes('✓'), luecke)
@@ -59,6 +60,13 @@ const viele = prozess('viele', '{}', { '1': elf }, [])
 pruefe('Prozess: 11 Lücken nennen zehn Kennungen und „…“', viele.out.includes('11 Eintrag') && viele.out.includes('10000010, …') && !viele.out.includes('10000011'), viele)
 const zehn = prozess('zehn', '{}', { '1': elf.slice(0, 10) }, [])
 pruefe('Prozess: genau 10 Lücken nennen alle ohne „…“', zehn.out.includes('10000010') && !zehn.out.includes('…'), zehn)
+// Anlass 16.11.2026: Kitaro Shinsei-ban verlor sein Plakat und stand ohne Bild im Kalender; die Lückenliste führt jeden Titel ohne Cover selbst, meldete also nichts.
+const verlust = prozess('verlust', '{"7":"ohne-quelle"}', { '1': [{ id: 7 }] }, [{ id: 7, titleDe: 'Kitaro Probe' }, { id: 8, titleDe: 'Mit Bild', coverImage: bild }])
+pruefe('Prozess: Hauptbestand-Titel ohne Cover, nicht auf der Handliste: Exit 0, herabgestufte Zeile mit Kennung und Namen', verlust.status === 0 && verlust.out.includes('⚠ WARNUNG [vorher rot] Cover-Verlust: 1 Titel') && verlust.out.includes('7 „Kitaro Probe“') && !verlust.out.includes('8 „'), verlust)
+const bekanntHand = prozess('bekannt', '{"7":"ohne-quelle"}', { '1': [{ id: 7 }] }, [{ id: 7, titleDe: 'Kitaro Probe' }], '{"7":"Film, keine Bildquelle"}')
+pruefe('Prozess: auf der Handliste: keine Zeile zum Titel', bekanntHand.status === 0 && !bekanntHand.out.includes('Cover-Verlust') && !bekanntHand.out.includes('Kennung(en) auf data/cover-ohne-bekannt'), bekanntHand)
+const veraltetHand = prozess('veraltetHand', '{}', {}, [{ id: 8, titleDe: 'Mit Bild', coverImage: bild }], '{"8":"x","9":"y"}')
+pruefe('Prozess: Handliste mit Cover-Titel und ohne Titel: Warnung 2 Kennungen, Exit 0', veraltetHand.status === 0 && veraltetHand.out.includes('⚠ WARNUNG Cover: 2 Kennung(en) auf data/cover-ohne-bekannt.json') && veraltetHand.out.includes('8, 9'), veraltetHand)
 const alt = prozess('alt', '{"1":"x"}', { '1': [{ id: 1, cover: bild }] }, [{ id: 1, coverImage: bild }])
 pruefe('Prozess: veralteter Listeneintrag endet mit Exit 1, Zeile „✖ Cover: 1 Kennung“ und VERSTÖSSE: 1 auf stderr', alt.status === 1 && alt.err.includes('✖ Cover: 1 Kennung') && alt.err.includes('VERSTÖSSE: 1') && !alt.out.includes('✓'), alt)
 const fehlt = prozess('fehlt', null, {}, [])
@@ -72,4 +80,4 @@ if (verletzt) {
   console.error(`check-cover-luecken-wache: ${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('check-cover-luecken-wache: alle Zusicherungen halten (9 Logik-, 8 Prozessfälle)')
+console.log('check-cover-luecken-wache: alle Zusicherungen halten (9 Logik-, 11 Prozessfälle)')
