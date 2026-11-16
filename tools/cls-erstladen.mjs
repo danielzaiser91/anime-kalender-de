@@ -16,6 +16,8 @@ import { GRENZE, clsSumme, shiftHaken } from './cls-wechsel.mjs'
 /** Routen mit nachladendem Inhalt; die Kalender-Ansichten stehen mit drin, damit eine Regression dort auffällt. */
 export const ROUTEN = ['#/woche', '#/monat', '#/datenbank', '#/news', '#/saison', '#/entdecken', '#/abo', '#/newsletter', '#/quellen']
 
+const DATEN_VERZOEGERUNG_MS = 400
+
 const PROFILE = {
   desktop: () => ({ viewport: { width: 1600, height: 900 } }),
   handy: () => ({ ...devices['Pixel 7'] }),
@@ -30,6 +32,11 @@ export async function erstladenMessen({ dist, profil, routen = ROUTEN }) {
       const ctx = await browser.newContext({ ...PROFILE[profil](), serviceWorkers: 'block' })
       await ctx.route(/^https?:\/\//, (r) => (`${new URL(r.request().url()).origin}/` === BASIS ? r.fallback() : r.abort()))
       await ausDistLiefern(ctx, dist)
+      // Datendateien brauchen im Netz Zeit; ohne Verzögerung gewinnt das Laden das Rennen gegen das erste Zeichnen und die Messung wäre blind.
+      await ctx.route(/\.json(\?|$)/, async (r) => {
+        await new Promise((fertig) => setTimeout(fertig, DATEN_VERZOEGERUNG_MS))
+        await r.fallback()
+      })
       const seite = await ctx.newPage()
       await seite.addInitScript(shiftHaken)
       await seite.goto(`${BASIS}${route}`, { waitUntil: 'load' })

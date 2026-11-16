@@ -15,6 +15,7 @@ import { FilterBarDock } from './FilterBar.tsx'
 import type { HinweisLoesen } from './SuchHinweis.tsx'
 import { SprecherLeiste } from './SprecherLeiste.tsx'
 import { Ladeanzeige } from './ui.tsx'
+import { Ladeplatz } from './Ladeplatz.tsx'
 
 export interface DatenbankBereichProps {
   data: Dataset
@@ -80,7 +81,10 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
           />
         </SuchfundstellenContext.Provider>
       ) : (
-        <Ladeanzeige label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
+        <>
+          <Ladeanzeige label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
+          <Ladeplatz />
+        </>
       )}
     </>
   )
