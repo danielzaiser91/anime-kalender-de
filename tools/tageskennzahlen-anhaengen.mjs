@@ -4,10 +4,11 @@
  */
 import { tagPlus } from './tageskennzahlen-rechnen.mjs'
 
-// Schätzung 16.11.2026 (Volllauf 01.10.–15.11., 46 Tage ≈ 5000 Abrufe): rund 300 feste (PR-Liste, Urteile, Commits)
-// plus rund 100 je Tag (acht Lauf-Fenster mit Seiten). Absichtlich grob, nur zum Abbruch vor dem sicheren Scheitern.
-const FEST = 300
-const JE_TAG = 100
+// Gemessen 16.11.2026: Lauf mit einem Tag (15.11.) = 151 Abrufe (Zähler `used` von `gh api rate_limit` vorher/nachher);
+// Volllauf 01.10.–15.11. (46 Tage) ≈ 5000. Daraus Gerade: rund 50 feste (PR-Liste, Urteile) plus rund 110 je Tag
+// (Lauf-Fenster mit Seiten). Nur zum Abbruch vor dem sicheren Scheitern, nicht genau.
+const FEST = 50
+const JE_TAG = 110
 
 /** Zeilen (JSON-Text) von `text` und `neu` nach Datum; ein Tag in `neu` ersetzt dieselbe Zeile in `text`. */
 export function mischeZeilen(text, neu) {
