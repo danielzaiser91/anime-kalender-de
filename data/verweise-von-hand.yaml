@@ -361,7 +361,8 @@
   zugang: abo
   beleg: 'Anime2You 1069021 (08.11.2026): „Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden“. JustWatch kennt das Angebot nicht (Stand 19.10.2026)'
 
-# Bakugan: Armored Alliance (116415): Seite bei RTL+, 16.11.2026 abgerufen. Das Sprachurteil steht in dub-confirmed.yaml.
+# Bakugan: Armored Alliance (116415): Seite bei RTL+, 16.11.2026 abgerufen. Sprachurteil offen, bis die Folgenliste gelesen ist
+# (die Seite nennt „104 Episoden“ zu „etwa 12 Minuten“; ob das den 52 Folgen des Bestands entspricht, ist nicht belegt).
 - anilistId: 116415
   title: "Bakugan: Armored Alliance"
   platform: rtlplus
