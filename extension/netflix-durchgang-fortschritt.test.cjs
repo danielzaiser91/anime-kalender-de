@@ -135,9 +135,9 @@ const funktionAus = (kopf) => {
   kontext.Date = { now: () => J + 600000 }
   const sprung = { id: 7, tab: 'a', durchgang: true, zeit: J }
   const tun = new Function(
-    'akNetflixTaktTun', 'akNetflixFortschritt', 'akNetflixFortschrittStand', 'titelBericht', 'netflixKasten', 'speicherSchreiben', 'laufBeenden', 'selbstWeiter', 'gehe', 'offeneTitel', 'zuletztGeoeffnet', 'meinTab', 'welt', 'durchlaufKnopfZeigen', 'DURCHLAUF',
+    'akNetflixTaktTun', 'akNetflixFortschritt', 'akNetflixFortschrittStand', 'titelBericht', 'netflixKasten', 'speicherSchreiben', 'laufBeenden', 'selbstWeiter', 'gehe', 'offeneTitel', 'zuletztGeoeffnet', 'meinTab', 'welt', 'durchlaufKnopfZeigen', 'DURCHLAUF', 'akNetflixZaehlerStand', 'akNetflixWartetText', 'selbstWartet',
     `let selbstGezaehlt = welt.gezaehlt, selbstGrenze = welt.grenze\n${zeile}\nreturn taktTun`,
-  )(k.akNetflixTaktTun, k.akNetflixFortschritt, k.akNetflixFortschrittStand, { sehen() {} }, () => kastenEl, () => {}, () => {}, () => {}, (p) => welt.gehen.push(p), { 7: { titel: 'Dead Mount Death Play' } }, sprung, 'a', welt, () => { welt.gezeichnet = (welt.gezeichnet ?? 0) + 1 }, { knopf: { textContent: '⏹ 0/0 — abbrechen' } })
+  )(k.akNetflixTaktTun, k.akNetflixFortschritt, k.akNetflixFortschrittStand, { sehen() {} }, () => kastenEl, () => {}, () => {}, () => {}, (p) => welt.gehen.push(p), { 7: { titel: 'Dead Mount Death Play' } }, sprung, 'a', welt, () => { welt.gezeichnet = (welt.gezeichnet ?? 0) + 1 }, { knopf: { textContent: '⏹ 0/0 — abbrechen' } }, k.akNetflixZaehlerStand, k.akNetflixWartetText, null)
   /* Die Funktionen lesen `document` und `location` als Globals des Kontexts: im Kontext ausführen. */
   kontext.__tun = tun
   vm.runInContext('__tun.sehen()', kontext)
@@ -189,7 +189,7 @@ const funktionAus = (kopf) => {
   speicher['ak-netflix-fertig'] = '["1"]'
   speicher['ak-netflix-uebersprungen'] = '[["2","x"]]'
   vm.runInContext('__tun.aufraeumen()', kontext)
-  pruefe('Ende des Durchgangs (taktTun.aufraeumen): Speicher leer, der nächste Lauf beginnt bei 0', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}' && Object.keys(speicher).length === 0, speicher)
+  pruefe('Ende des Durchgangs (taktTun.aufraeumen): Speicher leer bis auf den Besuchtzähler (steht für die Endzeile), der nächste Lauf beginnt bei 0', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}' && Object.keys(speicher).every((n) => n === 'ak-netflix-besucht'), speicher)
   speicher['ak-netflix-zaehler'] = '{kaputt'
   pruefe('kaputter Speicher: 0 und kein Nenner, kein Absturz', JSON.stringify(k.akNetflixZaehlerStand()) === '{"gezaehlt":0,"grenze":null}')
   speicher['ak-netflix-zaehler'] = JSON.stringify({ gezaehlt: 3, grenze: 0 })
@@ -238,12 +238,12 @@ const funktionAus = (kopf) => {
     const sp = { 'ak-netflix-erledigt': String(erledigt) }
     const ergebnis = {}
     new Function(
-      'selbstAn', 'selbstGezaehlt', 'akNetflixErledigtStand', 'akNetflixEnde', 'bremse', 'taktTun', 'durchgangBesitzer', 'meinTab', 'fertigeTitel', 'selbstUebersprungen', 'offeneTitel', 'vorfallMelden', 'durchgangEndeZeigen', 'DURCHLAUF', 'durchlaufKnopfZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'console', 'ergebnis', 'sp',
+      'selbstAn', 'selbstGezaehlt', 'akNetflixBesuchtStand', 'akNetflixEnde', 'bremse', 'taktTun', 'durchgangBesitzer', 'meinTab', 'fertigeTitel', 'selbstUebersprungen', 'offeneTitel', 'vorfallMelden', 'durchgangEndeZeigen', 'DURCHLAUF', 'durchlaufKnopfZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'console', 'ergebnis', 'sp',
       `let durchgangEnde = null\n${funktionAus('function laufBeenden(grund)')}\nlaufBeenden('kein offener Auftrag mehr')`,
-    )(true, 1, () => Number(sp['ak-netflix-erledigt']), (g, u, f, besucht) => { ergebnis.besucht = besucht; return {} }, { zuruecksetzen() {} }, { aufraeumen() {}, schreiben() {} }, null, 'a', new Map(), new Map(), {}, () => {}, () => {}, {}, () => {}, { removeItem() {} }, 'k', { log() {} }, ergebnis, sp)
+    )(true, 1, () => Number(sp['ak-netflix-erledigt']) + 1, (g, u, f, besucht) => { ergebnis.besucht = besucht; return {} }, { zuruecksetzen() {} }, { aufraeumen() {}, schreiben() {} }, null, 'a', new Map(), new Map(), {}, () => {}, () => {}, {}, () => {}, { removeItem() {} }, 'k', { log() {} }, ergebnis, sp)
     return ergebnis.besucht
   }
-  pruefe('Endzeile: besucht = Zähler + zurückgegebene Titel, (1 + 127 = 128)', endeText(127) === 128, endeText(127))
+  pruefe('Endzeile: besucht kommt aus dem Besuchtzähler (4060; vorher Sprünge + zurückgegebene Titel)', endeText(127) === 128, endeText(127))
   const nachziehen = (f, text) => {
     let gezeichnet = 0
     k.akNetflixKnopfNachziehen(f, () => text, () => { gezeichnet++ })

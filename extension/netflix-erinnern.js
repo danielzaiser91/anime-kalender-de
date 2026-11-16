@@ -22,13 +22,45 @@ const LEER_NACH_MS = 8000
 globalThis.akNetflixLeerNach = LEER_NACH_MS
 
 /**
+ * Ein Film hat keine Folgenliste und geht über `/watch` — aber nur, wenn seine Titelseite Inhalt zeigt (16.11.2026, Appleseed: unter
+ * `/title/…` die Startseite, 20 s im Player und ein zweiter Versuch). Zeigt sie Inhalt: `filmFrei` (oder, war der Film schon im Player
+ * und ist noch offen, kein zweiter Versuch). Zeigt sie die Startseite: `null`, und die Strecke der Serien übernimmt (nach `LEER_NACH_MS`
+ * einmal voll laden, dann Störung der Sitzung mit Bremse; der Titel gilt als zurückgestellt, sobald die Bremse ihn bucht) — ohne Player und
+ * ohne Urteil „nicht bei Netflix“: ein leeres Fenster kann auch ein langsam ladendes echtes sein; als Urteil gilt nur der Server-Redirect
+ * (`akNetflixUmleitungProbe`).
+ */
+const filmFenster = (wartet, o, tun) => {
+  if (globalThis.akNetflixTitelfensterLeer(o.merkmale?.())) return null
+  /* Schon im Player gewesen und offen geblieben: kein zweiter Versuch über denselben Weg (`o.erledigt`: laut Prüfliste nicht mehr offen). */
+  if (globalThis.akNetflixFilmGescheitert(o.reihe, o.erledigt, tun.uebersprungen, tun.weiter)) return { ...wartet, entschieden: true }
+  return { ...wartet, filmFrei: true }
+}
+
+/** Wie `listeWartenSchritt`, dazu die Frist dieses Wartens (leeres Titelfenster, auch das eines Films: `LEER_NACH_MS`, sonst `o.frist`) für die Anzeige. */
+globalThis.akNetflixListeWarten = (wartet, o, tun) => {
+  const neu = listeWartenSchritt(wartet, o, tun)
+  if (!neu || neu.entschieden || neu.filmFrei) return neu
+  const kurz = globalThis.akNetflixTitelfensterLeer?.(o.merkmale?.())
+  return { ...neu, film: Boolean(o.film), frist: kurz ? Math.min(LEER_NACH_MS, o.frist) : o.frist }
+}
+
+/** Der Wartetext für den Kasten („wartet auf die Folgenliste, 12 von 20 s“); leer, wenn nichts mehr gewartet wird. */
+globalThis.akNetflixWartetText = (wartet, jetzt) => {
+  if (!wartet?.frist || wartet.entschieden || wartet.filmFrei) return ''
+  const s = Math.min(Math.floor((jetzt - wartet.seit) / 1000), Math.round(wartet.frist / 1000))
+  return `wartet auf ${wartet.film ? 'den Titel' : 'die Folgenliste'}, ${s} von ${Math.round(wartet.frist / 1000)} s`
+}
+
+/**
  * Ein Takt des Wartens auf die Folgenliste. `wartet`: `{ seite, seit, entschieden? }` oder `null`;
  * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf, merkmale? }` (`merkmale()`: Seitenmerkmale für die Spur); `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter, bremse? }` (`bremse`: `netflix-durchgang-steuerung.js`).
  * Gibt den neuen Wartestand zurück.
  */
-globalThis.akNetflixListeWarten = (wartet, o, tun) => {
+const listeWartenSchritt = (wartet, o, tun) => {
   if (wartet?.seite !== o.seite) return { seite: o.seite, seit: o.jetzt }
   if (wartet.entschieden) return wartet
+  const film = o.film ? filmFenster(wartet, o, tun) : null
+  if (film) return film
   const dauer = o.jetzt - wartet.seit
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
   const erinnernJetzt = o.erinnern && dauer >= ERINNERN_NACH_MS
