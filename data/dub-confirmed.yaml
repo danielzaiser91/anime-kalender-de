@@ -40914,3 +40914,13 @@
   available: false
   checkedAt: '2026-11-16'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-16 ---
+
+- anilistId: 54
+  title: "Appleseed"
+  platform: netflix
+  url: https://www.netflix.com/title/70023531
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"

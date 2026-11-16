@@ -17,15 +17,15 @@
     "kein-weg": {"wirkung":3,"wer":"daniel","offen":200,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "erstausgabe-ohne-weg": {"wirkung":3,"wer":"daniel","offen":166,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "termin-fehlt-laufend": {"wirkung":3,"wer":"auto:anbieterkalender","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":164,"neu":0,"behoben":2,"rueckfall":0,"ausnahme":0},
+    "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":163,"neu":0,"behoben":1,"rueckfall":0,"ausnahme":0},
     "synchro-schwach": {"wirkung":2,"wer":"hand:synchro-belegen","offen":79,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "erschienen-ohne-weg": {"wirkung":3,"wer":"hand:synchro-belegen","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":4},
     "termin-trotz-nein": {"wirkung":3,"wer":"hand:synchro-belegen","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "termin-geschaetzt-ohne-weg": {"wirkung":2,"wer":"hand:synchro-belegen","offen":4,"neu":0,"behoben":2,"rueckfall":0,"ausnahme":0},
+    "termin-geschaetzt-ohne-weg": {"wirkung":2,"wer":"hand:synchro-belegen","offen":4,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "folgenzahl-widerspruch": {"wirkung":2,"wer":"hand:synchro-belegen","offen":29,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":458},
     "herkunft-fremder-titel": {"wirkung":3,"wer":"auto:bau","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":4,"neu":0,"behoben":1,"rueckfall":0,"ausnahme":0}
+    "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":4,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0}
   },
   "zeilen": [
     {"t":65,"art":"banner","wirkung":1,"wer":"auto:tmdb-banner","status":"offen","seit":"2026-11-16"},
@@ -3418,7 +3418,7 @@
     {"t":209872,"art":"termin-fehlt-laufend","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-16"},
     {"t":213805,"art":"termin-fehlt-laufend","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-16"},
     {"t":5,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
-    {"t":54,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
+    {"t":54,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"behoben","seit":"2026-11-16","bis":"2026-11-16"},
     {"t":147,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
     {"t":257,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
     {"t":270,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
