@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (411)
+### Kandidaten für neue Wege (412)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -43,7 +43,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | InuYasha: Der Film - Die Insel Hourai im Flammenmeer (449) | Crunchyroll | crunchyroll:G60X52NPR | ja |
 | InuYasha: Der Film - Die Insel Hourai im Flammenmeer (449) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.7cbc0a1d-a049-ea34-0225-962753f7970e | nein |
 | InuYasha: Der Film - Das Traumschloss im Inneren der Spiegel (450) | Crunchyroll | crunchyroll:GG1UX2G8N | ja |
-| InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen (451) | Crunchyroll | crunchyroll:GRNVN37Z6 | ja |
+| InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen (451) | Crunchyroll | crunchyroll:G0DUMN872 | ja |
 | InuYasha: Der Film - Gefühle, die die Zeit überwinden (452) | Crunchyroll | crunchyroll:GY1XWJ1KY | ja |
 | One Piece: Abenteuer auf der Spiralinsel (460) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.ae277ef9-aede-4dfd-9eab-9e642bff30f8 | nein |
 | One Piece: Chopper auf der Insel der seltsamen Tiere (461) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.47a90461-03cf-4250-a114-99f6764a8110 | nein |
@@ -235,7 +235,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Digimon Adventure tri. 6: Bokura no Mirai (100181) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.be712102-f745-40a0-9c98-7b895068d9fa | nein |
 | Tada Never Falls in Love (100179) | Amazon Prime Video | amazon:amzn1.dv.gti.b9a8ec9f-c984-4fc8-8556-fa25eed79a4b | ja |
 | Attack on Titan Movie Teil 3: Gebrüll des Erwachens (100465) | Crunchyroll | crunchyroll:G4VUQM20W | ja |
-| My Hero Academia: Two Heroes (100723) | Crunchyroll | crunchyroll:G7PU4VPZ5 | nein |
+| My Hero Academia: Two Heroes (100723) | Crunchyroll | crunchyroll:GQJUGVWQ1 | nein |
 | Pokémon: Der Film - Die Macht in uns (100744) | Amazon Video | amazon:amzn1.dv.gti.58b902ad-efa7-d5f9-51b7-d9d23025bdf8 | ja |
 | Mirai: Das Mädchen aus der Zukunft (100749) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.76b88c3d-f4d1-abdd-ae9c-89d347661e46 | ja |
 | Dragon Ball Super: Broly (101302) | Crunchyroll | crunchyroll:G4VUQ85VV | nein |
@@ -273,12 +273,13 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Her Blue Sky (108577) | Amazon Prime Video | amazon:amzn1.dv.gti.6d315b5e-cf59-4a03-bbf3-c0b3fb39201b | ja |
 | Detektiv Conan: Die scharlachrote Kugel (113653) | Crunchyroll | crunchyroll:GWDU8X9J7 | ja |
 | Detektiv Conan: Die scharlachrote Kugel (113653) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d4a5661e-a6e5-4fd6-8479-3306daf6fce8 | ja |
-| Lupin III.: The First (110413) | Crunchyroll | crunchyroll:G0DUN01KX | ja |
+| Lupin III.: The First (110413) | Crunchyroll | crunchyroll:GEVUZG2DZ | ja |
 | The Legend of Hei: Die Kraft in dir (112023) | Amazon Prime Video | amazon:amzn1.dv.gti.5b9181d4-6f12-4ebd-9730-61dd692c1009 | ja |
 | Given: The Movie (111734) | Crunchyroll | crunchyroll:G50UZXXZ4 | ja |
 | Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train (112151) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.90df4995-8924-478e-b0bf-6fa3c96a822e | nein |
-| Ein Fremder am Strand (112788) | Crunchyroll | crunchyroll:GPWUK4EEV | ja |
+| Ein Fremder am Strand (112788) | Crunchyroll | crunchyroll:G2XU0WJJ7 | ja |
 | Yes, No, or Maybe? (112930) | Amazon Video | amazon:amzn1.dv.gti.fdee804a-898b-49b8-b7c8-d10665f30371 | ja |
+| Josie, der Tiger und die Fische (113596) | Crunchyroll | crunchyroll:G0DUN145V | ja |
 | Ranking of Kings (113717) | Crunchyroll | crunchyroll:GQJUG5GW1 | nein |
 | Ranking of Kings (113717) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d3c05975-0da9-45b6-9651-3ece6d370ba8 | nein |
 | Over the Sky (116226) | Amazon Video | amazon:amzn1.dv.gti.a4d4a67a-1144-46c2-814f-21f483ea39ba | ja |
@@ -300,7 +301,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Crunchyroll | crunchyroll:GEVUZN090 | ja |
 | Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.649263c6-ed5d-4ac8-9be2-1474746c6848 | ja |
 | Mobile Suit Gundam: Cucuruz Doan’s Island (139273) | Amazon Video | amazon:amzn1.dv.gti.c38ba568-4a91-4796-ac66-2577e5c97b8a | ja |
-| Meine Wiedergeburt als Schleim in einer anderen Welt: Der Film - Feuerrote Bande (139498) | Crunchyroll | crunchyroll:G50UZ1M24 | nein |
+| Meine Wiedergeburt als Schleim in einer anderen Welt: Der Film - Feuerrote Bande (139498) | Crunchyroll | crunchyroll:GEVUZNWPM | nein |
 | Sword Art Online: The Movie - Progressive: Scherzo of Deep Night (140999) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.cd59a9fd-2cec-4dd7-a2b2-6b420f110024 | nein |
 | One Piece Film: Red (141902) | Crunchyroll | crunchyroll:G2XU04MP8 | nein |
 | Tunnel to Summer (142769) | Amazon Video | amazon:amzn1.dv.gti.6b0e8caf-3776-4e64-8d9e-8d54294b8d88 | ja |
@@ -334,7 +335,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Sand Land: The Series (175642) | Disney Plus | disney:entity-ede9d04a-8330-4524-8976-40b1520d4633 | nein |
 | A Journey through Another World: Raising Kids While Adventuring (171031) | Crunchyroll | crunchyroll:GN7UDME3W | nein |
 | A Journey through Another World: Raising Kids While Adventuring (171031) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.d3030278-8c5f-4641-bcf8-c3fc069b5c1a | nein |
-| Chainsaw Man: The Movie - Reze Arc (171627) | Crunchyroll | crunchyroll:GMEE00351495DEDE | nein |
+| Chainsaw Man: The Movie - Reze Arc (171627) | Crunchyroll | crunchyroll:GMEE00351495FRFR | nein |
 | Loner Life in Another World (173693) | Anime Digital Network Amazon Channel | amazon:amzn1.dv.gti.5a749de2-9862-4630-a0e9-9e64dc4fc731 | nein |
 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells (173694) | Crunchyroll | crunchyroll:GJWUQ7J7P | nein |
 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells (173694) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1972f90c-2708-49f9-865e-248df5f681d0 | nein |
@@ -368,7 +369,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | May I Ask for One Final Thing? (181447) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.26996afa-102d-46d0-8778-b4fcf61904bb | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll | crunchyroll:GE00366126DEDE | nein |
 | Dark Moon: The Blood Altar (181443) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.233082bf-86cf-4248-a368-093ace5947b0 | nein |
-| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664JAJP | nein |
+| Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll | crunchyroll:GMEE00351664ES419 | nein |
 | Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe (181839) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1e61a3d8-44c3-4dc0-ae7c-5c655deceff5 | nein |
 | City The Animation (181841) | Amazon Prime Video | amazon:amzn1.dv.gti.8c1f778c-d940-4c50-895a-f498c55101f3 | ja |
 | The Gorilla God’s Go-To Girl (182060) | Crunchyroll | crunchyroll:GD9UEGZVN | nein |
@@ -445,7 +446,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 <!-- cartoons:start -->
 ## Cartoons
 
-Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 3 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 130, Mehrteiler 1.
 

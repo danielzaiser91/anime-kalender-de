@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-16T06:06:42.879Z",
+  "stand": "2026-11-16T09:27:54.921Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -32,7 +32,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 20704,
@@ -186,7 +186,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 97815,
@@ -516,7 +516,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21462,
@@ -527,7 +527,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21131,
@@ -604,7 +604,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 116226,
@@ -890,7 +890,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 67,
@@ -1957,7 +1957,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 1530,
@@ -2408,7 +2408,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 19365,
@@ -3024,7 +3024,7 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 147864,
@@ -3222,7 +3222,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-02",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 101610,
@@ -4432,7 +4432,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 97,
@@ -4498,7 +4498,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 329,
@@ -4619,7 +4619,18 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 603,
+      "titel": "Pretty Cure",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0DF3BVTVB",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-16",
+      "letzterWeg": true
     },
     {
       "titleId": 629,
@@ -5048,7 +5059,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 7054,
@@ -5059,7 +5070,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 7088,
@@ -5290,7 +5301,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 18411,
@@ -5477,7 +5488,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 20657,
@@ -5609,7 +5620,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21057,
@@ -5631,7 +5642,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 20850,
@@ -5730,7 +5741,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21361,
@@ -5829,7 +5840,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21742,
@@ -6005,7 +6016,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 98448,
@@ -6049,7 +6060,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 99749,
@@ -6115,7 +6126,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 100112,
@@ -6797,7 +6808,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 129192,
@@ -6808,7 +6819,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 129196,
@@ -6830,7 +6841,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 130298,
@@ -7809,7 +7820,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 144932,
