@@ -68,7 +68,7 @@ Immer in dieser Reihenfolge:
    - **rote Läufe in einer Statusanzeige** — der Teil, den man am leichtesten übersieht,
      weil er nicht im Repo steht. Gibt es ein Aufräum-Werkzeug, wird es mit `--trocken`
      gefahren: Was es **nicht** von selbst abnimmt, ist genau das, was ich mir ansehen muss.
-     Auch eine Warnung („ROT im Verlauf … warnung“) bekommt in derselben Wachphase einen
+     Auch eine Warnung („WARNUNG im Verlauf …“, bis 16.11.2026 „ROT im Verlauf … warnung“) bekommt in derselben Wachphase einen
      Besitzer (Analyst oder Fix) — der Wochenlauf stand 6 Tage gelb, jede Wachphase sah ihn,
      keine handelte (18.10.2026). Ist sie geprüft und schon behoben, der nächste grüne Lauf aber noch Tage entfernt: mit `node C:/code/ai/__assets/tools/mit-lauf-token.mjs laeufe-aufraeumen C:/code/ai/anime-kalender-de --erledigt <lauf_id> --notiz "behoben durch …, Nachprüfung <Datum>"` abnehmen und die Nachprüfung als 📅 eintragen (23.10.2026).
    - Hintergrundaufgaben dieser Sitzung (`TaskList`)

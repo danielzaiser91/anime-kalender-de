@@ -23,7 +23,7 @@
  *     die Notiz ist Pflicht, die Lauf-ID steht in `<Worker>?verlauf=<Art>` (Feld lauf_id).
  */
 import { abbruchText, ghStapel, mitLimit } from './kind-mit-limit.mjs'
-import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { erledigtArgumente, findeRotenLauf, holeLaeufe, holeVerlauf, letzteDatenAenderung, notizZu, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN, verlaufsZeile } from './laeufe-abruf.mjs'
 import { haengerWache } from './job-haenger.mjs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { alarmZeilenMitFixPrs } from './fix-pr-hinweis.mjs'
@@ -178,7 +178,9 @@ async function laeufePruefen(erledigt) {
   // Je Workflow der jüngste erfolgreiche Lauf — der Prüfstein für „überholt".
   const letzterGruen = letzterGruenJe(new Set([...roteArten(verlauf).map((r) => r.art), ...rote.map((l) => l.workflow)]))
   for (const r of roteArten(verlauf, letzterGruen)) {
-    console.log(`ROT im Verlauf: ${r.art} — letzter Lauf ${r.zustand} am ${r.am} (vor ${r.stunden.toFixed(1)} h, kein grüner Lauf danach)`)
+    // Die Notiz (Warntext der Lauf-Meldung) steht nur im Verlauf der Art, nicht in der Übersicht: ein Abruf je Warnung.
+    const notiz = r.zustand === 'warnung' ? notizZu((await holeVerlauf(fetch, WORKER, r.art)).laeufe, r) : ''
+    console.log(verlaufsZeile(r, notiz))
   }
   if (!rote.length) return
 

@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
-import { erledigtArgumente, findeRotenLauf, holeLaeufe, letzteDatenAenderung, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN } from './laeufe-abruf.mjs'
+import { erledigtArgumente, findeRotenLauf, holeLaeufe, letzteDatenAenderung, notizZu, roteArten, stillstand, STILLSTAND_GRENZE_STUNDEN, verlaufsZeile } from './laeufe-abruf.mjs'
 
 const antwort = (status, text) => async () => new Response(text, { status })
 
@@ -90,6 +90,9 @@ const appLauf = (lauf_id, workflow, zustand, gemeldet_am) => ({ lauf_id, workflo
 const appRot = [appLauf(71, 'Andere', 'fehler', '2026-10-18T10:00:00Z'), appLauf(72, 'Nachzügler', 'fehler', '2026-10-18T11:00:00Z'), appLauf(73, 'Nachzügler', 'warnung', '2026-10-18T13:00:00Z')]
 const rotAntwort = JSON.stringify({ laeufe: appRot, verlauf: { Bestand: [eintrag('ok', '2026-10-18T08:00:00Z'), eintrag('fehler', FEHLERZEIT)], Sammler: [eintrag('ok', FEHLERZEIT)], 'Claude — roten Datenlauf untersuchen': [eintrag('warnung', FEHLERZEIT)] } })
 const STUNDE = 3_600_000
+// Verlauf einer Art (`?verlauf=`): Form des Workers mit Notiz = Text aus `DATEN_WARNUNG` (Lauf 43836990379, 16.11.2026).
+const WARN_NOTIZ = 'Streaming-Abdeckung gesunken: mitStreamingWeg: 1947 → 1927 (−20, mehr als 1 % weniger als beim letzten Wert)'
+const verlaufAntwort = JSON.stringify({ laeufe: [{ lauf_id: '1', zustand: 'warnung', gemeldet_am: FEHLERZEIT, notiz: WARN_NOTIZ }] })
 const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '') => {
   const datum = new Date(Date.now() - stunden * STUNDE).toISOString()
   const commits = JSON.stringify([{ commit: { committer: { date: datum } } }, { commit: { committer: { date: '2000-01-01T00:00:00Z' } } }])
@@ -103,7 +106,7 @@ const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '
   const stub =
     'import cp from "node:child_process";import {syncBuiltinESMExports} from "node:module";' +
     `const L=${laeufe};cp.execFileSync=(c,a)=>{const w=a[a.indexOf("--workflow")+1];if(c!=="gh"||a[0]!=="run"||a[1]!=="list"||!a.includes("--workflow")||a[a.indexOf("--status")+1]!=="success"||w===${JSON.stringify(ghWirftFuer)})throw new Error("gh?");return JSON.stringify(L.filter(r=>r.workflowName===w&&r.conclusion==="success").sort((x,y)=>y.createdAt.localeCompare(x.createdAt)).slice(0,1))};syncBuiltinESMExports();` +
-    `globalThis.fetch=async(u)=>String(u).startsWith("https://api.github.com/repos/danielzaiser91/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
+    `globalThis.fetch=async(u)=>String(u).includes("?verlauf=")?new Response(${JSON.stringify(verlaufAntwort)},{status:200}):String(u).startsWith("https://api.github.com/repos/danielzaiser91/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
   return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, '--trocken'], { encoding: 'utf8' })
 }
 const rot = mitCommitVor(20)
@@ -111,9 +114,10 @@ assert.equal(rot.status, 0)
 assert.match(rot.stdout, /^ROT im Verlauf: Bestand — letzter Lauf fehler am 2026-10-18T09:00:00Z \(vor -?[\d.]+ h, kein grüner Lauf danach\)$/m)
 assert.doesNotMatch(rot.stdout, /ROT im Verlauf: Sammler/)
 // Untersucher-Warnung: nur der grüne Bestandsbau danach hebt sie auf (der Untersucher selbst hat keine grünen Läufe).
-assert.match(rot.stdout, /^ROT im Verlauf: Claude — roten Datenlauf untersuchen /m)
+assert.match(rot.stdout, /^WARNUNG im Verlauf: Claude — roten Datenlauf untersuchen .*kein Lauf ohne Warnung danach\): Streaming-Abdeckung gesunken: mitStreamingWeg: 1947 → 1927/m)
+assert.doesNotMatch(rot.stdout, /ROT im Verlauf: Claude/)
 assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /Claude — roten/)
-assert.match(mitCommitVor(20, '2026-10-18T09:30:00Z', 'bestand-bauen.yml').stdout, /^ROT im Verlauf: Claude — roten /m)
+assert.match(mitCommitVor(20, '2026-10-18T09:30:00Z', 'bestand-bauen.yml').stdout, /^WARNUNG im Verlauf: Claude — roten /m)
 // Grüner Lauf nach dem Fehler: keine ROT-Zeile (Gegenprobe gegen `gh run list`).
 assert.doesNotMatch(mitCommitVor(20, '2026-10-18T09:30:00Z').stdout, /ROT im Verlauf/)
 // gh-Ausfall für einen Workflow (A1): der grüne Lauf danach ist unbekannt, die Zeile bleibt.
@@ -222,3 +226,19 @@ assert.equal(abgelehnt.status, 1)
 assert.match(abgelehnt.stderr, /Worker antwortete mit 500/)
 console.log('laeufe-abruf --erledigt: ok')
 console.log('laeufe-abruf: ok')
+
+// Verlaufszeile: Warnung (grüner Lauf, DATEN_WARNUNG) heißt WARNUNG und trägt den Wortlaut; echter roter Lauf bleibt ROT, ohne Notiz.
+const warnArt = { art: 'Bestand — zusammenführen und bauen', zustand: 'warnung', am: '2026-11-16T09:43:35Z', stunden: 0.3 }
+assert.equal(
+  verlaufsZeile(warnArt, WARN_NOTIZ),
+  `WARNUNG im Verlauf: Bestand — zusammenführen und bauen — letzter Lauf warnung am 2026-11-16T09:43:35Z (vor 0.3 h, kein Lauf ohne Warnung danach): ${WARN_NOTIZ}`,
+)
+const lang = verlaufsZeile(warnArt, `A${'b'.repeat(400)}\nZeile2`)
+assert.ok(!lang.includes('\n') && lang.endsWith('…') && lang.length < 330, 'auf eine Zeile gekürzt')
+assert.doesNotMatch(verlaufsZeile(warnArt), /: $/, 'ohne Notiz kein hängender Doppelpunkt')
+assert.equal(
+  verlaufsZeile({ ...warnArt, zustand: 'fehler' }, 'wird bei Rot nicht genannt'),
+  'ROT im Verlauf: Bestand — zusammenführen und bauen — letzter Lauf fehler am 2026-11-16T09:43:35Z (vor 0.3 h, kein grüner Lauf danach)',
+)
+assert.equal(notizZu([{ gemeldet_am: 'x', zustand: 'warnung', notiz: 'a' }, { gemeldet_am: warnArt.am, zustand: 'warnung', notiz: WARN_NOTIZ }], warnArt), WARN_NOTIZ)
+assert.equal(notizZu([], warnArt), '')
