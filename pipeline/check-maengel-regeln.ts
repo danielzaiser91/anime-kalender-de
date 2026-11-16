@@ -131,6 +131,18 @@ pruefe('kein-weg: Disc-Termin ist ein Weg (wie bei erstausgabe-ohne-weg)', !arte
 pruefe('erschienen-ohne-weg: Erscheinungstag heute zählt, morgen nicht', arten(gut(1), mitReleases(rel({ platform: 'adn', schedule: { firstEpisodeDate: HEUTE } }))).join() === 'erschienen-ohne-weg' && arten(gut(1), mitReleases(rel({ platform: 'adn', schedule: { firstEpisodeDate: '2026-11-17' } }))).length === 0)
 pruefe('erschienen-ohne-weg: Fernsehen und Kino sind keine Streamingplattform', arten(gut(1), mitReleases(rel({ platform: 'tv' }), rel({ platform: 'kino' }))).length === 0)
 pruefe('termin-fehlt-laufend: Ende heute läuft noch, Ende gestern nicht', arten(gut(1, { jpEnd: HEUTE })).join() === 'termin-fehlt-laufend' && arten(gut(1, { jpEnd: '2026-11-15' })).length === 0)
+/* herkunft-fremder-titel: Namenstreffer (normierter Teilstring) und Staffelzahl bei Titeln über mehrere Staffeln */
+const auto = (herkunft: string) => rel({ automatisch: true, herkunft: `Automatisch übernommen aus „${herkunft}".` })
+const fremd = (titel: Partial<Title>, herkunft: string) => arten(gut(1, titel), mitReleases(auto(herkunft))).includes('herkunft-fremder-titel')
+pruefe('herkunft-fremder-titel: Name fehlt im Titel → trifft (ohne Staffel, nur der Name entscheidet)', fremd({ titleDe: 'Boruto: Naruto Next Generations' }, '»Naruto Shippuden«'))
+pruefe('herkunft-fremder-titel: Boruto an „»Naruto Shippuden« – Staffel 4“ trifft', fremd({ titleDe: 'Boruto: Naruto Next Generations', episodes: 293 }, '»Naruto Shippuden« – Staffel 4'))
+pruefe('herkunft-fremder-titel: Zexal (73 Folgen) an „»Yu-Gi-Oh!« – Staffel 5“ trifft (Name steckt drin, Staffel nicht)', fremd({ titleDe: 'Yu-Gi-Oh! Zexal', episodes: 73 }, '»Yu-Gi-Oh!« – Staffel 5'))
+pruefe('herkunft-fremder-titel: Staffel mit Zahl im Namen, Staffel 1, kurzer Titel (Minami-ke, 13 Folgen) und Namensvariante treffen nicht',
+  !fremd({ titleDe: 'Call of the Night: Season 2', episodes: 13 }, '»Call of the Night« – Staffel 2') && !fremd({ titleDe: 'Yu-Gi-Oh! Zexal', episodes: 73 }, '»Yu-Gi-Oh!« – Staffel 1')
+  && !fremd({ titleDe: 'Minami-ke: Korekara', episodes: 13 }, '»Minami-ke« – Staffel 5') && !fremd({ titleDe: 'Chaika, die Sargprinzessin' }, '»Chaika – Die Sargprinzessin« – Staffel 1'))
+pruefe('herkunft-fremder-titel: Artikelname länger als der Titel („Chaika – Die Sargprinzessin“ an „Chaika“) trifft nicht', !fremd({ titleDe: 'Chaika' }, '»Chaika – Die Sargprinzessin«'))
+pruefe('herkunft-fremder-titel: Termin von Hand oder ohne Artikelnamen zählt nicht', arten(gut(1, { titleDe: 'Boruto' }), mitReleases(rel({ herkunft: '»Naruto«' }), auto('Neue Folgen im Dezember'))).length === 0)
+
 if (verletzt) {
   console.error(`${verletzt} Prüfung(en) verletzt`)
   process.exit(1)
