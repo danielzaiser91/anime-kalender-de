@@ -226,7 +226,7 @@ function main(argv) {
   try {
     pruefeKontingent(Number(ausfuehren('gh', ['api', 'rate_limit', '--jq', '.resources.core.remaining']).trim()), tageZwischen(von, bis).length)
   } catch (fehler) {
-    console.error(`FEHLER: ${fehler.message}`)
+    console.error(`FEHLER (Kontingent): ${fehler.message}`)
     process.exit(1)
   }
   const q = {
