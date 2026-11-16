@@ -215,6 +215,8 @@ jobs:
             befehl: npm run check:ansichten-desktop
           - teil: Ansichten Handy
             befehl: npm run check:ansichten-handy
+          - teil: Erstladen
+            befehl: npm run check:cls-erstladen
           - teil: Ansichtswechsel
             befehl: npm run check:cls-wechsel
           - teil: Einstellungen
