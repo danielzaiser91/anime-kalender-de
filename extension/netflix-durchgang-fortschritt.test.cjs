@@ -251,6 +251,7 @@ const funktionAus = (kopf) => {
   }
   const f4 = { geprueft: 4, grenze: 128 }
   const f11 = { geprueft: 11, grenze: 128 }
+  pruefe('Knopf im Nicht-Abbruch-Zustand (Zahl am Textanfang, „6/128 — läuft“): kein Dauer-Neuzeichnen', nachziehen({ geprueft: 6, grenze: 128 }, '6/128 — läuft') === 0)
   pruefe('Knopf zieht nach: „⏹ 0/0“ bei Stand 4/128 wird neu gezeichnet', nachziehen(f4, '⏹ 0/0 — abbrechen') === 1)
   pruefe('Knopf zieht nicht nach, wenn er den Stand schon zeigt', nachziehen(f4, '⏹ 4/128 — abbrechen') === 0)
   pruefe('Knopf: „1/128“ im Text von „11/128“ zählt nicht als gleicher Stand', nachziehen({ geprueft: 1, grenze: 128 }, '⏹ 11/128 — abbrechen') === 1 && nachziehen(f11, '⏹ 11/128 — abbrechen') === 0)

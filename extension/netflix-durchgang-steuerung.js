@@ -553,7 +553,7 @@ globalThis.akNetflixSelbstTakt = (o, tun) => {
 globalThis.akNetflixKnopfNachziehen = (fortschritt, knopfText, zeichnen) => {
   const zahl = globalThis.akNetflixKnopfZahl(fortschritt)
   const text = knopfText?.()
-  if (zahl && typeof text === 'string' && !text.includes(` ${zahl} `)) zeichnen?.()
+  if (zahl && typeof text === 'string' && !` ${text} `.includes(` ${zahl} `)) zeichnen?.()
 }
 
 /**
