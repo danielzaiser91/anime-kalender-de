@@ -487,16 +487,43 @@ const teil16 = async () => {
   pruefe('H1: weitere Meldung: ein weiteres Schreiben, beide Folgen im Speicher', s.zaehler.stand === 2 && s.daten.netflixStand.reihen['1'].length === 2, [s.zaehler.stand, s.daten.netflixStand.reihen['1'].length])
 }
 
-/* --- H2: ein veralteter Zeitpunkt überschreibt keinen neueren --- */
+/* --- H2: ein veralteter Zeitpunkt überschreibt keinen neueren; der Speicher gewinnt, wo er neuer ist --- */
 const teil17 = async () => {
+  {
+    const s = speicherNeu()
+    s.daten.netflixStand = { am: T + 5 * min, reihen: { 7: [paarA] } }
+    const t = tabNeu(s, 'a', [], null, null, { ohneHoeren: true })
+    await warten()
+    /* Ein anderer Schreiber ändert den Speicher, ohne dass dieser Tab es erfährt. */
+    s.daten.netflixStand = { am: T + 9 * min, reihen: { 7: [paarA], 8: [paarA] } }
+    t.stand.eigene('1', [paarA])
+    await warten()
+    pruefe('H2: eigene Meldung mit veraltetem Zeitpunkt lässt den neueren im Speicher stehen', s.daten.netflixStand.am === T + 9 * min, s.daten.netflixStand.am)
+    pruefe('H2: und führt die Reihen des Speichers mit (7, 8 und 1)', ['7', '8', '1'].every((r) => s.daten.netflixStand.reihen[r]?.length === 1), Object.keys(s.daten.netflixStand.reihen))
+  }
+  {
+    const s = speicherNeu()
+    const t = tabNeu(s, 'a', [])
+    await t.stand.auffrischen()
+    s.daten.netflixStand = { am: T + 3 * min, reihen: {} }
+    t.stand.eigene('1', [{ ...paarA, nummer: 6 }])
+    await warten()
+    pruefe('H2: ist der Zeitpunkt des Tabs neuer als der im Speicher, gilt seiner', s.daten.netflixStand.am === T + 12 * min, s.daten.netflixStand.am)
+  }
+}
+
+/* --- B1 (Fortsetzung): ein älterer gemeinsamer Versuch macht den eigenen nicht älter --- */
+const teil18 = async () => {
   const s = speicherNeu()
-  s.daten.netflixStand = { am: T + 5 * min, reihen: { 7: [paarA] } }
-  const t = tabNeu(s, 'a', [], null, null, { ohneHoeren: true })
+  const abrufe = []
+  const uhr = { t: T + 29 * min }
+  const t = tabNeu(s, 'a', abrufe, { ok: false, status: 429, json: async () => ({}) }, null, { uhr })
+  await t.stand.auffrischen()
+  s.daten.netflixStandVersuch = T
+  uhr.t = T + 34 * min
+  await t.stand.takt()
   await warten()
-  t.stand.eigene('1', [paarA])
-  await warten()
-  pruefe('H2: eigene Meldung mit veraltetem Zeitpunkt lässt den neueren im Speicher stehen', s.daten.netflixStand.am === T + 5 * min, s.daten.netflixStand.am)
-  pruefe('H2: und führt die Reihen des Speichers mit (7 und 1)', s.daten.netflixStand.reihen[7]?.length === 1 && s.daten.netflixStand.reihen[1]?.length === 1, Object.keys(s.daten.netflixStand.reihen))
+  pruefe('B1: ein älterer gemeinsamer Versuch überschreibt den eigenen, späteren nicht (kein neuer Abruf nach 5 min)', abrufe.length === 1, abrufe.length)
 }
 
 const haupt = async () => {
@@ -514,6 +541,7 @@ const haupt = async () => {
   await teil15()
   await teil16()
   await teil17()
+  await teil18()
   await teil2()
   await teil3()
   await teil4()
