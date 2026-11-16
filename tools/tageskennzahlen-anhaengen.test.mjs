@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { dateiInhalt, geschaetzterBedarf, mischeZeilen, pruefeKontingent, tagNachLetzterZeile } from './tageskennzahlen-anhaengen.mjs'
@@ -37,17 +37,25 @@ test('Dateiinhalt: anhaengen mischt, sonst ersetzt der Lauf die Datei', () => {
   assert.equal(dateiInhalt(alt, [z('2026-11-13', 2)], false), `${z('2026-11-13', 2)}\n`)
 })
 
-const SKRIPT = fileURLToPath(new URL('./tageskennzahlen.mjs', import.meta.url))
+const TOOLS = dirname(fileURLToPath(import.meta.url))
+
+/** Kopie der Werkzeuge im Temp-Ordner: das Skript schreibt `kennzahlen/` neben sich, nie in den Repo-Baum (Wächter akroot-schreibziel). */
+function kopiereWerkzeuge(ordner) {
+  mkdirSync(join(ordner, 'tools'))
+  for (const name of readdirSync(TOOLS)) if (/\.(mjs|cjs)$/.test(name) && !/\.test\./.test(name)) copyFileSync(join(TOOLS, name), join(ordner, 'tools', name))
+  cpSync(join(TOOLS, 'kennzahlen'), join(ordner, 'tools/kennzahlen'), { recursive: true })
+  symlinkSync(join(TOOLS, '../node_modules'), join(ordner, 'node_modules'))
+}
 function lauf(argumente, { gh, tage = '', git = false } = {}) {
   const ordner = mkdtempSync(join(tmpdir(), 'kennzahlen-'))
-  mkdirSync(join(ordner, 'tools/kennzahlen'), { recursive: true })
+  kopiereWerkzeuge(ordner)
   writeFileSync(join(ordner, 'tools/kennzahlen/tage.jsonl'), tage)
   mkdirSync(join(ordner, 'bin'))
   writeFileSync(join(ordner, 'bin/gh'), `#!/bin/sh\n${gh ?? 'exit 1'}\n`, { mode: 0o755 })
   if (git) { // origin/main für das `git log` des Skripts
     for (const a of [['init', '-q'], ['-c', 'user.email=a@b', '-c', 'user.name=x', 'commit', '-q', '--allow-empty', '-m', 'x'], ['update-ref', 'refs/remotes/origin/main', 'HEAD']]) spawnSync('git', a, { cwd: ordner, timeout: 30_000 })
   }
-  const r = spawnSync(process.execPath, [SKRIPT, ...argumente], { cwd: ordner, encoding: 'utf8', timeout: 30_000, env: { ...process.env, PATH: `${join(ordner, 'bin')}:${process.env.PATH}` } })
+  const r = spawnSync(process.execPath, [join(ordner, 'tools/tageskennzahlen.mjs'), ...argumente], { cwd: ordner, encoding: 'utf8', timeout: 30_000, env: { ...process.env, PATH: `${join(ordner, 'bin')}:${process.env.PATH}` } })
   return { ...r, datei: readFileSync(join(ordner, 'tools/kennzahlen/tage.jsonl'), 'utf8') }
 }
 
