@@ -5192,22 +5192,25 @@
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026",
       "name": "Crunchyroll News",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-10-02"
+      "stand": "ueberholt",
+      "sagt": "2026-10-02",
+      "grund": "Termin: 2026-10-23"
     },
     {
       "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026",
       "name": "Crunchyroll News",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-10-02"
+      "stand": "ueberholt",
+      "sagt": "2026-10-02",
+      "grund": "Termin: 2026-10-23"
     },
     {
       "url": "https://www.crunchyroll.com/de/news/latest/2026/8/16/die-tagebuecher-der-apothekerin-staffel-3-anime-release-date-trailer-visual",
       "name": "Crunchyroll News",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-10-02"
+      "stand": "ueberholt",
+      "sagt": "2026-10-02",
+      "grund": "Termin: 2026-10-23"
     },
     {
       "url": "https://www.anisearch.de/anime/20704",
@@ -6137,8 +6140,9 @@
       "url": "https://www.anime2you.de/news/1056972/a-new-dawn-erscheint-auf-blu-ray/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-04",
-      "stand": "aktuell",
-      "sagt": "2026-12-04"
+      "stand": "ueberholt",
+      "sagt": "2026-12-04",
+      "grund": "Termin: 2026-12-11"
     }
   ],
   "cr-GT00384006": [
