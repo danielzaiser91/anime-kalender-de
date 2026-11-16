@@ -20,7 +20,7 @@ export function clsSumme(eintraege) {
 }
 
 /** Läuft in der Seite: sammelt Layout-Shifts samt Quellelementen. */
-function shiftHaken() {
+export function shiftHaken() {
   window.__shifts = []
   const kurz = (n) => (n ? `${n.nodeName.toLowerCase()}${n.id ? `#${n.id}` : ''}${typeof n.className === 'string' && n.className ? `.${n.className.trim().split(/\s+/).slice(0, 2).join('.')}` : ''}` : '?')
   new PerformanceObserver((l) =>
