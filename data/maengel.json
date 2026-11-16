@@ -17,13 +17,13 @@
     "kein-weg": {"wirkung":3,"wer":"daniel","offen":200,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "erstausgabe-ohne-weg": {"wirkung":3,"wer":"daniel","offen":166,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "termin-fehlt-laufend": {"wirkung":3,"wer":"auto:anbieterkalender","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":166,"neu":0,"behoben":1,"rueckfall":0,"ausnahme":0},
+    "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":166,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "synchro-schwach": {"wirkung":2,"wer":"hand:synchro-belegen","offen":79,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "erschienen-ohne-weg": {"wirkung":3,"wer":"hand:synchro-belegen","offen":3,"neu":0,"behoben":10,"rueckfall":0,"ausnahme":4},
+    "erschienen-ohne-weg": {"wirkung":3,"wer":"hand:synchro-belegen","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":4},
     "termin-trotz-nein": {"wirkung":3,"wer":"hand:synchro-belegen","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "termin-geschaetzt-ohne-weg": {"wirkung":2,"wer":"hand:synchro-belegen","offen":6,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "folgenzahl-widerspruch": {"wirkung":2,"wer":"hand:synchro-belegen","offen":29,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":12,"rueckfall":0,"ausnahme":458},
+    "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":458},
     "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":5,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0}
   },
   "zeilen": [
