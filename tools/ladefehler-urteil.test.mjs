@@ -1,5 +1,6 @@
 /* Regeln von `ladefehler-urteil.mjs`: je Prüfung ein roter Fall, dazu der saubere Fall; feste Messwerte. */
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { aussetzerFehler, dauerFehler, erholungFehler, FEHLER_SATZ } from './ladefehler-urteil.mjs'
 
 const knopfGut = { w: 180, h: 44, trifft: true }
@@ -25,4 +26,7 @@ assert.deepEqual(dauer({ knopf: { ...knopfGut, trifft: false } }), ['Knopf wird 
 assert.deepEqual(erholungFehler({ fehlerSichtbar: false, geladen: true }), [], 'Erholung sauber')
 assert.deepEqual(erholungFehler({ fehlerSichtbar: true, geladen: true }), ['Fehlerseite bleibt nach „Erneut versuchen“ stehen'], 'Fehlerseite bleibt')
 assert.deepEqual(erholungFehler({ fehlerSichtbar: false, geladen: false }), ['Seite lädt nach „Erneut versuchen“ nicht'], 'Seite bleibt leer')
-console.log('ladefehler-urteil: ok (17 Fälle)')
+/* Die Browserprobe tools/ladefehler-messen.mjs ruft jede der drei Regeln auf (Laufbeleg: die Probe selbst in der PR-Aussehen-Kette). */
+const probe = readFileSync(new URL('./ladefehler-messen.mjs', import.meta.url), 'utf8')
+for (const regel of ['aussetzerFehler(', 'dauerFehler(', 'erholungFehler(']) assert.ok(probe.includes(regel), `Probe ruft ${regel} nicht auf`)
+console.log('ladefehler-urteil: ok (20 Fälle)')
