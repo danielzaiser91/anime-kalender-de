@@ -26,8 +26,10 @@ export const ERZEUGTE_DATEIEN = [
   'anisearch-cover.json',
   'anisearch-dub-ids.json',
   'anisearch-dubs.json',
+  'anisearch-eintraege-ausgelassen.json',
   'anisearch-eintraege.json',
   'anisearch-folgen.json',
+  'anisearch-katalog-abgleich.json',
   'anisearch-mal.json',
   'anisearch-offen.json',
   'anisearch-reihen-abweichungen.json',
@@ -44,15 +46,22 @@ export const ERZEUGTE_DATEIEN = [
   'beleg-fehlschlaege.json',
   'beleg-lesungen.json',
   'bestand-historie.jsonl',
+  'cartoon-cover-masse.json',
   'cartoon-folgen.json',
   'cartoon-reihen.json',
   'cartoon-staffeln-pruefliste.json',
   'cartoons.json',
   'cinestar.json',
+  'cover-eigen-masse.json',
   'cover-eigen.json',
   'cover-klein.json',
   'cover-luecken.json',
+  'cr-einzelwerke.json',
+  'cr-filmbloecke.json',
+  'cr-katalog-de.json',
+  'cr-katalog-zuordnung.json',
   'cr-teilseiten-pruefliste.json',
+  'crunchyroll-de-kennungen.json',
   'crunchyroll-dub.json',
   'crunchyroll-neu.json',
   'crunchyroll-offene.json',
@@ -102,6 +111,7 @@ export const ERZEUGTE_DATEIEN = [
   'tmdb-banner.json',
   'tmdb-folgen-404.json',
   'tmdb-folgen.json',
+  'tmdb-katalog-zuordnung.json',
   'tmdb-kino.json',
   'tmdb-poster-grund.json',
   'tmdb-poster.json',
@@ -126,3 +136,28 @@ export const ERZEUGTE_DATEIEN = [
 export const ERZEUGTE_ORDNER = ['data/adn-raw/', 'data/anisearch-folgen-raw/', 'data/anisearch-raw/', 'data/anisearch-sprecher-raw/', 'data/ann-raw/', 'data/crunchyroll-raw/', 'data/motn-raw/', 'data/proposals/']
 
 export const erzeugteDatei = (datei) => ERZEUGTE_ORDNER.some((o) => datei.startsWith(o)) || (datei.startsWith('data/') && ERZEUGTE_DATEIEN.includes(datei.slice(5)))
+
+/** Pfade aus `QUELLEN` (tools/quellen-liste.sh), die bewusst nicht erzeugt sind, mit Grund (Wächter `pr-nachrechnen-bot-erzeugt.test.mjs`, 16.11.2026). */
+export const ERZEUGT_AUSNAHMEN = {
+  // Handpflege: kein Lauf schreibt sie, der Reset des Laufs sichert sie nur mit.
+  'data/cartoon-umzug.json': 'Handliste',
+  'data/cartoon-reihen-von-hand.yaml': 'Handliste',
+  'data/curated-ids.json': 'Handliste',
+  'data/cr-zeit-korrekturen.json': 'Handliste',
+  'data/curated/disc-anisearch.yaml': 'kuratiert',
+  'data/dub-confirmed.yaml': 'Handbelege',
+  'data/erneut-melden.yaml': 'von Hand',
+  'data/justwatch-handpruefung.json': 'Handprüfung',
+  'data/kanal-seiten.json': 'Handliste',
+  'data/kino-ankuendigungen.yaml': 'von Hand recherchiert',
+  'data/titel-de.yaml': 'von Hand',
+  'data/youtube-befunde.json': 'Handbefunde (Berichte lesen sie nur)',
+  'data/rtlplus-befunde.json': 'Handbefunde (Berichte lesen sie nur)',
+  // Mischformen
+  'data/anisearch-ids-katalog.json': 'trägt auch von Hand gesichtete Paare',
+  'data/cr-vorschlaege.json': 'Lauf nur von Daniels Rechner (deutsche IP), nicht aus der Cloud',
+}
+
+/** Pfade aus `QUELLEN` unter `data/`, die weder erzeugt noch als Ausnahme begründet sind (Ordner ohne Schrägstrich am Ende). */
+export const nichtErfasst = (pfade, dateien = ERZEUGTE_DATEIEN, ordner = ERZEUGTE_ORDNER, ausnahmen = ERZEUGT_AUSNAHMEN) =>
+  pfade.filter((p) => p.startsWith('data/') && !dateien.includes(p.slice(5)) && !ordner.some((o) => `${p}/`.startsWith(o)) && !(p in ausnahmen))
