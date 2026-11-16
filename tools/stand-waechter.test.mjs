@@ -176,6 +176,8 @@ assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file
 // Der Anlass vom 16.11.2026: E90 mit Klammer zwischen Titel und Link
 const E90 = '- 🔵 **E90 Netflix: „Bericht laden“ klicken** (soll nicht ich: liegt nur in deiner angemeldeten Sitzung; kein „ja“ nötig, einfach klicken) — [Anleitung](file:///C:/x/e90.md)'
 assert.equal(w.waechter(jetzt(E90), JETZT, () => true), FORM.replace('Form?', 'E90 Netflix: „Bericht laden“ klicken'), 'Text zwischen Titel und Gedankenstrich')
+const E90_KURZ = '- 🔵 **E90 Netflix: „Bericht laden“ klicken** — [Anleitung](file:///C:/x/e90.md)'
+assert.equal(w.waechter(jetzt(E90_KURZ), JETZT, () => true), '', 'E90 gekürzt: kein Grund in der Zeile ist richtig, keine Meldung „ohne Grund“')
 assert.equal(w.waechter(jetzt('- 🔵 **F7 Form? (kann nicht: x)** — y'), JETZT), FORM.replace('Form?', 'F7 Form? (kann nicht: x)'), 'Grund im Titel')
 for (const grund of ['kann nicht', 'darf nicht', 'soll nicht', 'Kann nicht']) {
   assert.match(w.waechter(jetzt(`- 🔵 **F7 Form ${grund}** — y`), JETZT), /Grund gehört in die Jetzt-Datei/, `Titel mit „${grund}“`)
