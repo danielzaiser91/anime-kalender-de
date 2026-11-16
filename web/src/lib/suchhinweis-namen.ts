@@ -1,6 +1,7 @@
 import { PLATFORMS, type PlatformId } from '@shared/types.ts'
 import type { FilterState } from './filters.ts'
 import type { Einheit } from './suchhinweis-filter.ts'
+import { wertungText } from './filter-wertung.ts'
 
 const LISTE: Record<string, string> = {
   platforms: 'Plattform',
@@ -39,6 +40,7 @@ function werteVon(e: Einheit, f: FilterState, tGenre: (g: string) => string): st
 export function einheitName(e: Einheit, f: FilterState, tGenre: (g: string) => string): string {
   if (e.art === 'schalter') return SCHALTER[e.feld] ?? e.feld
   if (e.art === 'vertrauen') return 'Mindest-Vertrauen'
+  if (e.art === 'wertung') return e.feld === 'minScore' ? `Wertung ab ${wertungText(f.minScore)}` : 'ohne Wertung ausgeblendet'
   const werte = werteVon(e, f, tGenre).join(', ')
   return `${e.art === 'ausschluss' ? 'ohne ' : ''}${LISTE[e.feld] ?? e.feld} ${werte}`
 }

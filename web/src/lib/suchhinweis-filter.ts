@@ -17,8 +17,8 @@ export type SchalterFeld = (typeof SCHALTER)[number]
 /** Eine Einheit, die der Nutzer gesetzt hat und die sich geschlossen entfernen lässt: eine Liste (Einschluss oder Ausschluss), ein Schalter, die Mindeststufe. */
 export interface Einheit {
   id: string
-  art: 'liste' | 'ausschluss' | 'schalter' | 'vertrauen'
-  feld: ListKey | SchalterFeld | 'minConfidence'
+  art: 'liste' | 'ausschluss' | 'schalter' | 'vertrauen' | 'wertung'
+  feld: ListKey | SchalterFeld | 'minConfidence' | 'minScore' | 'ohneWertungAus'
   entferne: (f: FilterState) => FilterState
 }
 
@@ -33,6 +33,8 @@ export function aktiveEinheiten(f: FilterState): Einheit[] {
     if (f[feld]) liste.push({ id: `schalter:${feld}`, art: 'schalter', feld, entferne: (g) => ({ ...g, [feld]: false }) })
   }
   if (f.minConfidence !== EMPTY_FILTERS.minConfidence) liste.push({ id: 'vertrauen', art: 'vertrauen', feld: 'minConfidence', entferne: (g) => ({ ...g, minConfidence: EMPTY_FILTERS.minConfidence }) })
+  if (f.minScore > 0) liste.push({ id: 'wertung', art: 'wertung', feld: 'minScore', entferne: (g) => ({ ...g, minScore: 0 }) })
+  if (f.ohneWertungAus) liste.push({ id: 'ohneWertung', art: 'wertung', feld: 'ohneWertungAus', entferne: (g) => ({ ...g, ohneWertungAus: false }) })
   return liste
 }
 
