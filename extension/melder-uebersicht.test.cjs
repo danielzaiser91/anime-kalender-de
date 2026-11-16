@@ -231,6 +231,7 @@ function lade(pfad, liste, suchteil = '', start = {}) {
   vm.runInContext(readFileSync(__dirname + '/netflix-durchgang-steuerung.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-staffel.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-uebernahme.js', 'utf8'), kontext)
+  vm.runInContext(readFileSync(__dirname + '/netflix-stand.js', 'utf8'), kontext)
   vm.runInContext(readFileSync(__dirname + '/netflix-seitentreue.js', 'utf8'), kontext)
   if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null
@@ -629,72 +630,27 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     pruefe('melder.js: der POST trägt den Token der Erweiterung und die Zurückstellung', posts[0]?.init.headers['X-Lauf-Token'] === 'test-token' && JSON.parse(posts[0].init.body).eintraege['80243876']?.grund === 'Erinnern statt Folgenliste', posts[0]?.init)
   }
   /*
-    Dialog öffnen (4058, 16.11.2026): eine Anfrage je Öffnung, egal wie viele Titel; der Dialog steht, bevor die Antwort da ist,
-    und zeichnet sich mit ihr neu. Ein alter Worker (403) fällt auf den Weg je Reihe zurück.
-  */
-  for (const n of [100, 230]) {
-    const liste = {}
-    for (let i = 0; i < n; i++) liste[String(70000000 + i)] = { titel: `Titel ${i}`, staffeln: [{ nr: 1, folgen: 12, film: false, offen: true }] }
-    for (const alterWorker of [false, true]) {
-      const seite = lade('/title/70000000', liste)
-      for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
-      const abfragen = []
-      let freigeben
-      const spaet = new Promise((r) => { freigeben = r })
-      seite.umgebung.fetch = async (adresse) => {
-        const a = String(adresse)
-        if (!a.includes('gemeldet')) return { ok: true, json: async () => ({}), text: async () => '' }
-        abfragen.push(a)
-        if (a.includes('gemeldet-liste') && !alterWorker) {
-          await spaet
-          const ersteAdresse = 'https://www.netflix.com/title/70000000'
-          return { ok: true, json: async () => ({ adressen: { [ersteAdresse]: { paare: [{ nummer: 1, staffel: 1, am: '2026-11-16' }] } } }) }
-        }
-        return { ok: alterWorker ? !a.includes('gemeldet-liste') : true, status: 403, json: async () => ({ paare: [] }) }
-      }
-      const knopf = suche(seite.body, 'ak-uebersicht')
-      knopf.closest = () => knopf
-      vm.runInContext('akKlickVerteilen', vm.createContext(seite.umgebung))({ target: knopf })
-      for (let i = 0; i < 8; i++) await new Promise((r) => setImmediate(r))
-      const zeilen = alleElemente(seite.body).filter((el) => String(el.className).split(/\s+/).includes('ak-zeile')).length
-      const gesamt = alterWorker ? 'mit altem Worker' : 'mit Sammelroute'
-      if (!alterWorker) {
-        pruefe(`Dialog bei ${n} Titeln: genau eine Anfrage je Öffnung`, abfragen.length === 1 && abfragen[0].includes('gemeldet-liste='), abfragen.length)
-        pruefe(`Dialog bei ${n} Titeln: steht, bevor die Antwort da ist (${zeilen} Zeilen)`, zeilen === n, zeilen)
-        freigeben()
-        for (let i = 0; i < 12; i++) await new Promise((r) => setImmediate(r))
-        /* Der Attrappen-DOM entfernt nichts (`remove() {}`): gezählt wird der zuletzt angehängte Dialog. */
-        const neu = seite.body.kinder.filter((k) => k.className === 'ak-dialog').pop()
-        const neuZeilen = alleElemente(neu).filter((el) => String(el.className).split(/\s+/).includes('ak-zeile')).length
-        pruefe(`Dialog bei ${n} Titeln: nach der Antwort neu gezeichnet, weiter ${n} Zeilen und genau eine Anfrage`, neu !== undefined && seite.body.kinder.filter((k) => k.className === 'ak-dialog').length === 2 && neuZeilen === n && abfragen.length === 1, [neuZeilen, abfragen.length])
-      } else {
-        pruefe(`Dialog bei ${n} Titeln ${gesamt}: Rückfall auf eine Anfrage je Reihe (1 + ${n})`, abfragen.length === n + 1, abfragen.length)
-      }
-    }
-  }
-  /*
-    Zwischenstand, Rückfall nur bei fehlender Route, Bremse (4058, Auflagen A2/A3): Bis die Antwort da ist, steht oben „Gemeldetes
-    wird geladen …“ und der Titel noch offen; danach ist er laut Sammelantwort gemeldet und der Hinweis weg. 429/5xx lösen keine
-    Einzelanfragen aus (nur 403/404/405), und eine zweite Öffnung binnen zwei Minuten fragt nicht erneut.
+    Der Stand liegt im Speicher (4059, 16.11.2026): Dialog auf und zu löst nie einen Abruf aus (bei 100 und 230 Titeln); „↻“ genau einen,
+    der Stand bleibt dabei stehen; ein Worker ohne Sammelroute (403/404/405) löst den Rückfall je Reihe aus, 429/5xx nicht.
   */
   {
-    const zwei = {
-      70000001: { titel: 'Schon gemeldet', staffeln: [{ nr: 1, folgen: 1, film: false, offen: true }] },
-      70000002: { titel: 'Noch offen', staffeln: [{ nr: 1, folgen: 12, film: false, offen: true }] },
-    }
     const letzter = (seite) => seite.body.kinder.filter((k) => k.className === 'ak-dialog').pop()
     const hat = (el, klasse) => alleElemente(el).some((x) => String(x.className).split(/\s+/).includes(klasse))
-    const zeilenVon = (el) => alleElemente(el).filter((x) => String(x.className).split(/\s+/).includes('ak-zeile'))
-    const oeffnen = async (seite) => {
-      const knopf = suche(seite.body, 'ak-uebersicht')
-      knopf.closest = () => knopf
-      vm.runInContext('akKlickVerteilen', vm.createContext(seite.umgebung))({ target: knopf })
-      for (let i = 0; i < 8; i++) await new Promise((r) => setImmediate(r))
-    }
+    const finde = (el, klasse) => alleElemente(el).find((x) => String(x.className).split(/\s+/).includes(klasse))
     const warten = async () => { for (let i = 0; i < 12; i++) await new Promise((r) => setImmediate(r)) }
-    const baue = async (antwort) => {
-      const seite = lade('/title/70000001', zwei)
-      for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    const klickAuf = (seite, ziel) => {
+      ziel.closest = () => ziel
+      vm.runInContext('akKlickVerteilen', vm.createContext(seite.umgebung))({ target: ziel })
+    }
+    const oeffnen = async (seite) => {
+      klickAuf(seite, suche(seite.body, 'ak-uebersicht'))
+      await warten()
+    }
+    const baue = async (n, antwort) => {
+      const liste = {}
+      for (let i = 0; i < n; i++) liste[String(70000000 + i)] = { titel: `Titel ${i}`, staffeln: [{ nr: 1, folgen: 1, film: false, offen: true }] }
+      const seite = lade('/title/70000000', liste)
+      await warten()
       const abfragen = []
       seite.umgebung.fetch = async (adresse) => {
         const a = String(adresse)
@@ -704,35 +660,46 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       }
       return { seite, abfragen }
     }
+    const sammelAntwort = (n) => ({ ok: true, json: async () => ({ adressen: { 'https://www.netflix.com/title/70000000': { paare: [{ nummer: 1, staffel: 1, am: '2026-11-16' }] } } }) })
 
-    let freigeben
-    const spaet = new Promise((r) => { freigeben = r })
-    const gemeldetA = { ok: true, json: async () => ({ adressen: { 'https://www.netflix.com/title/70000001': { paare: [{ nummer: 1, staffel: 1, am: '2026-11-16' }] }, 'https://www.netflix.com/title/70000002': { paare: [] } } }) }
-    const z = await baue(async () => (await spaet, gemeldetA))
-    await oeffnen(z.seite)
-    pruefe('Zwischenstand: Hinweis „Gemeldetes wird geladen …“ steht, der Titel noch offen', hat(letzter(z.seite), 'ak-laedt') && !hat(letzter(z.seite), 'ak-fertig'), zeilenVon(letzter(z.seite)).length)
-    freigeben()
-    await warten()
-    const neu = letzter(z.seite)
-    /* Die Folgenkürzel zeigen den Briefkasten: 1e01 laut Sammelantwort gemeldet (`ak-fertig`), der andere Titel bleibt offen. */
-    const fertige = alleElemente(neu).filter((x) => String(x.className).split(/\s+/).includes('ak-fertig')).length
-    pruefe('Sammelantwort: Kürzel vorher offen, nachher gemeldet (genau eines ak-fertig)', fertige === 1, fertige)
-    pruefe('Sammelantwort: der Hinweis ist danach weg', !hat(neu, 'ak-laedt'))
-
-    for (const [status, fallback] of [[429, false], [500, false], [404, true], [405, true]]) {
-      const f = await baue(async (a) => (a.includes('gemeldet-liste') ? { ok: false, status, json: async () => ({}) } : { ok: true, json: async () => ({ paare: [] }) }))
-      await oeffnen(f.seite)
+    for (const n of [100, 230]) {
+      const { seite, abfragen } = await baue(n, async () => sammelAntwort(n))
+      for (let i = 0; i < 10; i++) {
+        await oeffnen(seite)
+        await oeffnen(seite)
+      }
+      pruefe(`Stand im Speicher: zehnmal Dialog auf und zu bei ${n} Titeln: 0 Abrufe`, abfragen.length === 0, abfragen.length)
+      await oeffnen(seite)
+      const knopf = finde(letzter(seite), 'ak-stand-knopf')
+      pruefe(`Dialog bei ${n} Titeln: „Stand“ und ↻ stehen im Kopf, noch ohne Stand`, Boolean(knopf) && finde(letzter(seite), 'ak-stand-text')?.textContent === 'noch kein Stand', finde(letzter(seite), 'ak-stand-text')?.textContent)
+      klickAuf(seite, knopf)
       await warten()
-      pruefe(`Sammelroute antwortet ${status}: ${fallback ? 'Rückfall auf eine Anfrage je Reihe (1 + 2)' : 'keine Einzelanfragen, lokaler Stand'}`, f.abfragen.length === (fallback ? 3 : 1), f.abfragen.length)
+      pruefe(`↻ bei ${n} Titeln: genau ein Abruf, die Sammelroute`, abfragen.length === 1 && abfragen[0].includes('gemeldet-liste='), abfragen.length)
+      pruefe(`↻ bei ${n} Titeln: danach „Stand von HH:MM“, weiter ${n} Zeilen`, /^Stand von \d\d:\d\d$/.test(String(finde(letzter(seite), 'ak-stand-text')?.textContent)) && alleElemente(letzter(seite)).filter((x) => String(x.className).split(/\s+/).includes('ak-zeile')).length === n, finde(letzter(seite), 'ak-stand-text')?.textContent)
     }
 
-    const b = await baue(async () => gemeldetA)
-    await oeffnen(b.seite)
-    await warten()
-    vm.runInContext('dialogSchliessen', vm.createContext(b.seite.umgebung))()
-    await oeffnen(b.seite)
-    await warten()
-    pruefe('Dialog zweimal binnen zwei Minuten geöffnet: eine Anfrage', b.abfragen.length === 1 && Boolean(letzter(b.seite)), b.abfragen.length)
+    /* Während des Abrufs bleibt der alte Stand stehen; der Knopf zeigt „…“ und ist gesperrt. */
+    {
+      let freigeben
+      const spaet = new Promise((r) => { freigeben = r })
+      const { seite, abfragen } = await baue(2, async () => (await spaet, sammelAntwort(2)))
+      await oeffnen(seite)
+      klickAuf(seite, finde(letzter(seite), 'ak-stand-knopf'))
+      await warten()
+      const mitten = letzter(seite)
+      pruefe('Abruf läuft: Knopf „…“ und gesperrt, Zeilen und Stand bleiben stehen', finde(mitten, 'ak-stand-knopf')?.textContent === '…' && finde(mitten, 'ak-stand-knopf')?.disabled === true && finde(mitten, 'ak-stand-text')?.textContent === 'noch kein Stand' && alleElemente(mitten).filter((x) => String(x.className).split(/\s+/).includes('ak-zeile')).length === 2, [finde(mitten, 'ak-stand-knopf')?.textContent, abfragen.length])
+      freigeben()
+      await warten()
+      pruefe('Abruf fertig: Knopf wieder „↻“', finde(letzter(seite), 'ak-stand-knopf')?.textContent === '↻')
+    }
+
+    for (const [status, fallback] of [[429, false], [500, false], [403, true], [404, true], [405, true]]) {
+      const f = await baue(2, async (a) => (a.includes('gemeldet-liste') ? { ok: false, status, json: async () => ({}) } : { ok: true, json: async () => ({ paare: [] }) }))
+      await oeffnen(f.seite)
+      klickAuf(f.seite, finde(letzter(f.seite), 'ak-stand-knopf'))
+      await warten()
+      pruefe(`↻, Sammelroute antwortet ${status}: ${fallback ? 'Rückfall auf eine Anfrage je Reihe (1 + 2)' : 'keine Einzelanfragen, lokaler Stand'}`, f.abfragen.length === (fallback ? 3 : 1), f.abfragen.length)
+    }
   }
   const schlecht = faelle.filter((x) => !x).length
   console.log(schlecht ? `\n${schlecht} Prüfung(en) fehlgeschlagen.` : '\nAlle Prüfungen bestanden.')

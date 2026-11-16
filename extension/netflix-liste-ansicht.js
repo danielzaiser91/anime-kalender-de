@@ -253,6 +253,18 @@ function ansichtOben(o, jetzt) {
   return oben
 }
 
+/** „Stand von 20:15“ und ↻ (neu holen); während des Abrufs bleibt der alte Stand stehen, der Knopf zeigt „…“. `stand`: `akNetflixStand.neu()`. */
+function ansichtStand(stand, klick) {
+  const zeile = ansichtElement('div', 'ak-stand')
+  zeile.appendChild(ansichtElement('span', 'ak-stand-text', stand.text()))
+  const knopf = ansichtElement('button', 'ak-umschalter ak-stand-knopf', stand.laeuft() ? '…' : '↻')
+  knopf.title = 'Gemeldetes jetzt neu laden'
+  knopf.disabled = stand.laeuft()
+  klick(knopf, () => void stand.auffrischen())
+  zeile.appendChild(knopf)
+  return zeile
+}
+
 /**
  * Der Kopf der Prüfliste. `o`: `{ kasten, titel, selbst (Knopf des Durchgangs), zurueck (Zeilen aus `zeilen()`),
  * gemeldet (Zahl), uebernahme(jetzt: Date) → Date, zu(), klick (= `akKlick`), geoeffnet(id), jetzt? }`.
@@ -284,7 +296,7 @@ function ansichtKopf(o) {
   }
   if (o.gemeldet > 0) neu('gemeldet', `${o.gemeldet} gemeldet`, 'Nur die gemeldeten Titel zeigen')
   kopf.appendChild(unten)
-  if (globalThis.akMeldungenLaedt) kopf.appendChild(ansichtElement('div', 'ak-laedt', 'Gemeldetes wird geladen …'))
+  if (globalThis.akNetflixStand?.aktuell) kopf.appendChild(ansichtStand(globalThis.akNetflixStand.aktuell, o.klick))
   return { kopf, suche, tabelle: tabelle?.wurzel ?? null }
 }
 

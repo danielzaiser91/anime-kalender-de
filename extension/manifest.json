@@ -68,6 +68,7 @@
         "netflix-durchgang-schutz.js",
         "netflix-profilwahl.js",
         "netflix-uebernahme.js",
+        "netflix-stand.js",
         "netflix-randvoll.js",
         "netflix-seitentreue.js",
         "netflix-staffel.js",
