@@ -64,4 +64,17 @@ pruefe(zuviele.status === 400, 'über dem Riegel: 400')
 const doppelt = await sammel(`gemeldet-liste=a,a&vor=${encodeURIComponent(VOR)}`)
 pruefe(Object.keys(doppelt.adressen ?? {}).length === 1, 'doppelte Adresse zählt einmal')
 
+/* Budget: Adressen ohne Titelzeile brauchen zwei Abfragen (Titelzeile, Altzeilen); je `DB.batch` höchstens 50 Anweisungen. */
+{
+  const batches: number[] = []
+  const echt = (env as unknown as { DB: { prepare: (s: string) => unknown; batch: (l: unknown[]) => Promise<unknown> } }).DB
+  const gezaehlt = { ...(env as object), DB: { prepare: (s: string) => echt.prepare(s), batch: (l: unknown[]) => (batches.push(l.length), echt.batch(l)) } } as never
+  const davor = h.geschrieben
+  const anfrage = new Request(`https://worker.test/pruefung?gemeldet-liste=${lang}&vor=${encodeURIComponent(VOR)}`)
+  const antwort = await handlePruefung(anfrage, gezaehlt)
+  pruefe(antwort.status === 200 && batches.length === 16, `${SAMMEL_MAX} Adressen ohne Titelzeile: 8 + 8 Batches (${batches.length})`)
+  pruefe(Math.max(...batches) <= 50 && batches.reduce((a, b) => a + b, 0) === 2 * SAMMEL_MAX, `höchstens 50 Anweisungen je Batch (größter: ${Math.max(...batches)}), je Adresse zwei`)
+  pruefe(h.geschrieben === davor, 'Lesen schreibt nichts')
+}
+
 process.exit(fehler ? 1 : 0)
