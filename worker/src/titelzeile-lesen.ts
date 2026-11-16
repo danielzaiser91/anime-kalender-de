@@ -21,8 +21,12 @@ export const NICHT_VERDRAENGT = 'url NOT IN (SELECT url FROM titel_zeile)'
  */
 export async function gemeldetAusTitelzeile(env: Env, url: string) {
   const { results } = await env.DB.prepare('SELECT daten FROM titel_zeile WHERE url = ?1').bind(url).all<{ daten: string }>()
-  if (!results?.length) return null
-  const mitNummer = lies(results[0]!.daten).f.filter((e) => e[NUMMER] !== null)
+  return results?.length ? gemeldetAusDaten(results[0]!.daten) : null
+}
+
+/** Die Antwort von `?gemeldet=` aus dem Text einer Titelzeile (`titel_zeile.daten`). */
+export function gemeldetAusDaten(daten: string) {
+  const mitNummer = lies(daten).f.filter((e) => e[NUMMER] !== null)
   return {
     nummern: [...new Set(mitNummer.map((e) => e[NUMMER]))],
     paare: mitNummer.map((e) => ({ nummer: e[NUMMER], staffel: e[STAFFEL] ?? 1, staffelBekannt: e[STAFFEL] !== null, folge: e[2], am: e[AM] })),

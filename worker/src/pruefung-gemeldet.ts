@@ -34,14 +34,24 @@ export async function leseGemeldet(env: Env, fuer: string) {
   /* Eine Adresse mit Titelzeile (Migration 055) antwortet aus dieser einen Zeile; ihre Altzeilen in `pruefung` zählen nicht mehr. */
   const ausTitelzeile = await gemeldetAusTitelzeile(env, fuer)
   if (ausTitelzeile) return ausTitelzeile
-  const { results } = await env.DB.prepare(
-    `SELECT folge_nr, staffel, folge, MAX(gemeldet_am) AS am FROM pruefung
+  const { results } = await gemeldetAlt(env.DB, fuer).all<ZeileAlt>()
+  return gemeldetAusZeilen(results ?? [])
+}
+
+export type ZeileAlt = { folge_nr: number; staffel: number | null; folge: string | null; am: string | null }
+
+/** Die Abfrage der Altzeilen einer Adresse (`pruefung`), für `leseGemeldet` und die Sammelroute. */
+export const gemeldetAlt = (db: D1Database, url: string) =>
+  db
+    .prepare(
+      `SELECT folge_nr, staffel, folge, MAX(gemeldet_am) AS am FROM pruefung
      WHERE url = ? AND folge_nr IS NOT NULL GROUP BY folge_nr, staffel, folge`,
-  )
-    .bind(fuer)
-    .all<{ folge_nr: number; staffel: number | null; folge: string | null; am: string | null }>()
-  const nummern = [...new Set((results ?? []).map((r) => r.folge_nr))]
-  const paare = (results ?? []).map((r) => ({
+    )
+    .bind(url)
+
+export function gemeldetAusZeilen(results: ZeileAlt[]) {
+  const nummern = [...new Set(results.map((r) => r.folge_nr))]
+  const paare = results.map((r) => ({
     nummer: r.folge_nr,
     staffel: r.staffel ?? 1,
     staffelBekannt: r.staffel != null,
