@@ -38,13 +38,14 @@ const titelMitErstausgabe = [
   { id: 900005, titleRomaji: 'E', format: 'MOVIE', episodes: 1, streams: [] },
 ]
 
-function lauf(vorherWert: number, vorherErstausgabe?: number, titelListe: unknown[] = titel): string {
+function lauf(vorherWert: number, vorherErstausgabe?: number, titelListe: unknown[] = titel, termine: unknown[] = []): string {
   const ak = mkdtempSync(join(tmpdir(), 'qualitaet-rueckgang-'))
   try {
     mkdirSync(join(ak, 'public', 'data'), { recursive: true })
     mkdirSync(join(ak, 'data'), { recursive: true })
     writeFileSync(join(ak, 'public', 'data', 'titles.json'), JSON.stringify(titelListe))
     writeFileSync(join(ak, 'public', 'data', 'events.json'), '[]')
+    writeFileSync(join(ak, 'public', 'data', 'releases.json'), JSON.stringify(termine))
     writeFileSync(join(ak, VERLAUF_DATEI), JSON.stringify([{ gemessenAm: '2000-01-01', mitStreamingWeg: vorherWert, ...(vorherErstausgabe === undefined ? {} : { erstausgabeOhneWeg: vorherErstausgabe }) }]))
     const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-qualitaet.ts')], {
       env: { ...process.env, AK_ROOT: ak },
@@ -73,5 +74,11 @@ pruefe('gleicher Wert meldet die Zeile nicht', !gleichGeblieben.includes(ERSTAUS
 const ohneVorwert = lauf(3, undefined, titelMitErstausgabe)
 pruefe('ältere Verlaufszeile ohne Feld meldet die Zeile nicht', !ohneVorwert.includes(ERSTAUSGABE_OHNE_WEG_ZEILE), ohneVorwert)
 
+/* Disc-Termin als Weg (16.11.2026): Titel C mit Disc-Termin zählt nicht mehr, mit Kino-Termin weiter. */
+const mitDisc = lauf(3, 1, titelMitErstausgabe, [{ titleId: 900003, releaseType: 'disc' }])
+pruefe('Titel mit Disc-Termin zählt nicht als „kein Weg“ (Verlauf 1 → 0)', mitDisc.includes('0 Erstausgabe bekannt, kein Weg'), mitDisc)
+const mitKino = lauf(3, 0, titelMitErstausgabe, [{ titleId: 900003, releaseType: 'kino' }])
+pruefe('Titel mit Kino-Termin zählt weiter (Anstieg 0 → 1)', mitKino.includes(`${ERSTAUSGABE_OHNE_WEG_ZEILE}erstausgabeOhneWeg: 0 → 1 (+1)`), mitKino)
+
 if (verletzt) process.exit(1)
-console.log('check-qualitaet-rueckgang-lauf: 6 Fälle grün')
+console.log('check-qualitaet-rueckgang-lauf: 8 Fälle grün')
