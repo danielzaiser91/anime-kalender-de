@@ -38,7 +38,7 @@ try {
     allein: [q(NEWS, '2026-10-02')],
     zwei: [q(NEWS, '2026-10-02'), q(NEWS2, '2026-10-03')],
     tv: [q(PLAN, '2026-09-29')],
-    gleich: [q(NEWS, '2026-10-23'), q(SERIE)],
+    gleich: [q(NEWS, '2026-10-23'), { ...q(SERIE), stand: 'ueberholt' }],
   }
   writeFileSync(join(tmp, 'data', 'quellen-historie.json'), JSON.stringify(historie))
   const lauf = () => [
@@ -62,6 +62,7 @@ try {
   pruefe('Gegenprobe: zwei abweichende Quellen ohne Stütze bleiben aktuell', stand(rs, 'zwei', NEWS)?.stand === 'aktuell' && stand(rs, 'zwei', NEWS2)?.stand === 'aktuell', stand(rs, 'zwei', NEWS2))
   pruefe('Sendeplan `tv`: Sichtungstag in `sagt` bleibt aktuell, auch mit Folge 1', stand(rs, 'tv', PLAN)?.stand === 'aktuell', stand(rs, 'tv', PLAN))
   pruefe('Quelle mit Tag gleich Termin bleibt aktuell', stand(rs, 'gleich', NEWS)?.stand === 'aktuell', stand(rs, 'gleich', NEWS))
+  pruefe('Quelle, die in der Historie überholt war und wieder in `sources` steht, ist aktuell', stand(rs, 'gleich', SERIE)?.stand === 'aktuell', stand(rs, 'gleich', SERIE))
   const offen = rs.flatMap((r) => aktuelleMitAbweichung(r as never, (r as { quellen?: never[] }).quellen ?? []).map((x) => `${r.slug}:${x.url}`))
   pruefe('übrig bleiben nur die echten Abweichungen', offen.join() === `allein:${NEWS},zwei:${NEWS},zwei:${NEWS2}`, offen)
 
@@ -78,4 +79,4 @@ if (fehler.length) {
   console.error(`check-quelle-ueberholt: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-quelle-ueberholt: Disc-Shop, Folge 1, Gegenproben (allein, zwei, tv, gleich), zweiter Lauf: alle 13 Fälle ok')
+console.log('check-quelle-ueberholt: Disc-Shop, Folge 1, Gegenproben (allein, zwei, tv, gleich), zweiter Lauf: alle 14 Fälle ok')
