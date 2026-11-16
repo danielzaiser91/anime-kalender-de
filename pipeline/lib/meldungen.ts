@@ -35,6 +35,7 @@ import { folgenzahlUeberWerk } from './pruefung.ts'
 import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
 import { frischAngekuendigt } from '../bau/ohne-beleg.ts'
 import { istSammelMeldung, ohneSammelName, sammelTitel } from './sammel-titel.ts'
+import { artikelNamen, nameTrifft } from './titel-name-trifft.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -187,6 +188,14 @@ export function teilAusUeberschrift(
 }
 
 /**
+ * **Eine Basis über mehrere Staffeln zählt nicht über die Franchise** (Boruto war nicht „Naruto Shippuden – Staffel 4“, Zexal nicht „Yu-Gi-Oh! –
+ * Staffel 5“, 16.11.2026): AniList führt Naruto (220), Shippuden (500) und Yu-Gi-Oh! (224) als einen Eintrag über viele Staffeln, daneben
+ * Nachfolger und Spin-offs. Die Staffel des Artikels ist dann ein Abschnitt dieses Eintrags, nicht der N-te Titel der Franchise. Längste Staffel:
+ * zwei Cours; Serien mit eigenen Staffel-Einträgen (Minami-ke, je 13) zählen weiter.
+ */
+const LAENGSTE_STAFFEL = 26
+
+/**
  * Sucht den gemeinten Teil einer Reihe — oder gibt auf.
  *
  * Aufgeben ist hier die richtige Antwort und keine Schwäche: Ein Termin an der
@@ -230,6 +239,7 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
     )
     if (treffer.length === 1) return treffer[0]
     if (treffer.length > 1) return undefined
+    if ((basis.episodes ?? 0) > LAENGSTE_STAFFEL) return teil.nummer === 1 ? basis : undefined
   }
 
   const mitglieder = inReihe
@@ -429,6 +439,28 @@ function belegteTermine(vorhanden: Release[]): Set<string> {
   return belegt
 }
 
+const ohneSchraegstrich = (url: string): string => url.replace(/\/$/, '')
+
+/**
+ * **Ein Artikel, aus dem ein Handtermin stammt, ist für diesen Titel eingearbeitet — im selben Bau** (16.11.2026): `alreadyCurated` setzt sonst
+ * erst der nächste Sammlerlauf; bis dahin standen der falsche Auto-Termin (Boruto) und der richtige Handtermin nebeneinander. Es zählt die
+ * Zeile des Artikels, deren Name zum Titel des Handtermins passt; die Termine anderer Titel desselben Sammelartikels bleiben.
+ */
+const handTitelJeArtikel = (vorhanden: Release[], titel: Title[]): Map<string, Title[]> => {
+  const jeId = new Map(titel.map((t) => [t.id, t]))
+  const je = new Map<string, Title[]>()
+  for (const r of vorhanden.filter((x) => !x.automatisch)) {
+    const t = jeId.get(r.titleId)
+    if (t) for (const url of r.sources ?? []) je.set(ohneSchraegstrich(url), [...(je.get(ohneSchraegstrich(url)) ?? []), t])
+  }
+  return je
+}
+
+const vonHandEingearbeitet = (v: Vorschlag, handTitel: Map<string, Title[]>): boolean => {
+  const namen = artikelNamen(v.articleTitle)
+  return (handTitel.get(ohneSchraegstrich(v.articleUrl)) ?? []).some((t) => namen.some((n) => nameTrifft(t, n)))
+}
+
 function belegeTermin(belegt: Set<string>, titleId: number, platform: string, tag: string) {
   belegt.add(terminSchluessel(titleId, platform, tag))
   belegt.add(eigenerSchluessel(titleId, platform))
@@ -557,11 +589,16 @@ export function releasesAus(
 ): Release[] {
   const kandidaten = [...titel, ...cartoons]
   const belegt = belegteTermine(vorhanden)
+  const handTitel = handTitelJeArtikel(vorhanden, kandidaten)
   const out: Release[] = []
 
   for (const v of nachSprachzusage(vorschlaege)) {
     const sprache = spracheDerMeldung(v)
     if (v.alreadyCurated || istAbschied(v.articleTitle) || sprache === 'nein') continue
+    if (vonHandEingearbeitet(v, handTitel)) {
+      abgedeckt?.push(v)
+      continue
+    }
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
