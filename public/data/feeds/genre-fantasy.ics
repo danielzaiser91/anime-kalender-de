@@ -618,6 +618,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T151500Z
+DTEND:20261116T154500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261116T154500Z
@@ -636,6 +646,16 @@ SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T161500Z
+DTEND:20261116T164500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-16#73@anime-kalender-de
@@ -688,6 +708,16 @@ SUMMARY:Akame ga Kill: Schwerter der Assassinen – Folge 1
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/7169/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T201500Z
+DTEND:20261116T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-17#74@anime-kalender-de
