@@ -84,6 +84,19 @@ async function standSammelHolen(z) {
   return Object.fromEntries(reihen.map((r) => [r, antwort.get(standAdresse(r)).paare ?? []]))
 }
 
+/** Schreibt den Stand, vereinigt mit dem im Speicher und mit dessen Zeitpunkt, falls der neuer ist (zwei Schreiber überholen sich nicht). */
+async function standSchreiben(kontext, am, reihen) {
+  const imSpeicher = (await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL]
+  const amSpeicher = Number.isFinite(imSpeicher?.am) ? imSpeicher.am : 0
+  await kontext.schreiben({ [STAND_SCHLUESSEL]: { am: Math.max(am ?? 0, amSpeicher) || null, reihen: standVereinige(imSpeicher?.reihen, reihen) } })
+}
+
+/** Der letzte Versuch eines beliebigen Tabs (ms), 0 ohne Eintrag. */
+async function standGeteilterVersuch(kontext) {
+  const v = (await kontext.lesen(STAND_VERSUCH))?.[STAND_VERSUCH]
+  return Number.isFinite(v) ? v : 0
+}
+
 /**
  * `o`: `{ worker, reihen() (Kennungen), merken(reihe, paare), abrufen(reihe) (Einzelweg für einen Worker ohne Sammelroute),
  * geaendert(), uebernahme(Date) → Date, kontext?, jetzt?, tab?, takt? (ms, 0 = keiner), holen? (fetch, nur Tests) }`. Liest den Stand ein, hört auf Änderungen
@@ -160,17 +173,11 @@ function standNeu(o) {
     void schreibeStand()
   }
 
-  /** Schreibt den eigenen Stand, vereinigt mit dem im Speicher und mit dessen Zeitpunkt, falls der neuer ist (zwei Schreiber überholen sich nicht). */
-  const schreibeStand = async () => {
-    const imSpeicher = (await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL]
-    const amSpeicher = Number.isFinite(imSpeicher?.am) ? imSpeicher.am : 0
-    await kontext.schreiben({ [STAND_SCHLUESSEL]: { am: Math.max(am ?? 0, amSpeicher) || null, reihen: standVereinige(imSpeicher?.reihen, gespeichert) } })
-  }
+  const schreibeStand = () => standSchreiben(kontext, am, gespeichert)
 
   /** Der Takt liest zuerst den letzten Versuch aller Tabs, dann entscheidet er. */
   const takt = async () => {
-    const geteilt = (await kontext.lesen(STAND_VERSUCH))?.[STAND_VERSUCH]
-    if (Number.isFinite(geteilt)) versuch = Math.max(versuch ?? 0, geteilt)
+    versuch = Math.max(versuch ?? 0, await standGeteilterVersuch(kontext)) || null
     if (standFaellig(am, versuch, jetzt(), o.uebernahme)) void auffrischen()
   }
   const laden = async () => einlesen((await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL])
