@@ -69,6 +69,8 @@ pruefe('a: zeigt die Seite den Titel, ist der Film frei für den Player', z.rest
 
 /* --- b: laufende Frist sichtbar --- */
 pruefe('b: Film wartet auf den Titel, mit Sekunden und Frist', k.akNetflixWartetText({ seite: 'x', seit: T0, film: true, frist: 8000 }, T0 + 3400) === 'wartet auf den Titel, 3 von 8 s', k.akNetflixWartetText({ seite: 'x', seit: T0, film: true, frist: 8000 }, T0 + 3400))
+pruefe('b: Sekunden werden abgeschnitten, nicht gerundet (3,6 s = 3)', k.akNetflixWartetText({ seite: 'x', seit: T0, film: true, frist: 8000 }, T0 + 3600) === 'wartet auf den Titel, 3 von 8 s')
+pruefe('b: Takt-Ergebnis eines Films nennt „den Titel“, das einer Serie „die Folgenliste“', k.akNetflixWartetText(filmTakt(startseite, 3000).rest, T0 + 3000) === 'wartet auf den Titel, 3 von 8 s' && k.akNetflixWartetText(k.akNetflixListeWarten({ seite: 's', seit: T0 }, { seite: 's', reihe: 's', erinnern: false, frist: 20000, jetzt: T0 + 2000, durchlauf: { folgen: [], listeFuer: null }, merkmale: () => null }, { spur() {}, uebersprungen: new Map(), weiter() {} }), T0 + 5000) === 'wartet auf die Folgenliste, 5 von 20 s')
 pruefe('b: Serie wartet auf die Folgenliste, 12 von 20 s', k.akNetflixWartetText({ seite: 'x', seit: T0, frist: 20000 }, T0 + 12100) === 'wartet auf die Folgenliste, 12 von 20 s')
 pruefe('b: über der Frist bleibt die Zahl bei der Frist', k.akNetflixWartetText({ seite: 'x', seit: T0, frist: 20000 }, T0 + 25000) === 'wartet auf die Folgenliste, 20 von 20 s')
 pruefe('b: ohne Warten oder nach der Entscheidung kein Text', k.akNetflixWartetText(null, T0) === '' && k.akNetflixWartetText({ seite: 'x', seit: T0, entschieden: true, frist: 8000 }, T0 + 1000) === '')

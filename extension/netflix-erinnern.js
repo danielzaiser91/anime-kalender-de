@@ -36,11 +36,11 @@ const filmFenster = (wartet, o, tun) => {
   return { ...wartet, filmFrei: true }
 }
 
-/** Wie `listeWartenSchritt`, dazu die Frist dieses Wartens (Film und leeres Titelfenster `LEER_NACH_MS`, sonst `o.frist`) für die Anzeige. */
+/** Wie `listeWartenSchritt`, dazu die Frist dieses Wartens (leeres Titelfenster, auch das eines Films: `LEER_NACH_MS`, sonst `o.frist`) für die Anzeige. */
 globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   const neu = listeWartenSchritt(wartet, o, tun)
   if (!neu || neu.entschieden || neu.filmFrei) return neu
-  const kurz = o.film || globalThis.akNetflixTitelfensterLeer?.(o.merkmale?.())
+  const kurz = globalThis.akNetflixTitelfensterLeer?.(o.merkmale?.())
   return { ...neu, film: Boolean(o.film), frist: kurz ? Math.min(LEER_NACH_MS, o.frist) : o.frist }
 }
 
