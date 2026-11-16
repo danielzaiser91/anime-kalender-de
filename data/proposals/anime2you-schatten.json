@@ -683,6 +683,31 @@
         "stichprobe": 0,
         "rest": 2
       }
+    },
+    {
+      "am": "2026-11-16",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 1,
+      "ms": 3.053562999999997,
+      "faelle": [
+        {
+          "artikelId": "1072212",
+          "seite": "nurClaude",
+          "titel": "Dragon Ball DAIMA",
+          "plattform": "rtlplus"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
     }
   ]
 }
