@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 15.11.2026 um 15:46 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 16.11.2026 um 18:02 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,26 +19,35 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true})
+- 1 Titel weniger; 2 Urteile verloren; 1 Titel ohne Synchro-Beleg; crunchyroll: 2 Synchro-Belege weniger; crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba (101922): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag); crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train (112151): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag)
+- 147 Verweise ohne protokollierten Grund weg (1 weitere sind begründet entfernt)
+- Terminableitung: 1 Serien mehr wegen „Blöcke und Titel verschieden viele" (jetzt 228)
+- Terminableitung: 1 Serien mehr wegen „Folgenzahl geht nicht auf" (jetzt 44)
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-29 Läufe in den letzten 1 Tagen (2278 insgesamt)
+34 Läufe in den letzten 1 Tagen (2314 insgesamt)
 
-15.11., 00:48  Bestand — zusammenführ   verweise +4, mitUrteil +4, titelMitSynchro +4, releases -1, termine -24
-            ℹ  erklärt, nicht rot: später ausgeglichen (Stand 15.11., 13:11 gegen Stand davor ohne Verlust): 24 Termine weniger
-15.11., 02:20  Bestand — zusammenführ   verweise -1, mitUrteil -1
-            ⚠  1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true})
-               • Captain Tsubasa: Staffel 2 - Die Junioren (163024) · primevideo · Synchro-Beleg weg (link-check: 200 am 2026-10-05)
-15.11., 04:33  Bestand — zusammenführ   termine -1
-15.11., 13:11  Bestand — zusammenführ   releases +2, termine +25
+15.11., 19:20  Bestand — zusammenführ   verweise -4, ohneUrteil -4
+16.11., 06:24  --ersetzen               titel -1, verweise -1, mitUrteil -2, ohneUrteil +1, titelMitSynchro -1, termine +9
+            ⚠  1 Titel weniger; 2 Urteile verloren; 1 Titel ohne Synchro-Beleg; crunchyroll: 2 Synchro-Belege weniger; crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba (101922): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag); crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train (112151): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag)
+               • Demon Slayer: Kimetsu no Yaiba (101922) · crunchyroll · Synchro-Urteil jetzt offen
+               • Persona 5 the Animation: Sterne und was unser ist (106896) · Titel entfernt
+               • Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train (112151) · crunchyroll · Synchro-Urteil jetzt offen
+16.11., 09:28  Bestand — zusammenführ   titel +1, verweise -148, mitUrteil +2, ohneUrteil -150, titelMitSynchro +1
+            ⚠  147 Verweise ohne protokollierten Grund weg (1 weitere sind begründet entfernt)
+16.11., 10:26  Bestand — zusammenführ   verweise +4, mitUrteil +4, titelMitSynchro +4
+16.11., 11:04  Bestand — zusammenführ   verweise +1, mitUrteil +1, titelMitSynchro +1
+16.11., 12:12  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+16.11., 14:11  Bestand — zusammenführ   releases +9, termine +9
+16.11., 15:12  Bestand — zusammenführ   releases +1, termine +1
+16.11., 15:28  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1
 
-Stand jetzt: 2923 Titel, 2134 Urteile, 475 offen
-Über den Zeitraum: Titel 0, Urteile +3, offen 0
-ℹ  1 Rückgang ausgeglichen
+Stand jetzt: 2923 Titel, 2140 Urteile, 322 offen
+Über den Zeitraum: Titel 0, Urteile +6, offen -153
 
-⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
@@ -48,20 +57,20 @@ Briefkasten: 4105 Meldungen auf 230 Adressen (primevideo 514, adn 158, disneyplu
 Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 426 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
-Übernahme: zuletzt 2026-11-15T02:10:36.010Z (data/meldungen-uebernahme.json)
+Übernahme: zuletzt 2026-11-16T09:21:48.262Z (data/meldungen-uebernahme.json)
 ✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 3 h)
-✓ refresh-data.yml: letzter Erfolg vor 11 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 119 h (Frist 336 h)
-✓ daten-auf-abruf.yml: letzter Erfolg vor 6 h (Frist 36 h)
-✓ anisearch-katalog.yml: letzter Erfolg vor 9 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 203 h (Frist 1008 h)
+✓ refresh-data.yml: letzter Erfolg vor 13 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 12 h (Frist 336 h)
+✓ daten-auf-abruf.yml: letzter Erfolg vor 8 h (Frist 36 h)
+✓ anisearch-katalog.yml: letzter Erfolg vor 11 h (Frist 36 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 229 h (Frist 1008 h)
 ✓ bestand-bauen.yml: letzter Erfolg vor 1 h (Frist 18 h)
-✓ d1-verbrauch.yml: letzter Erfolg vor 24 h (Frist 48 h)
+✓ d1-verbrauch.yml: letzter Erfolg vor 26 h (Frist 48 h)
 ✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 1 h (Frist 3 h)
-✓ claude-wache-urteil.yml: letzter Erfolg vor 30 h (Frist 36 h)
-✓ claude-verpasst-recherche.yml: letzter Erfolg vor 4 h (Frist 36 h)
+✓ claude-wache-urteil.yml: letzter Erfolg vor 8 h (Frist 36 h)
+✓ claude-verpasst-recherche.yml: letzter Erfolg vor 6 h (Frist 36 h)
 ✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
-✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 1 h
+✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, NACHT_MERGER_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
 Zugänge unauffällig.
@@ -73,10 +82,10 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
 (`data/termine-ausgelassen.json`, Skill `stille-ausfaelle-verhindern`).
 
 ```
- 227  Blöcke und Titel verschieden viele (-2)
-  43  Folgenzahl geht nicht auf (±0)
+ 228  Blöcke und Titel verschieden viele (+1)
+  44  Folgenzahl geht nicht auf (+1)
    4  deutscher Termin vor der japanischen Ausstrahlung (±0)
-(Vergleich mit dem Stand vom 2026-11-14)
+(Vergleich mit dem Stand vom 2026-11-15)
 ```
 
 ## Tagebuch
@@ -85,6 +94,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 16.11.2026 18:02 | 2923 / 2140 / 322 | Titel 0, Urteile +6, offen -153 | 1 Titel weniger; 2 Urteile verloren; 1 Titel ohne Synchro-Beleg; crunchyroll: 2 Synchro-Belege weniger; crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba (101922): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag); crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train (112151): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag); 147 Verweise ohne protokollierten Grund weg (1 weitere sind begründet entfernt) |
 | 15.11.2026 15:46 | 2923 / 2134 / 475 | Titel 0, Urteile +3, offen 0 | 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true}) |
 | 13.11.2026 16:24 | 2923 / 2131 / 475 | Titel 0, Urteile +2, offen +2 | Patch Notes: hyouka-folgen-der-zweiten-haelfte liegt seit 2026-11-05 im Vorrat (wartet auf: Behebung des Zuordnungsfehlers laut daniel-zum-abarbeiten/vorrat/hyouka-zweite-haelfte-fehlt.md (Folgen 13–22 fehlen in dubRanges von titles.json Hyouka, al 12189; eigener Auftrag)) – prüfen, ob die Wirkung live ist, dann freigeben |
 | 12.11.2026 17:00 | 2923 / 2128 / 473 | Titel 0, Urteile +3, offen +2 | Patch Notes: mehr-deutsche-folgen-netflix-prime liegt seit 2026-11-04 im Vorrat (wartet auf: Rohfolgen-Lauf mit Wirkung von PR 2740 und 2762 — cartoons.json Peppa Wutz (-12225) Netflix dubRanges über Folge 13 hinaus (04.11. 08:45 noch 1–13), titles.json Tayo (163828) Prime mit dubRanges; dann Beispiele prüfen) – prüfen, ob die Wirkung live ist, dann freigeben |
