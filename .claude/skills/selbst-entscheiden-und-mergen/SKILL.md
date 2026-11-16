@@ -70,6 +70,8 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 
 ## Regel
 
+- **Gestaltungsfragen entscheide ich nach `docs/wissen/design-regeln.md` Abschnitt 13 (E0; Daniel 16.11.2026 14:05 und 14:07: „mach du diese ui/ux entscheidung, wie es für nutzer am besten wäre“; Regeln statt Fragen).** Zu Daniel gehen nur neue Hauptansicht oder Navigation, Markenbild (Logo, Akzentfarbe, Schrift), Wegfall einer Funktion und Texte mit rechtlicher Wirkung; sonst entscheiden, bauen, als Bild zeigen.
+
 - **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`node tools/pr-nachrechnen.mjs <nr> && t=$(gh pr view <nr> --json title -q .title) && gh pr merge <nr>
   --squash --subject "$t (#<nr>)"`), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
   Prüfkette grün, Lauf grün). Daniel wird dafür nie gebeten. **Ab Stufe 1 kein Merge ohne
