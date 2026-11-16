@@ -81,7 +81,7 @@ async function pruefeStaffeln(melder) {
   pruefe('Kopf: zurückgestellt zählt nicht als Urteil → weiter rot, kein „nicht bei Netflix“ im Text', keinUrteil.rot === true && !/nicht bei Netflix/.test(keinUrteil.text), keinUrteil)
   const kopf = readFileSync(__dirname + '/netflix-durchgang-steuerung.js', 'utf8')
   pruefe('melder.js: Kopfzeile nutzt uebersprungenText und färbt rot, keine Namensliste mehr', kopf.includes('ende.uebersprungenText') && kopf.includes('ak-durchgang-rot') && !kopf.includes('namen.join'), kopf.length)
-  pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt, offeneTitel, undefined, vorfallMelden)'))
+  pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt + akNetflixErledigtStand(), offeneTitel, undefined, vorfallMelden)'))
 }
 
 async function pruefeAlles() {

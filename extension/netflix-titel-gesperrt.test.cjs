@@ -172,8 +172,9 @@ const weiterLaufen = (o = {}) => {
   const welt = { gegangen: [], speicher, merker: null, beendet: [], begonnen: [], gezaehlt: null, zaehler: [] }
   const f = new Function(
     'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'nichtDaTun',
-    `let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
-${funktionText('function selbstWeiter(frei = 0)')}
+    `const akNetflixErledigtZaehlen = () => {}
+let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
+${funktionText('function selbstWeiter(frei = 0, nichtDa = false)')}
 selbstWeiter(frei)
 ergebnis.merker = zuletztGeoeffnet
 ergebnis.gezaehlt = selbstGezaehlt

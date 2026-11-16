@@ -2378,7 +2378,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel, undefined, vorfallMelden)
+    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt + akNetflixErledigtStand(), offeneTitel, undefined, vorfallMelden)
     durchgangEndeZeigen()
   }
 }
@@ -2476,8 +2476,8 @@ const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
-const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n) => selbstWeiter(n), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
-const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschritt(selbstGezaehlt, selbstGrenze, offeneTitel[String(zuletztGeoeffnet?.id)]?.titel) })
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd) => selbstWeiter(n, nd), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
+const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, offeneTitel[String(zuletztGeoeffnet?.id)]?.titel), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
 const SELBST_VERSUCHE = 2
@@ -2745,10 +2745,11 @@ function istAlleFolgenEintrag(text) {
   return /^\s*(?:alle folgen|all episodes)/i.test(String(text ?? ''))
 }
 
-/** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
-function selbstWeiter(frei = 0) {
+/** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. `nichtDa`: Umleitung, der Fortschritt zählt den Titel mit. */
+function selbstWeiter(frei = 0, nichtDa = false) {
   /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
+  akNetflixErledigtZaehlen(nichtDa)
   if (bremse.pause(Date.now())) return
   selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
   const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
@@ -4635,9 +4636,8 @@ function durchlaufKnopfZeigen() {
     const imLauf = DURCHLAUF.laeuft
     const fertig = (m?.fertig ?? 0) + (imLauf || !m ? DURCHLAUF.fertig : 0)
     const gesamt = m ? m.gesamt + (imLauf ? Math.max(0, DURCHLAUF.gesamt - 2) : 0) : DURCHLAUF.gesamt
-    DURCHLAUF.knopf.textContent = lohntAbbruch
-      ? `⏹ ${fertig}/${gesamt} — abbrechen`
-      : `${fertig}/${gesamt} — läuft`
+    const zahl = (selbstAn && akNetflixKnopfZahl(taktTun.fortschritt())) || `${fertig}/${gesamt}`
+    DURCHLAUF.knopf.textContent = lohntAbbruch ? `⏹ ${zahl} — abbrechen` : `${zahl} — läuft`
     DURCHLAUF.knopf.title = lohntAbbruch
       ? 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
       : 'Läuft — gleich fertig.'

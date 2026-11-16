@@ -120,6 +120,11 @@ const raeumen = (uia, pfad, { sprung = EIGEN, alter = 600000, tab = 'a' } = {}) 
 
 /* --- Verdrahtung: das echte `taktTun` aus melder.js und `laufBeenden` --- */
 const melder = lies('melder.js')
+/** Der Text einer Funktion aus melder.js (bis zur schließenden Klammer in Spalte 0). */
+const funktionAus = (kopf) => {
+  const von = melder.indexOf(kopf)
+  return melder.slice(von, melder.indexOf('\n}\n', von) + 2)
+}
 {
   const zeile = melder.split('\n').find((z) => z.startsWith('const taktTun = akNetflixTaktTun('))
   pruefe('taktTun-Zeile gefunden', Boolean(zeile))
@@ -130,14 +135,15 @@ const melder = lies('melder.js')
   kontext.Date = { now: () => J + 600000 }
   const sprung = { id: 7, tab: 'a', durchgang: true, zeit: J }
   const tun = new Function(
-    'akNetflixTaktTun', 'akNetflixFortschritt', 'titelBericht', 'netflixKasten', 'speicherSchreiben', 'laufBeenden', 'selbstWeiter', 'gehe', 'offeneTitel', 'zuletztGeoeffnet', 'meinTab', 'welt',
+    'akNetflixTaktTun', 'akNetflixFortschritt', 'akNetflixFortschrittStand', 'titelBericht', 'netflixKasten', 'speicherSchreiben', 'laufBeenden', 'selbstWeiter', 'gehe', 'offeneTitel', 'zuletztGeoeffnet', 'meinTab', 'welt', 'durchlaufKnopfZeigen', 'DURCHLAUF',
     `let selbstGezaehlt = welt.gezaehlt, selbstGrenze = welt.grenze\n${zeile}\nreturn taktTun`,
-  )(k.akNetflixTaktTun, k.akNetflixFortschritt, { sehen() {} }, () => kastenEl, () => {}, () => {}, () => {}, (p) => welt.gehen.push(p), { 7: { titel: 'Dead Mount Death Play' } }, sprung, 'a', welt)
+  )(k.akNetflixTaktTun, k.akNetflixFortschritt, k.akNetflixFortschrittStand, { sehen() {} }, () => kastenEl, () => {}, () => {}, () => {}, (p) => welt.gehen.push(p), { 7: { titel: 'Dead Mount Death Play' } }, sprung, 'a', welt, () => { welt.gezeichnet = (welt.gezeichnet ?? 0) + 1 }, { knopf: { textContent: '⏹ 0/0 — abbrechen' } })
   /* Die Funktionen lesen `document` und `location` als Globals des Kontexts: im Kontext ausführen. */
   kontext.__tun = tun
   vm.runInContext('__tun.sehen()', kontext)
   const [text, balken] = welt.kasten.kinder
   pruefe('sehen(): Fortschrittszeile mit echtem Zählerstand und Titel aus der Prüfliste', text?.textContent === 'Durchgang: 2 von 10 geprüft · gerade: Dead Mount Death Play' && balken?.stil['--ak-anteil'] === '20%', welt.kasten.kinder)
+  pruefe('sehen(): der Knopf "⏹ 0/0" wird bei Stand 2/10 neu gezeichnet (Verdrahtung aus melder.js)', welt.gezeichnet === 1, welt.gezeichnet)
   vm.runInContext('__tun.raeumen()', kontext)
   pruefe('raeumen(): eigener Sprung (Merker und Tab aus melder.js), 10 min alt: echte Navigation (gehe) auf /browse', welt.gehen.join() === '/browse', welt.gehen)
   welt.gehen.length = 0
@@ -161,7 +167,7 @@ const melder = lies('melder.js')
   const speicher = {}
   kontext.sessionStorage = { getItem: (n) => speicher[n] ?? null, setItem: (n, w) => { speicher[n] = String(w) }, removeItem: (n) => { delete speicher[n] } }
   const lets = melder.split('\n').filter((z) => /^let selbst(?:Gezaehlt|Grenze) = /.test(z)).join('\n')
-  const von = melder.indexOf('function selbstWeiter(frei = 0)')
+  const von = melder.indexOf('function selbstWeiter(frei = 0, nichtDa = false)')
   const weiter = melder.slice(von, melder.indexOf('\n}\n', von) + 2)
   /** Ein „Seitenaufruf": das Modul startet neu (Zähler aus dem Speicher), ein Sprung folgt. */
   const seite = (titelZahl) => {
@@ -169,9 +175,9 @@ const melder = lies('melder.js')
     for (let i = 1; i <= titelZahl; i++) offen[i] = { titel: `T${i}` }
     const ergebnis = {}
     new Function(
-      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun',
+      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun', 'akNetflixErledigtZaehlen',
       `${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
-    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} })
+    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} }, () => {})
     return ergebnis
   }
   let r = seite(40)
@@ -190,6 +196,67 @@ const melder = lies('melder.js')
   pruefe('Nenner 0 im Speicher: verworfen', k.akNetflixZaehlerStand().grenze === null)
   const stumm = { getItem: () => { throw new Error('x') }, setItem: () => { throw new Error('x') }, removeItem: () => { throw new Error('x') } }
   pruefe('Speicher wirft: kein Absturz', k.akNetflixZaehlerStand(stumm).gezaehlt === 0 && k.akNetflixZaehlerSetze(1, 2, stumm) === undefined)
+}
+
+/* --- 16.11.2026 (Daniel, 4.32.134): Titel, die der Sprung als „nicht bei Netflix“ zurückgibt, zählen als geprüft; der Knopf zeigt denselben Stand --- */
+{
+  const speicher = {}
+  kontext.sessionStorage = { getItem: (n) => speicher[n] ?? null, setItem: (n, w) => { speicher[n] = String(w) }, removeItem: (n) => { delete speicher[n] } }
+  const lets = melder.split('\n').filter((z) => /^let selbst(?:Gezaehlt|Grenze) = /.test(z)).join('\n')
+  const weiter = funktionAus('function selbstWeiter(frei = 0, nichtDa = false)')
+  /** Ein Seitenaufruf mit Neustart des Moduls: `aufruf` = Quelltext des Aufrufs (Sprung, oder Rückgabe wie `akNetflixSprung`). */
+  const seite = (aufruf) => {
+    const offen = {}
+    for (let i = 1; i <= 128; i++) offen[i] = { titel: `T${i}` }
+    const ergebnis = {}
+    new Function(
+      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixErledigtStand', 'akNetflixErledigtZaehlen', 'akNetflixFortschrittStand', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun',
+      `${lets}\nlet zuletztGeoeffnet = null\n${weiter}\n${aufruf}\nergebnis.f = akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, undefined)`,
+    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, k.akNetflixErledigtStand, k.akNetflixErledigtZaehlen, k.akNetflixFortschrittStand, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} })
+    return ergebnis.f
+  }
+  k.akNetflixZaehlerSetze(0, 128)
+  const stand = [seite('selbstWeiter()')]
+  /* Jeder weitere Titel: Neuladen, der Titel ist „nicht da“ (Umleitung → `weiter(1, true)`), der nächste Sprung folgt. */
+  for (let i = 0; i < 6; i++) stand.push(seite('selbstWeiter(1, true)'))
+  const zahlen = stand.map((f) => f.geprueft)
+  pruefe('Zähler steigt je zurückgegebenem Titel (nicht bei 0 stehen)', JSON.stringify(zahlen) === '[0,1,2,3,4,5,6]', zahlen)
+  pruefe('Zeile nennt dieselbe Zahl: „6 von 128 geprüft“', stand[6].text.startsWith('Durchgang: 6 von 128 geprüft'), stand[6].text)
+  pruefe('Knopfzahl = Zeile (6/128), nicht 0/0', k.akNetflixKnopfZahl(stand[6]) === '6/128' && k.akNetflixKnopfZahl(null) === null)
+  const mix = seite('selbstWeiter()')
+  pruefe('ein geprüfter Titel dazwischen zählt weiter: 7 von 128', mix.geprueft === 7, mix)
+  k.akNetflixZaehlerSetze(0, 40)
+  pruefe('neuer Lauf (Zähler 0) beginnt auch bei 0 erledigten Titeln', k.akNetflixErledigtStand() === 0, speicher)
+  k.akNetflixErledigtZaehlen()
+  k.akNetflixZaehlerSetze(null)
+  pruefe('Ende des Durchgangs behält die erledigten Titel (Endzeile), der nächste Start setzt sie auf 0', k.akNetflixErledigtStand() === 1, speicher)
+  const zeile = melder.split('\n').find((z) => z.includes('const zahl = (selbstAn'))
+  pruefe('Knopf in melder.js: Zahl aus akNetflixKnopfZahl(taktTun.fortschritt()) nur im Durchgang', /selbstAn && akNetflixKnopfZahl\(taktTun\.fortschritt\(\)\)/.test(zeile ?? ''), zeile)
+  const knopf = (selbstAn, f) => new Function('selbstAn', 'akNetflixKnopfZahl', 'taktTun', 'fertig', 'gesamt', `${zeile}\nreturn zahl`)(selbstAn, k.akNetflixKnopfZahl, { fortschritt: () => f }, 0, 0)
+  /* Endzeile: echte `laufBeenden` aus melder.js nach sieben Neuladungen mit zurückgegebenem Titel (Daniel 16.11.: „besucht 4“ bei 128). */
+  const endeText = (erledigt) => {
+    const sp = { 'ak-netflix-erledigt': String(erledigt) }
+    const ergebnis = {}
+    new Function(
+      'selbstAn', 'selbstGezaehlt', 'akNetflixErledigtStand', 'akNetflixEnde', 'bremse', 'taktTun', 'durchgangBesitzer', 'meinTab', 'fertigeTitel', 'selbstUebersprungen', 'offeneTitel', 'vorfallMelden', 'durchgangEndeZeigen', 'DURCHLAUF', 'durchlaufKnopfZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'console', 'ergebnis', 'sp',
+      `let durchgangEnde = null\n${funktionAus('function laufBeenden(grund)')}\nlaufBeenden('kein offener Auftrag mehr')`,
+    )(true, 1, () => Number(sp['ak-netflix-erledigt']), (g, u, f, besucht) => { ergebnis.besucht = besucht; return {} }, { zuruecksetzen() {} }, { aufraeumen() {}, schreiben() {} }, null, 'a', new Map(), new Map(), {}, () => {}, () => {}, {}, () => {}, { removeItem() {} }, 'k', { log() {} }, ergebnis, sp)
+    return ergebnis.besucht
+  }
+  pruefe('Endzeile: besucht = Zähler + zurückgegebene Titel, (1 + 127 = 128)', endeText(127) === 128, endeText(127))
+  const nachziehen = (f, text) => {
+    let gezeichnet = 0
+    k.akNetflixKnopfNachziehen(f, () => text, () => { gezeichnet++ })
+    return gezeichnet
+  }
+  const f4 = { geprueft: 4, grenze: 128 }
+  const f11 = { geprueft: 11, grenze: 128 }
+  pruefe('Knopf im Nicht-Abbruch-Zustand (Zahl am Textanfang, „6/128 — läuft“): kein Dauer-Neuzeichnen', nachziehen({ geprueft: 6, grenze: 128 }, '6/128 — läuft') === 0)
+  pruefe('Knopf zieht nach: „⏹ 0/0“ bei Stand 4/128 wird neu gezeichnet', nachziehen(f4, '⏹ 0/0 — abbrechen') === 1)
+  pruefe('Knopf zieht nicht nach, wenn er den Stand schon zeigt', nachziehen(f4, '⏹ 4/128 — abbrechen') === 0)
+  pruefe('Knopf: „1/128“ im Text von „11/128“ zählt nicht als gleicher Stand', nachziehen({ geprueft: 1, grenze: 128 }, '⏹ 11/128 — abbrechen') === 1 && nachziehen(f11, '⏹ 11/128 — abbrechen') === 0)
+  pruefe('Knopf ohne Fortschritt oder ohne Text: kein Neuzeichnen', nachziehen(null, '⏹ 0/0 — abbrechen') === 0 && nachziehen(f4, undefined) === 0)
+  pruefe('Knopf: im Durchgang 6/128, sonst Folgenstand 0/0', knopf(true, stand[6]) === '6/128' && knopf(false, stand[6]) === '0/0' && knopf(true, null) === '0/0')
 }
 
 if (fehler.length) {

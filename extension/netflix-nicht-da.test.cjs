@@ -61,14 +61,14 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
       probe: async () => umgeleitet,
       aktiv: () => aktiv,
       gehe: (a) => w.gehe.push(a),
-      weiter: (n) => w.weiter.push(n),
+      weiter: (...a) => w.weiter.push(a),
       urteil: async (id, g) => w.urteil.push([id, g]),
       beleg: () => w.beleg++,
     })
     return w
   }
   let w = await sprung({ umgeleitet: true })
-  pruefe('Umleitung: Urteil „Umleitung auf Startseite“, Sitzungsbeleg, weiter(1) (Sprung zurückgegeben), kein gehe', JSON.stringify(w) === JSON.stringify({ gehe: [], weiter: [1], urteil: [['81196818', 'Umleitung auf Startseite']], beleg: 1 }), w)
+  pruefe('Umleitung: Urteil „Umleitung auf Startseite“, Sitzungsbeleg, weiter(1) (Sprung zurückgegeben), kein gehe', JSON.stringify(w) === JSON.stringify({ gehe: [], weiter: [[1, true]], urteil: [['81196818', 'Umleitung auf Startseite']], beleg: 1 }), w)
   w = await sprung({ umgeleitet: false })
   pruefe('keine Umleitung: gehe /title/<id>, kein Urteil, kein weiter', JSON.stringify(w) === JSON.stringify({ gehe: ['/title/81196818'], weiter: [], urteil: [], beleg: 0 }), w)
   w = await sprung({ umgeleitet: true, aktiv: false })
@@ -184,14 +184,14 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
     uebersprungen: new Map(),
     spur: (...a) => f.spur.push(a),
     gehe: (p) => f.gehe.push(p),
-    weiter: (n) => f.weiter.push(n),
+    weiter: (...a) => f.weiter.push(a),
     aktiv: () => true,
     bremse: bF,
     profilwahl: () => false,
     fetch: async () => antwort('/browse', true),
   })
   await tun.sprung('81196818')
-  pruefe('Fabrik: Umleitung → Meldung mit Titel und Grund, weiter(1), kein gehe', JSON.stringify(f.melden) === '[["81196818","Cautious Hero","Umleitung auf Startseite"]]' && JSON.stringify(f.weiter) === '[1]' && f.gehe.length === 0, f)
+  pruefe('Fabrik: Umleitung → Meldung mit Titel und Grund, weiter(1), kein gehe', JSON.stringify(f.melden) === '[["81196818","Cautious Hero","Umleitung auf Startseite"]]' && JSON.stringify(f.weiter) === '[[1,true]]' && f.gehe.length === 0, f)
   pruefe('Fabrik: das Urteil steht in der Zählung des Endberichts', k.akNetflixNichtDa().get('81196818') === 'Umleitung auf Startseite')
   pruefe('Fabrik: der Umleitungs-Beleg liegt an der Bremse (das nächste UI3012 ist Urteil, danach wieder Sitzung)', ui(bF, '2').nd.length === 1 && ui(bF, '3').nd.length === 0)
   const f2 = { gehe: [] }
@@ -253,7 +253,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   }
   let v = verdrahtet()
   await v.tunW.sprung('5')
-  pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe, Spur', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1]]' && v.w.gehe.length === 0 && v.w.spur.some((s) => s[0] === 'nicht bei Netflix gemeldet' && s[1].reihe === '5'), v.w)
+  pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe, Spur', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1,true]]' && v.w.gehe.length === 0 && v.w.spur.some((s) => s[0] === 'nicht bei Netflix gemeldet' && s[1].reihe === '5'), v.w)
   v = verdrahtet({ profil: true })
   await v.tunW.sprung('5')
   pruefe('melder.js: Profilauswahl sichtbar → kein Abruf, kein Urteil, der Sprung geht (gehe)', v.w.abrufe.length === 0 && v.w.melden.length === 0 && JSON.stringify(v.w.gehe) === '["/title/5"]', v.w)

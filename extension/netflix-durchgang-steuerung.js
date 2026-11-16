@@ -253,11 +253,18 @@ globalThis.akNetflixPauseZeigen = (zeileHolen, text) => {
  * Der Fortschritt des Durchgangs: `gezaehlt` = Sprünge dieses Laufs (der aktuelle Titel zählt schon), `grenze` = bei Laufbeginn
  * offene Titel, `titel` = der gerade geprüfte. `null`, solange es keine Zahlen gibt.
  */
-globalThis.akNetflixFortschritt = (gezaehlt, grenze, titel) => {
+globalThis.akNetflixFortschritt = (gezaehlt, grenze, titel, erledigt = 0) => {
   if (!(grenze > 0) || !(gezaehlt > 0)) return null
-  const geprueft = Math.min(gezaehlt - 1, grenze)
-  return { text: `Durchgang: ${geprueft} von ${grenze} geprüft${titel ? ` · gerade: ${titel}` : ''}`, anteil: geprueft / grenze }
+  /* `erledigt`: Titel, die der Sprung zurückgab (Umleitung = nicht bei Netflix): geprüft, aber ihr Sprung zählt nicht gegen den Schutz. */
+  const geprueft = Math.min(gezaehlt - 1 + erledigt, grenze)
+  return { text: `Durchgang: ${geprueft} von ${grenze} geprüft${titel ? ` · gerade: ${titel}` : ''}`, anteil: geprueft / grenze, geprueft, grenze }
 }
+
+/** Fortschritt mit den zurückgegebenen Titeln aus dem `sessionStorage` (Zeile und Knopf lesen dieselbe Funktion). */
+globalThis.akNetflixFortschrittStand = (gezaehlt, grenze, titel) => globalThis.akNetflixFortschritt(gezaehlt, grenze, titel, globalThis.akNetflixErledigtStand())
+
+/** Die Zahl am Knopf im Durchgang: derselbe Stand wie die Fortschrittszeile, nicht die Folgen des einen Titels (16.11.2026: „0/0“). */
+globalThis.akNetflixKnopfZahl = (fortschritt) => (fortschritt ? `${fortschritt.geprueft}/${fortschritt.grenze}` : null)
 
 const ZEILE_FORTSCHRITT = 'ak-hinweis ak-durchgang-fortschritt'
 const ZEILE_BALKEN = 'ak-durchgang-balken'
@@ -318,9 +325,32 @@ globalThis.akNetflixZaehlerStand = (speicher = sitzungSpeicher()) => {
   }
 }
 
-/** Merkt Zähler und Nenner; `null` als Zähler vergisst sie (Ende des Durchgangs). */
+const ERLEDIGT_SCHLUESSEL = 'ak-netflix-erledigt'
+
+/** Titel, die der Sprung als „nicht bei Netflix“ zurückgab (siehe `akNetflixFortschritt`); überstehen das Neuladen. */
+globalThis.akNetflixErledigtStand = (speicher = sitzungSpeicher()) => {
+  try {
+    const n = Number(speicher?.getItem(ERLEDIGT_SCHLUESSEL))
+    return Number.isFinite(n) && n > 0 ? n : 0
+  } catch {
+    return 0
+  }
+}
+
+/** Zählt einen zurückgegebenen Titel mit (`zaehlen` false: nichts). */
+globalThis.akNetflixErledigtZaehlen = (zaehlen = true, speicher = sitzungSpeicher()) => {
+  if (!zaehlen) return
+  try {
+    speicher?.setItem(ERLEDIGT_SCHLUESSEL, String(globalThis.akNetflixErledigtStand(speicher) + 1))
+  } catch {
+    /* Ohne Speicher gilt der Stand bis zum Neuladen. */
+  }
+}
+
+/** Merkt Zähler und Nenner; `null` als Zähler vergisst sie (Ende des Durchgangs), 0 = Laufbeginn (auch die zurückgegebenen Titel beginnen bei 0; am Ende bleiben sie für die Endzeile stehen). */
 globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher()) => {
   try {
+    if (gezaehlt === 0) speicher?.removeItem(ERLEDIGT_SCHLUESSEL)
     if (gezaehlt === null) speicher?.removeItem(ZAEHLER_SCHLUESSEL)
     else speicher?.setItem(ZAEHLER_SCHLUESSEL, JSON.stringify({ gezaehlt, grenze }))
   } catch {
@@ -519,8 +549,15 @@ globalThis.akNetflixSelbstTakt = (o, tun) => {
   return !akNetflixBremseTakt(o.bremse, o.jetzt, tun)
 }
 
+/** Zeichnet den Knopf neu, sobald seine Zahl nicht mehr die der Fortschrittszeile ist (`knopfText()` = sein Text, `zeichnen()` = Neuzeichnen). */
+globalThis.akNetflixKnopfNachziehen = (fortschritt, knopfText, zeichnen) => {
+  const zahl = globalThis.akNetflixKnopfZahl(fortschritt)
+  const text = knopfText?.()
+  if (zahl && typeof text === 'string' && !` ${text} `.includes(` ${zahl} `)) zeichnen?.()
+}
+
 /**
- * Die Rückrufe des Takts (`akNetflixSelbstTakt`). `d`: `{ titelBericht, kasten (netflixKasten), speichern (speicherSchreiben),
+ * Die Rückrufe des Takts (`akNetflixSelbstTakt`). `d`: `{ titelBericht, kasten (netflixKasten), speichern (speicherSchreiben), knopfText, knopf (Knopf neu zeichnen),
  * beenden (laufBeenden), weiter (selbstWeiter), gehe (Navigation ohne Neuladen), fortschritt (`akNetflixFortschritt` des Laufs),
  * sprung (`zuletztGeoeffnet`), tab (`meinTab`) }`.
  */
@@ -529,8 +566,11 @@ globalThis.akNetflixTaktTun = (d) => ({
   beenden: d.beenden,
   sehen: () => {
     d.titelBericht.sehen(akNetflixFensterlage(document, location), Date.now())
-    akNetflixFortschrittZeigen(() => d.kasten().querySelector('.ak-z-melden'), d.fortschritt?.() ?? null)
+    const stand = d.fortschritt?.() ?? null
+    akNetflixFortschrittZeigen(() => d.kasten().querySelector('.ak-z-melden'), stand)
+    akNetflixKnopfNachziehen(stand, d.knopfText, d.knopf)
   },
+  fortschritt: () => d.fortschritt?.() ?? null,
   zeigen: (text) => akNetflixPauseZeigen(() => d.kasten().querySelector('.ak-z-melden'), text),
   raeumen: () => akNetflixFensterRaeumen(document, location, d.gehe, { sprung: d.sprung?.(), tab: d.tab, jetzt: Date.now() }),
   /** Ende des Durchgangs: Pausen- und Fortschrittszeile weg, Zähler vergessen, kein eigener grauer Hintergrund übrig. */
