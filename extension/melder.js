@@ -6081,9 +6081,12 @@ globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
   erledigt = aenderungen.erledigt.newValue ?? {}
   // Die Zahl am Knopf gehört mit aktualisiert — sie zählt dasselbe.
   uebersichtZeigen()
+  dialogNeuZeichnen()
+})
+
+/* Den offenen Dialog neu zeichnen, aber die Suche und die Rollposition behalten — sonst springt die Liste weg. */
+function dialogNeuZeichnen() {
   if (!dialog) return
-  // Neu zeichnen, aber die Suche und die Rollposition behalten — sonst
-  // springt die Liste weg, während jemand sie durchgeht.
   const wort = dialog.querySelector('.ak-suche')?.value ?? ''
   const stelle = dialog.querySelector('.ak-liste')?.scrollTop ?? 0
   dialogSchliessen()
@@ -6096,7 +6099,7 @@ globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
     const liste = dialog?.querySelector('.ak-liste')
     if (liste) liste.scrollTop = stelle
   })
-})
+}
 
 /**
  * **Ein Diagnosebericht für Netflix — denselben Griff wie bei Amazon.**
