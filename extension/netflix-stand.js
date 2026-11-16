@@ -14,6 +14,8 @@
 */
 const STAND_SCHLUESSEL = 'netflixStand'
 const STAND_SPERRE = 'netflixStandSperre'
+/** Der letzte Versuch eines beliebigen Tabs (ms), auch ein gescheiterter: sonst holte bei einem Fehler jeder Tab für sich. */
+const STAND_VERSUCH = 'netflixStandVersuch'
 /** Von selbst höchstens dreimal je Stunde (dazu einmal nach der Übernahme = höchstens vier). */
 const STAND_FRIST_MS = 20 * 60 * 1000
 const STAND_SPERRE_MS = 60 * 1000
@@ -70,6 +72,7 @@ async function standSammelHolen(z) {
   if (sperre && sperre.bis > z.jetzt() && sperre.tab !== z.tab) return undefined
   await z.kontext.schreiben({ [STAND_SPERRE]: { tab: z.tab, bis: z.jetzt() + STAND_SPERRE_MS } })
   if ((await z.kontext.lesen(STAND_SPERRE))?.[STAND_SPERRE]?.tab !== z.tab) return undefined
+  await z.kontext.schreiben({ [STAND_VERSUCH]: z.jetzt() })
   const reihen = z.reihen()
   const antwort = await globalThis.akGemeldetSammel(z.worker, reihen.map(standAdresse), z.holen)
   /* `false`: keine Auskunft (429, 5xx, Netz) — der alte Stand bleibt, kein Einzelweg bei gerissenem Deckel. */
@@ -154,10 +157,20 @@ function standNeu(o) {
     const vereint = standVereinige(gespeichert, { [reihe]: paare })
     if (JSON.stringify(vereint[String(reihe)]) === JSON.stringify(gespeichert[String(reihe)])) return
     gespeichert = vereint
-    void kontext.schreiben({ [STAND_SCHLUESSEL]: { am, reihen: gespeichert } })
+    void schreibeStand()
   }
 
-  const takt = () => {
+  /** Schreibt den eigenen Stand, vereinigt mit dem im Speicher und mit dessen Zeitpunkt, falls der neuer ist (zwei Schreiber überholen sich nicht). */
+  const schreibeStand = async () => {
+    const imSpeicher = (await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL]
+    const amSpeicher = Number.isFinite(imSpeicher?.am) ? imSpeicher.am : 0
+    await kontext.schreiben({ [STAND_SCHLUESSEL]: { am: Math.max(am ?? 0, amSpeicher) || null, reihen: standVereinige(imSpeicher?.reihen, gespeichert) } })
+  }
+
+  /** Der Takt liest zuerst den letzten Versuch aller Tabs, dann entscheidet er. */
+  const takt = async () => {
+    const geteilt = (await kontext.lesen(STAND_VERSUCH))?.[STAND_VERSUCH]
+    if (Number.isFinite(geteilt)) versuch = Math.max(versuch ?? 0, geteilt)
     if (standFaellig(am, versuch, jetzt(), o.uebernahme)) void auffrischen()
   }
   const laden = async () => einlesen((await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL])

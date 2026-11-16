@@ -64,7 +64,7 @@ pruefe('Vereinigung: dieselbe Nummer mit anderer Folgenkennung ist ein eigenes P
 pruefe('nicht fällig: nie öfter als alle 5 min (Stand 12:26, jetzt 12:28 nach Übernahme)', f(T + 26 * min, null, T + 28 * min, uebernahme) === false)
 
 /** Ein gemeinsamer Speicher für mehrere „Tabs“. */
-const speicherNeu = () => {
+const speicherNeu = (selbst = false) => {
   const daten = {}
   const zaehler = { stand: 0 }
   const hoerer = []
@@ -76,7 +76,7 @@ const speicherNeu = () => {
         if (s === 'netflixStand') zaehler.stand++
         if (v === null) delete daten[s]
         else daten[s] = v
-        for (const h of hoerer) if (h.name !== name) h.fn({ [s]: { newValue: v, oldValue: alt } }, 'local')
+        for (const h of hoerer) if (selbst || h.name !== name) h.fn({ [s]: { newValue: v, oldValue: alt } }, 'local')
       }
       return true
     },
@@ -455,6 +455,50 @@ process.on('exit', () => {
   }
 })
 
+/* --- B1: der letzte Versuch gilt für alle Tabs (429 mit drei Tabs, 60 Minuten) --- */
+const teil15 = async () => {
+  const s = speicherNeu()
+  const abrufe = []
+  const uhr = { t: T }
+  const antwort = { ok: false, status: 429, json: async () => ({}) }
+  const tabs = ['a', 'b', 'c'].map((n) => tabNeu(s, n, abrufe, antwort, null, { uhr }))
+  for (let i = 0; i < 60; i++) {
+    uhr.t = T + i * min
+    for (const t of tabs) {
+      await t.stand.takt()
+      await warten()
+    }
+  }
+  pruefe('B1: 429, drei Tabs, 60 Minuten: alle Abrufe zusammen höchstens vier', abrufe.length >= 1 && abrufe.length <= 4, abrufe.length)
+  pruefe('B1: der letzte Versuch liegt im gemeinsamen Speicher', Number.isFinite(s.daten.netflixStandVersuch), s.daten.netflixStandVersuch)
+}
+
+/* --- H1: onChanged auch im schreibenden Tab: keine Schleife, ein Schreiben je Meldung --- */
+const teil16 = async () => {
+  const s = speicherNeu(true)
+  const t = tabNeu(s, 'a', [])
+  const vorher = t.protokoll.geaendert
+  t.stand.eigene('1', [paarA])
+  await warten()
+  pruefe('H1: eigene Meldung, onChanged im selben Tab: ein Schreiben (keine Schleife)', s.zaehler.stand === 1, s.zaehler.stand)
+  pruefe('H1: der Tab führt die Meldung und meldet die Änderung', t.gemerkt.get('1')?.length === 1 && t.protokoll.geaendert > vorher, [t.gemerkt.get('1'), t.protokoll.geaendert - vorher])
+  t.stand.eigene('1', [{ ...paarA, nummer: 4 }])
+  await warten()
+  pruefe('H1: weitere Meldung: ein weiteres Schreiben, beide Folgen im Speicher', s.zaehler.stand === 2 && s.daten.netflixStand.reihen['1'].length === 2, [s.zaehler.stand, s.daten.netflixStand.reihen['1'].length])
+}
+
+/* --- H2: ein veralteter Zeitpunkt überschreibt keinen neueren --- */
+const teil17 = async () => {
+  const s = speicherNeu()
+  s.daten.netflixStand = { am: T + 5 * min, reihen: { 7: [paarA] } }
+  const t = tabNeu(s, 'a', [], null, null, { ohneHoeren: true })
+  await warten()
+  t.stand.eigene('1', [paarA])
+  await warten()
+  pruefe('H2: eigene Meldung mit veraltetem Zeitpunkt lässt den neueren im Speicher stehen', s.daten.netflixStand.am === T + 5 * min, s.daten.netflixStand.am)
+  pruefe('H2: und führt die Reihen des Speichers mit (7 und 1)', s.daten.netflixStand.reihen[7]?.length === 1 && s.daten.netflixStand.reihen[1]?.length === 1, Object.keys(s.daten.netflixStand.reihen))
+}
+
 const haupt = async () => {
   await teil1()
   await teil5()
@@ -467,6 +511,9 @@ const haupt = async () => {
   await teil12()
   await teil13()
   await teil14()
+  await teil15()
+  await teil16()
+  await teil17()
   await teil2()
   await teil3()
   await teil4()
