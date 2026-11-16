@@ -22,6 +22,8 @@ export interface Kontext {
   /** Titel mit mindestens einem Termin ab heute. */
   kuenftig: Set<number>
   releases: Map<number, Release[]>
+  /** Titel mit einem Disc-Termin (`discTitelIds`): der Disc-Kasten ist ein Weg. */
+  discTitel: ReadonlySet<number>
   /** Titel, deren Stream-Adresse bei einem anderen Titel ohne `sharedWith` wieder vorkommt. */
   adresseMehrfach: Set<number>
 }
@@ -86,7 +88,7 @@ export const REGELN: Regel[] = [
   { art: 'jahr', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anilist', zaehle: luecke('j') },
   { art: 'sprecher', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.hasVoices, ausnahme: (t) => (hatSynchro(t) ? undefined : 'ohne-synchro') },
   { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t) => !hatEinenWeg(t) },
-  { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t) => zaehleErstausgabeOhneWeg([t]) === 1 },
+  { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => zaehleErstausgabeOhneWeg([t], k.discTitel) === 1 },
   { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend },
   { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => Boolean(t.streams?.length) && t.streams!.every((s) => s.dub === undefined) },
   { art: 'synchro-schwach', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => t.dubConfidence === 'low' },

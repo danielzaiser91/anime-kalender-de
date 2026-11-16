@@ -41,6 +41,7 @@ const kontext = (ueber: Partial<Kontext> = {}): Kontext => ({
   folgen: zwoelfFolgen,
   kuenftig: new Set(),
   releases: new Map(),
+  discTitel: new Set(),
   adresseMehrfach: new Set(),
   ...ueber,
 })
@@ -79,6 +80,7 @@ pruefe('kein-weg: Treffer', arten(gut(1, { streams: [], watchLinks: [] })).inclu
 pruefe('kein-weg: Kauflink genügt', !arten(gut(1, { streams: [], watchLinks: [{ name: 'x', url: 'u', kind: 'buy' }] as Title['watchLinks'] })).includes('kein-weg'))
 const erst = { von: '2022-01-01', synchro: true } as Title['deErstausgabe']
 pruefe('erstausgabe-ohne-weg: Treffer', arten(gut(1, { streams: [], watchLinks: [], deErstausgabe: erst })).includes('erstausgabe-ohne-weg'))
+pruefe('erstausgabe-ohne-weg: Disc-Termin ist ein Weg (#4034)', !arten(gut(1, { streams: [], watchLinks: [], deErstausgabe: erst }), kontext({ discTitel: new Set([1]) })).includes('erstausgabe-ohne-weg'))
 pruefe('erstausgabe-ohne-weg: mit Weg kein Treffer', !arten(gut(1, { deErstausgabe: erst })).includes('erstausgabe-ohne-weg'))
 pruefe('termin-fehlt-laufend: Treffer', arten(gut(1, { jpEnd: undefined })).join() === 'termin-fehlt-laufend')
 pruefe('termin-fehlt-laufend: Termin da oder Serie beendet: kein Treffer', arten(gut(1, { jpEnd: undefined }), kontext({ kuenftig: new Set([1]) })).length === 0 && arten(gut(1)).length === 0)

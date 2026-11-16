@@ -3,6 +3,7 @@ import { SYNOPSIS_GROUPS } from '../../shared/types.ts'
 import type { Release, Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { log, readJson, writeText } from '../lib/util.ts'
+import { discTitelIds } from '../lib/erstausgabe-ohne-weg.ts'
 import { adresseMehrfach, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
 import { MAENGEL_DATEI, schreibeFort, serialisiere, type Register } from '../lib/maengel-register.ts'
 
@@ -24,13 +25,15 @@ function leser(): Pick<Kontext, 'folgen' | 'synopse'> {
 /** Erzeugt den Kontext der Regeln aus den fertig geschriebenen Dateien. */
 function baueKontext(titel: Title[], heute: string): Kontext {
   const events = readJson<{ titleId?: number; date?: string }[]>(`${OUT}/events.json`, [])
+  const alle = readJson<Release[]>(`${OUT}/releases.json`, [])
   const releases = new Map<number, Release[]>()
-  for (const r of readJson<Release[]>(`${OUT}/releases.json`, [])) (releases.get(r.titleId) ?? releases.set(r.titleId, []).get(r.titleId)!).push(r)
+  for (const r of alle) (releases.get(r.titleId) ?? releases.set(r.titleId, []).get(r.titleId)!).push(r)
   return {
     heute,
     coverBekannt: readJson('data/cover-ohne-bekannt.json', {}),
     kuenftig: new Set(events.filter((e) => (e.date ?? '') >= heute).map((e) => e.titleId!)),
     releases,
+    discTitel: discTitelIds(alle),
     adresseMehrfach: adresseMehrfach(titel),
     ...leser(),
   }
