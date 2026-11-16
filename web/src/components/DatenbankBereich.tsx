@@ -83,7 +83,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
       ) : (
         <>
           <Ladeanzeige label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
-          <Ladeplatz />
+          <Ladeplatz ohneHinweis />
         </>
       )}
     </>

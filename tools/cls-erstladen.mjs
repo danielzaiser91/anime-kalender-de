@@ -16,7 +16,8 @@ import { GRENZE, clsSumme, shiftHaken } from './cls-wechsel.mjs'
 /** Routen mit nachladendem Inhalt; die Kalender-Ansichten stehen mit drin, damit eine Regression dort auffällt. */
 export const ROUTEN = ['#/woche', '#/monat', '#/datenbank', '#/news', '#/saison', '#/entdecken', '#/abo', '#/newsletter', '#/quellen']
 
-const DATEN_VERZOEGERUNG_MS = 400
+/** Zeit, die eine Datendatei im Netz braucht; `cls-wechsel.test.mjs` verlangt mindestens 200 ms, sonst wird die Messung blind. */
+export const DATEN_VERZOEGERUNG_MS = 400
 
 const PROFILE = {
   desktop: () => ({ viewport: { width: 1600, height: 900 } }),
@@ -51,20 +52,42 @@ export async function erstladenMessen({ dist, profil, routen = ROUTEN }) {
   }
 }
 
-/** Fälle, in denen die Daten einer Ansicht nie ankommen: abgewiesen (Fehler) oder hängend (Frist 8 s). Danach muss der Fuß sichtbar und kein Platzhalter mehr da sein. */
+/**
+ * Zustände, die der CLS-Wert allein am Desktop nicht trennt (der Fuß liegt dort meist ohnehin unter dem Bild):
+ * `ladend` = Daten oder Paket kommen noch nicht, nach `warteMs` muss der Platzhalter stehen, der Fuß verborgen sein und der Hinweis „Lädt …“
+ * erscheinen (`hinweis`: Anzahl); `frei` = Abruf abgewiesen oder hängend über die Frist von 8 s, dann sind Platzhalter und Hinweis weg und der Fuß sichtbar.
+ * `verhalten`: abweisen (Fehler), haengen (nie), verzoegern (`ms` später).
+ */
 export const LADEFAELLE = [
-  { name: 'News abgewiesen', route: '#/news', datei: /news\.json/, verhalten: 'abweisen', warteMs: 2500 },
-  { name: 'Saison abgewiesen', route: '#/saison', datei: /saison\.json/, verhalten: 'abweisen', warteMs: 2500 },
-  { name: 'News hängt', route: '#/news', datei: /news\.json/, verhalten: 'haengen', warteMs: 9500 },
-  { name: 'Saison hängt', route: '#/saison', datei: /saison\.json/, verhalten: 'haengen', warteMs: 9500 },
+  { name: 'Datenbank lädt', route: '#/datenbank', datei: /titles\.json/, verhalten: 'haengen', warteMs: 1500, erwartet: 'ladend', hinweis: 0 },
+  { name: 'News lädt', route: '#/news', datei: /news\.json/, verhalten: 'haengen', warteMs: 1500, erwartet: 'ladend', hinweis: 1 },
+  { name: 'Saison lädt', route: '#/saison', datei: /saison\.json/, verhalten: 'haengen', warteMs: 1500, erwartet: 'ladend', hinweis: 1 },
+  { name: 'Datenbank-Paket lädt', route: '#/datenbank', datei: /DatenbankBereich-.*\.js/, verhalten: 'verzoegern', ms: 2500, warteMs: 1200, erwartet: 'ladend', hinweis: 1 },
+  { name: 'Seiten-Paket lädt', route: '#/quellen', datei: /SeitenAnsicht-.*\.js/, verhalten: 'verzoegern', ms: 2500, warteMs: 1200, erwartet: 'ladend', hinweis: 1 },
+  { name: 'News abgewiesen', route: '#/news', datei: /news\.json/, verhalten: 'abweisen', warteMs: 2500, erwartet: 'frei' },
+  { name: 'Saison abgewiesen', route: '#/saison', datei: /saison\.json/, verhalten: 'abweisen', warteMs: 2500, erwartet: 'frei' },
+  { name: 'Datenbank hängt', route: '#/datenbank', datei: /titles\.json/, verhalten: 'haengen', warteMs: 9500, erwartet: 'frei' },
+  { name: 'News hängt', route: '#/news', datei: /news\.json/, verhalten: 'haengen', warteMs: 9500, erwartet: 'frei' },
+  { name: 'Saison hängt', route: '#/saison', datei: /saison\.json/, verhalten: 'haengen', warteMs: 9500, erwartet: 'frei' },
 ]
 
-/** Urteil über den Zustand nach dem Warten: Fuß sichtbar und kein Platzhalter. */
-export function fussUrteil({ platz, fuss }) {
-  return platz === 0 && fuss === 'visible'
+/** Urteil über den Zustand nach dem Warten (siehe `LADEFAELLE`); `hinweis` nur prüfen, wenn der Fall ihn nennt. */
+export function fussUrteil({ platz, fuss, hinweis }, erwartet, erwarteterHinweis) {
+  const fussOk = erwartet === 'ladend' ? platz >= 1 && fuss === 'hidden' : platz === 0 && fuss === 'visible' && hinweis === 0
+  return fussOk && (erwarteterHinweis === undefined || hinweis === erwarteterHinweis)
 }
 
-/** Lädt jeden Fall des Ladefehlers in frischem Kontext und liefert { name, platz, fuss, ok }. */
+/** Fährt einen Fall: Route der Datei umbiegen (abweisen, hängen, verzögern). */
+function umbiegen(fall) {
+  return async (r) => {
+    if (fall.verhalten === 'abweisen') return r.abort()
+    if (fall.verhalten === 'haengen') return new Promise(() => {})
+    await new Promise((fertig) => setTimeout(fertig, fall.ms))
+    return r.fallback()
+  }
+}
+
+/** Lädt jeden Fall in frischem Kontext und liefert { name, platz, fuss, hinweis, ok }. */
 export async function ladefehlerMessen({ dist, profil }) {
   const browser = await chromium.launch()
   try {
@@ -73,15 +96,16 @@ export async function ladefehlerMessen({ dist, profil }) {
       const ctx = await browser.newContext({ ...PROFILE[profil](), serviceWorkers: 'block' })
       await ctx.route(/^https?:\/\//, (r) => (`${new URL(r.request().url()).origin}/` === BASIS ? r.fallback() : r.abort()))
       await ausDistLiefern(ctx, dist)
-      await ctx.route(fall.datei, (r) => (fall.verhalten === 'abweisen' ? r.abort() : new Promise(() => {})))
+      await ctx.route(fall.datei, umbiegen(fall))
       const seite = await ctx.newPage()
       await seite.goto(`${BASIS}${fall.route}`, { waitUntil: 'load' })
       await seite.waitForTimeout(fall.warteMs)
       const zustand = await seite.evaluate(() => ({
         platz: document.querySelectorAll('[data-ladeplatz]').length,
         fuss: document.querySelector('footer') ? getComputedStyle(document.querySelector('footer')).visibility : 'fehlt',
+        hinweis: [...document.querySelectorAll('main [role="status"]')].filter((k) => k.textContent === 'Lädt …').length,
       }))
-      ergebnisse.push({ name: fall.name, ...zustand, ok: fussUrteil(zustand) })
+      ergebnisse.push({ name: fall.name, ...zustand, ok: fussUrteil(zustand, fall.erwartet, fall.hinweis) })
       await ctx.close()
     }
     return ergebnisse
@@ -108,9 +132,9 @@ async function main() {
     }
   }
   const fehlerfaelle = await ladefehlerMessen({ dist: path.join(wurzel, 'dist'), profil: 'desktop' })
-  console.log(`cls-erstladen Ladefehler: ${fehlerfaelle.length} Fälle`)
+  console.log(`cls-erstladen Ladezustände: ${fehlerfaelle.length} Fälle`)
   for (const f of fehlerfaelle) {
-    console.log(`${f.name.padEnd(18)} Platzhalter ${f.platz}, Fuß ${f.fuss}${f.ok ? '' : '  FUSS FEHLT'}`)
+    console.log(`${f.name.padEnd(22)} Platzhalter ${f.platz}, Hinweis ${f.hinweis}, Fuß ${f.fuss}${f.ok ? '' : '  FUSS FALSCH'}`)
     if (!f.ok) process.exitCode = 1
   }
 }
