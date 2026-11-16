@@ -61,6 +61,16 @@ try {
   assert.equal(nurHart.status, 1, 'nur hart: Exit 1 bleibt')
   assert.equal(nurHart.env, 'DATEN_WARNUNG=Anderes · Datenqualität hart rot: doppelteAdressen: 3;verwaisteTermine: 2', 'harte Wächter als DATEN_WARNUNG, beide Zeilen')
 
+  const ERSTAUSGABE = 'ERSTAUSGABE_OHNE_WEG erstausgabeOhneWeg: 171 → 172 (+1)\n'
+  const erst = lauf({ npmAusgabe: ZAHLEN + ERSTAUSGABE, exit: 0 })
+  assert.equal(erst.status, 0, 'Erstausgabe-Anstieg: Messung grün, Schritt grün')
+  assert.equal(erst.env, 'DATEN_WARNUNG=Erstausgabe bekannt, kein Weg gestiegen: erstausgabeOhneWeg: 171 → 172 (+1)', 'Anstieg setzt DATEN_WARNUNG')
+  const beide = lauf({ npmAusgabe: RUECKGANG + ERSTAUSGABE, exit: 0, vorher: 'Anderes' })
+  assert.match(beide.env.split('\n').at(-1), /^DATEN_WARNUNG=Anderes · Streaming-Abdeckung gesunken: .* · Erstausgabe bekannt, kein Weg gestiegen: erstausgabeOhneWeg: 171 → 172 \(\+1\)$/, 'beide Warnungen hängen aneinander')
+  const erstUndHart = lauf({ npmAusgabe: ERSTAUSGABE + '[pipeline] ⚠  verwaisteTermine: 2 — das darf nicht vorkommen\n', exit: 1 })
+  assert.equal(erstUndHart.status, 1, 'Exit-Code der Messung bleibt auch mit Erstausgabe-Zeile')
+  assert.match(erstUndHart.env.split('\n').at(-1), /^DATEN_WARNUNG=Erstausgabe bekannt, kein Weg gestiegen: .* · Datenqualität hart rot: verwaisteTermine: 2$/, 'harte Zeile hängt an die Erstausgabe-Warnung')
+
   const absturz = lauf({ npmAusgabe: 'Error: kaputt\n', exit: 1 })
   assert.equal(absturz.status, 1, 'Absturz: Schritt rot')
   assert.equal(absturz.env, '', 'Absturz ohne Rückgangszeile: keine Streaming-Warnung')
