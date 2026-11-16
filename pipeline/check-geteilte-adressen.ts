@@ -32,7 +32,7 @@ console.log('Regel:')
   b.streams = []
   vermerkeGeteilteAdressen([a, b, c])
   pruefe('Zweitlauf nach entferntem Weg: der Rest sharedWith fällt weg', a.streams[0]!.sharedWith === undefined, a.streams[0])
-  const einmalig =[titel(4, [weg(DISNEY)]), titel(5, [weg(DISNEY)])]
+  const einmalig = [titel(4, [weg(DISNEY)]), titel(5, [weg(DISNEY)])]
   const gen = (function* () { yield* einmalig })()
   pruefe('ein Iterator (titles.values()) genügt, er wird nur einmal gelesen', vermerkeGeteilteAdressen(gen) === 2)
 }

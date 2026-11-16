@@ -85,7 +85,7 @@ const erschienenOhneWeg = (t: Title, k: Kontext): boolean => begonnenOhneWeg(t, 
 /** Handbeleg „kein Deutsch“, aber der Kalendertermin trägt kein `sprache: omu`: Der Besucher sieht einen Termin ohne Hinweis (103631, 105228, 180829). */
 const terminTrotzNein = (t: Title, k: Kontext): boolean =>
   begonnenOhneWeg(t, k).some((r) => r.sprache !== 'omu' && k.neinGilt(t.id, r.platform, r.schedule?.firstEpisodeDate ?? ''))
-const geschaetztOhneWeg =(t: Title, k: Kontext): boolean => begonnenOhneWegAlle(t, k).some((r) => r.schedule?.estimated)
+const geschaetztOhneWeg = (t: Title, k: Kontext): boolean => begonnenOhneWegAlle(t, k).some((r) => r.schedule?.estimated)
 
 /** Zu Recht ohne Weg: Für jeden dieser Termine belegt ein Handbeleg „nicht verfügbar“ (nicht älter als der Termin) oder „ohne deutschen Ton“. */
 const belegtesNein = (t: Title, k: Kontext): string | undefined =>
