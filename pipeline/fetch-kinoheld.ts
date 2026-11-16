@@ -21,7 +21,7 @@
  * `data/kinoheld.json` — Release-Slug → Adresse; der Bau hängt sie als Quelle an.
  */
 import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 
@@ -102,6 +102,6 @@ if (process.argv[1]?.endsWith('fetch-kinoheld.ts')) {
     await sleep(3000)
   }
   writeJson(ZIEL, bestand, true)
-  recordSource('kinoheld', gefunden, fehler ? `${fehler} Suche(n) gescheitert` : undefined, offen.length, true)
+  recordSource('kinoheld', gefunden, fehler ? `${fehler} Suche(n) gescheitert` : undefined, offen.length, true, undefined, zuSuchenMitBeleg(releases.length, offen.length))
   log(`${offen.length} Kinotermine ohne kinoheld-Adresse gesucht, ${gefunden} gefunden → ${ZIEL}`)
 }

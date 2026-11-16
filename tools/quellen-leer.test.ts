@@ -9,11 +9,23 @@ import { LEER_OK, LEER_TAGE, leerZeilen } from './quellen-leer.mjs'
 
 const wurzel2 = mkdtempSync(join(tmpdir(), 'leer2-'))
 process.env.AK_ROOT = wurzel2
-const { leerSeitNeu, recordSource } = await import('../pipeline/lib/health.ts')
+const { leerSeitNeu, recordSource, zuSuchenMitBeleg } = await import('../pipeline/lib/health.ts')
 /* Dateiname in Teilen: die Bot-Pfad-Liste (pr-nachrechnen-bot-pfade) darf nicht wachsen; die Kulisse liegt unter os.tmpdir(). */
 const GESUNDHEIT = ['source', 'health.json'].join('-')
 const T0 = '2999-01-01T00:00:00.000Z'
 const T1 = '2999-01-02T00:00:00.000Z'
+
+/* --- Beleg: „nichts zu suchen“ gilt nur bei geladener, nicht leerer Eingabe --- */
+assert.equal(zuSuchenMitBeleg(5, 0), 0, 'Eingabe da, nichts offen: 0')
+assert.equal(zuSuchenMitBeleg(5, 3), 3, 'Eingabe da, 3 offen: 3')
+assert.equal(zuSuchenMitBeleg(0, 0), undefined, 'Eingabe leer oder fehlt: kein Beleg, Wache wie bisher')
+assert.equal(leerSeitNeu(undefined, T1, 0, true, zuSuchenMitBeleg(0, 0)), T1, 'Eingabe fehlt: leerSeit läuft')
+
+/* --- zuSuchen: leere Arbeitsliste ist keine „grüne Leere“ --- */
+assert.equal(leerSeitNeu(undefined, T1, 0, true, 0), undefined, 'kinoheld: 0 zu suchen, 0 gefunden warnt nicht')
+assert.equal(leerSeitNeu(T0, T1, 0, true, 0), undefined, 'Liste wird leer: Beginn entfällt')
+assert.equal(leerSeitNeu(undefined, T1, 0, true, 3), T1, '3 zu suchen, 0 gefunden: Beginn gesetzt')
+assert.equal(leerSeitNeu(T0, T1, 0, true, 3), T0, 'Folgelauf mit Arbeit behält den Beginn')
 
 /* --- leerSeitNeu: alle Zweige --- */
 assert.equal(leerSeitNeu(undefined, T1, 0, true), T1, 'erster grüner leerer Lauf setzt den Beginn')
@@ -83,6 +95,38 @@ try {
   rmSync(wurzel, { recursive: true, force: true })
 }
 
+/* kinoheld-Fall: 8 Tage Leere mit Arbeit warnt, ohne Arbeit nicht */
+const vorTagen = (n: number) => new Date(jetzt - n * tag).toISOString()
+assert.equal(leerZeilen({ kinoheld: { leerSeit: leerSeitNeu(vorTagen(8), T1, 0, true, 3) } }, jetzt).length, 1, '3 zu suchen, 8 Tage leer: Meldung')
+assert.equal(leerZeilen({ kinoheld: { leerSeit: leerSeitNeu(vorTagen(8), T1, 0, true, 0) } }, jetzt).length, 0, '0 zu suchen: keine Meldung')
+
+/* --- Aufrufer: fetch-kinoheld.ts als Prozess gegen ein Wegwerf-Repo (Verdrahtung von zuSuchen) --- */
+function kinoheldLauf(releases: object[] | null) {
+  const w = mkdtempSync(join(tmpdir(), 'leer3-'))
+  try {
+    mkdirSync(join(w, 'data'), { recursive: true })
+    mkdirSync(join(w, 'public', 'data'), { recursive: true })
+    if (releases) writeFileSync(join(w, 'public', 'data', 'releases.json'), JSON.stringify(releases))
+    const lauf = spawnSync(process.execPath, ['--import', 'tsx', resolve('pipeline/fetch-kinoheld.ts')], {
+      env: { ...process.env, AK_ROOT: w, SERPER_API_KEY: '' },
+      encoding: 'utf8',
+      timeout: 90_000,
+      windowsHide: true,
+    })
+    assert.equal(lauf.status, 0, `kinoheld lief durch: ${lauf.stdout}${lauf.stderr}`)
+    return JSON.parse(readFileSync(join(w, 'data', GESUNDHEIT), 'utf8')).kinoheld
+  } finally {
+    rmSync(w, { recursive: true, force: true })
+  }
+}
+const ohneArbeit = kinoheldLauf([{ platform: 'netflix', slug: 'anderes', titleId: 2, name: 'Anderes' }])
+assert.equal(ohneArbeit.lastCount, 0)
+assert.equal(ohneArbeit.leerSeit, undefined, 'kinoheld: 0 zu suchen, 0 gefunden setzt kein leerSeit')
+const mitArbeit = kinoheldLauf([{ platform: 'kino', slug: 'zzqx-testfilm', titleId: 1, name: 'Zzqx Testfilm', schedule: { firstEpisodeDate: '2999-01-01' } }])
+assert.ok(mitArbeit.leerSeit, 'kinoheld: 1 zu suchen, 0 gefunden setzt leerSeit')
+assert.ok(kinoheldLauf(null).leerSeit, 'kinoheld: Eingabedatei fehlt setzt leerSeit (Wache nicht blind)')
+assert.ok(kinoheldLauf([]).leerSeit, 'kinoheld: leere Eingabedatei setzt leerSeit')
+
 /* --- Verdrahtung recordSource → Datei (AK_ROOT vor dem Import) --- */
 try {
   mkdirSync(join(wurzel2, 'data'), { recursive: true })
@@ -92,6 +136,8 @@ try {
   assert.ok(beginn, 'grüner leerer Lauf schreibt leerSeit')
   recordSource('q', 0, undefined, undefined, true)
   assert.equal(lese().q.leerSeit, beginn, 'zweiter Lauf behält den Beginn')
+  recordSource('q', 0, undefined, undefined, true, undefined, 0)
+  assert.equal(lese().q.leerSeit, undefined, 'zuSuchen 0 löscht')
   recordSource('q', 2)
   assert.equal(lese().q.leerSeit, undefined, 'Treffer löscht')
   recordSource('q', 0, 'HTTP 500')
