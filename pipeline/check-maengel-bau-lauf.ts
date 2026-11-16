@@ -74,7 +74,7 @@ schreibe('public/data/titles.json', [titel1({ coverImage: undefined }), titel(2)
 schreibe('public/data/events.json', [{ titleId: 1, date: '2099-01-01' }, { titleId: 8, date: todayIso() }])
 schreibe('public/data/releases.json', [
   { titleId: 1, platform: 'adn', releaseType: 'batch', sources: [{ url: 'https://q' }], schedule: { firstEpisodeDate: '2020-01-01', episodeCount: 3 } },
-  { titleId: 9, platform: 'adn', releaseType: 'batch', sources: [{ url: 'https://q' }], schedule: { firstEpisodeDate: '2020-01-01', episodeCount: 1 } },
+  { titleId: 9, platform: 'adn', releaseType: 'batch', sprache: 'omu', sources: [{ url: 'https://q' }], schedule: { firstEpisodeDate: '2020-01-01', episodeCount: 1 } },
   { titleId: 4, platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: '2022-01-01' } },
 ])
 schreibe('public/data/folgen/1.json', { f: [[1, 'A'], [2, 'B'], [3, 'C']] })
@@ -99,7 +99,7 @@ pruefe('Lauf 1: Disc-Termin ist ein Weg (kein kein-weg, kein erstausgabe-ohne-we
 pruefe('Lauf 1: Termin am heutigen Tag zählt als künftig (kein termin-fehlt-laufend bei Titel 8)', !r1.zeilen.some((z) => z.t === 8), r1.zeilen.filter((z) => z.t === 8))
 pruefe('Lauf 1: Erstlauf kennt kein „neu“', Object.values(r1.zaehler).every((z) => z.neu === 0) && r1.zeilen.every((z) => !z.ereignis), r1)
 pruefe('Lauf 1: erschienen-ohne-weg: Titel 1 offen, Titel 9 (Handbeleg dub:false) Ausnahme', r1.zaehler['erschienen-ohne-weg']?.offen === 1 && r1.zaehler['erschienen-ohne-weg']?.ausnahme === 1, r1.zaehler['erschienen-ohne-weg'])
-pruefe('Lauf 1: alle 23 Arten im Zähler', Object.keys(r1.zaehler).length === 23, Object.keys(r1.zaehler))
+pruefe('Lauf 1: alle 24 Arten im Zähler', Object.keys(r1.zaehler).length === 24, Object.keys(r1.zaehler))
 
 /* Vorfassung altern lassen und committen; Titel 1 bekommt sein Cover, Titel 3 ist neu ohne Banner. */
 schreibe('data/maengel.json', readFileSync(join(wurzel, 'data/maengel.json'), 'utf8').replaceAll(/"seit":"[\d-]+"/g, '"seit":"2026-01-01"'))

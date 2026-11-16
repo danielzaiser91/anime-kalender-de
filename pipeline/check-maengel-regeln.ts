@@ -41,7 +41,7 @@ const kontext = (ueber: Partial<Kontext> = {}): Kontext => ({
   kuenftig: new Set(),
   releases: new Map(),
   discTitel: new Set(),
-  adresseMehrfach: new Set(),
+  adresseMehrfach: new Map(),
   neinGilt: () => false,
   ...ueber,
 })
@@ -99,23 +99,29 @@ pruefe('termin-geschaetzt-ohne-weg: sicherer Termin, Weg vorhanden, künftiger T
   mitReleases(rel({ platform: 'adn', schedule: { firstEpisodeDate: '2999-01-01', estimated: true } as never })), mitReleases(rel({ platform: 'adn', sources: [], schedule: { firstEpisodeDate: '2026-01-01', estimated: true } as never })),
 ].every((k) => !arten(gut(1), k).includes('termin-geschaetzt-ohne-weg')))
 pruefe('erschienen-ohne-weg: ein Termin ohne Quelle zählt nicht', arten(gut(1), adnTermin({ sources: [] })).length === 0)
-pruefe('erschienen-ohne-weg: belegtes Nein ist Ausnahme, ohne Nein bleibt es offen', arten(gut(1), { ...adnTermin(), neinGilt: () => true }).join() === 'erschienen-ohne-weg:belegtes-nein' && arten(gut(1), adnTermin()).join() === 'erschienen-ohne-weg')
-pruefe('erschienen-ohne-weg: Nein nur für eine von zwei Plattformen bleibt offen', arten(gut(1), { ...mitReleases(rel({ platform: 'adn' }), rel({ platform: 'primevideo' })), neinGilt: (_i, p) => p === 'adn' }).join() === 'erschienen-ohne-weg')
+pruefe('erschienen-ohne-weg: belegtes Nein ist Ausnahme, ohne Nein bleibt es offen', arten(gut(1), { ...adnTermin(), neinGilt: () => true }).filter((a) => a.startsWith('erschienen')).join() === 'erschienen-ohne-weg:belegtes-nein' && arten(gut(1), adnTermin()).join() === 'erschienen-ohne-weg')
+pruefe('erschienen-ohne-weg: Nein nur für eine von zwei Plattformen bleibt offen', arten(gut(1), { ...mitReleases(rel({ platform: 'adn' }), rel({ platform: 'primevideo' })), neinGilt: (_i, p) => p === 'adn' }).filter((a) => a.startsWith('erschienen')).join() === 'erschienen-ohne-weg')
+const mitNein = (ueber: Partial<Release>) => ({ ...adnTermin(ueber), neinGilt: () => true })
+pruefe('termin-trotz-nein: Nein belegt, Termin ohne sprache → Mangel; mit omu → nur Ausnahme belegtes-nein; ohne Nein kein Treffer', arten(gut(1), mitNein({})).includes('termin-trotz-nein') && !arten(gut(1), mitNein({ sprache: 'omu' })).includes('termin-trotz-nein') && arten(gut(1), mitNein({ sprache: 'omu' })).join() === 'erschienen-ohne-weg:belegtes-nein' && !arten(gut(1), adnTermin()).includes('termin-trotz-nein'))
 const beleg = (ueber: object) => ({ anilistId: 1, platform: 'primevideo', ...ueber }) as Parameters<typeof baueNeinGilt>[0][number]
 const nichtVerfuegbar = baueNeinGilt([beleg({ available: false, checkedAt: '2026-08-30' })])
 pruefe('neinGilt: „nicht verfügbar“ vor dem Termin ist überholt, am Termintag und danach gilt es', !nichtVerfuegbar(1, 'primevideo', '2026-09-13') && nichtVerfuegbar(1, 'primevideo', '2026-08-30') && nichtVerfuegbar(1, 'primevideo', '2026-08-01'))
+const eigeneAdresse = baueNeinGilt([beleg({ dub: true, url: 'https://www.amazon.de/dp/B000000001', checkedAt: '2026-09-01' }), beleg({ dub: false, url: 'https://www.amazon.de/dp/B000000002', checkedAt: '2026-09-02' })])
+pruefe('neinGilt: Nein an einer Kanal-Adresse neben einem Ja an anderer Adresse gilt über den Adress-Schlüssel', eigeneAdresse(1, 'primevideo', '2026-10-01'))
 const ohneTon = baueNeinGilt([beleg({ dub: false, checkedAt: '2026-09-14' })])
 pruefe('neinGilt: „ohne deutschen Ton“ gilt auch für einen späteren Termin; andere Plattform und Titel nicht', ohneTon(1, 'primevideo', '2026-10-15') && !ohneTon(1, 'netflix', '2026-10-15') && !ohneTon(2, 'primevideo', '2026-10-15'))
 pruefe('folgenzahl-widerspruch: Release mit mehr Folgen', arten(gut(1), mitReleases(rel({ schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 24 } }))).join() === 'folgenzahl-widerspruch')
 pruefe('folgenzahl-widerspruch: Liste länger als Folgenzahl', arten(gut(1), kontext({ folgen: () => ({ f: Array.from({ length: 13 }, (_, i) => [i + 1, 'x'] as [number, string]) }) })).join() === 'folgenzahl-widerspruch')
 pruefe('folgenzahl-widerspruch: Disc mit mehr Folgen zählt nicht', arten(gut(1), mitReleases(rel({ releaseType: 'disc', platform: 'disc', schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 99 } }))).length === 0)
 const strom = (url: string, extra = {}) => [{ platform: 'netflix', url, dub: true, ...extra }] as Title['streams']
-const geteilt = adresseMehrfach([gut(1, { streams: strom('x') }), gut(2, { streams: strom('x') }), gut(3, { streams: strom('x', { sharedWith: 1 }) }), gut(4)])
-pruefe('adresse-mehrfach: gleiche Adresse bei zwei Titeln; `sharedWith` und Einzelne ausgenommen', [...geteilt].sort().join() === '1,2', [...geteilt])
+const geteilt = adresseMehrfach([gut(1, { streams: strom('x'), franchiseId: 10 }), gut(2, { streams: strom('x'), franchiseId: 20 }), gut(3, { streams: strom('x', { sharedWith: 3 }), franchiseId: 30 }), gut(4)])
+pruefe('adresse-mehrfach: zwei fremde Titel, eine Adresse → Mangel, auch mit `sharedWith` (der Vermerk verdeckt nichts); Einzelne nicht', [...geteilt].map(([i, w]) => `${i}${w}`).sort().join() === '1fremd,2fremd,3fremd', [...geteilt])
+const staffeln = adresseMehrfach([gut(1, { streams: strom('y'), franchiseId: 10 }), gut(2, { streams: strom('y', { sharedWith: 2 }), franchiseId: 10 })])
+pruefe('adresse-mehrfach: zwei Staffeln eines Franchise → kein offener Mangel, sondern Ausnahme gleiches-franchise', [...staffeln.values()].join() === 'franchise,franchise' && arten(gut(1), kontext({ adresseMehrfach: staffeln })).join() === 'adresse-mehrfach:gleiches-franchise')
 const leerWeg = (id: number) => gut(id, { streams: [{ platform: 'disneyplus', url: '' }] as Title['streams'] })
 pruefe('adresse-mehrfach: leere Adresse zählt nicht als gleiche (Grenzfall: zwei Titel mit url "")', adresseMehrfach([leerWeg(1), leerWeg(2)]).size === 0)
 pruefe('weg-ohne-adresse: Weg mit leerer url trifft, mit Adresse nicht', arten(leerWeg(1)).includes('weg-ohne-adresse') && !arten(gut(1)).includes('weg-ohne-adresse'))
-pruefe('adresse-mehrfach: Regel nutzt die Menge', arten(gut(1), kontext({ adresseMehrfach: new Set([1]) })).join() === 'adresse-mehrfach')
+pruefe('adresse-mehrfach: Regel nutzt die Menge', arten(gut(1), kontext({ adresseMehrfach: new Map([[1, 'fremd']]) })).join() === 'adresse-mehrfach' && arten(gut(1), kontext({ adresseMehrfach: new Map([[1, 'franchise']]) })).join() === 'adresse-mehrfach:gleiches-franchise')
 
 /* Grenzfälle und Einheitlichkeit (Prüfer-Auflagen N4, N7) */
 const regel = (art: string) => REGELN.find((r) => r.art === art)!
