@@ -10,8 +10,8 @@
     "lastCount": 47
   },
   "anisearch": {
-    "lastOk": "2026-11-16T04:01:02.414Z",
-    "lastRun": "2026-11-16T04:01:02.414Z",
+    "lastOk": "2026-11-16T05:01:00.084Z",
+    "lastRun": "2026-11-16T05:01:00.084Z",
     "lastCount": 14883
   },
   "adn-catalog": {
@@ -87,9 +87,9 @@
     "lastCount": 0
   },
   "anisearch-folgen": {
-    "lastOk": "2026-11-10T15:18:06.169Z",
-    "lastRun": "2026-11-10T15:18:06.169Z",
-    "lastCount": 2720
+    "lastOk": "2026-11-16T05:07:18.698Z",
+    "lastRun": "2026-11-16T05:07:18.698Z",
+    "lastCount": 452
   },
   "cr-einzelwerke": {
     "lastOk": "2026-11-13T17:09:21.615Z",
@@ -243,8 +243,8 @@
     "leerSeit": "2026-11-12T15:14:01.341Z"
   },
   "anisearch-slugs": {
-    "lastOk": "2026-11-10T15:18:05.199Z",
-    "lastRun": "2026-11-10T15:18:05.199Z",
-    "lastCount": 14915
+    "lastOk": "2026-11-16T05:01:02.648Z",
+    "lastRun": "2026-11-16T05:01:02.648Z",
+    "lastCount": 14919
   }
 }
