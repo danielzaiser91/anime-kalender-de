@@ -71,7 +71,7 @@ async function standSammelHolen(z) {
   await z.kontext.schreiben({ [STAND_SPERRE]: { tab: z.tab, bis: z.jetzt() + STAND_SPERRE_MS } })
   if ((await z.kontext.lesen(STAND_SPERRE))?.[STAND_SPERRE]?.tab !== z.tab) return undefined
   const reihen = z.reihen()
-  const antwort = await globalThis.akGemeldetSammel(z.worker, reihen.map(standAdresse))
+  const antwort = await globalThis.akGemeldetSammel(z.worker, reihen.map(standAdresse), z.holen)
   /* `false`: keine Auskunft (429, 5xx, Netz) — der alte Stand bleibt, kein Einzelweg bei gerissenem Deckel. */
   if (antwort === false) return undefined
   if (antwort === null) {
@@ -83,7 +83,7 @@ async function standSammelHolen(z) {
 
 /**
  * `o`: `{ worker, reihen() (Kennungen), merken(reihe, paare), abrufen(reihe) (Einzelweg für einen Worker ohne Sammelroute),
- * geaendert(), uebernahme(Date) → Date, kontext?, jetzt?, tab?, takt? (ms, 0 = keiner) }`. Liest den Stand ein, hört auf Änderungen
+ * geaendert(), uebernahme(Date) → Date, kontext?, jetzt?, tab?, takt? (ms, 0 = keiner), holen? (fetch, nur Tests) }`. Liest den Stand ein, hört auf Änderungen
  * anderer Tabs und startet den Takt. Ergebnis: `{ laden, auffrischen, eigene, takt, text(), laeuft() }`; auch `akNetflixStand.aktuell`.
  */
 function standNeu(o) {
@@ -105,14 +105,21 @@ function standNeu(o) {
       intern = false
     }
   }
-  const merkeAlle = (reihen) => mitIntern(() => Object.entries(reihen).forEach(([reihe, paare]) => o.merken(reihe, paare)))
+  const merkeAlle = (reihen) => {
+    intern = true
+    try {
+      for (const [reihe, paare] of Object.entries(reihen)) o.merken(reihe, paare)
+    } finally {
+      intern = false
+    }
+  }
 
   const einlesen = (stand) => {
     if (!stand || typeof stand !== 'object') return
     const reihen = standVereinige(stand.reihen, {})
     am = Math.max(am ?? 0, Number.isFinite(stand.am) ? stand.am : 0) || null
     gespeichert = standVereinige(gespeichert, reihen)
-    void merkeAlle(reihen)
+    merkeAlle(reihen)
     o.geaendert()
   }
 
@@ -123,7 +130,7 @@ function standNeu(o) {
     versuch = jetzt()
     o.geaendert()
     try {
-      const reihenStand = await standSammelHolen({ kontext, jetzt, tab, worker: o.worker, reihen: o.reihen, abrufen: o.abrufen, einzeln: mitIntern })
+      const reihenStand = await standSammelHolen({ kontext, jetzt, tab, worker: o.worker, reihen: o.reihen, abrufen: o.abrufen, einzeln: mitIntern, holen: o.holen })
       if (reihenStand === undefined) return false
       am = jetzt()
       if (reihenStand === null) return true
@@ -131,7 +138,7 @@ function standNeu(o) {
       const imSpeicher = (await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL]?.reihen
       gespeichert = standVereinige(standVereinige(imSpeicher, gespeichert), reihenStand)
       await kontext.schreiben({ [STAND_SCHLUESSEL]: { am, reihen: gespeichert } })
-      await merkeAlle(gespeichert)
+      merkeAlle(gespeichert)
       return true
     } finally {
       /* Die Sperre gehört dem Tab, der sie hält: ein abgewiesener Tab löscht die eines anderen nicht. */

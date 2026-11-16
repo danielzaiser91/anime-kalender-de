@@ -59,18 +59,21 @@ pruefe('Vereinigung: späteres am gewinnt, früheres nicht', (() => {
   return v[1].length === 1 && v[1][0].am.endsWith('13:00') && w[1][0].am.endsWith('13:00')
 })())
 pruefe('Vereinigung: andere Staffel mit gleicher Nummer ist ein eigenes Paar', k.akNetflixStand.vereinige({ 1: [{ nummer: 1, staffel: 1 }] }, { 1: [{ nummer: 1, staffel: 2 }] })[1].length === 2)
-pruefe('Vereinigung: Reihe ohne gültiges Paar fällt weg, Nicht-Liste und kaputte Quelle ebenso', JSON.stringify(k.akNetflixStand.vereinige({ 1: [{ nummer: 'x' }], 2: 'text', 3: [{ nummer: 4 }] }, 5)) === '{"3":[{"nummer":4}]}')
+pruefe('Vereinigung: Reihe ohne gültiges Paar fällt weg, Nicht-Liste (Text, Zahl) und kaputte Quelle ebenso', JSON.stringify(k.akNetflixStand.vereinige({ 1: [{ nummer: 'x' }], 2: 'text', 3: [{ nummer: 4 }], 4: 7 }, 5)) === '{"3":[{"nummer":4}]}')
+pruefe('Vereinigung: dieselbe Nummer mit anderer Folgenkennung ist ein eigenes Paar', k.akNetflixStand.vereinige({ 1: [{ nummer: 1, staffel: 1, folge: 'a' }] }, { 1: [{ nummer: 1, staffel: 1, folge: 'b' }] })[1].length === 2)
 pruefe('nicht fällig: nie öfter als alle 5 min (Stand 12:26, jetzt 12:28 nach Übernahme)', f(T + 26 * min, null, T + 28 * min, uebernahme) === false)
 
 /** Ein gemeinsamer Speicher für mehrere „Tabs“. */
 const speicherNeu = () => {
   const daten = {}
+  const zaehler = { stand: 0 }
   const hoerer = []
   const lokal = (name) => ({
     lesen: async (s) => ({ [s]: daten[s] }),
     schreiben: async (w) => {
       for (const [s, v] of Object.entries(w)) {
         const alt = daten[s]
+        if (s === 'netflixStand') zaehler.stand++
         if (v === null) delete daten[s]
         else daten[s] = v
         for (const h of hoerer) if (h.name !== name) h.fn({ [s]: { newValue: v, oldValue: alt } }, 'local')
@@ -79,7 +82,7 @@ const speicherNeu = () => {
     },
     beiAenderung: (fn) => hoerer.push({ name, fn }),
   })
-  return { daten, lokal }
+  return { daten, lokal, zaehler }
 }
 
 const adresse = (r) => `https://www.netflix.com/title/${r}`
@@ -102,19 +105,17 @@ const tabNeu = (speicher, name, abrufe, antwort = null, tor = null, opt = {}) =>
     worker: 'https://w.test/pruefung',
     reihen: () => opt.reihen ?? ['1', '2'],
     merken: (r, paare) => gemerkt.set(r, paare),
-    abrufen: async () => {},
     geaendert: () => protokoll.geaendert++,
     uebernahme,
-    kontext: { lesen: kontext.lesen, schreiben: kontext.schreiben, beiAenderung: kontext.beiAenderung },
+    holen: fetch,
+    kontext: { lesen: kontext.lesen, schreiben: kontext.schreiben, ...(opt.ohneHoeren ? {} : { beiAenderung: kontext.beiAenderung }) },
+    abrufen: opt.abrufen ?? (async () => {}),
     jetzt: () => (opt.uhr ? opt.uhr.t : T + 12 * min),
     tab: name,
     takt: 0,
   }
   /* `akGemeldetSammel` nimmt `holen` als Vorgabe: hier der Zähler dieses Tabs. */
-  const sammel = k.akGemeldetSammel
-  k.akGemeldetSammel = (w, a) => sammel(w, a, fetch)
   const stand = k.akNetflixStand.neu(o)
-  k.akGemeldetSammel = sammel
   return { stand, gemerkt, protokoll, fetch, antworten: (a) => (antwort = a) }
 }
 
@@ -122,10 +123,7 @@ const warten = async () => {
   for (let i = 0; i < 10; i++) await new Promise((r) => setImmediate(r))
 }
 const holen = async (t, abrufe) => {
-  const sammel = k.akGemeldetSammel
-  k.akGemeldetSammel = (w, a) => sammel(w, a, t.fetch)
   const r = await t.stand.auffrischen()
-  k.akGemeldetSammel = sammel
   return r
 }
 
@@ -193,16 +191,11 @@ const teil4 = async () => {
   const t = tabNeu(s, 'a', abrufe)
   await warten()
   pruefe('Start eines Tabs ohne Stand: kein Abruf (erst der Takt, nie beim Öffnen)', abrufe.length === 0)
-  const sammel = k.akGemeldetSammel
-  k.akGemeldetSammel = (w, a) => sammel(w, a, t.fetch)
   t.stand.takt()
   await warten()
-  k.akGemeldetSammel = sammel
   pruefe('Takt ohne Stand: genau ein Abruf', abrufe.length === 1, abrufe)
-  k.akGemeldetSammel = (w, a) => sammel(w, a, t.fetch)
   t.stand.takt()
   await warten()
-  k.akGemeldetSammel = sammel
   pruefe('Takt mit frischem Stand: kein weiterer Abruf', abrufe.length === 1, abrufe)
 }
 
@@ -212,24 +205,19 @@ const teil5 = async () => {
   const abrufe = []
   const uhr = { t: T }
   const t = tabNeu(s, 'a', abrufe, { ok: false, status: 429, json: async () => ({}) }, null, { uhr })
-  const sammel = k.akGemeldetSammel
-  k.akGemeldetSammel = (w, a) => sammel(w, a, t.fetch)
   for (let i = 0; i < 60; i++) {
     uhr.t = T + i * min
     t.stand.takt()
     await warten()
   }
-  k.akGemeldetSammel = sammel
   pruefe('A1: 429, 60 Takte in 60 Minuten: höchstens vier Versuche (nicht 60)', abrufe.length >= 1 && abrufe.length <= 4, abrufe.length)
   const abrufe2 = []
   const t2 = tabNeu(speicherNeu(), 'b', abrufe2, { ok: true, status: 200, json: async () => ({ adressen: { [adresse('1')]: { paare: [paarA] }, [adresse('2')]: { paare: [] } } }) }, null, { uhr })
-  k.akGemeldetSammel = (w, a) => sammel(w, a, t2.fetch)
   for (let i = 0; i < 60; i++) {
     uhr.t = T + 100 * min + i * min
     t2.stand.takt()
     await warten()
   }
-  k.akGemeldetSammel = sammel
   pruefe('A1: Erfolg, 60 Takte in 60 Minuten: höchstens vier Abrufe', abrufe2.length >= 1 && abrufe2.length <= 4, abrufe2.length)
 }
 
@@ -319,6 +307,145 @@ const teil9 = async () => {
   pruefe('A5: ein Stand von heute zeigt nur die Uhrzeit', /^Stand von \d\d:\d\d$/.test(tFrisch.stand.text()), tFrisch.stand.text())
 }
 
+/* --- Einzelweg (Worker ohne Sammelroute): ruft je Reihe ab, schreibt dabei nichts je Reihe --- */
+const teil10 = async () => {
+  const s = speicherNeu()
+  const abgerufen = []
+  const ref = {}
+  const abrufen = async (r) => {
+    abgerufen.push(r)
+    ref.t.stand.eigene(r, [paarA])
+  }
+  ref.t = tabNeu(s, 'a', [], { ok: false, status: 404, json: async () => ({}) }, null, { abrufen })
+  const ok = await ref.t.stand.auffrischen()
+  pruefe('Einzelweg (404): je Reihe ein Abruf, Ergebnis true', ok === true && abgerufen.join() === '1,2', abgerufen)
+  pruefe('Einzelweg: die Abrufe gelten als intern, kein Schreiben je Reihe', s.zaehler.stand === 0, s.zaehler.stand)
+}
+
+/* --- Eigene Meldungen: gleiche Meldung zweimal schreibt einmal --- */
+const teil11 = async () => {
+  const s = speicherNeu()
+  const t = tabNeu(s, 'a', [])
+  t.stand.eigene('1', [paarA])
+  t.stand.eigene('1', [paarA])
+  t.stand.eigene('1', [{ ...paarA, nummer: 5 }])
+  await warten()
+  pruefe('Eigene Meldung zweimal: ein Schreiben, eine neue Folge: ein weiteres', s.zaehler.stand === 2 && s.daten.netflixStand.reihen['1'].length === 2, [s.zaehler.stand, s.daten.netflixStand.reihen['1'].length])
+}
+
+/* --- Sperre: fremde, eigene, abgelaufene; Rücklesen; laufender Abruf --- */
+const teil12 = async () => {
+  {
+    const s = speicherNeu()
+    const abrufe = []
+    s.daten.netflixStandSperre = { tab: 'x', bis: T + 99 * min }
+    const t = tabNeu(s, 'a', abrufe)
+    pruefe('Sperre: eine fremde, gültige Sperre hält den Abruf auf', (await t.stand.auffrischen()) === false && abrufe.length === 0 && s.daten.netflixStandSperre?.tab === 'x', [abrufe.length, s.daten.netflixStandSperre])
+  }
+  {
+    const s = speicherNeu()
+    const abrufe = []
+    s.daten.netflixStandSperre = { tab: 'a', bis: T + 99 * min }
+    const t = tabNeu(s, 'a', abrufe)
+    pruefe('Sperre: die eigene Sperre (Rest eines Laufs) hält den eigenen Tab nicht auf', (await t.stand.auffrischen()) === true && abrufe.length === 1, abrufe.length)
+  }
+  {
+    const s = speicherNeu()
+    const abrufe = []
+    s.daten.netflixStandSperre = { tab: 'x', bis: T }
+    const t = tabNeu(s, 'a', abrufe)
+    pruefe('Sperre: eine abgelaufene fremde Sperre hält nicht auf', (await t.stand.auffrischen()) === true && abrufe.length === 1, abrufe.length)
+  }
+  {
+    /* Rennen: zwischen Schreiben und Rücklesen hat ein anderer Tab die Sperre überschrieben. */
+    const s = speicherNeu()
+    const echt = s.lokal
+    s.lokal = (name) => {
+      const l = echt(name)
+      if (name !== 'a') return l
+      const schreiben = l.schreiben
+      l.schreiben = async (x) => {
+        const r = await schreiben(x)
+        if (x.netflixStandSperre) s.daten.netflixStandSperre = { tab: 'b', bis: T + 99 * min }
+        return r
+      }
+      return l
+    }
+    const abrufe = []
+    const t = tabNeu(s, 'a', abrufe)
+    pruefe('Sperre: überschrieben zwischen Schreiben und Rücklesen: kein Abruf', (await t.stand.auffrischen()) === false && abrufe.length === 0 && s.daten.netflixStandSperre?.tab === 'b', [abrufe.length, s.daten.netflixStandSperre])
+  }
+  {
+    const s = speicherNeu()
+    const abrufe = []
+    let freigeben
+    const tor = new Promise((r) => { freigeben = r })
+    const t = tabNeu(s, 'a', abrufe, null, tor)
+    const erster = t.stand.auffrischen()
+    await warten()
+    const zweiter = await t.stand.auffrischen()
+    freigeben()
+    await erster
+    pruefe('Zwei Aufrufe im selben Tab: der zweite wartet nicht, holt nicht (ein Abruf)', zweiter === false && abrufe.length === 1, [zweiter, abrufe.length])
+  }
+}
+
+/* --- Vereinigung: Speicher anderer Tabs, eigener Stand, Zeitpunkt --- */
+const teil13 = async () => {
+  const neuesPaar = { nummer: 9, staffel: 1, staffelBekannt: true, folge: '109', am: '2026-11-16T12:30:00Z' }
+  {
+    /* Eigene Meldung, deren Schreiben nicht ankam (toter Kontext): ↻ führt sie weiter. */
+    const s = speicherNeu()
+    const t = tabNeu(s, 'a', [])
+    t.stand.eigene('1', [neuesPaar])
+    await warten()
+    delete s.daten.netflixStand
+    await t.stand.auffrischen()
+    pruefe('Vereinigung: der eigene Stand des Tabs bleibt, auch wenn der Speicher ihn nicht hat', s.daten.netflixStand.reihen['1'].some((x) => x.folge === '109'), s.daten.netflixStand.reihen['1'])
+  }
+  {
+    /* Zwei Tabs mit verschiedenen Listen; der zweite hört nicht zu und kennt den Stand des ersten nur über den Speicher. */
+    const s = speicherNeu()
+    const a = tabNeu(s, 'a', [], null, null, { reihen: ['1', '2'], antwortReihen: ['1', '2'] })
+    const b = tabNeu(s, 'b', [], null, null, { reihen: ['2', '3'], antwortReihen: ['2', '3'], ohneHoeren: true })
+    await a.stand.auffrischen()
+    await b.stand.auffrischen()
+    pruefe('Vereinigung: der Speicher anderer Tabs geht nicht verloren (1, 2, 3)', ['1', '2', '3'].every((r) => s.daten.netflixStand.reihen[r]?.length === 1), Object.keys(s.daten.netflixStand.reihen))
+  }
+  {
+    const s = speicherNeu()
+    s.daten.netflixStand = { am: '1794830400000', reihen: {} }
+    const t = tabNeu(s, 'a', [])
+    await warten()
+    pruefe('Zeitpunkt als Text gilt nicht (kein Stand)', t.stand.text() === 'noch kein Stand', t.stand.text())
+    await t.stand.auffrischen()
+    const vorher = t.stand.text()
+    t.stand.einlesen({ am: T - 60 * min, reihen: {} })
+    pruefe('Ein älterer Stand aus dem Speicher macht den eigenen nicht älter', t.stand.text() === vorher && /^Stand von/.test(vorher), [vorher, t.stand.text()])
+  }
+  {
+    const s = speicherNeu()
+    const t = tabNeu(s, 'a', [])
+    t.stand.eigene('1', [neuesPaar])
+    t.stand.einlesen({ am: T, reihen: { 2: [paarA] } })
+    t.stand.eigene('3', [paarA])
+    await warten()
+    pruefe('Einlesen ersetzt den eigenen Stand nicht (Meldung zu 1 bleibt, 2 und 3 dazu)', ['1', '2', '3'].every((r) => s.daten.netflixStand.reihen[r]?.length === 1), Object.keys(s.daten.netflixStand.reihen))
+  }
+}
+
+/* --- Verdrahtung: meldungenMerken in melder.js reicht eigene Meldungen an den Stand --- */
+const teil14 = async () => {
+  const melder = lies('melder.js')
+  const von = melder.indexOf('function meldungenMerken')
+  const quelle = melder.slice(von, melder.indexOf('\n}\n', von) + 2)
+  const aufrufe = []
+  const welt = { MELDUNGEN: new Map(), globalThis: { akNetflixStand: { aktuell: { eigene: (r, p) => aufrufe.push([r, p]) } } } }
+  const merken = new Function('MELDUNGEN', 'globalThis', quelle + '\nreturn meldungenMerken')(welt.MELDUNGEN, welt.globalThis)
+  merken('70000001', [paarA])
+  pruefe('melder.js: meldungenMerken reicht Reihe und Paare an den Stand weiter', aufrufe.length === 1 && aufrufe[0][0] === '70000001' && aufrufe[0][1][0].nummer === 1, aufrufe)
+}
+
 const haupt = async () => {
   await teil1()
   await teil5()
@@ -326,6 +453,11 @@ const haupt = async () => {
   await teil7()
   await teil8()
   await teil9()
+  await teil10()
+  await teil11()
+  await teil12()
+  await teil13()
+  await teil14()
   await teil2()
   await teil3()
   await teil4()
