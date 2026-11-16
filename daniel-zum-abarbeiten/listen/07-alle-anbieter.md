@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-16 · **37 offene Verweise** in **31 Zeilen**.
+Stand 2026-11-16 · **33 offene Verweise** in **27 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,9 +33,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Netflix](07-netflix.md) | 27 |
+| [Netflix](07-netflix.md) | 24 |
 | [Prime Video](07-primevideo.md) | 7 |
-| [Disney+](07-disneyplus.md) | 2 |
+| [Disney+](07-disneyplus.md) | 1 |
 | [Pluto TV](07-plutotv.md) | 1 |
 
 ## Zu prüfen
@@ -50,29 +50,25 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 6 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
 | 7 | 2026-09-20 | A Sign of Affection | [Hauptserie](https://www.netflix.com/title/81748453) |
 | 8 | 2026-09-07 | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
-| 9 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 10 | 2026-08-05 | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
-| 11 | 2026-07-19 | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
-| 12 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
-| 13 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 14 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 15 | 2024-09-20 | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 16 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 17 | 2024-07-19 | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
-| 18 | 2024-03-31 | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
-| 19 | 2023-06-18 | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
-| 20 | 2023-02-17 | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 21 | 2022-08-10 | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) |
-| 22 | 2022-04-15 | Detektiv Conan | [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
-| 23 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 24 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 25 | 2019-12-13 | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
-| 26 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 27 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 28 | 2006-09-01 | Ghost in the Shell: Stand Alone Complex | [Solid State Society](https://www.netflix.com/title/70071919) |
-| 29 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.netflix.com/title/70014551) |
-| 30 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
-| 31 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 9 | 2026-08-05 | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 10 | 2026-07-19 | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
+| 11 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
+| 12 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 13 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 14 | 2024-09-20 | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 15 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 16 | 2024-07-19 | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
+| 17 | 2024-03-31 | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
+| 18 | 2023-06-18 | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
+| 19 | 2023-02-17 | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 20 | 2022-04-15 | Detektiv Conan | [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
+| 21 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 22 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 23 | 2019-12-13 | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
+| 24 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 25 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 26 | 2004-04-17 | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 27 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-07",
+  "stand": "2026-11-16",
   "eintraege": [
     {
       "titel": "Shaman King",
@@ -16,6 +16,24 @@
       "tag": "2026-09-25",
       "anbieter": [
         "netflix"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Yu-Gi-Oh!",
+      "artikel": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "tag": "2026-08-29",
+      "anbieter": [
+        "disneyplus"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Naruto Shippuden",
+      "artikel": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "tag": "2026-09-02",
+      "anbieter": [
+        "disneyplus"
       ],
       "quelle": "Sammelartikel"
     },
