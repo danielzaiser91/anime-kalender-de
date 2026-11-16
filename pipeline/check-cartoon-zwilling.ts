@@ -28,6 +28,14 @@ console.log('\nCartoon oder Anime (Werkvergleich):')
   const doppelt = [...anime, t({ id: 10_000_000 + 7, titleEn: 'Rooster Fighter', jpYear: 2026, episodes: 12 })]
   pruefe('AniList-Titel schlägt den aniSearch-Zwilling desselben Werks', findeZwillinge([cartoon({ id: -5 })], doppelt, new Map()).zwillinge[0]?.zwilling === 179813)
   pruefe('Nur ein aniSearch-Titel: auch der ist ein Zwilling', findeZwillinge([cartoon({ id: -5 })], [doppelt[1]!], new Map()).zwillinge[0]?.zwilling === 10_000_007)
+  const staffeln = [t({ id: 100, titleEn: 'Rooster Fighter', jpYear: 2026, episodes: 12 }), t({ id: 200, titleEn: 'Rooster Fighter Season 2', jpYear: 2027, episodes: 12 })]
+  const zweiStaffeln = new Map([[5, [100, 200]]])
+  const doppelCartoon = cartoon({ id: -5, episodes: 24 })
+  const ohneUmzug = findeZwillinge([doppelCartoon], staffeln, zweiStaffeln)
+  pruefe('Zwei Staffeln derselben TMDB-Serie, kein Umzug: unsicher (Kontrolle)', ohneUmzug.zwillinge.length === 0 && ohneUmzug.unsicher[0]?.kandidaten.join() === '100,200', ohneUmzug)
+  const mitUmzug = findeZwillinge([doppelCartoon], staffeln, zweiStaffeln, new Map([[-5, 100]]))
+  pruefe('Zwei Staffeln, Umzug auf Staffel 1 bekannt: bleibt Zwilling', mitUmzug.zwillinge.length === 1 && mitUmzug.zwillinge[0]?.zwilling === 100 && mitUmzug.unsicher.length === 0, mitUmzug)
+  pruefe('Umzug auf einen Anime außerhalb der Kandidaten: gilt nicht', findeZwillinge([doppelCartoon], staffeln, zweiStaffeln, new Map([[-5, 300]])).zwillinge.length === 0)
   pruefe('Kein Name, keine Kennung: kein Zwilling', findeZwillinge([cartoon({ id: -5, titleEn: 'Etwas Anderes', tmdbId: 9 })], anime, new Map()).zwillinge.length === 0)
 }
 
