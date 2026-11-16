@@ -94,6 +94,31 @@ const vorTagen = (n: number) => new Date(jetzt - n * tag).toISOString()
 assert.equal(leerZeilen({ kinoheld: { leerSeit: leerSeitNeu(vorTagen(8), T1, 0, true, 3) } }, jetzt).length, 1, '3 zu suchen, 8 Tage leer: Meldung')
 assert.equal(leerZeilen({ kinoheld: { leerSeit: leerSeitNeu(vorTagen(8), T1, 0, true, 0) } }, jetzt).length, 0, '0 zu suchen: keine Meldung')
 
+/* --- Aufrufer: fetch-kinoheld.ts als Prozess gegen ein Wegwerf-Repo (Verdrahtung von zuSuchen) --- */
+function kinoheldLauf(releases: object[]) {
+  const w = mkdtempSync(join(tmpdir(), 'leer3-'))
+  try {
+    mkdirSync(join(w, 'data'), { recursive: true })
+    mkdirSync(join(w, 'public', 'data'), { recursive: true })
+    writeFileSync(join(w, 'public', 'data', 'releases.json'), JSON.stringify(releases))
+    const lauf = spawnSync(process.execPath, ['--import', 'tsx', resolve('pipeline/fetch-kinoheld.ts')], {
+      env: { ...process.env, AK_ROOT: w, SERPER_API_KEY: '' },
+      encoding: 'utf8',
+      timeout: 90_000,
+      windowsHide: true,
+    })
+    assert.equal(lauf.status, 0, `kinoheld lief durch: ${lauf.stdout}${lauf.stderr}`)
+    return JSON.parse(readFileSync(join(w, 'data', GESUNDHEIT), 'utf8')).kinoheld
+  } finally {
+    rmSync(w, { recursive: true, force: true })
+  }
+}
+const ohneArbeit = kinoheldLauf([])
+assert.equal(ohneArbeit.lastCount, 0)
+assert.equal(ohneArbeit.leerSeit, undefined, 'kinoheld: 0 zu suchen, 0 gefunden setzt kein leerSeit')
+const mitArbeit = kinoheldLauf([{ platform: 'kino', slug: 'zzqx-testfilm', titleId: 1, name: 'Zzqx Testfilm', schedule: { firstEpisodeDate: '2999-01-01' } }])
+assert.ok(mitArbeit.leerSeit, 'kinoheld: 1 zu suchen, 0 gefunden setzt leerSeit')
+
 /* --- Verdrahtung recordSource → Datei (AK_ROOT vor dem Import) --- */
 try {
   mkdirSync(join(wurzel2, 'data'), { recursive: true })
