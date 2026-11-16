@@ -191,7 +191,7 @@ globalThis.akNetflixSprung = async (id, tun) => {
   if (!umgeleitet) return tun.gehe(`/title/${id}`)
   tun.beleg()
   await tun.urteil(id, 'Umleitung auf Startseite')
-  tun.weiter(1)
+  tun.weiter(1, true)
 }
 
 /**
