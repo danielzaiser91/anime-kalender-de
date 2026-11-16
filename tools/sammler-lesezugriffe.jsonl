@@ -64,3 +64,4 @@
 {"datei":"pipeline/check-prime-gleiche-gti.ts","liest":"data/amazon-gti-belegt.json","grund":"Abschluss-Lauf: die ASIN-Adresse B0D98PQ1FW muss ihre gti aus der echten Belegdatei bekommen (Vorbedingung im Test prüft den Eintrag), sonst läuft die Zusammenführung im Bau nie"}
 {"datei":"pipeline/check-adn-ausreisser.ts","liest":"data/adn-catalog.json","grund":"Verdrahtungsfall: die echte Serie Demon Slave (showId 1125) wird als Kulisse in eine Wegwerf-Wurzel kopiert; der Lauf braucht genau diesen Katalogeintrag"}
 {"datei":"tools/zugangs-secret-wache.test.mjs","liest":"data/zugangs-register.json","grund":"--secrets-Prozess: Gleichstand-Fall braucht die Namen der github-secret-Einträge des echten Registers als Attrappen-Antwort"}
+{"datei":"pipeline/check-cartoon-umzug-bau.ts","liest":"data/cartoon-umzug.json","grund":"Kulisse im Temp-Ordner (AK_ROOT): der Test legt die Datei selbst an, kein Lesen des echten Bestands"}
