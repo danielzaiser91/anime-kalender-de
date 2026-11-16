@@ -127,7 +127,7 @@ async function neustart() {
   const zweiter = await seite(c, { jetzt: JETZT + 3 * TAG })
   pruefe('neue Seite/neuer Lauf: Titel noch zurückgestellt (nach 3 Tagen, Frist 7)', zweiter.karte.has('70177034'))
   pruefe('… aber nicht in den Schlüsseln des Berichts (nur dieser Lauf)', [...zweiter.karte.keys()].length === 0)
-  pruefe('Endanzeige nennt die Zahl', zweiter.karte.zurueckText() === ' · 1 zurückgestellt', zweiter.karte.zurueckText())
+  pruefe('Endanzeige nennt die Zahl', zweiter.karte.zurueckText() === ' · davor schon zurückgestellt (andere Durchgänge): 1', zweiter.karte.zurueckText())
 
   /* Ablauf wird sichtbar: spätestens nach der Frist ist der Titel wieder dran */
   const spaet = await seite(c, { jetzt: JETZT + 7 * TAG })
@@ -173,9 +173,9 @@ async function mitWartefunktion() {
 async function anzeige() {
   const a = speicherNeu({ [SCHLUESSEL]: { 1: { grund: 'x', bis: JETZT + TAG }, 2: { grund: 'x', bis: JETZT + TAG }, 3: { grund: 'x', bis: JETZT + TAG } } })
   const lauf = await seite(a, { nichtGelistet: ['3'] })
-  pruefe('Endanzeige zählt nur Titel der Prüfliste (3 gespeichert, einer nicht gelistet → 2)', lauf.karte.zurueckText() === ' · 2 zurückgestellt', lauf.karte.zurueckText())
+  pruefe('Endanzeige zählt nur Titel der Prüfliste (3 gespeichert, einer nicht gelistet → 2)', lauf.karte.zurueckText() === ' · davor schon zurückgestellt (andere Durchgänge): 2', lauf.karte.zurueckText())
   lauf.karte.set('1', 'keine Folgenliste in 20 s')
-  pruefe('… und nicht doppelt, was dieser Lauf schon namentlich nennt (1 übersprungen → 1)', lauf.karte.zurueckText() === ' · 1 zurückgestellt', lauf.karte.zurueckText())
+  pruefe('… und nicht doppelt, was dieser Lauf schon namentlich nennt (1 übersprungen → 1)', lauf.karte.zurueckText() === ' · davor schon zurückgestellt (andere Durchgänge): 1', lauf.karte.zurueckText())
   pruefe('Knopf ohne Auftrag: sind offene Titel zurückgestellt, sagt er das', lauf.karte.keinAuftrag().text === 'nichts offen · 2 zurückgestellt', lauf.karte.keinAuftrag())
   const leer = await seite(speicherNeu(), {})
   pruefe('… ohne zurückgestellte Titel bleibt der alte Text', leer.karte.keinAuftrag().text === 'nichts offen — Seite neu laden', leer.karte.keinAuftrag())

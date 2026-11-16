@@ -250,7 +250,7 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
     /** Anhang der Endanzeige: wie viele offene Titel zurückgestellt sind (leer bei 0). */
     zurueckText() {
       const n = this.zurueckOffen(true).length
-      return n ? ` · ${n} zurückgestellt` : ''
+      return n ? ` · davor schon zurückgestellt (andere Durchgänge): ${n}` : ''
     }
 
     /** Beschriftung des Knopfes, wenn der Durchgang keinen Auftrag findet: Zurückstellung oder wirklich nichts offen. */

@@ -337,8 +337,9 @@ globalThis.akNetflixErledigtStand = (speicher = sitzungSpeicher()) => {
   }
 }
 
-/** Zählt einen zurückgegebenen Titel mit. */
-globalThis.akNetflixErledigtZaehlen = (speicher = sitzungSpeicher()) => {
+/** Zählt einen zurückgegebenen Titel mit (`zaehlen` false: nichts). */
+globalThis.akNetflixErledigtZaehlen = (zaehlen = true, speicher = sitzungSpeicher()) => {
+  if (!zaehlen) return
   try {
     speicher?.setItem(ERLEDIGT_SCHLUESSEL, String(globalThis.akNetflixErledigtStand(speicher) + 1))
   } catch {
@@ -346,10 +347,10 @@ globalThis.akNetflixErledigtZaehlen = (speicher = sitzungSpeicher()) => {
   }
 }
 
-/** Merkt Zähler und Nenner; `null` als Zähler vergisst sie (Ende des Durchgangs), 0 = Laufbeginn (auch die zurückgegebenen Titel beginnen bei 0). */
+/** Merkt Zähler und Nenner; `null` als Zähler vergisst sie (Ende des Durchgangs), 0 = Laufbeginn (auch die zurückgegebenen Titel beginnen bei 0; am Ende bleiben sie für die Endzeile stehen). */
 globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher()) => {
   try {
-    if (!gezaehlt) speicher?.removeItem(ERLEDIGT_SCHLUESSEL)
+    if (gezaehlt === 0) speicher?.removeItem(ERLEDIGT_SCHLUESSEL)
     if (gezaehlt === null) speicher?.removeItem(ZAEHLER_SCHLUESSEL)
     else speicher?.setItem(ZAEHLER_SCHLUESSEL, JSON.stringify({ gezaehlt, grenze }))
   } catch {

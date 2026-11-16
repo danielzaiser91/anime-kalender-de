@@ -2378,7 +2378,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel, undefined, vorfallMelden)
+    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt + akNetflixErledigtStand(), offeneTitel, undefined, vorfallMelden)
     durchgangEndeZeigen()
   }
 }
@@ -2749,7 +2749,7 @@ function istAlleFolgenEintrag(text) {
 function selbstWeiter(frei = 0, nichtDa = false) {
   /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
-  if (nichtDa) akNetflixErledigtZaehlen()
+  akNetflixErledigtZaehlen(nichtDa)
   if (bremse.pause(Date.now())) return
   selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
   const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)

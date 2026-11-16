@@ -175,9 +175,9 @@ const funktionAus = (kopf) => {
     for (let i = 1; i <= titelZahl; i++) offen[i] = { titel: `T${i}` }
     const ergebnis = {}
     new Function(
-      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun',
+      'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun', 'akNetflixErledigtZaehlen',
       `${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
-    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} })
+    )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} }, () => {})
     return ergebnis
   }
   let r = seite(40)
@@ -229,10 +229,21 @@ const funktionAus = (kopf) => {
   pruefe('neuer Lauf (Zähler 0) beginnt auch bei 0 erledigten Titeln', k.akNetflixErledigtStand() === 0, speicher)
   k.akNetflixErledigtZaehlen()
   k.akNetflixZaehlerSetze(null)
-  pruefe('Ende des Durchgangs vergisst die erledigten Titel', k.akNetflixErledigtStand() === 0, speicher)
+  pruefe('Ende des Durchgangs behält die erledigten Titel (Endzeile), der nächste Start setzt sie auf 0', k.akNetflixErledigtStand() === 1, speicher)
   const zeile = melder.split('\n').find((z) => z.includes('const zahl = (selbstAn'))
   pruefe('Knopf in melder.js: Zahl aus akNetflixKnopfZahl(taktTun.fortschritt()) nur im Durchgang', /selbstAn && akNetflixKnopfZahl\(taktTun\.fortschritt\(\)\)/.test(zeile ?? ''), zeile)
   const knopf = (selbstAn, f) => new Function('selbstAn', 'akNetflixKnopfZahl', 'taktTun', 'fertig', 'gesamt', `${zeile}\nreturn zahl`)(selbstAn, k.akNetflixKnopfZahl, { fortschritt: () => f }, 0, 0)
+  /* Endzeile: echte `laufBeenden` aus melder.js nach sieben Neuladungen mit zurückgegebenem Titel (Daniel 16.11.: „besucht 4“ bei 128). */
+  const endeText = (erledigt) => {
+    const sp = { 'ak-netflix-erledigt': String(erledigt) }
+    const ergebnis = {}
+    new Function(
+      'selbstAn', 'selbstGezaehlt', 'akNetflixErledigtStand', 'akNetflixEnde', 'bremse', 'taktTun', 'durchgangBesitzer', 'meinTab', 'fertigeTitel', 'selbstUebersprungen', 'offeneTitel', 'vorfallMelden', 'durchgangEndeZeigen', 'DURCHLAUF', 'durchlaufKnopfZeigen', 'sessionStorage', 'LAUF_SCHLUESSEL', 'console', 'ergebnis', 'sp',
+      `let durchgangEnde = null\n${funktionAus('function laufBeenden(grund)')}\nlaufBeenden('kein offener Auftrag mehr')`,
+    )(true, 1, () => Number(sp['ak-netflix-erledigt']), (g, u, f, besucht) => { ergebnis.besucht = besucht; return {} }, { zuruecksetzen() {} }, { aufraeumen() {}, schreiben() {} }, null, 'a', new Map(), new Map(), {}, () => {}, () => {}, {}, () => {}, { removeItem() {} }, 'k', { log() {} }, ergebnis, sp)
+    return ergebnis.besucht
+  }
+  pruefe('Endzeile: besucht = Zähler + zurückgegebene Titel, (1 + 127 = 128)', endeText(127) === 128, endeText(127))
   const nachziehen = (f, text) => {
     let gezeichnet = 0
     k.akNetflixKnopfNachziehen(f, () => text, () => { gezeichnet++ })
