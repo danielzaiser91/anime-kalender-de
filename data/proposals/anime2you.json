@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-16T14:02:08.596Z",
+  "scrapedAt": "2026-11-16T15:02:01.526Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "schon in einem Rubrik-Feed gelesen": 6,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -22,6 +22,46 @@
         {
           "iso": "2027-02-25",
           "context": "r fassen nachfolgend alle Details zusammen. Vier Blu-ray-Neuheiten Am 25. Februar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbo"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Angel’s Egg« erscheint in neuer Edition auf 4K-Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1071466/angels-egg-neue-4k-blu-ray-edition/",
+      "publishedAt": "2026-11-16",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "lease im Februar 2027 »Angel’s Egg« erscheint nach aktuellem Stand am 25. Februar 2027 in einer Standard-Edition, die den rund 71-minütigen"
+        },
+        {
+          "month": "2027-02",
+          "context": "tion auf 4K-Blu-ray. Ein erstes Produktbild findet ihr unten. Release im Februar 2027 »Angel’s Egg« erscheint nach aktuellem Stand am 25. Fe"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TOGGO plus plant erneute Wiederholung von »Dragon Ball DAIMA«",
+      "articleUrl": "https://www.anime2you.de/news/1072212/toggo-plus-dragon-ball-daima-erneute-wiederholung/",
+      "publishedAt": "2026-11-16",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-12-07",
+          "context": "sammen. Wiederholung ab Dezember 2026 »Dragon Ball DAIMA« wird ab dem 7. Dezember 2026 jeweils von Montag bis Freitag um 21:15 Uhr mit deuts"
+        },
+        {
+          "month": "2026-12",
+          "context": "ie Actionserie »Dragon Ball DAIMA« laut der aktuellen Programmplanung im Dezember 2026 erneut ab der ersten Episode. Wir fassen zusammen. Wi"
         }
       ],
       "dub": "ja",
