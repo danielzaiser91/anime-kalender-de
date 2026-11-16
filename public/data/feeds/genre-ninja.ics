@@ -10,26 +10,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T195500Z
-DTEND:20261109T202500Z
-SUMMARY:Hell’s Paradise – Folge 11/13
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T202000Z
-DTEND:20261109T205000Z
-SUMMARY:Hell’s Paradise – Folge 12/13
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261116T202000Z

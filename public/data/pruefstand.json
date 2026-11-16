@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-16T22:17:11.012Z",
+ "erzeugtAm": "2026-11-16T23:13:28.993Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -304,8 +304,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 916,
-   "offen": 145,
+   "gesamt": 915,
+   "offen": 144,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -354,10 +354,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81712068",
-     "titel": "Die Tagebücher der Apothekerin"
     },
     {
      "url": "https://www.netflix.com/title/82058586",
