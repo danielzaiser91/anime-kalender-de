@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { todayIso } from '@shared/time.ts'
 import { loadJson, type Dataset } from '../lib/data.ts'
+import { Ladeplatz } from './Ladeplatz.tsx'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { saisonText, saisonVon, versetzt, zeilenDerSaison, type SaisonDatei, type SaisonZeile } from '../lib/saison.ts'
 import { SAISON_REITER, type SaisonReiter } from '../lib/router.ts'
@@ -24,10 +25,12 @@ export function SaisonView({ data, favorites, oeffne, reiter, setReiter }: {
   const { t } = useLang()
   const heute = saisonVon(todayIso())
   const saisons = { jetzt: heute, zuletzt: versetzt(heute, -1), ausblick: versetzt(heute, 1) }
-  const [datei, setDatei] = useState<SaisonDatei>()
+  /** undefined = lädt, null = nicht ladbar (die Ansicht steht dann ohne Datei). */
+  const [geladen, setDatei] = useState<SaisonDatei | null>()
+  const datei = geladen ?? undefined
   useEffect(() => {
     let aktiv = true
-    void loadJson<SaisonDatei>('saison.json').then((d) => aktiv && setDatei(d)).catch(() => undefined)
+    void loadJson<SaisonDatei>('saison.json').then((d) => aktiv && setDatei(d)).catch(() => aktiv && setDatei(null))
     return () => {
       aktiv = false
     }
@@ -68,7 +71,9 @@ export function SaisonView({ data, favorites, oeffne, reiter, setReiter }: {
           </button>
         ))}
       </div>
-      {reiter === 'ausblick' ? (
+      {geladen === undefined ? (
+        <Ladeplatz />
+      ) : reiter === 'ausblick' ? (
         <SaisonAusblick data={data} datei={datei} favorites={favorites} oeffne={oeffne} />
       ) : (
         <>

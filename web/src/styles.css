@@ -589,3 +589,8 @@ html.dark {
   --color-slate-500: #8a909b;
   --panel-grund: #0d0f14;
 }
+
+/* Fuß unsichtbar, solange eine nachladende Ansicht nur ihren Platzhalter zeigt (kein Layoutsprung beim Erstladen). */
+main:has([data-ladeplatz]) ~ footer {
+  visibility: hidden;
+}
