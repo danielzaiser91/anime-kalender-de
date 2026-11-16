@@ -2,4 +2,4 @@
 # Nur für Neufassungen desselben Films ohne eigenen TMDB-Eintrag; die TMDB-Kennung bleibt beim Original (tmdb-von-hand.yaml `ohne`), nur das Bild wird geliehen.
 - id: 10019697
   plakatVon: 130622
-  grund: Kitarou Tanjou Gegege no Nazo Shinsei-ban (aniSearch 19697, Film 2024-10-04, 105 min, Toei Animation) ist die Neufassung (真生版) des Films 130622 (2023-11-17, 104 min, TMDB 904759); gleiche deutsche Ausgabe (data/dub-confirmed.yaml, dieselbe ASIN B0FX4Q35V2). TMDB hat keinen eigenen Eintrag (Suche 16.11.2026 nach 真生版, Shinsei, Titel), aniSearch liefert kein Bild (cover-eigen.json 19697 nicht-gefunden).
+  grund: Kitarou Tanjou Gegege no Nazo Shinsei-ban (aniSearch 19697, Film 2024-10-04, 105 min, Toei Animation) ist die Neufassung (真生版) des Films 130622 (2023-11-17, 104 min, TMDB 904759). TMDB hat keinen eigenen Eintrag (Suche 16.11.2026 nach 真生版, Shinsei, Titel, 0 Treffer), aniSearch liefert kein Bild (cover-eigen.json 19697 nicht-gefunden).
