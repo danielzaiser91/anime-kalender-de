@@ -40880,3 +40880,37 @@
   dub: true
   checkedAt: '2026-11-16'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1072212/toggo-plus-dragon-ball-daima-erneute-wiederholung/ (2026-11-16): „Bereits seit dem 25. September 2026 sind alle Folgensowohl in der TOGGO-App als auch bei RTL+ mit deutscher Sprachfassung verfügbar.“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-16 ---
+
+- anilistId: 323
+  title: "Paranoia Agent"
+  platform: netflix
+  url: https://www.netflix.com/title/70014551
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 532
+  title: "Sailor Moon S"
+  platform: netflix
+  url: https://www.netflix.com/title/70020763
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 1566
+  title: "Ghost in the Shell: Stand Alone Complex - Solid State Society"
+  platform: netflix
+  url: https://www.netflix.com/title/70071919
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 2107
+  title: "One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin"
+  platform: netflix
+  url: https://www.netflix.com/title/70086565
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"

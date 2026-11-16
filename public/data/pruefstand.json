@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-16T17:23:09.187Z",
+ "erzeugtAm": "2026-11-16T20:03:09.167Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -304,8 +304,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 933,
-   "offen": 162,
+   "gesamt": 929,
+   "offen": 158,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -459,23 +459,11 @@
      "titel": "Magic Kaito: Kid the Phantom Thief"
     },
     {
-     "url": "https://www.netflix.com/title/70086565",
-     "titel": "One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin"
-    },
-    {
-     "url": "https://www.netflix.com/title/70071919",
-     "titel": "Ghost in the Shell: Stand Alone Complex - Solid State Society"
-    },
-    {
      "url": "https://www.netflix.com/title/70205010",
      "titel": "Nana",
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/70014551",
-     "titel": "Paranoia Agent"
     },
     {
      "url": "https://www.netflix.com/title/70023531",
@@ -498,10 +486,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/70020763",
-     "titel": "Sailor Moon S"
     },
     {
      "url": "https://www.netflix.com/title/81306317",
@@ -823,7 +807,7 @@
    "gemeldet": 183,
    "gesamt": 340,
    "offen": 157,
-   "ohneSeite": 14,
+   "ohneSeite": 13,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
     {
