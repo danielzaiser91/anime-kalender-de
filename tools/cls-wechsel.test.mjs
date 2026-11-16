@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { clsSumme, GRENZE } from './cls-wechsel.mjs'
+import { fussUrteil, LADEFAELLE } from './cls-erstladen.mjs'
 
 // Summe der Verschiebungen, Eingaben ausgenommen (Werte wie vom Messlauf auf main: Fuß 0,2491)
 assert.equal(clsSumme([]), 0)
@@ -8,3 +9,11 @@ assert.equal(clsSumme([{ value: 0.1, hadRecentInput: false }, { value: 0.05, had
 assert.equal(clsSumme([{ value: 0.3, hadRecentInput: true }, { value: 0.02, hadRecentInput: false }]), 0.02)
 assert.equal(GRENZE, 0.1)
 console.log('cls-wechsel: clsSumme in Ordnung (leer, Summe, Eingabe ausgenommen)')
+
+// Ladefehler (cls-erstladen): Fuß sichtbar und kein Platzhalter, je Bedingung ein roter Fall
+assert.equal(fussUrteil({ platz: 0, fuss: 'visible' }), true)
+assert.equal(fussUrteil({ platz: 1, fuss: 'visible' }), false)
+assert.equal(fussUrteil({ platz: 0, fuss: 'hidden' }), false)
+assert.equal(fussUrteil({ platz: 0, fuss: 'fehlt' }), false)
+assert.deepEqual(LADEFAELLE.map((f) => f.verhalten), ['abweisen', 'abweisen', 'haengen', 'haengen'])
+console.log('cls-erstladen: fussUrteil und Ladefälle in Ordnung')

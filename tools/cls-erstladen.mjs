@@ -51,6 +51,45 @@ export async function erstladenMessen({ dist, profil, routen = ROUTEN }) {
   }
 }
 
+/** Fälle, in denen die Daten einer Ansicht nie ankommen: abgewiesen (Fehler) oder hängend (Frist 8 s). Danach muss der Fuß sichtbar und kein Platzhalter mehr da sein. */
+export const LADEFAELLE = [
+  { name: 'News abgewiesen', route: '#/news', datei: /news\.json/, verhalten: 'abweisen', warteMs: 2500 },
+  { name: 'Saison abgewiesen', route: '#/saison', datei: /saison\.json/, verhalten: 'abweisen', warteMs: 2500 },
+  { name: 'News hängt', route: '#/news', datei: /news\.json/, verhalten: 'haengen', warteMs: 9500 },
+  { name: 'Saison hängt', route: '#/saison', datei: /saison\.json/, verhalten: 'haengen', warteMs: 9500 },
+]
+
+/** Urteil über den Zustand nach dem Warten: Fuß sichtbar und kein Platzhalter. */
+export function fussUrteil({ platz, fuss }) {
+  return platz === 0 && fuss === 'visible'
+}
+
+/** Lädt jeden Fall des Ladefehlers in frischem Kontext und liefert { name, platz, fuss, ok }. */
+export async function ladefehlerMessen({ dist, profil }) {
+  const browser = await chromium.launch()
+  try {
+    const ergebnisse = []
+    for (const fall of LADEFAELLE) {
+      const ctx = await browser.newContext({ ...PROFILE[profil](), serviceWorkers: 'block' })
+      await ctx.route(/^https?:\/\//, (r) => (`${new URL(r.request().url()).origin}/` === BASIS ? r.fallback() : r.abort()))
+      await ausDistLiefern(ctx, dist)
+      await ctx.route(fall.datei, (r) => (fall.verhalten === 'abweisen' ? r.abort() : new Promise(() => {})))
+      const seite = await ctx.newPage()
+      await seite.goto(`${BASIS}${fall.route}`, { waitUntil: 'load' })
+      await seite.waitForTimeout(fall.warteMs)
+      const zustand = await seite.evaluate(() => ({
+        platz: document.querySelectorAll('[data-ladeplatz]').length,
+        fuss: document.querySelector('footer') ? getComputedStyle(document.querySelector('footer')).visibility : 'fehlt',
+      }))
+      ergebnisse.push({ name: fall.name, ...zustand, ok: fussUrteil(zustand) })
+      await ctx.close()
+    }
+    return ergebnisse
+  } finally {
+    await browser.close()
+  }
+}
+
 async function main() {
   const arg = (name, vorgabe) => (process.argv.includes(`--${name}`) ? process.argv[process.argv.indexOf(`--${name}`) + 1] : vorgabe)
   if (!browserDa('cls-erstladen', chromium)) return
@@ -67,6 +106,12 @@ async function main() {
       if (zu) for (const e of r.eintraege) for (const q of e.quellen) console.log(`           ${e.value.toFixed(4)} ${q.knoten} y ${q.von} -> ${q.nach}`)
       if (zu) process.exitCode = 1
     }
+  }
+  const fehlerfaelle = await ladefehlerMessen({ dist: path.join(wurzel, 'dist'), profil: 'desktop' })
+  console.log(`cls-erstladen Ladefehler: ${fehlerfaelle.length} Fälle`)
+  for (const f of fehlerfaelle) {
+    console.log(`${f.name.padEnd(18)} Platzhalter ${f.platz}, Fuß ${f.fuss}${f.ok ? '' : '  FUSS FEHLT'}`)
+    if (!f.ok) process.exitCode = 1
   }
 }
 
