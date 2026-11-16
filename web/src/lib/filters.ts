@@ -17,7 +17,7 @@ import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 import { passtSprecher, type SprecherAuswahl } from './sprecher-auswahl.ts'
 import { herkunftVon, type Herkunft } from './herkunft.ts'
-import { passtWertung } from './filter-wertung.ts'
+import { passtWertung, wertungGesetzt } from './filter-wertung.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -348,7 +348,8 @@ export function releaseMatches(
   }
   if (f.statuses.length && !f.statuses.includes(status)) return false
   if (f.land.length && !f.land.includes(herkunftOderUnbekannt(title))) return false
-  if (!passtWertung(title?.score, f.minScore, f.ohneWertungAus)) return false
+  /* Die Wertung wird nur gelesen, wenn der Filter gesetzt ist: Die Kachel-Datei des Wochenstarts trägt `score` nicht (`TITEL_OHNE`). */
+  if (wertungGesetzt(f) && !passtWertung(title?.score, f.minScore, f.ohneWertungAus)) return false
 
   if (f.genres.length && !f.genres.every((g) => genres.includes(g))) return false
   if (f.keywords.length && !f.keywords.every((k) => keywords.includes(k))) return false
@@ -413,7 +414,7 @@ export function* filterTitlesGen(
       yield
       marke = performance.now()
     }
-    if (passtTitel(t, data, f, today, favorites, sprecher) && passtWertung(t.score, f.minScore, f.ohneWertungAus)) vorgefiltert.push(t)
+    if (passtTitel(t, data, f, today, favorites, sprecher) && (!wertungGesetzt(f) || passtWertung(t.score, f.minScore, f.ohneWertungAus))) vorgefiltert.push(t)
   }
   const gesucht = yield* sucheGen(
     vorgefiltert,

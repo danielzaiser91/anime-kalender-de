@@ -11,6 +11,11 @@ export function wertungText(score: number): string {
   return (score / 10).toFixed(1).replace('.', ',')
 }
 
+/** Ist ein Wertungsfilter gesetzt? Ohne ihn liest niemand `score` — die Kachel-Datei des Wochenstarts trägt es nicht (`TITEL_OHNE`). */
+export function wertungGesetzt(f: { minScore: number; ohneWertungAus: boolean }): boolean {
+  return f.minScore > 0 || f.ohneWertungAus
+}
+
 /**
  * Passt die Wertung eines Titels? `minScore` 0 = keine Schwelle. Ein Titel ohne Wertung fällt nur heraus, wenn
  * `ohneWertungAus` gesetzt ist — unabhängig von der Schwelle.

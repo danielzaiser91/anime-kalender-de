@@ -62,6 +62,14 @@ for (const [name, f, soll] of faelle) {
   pruefe(`Kalender-Termin: ${name}`, kalenderIds(f) === soll, kalenderIds(f))
 }
 pruefe('Kalender-Termin ohne Titelangabe zählt als ohne Wertung', releaseMatches(termin, undefined, { ...EMPTY_FILTERS, ohneWertungAus: true }, '2026-10-11') === false && releaseMatches(termin, undefined, { ...EMPTY_FILTERS, minScore: 70 }, '2026-10-11'))
+/* Die Kachel-Datei des Wochenstarts trägt `score` nicht: ohne gesetzten Wertungsfilter darf niemand es lesen (`tools/kachel-felder-messen.mjs`). */
+const gelesen: string[] = []
+const spaeher = new Proxy(titel(9, 50), { get: (z, k) => (gelesen.push(String(k)), Reflect.get(z, k)) })
+releaseMatches(termin, spaeher, EMPTY_FILTERS, '2026-10-11')
+filterTitles([spaeher], data, EMPTY_FILTERS, '2026-10-11', new Set())
+pruefe('ohne Wertungsfilter wird `score` weder im Kalender noch in der Datenbank gelesen', !gelesen.includes('score'), gelesen)
+releaseMatches(termin, spaeher, { ...EMPTY_FILTERS, minScore: 70 }, '2026-10-11')
+pruefe('mit Wertungsfilter wird `score` gelesen (Kontrolle des Spähers)', gelesen.includes('score'), gelesen)
 pruefe('Kalenderfilter übernimmt beide Felder aus dem eigenen Speicher', (() => {
   const k = kalenderFilter(EMPTY_FILTERS, { ...EMPTY_FILTERS, minScore: 75, ohneWertungAus: true })
   return k.minScore === 75 && k.ohneWertungAus === true
