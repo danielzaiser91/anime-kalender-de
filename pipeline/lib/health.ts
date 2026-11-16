@@ -28,8 +28,14 @@ export interface SourceState {
 }
 
 /** Setzt `leerSeit` fort, setzt es neu oder löscht es (undefined). */
-export function leerSeitNeu(vorher: string | undefined, now: string, count: number, erfolgreich: boolean): string | undefined {
-  return erfolgreich && count === 0 ? (vorher ?? now) : undefined
+export function leerSeitNeu(vorher: string | undefined, now: string, count: number, erfolgreich: boolean, zuSuchen?: number): string | undefined {
+  // Hatte der Sammler nichts zu suchen (zuSuchen = 0), ist Leere richtig: kein „grün, aber leer“ (kinoheld, 16.11.2026).
+  return erfolgreich && count === 0 && zuSuchen !== 0 ? (vorher ?? now) : undefined
+}
+
+/** `zuSuchen` für `recordSource`: „nichts zu suchen“ zählt nur, wenn die Eingabe geladen und nicht leer war; sonst undefined (Wache wie bisher). */
+export function zuSuchenMitBeleg(eingabeZeilen: number, offen: number): number | undefined {
+  return eingabeZeilen > 0 ? offen : undefined
 }
 
 export type SourceHealth = Record<string, SourceState>
@@ -83,6 +89,8 @@ export function recordSource(
   gearbeitet?: number,
   leerIstOk?: boolean,
   gesperrt?: boolean,
+  /** Länge der abgearbeiteten Liste; 0 = nichts zu tun, dann zählt Leere nicht als „grün, aber leer“. */
+  zuSuchen?: number,
 ): void {
   const health = readJson<SourceHealth>(FILE, {})
   const now = new Date().toISOString()
@@ -94,7 +102,7 @@ export function recordSource(
     lastCount: count,
     lastError: erfolgreich ? undefined : (error ?? previous?.lastError),
     gesperrt: gesperrt ?? previous?.gesperrt,
-    leerSeit: leerSeitNeu(previous?.leerSeit, now, count, erfolgreich),
+    leerSeit: leerSeitNeu(previous?.leerSeit, now, count, erfolgreich, zuSuchen),
   }
   writeJson(FILE, health, true)
 }
