@@ -283,6 +283,7 @@ pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kasten.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-folgenzahl-sichtung.ts
+pipeline/check-geteilte-adressen.ts
 pipeline/check-gleiche-adresse.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
@@ -670,7 +671,6 @@ pipeline/check-verweise-von-hand.ts
 pipeline/check-vorfaelle-ablauf.ts
 pipeline/check-vorlieben.ts
 pipeline/check-weg-adresse-bezugsweg.ts
-pipeline/check-geteilte-adressen.ts
 pipeline/check-weg-aus-meldung.ts
 pipeline/check-weg-nein-gti.ts
 pipeline/check-wege-aus-terminen.ts
