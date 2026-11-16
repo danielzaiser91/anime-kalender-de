@@ -1,5 +1,6 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { datenAdresse } from './daten-adresse.ts'
+import { gemerkt, holeMitNeuversuch, type NeuversuchOptionen } from './lade-neuversuch.ts'
 import { ecchiZeigen, istEcchi, ohneEcchi } from './ecchi.ts'
 import { merkeSammelartikel } from './sammel-belege.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
@@ -39,21 +40,21 @@ const KENNUNGEN = typeof __DATEI_KENNUNGEN__ === 'object' ? __DATEI_KENNUNGEN__ 
  *
  * Der Service Worker weiß davon (siehe `public/sw.js`): Er antwortet bei
  * gleicher Kennung sofort aus dem Cache und fällt offline auf die letzte
- * bekannte Fassung zurück, egal welche Kennung die trägt.
+ * bekannte Fassung zurück, egal welche Kennung die trägt. Bei einer 5xx-Antwort
+ * tut er das bewusst nicht (alte und neue Dateien würden unbemerkt gemischt):
+ * da greifen die Neuversuche von `loadJson`.
  */
 function url(path: string): string {
   return datenAdresse(import.meta.env?.BASE_URL ?? '/', path, KENNUNGEN, BUILD_ID)
 }
 
-export async function loadJson<T>(path: string): Promise<T> {
-  const res = await fetch(url(path))
-  if (!res.ok) throw new Error(`${path} konnte nicht geladen werden (${res.status})`)
-  return (await res.json()) as T
+/** Mit Neuversuchen bei Netzfehler, 5xx und 429 (`lade-neuversuch.ts`); `opt` setzen nur Tests. */
+export function loadJson<T>(path: string, opt?: NeuversuchOptionen): Promise<T> {
+  return holeMitNeuversuch<T>(url(path), path, opt)
 }
 
-/** `meta.json` wird vom Wochen-Start und vom vollen Datensatz gebraucht — ein Abruf. */
-let metaPromise: Promise<DataMeta> | undefined
-const loadMeta = () => (metaPromise ??= loadJson<DataMeta>('meta.json'))
+/** `meta.json` wird vom Wochen-Start und vom vollen Datensatz gebraucht — ein Abruf; ein Fehlschlag wird nicht gemerkt (`gemerkt`), damit „Erneut versuchen“ neu abruft. */
+const loadMeta = () => gemerkt('meta', () => loadJson<DataMeta>('meta.json'))
 
 export async function loadDataset(): Promise<Dataset> {
   const [titles, releases, events, meta] = await Promise.all([
@@ -72,15 +73,13 @@ export interface WochenStart {
   bis: string
 }
 
-let wochenStartPromise: Promise<WochenStart> | undefined
 
 /** `woche-kacheln.json` (nur Kachelfelder, `shared/wochen-kacheln.ts`) + `meta.json` statt der drei vollen Dateien — für den Erstaufruf der Wochenansicht. */
 export function loadWochenStart(): Promise<WochenStart> {
-  wochenStartPromise ??= Promise.all([loadJson<WochenDatei>(`${KACHEL_DATEI}.json`), loadMeta()]).then(([gepackt, meta]) => {
+  return gemerkt('wochenStart', () => Promise.all([loadJson<WochenDatei>(`${KACHEL_DATEI}.json`), loadMeta()]).then(([gepackt, meta]) => {
     const w = entpackeKachel(gepackt)
     return { data: baueDataset(w.titles, w.releases, w.events, meta), von: w.von, bis: w.bis }
-  })
-  return wochenStartPromise
+  }))
 }
 
 function baueDataset(alleTitel: Title[], alleReleases: Release[], alleEvents: ReleaseEvent[], meta: DataMeta): Dataset {
@@ -112,7 +111,6 @@ function baueDataset(alleTitel: Title[], alleReleases: Release[], alleEvents: Re
   return { titles, titleById, releases, releaseBySlug, events, eventsByDate, releasesByTitle, meta: filterMeta }
 }
 
-let allTitlesPromise: Promise<Title[]> | undefined
 
 /**
  * Vollständige Titelliste — mehrere Megabyte, deshalb erst beim Öffnen der
@@ -120,15 +118,14 @@ let allTitlesPromise: Promise<Title[]> | undefined
  * damit das Detail-Panel sie danach ohne weiteren Abruf findet.
  */
 export function loadAllTitles(data: Dataset): Promise<Title[]> {
-  allTitlesPromise ??= loadJson<Title[]>('titles.json').then((titles) => {
+  return gemerkt('allTitles', () => loadJson<Title[]>('titles.json').then((titles) => {
     for (const t of titles) {
       const existing = data.titleById.get(t.id)
       // Kuratierte Ergänzungen aus dem Kern-Datensatz nicht überschreiben.
       data.titleById.set(t.id, existing ? { ...t, ...existing } : t)
     }
     return ohneEcchi(titles.map((t) => data.titleById.get(t.id)!))
-  })
-  return allTitlesPromise
+  }))
 }
 
 /**
@@ -140,7 +137,6 @@ export async function ladeTitelBestand(data: Dataset, id: number): Promise<void>
   if (!data.titleById.has(id)) await loadOhneSynchro(data)
 }
 
-let ohneSynchroPromise: Promise<Title[]> | undefined
 
 /**
  * Anime **ohne** belegte deutsche Synchro — die größte Datei des Projekts.
@@ -154,7 +150,7 @@ let ohneSynchroPromise: Promise<Title[]> | undefined
  * fände das Detail-Panel einen gemerkten Titel nicht wieder.
  */
 export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
-  ohneSynchroPromise ??= loadJson<OhneSynchroRoh[]>('ohne-synchro.json')
+  return gemerkt('ohneSynchro', () => loadJson<OhneSynchroRoh[]>('ohne-synchro.json')
     .then((roh) => {
       const titles = roh.map((t) => ({
         ...t,
@@ -181,24 +177,20 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
       for (const t of titles) data.titleById.set(t.id, data.titleById.get(t.id) ?? t)
       return ohneEcchi(titles)
     })
-    .catch(() => [])
-  return ohneSynchroPromise
+    , () => [])
 }
 
-let ohneNamenPromise: Promise<Title[]> | undefined
 
 /**
  * Nur die Namen und Filterfelder der Titel ohne Synchro (`ohne-synchro-namen.json`) — für den Suchhinweis, der sonst die ganze Datei
  * (gzip 1,7 MB) laden müsste. Die Titel wandern nicht in den Index der App (kein Panel dazu); fehlt die Datei, gibt es keinen Hinweis.
  */
 export function loadOhneSynchroNamen(): Promise<Title[]> {
-  ohneNamenPromise ??= loadJson<Title[]>('ohne-synchro-namen.json')
+  return gemerkt('ohneNamen', () => loadJson<Title[]>('ohne-synchro-namen.json')
     .then((zeilen) => ohneEcchi(zeilen.map((t) => ({ ...t, slug: String(t.id), genres: t.genres ?? [], keywords: [], streams: [], dubConfidence: 'low' as const, ohneSynchro: true }))))
-    .catch(() => [])
-  return ohneNamenPromise
+    , () => [])
 }
 
-let cartoonsPromise: Promise<Title[]> | undefined
 
 /**
  * **Westliche Animationsserien — immer geladen, ausblendbar über den Schnellfilter „Cartoon".**
@@ -214,19 +206,17 @@ let cartoonsPromise: Promise<Title[]> | undefined
  * Detail-Panel einen gemerkten Titel nicht wieder.
  */
 export function loadCartoons(data: Dataset): Promise<Title[]> {
-  cartoonsPromise ??= loadJson<Title[]>('cartoons.json')
+  return gemerkt('cartoons', () => loadJson<Title[]>('cartoons.json')
     .then((titles) => {
       for (const t of titles) data.titleById.set(t.id, data.titleById.get(t.id) ?? t)
       return titles
     })
-    .catch(() => [])
-  return cartoonsPromise
+    , () => [])
 }
 
 /** Wie ein Eintrag in `ohne-synchro.json` wirklich aussieht — drei Felder fehlen. */
 type OhneSynchroRoh = Omit<Title, 'slug' | 'keywords' | 'streams'>
 
-let franchisesPromise: Promise<Franchises> | undefined
 
 /**
  * Welche Staffeln, Filme und Specials zu einer Reihe gehören.
@@ -238,7 +228,7 @@ let franchisesPromise: Promise<Franchises> | undefined
  * gar nichts (gemeldet von Daniel, 12.08.2026).
  */
 export function loadFranchises(): Promise<Franchises> {
-  franchisesPromise ??= loadJson<Franchises>('franchises.json')
+  return gemerkt('franchises', () => loadJson<Franchises>('franchises.json')
     .then((reihen) => {
       // Der Adressvorsatz der Cover fehlt in der Datei — hier kommt er zurück,
       // an genau einer Stelle. Siehe ANILIST_COVER_BASIS.
@@ -249,11 +239,9 @@ export function loadFranchises(): Promise<Franchises> {
       }
       return reihen
     })
-    .catch(() => ({}) as Franchises)
-  return franchisesPromise
+    , () => ({}) as Franchises)
 }
 
-let newsPromise: Promise<NewsEintrag[]> | undefined
 
 /**
  * Die Meldungen der Nachrichtenseite — eigene Datei, geholt beim Öffnen.
@@ -262,17 +250,15 @@ let newsPromise: Promise<NewsEintrag[]> | undefined
  * Termine sehen, nicht die Chronik. 275 Meldungen sind rund 60 KB.
  */
 export function loadNews(): Promise<NewsEintrag[]> {
-  newsPromise ??= loadJson<NewsEintrag[]>('news.json')
+  return gemerkt('news', () => loadJson<NewsEintrag[]>('news.json')
     .then((liste) => {
       for (const m of liste) if (m.cover && !m.cover.startsWith('http')) m.cover = ANILIST_COVER_BASIS + m.cover
       merkeSammelartikel(liste)
       return liste
     })
-    .catch(() => [])
-  return newsPromise
+    , () => [])
 }
 
-let meldungenPromise: Promise<Map<number, Meldung[]>> | undefined
 
 /**
  * Fundstellen aus den Nachrichtenquellen, nach Titel gebündelt.
@@ -281,14 +267,13 @@ let meldungenPromise: Promise<Map<number, Meldung[]>> | undefined
  * Handvoll Titel, und für alle anderen wäre sie Ladelast ohne Gegenwert.
  */
 export function loadMeldungen(): Promise<Map<number, Meldung[]>> {
-  meldungenPromise ??= loadJson<Meldung[]>('meldungen.json')
+  return gemerkt('meldungen', () => loadJson<Meldung[]>('meldungen.json')
     .then((liste) => {
       const nachTitel = new Map<number, Meldung[]>()
       for (const m of liste) nachTitel.set(m.titleId, [...(nachTitel.get(m.titleId) ?? []), m])
       return nachTitel
     })
-    .catch(() => new Map<number, Meldung[]>())
-  return meldungenPromise
+    , () => new Map<number, Meldung[]>())
 }
 
 /** Handlung je Sprache. Deutsch stammt von TMDB, Englisch von AniList. */
@@ -411,15 +396,13 @@ export function absoluteFeedUrl(name: string): string {
  * erst mit der Datenbank-Ansicht; bis dahin sucht die Suche wie bisher.
  */
 const SYNONYME = new Map<number, string[]>()
-let synonymePromise: Promise<void> | undefined
 
 export function loadSynonyme(): Promise<void> {
-  synonymePromise ??= loadJson<Record<string, string[]>>('synonyme.json')
+  return gemerkt('synonyme', () => loadJson<Record<string, string[]>>('synonyme.json')
     .then((roh) => {
       for (const [id, namen] of Object.entries(roh)) SYNONYME.set(Number(id), namen)
     })
-    .catch(() => {})
-  return synonymePromise
+    , () => {})
 }
 
 export function synonymeFuer(id: number): string[] {

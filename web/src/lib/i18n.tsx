@@ -20,9 +20,10 @@ const TEXTE = {
   'app.title': 'Anime-Kalender DE',
   'app.loading': 'Kalender wird geladen …',
   'app.loadingTitles': '{count} Einträge werden geladen …',
+  'app.loadError': 'Die Daten laden gerade nicht.',
+  'app.loadRetry': 'Erneut versuchen',
+  'app.loadRetryHint': 'Klappt es nicht, versuch es in ein paar Minuten noch einmal.',
   'app.laedt': 'Lädt …',
-  'app.loadError': 'Daten konnten nicht geladen werden',
-  'app.loadHint': 'Wurde die Datenpipeline schon ausgeführt?',
 
   'view.woche': 'Woche',
   'view.monat': 'Monat',

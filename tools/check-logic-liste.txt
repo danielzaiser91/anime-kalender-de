@@ -379,6 +379,7 @@ pipeline/check-katalogstart-tag.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-kopf-menue.ts
 pipeline/check-kopfzeile-premiere.ts
+pipeline/check-lade-neuversuch.ts
 pipeline/check-ladefehler-nein.ts
 pipeline/check-ladeplatz-frist.ts
 pipeline/check-lauf-fortschritt.ts
