@@ -607,7 +607,7 @@ try {
   assert.equal(lose(nbListe, '_wt-nb-reg'), undefined, 'registrierter Worktree daneben ist kein loser Ordner')
   assert.equal(existsSync(nachbar('_wt-nb-weg')), true, '--liste ändert nichts')
   // Lose Dateien: alte reguläre Datei wird geplant und entfernt, junge und Verknüpfung bleiben (Verknüpfungsziel unberührt).
-  const alt = new Date(Date.now() - 25 * 3600_000)
+  const alt = new Date('2020-01-01T00:00:00Z')
   writeFileSync(nachbar('_wt-nb-alt.log'), 'alt')
   utimesSync(nachbar('_wt-nb-alt.log'), alt, alt)
   const dateiListe = H.abbau(haupt, welt, false)
