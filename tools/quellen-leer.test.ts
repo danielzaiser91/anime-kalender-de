@@ -15,6 +15,12 @@ const GESUNDHEIT = ['source', 'health.json'].join('-')
 const T0 = '2999-01-01T00:00:00.000Z'
 const T1 = '2999-01-02T00:00:00.000Z'
 
+/* --- zuSuchen: leere Arbeitsliste ist keine „grüne Leere“ --- */
+assert.equal(leerSeitNeu(undefined, T1, 0, true, 0), undefined, 'kinoheld: 0 zu suchen, 0 gefunden warnt nicht')
+assert.equal(leerSeitNeu(T0, T1, 0, true, 0), undefined, 'Liste wird leer: Beginn entfällt')
+assert.equal(leerSeitNeu(undefined, T1, 0, true, 3), T1, '3 zu suchen, 0 gefunden: Beginn gesetzt')
+assert.equal(leerSeitNeu(T0, T1, 0, true, 3), T0, 'Folgelauf mit Arbeit behält den Beginn')
+
 /* --- leerSeitNeu: alle Zweige --- */
 assert.equal(leerSeitNeu(undefined, T1, 0, true), T1, 'erster grüner leerer Lauf setzt den Beginn')
 assert.equal(leerSeitNeu(T0, T1, 0, true), T0, 'Folgelauf behält den Beginn')
@@ -83,6 +89,11 @@ try {
   rmSync(wurzel, { recursive: true, force: true })
 }
 
+/* kinoheld-Fall: 8 Tage Leere mit Arbeit warnt, ohne Arbeit nicht */
+const vorTagen = (n: number) => new Date(jetzt - n * tag).toISOString()
+assert.equal(leerZeilen({ kinoheld: { leerSeit: leerSeitNeu(vorTagen(8), T1, 0, true, 3) } }, jetzt).length, 1, '3 zu suchen, 8 Tage leer: Meldung')
+assert.equal(leerZeilen({ kinoheld: { leerSeit: leerSeitNeu(vorTagen(8), T1, 0, true, 0) } }, jetzt).length, 0, '0 zu suchen: keine Meldung')
+
 /* --- Verdrahtung recordSource → Datei (AK_ROOT vor dem Import) --- */
 try {
   mkdirSync(join(wurzel2, 'data'), { recursive: true })
@@ -92,6 +103,8 @@ try {
   assert.ok(beginn, 'grüner leerer Lauf schreibt leerSeit')
   recordSource('q', 0, undefined, undefined, true)
   assert.equal(lese().q.leerSeit, beginn, 'zweiter Lauf behält den Beginn')
+  recordSource('q', 0, undefined, undefined, true, undefined, 0)
+  assert.equal(lese().q.leerSeit, undefined, 'zuSuchen 0 löscht')
   recordSource('q', 2)
   assert.equal(lese().q.leerSeit, undefined, 'Treffer löscht')
   recordSource('q', 0, 'HTTP 500')

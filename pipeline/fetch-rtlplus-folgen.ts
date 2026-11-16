@@ -128,5 +128,5 @@ if (programme.size) {
 }
 
 writeJson(ZIEL, ergebnis, true)
-recordSource('rtlplus-folgen', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Abruf(e) gescheitert` : undefined, abrufe, programme.size === 0)
+recordSource('rtlplus-folgen', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Abruf(e) gescheitert` : undefined, abrufe, programme.size === 0, undefined, programme.size)
 log(`${programme.size} RTL+-Serie(n), ${abrufe} Abrufe → ${ZIEL}`)

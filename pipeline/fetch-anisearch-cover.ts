@@ -71,7 +71,7 @@ async function main(): Promise<void> {
   const z = await holeCover(offen, manifest, { limit: LIMIT, token, ende: Date.now() + LAUFZEIT_MS }, echteAbhaengigkeiten())
   log(`${z.neu} Bilder neu (davon ${z.gerettet} per Rückfall auf die API-Adresse gerettet), ${z.ohneBild} ohne Bild vermerkt (${z.endgueltig404} endgültig 404), ${z.fehler} Fehlschläge, ${Object.keys(manifest).length} Einträge im Manifest`)
   if (z.abgebrochen) warn(`Lauf abgebrochen: ${z.abgebrochen}`)
-  recordSource('anisearch-cover-eigen', z.neu, z.abgebrochen, undefined, offen.length === 0)
+  recordSource('anisearch-cover-eigen', z.neu, z.abgebrochen, undefined, offen.length === 0, undefined, offen.length)
 }
 
 if (process.argv[1]?.replace(/\\/g, '/').endsWith('fetch-anisearch-cover.ts')) await main()

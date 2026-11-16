@@ -183,5 +183,5 @@ for (const [serie, ids] of jeSerie) {
 }
 
 writeJson(ZIEL, ergebnis, true)
-recordSource('toggo', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Serie(n) ohne Antwort` : undefined, jeSerie.size, jeSerie.size === 0)
+recordSource('toggo', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Serie(n) ohne Antwort` : undefined, jeSerie.size, jeSerie.size === 0, undefined, jeSerie.size)
 log(`${jeSerie.size} TOGGO-Serie(n) gefragt, ${fehler} ohne Antwort → ${ZIEL}`)

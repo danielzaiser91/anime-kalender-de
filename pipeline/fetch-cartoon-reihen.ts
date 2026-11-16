@@ -144,7 +144,7 @@ async function main(): Promise<void> {
   const sortiert = Object.fromEntries(Object.entries(daten).sort(([a], [b]) => Number(a) - Number(b)))
   writeJson(REIHEN_DATEI, sortiert, true)
   const mitItem = Object.values(sortiert).filter((e) => e.qid).length
-  recordSource('cartoon-reihen', geholt, undefined, geholt + ausgefallen, true)
+  recordSource('cartoon-reihen', geholt, undefined, geholt + ausgefallen, true, undefined, geholt + ausgefallen)
   log(`${neueKennungen} Kennungen gefragt, ${mitItem} von ${tmdbIds.length} Serien mit Wikidata-Item, ${geholt} Items gelesen, ${ausgefallen} offen geblieben`)
 }
 

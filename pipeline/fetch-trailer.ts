@@ -469,7 +469,7 @@ export async function main(opt: { riegel?: number; speichernAlle?: number } = {}
   const dran = waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)
   log(`${filme.length} Filme · ${weg} tote Adressen entfernt · ${dran.length} ohne deutschen Trailer`)
   if (!dran.length) {
-    recordSource('trailer', 0, undefined, filme.length, true)
+    recordSource('trailer', 0, undefined, filme.length, true, undefined, filme.length)
     writeJson('data/trailer.json', bestand)
     return
   }

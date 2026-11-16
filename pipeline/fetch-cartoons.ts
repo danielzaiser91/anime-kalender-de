@@ -326,7 +326,7 @@ async function main(): Promise<void> {
 
   writeJson('data/cartoons.json', bestand)
   const mitAnbieter = Object.values(bestand).filter((e) => e.anbieterDe.length).length
-  recordSource('cartoons', dran.length - verworfen, undefined, dran.length, true)
+  recordSource('cartoons', dran.length - verworfen, undefined, dran.length, true, undefined, dran.length)
   log(
     `${neu} neu, ${verworfen} ohne Animations-Genre verworfen · ` +
       `${Object.keys(bestand).length} Titel, davon ${mitAnbieter} mit Anbieter in Deutschland`,
