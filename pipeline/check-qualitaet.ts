@@ -24,6 +24,7 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
+import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
 import { RUECKGANG_ZEILE, streamingRueckgang, VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
 
 interface Kennzahlen {
@@ -53,6 +54,7 @@ function main(): void {
   const events = readJson<{ date?: string; titleId?: number }[]>('public/data/events.json', [])
   const heute = todayIso()
   const ids = new Set(titles.map((t) => t.id))
+  const cartoonIds = readJson<{ id: number }[]>('public/data/cartoons.json', []).map((c) => c.id)
 
   let verweise = 0
   let mitSynchro = 0
@@ -84,7 +86,7 @@ function main(): void {
     kuenftigeTermine: events.filter((e) => (e.date ?? '') >= heute).length,
     dubFalseImBestand: dubFalse,
     doppelteAdressen: doppelt,
-    verwaisteTermine: events.filter((e) => e.titleId && e.titleId !== -1 && !ids.has(e.titleId)).length,
+    verwaisteTermine: zaehleVerwaisteTermine(events, ids, cartoonIds),
   }
 
   /*

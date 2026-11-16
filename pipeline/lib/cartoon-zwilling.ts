@@ -45,8 +45,10 @@ const schluessel = (namen: (string | undefined)[]): Set<string> => new Set(namen
 
 /**
  * @param tmdbJeAnime TMDB-Kennung (Serie) → Anime-Kennungen, die `data/tmdb-titles.json` ihr zuordnet
+ * @param umzug schon vollzogener Umzug (Cartoon → Anime, `data/cartoon-umzug.json`): bleibt der Anime unter den passenden Kandidaten, gilt er weiter,
+ *   auch wenn ein neuer Kandidat (zweite Staffel derselben TMDB-Serie) dazukommt (Larva Island -83248, 16.11.2026)
  */
-export function findeZwillinge(cartoons: Title[], anime: Title[], tmdbJeAnime: Map<number, number[]>): { zwillinge: Zwilling[]; unsicher: Unsicher[] } {
+export function findeZwillinge(cartoons: Title[], anime: Title[], tmdbJeAnime: Map<number, number[]>, umzug: ReadonlyMap<number, number> = new Map()): { zwillinge: Zwilling[]; unsicher: Unsicher[] } {
   const nachId = new Map(anime.map((t) => [t.id, t]))
   const nachName = new Map<string, Title[]>()
   for (const t of anime) for (const s of schluessel([t.titleRomaji, t.titleEn, t.titleDe])) nachName.set(s, [...(nachName.get(s) ?? []), t])
@@ -64,8 +66,9 @@ export function findeZwillinge(cartoons: Title[], anime: Title[], tmdbJeAnime: M
     /* Mehrere Treffer: ein AniList-Titel schlägt aniSearch-Titel; bleiben mehrere gleichrangige, ist es unklar. */
     const anilist = passend.filter((t) => t.id < ANISEARCH_AB)
     const rang = anilist.length ? anilist : passend
-    if (rang.length === 1) {
-      const t = rang[0]!
+    const bekannt = rang.find((t) => umzug.get(c.id) === t.id)
+    if (rang.length === 1 || bekannt) {
+      const t = bekannt ?? rang[0]!
       zwillinge.push({ cartoonId: c.id, zwilling: t.id, beleg: ueberKennung.length ? 'tmdb-kennung' : 'name-jahr-folgen', ...(t.malId ? { mal: t.malId } : {}) })
     } else {
       unsicher.push({ cartoonId: c.id, kandidaten: ids, grund: rang.length ? 'mehrere gleichrangige Treffer' : 'Jahr oder Folgenzahl passen nicht' })
