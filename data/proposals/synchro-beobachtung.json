@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-16",
+  "stand": "2026-11-17",
   "eintraege": [
     {
       "titel": "Inazuma Eleven: The Movie - Team Oger greift an",
@@ -133,6 +133,13 @@
       "anbieter": "unbekannt",
       "start": "2026-12-11",
       "seit": "2026-11-11"
+    },
+    {
+      "titel": "The First Order 2",
+      "id": 206283,
+      "anbieter": "unbekannt",
+      "start": "2026-12-17",
+      "seit": "2026-11-17"
     }
   ],
   "abgeloest": [
