@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-16 · **32 offene Verweise** in **26 Zeilen**,
-aufgeteilt in **2 Pakete** zu je 20.
+Stand 2026-11-16 · **21 offene Verweise** in **19 Zeilen**,
+aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 20
+## Paket 1 — Zeilen 1 bis 19
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -43,26 +43,14 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 6 | Pluto TV | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
 | 7 | Prime Video | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
 | 8 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 9 | Netflix | Detektiv Conan | [Die Kreuzung des Labyrinths](https://www.netflix.com/title/81757599) · [Magic Kaito: Kid the Phantom Thief](https://www.netflix.com/title/81757633) · [Die Sonnenblumen des Infernos](https://www.netflix.com/title/81757600) · [Der purpurrote Liebesbrief](https://www.netflix.com/title/81757605) · [Die Halloween-Braut](https://www.netflix.com/title/81757621) |
-| 10 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 11 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
-| 12 | Netflix | Wind Breaker | [Hauptserie](https://www.netflix.com/title/81771389) |
-| 13 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
-| 14 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 15 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
-| 16 | Netflix | A Sign of Affection | [Hauptserie](https://www.netflix.com/title/81748453) |
-| 17 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 18 | Netflix | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
-| 19 | Netflix | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
-| 20 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-
-## Paket 2 — Zeilen 21 bis 26
-
-| # | Anbieter | Reihe | Noch zu bestätigen |
-|---|---|---|---|
-| 21 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 22 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 23 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
-| 24 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 25 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 26 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 9 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 10 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
+| 11 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 12 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
+| 13 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 14 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 15 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 16 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 17 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 18 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 19 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |

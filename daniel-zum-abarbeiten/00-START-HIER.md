@@ -8,7 +8,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 3 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
 | 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 27 Adressen, 274 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](listen/06-netflix-rest.md) | 93 Titel, 28 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 3 | [Netflix](listen/06-netflix-rest.md) | 81 Titel, 16 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 7 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](listen/07-disneyplus.md) | 42 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](listen/21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |

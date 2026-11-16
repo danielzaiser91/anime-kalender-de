@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-16T20:31:34.746Z",
+ "erzeugtAm": "2026-11-16T22:17:11.012Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -304,8 +304,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 928,
-   "offen": 157,
+   "gesamt": 916,
+   "offen": 145,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -376,22 +376,6 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/81748453",
-     "titel": "A Sign of Affection"
-    },
-    {
-     "url": "https://www.netflix.com/title/81748512",
-     "titel": "Solo Leveling"
-    },
-    {
-     "url": "https://www.netflix.com/title/81768918",
-     "titel": "Spice and Wolf: Merchant Meets the Wise Wolf"
-    },
-    {
-     "url": "https://www.netflix.com/title/81771389",
-     "titel": "Wind Breaker"
-    },
-    {
      "url": "https://www.netflix.com/title/81909977",
      "titel": "2.5 Dimensional Seduction"
     },
@@ -416,24 +400,8 @@
      "titel": "Overlord: The Sacred Kingdom"
     },
     {
-     "url": "https://www.netflix.com/title/81763062",
-     "titel": "Blue Giant"
-    },
-    {
-     "url": "https://www.netflix.com/title/81768275",
-     "titel": "Die Parallelwelt-Chroniken des Aristokraten"
-    },
-    {
      "url": "https://www.netflix.com/title/81924850",
      "titel": "Spy × Family Code: White"
-    },
-    {
-     "url": "https://www.netflix.com/title/81757621",
-     "titel": "Detektiv Conan: Die Halloween-Braut"
-    },
-    {
-     "url": "https://www.netflix.com/title/81765372",
-     "titel": "The First Slam Dunk"
     },
     {
      "url": "https://www.netflix.com/title/70302573",
@@ -445,18 +413,6 @@
      "staffeln": [
       2
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81757605",
-     "titel": "Detektiv Conan: Der purpurrote Liebesbrief"
-    },
-    {
-     "url": "https://www.netflix.com/title/81757600",
-     "titel": "Detektiv Conan: Die Sonnenblumen des Infernos"
-    },
-    {
-     "url": "https://www.netflix.com/title/81757633",
-     "titel": "Magic Kaito: Kid the Phantom Thief"
     },
     {
      "url": "https://www.netflix.com/title/70205010",
@@ -471,10 +427,6 @@
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81757599",
-     "titel": "Detektiv Conan: Die Kreuzung des Labyrinths"
     },
     {
      "url": "https://www.netflix.com/title/80243876",
