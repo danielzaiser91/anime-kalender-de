@@ -60,7 +60,7 @@ function planeNachladen(starte: () => void): () => void {
  * jede andere Ansicht und jedes Panel warten auf `voll` und lösen das Laden sofort aus. `voll` kommt als Übergang (`startTransition`): das Neuzeichnen mit allen Daten läuft in Zeitscheiben statt als eine lange Aufgabe. Fehlt oder veraltet die
  * Wochen-Datei, läuft der Start wie vorher.
  */
-export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset; voll?: Dataset; error?: string } {
+export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset; voll?: Dataset; error?: string; neuLaden: () => void } {
   const [voll, setVoll] = useState<Dataset>()
   const [teil, setTeil] = useState<WochenStart>()
   const [error, setError] = useState<string>()
@@ -72,8 +72,18 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
     geladen.current = true
     loadDataset()
       .then((d) => startTransition(() => setVoll(d)))
-      .catch((e: Error) => setError(e.message))
+      .catch((e: Error) => {
+        console.warn(e.message)
+        setError(e.message)
+      })
   }, [])
+
+  /* „Erneut versuchen“ der Fehleranzeige: der Besucher bleibt auf der Seite, es läuft wieder der normale Ladezustand. */
+  const neuLaden = useCallback(() => {
+    geladen.current = false
+    setError(undefined)
+    starteVoll()
+  }, [starteVoll])
 
   useEffect(() => {
     const erste = startRoute.current
@@ -104,5 +114,5 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
     return () => setzeTabTitelQuelle(undefined)
   }, [data])
 
-  return { data, voll, error }
+  return { data, voll, error, neuLaden }
 }
