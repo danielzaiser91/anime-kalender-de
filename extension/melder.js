@@ -2837,8 +2837,7 @@ async function selbstStartenSchritt() {
     Film baut seine Liste selbst und trägt die Kennung der Adresse (`listeFuer`).
   */
   const seiteHier = String(titelDerAdresse() ?? '')
-  const filmHier =
-    DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
+  const filmHier = DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier) || (filmHier && !selbstWartet?.filmFrei)) {
     /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
     const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), film: filmHier, erledigt: filmHier && fertig(reihe, offeneTitel[String(reihe)]), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
@@ -2892,6 +2891,7 @@ async function selbstStartenSchritt() {
     DURCHLAUF.selbst = true
     DURCHLAUF.gesamt = 0
     DURCHLAUF.erzwungen = true
+    if (filmHier) akNetflixFilmVersuchMerken(reihe)
     await durchlaufStarten()
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0

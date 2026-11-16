@@ -20,8 +20,9 @@ globalThis.akNetflixEndeZeigen = (zeileHolen, ende, zurueck) => {
     }
     el.classList.toggle('ak-durchgang-rot', Boolean(ende.rot))
     /* „Fertig“ nur, wenn alle Titel durchlaufen sind; „abgebrochen“ bei Hand, Schutz oder Fehler (4060). */
-    const fertig = ende.grund === 'kein offener Auftrag mehr'
-    const offen = ende.zaehlung?.uebersprungen ?? 0
+    const bremse = /^Netflix zeigte (\d+) Titel ohne Inhalt/.exec(ende.grund)
+    const fertig = ende.grund === 'kein offener Auftrag mehr' || Boolean(bremse)
+    const offen = (ende.zaehlung?.uebersprungen ?? 0) + Number(bremse?.[1] ?? 0)
     el.textContent =
       (fertig ? `Durchgang fertig${offen ? ` · ${offen} offen` : ''}` : `Durchgang abgebrochen · ${ende.grund}`) +
       (fertig && offen ? ende.uebersprungenText.replace(/^ · übersprungen: \d+/, '') : ende.uebersprungenText) +
@@ -367,21 +368,27 @@ globalThis.akNetflixBesuchtZaehlen = (speicher = sitzungSpeicher()) => {
   }
 }
 
-/** `true`, wenn dieser Film in diesem Durchgang schon in den Player ging (dann ist der Weg gescheitert: kein zweiter Versuch); sonst merkt es ihn und gibt `false`. */
-globalThis.akNetflixFilmVersuch = (reihe, speicher = sitzungSpeicher()) => {
+/** War dieser Film in diesem Durchgang schon im Player (`akNetflixFilmVersuchMerken`)? Dann ist der Weg gescheitert, wenn er offen blieb. */
+globalThis.akNetflixFilmWarDa = (reihe, speicher = sitzungSpeicher()) => {
   try {
-    const schon = JSON.parse(speicher?.getItem(FILM_SCHLUESSEL) ?? '[]')
-    if (schon.includes(String(reihe))) return true
-    speicher?.setItem(FILM_SCHLUESSEL, JSON.stringify([...schon, String(reihe)]))
+    return JSON.parse(speicher?.getItem(FILM_SCHLUESSEL) ?? '[]').includes(String(reihe))
+  } catch {
+    return false
+  }
+}
+
+/** Merkt den Film, sobald sein Durchlauf wirklich startet (`durchlaufStarten`), nicht schon bei der Freigabe. */
+globalThis.akNetflixFilmVersuchMerken = (reihe, speicher = sitzungSpeicher()) => {
+  try {
+    if (!globalThis.akNetflixFilmWarDa(reihe, speicher)) speicher?.setItem(FILM_SCHLUESSEL, JSON.stringify([...JSON.parse(speicher.getItem(FILM_SCHLUESSEL) ?? '[]'), String(reihe)]))
   } catch {
     /* Ohne Speicher gilt der Versuch nur bis zum Neuladen: lieber einmal zu viel. */
   }
-  return false
 }
 
-/** Ein offener Film, der in diesem Durchgang schon im Player war (`erledigt`: laut Prüfliste nicht mehr offen): Weg gescheitert, der Titel wird zurückgestellt (`true`), kein zweiter Versuch (4060: Appleseed ging zweimal in den Player). */
+/** Ein offener Film, der in diesem Durchgang schon im Player war (`akNetflixFilmWarDa`; `erledigt`: laut Prüfliste nicht mehr offen): Weg gescheitert, der Titel wird zurückgestellt (`true`), kein zweiter Versuch (4060: Appleseed ging zweimal in den Player). */
 globalThis.akNetflixFilmGescheitert = (reihe, erledigt, uebersprungen, weiter) => {
-  if (erledigt || !globalThis.akNetflixFilmVersuch(reihe)) return false
+  if (erledigt || !globalThis.akNetflixFilmWarDa(reihe)) return false
   uebersprungen.set(String(reihe), 'Player ohne Ergebnis, nicht erneut versucht')
   weiter()
   return true
