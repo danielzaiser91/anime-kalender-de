@@ -360,3 +360,12 @@
   belegtAm: '2026-11-08'
   zugang: abo
   beleg: 'Anime2You 1069021 (08.11.2026): „Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden“. JustWatch kennt das Angebot nicht (Stand 19.10.2026)'
+
+# Bakugan: Armored Alliance (116415): Seite bei RTL+, 16.11.2026 abgerufen. Das Sprachurteil steht in dub-confirmed.yaml.
+- anilistId: 116415
+  title: "Bakugan: Armored Alliance"
+  platform: rtlplus
+  url: https://plus.rtl.de/bakugan-armored-alliance-p_10406
+  belegtAm: '2026-11-16'
+  zugang: abo
+  beleg: 'plus.rtl.de (Abruf 16.11.2026, HTTP 200): TVSeries „Bakugan: Armored Alliance“, Beschreibung „Zweite Staffel der Animeserie Bakugan: Battle Planet“ (Battle Planet hat bei RTL+ eine eigene Seite, 108852); Seitenfeld „Deutschsprachige Erstausstrahlung 20. August 2020“ = deErstausgabe.von 2020-08-20 in titles.json. Die Folgenliste lädt per Skript und ist nicht gelesen: 52 Folgen laut titles.json ungeprüft gegen RTL+'

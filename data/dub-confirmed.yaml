@@ -4054,6 +4054,13 @@
   dub: true
   checkedAt: '2026-08-23'
   note: "RTL+ ist rein deutschsprachig (Daniel, 23.08.2026); Seite nennt „Beyblade X\""
+- anilistId: 116415
+  title: "Bakugan: Armored Alliance"
+  platform: rtlplus
+  url: https://plus.rtl.de/bakugan-armored-alliance-p_10406
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "RTL+ ist rein deutschsprachig (Daniel, 23.08.2026); Seite nennt „Bakugan: Armored Alliance“, „Deutschsprachige Erstausstrahlung 20. August 2020“"
 # RTL+, zweiter Teil: die Verweise ohne Titelangabe auf der Seite.
 #
 # Sie leben alle (HTTP 200), nennen aber keinen Namen im strukturierten Block —
