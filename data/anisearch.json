@@ -879514,6 +879514,59 @@
     },
     "fetchedAt": "2026-10-24T06:01:41.847Z"
   },
+  "218530": {
+    "anisearchId": 22061,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "NullMeta",
+          "titleNative": "ぬるめた",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Soigne Animation Studio"
+      ],
+      "staff": [
+        {
+          "name": "Kokamumo",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kai IKARASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Shin OGASAWARA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/nlmt_anime"
+        },
+        {
+          "name": "Nlmt Anime",
+          "url": "https://nlmt-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Null-Meta"
+      ]
+    },
+    "fetchedAt": "2026-11-16T06:05:54.661Z"
+  },
   "218532": {
     "anisearchId": 22024,
     "streams": [],
