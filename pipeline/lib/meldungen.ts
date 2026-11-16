@@ -253,7 +253,7 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
   }
 
   const mitglieder = inReihe
-    .filter((t) => istStaffelDerSerie(t, basis))
+    .filter((t) => teil.art === 'film' || istStaffelDerSerie(t, basis))
     /**
      * „Staffel" heißt `TV`, nicht „alles außer Film". Specials und OVAs stehen
      * chronologisch zwischen den Staffeln und verschieben die Zählung: Beim

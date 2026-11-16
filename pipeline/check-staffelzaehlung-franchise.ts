@@ -29,6 +29,10 @@ const reihe = [titel(1, 1, 2020, 'Foo'), titel(2, 1, 2022, 'Foo II'), titel(3, 1
 pruefe('Foo – Staffel 3 findet „Foo III“ per Zählung', aus(reihe, '»Foo« – Staffel 3').join() === '3', aus(reihe, '»Foo« – Staffel 3'))
 pruefe('Foo – Staffel 1 bleibt der Titel selbst', aus(reihe, '»Foo« – Staffel 1').join() === '1')
 
+
+/* Filme zählen weiter über die ganze Reihe (die Namensregel gilt nur für Staffeln). */
+const filme = [titel(1, 1, 2020, 'Foo'), titel(5, 1, 2022, 'Foo: The Movie', 'MOVIE'), titel(6, 1, 2024, 'Foo: Das Finale', 'MOVIE')]
+pruefe('Zweiter Film von »Foo« findet den zweiten Film, auch ohne Zählung im Namen', aus(filme, 'Zweiter Film von »Foo«').join() === '6', aus(filme, 'Zweiter Film von »Foo«'))
 if (fehler) {
   console.error(`check-staffelzaehlung-franchise: ${fehler} Fehler`)
   process.exit(1)
