@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-16 · **38 offene Verweise** in **32 Zeilen**,
+Stand 2026-11-16 · **37 offene Verweise** in **31 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -56,19 +56,18 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
 | 20 | Netflix | Solo Leveling | [Hauptserie](https://www.netflix.com/title/81748512) |
 
-## Paket 2 — Zeilen 21 bis 32
+## Paket 2 — Zeilen 21 bis 31
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 21 | Netflix | Die Parallelwelt-Chroniken des Aristokraten | [Hauptserie](https://www.netflix.com/title/81768275) |
 | 22 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 23 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 24 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 25 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 26 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
-| 27 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 28 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 29 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
-| 30 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) |
-| 31 | Netflix | Ghost in the Shell: Stand Alone Complex | [Solid State Society](https://www.netflix.com/title/70071919) |
-| 32 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
+| 23 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 24 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 25 | Netflix | Slam Dunk | [The First Slam Dunk](https://www.netflix.com/title/81765372) |
+| 26 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 27 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 28 | Netflix | Blue Giant | [Hauptserie](https://www.netflix.com/title/81763062) |
+| 29 | Netflix | One Piece | [Abenteuer in Alabasta - Die Wüstenprinzessin](https://www.netflix.com/title/70086565) |
+| 30 | Netflix | Ghost in the Shell: Stand Alone Complex | [Solid State Society](https://www.netflix.com/title/70071919) |
+| 31 | Netflix | Appleseed: Kampf um die Freiheit | [Appleseed](https://www.netflix.com/title/70023531) |
