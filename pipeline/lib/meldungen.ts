@@ -186,6 +186,26 @@ export function teilAusUeberschrift(
   return { nummer, art: istFilm ? 'film' : 'staffel' }
 }
 
+/** Namensrest hinter dem Serienamen, der nur eine Zählung ist: „Season 2“, „Part 2“, „II“, „2nd Season“ oder nichts. */
+const NUR_ZAEHLUNG = /^(?:(?:season|staffel|part|cour|teil)?\d+(?:nd|rd|th|st)?(?:season|part|cour)?|[ivx]+|)$/
+
+/**
+ * **Zählen darf nur über Staffeln derselben Serie** (Boruto war nicht „Naruto Shippuden – Staffel 4“, Zexal II nicht „Yu-Gi-Oh! – Staffel 5“,
+ * 16.11.2026): Eine Franchise führt Nachfolger, Spin-offs und andere Serien unter einer `franchiseId`; sie zählen nicht mit. Ein Titel
+ * zählt, wenn sein Name mit dem der Basis beginnt und der Rest nur eine Zählung ist; die Basis selbst zählt immer.
+ */
+function istStaffelDerSerie(kandidat: Title, basis: Title): boolean {
+  return kandidat.id === basis.id || folgtSerienname(titelNamen(kandidat), titelNamen(basis))
+}
+
+const titelNamen = (t: Title): string[] => [t.titleDe, t.titleEn, t.titleRomaji].flatMap((n) => (n ? [n] : []))
+
+/** Trägt einer der Namen einen der Seriennamen am Anfang, und der Rest ist nur eine Zählung (oder nichts)? */
+export function folgtSerienname(namen: string[], serien: string[]): boolean {
+  const serienNorm = serien.map(norm).filter(Boolean)
+  return namen.map(norm).some((k) => serienNorm.some((b) => k.startsWith(b) && NUR_ZAEHLUNG.test(k.slice(b.length))))
+}
+
 /**
  * Sucht den gemeinten Teil einer Reihe — oder gibt auf.
  *
@@ -233,6 +253,7 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
   }
 
   const mitglieder = inReihe
+    .filter((t) => istStaffelDerSerie(t, basis))
     /**
      * „Staffel" heißt `TV`, nicht „alles außer Film". Specials und OVAs stehen
      * chronologisch zwischen den Staffeln und verschieben die Zählung: Beim

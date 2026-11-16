@@ -2,6 +2,7 @@ import type { Release, Title } from '../../shared/types.ts'
 import { istSichererTermin } from '../bau/11-7-wege-aus-terminen.ts'
 import { fehlendes } from '../bau/luecken-titel.ts'
 import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
+import { herkunftFremderTitel } from './herkunft-fremder-titel.ts'
 import { ohneSprachurteil } from './ohne-sprachurteil.ts'
 
 /**
@@ -120,6 +121,7 @@ export const REGELN: Regel[] = [
   { art: 'termin-geschaetzt-ohne-weg', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: geschaetztOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
   { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id), ausnahme: (t, k) => (k.adresseMehrfach.get(t.id) === 'franchise' ? 'gleiches-franchise' : undefined) },
+  { art: 'herkunft-fremder-titel', gruppe: 'falsch', wirkung: 3, wer: 'auto:bau', zaehle: (t, k) => herkunftFremderTitel(t, k.releases.get(t.id) ?? []) },
   { art: 'weg-ohne-adresse', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: (t) => Boolean(t.streams?.some((s) => !s.url)) },
 ]
 
