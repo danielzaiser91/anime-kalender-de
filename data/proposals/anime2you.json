@@ -1,10 +1,10 @@
 {
-  "scrapedAt": "2026-11-16T16:01:58.317Z",
+  "scrapedAt": "2026-11-16T17:01:57.247Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 6,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
     "Sprachhinweis älter als 45 Tage": 6
@@ -49,7 +49,7 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "TOGGO plus plant erneute Wiederholung von »Dragon Ball DAIMA«",
+      "articleTitle": "TOGGO plus plant erneute »Dragon Ball DAIMA«-Wiederholung",
       "articleUrl": "https://www.anime2you.de/news/1072212/toggo-plus-dragon-ball-daima-erneute-wiederholung/",
       "publishedAt": "2026-11-16",
       "category": "allgemein",
@@ -66,6 +66,19 @@
       ],
       "dub": "ja",
       "alreadyCurated": true
+    },
+    {
+      "articleTitle": "Netflix ersetzt Originalsongs in deutscher »KPop Demon Hunters«-Fassung",
+      "articleUrl": "https://www.anime2you.de/news/1072174/netflix-ersetzt-kpop-demon-hunters-originalsongs/",
+      "publishedAt": "2026-11-16",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
     },
     {
       "articleTitle": "MediaMarkt reduziert zahlreiche Anime-Blu-rays zum Black Friday 2026",
