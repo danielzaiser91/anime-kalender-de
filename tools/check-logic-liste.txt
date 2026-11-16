@@ -395,6 +395,7 @@ pipeline/check-luecken-gegenprobe.ts
 pipeline/check-luecken-staffel0.ts
 pipeline/check-maengel-bau-lauf.ts
 pipeline/check-maengel-regeln.ts
+pipeline/check-maengel-register.ts
 pipeline/check-mail-sorten.ts
 pipeline/check-mail-verschoben-datum.ts
 pipeline/check-mal-dubletten.ts
@@ -506,6 +507,7 @@ pipeline/check-pruefung-ableiten.ts
 pipeline/check-pruefung-stand-anbieter.ts
 pipeline/check-push-dienst.ts
 pipeline/check-push-fenster.ts
+pipeline/check-qualitaet-maengel-lauf.ts
 pipeline/check-qualitaet-rueckgang-lauf.ts
 pipeline/check-qualitaet-verwaiste-lauf.ts
 pipeline/check-quarantaene.ts

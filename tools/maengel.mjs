@@ -58,14 +58,17 @@ function main() {
     }
     return
   }
-  const meta = new Map()
-  for (const z of register.zeilen) if (!meta.has(z.art)) meta.set(z.art, z)
-  console.log(`Mängel am ${register.stand}`)
-  console.log('art'.padEnd(24) + 'offen  neu  beh  rück  ausn  wirk  wer')
+  for (const zeile of uebersicht(register)) console.log(zeile)
+}
+
+/** Eine Zeile je Art; Wirkung und `wer` stammen aus dem Zähler, gelten also auch für Arten ohne offene Zeile. */
+export function uebersicht(register) {
+  const zeilen = [`Mängel am ${register.stand}`, 'art'.padEnd(24) + 'offen  neu  beh  rück  ausn  wirk  wer']
   for (const [art, z] of Object.entries(register.zaehler)) {
-    const m = meta.get(art)
-    console.log(art.padEnd(24) + [z.offen, z.neu, z.behoben, z.rueckfall, z.ausnahme].map((x) => String(x).padStart(5)).join(' ') + `  ${m ? 'W' + m.wirkung : '-'}   ${m?.wer ?? '-'}`)
+    zeilen.push(art.padEnd(24) + [z.offen, z.neu, z.behoben, z.rueckfall, z.ausnahme].map((x) => String(x).padStart(5)).join(' ') + `  W${z.wirkung}   ${z.wer}`)
   }
+  if (register.hinweis) zeilen.push(`Hinweis: ${register.hinweis}`)
+  return zeilen
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main()

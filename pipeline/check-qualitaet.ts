@@ -24,6 +24,7 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
+import { ohneSprachurteil as keinSprachurteil } from './lib/ohne-sprachurteil.ts'
 import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
 import { MAENGEL_DATEI, offeneJeArt, type Register } from './lib/maengel-register.ts'
 import { VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
@@ -73,7 +74,7 @@ function main(): void {
     const s = t.streams ?? []
     verweise += s.length
     if (s.some((x) => x.dub === true)) mitSynchro++
-    if (s.length && s.every((x) => x.dub === undefined)) ohneSprachurteil++
+    if (keinSprachurteil(t)) ohneSprachurteil++
     for (const x of s) if (x.dub === false) dubFalse++
     const urls = s.map((x) => x.url)
     if (new Set(urls).size !== urls.length) doppelt++

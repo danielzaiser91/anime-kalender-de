@@ -3,7 +3,7 @@
  * Termin in 30 Tagen vor späterem Termin vor keinem, dann laufend vor beendet, dann Titelrang `tr`; Filter `--wer`.
  */
 import assert from 'node:assert/strict'
-import { nextTop, terminStufe } from './maengel.mjs'
+import { nextTop, terminStufe, uebersicht } from './maengel.mjs'
 
 const HEUTE = '2026-11-16'
 const zeile = (t, art, wirkung, wer, status = 'offen') => ({ t, art, wirkung, wer, status, seit: '2026-11-01' })
@@ -50,4 +50,19 @@ assert.deepEqual(nextTop(register, titel, events, HEUTE, 10, 'daniel').map((e) =
 assert.deepEqual(nextTop(register, titel, events, HEUTE, 10, 'auto').map((e) => e.t), [3, 5, 4, 2, 1, 6], '--wer auto: Klasse vor dem Doppelpunkt')
 assert.deepEqual(nextTop(register, titel, events, HEUTE, 10, 'hand'), [], '--wer hand: nichts')
 assert.equal(nextTop({ zeilen: [zeile(99, 'cover', 3, 'daniel')] }, titel, events, HEUTE, 5)[0].name, '?', 'Titel ohne Eintrag in titles.json: Name „?“')
+
+/* Übersicht: Wirkung und wer stammen aus dem Zähler, auch bei Arten ohne offene Zeile. */
+const zeilenUebersicht = uebersicht({
+  stand: HEUTE,
+  zaehler: {
+    fsk: { wirkung: 2, wer: 'auto:justwatch', offen: 5, neu: 1, behoben: 2, rueckfall: 0, ausnahme: 3 },
+    banner: { wirkung: 1, wer: 'auto:tmdb-banner', offen: 0, neu: 0, behoben: 0, rueckfall: 0, ausnahme: 0 },
+  },
+  zeilen: [],
+  hinweis: 'Vorfassung kaputt',
+})
+assert.equal(zeilenUebersicht[0], `Mängel am ${HEUTE}`)
+assert.match(zeilenUebersicht.find((z) => z.startsWith('fsk')), /fsk +5 +1 +2 +0 +3 +W2 +auto:justwatch$/, 'Zahlen, Wirkung und wer der Art')
+assert.match(zeilenUebersicht.find((z) => z.startsWith('banner')), /banner +0 +0 +0 +0 +0 +W1 +auto:tmdb-banner$/, 'Art ohne offene Zeile zeigt Wirkung und wer')
+assert.equal(zeilenUebersicht.at(-1), 'Hinweis: Vorfassung kaputt', 'Hinweis des Baus steht am Ende')
 console.log('maengel: ok')

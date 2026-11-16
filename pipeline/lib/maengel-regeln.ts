@@ -1,6 +1,7 @@
 import type { Release, Title } from '../../shared/types.ts'
 import { fehlendes } from '../bau/luecken-titel.ts'
 import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
+import { ohneSprachurteil } from './ohne-sprachurteil.ts'
 
 /**
  * **Regeltabelle des Mängel-Registers** (Entscheidung 16.11.2026, `docs/wissen/maengel.md`). Jede Mangelart ist eine Zeile: Gruppe, Wirkung, wer sie abbaut,
@@ -49,8 +50,8 @@ const hatSynchro = (t: Title): boolean => Boolean(t.streams?.some((s) => s.dub =
 const hatEinenWeg = (t: Title): boolean => Boolean(t.streams?.length || t.watchLinks?.length)
 const luecke = (kuerzel: string) => (t: Title): boolean => fehlendes(t, undefined, undefined).includes(kuerzel)
 
-/** Läuft seit Jahren ohne Ende: eine Gesamtzahl gibt es nicht (One Piece). */
-const langlaeufer = (t: Title, heute: string): boolean => !t.jpEnd && Boolean(t.jpYear) && t.jpYear! <= Number(heute.slice(0, 4)) - 3
+/** Läuft noch (kein Ende oder Ende ab heute): eine Gesamtzahl der Folgen gibt es nicht (One Piece, Beyblade X). */
+const laeuftNoch = (t: Title, heute: string): boolean => !t.jpEnd || t.jpEnd >= heute
 
 function folgentitelFehlen(t: Title, k: Kontext): boolean {
   const n = t.episodes ?? 0
@@ -81,8 +82,8 @@ export const REGELN: Regel[] = [
   { art: 'banner', gruppe: 'fehlend', wirkung: 1, wer: 'auto:tmdb-banner', zaehle: (t) => !t.bannerImage },
   { art: 'titel-de', gruppe: 'fehlend', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: luecke('t'), ausnahme: (t) => (hatEinenWeg(t) || t.deErstausgabe ? undefined : 'ohne-deutsche-fassung') },
   { art: 'handlung-de', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anisearch', zaehle: (t, k) => !k.synopse(t.id)?.de },
-  { art: 'folgentitel', gruppe: 'fehlend', wirkung: 2, wer: 'auto:tmdb', zaehle: folgentitelFehlen, ausnahme: (t) => (SERIE.has(t.format ?? '') ? undefined : 'film') },
-  { art: 'folgenzahl', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anilist', zaehle: (t) => SERIE.has(t.format ?? '') && !t.episodes, ausnahme: (t, k) => (langlaeufer(t, k.heute) ? 'langlaeufer' : undefined) },
+  { art: 'folgentitel', gruppe: 'fehlend', wirkung: 2, wer: 'auto:tmdb', zaehle: folgentitelFehlen, ausnahme: (t) => (t.format === 'MOVIE' ? 'film' : undefined) },
+  { art: 'folgenzahl', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anilist', zaehle: (t) => SERIE.has(t.format ?? '') && !t.episodes, ausnahme: (t, k) => (laeuftNoch(t, k.heute) ? 'laeuft' : undefined) },
   { art: 'fsk', gruppe: 'fehlend', wirkung: 2, wer: 'auto:justwatch', zaehle: (t) => t.fsk == null },
   { art: 'wertung', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anilist', zaehle: (t) => !t.score },
   { art: 'studio', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anilist', zaehle: (t) => !t.studios?.length },
@@ -90,10 +91,10 @@ export const REGELN: Regel[] = [
   { art: 'laufzeit', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.runtimeMin },
   { art: 'jahr', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anilist', zaehle: luecke('j') },
   { art: 'sprecher', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.hasVoices, ausnahme: (t) => (hatSynchro(t) ? undefined : 'ohne-synchro') },
-  { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t) => !hatEinenWeg(t) },
+  { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => !hatEinenWeg(t) && !k.discTitel.has(t.id) },
   { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => zaehleErstausgabeOhneWeg([t], k.discTitel) === 1 },
   { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend },
-  { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => Boolean(t.streams?.length) && t.streams!.every((s) => s.dub === undefined) },
+  { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: ohneSprachurteil },
   { art: 'synchro-schwach', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => t.dubConfidence === 'low' },
   { art: 'erschienen-ohne-weg', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: erschienenOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
