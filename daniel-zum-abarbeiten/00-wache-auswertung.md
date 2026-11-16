@@ -884,3 +884,13 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Der link-check für die Adresse steht auf 200 (05.10.2026); die Prüflisten-Meldung widerspricht ihm. Nicht belegt: ob die Seite für den Melder nur regional oder ohne Abo nicht erreichbar war. Eine einzelne Browser-Meldung löscht den Beleg sofort.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, Lauf absichtlich rot. Kein Pull Request, da keine Codeursache vorliegt.
+
+## 16.11.2026 — Wache meldet „2 Urteile verloren; crunchyroll: 2 Synchro-Belege weniger“ (Lauf 43913917715, Issue #4047)
+
+**Was läuft korrekt.** Die Wache hat den Rückgang im Bestandslauf `e317dddf` (16.11. 06:24 UTC, im `headSha` enthalten) gefunden: titles.json 2923 → 2922 Titel. Persona 5 „Stars and Ours“ (106896) ist seit PR #4004 (`872e13e4`) wieder da und hat live `dub: true`; die Ursache dort war ein älteres Null in der Crunchyroll-Deckung.
+
+**Wo ist Verbesserungspotenzial?** Der Befund nennt den Lauf, aber nicht die Quelle. Gemessen: Der Tiefendurchlauf `1b20c8a8` (16.11. 05:33 UTC) hat `data/crunchyroll-dub.json` neu geschrieben; Demon Slayer (GY5P48XEY) steht dort für Staffel 1 jetzt auf `deutsch: 24, fremd: 2` von 26 Folgen (vorher 26/26, `geprueftAm` 12.10.). Die Wache könnte den Quellenstand der Differenz gleich mitnennen.
+
+**Wo sind echte Risiken und Lücken?** Seit dem Bau fehlt bei 101922 und 112151 am Crunchyroll-Weg (`sharedWith: 2`) jedes `dub` und jede `dubRanges`, obwohl die Quelle 24 Folgen deutsch belegt. Offen, nicht untersucht: ob der Bau ein Teil-Deutsch (24/26) bei geteilter Adresse verwirft statt Folgen 1–24 zu setzen, und warum 112151 (Film; Quelle: Mugen Train Arc 7/7 deutsch) ebenfalls ohne `dub` ist. Netflix, Prime und RTL+ tragen weiter `dub: true`, der Titel verliert die Synchro-Kennzeichnung also nicht insgesamt.
+
+**Was läuft komplett falsch?** Nichts Belegbares als Code-Fehler; kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, die Ursache der Teilverwerfung ist nicht gemessen.
