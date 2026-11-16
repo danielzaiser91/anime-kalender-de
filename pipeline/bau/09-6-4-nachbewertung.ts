@@ -1,9 +1,10 @@
 import { regionGesperrteWege, entferneVerweiseMitNein } from './verweis-grund.ts'
 import { ladeHandbelege, type DubCheck } from '../lib/dub-confirmed.ts'
 import { log } from '../lib/util.ts'
-import { beurteile, kapitelImBlock, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.ts'
+import { kapitelImBlock, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.ts'
 import { type Title, type PlatformId } from '../../shared/types.ts'
 import { neinUeberholtMitLog, type OffenerBefund } from '../lib/cr-nein-ueberholt.ts'
+import { beurteileMitTeilDeutsch } from '../lib/cr-teil-deutsch.ts'
 import { beurteileAdnVerweis, type AdnArchiv } from '../lib/adn-sprachen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 
@@ -67,8 +68,10 @@ export function beurteileFrischeWege({ title, belegFuer, crOffeneBefunde, crSeri
         stream.dub = kapitelUrteil
         continue
       }
-      for (const urteil of beurteile(serie, [title])) {
-        if (urteil.titleId === title.id) stream.dub = urteil.dub
+      for (const urteil of beurteileMitTeilDeutsch(serie, [title])) {
+        if (urteil.titleId !== title.id) continue
+        stream.dub = urteil.dub
+        if (urteil.dubRanges) stream.dubRanges = urteil.dubRanges
       }
     } else if (stream.platform === 'adn' && adnArchiv.serien.size) {
       /*

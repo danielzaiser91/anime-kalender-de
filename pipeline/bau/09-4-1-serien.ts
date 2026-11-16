@@ -1,6 +1,7 @@
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
-import { beurteile, type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.ts'
+import { type CrDubData, type CrSerie } from '../lib/crunchyroll-dub.ts'
+import { beurteileMitTeilDeutsch } from '../lib/cr-teil-deutsch.ts'
 import { kennungAusZiel } from '../lib/crunchyroll-api.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { istHandbelegterJaWeg } from '../lib/handbeleg-weg.ts'
@@ -160,11 +161,12 @@ export function ordneCrSerienZu({ titles, crDub, usNeinWiderlegt, verweiseEntfer
         }
         continue
       }
-      for (const urteil of beurteile(serie, nachUrl.get(serie.url) ?? [])) {
+      for (const urteil of beurteileMitTeilDeutsch(serie, nachUrl.get(serie.url) ?? [])) {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
         if (!stream || stream.dub !== undefined) continue
         stream.dub = urteil.dub
+        if (urteil.dubRanges) stream.dubRanges = urteil.dubRanges
         belegt++
       }
     }
