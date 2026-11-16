@@ -1,5 +1,6 @@
 import type { Release, Title } from '../../shared/types.ts'
 import { fehlendes } from '../bau/luecken-titel.ts'
+import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
 
 /**
  * **Regeltabelle des Mängel-Registers** (Entscheidung 16.11.2026, `docs/wissen/maengel.md`). Jede Mangelart ist eine Zeile: Gruppe, Wirkung, wer sie abbaut,
@@ -14,8 +15,8 @@ type FolgenListe = { f?: [number, string][] }
 /** Alles, was eine Regel außer dem Titel selbst braucht; die Eingaben lesen `13-12-maengel.ts` bzw. der Test. */
 export interface Kontext {
   heute: string
-  /** Kennung → Grund aus `data/cover-luecken.json`. */
-  coverGrund: Record<string, string>
+  /** Kennung → Grund der Handliste `data/cover-ohne-bekannt.json`: Titel, für die es nachweislich kein Cover gibt. */
+  coverBekannt: Record<string, string>
   synopse: (id: number) => Synopse | undefined
   folgen: (id: number) => FolgenListe | undefined
   /** Titel mit mindestens einem Termin ab heute. */
@@ -71,7 +72,7 @@ function terminFehltLaufend(t: Title, k: Kontext): boolean {
 }
 
 export const REGELN: Regel[] = [
-  { art: 'cover', gruppe: 'fehlend', wirkung: 3, wer: 'auto:tmdb-poster', zaehle: luecke('c'), ausnahme: (t, k) => (k.coverGrund[t.id] === 'nsfw' ? 'nsfw' : undefined) },
+  { art: 'cover', gruppe: 'fehlend', wirkung: 3, wer: 'auto:tmdb-poster', zaehle: luecke('c'), ausnahme: (t, k) => (k.coverBekannt[t.id] ? 'ohne-bekanntes-cover' : undefined) },
   { art: 'banner', gruppe: 'fehlend', wirkung: 1, wer: 'auto:tmdb-banner', zaehle: (t) => !t.bannerImage },
   { art: 'titel-de', gruppe: 'fehlend', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: luecke('t'), ausnahme: (t) => (hatEinenWeg(t) || t.deErstausgabe ? undefined : 'ohne-deutsche-fassung') },
   { art: 'handlung-de', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anisearch', zaehle: (t, k) => !k.synopse(t.id)?.de },
@@ -85,7 +86,7 @@ export const REGELN: Regel[] = [
   { art: 'jahr', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anilist', zaehle: luecke('j') },
   { art: 'sprecher', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.hasVoices, ausnahme: (t) => (hatSynchro(t) ? undefined : 'ohne-synchro') },
   { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t) => !hatEinenWeg(t) },
-  { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t) => t.deErstausgabe?.synchro === true && !hatEinenWeg(t) },
+  { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t) => zaehleErstausgabeOhneWeg([t]) === 1 },
   { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend },
   { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => Boolean(t.streams?.length) && t.streams!.every((s) => s.dub === undefined) },
   { art: 'synchro-schwach', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => t.dubConfidence === 'low' },

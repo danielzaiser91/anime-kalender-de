@@ -1,7 +1,8 @@
 /** Test des Mängel-Registers: je Regel ein Treffer und eine Ausnahme/ein Nichttreffer, die Fortschreibung (neu, behoben, Rückfall, `seit` bleibt) und die Meldungen der Wache. */
 import type { Release, Title } from '../shared/types.ts'
 import { adresseMehrfach, REGELN, zaehleMaengel, type Kontext } from './lib/maengel-regeln.ts'
-import { meldungen, offeneJeArt, schreibeFort, serialisiere } from './lib/maengel-register.ts'
+import { maengelWarnZeilen, meldungen, offeneJeArt, schreibeFort, serialisiere } from './lib/maengel-register.ts'
+import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -35,7 +36,7 @@ const gut = (id: number, ueber: Partial<Title> = {}): Title => ({
 const zwoelfFolgen = () => ({ f: Array.from({ length: 12 }, (_, i) => [i + 1, `F${i + 1}`] as [number, string]) })
 const kontext = (ueber: Partial<Kontext> = {}): Kontext => ({
   heute: HEUTE,
-  coverGrund: {},
+  coverBekannt: {},
   synopse: () => ({ de: 'Text' }),
   folgen: zwoelfFolgen,
   kuenftig: new Set(),
@@ -52,8 +53,8 @@ pruefe('vollständiger Titel: keine Regel schlägt an', arten(gut(1)).length ===
 pruefe('Tabelle: jede Art einmal, jede mit Wirkung 1–3 und wer', new Set(REGELN.map((r) => r.art)).size === REGELN.length && REGELN.every((r) => r.wirkung >= 1 && r.wirkung <= 3 && r.wer), REGELN.map((r) => r.art))
 
 pruefe('cover: Treffer', arten(gut(1, { coverImage: undefined })).join() === 'cover')
-pruefe('cover: nsfw ist Ausnahme', arten(gut(1, { coverImage: undefined }), kontext({ coverGrund: { 1: 'nsfw' } })).join() === 'cover:nsfw')
-pruefe('cover: anderer Grund bleibt offen', arten(gut(1, { coverImage: undefined }), kontext({ coverGrund: { 1: 'ohne-adresse' } })).join() === 'cover')
+pruefe('cover: auf der Handliste cover-ohne-bekannt ist Ausnahme', arten(gut(1, { coverImage: undefined }), kontext({ coverBekannt: { 1: 'TMDB führt ihn nicht' } })).join() === 'cover:ohne-bekanntes-cover')
+pruefe('cover: anderer Titel auf der Handliste ändert nichts', arten(gut(1, { coverImage: undefined }), kontext({ coverBekannt: { 2: 'x' } })).join() === 'cover')
 pruefe('banner: Treffer', arten(gut(1, { bannerImage: undefined })).join() === 'banner')
 pruefe('titel-de: Treffer mit Weg', arten(gut(1, { titleDe: undefined })).join() === 'titel-de')
 pruefe('titel-de: ohne Weg und Erstausgabe zu Recht leer', arten(gut(1, { titleDe: undefined, streams: [], watchLinks: [], deErstausgabe: undefined })).join() === 'titel-de:ohne-deutsche-fassung,kein-weg')
@@ -120,6 +121,11 @@ pruefe('Verlauf: offen je Art', JSON.stringify(offeneJeArt(rueck)) === '{"a":3,"
 const cover = schreibeFort(erst1, [T(1, 'cover'), T(2, 'cover')], ['cover'], '2026-11-02')
 pruefe('Wache: NEU und RÜCKFALL je Art mit Beispielen', meldungen(zweit, 'neu').join() === 'a: 1 (4)' && meldungen(rueck, 'rueckfall').join() === 'a: 1 (2)', [meldungen(zweit, 'neu'), meldungen(rueck, 'rueckfall')])
 pruefe('Wache: Cover bleibt draußen', meldungen(cover, 'neu').length === 0, meldungen(cover, 'neu'))
+pruefe('Warnzeilen: je Ereignis eine Zeile mit Präfix', JSON.stringify(maengelWarnZeilen(rueck)) === '["MAENGEL_RUECKFALL a: 1 (2)"]' && JSON.stringify(maengelWarnZeilen(zweit)) === '["MAENGEL_NEU a: 1 (4)"]', [maengelWarnZeilen(rueck), maengelWarnZeilen(zweit)])
+pruefe('Warnzeilen: ohne Register oder ohne Ereignis keine', maengelWarnZeilen(null).length === 0 && maengelWarnZeilen(dritt).length === 0 && maengelWarnZeilen(cover).length === 0)
+const messwerte = { mitStreamingWeg: 100, erstausgabeOhneWeg: 5 }
+pruefe('`warnZeilen` reicht die Mängel durch, zuletzt, ohne Register wie bisher', warnZeilen(messwerte, messwerte, zweit).join() === 'MAENGEL_NEU a: 1 (4)' && warnZeilen(messwerte, messwerte).length === 0, warnZeilen(messwerte, messwerte, zweit))
+pruefe('`warnZeilen`: Streaming-Rückgang bleibt vor den Mängeln', warnZeilen({ mitStreamingWeg: 50, erstausgabeOhneWeg: 5 }, messwerte, zweit).map((z) => z.split(' ')[0]).join() === 'STREAMING_RUECKGANG,MAENGEL_NEU')
 const viele = schreibeFort(erst1, [1, 2, 3, 4, 5].map((t) => T(t, 'b')), ARTEN, '2026-11-02')
 pruefe('Wache: mehr als drei Beispiele enden auf „…“', meldungen(viele, 'neu').join() === 'b: 5 (1, 2, 3, …)', meldungen(viele, 'neu'))
 

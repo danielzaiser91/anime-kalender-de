@@ -82,3 +82,18 @@ export function serialisiere(r: Register): string {
   const zeilen = r.zeilen.map((z) => `    ${JSON.stringify(z)}`).join(',\n')
   return `{\n  "stand": ${JSON.stringify(r.stand)},\n  "zaehler": {\n${zaehler}\n  },\n  "zeilen": [\n${zeilen}\n  ]\n}\n`
 }
+
+/** Präfixe der Zeilen, die der Schritt „Datenqualität messen“ (bestand-bauen.yml) liest. */
+export const MAENGEL_NEU_ZEILE = 'MAENGEL_NEU '
+export const MAENGEL_RUECKFALL_ZEILE = 'MAENGEL_RUECKFALL '
+
+/** Je Ereignis eine Zeile mit allen Arten; ohne Register oder ohne Ereignis keine. */
+export function maengelWarnZeilen(register: Register | null): string[] {
+  if (!register) return []
+  const zeilen: string[] = []
+  for (const [ereignis, praefix] of [['neu', MAENGEL_NEU_ZEILE], ['rueckfall', MAENGEL_RUECKFALL_ZEILE]] as const) {
+    const m = meldungen(register, ereignis)
+    if (m.length) zeilen.push(`${praefix}${m.join('; ')}`)
+  }
+  return zeilen
+}

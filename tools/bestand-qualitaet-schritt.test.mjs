@@ -61,6 +61,27 @@ try {
   assert.equal(nurHart.status, 1, 'nur hart: Exit 1 bleibt')
   assert.equal(nurHart.env, 'DATEN_WARNUNG=Anderes · Datenqualität hart rot: doppelteAdressen: 3;verwaisteTermine: 2', 'harte Wächter als DATEN_WARNUNG, beide Zeilen')
 
+  const ERSTAUSGABE = 'ERSTAUSGABE_OHNE_WEG erstausgabeOhneWeg: 171 → 172 (+1)\n'
+  const erst = lauf({ npmAusgabe: ZAHLEN + ERSTAUSGABE, exit: 0 })
+  assert.equal(erst.status, 0, 'Erstausgabe-Anstieg: Messung grün, Schritt grün')
+  assert.equal(erst.env, 'DATEN_WARNUNG=Erstausgabe bekannt, kein Weg gestiegen: erstausgabeOhneWeg: 171 → 172 (+1)', 'Anstieg setzt DATEN_WARNUNG')
+  const beide = lauf({ npmAusgabe: RUECKGANG + ERSTAUSGABE, exit: 0, vorher: 'Anderes' })
+  assert.match(beide.env.split('\n').at(-1), /^DATEN_WARNUNG=Anderes · Streaming-Abdeckung gesunken: .* · Erstausgabe bekannt, kein Weg gestiegen: erstausgabeOhneWeg: 171 → 172 \(\+1\)$/, 'beide Warnungen hängen aneinander')
+  const erstUndHart = lauf({ npmAusgabe: ERSTAUSGABE + '[pipeline] ⚠  verwaisteTermine: 2 — das darf nicht vorkommen\n', exit: 1 })
+  assert.equal(erstUndHart.status, 1, 'Exit-Code der Messung bleibt auch mit Erstausgabe-Zeile')
+  assert.match(erstUndHart.env.split('\n').at(-1), /^DATEN_WARNUNG=Erstausgabe bekannt, kein Weg gestiegen: .* · Datenqualität hart rot: verwaisteTermine: 2$/, 'harte Zeile hängt an die Erstausgabe-Warnung')
+
+  const MAENGEL_NEU = 'MAENGEL_NEU fsk: 12 (1, 2, 3, …); banner: 1 (7)\n'
+  const MAENGEL_RUECK = 'MAENGEL_RUECKFALL kein-weg: 1 (495)\n'
+  const neu = lauf({ npmAusgabe: ZAHLEN + MAENGEL_NEU, exit: 0 })
+  assert.equal(neu.status, 0, 'Mängel neu: Schritt grün')
+  assert.equal(neu.env, 'DATEN_WARNUNG=Mängel neu: fsk: 12 (1, 2, 3, …); banner: 1 (7)', 'Mängel neu setzt DATEN_WARNUNG')
+  const maengelBeide = lauf({ npmAusgabe: RUECKGANG + MAENGEL_NEU + MAENGEL_RUECK, exit: 0, vorher: 'Anderes' })
+  assert.equal(maengelBeide.env.split('\n').at(-1), 'DATEN_WARNUNG=Anderes · Streaming-Abdeckung gesunken: mitStreamingWeg: 1947 → 1900 (−47, mehr als 1 % weniger als beim letzten Wert) · Mängel neu: fsk: 12 (1, 2, 3, …); banner: 1 (7) · Mängel Rückfall: kein-weg: 1 (495)', 'Mängel hängen sich an die übrigen Warnungen')
+  const maengelHart = lauf({ npmAusgabe: MAENGEL_RUECK + '[pipeline] ⚠  verwaisteTermine: 2 — das darf nicht vorkommen\n', exit: 1 })
+  assert.equal(maengelHart.status, 1, 'Exit-Code der Messung bleibt auch mit Mängel-Zeile')
+  assert.match(maengelHart.env.split('\n').at(-1), /^DATEN_WARNUNG=Mängel Rückfall: kein-weg: 1 \(495\) · Datenqualität hart rot: verwaisteTermine: 2$/, 'harte Zeile hängt an die Mängel-Warnung')
+
   const absturz = lauf({ npmAusgabe: 'Error: kaputt\n', exit: 1 })
   assert.equal(absturz.status, 1, 'Absturz: Schritt rot')
   assert.equal(absturz.env, '', 'Absturz ohne Rückgangszeile: keine Streaming-Warnung')

@@ -5,7 +5,6 @@ import { todayIso } from '../../shared/time.ts'
 import { log, readJson, writeText } from '../lib/util.ts'
 import { adresseMehrfach, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
 import { MAENGEL_DATEI, schreibeFort, serialisiere, type Register } from '../lib/maengel-register.ts'
-import { COVER_LUECKEN } from './13-11-cover-luecken.ts'
 
 const OUT = 'public/data'
 
@@ -29,7 +28,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
   for (const r of readJson<Release[]>(`${OUT}/releases.json`, [])) (releases.get(r.titleId) ?? releases.set(r.titleId, []).get(r.titleId)!).push(r)
   return {
     heute,
-    coverGrund: readJson(COVER_LUECKEN, {}),
+    coverBekannt: readJson('data/cover-ohne-bekannt.json', {}),
     kuenftig: new Set(events.filter((e) => (e.date ?? '') >= heute).map((e) => e.titleId!)),
     releases,
     adresseMehrfach: adresseMehrfach(titel),
@@ -39,7 +38,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
 
 /**
  * Schreibt `data/maengel.json`: je Mangelart die Titel, bei denen es fehlt, schwach oder falsch ist (Regeln: `pipeline/lib/maengel-regeln.ts`), mit `seit` aus der
- * committeten Vorfassung. Nur Hauptbestand (`titles.json`); der Katalog ohne Synchro fehlt zu Recht fast überall. Läuft hinter den Cover-Lücken, deren Gründe es liest.
+ * committeten Vorfassung. Nur Hauptbestand (`titles.json`); der Katalog ohne Synchro fehlt zu Recht fast überall.
  */
 export function schreibeMaengel(): void {
   const heute = todayIso()

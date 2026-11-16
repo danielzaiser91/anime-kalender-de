@@ -58,7 +58,7 @@ schreibe('public/data/releases.json', [{ titleId: 1, platform: 'adn', releaseTyp
 schreibe('public/data/folgen/1.json', { f: [[1, 'A'], [2, 'B'], [3, 'C']] })
 schreibe('public/data/folgen/2.json', { f: [[1, 'A'], [2, ''], [3, 'C']] })
 schreibe('public/data/synopses/1.json', { 1: { de: 'Text' }, 33: { de: 'Text' } })
-schreibe('data/cover-luecken.json', { 1: 'ohne-adresse' })
+schreibe('data/cover-ohne-bekannt.json', {})
 /* Der Import von `luecken-titel.ts` (über `fehlendes`) liest diese Datei schon beim Laden. */
 schreibe('data/kino-ankuendigungen.yaml', '[]')
 

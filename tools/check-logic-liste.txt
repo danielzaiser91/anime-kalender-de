@@ -144,6 +144,7 @@ pipeline/check-cover-luecken-bau.ts
 pipeline/check-cover-luecken-wache.ts
 pipeline/check-cover-masse-poster-lauf.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cover-von-hand.ts
 pipeline/check-cover-vorschau-bestand-lauf.ts
 pipeline/check-cr-abruf-logik.ts
 pipeline/check-cr-auftakt-wache.ts
@@ -243,6 +244,7 @@ pipeline/check-empfehlung-view-fremder-pool.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
+pipeline/check-erstausgabe-ohne-weg.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
 pipeline/check-escape-hoerer-faelle.ts
