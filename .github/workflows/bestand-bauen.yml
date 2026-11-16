@@ -324,6 +324,13 @@ jobs:
             DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Streaming-Abdeckung gesunken: ${rueckgang}"
             echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
           fi
+          # Titel mit bekannter deutscher Erstausgabe, aber ohne Stream und Verweis: steigt ihre Zahl, druckt die Messung `ERSTAUSGABE_OHNE_WEG …`.
+          if grep -q '^ERSTAUSGABE_OHNE_WEG ' "$RUNNER_TEMP/qualitaet.log"; then
+            ohneWeg="$(grep -m1 '^ERSTAUSGABE_OHNE_WEG ' "$RUNNER_TEMP/qualitaet.log" | cut -d' ' -f2-)"
+            echo "::warning::Erstausgabe ohne Weg: ${ohneWeg}"
+            DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Erstausgabe bekannt, kein Weg gestiegen: ${ohneWeg}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
+          fi
           # Harter Wächter rot (`HART` in check-qualitaet.ts): als gelbe Meldung sichtbar machen, sonst bleibt der Schritt unbemerkt rot.
           if grep -q 'das darf nicht vorkommen' "$RUNNER_TEMP/qualitaet.log"; then
             hart="$(grep 'das darf nicht vorkommen' "$RUNNER_TEMP/qualitaet.log" | sed 's/^.*⚠ *//; s/ — das darf nicht vorkommen//' | paste -sd';' -)"

@@ -433,3 +433,28 @@
       dubRanges: [{ from: 1, to: 1, dub: true }]
   sources:
     - https://store.maxdome.de/mo45184724
+
+# Laughing Under the Clouds: Gaiden, Gesamtausgabe (Universum Anime, 12.07.2019, Deutsch/Japanisch): Betreiber-Meldung 16.11.2026 mit Amazon-Seite
+# „Unterm Wolkenhimmel - Laughing Under the Clouds: Gaiden - Komplettbox“ (DVD, daneben Blu-ray). aniSearch führt dieselbe Ausgabe als „Gesamtausgabe“ der Seite 12302
+# (Artikel 58664 DVD, 58665 Blu-ray; Adresse wörtlich aus `data/anisearch-raw/12302.html.gz`, Abschnitt `id="items"`, nicht abgerufen). Belegkette: anime2you
+# (Blu-ray Teil 1, „Trilogie“) und aniSearch-Archiv für die Ausgabe; ASIN und die Geltung für Teil 2 allein laut Betreiber. Betreiber-Nachtrag: die Box gilt für Teil 1 und 2 (EAN 4061229099202 laut Betreiber, im Repo nicht belegt:
+# `anisearch-artikel.json` führt die Artikel nicht). Teil 3 (99197) bleibt offen, bis eine Quelle ihn in der Box nennt. Die Zuordnung auf die Filme
+# liefert keine Regel (Arise: Gesamtausgabe enthält mehr als die Filme), deshalb von Hand; ohne Sprachurteil am Weg.
+- anilistId: 98452
+  title: "Laughing Under the Clouds: Gaiden Part 1"
+  links:
+    - name: Amazon
+      url: https://www.amazon.de/dp/B07QRN3ZFQ
+      kind: buy
+  sources:
+    - https://www.anisearch.de/article/58664,laughing-under-the-clouds-gaiden-unterm-wolkenhimmel-gesamtausgabe
+    - https://www.anime2you.de/news/321291/unterm-wolkenhimmel-laughing-under-the-clouds-gaiden-blu-ray/
+- anilistId: 99196
+  title: "Laughing Under the Clouds: Gaiden Part 2"
+  links:
+    - name: Amazon
+      url: https://www.amazon.de/dp/B07QRN3ZFQ
+      kind: buy
+  sources:
+    - https://www.anisearch.de/article/58664,laughing-under-the-clouds-gaiden-unterm-wolkenhimmel-gesamtausgabe
+    - https://www.anime2you.de/news/321291/unterm-wolkenhimmel-laughing-under-the-clouds-gaiden-blu-ray/

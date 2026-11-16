@@ -244,6 +244,7 @@ pipeline/check-empfehlung-view-fremder-pool.ts
 pipeline/check-empfehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
+pipeline/check-erstausgabe-ohne-weg.ts
 pipeline/check-erstausgabe.ts
 pipeline/check-erwartet-wort.ts
 pipeline/check-escape-hoerer-faelle.ts

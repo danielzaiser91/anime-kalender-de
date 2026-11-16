@@ -25,7 +25,9 @@ import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
 import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
-import { RUECKGANG_ZEILE, streamingRueckgang, VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
+import { VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
+import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
+import { zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -34,6 +36,8 @@ interface Kennzahlen {
   /** `streams` nicht leer oder `watchLinks` mit `kind: 'stream'` (`tools/streaming-weg-zaehlen.mjs`). */
   mitStreamingWeg: number
   ohneVerweis: number
+  /** Erstausgabe als Synchro bekannt, aber weder Stream noch Verweis (`lib/erstausgabe-ohne-weg.ts`). */
+  erstausgabeOhneWeg: number
   mitSynchro: number
   verweiseGesamt: number
   ohneSprachurteil: number
@@ -78,6 +82,7 @@ function main(): void {
     mitVerweis: titles.filter((t) => (t.streams ?? []).length > 0).length,
     mitStreamingWeg: titles.filter(hatStreamingWeg).length,
     ohneVerweis: titles.filter((t) => !(t.streams ?? []).length).length,
+    erstausgabeOhneWeg: zaehleErstausgabeOhneWeg(titles),
     mitSynchro,
     verweiseGesamt: verweise,
     ohneSprachurteil,
@@ -110,13 +115,12 @@ function main(): void {
   log(`Bestand am ${heute}:`)
   log(`  ${zahlen.titel} Titel${pfeil('titel')}, davon ${zahlen.mitVerweis} mit Verweis${pfeil('mitVerweis')}, ${zahlen.mitStreamingWeg} mit Streaming-Weg${pfeil('mitStreamingWeg')}`)
   log(`  ${zahlen.mitSynchro} mit belegter Synchro${pfeil('mitSynchro')}, ${zahlen.verweiseGesamt} Verweise${pfeil('verweiseGesamt')}`)
-  log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}`)
+  log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}, ${zahlen.erstausgabeOhneWeg} Erstausgabe bekannt, kein Weg${pfeil('erstausgabeOhneWeg')}`)
   log(`  Lücken: ${zahlen.ohneDeutschenNamen} ohne deutschen Namen${pfeil('ohneDeutschenNamen')}, ${zahlen.serienOhneFolgenzahl} Serien ohne Folgenzahl${pfeil('serienOhneFolgenzahl')}`)
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
 
-  const rueckgang = streamingRueckgang(zahlen.mitStreamingWeg, vorher?.mitStreamingWeg)
-  /* Feste Zeile für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
-  if (rueckgang) console.log(`${RUECKGANG_ZEILE}${rueckgang}`)
+  /* Feste Zeilen für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
+  for (const zeile of warnZeilen(zahlen, vorher)) console.log(zeile)
 
   let kaputt = 0
   for (const k of HART) {
