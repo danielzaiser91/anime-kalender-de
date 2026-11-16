@@ -3,7 +3,7 @@
  * Anlass: Laughing Under the Clouds: Gaiden hatte eine deutsche Disc-Erstausgabe (12.07.2019, Universum Anime), aber weder Stream noch Verweis.
  * Aufruf: `npm run check:logic`.
  */
-import { erstausgabeOhneWegAnstieg, zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
+import { discTitelIds, erstausgabeOhneWegAnstieg, zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
 import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
 
 let verletzt = 0
@@ -27,6 +27,13 @@ pruefe('leeres watchLinks zählt wie fehlendes', zaehleErstausgabeOhneWeg([{ deE
 pruefe('ohne Erstausgabe zählt nicht', zaehleErstausgabeOhneWeg([{ streams: [] }]) === 0)
 pruefe('Erstausgabe ohne Synchro-Marke zählt nicht (kein Beleg für Deutsch)', zaehleErstausgabeOhneWeg([{ deErstausgabe: { ...erst, synchro: false }, streams: [] }, { deErstausgabe: { von: '2019-07-12' }, streams: [] }]) === 0)
 pruefe('mehrere: nur die ohne Weg', zaehleErstausgabeOhneWeg([{ deErstausgabe: erst, streams: [] }, { deErstausgabe: erst, streams: [] }, { deErstausgabe: erst, streams: stream as never }]) === 2)
+
+/* Gaiden Teil 3 (99197) mit dem Disc-Termin der Komplettbox; Teil 4 (fremd) ohne. */
+const disc = discTitelIds([{ titleId: 99197, releaseType: 'disc' }, { titleId: 5, releaseType: 'kino' }, { releaseType: 'disc' }])
+pruefe('discTitelIds: nur Disc-Termine mit Titelkennung', [...disc].join() === '99197', [...disc])
+pruefe('ein Disc-Termin nimmt den Titel aus der Zählung', zaehleErstausgabeOhneWeg([{ id: 99197, deErstausgabe: erst, streams: [] }], disc) === 0)
+pruefe('Disc-Termin eines anderen Titels nimmt nichts heraus', zaehleErstausgabeOhneWeg([{ id: 99198, deErstausgabe: erst, streams: [] }], disc) === 1)
+pruefe('Kino-Termin ist kein Disc-Weg', zaehleErstausgabeOhneWeg([{ id: 5, deErstausgabe: erst, streams: [] }], disc) === 1)
 
 pruefe('Anstieg um genau 1 meldet', erstausgabeOhneWegAnstieg(172, 171) === 'erstausgabeOhneWeg: 171 → 172 (+1)')
 pruefe('Anstieg nennt beide Werte und die Differenz', erstausgabeOhneWegAnstieg(180, 172) === 'erstausgabeOhneWeg: 172 → 180 (+8)')
