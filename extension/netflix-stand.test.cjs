@@ -383,10 +383,11 @@ const teil12 = async () => {
     const t = tabNeu(s, 'a', abrufe, null, tor)
     const erster = t.stand.auffrischen()
     await warten()
-    const zweiter = await t.stand.auffrischen()
+    const zweiter = t.stand.auffrischen()
+    await warten()
     freigeben()
     await erster
-    pruefe('Zwei Aufrufe im selben Tab: der zweite wartet nicht, holt nicht (ein Abruf)', zweiter === false && abrufe.length === 1, [zweiter, abrufe.length])
+    pruefe('Zwei Aufrufe im selben Tab: der zweite holt nicht (ein Abruf, Ergebnis false)', (await zweiter) === false && abrufe.length === 1, [abrufe.length])
   }
 }
 
@@ -446,6 +447,14 @@ const teil14 = async () => {
   pruefe('melder.js: meldungenMerken reicht Reihe und Paare an den Stand weiter', aufrufe.length === 1 && aufrufe[0][0] === '70000001' && aufrufe[0][1][0].nummer === 1, aufrufe)
 }
 
+let durchgelaufen = false
+process.on('exit', () => {
+  if (!durchgelaufen) {
+    console.log('  ✗ Der Test brach ab, bevor er zu Ende lief (hängende Zusage?)')
+    process.exitCode = 1
+  }
+})
+
 const haupt = async () => {
   await teil1()
   await teil5()
@@ -461,6 +470,7 @@ const haupt = async () => {
   await teil2()
   await teil3()
   await teil4()
+  durchgelaufen = true
   if (fehler.length) {
     console.log(`\n${fehler.length} Prüfung(en) fehlgeschlagen.`)
     process.exit(1)
