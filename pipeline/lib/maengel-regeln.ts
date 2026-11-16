@@ -1,4 +1,5 @@
 import type { Release, Title } from '../../shared/types.ts'
+import { istSichererTermin } from '../bau/11-7-wege-aus-terminen.ts'
 import { fehlendes } from '../bau/luecken-titel.ts'
 import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
 import { ohneSprachurteil } from './ohne-sprachurteil.ts'
@@ -28,8 +29,10 @@ export interface Kontext {
   releases: Map<number, Release[]>
   /** Titel mit einem Disc-Termin (`discTitelIds`): der Disc-Kasten ist ein Weg. */
   discTitel: ReadonlySet<number>
-  /** Titel, deren Stream-Adresse bei einem anderen Titel ohne `sharedWith` wieder vorkommt. */
-  adresseMehrfach: Set<number>
+  /** Titel, deren Stream-Adresse bei einem anderen Titel wieder vorkommt (`adresseMehrfach`). */
+  adresseMehrfach: Map<number, 'fremd' | 'franchise'>
+  /** Verneint ein Handbeleg die Plattform für einen Termin ab diesem Tag (`baueNeinGilt`)? */
+  neinGilt: (id: number, plattform: string, ab: string) => boolean
 }
 
 export interface Regel {
@@ -67,10 +70,26 @@ function folgenzahlWiderspruch(t: Title, k: Kontext): boolean {
   return zuViele || (k.folgen(t.id)?.f?.length ?? 0) > n
 }
 
-function erschienenOhneWeg(t: Title, k: Kontext): boolean {
+/** Streaming-Termine mit Quelle, die begonnen haben, ohne dass der Titel einen Weg zu dieser Plattform führt. */
+function begonnenOhneWegAlle(t: Title, k: Kontext): Release[] {
   const plattformen = new Set<string>((t.streams ?? []).map((s) => s.platform))
-  return (k.releases.get(t.id) ?? []).some((r) => !KEIN_STREAM.has(r.platform) && (r.schedule?.firstEpisodeDate ?? '9') <= k.heute && !plattformen.has(r.platform))
+  return (k.releases.get(t.id) ?? []).filter(
+    (r) => !KEIN_STREAM.has(r.platform) && r.releaseType !== 'disc' && (r.sources?.length ?? 0) > 0 && (r.schedule?.firstEpisodeDate ?? '9') <= k.heute && !plattformen.has(r.platform),
+  )
 }
+
+/** Die sicheren davon (wie `11-7`: belegt, nicht geschätzt): Dort müsste ein Weg stehen. Ein geschätzter Termin baut keinen (`termin-geschaetzt-ohne-weg`). */
+const begonnenOhneWeg = (t: Title, k: Kontext): Release[] => begonnenOhneWegAlle(t, k).filter(istSichererTermin)
+
+const erschienenOhneWeg = (t: Title, k: Kontext): boolean => begonnenOhneWeg(t, k).length > 0
+/** Handbeleg „kein Deutsch“, aber der Kalendertermin trägt kein `sprache: omu`: Der Besucher sieht einen Termin ohne Hinweis (103631, 105228, 180829). */
+const terminTrotzNein = (t: Title, k: Kontext): boolean =>
+  begonnenOhneWeg(t, k).some((r) => r.sprache !== 'omu' && k.neinGilt(t.id, r.platform, r.schedule?.firstEpisodeDate ?? ''))
+const geschaetztOhneWeg = (t: Title, k: Kontext): boolean => begonnenOhneWegAlle(t, k).some((r) => r.schedule?.estimated)
+
+/** Zu Recht ohne Weg: Für jeden dieser Termine belegt ein Handbeleg „nicht verfügbar“ (nicht älter als der Termin) oder „ohne deutschen Ton“. */
+const belegtesNein = (t: Title, k: Kontext): string | undefined =>
+  begonnenOhneWeg(t, k).every((r) => k.neinGilt(t.id, r.platform, r.schedule?.firstEpisodeDate ?? '')) ? 'belegtes-nein' : undefined
 
 function terminFehltLaufend(t: Title, k: Kontext): boolean {
   if (!(t.format === 'TV' || t.format === 'ONA') || !t.streams?.some((s) => s.dub === true)) return false
@@ -96,16 +115,28 @@ export const REGELN: Regel[] = [
   { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend },
   { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: ohneSprachurteil },
   { art: 'synchro-schwach', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => t.dubConfidence === 'low' },
-  { art: 'erschienen-ohne-weg', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: erschienenOhneWeg },
+  { art: 'erschienen-ohne-weg', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: erschienenOhneWeg, ausnahme: belegtesNein },
+  { art: 'termin-trotz-nein', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: terminTrotzNein },
+  { art: 'termin-geschaetzt-ohne-weg', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: geschaetztOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
-  { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id) },
+  { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id), ausnahme: (t, k) => (k.adresseMehrfach.get(t.id) === 'franchise' ? 'gleiches-franchise' : undefined) },
+  { art: 'weg-ohne-adresse', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: (t) => Boolean(t.streams?.some((s) => !s.url)) },
 ]
 
-/** Titel mit Stream-Adresse, die auch bei einem anderen Titel steht, ohne dass `sharedWith` es erklärt. */
-export function adresseMehrfach(titel: Title[]): Set<number> {
-  const je = new Map<string, Set<number>>()
-  for (const t of titel) for (const s of t.streams ?? []) if (!s.sharedWith) (je.get(s.url) ?? je.set(s.url, new Set()).get(s.url)!).add(t.id)
-  return new Set([...je.values()].filter((ids) => ids.size > 1).flatMap((ids) => [...ids]))
+/**
+ * Titel mit Stream-Adresse, die auch bei einem anderen Titel steht, unabhängig von `sharedWith` (der Bau-Vermerk gilt der Oberfläche und
+ * würde jede gleiche Adresse verdecken). `fremd`: ein Partner gehört zu einem anderen Franchise; `franchise`: alle Partner teilen es.
+ * Eine leere Adresse ist keine gleiche (Art `weg-ohne-adresse`).
+ */
+export function adresseMehrfach(titel: Title[]): Map<number, 'fremd' | 'franchise'> {
+  const je = new Map<string, Title[]>()
+  for (const t of titel) for (const s of t.streams ?? []) if (s.url) (je.get(s.url) ?? je.set(s.url, []).get(s.url)!).push(t)
+  const aus = new Map<number, 'fremd' | 'franchise'>()
+  for (const gruppe of [...je.values()].filter((g) => new Set(g.map((t) => t.id)).size > 1)) {
+    const fremd = new Set(gruppe.map((t) => t.franchiseId ?? t.id)).size > 1
+    for (const t of gruppe) if (fremd || !aus.has(t.id)) aus.set(t.id, fremd ? 'fremd' : 'franchise')
+  }
+  return aus
 }
 
 export interface Treffer { t: number; art: string; wirkung: number; wer: Wer; grund?: string }

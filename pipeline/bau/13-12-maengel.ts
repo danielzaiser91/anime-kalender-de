@@ -6,6 +6,8 @@ import { todayIso } from '../../shared/time.ts'
 import { log, readJson, ROOT, warn, writeText } from '../lib/util.ts'
 import { discTitelIds } from '../lib/erstausgabe-ohne-weg.ts'
 import { adresseMehrfach, COVER_BEKANNT_DATEI, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
+import { ladeHandbelege } from '../lib/dub-confirmed.ts'
+import { baueNeinGilt } from '../lib/maengel-nein.ts'
 import { MAENGEL_DATEI, schreibeFort, serialisiere, type Register } from '../lib/maengel-register.ts'
 
 const OUT = 'public/data'
@@ -23,6 +25,12 @@ function leser(): Pick<Kontext, 'folgen' | 'synopse'> {
   }
 }
 
+/** Die Handbelege werden erst gelesen, wenn ein Titel sie braucht. */
+function lazyNeinGilt(): Kontext['neinGilt'] {
+  let gilt: Kontext['neinGilt'] | undefined
+  return (id, plattform, ab) => (gilt ??= baueNeinGilt(ladeHandbelege()))(id, plattform, ab)
+}
+
 /** Erzeugt den Kontext der Regeln aus den fertig geschriebenen Dateien. */
 function baueKontext(titel: Title[], heute: string): Kontext {
   const events = readJson<{ titleId?: number; date?: string }[]>(`${OUT}/events.json`, [])
@@ -36,6 +44,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
     releases,
     discTitel: discTitelIds(alle),
     adresseMehrfach: adresseMehrfach(titel),
+    neinGilt: lazyNeinGilt(),
     ...leser(),
   }
 }
