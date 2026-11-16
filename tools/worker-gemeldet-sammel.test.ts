@@ -17,9 +17,22 @@ console.error = () => {}
 
 const VOR = 'https://www.disneyplus.com/browse/entity-'
 const folge = (url: string, nr: number) => ({
-  plattform: 'disneyplus', url, titelId: 101, sprachen: ['de', 'ja'], vorhanden: 'ja', ton_de: 'ja', art: 'gemessen',
-  titel: 'T', folge: `F${nr}`, folge_nr: nr, staffel: 1, staffeln: { anbieter: 'disney', staffeln: [{ nr: 1, folgen: 3 }] }, serientitel: 'T',
-  rohfolgen: [{ gti: `g-${url.slice(-1)}-${nr}`, nummer: nr, titel: `F${nr}`, sprachen: ['de', 'ja'], staffelNr: 1, vorhanden: 'ja', ton_de: 'ja' }],
+  plattform: 'disneyplus',
+  url,
+  titelId: 101,
+  sprachen: ['de', 'ja'],
+  vorhanden: 'ja',
+  ton_de: 'ja',
+  art: 'gemessen',
+  titel: 'T',
+  folge: `F${nr}`,
+  folge_nr: nr,
+  staffel: 1,
+  staffeln: { anbieter: 'disney', staffeln: [{ nr: 1, folgen: 3 }] },
+  serientitel: 'T',
+  rohfolgen: [
+    { gti: `g-${url.slice(-1)}-${nr}`, nummer: nr, titel: `F${nr}`, sprachen: ['de', 'ja'], staffelNr: 1, vorhanden: 'ja', ton_de: 'ja' },
+  ],
 })
 
 const db = neueDatenbank()

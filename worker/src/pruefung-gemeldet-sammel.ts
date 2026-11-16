@@ -9,6 +9,7 @@
  * ohne Meldung antwortet leer, wie `?gemeldet=`. Kosten je Adresse: eine Schlüsselabfrage auf `titel_zeile`, für Adressen
  * ohne Titelzeile eine auf `pruefung` (Index `url`); alle in `DB.batch`, also wenige Unteranfragen statt einer je Adresse.
  */
+import { type AusCache } from './cache-kurz.ts'
 import { type Env } from './env.ts'
 import { gemeldetAlt, gemeldetAusZeilen, type ZeileAlt } from './pruefung-gemeldet.ts'
 import { gemeldetAusDaten } from './titelzeile-lesen.ts'
@@ -38,7 +39,20 @@ async function inBatches<T>(db: D1Database, anweisungen: D1PreparedStatement[]):
   return alle
 }
 
-export async function leseGemeldetSammel(env: Env, adressen: string[]) {
+/** Die Antwort auf `?gemeldet-liste=`; `null`: die Anfrage ist keine Sammelanfrage. */
+export async function beantworteSammel({ request, env, antwort, ausCache }: {
+  request: Request
+  env: Env
+  antwort: (body: unknown, status?: number) => Response
+  ausCache: AusCache
+}): Promise<Response | null> {
+  const adressen = adressenAusAnfrage(new URL(request.url).searchParams)
+  if (adressen === 'zuviele') return antwort({ error: `höchstens ${SAMMEL_MAX} Adressen` }, 400)
+  if (!adressen) return null
+  return ausCache(async () => antwort({ adressen: await leseGemeldetSammel(env, adressen) }), SAMMEL_SEKUNDEN)
+}
+
+async function leseGemeldetSammel(env: Env, adressen: string[]) {
   const antwort: Record<string, { nummern: unknown[]; paare: unknown[] }> = {}
   if (!adressen.length) return antwort
   const zeilen = await inBatches<{ daten: string }>(
