@@ -184,3 +184,33 @@ Alles aus `public/data/*.json` mit Datum 16.11.2026; `T` = `titles.json`, `R` = 
 - **`dubRanges` zu groß:** `to` > `episodes`, Stream ohne `teilBereich` und `sharedWith`.
 - **Adresse bei mehreren Titeln:** gleiche Stream-URL bei verschiedenen Titeln, ohne `sharedWith`.
 - **Gleiches Cover:** gleiche `coverImage` bei Titeln mit verschiedener `franchiseId`; `jpEnd` < `jpYear` nach Jahr.
+
+## Register (Entscheidung 16.11.2026)
+
+Auftrag `maengel-register-1611`. Gewählt ist Variante A des Gegenentwurfs (`maengel-gegenentwurf.md`): ein Register, vom Bau erzeugt. Kein Ereignisprotokoll, kein Abbau-Workflow, kein Feld in `titles.json`, nichts nach `public/`.
+
+**Datenform** (`data/maengel.json`, eine Zeile je Mangel, ~390 KB roh, 16 KB gzip bei 3.684 Zeilen):
+`{stand, zaehler:{<art>:{wirkung,wer,offen,neu,behoben,rueckfall,ausnahme}}, zeilen:[{t,art,wirkung,seit,wer,status}]}` (Wirkung und `wer` auch im Zähler, damit `tools/maengel.mjs` sie ohne TypeScript kennt).
+`status` ist `offen`, `behoben` oder `abwesend` (die beiden mit `bis`; sie bleiben 90 Tage, damit ein Rückfall bzw. die Rückkehr erkennbar ist). `abwesend`: der Titel steht nicht mehr in `titles.json`, der Mangel ist nicht behoben, nur nicht mehr zu messen; er zählt nirgends, und kehrt der Titel mit dem Mangel zurück, ist das weder „neu“ noch ein Rückfall (`seit` bleibt), ohne Mangel ist er „behoben“. `ereignis` (`neu` | `rueckfall`) und `hinweis` stehen nur in dem Bau, in dem es geschah.
+`seit` kommt aus der **committeten** Vorfassung (`git show HEAD:data/maengel.json`, nicht die Datei im Arbeitsverzeichnis: ein Neuversuch in `commit-data.sh` baut sonst mit dem Register des ersten Versuchs) und bleibt, solange der Mangel offen ist. Ausnahmen („zu Recht leer“) stehen nur im Zähler, nicht als Zeile. Der Erstlauf ohne Vorfassung kennt kein „neu“, ebenso keine Art, die die Vorfassung noch nicht kannte (kein NEU-Schwall bei einer neuen Art). Ist die Vorfassung nicht lesbar, baut der Bau ohne sie weiter (alles gilt als Bestand) und setzt `hinweis`; die Wache gibt ihn als `MAENGEL_VORFASSUNG …` in die Lauf-Meldung.
+Nur der Hauptbestand (`titles.json`); der Katalog ohne Synchro ist zu Recht fast überall leer.
+
+**Regeln:** `pipeline/lib/maengel-regeln.ts` (Tabelle `REGELN`: `art`, `gruppe`, `wirkung` 1–3, `wer`, `zaehle`, `ausnahme`). Fortschreibung: `pipeline/lib/maengel-register.ts`. Phase: `pipeline/bau/13-12-maengel.ts` (hinter den Cover-Lücken). Tests: `pipeline/check-maengel-regeln.ts` (je Regel Treffer, Ausnahme, Grenzfälle), `pipeline/check-maengel-register.ts` (neu/behoben/Rückfall/abwesend/`seit`, 90 Tage, Wache-Zeilen), `pipeline/check-maengel-bau-lauf.ts` (Bauphase gegen eine Kulisse im Git-Repo, Vorfassung aus HEAD, kaputte Vorfassung), `pipeline/check-qualitaet-maengel-lauf.ts` (Wache und Verlauf in `check-qualitaet.ts`), `tools/bestand-qualitaet-schritt.test.mjs` (Workflow-Schritt, Mängel-Zeilen), `tools/maengel.test.mjs`.
+
+**Leser:**
+- Wache: `pipeline/lib/qualitaet-warnzeilen.ts` (`warnZeilen`, Aufruf in `check-qualitaet.ts`) druckt je Ereignis `MAENGEL_NEU …` / `MAENGEL_RUECKFALL …` / `MAENGEL_VORFASSUNG …` (je Art mit Zahl und drei Beispielen), Exit 0; der Schritt „Datenqualität messen“ in `bestand-bauen.yml` macht daraus `DATEN_WARNUNG`, wie bei `STREAMING_RUECKGANG`. Cover bleibt draußen (`OHNE_WACHE`), es steht nur im Register. Ein eigener Schritt und ein eigenes Skript entfallen (Nachtrag 16.11.2026, nach #4030).
+- `node tools/maengel.mjs`: Übersicht je Art; `--top N [--wer auto|hand|daniel]`: die nächsten Titel nach Wirkung, bei gleicher Wirkung Termin in 30 Tagen vor laufend vor Rang (`tr`).
+- `data/qualitaet-verlauf.json`: je Tag `maengel` = offene Mängel je Art (`check-qualitaet.ts`).
+
+**Wiederverwendet, nicht doppelt gezählt:** `erstausgabe-ohne-weg` zählt über `zaehleErstausgabeOhneWeg` (`pipeline/lib/erstausgabe-ohne-weg.ts`), `cover` nimmt seine Ausnahmen aus der Handliste `data/cover-ohne-bekannt.json`, `sprachurteil-offen` zählt über `ohneSprachurteil` (`pipeline/lib/ohne-sprachurteil.ts`, dieselbe Formel wie `check-qualitaet.ts`). Ein Disc-Termin (`discTitelIds`) gilt bei `kein-weg` wie bei `erstausgabe-ohne-weg` als Weg.
+
+**Ausnahmen:** `folgentitel` nur für `format` MOVIE (SPECIAL/MUSIC/OVA mit mehreren Folgen zählen); `folgenzahl` für Serien, die noch laufen (`jpEnd` leer oder ab heute), Grund `laeuft`; `cover` für Titel der Handliste; `sprecher` ohne Synchro; `titel-de` ohne Weg und Erstausgabe.
+
+**Bestandsbau-PRs:** `data/maengel.json` steht in `ERZEUGTE_DATEIEN` (`tools/pr-nachrechnen-bot-erzeugt.mjs`), sonst entwertete jeder Bau-Sprung der Datei (täglich) alle offenen PRs.
+
+**Eine Art kommt dazu:** eine Zeile in `REGELN` (`zaehle` reine Funktion je Titel; `ausnahme` nur, wenn eine Lücke zu Recht besteht), ein Treffer- und ein Ausnahme-Test in `check-maengel-regeln.ts`. Braucht die Regel Daten, die `Kontext` nicht trägt, kommt das Feld in `Kontext` und in `baueKontext` (`13-12-maengel.ts`). Die Art erscheint beim nächsten Bau im Register, der Zähler im Verlauf ab dem Tag danach. Die Treffer einer später ergänzten Art stehen einmalig als NEU auf der Wache.
+
+**Gemessen 16.11.2026, nach den Prüfer-Auflagen** (Stand `main` 14:00 UTC, 3.689 offene Mängel, 392 KB roh): cover 0 (+1 Handliste), banner 310, titel-de 55 (+22), handlung-de 72, folgentitel 290 (+6 MOVIE), folgenzahl 0 (+18 laufend), fsk 1.232, wertung 108, studio 105, genre 173, laufzeit 307, jahr 6, sprecher 362 (+50), kein-weg 200, erstausgabe-ohne-weg 166, termin-fehlt-laufend 3, sprachurteil-offen 167, synchro-schwach 79, erschienen-ohne-weg 13, folgenzahl-widerspruch 29, adresse-mehrfach 12.
+
+**Erste Messung** (gegen Inventur, vor den Auflagen und dem Merge von #4030/#4029): offen + Ausnahme = Inventurzahl bei cover 2, banner 310, titel-de 55 + 22 = 77, handlung-de 72, folgentitel 256 (+ 40 Filme mit ≥ 2 „Folgen“), folgenzahl 13 + 5 Langläufer = 18, fsk 1.232, wertung 108, studio 105, genre 173, laufzeit 307, jahr 6, sprecher 362 + 50 ohne Synchro = 412, kein-weg 209, termin-fehlt-laufend 3, sprachurteil-offen 167, synchro-schwach 79, adresse-mehrfach 12. Abweichungen: erstausgabe-ohne-weg 171 statt 172 (gleiche Regel: Bestandsbau 11:20 UTC hatte 172, der von 11:39 hat 171, gemessen an den committeten `titles.json`); erschienen-ohne-weg 13 *Titel* statt 15 *Releases* (Einheit); folgenzahl-widerspruch 29 Titel (13 Titel mit Release-Folgenzahl über Titel, 18 mit längerer Liste, 2 in beiden).
+Bau +0,23 s (Scan, 1.818 Folgen-Dateien und 32 Synopsen-Gruppen werden gelesen).

@@ -24,7 +24,9 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
+import { ohneSprachurteil as keinSprachurteil } from './lib/ohne-sprachurteil.ts'
 import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
+import { MAENGEL_DATEI, offeneJeArt, type Register } from './lib/maengel-register.ts'
 import { VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
 import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
 import { discTitelIds, zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
@@ -48,6 +50,8 @@ interface Kennzahlen {
   dubFalseImBestand: number
   doppelteAdressen: number
   verwaisteTermine: number
+  /** Offene Mängel je Art aus `data/maengel.json` (ab 16.11.2026); fehlt, solange es das Register nicht gibt. */
+  maengel?: Record<string, number>
 }
 
 /** Was nicht null sein darf. Jeder Punkt hier hatte schon einmal einen Fehler. */
@@ -70,7 +74,7 @@ function main(): void {
     const s = t.streams ?? []
     verweise += s.length
     if (s.some((x) => x.dub === true)) mitSynchro++
-    if (s.length && s.every((x) => x.dub === undefined)) ohneSprachurteil++
+    if (keinSprachurteil(t)) ohneSprachurteil++
     for (const x of s) if (x.dub === false) dubFalse++
     const urls = s.map((x) => x.url)
     if (new Set(urls).size !== urls.length) doppelt++
@@ -93,6 +97,8 @@ function main(): void {
     doppelteAdressen: doppelt,
     verwaisteTermine: zaehleVerwaisteTermine(events, ids, cartoonIds),
   }
+  const register = readJson<Register | null>(MAENGEL_DATEI, null)
+  if (register) zahlen.maengel = offeneJeArt(register)
 
   /*
     Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
@@ -120,7 +126,7 @@ function main(): void {
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
 
   /* Feste Zeilen für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
-  for (const zeile of warnZeilen(zahlen, vorher)) console.log(zeile)
+  for (const zeile of warnZeilen(zahlen, vorher, register)) console.log(zeile)
 
   let kaputt = 0
   for (const k of HART) {
