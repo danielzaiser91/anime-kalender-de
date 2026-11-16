@@ -17,7 +17,6 @@ import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { usePushNachfuehren } from './lib/push-nachfuehren.ts'
 import { useRoute, buildHash, type ViewId } from './lib/router.ts'
 import { useDbSchalter } from './lib/db-schalter.ts'
-import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
@@ -27,6 +26,7 @@ import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatenbankBereichLazy } from './components/DatenbankBereichLazy.tsx'
 import { DetailPanelLazy } from './components/DetailPanelLazy.tsx'
+import { DatenFehler } from './components/DatenFehler.tsx'
 import { Footer } from './components/Footer.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
 import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
@@ -70,7 +70,6 @@ function fussAbstand(view: ViewId): string {
 }
 
 export default function App() {
-  const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
@@ -91,7 +90,7 @@ export default function App() {
   useEffect(speicherSichern, [])
   const today = todayIso()
   /* Die Wochenansicht startet aus der kleinen Wochen-Datei; `data` ist bis zum vollen Datensatz (`voll`) nur diese Woche. */
-  const { data, voll, error } = useStartdaten(route, today)
+  const { data, voll, error, neuLaden } = useStartdaten(route, today)
 
   // Cover der aktuellen und nächsten Woche für unterwegs sichern — dieselbe Größe wie die Kachel.
   useEffect(() => {
@@ -162,16 +161,9 @@ export default function App() {
   /* Das Such-Symbol im Kalender: in die Datenbank, mit leerer Suche (der Kopf setzt dort den Fokus). */
   const zurSuche = () => navigate({ view: 'datenbank', filters: { ...route.filters, search: '' }, title: undefined, disc: undefined })
 
-  if (error) {
-    return (
-      <div className="mx-auto max-w-lg p-8 text-center">
-        <h1 className="text-lg font-semibold text-ak-fehler-text">{t('app.loadError')}</h1>
-        <p className="mt-2 text-sm text-ak-leise">{error}</p>
-        <p className="mt-4 text-xs text-ak-leise">
-          {t('app.loadHint')} <code>npm run data:all</code>
-        </p>
-      </div>
-    )
+  /* Nur ohne Anzeigbares: eine stehende Ansicht (Wochen-Daten) bleibt stehen, auch wenn das Nachladen scheitert. */
+  if (error && !data) {
+    return <DatenFehler detail={error} onNeuLaden={neuLaden} />
   }
 
   const kopf = (

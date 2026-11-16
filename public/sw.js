@@ -206,6 +206,8 @@ const DATA_MAX = 80
  *  - **Offline** wird die Kennung ignoriert (`ignoreSearch`) und die letzte
  *    bekannte Fassung genommen. Lieber Termine von vorgestern als eine leere
  *    Seite.
+ *  - **Eine 5xx-Antwort** (Deploy-Wechsel) geht unverändert an die Seite durch und wird nicht abgelegt (nur `response.ok`). Eine alte Fassung
+ *    stünde sonst unbemerkt neben neuen Dateien; die Seite versucht es selbst noch einmal (`web/src/lib/lade-neuversuch.ts`).
  *
  * Vorher stand hier „Cache sofort, Netz im Hintergrund". Das klingt richtig,
  * war es aber nicht: Die Adresse blieb nach einem Deploy dieselbe, und der
