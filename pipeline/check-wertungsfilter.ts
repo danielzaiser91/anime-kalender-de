@@ -9,7 +9,7 @@ import { act, createElement as h } from 'react'
 import type { DataMeta, Release, Title } from '../shared/types.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
 import { EMPTY_FILTERS, activeFilterCount, filterTitles, releaseMatches, type FilterState } from '../web/src/lib/filters.ts'
-import { WERTUNG_STUFEN, passtWertung, wertungText } from '../web/src/lib/filter-wertung.ts'
+import { WERTUNG_STUFEN, passtWertung, wertungNurMitVollenDaten, wertungText } from '../web/src/lib/filter-wertung.ts'
 import { buildHash, parseHash } from '../web/src/lib/router.ts'
 import { namensIndex } from './bau/ohne-synchro-namen.ts'
 import { kalenderFilter } from '../web/src/lib/kalender-filter.ts'
@@ -102,6 +102,16 @@ pruefe('Suchhinweis: Normalzustand ohne Einheit, kleinste Schwelle (1) mit', akt
 const einheiten = aktiveEinheiten(gesetzt)
 pruefe('Suchhinweis kennt beide Einheiten und entfernt sie einzeln', einheiten.map((e) => e.id).join() === 'wertung,ohneWertung' && einheiten[0]!.entferne(gesetzt).minScore === 0 && einheiten[1]!.entferne(gesetzt).ohneWertungAus === false)
 pruefe('Suchhinweis-Namen', einheitName(einheiten[0]!, gesetzt, String) === 'Wertung ab 7,0' && einheitName(einheiten[1]!, gesetzt, String) === 'ohne Wertung ausgeblendet')
+
+/* Kalender vor dem Nachladen: Die Kachel-Datei trägt kein `score`; Kästchen und Schwelle wirken erst mit den vollen Daten. */
+const kachel = [titel(31), titel(32)]
+const kalenderKachelIds = (f: FilterState, voll: boolean) => kachel.filter((t) => releaseMatches(termin, t, wertungNurMitVollenDaten(f, voll), '2026-10-11')).length
+const kaestchen = { ...EMPTY_FILTERS, ohneWertungAus: true }
+pruefe('Kästchen vor dem Nachladen: Kalender nicht leer', kalenderKachelIds(kaestchen, false) === 2, kalenderKachelIds(kaestchen, false))
+pruefe('Schwelle vor dem Nachladen: Kalender nicht leer', kalenderKachelIds({ ...EMPTY_FILTERS, minScore: 70 }, false) === 2)
+pruefe('Kästchen nach dem Nachladen: filtert wie bisher', kalenderKachelIds(kaestchen, true) === 0 && kalenderIds(kaestchen) === '1,2,3,5')
+pruefe('ohne Wertungsfilter bleibt das Objekt dasselbe (kein neuer Filterzustand je Render)', wertungNurMitVollenDaten(EMPTY_FILTERS, false) === EMPTY_FILTERS)
+pruefe('Vor dem Nachladen bleiben die übrigen Filter erhalten', wertungNurMitVollenDaten({ ...kaestchen, minScore: 70, kostenlosOnly: true }, false).kostenlosOnly === true)
 
 console.log('\nWertungsfilter: Komponenten im Mini-DOM')
 const meta = { genres: ['Action'], platforms: ['netflix'], keywords: [], years: [2024], providers: [] } as unknown as DataMeta

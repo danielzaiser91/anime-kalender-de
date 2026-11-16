@@ -16,6 +16,11 @@ export function wertungGesetzt(f: { minScore: number; ohneWertungAus: boolean })
   return f.minScore > 0 || f.ohneWertungAus
 }
 
+/** Der Kalender wertet erst mit den vollen Daten: Die Kachel-Datei trägt keine Wertung, bis dahin zählte jeder Titel als „ohne Wertung“. */
+export function wertungNurMitVollenDaten<F extends { minScore: number; ohneWertungAus: boolean }>(f: F, vollGeladen: boolean): F {
+  return vollGeladen || !wertungGesetzt(f) ? f : { ...f, minScore: 0, ohneWertungAus: false }
+}
+
 /**
  * Passt die Wertung eines Titels? `minScore` 0 = keine Schwelle. Ein Titel ohne Wertung fällt nur heraus, wenn
  * `ohneWertungAus` gesetzt ist — unabhängig von der Schwelle.
