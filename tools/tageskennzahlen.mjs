@@ -212,7 +212,7 @@ export function erzeugeZeilen(von, bis, jetzt, q) {
 
 function kontingentOderAbbruch(tage) {
   try {
-    pruefeKontingent(Number(ausfuehren('gh', ['api', 'rate_limit', '--jq', '.resources.core.remaining']).trim()), tage)
+    pruefeKontingent(Number(ausfuehren('gh', ['api', 'rate_limit', '--jq', '.resources.core.remaining'], { timeout: 60_000 }).trim()), tage)
   } catch (fehler) {
     console.error(`FEHLER (Kontingent): ${fehler.message}`)
     process.exit(1)
