@@ -13,7 +13,7 @@ const deutschIn = (b: NonNullable<CrSerie['staffeln']>[number]): number => b.deu
  * Reihenrechnung in `beurteile` ließ den Titel offen — nach dem Bau trug der Verweis weder `dub` noch Bereiche.
  *
  * Gilt nur, wenn **jeder** Block der Serie deutsche Folgen führt und mindestens einer nicht vollständig deutsch ist (vollständig deutsch regelt `beurteile`).
- * Serie: genau ein Block mit unserer Folgenzahl; ist er teils deutsch, tragen die belegten Nummern die Bereiche (`dubRanges`), nichts wird ergänzt.
+ * Serie: genau ein Block mit unserer Folgenzahl, nur ein Titel dieser Länge, Block teils deutsch (ganz deutsche Blöcke regeln die übrigen Runden); dann tragen die belegten Nummern die Bereiche (`dubRanges`), nichts wird ergänzt.
  * Film: ein Block ohne Namensbezug kann ihn nicht beziffern; wie bei ganz deutschen Serien genügt, dass jeder Block Deutsch führt (außer Kapitelfilme, die `kapitelImBlock` entscheidet).
  */
 function beurteileTeilDeutsch(serie: CrSerie, unsere: Title[]): UrteilMitBereichen[] {
@@ -30,12 +30,9 @@ function beurteileTeilDeutsch(serie: CrSerie, unsere: Title[]): UrteilMitBereich
       continue
     }
     const treffer = bloecke.filter((b) => b.folgen === (t.episodes ?? 0))
-    if (treffer.length !== 1) continue
+    if (treffer.length !== 1 || treffer[0]!.deutsch === treffer[0]!.folgen) continue
+    if (unsere.filter((u) => u.episodes === t.episodes && u.format !== 'MOVIE').length !== 1) continue
     const block = treffer[0]!
-    if (block.deutsch === block.folgen) {
-      urteile.push({ titleId: t.id, dub: true, grund: `„${block.name}“ vollständig deutsch, einzige Staffel mit ${block.folgen} Folgen` })
-      continue
-    }
     const nummern = [...new Set((block.deutscheFolgen ?? []).map((f) => Number(f.nummer)).filter((n) => Number.isInteger(n) && n >= 1))].sort((a, b) => a - b)
     if (nummern.length !== block.deutsch || nummern[nummern.length - 1]! > block.folgen) continue
     const dubRanges: { from: number; to: number; dub: boolean }[] = []
