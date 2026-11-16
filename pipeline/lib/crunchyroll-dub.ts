@@ -156,8 +156,6 @@ export interface Urteil {
   dub: boolean
   /** Woran es liegt — landet als Notiz in der Prüfliste und im Commit. */
   grund: string
-  /** Nur bei teilweise deutschem Block: die belegten deutschen Folgen (`dubRanges` am Verweis). */
-  dubRanges?: { from: number; to: number; dub: boolean }[]
 }
 
 /**

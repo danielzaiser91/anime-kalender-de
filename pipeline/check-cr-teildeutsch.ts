@@ -4,7 +4,8 @@
  * Stand des Dub-Bestands vom 16.11.: Staffel 1 deutsch 24 von 26 (Folgen 25 und 26 fremd), alle anderen Blöcke vollständig.
  * Vorher blieben beide ohne `dub`, weil die Zahl 26 als „auch an einem nicht ganz deutschen Block“ galt.
  */
-import { beurteile, type CrDubData, type CrSerie } from './lib/crunchyroll-dub.ts'
+import { type CrDubData, type CrSerie } from './lib/crunchyroll-dub.ts'
+import { beurteileMitTeilDeutsch as beurteile } from './lib/cr-teil-deutsch.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -19,7 +20,14 @@ const URL = 'https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba'
 const folgen = (nummern: number[]) => nummern.map((n) => ({ nummer: n, guid: `G${n}`, laufend: n }))
 const bis = (n: number) => Array.from({ length: n }, (_, i) => i + 1)
 const block = (name: string, gesamt: number, deutsch: number) => ({
-  name, staffelId: name, folgen: gesamt, kacheln: gesamt, deutsch, fremd: gesamt - deutsch, deutscheFassung: deutsch > 0, deutscheFolgen: folgen(bis(deutsch)),
+  name,
+  staffelId: name,
+  folgen: gesamt,
+  kacheln: gesamt,
+  deutsch,
+  fremd: gesamt - deutsch,
+  deutscheFassung: deutsch > 0,
+  deutscheFolgen: folgen(bis(deutsch)),
 })
 const serie = (staffeln: ReturnType<typeof block>[]): CrSerie =>
   ({ url: URL, seriesId: 'GY5P48XEY', quelle: 'api', katalog: 'de', geprueftAm: '2026-11-16', deutschImAngebot: true, staffeln }) as unknown as CrSerie
