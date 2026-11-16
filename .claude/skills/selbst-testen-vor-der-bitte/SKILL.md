@@ -43,7 +43,7 @@ Und für alles, was diese Frage zutage fördert: erst selbst versuchen.
 | eine neu gebaute Oberfläche | die Auswertung dahinter mit echten Daten durchrechnen |
 | **eine Meldung an eine Schnittstelle** | **die Gegenseite lesen — siehe unten** |
 | eine Zahl | aus den Daten holen, nicht erinnern |
-| „ist dieses YouTube-Video deutsch?“ | Kanal per oEmbed lesen (`author_name`/`author_url`); offizieller DE-Kanal oder deutsches Label/Synchronstudio = deutsch belegt, keine Bitte (16.11.2026: E89 7–9 und 13 hätte ich so selbst entschieden) |
+| „ist dieses YouTube-Video deutsch?“ | Kanal per oEmbed lesen (`author_name`/`author_url`); steht der Kanal in `data/curated/youtube-kanaele-deutsch.yaml`, ist es deutsch belegt, keine Bitte; sonst ist ein offizieller DE-Kanal eine Spur, die ich erst selbst weiterverfolge (Skill `synchro-belegen`, „Gelisteter Kanal“; 16.11.2026: E89 7–9 und 13) |
 | „schalte X im Dashboard ein“ | Zustand per CLI/API messen (`wrangler r2 bucket list` u. ä.) — R2 lief am 11.10.2026 schon seit 10 Tagen, als ich darum bat |
 | einen Lauf, der ein geteiltes Kontingent verbraucht (Erweiterungs-Durchgang → D1-Lesen/-Schreiben) | Tagesverbrauch messen (`wrangler d1 insights … --timePeriod 1d`) und erst freigeben, wenn Grundlast + Lauf unter dem Limit bleibt und ein Deckel den Lauf vorher anhält. Am 12.10.2026 gab ich drei Durchgänge frei, bevor der Lesehebel live war, und um 14:20 stand das ganze Konto bis 02:00 |
 
