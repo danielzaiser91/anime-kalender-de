@@ -23,6 +23,7 @@ const TEXTE = {
   'app.loadError': 'Die Daten laden gerade nicht.',
   'app.loadRetry': 'Erneut versuchen',
   'app.loadRetryHint': 'Klappt es nicht, versuch es in ein paar Minuten noch einmal.',
+  'app.laedt': 'Lädt …',
 
   'view.woche': 'Woche',
   'view.monat': 'Monat',

@@ -40,6 +40,7 @@ tools/buehne-name-pruefen.mjs
 tools/buehne-panel-pruefen.mjs
 tools/buehne-seite.mjs
 tools/buehne-zustand-pruefen.mjs
+tools/cls-erstladen.mjs
 tools/cls-wechsel.mjs
 tools/dist-frisch.mjs
 tools/duell-urteil.mjs
