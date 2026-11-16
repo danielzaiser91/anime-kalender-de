@@ -1,3 +1,4 @@
+import { vermerkeGeteilteAdressen } from './geteilte-adressen.ts'
 import { readJson, log } from '../lib/util.ts'
 import { type Title, type StreamLink, type Release, type PlatformId } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -114,36 +115,7 @@ export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, 
     log(`${verweiseEntfernt.length} entfernte Verweise protokolliert (${ohneWeg} Titel zeigen danach keinen Weg mehr)`)
   }
 
-  /**
-   * Adressen vermerken, die mehrere unserer Einträge bedienen.
-   *
-   * Anlass: Bei „The Café Terrace and Its Goddesses"
-   * zeigten unsere Staffel 1 und Staffel 2 auf **dieselbe** Crunchyroll-Seite —
-   * und dort steht das Ganze als *eine* Staffel mit 24 Folgen. Dasselbe bei
-   * „The Case Study of Vanitas". Wer bei uns „Staffel 2" anklickt und dort 24
-   * Folgen vorfindet, hält eine der beiden Angaben für falsch; tatsächlich
-   * zählen bloß beide anders.
-   *
-   * Was hier belegt wird, ist genau das und nicht mehr: **wie viele unserer
-   * Einträge dieselbe Adresse teilen.** Wie die Plattform ihrerseits in
-   * Staffeln einteilt, wissen wir nicht — dafür müsste man die Serienseite
-   * abrufen, die ihre Staffelliste per JavaScript nachlädt. Der Hinweis in der
-   * Oberfläche sagt deshalb „kann abweichen", nicht „weicht ab".
-   */
-  const proAdresse = new Map<string, number>()
-  for (const title of titles.values()) {
-    for (const stream of title.streams) proAdresse.set(`${stream.platform}|${stream.url}`, (proAdresse.get(`${stream.platform}|${stream.url}`) ?? 0) + 1)
-  }
-  let geteilt = 0
-  for (const title of titles.values()) {
-    for (const stream of title.streams) {
-      const anzahl = proAdresse.get(`${stream.platform}|${stream.url}`) ?? 1
-      if (anzahl > 1) {
-        stream.sharedWith = anzahl
-        geteilt++
-      }
-    }
-  }
+  const geteilt = vermerkeGeteilteAdressen(titles.values())
   log(`${geteilt} Verweise teilen sich eine Adresse mit anderen Einträgen`)
 
   /**

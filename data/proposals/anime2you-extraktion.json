@@ -1761,6 +1761,15 @@
       "am": "2026-11-15",
       "vorschlaege": 0
     },
+    "1071834": {
+      "am": "2026-11-16",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1071866": {
+      "am": "2026-11-16",
+      "vorschlaege": 0
+    },
     "1071924": {
       "am": "2026-11-15",
       "vorschlaege": 0
@@ -1781,6 +1790,10 @@
       "am": "2026-11-15",
       "vorschlaege": 8
     },
+    "1072174": {
+      "am": "2026-11-16",
+      "vorschlaege": 1
+    },
     "1072182": {
       "am": "2026-11-16",
       "vorschlaege": 1
@@ -1792,6 +1805,20 @@
     "1072212": {
       "am": "2026-11-16",
       "vorschlaege": 6
+    },
+    "1072245": {
+      "am": "2026-11-16",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1072274": {
+      "am": "2026-11-16",
+      "vorschlaege": 4
+    },
+    "1072301": {
+      "am": "2026-11-16",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     }
   },
   "vorschlaege": [
@@ -13815,6 +13842,113 @@
       "artikelId": "1070963",
       "artikel": "Zwei Minifiguren zum Action-Anime »Yu-Gi-Oh!« vorgestellt",
       "quelle": "https://www.anime2you.de/news/1070963/zwei-neue-yu-gi-oh-minifiguren/",
+      "veroeffentlicht": "2026-11-16",
+      "gelesenAm": "2026-11-16"
+    },
+    {
+      "titel": "KPop Demon Hunters",
+      "zitat": "Der Streaming-Dienst Netflix hat die deutsche Synchronfassung des erfolgreichen Animationsfilms »KPop Demon Hunters« nachträglich überarbeitet. Die Songs sind ab sofort auf Deutsch zu hören.",
+      "art": "sprachfassung",
+      "sprache": "deutsch",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072174",
+      "artikel": "Netflix ersetzt Originalsongs in deutscher »KPop Demon Hunters«-Fassung",
+      "quelle": "https://www.anime2you.de/news/1072174/netflix-ersetzt-kpop-demon-hunters-originalsongs/",
+      "veroeffentlicht": "2026-11-16",
+      "gelesenAm": "2026-11-16"
+    },
+    {
+      "titel": "Pokémon Horizonte: Gute Aussichten",
+      "zitat": "»Pokémon Horizonte: Gute Aussichten« erscheint nach aktueller Planung im Frühjahr 2027 auf DVD. Ein konkreter Termin steht zum aktuellen Zeitpunkt allerdings noch aus.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Nur Zeitraum Frühjahr 2027 genannt, konkreter Termin steht laut Artikel noch aus.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072274",
+      "artikel": "Dritte »Pokémon Horizonte«-Staffel erscheint doch noch auf DVD",
+      "quelle": "https://www.anime2you.de/news/1072274/dritte-pokemon-horizonte-staffel-auf-dvd/",
+      "veroeffentlicht": "2026-11-16",
+      "gelesenAm": "2026-11-16"
+    },
+    {
+      "titel": "Pokémon",
+      "zitat": "Auch bei den bereits zuvor angekündigten limitierten Generationsboxen mit allen 25 Staffeln der ursprünglichen »Pokémon«-Anime-Serie gibt es Änderungen: Statt wie zuvor vorgesehen am 18. Dezember 2026 gleichzeitig zu erscheinen, sollen die acht Boxen nun im monatlichen Abstand bis zum 25. Juni 2027 in den Handel kommen.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Starttermin des monatlichen Rhythmus nicht genannt, nur Enddatum 25. Juni 2027; ursprünglicher Termin 18. Dezember 2026 entfällt.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072274",
+      "artikel": "Dritte »Pokémon Horizonte«-Staffel erscheint doch noch auf DVD",
+      "quelle": "https://www.anime2you.de/news/1072274/dritte-pokemon-horizonte-staffel-auf-dvd/",
+      "veroeffentlicht": "2026-11-16",
+      "gelesenAm": "2026-11-16"
+    },
+    {
+      "titel": "Pokémon Horizonte",
+      "zitat": "Die dritte Staffel von »Pokémon Horizonte«, die aus den Episoden 1324 bis 1370 des »Pokémon«-Anime besteht, wird derzeit jeden Samstag um 12:55 Uhr auf SUPER RTL ausgestrahlt.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": null,
+      "uhrzeit": "12:55",
+      "anbieter": null,
+      "sender": "SUPER RTL",
+      "wochentage": "jeden Samstag",
+      "folgen": "1324–1370",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072274",
+      "artikel": "Dritte »Pokémon Horizonte«-Staffel erscheint doch noch auf DVD",
+      "quelle": "https://www.anime2you.de/news/1072274/dritte-pokemon-horizonte-staffel-auf-dvd/",
+      "veroeffentlicht": "2026-11-16",
+      "gelesenAm": "2026-11-16"
+    },
+    {
+      "titel": "Pokémon Horizonte",
+      "zitat": "Am 28. November 2026 startet die vierte Staffel.",
+      "art": "start",
+      "sprache": "unklar",
+      "plattform": "tv",
+      "datum": "2026-11-28",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": "SUPER RTL",
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [
+        "sender „SUPER RTL“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072274",
+      "artikel": "Dritte »Pokémon Horizonte«-Staffel erscheint doch noch auf DVD",
+      "quelle": "https://www.anime2you.de/news/1072274/dritte-pokemon-horizonte-staffel-auf-dvd/",
       "veroeffentlicht": "2026-11-16",
       "gelesenAm": "2026-11-16"
     }

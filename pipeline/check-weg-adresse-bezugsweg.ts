@@ -40,6 +40,16 @@ const t = titel([aniverse], [weg(), weg({ platform: 'netflix' })])
 const n = uebernehmeBezugswegAdressen([t, titel([crunchy, aniverse])])
 pruefe('Gezählt und gesetzt wird nur der eindeutige Fall', n === 1 && t.streams[0]!.url === AM && t.streams[1]!.url === '', { n, streams: t.streams })
 
+/* RTL+ (Pokémon 98298: Weg aus dem Termin mit Suchadresse, der Bezugsweg „Rtl+“ kennt die Titelseite). */
+const RTL = 'https://plus.rtl.de/video-tv/filme/pokemon-20-der-film-du-bist-dran-980438'
+const rtlWeg = (zusatz: Partial<StreamLink> = {}) => weg({ platform: 'rtlplus', zugang: 'abo', ...zusatz })
+pruefe('RTL+: ein einziger Bezugsweg „Rtl+“ gibt dem Weg seine Adresse', adresseAusBezugsweg(rtlWeg(), titel([bezug('Rtl+', RTL)])) === RTL)
+pruefe('RTL+: Suche, fremder Host, Kaufweg und zwei Bezugswege geben keine Adresse', [
+  titel([bezug('Rtl+', 'https://plus.rtl.de/suche?q=x')]), titel([bezug('Rtl+', 'https://example.com/x')]), titel([bezug('Rtl+', RTL, 'buy')]),
+  titel([bezug('Rtl+', RTL), bezug('Rtl+', `${RTL}-2`)]),
+].every((t) => adresseAusBezugsweg(rtlWeg(), t) === undefined))
+pruefe('RTL+: ein Weg mit Adresse behält sie, ein Prime-Weg nimmt den RTL+-Bezugsweg nicht', adresseAusBezugsweg(rtlWeg({ url: RTL }), titel([bezug('Rtl+', RTL)])) === undefined && adresseAusBezugsweg(weg(), titel([bezug('Rtl+', RTL)])) === undefined)
+
 /* Kanal: ein Weg ohne Kanal auf einer Kanal-Seite bekommt den Kanal des Bezugswegs, ein vorhandener bleibt. */
 pruefe('Der Kanal steht im Namen des Bezugswegs', kanalImNamen('Amazon Prime (Aniverse)') === 'Aniverse' && kanalImNamen('Amazon Prime Video') === undefined)
 const ohneKanal = titel([crunchy])

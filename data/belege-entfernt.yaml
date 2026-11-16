@@ -965,3 +965,7 @@
   url: https://www.amazon.de/gp/video/detail/B07MXMCF4V
   grund: 'Messung 14.11.2026 23:36 an B07MXMCF4V widerspricht sich: Meldung 27458 zeigt die Staffel-2-Seite gesperrt (10 Folgen), Meldung 27459 Sekunden später Folgen und gti von Staffel 1 (B07LHFLDBS, 12 Folgen). Der Nein-Beleg hätte Avenging Battle den Weg genommen, während prime-zugeordnet.json die Seite Staffel 1 (20462) zuschrieb; erst nach sauberer Neumessung der Seite wieder eintragen (Notizseite-Wächter, 15.11.2026)'
   entferntAm: '2026-11-15'
+- anilistId: 20462
+  url: https://www.amazon.de/gp/video/detail/B07MXMCF4V
+  grund: 'Seite B07MXMCF4V ist die Staffel-2-Seite (Avenging Battle, 20719, 10 Folgen; Notiz oben, 14./15.11.2026); 20462 (Staffel 1, 12 Folgen) führt B07LHFLDBS. Die Meldung in prime-zugeordnet.json schrieb sie Staffel 1 zu, weil die Seite Sekunden später die gti von Staffel 1 zeigte (widersprüchliche Messung 14.11.2026). Neumessung der Seite steht aus (16.11.2026)'
+  entferntAm: '2026-11-16'

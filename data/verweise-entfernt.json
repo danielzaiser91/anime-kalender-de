@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-16T09:27:54.921Z",
+  "stand": "2026-11-16T17:22:48.411Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1385,7 +1385,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-16",
       "entferntAm": "2026-11-16",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 1313,
