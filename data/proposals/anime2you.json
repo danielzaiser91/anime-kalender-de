@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-16T15:02:01.526Z",
+  "scrapedAt": "2026-11-16T16:01:58.317Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
@@ -65,7 +65,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "MediaMarkt reduziert zahlreiche Anime-Blu-rays zum Black Friday 2026",
