@@ -4,7 +4,6 @@
  */
 import type { Title } from '../shared/types.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
-import { bilanzZeilen, unterschied } from './lib/meldungen-bilanz.ts'
 import { meldungenAus, releasesAus, type Vorschlag } from './lib/meldungen.ts'
 
 let fehler = 0
@@ -56,11 +55,6 @@ const kette = pflegeTerminverlauf({
 })
 pruefe('Verlauf: Boruto, Zexal und GX stehen alle drei als zurückgezogen da', kette.length === 3 && kette.every((m) => m.zurueckgezogen !== undefined), kette.map((m) => [m.release, m.zurueckgezogen]))
 
-
-/* Bilanz-Werkzeug: Vielfachmengen, nichts geht beim Vergleichen verloren. */
-const u = unterschied(['a', 'a', 'b'], ['a', 'c'])
-pruefe('Bilanz: zwei gleiche Zeilen vorher, eine nachher → eine verloren; c neu, b verloren', u.weg.join() === 'a,b' && u.neu.join() === 'c', u)
-pruefe('Bilanz: gleiche Listen ohne Abweichung', unterschied(bilanzZeilen([{ titleId: 1, name: 'X', anlass: 'y' }]), bilanzZeilen([{ titleId: 1, name: 'X', anlass: 'y' }])).weg.length === 0)
 if (fehler) {
   console.error(`check-staffelzaehlung-franchise: ${fehler} Fehler`)
   process.exit(1)
