@@ -25,7 +25,8 @@ import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
 import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
-import { RUECKGANG_ZEILE, streamingRueckgang, VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
+import { VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
+import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -114,9 +115,8 @@ function main(): void {
   log(`  Lücken: ${zahlen.ohneDeutschenNamen} ohne deutschen Namen${pfeil('ohneDeutschenNamen')}, ${zahlen.serienOhneFolgenzahl} Serien ohne Folgenzahl${pfeil('serienOhneFolgenzahl')}`)
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
 
-  const rueckgang = streamingRueckgang(zahlen.mitStreamingWeg, vorher?.mitStreamingWeg)
-  /* Feste Zeile für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
-  if (rueckgang) console.log(`${RUECKGANG_ZEILE}${rueckgang}`)
+  /* Feste Zeilen für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
+  for (const zeile of warnZeilen(zahlen, vorher)) console.log(zeile)
 
   let kaputt = 0
   for (const k of HART) {
