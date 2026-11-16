@@ -1,5 +1,6 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { datenAdresse } from './daten-adresse.ts'
+import { holeMitNeuversuch, type NeuversuchOptionen } from './lade-neuversuch.ts'
 import { ecchiZeigen, istEcchi, ohneEcchi } from './ecchi.ts'
 import { merkeSammelartikel } from './sammel-belege.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
@@ -39,21 +40,26 @@ const KENNUNGEN = typeof __DATEI_KENNUNGEN__ === 'object' ? __DATEI_KENNUNGEN__ 
  *
  * Der Service Worker weiß davon (siehe `public/sw.js`): Er antwortet bei
  * gleicher Kennung sofort aus dem Cache und fällt offline auf die letzte
- * bekannte Fassung zurück, egal welche Kennung die trägt.
+ * bekannte Fassung zurück, egal welche Kennung die trägt. Bei einer 5xx-Antwort
+ * tut er das bewusst nicht (alte und neue Dateien würden unbemerkt gemischt):
+ * da greifen die Neuversuche von `loadJson`.
  */
 function url(path: string): string {
   return datenAdresse(import.meta.env?.BASE_URL ?? '/', path, KENNUNGEN, BUILD_ID)
 }
 
-export async function loadJson<T>(path: string): Promise<T> {
-  const res = await fetch(url(path))
-  if (!res.ok) throw new Error(`${path} konnte nicht geladen werden (${res.status})`)
-  return (await res.json()) as T
+/** Mit Neuversuchen bei Netzfehler, 5xx und 429 (`lade-neuversuch.ts`); `opt` setzen nur Tests. */
+export function loadJson<T>(path: string, opt?: NeuversuchOptionen): Promise<T> {
+  return holeMitNeuversuch<T>(url(path), path, opt)
 }
 
-/** `meta.json` wird vom Wochen-Start und vom vollen Datensatz gebraucht — ein Abruf. */
+/** `meta.json` wird vom Wochen-Start und vom vollen Datensatz gebraucht — ein Abruf; ein Fehlschlag bleibt nicht hängen, damit „Erneut versuchen“ neu abruft. */
 let metaPromise: Promise<DataMeta> | undefined
-const loadMeta = () => (metaPromise ??= loadJson<DataMeta>('meta.json'))
+const loadMeta = () =>
+  (metaPromise ??= loadJson<DataMeta>('meta.json').catch((e: unknown) => {
+    metaPromise = undefined
+    throw e
+  }))
 
 export async function loadDataset(): Promise<Dataset> {
   const [titles, releases, events, meta] = await Promise.all([
