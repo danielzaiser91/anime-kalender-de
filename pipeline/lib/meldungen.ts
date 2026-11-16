@@ -457,7 +457,7 @@ const ohneSchraegstrich = (url: string): string => url.replace(/\/$/, '')
  * Sammlerlauf; bis dahin standen der falsche Auto-Termin (Boruto) und der richtige Handtermin nebeneinander. Gilt wie dort für den ganzen Artikel.
  */
 const handQuellenAdressen = (vorhanden: Release[]): Set<string> =>
-  new Set(vorhanden.filter((r) => !r.automatisch).flatMap((r) => r.sources.map(ohneSchraegstrich)))
+  new Set(vorhanden.filter((r) => !r.automatisch).flatMap((r) => (r.sources ?? []).map(ohneSchraegstrich)))
 
 function belegeTermin(belegt: Set<string>, titleId: number, platform: string, tag: string) {
   belegt.add(terminSchluessel(titleId, platform, tag))
