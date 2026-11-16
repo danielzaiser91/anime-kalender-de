@@ -1,6 +1,7 @@
 /** Test der Regeltabelle des Mängel-Registers: je Regel Treffer, Ausnahme und Grenzfälle. Die Fortschreibung testet `check-maengel-register.ts`. */
 import type { Release, Title } from '../shared/types.ts'
 import { adresseMehrfach, REGELN, zaehleMaengel, type Kontext } from './lib/maengel-regeln.ts'
+import { baueNeinGilt } from './lib/maengel-nein.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -41,10 +42,11 @@ const kontext = (ueber: Partial<Kontext> = {}): Kontext => ({
   releases: new Map(),
   discTitel: new Set(),
   adresseMehrfach: new Set(),
+  neinGilt: () => false,
   ...ueber,
 })
 const arten = (t: Title, k = kontext()) => zaehleMaengel([t], k).map((x) => (x.grund ? `${x.art}:${x.grund}` : x.art))
-const rel = (ueber: Partial<Release>): Release => ({ titleId: 1, platform: 'netflix', releaseType: 'batch', schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 12 }, ...ueber } as unknown as Release)
+const rel = (ueber: Partial<Release>): Release => ({ titleId: 1, platform: 'netflix', releaseType: 'batch', sources: [{ url: 'https://q' }], schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 12 }, ...ueber } as unknown as Release)
 const mitReleases = (...r: Release[]) => kontext({ releases: new Map([[1, r]]) })
 const ohneFolgen = kontext({ folgen: () => undefined })
 
@@ -89,6 +91,21 @@ pruefe('synchro-schwach: normal ist kein Treffer', arten(gut(1, { dubConfidence:
 pruefe('erschienen-ohne-weg: Treffer', arten(gut(1), mitReleases(rel({ platform: 'adn' }))).join() === 'erschienen-ohne-weg')
 pruefe('erschienen-ohne-weg: Plattform vorhanden, künftig oder Disc kein Treffer',
   arten(gut(1), mitReleases(rel({ platform: 'netflix' }), rel({ platform: 'adn', schedule: { firstEpisodeDate: '2027-01-01' } as never }), rel({ platform: 'disc' }))).length === 0)
+const adnTermin = (ueber: Partial<Release> = {}) => mitReleases(rel({ platform: 'adn', ...ueber }))
+const geschaetzt = adnTermin({ schedule: { firstEpisodeDate: '2026-01-01', estimated: true } as never })
+pruefe('erschienen-ohne-weg: ein geschätzter Termin ist kein Erscheinen (11-7 baut dafür auch keinen Weg), er zählt als termin-geschaetzt-ohne-weg', arten(gut(1), geschaetzt).join() === 'termin-geschaetzt-ohne-weg')
+pruefe('termin-geschaetzt-ohne-weg: sicherer Termin, Weg vorhanden, künftiger Termin und Termin ohne Quelle sind kein Treffer', [
+  adnTermin(), mitReleases(rel({ platform: 'netflix', schedule: { firstEpisodeDate: '2026-01-01', estimated: true } as never })),
+  mitReleases(rel({ platform: 'adn', schedule: { firstEpisodeDate: '2999-01-01', estimated: true } as never })), mitReleases(rel({ platform: 'adn', sources: [], schedule: { firstEpisodeDate: '2026-01-01', estimated: true } as never })),
+].every((k) => !arten(gut(1), k).includes('termin-geschaetzt-ohne-weg')))
+pruefe('erschienen-ohne-weg: ein Termin ohne Quelle zählt nicht', arten(gut(1), adnTermin({ sources: [] })).length === 0)
+pruefe('erschienen-ohne-weg: belegtes Nein ist Ausnahme, ohne Nein bleibt es offen', arten(gut(1), { ...adnTermin(), neinGilt: () => true }).join() === 'erschienen-ohne-weg:belegtes-nein' && arten(gut(1), adnTermin()).join() === 'erschienen-ohne-weg')
+pruefe('erschienen-ohne-weg: Nein nur für eine von zwei Plattformen bleibt offen', arten(gut(1), { ...mitReleases(rel({ platform: 'adn' }), rel({ platform: 'primevideo' })), neinGilt: (_i, p) => p === 'adn' }).join() === 'erschienen-ohne-weg')
+const beleg = (ueber: object) => ({ anilistId: 1, platform: 'primevideo', ...ueber }) as Parameters<typeof baueNeinGilt>[0][number]
+const nichtVerfuegbar = baueNeinGilt([beleg({ available: false, checkedAt: '2026-08-30' })])
+pruefe('neinGilt: „nicht verfügbar“ vor dem Termin ist überholt, am Termintag und danach gilt es', !nichtVerfuegbar(1, 'primevideo', '2026-09-13') && nichtVerfuegbar(1, 'primevideo', '2026-08-30') && nichtVerfuegbar(1, 'primevideo', '2026-08-01'))
+const ohneTon = baueNeinGilt([beleg({ dub: false, checkedAt: '2026-09-14' })])
+pruefe('neinGilt: „ohne deutschen Ton“ gilt auch für einen späteren Termin; andere Plattform und Titel nicht', ohneTon(1, 'primevideo', '2026-10-15') && !ohneTon(1, 'netflix', '2026-10-15') && !ohneTon(2, 'primevideo', '2026-10-15'))
 pruefe('folgenzahl-widerspruch: Release mit mehr Folgen', arten(gut(1), mitReleases(rel({ schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 24 } }))).join() === 'folgenzahl-widerspruch')
 pruefe('folgenzahl-widerspruch: Liste länger als Folgenzahl', arten(gut(1), kontext({ folgen: () => ({ f: Array.from({ length: 13 }, (_, i) => [i + 1, 'x'] as [number, string]) }) })).join() === 'folgenzahl-widerspruch')
 pruefe('folgenzahl-widerspruch: Disc mit mehr Folgen zählt nicht', arten(gut(1), mitReleases(rel({ releaseType: 'disc', platform: 'disc', schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 99 } }))).length === 0)
