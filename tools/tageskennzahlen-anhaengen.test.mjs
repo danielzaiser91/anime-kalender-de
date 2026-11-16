@@ -45,7 +45,7 @@ function lauf(argumente, { gh, tage = '', git = false } = {}) {
   mkdirSync(join(ordner, 'bin'))
   writeFileSync(join(ordner, 'bin/gh'), `#!/bin/sh\n${gh ?? 'exit 1'}\n`, { mode: 0o755 })
   if (git) { // origin/main für das `git log` des Skripts
-    for (const a of [['init', '-q'], ['-c', 'user.email=a@b', '-c', 'user.name=x', 'commit', '-q', '--allow-empty', '-m', 'x'], ['update-ref', 'refs/remotes/origin/main', 'HEAD']]) spawnSync('git', a, { cwd: ordner })
+    for (const a of [['init', '-q'], ['-c', 'user.email=a@b', '-c', 'user.name=x', 'commit', '-q', '--allow-empty', '-m', 'x'], ['update-ref', 'refs/remotes/origin/main', 'HEAD']]) spawnSync('git', a, { cwd: ordner, timeout: 30_000 })
   }
   const r = spawnSync(process.execPath, [SKRIPT, ...argumente], { cwd: ordner, encoding: 'utf8', timeout: 30_000, env: { ...process.env, PATH: `${join(ordner, 'bin')}:${process.env.PATH}` } })
   return { ...r, datei: readFileSync(join(ordner, 'tools/kennzahlen/tage.jsonl'), 'utf8') }
