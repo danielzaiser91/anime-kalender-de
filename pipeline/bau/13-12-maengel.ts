@@ -4,7 +4,7 @@ import type { Release, Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { log, readJson, writeText } from '../lib/util.ts'
 import { discTitelIds } from '../lib/erstausgabe-ohne-weg.ts'
-import { adresseMehrfach, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
+import { adresseMehrfach, COVER_BEKANNT_DATEI, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
 import { MAENGEL_DATEI, schreibeFort, serialisiere, type Register } from '../lib/maengel-register.ts'
 
 const OUT = 'public/data'
@@ -30,7 +30,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
   for (const r of alle) (releases.get(r.titleId) ?? releases.set(r.titleId, []).get(r.titleId)!).push(r)
   return {
     heute,
-    coverBekannt: readJson('data/cover-ohne-bekannt.json', {}),
+    coverBekannt: readJson(COVER_BEKANNT_DATEI, {}),
     kuenftig: new Set(events.filter((e) => (e.date ?? '') >= heute).map((e) => e.titleId!)),
     releases,
     discTitel: discTitelIds(alle),

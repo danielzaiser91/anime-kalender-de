@@ -6,6 +6,9 @@ import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
  * **Regeltabelle des Mängel-Registers** (Entscheidung 16.11.2026, `docs/wissen/maengel.md`). Jede Mangelart ist eine Zeile: Gruppe, Wirkung, wer sie abbaut,
  * eine reine Zählfunktion je Titel und die Ausnahme mit Grund („zu Recht leer“). Eine neue Art ist eine neue Zeile, sonst nichts.
  */
+/** Handliste (Kennung → Grund), von Hand gepflegt, nicht von einem Lauf geschrieben. */
+export const COVER_BEKANNT_DATEI = 'data/cover-ohne-bekannt.json'
+
 export type Gruppe = 'fehlend' | 'schwach' | 'falsch'
 export type Wer = `auto:${string}` | `hand:${string}` | 'daniel'
 
@@ -15,7 +18,7 @@ type FolgenListe = { f?: [number, string][] }
 /** Alles, was eine Regel außer dem Titel selbst braucht; die Eingaben lesen `13-12-maengel.ts` bzw. der Test. */
 export interface Kontext {
   heute: string
-  /** Kennung → Grund der Handliste `data/cover-ohne-bekannt.json`: Titel, für die es nachweislich kein Cover gibt. */
+  /** Kennung → Grund der Handliste (`COVER_BEKANNT_DATEI`): Titel, für die es nachweislich kein Cover gibt. */
   coverBekannt: Record<string, string>
   synopse: (id: number) => Synopse | undefined
   folgen: (id: number) => FolgenListe | undefined
