@@ -80,6 +80,16 @@ const ids = (hash: string) => filterTitles(alle, data, parseHash(hash).filters, 
 pruefe('alter Link rt=movie zeigt die Filme', ids('#/datenbank?rt=movie') === '2,4', ids('#/datenbank?rt=movie'))
 pruefe('alter Link xrt=movie zeigt alles außer Filmen', ids('#/datenbank?xrt=movie') === '1,3', ids('#/datenbank?xrt=movie'))
 
+console.log('\nFilm / Serie: UND/ODER-Schalter der Release-Art zählt „Film“ nicht mit')
+const nurFilm = await rendere({ ...EMPTY_FILTERS, releaseTypes: ['movie', 'weekly'] })
+await nurFilm.klick(nurFilm.knopf('mehr Filter')!)
+pruefe('Film + eine weitere Art: kein Schalter (nur eine Art in der Gruppe)', !nurFilm.knopf('egal'))
+nurFilm.dom.entferne()
+const zweiArten = await rendere({ ...EMPTY_FILTERS, releaseTypes: ['weekly', 'batch'] })
+await zweiArten.klick(zweiArten.knopf('mehr Filter')!)
+pruefe('zwei Arten ohne Film: Schalter da', !!zweiArten.knopf('egal'))
+zweiArten.dom.entferne()
+
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
