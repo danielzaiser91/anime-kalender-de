@@ -8,6 +8,7 @@ import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
 import { todayIso } from '../../shared/time.ts'
 import { ersetztSucheUndMeldetWeg, urteilAmWeg } from '../lib/weg-aus-beleg.ts'
+import { dubAusDeutschemKanal, ladeDeutscheKanaele } from '../lib/youtube-kanal-deutsch.ts'
 
 /** Anbieter mit „DE ✓" je Titel im vorigen Bestand — auch die geführten Abgänge, sonst verschwände einer beim Bau nach seinem Entstehen. */
 function deutschJeTitel(alt: Title[] | Record<string, Title>): Map<number, Set<string>> {
@@ -67,7 +68,7 @@ function ladeYoutubeBefunde(ytKanal: Record<string, string>, ytKauf: Set<string>
     if (typeof b?.audioDeutsch === 'boolean') ytAudio.set(url, b.audioDeutsch)
     if (b?.kategorie === 'Trailers') ytTrailer.add(url)
   }
-  return { ytAudio, ytTrailer }
+  return { ytAudio, ytTrailer, deutscheKanaele: ladeDeutscheKanaele() }
 }
 
 export function werteLinkpruefungAus({
@@ -101,7 +102,7 @@ export function werteLinkpruefungAus({
   let ytEntfernt = 0
   let totEntfernt = 0
   let adressen = 0
-  const { ytAudio, ytTrailer } = ladeYoutubeBefunde(ytKanal, ytKauf)
+  const { ytAudio, ytTrailer, deutscheKanaele } = ladeYoutubeBefunde(ytKanal, ytKauf)
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
   const { befunde: linkBefundeRoh, ungewertet: netflix404Ungewertet } = ladeGewerteteBefunde(todayIso())
   const zeile404 = ungewertetZeile(netflix404Ungewertet)
@@ -312,7 +313,7 @@ export function werteLinkpruefungAus({
       }
       // Die Handprüfung hat Vorrang; wo sie schweigt, spricht YouTube selbst.
       if (stream.dub === undefined && stream.platform === 'youtube') {
-        const ton = ytAudio.get(stream.url)
+        const ton = ytAudio.get(stream.url) ?? dubAusDeutschemKanal(ytKanal[stream.url], deutscheKanaele)
         if (ton !== undefined) {
           stream.dub = ton
           ytAusTonspur++

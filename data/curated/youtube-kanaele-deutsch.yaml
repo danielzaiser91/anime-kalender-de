@@ -1,0 +1,13 @@
+# Deutsche YouTube-Kanäle (Daniel, 16.11.2026, Handprüfung E89):
+# Ein offizieller deutscher Kanal oder der Kanal eines deutschen Synchronstudios/Labels
+# belegt die deutsche Fassung aller seiner Videos. Ein YouTube-Weg von einem hier
+# geführten Kanal zählt als Synchro-belegt (`dub: true`), auch ohne Tonspur-Befund.
+# `name` ist der Kanalname wörtlich wie in `data/youtube-befunde.json` (oEmbed `author_name`).
+# Nur aufnehmen, was als deutsch belegt ist; die Handprüfung (`data/dub-confirmed.yaml`) hat Vorrang.
+kanaele:
+  - name: Offizieller Pokémon Youtube Kanal
+    handle: "@Pokemonoffiziell"
+    begruendung: Offizieller deutscher Pokémon-Kanal; Daniel 16.11.2026 sah drei Videos deutsch vertont (Entwicklungen, Winde aus Paldea, Meisterdetektiv Pikachu).
+  - name: peppermint anime
+    handle: "@peppermintanimeWORLD"
+    begruendung: Deutsches Anime-Label; Daniel 16.11.2026 zählte 30 Videos der Fire-Force-Staffel-2-Playlist mit deutscher Synchro.

@@ -39630,3 +39630,38 @@
   checkedAt: '2026-11-16'
   zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# ── Handprüfung E89 vom 16.11.2026: YouTube-Verweise von deutschen Kanälen ───
+# Daniels Sichtung: deutsch vertont, Kanäle per oEmbed belegt.
+
+- anilistId: 138699
+  title: "Pokémon Evolutions"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=aNwzTyTTBS0
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
+
+- anilistId: 168092
+  title: "Pokémon Horizons: Winde aus Paldea"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=U1ouDaKXY8M
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
+
+- anilistId: 170535
+  title: "Meisterdetektiv Pikachu und der verschwundene Pudding"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=Pc2qMMlNeRE
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
+
+- anilistId: 128390
+  title: "Fire Force Staffel 2 Miniepisoden"
+  platform: youtube
+  url: https://www.youtube.com/playlist?list=PLY_DM8ieCRPqNeMV1z2EJZDSgLWySL_Cx
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: 30 Videos mit deutscher Synchro. Kanal „peppermint anime“ (https://www.youtube.com/@peppermintanimeWORLD, deutsches Label)."
