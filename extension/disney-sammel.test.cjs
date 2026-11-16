@@ -22,6 +22,7 @@ const schneide = (quelle, name) => {
   return treffer[0]
 }
 
+const JETZT = Date.parse('2026-11-16T12:00:00Z')
 const WORKER = 'https://w.example/pruefung'
 const ADRESSEN = ['a', 'b', 'c', 'd', 'e'].map((x) => `https://www.disneyplus.com/de-de/browse/entity-${x}`)
 const eintrag = (url, seit) => ({ url, titel: url, seit, staffeln: [{ nr: 1, offen: true }] })
@@ -32,7 +33,7 @@ function seite(route, vorab = {}, einzelStatus = 200) {
   const speicher = new Map(Object.entries(vorab))
   const k = vm.createContext({
     console,
-    Date,
+    Date: class extends Date { static now() { return JETZT } },
     Promise,
     URL,
     URLSearchParams,
@@ -86,7 +87,7 @@ async function lauf() {
   pruefe('die Antworten gelten: Wiedervorlagen beantwortet', vm.runInContext('erneutBeantwortet.size', a.k) === 2, vm.runInContext('[...erneutBeantwortet]', a.k))
   pruefe('die Antworten gelten: die drei offenen warten auf die Übernahme', vm.runInContext('wartetAufUebernahme.size', a.k) === 3, vm.runInContext('[...wartetAufUebernahme]', a.k))
 
-  const zweite = seite('ok', Object.fromEntries(ADRESSEN.map((u) => [`ak-gemeldet:${u}`, `b${Date.now()}|2026-11-01`])))
+  const zweite = seite('ok', Object.fromEntries(ADRESSEN.map((u) => [`ak-gemeldet:${u}`, `b${JETZT}|2026-11-01`])))
   await vm.runInContext('briefkastenHolen()', zweite.k)
   pruefe('kennt das Gedächtnis alles, geht gar keine Anfrage hinaus', zweite.abrufe.sammel === 0 && zweite.abrufe.einzeln === 0, zweite.abrufe)
 
