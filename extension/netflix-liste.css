@@ -53,6 +53,10 @@
   font-size: 12px;
   white-space: nowrap;
 }
+.ak-laedt {
+  font-size: 12px;
+  opacity: 0.7;
+}
 /* Der Durchgang ist die Hauptaktion: heller als die Umschalter daneben. */
 .ak-kopf-unten .ak-suche + .ak-umschalter {
   border-color: rgba(255, 255, 255, 0.32);

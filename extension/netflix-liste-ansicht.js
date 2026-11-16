@@ -284,6 +284,7 @@ function ansichtKopf(o) {
   }
   if (o.gemeldet > 0) neu('gemeldet', `${o.gemeldet} gemeldet`, 'Nur die gemeldeten Titel zeigen')
   kopf.appendChild(unten)
+  if (globalThis.akMeldungenLaedt) kopf.appendChild(ansichtElement('div', 'ak-laedt', 'Gemeldetes wird geladen …'))
   return { kopf, suche, tabelle: tabelle?.wurzel ?? null }
 }
 

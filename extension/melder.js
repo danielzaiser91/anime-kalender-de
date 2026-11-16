@@ -330,7 +330,11 @@ function meldungenMerken(reihe, paare) {
 
 /** Den Briefkasten zu einer Reihe fragen — der Dialog braucht alle, der Knopf eine. */
 async function meldungenLaden(reihe) {
-  if (!reihe || globalThis.akMeldungenNeuLaden?.(reihe) === false) return
+  if (reihe && globalThis.akMeldungenNeuLaden?.(reihe) !== false) await meldungenAbrufen(reihe)
+}
+
+/* Eine Anfrage je Reihe ohne Zweiminutenbremse (Rückfall der Sammelabfrage). */
+async function meldungenAbrufen(reihe) {
   try {
     const adresse = `https://www.netflix.com/title/${reihe}`
     const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(adresse)}`, { cache: 'no-store' })
@@ -5328,15 +5332,8 @@ async function dialogOeffnen() {
   } catch {
     /* Dann eben mit dem Stand von vorhin. */
   }
-  /*
-    **„Gemeldet" kommt aus dem Briefkasten, nicht aus dem lokalen Speicher.**
-    Fünf kleine Abfragen, parallel, höchstens anderthalb Sekunden — danach
-    gilt, was bis dahin da ist.
-  */
-  await Promise.race([
-    Promise.all(Object.keys(offeneTitel).map((r) => meldungenLaden(r))),
-    new Promise((fertig) => setTimeout(fertig, 1500)),
-  ])
+  /* „Gemeldet" kommt aus dem Briefkasten: der Dialog öffnet mit dem bekannten Stand und zeichnet sich neu, sobald die eine Antwort da ist. */
+  void globalThis.akMeldungenSammeln(Object.keys(offeneTitel), WORKER, meldungenMerken, meldungenAbrufen).then((neu) => neu && dialog && dialogNeuZeichnen())
   dialog = document.createElement('div')
   dialog.className = 'ak-dialog'
 
@@ -6081,9 +6078,12 @@ globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
   erledigt = aenderungen.erledigt.newValue ?? {}
   // Die Zahl am Knopf gehört mit aktualisiert — sie zählt dasselbe.
   uebersichtZeigen()
+  dialogNeuZeichnen()
+})
+
+/* Den offenen Dialog neu zeichnen, aber die Suche und die Rollposition behalten — sonst springt die Liste weg. */
+function dialogNeuZeichnen() {
   if (!dialog) return
-  // Neu zeichnen, aber die Suche und die Rollposition behalten — sonst
-  // springt die Liste weg, während jemand sie durchgeht.
   const wort = dialog.querySelector('.ak-suche')?.value ?? ''
   const stelle = dialog.querySelector('.ak-liste')?.scrollTop ?? 0
   dialogSchliessen()
@@ -6096,7 +6096,7 @@ globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
     const liste = dialog?.querySelector('.ak-liste')
     if (liste) liste.scrollTop = stelle
   })
-})
+}
 
 /**
  * **Ein Diagnosebericht für Netflix — denselben Griff wie bei Amazon.**
