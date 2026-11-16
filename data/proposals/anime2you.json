@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-16T18:02:57.303Z",
+  "scrapedAt": "2026-11-16T21:02:17.802Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
@@ -7617,7 +7617,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Yu-Gi-Oh!",
