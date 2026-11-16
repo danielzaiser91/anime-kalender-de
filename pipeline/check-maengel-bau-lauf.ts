@@ -94,7 +94,7 @@ pruefe('Lauf 1: Handliste: Cover von Titel 5 ist Ausnahme (nur im Zähler)', r1.
 pruefe('Lauf 1: Disc-Termin ist ein Weg (kein kein-weg, kein erstausgabe-ohne-weg bei Titel 4)', !r1.zeilen.some((z) => z.t === 4), r1.zeilen.filter((z) => z.t === 4))
 pruefe('Lauf 1: Termin am heutigen Tag zählt als künftig (kein termin-fehlt-laufend bei Titel 8)', !r1.zeilen.some((z) => z.t === 8), r1.zeilen.filter((z) => z.t === 8))
 pruefe('Lauf 1: Erstlauf kennt kein „neu“', Object.values(r1.zaehler).every((z) => z.neu === 0) && r1.zeilen.every((z) => !z.ereignis), r1)
-pruefe('Lauf 1: alle 21 Arten im Zähler', Object.keys(r1.zaehler).length === 21, Object.keys(r1.zaehler))
+pruefe('Lauf 1: alle 22 Arten im Zähler', Object.keys(r1.zaehler).length === 22, Object.keys(r1.zaehler))
 
 /* Vorfassung altern lassen und committen; Titel 1 bekommt sein Cover, Titel 3 ist neu ohne Banner. */
 schreibe('data/maengel.json', readFileSync(join(wurzel, 'data/maengel.json'), 'utf8').replaceAll(/"seit":"[\d-]+"/g, '"seit":"2026-01-01"'))

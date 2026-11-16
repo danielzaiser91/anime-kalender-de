@@ -99,12 +99,13 @@ export const REGELN: Regel[] = [
   { art: 'erschienen-ohne-weg', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: erschienenOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
   { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id) },
+  { art: 'weg-ohne-adresse', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: (t) => Boolean(t.streams?.some((s) => !s.url)) },
 ]
 
-/** Titel mit Stream-Adresse, die auch bei einem anderen Titel steht, ohne dass `sharedWith` es erklärt. */
+/** Titel mit Stream-Adresse, die auch bei einem anderen Titel steht, ohne dass `sharedWith` es erklärt. Eine leere Adresse ist keine gleiche (Art `weg-ohne-adresse`). */
 export function adresseMehrfach(titel: Title[]): Set<number> {
   const je = new Map<string, Set<number>>()
-  for (const t of titel) for (const s of t.streams ?? []) if (!s.sharedWith) (je.get(s.url) ?? je.set(s.url, new Set()).get(s.url)!).add(t.id)
+  for (const t of titel) for (const s of t.streams ?? []) if (s.url && !s.sharedWith) (je.get(s.url) ?? je.set(s.url, new Set()).get(s.url)!).add(t.id)
   return new Set([...je.values()].filter((ids) => ids.size > 1).flatMap((ids) => [...ids]))
 }
 

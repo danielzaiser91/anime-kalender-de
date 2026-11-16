@@ -95,6 +95,9 @@ pruefe('folgenzahl-widerspruch: Disc mit mehr Folgen zählt nicht', arten(gut(1)
 const strom = (url: string, extra = {}) => [{ platform: 'netflix', url, dub: true, ...extra }] as Title['streams']
 const geteilt = adresseMehrfach([gut(1, { streams: strom('x') }), gut(2, { streams: strom('x') }), gut(3, { streams: strom('x', { sharedWith: 1 }) }), gut(4)])
 pruefe('adresse-mehrfach: gleiche Adresse bei zwei Titeln; `sharedWith` und Einzelne ausgenommen', [...geteilt].sort().join() === '1,2', [...geteilt])
+const leerWeg = (id: number) => gut(id, { streams: [{ platform: 'disneyplus', url: '' }] as Title['streams'] })
+pruefe('adresse-mehrfach: leere Adresse zählt nicht als gleiche (Grenzfall: zwei Titel mit url "")', adresseMehrfach([leerWeg(1), leerWeg(2)]).size === 0)
+pruefe('weg-ohne-adresse: Weg mit leerer url trifft, mit Adresse nicht', arten(leerWeg(1)).includes('weg-ohne-adresse') && !arten(gut(1)).includes('weg-ohne-adresse'))
 pruefe('adresse-mehrfach: Regel nutzt die Menge', arten(gut(1), kontext({ adresseMehrfach: new Set([1]) })).join() === 'adresse-mehrfach')
 
 /* Grenzfälle und Einheitlichkeit (Prüfer-Auflagen N4, N7) */
