@@ -369,10 +369,10 @@ function baueAnsicht($: EngineInterface, e: any, d: PaneDaten) {
       {kt(z.titel)}
     </Text>
   )
-  // Jetzt: Farbe der Dringlichkeit statt Dimmen (auch bei [klein]); [groß] bleibt fett.
+  // Jetzt: Farbe der Dringlichkeit statt Dimmen (auch bei [klein]); [groß] bleibt fett. Titel ganz, bricht um (höchstens 5 Einträge).
   const jetztTitel = (z: DanielEintrag) => (
     <Text wrap="wrap" bold={z.groesse === 'gross'} color={DRINGLICH_FARBE[z.dringlichkeit ?? 'heute']}>
-      {kt(z.titel)}
+      {z.titel}
     </Text>
   )
   // Der Punkt vor dem Titel klappt auf; der Titel selbst bricht um (ein Button-Label tut das nicht).

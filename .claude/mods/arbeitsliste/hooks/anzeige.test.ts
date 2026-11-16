@@ -381,7 +381,7 @@ test('Pane: ohne Pipeline-Zeilen kein Bereich', async ($, on) => {
 test('Pane: langer Titel bricht auf Panebreite um, gekürzt erst jenseits von zwei Zeilen', async ($, on) => {
   const lang = 'Wochenstart statt Alle Folgen, Termine ohne belegte Synchro gekennzeichnet'
   const sehrLang = 'x'.repeat(200)
-  const stand = `## Daniel-Todo\n### Jetzt\n\n- 🔴 **${lang}** — rest\n- 🔴 **${sehrLang}** — rest\n`
+  const stand = `## In Pipeline\n\n- [2026-10-10 14:00] **${lang}** — Ort: worker (x)\n- [2026-10-10 15:00] **${sehrLang}** — Ort: worker (x)\n`
   starte(on, null, [], true, stand)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
@@ -391,6 +391,44 @@ test('Pane: langer Titel bricht auf Panebreite um, gekürzt erst jenseits von zw
   const e = z.find(s => s.includes('Wochenstart'))!
   expect(e.length).toBeGreaterThan(60)
   expect(z.find(s => s.includes('xxxx'))!.endsWith('…')).toBe(true)
+  await pane.unmount()
+})
+
+// Daniel, 16.11.2026: die Zeile wurde in der Leiste nach „(soll nicht ich“ abgeschnitten, ohne „…“.
+// Zeilen der Zeichnung: Jetzt-Kopf, 5 Einträge (die Attrappe bricht nicht um), Pipeline-Kopf, Pipe-Zeile
+const ZEILEN_FUENF = 8
+const E90 = 'E90 Netflix: „Bericht laden“ klicken'
+const E90_ZEILE = `- 🔵 **${E90}** (soll nicht ich: liegt nur in deiner angemeldeten Sitzung; kein „ja“ nötig, einfach klicken) — [Anleitung](file:///C:/x/e90.md)`
+
+test('Pane: Jetzt zeigt den fetten Titel ganz und nichts aus der Klammer dahinter', async ($, on) => {
+  const langerTitel = 'y'.repeat(120)
+  starte(on, null, [], true, `## Daniel-Todo\n### Jetzt\n\n${E90_ZEILE}\n- 🔴 **${langerTitel}** — rest\n`)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
+  await oeffneAlle(pane)
+  const text = zeilen(await pane.drawn()).join('\n')
+  expect(text).toContain(E90)
+  expect(text).not.toContain('soll nicht ich')
+  expect(text.replace(/\s+/g, '')).toContain(langerTitel)
+  expect(text).not.toContain('…')
+  await pane.unmount()
+})
+
+test('Pane: fünf Jetzt-Einträge zu je 200 Zeichen bei 45 Spalten: alle ganz, kein „…“, übrige Bereiche bleiben sichtbar', async ($, on) => {
+  const titel = ['a', 'b', 'c', 'd', 'e'].map(c => c.repeat(200))
+  const jetzt = titel.map(t => `- 🔴 **${t}** — rest`).join('\n')
+  starte(on, null, [], true, `## Daniel-Todo\n### Jetzt\n\n${jetzt}\n\n## In Pipeline\n- [2026-10-10 12:00] **Pipe 1** — Ort: worker (x)\n`)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
+  await oeffneAlle(pane)
+  const z = zeilen(await pane.drawn())
+  const text = z.join('\n')
+  for (const t of titel) expect(text.replace(/\s+/g, '')).toContain(t)
+  expect(text).not.toContain('…')
+  expect(z).toContain('▾ Jetzt 5')
+  expect(z.some(s => s.startsWith('▾ In Pipeline 1'))).toBe(true)
+  expect(z.some(s => s.includes('Pipe 1'))).toBe(true)
+  expect(z.length).toBe(ZEILEN_FUENF)
   await pane.unmount()
 })
 
@@ -604,7 +642,7 @@ test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl;
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
   let z = zeilen(await pane.drawn())
   expect(z).toContain('▾ Jetzt 1')
-  expect(z).toContain('  🔴 Eins prüfen — x')
+  expect(z).toContain('  🔴 Eins prüfen')
   expect(z).toContain('▸ In Pipeline 1')
   expect(z.some(s => s.includes('Pipe 1'))).toBe(false)
 
@@ -619,7 +657,7 @@ test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl;
   await pane.press({ key: 'bereich:jetzt' })
   z = zeilen(await pane.drawn())
   expect(z).toContain('▸ Jetzt 1')
-  expect(z).not.toContain('  🔴 Eins prüfen — x')
+  expect(z).not.toContain('  🔴 Eins prüfen')
   await pane.unmount()
 })
 
