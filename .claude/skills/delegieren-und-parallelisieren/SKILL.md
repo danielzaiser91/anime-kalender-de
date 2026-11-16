@@ -42,7 +42,6 @@ ode_modules`), dann `git worktree remove` — sonst bleibt der Link stehen (Prü
 - **Parallel** nur bei getrennten Dateien/Modulen (kein gemeinsamer Schreibpfad, keine Abhängigkeit der Ergebnisse). Jeder Teilbauer bekommt einen eigenen Worktree. Teilen sich zwei parallele Aufträge eine Ansicht oder Datenquelle, nennt jeder Auftrag den anderen PR samt gemeinsamer Quelle und verlangt den Zusammenspiel-Testfall von Anfang an (2297/2298, 28.10.2026).
 - **Nacheinander**, wenn ein Teil die Ausgabe des anderen braucht oder beide dieselbe Datei, dieselbe generierte Datei (`public/data/*`) oder dieselbe Funktion berühren. Im Zweifel nacheinander.
 - **Cloud-Aufträge (16.11.2026):** Jeder Auftrag sagt wörtlich „Auto-Merge nie einschalten, du mergst nie“; nach jedem neuen PR einer Cloud-Sitzung `auto_merge` lesen (PR 4052 ging ohne Abnahme auf main). Cloud-Sitzungen haben keinen Browser: Aufträge mit Bildern oder Browser-Messung gehen an einen lokalen Bauer; kurz nach dem Start den Lauf lesen.
-- **Vorgabe zum Verhalten einer geteilten Funktion (16.11.2026, PR 4045):** Vorher an ihren Aufrufern lesen (404-Neuversuch).
 - **Hängt ein Auftrag an einem PR, prüfe ich vor dem Start `state == MERGED`** (`gh pr view N --json state`), nicht „Merge gesetzt“: Auto-Merge kann am CI-Prüfer hängen bleiben (14.10.2026: Bauer wartete 30 min auf einen offenen PR und endete ohne Arbeit). Sonst bleibt der Auftrag im Vorrat. Vor jedem Start aus einer Vorratsdatei zusätzlich `gh pr list --state merged --search '<stichwort>'` — 30.10.2026 lief ein Bauer auf einen Auftrag, den PR 2386 zwölf Stunden vorher erledigt hatte.
 - **Worktrees** legt der Leitagent an (über `isolation: worktree` seiner Bauer) und räumt sie nach der Zusammenführung auf; ungenutzte Reste meldet er.
 - **Konflikt:** Er löst keinen Inhaltskonflikt still. Er meldet Dateien, beide Seiten und seinen Vorschlag; entscheiden tue ich.
@@ -57,6 +56,8 @@ Der Auftrag ist vor dem Start vollständig (Umfang, Gegenproben, bekannte Fälle
 **Anfragebudget (16.11.2026, Lehre 110):** Aufträge, die über Läufe oder Logs zählen, nennen ein Anfragebudget (Richtwert 500) und laufen nacheinander; das GitHub-Stundenkontingent (5000) teilen sich alle Werkzeuge.
 
 **Vorrat-Aufträge vor der Vergabe gegen main lesen (15.11.2026, Lehre 91):** Vor jeder Vergabe aus `daniel-zum-abarbeiten/vorrat/*.md` greppe ich die genannten Bezeichner auf main und lese `daniel-zum-abarbeiten/cloud-register.json` gegen die Auftrags-ID — ein Auftrag von 01:25 war um 10:59 schon gemergt (PR 3909), trotzdem lief ein Bauer los.
+
+**Vorgabe zu einer geteilten Funktion (16.11.2026, PR 4045):** Schreibt der Auftrag das Verhalten einer Funktion vor, die mehrere Stellen aufrufen, lese ich vorher ihre Aufrufer (`git grep` auf den Funktionsnamen); „bei 404 ein Neuversuch“ hätte die Abrufe getroffen, für die 404 die normale Antwort ist.
 
 **Zielzahl vor Auftrag an der Untergrenze messen (27.10.2026, 2166):** Steht eine Grenze im Auftrag („Index < 150 kB“), messe ich vorher mit einem Befehl, was der kleinste mögliche Inhalt wiegt — die Suchnamen allein lagen bei 250 kB gzip, das Ziel war unerreichbar und kostete eine Runde.
 
