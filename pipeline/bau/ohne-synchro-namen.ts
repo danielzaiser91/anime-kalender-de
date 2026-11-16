@@ -5,7 +5,7 @@ import type { Title } from '../../shared/types.ts'
  * Liste zu zählen — Suchnamen (ohne den nativen Namen), Reihe, Jahr und die Felder, auf die die Filter der Datenbank für diese Titel wirken.
  * Die volle Datei (`ohne-synchro.json`, 7,3 MB, gzip 1,7 MB) lädt die Seite weiter erst mit dem Schalter.
  */
-export const NAMENSINDEX_FELDER = ['id', 'franchiseId', 'titleRomaji', 'titleEn', 'titleDe', 'jpYear', 'jpEnd', 'genres', 'format', 'land', 'fsk'] as const
+export const NAMENSINDEX_FELDER = ['id', 'franchiseId', 'titleRomaji', 'titleEn', 'titleDe', 'jpYear', 'jpEnd', 'genres', 'format', 'land', 'fsk', 'score'] as const
 
 export function namensIndex(titel: Pick<Title, 'titleRomaji'>[]): Record<string, unknown>[] {
   /* Nach Namen sortiert: so packt gzip die Datei um ein Zehntel kleiner (gemessen 27.10.2026: 584 → 545 kB). */

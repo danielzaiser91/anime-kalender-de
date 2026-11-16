@@ -11,6 +11,7 @@ import type { Dataset } from '../web/src/lib/data.ts'
 import { EMPTY_FILTERS, activeFilterCount, filterTitles, releaseMatches, type FilterState } from '../web/src/lib/filters.ts'
 import { WERTUNG_STUFEN, passtWertung, wertungText } from '../web/src/lib/filter-wertung.ts'
 import { buildHash, parseHash } from '../web/src/lib/router.ts'
+import { namensIndex } from './bau/ohne-synchro-namen.ts'
 import { kalenderFilter } from '../web/src/lib/kalender-filter.ts'
 import { aktiveEinheiten } from '../web/src/lib/suchhinweis-filter.ts'
 import { einheitName } from '../web/src/lib/suchhinweis-namen.ts'
@@ -70,6 +71,11 @@ filterTitles([spaeher], data, EMPTY_FILTERS, '2026-10-11', new Set())
 pruefe('ohne Wertungsfilter wird `score` weder im Kalender noch in der Datenbank gelesen', !gelesen.includes('score'), gelesen)
 releaseMatches(termin, spaeher, { ...EMPTY_FILTERS, minScore: 70 }, '2026-10-11')
 pruefe('mit Wertungsfilter wird `score` gelesen (Kontrolle des Spähers)', gelesen.includes('score'), gelesen)
+/* Suchhinweis: Die Kandidaten kommen aus dem Namensindex; er trägt `score`, sonst gälte jeder Name als „ohne Wertung“. */
+const kandidaten = namensIndex([titel(21, 50), titel(22, 80), titel(23)]).map((z) => ({ ...z, streams: [], keywords: [] }))
+const kandidatPasst = (id: number, f: FilterState) => filterTitles(kandidaten as unknown as Title[], data, f, '2026-10-11', new Set()).some((t) => t.id === id)
+pruefe('Suchhinweis-Kandidat: reine Schwelle blendet den schwachen aus, den starken nicht', !kandidatPasst(21, { ...EMPTY_FILTERS, minScore: 70 }) && kandidatPasst(22, { ...EMPTY_FILTERS, minScore: 70 }))
+pruefe('Suchhinweis-Kandidat: Kästchen blendet nur den ohne Wertung aus', kandidatPasst(21, { ...EMPTY_FILTERS, ohneWertungAus: true }) && kandidatPasst(22, { ...EMPTY_FILTERS, ohneWertungAus: true }) && !kandidatPasst(23, { ...EMPTY_FILTERS, ohneWertungAus: true }))
 pruefe('Kalenderfilter übernimmt beide Felder aus dem eigenen Speicher', (() => {
   const k = kalenderFilter(EMPTY_FILTERS, { ...EMPTY_FILTERS, minScore: 75, ohneWertungAus: true })
   return k.minScore === 75 && k.ohneWertungAus === true
