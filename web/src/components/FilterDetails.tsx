@@ -12,6 +12,7 @@ import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
 import { SchnellChips } from './schnellfilter.tsx'
 import { FilterSuche } from './filter/filter-suchfeld.tsx'
 import { FilterSuchHinweis } from './filter/such-hinweis.tsx'
+import { FilmSerieChips } from './filter/film-serie-gruppe.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { nachZahlGeordnet } from '../lib/filter-liste.ts'
 import { zyklusFilter } from '../lib/filter-zyklus.ts'
@@ -371,7 +372,7 @@ export function FilterDetails({
               </Chip>
             ))}
           </Bereich>
-          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} suche={suche} />
+          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} suche={suche} set={set} tRelease={tRelease} />
         </div>
 
         {!suche && <MehrKnopf t={t} mehr={mehr} setMehr={setMehr} />}
@@ -523,12 +524,19 @@ function Grundgruppen({
   chipState,
   pick,
   suche,
-}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'suche'>) {
+  set,
+  tRelease,
+}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'suche' | 'set' | 'tRelease'>) {
   const statusLabel = t('filter.status')
   const fskLabel = t('filter.fsk')
   const jahrLabel = t('filter.year')
+  const filmSerieLabel = t('filter.filmSerie')
   return (
     <>
+      <Bereich label={filmSerieLabel} suche={suche} texte={[tRelease('movie'), t('filter.serie')]}>
+        <FilmSerieChips t={t} filters={filters} set={set} labelFilm={tRelease('movie')} />
+      </Bereich>
+
       <Bereich label={statusLabel} suche={suche} texte={STATUS_OPTIONS.map((s) => t(STATUS_LABEL_KEY[s]))}>
         {STATUS_OPTIONS.filter((s) => zeigePille(suche, statusLabel, t(STATUS_LABEL_KEY[s]))).map((s) => (
           <Chip key={s} {...chipState('statuses', s)} onClick={() => pick('statuses', s)}>
@@ -573,10 +581,12 @@ function FilterMehr(props: FilterMehrProps) {
 /** Release-Art, Sprecher und Herkunft — kleine Gruppen, die im Raster nebeneinander stehen. */
 function ArtSprecherHerkunft({ t, filters, set, chipState, pick, tRelease, modusVon2, suche }: FilterMehrProps) {
   const artenLabel = t('filter.releaseType')
-  const arten = Object.keys(RELEASE_TYPES) as ReleaseType[]
+  /* „Film“ steht oben unter „Film / Serie“ und nicht zweimal auf dem Bildschirm. */
+  const arten = (Object.keys(RELEASE_TYPES) as ReleaseType[]).filter((a) => a !== 'movie')
+  const gewaehlt = filters.releaseTypes.filter((a) => a !== 'movie').length
   return (
     <>
-      <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
+      <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', gewaehlt)}>
         {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
           <Chip key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>
             {tRelease(type)}

@@ -253,6 +253,7 @@ pipeline/check-fetch-pruefungen-fremde-adresse.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
 pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts
+pipeline/check-film-serie-filter.ts
 pipeline/check-filter-genres.ts
 pipeline/check-filter-zyklus.ts
 pipeline/check-finale-wache.ts
