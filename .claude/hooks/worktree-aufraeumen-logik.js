@@ -5,6 +5,8 @@
 const SCHONFRIST_MS = 2 * 60 * 60 * 1000
 /** Schonfrist seit Merge/Schließen des PR (größer als die Höchstfrist 4 h des Prozess-Registers). */
 const SCHONFRIST_PR_MS = 24 * 60 * 60 * 1000
+/** Eine lose Datei im Sammelordner wird erst nach so langer Zeit gelöscht (Zwischenausgaben von Agenten, seit 16.11.2026). */
+const LOSE_DATEI_MAX_MS = 24 * 60 * 60 * 1000
 /** Ab so vielen Worktrees meldet der Sitzungsstart eine Warnzeile. */
 const WARN_AB = 20
 /** Eine Sperre älter als das gilt als verwaist (die Registerfrist des Abbaus ist kürzer). */
@@ -76,6 +78,27 @@ function bewerteLosen(ordner) {
   return { aktion: 'behalten', grund: 'inhalt' }
 }
 
+/**
+ * Lose Datei direkt im Sammelordner. datei: { regulaer (lstat.isFile, Verknüpfungen nie), mtimeMs, jetzt }.
+ * Nur eine reguläre Datei älter als 24 h geht weg; Verknüpfungen und anderes bleiben als `kein-ordner`.
+ */
+function bewerteLoseDatei(datei) {
+  if (datei.regulaer !== true) return { aktion: 'behalten', grund: 'kein-ordner' }
+  if (datei.jetzt - datei.mtimeMs > LOSE_DATEI_MAX_MS) return { aktion: 'weg', grund: 'lose-datei' }
+  return { aktion: 'behalten', grund: 'lose-datei-jung' }
+}
+
+/** Für die Wächterzahl: Namen der Einträge, die keine reguläre Datei sind. eintraege: [{ name, regulaer }]. */
+const ordnerNamen = (eintraege) => eintraege.filter((e) => e.regulaer !== true).map((e) => e.name)
+
+/** Schlusszeile des Abbaus; Ordner und lose Dateien getrennt. */
+function schlusszeile(los, b) {
+  const istDatei = (x) => x.grund === 'lose-datei' || x.grund === 'lose-datei-jung'
+  const behalten = [...b.worktrees, ...b.lose].filter((w) => w.aktion === 'behalten' && !['haupt', 'fremd'].includes(w.grund))
+  const dateienBehalten = behalten.filter(istDatei).length
+  return `Abbau ${los ? 'fertig' : '(Liste)'}: Ordner entfernt ${b.entfernt}, behalten ${behalten.length - dateienBehalten}; lose Dateien entfernt ${b.entferntDateien ?? 0}, behalten ${dateienBehalten}; Fehler ${b.fehler.length}`
+}
+
 /** Rest: eine Verknüpfung (jeder Name) oder ein Ordner, in dem nur Reste oder nichts liegen; echte Dateien nie. */
 const nurVerknuepfung = (x) => (x.kinder ? x.kinder.every(nurVerknuepfung) : x.istVerknuepfung === true)
 
@@ -119,4 +142,4 @@ function hatAenderungen(text, nurVerknuepfungen = () => false) {
   return text.split(/\r?\n/).some((z) => z.trim() !== '' && !frei(z))
 }
 
-module.exports = { PR_LIMIT, pruefePrZahl, hatAenderungen, SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, leseWorktrees, bewertePr, entscheide, bewerteLosen, nurVerknuepfung, istMerge, sperreFrei, warnzeile, istWtName, norm }
+module.exports = { PR_LIMIT, pruefePrZahl, hatAenderungen, SCHONFRIST_MS, SCHONFRIST_PR_MS, WARN_AB, SPERRE_MAX_MS, LOSE_DATEI_MAX_MS, bewerteLoseDatei, ordnerNamen, schlusszeile, leseWorktrees, bewertePr, entscheide, bewerteLosen, nurVerknuepfung, istMerge, sperreFrei, warnzeile, istWtName, norm }
