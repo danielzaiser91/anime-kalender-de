@@ -672,8 +672,11 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
       await oeffnen(seite)
       const knopf = finde(letzter(seite), 'ak-stand-knopf')
       pruefe(`Dialog bei ${n} Titeln: „Stand“ und ↻ stehen im Kopf, noch ohne Stand`, Boolean(knopf) && finde(letzter(seite), 'ak-stand-text')?.textContent === 'noch kein Stand', finde(letzter(seite), 'ak-stand-text')?.textContent)
+      const fertige = (el) => alleElemente(el).filter((x) => String(x.className).split(/\s+/).includes('ak-fertig')).length
+      const vorher = fertige(letzter(seite))
       klickAuf(seite, knopf)
       await warten()
+      pruefe(`↻ bei ${n} Titeln: die Antwort erreicht die Zeile (vorher kein, danach genau ein Kürzel ak-fertig)`, vorher === 0 && fertige(letzter(seite)) === 1, [vorher, fertige(letzter(seite))])
       pruefe(`↻ bei ${n} Titeln: genau ein Abruf, die Sammelroute`, abfragen.length === 1 && abfragen[0].includes('gemeldet-liste='), abfragen.length)
       pruefe(`↻ bei ${n} Titeln: danach „Stand von HH:MM“, weiter ${n} Zeilen`, /^Stand von \d\d:\d\d$/.test(String(finde(letzter(seite), 'ak-stand-text')?.textContent)) && alleElemente(letzter(seite)).filter((x) => String(x.className).split(/\s+/).includes('ak-zeile')).length === n, finde(letzter(seite), 'ak-stand-text')?.textContent)
     }

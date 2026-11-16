@@ -36,14 +36,31 @@ const min = 60000
 const T = new Date(2026, 10, 16, 12, 0, 0).getTime()
 const f = k.akNetflixStand.faellig
 
-pruefe('fällig: noch nie geholt', f(null, T, uebernahme) === true)
-pruefe('nicht fällig: Stand 3 min alt', f(T, T + 3 * min, uebernahme) === false)
-pruefe('nicht fällig: Stand 10 min alt, vor der Übernahme (12:10)', f(T, T + 10 * min, uebernahme) === false)
-pruefe('nicht fällig: Stand 8 min alt, Übernahme noch nicht durch (12:20 Stand 12:12)', f(T + 12 * min, T + 20 * min, uebernahme) === false)
-pruefe('fällig: Übernahme durch (12:28), Stand von 12:10 ist älter', f(T + 10 * min, T + 28 * min, uebernahme) === true)
-pruefe('nicht fällig: Stand nach der Übernahme geholt (12:29, Stand 12:28)', f(T + 28 * min, T + 29 * min, uebernahme) === false)
-pruefe('fällig: 20 min alt, auch ohne Übernahme (12:30 Stand 12:10 → schon durch; 12:50 Stand 12:30)', f(T + 30 * min, T + 50 * min, uebernahme) === true)
-pruefe('nicht fällig: nie öfter als alle 5 min (Stand 12:26, jetzt 12:28 nach Übernahme)', f(T + 26 * min, T + 28 * min, uebernahme) === false)
+pruefe('fällig: noch nie geholt', f(null, null, T, uebernahme) === true)
+pruefe('nicht fällig: Stand 3 min alt', f(T, null, T + 3 * min, uebernahme) === false)
+pruefe('nicht fällig: Stand 10 min alt, vor der Übernahme (12:10)', f(T, null, T + 10 * min, uebernahme) === false)
+pruefe('nicht fällig: Stand 8 min alt, Übernahme noch nicht durch (12:20 Stand 12:12)', f(T + 12 * min, null, T + 20 * min, uebernahme) === false)
+pruefe('fällig: Übernahme durch (12:28), Stand von 12:10 ist älter', f(T + 10 * min, null, T + 28 * min, uebernahme) === true)
+pruefe('nicht fällig: Stand nach der Übernahme geholt (12:29, Stand 12:28)', f(T + 28 * min, null, T + 29 * min, uebernahme) === false)
+pruefe('fällig: 20 min alt, auch ohne Übernahme (12:30 Stand 12:10 → schon durch; 12:50 Stand 12:30)', f(T + 30 * min, null, T + 50 * min, uebernahme) === true)
+pruefe('Grenze: genau 5 min seit dem Stand, Übernahme gerade durch (12:23 → 12:28): fällig', f(T + 23 * min, null, T + 28 * min, uebernahme) === true)
+pruefe('Grenze: knapp unter 5 min (12:24 → 12:28): nicht fällig', f(T + 24 * min, null, T + 28 * min, uebernahme) === false)
+pruefe('Grenze: genau 20 min seit dem Stand (12:00 → 12:20): fällig', f(T, null, T + 20 * min, uebernahme) === true)
+pruefe('Grenze: knapp unter 20 min (12:00 → 12:19): nicht fällig', f(T, null, T + 19 * min, uebernahme) === false)
+pruefe('Grenze: Stand genau zur Übernahme-Fertigzeit (12:28), jetzt 12:33: nicht fällig', f(T + 28 * min, null, T + 33 * min, uebernahme) === false)
+pruefe('Versuch nach der Übernahme (12:29, gescheitert), Stand alt, jetzt 12:35: nicht fällig', f(T, T + 29 * min, T + 35 * min, uebernahme) === false)
+pruefe('Versuch vor der Übernahme (12:10), Stand alt: nach der Übernahme fällig', f(T, T + 10 * min, T + 28 * min, uebernahme) === true)
+pruefe('Versuch 12:20 gescheitert, Stand nie: 12:30 nicht fällig (erst 12:40 oder zur Übernahme)', f(null, T + 20 * min, T + 22 * min, uebernahme) === false)
+pruefe('Text: Stand von heute nur Uhrzeit, knapp unter 24 h', /^Stand von \d\d:\d\d$/.test(k.akNetflixStand.text(T, T + 24 * 60 * min - 1)))
+pruefe('Text: genau 24 h alt mit Datum', /^Stand vom \d\d\.\d\d\., \d\d:\d\d$/.test(k.akNetflixStand.text(T, T + 24 * 60 * min)))
+pruefe('Vereinigung: späteres am gewinnt, früheres nicht', (() => {
+  const v = k.akNetflixStand.vereinige({ 1: [{ nummer: 1, staffel: 1, folge: 'a', am: '2026-11-16T12:00' }] }, { 1: [{ nummer: 1, staffel: 1, folge: 'a', am: '2026-11-16T13:00' }] })
+  const w = k.akNetflixStand.vereinige({ 1: [{ nummer: 1, staffel: 1, folge: 'a', am: '2026-11-16T13:00' }] }, { 1: [{ nummer: 1, staffel: 1, folge: 'a', am: '2026-11-16T12:00' }] })
+  return v[1].length === 1 && v[1][0].am.endsWith('13:00') && w[1][0].am.endsWith('13:00')
+})())
+pruefe('Vereinigung: andere Staffel mit gleicher Nummer ist ein eigenes Paar', k.akNetflixStand.vereinige({ 1: [{ nummer: 1, staffel: 1 }] }, { 1: [{ nummer: 1, staffel: 2 }] })[1].length === 2)
+pruefe('Vereinigung: Reihe ohne gültiges Paar fällt weg, Nicht-Liste und kaputte Quelle ebenso', JSON.stringify(k.akNetflixStand.vereinige({ 1: [{ nummer: 'x' }], 2: 'text', 3: [{ nummer: 4 }] }, 5)) === '{"3":[{"nummer":4}]}')
+pruefe('nicht fällig: nie öfter als alle 5 min (Stand 12:26, jetzt 12:28 nach Übernahme)', f(T + 26 * min, null, T + 28 * min, uebernahme) === false)
 
 /** Ein gemeinsamer Speicher für mehrere „Tabs“. */
 const speicherNeu = () => {
@@ -69,7 +86,7 @@ const adresse = (r) => `https://www.netflix.com/title/${r}`
 const paarA = { nummer: 1, staffel: 1, staffelBekannt: true, folge: '100', am: '2026-11-16T12:00:00Z' }
 
 /** Ein „Tab“: eigener Stand, eigene `fetch`-Zählung (`abrufe` gemeinsam). */
-const tabNeu = (speicher, name, abrufe, antwort = null, tor = null) => {
+const tabNeu = (speicher, name, abrufe, antwort = null, tor = null, opt = {}) => {
   const gemerkt = new Map()
   const protokoll = { geaendert: 0 }
   const fetch = async (u) => {
@@ -77,19 +94,19 @@ const tabNeu = (speicher, name, abrufe, antwort = null, tor = null) => {
     if (tor) await tor
     if (antwort) return antwort
     const je = {}
-    for (const r of ['1', '2']) je[adresse(r)] = { nummern: [1], paare: [paarA] }
+    for (const r of opt.antwortReihen ?? ['1', '2']) je[adresse(r)] = { nummern: [1], paare: opt.paare ?? [paarA] }
     return { ok: true, status: 200, json: async () => ({ adressen: je }) }
   }
   const kontext = speicher.lokal(name)
   const o = {
     worker: 'https://w.test/pruefung',
-    reihen: () => ['1', '2'],
+    reihen: () => opt.reihen ?? ['1', '2'],
     merken: (r, paare) => gemerkt.set(r, paare),
     abrufen: async () => {},
     geaendert: () => protokoll.geaendert++,
     uebernahme,
     kontext: { lesen: kontext.lesen, schreiben: kontext.schreiben, beiAenderung: kontext.beiAenderung },
-    jetzt: () => T + 12 * min,
+    jetzt: () => (opt.uhr ? opt.uhr.t : T + 12 * min),
     tab: name,
     takt: 0,
   }
@@ -98,8 +115,6 @@ const tabNeu = (speicher, name, abrufe, antwort = null, tor = null) => {
   k.akGemeldetSammel = (w, a) => sammel(w, a, fetch)
   const stand = k.akNetflixStand.neu(o)
   k.akGemeldetSammel = sammel
-  const ruf = (verzoegert) => stand.auffrischen.bind(stand, verzoegert)
-  void ruf
   return { stand, gemerkt, protokoll, fetch, antworten: (a) => (antwort = a) }
 }
 
@@ -191,8 +206,126 @@ const teil4 = async () => {
   pruefe('Takt mit frischem Stand: kein weiterer Abruf', abrufe.length === 1, abrufe)
 }
 
+/* --- A1: ein gescheiterter Versuch zählt, der Takt holt nicht jede Minute neu --- */
+const teil5 = async () => {
+  const s = speicherNeu()
+  const abrufe = []
+  const uhr = { t: T }
+  const t = tabNeu(s, 'a', abrufe, { ok: false, status: 429, json: async () => ({}) }, null, { uhr })
+  const sammel = k.akGemeldetSammel
+  k.akGemeldetSammel = (w, a) => sammel(w, a, t.fetch)
+  for (let i = 0; i < 60; i++) {
+    uhr.t = T + i * min
+    t.stand.takt()
+    await warten()
+  }
+  k.akGemeldetSammel = sammel
+  pruefe('A1: 429, 60 Takte in 60 Minuten: höchstens vier Versuche (nicht 60)', abrufe.length >= 1 && abrufe.length <= 4, abrufe.length)
+  const abrufe2 = []
+  const t2 = tabNeu(speicherNeu(), 'b', abrufe2, { ok: true, status: 200, json: async () => ({ adressen: { [adresse('1')]: { paare: [paarA] }, [adresse('2')]: { paare: [] } } }) }, null, { uhr })
+  k.akGemeldetSammel = (w, a) => sammel(w, a, t2.fetch)
+  for (let i = 0; i < 60; i++) {
+    uhr.t = T + 100 * min + i * min
+    t2.stand.takt()
+    await warten()
+  }
+  k.akGemeldetSammel = sammel
+  pruefe('A1: Erfolg, 60 Takte in 60 Minuten: höchstens vier Abrufe', abrufe2.length >= 1 && abrufe2.length <= 4, abrufe2.length)
+}
+
+/* --- A2: ein abgewiesener Tab löscht die Sperre des haltenden nicht --- */
+const teil6 = async () => {
+  const s = speicherNeu()
+  const abrufe = []
+  let freigeben
+  const tor = new Promise((r) => { freigeben = r })
+  const a = tabNeu(s, 'a', abrufe, null, tor)
+  const b = tabNeu(s, 'b', abrufe)
+  const c = tabNeu(s, 'c', abrufe)
+  const ta = holen(a, abrufe)
+  await warten()
+  const rb = await holen(b, abrufe)
+  pruefe('A2: b wird abgewiesen, die Sperre von a bleibt stehen', rb === false && s.daten.netflixStandSperre?.tab === 'a', s.daten.netflixStandSperre)
+  const rc = await holen(c, abrufe)
+  pruefe('A2: auch c wird abgewiesen: drei Tabs, ein Abruf', rc === false && abrufe.length === 1, abrufe.length)
+  freigeben()
+  await ta
+  pruefe('A2: nach dem Abruf ist die Sperre frei', s.daten.netflixStandSperre === undefined, s.daten.netflixStandSperre)
+}
+
+/* --- A3: Vereinigung statt Ersetzen; Meldungen während des Abrufs gehen nicht verloren --- */
+const teil7 = async () => {
+  const neuesPaar = { nummer: 2, staffel: 1, staffelBekannt: true, folge: '101', am: '2026-11-16T12:30:00Z' }
+  {
+    const s = speicherNeu()
+    const abrufe = []
+    const t = tabNeu(s, 'a', abrufe)
+    t.stand.eigene('1', [neuesPaar])
+    await warten()
+    await holen(t, abrufe)
+    pruefe('A3: Meldung, dann ↻ mit Antwort ohne sie: der Speicher enthält sie weiter', s.daten.netflixStand.reihen['1'].some((x) => x.folge === '101') && s.daten.netflixStand.reihen['1'].some((x) => x.folge === '100'), s.daten.netflixStand.reihen['1'])
+    pruefe('A3: und der Tab selbst führt sie', t.gemerkt.get('1').some((x) => x.folge === '101'))
+  }
+  {
+    const s = speicherNeu()
+    const abrufe = []
+    let freigeben
+    const tor = new Promise((r) => { freigeben = r })
+    const t = tabNeu(s, 'a', abrufe, null, tor)
+    const lauf = holen(t, abrufe)
+    await warten()
+    t.stand.eigene('2', [neuesPaar])
+    await warten()
+    freigeben()
+    await lauf
+    pruefe('A3: Meldung während des Abrufs: sie steht danach im Speicher und im Tab', s.daten.netflixStand.reihen['2'].some((x) => x.folge === '101') && t.gemerkt.get('2').some((x) => x.folge === '101'), s.daten.netflixStand.reihen['2'])
+  }
+}
+
+/* --- A4: eigene Meldung ohne Stand täuscht keinen Stand vor --- */
+const teil8 = async () => {
+  const s = speicherNeu()
+  const abrufe = []
+  const t = tabNeu(s, 'a', abrufe)
+  t.stand.eigene('1', [paarA])
+  await warten()
+  pruefe('A4: eigene Meldung ohne Abruf: im Speicher, aber „noch kein Stand“ und kein Zeitpunkt', s.daten.netflixStand.reihen['1'].length === 1 && s.daten.netflixStand.am === null && t.stand.text() === 'noch kein Stand', [s.daten.netflixStand, t.stand.text()])
+}
+
+/* --- A5: kaputter Speicher, zwei Listen, alter Stand --- */
+const teil9 = async () => {
+  for (const kaputt of [{ am: 'x', reihen: { 1: 'kein Array', 2: [{ nummer: 'a' }, null] } }, { reihen: 5 }, 'text', { am: T }]) {
+    const s = speicherNeu()
+    s.daten.netflixStand = kaputt
+    const t = tabNeu(s, 'a', [])
+    await warten()
+    pruefe(`A5: kaputter Speicherwert ${JSON.stringify(kaputt).slice(0, 30)}: kein Absturz, kein Eintrag`, t.gemerkt.size === 0, t.gemerkt.size)
+  }
+  const s = speicherNeu()
+  const a = tabNeu(s, 'a', [], null, null, { reihen: ['1', '2'], antwortReihen: ['1', '2'] })
+  const b = tabNeu(s, 'b', [], null, null, { reihen: ['2', '3'], antwortReihen: ['2', '3'] })
+  await holen(a, [])
+  await holen(b, [])
+  pruefe('A5: zwei Tabs mit verschiedenen Listen: der Speicher führt die Vereinigung (1, 2, 3)', ['1', '2', '3'].every((r) => s.daten.netflixStand.reihen[r]?.length === 1), Object.keys(s.daten.netflixStand.reihen))
+  const alt = speicherNeu()
+  alt.daten.netflixStand = { am: T - 2 * 24 * 60 * min, reihen: { 1: [paarA] } }
+  const tAlt = tabNeu(alt, 'a', [], null, null, { uhr: { t: T } })
+  await warten()
+  pruefe('A5: ein Stand von vorgestern zeigt das Datum („Stand vom …, HH:MM“)', /^Stand vom \d\d\.\d\d\., \d\d:\d\d$/.test(tAlt.stand.text()), tAlt.stand.text())
+  const frisch = speicherNeu()
+  frisch.daten.netflixStand = { am: T - 60 * min, reihen: { 1: [paarA] } }
+  const tFrisch = tabNeu(frisch, 'a', [], null, null, { uhr: { t: T } })
+  await warten()
+  pruefe('A5: ein Stand von heute zeigt nur die Uhrzeit', /^Stand von \d\d:\d\d$/.test(tFrisch.stand.text()), tFrisch.stand.text())
+}
+
 const haupt = async () => {
   await teil1()
+  await teil5()
+  await teil6()
+  await teil7()
+  await teil8()
+  await teil9()
   await teil2()
   await teil3()
   await teil4()
