@@ -236,6 +236,32 @@
     episodeCount: 52
   sources: [https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/]
 
+# Korrektur 16.11.2026: Der Bot hängte beide Termine an den falschen Titel (Boruto statt Naruto Shippuden, Zexal statt Yu-Gi-Oh!); die Staffelzählung lief über die ganze Franchise.
+- slug: naruto-shippuden-s4-disneyplus
+  anilistId: 1735
+  search: "Naruto: Shippuuden"
+  titleDe: "Naruto Shippuden – Staffel 4"
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule:
+    firstEpisodeDate: "2026-11-04"
+    episodeCount: 52
+  sources: [https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/]
+
+- slug: yu-gi-oh-s5-disneyplus
+  anilistId: 481
+  platformUrl: https://www.disneyplus.com/de-de/browse/entity-870b9187-690d-4a9e-8704-b48564b31322
+  search: "Yu☆Gi☆Oh! Duel Monsters"
+  titleDe: "Yu-Gi-Oh! – Staffel 5"
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule:
+    firstEpisodeDate: "2026-10-28"
+    episodeCount: 52
+  sources: [https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/]
+
 - slug: bleach-diamonddust-rebellion-adn
   anilistId: 2889
   search: "Bleach the Movie: The DiamondDust Rebellion"
