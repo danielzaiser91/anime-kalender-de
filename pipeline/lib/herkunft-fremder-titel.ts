@@ -1,23 +1,14 @@
 import type { Release, Title } from '../../shared/types.ts'
-import { folgtSerienname, teilAusUeberschrift } from './meldungen.ts'
+import { teilAusUeberschrift } from './meldungen.ts'
+import { artikelNamen, nameTrifft, titelNamen } from './titel-name-trifft.ts'
 
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '')
-
-const namenDes = (t: Title): string[] => [t.titleDe, t.titleEn, t.titleRomaji].flatMap((n) => (n ? [n] : []))
-
-/** Die Titel in »Guillemets« der Herkunft eines automatischen Termins („Automatisch übernommen aus …“). */
-const artikelNamen = (herkunft: string): string[] => [...herkunft.matchAll(/»([^«]+)«/g)].map((m) => m[1]!)
-
-/** Trägt ein Name des Titels den Artikelnamen (oder umgekehrt)? Sonst hat der Namensabgleich einen fremden Titel gewählt. */
-function nameTrifft(t: Title, artikel: string): boolean {
-  const a = norm(artikel)
-  return namenDes(t).some((n) => (norm(n).includes(a) || a.includes(norm(n))) && norm(n).length > 0)
-}
+/** Wie `LAENGSTE_STAFFEL` in `meldungen.ts`: ein Titel darüber umfasst mehrere Staffeln, seine Staffel N steht nicht im Namen. */
+const MEHRERE_STAFFELN = 26
 
 /**
- * **Ein automatischer Termin an einem Titel, den sein Artikel nicht meint** (Boruto statt „Naruto Shippuden – Staffel 4“, Zexal II statt
- * „Yu-Gi-Oh! – Staffel 5“, 16.11.2026): Der Name in der Herkunft kommt im Titel nicht vor, oder die Herkunft nennt Staffel N ≥ 2, und der
- * Titel ist weder diese Staffel (Zahl im Namen) noch der Serienname mit bloßer Zählung. Wortgrenzen zählen, ein Teilstring nicht.
+ * **Ein automatischer Termin an einem Titel, den sein Artikel nicht meint** (Boruto statt „Naruto Shippuden – Staffel 4“, Zexal statt
+ * „Yu-Gi-Oh! – Staffel 5“, 16.11.2026): Der Name in der Herkunft kommt im Titel nicht vor, oder die Herkunft nennt Staffel N ≥ 2, der Titel trägt
+ * die Zahl nicht im Namen und ist länger als eine Staffel (ein Titel mit mehreren Staffeln ist nicht „Staffel N“ der Serie).
  */
 export function herkunftFremderTitel(t: Title, releases: Release[]): boolean {
   return releases.some((r) => {
@@ -28,6 +19,6 @@ export function herkunftFremderTitel(t: Title, releases: Release[]): boolean {
     const teil = teilAusUeberschrift(r.herkunft)
     if (teil?.art !== 'staffel' || !teil.nummer || teil.nummer < 2) return false
     const mitZahl = new RegExp(`(staffel|season)\\s*0*${teil.nummer}\\b`, 'i')
-    return !namenDes(t).some((n) => mitZahl.test(n)) && !namen.some((n) => folgtSerienname(namenDes(t), [n]))
+    return (t.episodes ?? 0) > MEHRERE_STAFFELN && !titelNamen(t).some((n) => mitZahl.test(n))
   })
 }
