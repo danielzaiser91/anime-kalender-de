@@ -106,6 +106,8 @@ export default [
         akNetflixZaehlerSetze: 'readonly',
         akNetflixErledigtStand: 'readonly',
         akNetflixErledigtZaehlen: 'readonly',
+        akNetflixBesuchtStand: 'readonly',
+        akNetflixWartetText: 'readonly',
         akNetflixFortschrittStand: 'readonly',
         akNetflixKnopfZahl: 'readonly',
         akNetflixKnopfNachziehen: 'readonly',

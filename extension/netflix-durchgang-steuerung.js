@@ -19,9 +19,12 @@ globalThis.akNetflixEndeZeigen = (zeileHolen, ende, zurueck) => {
       zeile.appendChild(el)
     }
     el.classList.toggle('ak-durchgang-rot', Boolean(ende.rot))
+    /* „Fertig“ nur, wenn alle Titel durchlaufen sind; „abgebrochen“ bei Hand, Schutz oder Fehler (4060). */
+    const fertig = ende.grund === 'kein offener Auftrag mehr'
+    const offen = ende.zaehlung?.uebersprungen ?? 0
     el.textContent =
-      (ende.grund === 'kein offener Auftrag mehr' ? 'Durchgang fertig' : `Durchgang abgebrochen · ${ende.grund}`) +
-      ende.uebersprungenText +
+      (fertig ? `Durchgang fertig${offen ? ` · ${offen} offen` : ''}` : `Durchgang abgebrochen · ${ende.grund}`) +
+      (fertig && offen ? ende.uebersprungenText.replace(/^ · übersprungen: \d+/, '') : ende.uebersprungenText) +
       (zurueck + ende.text)
     el.title = ende.grund
   } catch {
@@ -253,15 +256,15 @@ globalThis.akNetflixPauseZeigen = (zeileHolen, text) => {
  * Der Fortschritt des Durchgangs: `gezaehlt` = Sprünge dieses Laufs (der aktuelle Titel zählt schon), `grenze` = bei Laufbeginn
  * offene Titel, `titel` = der gerade geprüfte. `null`, solange es keine Zahlen gibt.
  */
-globalThis.akNetflixFortschritt = (gezaehlt, grenze, titel, erledigt = 0) => {
+globalThis.akNetflixFortschritt = (gezaehlt, grenze, titel, erledigt = 0, wartet = '') => {
   if (!(grenze > 0) || !(gezaehlt > 0)) return null
   /* `erledigt`: Titel, die der Sprung zurückgab (Umleitung = nicht bei Netflix): geprüft, aber ihr Sprung zählt nicht gegen den Schutz. */
   const geprueft = Math.min(gezaehlt - 1 + erledigt, grenze)
-  return { text: `Durchgang: ${geprueft} von ${grenze} geprüft${titel ? ` · gerade: ${titel}` : ''}`, anteil: geprueft / grenze, geprueft, grenze }
+  return { text: `Durchgang: ${geprueft} von ${grenze} geprüft${titel ? ` · gerade: ${titel}` : ''}${wartet ? ` · ${wartet}` : ''}`, anteil: geprueft / grenze, geprueft, grenze }
 }
 
 /** Fortschritt mit den zurückgegebenen Titeln aus dem `sessionStorage` (Zeile und Knopf lesen dieselbe Funktion). */
-globalThis.akNetflixFortschrittStand = (gezaehlt, grenze, titel) => globalThis.akNetflixFortschritt(gezaehlt, grenze, titel, globalThis.akNetflixErledigtStand())
+globalThis.akNetflixFortschrittStand = (gezaehlt, grenze, titel, wartet) => globalThis.akNetflixFortschritt(gezaehlt, grenze, titel, globalThis.akNetflixErledigtStand(), wartet)
 
 /** Die Zahl am Knopf im Durchgang: derselbe Stand wie die Fortschrittszeile, nicht die Folgen des einen Titels (16.11.2026: „0/0“). */
 globalThis.akNetflixKnopfZahl = (fortschritt) => (fortschritt ? `${fortschritt.geprueft}/${fortschritt.grenze}` : null)
@@ -319,7 +322,7 @@ const ZAEHLER_SCHLUESSEL = 'ak-netflix-zaehler'
 globalThis.akNetflixZaehlerStand = (speicher = sitzungSpeicher()) => {
   try {
     const z = JSON.parse(speicher?.getItem(ZAEHLER_SCHLUESSEL) ?? 'null')
-    return Number.isFinite(z?.gezaehlt) && z.grenze > 0 ? { gezaehlt: z.gezaehlt, grenze: z.grenze } : { gezaehlt: 0, grenze: null }
+    return Number.isFinite(z?.gezaehlt) && z.grenze > 0 ? { gezaehlt: z.gezaehlt, grenze: z.grenze, ...(z.titel ? { titel: z.titel } : {}) } : { gezaehlt: 0, grenze: null }
   } catch {
     return { gezaehlt: 0, grenze: null }
   }
@@ -347,12 +350,50 @@ globalThis.akNetflixErledigtZaehlen = (zaehlen = true, speicher = sitzungSpeiche
   }
 }
 
-/** Merkt Zähler und Nenner; `null` als Zähler vergisst sie (Ende des Durchgangs), 0 = Laufbeginn (auch die zurückgegebenen Titel beginnen bei 0; am Ende bleiben sie für die Endzeile stehen). */
-globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher()) => {
+const BESUCHT_SCHLUESSEL = 'ak-netflix-besucht'
+const FILM_SCHLUESSEL = 'ak-netflix-filme'
+
+/** Titel, die der Lauf angesprungen hat (jeder zählt einmal, auch ein zurückgegebener); steht am Ende für die Endzeile (4060: „besucht 3“ bei fünf Titeln). */
+globalThis.akNetflixBesuchtStand = (speicher = sitzungSpeicher()) => {
+  const n = Number(speicher?.getItem(BESUCHT_SCHLUESSEL))
+  return Number.isFinite(n) && n > 0 ? n : 0
+}
+
+globalThis.akNetflixBesuchtZaehlen = (speicher = sitzungSpeicher()) => {
   try {
-    if (gezaehlt === 0) speicher?.removeItem(ERLEDIGT_SCHLUESSEL)
+    speicher?.setItem(BESUCHT_SCHLUESSEL, String(globalThis.akNetflixBesuchtStand(speicher) + 1))
+  } catch {
+    /* Ohne Speicher gilt der Stand bis zum Neuladen. */
+  }
+}
+
+/** `true`, wenn dieser Film in diesem Durchgang schon in den Player ging (dann ist der Weg gescheitert: kein zweiter Versuch); sonst merkt es ihn und gibt `false`. */
+globalThis.akNetflixFilmVersuch = (reihe, speicher = sitzungSpeicher()) => {
+  try {
+    const schon = JSON.parse(speicher?.getItem(FILM_SCHLUESSEL) ?? '[]')
+    if (schon.includes(String(reihe))) return true
+    speicher?.setItem(FILM_SCHLUESSEL, JSON.stringify([...schon, String(reihe)]))
+  } catch {
+    /* Ohne Speicher gilt der Versuch nur bis zum Neuladen: lieber einmal zu viel. */
+  }
+  return false
+}
+
+/** Ein offener Film, der in diesem Durchgang schon im Player war (`erledigt`: laut Prüfliste nicht mehr offen): Weg gescheitert, der Titel wird zurückgestellt (`true`), kein zweiter Versuch (4060: Appleseed ging zweimal in den Player). */
+globalThis.akNetflixFilmGescheitert = (reihe, erledigt, uebersprungen, weiter) => {
+  if (erledigt || !globalThis.akNetflixFilmVersuch(reihe)) return false
+  uebersprungen.set(String(reihe), 'Player ohne Ergebnis, nicht erneut versucht')
+  weiter()
+  return true
+}
+
+/** Merkt Zähler, Nenner und den Titel dazu (`gerade: …` aus demselben Stand; jeder Sprung zählt als besucht, bei Laufbeginn auch der Titel, auf dem er startet: `startTitel`); `null` als Zähler vergisst sie (Ende des Durchgangs), 0 = Laufbeginn (auch die zurückgegebenen und besuchten Titel beginnen bei 0; am Ende bleiben sie für die Endzeile stehen). */
+globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher(), titel = null, startTitel = false) => {
+  try {
+    if (gezaehlt === 0) for (const s of [ERLEDIGT_SCHLUESSEL, BESUCHT_SCHLUESSEL, FILM_SCHLUESSEL]) speicher?.removeItem(s)
     if (gezaehlt === null) speicher?.removeItem(ZAEHLER_SCHLUESSEL)
-    else speicher?.setItem(ZAEHLER_SCHLUESSEL, JSON.stringify({ gezaehlt, grenze }))
+    else speicher?.setItem(ZAEHLER_SCHLUESSEL, JSON.stringify({ gezaehlt, grenze, titel }))
+    if (gezaehlt > 0 || startTitel) globalThis.akNetflixBesuchtZaehlen(speicher)
   } catch {
     /* Ohne Speicher gilt der Stand bis zum Neuladen. */
   }

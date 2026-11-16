@@ -2382,7 +2382,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt + akNetflixErledigtStand(), offeneTitel, undefined, vorfallMelden)
+    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, akNetflixBesuchtStand(), offeneTitel, undefined, vorfallMelden)
     durchgangEndeZeigen()
   }
 }
@@ -2413,7 +2413,7 @@ function laufStarten() {
   const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined && !selbstUebersprungen.zurueckgestellt(gemeinteReihe())
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
-  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length))
+  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length), undefined, null, hierAuftrag)
   selbstVersucht = null
   selbstUebersprungen.clear()
   bremse.zuruecksetzen()
@@ -2481,7 +2481,7 @@ const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
 const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd) => selbstWeiter(n, nd), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
-const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, offeneTitel[String(zuletztGeoeffnet?.id)]?.titel), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
+const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, akNetflixZaehlerStand().titel ?? offeneTitel[String(zuletztGeoeffnet?.id)]?.titel, akNetflixWartetText(selbstWartet, Date.now())), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
 const SELBST_VERSUCHE = 2
@@ -2760,7 +2760,7 @@ function selbstWeiter(frei = 0, nichtDa = false) {
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden(bremse.offen() ? `Netflix zeigte ${bremse.offen()} Titel ohne Inhalt, sie bleiben offen` : 'kein offener Auftrag mehr')
-  akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze)
+  akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze, undefined, offeneTitel[naechster]?.titel)
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
       `(${selbstGezaehlt}/${selbstGrenze})`,
@@ -2839,9 +2839,9 @@ async function selbstStartenSchritt() {
   const seiteHier = String(titelDerAdresse() ?? '')
   const filmHier =
     DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
-  if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
+  if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier) || (filmHier && !selbstWartet?.filmFrei)) {
     /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
-    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
+    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), film: filmHier, erledigt: filmHier && fertig(reihe, offeneTitel[String(reihe)]), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
     selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, bremse, vollLaden })
     return
   }
