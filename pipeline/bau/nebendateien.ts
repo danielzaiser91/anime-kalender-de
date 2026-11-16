@@ -24,6 +24,7 @@ import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
+import { mitUeberholtDurchTermin } from '../lib/quelle-ueberholt.ts'
 import { behalteLesetag, ladeAdnLesetage, mitLesetag, ohneFehlzuordnung } from './adn-lesetag.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
@@ -428,7 +429,7 @@ export function quellenPflegen(releases: Release[]): void {
         : { ...q, stand: 'vermutlich-ueberholt' as const }
     })
 
-    const zusammen = quellenZusammenfuehren(alt, neu)
+    const zusammen = mitUeberholtDurchTermin(release, quellenZusammenfuehren(alt, neu))
     historie[release.slug] = zusammen
     release.quellen = mitArtikeldaten(zusammen, lesungen, release.titleId)
   }
