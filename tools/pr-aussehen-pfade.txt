@@ -51,6 +51,8 @@ tools/filter-tempo-urteil.mjs
 tools/filter-tempo.mjs
 tools/kachel-ecken-live.mjs
 tools/kachel-ecken-messen.mjs
+tools/ladefehler-messen.mjs
+tools/ladefehler-urteil.mjs
 tools/linux-schrift.mjs
 tools/melder-kasten-bild.mjs
 tools/netz-sperre.mjs

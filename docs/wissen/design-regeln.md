@@ -225,7 +225,7 @@ Anlass: Beim Filterfenster (PR 4031) landete die Frage „größere Tippflächen
 **Regel:** Keine Information zweimal auf demselben Bildschirm; kein leerer Kasten, keine leere Bildfläche. **Standard:** Ein Kasten ohne Inhalt sagt, was bekannt ist und was fehlt; ein fehlendes Bild bekommt einen Platzhalter mit Titel. **Maß:** 0 Fälle. **Messweg:** noch keine (die Heuristik der Bestandsaufnahme meldete 4 Treffer, alle Fehlalarm). **Ausnahme:** gleiche Aussage auf verschiedenen Karten ist kein Doppel. **Beispiel:** falsch (Anlass 16.11.2026): „Deutsch synchronisiert“ ohne Weg; Cover-Fläche ohne Bild.
 
 ### E6 Zustände
-**Regel:** Jede Ansicht gestaltet laden, leer, Fehler und „Daten unvollständig“; ein Filter ohne Treffer nennt den Filter, der sie nimmt. **Standard:** Besuchertext statt Entwicklertext, mit Weg weiter (Wiederholen). **Maß:** 4 Zustände je Ansicht. **Messweg:** noch keine (nur `check:suchhinweis` für den Suchhinweis). **Ausnahme:** keine. **Beispiel:** richtig: leere Suche in der Datenbank mit Knopf „Auch Anime ohne deutsche Synchro zeigen“. Falsch: Fehlerseite mit „npm run data:all“ (`App.tsx`).
+**Regel:** Jede Ansicht gestaltet laden, leer, Fehler und „Daten unvollständig“; ein Filter ohne Treffer nennt den Filter, der sie nimmt. **Standard:** Besuchertext statt Entwicklertext, mit Weg weiter (Wiederholen). **Maß:** 4 Zustände je Ansicht. **Messweg:** `tools/ladefehler-messen.mjs` (Fehlerzustand beim Laden, Aussetzer und Dauerstörung, Job „PR-Aussehen – Ansichten“); sonst nur `check:suchhinweis` für den Suchhinweis. **Ausnahme:** keine. **Beispiel:** richtig: leere Suche in der Datenbank mit Knopf „Auch Anime ohne deutsche Synchro zeigen“. Falsch (behoben 16.11.2026, PR 4045): Fehlerseite mit „npm run data:all“ (`App.tsx`).
 
 ### E7 Lesbarkeit
 **Regel:** Beschriftungen mindestens 11 px (kleinste Stufe im Repo, `panel-messen.mjs`), Fließtext am Handy mindestens 14 px; 10 px ist ein Verstoß. Kontrast AA in beiden Themen (Abschnitt 3), Fokus sichtbar, alles per Tastatur erreichbar, `prefers-reduced-motion` gilt. **Standard:** größer vor dichter. **Maß:** 11 px / 14 px; Text 4,5 : 1, Zeichen 3 : 1. **Messweg:** `design-kontrast.mjs`, `design-fokus.test.mjs`, Kontrast in `buehne-messen.mjs`; Mindestschrift und `prefers-reduced-motion`: noch keine. **Ausnahme:** Marken- und Flaggenschrift, Eintrag mit Grund. **Beispiel:** falsch: „Premiere“ weiß auf `bg-orange-500`, 2,89 : 1 (`PremiereMarke.tsx`). WCAG fordert keine Mindestschrift; 11 px ist die Stufe des Repos.
@@ -248,7 +248,7 @@ Zahlen aus der Bestandsaufnahme (App auf d9e398fc8, lokaler Bau). Die Vorschläg
 | E3 | 7 Absätze über 75 Zeichen (Maß jetzt 80; Quellen 98–105) | Zeichen je Zeile je Textblock |
 | E4 | 3 Listen über 12 (Jahr, Genre 57, Keywords) | Listenlänge in `ansicht-filterfenster.mjs` |
 | E5 | 0 bestätigt | Leer-Kasten-Heuristik als Hinweis |
-| E6 | 1 (Fehlertext für Entwickler) | Fehlerzustand mit gesperrtem Abruf rendern |
+| E6 | 0 (Fehlertext behoben 16.11.2026, PR 4045) | Messweg für Fehlerzustand: `ladefehler-messen.mjs`; leer, unvollständig je Ansicht offen |
 | E7 | unter 11 px: Datenbank 90, News 22, Woche 6; Kontrast 8 Paare | Mindestschrift und Seitenkontrast als Bühnen-Messung; `prefers-reduced-motion` |
 | E8 | CLS Desktop 3 Ansichten; Klick außerhalb 1 | CLS beim Erstladen am Desktop; Klick außerhalb des Desktop-Filters |
 | E9 | 3 Doppelmuster | Zählung `type="checkbox"` und Chip-Höhen |
