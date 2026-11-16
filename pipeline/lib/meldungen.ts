@@ -450,6 +450,15 @@ function belegteTermine(vorhanden: Release[]): Set<string> {
   return belegt
 }
 
+const ohneSchraegstrich = (url: string): string => url.replace(/\/$/, '')
+
+/**
+ * **Ein Artikel, aus dem ein Handtermin stammt, ist eingearbeitet — im selben Bau** (16.11.2026): `alreadyCurated` setzt sonst erst der nächste
+ * Sammlerlauf; bis dahin standen der falsche Auto-Termin (Boruto) und der richtige Handtermin nebeneinander. Gilt wie dort für den ganzen Artikel.
+ */
+const handQuellenAdressen = (vorhanden: Release[]): Set<string> =>
+  new Set(vorhanden.filter((r) => !r.automatisch).flatMap((r) => r.sources.map(ohneSchraegstrich)))
+
 function belegeTermin(belegt: Set<string>, titleId: number, platform: string, tag: string) {
   belegt.add(terminSchluessel(titleId, platform, tag))
   belegt.add(eigenerSchluessel(titleId, platform))
@@ -578,11 +587,12 @@ export function releasesAus(
 ): Release[] {
   const kandidaten = [...titel, ...cartoons]
   const belegt = belegteTermine(vorhanden)
+  const handQuellen = handQuellenAdressen(vorhanden)
   const out: Release[] = []
 
   for (const v of nachSprachzusage(vorschlaege)) {
     const sprache = spracheDerMeldung(v)
-    if (v.alreadyCurated || istAbschied(v.articleTitle) || sprache === 'nein') continue
+    if (v.alreadyCurated || handQuellen.has(ohneSchraegstrich(v.articleUrl)) || istAbschied(v.articleTitle) || sprache === 'nein') continue
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
