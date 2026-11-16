@@ -15,6 +15,17 @@ const wf = parse(readFileSync(join(wurzel, '.github/workflows/bestand-bauen.yml'
 const schritte = wf.jobs.bauen.steps.filter((s) => s.name === 'Mängel melden')
 assert.equal(schritte.length, 1, 'genau ein Schritt')
 const schritt = schritte[0]
+
+/** Der Schritt liest `data/maengel.json`, die der Bau schreibt: vor dem Bau läse er die Vorfassung und meldete still nichts oder Falsches; nach dem Commit käme die Meldung nicht mehr in den Lauf. */
+function liegtZwischen(namen, name, nach, vor) {
+  const i = namen.indexOf(name)
+  return i > namen.indexOf(nach) && namen.indexOf(nach) >= 0 && i < namen.indexOf(vor)
+}
+const namen = wf.jobs.bauen.steps.map((s) => s.name)
+assert.ok(liegtZwischen(namen, 'Mängel melden', 'Datensatz bauen', 'Änderungen committen'), 'Schritt steht hinter dem Bau und vor dem Commit')
+assert.ok(!liegtZwischen(['Mängel melden', 'Datensatz bauen', 'Änderungen committen'], 'Mängel melden', 'Datensatz bauen', 'Änderungen committen'), 'Negativfall: vor dem Bau wird erkannt')
+assert.ok(!liegtZwischen(['Datensatz bauen', 'Änderungen committen', 'Mängel melden'], 'Mängel melden', 'Datensatz bauen', 'Änderungen committen'), 'Negativfall: nach dem Commit wird erkannt')
+assert.ok(!liegtZwischen(['Mängel melden', 'Änderungen committen'], 'Mängel melden', 'Datensatz bauen', 'Änderungen committen'), 'Negativfall: fehlender Bau-Schritt wird erkannt')
 const ordner = mkdtempSync(join(tmpdir(), 'maengel-schritt-'))
 
 function lauf({ npmAusgabe, exit, vorher = '' }) {
