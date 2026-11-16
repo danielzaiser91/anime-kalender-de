@@ -12,6 +12,7 @@ import { PatchnotesKnopf } from './PatchnotesKnopf.tsx'
 import { ohneEingeordnete, verlaeufeAus } from '../lib/news-verlauf.ts'
 import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
 import { ARTEN, NewsEintragInhalt, NewsFilterKnoepfe } from './news-eintrag.tsx'
+import { Ladeplatz } from './Ladeplatz.tsx'
 
 
 /*
@@ -278,6 +279,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
         </div>
       )}
 
+      {!meldungen && <Ladeplatz />}
       {meldungen && !tage.length && <p className="text-sm text-slate-500 dark:text-slate-400">{t('news.leer')}</p>}
 
       {tage.map(([tag, alle]) => {
