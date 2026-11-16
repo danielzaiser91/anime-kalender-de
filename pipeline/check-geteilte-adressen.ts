@@ -29,7 +29,10 @@ console.log('Regel:')
   pruefe('zwei Titel, eine Adresse: beide Wege tragen sharedWith 2', n === 2 && a.streams[0]!.sharedWith === 2 && b.streams[0]!.sharedWith === 2, { n })
   pruefe('Grenzfall: zwei Wege mit leerer Adresse teilen nichts', a.streams[1]!.sharedWith === undefined && b.streams[1]!.sharedWith === undefined)
   pruefe('ein einzelner Weg bleibt ohne sharedWith', c.streams[0]!.sharedWith === undefined)
-  const einmalig = [titel(4, [weg(DISNEY)]), titel(5, [weg(DISNEY)])]
+  b.streams = []
+  vermerkeGeteilteAdressen([a, b, c])
+  pruefe('Zweitlauf nach entferntem Weg: der Rest sharedWith fällt weg', a.streams[0]!.sharedWith === undefined, a.streams[0])
+  const einmalig =[titel(4, [weg(DISNEY)]), titel(5, [weg(DISNEY)])]
   const gen = (function* () { yield* einmalig })()
   pruefe('ein Iterator (titles.values()) genügt, er wird nur einmal gelesen', vermerkeGeteilteAdressen(gen) === 2)
 }

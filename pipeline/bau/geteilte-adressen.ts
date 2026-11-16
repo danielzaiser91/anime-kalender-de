@@ -23,7 +23,7 @@ export function vermerkeGeteilteAdressen(titles: Iterable<Title>): number {
       if (anzahl > 1) {
         stream.sharedWith = anzahl
         geteilt++
-      }
+      } else delete stream.sharedWith // der zweite Lauf rechnet neu: ein Rest nach entfernten Wegen bleibt nicht stehen
     }
   }
   return geteilt

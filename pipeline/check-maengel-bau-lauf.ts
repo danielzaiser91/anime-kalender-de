@@ -68,20 +68,24 @@ const weitere = () => [
   einfach(6, { streams: stream('dup') }),
   einfach(7, { streams: stream('dup') }),
   einfach(8, { jpEnd: undefined }),
+  einfach(9),
 ]
 schreibe('public/data/titles.json', [titel1({ coverImage: undefined }), titel(2), kurz(), ...weitere()])
 schreibe('public/data/events.json', [{ titleId: 1, date: '2099-01-01' }, { titleId: 8, date: todayIso() }])
 schreibe('public/data/releases.json', [
   { titleId: 1, platform: 'adn', releaseType: 'batch', sources: [{ url: 'https://q' }], schedule: { firstEpisodeDate: '2020-01-01', episodeCount: 3 } },
+  { titleId: 9, platform: 'adn', releaseType: 'batch', sources: [{ url: 'https://q' }], schedule: { firstEpisodeDate: '2020-01-01', episodeCount: 1 } },
   { titleId: 4, platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: '2022-01-01' } },
 ])
 schreibe('public/data/folgen/1.json', { f: [[1, 'A'], [2, 'B'], [3, 'C']] })
 schreibe('public/data/folgen/2.json', { f: [[1, 'A'], [2, ''], [3, 'C']] })
 schreibe('public/data/synopses/1.json', { 1: { de: 'Text' }, 33: { de: 'Text' } })
-for (const id of [4, 5, 6, 7, 8]) schreibe(`public/data/synopses/${id}.json`, { [id]: { de: 'Text' } })
+for (const id of [4, 5, 6, 7, 8, 9]) schreibe(`public/data/synopses/${id}.json`, { [id]: { de: 'Text' } })
 schreibe(COVER_BEKANNT_DATEI, { 5: 'TMDB führt ihn nicht' })
 /* Der Import von `luecken-titel.ts` (über `fehlendes`) liest diese Datei schon beim Laden. */
 schreibe('data/kino-ankuendigungen.yaml', '[]')
+/* Titel 9: Handbeleg „ohne deutschen Ton“ bei ADN → Ausnahme belegtes-nein; Titel 1 hat keinen und bleibt offen. */
+schreibe('data/dub-confirmed.yaml', '- anilistId: 9\n  title: T\n  platform: adn\n  dub: false\n  checkedAt: "2026-01-01"\n  note: Kulisse\n')
 git('init', '-q')
 git('add', '-A')
 git('commit', '-q', '-m', 'kulisse')
@@ -94,6 +98,7 @@ pruefe('Lauf 1: Handliste: Cover von Titel 5 ist Ausnahme (nur im Zähler)', r1.
 pruefe('Lauf 1: Disc-Termin ist ein Weg (kein kein-weg, kein erstausgabe-ohne-weg bei Titel 4)', !r1.zeilen.some((z) => z.t === 4), r1.zeilen.filter((z) => z.t === 4))
 pruefe('Lauf 1: Termin am heutigen Tag zählt als künftig (kein termin-fehlt-laufend bei Titel 8)', !r1.zeilen.some((z) => z.t === 8), r1.zeilen.filter((z) => z.t === 8))
 pruefe('Lauf 1: Erstlauf kennt kein „neu“', Object.values(r1.zaehler).every((z) => z.neu === 0) && r1.zeilen.every((z) => !z.ereignis), r1)
+pruefe('Lauf 1: erschienen-ohne-weg: Titel 1 offen, Titel 9 (Handbeleg dub:false) Ausnahme', r1.zaehler['erschienen-ohne-weg']?.offen === 1 && r1.zaehler['erschienen-ohne-weg']?.ausnahme === 1, r1.zaehler['erschienen-ohne-weg'])
 pruefe('Lauf 1: alle 23 Arten im Zähler', Object.keys(r1.zaehler).length === 23, Object.keys(r1.zaehler))
 
 /* Vorfassung altern lassen und committen; Titel 1 bekommt sein Cover, Titel 3 ist neu ohne Banner. */
