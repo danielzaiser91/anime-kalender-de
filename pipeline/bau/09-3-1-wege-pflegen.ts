@@ -64,7 +64,7 @@ export function pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdr
   if (checks.size) {
     log(
       `${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)` +
-        (ytAusTonspur ? `, ${ytAusTonspur} YouTube-Urteile aus der Tonspur-Angabe` : ''),
+        (ytAusTonspur ? `, ${ytAusTonspur} YouTube-Urteile aus Tonspur-Angabe oder Kanalliste` : ''),
     )
   }
   if (adressen) {

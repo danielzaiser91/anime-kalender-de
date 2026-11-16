@@ -3,9 +3,10 @@
  * Lauf der Bauphase 09-2 (`werteLinkpruefungAus`) gegen eine Kulisse (`AK_ROOT`): gelisteter Kanal ohne Tonspur-Befund → `dub: true`;
  * fremder Kanal, fehlender Kanalbefund, Tonspur „nicht Deutsch" und Handbeleg „nein" bleiben, wie sie waren. Läuft in `check:logic`.
  */
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 
 const kulisse = mkdtempSync(join(tmpdir(), 'youtube-kanal-deutsch-'))
@@ -84,6 +85,25 @@ try {
   erwarte('Kanal unbekannt', dubAusDeutschemKanal('Anderer', liste), undefined)
   erwarte('ohne Kanal', dubAusDeutschemKanal(undefined, liste), undefined)
   erwarte('leere Liste', dubAusDeutschemKanal(DE, new Set()), undefined)
+
+  // Die echte Liste: leer oder ohne Namen wäre die Regel still aus.
+  const echt = yaml.load(readFileSync(join(import.meta.dirname, '..', 'data', 'curated', 'youtube-kanaele-deutsch.yaml'), 'utf8')) as {
+    kanaele: Record<string, unknown>[]
+  }
+  const voll = (k: Record<string, unknown>) => [k.name, k.handle, k.begruendung].every((f) => typeof f === 'string' && f !== '')
+  erwarte('echte Liste: mindestens ein Kanal, jeder mit name, handle, begruendung', echt.kanaele.length >= 1 && echt.kanaele.every(voll), true)
+
+  const listenPfad = join(kulisse, 'data', 'curated', 'youtube-kanaele-deutsch.yaml')
+  writeFileSync(listenPfad, 'kanaele: [unfertig\n')
+  let kaputtWirft = false
+  try {
+    ladeDeutscheKanaele()
+  } catch {
+    kaputtWirft = true
+  }
+  erwarte('kaputte Liste wirft, statt leer zu laden', kaputtWirft, true)
+  rmSync(listenPfad)
+  erwarte('ohne Datei: leere Liste', [...ladeDeutscheKanaele()], [])
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }

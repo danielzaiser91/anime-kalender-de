@@ -1,17 +1,14 @@
 /** Kuratierte Liste deutscher YouTube-Kanäle (`data/curated/youtube-kanaele-deutsch.yaml`): ein Weg von dort gilt als Synchro-belegt. */
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
 
-/** Kanalnamen wie im oEmbed-Befund; fehlt die Datei, ist die Liste leer. */
+/** Kanalnamen wie im oEmbed-Befund. Ohne Datei (Kulissen anderer Prüfungen) ist die Liste leer; eine kaputte Datei wirft, statt die Regel still abzuschalten. */
 export function ladeDeutscheKanaele(): Set<string> {
-  let roh: unknown
-  try {
-    roh = yaml.load(readFileSync(resolve(ROOT, 'data/curated/youtube-kanaele-deutsch.yaml'), 'utf8'))
-  } catch {
-    return new Set()
-  }
+  const pfad = resolve(ROOT, 'data/curated/youtube-kanaele-deutsch.yaml')
+  if (!existsSync(pfad)) return new Set()
+  const roh = yaml.load(readFileSync(pfad, 'utf8'))
   const liste = (roh as { kanaele?: { name?: unknown }[] } | null)?.kanaele ?? []
   return new Set(liste.map((k) => k.name).filter((n): n is string => typeof n === 'string' && n !== ''))
 }
