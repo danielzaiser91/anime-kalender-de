@@ -5,6 +5,7 @@
  * und die echten Komponenten im Mini-DOM: Gruppe „Wertung“ im Filterfenster und Eintrag in der Leiste der aktiven Filter.
  * Aufruf: `npm run check:logic`.
  */
+import { readFileSync } from 'node:fs'
 import { act, createElement as h } from 'react'
 import type { DataMeta, Release, Title } from '../shared/types.ts'
 import type { Dataset } from '../web/src/lib/data.ts'
@@ -110,6 +111,13 @@ const kaestchen = { ...EMPTY_FILTERS, ohneWertungAus: true }
 pruefe('Kästchen vor dem Nachladen: Kalender nicht leer', kalenderKachelIds(kaestchen, false) === 2, kalenderKachelIds(kaestchen, false))
 pruefe('Schwelle vor dem Nachladen: Kalender nicht leer', kalenderKachelIds({ ...EMPTY_FILTERS, minScore: 70 }, false) === 2)
 pruefe('Kästchen nach dem Nachladen: filtert wie bisher', kalenderKachelIds(kaestchen, true) === 0 && kalenderIds(kaestchen) === '1,2,3,5')
+// Verdrahtung: Der Kalender in App.tsx muss die Regel mit dem echten Ladezustand aufrufen, sonst gilt sie nur hier im Test.
+const appQuelle = readFileSync(new URL('../web/src/App.tsx', import.meta.url), 'utf8')
+pruefe(
+  'App.tsx: Kalender filtert über wertungNurMitVollenDaten mit dem Ladezustand',
+  appQuelle.includes('eventsFuerAnsichtGen(data, wertungNurMitVollenDaten(kalenderFilters, !!voll)'),
+  'Aufruf fehlt oder nimmt nicht `!!voll`',
+)
 pruefe('ohne Wertungsfilter bleibt das Objekt dasselbe (kein neuer Filterzustand je Render)', wertungNurMitVollenDaten(EMPTY_FILTERS, false) === EMPTY_FILTERS)
 pruefe('Vor dem Nachladen bleiben die übrigen Filter erhalten', wertungNurMitVollenDaten({ ...kaestchen, minScore: 70, kostenlosOnly: true }, false).kostenlosOnly === true)
 
