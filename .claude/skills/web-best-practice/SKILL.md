@@ -43,8 +43,8 @@ ist die Aufgabe nicht erledigt — auch wenn der gefragte Teil funktioniert.
 - Keine Bibliothek für eine Handvoll Zeilen; Code-Splitting für selten genutzte Ansichten.
 
 ## Oberfläche und Zugänglichkeit
-- Tippflächen mindestens 44 px, Kontrast WCAG AA, Tastaturbedienung und sichtbarer Fokus, sinnvolle `aria`-Namen, `prefers-reduced-motion` achten.
-- Nichts, was beim Tippen oder Scrollen springt; Zustände (laden, leer, Fehler) gestalten; Gesten nie als einziger Weg.
+- Maße für Tippflächen, Schrift, Kontrast, Zeilenlänge, Zustände und Ruhe stehen in `docs/wissen/design-regeln.md` Abschnitt 13 (Teil 2: Aufbau und Bedienung); hier keine eigenen Zahlen. Dazu `aria`-Namen und Tastaturbedienung.
+- Gesten nie als einziger Weg.
 - Anime stehen im Vordergrund: Hinweise der Seite selbst leise, ohne Signalfarbe, einklappbar.
 
 ## Datenschutz und Fremddienste

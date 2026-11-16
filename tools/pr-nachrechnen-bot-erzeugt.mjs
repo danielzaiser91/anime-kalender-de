@@ -72,6 +72,7 @@ export const ERZEUGTE_DATEIEN = [
   'kitsu-folgen.json',
   'link-check.json',
   'luecken-titel.json',
+  'maengel.json',
   'meldungen-an-claude.jsonl',
   'meldungen-uebernahme.json',
   'meldungen-zurueckgestellt.json',
