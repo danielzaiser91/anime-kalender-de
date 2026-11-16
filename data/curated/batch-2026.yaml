@@ -53,6 +53,19 @@
     episodeCount: 53
   sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
 
+# Staffel 2 nennt Anime2You mit Tag und Folgenzahl („2. September“, 59 Folgen; Artikel vom 15.08.2026), also ohne estimated.
+- slug: naruto-shippuden-s2-disneyplus
+  anilistId: 1735
+  search: "Naruto: Shippuuden"
+  titleDe: "Naruto Shippuden – Staffel 2"
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule:
+    firstEpisodeDate: "2026-09-02"
+    episodeCount: 59
+  sources: [https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/]
+
 - slug: star-wars-visions-ninth-jedi
   anilistId: 213847
   search: "Star Wars: Visions - Kyuuninme no Jedi"
@@ -77,7 +90,9 @@
   schedule:
     firstEpisodeDate: "2026-08-29"
     episodeCount: 40
-  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+  sources:
+    - https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/
+    - https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/
 
 - slug: yu-gi-oh-s4-disneyplus
   anilistId: 481
