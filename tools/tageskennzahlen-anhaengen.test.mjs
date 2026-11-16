@@ -55,7 +55,7 @@ test('main: zu kleines Kontingent bricht mit Exit 1 ab, vor jedem weiteren Abruf
 })
 
 test('main: --anhaengen mit Datei bis gestern ist „nichts zu tun“ (Exit 0, Datei unverändert, kein gh-Aufruf)', () => {
-  const gestern = tagPlus(tagBerlin(Date.now()), -1)
+  const gestern = tagPlus(tagBerlin(Date.now()), -1) // uhr-echt: das Skript rechnet „gestern“ selbst mit der echten Uhr
   const tage = `${z(gestern, 4)}\n`
   const r = lauf(['--anhaengen', '--ohne-lehren'], { tage })
   assert.equal(r.status, 0, r.stderr)
