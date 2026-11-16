@@ -16,7 +16,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || 400
@@ -179,7 +179,7 @@ async function main(): Promise<void> {
   }
   log(`${neu} Einträge neu, ${Object.keys(eintraege).length} insgesamt, ${ausgelassen.size} ausgelassen (Hentai, Musikvideo, CM, Sonstiges)`)
   /* Nichts offen ist Erfolg; lauter Fehlschläge (403 ohne gültiges Token) sind keiner und tragen ihre Ursache in `lastError`. */
-  recordSource('anisearch-eintraege', neu, fehler > 0 ? `${fehler} Abrufe fehlgeschlagen (HTTP-Fehler, Token prüfen)` : undefined, undefined, ziel.length === 0, undefined, ziel.length)
+  recordSource('anisearch-eintraege', neu, fehler > 0 ? `${fehler} Abrufe fehlgeschlagen (HTTP-Fehler, Token prüfen)` : undefined, undefined, ziel.length === 0, undefined, zuSuchenMitBeleg(Object.keys(titelListe ?? {}).length, ziel.length))
 }
 
 if (process.argv[1]?.endsWith('fetch-anisearch-eintraege.ts')) await main()

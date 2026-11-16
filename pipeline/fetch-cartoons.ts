@@ -30,7 +30,7 @@
  * Ergebnis: `data/cartoons.json`
  */
 import { ROOT, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import { bestesBild, type Bild } from './lib/cartoons.ts'
 import { adnKennungGeaendert, handlisteLaden, loeseHandliste, mitAdnKennung, mitHandliste, type TmdbSuchtreffer } from './lib/cartoon-handliste.ts'
 import { tmdbStaffeln, type TmdbStaffelRoh } from './lib/cartoon-staffeln.ts'
@@ -326,7 +326,7 @@ async function main(): Promise<void> {
 
   writeJson('data/cartoons.json', bestand)
   const mitAnbieter = Object.values(bestand).filter((e) => e.anbieterDe.length).length
-  recordSource('cartoons', dran.length - verworfen, undefined, dran.length, true, undefined, dran.length)
+  recordSource('cartoons', dran.length - verworfen, undefined, dran.length, true, undefined, zuSuchenMitBeleg(ids.length, dran.length))
   log(
     `${neu} neu, ${verworfen} ohne Animations-Genre verworfen · ` +
       `${Object.keys(bestand).length} Titel, davon ${mitAnbieter} mit Anbieter in Deutschland`,

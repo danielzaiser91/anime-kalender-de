@@ -55,7 +55,7 @@
  * Ergebnis: `data/trailer.json`
  */
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import { todayIso } from '../shared/time.ts'
 import type { EmpfehlungsDatei } from '../shared/empfehlung-pool.ts'
 import { tmdbArt, tmdbVideosUrl, trailerKandidaten } from './lib/trailer-auswahl.ts'
@@ -469,7 +469,7 @@ export async function main(opt: { riegel?: number; speichernAlle?: number } = {}
   const dran = waehleDran(offen, versuche, heute(), opt.riegel ?? RIEGEL_JE_LAUF, GRENZE)
   log(`${filme.length} Filme · ${weg} tote Adressen entfernt · ${dran.length} ohne deutschen Trailer`)
   if (!dran.length) {
-    recordSource('trailer', 0, undefined, filme.length, true, undefined, dran.length)
+    recordSource('trailer', 0, undefined, filme.length, true, undefined, zuSuchenMitBeleg(filme.length, dran.length))
     writeJson('data/trailer.json', bestand)
     return
   }

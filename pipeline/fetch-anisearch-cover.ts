@@ -10,7 +10,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import sharp from 'sharp'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import { anisearchToken } from './lib/anisearch-api.ts'
 import { coverFrei, robotsAlterMs } from './lib/anisearch-robots.ts'
 import { holeCover, offeneKennungen, type Abhaengigkeiten, type Manifest } from './lib/anisearch-cover-eigen.ts'
@@ -71,7 +71,7 @@ async function main(): Promise<void> {
   const z = await holeCover(offen, manifest, { limit: LIMIT, token, ende: Date.now() + LAUFZEIT_MS }, echteAbhaengigkeiten())
   log(`${z.neu} Bilder neu (davon ${z.gerettet} per Rückfall auf die API-Adresse gerettet), ${z.ohneBild} ohne Bild vermerkt (${z.endgueltig404} endgültig 404), ${z.fehler} Fehlschläge, ${Object.keys(manifest).length} Einträge im Manifest`)
   if (z.abgebrochen) warn(`Lauf abgebrochen: ${z.abgebrochen}`)
-  recordSource('anisearch-cover-eigen', z.neu, z.abgebrochen, undefined, offen.length === 0, undefined, offen.length)
+  recordSource('anisearch-cover-eigen', z.neu, z.abgebrochen, undefined, offen.length === 0, undefined, zuSuchenMitBeleg(titel.length, offen.length))
 }
 
 if (process.argv[1]?.replace(/\\/g, '/').endsWith('fetch-anisearch-cover.ts')) await main()

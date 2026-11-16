@@ -33,6 +33,11 @@ export function leerSeitNeu(vorher: string | undefined, now: string, count: numb
   return erfolgreich && count === 0 && zuSuchen !== 0 ? (vorher ?? now) : undefined
 }
 
+/** `zuSuchen` für `recordSource`: „nichts zu suchen“ zählt nur, wenn die Eingabe geladen und nicht leer war; sonst undefined (Wache wie bisher). */
+export function zuSuchenMitBeleg(eingabeZeilen: number, offen: number): number | undefined {
+  return eingabeZeilen > 0 ? offen : undefined
+}
+
 export type SourceHealth = Record<string, SourceState>
 
 /**

@@ -16,7 +16,7 @@
  * Betreiber selbst an (gelesen 19.09.2026). Deshalb nur wöchentlich.
  */
 import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import {
   durchzaehlen,
   folgeAusSeite,
@@ -128,5 +128,5 @@ if (programme.size) {
 }
 
 writeJson(ZIEL, ergebnis, true)
-recordSource('rtlplus-folgen', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Abruf(e) gescheitert` : undefined, abrufe, programme.size === 0, undefined, programme.size)
+recordSource('rtlplus-folgen', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Abruf(e) gescheitert` : undefined, abrufe, programme.size === 0, undefined, zuSuchenMitBeleg(Math.min(Object.keys(tv).length, Object.keys(katalog).length), programme.size))
 log(`${programme.size} RTL+-Serie(n), ${abrufe} Abrufe → ${ZIEL}`)

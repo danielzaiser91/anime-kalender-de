@@ -14,7 +14,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fetchJson, log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 
 const BASIS = 'https://kitsu.io/api/edge'
@@ -83,7 +83,7 @@ async function main(): Promise<void> {
   writeJson('data/kitsu-folgen.json', bestand)
   log(`${gefunden} von ${offen.length} Titeln mit Kitsu-Folgen, ${fehler} Fehler`)
   /* Leer ist nur dann fertig, wenn die Titelliste geladen war und Titel mit MAL-Kennung führt; sonst ist es ein Ausfall. */
-  recordSource('kitsu-folgen', gefunden, undefined, undefined, liste.some((t) => t.malId) && kandidaten.length === 0, undefined, kandidaten.length)
+  recordSource('kitsu-folgen', gefunden, undefined, undefined, liste.some((t) => t.malId) && kandidaten.length === 0, undefined, zuSuchenMitBeleg(liste.filter((t) => t.malId).length, kandidaten.length))
 }
 
 await main()

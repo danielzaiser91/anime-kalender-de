@@ -26,7 +26,7 @@
  * TOGGO-Weg; ob eine Folge *jetzt* abrufbar ist, rechnet die Seite beim Anzeigen.
  */
 import { readJson, writeJson, log, warn, sleep } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
+import { recordSource, zuSuchenMitBeleg } from './lib/health.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse, type ToggoSerie } from './lib/toggo-serien.ts'
 import { namenIndex, titelZuordnen } from './fetch-tv-programm.ts'
 
@@ -183,5 +183,5 @@ for (const [serie, ids] of jeSerie) {
 }
 
 writeJson(ZIEL, ergebnis, true)
-recordSource('toggo', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Serie(n) ohne Antwort` : undefined, jeSerie.size, jeSerie.size === 0, undefined, jeSerie.size)
+recordSource('toggo', Object.keys(ergebnis.titel).length, fehler ? `${fehler} Serie(n) ohne Antwort` : undefined, jeSerie.size, jeSerie.size === 0, undefined, zuSuchenMitBeleg(liste.length, jeSerie.size))
 log(`${jeSerie.size} TOGGO-Serie(n) gefragt, ${fehler} ohne Antwort → ${ZIEL}`)
