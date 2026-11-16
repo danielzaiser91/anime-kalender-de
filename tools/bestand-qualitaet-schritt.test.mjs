@@ -55,6 +55,11 @@ try {
   const hart = lauf({ npmAusgabe: '[pipeline] ⚠  verwaisteTermine: 2 — das darf nicht vorkommen\n' + RUECKGANG, exit: 1 })
   assert.equal(hart.status, 1, 'Exit-Code der Messung bleibt (harter Fehler ist weiter rot)')
   assert.match(hart.env, /^DATEN_WARNUNG=Streaming-Abdeckung gesunken/, 'Warnung auch bei hartem Fehler')
+  assert.match(hart.env.split('\n').at(-1), /^DATEN_WARNUNG=Streaming-Abdeckung gesunken.* · Datenqualität hart rot: verwaisteTermine: 2$/, 'harte Zeile hängt an die Streaming-Warnung, überschreibt sie nicht')
+
+  const nurHart = lauf({ npmAusgabe: '[pipeline] ⚠  doppelteAdressen: 3 — das darf nicht vorkommen\n[pipeline] ⚠  verwaisteTermine: 2 — das darf nicht vorkommen\n', exit: 1, vorher: 'Anderes' })
+  assert.equal(nurHart.status, 1, 'nur hart: Exit 1 bleibt')
+  assert.equal(nurHart.env, 'DATEN_WARNUNG=Anderes · Datenqualität hart rot: doppelteAdressen: 3;verwaisteTermine: 2', 'harte Wächter als DATEN_WARNUNG, beide Zeilen')
 
   const absturz = lauf({ npmAusgabe: 'Error: kaputt\n', exit: 1 })
   assert.equal(absturz.status, 1, 'Absturz: Schritt rot')

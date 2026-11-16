@@ -321,7 +321,14 @@ jobs:
           if grep -q '^STREAMING_RUECKGANG ' "$RUNNER_TEMP/qualitaet.log"; then
             rueckgang="$(grep -m1 '^STREAMING_RUECKGANG ' "$RUNNER_TEMP/qualitaet.log" | cut -d' ' -f2-)"
             echo "::warning::Streaming-Abdeckung: ${rueckgang}"
-            echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Streaming-Abdeckung gesunken: ${rueckgang}" >> "$GITHUB_ENV"
+            DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Streaming-Abdeckung gesunken: ${rueckgang}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
+          fi
+          # Harter Wächter rot (`HART` in check-qualitaet.ts): als gelbe Meldung sichtbar machen, sonst bleibt der Schritt unbemerkt rot.
+          if grep -q 'das darf nicht vorkommen' "$RUNNER_TEMP/qualitaet.log"; then
+            hart="$(grep 'das darf nicht vorkommen' "$RUNNER_TEMP/qualitaet.log" | sed 's/^.*⚠ *//; s/ — das darf nicht vorkommen//' | paste -sd';' -)"
+            echo "::warning::Datenqualität (hart): ${hart}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Datenqualität hart rot: ${hart}" >> "$GITHUB_ENV"
           fi
           exit "$status"
 
