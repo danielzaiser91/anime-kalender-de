@@ -1,31 +1,10 @@
 import type { Title } from '../../shared/types.ts'
-import { beurteile, deutscheFolgenNachDemEnde, kapitelImBlock, type CrSerie, type Urteil } from './crunchyroll-dub.ts'
+import { beurteile, deutscheFolgenNachDemEnde, type CrSerie, type Urteil } from './crunchyroll-dub.ts'
 
 /** Ein Urteil, das bei teils deutschem Block die belegten Folgen mitbringt (`dubRanges` am Verweis). */
 export type UrteilMitBereichen = Urteil & { dubRanges?: { from: number; to: number; dub: boolean }[] }
 
 const deutschIn = (b: NonNullable<CrSerie['staffeln']>[number]): number => b.deutscheFolgen?.length ?? b.deutsch ?? 0
-
-const kurz = (t: string | null | undefined): string => (t ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
-
-/**
- * Der Block, dessen unterscheidender Name im Namen des Films steckt: Der gemeinsame Wortanfang aller Blöcke („Demon Slayer: Kimetsu no Yaiba“)
- * und ein „Arc“ am Ende fallen weg, übrig bleibt „Mugen Train“. Genau ein Treffer von mindestens 6 Zeichen und Deutsch im Block, sonst `undefined`.
- */
-function blockDesFilms(bloecke: NonNullable<CrSerie['staffeln']>, film: Title): NonNullable<CrSerie['staffeln']>[number] | undefined {
-  if (bloecke.length < 2) return undefined
-  const woerter = bloecke.map((b) => (b.name ?? '').split(/\s+/))
-  let gemeinsam = 0
-  while (woerter.every((w) => w[gemeinsam] !== undefined && w[gemeinsam] === woerter[0]![gemeinsam])) gemeinsam++
-  const namen = [film.titleRomaji, film.titleEn, film.titleDe].map(kurz)
-  const treffer = bloecke.filter((_, i) => {
-    const rest = woerter[i]!.slice(gemeinsam)
-    if (rest[rest.length - 1]?.toLowerCase() === 'arc') rest.pop()
-    const unterscheidend = kurz(rest.join(' '))
-    return unterscheidend.length >= 6 && namen.some((n) => n.includes(unterscheidend))
-  })
-  return treffer.length === 1 && deutschIn(treffer[0]!) > 0 ? treffer[0] : undefined
-}
 
 /**
  * **Ein Block mit einzelnen fremden Folgen kippt das Urteil nicht** (16.11.2026, Demon Slayer, Issue 4047).
@@ -35,7 +14,7 @@ function blockDesFilms(bloecke: NonNullable<CrSerie['staffeln']>, film: Title): 
  *
  * Gilt nur, wenn **jeder** Block der Serie deutsche Folgen führt und mindestens einer nicht vollständig deutsch ist (vollständig deutsch regelt `beurteile`).
  * Serie: genau ein Block mit unserer Folgenzahl, nur ein Titel dieser Länge, Block teils deutsch (ganz deutsche Blöcke regeln die übrigen Runden); dann tragen die belegten Nummern die Bereiche (`dubRanges`), nichts wird ergänzt.
- * Film: nur, wenn genau ein Block ihm über den unterscheidenden Namensteil zugeordnet ist (`blockDesFilms`); sonst offen (Abnahme PR 4054, Crown Handler Chapter 5).
+ * Filme bekommen aus dieser Regel kein Urteil: Der Block eines Films ist über den Namensrest nicht sicher zu finden (Crown Handler Chapter 5, Abnahme PR 4054).
  */
 function beurteileTeilDeutsch(serie: CrSerie, unsere: Title[]): UrteilMitBereichen[] {
   const bloecke = serie.staffeln ?? []
@@ -44,12 +23,7 @@ function beurteileTeilDeutsch(serie: CrSerie, unsere: Title[]): UrteilMitBereich
 
   const urteile: UrteilMitBereichen[] = []
   for (const t of unsere) {
-    if (t.format === 'MOVIE') {
-      if (kapitelImBlock(serie, t) !== undefined) continue
-      const filmBlock = blockDesFilms(bloecke, t)
-      if (filmBlock) urteile.push({ titleId: t.id, dub: true, grund: `Block „${filmBlock.name}“ trägt den Namen des Films und führt deutsche Folgen` })
-      continue
-    }
+    if (t.format === 'MOVIE') continue
     const treffer = bloecke.filter((b) => b.folgen === (t.episodes ?? 0))
     if (treffer.length !== 1 || treffer[0]!.deutsch === treffer[0]!.folgen) continue
     if (unsere.filter((u) => u.episodes === t.episodes && u.format !== 'MOVIE').length !== 1) continue

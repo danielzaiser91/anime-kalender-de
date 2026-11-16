@@ -53,7 +53,7 @@ const tvU = u.find((x) => x.titleId === 101922)
 const filmU = u.find((x) => x.titleId === 112151)
 pruefe('TV (26 Folgen) bekommt dub: true', tvU?.dub === true, u)
 pruefe('TV trägt Bereich 1–24 (die belegten deutschen Folgen)', JSON.stringify(tvU?.dubRanges) === bereich(1, 24), tvU?.dubRanges)
-pruefe('Film bekommt dub: true, ohne Bereiche', filmU?.dub === true && !filmU.dubRanges, u)
+pruefe('Film (Mugen Train) bekommt aus dieser Regel kein Urteil (eigener Auftrag)', filmU === undefined, u)
 pruefe('Film ohne Namensbezug zu einem Block (Crown-Handler-Chapter-5-Art, kein Datum) bleibt offen', beurteile(demon, [titel(204584, 1, 'MOVIE', 'Princess Principal: Crown Handler - Chapter 5')]).length === 0)
 pruefe('Film, dessen Name zu keinem Block passt, bleibt auch bei gleichem Wortanfang offen', beurteile(demon, [titel(5, 1, 'MOVIE', 'Demon Slayer -Kimetsu no Yaiba- The Movie: Something Else')]).length === 0)
 
@@ -64,6 +64,11 @@ const nullBlock = serie([block('A', 26, 24), block('B', 7, 0), block('C', 11, 11
 pruefe('Gegenprobe: ein Block ganz ohne Deutsch → der Film bleibt offen', beurteile(nullBlock, [titel(112151, 1, 'MOVIE', FILM_NAME)]).length === 0)
 const spaet = serie([{ ...block(`${PREFIX} Tanjiro Kamado, Unwavering Resolve Arc`, 26, 2), deutscheFolgen: folgen([25, 26]) }, block(`${PREFIX} Mugen Train Arc`, 7, 7)])
 pruefe('Bereich folgt den Nummern (25–26 deutsch)', JSON.stringify(beurteile(spaet, [titel(101922, 26, 'TV')])[0]?.dubRanges) === bereich(25, 26))
+
+/* Echter Block der Quelle (data/crunchyroll-dub.json, GEXH3W414, 16.11.2026): Crown Handler 4 Folgen, 2 deutsch, deckt die Kapitel 1 bis 4. */
+const principal = serie([block('Princess Principal: Season 1', 12, 12), block('Princess Principal: Crown Handler', 4, 2)])
+const kapitelFilme = [5, 6].map((n) => titel(204580 + n, 1, 'MOVIE', `Princess Principal: Crown Handler - Chapter ${n}`))
+pruefe('Crown Handler Chapter 5 und 6 an der echten Quelle: kein Urteil', beurteile(principal, kapitelFilme).length === 0, beurteile(principal, kapitelFilme))
 
 /* Randfälle der Regel. */
 const ganzDeutsch = serie([block(`${PREFIX} A Arc`, 26, 26), block(`${PREFIX} Mugen Train Arc`, 7, 7)])
@@ -90,7 +95,7 @@ const t3 = titel(204584, 1, 'MOVIE', 'Princess Principal: Crown Handler - Chapte
 const titles = new Map<number, Title>([[t1.id, t1], [t2.id, t2], [t3.id, t3]])
 ordneCrSerienZu({ titles, crDub: { scrapedAt: '2026-11-16', serien: [demon] } as unknown as CrDubData, usNeinWiderlegt: () => false, verweiseEntfernt: [] })
 pruefe('Bau: TV trägt dub und dubRanges 1–24', t1.streams[0]!.dub === true && JSON.stringify(t1.streams[0]!.dubRanges) === bereich(1, 24), t1.streams[0])
-pruefe('Bau: Film trägt dub: true', t2.streams[0]!.dub === true, t2.streams[0])
+pruefe('Bau: Film bleibt ohne Urteil', t2.streams[0]!.dub === undefined, t2.streams[0])
 pruefe('Bau: Film ohne Namensbezug an der geteilten Seite bleibt ohne Urteil', t3.streams[0]!.dub === undefined, t3.streams[0])
 
 /* Zweiter Aufrufweg: frisch ergänzter Weg (`beurteileFrischeWege`). */
