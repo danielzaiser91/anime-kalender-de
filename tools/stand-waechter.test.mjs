@@ -159,28 +159,35 @@ assert.equal(
   'alles zugleich',
 )
 assert.equal(w.waechter(['## Top-Prios', '## Andere', ...ziel(9), '- **X** {live}'].join('\n'), JETZT), '', 'andere Abschnitte')
-// Jetzt-Zeilen: Kennung F<n>/E<n> und Grund mit Verb (kann/darf/soll nicht); 📅-Terminzeilen und Einrückungen zählen nicht
+// Jetzt-Zeilen: Kennung F<n>/E<n>; Form `- <Icon> **<Titel>** — [Text](Link)`, der Grund steht in der Jetzt-Datei (Daniel, 16.11.2026); 📅-Terminzeilen und Einrückungen zählen nicht
 const jetzt = (...zeilen) => ['## Top-Prios', '### Jetzt', ...zeilen, '', '### Später', '- 🔵 **Spät** ohne Kennung', '## In Arbeit' + FRISCH].join('\n')
-const OK = '- 🔵 **F74 Filterleiste?** (soll nicht: Gestaltung) — drei Entwürfe'
+const OK = '- 🔵 **F74 Filterleiste?** — [Anleitung](file:///C:/x/a.md)'
 const KENNUNG = 'Jetzt: 1 Zeile (Form?) ohne Kennung F<n>/E<n>'
-const GRUND = 'Jetzt: 1 Zeile (Form?) ohne Grund „kann/darf/soll nicht“'
-assert.equal(w.waechter(jetzt(OK, '- 🟠 **E28 Dai melden** (kann nicht: Prime-Konto) → x', '- 🟠 **F3 X** (darf nicht: Geld)'), JETZT), '', 'korrekte Zeilen')
-assert.equal(w.waechter(jetzt('- 🟠 **Dai melden** (kann nicht: Prime-Konto)'), JETZT), 'Jetzt: 1 Zeile (Dai melden) ohne Kennung F<n>/E<n>', 'ohne Kennung')
-assert.equal(w.waechter(jetzt('- 🔵 **F75 Form?** — drei Entwürfe'), JETZT), GRUND.replace('Form?', 'F75 Form?'), 'ohne Grund')
-assert.equal(w.waechter(jetzt('- 🔵 **Form?** — x'), JETZT), `${KENNUNG}; ${GRUND}`, 'beides fehlt')
-assert.equal(w.waechter(jetzt(OK, '  - Detail ohne alles', '- 📅 **Do 05.11.** Termin'), JETZT), '', 'Unterzeile und Terminzeile')
-assert.equal(w.waechter(jetzt('- 🔵 **EF1 Form?** (soll nicht: x)'), JETZT), KENNUNG.replace('Form?', 'EF1 Form?'), 'Kennung nur als ganzes Wort mit Ziffern')
-assert.equal(w.waechter('### Jetzt\n- 🔵 **Form?**', JETZT), `${KENNUNG}; ${GRUND}`, 'letzter Abschnitt')
+const FORM = 'Jetzt: 1 Zeile (Form?) mit Text zwischen Titel und „ — “ oder Grund im Titel — Grund gehört in die Jetzt-Datei, Abschnitt ‚Warum ich es nicht selbst tue‘'
+assert.equal(w.waechter(jetzt(OK, '- 🟠 **E28 Dai melden** — x {eigen · normal · - · 01.10.}', '- 🟠 **F3 X**', '- 🔴 [groß] **F4 Y** — z'), JETZT, () => true), '', 'korrekte Zeilen')
+assert.equal(w.waechter(jetzt('- 🟠 **Dai melden**'), JETZT), 'Jetzt: 1 Zeile (Dai melden) ohne Kennung F<n>/E<n>', 'ohne Kennung')
+assert.equal(w.waechter(jetzt('- 🔵 **F75 Form?** — drei Entwürfe'), JETZT), '', 'ohne Grund in der Zeile ist richtig')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?** — x'), JETZT), KENNUNG, 'Kennung fehlt')
+assert.equal(w.waechter(jetzt(OK, '  - Detail ohne alles', '- 📅 **Do 05.11.** Termin'), JETZT, () => true), '', 'Unterzeile und Terminzeile')
+assert.equal(w.waechter(jetzt('- 🔵 **EF1 Form?**'), JETZT), KENNUNG.replace('Form?', 'EF1 Form?'), 'Kennung nur als ganzes Wort mit Ziffern')
+assert.equal(w.waechter('### Jetzt\n- 🔵 **Form?**', JETZT), KENNUNG, 'letzter Abschnitt')
 assert.equal(w.waechter(jetzt('- 🔵 **Form?**').replace('### Jetzt', '### Heute'), JETZT), '', 'anderer Abschnitt')
-assert.equal(w.waechter(jetzt('- 🔵 **F7 X** (Kann nicht: y)'), JETZT), '', 'Grund groß geschrieben')
-assert.equal(w.waechter(jetzt('- 🔵 **F7 Form?** (kann nichts tun)'), JETZT), GRUND.replace('Form?', 'F7 Form?'), 'kann nichts ist kein Grund')
-assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT, () => true), KENNUNG, 'Kennung nur im Link-Ziel zählt nicht')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT, () => true), `${KENNUNG}; ${FORM}`, 'Kennung nur im Link-Ziel zählt nicht')
+// Der Anlass vom 16.11.2026: E90 mit Klammer zwischen Titel und Link
+const E90 = '- 🔵 **E90 Netflix: „Bericht laden“ klicken** (soll nicht ich: liegt nur in deiner angemeldeten Sitzung; kein „ja“ nötig, einfach klicken) — [Anleitung](file:///C:/x/e90.md)'
+assert.equal(w.waechter(jetzt(E90), JETZT, () => true), FORM.replace('Form?', 'E90 Netflix: „Bericht laden“ klicken'), 'Text zwischen Titel und Gedankenstrich')
+assert.equal(w.waechter(jetzt('- 🔵 **F7 Form? (kann nicht: x)** — y'), JETZT), FORM.replace('Form?', 'F7 Form? (kann nicht: x)'), 'Grund im Titel')
+for (const grund of ['kann nicht', 'darf nicht', 'soll nicht', 'Kann nicht']) {
+  assert.match(w.waechter(jetzt(`- 🔵 **F7 Form ${grund}** — y`), JETZT), /Grund gehört in die Jetzt-Datei/, `Titel mit „${grund}“`)
+}
+assert.match(w.waechter(jetzt('- 🔵 **F7 Form?** kann nichts tun'), JETZT), /Grund gehört in die Jetzt-Datei/, 'Text ohne Gedankenstrich nach dem Titel')
+assert.equal(w.waechter(jetzt('- 🔵 F7 Form ohne Fett'), JETZT), '', 'ohne fetten Titel: keine Formmeldung (Kennung genügt)')
 // 📅-Zeilen: Zeit am Titelanfang (Daniel 12.11.2026 zu E57)
 for (const gut of ['- 📅 **23:30 E57 Git**', '- 📅 **13.11. 08:50 Steel Ball Run**', '- 📅 16.11. **Fristen**', '- 📅 [klein] **19.11. Probe**', '- 📅 **Do 05.11.** Termin']) {
   assert.equal(w.waechter(jetzt(gut), JETZT), '', gut)
 }
 assert.equal(w.waechter(jetzt('- 📅 **E57 Git ab 23:30** — x'), JETZT), '📅: 1 Zeile (E57 Git ab 23:30) ohne Zeit am Anfang — „HH:MM“, „TT.MM.“ oder „TT.MM. HH:MM“ vor den Titel', 'Zeit hinten')
-console.log('stand-waechter.test: ok (📅 Zeit vorn, Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
+console.log('stand-waechter.test: ok (📅 Zeit vorn, Jetzt-Zeilen Kennung/Form (Text vor „ — “, Grund im Titel), 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
 
 // Zeitstempel „Aktualisiert:“ in der Zukunft: 12:05 Berlin genau erlaubt (5 min), 12:06 nicht; ohne Zeile nichts
 const aktualisiert = (hhmm) => stand(FRISCH).replace('# Stand', `# Stand\nAktualisiert: 2026-10-20 ${hhmm} — x`)
@@ -233,7 +240,7 @@ if (process.platform === 'win32') {
 // Jetzt-Dateien: fester Aufbau (Kennung in der Überschrift, Abschnittsreihenfolge)
 const GUT = '# F7 Titel\n\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nx\n## Archiv\nx\n'
 const jetztStand = (zeile) => ['# Stand', '## Daniel-Todo', '### Jetzt', zeile, '### Später', '', `## In Arbeit${FRISCH}`, '', '## Als Nächstes', ...hand(40, '🔵 '), ''].join('\n')
-const ZEILE = '- 🟠 **F7** Frage, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md)) {eigen · normal · - · 01.10.}'
+const ZEILE = '- 🟠 **F7 Frage** — [Datei](file:///C:/code/ai/jetzt-f7.md) {eigen · normal · - · 01.10.}'
 const mitDatei = (inhalt) => w.waechter(jetztStand(ZEILE), JETZT, () => true, (p) => (p === 'C:/code/ai/jetzt-f7.md' ? inhalt : null))
 assert.equal(mitDatei(GUT), '', 'Jetzt-Datei gut')
 assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung fehlt')
@@ -268,11 +275,11 @@ assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel\nF7 im Text')), 'Jetzt-
 // Kennung nur im Link-Ziel und Zeilen ohne „- “ führen zu keiner Dateiprüfung
 const GUT_E8 = GUT.replace('# F7', '# E8')
 const lies2 = (p) => (p === 'C:/code/ai/jetzt-e8.md' ? GUT_E8 : 'kaputt')
-const E8 = '- 🟠 **E8** Handgriff, kann nicht ([Datei](file:///C:/code/ai/jetzt-e8.md)) {eigen · normal · - · 01.10.}'
+const E8 = '- 🟠 **E8 Handgriff** — [Datei](file:///C:/code/ai/jetzt-e8.md) {eigen · normal · - · 01.10.}'
 assert.doesNotMatch(w.waechter(jetztStand('- 🟠 Frage, kann nicht ([Datei](file:///C:/code/ai/F57-x.md))'), JETZT, () => true, lies2), /Jetzt-Datei/, 'Kennung nur im Link-Ziel')
-assert.equal(w.waechter(jetztStand([E8, '  - **F7** Unterpunkt, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md))', E8].join('\n')), JETZT, () => true, lies2), '', 'eingerückte Zeile')
-assert.equal(w.waechter(jetztStand([E8, '**F7** lose Zeile, kann nicht ([Datei](file:///C:/code/ai/jetzt-f7.md))', E8].join('\n')), JETZT, () => true, lies2), '', 'Nicht-Listenzeile')
-assert.equal(w.waechter(jetztStand('- 🟠 **F7** Frage, kann nicht'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
+assert.equal(w.waechter(jetztStand([E8, '  - **F7 Unterpunkt** — [Datei](file:///C:/code/ai/jetzt-f7.md)', E8].join('\n')), JETZT, () => true, lies2), '', 'eingerückte Zeile')
+assert.equal(w.waechter(jetztStand([E8, '**F7 lose Zeile** — [Datei](file:///C:/code/ai/jetzt-f7.md)', E8].join('\n')), JETZT, () => true, lies2), '', 'Nicht-Listenzeile')
+assert.equal(w.waechter(jetztStand('- 🟠 **F7 Frage**'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
 assert.equal(w.waechter(jetztStand(ZEILE), JETZT, () => true, () => null), '', 'Datei nicht lesbar: keine Meldung')
 assert.equal(w.waechter(jetztStand(ZEILE.replace('jetzt-f7.md', 'jetzt-f7.txt')), JETZT, () => true, () => 'kaputt'), '', 'kein .md-Link: keine Meldung')
 // Top-Prios: PR als offen geführt, aber im In-Arbeit-Kopf „gemergt heute“ (Lehre 92, 15.11.2026). Auszug aus der echten stand.md vom 15.11.2026 13:55, Pfade anonymisiert.

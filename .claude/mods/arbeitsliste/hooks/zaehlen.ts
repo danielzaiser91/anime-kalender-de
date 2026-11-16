@@ -114,13 +114,25 @@ export function klartext(roh: string): string {
     .trim()
 }
 
+// Der fette Titel am Zeilenanfang ist der Kurztitel (Konvention); alles danach ist Rest, auch „: “ in einer Klammer.
+function fetterTitel(roh: string): Eintrag | null {
+  const m = /^\s*\*\*(.+?)\*\*(.*)$/s.exec(roh)
+  if (!m) return null
+  const titel = klartext(m[1]!).replace(/[.;,:]+$/, '')
+  return { titel, rest: klartext(m[2]!).replace(/^— /, '').trim(), groesse: 'normal', links: [] }
+}
+
 export function kurz(roh: string): Eintrag {
+  const fett = fetterTitel(roh)
+  if (fett) return fett
   const klar = klartext(roh)
 
   let schnitt = klar.length
   for (const muster of [/ — /g, /: /g, /\. (?=[A-ZÄÖÜ„])/g]) {
     for (const treffer of klar.matchAll(muster)) {
-      if (treffer.index >= 20 && treffer.index < schnitt) schnitt = treffer.index
+      const davor = klar.slice(0, treffer.index)
+      const inKlammer = (davor.match(/\(/g)?.length ?? 0) > (davor.match(/\)/g)?.length ?? 0)
+      if (treffer.index >= 20 && treffer.index < schnitt && !inKlammer) schnitt = treffer.index
     }
   }
 

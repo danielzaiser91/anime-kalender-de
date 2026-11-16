@@ -115,10 +115,19 @@ function aufzaehlung(zeilen) {
 
 const KENNUNG = /\b[FE]\d+\b/
 const GRUND = /\b(?:kann|darf|soll) nicht\b/i
+const JETZT_TITEL = /^- (?:🔴|🟠|🔵)\s*(?:\[(?:groß|klein)\]\s*)?\*\*(.+?)\*\*(.*)$/su
 /** Link-Ziele zählen nicht: eine verlinkte Datei `F74-x.md` ist keine Kennung der Zeile. */
 const ohneLinkZiel = (z) => z.replace(/\]\([^)]*\)/g, ']')
 
-/** Meldungen zu „### Jetzt“: jede Handlungs-/Fragezeile trägt F<n>/E<n> und einen Grund mit Verb (Daniel 20.10.2026); 📅-Terminzeilen und Unterzeilen zählen nicht. */
+/** Jetzt-Zeilen, deren Form nicht `- <Icon> **<Titel>** — [Text](Link)` ist: Text zwischen Titel und „ — “ oder „kann/darf/soll nicht“ im Titel (Daniel, 16.11.2026: die Leiste schnitt E90 mitten in der Klammer ab). */
+function jetztFormfehler(liste) {
+  return liste.filter((z) => {
+    const m = JETZT_TITEL.exec(z)
+    return m && (GRUND.test(m[1]) || !/^(?: — .*)?$/s.test(m[2].replace(/\s*\{[^}]*\}\s*$/, '')))
+  })
+}
+
+/** Meldungen zu „### Jetzt“: jede Handlungs-/Fragezeile trägt F<n>/E<n>; der Grund „kann/darf/soll nicht“ steht in der Jetzt-Datei, nicht in der Zeile (Daniel, 16.11.2026); 📅-Terminzeilen und Unterzeilen zählen nicht. */
 function jetztZeilen(zeilen) {
   const kopf = zeilen.findIndex((z) => z.startsWith('### Jetzt'))
   if (kopf < 0) return []
@@ -128,8 +137,8 @@ function jetztZeilen(zeilen) {
   const meldungen = []
   const ohneKennung = liste.filter((z) => !KENNUNG.test(ohneLinkZiel(z)))
   if (ohneKennung.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneKennung)} ohne Kennung F<n>/E<n>`)
-  const ohneGrund = liste.filter((z) => !GRUND.test(z))
-  if (ohneGrund.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneGrund)} ohne Grund „kann/darf/soll nicht“`)
+  const form = jetztFormfehler(liste)
+  if (form.length) meldungen.push(`Jetzt: ${aufzaehlung(form)} mit Text zwischen Titel und „ — “ oder Grund im Titel — Grund gehört in die Jetzt-Datei, Abschnitt ‚Warum ich es nicht selbst tue‘`)
   return meldungen
 }
 
