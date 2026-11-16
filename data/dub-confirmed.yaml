@@ -40858,3 +40858,16 @@
   available: false
   checkedAt: '2026-11-16'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 5231
+  title: "Inazuma Eleven"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DRF2D2L7
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  checkedAt: '2026-11-16'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DRF2D2L7: 24 von 26 gelisteten Folgen geprüft (1–24), Abos: Prime, zugang=abo"
