@@ -127,3 +127,7 @@ Bericht: höchstens zehn Zeilen, Deutsch — Urteil (ok / ändern) / Befunde mit
 - **Live-Fix (Lehre 77, 16.11.2026):** Ein Fix an Live-Daten nennt im PR das betroffene Live-Feld und einen Messbefehl; ohne beides „ändern“, die Abnahme gilt erst nach geänderter Live-Ausgabe (Messbefehl nach Deploy gegen die Live-Daten, vorher/nachher).
 
 - **Neue Ausgabedatei (16.11.2026, PR 4033):** Fügt der PR eine Datei unter `data/` hinzu, die ein Lauf oder der Bau schreibt, muss sie in `ERZEUGTE_DATEIEN` (`tools/pr-nachrechnen-bot-erzeugt.mjs`) stehen, sonst „ändern“; Handdateien stehen in `ERZEUGT_AUSNAHMEN`. Der Wächter `pr-nachrechnen-bot-erzeugt.test.mjs` fängt es nur, wenn die Datei auch in `QUELLEN` steht (`tools/quellen-liste.sh`).
+
+- **Bau-Vergleich: geänderter Titel gilt als Wirkung des PR (16.11.2026, PR 4054):** Jeder Titel außerhalb des Anlasses, bis ein Lauf gegen die Merge-Basis das Gegenteil belegt.
+- **Bau-Vergleich baut mit Ersatz-Cache (16.11.2026, PR 4053):** Kennungen, die es in `public/data/releases.json` auf main nicht gibt, sind kein Befund am echten Bestand.
+- **Detektoren rechnen aus Rohdaten (16.11.2026, PR 4043):** Nicht aus Vermerken, die ein Bau-Schritt vorher setzt (`sharedWith`).
