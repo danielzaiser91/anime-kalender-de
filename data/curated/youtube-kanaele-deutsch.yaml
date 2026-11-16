@@ -1,0 +1,13 @@
+# Deutsche YouTube-Kanäle (Daniel, 16.11.2026, Handprüfung E89):
+# Ein Kanal, dessen Videos durchgehend deutsch vertont sind, belegt die deutsche Fassung
+# aller seiner Videos. Ein YouTube-Weg von einem hier geführten Kanal zählt als
+# Synchro-belegt (`dub: true`), auch ohne Tonspur-Befund.
+# `name` ist der Kanalname wörtlich wie in `data/youtube-befunde.json` (oEmbed `author_name`).
+# Nur aufnehmen, was als durchgehend deutsch belegt ist. Ein Label, das auch Originalton mit
+# Untertiteln hochlädt, gehört nicht hierher (peppermint anime, gemessen 16.11.2026: Trailer
+# „OmU“, „German Sub“, „JapDub GerSub“); dort belegt der Handbeleg das einzelne Video.
+# Die Handprüfung (`data/dub-confirmed.yaml`) hat Vorrang.
+kanaele:
+  - name: Offizieller Pokémon Youtube Kanal
+    handle: "@Pokemonoffiziell"
+    begruendung: Offizieller deutscher Pokémon-Kanal; Daniel 16.11.2026 sah drei Videos deutsch vertont (Entwicklungen, Winde aus Paldea, Meisterdetektiv Pikachu); Prüfer 16.11.2026 las die 30 neuesten Videos und alle Playlist-Namen, alle deutsch.
