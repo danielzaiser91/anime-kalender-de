@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 48
+    "2026-11": 52
   },
   "gesehen": {
     "26341901:netflix": {
@@ -12232,7 +12232,139 @@
       "am": "2026-11-14",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:25225:netflix": {
+      "art": "new",
+      "titel": "Angel Eyes",
+      "originalTitel": "엔젤 아이즈",
+      "imdbId": "tt3681890",
+      "tmdbId": "tv/63787",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:35819:netflix": {
+      "art": "new",
+      "titel": "Painter of the Wind",
+      "originalTitel": "바람의 화원",
+      "imdbId": "tt2288104",
+      "tmdbId": "tv/44573",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:26013:netflix": {
+      "art": "new",
+      "titel": "Mask",
+      "originalTitel": "가면",
+      "imdbId": "tt4714786",
+      "tmdbId": "tv/62806",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27521120:netflix": {
+      "art": "new",
+      "titel": "How to Ruin Diwali: Meet the Parents",
+      "originalTitel": "How to Ruin Diwali: Meet the Parents",
+      "imdbId": "tt45859537",
+      "tmdbId": "tv/336241",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27521169:netflix": {
+      "art": "new",
+      "titel": "Shadows of the Ten Ninja",
+      "originalTitel": "真田十勇士 SHADOWS OF THE TEN NINJA",
+      "imdbId": "tt49276663",
+      "tmdbId": "tv/332649",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:23720:netflix": {
+      "art": "new",
+      "titel": "High Society",
+      "originalTitel": "상류사회",
+      "imdbId": "tt4768948",
+      "tmdbId": "tv/62863",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27519971:netflix": {
+      "art": "new",
+      "titel": "Political Lupin",
+      "originalTitel": "ポリティカルパン",
+      "imdbId": "tt49795345",
+      "tmdbId": "tv/332261",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:58971:netflix": {
+      "art": "new",
+      "titel": "The Chaser",
+      "originalTitel": "추적자",
+      "imdbId": "tt3032596",
+      "tmdbId": "tv/44729",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:9560:netflix": {
+      "art": "new",
+      "titel": "The Great Doctor",
+      "originalTitel": "신의",
+      "imdbId": "tt2373094",
+      "tmdbId": "tv/44821",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:33357:netflix": {
+      "art": "new",
+      "titel": "Modern Farmer",
+      "originalTitel": "모던파머",
+      "imdbId": "tt4135572",
+      "tmdbId": "tv/61613",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27520406:netflix": {
+      "art": "new",
+      "titel": "Extraordinary Attorney Minami",
+      "originalTitel": "南田南弁護士は天才肌",
+      "imdbId": "tt44840674",
+      "tmdbId": "tv/332713",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27301108:netflix": {
+      "art": "new",
+      "titel": "Cunk on Cinema",
+      "originalTitel": "Cunk on Cinema",
+      "imdbId": "tt47021035",
+      "tmdbId": "tv/335981",
+      "dienst": "netflix",
+      "am": "2026-11-15",
+      "deutsch": false,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-15T04:10:58.650Z"
+  "fetchedAt": "2026-11-16T04:08:26.865Z"
 }
