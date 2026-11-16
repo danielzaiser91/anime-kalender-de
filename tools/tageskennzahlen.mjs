@@ -210,6 +210,15 @@ export function erzeugeZeilen(von, bis, jetzt, q) {
   return { zeilen: tageZwischen(von, bis).map((tag) => JSON.stringify(tageszeile(tag, daten))), anzahl: [prs.length, laeufe.length, commits.length] }
 }
 
+function kontingentOderAbbruch(tage) {
+  try {
+    pruefeKontingent(Number(ausfuehren('gh', ['api', 'rate_limit', '--jq', '.resources.core.remaining']).trim()), tage)
+  } catch (fehler) {
+    console.error(`FEHLER (Kontingent): ${fehler.message}`)
+    process.exit(1)
+  }
+}
+
 function bestehendeZeilen() {
   return existsSync(AUSGABE) ? readFileSync(AUSGABE, 'utf8') : ''
 }
@@ -223,14 +232,11 @@ function main(argv) {
     console.error(`FEHLER: --von=${von} und --bis=${bis} müssen Tage (JJJJ-MM-TT) sein, von nicht nach bis`)
     process.exit(1)
   }
-  try {
-    pruefeKontingent(Number(ausfuehren('gh', ['api', 'rate_limit', '--jq', '.resources.core.remaining']).trim()), tageZwischen(von, bis).length)
-  } catch (fehler) {
-    console.error(`FEHLER (Kontingent): ${fehler.message}`)
-    process.exit(1)
-  }
   const q = {
-    prs: holePrs,
+    prs: () => { // erster Abruf nach dem Lehren-Check: fehlt die Datei, kostet das keine Anfrage
+      kontingentOderAbbruch(tageZwischen(von, bis).length)
+      return holePrs()
+    },
     commits: holeCommits,
     laeufe: holeLaeufe,
     urteile: holeUrteile,
