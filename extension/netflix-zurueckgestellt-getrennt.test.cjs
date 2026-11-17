@@ -196,6 +196,27 @@ async function geaendertMeldung() {
   pruefe('geaendert: nach dem Schreiben noch einmal (2)', n === 2, n)
 }
 
+/** Jede Änderung der Merkliste steht im Zustandsprotokoll (4071, Schnitt 3): Art, Titel, bei „gesetzt“ Grund und Ablauf. */
+async function protokoll() {
+  const eintraege = []
+  kontext.akProtokoll = (art, daten) => eintraege.push({ art, ...daten })
+  const s = speicherNeu()
+  const a = await seite(s, ZEHN, { datum: '16. Oktober' })
+  a.karte.set('4', 'Erinnern statt Folgenliste')
+  a.karte.set('5', 'keine Folgenliste')
+  await a.karte.geladen()
+  a.karte.set('5', 'fertig')
+  await a.karte.geladen()
+  const kurz = (e) => e.filter((x) => x.art === 'merkliste').map((x) => `${x.aenderung}:${x.kennung}`)
+  pruefe('Protokoll: zwei Zurückstellungen und ein Entfernen stehen als „merkliste“-Ereignisse da', kurz(eintraege).join() === 'gesetzt:4,gesetzt:5,entfernt:5', kurz(eintraege))
+  pruefe('Protokoll: „gesetzt“ trägt Grund und Ablauf', eintraege[0]?.grund === 'Erinnern statt Folgenliste' && eintraege[0]?.bis > ZEHN, eintraege[0])
+  eintraege.length = 0
+  const spaeter = await seite(s, ZEHN + 2 * TAG)
+  await spaeter.karte.geladen()
+  pruefe('Protokoll: ein abgelaufener Eintrag steht als „abgelaufen“ da', kurz(eintraege).join() === 'abgelaufen:4', kurz(eintraege))
+  delete kontext.akProtokoll
+}
+
 async function haupt() {
   await zaehlerUndAuswahl()
   await stundenregel()
@@ -203,6 +224,7 @@ async function haupt() {
   kopfText()
   await geaendertMeldung()
   await verdrahtung()
+  await protokoll()
   console.log('')
   if (fehler.length) {
     console.log(`${fehler.length} Prüfung(en) fehlgeschlagen`)

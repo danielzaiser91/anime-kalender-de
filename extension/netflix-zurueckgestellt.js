@@ -186,17 +186,18 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
   const umgebung = zurueckMitMelden(roh, () => stand)
   let bereit = Promise.resolve()
 
-  /** Änderungen laufen nacheinander, erst nach dem Laden, und schreiben den ganzen Stand. */
-  const aendern = (fn) => {
+  /** Änderungen laufen nacheinander, erst nach dem Laden, und schreiben den ganzen Stand; `ereignis` (Art, Kennung) kommt ins Zustandsprotokoll. */
+  const aendern = (fn, ereignis) => {
     bereit = bereit
       .then(() => {
         fn(stand)
+        globalThis.akProtokoll?.('merkliste', ereignis)
         return speicher.set({ [ZURUECK_SCHLUESSEL]: stand })
       })
       .then(() => umgebung.geaendert?.())
       .catch(() => {})
   }
-  const entfernen = (kennung) => aendern((s) => delete s[kennung])
+  const entfernen = (kennung, aenderung = 'entfernt') => aendern((s) => delete s[kennung], { aenderung, kennung })
 
   const gelistet = (kennung) => titel[kennung] !== undefined
   const istFertig = (kennung) => gelistet(kennung) && fertig(kennung, titel[kennung])
@@ -205,7 +206,7 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
     const e = stand[kennung]
     if (!e) return false
     if (e.bis <= jetzt() || istFertig(kennung)) {
-      entfernen(kennung)
+      entfernen(kennung, e.bis <= jetzt() ? 'abgelaufen' : 'fertig')
       return false
     }
     return true
@@ -231,7 +232,7 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
       else {
         const bis = zurueckBis(grund, /^Erinnern/.test(grund) ? datum() : null, jetzt())
         const am = jetzt()
-        aendern((s) => (s[k] = { grund, bis, am }))
+        aendern((s) => (s[k] = { grund, bis, am }), { aenderung: 'gesetzt', kennung: k, grund, bis })
       }
       return super.set(kennung, grund)
     }
