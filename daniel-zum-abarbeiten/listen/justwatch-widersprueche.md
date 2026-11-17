@@ -234,7 +234,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Recovery of an MMO Junkie (99726) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.7645eda3-ae24-4e1b-9346-68e637e86b6f | nein |
 | Kase-san and Morning Glories (99916) | Crunchyroll | crunchyroll:G0DUN934P | ja |
 | Re:Zero - Starting Life in Another World: Memory Snow (100049) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.0c604abb-a157-43f1-9465-c30370daeade | nein |
-| Digimon Adventure tri. 6: Bokura no Mirai (100181) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.be712102-f745-40a0-9c98-7b895068d9fa | nein |
+| Digimon Adventure tri. - Chapter 6: Our Future (100181) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.be712102-f745-40a0-9c98-7b895068d9fa | nein |
 | Tada Never Falls in Love (100179) | Amazon Prime Video | amazon:amzn1.dv.gti.b9a8ec9f-c984-4fc8-8556-fa25eed79a4b | ja |
 | Attack on Titan Movie Teil 3: Gebrüll des Erwachens (100465) | Crunchyroll | crunchyroll:G4VUQM20W | ja |
 | My Hero Academia: Two Heroes (100723) | Crunchyroll | crunchyroll:GQJUGVWQ1 | nein |
