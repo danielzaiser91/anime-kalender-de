@@ -18,6 +18,7 @@
  * Mutanten, bei Abbruch (Signal) und beim Ende; Rest eines toten Laufs verweigert den Start.
  * Vor dem Testlauf druckt der Läufer je Mutant `@@ Datei:Zeile` mit `-`/`+`-Zeilen; ändert die Änderung den Text nicht
  * (suche == ersetze), gilt der Mutant als „wirkungslos“ (unbrauchbar, Exit 1) und die Tests laufen nicht.
+ * Mutant ohne ausführbaren Testbefehl (fehlt, leer): „unbrauchbar“, wird nicht gefahren; Liste ganz ohne Test: Exit 1.
  * Exit 0 alle rot (Kontrollen grün), 1 Überlebende/unbrauchbare, 2 Aufruf/Grundlauf rot/Rückspiel kaputt.
  */
 import { execFileSync, spawn } from "node:child_process"
@@ -163,6 +164,10 @@ export function laufTest(befehl, cwd, timeoutSek) {
   })
 }
 
+// Leerer oder nur aus Leerraum bestehender Befehl läuft in der Shell als „grün“: nie als Test zählen (Lehre 132, 17.11.2026).
+export const ausfuehrbareTests = (tests) => (tests ?? []).filter((t) => typeof t === "string" && t.trim() !== "")
+const testsVon = (m, opt) => ausfuehrbareTests(m.tests ?? opt.tests)
+
 // Tests der Reihe nach, beim ersten roten Schluss: { urteil, fangend, ausgabe }.
 export async function probiereTests(tests, cwd, timeout) {
   for (const t of tests) {
@@ -216,13 +221,14 @@ export function schlusszeile(zeilen) {
     `${zahl("nicht gefunden")} Anker nicht gefunden`,
     `${zahl("mehrdeutig")} mehrdeutig`,
     `${zahl("wirkungslos")} wirkungslos`,
+    ...(zeilen.some((z) => z.urteil === "unbrauchbar") ? [`${zeilen.filter((z) => z.urteil === "unbrauchbar").length} unbrauchbar (kein Testbefehl)`] : []),
     `${zeilen.length} gesamt`,
   ]
   return `mutationslaeufer: ${teile.join(", ")}`
 }
 
 async function lauf(opt, mutanten, originale) {
-  const grund = new Set(mutanten.flatMap((m) => m.tests ?? opt.tests))
+  const grund = new Set(mutanten.flatMap((m) => testsVon(m, opt)))
   for (const t of grund) {
     const r = await laufTest(t, opt.cwd, opt.timeout)
     if (!r.gruen) {
@@ -233,11 +239,13 @@ async function lauf(opt, mutanten, originale) {
   const zeilen = []
   for (const m of mutanten) {
     const plan = planeMutant(m, originale, opt.cwd)
+    const tests = testsVon(m, opt)
     let z = { m, kontrolle: m.aenderungen.length === 0, ...plan }
     if (plan.diff) console.log(`--- ${m.name}\n${plan.diff.join("\n")}`)
-    if (plan.texte) {
+    if (plan.texte && tests.length === 0) z = { ...z, texte: undefined, urteil: "unbrauchbar", detail: "kein Testbefehl" }
+    if (z.texte) {
       for (const [pfad, text] of plan.texte) writeFileSync(pfad, text)
-      z = { ...z, ...(await probiereTests(m.tests ?? opt.tests, opt.cwd, opt.timeout)) }
+      z = { ...z, ...(await probiereTests(tests, opt.cwd, opt.timeout)) }
       for (const [pfad, bytes] of originale) writeFileSync(pfad, bytes)
     }
     zeilen.push(z)
@@ -289,9 +297,10 @@ export async function main(argv) {
     return 2
   }
   const mutanten = kontrollenMitTests(normalisiereListe(parseListeText(readFileSync(normalisierePfad(opt.liste, process.cwd(), process.platform), "utf8"))), opt.tests)
-  if (mutanten.some((m) => (m.tests ?? opt.tests).length === 0)) {
-    console.error("Kein Testbefehl: --test oder tests je Mutant angeben")
-    return 2
+  // Ohne einen einzigen ausführbaren Test wäre „alle grün“ wertlos: die Liste ist unbrauchbar, nicht grün.
+  if (mutanten.every((m) => m.aenderungen.length === 0 || testsVon(m, opt).length === 0)) {
+    console.log("mutationslaeufer: unbrauchbar, kein Testbefehl in der Liste (--test oder tests je Mutant angeben)")
+    return 1
   }
   const originale = new Map()
   for (const m of mutanten) {
