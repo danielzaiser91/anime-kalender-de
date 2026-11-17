@@ -172,7 +172,8 @@ const weiterLaufen = (o = {}) => {
   const welt = { gegangen: [], speicher, merker: null, beendet: [], begonnen: [], gezaehlt: null, zaehler: [] }
   const f = new Function(
     'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'nichtDaTun',
-    `const akNetflixErledigtZaehlen = () => {}
+    `const verbindungLebt = () => true
+const akNetflixErledigtZaehlen = () => {}
 let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
 ${funktionText('function selbstWeiter(frei = 0, nichtDa = false, kennung = null)')}
 selbstWeiter(frei)
@@ -338,7 +339,8 @@ const taktLaufen = (o = {}) => {
   }
   const f = new Function(
     'selbstAn', 'DURCHLAUF', 'location', 'zuletztGeoeffnet', 'offeneTitel', 'akNetflixUmgeleitet', 'Date', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'selbstStartenSchritt', 'laufBeenden', 'akNetflixSelbstTakt', 'durchgangBesitzer', 'meinTab', 'bremse', 'taktTun', 'akProfilwahlSeite', 'document', 'nichtDaTun',
-    `${funktionText('async function vielleichtSelbstStarten()')}\nreturn vielleichtSelbstStarten()`,
+    `const verbindungLebt = () => true
+${funktionText('async function vielleichtSelbstStarten()')}\nreturn vielleichtSelbstStarten()`,
   )
   return f(
     welt.selbstAn, welt.DURCHLAUF, welt.location, welt.zuletztGeoeffnet, welt.offeneTitel, akNetflixUmgeleitet, jetzt(6000), () => {}, z.uebersprungen,

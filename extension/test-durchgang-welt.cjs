@@ -64,7 +64,7 @@ function kontextBauen(zeit) {
 }
 
 /** Das Netz und der Worker: Antwortzeiten aus `probeMs(i)` / `postMs(i)`; `probeHaengt(id)`: die Vorprüfung antwortet nie (die Frist von 5 s bricht sie ab). */
-function netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaengt, beiProbe }) {
+function netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaengt, beiProbe, beiPost, lebendig }) {
   let probeNr = 0
   let postNr = 0
   const antwort = (id, signal) => new Promise((ok, nein) => {
@@ -78,6 +78,7 @@ function netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaeng
   const totMelden = async (id) => {
     const i = postNr++
     w.posts.push([id, zeit.uhr.t])
+    beiPost?.(id, lebendig)
     await zeit.warte(postMs(i))
     frisch.add(String(id))
     return { ok: true, text: 'ok' }
@@ -90,7 +91,7 @@ function melderBauen(k, a) {
   const bauen = new Function(
     'akNetflixNichtDaTun', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixErledigtZaehlen', 'akNetflixBericht', 'akDurchgangSchutz',
     'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig',
-    'laufBeenden', 'titelBericht', 'speicherSchreiben', 'meinTab', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'Date', 'console', 'frisch', 'istErledigt', 'gemeinteReihe',
+    'laufBeenden', 'titelBericht', 'speicherSchreiben', 'meinTab', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'Date', 'console', 'frisch', 'istErledigt', 'gemeinteReihe', 'verbindungLebt',
     `let selbstGezaehlt = akNetflixZaehlerStand().gezaehlt
 let selbstGrenze = akNetflixZaehlerStand().grenze
 let zuletztGeoeffnet = null
@@ -104,7 +105,7 @@ return { selbstWeiter, nichtDaTun, zuletzt: () => zuletztGeoeffnet, gezaehlt: ()
     a.totMelden, a.offeneTitel, a.uebersprungen, (...x) => a.w.spur.push(x), a.gehe, true, a.bremse, () => false, {},
     (u, i) => a.antwort(String(u).replace('/title/', ''), i.signal),
     (id) => a.frisch.has(String(id)),
-    (g) => a.w.beendet.push(g), { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id,
+    (g) => a.w.beendet.push(g), { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id, () => a.lebendig.an,
   )
 }
 
@@ -115,6 +116,7 @@ function ergebnisAus(k, w, bauteil) {
   const fortschritt = k.akNetflixFortschrittStand(bauteil.gezaehlt(), bauteil.grenze())
   const ergebnis = {
     posts: w.posts.length,
+    proben: w.proben.length,
     postIds: w.posts.map(([id]) => id),
     erledigtIds: k.akNetflixLaufLesen(k.sessionStorage, 'ak-netflix-erledigt'),
     doppelt: Object.entries(proTitel).filter(([, n]) => n > 1).map(([id, n]) => `${id}×${n}`),
@@ -134,7 +136,7 @@ function ergebnisAus(k, w, bauteil) {
  * Ein Durchgang über elf Titel auf virtueller Uhr. `probeMs(i)` / `postMs(i)`: Antwortzeit der i-ten Vorprüfung und des i-ten
  * Posts (ms); `probeHaengt(id)`; `beiProbe(id, { frisch, uebersprungen })`: etwas geschieht, während die Vorprüfung dieses Titels läuft.
  */
-async function durchgang({ probeMs, postMs, probeHaengt = () => false, beiProbe = null, dauerMs = 60000 }) {
+async function durchgang({ probeMs, postMs, probeHaengt = () => false, beiProbe = null, beiPost = null, dauerMs = 60000 }) {
   const zeit = virtuelleUhr()
   const k = kontextBauen(zeit)
   const w = { posts: [], proben: [], gehe: [], spur: [], beendet: [] }
@@ -143,10 +145,11 @@ async function durchgang({ probeMs, postMs, probeHaengt = () => false, beiProbe 
   const offeneTitel = Object.fromEntries(TITEL.map((id) => [id, { titel: `Titel ${id}`, staffeln: [{ nr: 1, offen: true }] }]))
   const uebersprungen = Object.assign(new Map(), { nichtOffen: () => false })
   const frisch = new Set() // `frischGemeldetNetflix`: die Meldung dieser Sitzung, nach dem Post
-  const netz = netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaengt, beiProbe })
+  const lebendig = { an: true } // die Verbindung der Erweiterung (`akKontext.lebt()`)
+  const netz = netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaengt, beiProbe, beiPost, lebendig })
   let bauteil = null
   const bremse = { pause: () => null, offen: () => 0, ausgeschlossen: () => false, beleg() {} }
-  bauteil = melderBauen(k, { ...netz, w, gehe, frisch, offeneTitel, uebersprungen, bremse, ziel: () => bauteil?.zuletzt() })
+  bauteil = melderBauen(k, { ...netz, w, gehe, frisch, offeneTitel, uebersprungen, bremse, lebendig, ziel: () => bauteil?.zuletzt() })
 
   /* Der Sekundentakt von `vielleichtSelbstStarten`: steht die Seite auf der Startseite, geht `akNetflixUmgeleitet` weiter. */
   const takt = () => {

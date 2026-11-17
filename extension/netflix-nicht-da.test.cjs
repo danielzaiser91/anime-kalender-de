@@ -237,7 +237,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
     k.akNetflixNichtDa().clear() // Beginn eines Durchgangs: die Urteile des vorigen Laufs gehen
     const w = { melden: [], abrufe: [], weiter: [], gehe: [], spur: [] }
     const welt = { selbstAn: true, profil: false, antwort: antwort('/browse', true), ...o }
-    const tunW = new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig', `${zeileNichtDa}\nreturn nichtDaTun`)(
+    const tunW = new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig', 'verbindungLebt', `${zeileNichtDa}\nreturn nichtDaTun`)(
       k.akNetflixNichtDaTun,
       async (...a) => { w.melden.push(a); return { ok: true, text: 'ok' } },
       { 5: { titel: 'Fünf' } },
@@ -251,12 +251,16 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
       { marke: 'dokument' },
       async (u, i) => { w.abrufe.push([u, i.credentials, Boolean(i.signal)]); return welt.antwort },
       () => false,
+      () => welt.lebt !== false,
     )
     return { w, tunW }
   }
   let v = verdrahtet()
   await v.tunW.sprung('5')
   pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe, Spur', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1,true,"5"]]' && v.w.gehe.length === 0 && v.w.spur.some((s) => s[0] === 'nicht bei Netflix gemeldet' && s[1].reihe === '5'), v.w)
+  v = verdrahtet({ lebt: false })
+  await v.tunW.sprung('5')
+  pruefe('melder.js: bei totem Kontext keine Anfrage bei Netflix (Vorprüfung)', v.w.abrufe.length === 0, v.w)
   v = verdrahtet({ profil: true })
   await v.tunW.sprung('5')
   pruefe('melder.js: Profilauswahl sichtbar → kein Abruf, kein Urteil, der Sprung geht (gehe)', v.w.abrufe.length === 0 && v.w.melden.length === 0 && JSON.stringify(v.w.gehe) === '["/title/5"]', v.w)
@@ -273,8 +277,8 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   const uM = new Map()
   v = verdrahtet({ uebersprungen: uM })
   v.w.melden.length = 0
-  await new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig', `${zeileNichtDa}\nreturn nichtDaTun.urteil('5', 'Grund')`)(
-    k.akNetflixNichtDaTun, async () => ({ ok: false, text: 'x' }), {}, uM, () => {}, () => {}, () => {}, true, neu(), () => false, {}, async () => antwort('/browse', true), () => false)
+  await new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig', 'verbindungLebt', `${zeileNichtDa}\nreturn nichtDaTun.urteil('5', 'Grund')`)(
+    k.akNetflixNichtDaTun, async () => ({ ok: false, text: 'x' }), {}, uM, () => {}, () => {}, () => {}, true, neu(), () => false, {}, async () => antwort('/browse', true), () => false, () => true)
   pruefe('melder.js: scheitert totMelden, landet der Titel in selbstUebersprungen', uM.get('5') === 'Grund', [...uM])
 
   /* --- totMelden: der Grund steht in der Notiz, ohne Grund die Knopf-Notiz --- */
