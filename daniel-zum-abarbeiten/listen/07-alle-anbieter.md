@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-17 · **188 offene Verweise** in **143 Zeilen**.
+Stand 2026-11-18 · **188 offene Verweise** in **143 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
