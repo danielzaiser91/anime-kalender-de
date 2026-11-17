@@ -175,6 +175,8 @@ globalThis.akNetflixUmgeleitet = (o, tun) => {
   if (seit < NETFLIX_UMLEITUNG_NACH_MS || seit > NETFLIX_UMLEITUNG_BIS_MS) return false
   const kennung = String(o.ziel.id)
   if (tun.uebersprungen.has(kennung) || o.profilwahl) return false
+  /* Hat die Vorprüfung dieses Titels das Urteil schon in der Hand (oder abgegeben), geht sie selbst weiter: ein Urteil, ein `weiter` je Titel (4071). */
+  if (tun.nichtDa?.besetzt?.(kennung)) return true
   tun.spur('Netflix leitet auf die Startseite um', { reihe: kennung })
   if (tun.nichtDa) tun.nichtDa.urteil(kennung, 'Umleitung auf Startseite')
   else tun.uebersprungen.set(kennung, 'Netflix leitet auf die Startseite um')
@@ -206,34 +208,55 @@ globalThis.akNetflixUmleitungProbe = async (id, o) => {
 
 /**
  * Urteil „nicht bei Netflix“ über den Meldeweg des Knopfes (`melden`, Grund in der Notiz). Gelingt die Meldung nicht (kein Token,
- * Netz), ist es kein Urteil: der Titel wird wie bisher zurückgestellt. `o`: `{ melden(id, titel, grund), titel(id), nichtDa (Map), uebersprungen, spur }`.
+ * Netz), ist es kein Urteil: der Titel wird wie bisher zurückgestellt. `o`: `{ melden(id, titel, grund), titel(id), nichtDa (Map), unterwegs (Set), uebersprungen, spur }`.
+ * Ein Urteil je Titel (4071): Das Merken „unterwegs“ steht vor dem Post, ein zweiter Aufruf für denselben Titel kehrt mit `false` zurück
+ * (`true`: dieser Aufruf hat das Urteil geschickt und geht danach weiter). `unterwegs` liegt nur im Tab: nach einem Neuladen gilt der Titel wieder als offen.
  */
 globalThis.akNetflixNichtDaUrteil = async (kennung, grund, o) => {
   const id = String(kennung)
-  const r = await o.melden(id, o.titel(id), grund)
-  o.spur(r.ok ? 'nicht bei Netflix gemeldet' : 'Meldung „nicht bei Netflix“ gescheitert', { reihe: id, grund, text: r.text })
-  if (r.ok) o.nichtDa.set(id, grund)
-  else o.uebersprungen.set(id, grund)
+  if (o.unterwegs.has(id) || o.nichtDa.has(id)) return false
+  o.unterwegs.add(id)
+  try {
+    const r = await o.melden(id, o.titel(id), grund)
+    o.spur(r.ok ? 'nicht bei Netflix gemeldet' : 'Meldung „nicht bei Netflix“ gescheitert', { reihe: id, grund, text: r.text })
+    if (r.ok) o.nichtDa.set(id, grund)
+    else o.uebersprungen.set(id, grund)
+  } finally {
+    o.unterwegs.delete(id)
+  }
+  return true
 }
 
-/** Der Sprung zum nächsten Titel: erst die Vorprüfung, bei Umleitung Urteil und `weiter(1)` (Sprung zurückgegeben), sonst `gehe`. `tun`: `{ aktiv, gehe, weiter, probe(id), urteil(id, grund), beleg }`. */
+/**
+ * Der Sprung zum nächsten Titel: erst die Vorprüfung, bei Umleitung Urteil und `weiter(1)` (Sprung zurückgegeben), sonst `gehe`.
+ * `tun`: `{ aktiv, gehe, weiter, probe(id), urteil(id, grund), beleg, beurteilt?(id), besetzt?(id) }`. Hat während der Vorprüfung ein anderer Weg den Titel
+ * beurteilt oder gemeldet (4071: der Takt, eine Meldung aus der Liste), folgt weder ein Sprung noch ein zweites Urteil.
+ */
 globalThis.akNetflixSprung = async (id, tun) => {
   const umgeleitet = await tun.probe(id)
   if (!tun.aktiv()) return
+  if (tun.beurteilt?.(id)) {
+    /* Ist ein Urteil unterwegs oder gefallen, geht dessen Aufrufer weiter. Sonst (anders gemeldet, übersprungen) geht dieser Sprung zurück: bliebe `zuletztGeoeffnet` auf dem Titel, hielte der Takt die Startseite für eine Umleitung. */
+    if (!tun.besetzt?.(id)) tun.weiter(1, true, id)
+    return
+  }
   if (!umgeleitet) return tun.gehe(`/title/${id}`)
   tun.beleg()
   await tun.urteil(id, 'Umleitung auf Startseite')
-  tun.weiter(1, true)
+  tun.weiter(1, true, id)
 }
 
 /**
  * Die Bausteine des Urteils für `melder.js`: `urteil(id, grund)` meldet und merkt,
- * `sprung(id)` = `akNetflixSprung` mit Vorprüfung. `o`: `{ melden, offeneTitel, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch }`.
+ * `sprung(id)` = `akNetflixSprung` mit Vorprüfung, `besetzt(id)`: das Urteil ist unterwegs oder gefallen (der Takt geht dann nicht selbst weiter).
+ * `o`: `{ melden, offeneTitel, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch, erledigt?(id) (laut Prüfliste nicht mehr offen) }`.
  */
 globalThis.akNetflixNichtDaTun = (o) => {
-  const ort = { melden: o.melden, titel: (id) => o.offeneTitel[id]?.titel ?? id, nichtDa: globalThis.akNetflixNichtDa(), uebersprungen: o.uebersprungen, spur: o.spur }
+  const ort = { melden: o.melden, titel: (id) => o.offeneTitel[id]?.titel ?? id, nichtDa: globalThis.akNetflixNichtDa(), unterwegs: new Set(), uebersprungen: o.uebersprungen, spur: o.spur }
   const urteil = (id, grund) => globalThis.akNetflixNichtDaUrteil(id, grund, ort)
   const probe = (id) => globalThis.akNetflixUmleitungProbe(id, { fetch: o.fetch, profilwahl: o.profilwahl, spur: o.spur })
-  const sprung = (id) => globalThis.akNetflixSprung(id, { probe, urteil, aktiv: o.aktiv, gehe: o.gehe, weiter: o.weiter, beleg: () => o.bremse.beleg() })
-  return { urteil, sprung }
+  const besetzt = (id) => ort.unterwegs.has(String(id)) || ort.nichtDa.has(String(id))
+  const beurteilt = (id) => besetzt(id) || o.uebersprungen.has(String(id)) || Boolean(o.erledigt?.(id))
+  const sprung = (id) => globalThis.akNetflixSprung(id, { probe, urteil, beurteilt, besetzt, aktiv: o.aktiv, gehe: o.gehe, weiter: o.weiter, beleg: () => o.bremse.beleg() })
+  return { urteil, sprung, besetzt }
 }

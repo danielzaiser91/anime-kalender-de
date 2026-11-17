@@ -68,7 +68,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
     return w
   }
   let w = await sprung({ umgeleitet: true })
-  pruefe('Umleitung: Urteil „Umleitung auf Startseite“, Sitzungsbeleg, weiter(1) (Sprung zurückgegeben), kein gehe', JSON.stringify(w) === JSON.stringify({ gehe: [], weiter: [[1, true]], urteil: [['81196818', 'Umleitung auf Startseite']], beleg: 1 }), w)
+  pruefe('Umleitung: Urteil „Umleitung auf Startseite“, Sitzungsbeleg, weiter(1) (Sprung zurückgegeben), kein gehe', JSON.stringify(w) === JSON.stringify({ gehe: [], weiter: [[1, true, '81196818']], urteil: [['81196818', 'Umleitung auf Startseite']], beleg: 1 }), w)
   w = await sprung({ umgeleitet: false })
   pruefe('keine Umleitung: gehe /title/<id>, kein Urteil, kein weiter', JSON.stringify(w) === JSON.stringify({ gehe: ['/title/81196818'], weiter: [], urteil: [], beleg: 0 }), w)
   w = await sprung({ umgeleitet: true, aktiv: false })
@@ -86,6 +86,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
       melden: async (...a) => { gemeldet.push(a); return ok ? { ok: true, text: 'als tot gemeldet' } : { ok: false, text: 'Kein Token' } },
       titel: (id) => `Titel ${id}`,
       nichtDa,
+      unterwegs: new Set(),
       uebersprungen,
       spur: (...x) => spuren.push(x),
     })
@@ -191,7 +192,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
     fetch: async () => antwort('/browse', true),
   })
   await tun.sprung('81196818')
-  pruefe('Fabrik: Umleitung → Meldung mit Titel und Grund, weiter(1), kein gehe', JSON.stringify(f.melden) === '[["81196818","Cautious Hero","Umleitung auf Startseite"]]' && JSON.stringify(f.weiter) === '[[1,true]]' && f.gehe.length === 0, f)
+  pruefe('Fabrik: Umleitung → Meldung mit Titel und Grund, weiter(1), kein gehe', JSON.stringify(f.melden) === '[["81196818","Cautious Hero","Umleitung auf Startseite"]]' && JSON.stringify(f.weiter) === '[[1,true,"81196818"]]' && f.gehe.length === 0, f)
   pruefe('Fabrik: das Urteil steht in der Zählung des Endberichts', k.akNetflixNichtDa().get('81196818') === 'Umleitung auf Startseite')
   pruefe('Fabrik: der Umleitungs-Beleg liegt an der Bremse (das nächste UI3012 ist Urteil, danach wieder Sitzung)', ui(bF, '2').nd.length === 1 && ui(bF, '3').nd.length === 0)
   const f2 = { gehe: [] }
@@ -233,9 +234,10 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   const zeileNichtDa = melderText.split('\n').find((z) => z.startsWith('const nichtDaTun = '))
   pruefe('melder.js: Zeile der Verdrahtung gefunden', Boolean(zeileNichtDa))
   const verdrahtet = (o = {}) => {
+    k.akNetflixNichtDa().clear() // Beginn eines Durchgangs: die Urteile des vorigen Laufs gehen
     const w = { melden: [], abrufe: [], weiter: [], gehe: [], spur: [] }
     const welt = { selbstAn: true, profil: false, antwort: antwort('/browse', true), ...o }
-    const tunW = new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', `${zeileNichtDa}\nreturn nichtDaTun`)(
+    const tunW = new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig', `${zeileNichtDa}\nreturn nichtDaTun`)(
       k.akNetflixNichtDaTun,
       async (...a) => { w.melden.push(a); return { ok: true, text: 'ok' } },
       { 5: { titel: 'Fünf' } },
@@ -248,12 +250,13 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
       () => welt.profil,
       { marke: 'dokument' },
       async (u, i) => { w.abrufe.push([u, i.credentials, Boolean(i.signal)]); return welt.antwort },
+      () => false,
     )
     return { w, tunW }
   }
   let v = verdrahtet()
   await v.tunW.sprung('5')
-  pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe, Spur', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1,true]]' && v.w.gehe.length === 0 && v.w.spur.some((s) => s[0] === 'nicht bei Netflix gemeldet' && s[1].reihe === '5'), v.w)
+  pruefe('melder.js: Umleitung → Abruf /title/5 mit Cookies und Frist, Meldung mit Titel und Grund, selbstWeiter(1), kein gehe, Spur', JSON.stringify(v.w.abrufe) === '[["/title/5","same-origin",true]]' && JSON.stringify(v.w.melden) === '[["5","Fünf","Umleitung auf Startseite"]]' && JSON.stringify(v.w.weiter) === '[[1,true,"5"]]' && v.w.gehe.length === 0 && v.w.spur.some((s) => s[0] === 'nicht bei Netflix gemeldet' && s[1].reihe === '5'), v.w)
   v = verdrahtet({ profil: true })
   await v.tunW.sprung('5')
   pruefe('melder.js: Profilauswahl sichtbar → kein Abruf, kein Urteil, der Sprung geht (gehe)', v.w.abrufe.length === 0 && v.w.melden.length === 0 && JSON.stringify(v.w.gehe) === '["/title/5"]', v.w)
@@ -270,8 +273,8 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   const uM = new Map()
   v = verdrahtet({ uebersprungen: uM })
   v.w.melden.length = 0
-  await new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', `${zeileNichtDa}\nreturn nichtDaTun.urteil('5', 'Grund')`)(
-    k.akNetflixNichtDaTun, async () => ({ ok: false, text: 'x' }), {}, uM, () => {}, () => {}, () => {}, true, neu(), () => false, {}, async () => antwort('/browse', true))
+  await new Function('akNetflixNichtDaTun', 'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstWeiter', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig', `${zeileNichtDa}\nreturn nichtDaTun.urteil('5', 'Grund')`)(
+    k.akNetflixNichtDaTun, async () => ({ ok: false, text: 'x' }), {}, uM, () => {}, () => {}, () => {}, true, neu(), () => false, {}, async () => antwort('/browse', true), () => false)
   pruefe('melder.js: scheitert totMelden, landet der Titel in selbstUebersprungen', uM.get('5') === 'Grund', [...uM])
 
   /* --- totMelden: der Grund steht in der Notiz, ohne Grund die Knopf-Notiz --- */

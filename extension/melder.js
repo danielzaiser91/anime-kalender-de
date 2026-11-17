@@ -2482,7 +2482,7 @@ const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
-const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd) => selbstWeiter(n, nd), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i) })
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd, id) => selbstWeiter(n, nd, id), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i), erledigt: (id) => offeneTitel[id] !== undefined && fertig(id, offeneTitel[id]) })
 const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, akNetflixZaehlerStand().titel ?? offeneTitel[String(zuletztGeoeffnet?.id)]?.titel, akNetflixWartetText(selbstWartet, Date.now())), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
@@ -6172,7 +6172,7 @@ function nfBericht() {
     /* Warum die Automatik jede Seite übersprungen oder geprüft hat (23.09.2026). */
     durchgang: sicher(() => ({
       laeuft: selbstAn,
-      gezaehlt: selbstGezaehlt,
+      gezaehlt: akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze)?.geprueft ?? selbstGezaehlt /* wie „n von m“ und der Knopf (4071) */,
       uebersprungen: akNetflixBericht.uebersprungen(selbstUebersprungen, offeneTitel),
       offen: akNetflixBericht.offene(offeneTitel, fertig),
       staffelnGeprueft: [...selbstStaffelnGeprueft],
