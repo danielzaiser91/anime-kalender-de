@@ -333,7 +333,7 @@ assert.equal(normalisiereListe([{ datei: "a", suche: "x", ersetze: "y", tests: [
   const lauf = (name, test) => {
     const liste = join(ordner, `${name}.json`)
     writeFileSync(liste, JSON.stringify([{ name: "Kontrolle", aenderungen: [], tests: [test] }, { ...mut[0], tests: [`${knoten} test-f.mjs`] }]))
-    const r = spawnSync(process.execPath, [laeufer, liste, "--cwd", ordner, "--timeout", "30"], { encoding: "utf8" })
+    const r = spawnSync(process.execPath, [laeufer, liste, "--cwd", ordner, "--timeout", "30"], { encoding: "utf8", timeout: 60000 })
     return r.status + r.stdout
   }
   const schnell = lauf("kontr-schnell", `${knoten} -e "0"`)
