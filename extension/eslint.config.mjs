@@ -75,6 +75,8 @@ export default [
         akNetflixErledigtLautStand: 'readonly',
         akNetflixUebernahme: 'readonly',
         akNetflixWartet: 'readonly',
+        akDisneySammel: 'readonly',
+        akDisneyGemeldet: 'readonly',
         akNetflixEnde: 'readonly',
         akNetflixRandUneinheitlich: 'readonly',
         akNetflixListeWarten: 'readonly',

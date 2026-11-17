@@ -1,0 +1,9 @@
+[
+  {"name":"Disney-Sammel: die Übersicht nimmt die Sammelantwort nicht","aenderungen":[{"datei":"extension/disney.js","suche":"(u) => gemeldeteHolen(u, null, true, sammel)","ersetze":"(u) => gemeldeteHolen(u, null, true)"}],"tests":["node extension/disney-sammel.test.cjs"]},
+  {"name":"Disney-Sammel: die Wiedervorlagen nehmen die Sammelantwort nicht","aenderungen":[{"datei":"extension/disney.js","suche":"(u) => gemeldeteHolen(u, seitVon.get(u), true, sammel)","ersetze":"(u) => gemeldeteHolen(u, seitVon.get(u), true)"}],"tests":["node extension/disney-sammel.test.cjs"]},
+  {"name":"Disney-Sammel: keine Auskunft wirft nicht","aenderungen":[{"datei":"extension/disney-sammel.js","suche":"if (je === false) throw new Error('keine Auskunft')","ersetze":"if (je === false) return null"}],"tests":["node extension/disney-sammel.test.cjs"]},
+  {"name":"Disney-Sammel: fehlende Route fällt nicht auf den Einzelabruf","aenderungen":[{"datei":"extension/disney-sammel.js","suche":"return je ? je.get(url) : null","ersetze":"return je ? je.get(url) : { paare: [] }"}],"tests":["node extension/disney-sammel.test.cjs"]},
+  {"name":"Disney-Sammel: die Anfrage geht sofort statt erst bei Bedarf","aenderungen":[{"datei":"extension/disney-sammel.js","suche":"antwort ??= adressen().length","ersetze":"antwort = adressen().length"}],"tests":["node extension/disney-sammel.test.cjs"]},
+  {"name":"Disney-Sammel: die Adressen der Wiedervorlagen fehlen in der Anfrage","aenderungen":[{"datei":"extension/disney.js","suche":"() => [...seitVon.keys(), ...offene]","ersetze":"() => [...offene]"}],"tests":["node extension/disney-sammel.test.cjs"]},
+  {"name":"Disney-Sammel: der Einzelabruf prüft den Status nicht","aenderungen":[{"datei":"extension/disney-sammel.js","suche":"if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)","ersetze":""}],"tests":["node extension/disney-sammel.test.cjs"]}
+]
