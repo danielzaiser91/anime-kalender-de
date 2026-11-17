@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-17T16:02:08.269Z",
+  "scrapedAt": "2026-11-17T17:01:58.068Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
@@ -101,6 +101,19 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "publishedAt": "2026-11-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
       "alreadyCurated": false
     },
     {
