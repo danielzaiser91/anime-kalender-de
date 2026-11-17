@@ -90,8 +90,8 @@ pruefe('kein Ziel: nichts', lauf({ ziel: null }).r === false)
 pruefe('Sprung vor 1499 ms: noch warten', lauf({ jetzt: 1000 + 1499 }).r === false)
 pruefe('Sprung vor genau 1500 ms: weiter', lauf({ jetzt: 1000 + 1500 }).r === true)
 pruefe('Sprung genau 60000 ms her: noch dem Durchgang', lauf({ jetzt: 1000 + 60000 }).r === true)
-pruefe('Sprung 60001 ms her: gehört nicht mehr dem Durchgang', lauf({ jetzt: 1000 + 60001 }).r === false)
-pruefe('altes Ziel von Stunden her auf /browse: nichts, nichts übersprungen', (() => { const l = lauf({ jetzt: 1000 + 3 * 3600 * 1000 }); return l.r === false && l.u.size === 0 && l.w.weiter === 0 })())
+pruefe('Sprung 60001 ms her: Stillstandssicherung, zurückgestellt (kein Urteil) und weiter', (() => { const l = lauf({ jetzt: 1000 + 60001 }); return l.r === true && l.w.weiter === 1 && l.u.get('540533') === 'Durchgang stand auf der Startseite still' })())
+pruefe('Ziel von Stunden her auf /browse: ebenso Stillstandssicherung', (() => { const l = lauf({ jetzt: 1000 + 3 * 3600 * 1000 }); return l.r === true && l.u.size === 1 && l.w.weiter === 1 })())
 pruefe('Ziel vom Einzelknopf/aus der Liste (ohne durchgang): nichts, nichts übersprungen', (() => { const l = lauf({ ziel: { id: '540533', zeit: 1000 } }); return l.r === false && l.u.size === 0 && l.w.weiter === 0 })())
 pruefe('schon übersprungener Titel: nicht noch einmal', lauf({}, [['540533', 'x']]).r === false)
 
@@ -220,13 +220,14 @@ ergebnis.grenze = selbstGrenze`,
 /* `naechsterAuftrag` überspringt, was die Bremse für diesen Lauf ausgeschlossen hat. */
 {
   const eintrag = { staffeln: [{ offen: true }] }
-  const lauf = (ausgeschlossen) =>
-    new Function('gemeinteReihe', 'offeneTitel', 'selbstUebersprungen', 'bremse', 'istErledigt', 'fertig', `${funktionText('function naechsterAuftrag()')}\nreturn naechsterAuftrag()`)(
-      () => '0', { 1: eintrag, 2: eintrag, 3: eintrag }, new Map(), { ausgeschlossen: (r) => ausgeschlossen.includes(r) }, () => false, () => false,
+  const lauf = (ausgeschlossen, besetzt = []) =>
+    new Function('gemeinteReihe', 'offeneTitel', 'selbstUebersprungen', 'bremse', 'istErledigt', 'fertig', 'nichtDaTun', `${funktionText('function naechsterAuftrag()')}\nreturn naechsterAuftrag()`)(
+      () => '0', { 1: eintrag, 2: eintrag, 3: eintrag }, new Map(), { ausgeschlossen: (r) => ausgeschlossen.includes(r) }, () => false, () => false, { besetzt: (r) => besetzt.includes(r) },
     )
   pruefe('naechsterAuftrag: ohne Ausschluss der erste Titel', lauf([]) === '1')
   pruefe('naechsterAuftrag: ausgeschlossene Titel werden übersprungen', lauf(['1', '2']) === '3' && lauf(['1']) === '2')
   pruefe('naechsterAuftrag: alle ausgeschlossen → null', lauf(['1', '2', '3']) === null)
+  pruefe('naechsterAuftrag: Titel mit Urteil unterwegs wird nicht noch einmal gewählt', lauf([], ['1']) === '2' && lauf([], ['1', '2']) === '3')
 }
 /* `laufBeenden` räumt Bremse, Pausenzeile und Besitz ab — den Besitz nur, wenn er diesem Tab gehört. */
 {

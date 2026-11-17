@@ -107,7 +107,7 @@ return { selbstWeiter, nichtDaTun, laeuft: () => selbstAn, aus: () => { selbstAn
     a.totMelden, a.offeneTitel, a.uebersprungen, (...x) => a.w.spur.push(x), a.gehe, a.bremse, () => false, {},
     (u, i) => a.antwort(String(u).replace('/title/', ''), i.signal),
     (id) => a.frisch.has(String(id)),
-    (g) => { a.w.beendet.push(g); teil?.aus() }, { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id, () => a.lebendig.an, k.akNetflixEigenerSprungMerken,
+    (g) => { a.w.beendet.push(g); teil?.aus() }, { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => (a.seiteReihe === undefined ? a.ziel()?.id : a.seiteReihe), () => a.lebendig.an, k.akNetflixEigenerSprungMerken,
   )
   return teil
 }
@@ -147,7 +147,7 @@ async function durchgang({ dauerMs = 60000, ...o }) {
 }
 
 /** Ein Tab des Durchgangs, noch nicht gestartet; `zeit` und `w` (Posts, Proben, Sprünge) lassen sich zwischen Tabs teilen (eine Uhr, ein Worker). */
-function tabAufbauen({ zeit = virtuelleUhr(), w = { posts: [], proben: [], gehe: [], spur: [], beendet: [] }, probeMs, postMs, probeHaengt = () => false, beiProbe = null, beiPost = null }) {
+function tabAufbauen({ seiteReihe, zeit = virtuelleUhr(), w = { posts: [], proben: [], gehe: [], spur: [], beendet: [] }, probeMs, postMs, probeHaengt = () => false, beiProbe = null, beiPost = null }) {
   const k = kontextBauen(zeit)
   let pfad = '/browse' // `gehe` ist die Navigation ohne Neuladen: danach steht die Seite auf dem Titel
   const gehe = (p) => { w.gehe.push(p); pfad = p }
@@ -158,7 +158,7 @@ function tabAufbauen({ zeit = virtuelleUhr(), w = { posts: [], proben: [], gehe:
   const netz = netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaengt, beiProbe, beiPost, lebendig })
   let bauteil = null
   const bremse = { pause: () => null, offen: () => 0, ausgeschlossen: () => false, beleg() {} }
-  bauteil = melderBauen(k, { ...netz, w, gehe, frisch, offeneTitel, uebersprungen, bremse, lebendig, ziel: () => bauteil?.zuletzt() })
+  bauteil = melderBauen(k, { ...netz, w, gehe, frisch, offeneTitel, uebersprungen, bremse, lebendig, seiteReihe, ziel: () => bauteil?.zuletzt() })
 
   /* Der Sekundentakt von `vielleichtSelbstStarten`: steht die Seite auf der Startseite, geht `akNetflixUmgeleitet` weiter. */
   const takt = () => {

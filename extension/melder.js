@@ -2482,7 +2482,7 @@ const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
-const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd, id) => selbstWeiter(n, nd, id), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => (verbindungLebt() ? fetch(u, i) : Promise.reject(new Error('Erweiterung neu geladen'))), erledigt: (id) => offeneTitel[id] !== undefined && fertig(id, offeneTitel[id]) })
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd, id) => selbstWeiter(n, nd, id), aktiv: () => selbstAn, bremse, istZiel: (id) => String(zuletztGeoeffnet?.id) === String(id), profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => (verbindungLebt() ? fetch(u, i) : Promise.reject(new Error('Erweiterung neu geladen'))), erledigt: (id) => offeneTitel[id] !== undefined && fertig(id, offeneTitel[id]) })
 const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, akNetflixZaehlerStand().titel ?? offeneTitel[String(zuletztGeoeffnet?.id)]?.titel, akNetflixWartetText(selbstWartet, Date.now())), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
@@ -2793,6 +2793,8 @@ function naechsterAuftrag() {
     if (kennung === hier) continue
     if (selbstUebersprungen.has(kennung) || bremse.ausgeschlossen(kennung)) continue
     if (istErledigt(kennung, 'tot')) continue
+    /* Ein Urteil ist unterwegs (Takt urteilt, bevor es fertig ist): den Titel nicht noch einmal wählen — sonst führt es niemand weiter (17.11.2026). */
+    if (nichtDaTun.besetzt(kennung)) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
     if (!offen.length) continue
     /*
