@@ -231,3 +231,28 @@
     - https://www.joyn.de/serien/yaiba-samurai-legend
     - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
     - https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/
+
+# Mängelregister 4090, Fall 2 (17.11.2026): Der Aniverse-Kanal führt die beiden Titel mit japanischem Ton und deutschen Untertiteln. Belege je Titel:
+# JustWatch (data/justwatch-audio.json, 103631 vom 26.10.2026: „Aniverse Amazon Channel“ audio ja, Untertitel de; 180829 vom 19.10.2026: „Anime Digital Network Amazon Channel“
+# audio ja), aniSearch-Synchronflag „-“ (data/anisearch-dubs.json, 13727 und 19627) und der Handbeleg dub:false in dub-confirmed.yaml. Die Artikel nennen keine Sprache.
+- slug: trinity-seven-heavens-library-primevideo
+  anilistId: 103631
+  platform: primevideo
+  kanal: Aniverse
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-15" }
+  sprache: omu
+  hinweis: "Der Aniverse-Kanal bei Prime Video führt den Film ab dem 15.10.2026 mit japanischem Ton und deutschen Untertiteln; eine deutsche Synchronfassung ist nicht belegt."
+  sources: [https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/]
+
+- slug: yandere-dark-elf-primevideo
+  anilistId: 180829
+  platform: primevideo
+  kanal: Aniverse
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-24", episodeCount: 12 }
+  sprache: omu
+  hinweis: "Der Aniverse-Kanal bei Prime Video führt die Serie ab dem 24.09.2026 mit japanischem Ton und deutschen Untertiteln; eine deutsche Synchronfassung ist nicht belegt."
+  sources: [https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/]
