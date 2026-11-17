@@ -124,6 +124,46 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
 }
+// update-branch (Lehre 129, 17.11.2026, tools/pr-nachrechnen-zweig.mjs): main kommt per PUT in den Zweig, der Kopf ist danach neu und wird genannt.
+const KOPF_NEU = 'd4'.padEnd(40, '4')
+const PUT = `api -X PUT repos/{owner}/{repo}/pulls/7/update-branch -f expected_head_sha=${KOPF}`
+const KOPF_LESEN = 'api repos/{owner}/{repo}/pulls/7 --jq .head.sha'
+const mitUpdate = (zusatz) => ({ ...antworten({ mainSha: MAIN }), [PUT]: { aus: '{"message":"Updating pull request branch."}' }, [KOPF_LESEN]: { aus: `${KOPF_NEU}\n` }, ...zusatz })
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: [`${KOPF}\n`, `${KOPF}\n`, `${KOPF_NEU}\n`] } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  const m = k.meldungen.join()
+  pruefe('update-branch: Exit 1, kein Schließen/Öffnen, PUT mit expected_head_sha des Kopfs', code === 1 && schreibend(k.aufrufe).length === 0 && k.aufrufe.includes(PUT), k.aufrufe)
+  pruefe('update-branch: Meldung nennt den neuen Kopf vollständig und die Handlung', m.includes(`neuer Kopf ${KOPF_NEU}: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen`), k.meldungen)
+  pruefe('update-branch: wartet, bis der Kopf neu ist (zwei Wartezeiten à KOPF_ABSTAND_MS)', k.gewartet.join() === '2000,2000', k.gewartet)
+  pruefe('update-branch: Grund wird kommentiert', k.aufrufe.includes('pr comment 7'), k.aufrufe)
+  pruefe('update-branch: Reihenfolge, PUT vor dem Lesen des Kopfs', k.aufrufe.indexOf(PUT) < k.aufrufe.indexOf(KOPF_LESEN), k.aufrufe)
+}
+for (const [name, fehlerText, erwartet] of [['422 (Konflikt)', 'gh: Merge conflict (HTTP 422)', /update-branch abgelehnt \(422/], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen', /update-branch hing/]]) {
+  const k = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe(`update-branch ${name} -> Exit 2, Meldung, kein Rückfall auf Schließen/Öffnen`, code === 2 && schreibend(k.aufrufe).length === 0 && erwartet.test(k.meldungen.join()), { code, a: k.aufrufe, m: k.meldungen })
+}
+{
+  const k = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Server Error (HTTP 502)' } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  pruefe('update-branch scheitert sonst (502) -> Rückfall: Schließen und Öffnen wie bisher, Exit 1', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7', k.aufrufe)
+}
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('update-branch angenommen, Kopf bleibt alt -> Exit 2 „SCHON ANGESTOSSEN“, nach KOPF_PRUEFUNGEN+1 Lesungen', code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && k.gewartet.length === 15 && k.aufrufe.filter((a) => a === KOPF_LESEN).length === 16 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen, n: k.gewartet.length })
+}
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte, undefined, undefined, undefined, undefined, undefined, true)
+  pruefe('--trocken: kein update-branch', code === 1 && !k.aufrufe.includes(PUT), k.aufrufe)
+}
+{
+  const r = prozess(mitUpdate({}), ['7'])
+  const args = r.aufrufe.map(([, a]) => a.join(' '))
+  pruefe('Prozess: update-branch -> Exit 1, neuer Kopf auf stdout, nichts geschlossen', r.status === 1 && r.aus.includes(`neuer Kopf ${KOPF_NEU}`) && args.includes(PUT) && schreibend(args).length === 0, { status: r.status, aus: r.aus, args })
+}
 // Prüfer-Sperre (12.11.2026): Verdrahtung durch nachrechnen() und main(); die Kommentarformen prüft pr-nachrechnen-pruefer.test.mjs.
 {
   const urteil = { createdAt: '2026-11-12T10:30:00Z', body: '**Prüfer-Review** für 08798af3f - Urteil: **ändern** (Runde 1)' }
