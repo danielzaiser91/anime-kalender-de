@@ -23,7 +23,7 @@ export function ergaenzeWegeVonHand({ titles }: {
     for (const s of entry.streams ?? []) {
       const vorhanden = title.streams.find((x) => x.platform === s.platform)
       if (vorhanden) vorhanden.url = s.url
-      else title.streams.push({ platform: s.platform as PlatformId, url: s.url })
+      else title.streams.push({ platform: s.platform as PlatformId, url: s.url, ...(s.kanal ? { kanal: s.kanal } : {}) })
     }
     title.watchLinks = [...curated, ...existing].sort((a, b) =>
       a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1,
