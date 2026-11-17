@@ -326,6 +326,7 @@ function meldungenMerken(reihe, paare) {
     m.jeNummer.set(nr, spaeter(m.jeNummer.get(nr), am))
   }
   MELDUNGEN.set(r, m)
+  globalThis.akNetflixStand?.aktuell?.eigene(r, paare ?? [])
 }
 
 /** Den Briefkasten zu einer Reihe fragen — der Dialog braucht alle, der Knopf eine. */
@@ -333,7 +334,6 @@ async function meldungenLaden(reihe) {
   if (reihe && globalThis.akMeldungenNeuLaden?.(reihe) !== false) await meldungenAbrufen(reihe)
 }
 
-/* Eine Anfrage je Reihe ohne Zweiminutenbremse (Rückfall der Sammelabfrage). */
 async function meldungenAbrufen(reihe) {
   try {
     const adresse = `https://www.netflix.com/title/${reihe}`
@@ -344,6 +344,8 @@ async function meldungenAbrufen(reihe) {
     /* Ohne Netz bleibt, was schon bekannt ist. */
   }
 }
+
+globalThis.akNetflixStand?.neu({ worker: WORKER, reihen: () => Object.keys(offeneTitel), merken: meldungenMerken, abrufen: meldungenAbrufen, uebernahme: naechsteUebernahme, geaendert: () => (uebersichtZeigen(), dialogNeuZeichnen()) })
 
 /**
  * Wie der Anbieter die Reihe teilt: aus dem Player, sonst aus der gerechneten
@@ -5332,8 +5334,6 @@ async function dialogOeffnen() {
   } catch {
     /* Dann eben mit dem Stand von vorhin. */
   }
-  /* „Gemeldet" kommt aus dem Briefkasten: der Dialog öffnet mit dem bekannten Stand und zeichnet sich neu, sobald die eine Antwort da ist. */
-  void globalThis.akMeldungenSammeln(Object.keys(offeneTitel), WORKER, meldungenMerken, meldungenAbrufen).then((neu) => neu && dialog && dialogNeuZeichnen())
   dialog = document.createElement('div')
   dialog.className = 'ak-dialog'
 
