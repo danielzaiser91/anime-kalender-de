@@ -4140,5 +4140,154 @@
       "primevideo"
     ],
     "inhaltAm": "2026-11-10"
-  }
+  },
+  "naruto-shippuden-s2-disneyplus": {
+    "tmdbId": 31910,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/31910-naruto-ji-feng-yun/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll",
+      "rtlplus",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-11-17"
+  },
+  "naruto-shippuden-s4-disneyplus": {
+    "tmdbId": 31910,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/31910-naruto-ji-feng-yun/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll",
+      "rtlplus",
+      "primevideo"
+    ],
+    "inhaltAm": "2026-11-17"
+  },
+  "yu-gi-oh-s5-disneyplus": {
+    "tmdbId": 902,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/902-you-hu-wang-deyuerumonsutazu/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "disneyplus",
+      "rtlplus",
+      "primevideo",
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-11-17"
+  },
+  "laughing-under-the-clouds-gaiden-part-1-komplettbox-dvd-2019-07-12": {},
+  "laughing-under-the-clouds-gaiden-part-1-komplettbox-blu-ray-2019-07-12": {},
+  "laughing-under-the-clouds-gaiden-part-2-komplettbox-dvd-2019-07-12": {},
+  "laughing-under-the-clouds-gaiden-part-2-komplettbox-blu-ray-2019-07-12": {},
+  "laughing-under-the-clouds-gaiden-part-3-komplettbox-dvd-2019-07-12": {},
+  "laughing-under-the-clouds-gaiden-part-3-komplettbox-blu-ray-2019-07-12": {},
+  "free-the-final-stroke-the-first-volume-blu-ray-2022-09-01": {
+    "tmdbId": 738091,
+    "fsk": 6,
+    "inhaltAm": "2026-11-17"
+  },
+  "date-a-bullet-dead-or-bullet-blu-ray-2022-02-07": {},
+  "date-a-bullet-nightmare-or-queen-blu-ray-2022-02-07": {}
 }

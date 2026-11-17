@@ -7645,7 +7645,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/latest/2026/6/15/black-clover-staffel-2-premiere-oktober-2026": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7662,7 +7662,7 @@
         "text": "www.crunchyroll.com/41ceecf5457765ee/2026-10-05-3f3320954689057b.txt.gz"
       },
       {
-        "am": "2026-11-10",
+        "am": "2026-11-17",
         "hash": "60fa3b50da5c083f",
         "hf": 2,
         "veroeffentlicht": "2026-06-15",
@@ -7798,7 +7798,7 @@
     ]
   },
   "https://www.crunchyroll.com/news/latest/2026/6/15/black-clover-season-2-anime-october-2026-release-date-director": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -7814,7 +7814,7 @@
         "text": "www.crunchyroll.com/62de6bcfadddbff4/2026-10-05-c19905ac10b5c1fb.txt.gz"
       },
       {
-        "am": "2026-11-10",
+        "am": "2026-11-17",
         "hash": "63a32eb766f66387",
         "hf": 2
       }
@@ -9089,7 +9089,7 @@
     ]
   },
   "https://www.crunchyroll.com/de/news/latest/2026/8/16/die-tagebuecher-der-apothekerin-staffel-3-anime-release-date-trailer-visual": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -9107,8 +9107,8 @@
         "text": "www.crunchyroll.com/b1af27eaffacc1f7/2026-10-05-b0d9192fc87e8e86.txt.gz"
       },
       {
-        "am": "2026-11-10",
-        "hash": "a6ad8ee1b07aeab6",
+        "am": "2026-11-17",
+        "hash": "55e97f8594649d9e",
         "hf": 2,
         "veroeffentlicht": "2026-08-16",
         "aktualisiert": "2026-08-16"
@@ -14511,7 +14511,7 @@
     ]
   },
   "https://www.joyn.de/serien/the-promised-neverland": {
-    "zuletzt": "2026-11-02",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-10-05",
@@ -21612,7 +21612,7 @@
     ]
   },
   "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/": {
-    "zuletzt": "2026-11-12",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-10-14",
@@ -21672,31 +21672,41 @@
           0.038461538461538464,
           0.08311170212765957,
           0.8942307692307693,
-          0.04088836020611702
+          0.029205971575797872
         ],
         "markierungen": {
-          "98659": [
+          "481": [
             0.038461538461538464,
             0.08311170212765957,
+            0.8942307692307693,
+            0.029205971575797872
+          ],
+          "1735": [
+            0.038461538461538464,
+            0.22063559674202127,
+            0.8942307692307693,
+            0.04088836020611702
+          ],
+          "98659": [
+            0.038461538461538464,
+            0.22063559674202127,
             0.8942307692307693,
             0.04088836020611702
           ],
           "99263": [
             0.038461538461538464,
-            0.08311170212765957,
+            0.22063559674202127,
             0.8942307692307693,
             0.04088836020611702
           ],
           "116006": [
             0.038461538461538464,
-            0.08311170212765957,
+            0.22063559674202127,
             0.8942307692307693,
             0.04088836020611702
           ]
         },
-        "ohneMarke": {
-          "482": "nicht-gefunden"
-        },
+        "ohneMarke": {},
         "bild": "www.anime2you.de/e39eb17b2d5cccf2/2026-11-12-0822b628d5b93b61.webp",
         "text": "www.anime2you.de/e39eb17b2d5cccf2/2026-11-12-0822b628d5b93b61.txt.gz"
       }
@@ -24665,7 +24675,7 @@
     ]
   },
   "https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/": {
-    "zuletzt": "2026-11-13",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-10-30",
@@ -24694,12 +24704,24 @@
         "bildfassung": 3,
         "markierung": [
           0.038461538461538464,
-          0.7415522805926041,
+          0.9336384951317297,
           0.8942307692307693,
-          0.2186297001983124
+          0.010971506300114547
         ],
         "bild": "www.anime2you.de/16ff8057f4546a96/2026-11-06-792d461d2ba34fa8.webp",
-        "text": "www.anime2you.de/16ff8057f4546a96/2026-11-06-792d461d2ba34fa8.txt.gz"
+        "text": "www.anime2you.de/16ff8057f4546a96/2026-11-06-792d461d2ba34fa8.txt.gz",
+        "markenfassung": 2,
+        "markierungen": {
+          "481": [
+            0.038461538461538464,
+            0.9336384951317297,
+            0.8942307692307693,
+            0.010971506300114547
+          ]
+        },
+        "ohneMarke": {
+          "10015": "nicht-gefunden"
+        }
       }
     ]
   },
@@ -25799,7 +25821,7 @@
     ]
   },
   "https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/": {
-    "zuletzt": "2026-11-16",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-06",
@@ -25822,12 +25844,29 @@
         "bildfassung": 3,
         "bild": "www.anime2you.de/c8824d2de15c7d83/2026-11-09-1bced4baa31270c3.webp",
         "text": "www.anime2you.de/c8824d2de15c7d83/2026-11-09-1bced4baa31270c3.txt.gz",
-        "markenfassung": 2
+        "markenfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.9304649112936499,
+          0.8942307692307693,
+          0.011496192940999963
+        ],
+        "markierungen": {
+          "1735": [
+            0.038461538461538464,
+            0.9304649112936499,
+            0.8942307692307693,
+            0.011496192940999963
+          ]
+        },
+        "ohneMarke": {
+          "97938": "nicht-gefunden"
+        }
       }
     ]
   },
   "https://www.joyn.de/serien/akame-ga-kill": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -25863,7 +25902,7 @@
     ]
   },
   "https://www.joyn.de/filme/clannad-der-film-bp13876sgvfb": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -25909,7 +25948,7 @@
     ]
   },
   "https://www.joyn.de/filme/colorful-bp13jg6utn8g": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -25929,7 +25968,7 @@
     ]
   },
   "https://www.joyn.de/filme/girls-und-panzer-das-finale-teil-2": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -25949,7 +25988,7 @@
     ]
   },
   "https://www.joyn.de/filme/girls-und-panzer-das-finale-teil-3": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -25969,7 +26008,7 @@
     ]
   },
   "https://www.joyn.de/serien/gosick": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -25989,7 +26028,7 @@
     ]
   },
   "https://www.joyn.de/serien/hyouka": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -26009,7 +26048,7 @@
     ]
   },
   "https://www.joyn.de/serien/kanon": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -26029,7 +26068,7 @@
     ]
   },
   "https://www.joyn.de/serien/love-and-lies": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -26085,7 +26124,7 @@
     ]
   },
   "https://www.joyn.de/serien/tada-never-falls-in-love": {
-    "zuletzt": "2026-11-10",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-07",
@@ -26794,7 +26833,7 @@
     ]
   },
   "https://de.wikipedia.org/wiki/My_Hero_Academia/Episodenliste": {
-    "zuletzt": "2026-11-16",
+    "zuletzt": "2026-11-17",
     "lesungen": [
       {
         "am": "2026-11-15",
@@ -26816,6 +26855,46 @@
         "markenfassung": 2,
         "bild": "de.wikipedia.org/409b427391b598ba/2026-11-16-956ca41e37b2d6d3.webp",
         "text": "de.wikipedia.org/409b427391b598ba/2026-11-16-956ca41e37b2d6d3.txt.gz"
+      }
+    ]
+  },
+  "https://news.animationdigitalnetwork.com/de/2026/11/16/witch-watch-staffel-2-ausstrahlung-in-2027-manga-beendet/": {
+    "zuletzt": "2026-11-17",
+    "lesungen": [
+      {
+        "am": "2026-11-17",
+        "hash": "7b506453c764906d",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-16",
+        "aktualisiert": "2026-11-16",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markenfassung": 2,
+        "bild": "news.animationdigitalnetwork.com/b0d973706078a0f7/2026-11-17-7b506453c764906d.webp",
+        "text": "news.animationdigitalnetwork.com/b0d973706078a0f7/2026-11-17-7b506453c764906d.txt.gz"
+      }
+    ]
+  },
+  "https://www.anime2you.de/news/1071466/angels-egg-neue-4k-blu-ray-edition/": {
+    "zuletzt": "2026-11-17",
+    "lesungen": [
+      {
+        "am": "2026-11-17",
+        "hash": "de42a5e130679f1b",
+        "hf": 2,
+        "veroeffentlicht": "2026-11-16",
+        "aktualisiert": "2026-11-16",
+        "qs": "ok",
+        "bildfassung": 3,
+        "markenfassung": 2,
+        "markierung": [
+          0.038461538461538464,
+          0.7523797105228843,
+          0.8942307692307693,
+          0.20947040962688374
+        ],
+        "bild": "www.anime2you.de/88055fe3dd9ecf28/2026-11-17-de42a5e130679f1b.webp",
+        "text": "www.anime2you.de/88055fe3dd9ecf28/2026-11-17-de42a5e130679f1b.txt.gz"
       }
     ]
   }
