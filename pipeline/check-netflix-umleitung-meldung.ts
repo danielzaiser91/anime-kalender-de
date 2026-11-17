@@ -46,8 +46,10 @@ const beide = ohneGesperrtePruefungen([{ ...m(5), folge: '77' }, m(6)], fremd)
 pruefe('fremde Zeile mit Umleitungs-Notiz: abgehakt, nicht zurückgestellt; die andere zurückgestellt', beide.gesperrt.join() === '5' && beide.zurueckgestellt.join() === '6', beide)
 
 const dub = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
-const rest = dub.split('\n').filter((z) => z.includes('— Umleitung auf Startseite')).length
-pruefe('dub-confirmed.yaml trägt keinen Umleitungs-Beleg mehr', rest === 0, rest)
+const zeilen = dub.split('\n')
+/* Der Beleg steht vor der Notiz: `checkedAt` ist die Zeile davor. Die zwei Meldungen vom 17.11. (Daniel) blieben stehen: unbelegt falsch, abgeholt vor dieser Regel. */
+const rest = zeilen.filter((z, i) => z.includes('— Umleitung auf Startseite') && /checkedAt: '2026-11-1[56]'/.test(zeilen[i - 1] ?? '')).length
+pruefe('dub-confirmed.yaml trägt keinen Umleitungs-Beleg vom 15./16.11. mehr', rest === 0, rest)
 
 if (fehler) {
   console.error(`FEHL check-netflix-umleitung-meldung: ${fehler} Fälle`)
