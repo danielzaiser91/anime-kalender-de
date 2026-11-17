@@ -285,8 +285,23 @@ export function findeAuffaelliges(
     )
   }
   auffaellig.push(...je.auffaellig)
+  auffaellig.push(...massenabgang(jetzt, vorher))
   erklaert.push(...je.erklaert)
   return { auffaellig, erklaert }
+}
+
+/** Ab so vielen in einem Lauf entfernten Wegen eines Anbieters ist die Entfernung auffällig, auch mit Grund (gemessen: 51 tote Verweise aller Anbieter im Bau vom 17.11.2026). */
+export const MASSENABGANG = 40
+
+/**
+ * **Eine begründete Entfernung im Großen ist trotzdem ein Befund** (17.11.2026): Der Takt-Fehler der Erweiterung ließ 170
+ * Netflix-Wege per Handbeleg `available: false` entfernen — jeder „mit Grund“, also erklärt, und die Wache blieb stumm.
+ */
+function massenabgang(jetzt: Kennzahlen, vorher: Kennzahlen): string[] {
+  return Object.entries(jetzt.entferntJeAnbieter ?? {})
+    .map(([anbieter, n]) => ({ anbieter, zuwachs: n - (vorher.entferntJeAnbieter?.[anbieter] ?? 0) }))
+    .filter((e) => e.zuwachs >= MASSENABGANG)
+    .map((e) => `${e.anbieter}: ${e.zuwachs} Wege in einem Lauf entfernt — Grund einzeln prüfen, auch wenn jeder begründet ist`)
 }
 
 /**
