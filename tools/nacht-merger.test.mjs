@@ -4,7 +4,7 @@
  * Trockenlauf) prüfen die Fälle über `lauf`, nie über den Quelltext.
  */
 import { BUDGET_MS, argumente, exitCode, lauf } from './nacht-merger.mjs'
-import { bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghLesend, ghMitAnstossRiegel, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
+import { anstossNummer, bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghLesend, ghMitAnstossRiegel, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
 import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
 let fehler = 0
@@ -433,14 +433,16 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     if (s.includes('/pulls/7/files')) return 'web/src/a.tsx\n'
     if (s.includes('--jq .merge_commit_sha')) return 'abcdef\n'
     if (s.includes('/commits/abcdef')) return `${MAIN}\n`
+    if (s.includes('--jq .head.sha')) return `${'e'.repeat(40)}\n`
     return ''
   }
   const trockenAufrufe = []
   const trocken = echteWelt({ trocken: true, gh: veraltet(trockenAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
-  pruefe('Trockenlauf: veralteter PR wird nicht geschlossen, Exit 2 mit Hinweis', trocken.exit === 2 && trocken.text.includes('Trockenlauf') && !trockenAufrufe.some((s) => s.startsWith('pr close') || s.startsWith('pr reopen')))
+  pruefe('Trockenlauf: veralteter PR wird nicht angestoßen (kein Schließen, Öffnen, update-branch), Exit 2 mit Hinweis', trocken.exit === 2 && trocken.text.includes('Trockenlauf') && !trockenAufrufe.some((s) => s.startsWith('pr close') || s.startsWith('pr reopen') || s.includes('update-branch')), trockenAufrufe)
   const echtAufrufe = []
   const echt = echteWelt({ trocken: false, gh: veraltet(echtAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
-  pruefe('Gegenprobe ohne Trockenlauf: derselbe PR wird geschlossen und geöffnet, Exit 1', echt.exit === 1 && echtAufrufe.includes('pr close 7') && echtAufrufe.includes('pr reopen 7'))
+  pruefe('Gegenprobe ohne Trockenlauf: derselbe PR bekommt update-branch (kein Schließen), Exit 1 mit neuem Kopf', echt.exit === 1 && echtAufrufe.some((s) => s.includes('PUT') && s.includes('pulls/7/update-branch')) && !echtAufrufe.includes('pr close 7') && echt.text.includes(`neuer Kopf ${'e'.repeat(40)}`), { echtAufrufe, text: echt.text })
+  pruefe('anstossNummer: close und update-branch zählen, sonst null', anstossNummer(['pr', 'close', '7']) === '7' && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/update-branch', '-f', 'expected_head_sha=x']) === '12' && anstossNummer(['api', '-X', 'GET', 'repos/o/r/pulls/12/update-branch']) === null && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/merge']) === null && anstossNummer(['pr', 'view', '7']) === null && anstossNummer(['pr', 'reopen', '7']) === null)
   // Höchstmenge Anstöße je Lauf: neun veraltete PRs (21..29) über dieselbe echteWelt, nur die ersten acht werden geschlossen und geöffnet
   const viele = []
   let aktuell = 21
@@ -458,8 +460,8 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     aktuell = nr
     return dieWelt.nachrechnen(nr)
   })
-  const geschlossen = viele.filter((s) => s.startsWith('pr close')).join(',')
-  pruefe('Höchstmenge: acht Anstöße (Exit 1), der neunte scheitert vor dem Schließen (Exit 2, Hinweis)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,1,1,1,1,2' && geschlossen === [21, 22, 23, 24, 25, 26, 27, 28].map((n) => `pr close ${n}`).join(',') && ergebnisse[8].text.includes('Höchstmenge 8'))
+  const angestossen = viele.filter((s) => s.includes('update-branch') || s.startsWith('pr close')).map((s) => /pulls\/(\d+)\/update-branch/.exec(s)?.[1]).join(',')
+  pruefe('Höchstmenge: acht Anstöße (Exit 1), der neunte scheitert vor dem update-branch (Exit 2, Hinweis, kein Schließen)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,1,1,1,1,2' && angestossen === '21,22,23,24,25,26,27,28' && !viele.some((s) => s.startsWith('pr close')) && ergebnisse[8].text.includes('Höchstmenge 8'), { angestossen, e: ergebnisse[8] })
   // Der Riegel zählt je PR einmal: ein zweiter Aufruf für denselben PR (nach UNKNOWN-Wiederholung) verbraucht keinen weiteren Anstoß
   const eng = ghMitAnstossRiegel(() => '', 1)
   eng(['pr', 'close', '8'])

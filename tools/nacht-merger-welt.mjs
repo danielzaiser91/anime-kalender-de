@@ -53,8 +53,17 @@ export const bestandIstRot = (laeufe, jetztMs) => bestandRotAlarm(laeufe, jetztM
 
 /** Im Trockenlauf darf nachrechnen nichts schließen oder öffnen: der Aufruf scheitert vor dem Schließen und zählt als „nicht aktuell“. */
 export const ghLesend = (gh) => (args) => {
-  if (args[0] === 'pr' && (args[1] === 'close' || args[1] === 'reopen')) throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen und öffnen)')
+  if (args[0] === 'pr' && args[1] === 'reopen') throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen und öffnen)')
+  if (anstossNummer(args) !== null) throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen oder update-branch)')
   return gh(args)
+}
+
+/** PR-Nummer, wenn der Aufruf die Kette neu anstößt (`pr close` oder `api -X PUT …/pulls/N/update-branch`, tools/pr-nachrechnen-zweig.mjs), sonst null. */
+export function anstossNummer(args) {
+  if (args[0] === 'pr' && args[1] === 'close') return String(args[2])
+  if (args[0] !== 'api' || !args.includes('PUT')) return null
+  const treffer = args.map((a) => /\/pulls\/(\d+)\/update-branch$/.exec(String(a))).find(Boolean)
+  return treffer ? treffer[1] : null
 }
 
 /**
@@ -66,9 +75,10 @@ export const ANSTOESSE_HOECHSTENS = 8
 export const ghMitAnstossRiegel = (gh, hoechstens = ANSTOESSE_HOECHSTENS) => {
   const angestossen = new Set()
   return (args) => {
-    if (args[0] === 'pr' && args[1] === 'close' && !angestossen.has(args[2])) {
+    const nummer = anstossNummer(args)
+    if (nummer !== null && !angestossen.has(nummer)) {
       if (angestossen.size >= hoechstens) throw new Error(`Höchstmenge ${hoechstens} Ketten-Anstöße je Lauf erreicht, nichts angestoßen`)
-      angestossen.add(args[2])
+      angestossen.add(nummer)
     }
     return gh(args)
   }
