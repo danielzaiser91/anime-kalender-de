@@ -9,9 +9,10 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { istFremd, ladeFremdeMeldungen, type FremdeMeldung } from './netflix-fremde-meldung.ts'
+import { istFehlUmleitung } from './netflix-umleitung-meldung.ts'
 import { log, ROOT } from './util.ts'
 
-type Meldung = { id: number; url: string; plattform: string; folge?: string | null }
+type Meldung = { id: number; url: string; plattform: string; folge?: string | null; befund?: string; notiz?: string | null; gemeldet_am?: string }
 
 /**
  * Die Netflix-Sperrliste gilt auch für Prüfungen (06.11.2026). Ihre Zeilen tragen die Folgenkennung im Feld `folge`
@@ -22,7 +23,7 @@ export function ohneGesperrtePruefungen<T extends Meldung>(
   pruefungen: T[],
   sperre: FremdeMeldung[],
 ): { pruefungen: T[]; gesperrt: number[]; jeAdresse: Map<string, number> } {
-  const gesperrt = pruefungen.filter((p) => p.plattform === 'netflix' && istFremd({ id: p.id, url: p.url, gti: p.folge }, sperre))
+  const gesperrt = pruefungen.filter((p) => (p.plattform === 'netflix' && istFremd({ id: p.id, url: p.url, gti: p.folge }, sperre)) || istFehlUmleitung(p))
   const jeAdresse = new Map<string, number>()
   for (const p of gesperrt) jeAdresse.set(p.url, (jeAdresse.get(p.url) ?? 0) + 1)
   const weg = new Set(gesperrt.map((p) => p.id))
