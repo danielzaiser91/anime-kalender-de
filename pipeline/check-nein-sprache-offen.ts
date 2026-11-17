@@ -60,9 +60,21 @@ console.log('\nVerdrahtung in Bauphase 9 (echter Auslöser: Trinity Seven, Anive
   const schreibWurzel = mkdtempSync(join(tmpdir(), 'nein-sprache-offen-'))
   try {
     pruefeSynchroJePlattform({
-      releases: [echt], titles: new Map(), crBySeriesId: new Map(), tmdbMehrdeutig: new Set(), tmdbTitles: {}, tvJeTmdb: new Set(), toteAdressen: new Set(),
-      netflixOhneKennung: 0, anisearch: {}, verweiseEntfernt: [], katalogEintraege: [], adnKatalog: { scrapedAt: '', shows: [] } as never,
-      adnVerweiseErgaenzt: 0, vorherTitles: [], schreibWurzel,
+      releases: [echt],
+      titles: new Map(),
+      crBySeriesId: new Map(),
+      tmdbMehrdeutig: new Set(),
+      tmdbTitles: {},
+      tvJeTmdb: new Set(),
+      toteAdressen: new Set(),
+      netflixOhneKennung: 0,
+      anisearch: {},
+      verweiseEntfernt: [],
+      katalogEintraege: [],
+      adnKatalog: { scrapedAt: '', shows: [] } as never,
+      adnVerweiseErgaenzt: 0,
+      vorherTitles: [],
+      schreibWurzel,
     })
   } finally {
     rmSync(schreibWurzel, { recursive: true, force: true })
