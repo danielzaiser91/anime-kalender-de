@@ -1632,6 +1632,10 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1070565": {
+      "am": "2026-11-17",
+      "vorschlaege": 0
+    },
     "1070621": {
       "am": "2026-11-12",
       "vorschlaege": 0,
@@ -1782,6 +1786,11 @@
       "am": "2026-11-16",
       "vorschlaege": 0
     },
+    "1071922": {
+      "am": "2026-11-17",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1071924": {
       "am": "2026-11-15",
       "vorschlaege": 0
@@ -1793,6 +1802,10 @@
     "1071986": {
       "am": "2026-11-15",
       "vorschlaege": 4
+    },
+    "1072021": {
+      "am": "2026-11-17",
+      "vorschlaege": 0
     },
     "1072121": {
       "am": "2026-11-15",
@@ -1831,6 +1844,10 @@
       "am": "2026-11-16",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1072337": {
+      "am": "2026-11-17",
+      "vorschlaege": 15
     },
     "1072410": {
       "am": "2026-11-17",
@@ -14150,6 +14167,305 @@
       "artikelId": "1072697",
       "artikel": "»PSYREN« legt Pause auf unbestimmte Zeit vor Episode 7 ein",
       "quelle": "https://www.anime2you.de/news/1072697/psyren-pause-vor-episode-7/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Pokémon – Staffel 14 bis 16 (Limitierte Komplettbox)",
+      "zitat": "Pokémon – Staffel 14 bis 16 (Limitierte Komplettbox) 18.12. 29.01.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-29",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Pokémon – Staffel 17 bis 19 (Limitierte Komplettbox)",
+      "zitat": "Pokémon – Staffel 17 bis 19 (Limitierte Komplettbox) 18.12. 26.02.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-26",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Pokémon – Staffel 20 bis 22 (Limitierte Komplettbox)",
+      "zitat": "Pokémon – Staffel 20 bis 22 (Limitierte Komplettbox) 18.12. 26.03.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-03-26",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Pokémon – Staffel 23 bis 25 (Limitierte Komplettbox)",
+      "zitat": "Pokémon – Staffel 23 bis 25 (Limitierte Komplettbox) 18.12. 30.04.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-04-30",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Bocchi the Rock! – Vol. 1 (Limited Edition mit Sammelschuber)",
+      "zitat": "Bocchi the Rock! – Vol. 1 (Limited Edition mit Sammelschuber) 20.11. 04.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Bocchi the Rock! – Vol. 2 (Limited Edition)",
+      "zitat": "Bocchi the Rock! – Vol. 2 (Limited Edition) 04.12. 15.01.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "2.5 Dimensional Seduction – Vol. 4 (Limited Edition)",
+      "zitat": "2.5 Dimensional Seduction – Vol. 4 (Limited Edition) 06.11. 20.11.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Inazuma Eleven: Team Oger greift an!",
+      "zitat": "Inazuma Eleven: Team Oger greift an! 18.12. 29.01.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-29",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
+      "zitat": "Infinite Dendrogram – Vol. 2 (Limited Edition) 13.11. 20.11.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1 (Limited Edition mit Sammelschuber)",
+      "zitat": "My Love Story with Yamada-kun at Lv999 – Vol. 1 (Limited Edition mit Sammelschuber) 06.11. 20.11.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)",
+      "zitat": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber) 20.11. 04.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber)",
+      "zitat": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber) 06.11. 20.11.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Limited Edition)",
+      "zitat": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Limited Edition) 04.12. 18.12.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072337",
+      "artikel": "20 Blu-ray-Termine von AniMoon und polyband verschoben",
+      "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
       "veroeffentlicht": "2026-11-17",
       "gelesenAm": "2026-11-17"
     }

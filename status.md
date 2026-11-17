@@ -54,6 +54,7 @@ Ziel (Daniel, 08.10.2026): Daten aktuell halten und Neuigkeiten einarbeiten, ohn
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Wache 17.11.: „1 Titel weniger“ (#4137)** — Isekai Quartet 3 (194447) nur im Bau `550734c1`, danach entfernt | 1 | Netto +1 Titel, nichts verloren; offen: warum aufgenommen und am selben Morgen als „belegtes Nein“ (crunchyroll) entfernt, Verschieben statt Löschen? Auswertung: `daniel-zum-abarbeiten/00-wache-auswertung.md` |
 | Wache 16.11. (#4047): Demon Slayer Crunchyroll (101922, 112151) ohne Synchro-Kennzeichnung | 2 | Crunchyroll listet S1 jetzt 24/26 deutsch (Tiefendurchlauf 1b20c8a8); Bau e317dddf setzt am CR-Weg weder dub noch dubRanges. Zu prüfen: Teil-Deutsch bei geteilter Adresse (Folgen 1–24) und Film 112151 (Mugen Train 7/7). Persona 5 ist durch #4004 zurück. Auswertung: daniel-zum-abarbeiten/00-wache-auswertung.md |
 | Wache 15.11. (#3934): Captain Tsubasa Staffel 2, Prime-Beleg B0CM3H8VQS weg | 1 | Browser-Handmeldung `available: false` (e688a9a0) hat ihn entfernt, kein Baufehler. Zu prüfen: stimmt die Meldung (link-check war 200)? Wache soll Handmeldungen als „erklärt“ werten. |
 | Wache 13.11. (#3785): Patch-Notes-Vorrat hyouka-folgen-der-zweiten-haelfte wartet seit 05.11. | 1 | Kein Verlust im Bestand. Wartebedingung erfüllt: live hat Hyouka Prime dubRanges 1–3, 5–22. Offen: Vorrat freigeben (Text prüfen, Folge 4 fehlt weiter). Auswertung: daniel-zum-abarbeiten/00-wache-auswertung.md |

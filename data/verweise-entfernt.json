@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-17T08:48:13.821Z",
+  "stand": "2026-11-17T16:55:24.868Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7317,6 +7317,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 173172,
+      "titel": "Dorohedoro: Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-17",
+      "letzterWeg": false
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -7876,6 +7887,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-17",
       "letzterWeg": false
+    },
+    {
+      "titleId": 213805,
+      "titel": "The Ramparts of Ice: Staffel 2",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/82031882",
+      "seriesId": null,
+      "grund": "der Anbieter führt 14 Folgen, und die belegten Titel füllen sie exakt — für ? weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-17",
+      "letzterWeg": true
     },
     {
       "titleId": 3667,

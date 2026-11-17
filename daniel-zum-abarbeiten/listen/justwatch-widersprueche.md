@@ -7,14 +7,14 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 95 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 98 Wege, nur Hinweis: 1.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 7, Mehrteiler 3.
 
 | Anbieter | mit eigener Messung | Widersprüche | Anteil | Anzeige |
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
-| disneyplus | 10 | 0 | 0.0 % | Flagge |
+| disneyplus | 7 | 0 | 0.0 % | Flagge |
 | primevideo | 138 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
