@@ -9,7 +9,8 @@ import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeWegeNachBegrenzung, titelMitStream } from './11-2-5-wege-nach-begrenzung.ts'
-import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
+import { todayIso } from '../../shared/time.ts'
+import { ergaenzeWegeAusTerminen, ueberholteNeins } from './11-7-wege-aus-terminen.ts'
 import { vermerkeGeteilteAdressen } from './geteilte-adressen.ts'
 import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
 import { verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
@@ -86,7 +87,7 @@ export function schliesseWegeAb({
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 
   /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
-  ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntfernt, belegFuer })
+  ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntfernt, belegFuer, nein: ueberholteNeins(alleChecks, releases, todayIso()) })
 
   kennzeichneFreenetLautSchwester(titles)
 
