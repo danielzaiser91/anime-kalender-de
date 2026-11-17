@@ -106,6 +106,16 @@ function nurSichtungen(t: Title, k: Kontext): string | undefined {
   return rs.length > 0 && rs.every((r) => r.tvLetzteSichtung) ? 'nur-sichtung' : undefined
 }
 
+/**
+ * Zu Recht ohne Weg (17.11.2026): ein belegter Kinostart ab heute ist der Weg (Witch on the Holy Night, 26.01.2027); ohne Erscheinungsdatum und ohne
+ * jeden Termin gibt es noch nichts, worauf ein Weg zeigen könnte (Princess Principal: Crown Handler Chapter 5/6).
+ */
+function keinWegAusnahme(t: Title, k: Kontext): string | undefined {
+  const termine = k.releases.get(t.id) ?? []
+  if (termine.some((r) => r.platform === 'kino' && (r.sources?.length ?? 0) > 0 && (r.schedule?.firstEpisodeDate ?? '') >= k.heute)) return 'kinostart'
+  return !t.jpYear && !t.jpStart && !t.jpEnd && termine.length === 0 ? 'unveroeffentlicht' : undefined
+}
+
 export const REGELN: Regel[] = [
   { art: 'cover', gruppe: 'fehlend', wirkung: 3, wer: 'auto:tmdb-poster', zaehle: luecke('c'), ausnahme: (t, k) => (k.coverBekannt[t.id] ? 'ohne-bekanntes-cover' : undefined) },
   { art: 'banner', gruppe: 'fehlend', wirkung: 1, wer: 'auto:tmdb-banner', zaehle: (t) => !t.bannerImage },
@@ -120,7 +130,7 @@ export const REGELN: Regel[] = [
   { art: 'laufzeit', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.runtimeMin },
   { art: 'jahr', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anilist', zaehle: luecke('j') },
   { art: 'sprecher', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.hasVoices, ausnahme: (t) => (hatSynchro(t) ? undefined : 'ohne-synchro') },
-  { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => !hatEinenWeg(t) && !k.discTitel.has(t.id) },
+  { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => !hatEinenWeg(t) && !k.discTitel.has(t.id), ausnahme: keinWegAusnahme },
   { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => zaehleErstausgabeOhneWeg([t], k.discTitel) === 1 },
   { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend, ausnahme: nurSichtungen },
   { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: ohneSprachurteil },
