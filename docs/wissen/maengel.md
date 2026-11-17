@@ -218,3 +218,14 @@ Bau +0,23 s (Scan, 1.818 Folgen-Dateien und 32 Synopsen-Gruppen werden gelesen).
 ## Erster Abbau-Block (16.11.2026)
 
 Regeln geschärft: `adresse-mehrfach` zählt eine leere Adresse nicht mehr (sechs Titel zählten doppelt), dafür die neue Art `weg-ohne-adresse` (Wirkung 3). `erschienen-ohne-weg` zählt nur **sichere** Termine (`istSichererTermin` aus `11-7`, ein geschätzter baut dort keinen Weg) und kennt die Ausnahme `belegtes-nein` (`lib/maengel-nein.ts`: „nicht verfügbar“ gilt nur, wenn es nicht älter ist als der Termin, „ohne deutschen Ton“ immer). Geschätzte, verstrichene Termine ohne Weg stehen sichtbar in `termin-geschaetzt-ohne-weg` (Wirkung 2). Klassenfixes im Bau: Phase 11 vermerkt `sharedWith` ein zweites Mal (Wege aus JustWatch/Termin entstehen nach 09-7, Iruma-kun Disney+), ein RTL+-Weg ohne Adresse nimmt die seines einzigen RTL+-Bezugswegs (Pokémon 98298).
+
+## Block 2b, Lauf 17.11.2026 (Issue 4090): nichts belegbar (Routine ohne Quellzugang)
+
+Die Routine lief in einer Cloud-Sitzung ohne `node_modules`, ohne `data/cache` und mit gesperrtem Zugang zu aniSearch und ADN (Proxy: `connect_rejected`). Ohne Quelle keine Datenänderung. Befund aus den committeten Dateien (Stand `main` 17.11.2026):
+
+- **Devil May Cry 2007 (1726):** `titles.json` führt keinen Netflix-Weg mehr (`streams: []`), Netflix 81506915 hängt nur an 10020483 (Serie 2025, mit Handbeleg `dub: true`); das Register führt `adresse-mehrfach` für 1726 als behoben. Offen bleibt, ob die Sperre dauerhaft steht, nicht nur zufällig (Beleg am Bau prüfen).
+- **termin-trotz-nein 103631, 105228, 180829:** Termine sind Prime-Katalogtermine (`imAngebot`, 15.10./24.09.2026) bzw. ADN-Wochentakt (105228); das jüngere belegte Urteil liegt in Browser-Meldungen der D1 (Meldungskopie), die hier nicht erreichbar war. Offen.
+- **One Piece ADN:** Handbeleg 1–491, 493–516 (Daniel, 04.10.2026); die Meldungen vom 09.11.2026 liegen in der Meldungskopie. Offen.
+- **14713, 102836:** Prime-Termine (08.10./13.09.2026) ohne Sprachbeleg am Weg; Quellenlesung nötig. Offen.
+- **weg-ohne-adresse 11499, 129874, 142329, 170083:** Prime-Weg mit leerer URL (`herkunft: termin`, 129874/142329 `sprache: offen`) bzw. RTL+ ohne URL (170083). Adresse braucht Anbieterseite. Offen.
+- **Ohne nächsten Termin 165159, 209872, 213805:** Anbieterkalender nicht erreichbar; bleiben als unbekannt.
