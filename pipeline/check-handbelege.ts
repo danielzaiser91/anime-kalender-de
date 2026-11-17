@@ -61,6 +61,8 @@ import { pruefeVerwaiste } from './lib/handbeleg-verwaist.ts'
 import { bezugswegeTrotzNein } from './lib/handbeleg-bezugswege.ts'
 import type { Release, Title } from '../shared/types.ts'
 import { erstausgabeTrotzNein } from './bau/erstausgabe-markieren.ts'
+import { ueberholteNeins } from './bau/11-7-wege-aus-terminen.ts'
+import { todayIso } from '../shared/time.ts'
 import { mitZurueckgestellten } from './lib/quarantaene.ts'
 
 /*
@@ -107,11 +109,18 @@ const fehler: string[] = []
 let bestaetigt = 0
 let entferntWieVorgesehen = 0
 let uneindeutig = 0
+let neinUeberholt = 0
+/* Ein „nicht verfügbar“ älter als ein sicherer Prime-Kanal-Termin verneint den Kanal-Weg nicht (`ueberholteNeins`, wie im Bau). */
+const ueberholt = ueberholteNeins(belege, readJson<Release[]>(resolve(ROOT, 'public/data/releases.json'), []), todayIso())
 
 for (const [k, gruppe] of jeVerweis) {
   const [idRoh, platform] = k.split(':')
   const t = nachId.get(Number(idRoh))
   if (!t) continue
+  if (ueberholt.has(`${idRoh}|${platform}`)) {
+    neinUeberholt++
+    continue
+  }
   /**
    * **Nennt der Beleg eine Adresse, gilt er ihr — nicht der Plattform.**
    *
@@ -217,6 +226,7 @@ log(`Handprüfungen: ${belege.length} Einträge auf ${jeVerweis.size} Verweise`)
 log(`  im Datensatz bestätigt : ${bestaetigt}`)
 log(`  korrekt entfernt       : ${entferntWieVorgesehen}`)
 log(`  uneindeutig (Bereiche) : ${uneindeutig} — nicht bewertet`)
+log(`  Nein überholt (Kanal-Termin) : ${neinUeberholt} — nicht bewertet`)
 
 if (fehler.length) {
   warn(`${fehler.length} Handprüfungen werden vom Datensatz nicht wiedergegeben:`)

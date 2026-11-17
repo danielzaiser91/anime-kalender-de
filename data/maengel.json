@@ -20,13 +20,13 @@
     "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":164,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "synchro-schwach": {"wirkung":2,"wer":"hand:synchro-belegen","offen":79,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "erschienen-ohne-weg": {"wirkung":3,"wer":"hand:synchro-belegen","offen":2,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":3},
-    "termin-trotz-nein": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":2,"rueckfall":0,"ausnahme":0},
+    "termin-trotz-nein": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "termin-geschaetzt-ohne-weg": {"wirkung":2,"wer":"hand:synchro-belegen","offen":4,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "folgenzahl-widerspruch": {"wirkung":2,"wer":"hand:synchro-belegen","offen":29,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":458},
     "staffel-zuordnung": {"wirkung":2,"wer":"hand:synchro-belegen","offen":6,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":29},
     "herkunft-fremder-titel": {"wirkung":3,"wer":"auto:bau","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":3,"neu":0,"behoben":1,"rueckfall":0,"ausnahme":0}
+    "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0}
   },
   "zeilen": [
     {"t":10013739,"art":"cover","wirkung":3,"wer":"auto:tmdb-poster","status":"abwesend","seit":"2026-11-17","bis":"2026-11-17"},
