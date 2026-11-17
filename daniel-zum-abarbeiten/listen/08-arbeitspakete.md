@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-17 · **26 offene Verweise** in **24 Zeilen**,
+Stand 2026-11-17 · **23 offene Verweise** in **22 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -39,28 +39,26 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 2 | Netflix | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 3 | Prime Video | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
 | 4 | Disney+ | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 5 | Netflix | 2.5 Dimensional Seduction — 2.5 Dimensional Seduction | [2.5 Dimensional Seduction](https://www.netflix.com/title/81909977) |
-| 6 | Netflix | Wistoria: Wand and Sword | [Hauptserie](https://www.netflix.com/title/81900358) · [Hauptserie](https://www.netflix.com/title/81900358) |
-| 7 | Pluto TV | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
-| 8 | Prime Video | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 9 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 10 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 11 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
-| 12 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
-| 13 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 14 | Prime Video | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
-| 15 | Netflix | Thunder 3 | [Hauptserie](https://www.netflix.com/title/82736186) |
-| 16 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 17 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 18 | Disney+ | Star Wars: Visionen | [präsentiert - Die neunte Jedi](https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a) |
-| 19 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 20 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 5 | Pluto TV | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
+| 6 | Prime Video | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 7 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 8 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 9 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
+| 10 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 11 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
+| 12 | Prime Video | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
+| 13 | Netflix | Thunder 3 | [Hauptserie](https://www.netflix.com/title/82736186) |
+| 14 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 15 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 16 | Disney+ | Star Wars: Visionen | [präsentiert - Die neunte Jedi](https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a) |
+| 17 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 18 | Netflix | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
+| 19 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle](https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034) |
+| 20 | Disney+ | Jujutsu Kaisen | [0](https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194) |
 
-## Paket 2 — Zeilen 21 bis 24
+## Paket 2 — Zeilen 21 bis 22
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle](https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034) |
-| 22 | Disney+ | Jujutsu Kaisen | [0](https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194) |
-| 23 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 24 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 21 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 22 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
