@@ -11,6 +11,7 @@ import { parse } from 'yaml'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
+import { KOPF_ABSTAND_MS, KOPF_PRUEFUNGEN } from './pr-nachrechnen-zweig.mjs'
 import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, kettenweit, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
@@ -125,6 +126,7 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
 }
 // update-branch (Lehre 129, 17.11.2026, tools/pr-nachrechnen-zweig.mjs): main kommt per PUT in den Zweig, der Kopf ist danach neu und wird genannt.
+pruefe('pr-nachrechnen-zweig.mjs: Grenzen 15 Lesungen à 2000 ms (30 s)', KOPF_PRUEFUNGEN === 15 && KOPF_ABSTAND_MS === 2000, { KOPF_PRUEFUNGEN, KOPF_ABSTAND_MS })
 const KOPF_NEU = 'd4'.padEnd(40, '4')
 const PUT = `api -X PUT repos/{owner}/{repo}/pulls/7/update-branch -f expected_head_sha=${KOPF}`
 const KOPF_LESEN = 'api repos/{owner}/{repo}/pulls/7 --jq .head.sha'
@@ -138,6 +140,11 @@ const mitUpdate = (zusatz) => ({ ...antworten({ mainSha: MAIN }), [PUT]: { aus: 
   pruefe('update-branch: wartet, bis der Kopf neu ist (zwei Wartezeiten à KOPF_ABSTAND_MS)', k.gewartet.join() === '2000,2000', k.gewartet)
   pruefe('update-branch: Grund wird kommentiert', k.aufrufe.includes('pr comment 7'), k.aufrufe)
   pruefe('update-branch: Reihenfolge, PUT vor dem Lesen des Kopfs', k.aufrufe.indexOf(PUT) < k.aufrufe.indexOf(KOPF_LESEN), k.aufrufe)
+}
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: ['\n', `${KOPF_NEU}\n`] } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  pruefe('update-branch: leere Antwort für den Kopf zählt nicht als neuer Kopf (wartet, nennt dann den echten)', code === 1 && k.gewartet.length === 1 && k.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`), { code, w: k.gewartet, m: k.meldungen })
 }
 for (const [name, fehlerText, erwartet] of [['422 (Konflikt)', 'gh: Merge conflict (HTTP 422)', /update-branch abgelehnt \(422/], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen', /update-branch hing/]]) {
   const k = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
