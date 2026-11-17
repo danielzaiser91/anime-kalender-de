@@ -5,6 +5,7 @@
  * am Knopf (alter Weg) bekommt den Klick dort nie.
  */
 const { readFileSync } = require('node:fs')
+const { ladeSkripte, skripteBis } = require('./test-lader.cjs')
 const vm = require('node:vm')
 
 const faelle = []
@@ -133,9 +134,7 @@ function seiteNeu({ seitenStopp }) {
   umgebung.self = umgebung
   const kontext = vm.createContext(umgebung)
   if (seitenStopp) doc.addEventListener('click', (e) => e.stopPropagation(), true)
-  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'melder.js']) {
-    vm.runInContext(readFileSync(__dirname + '/' + datei, 'utf8'), kontext, { filename: datei })
-  }
+  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'melder.js'] }))
   const run = (c) => vm.runInContext(c, kontext)
   /** Echte Reihenfolge: Fenster-Capture, Dokument-Capture, dann Listener am Ziel. */
   const klick = (ziel) => {

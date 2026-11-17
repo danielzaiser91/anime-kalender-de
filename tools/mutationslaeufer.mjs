@@ -77,6 +77,7 @@ export function normalisiereListe(liste) {
       const ok = typeof a.datei === "string" && typeof a.suche === "string" && a.suche !== "" && typeof a.ersetze === "string"
       if (!ok) throw new Error(`Mutant ${i + 1}: datei/suche/ersetze fehlen oder sind leer: ${JSON.stringify(a)}`)
     }
+    if (m.tests !== undefined && !Array.isArray(m.tests)) throw new Error(`Mutant ${i + 1}: "tests" muss eine Liste von Befehlen sein, kein ${typeof m.tests}: ${JSON.stringify(m.tests)}`)
     return { name: m.name ?? `m${i + 1}`, aenderungen, tests: m.tests }
   })
 }
@@ -166,6 +167,8 @@ export function laufTest(befehl, cwd, timeoutSek) {
 
 // Leerer oder nur aus Leerraum bestehender Befehl läuft in der Shell als „grün“: nie als Test zählen (Lehre 132, 17.11.2026).
 export const ausfuehrbareTests = (tests) => (tests ?? []).filter((t) => typeof t === "string" && t.trim() !== "")
+// Eine unmutierte Kontrolle unter 1 s hat vermutlich nichts geprüft (Lehre 132, 17.11.2026); nur Warnung, kein Exit-Wechsel.
+export const KONTROLLE_MIN_MS = 1000
 const testsVon = (m, opt) => ausfuehrbareTests(m.tests ?? opt.tests)
 
 // Tests der Reihe nach, beim ersten roten Schluss: { urteil, fangend, ausgabe }.
@@ -245,7 +248,11 @@ async function lauf(opt, mutanten, originale) {
     if (plan.texte && tests.length === 0) z = { ...z, texte: undefined, urteil: "unbrauchbar", detail: "kein Testbefehl" }
     if (z.texte) {
       for (const [pfad, text] of plan.texte) writeFileSync(pfad, text)
+      const start = Date.now()
       z = { ...z, ...(await probiereTests(tests, opt.cwd, opt.timeout)) }
+      if (z.kontrolle && z.urteil === "GRÜN" && Date.now() - start < KONTROLLE_MIN_MS) {
+        z = { ...z, detail: "Warnung: Kontrolle verdächtig schnell, Test prüft vermutlich nichts" }
+      }
       for (const [pfad, bytes] of originale) writeFileSync(pfad, bytes)
     }
     zeilen.push(z)
