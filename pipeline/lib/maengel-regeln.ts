@@ -100,6 +100,12 @@ function terminFehltLaufend(t: Title, k: Kontext): boolean {
   return (!t.jpEnd || t.jpEnd >= k.heute) && !k.kuenftig.has(t.id)
 }
 
+/** Nur TV-/RTL+-Sichtungen: sie schreiben nichts fort (`expandEvents`), der nächste Termin entsteht erst mit der nächsten Sichtung. */
+function nurSichtungen(t: Title, k: Kontext): string | undefined {
+  const rs = (k.releases.get(t.id) ?? []).filter((r) => r.releaseType !== 'disc')
+  return rs.length > 0 && rs.every((r) => r.tvLetzteSichtung) ? 'nur-sichtung' : undefined
+}
+
 export const REGELN: Regel[] = [
   { art: 'cover', gruppe: 'fehlend', wirkung: 3, wer: 'auto:tmdb-poster', zaehle: luecke('c'), ausnahme: (t, k) => (k.coverBekannt[t.id] ? 'ohne-bekanntes-cover' : undefined) },
   { art: 'banner', gruppe: 'fehlend', wirkung: 1, wer: 'auto:tmdb-banner', zaehle: (t) => !t.bannerImage },
@@ -116,7 +122,7 @@ export const REGELN: Regel[] = [
   { art: 'sprecher', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anisearch', zaehle: (t) => !t.hasVoices, ausnahme: (t) => (hatSynchro(t) ? undefined : 'ohne-synchro') },
   { art: 'kein-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => !hatEinenWeg(t) && !k.discTitel.has(t.id) },
   { art: 'erstausgabe-ohne-weg', gruppe: 'fehlend', wirkung: 3, wer: 'daniel', zaehle: (t, k) => zaehleErstausgabeOhneWeg([t], k.discTitel) === 1 },
-  { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend },
+  { art: 'termin-fehlt-laufend', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: terminFehltLaufend, ausnahme: nurSichtungen },
   { art: 'sprachurteil-offen', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: ohneSprachurteil },
   { art: 'synchro-schwach', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t) => t.dubConfidence === 'low' },
   { art: 'erschienen-ohne-weg', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: erschienenOhneWeg, ausnahme: belegtesNein },

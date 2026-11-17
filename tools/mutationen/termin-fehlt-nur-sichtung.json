@@ -1,0 +1,37 @@
+[
+  {
+    "name": "maengel-regeln.ts nurSichtungen: every → some",
+    "aenderungen": [
+      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": "rs.every((r) => r.tvLetzteSichtung)", "ersetze": "rs.some((r) => r.tvLetzteSichtung)" }
+    ],
+    "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
+  },
+  {
+    "name": "maengel-regeln.ts nurSichtungen: Länge-Prüfung entfernt",
+    "aenderungen": [
+      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": "rs.length > 0 && rs.every", "ersetze": "rs.every" }
+    ],
+    "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
+  },
+  {
+    "name": "maengel-regeln.ts nurSichtungen: Disc-Filter entfernt",
+    "aenderungen": [
+      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": ".filter((r) => r.releaseType !== 'disc')\n  return rs.length", "ersetze": "\n  return rs.length" }
+    ],
+    "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
+  },
+  {
+    "name": "maengel-regeln.ts termin-fehlt-laufend: Ausnahme nicht verdrahtet",
+    "aenderungen": [
+      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": "zaehle: terminFehltLaufend, ausnahme: nurSichtungen }", "ersetze": "zaehle: terminFehltLaufend }" }
+    ],
+    "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
+  },
+  {
+    "name": "maengel-regeln.ts nurSichtungen: Grund-Text leer",
+    "aenderungen": [
+      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": "? 'nur-sichtung' : undefined", "ersetze": "? undefined : undefined" }
+    ],
+    "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
+  }
+]

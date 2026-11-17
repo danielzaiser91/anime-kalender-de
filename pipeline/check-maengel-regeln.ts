@@ -85,6 +85,13 @@ pruefe('erstausgabe-ohne-weg: Disc-Termin ist ein Weg (#4034)', !arten(gut(1, { 
 pruefe('erstausgabe-ohne-weg: mit Weg kein Treffer', !arten(gut(1, { deErstausgabe: erst })).includes('erstausgabe-ohne-weg'))
 pruefe('termin-fehlt-laufend: Treffer', arten(gut(1, { jpEnd: undefined })).join() === 'termin-fehlt-laufend')
 pruefe('termin-fehlt-laufend: Termin da oder Serie beendet: kein Treffer', arten(gut(1, { jpEnd: undefined }), kontext({ kuenftig: new Set([1]) })).length === 0 && arten(gut(1)).length === 0)
+const sichtung = (ueber: Partial<Release> = {}) => rel({ releaseType: 'weekly', tvLetzteSichtung: '2026-11-14', ...ueber })
+pruefe('termin-fehlt-laufend: nur Sichtungen (Beyblade X) schreiben nichts fort: Ausnahme nur-sichtung',
+  arten(gut(1, { jpEnd: undefined }), mitReleases(sichtung(), sichtung({ releaseType: 'batch' }))).join() === 'termin-fehlt-laufend:nur-sichtung')
+pruefe('termin-fehlt-laufend: ein Termin ohne Sichtung daneben und keine Releases bleiben Treffer, ein Disc-Termin ändert nichts',
+  arten(gut(1, { jpEnd: undefined }), mitReleases(sichtung(), rel({ releaseType: 'weekly' }))).join() === 'termin-fehlt-laufend'
+  && arten(gut(1, { jpEnd: undefined }), mitReleases(sichtung(), rel({ releaseType: 'disc', platform: 'disc' }))).join() === 'termin-fehlt-laufend:nur-sichtung'
+  && arten(gut(1, { jpEnd: undefined }), mitReleases()).join() === 'termin-fehlt-laufend')
 pruefe('sprachurteil-offen: Treffer', arten(gut(1, { streams: [{ platform: 'netflix', url: 'u' }] as Title['streams'] })).join() === 'sprachurteil-offen')
 pruefe('sprachurteil-offen: ein Urteil genügt', !arten(gut(1, { streams: [{ platform: 'netflix', url: 'u', dub: false }, { platform: 'adn', url: 'v' }] as Title['streams'] })).includes('sprachurteil-offen'))
 pruefe('synchro-schwach: Treffer', arten(gut(1, { dubConfidence: 'low' })).join() === 'synchro-schwach')
