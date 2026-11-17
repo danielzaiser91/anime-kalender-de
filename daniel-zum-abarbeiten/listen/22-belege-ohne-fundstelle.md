@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (41)
+# Belege ohne Fundstelle (42)
 
 Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termin gefunden hat (Fundstelle nur außerhalb des Bildausschnitts zählt nicht; Adressen ohne zugeordneten Titel und aniSearch-Kurzadressen neben ihrer Slug-Form fehlen). Von Hand prüfen: steht der Name im Seitentext, hat das Lesen die Marke verloren (der Lauf meldet es als Warnung „stehen im Seitentext, haben aber keine Marke“); sonst nennt der Artikel den Titel oder den Termin nicht, oder in verschiedenen Zeilen. Fehlt eines davon, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -28,7 +28,6 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/ (gelesen 2026-11-12) — Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower) (20791), Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly) (21718), Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song) (21719)
 - https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/ (gelesen 2026-10-30) — Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (176301)
 - https://www.anime2you.de/news/1045191/netflix-gintama-film-und-mehr/ (gelesen 2026-10-28) — Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe (113971)
-- https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/ (gelesen 2026-11-12) — Yu☆Gi☆Oh! Duel Monsters GX (482)
 - https://de.wikipedia.org/wiki/Super_Wings (gelesen 2026-10-30) — Chuldong! Super Wings (10012621)
 - https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-11-12) — Kill la Kill (18679)
 - https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-11-02) — Beyblade X – Staffel 2 - Teil 2 (165159)
@@ -36,6 +35,7 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/ (gelesen 2026-11-02) — Shingeki no Kyojin (16498)
 - https://news.animationdigitalnetwork.com/de/2026/10/15/reincarnated-as-a-dragon-hatchling-cast-alle-infos-zur-deutschen-synchro/ (gelesen 2026-11-02) — Tensei Shitara Dragon no Tamago Datta: Saikyou Igai Mezasa Nee (187941)
 - https://www.anisearch.de/article/214968,bocchi-the-rock-staffel-1-vol-1-3-limited-platinum-vip-edition-blu-ray-sammelschuber (gelesen 2026-11-13) — Bocchi the Rock! – Vol. 1 (130003)
+- https://www.anime2you.de/news/1065067/disney-plus-bleach-finale-und-mehr/ (gelesen 2026-11-06) — Yu-Gi-Oh! Zexal (10015)
 - https://www.anime2you.de/news/1065256/prime-video-goblin-slayer-staffel-2-und-mehr/ (gelesen 2026-11-12) — GOBLIN SLAYER II (129188)
 - https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/ (gelesen 2026-11-06) — Shingeki no Kyojin (16498)
 - https://www.anime2you.de/news/1067193/disney-plus-honey-lemon-soda-und-mehr-verfuegbar/ (gelesen 2026-11-09) — BORUTO-ボルト- NARUTO NEXT GENERATIONS (97938)
@@ -43,3 +43,4 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://news.animationdigitalnetwork.com/de/2026/11/02/i-parry-everything-jetzt-auf-deutsch-im-stream-bei-adn/ (gelesen 2026-11-10) — Ore wa Subete wo [Parry] Suru: Gyaku Kanchigai no Sekai Saikyou wa Boukensha ni Naritai (170695)
 - https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/ (gelesen 2026-11-14) — Dragon Ball Super (21175), Dan Da Dan (171018), Dan Da Dan: Staffel 2 (185660), Shingeki no Kyojin (16498)
 - https://de.wikipedia.org/wiki/My_Hero_Academia/Episodenliste (gelesen 2026-11-16) — My Hero Academia Staffel 6 (139630)
+- https://news.animationdigitalnetwork.com/de/2026/11/16/witch-watch-staffel-2-ausstrahlung-in-2027-manga-beendet/ (gelesen 2026-11-17) — Witch Watch (180367)

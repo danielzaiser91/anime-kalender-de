@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -11,7 +11,7 @@ Stand: 2026-11-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | netflix | – unklar | [Erster Trailer zum Netflix-Anime »Fool Night« + Visual](https://www.anime2you.de/news/1067870/fool-night-netflix-erster-trailer/) |
 | 2026-11-28, 2026-11 (Monat) | ? | – unklar | [Starttermin der vierten »Pokémon Horizonte«-Staffel auf TOGGO](https://www.anime2you.de/news/1067953/pokemon-horizonte-staffel-4-toggo-start/) |
 | 2026-11-27, 2026-12-04, 2026-11 (Monat) | ? | ✅ zugesagt | [ProSieben MAXX wiederholt zweite »Eminence in Shadow«-Staffel](https://www.anime2you.de/news/1066006/prosieben-maxx-eminence-in-shadow-staffel-2-wiederholung/) |
-| 2026-11-16, 2026-11 (Monat) | ? | – unklar | [HBO Max nimmt Original-Serie »Lazarus« ins Programm](https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/) |
+| 2026-11 (Monat) | ? | – unklar | [HBO Max nimmt Original-Serie »Lazarus« ins Programm](https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/) |
 | 2026-12 (Monat), 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück](https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/) |
 | 2026-11-24, 2026-11 (Monat) | disneyplus | – unklar | [Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an](https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/) |
 | 2026-11 (Monat) | primevideo, aniverse | – unklar | [Neue Anime-Katalogtitel im November 2026 bei aniverse](https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/) |
@@ -51,57 +51,57 @@ Stand: 2026-11-16. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 
 … und 16 weitere.
 
-Dazu 64 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 66 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 11 |
-| adn-catalog | 5.5 Tage her | 120 |
+| adn-catalog | 0.9 Tage her | 120 |
 | adn-news | 0.1 Tage her | 69 |
-| anilist-voices | 5.6 Tage her | 3012 |
-| anime-offline-database | 5.6 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 97 |
-| anisearch | 0.0 Tage her | 14883 |
-| anisearch-cover-eigen | 11.6 Tage her | 138 |
-| anisearch-dubs | 0.0 Tage her | 11951 |
-| anisearch-eintraege | 7.0 Tage her | 400 |
-| anisearch-folgen | 5.6 Tage her | 2720 |
-| anisearch-slugs | 5.6 Tage her | 14915 |
-| anisearch-zuordnung | 0.0 Tage her | 18518 |
-| ann-voices | 5.6 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 21 |
-| cartoon-folgen | 7.0 Tage her | 365 |
-| cartoon-reihen | 0.0 Tage her | 0 |
-| cartoons | 0.0 Tage her | 2 |
-| cinestar | 0.0 Tage her | 1 |
-| cr-einzelwerke | 2.5 Tage her | 1 |
-| cr-filmbloecke | 2.5 Tage her | 1 |
+| anilist-voices | 1.0 Tage her | 3012 |
+| anime-offline-database | 1.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 99 |
+| anisearch | 0.9 Tage her | 1 |
+| anisearch-cover-eigen | 12.6 Tage her | 138 |
+| anisearch-dubs | 1.0 Tage her | 11951 |
+| anisearch-eintraege | 1.0 Tage her | 400 |
+| anisearch-folgen | 1.0 Tage her | 452 |
+| anisearch-slugs | 1.0 Tage her | 14919 |
+| anisearch-zuordnung | 1.0 Tage her | 18518 |
+| ann-voices | 1.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 20 |
+| cartoon-folgen | 1.0 Tage her | 366 |
+| cartoon-reihen | 1.0 Tage her | 0 |
+| cartoons | 1.0 Tage her | 2 |
+| cinestar | 1.0 Tage her | 1 |
+| cr-einzelwerke | 3.5 Tage her | 1 |
+| cr-filmbloecke | 3.5 Tage her | 1 |
 | crunchyroll-dub | 0.5 Tage her | 1156 |
-| crunchyroll-neu | 0.0 Tage her | 194 |
-| crunchyroll-offene | 7.0 Tage her | 11 |
+| crunchyroll-neu | 0.0 Tage her | 196 |
+| crunchyroll-offene | 1.0 Tage her | 7 |
 | crunchyroll-woche | 0.0 Tage her | 63 |
-| justwatch-audio | 1.0 Tage her | 4 |
-| kinoheld | 0.0 Tage her | 0 |
-| kitsu-folgen | 3.6 Tage her | 0 |
-| link-check | 5.6 Tage her | 32 |
+| justwatch-audio | 1.0 Tage her | 71 |
+| kinoheld | 1.0 Tage her | 0 |
+| kitsu-folgen | 4.5 Tage her | 0 |
+| link-check | 1.0 Tage her | 18 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 9.0 Tage her | 2123 |
-| motn-changes | 0.0 Tage her | 12 |
-| rohfolgen | 1.2 Tage her | 0 |
-| rtlplus-folgen | 5.6 Tage her | 3 |
-| tmdb-banner | 5.6 Tage her | 110 |
-| tmdb-folgen | 5.6 Tage her | 932 |
-| tmdb-kino | 5.6 Tage her | 3 |
-| tmdb-poster | 5.6 Tage her | 237 |
-| tmdb-titles | 7.0 Tage her | 400 |
+| motn | 10.0 Tage her | 2123 |
+| motn-changes | 0.0 Tage her | 0 |
+| rohfolgen | 2.1 Tage her | 0 |
+| rtlplus-folgen | 1.0 Tage her | 3 |
+| tmdb-banner | 1.0 Tage her | 11 |
+| tmdb-folgen | 1.0 Tage her | 945 |
+| tmdb-kino | 1.0 Tage her | 3 |
+| tmdb-poster | 1.0 Tage her | 236 |
+| tmdb-titles | 1.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 0.0 Tage her | 1 |
-| tv-de | 10.2 Tage her | 0 |
-| tv-programm | 0.0 Tage her | 261 |
+| trailer | 1.0 Tage her | 1 |
+| tv-de | 11.2 Tage her | 0 |
+| tv-programm | 0.0 Tage her | 285 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 0.0 Tage her | 5373 |
-| wikidata-titel | 0.0 Tage her | 16 |
+| wikidata-imdb | 1.0 Tage her | 5373 |
+| wikidata-titel | 1.0 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 10 |
-| youtube-check | 0.0 Tage her | 1 |
+| youtube-check | 1.0 Tage her | 1 |

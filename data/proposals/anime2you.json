@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-11-16T21:02:17.802Z",
+  "scrapedAt": "2026-11-17T04:12:10.754Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
-    "Sprachhinweis älter als 45 Tage": 6
+    "schon in einem Rubrik-Feed gelesen": 28,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 58,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "Sprachhinweis älter als 45 Tage": 8
   },
   "proposals": [
     {
@@ -237,7 +237,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-14"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
@@ -645,7 +645,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-14"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -983,7 +983,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-14"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -1056,7 +1056,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-14"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -1112,7 +1112,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-14"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -1279,10 +1279,6 @@
       "category": "streaming",
       "platforms": [],
       "dates": [
-        {
-          "iso": "2026-11-16",
-          "context": "uf. Wir fassen zusammen. Ab November 2026 verfügbar »Lazarus« wird am 16. November 2026 auf HBO Max veröffentlicht. Details zu den angeboten"
-        },
         {
           "month": "2026-11",
           "context": "e Original-Serie »Lazarus« in sein Programm auf. Wir fassen zusammen. Ab November 2026 verfügbar »Lazarus« wird am 16. November 2026 auf HBO"
@@ -1458,7 +1454,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-14"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -2359,7 +2355,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-14"
+      "discGelesen": "2026-11-17"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
