@@ -48,13 +48,15 @@ export function istSichererTermin(r: Release): boolean {
  * Schlüssel `Titel|Anbieter`, deren Handbeleg-Nein „nicht verfügbar“ (Suche ohne Treffer) älter ist als ein sicherer Prime-Kanal-Termin (17.11.2026: Kamisama Kiss
  * 14713, Nein 27.08. gegen Aniverse-Termin 08.10.; Call of the Night 175914). Das Nein hat die Amazon-Suche gemessen, der Kanal-Termin kam danach; das Angebot kann
  * erst später erschienen sein (`baueNeinGilt`). Nur mit `kanal`: Ohne Kanal bliebe ein Weg ohne Adresse und ohne Ton (Kuroko 102836), den es vorher nicht gab.
+ * Nur begonnene Termine (`ab <= heute`, wie die Mängelart `erschienen-ohne-weg`): Ein Weg ohne Tonurteil für einen erst kommenden Termin brächte nur `sprachurteil-offen`
+ * hinzu (Call of the Night 175914, Termin 20.11.2026).
  */
-export function ueberholteNeins(belege: Parameters<typeof baueNeinGilt>[0], releases: Release[]): Set<string> {
+export function ueberholteNeins(belege: Parameters<typeof baueNeinGilt>[0], releases: Release[], heute: string): Set<string> {
   const gilt = baueNeinGilt(belege)
   const fruehester = new Map<string, string>()
   for (const r of releases) {
     const ab = r.schedule?.firstEpisodeDate
-    if (!r.kanal || !ab || !istSichererTermin(r)) continue
+    if (!r.kanal || !ab || ab > heute || !istSichererTermin(r)) continue
     const k = dubKey(r.titleId, r.platform)
     if (ab < (fruehester.get(k) ?? '9')) fruehester.set(k, ab)
   }
