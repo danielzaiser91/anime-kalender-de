@@ -54,17 +54,18 @@ const von = quelle.indexOf('async function selbstKlick(selbst)')
 const knopf = quelle.slice(von, quelle.indexOf('\n}\n', von) + 2)
 pruefe('Klick-Handler hängt am Knopf', /akKlick\(selbst, \(\) => selbstKlick\(selbst\)\)/.test(quelle) && von > 0)
 const jetzt = 1000000
-/* Der Anspruch (4071) liest und schreibt den Besitzer über `akKontext`: hier ein fester Besitzer, `warte` (300 ms) läuft sofort, der 5-s-Timer des Knopfes wird gesammelt. */
+/* Der Anspruch (4071) liest und schreibt den Besitzer über `akKontext`: hier ein kleiner Speicher, der den Start-Besitzer hält und den Anspruch zurückliest, `warte` (300 ms) läuft sofort, der 5-s-Timer des Knopfes wird gesammelt. */
 const klick = async ({ selbstAn = false, besitzer = null, start = true } = {}) => {
   const z = { gestartet: 0, beendet: [], geschlossen: 0, timer: [], freigaben: [] }
   const selbst = { textContent: '▶ alle durchgehen', title: 'alt', disabled: false }
+  let gespeichert = besitzer
   await new Function(
     'selbstAn', 'laufBeenden', 'dialogSchliessen', 'akNetflixStartHinweis', 'durchgangBesitzer', 'meinTab', 'Date', 'laufStarten', 'selbstUebersprungen', 'setTimeout', 'selbst', 'akNetflixBesitzAnspruch', 'globalThis', 'taktTun',
     `${knopf}\nreturn selbstKlick(selbst)`,
   )(
     selbstAn, (g) => z.beendet.push(g), () => z.geschlossen++, kontext.akNetflixStartHinweis, besitzer, 'tab-a', { now: () => jetzt },
     () => { z.gestartet++; return start }, { keinAuftrag: () => ({ text: 'nichts offen', title: 'Titel kein Auftrag' }) }, (f, ms) => (ms < 1000 ? f() : z.timer.push([f, ms])), selbst,
-    kontext.akNetflixBesitzAnspruch, { akKontext: { lebt: () => true, lesen: async () => ({ netflixDurchgangBesitzer: besitzer }), schreiben: async () => true } }, { schreiben: (b) => z.freigaben.push(b) },
+    kontext.akNetflixBesitzAnspruch, { akKontext: { lebt: () => true, lesen: async () => ({ netflixDurchgangBesitzer: gespeichert }), schreiben: async (w) => { gespeichert = w.netflixDurchgangBesitzer; return true } } }, { schreiben: (b) => z.freigaben.push(b) },
   )
   return { z, selbst }
 }

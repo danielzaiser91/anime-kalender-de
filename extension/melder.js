@@ -2014,7 +2014,7 @@ async function merkeErledigt(id, staffel, folge) {
    */
   if (offeneTitel[String(id)] === undefined) {
     try {
-      const { zuletztGeoeffnet } = (await speicherLesen('zuletztGeoeffnet')) ?? {}
+      const zuletztGeoeffnet = akNetflixEigenerSprung(((await speicherLesen('zuletztGeoeffnet')) ?? {}).zuletztGeoeffnet, meinTab, selbstAn)
       if (
         zuletztGeoeffnet?.id &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
@@ -2444,8 +2444,8 @@ async function selbstKlick(selbst) {
     dialogSchliessen()
     return
   }
-  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel); bei zwei gleichzeitigen Klicks gewinnt genau einer (4071). */
-  const hinweis = (await akNetflixBesitzAnspruch({ kontext: globalThis.akKontext, tab: meinTab, jetzt: Date.now, warte: (ms) => new Promise((f) => setTimeout(f, ms)) })) ?? (laufStarten() ? null : (taktTun.schreiben(null), selbstUebersprungen.keinAuftrag()))
+  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel); bei zwei Klicks binnen 300 ms gewinnt, wer sich zurückliest, sonst beendet der Takt den Verlierer (4071). */
+  const hinweis = (await akNetflixBesitzAnspruch({ kontext: globalThis.akKontext, tab: meinTab, knopf: selbst, jetzt: Date.now, warte: (ms) => new Promise((f) => setTimeout(f, ms)) })) ?? (laufStarten() ? null : (taktTun.schreiben(null), selbstUebersprungen.keinAuftrag()))
   if (!hinweis) return
   /* Kein Start: der Dialog bleibt offen und sagt es (kein Auftrag heißt meist, die Erweiterung hält einen älteren Prüfstand — ein Neuladen holt ihn). */
   const vorher = selbst.textContent

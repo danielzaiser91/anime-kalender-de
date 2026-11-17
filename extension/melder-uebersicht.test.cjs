@@ -84,7 +84,20 @@ function macheElement(tag) {
       }
       return null
     },
-    querySelectorAll() { return [] },
+    /* Nur reine Klassenlisten („.a, .b“), wie sie die Sperre in netflix-liste-ansicht.js fragt; alles andere bleibt leer. */
+    querySelectorAll(sel) {
+      const klassen = String(sel).split(',').map((s) => /^\.([\w-]+)$/.exec(s.trim())?.[1])
+      if (klassen.some((k) => !k)) return []
+      const treffer = []
+      const suchen = (el) => {
+        for (const k of el.kinder ?? []) {
+          if (klassen.some((c) => String(k?.className ?? '').split(/\s+/).includes(c))) treffer.push(k)
+          suchen(k)
+        }
+      }
+      suchen(this)
+      return treffer
+    },
     setAttribute() {},
     getAttribute() { return null },
     closest() { return null },
@@ -577,6 +590,27 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
     pruefe('zurückgestellt: ein zurückgestellter Titel zählt nicht als „gemeldet“ (kein Knopf „N gemeldet“)', gemeldetKnopf === null, gemeldetKnopf?.textContent)
     pruefe('ohne Gemeldetes steht keine „nächste Übernahme“ im Kopf', suche(zurueck.body, 'ak-lauf') === null)
     await pruefeZurueckZeilen(zurueck.body, zurueck.umgebung)
+  }
+  /* Ein anderer Tab führt den Durchgang (4071, Schnitt 2): die echte Prüfliste ist gesperrt, der Titel-Verweis bleibt klickbar und schreibt nur den Klick-Eintrag mit der Kennung dieses Tabs. */
+  {
+    const bis = Number.MAX_SAFE_INTEGER
+    const start = { netflixZurueckgestellt: { 80243876: { grund: 'Erinnern statt Folgenliste', bis } }, netflixDurchgangBesitzer: { tab: 'anderer-tab', puls: Date.now() } } // uhr-echt: der Melder prüft den Puls gegen seine echte Uhr
+    const fremd = lade('/title/81186100', KULISSE, '', start)
+    for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    await vm.runInContext('dialogOeffnen()', vm.createContext(fremd.umgebung))
+    const alle = alleElemente(fremd.body)
+    const durchgang = alle.find((el) => el.className === 'ak-umschalter')
+    pruefe('fremder Durchgang: der Durchgangs-Knopf ist gesperrt und sagt, wo er läuft', durchgang?.disabled === true && /anderen Tab/.test(String(durchgang?.textContent)), [durchgang?.disabled, durchgang?.textContent])
+    pruefe('fremder Durchgang: ein Satz im Kopf sagt, warum', alle.some((el) => /anderen Tab/.test(String(el.textContent)) && !(el.kinder ?? []).length && el !== durchgang))
+    const sperren = alle.filter((el) => ['ak-tot', 'ak-staffel-weg'].some((k) => String(el.className).split(/\s+/).includes(k)))
+    pruefe('fremder Durchgang: „nichts da?“ und „Staffel melden“ sind gesperrt', sperren.length > 0 && sperren.every((el) => el.disabled === true), sperren.map((el) => [el.className, el.disabled]))
+    const link = alleElemente(suche(fremd.body, 'ak-zurueck-ansicht')).find((el) => el.tagName === 'A')
+    link.closest = () => link
+    const vorher = Object.keys(await fremd.umgebung.chrome.storage.local.get(null))
+    vm.runInContext('akKlickVerteilen', vm.createContext(fremd.umgebung))({ target: link })
+    for (let i = 0; i < 6; i++) await new Promise((r) => setImmediate(r))
+    const gespeichert = await fremd.umgebung.chrome.storage.local.get(null)
+    pruefe('fremder Durchgang: der Titel-Verweis bleibt klickbar und schreibt nur zuletztGeoeffnet, mit Tab-Kennung', gespeichert.zuletztGeoeffnet?.id === '80243876' && typeof gespeichert.zuletztGeoeffnet?.tab === 'string' && gespeichert.zuletztGeoeffnet.tab !== 'anderer-tab' && Object.keys(gespeichert).filter((k) => !vorher.includes(k)).join() === 'zuletztGeoeffnet', gespeichert)
   }
   /* Genau ein gemeldeter Titel (Testreihe, „tot“), einer zurückgestellt (Berserk), einer offen: „1 gemeldet zeigen“, nicht 2 und nicht keiner. */
   {

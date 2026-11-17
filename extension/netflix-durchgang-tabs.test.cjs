@@ -23,7 +23,7 @@ const pruefe = (name, bedingung, gefunden) => {
 
 /** Ein gemeinsamer Speicher (`chrome.storage.local`): Lesen braucht 5 ms, Schreiben 80 ms auf der virtuellen Uhr (so liest ein Tab zurück, bevor das Schreiben des anderen ankommt); Schreiben benachrichtigt alle Tabs. */
 function gemeinsamerSpeicher(zeit, lesenMs = 5, schreibenMs = 80) {
-  const s = { daten: {}, hoerer: [] }
+  const s = { daten: {}, hoerer: [], schreibungen: 0 }
   s.kontextFuer = (tab) => ({
     lebt: () => true,
     lesen: async (schluessel) => {
@@ -32,7 +32,8 @@ function gemeinsamerSpeicher(zeit, lesenMs = 5, schreibenMs = 80) {
       return Object.fromEntries(keys.filter((k) => k in s.daten).map((k) => [k, s.daten[k]]))
     },
     schreiben: async (werte) => {
-      await zeit.warte(schreibenMs)
+      s.schreibungen++
+      await zeit.warte(typeof schreibenMs === 'function' ? schreibenMs(tab) : schreibenMs)
       const aenderungen = {}
       for (const [k, w] of Object.entries(werte)) {
         aenderungen[k] = { oldValue: s.daten[k], newValue: w }
@@ -47,27 +48,57 @@ function gemeinsamerSpeicher(zeit, lesenMs = 5, schreibenMs = 80) {
   return s
 }
 
-/** Ein Tab, der nur `selbstKlick` aus `melder.js` kennt: `laufStarten` zählt (und setzt `selbstAn`), `taktTun.schreiben` schreibt den Besitz wie der Takt. */
-function tabKulisse({ zeit, speicher, name, k, lebt = true }) {
+/**
+ * Ein Tab mit den echten `selbstKlick` und `laufBeenden` aus `melder.js`: `laufStarten` zählt (und setzt `selbstAn`), `taktTun.schreiben` schreibt den
+ * Besitz wie der Takt, `takt()` ist ein Takt des Besitzes (`akNetflixBesitz`, Urteil fremd beendet). Ein gesperrter Knopf nimmt keinen Klick an (wie im DOM).
+ */
+function tabKulisse({ zeit, speicher, name, k, lebt = true, schreibtNicht = false }) {
   const kontext = { ...speicher.kontextFuer(name), lebt: () => lebt }
-  const t = { name, starts: 0, hinweise: [] }
+  if (schreibtNicht) kontext.schreiben = async () => false
+  const t = { name, starts: 0 }
+  const taktTun = { schreiben: (b) => void kontext.schreiben({ netflixDurchgangBesitzer: b }), aufraeumen: () => {} }
+  const welt = {
+    akNetflixStartHinweis: k.akNetflixStartHinweis,
+    akNetflixBesitzAnspruch: k.akNetflixBesitzAnspruch,
+    akNetflixBesitz: k.akNetflixBesitz,
+    akNetflixEnde: () => ({}),
+    akNetflixBesuchtStand: () => 0,
+    globalThis: { akKontext: kontext },
+    meinTab: name,
+    taktTun,
+    selbstUebersprungen: { keinAuftrag: () => ({ text: 'kein Auftrag', title: '' }) },
+    dialogSchliessen: () => {},
+    setTimeout: (fn, ms) => zeit.setTimeoutV(fn, ms),
+    Date: k.Date,
+    console: { log() {} },
+    bremse: { zuruecksetzen() {} },
+    DURCHLAUF: {},
+    durchlaufKnopfZeigen: () => {},
+    sessionStorage: { removeItem() {} },
+    LAUF_SCHLUESSEL: 'k',
+    fertigeTitel: new Map(),
+    offeneTitel: {},
+    vorfallMelden: () => {},
+    durchgangEndeZeigen: () => {},
+    t,
+  }
   const bauen = new Function(
-    'akNetflixStartHinweis', 'akNetflixBesitzAnspruch', 'globalThis', 'meinTab', 'taktTun', 'selbstUebersprungen', 'dialogSchliessen', 'laufBeenden', 'setTimeout', 'Date', 't',
-    `let selbstAn = false
+    'w',
+    `const { ${Object.keys(welt).join(', ')} } = w
+let selbstAn = false
 let durchgangBesitzer = null
+let durchgangEnde = null
 const laufStarten = () => { t.starts++; selbstAn = true; return true }
+${funktion('laufBeenden')}
 ${funktion('selbstKlick')}
-return { selbstKlick, besitzerSetzen: (b) => { durchgangBesitzer = b } }`,
+const takt = () => akNetflixBesitz({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now() }, { schreiben: taktTun.schreiben, beenden: laufBeenden })
+return { selbstKlick, laufBeenden, takt, laeuft: () => selbstAn, anschalten: () => { selbstAn = true }, besitzerSetzen: (b) => { durchgangBesitzer = b } }`,
   )
-  const taktTun = { schreiben: (b) => void kontext.schreiben({ netflixDurchgangBesitzer: b }) }
-  const bauteil = bauen(
-    k.akNetflixStartHinweis, k.akNetflixBesitzAnspruch, { akKontext: kontext }, name, taktTun, { keinAuftrag: () => ({ text: 'kein Auftrag', title: '' }) },
-    () => {}, () => {}, (fn, ms) => zeit.setTimeoutV(fn, ms), k.Date, t,
-  )
+  const bauteil = bauen(welt)
   /* Jede Änderung des Besitzers erreicht auch das Abbild dieses Tabs (`onChanged`). */
   speicher.hoerer.push((a) => { if (a.netflixDurchgangBesitzer) bauteil.besitzerSetzen(a.netflixDurchgangBesitzer.newValue ?? null) })
   const knopf = { textContent: '▶ alle durchgehen', title: '', disabled: false }
-  return { t, knopf, klick: () => Promise.resolve(bauteil.selbstKlick(knopf)), kontext }
+  return { t, knopf, bauteil, klick: () => (knopf.disabled ? Promise.resolve() : Promise.resolve(bauteil.selbstKlick(knopf))), kontext }
 }
 
 async function teilStart() {
@@ -115,8 +146,9 @@ function listenerBauen(k, meinTab, start, laeuft = false) {
   const von = melder.indexOf('globalThis.akKontext.beiAenderung((aenderungen, bereich) => {')
   const text = melder.slice(von, melder.indexOf('\n})\n', von) + 3)
   let hoerer = null
+  let neuGezeichnet = 0
   const bauen = new Function(
-    'globalThis', 'akNetflixEigenerSprung', 'akNetflixSprungUebernehmen', 'akNetflixStartHinweis', 'meinTab', 'uebersichtZeigen', 'dialogNeuZeichnen', 'start', 'laeuft',
+    'globalThis', 'akNetflixEigenerSprung', 'akNetflixSprungUebernehmen', 'akNetflixBesitzerUebernehmen', 'meinTab', 'uebersichtZeigen', 'dialogNeuZeichnen', 'setTimeout', 'start', 'laeuft',
     `let zuletztGeoeffnet = start
 let selbstAn = laeuft
 let durchgangBesitzer = null
@@ -125,8 +157,8 @@ let erledigt = {}
 ${text}
 return { gerade: () => zuletztGeoeffnet }`,
   )
-  const lauf = bauen({ akKontext: { beiAenderung: (fn) => (hoerer = fn) } }, k.akNetflixEigenerSprung, k.akNetflixSprungUebernehmen, k.akNetflixStartHinweis, meinTab, () => {}, () => {}, start, laeuft)
-  return { gerade: lauf.gerade, hoere: (a) => hoerer(a, 'local') }
+  const lauf = bauen({ akKontext: { beiAenderung: (fn) => (hoerer = fn) } }, k.akNetflixEigenerSprung, k.akNetflixSprungUebernehmen, k.akNetflixBesitzerUebernehmen, meinTab, () => {}, () => neuGezeichnet++, (fn) => fn(), start, laeuft)
+  return { gerade: lauf.gerade, hoere: (a) => hoerer(a, 'local'), neuGezeichnet: () => neuGezeichnet }
 }
 
 /** Der Eintrag, den ein Klick in der Liste schreibt: die echte Zeile aus `melder.js`, ausgeführt mit der Kennung des Tabs. */
@@ -164,7 +196,6 @@ function teilFremderKlick() {
     c.hoere({ zuletztGeoeffnet: { newValue: eintrag } })
     pruefe(`Neuer Tab: Schreiber ${nr + 1} trägt die Kennung des öffnenden Tabs`, c.gerade()?.tab === 'B' && c.gerade()?.id === 'Y', c.gerade())
   }
-  pruefe('Laden: der Durchgangs-Tab fragt beim Laden mit seinem Zustand (fremde Klicks gelten dort nicht)', /akNetflixEigenerSprung\(x\.zuletztGeoeffnet, meinTab, selbstAn\)/.test(melder))
   const b = listenerBauen(k, 'B', null)
   b.hoere({ zuletztGeoeffnet: { newValue: klickEintraege('B', 'Y')[0] } })
   pruefe('Eigener Klick: der Tab, der klickt, übernimmt seinen Eintrag', b.gerade()?.id === 'Y', b.gerade())
@@ -225,7 +256,6 @@ function teilSperre() {
   const frei = welt()
   ansicht.akNetflixListeAnsicht.sperren(frei.kasten, frei.kopf, frei.selbst, k.akNetflixStartHinweis(null, 'B', zeit.uhr.t))
   pruefe('Sperre: ohne fremden Durchgang bleibt alles bedienbar', !frei.tot.disabled && !frei.weg.disabled && !frei.selbst.disabled && frei.kinder.length === 0, frei)
-  pruefe('Sperre: der Dialog in melder.js ruft sie mit dem Besitzer dieses Tabs auf', /akNetflixListeAnsicht\.sperren\(kasten, ansicht\.kopf, selbst, akNetflixStartHinweis\(durchgangBesitzer, meinTab, Date\.now\(\)\)\)/.test(melder))
 }
 
 /** Der offene Dialog sperrt sich, sobald ein anderer Tab den Durchgang führt, und gibt sich frei, wenn er endet — nicht bei jedem Puls. */
@@ -246,7 +276,113 @@ function teilBesitzerWechsel() {
   pruefe('Besitzer: der andere Tab beendet den Durchgang → der Dialog gibt sich frei', neuGezeichnet === 2 && b === null, [neuGezeichnet, b])
   b = k.akNetflixBesitzerUebernehmen(b, puls('B', 20000), 'B', bei)
   pruefe('Besitzer: der eigene Tab beginnt den Durchgang → keine Sperre, kein Neuzeichnen', neuGezeichnet === 2, neuGezeichnet)
-  pruefe('Besitzer: der Listener in melder.js reicht den Besitzer durch diese Funktion', /durchgangBesitzer = akNetflixBesitzerUebernehmen\(durchgangBesitzer, aenderungen\.netflixDurchgangBesitzer\.newValue \?\? null, meinTab, \(\) => setTimeout\(dialogNeuZeichnen, 0\)\)/.test(melder))
+  /* Der echte Listener aus `melder.js`: ein neuer fremder Besitzer lässt den offenen Dialog neu zeichnen, die Pulse danach nicht. */
+  const l = listenerBauen(k, 'B', null)
+  l.hoere({ netflixDurchgangBesitzer: { newValue: puls('A', 0) } })
+  l.hoere({ netflixDurchgangBesitzer: { newValue: puls('A', 5000) } })
+  pruefe('Besitzer: der Listener in melder.js zeichnet den Dialog bei einem neuen fremden Besitzer genau einmal neu', l.neuGezeichnet() === 1, l.neuGezeichnet())
+}
+
+const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
+
+/** Der Rückruf beim Laden (`erledigtGeladen`) aus `melder.js` und der Block in `merkeErledigt`, der den Klick-Eintrag liest: beide filtern mit dem Zustand des Tabs. */
+async function teilEintragLesen() {
+  const k = kontextBauen(virtuelleUhr())
+  const von = melder.indexOf('const erledigtGeladen = Promise.resolve(')
+  const laden = melder.slice(von, melder.indexOf('\n  })\n', melder.indexOf('.catch(', von)) + 5)
+  const geladen = (eintrag, tab, laeuft) =>
+    new AsyncFunction('globalThis', 'akNetflixEigenerSprung', 'meinTab', 'selbstAn', `let erledigt, anbieterStaffeln, zuletztGeoeffnet, netflixWeiterleitungen, durchgangBesitzer\n${laden}\nawait erledigtGeladen\nreturn zuletztGeoeffnet`)(
+      { akKontext: { lesen: async () => ({ zuletztGeoeffnet: eintrag }) } }, k.akNetflixEigenerSprung, tab, laeuft,
+    )
+  const fremd = { id: 'Y', zeit: 4000, tab: 'B' }
+  pruefe('Laden: im Durchgangs-Tab gilt ein fremder Klick nicht', (await geladen(fremd, 'A', true)) === null, await geladen(fremd, 'A', true))
+  pruefe('Laden: im Tab ohne Durchgang gilt der Klick des öffnenden Tabs', (await geladen(fremd, 'A', false))?.id === 'Y')
+  pruefe('Laden: im Durchgangs-Tab gilt der eigene Eintrag', (await geladen({ ...fremd, tab: 'A' }, 'A', true))?.id === 'Y')
+  /* `merkeErledigt` ordnet eine unbekannte Kennung dem zuletzt geöffneten Titel zu (10 Minuten): ein fremder Klick darf es im Durchgangs-Tab nicht. */
+  const start = melder.indexOf('  if (offeneTitel[String(id)] === undefined) {', melder.indexOf('async function merkeErledigt('))
+  const block = melder.slice(start, melder.indexOf('\n  if (!staffel) {', start))
+  const kennung = (eintrag, tab, laeuft) =>
+    new AsyncFunction('id', 'offeneTitel', 'speicherLesen', 'akNetflixEigenerSprung', 'meinTab', 'selbstAn', 'Date', `${block}\nreturn id`)(
+      'X', { Y: {} }, async () => ({ zuletztGeoeffnet: eintrag }), k.akNetflixEigenerSprung, tab, laeuft, { now: () => 5000 },
+    )
+  pruefe('Zuordnung: im Durchgangs-Tab ordnet ein fremder Klick die Kennung nicht zu', (await kennung(fremd, 'A', true)) === 'X', await kennung(fremd, 'A', true))
+  pruefe('Zuordnung: der Tab, der geklickt hat, bekommt seinen Titel', (await kennung(fremd, 'B', false)) === 'Y')
+  pruefe('Zuordnung: ein Tab ohne Durchgang folgt dem Klick des öffnenden Tabs', (await kennung(fremd, 'A', false)) === 'Y')
+}
+
+/** Der Anspruch bei langsamem Speicher: was das Fenster von 300 ms trägt und was erst der Takt auflöst. */
+async function teilAnspruchGrenzen() {
+  const zeit = virtuelleUhr()
+  const k = kontextBauen(zeit)
+  /* Grenzfall: A landet nach 255 ms, B klickt bei 150 ms und landet bei 405 ms, also binnen 300 ms nach A. */
+  const grenze = gemeinsamerSpeicher(zeit, 5, 250)
+  const g = ['A', 'B'].map((name) => tabKulisse({ zeit, speicher: grenze, name, k }))
+  void g[0].klick()
+  await zeit.vor(150)
+  void g[1].klick()
+  await zeit.vor(2000)
+  pruefe('Grenze: B landet 150 ms nach A (Schreiben 250 ms): genau ein Start', g[0].t.starts + g[1].t.starts === 1, g.map((x) => x.t.starts))
+  /* Langsamer: A landet bei 455 ms, B (Schreiben 800 ms) erst bei 825 ms, nach dem Rücklesen von A (760 ms): beide starten, der Takt beendet den Verlierer. */
+  const z2 = virtuelleUhr()
+  const k2 = kontextBauen(z2)
+  const lang = gemeinsamerSpeicher(z2, 5, (tab) => (tab === 'A' ? 450 : 800))
+  const t = ['A', 'B'].map((name) => tabKulisse({ zeit: z2, speicher: lang, name, k: k2 }))
+  void t[0].klick()
+  await z2.vor(20)
+  void t[1].klick()
+  await z2.vor(1500)
+  pruefe('Langsamer Speicher: landet ein Schreiben nach dem Rücklesen des anderen, starten beide (das Fenster trägt nicht)', t[0].t.starts === 1 && t[1].t.starts === 1, t.map((x) => x.t.starts))
+  for (let i = 0; i < 2; i++) {
+    await z2.vor(1000)
+    t.forEach((x) => x.bauteil.takt())
+  }
+  await z2.vor(500)
+  const laufen = t.filter((x) => x.bauteil.laeuft())
+  pruefe('Langsamer Speicher: nach zwei Takten (2 s) läuft genau ein Durchgang, der des Besitzers im Speicher', laufen.length === 1 && laufen[0].t.name === lang.daten.netflixDurchgangBesitzer?.tab, [laufen.map((x) => x.t.name), lang.daten.netflixDurchgangBesitzer])
+}
+
+async function teilKlickWege() {
+  const zeit = virtuelleUhr()
+  const k = kontextBauen(zeit)
+  const speicher = gemeinsamerSpeicher(zeit)
+  const a = tabKulisse({ zeit, speicher, name: 'A', k })
+  void a.klick()
+  await zeit.vor(60)
+  void a.klick()
+  await zeit.vor(2000)
+  pruefe('Doppelklick: zwei Klicks im selben Tab, 60 ms auseinander, starten einmal', a.t.starts === 1, a.t.starts)
+  /* Ein Speicher, der das Schreiben stillschweigend ablehnt: „frei“ ist kein Sieg. */
+  const z2 = virtuelleUhr()
+  const stumm = tabKulisse({ zeit: z2, speicher: gemeinsamerSpeicher(z2), name: 'S', k: kontextBauen(z2), schreibtNicht: true })
+  void stumm.klick()
+  await z2.vor(2000)
+  pruefe('Schreiben abgelehnt: kein Start, der Knopf sagt es', stumm.t.starts === 0 && /nicht gelungen/.test(stumm.knopf.textContent), stumm.knopf)
+}
+
+/** `laufBeenden` gibt nur den eigenen Besitz frei (A2). */
+async function teilBesitzerEnde() {
+  const zeit = virtuelleUhr()
+  const k = kontextBauen(zeit)
+  const speicher = gemeinsamerSpeicher(zeit)
+  const b = tabKulisse({ zeit, speicher, name: 'B', k })
+  void speicher.kontextFuer('A').schreiben({ netflixDurchgangBesitzer: { tab: 'A', puls: zeit.uhr.t } })
+  await zeit.vor(200)
+  b.bauteil.anschalten()
+  const vorher = speicher.schreibungen
+  b.bauteil.laufBeenden('Fehler: Test')
+  await zeit.vor(300)
+  pruefe('Ende unter fremdem Besitz: Tab B lässt den Speicher unberührt', speicher.schreibungen === vorher && speicher.daten.netflixDurchgangBesitzer?.tab === 'A', [speicher.schreibungen - vorher, speicher.daten.netflixDurchgangBesitzer])
+  const z2 = virtuelleUhr()
+  const s2 = gemeinsamerSpeicher(z2)
+  const [a, c] = ['A', 'C'].map((name) => tabKulisse({ zeit: z2, speicher: s2, name, k: kontextBauen(z2) }))
+  void a.klick()
+  await z2.vor(500)
+  void a.klick()
+  await z2.vor(500)
+  pruefe('Ende von Hand: der Besitzer gibt ihn frei', s2.daten.netflixDurchgangBesitzer === null && !a.bauteil.laeuft(), s2.daten.netflixDurchgangBesitzer)
+  void c.klick()
+  await z2.vor(1000)
+  pruefe('Ende von Hand: ein anderer Tab startet sofort danach', c.t.starts === 1, c.t.starts)
 }
 
 /* Ein Fall, der auf eine Antwort wartet, die nie kommt, lässt den Prozess still mit Exit 0 enden: das gilt als rot. */
@@ -261,6 +397,10 @@ process.on('exit', (code) => {
 async function haupt() {
   console.log('Netflix: ein Durchgang je Browser, andere Tabs stören nicht (4071, Schnitt 2)')
   await teilStart()
+  await teilAnspruchGrenzen()
+  await teilKlickWege()
+  await teilBesitzerEnde()
+  await teilEintragLesen()
   await teilBesitzerFrist()
   teilFremderKlick()
   await teilToterKontext()
