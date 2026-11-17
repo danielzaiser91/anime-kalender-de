@@ -1,4 +1,4 @@
-/* global DURCHLAUF:readonly */
+/* global DURCHLAUF:readonly, offeneTitel:readonly, selbstUebersprungen:readonly, fertig:readonly, offeneTitelZahl:readonly */
 /*
   **Netflix: was der Kasten tut, ins Zustandsprotokoll** (4.24.22, 10.10.2026)
 
