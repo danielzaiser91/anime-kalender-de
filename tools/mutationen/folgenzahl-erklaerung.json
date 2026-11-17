@@ -1,0 +1,13 @@
+[
+  {"name":"Kontrolle (unmutiert)","aenderungen":[]},
+  {"name":"Franchise: Serien-Summe ignoriert","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"wert - n === serie || ","ersetze":""}],"tests":["npx tsx pipeline/check-maengel-regeln.ts"]},
+  {"name":"Franchise: Film zählt als Zugabe","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"x.format === 'OVA' || x.format === 'SPECIAL'","ersetze":"x.format !== 'TV'"}],"tests":["npx tsx pipeline/check-maengel-regeln.ts"]},
+  {"name":"Franchise: drei Zugaben statt zwei","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"teilsummen(zugaben, 2)","ersetze":"teilsummen(zugaben, 9)"}],"tests":["npx tsx pipeline/check-maengel-regeln.ts"]},
+  {"name":"Franchise: eine unerklärte Zahl genügt nicht mehr (some statt every)","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"werte.every(","ersetze":"werte.some("}],"tests":["npx tsx pipeline/check-maengel-regeln.ts"]},
+  {"name":"Sichtung: Zahl nur gesichtet zählt als belegt","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"...rel.filter((r) => !r.schedule?.episodeCountNurGesichtet)","ersetze":"...rel"}],"tests":["npx tsx pipeline/check-maengel-regeln.ts"]},
+  {"name":"Liste: Länge bleibt unbeachtet","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"(listenLaenge > n ? [listenLaenge] : [])","ersetze":"[]"}],"tests":["npx tsx pipeline/check-maengel-regeln.ts"]},
+  {"name":"Bau: franchiseTeile liefert nichts (Aufruf weg)","aenderungen":[{"datei":"pipeline/bau/13-12-maengel.ts","suche":"franchiseTeile: (t) => (teile.get(t.franchiseId ?? t.id) ?? []).filter((x) => x.id !== t.id),","ersetze":"franchiseTeile: () => [],"}],"tests":["npx tsx pipeline/check-maengel-bau-lauf.ts"]},
+  {"name":"Bau: Schlüssel id statt franchiseId","aenderungen":[{"datei":"pipeline/bau/13-12-maengel.ts","suche":"teile.get(t.franchiseId ?? t.id)","ersetze":"teile.get(t.id)"}],"tests":["npx tsx pipeline/check-maengel-bau-lauf.ts"]},
+  {"name":"Bau: Titel zählt sich selbst mit (Filter weg)","aenderungen":[{"datei":"pipeline/bau/13-12-maengel.ts","suche":".filter((x) => x.id !== t.id),","ersetze":","}],"tests":["npx tsx pipeline/check-maengel-bau-lauf.ts"]},
+  {"name":"Lib: franchiseTeile gruppiert nach id statt franchiseId","aenderungen":[{"datei":"pipeline/lib/folgenzahl-erklaerung.ts","suche":"const k = t.franchiseId ?? t.id","ersetze":"const k = t.id"}],"tests":["npx tsx pipeline/check-maengel-bau-lauf.ts"]}
+]
