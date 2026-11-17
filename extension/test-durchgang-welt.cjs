@@ -91,7 +91,7 @@ function melderBauen(k, a) {
   const bauen = new Function(
     'akNetflixNichtDaTun', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixErledigtZaehlen', 'akNetflixBericht', 'akDurchgangSchutz',
     'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig',
-    'laufBeenden', 'titelBericht', 'speicherSchreiben', 'meinTab', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'Date', 'console', 'frisch', 'istErledigt', 'gemeinteReihe', 'verbindungLebt',
+    'laufBeenden', 'titelBericht', 'speicherSchreiben', 'meinTab', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'Date', 'console', 'frisch', 'istErledigt', 'gemeinteReihe', 'verbindungLebt', 'akNetflixEigenerSprungMerken',
     `let selbstGezaehlt = akNetflixZaehlerStand().gezaehlt
 let selbstGrenze = akNetflixZaehlerStand().grenze
 let zuletztGeoeffnet = null
@@ -105,7 +105,7 @@ return { selbstWeiter, nichtDaTun, zuletzt: () => zuletztGeoeffnet, gezaehlt: ()
     a.totMelden, a.offeneTitel, a.uebersprungen, (...x) => a.w.spur.push(x), a.gehe, true, a.bremse, () => false, {},
     (u, i) => a.antwort(String(u).replace('/title/', ''), i.signal),
     (id) => a.frisch.has(String(id)),
-    (g) => a.w.beendet.push(g), { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id, () => a.lebendig.an,
+    (g) => a.w.beendet.push(g), { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id, () => a.lebendig.an, k.akNetflixEigenerSprungMerken,
   )
 }
 

@@ -99,6 +99,8 @@ export default [
         akNetflixTitelBericht: 'readonly',
         akNetflixFensterlage: 'readonly',
         akNetflixEigenerSprung: 'readonly',
+        akNetflixEigenerSprungMerken: 'readonly',
+        akNetflixSprungLaden: 'readonly',
         akNetflixStartHinweis: 'readonly',
         akNetflixBesitz: 'readonly',
         akNetflixTabKennung: 'readonly',

@@ -285,14 +285,40 @@ function teilBesitzerWechsel() {
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 
+/** Tab A springt zu X, Tab B klickt Y (gemeinsamer Platz), Tab A lädt voll neu: das Ziel bleibt X (A7 aus PR 4109, Issue 4071). */
+async function teilVollNeuladen() {
+  const k = kontextBauen(virtuelleUhr())
+  const sprungAnfang = melder.indexOf('  const sprung = { id: String(naechster)')
+  const sprungBlock = melder.slice(sprungAnfang, melder.indexOf('\n}\n', sprungAnfang))
+  const springen = (id, tab) =>
+    new Function('naechster', 'meinTab', 'Date', 'titelBericht', 'speicherSchreiben', 'nichtDaTun', 'akNetflixEigenerSprungMerken', `let zuletztGeoeffnet\n${sprungBlock}\nreturn { zuletztGeoeffnet }`)(
+      id, tab, k.Date, { beginn() {} }, () => {}, { sprung() {} }, k.akNetflixEigenerSprungMerken,
+    )
+  const a = springen('X', 'A')
+  pruefe('Sprung: Tab A merkt sich seinen Sprung und legt ihn in seinen sessionStorage', a.zuletztGeoeffnet?.id === 'X' && JSON.parse(k.sessionStorage.getItem('ak-netflix-eigener-sprung') ?? 'null')?.id === 'X', a.zuletztGeoeffnet)
+  const klickB = klickEintraege('B', 'Y')[0]
+  const von = melder.indexOf('const erledigtGeladen = Promise.resolve(')
+  const laden = melder.slice(von, melder.indexOf('\n  })\n', melder.indexOf('.catch(', von)) + 5)
+  const neuladen = (tab, laeuft, gemeinsam = klickB) =>
+    new AsyncFunction('globalThis', 'akNetflixSprungLaden', 'meinTab', 'selbstAn', `let erledigt, anbieterStaffeln, zuletztGeoeffnet, netflixWeiterleitungen, durchgangBesitzer\n${laden}\nawait erledigtGeladen\nreturn zuletztGeoeffnet`)(
+      { akKontext: { lesen: async () => ({ zuletztGeoeffnet: gemeinsam }) } }, k.akNetflixSprungLaden, tab, laeuft,
+    )
+  pruefe('Voller Neuladen: Tab A (Durchgang läuft) behält Ziel X, obwohl der gemeinsame Platz Bs Klick Y trägt', (await neuladen('A', true))?.id === 'X', await neuladen('A', true))
+  pruefe('Voller Neuladen: Tab B (kein Durchgang) übernimmt seinen eigenen Klick Y', (await neuladen('B', false))?.id === 'Y')
+  pruefe('Voller Neuladen: ein anderer Durchgangs-Tab C hat keinen eigenen Sprung und bleibt ohne Ziel', (await neuladen('C', true)) === null, await neuladen('C', true))
+  pruefe('Voller Neuladen ohne laufenden Durchgang: der gemerkte Sprung gilt nicht (nur im Durchgangs-Tab)', (await neuladen('A', false, null)) === null, await neuladen('A', false, null))
+  k.akNetflixLaufVergessen()
+  pruefe('Ende des Durchgangs: der gemerkte Sprung ist weg', k.sessionStorage.getItem('ak-netflix-eigener-sprung') === null)
+}
+
 /** Der Rückruf beim Laden (`erledigtGeladen`) aus `melder.js` und der Block in `merkeErledigt`, der den Klick-Eintrag liest: beide filtern mit dem Zustand des Tabs. */
 async function teilEintragLesen() {
   const k = kontextBauen(virtuelleUhr())
   const von = melder.indexOf('const erledigtGeladen = Promise.resolve(')
   const laden = melder.slice(von, melder.indexOf('\n  })\n', melder.indexOf('.catch(', von)) + 5)
   const geladen = (eintrag, tab, laeuft) =>
-    new AsyncFunction('globalThis', 'akNetflixEigenerSprung', 'meinTab', 'selbstAn', `let erledigt, anbieterStaffeln, zuletztGeoeffnet, netflixWeiterleitungen, durchgangBesitzer\n${laden}\nawait erledigtGeladen\nreturn zuletztGeoeffnet`)(
-      { akKontext: { lesen: async () => ({ zuletztGeoeffnet: eintrag }) } }, k.akNetflixEigenerSprung, tab, laeuft,
+    new AsyncFunction('globalThis', 'akNetflixSprungLaden', 'meinTab', 'selbstAn', `let erledigt, anbieterStaffeln, zuletztGeoeffnet, netflixWeiterleitungen, durchgangBesitzer\n${laden}\nawait erledigtGeladen\nreturn zuletztGeoeffnet`)(
+      { akKontext: { lesen: async () => ({ zuletztGeoeffnet: eintrag }) } }, k.akNetflixSprungLaden, tab, laeuft,
     )
   const fremd = { id: 'Y', zeit: 4000, tab: 'B' }
   pruefe('Laden: im Durchgangs-Tab gilt ein fremder Klick nicht', (await geladen(fremd, 'A', true)) === null, await geladen(fremd, 'A', true))
@@ -401,6 +427,7 @@ async function haupt() {
   await teilKlickWege()
   await teilBesitzerEnde()
   await teilEintragLesen()
+  await teilVollNeuladen()
   await teilBesitzerFrist()
   teilFremderKlick()
   await teilToterKontext()
