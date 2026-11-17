@@ -11,6 +11,8 @@ const falschLeer = 'x = `' + 'file:///' + '${ process.argv[1] }`'
 const falschPlus = "if (import.meta.url === '" + 'file:///' + "' + process.argv[1]) await main()"
 const falschPlusDoppelt = 'const u = "' + 'file:///' + '"+process.argv[1]'
 assert.deepEqual(findeFehlstarts({ 'p.mjs': falschPlus, 'q.mjs': falschPlusDoppelt }), ['p.mjs', 'q.mjs'], 'Verkettung mit + wird erkannt')
+const falschZweiStriche = 'if (import.meta.url === `' + 'file://' + '${process.argv[1]}`) {'
+assert.deepEqual(findeFehlstarts({ 'w.mjs': falschZweiStriche }), ['w.mjs'], 'zwei Striche (unter Windows nie wahr) werden erkannt')
 const richtig = 'if (import.meta.url === pathToFileURL(process.argv[1]).href) await main()'
 const andere = 'const u = `file:///${wurzel}/x`'
 

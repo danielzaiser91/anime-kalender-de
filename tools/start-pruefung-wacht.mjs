@@ -1,6 +1,7 @@
 /**
  * Wächter (Daniel, 17.10.2026, PR 1452): Die Startprüfung eines Skripts darf den `file:`-Vergleich nie selbst aus `process.argv[1]` bauen.
  * Unter Linux ergibt das `file:////home/…`, die Prüfung ist nie wahr, `main()` läuft nicht, und das Skript endet grün ohne zu messen.
+ * Mit zwei Strichen (`file://${…}`) passt es unter Linux, unter Windows nie (`file://C:\…`); seit 17.11.2026 erkannt (PR 4097 rutschte durch).
  * Richtig: `import.meta.url === pathToFileURL(process.argv[1]).href`.
  * Aufruf: `node tools/start-pruefung-wacht.mjs [<wurzel>]` (in `check:logic`); prüft alle versionierten .mjs/.cjs/.js/.ts im Repo.
  */
@@ -9,7 +10,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-const MUSTER = /file:\/\/\/(?:\$\{\s*|['"`]\s*\+\s*)process\.argv\[1\]/
+const MUSTER = /file:\/\/\/?(?:\$\{\s*|['"`]\s*\+\s*)process\.argv\[1\]/
 
 /** Pfade der Dateien (aus `texte`: Pfad → Inhalt), die das verbotene Muster enthalten. */
 export function findeFehlstarts(texte) {
