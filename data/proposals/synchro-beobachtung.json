@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-17",
+  "stand": "2026-11-18",
   "eintraege": [
     {
       "titel": "Inazuma Eleven: The Movie - Team Oger greift an",
@@ -140,6 +140,13 @@
       "anbieter": "unbekannt",
       "start": "2026-12-17",
       "seit": "2026-11-17"
+    },
+    {
+      "titel": "Bitte zieh dich an, Takamine!",
+      "id": 179965,
+      "anbieter": "disc",
+      "start": "2026-12-18",
+      "seit": "2026-11-18"
     }
   ],
   "abgeloest": [
