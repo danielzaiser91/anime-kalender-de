@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-17T14:02:27.239Z",
+  "scrapedAt": "2026-11-17T16:02:08.269Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
@@ -4654,7 +4654,7 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Berserk",
