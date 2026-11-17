@@ -10,7 +10,8 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-const MUSTER = /file:\/\/\/?(?:\$\{\s*|['"`]\s*\+\s*)process\.argv\[1\]/
+/* Jede Strichzahl, jeder Ausdruck um argv[1] (`${path.resolve(…)}`, Verkettung auch über Zeilen); Zwischenvariablen sieht ein Regex nicht. */
+const MUSTER = /file:\/{0,4}(?:\$\{[^}\n]*process\.argv\[1\]|['"`]\s*\+[^\n;]*process\.argv\[1\])/
 
 /** Pfade der Dateien (aus `texte`: Pfad → Inhalt), die das verbotene Muster enthalten. */
 export function findeFehlstarts(texte) {
