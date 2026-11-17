@@ -224,8 +224,8 @@ const verdrahtung = async () => {
   const nachMerken = quelle.slice(quelle.indexOf('akNetflixFilmVersuchMerken(reihe)'))
   pruefe('Wiring (A1): der Merker wird gesetzt, bevor durchlaufStarten läuft, und nur für Filme', /^akNetflixFilmVersuchMerken\(reihe\)\n\s+await durchlaufStarten\(\)/.test(nachMerken) && /if \(filmHier\) akNetflixFilmVersuchMerken\(reihe\)/.test(quelle))
   const rest = melder
-  pruefe('Wiring: besucht kommt aus dem Besuchtzähler, nicht aus Sprüngen plus Rückgaben; Laufbeginn zählt den Starttitel', /akNetflixBesuchtStand\(\), offeneTitel/.test(rest) && !/selbstGezaehlt \+ akNetflixErledigtStand\(\)/.test(rest) && /undefined, null, hierAuftrag\)/.test(rest))
-  pruefe('Wiring: Fortschritt: Titel aus dem Zählerstand, Wartetext, Sprung mit Titel', /akNetflixZaehlerStand\(\)\.titel \?\? offeneTitel/.test(rest) && /akNetflixWartetText\(selbstWartet, Date\.now\(\)\)/.test(rest) && /akNetflixZaehlerSetze\(\+\+selbstGezaehlt, selbstGrenze, undefined, offeneTitel\[naechster\]\?\.titel\)/.test(rest))
+  pruefe('Wiring: besucht kommt aus dem Besuchtzähler, nicht aus Sprüngen plus Rückgaben; Laufbeginn zählt den Starttitel', /akNetflixBesuchtStand\(\), offeneTitel/.test(rest) && !/selbstGezaehlt \+ akNetflixErledigtStand\(\)/.test(rest) && /undefined, null, hierAuftrag, hierAuftrag \? String\(gemeinteReihe\(\)\) : null\)/.test(rest))
+  pruefe('Wiring: Fortschritt: Titel aus dem Zählerstand, Wartetext, Sprung mit Titel', /akNetflixZaehlerStand\(\)\.titel \?\? offeneTitel/.test(rest) && /akNetflixWartetText\(selbstWartet, Date\.now\(\)\)/.test(rest) && /akNetflixZaehlerSetze\(\+\+selbstGezaehlt, selbstGrenze, undefined, offeneTitel\[naechster\]\?\.titel, false, naechster\)/.test(rest))
 }
 
 void verdrahtung().then(() => {
