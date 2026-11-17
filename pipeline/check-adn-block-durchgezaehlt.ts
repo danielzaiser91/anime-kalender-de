@@ -39,6 +39,8 @@ try {
   pruefe('Folgen 13–23 bei 12 Folgen: Nummern über der Folgenzahl, passt nicht (Dorohedoro 2)', !blockPasstInTitel(block(13, 23), s1))
   pruefe('Folgen 2–13 bei 12 Folgen: letzte Nummer genau eins darüber, passt nicht', !blockPasstInTitel(block(2, 13), s1))
   pruefe('Folgen 1–13 bei 12 Folgen: mehr Folgen als der Titel, passt nicht', !blockPasstInTitel(block(1, 13), s1))
+  const doppelt = { episodes: Array.from({ length: 13 }, () => ({}) as AdnEpisode), nummern: Array.from({ length: 12 }, (_, i) => i + 1) } as unknown as AdnBlock
+  pruefe('13 Folgen mit doppelter Nummer (Nummern 1–12) bei 12 Folgen: mehr Folgen als der Titel, passt nicht', !blockPasstInTitel(doppelt, s1))
   pruefe('Titel ohne Folgenzahl: passt nicht', !blockPasstInTitel(block(1, 12), titel({ id: 907 })))
   pruefe('ohne Titel: passt nicht', !blockPasstInTitel(block(1, 12), undefined))
   pruefe('Block ohne Folgen und ohne Nummern bei einem Titel mit 0 Folgen: passt', blockPasstInTitel({ episodes: [], nummern: [] } as unknown as AdnBlock, titel({ id: 908, episodes: 0 })))
