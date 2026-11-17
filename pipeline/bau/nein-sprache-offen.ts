@@ -18,7 +18,7 @@ export function kennzeichneNeinTermineAlsOffen(releases: Release[], titles: Map<
       r.releaseType !== 'disc' &&
       !KEIN_STREAM.has(r.platform) &&
       neinGilt(r.titleId, r.platform, r.schedule?.firstEpisodeDate ?? '') &&
-      !titles.get(r.titleId)?.streams.some((s) => s.platform === r.platform && s.dub === true),
+      !titles.get(r.titleId)?.streams.some((s) => s.platform === r.platform && s.dub === true), // dub-lesart: ein Weg mit „deutsch“, auch abgeleitet, hält die Kennzeichnung zurück (sie würde ihm widersprechen, `deutschNurAusSpracheTermin`)
   )
   for (const r of offen) r.sprache = 'offen'
   if (offen.length) log(`${offen.length} automatische Termine mit belegtem Nein als „Synchro offen“ geführt: ${offen.map((r) => r.slug).join(', ')}`)
