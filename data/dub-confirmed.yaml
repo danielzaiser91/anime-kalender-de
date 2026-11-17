@@ -41009,3 +41009,15 @@
   available: false
   checkedAt: '2026-11-16'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 21
+      dub: true
+  checkedAt: '2026-11-17'
+  note: "Folgen 1–21 mit deutschem Ton — ADN-Schnittstelle (gw.api.animationdigitalnetwork.com/video/show/561, gelesen 17.11.2026, data/adn-raw/561.json.gz): je Folge languages vostde und vde, available true. Der Block „Folgen 1–21 ohne deutschen Ton — Tonspuren: ja“ vom 09.11.2026 las nur die erste Spur und ist damit überholt."
