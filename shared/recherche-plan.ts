@@ -7,6 +7,7 @@
  */
 
 import {
+  pruefungFaellig,
   RECHERCHE_AB_MS,
   RECHERCHE_TAKT_FRUEH_MS,
   RECHERCHE_TAKT_SPAET_MS,
@@ -41,11 +42,7 @@ export interface OffenerVermerk {
  */
 export function rechercheFaellig(v: OffenerVermerk, jetzt: Date): boolean {
   if (v.erschienenAm) return false
-  const seit = jetzt.getTime() - new Date(v.erwartetAm).getTime()
-  if (!Number.isFinite(seit) || seit < RECHERCHE_AB_MS || seit > RECHERCHE_BIS_MS) return false
-  if (!v.rechercheAm) return true
-  const takt = seit > RECHERCHE_SPAET_AB_MS ? RECHERCHE_TAKT_SPAET_MS : RECHERCHE_TAKT_FRUEH_MS
-  return jetzt.getTime() - new Date(v.rechercheAm).getTime() >= takt
+  return pruefungFaellig('recherche', new Date(v.erwartetAm).getTime(), v.rechercheAm ? new Date(v.rechercheAm).getTime() : undefined, jetzt.getTime())
 }
 
 /**

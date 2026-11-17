@@ -22,7 +22,10 @@ export const RECHERCHE_SPAET_AB_MS = 14 * TAG
 /** Nach zwei Monaten ohne Folge sucht niemand mehr täglich — der Vermerk bleibt stehen. */
 export const RECHERCHE_BIS_MS = 60 * TAG
 
-export type PruefArt = 'sichtung' | 'recherche'
+/** Ab diesem Verzug gilt ein Termin als ausgeblieben (Karenz: ein Anbieter stellt selten auf die Sekunde ein); `terminFrist` liest ihn. */
+export const AUSBLEIBEN_NACH_MS = 15 * MINUTE
+
+export type PruefArt = 'sichtung' | 'recherche' | 'abgleich-anime2you'
 
 /** Von `vonMs` bis `bisMs` nach dem Termin wird alle `taktMs` geprüft. */
 export interface Stufe {
@@ -48,6 +51,8 @@ export const STUFEN: Record<PruefArt, Stufe[]> = {
     { vonMs: RECHERCHE_AB_MS, bisMs: RECHERCHE_SPAET_AB_MS, taktMs: RECHERCHE_TAKT_FRUEH_MS },
     { vonMs: RECHERCHE_SPAET_AB_MS, bisMs: RECHERCHE_BIS_MS, taktMs: RECHERCHE_TAKT_SPAET_MS },
   ],
+  /** Anime2You-Meldungen zu einem Vermerk: bei jedem Lauf, solange der Vermerk offen ist (Stand 17.11.2026, ohne Altersgrenze). */
+  'abgleich-anime2you': [{ vonMs: AUSBLEIBEN_NACH_MS, bisMs: Infinity, taktMs: 0 }],
 }
 
 /** Der Takt der Stufe, in der `abstandMs` liegt; `null` vor der ersten und nach der letzten Stufe. */

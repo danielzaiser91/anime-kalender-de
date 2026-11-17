@@ -2313,3 +2313,6 @@ Ansicht zum Öffnen mit einem Klick (Windows, kein Server): [kennzahlen.html](fi
 ## Sammelroute `?gemeldet-liste=`: Kosten gegen Einzelroute (16.11.2026, Issue 4058)
 
 Die Einzelroute `?gemeldet=` liest eine Zeile je Anfrage und hält die Antwort 30 Minuten im Edge-Cache; die Sammelroute liest bis zu `SAMMEL_MAX` (250, größte Liste der Erweiterung: 230 Titel) Zeilen je Anfrage, hält 120 s, und wechselnde Listen umgehen den Cache — sie zählt also gegen den Tagesdeckel der gelesenen Zeilen, bei einem Klick ohne Cache-Treffer bis 250 Zeilen statt (bei kaltem Cache) 230 Anfragen zu je einer. Der Test `tools/worker-gemeldet-sammel.test.ts` hält die Batchgröße (höchstens 50 Anweisungen, 5 + 5 Batches bei 250 Adressen) und das Lesen schreibfrei.
+
+## Fälligkeit eines ausgebliebenen Termins: eine Tabelle (17.11.2026, PR 4116)
+Wann nachgesehen wird, steht in `shared/ausbleiben-plan.ts` (`STUFEN`, `faelligeArten`): Arten `sichtung`, `recherche`, `abgleich-anime2you` (bei jedem Lauf, ab 15 min, ohne Altersgrenze). Die Karenz „ausgeblieben ab 15 min“ ist ein Urteil, kein Takt: `AUSBLEIBEN_NACH_MS`. Die Tabelle ist halboffen `[von, bis)`; `rechercheFaellig` rief früher mit `>` und lag an genau 60 d und 14 d eine Millisekunde daneben. Offen: `naechsteRecherche` wählt den Takt noch nach `letzte + 20 h`.
