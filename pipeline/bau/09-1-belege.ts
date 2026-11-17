@@ -1,5 +1,6 @@
 import { type PlatformId, type Release, type Title } from '../../shared/types.ts'
 import { type CrunchyrollEntry } from '../lib/crunchyroll.ts'
+import { quelleNenntTon } from '../lib/ton-quelle.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
@@ -25,6 +26,26 @@ export function terminBelegtNichts(release: Release, heute: string): boolean {
   return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
 }
 
+/**
+ * Zählt ein Termin als Synchro-Beleg für den Stream (17.11.2026)? Zusätzlich zu `terminBelegtNichts`: keine Schätzung (auch begonnen: der Untertitel-Start
+ * fortgeschrieben) und eine Quelle, die den Ton nennt (`lib/ton-quelle.ts`). Getrennt, weil `kanalFehler` nur fragt, ob es den Termin gibt.
+ */
+export function terminBelegtTon(release: Release, heute: string): boolean {
+  return !terminBelegtNichts(release, heute) && !release.schedule.estimated && release.sources.some(quelleNenntTon)
+}
+
+/** Je Titel die Anbieter, deren Termin die Synchro belegt. */
+export function plattformenMitTonTermin(releases: Release[], heute: string): Map<number, Set<PlatformId>> {
+  const jeTitel = new Map<number, Set<PlatformId>>()
+  for (const release of releases) {
+    if (!terminBelegtTon(release, heute)) continue
+    const set = jeTitel.get(release.titleId) ?? new Set<PlatformId>()
+    set.add(release.platform)
+    jeTitel.set(release.titleId, set)
+  }
+  return jeTitel
+}
+
 export function sammleBelege({
   releases,
   titles,
@@ -45,13 +66,7 @@ export function sammleBelege({
   crDub: CrDubData
 }) {
   // Ein Stream-Link sagt nichts über die Sprache — belegt ist nur, was nachgewiesen wurde.
-  const dubByTitle = new Map<number, Set<PlatformId>>()
-  for (const release of releases) {
-    if (terminBelegtNichts(release, todayIso())) continue
-    const set = dubByTitle.get(release.titleId) ?? new Set<PlatformId>()
-    set.add(release.platform)
-    dubByTitle.set(release.titleId, set)
-  }
+  const dubByTitle = plattformenMitTonTermin(releases, todayIso())
   const serienMitNullBlock = serienkennungenMitNullBlock(crDub)
   for (const title of titles.values()) {
     const confirmed = dubByTitle.get(title.id)
