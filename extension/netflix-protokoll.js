@@ -1,4 +1,4 @@
-/* global DURCHLAUF:readonly */
+/* global DURCHLAUF:readonly, offeneTitel:readonly, selbstUebersprungen:readonly, fertig:readonly, offeneTitelZahl:readonly */
 /*
   **Netflix: was der Kasten tut, ins Zustandsprotokoll** (4.24.22, 10.10.2026)
 
@@ -7,7 +7,7 @@
   wird verschluckt, nie weitergegeben. Der Puffer selbst steht in `protokoll.js`. Die Namen tragen
   `nfp`, weil alle Skripte einer Seite einen Scope teilen.
 */
-const nfpMerk = { nummern: new WeakMap(), zaehler: 0, knopf: '', kasten: null, gepostet: new Set() }
+const nfpMerk = { nummern: new WeakMap(), zaehler: 0, knopf: '', kasten: null, gepostet: new Set(), zahl: null, lage: null }
 
 /** `[1,2,3,5]` → „1–3, 5". */
 function nfpBereiche(nummern) {
@@ -94,6 +94,36 @@ function nfpKnopfAufzeichnen() {
   if (k === nfpMerk.knopf) return
   nfpMerk.knopf = k
   globalThis.akProtokoll('knopf', daten)
+}
+
+/** Woraus die Knopfzahl besteht: je Titel der Liste „offen“, „zurück“ (Merkliste) oder „fertig“ (gemeldet). */
+function nfpZahlLage() {
+  return Object.fromEntries(
+    Object.entries(offeneTitel).map(([id, e]) => [id, selbstUebersprungen.zurueckgestellt(id) ? 'zurück' : fertig(id, e) ? 'fertig' : 'offen']),
+  )
+}
+
+/** Was die Zahl bewegt hat: die Titel, deren Zustand sich zwischen zwei Lagen unterscheidet, nach Art (`liste`, `merkliste`, `gemeldet`). */
+function nfpZahlAusloeser(vorher, nachher) {
+  const arten = {}
+  for (const id of new Set([...Object.keys(vorher), ...Object.keys(nachher)])) {
+    const [a, b] = [vorher[id], nachher[id]]
+    if (a === b) continue
+    const art = !a || !b ? 'liste' : a === 'zurück' || b === 'zurück' ? 'merkliste' : 'gemeldet'
+    arten[art] = [...(arten[art] ?? []), id]
+  }
+  return arten
+}
+
+/** Nach jedem `uebersichtZeigen`: hat sich die Knopfzahl geändert, steht Art, Titel, vorher und nachher im Protokoll (Befund 8, Issue 4071). */
+function nfpZahlAufzeichnen() {
+  const lage = nfpZahlLage()
+  const zahl = offeneTitelZahl()
+  const [alt, vorher] = [nfpMerk.lage, nfpMerk.zahl]
+  Object.assign(nfpMerk, { lage, zahl })
+  if (zahl === vorher) return
+  const arten = alt ? nfpZahlAusloeser(alt, lage) : { start: [] }
+  globalThis.akProtokoll('knopfzahl', { ausloeser: Object.keys(arten).join('+'), ids: Object.values(arten).flat().slice(0, 5), vorher, nachher: zahl })
 }
 
 /**
@@ -202,6 +232,7 @@ function nfpInstallieren() {
   const log = globalThis.akProtokoll
   if (!log || typeof DURCHLAUF === 'undefined') return
   nfpUmhuellen('durchlaufKnopfZeigen', null, nfpKnopfAufzeichnen)
+  nfpUmhuellen('uebersichtZeigen', null, nfpZahlAufzeichnen)
   nfpUmhuellen('durchlaufStarten', () => log('lauf-start', nfpLage()), () => log('lauf-ende', nfpLage()))
   nfpUmhuellen('durchlaufMelden', null, (ok, [folge]) =>
     log('melden', { nr: folge?.nummer ?? null, id: folge?.videoId ?? null, ok: Boolean(ok) }),

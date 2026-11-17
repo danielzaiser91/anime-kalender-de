@@ -43,6 +43,17 @@ globalThis.akKontext = (() => {
     }
   }
 
+  /** Löscht `schluessel` aus dem lokalen Speicher; `true`, wenn es ankam. */
+  async function entfernen(schluessel) {
+    if (!lebt()) return false
+    try {
+      await chrome.storage.local.remove(schluessel)
+      return true
+    } catch {
+      return false
+    }
+  }
+
   /** Hängt `fn(aenderung, bereich)` an `storage.onChanged`; `false`, wenn der Kontext tot ist. */
   function beiAenderung(fn) {
     if (!lebt()) return false
@@ -73,6 +84,7 @@ globalThis.akKontext = (() => {
   const lokal = {
     get: async (schluessel) => (await lesen(schluessel)) ?? {},
     set: schreiben,
+    remove: entfernen,
   }
 
   return { lebt, lesen, schreiben, beiAenderung, version, keinTokenText, lokal }

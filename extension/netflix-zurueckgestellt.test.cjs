@@ -29,24 +29,13 @@ vm.runInContext(lies('netflix-uebernahme.js'), kontext)
 const neu = kontext.akNetflixZurueckNeu
 pruefe('Fabrik erreichbar', typeof neu === 'function')
 
-const SCHLUESSEL = 'netflixZurueckgestellt'
+const { speicherNeu, zurueckStart, stand, standSetzen } = require('./test-zurueck-speicher.cjs')
 const TAG = 24 * 3600 * 1000
 const STUNDE = 3600 * 1000
 /* 15.10.2026, 12:00 Berlin (Sommerzeit bis 25.10.2026). */
 const JETZT = Date.UTC(2026, 9, 15, 10, 0)
 
-/* Wie `chrome.storage.local`: kopiert beim Lesen und Schreiben. */
-const speicherNeu = (start = {}) => {
-  const daten = { ...start }
-  const kopie = (x) => JSON.parse(JSON.stringify(x))
-  return {
-    daten,
-    get: async (k) => (k in daten ? { [k]: kopie(daten[k]) } : {}),
-    set: async (o) => void Object.assign(daten, kopie(o)),
-  }
-}
 const ruhe = () => new Promise((fertig) => setImmediate(fertig))
-const stand = (speicher) => speicher.daten[SCHLUESSEL] ?? {}
 
 /* Ein Seitenaufruf: neue Merkliste über demselben Speicher. */
 const seite = async (speicher, o = {}) => {
@@ -140,7 +129,7 @@ async function neustart() {
 
 async function abgelaufen() {
   /* Abgelaufenes beim Laden */
-  const d = speicherNeu({ [SCHLUESSEL]: { 5: { grund: 'x', bis: JETZT - 1 }, 6: { grund: 'y', bis: JETZT + TAG } } })
+  const d = speicherNeu(zurueckStart({ 5: { grund: 'x', bis: JETZT - 1 }, 6: { grund: 'y', bis: JETZT + TAG } }))
   const geladen = await seite(d)
   await ruhe()
   pruefe('Eintrag mit Ablauf in der Vergangenheit fällt beim Laden raus', !geladen.karte.has('5') && !stand(d)['5'], stand(d))
@@ -150,7 +139,7 @@ async function abgelaufen() {
 
 async function gemeldet() {
   /* Gemeldeter Titel fällt raus */
-  const e = speicherNeu({ [SCHLUESSEL]: { 7: { grund: 'x', bis: JETZT + TAG }, 8: { grund: 'y', bis: JETZT + TAG } } })
+  const e = speicherNeu(zurueckStart({ 7: { grund: 'x', bis: JETZT + TAG }, 8: { grund: 'y', bis: JETZT + TAG } }))
   const gemeldet = await seite(e, { fertig: (k) => k === '7' })
   await ruhe()
   pruefe('Titel, der nach dem Worker-Stand fertig ist, ist nicht mehr zurückgestellt', !gemeldet.karte.has('7') && !stand(e)['7'], stand(e))
@@ -171,7 +160,7 @@ async function mitWartefunktion() {
 }
 
 async function anzeige() {
-  const a = speicherNeu({ [SCHLUESSEL]: { 1: { grund: 'x', bis: JETZT + TAG }, 2: { grund: 'x', bis: JETZT + TAG }, 3: { grund: 'x', bis: JETZT + TAG } } })
+  const a = speicherNeu(zurueckStart({ 1: { grund: 'x', bis: JETZT + TAG }, 2: { grund: 'x', bis: JETZT + TAG }, 3: { grund: 'x', bis: JETZT + TAG } }))
   const lauf = await seite(a, { nichtGelistet: ['3'] })
   pruefe('Endanzeige zählt nur Titel der Prüfliste (3 gespeichert, einer nicht gelistet → 2)', lauf.karte.zurueckText() === ' · davor schon zurückgestellt (andere Durchgänge): 2', lauf.karte.zurueckText())
   lauf.karte.set('1', 'keine Folgenliste in 20 s')

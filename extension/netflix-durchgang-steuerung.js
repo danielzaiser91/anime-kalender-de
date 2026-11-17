@@ -468,6 +468,7 @@ globalThis.akNetflixLaufMap = (speicher, schluessel) =>
 globalThis.akNetflixLaufVergessen = (speicher = sitzungSpeicher()) => {
   globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])
   globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-uebersprungen', [])
+  globalThis.akNetflixLaufSchreiben(speicher, EIGENER_SPRUNG_SCHLUESSEL, [])
 }
 
 /*
@@ -529,7 +530,7 @@ globalThis.akNetflixStartHinweis = (besitzer, tab, jetzt) => {
  * Der Anspruch auf den Durchgang (4071, Schnitt 2): Lesen, Prüfen, Schreiben, mit Rücklesen. Zwei gleichzeitige Starts schreiben beide, der
  * Speicher behält einen Eintrag, und nach `BESITZER_ANSPRUCH_WARTE_MS` liest jeder zurück: gewonnen hat, wer sich selbst zurückliest
  * (`'meiner'`). Das gilt, solange beide Schreibvorgänge binnen dieser Zeit landen; landet einer später, starten beide, und der Takt
- * (`akNetflixBesitz`, Urteil `fremd`) beendet den Verlierer binnen einer Sekunde. `null` = dieser Tab hat den Durchgang, sonst der Hinweis
+ * (`akNetflixBesitz`, Urteil `fremd`) beendet den Verlierer binnen zwei Takten (2 s). `null` = dieser Tab hat den Durchgang, sonst der Hinweis
  * (`akNetflixStartHinweis`; ein gescheitertes Schreiben ist auch ein Hinweis, nie ein Start ohne Eintrag). `o`: `{ kontext (lesen,
  * schreiben), tab, jetzt(), warte(ms), knopf? }`; `knopf` ist während des Anspruchs gesperrt (ein zweiter Klick startet nichts).
  */
@@ -561,6 +562,34 @@ globalThis.akNetflixEigenerSprung = (z, tab, laeuft = false) => {
   if (!z) return null
   if ((z.durchgang || laeuft) && z.tab !== tab) return null
   return z
+}
+
+/*
+  Den Sprung des Durchgangs behält zusätzlich dieser Tab im `sessionStorage`: `zuletztGeoeffnet` ist ein einziger Platz für alle Tabs, ein Klick in
+  einem anderen Tab überschreibt ihn, und ein volles Neuladen des Durchgangs-Tabs verwirft den fremden Eintrag (4071). Der Eintrag endet mit dem Lauf.
+*/
+const EIGENER_SPRUNG_SCHLUESSEL = 'ak-netflix-eigener-sprung'
+
+/** Merkt den Sprung (`{ id, zeit, durchgang, tab }`) im `sessionStorage` dieses Tabs und gibt ihn zurück. */
+globalThis.akNetflixEigenerSprungMerken = (sprung, speicher = sitzungSpeicher()) => {
+  try {
+    speicher?.setItem(EIGENER_SPRUNG_SCHLUESSEL, JSON.stringify(sprung))
+  } catch {
+    /* Ohne Speicher gilt er bis zum Neuladen. */
+  }
+  return sprung
+}
+
+/** Der Sprung beim Laden: wie `akNetflixEigenerSprung`; im Tab, der den Durchgang führt, ersetzt der eigene gemerkte Sprung einen verworfenen fremden Eintrag. */
+globalThis.akNetflixSprungLaden = (gemeinsam, tab, laeuft, speicher = sitzungSpeicher()) => {
+  const z = globalThis.akNetflixEigenerSprung(gemeinsam, tab, laeuft)
+  if (z || !laeuft) return z
+  try {
+    const e = JSON.parse(speicher?.getItem(EIGENER_SPRUNG_SCHLUESSEL) ?? 'null')
+    return e?.tab === tab ? e : null
+  } catch {
+    return null
+  }
 }
 
 /**

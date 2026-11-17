@@ -31,15 +31,7 @@ const T0 = Date.UTC(2026, 10, 15, 0, 30)
 const WORKER = 'https://worker.test/pruefung'
 const GEMELDET = 'netflixZurueckGemeldet'
 
-const speicherNeu = (start = {}) => {
-  const daten = { ...start }
-  const kopie = (x) => JSON.parse(JSON.stringify(x))
-  return {
-    daten,
-    get: async (k) => (k in daten ? { [k]: kopie(daten[k]) } : {}),
-    set: async (o) => void Object.assign(daten, kopie(o)),
-  }
-}
+const { speicherNeu, zurueckStart, stand, standSetzen } = require('./test-zurueck-speicher.cjs')
 const ruhe = async () => {
   for (let i = 0; i < 12; i++) await new Promise((r) => setImmediate(r))
 }
@@ -73,7 +65,7 @@ const eintrag = (grund, bis) => ({ grund, bis })
 
 async function ersteMeldung() {
   {
-    const speicher = speicherNeu({ netflixZurueckgestellt: { 20: eintrag('Erinnern', T0 + 5 * TAG), 3: eintrag('keine Folgenliste', T0 + TAG) } })
+    const speicher = speicherNeu(zurueckStart({ 20: eintrag('Erinnern', T0 + 5 * TAG), 3: eintrag('keine Folgenliste', T0 + TAG) }))
     const jetzt = { t: T0 }
     const s = await seite(speicher, jetzt)
     pruefe('erste Seite mit Zurückstellungen: genau eine Meldung', s.abrufe.length === 1, s.abrufe.length)
@@ -93,10 +85,10 @@ async function ersteMeldung() {
 async function abstand() {
   console.log('Abstand: genau 10 Minuten, auch über Seitenaufrufe')
   {
-    const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+    const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
     const jetzt = { t: T0 }
     await seite(speicher, jetzt)
-    speicher.daten.netflixZurueckgestellt = { 1: eintrag('x', T0 + TAG), 2: eintrag('y', T0 + TAG) }
+    standSetzen(speicher, { 1: eintrag('x', T0 + TAG), 2: eintrag('y', T0 + TAG) })
     jetzt.t = T0 + 10 * MINUTE - 1
     const knapp = await seite(speicher, jetzt)
     pruefe('Menge geändert, 1 ms vor Ablauf des Abstands: keine Meldung', knapp.abrufe.length === 0, knapp.abrufe.length)
@@ -110,10 +102,10 @@ async function abstand() {
 async function nachholTimer() {
   console.log('Nachhol-Timer: genau einer, danach die Meldung')
   {
-    const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+    const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
     const jetzt = { t: T0 }
     await seite(speicher, jetzt)
-    speicher.daten.netflixZurueckgestellt = { 1: eintrag('x', T0 + TAG), 2: eintrag('y', T0 + TAG) }
+    standSetzen(speicher, { 1: eintrag('x', T0 + TAG), 2: eintrag('y', T0 + TAG) })
     jetzt.t = T0 + 4 * MINUTE
     const s = await seite(speicher, jetzt)
     /* Zwei Änderungen auf derselben Seite: nur ein Timer. */
@@ -130,7 +122,7 @@ async function nachholTimer() {
 
 async function zweiteNachholrunde() {
   console.log('Zwei Nachholrunden: nach dem Nachholen ist wieder ein Timer möglich')
-  const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+  const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
   const jetzt = { t: T0 }
   await seite(speicher, jetzt)
   jetzt.t = T0 + 4 * MINUTE
@@ -155,7 +147,7 @@ async function fehlschlag() {
   console.log('Fehlschlag: Abstand gilt trotzdem, Inhalt gilt erst nach Erfolg')
   {
     for (const [name, o] of [['Worker lehnt ab (429/503)', { ok: false }], ['Netz weg', { netzfehler: true }]]) {
-      const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+      const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
       const jetzt = { t: T0 }
       const fehl = await seite(speicher, jetzt, o)
       pruefe(`${name}: ein Versuch`, fehl.abrufe.length === 1)
@@ -168,7 +160,7 @@ async function fehlschlag() {
       pruefe(`${name}: nach 10 Minuten der nächste Versuch`, spaeter.abrufe.length === 1)
       /* Ohne neuen Seitenaufruf: der Timer holt den Versuch nach, und scheitert er wieder, plant er den nächsten. */
       const j2 = { t: T0 }
-      const offen = await seite(speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } }), j2, o)
+      const offen = await seite(speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) })), j2, o)
       pruefe(`${name}: Timer mit 10 Minuten geplant`, offen.timer.length === 1 && offen.timer[0].ms === 10 * MINUTE, offen.timer.map((t) => t.ms))
       j2.t = T0 + 10 * MINUTE
       offen.timer[0].fn()
@@ -186,13 +178,13 @@ async function leereMenge() {
     const a = await seite(leer, { t: T0 })
     pruefe('nie etwas zurückgestellt, nie gemeldet: nichts zu sagen', a.abrufe.length === 0 && leer.daten[GEMELDET] === undefined)
     const jetzt = { t: T0 }
-    const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+    const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
     await seite(speicher, jetzt)
-    speicher.daten.netflixZurueckgestellt = {}
+    standSetzen(speicher, {})
     jetzt.t = T0 + 15 * MINUTE
     const frei = await seite(speicher, jetzt)
     pruefe('alles wieder offen nach einer früheren Meldung: die leere Menge geht raus', frei.abrufe.length === 1 && Object.keys(frei.abrufe[0].rumpf.eintraege).length === 0, frei.abrufe.length)
-    const abgelaufen = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0), 2: eintrag('y', T0 - 1), 3: eintrag('z', T0 + 1) } })
+    const abgelaufen = speicherNeu(zurueckStart({ 1: eintrag('x', T0), 2: eintrag('y', T0 - 1), 3: eintrag('z', T0 + 1) }))
     const b = await seite(abgelaufen, { t: T0 })
     pruefe('Abgelaufenes (bis ≤ jetzt) steht nicht im Rumpf, nur Kennung 3', b.abrufe.length === 1 && Object.keys(b.abrufe[0].rumpf.eintraege).join() === '3', b.abrufe[0]?.rumpf)
   }
@@ -201,10 +193,10 @@ async function leereMenge() {
 async function ohneTokenUndVerdrahtung() {
   console.log('Ohne Token, ohne Worker, Verdrahtung')
   {
-    const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+    const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
     const ohneToken = await seite(speicher, { t: T0 }, { token: undefined })
     pruefe('ohne Token: kein Abruf, kein Fehler, Speicher unberührt', ohneToken.abrufe.length === 0 && speicher.daten[GEMELDET] === undefined)
-    const ohneWorker = await seite(speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } }), { t: T0 }, { ohneWorker: true })
+    const ohneWorker = await seite(speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) })), { t: T0 }, { ohneWorker: true })
     pruefe('ohne worker-Angabe (Tests, andere Aufrufer): nie ein Abruf', ohneWorker.abrufe.length === 0)
     const s = await seite(speicherNeu(), { t: T0 })
     s.karte.set('7', 'Erinnern 20. November')
@@ -223,9 +215,10 @@ async function standardwege() {
   kontext.setTimeout = (fn, ms) => timer.push({ fn, ms })
   kontext.akKontext = {
     lokal: null,
+    beiAenderung: () => true,
     lesen: async (schluessel, bereich) => (gelesen.push([schluessel, bereich]), { token: 'seitentoken' }),
   }
-  const speicher = speicherNeu({ netflixZurueckgestellt: { 1: eintrag('x', T0 + TAG) } })
+  const speicher = speicherNeu(zurueckStart({ 1: eintrag('x', T0 + TAG) }))
   const jetzt = { t: T0 }
   const karte = neu({ 1: {}, 2: {} }, () => false, { speicher, jetzt: () => jetzt.t, worker: WORKER })
   await karte.geladen()

@@ -117,6 +117,17 @@ async function haupt() {
   pruefe('toter Kontext sagt „neu geladen“, nicht „Kein Token“', /neu geladen/.test(text({})), text({}))
   pruefe('lebender Kontext sagt „Kein Token“', /^Kein Token/.test(text({ runtime: { id: 'x' } })))
 
+  /* `lokal.remove` (Merkliste je Titel, 4071): löscht den Schlüssel; im toten Kontext oder bei einem Fehler `false`, nie ein Wurf. */
+  const loeschen = async (chrome) => {
+    const k = vm.createContext({ chrome })
+    vm.runInContext(lies('kontext.js'), k)
+    return k.akKontext.lokal.remove('a')
+  }
+  const gelöscht = []
+  pruefe('lokal.remove löscht den Schlüssel und meldet true', (await loeschen({ runtime: { id: 'x' }, storage: { local: { remove: async (s) => gelöscht.push(s) } } })) === true && gelöscht.join() === 'a', gelöscht)
+  pruefe('lokal.remove im toten Kontext: false, kein Wurf', (await loeschen({})) === false)
+  pruefe('lokal.remove lehnt der Speicher ab: false, kein Wurf', (await loeschen({ runtime: { id: 'x' }, storage: { local: { remove: () => Promise.reject(new Error(TOT)) } } })) === false)
+
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) rot`)
     process.exit(1)

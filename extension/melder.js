@@ -1835,7 +1835,7 @@ const erledigtGeladen = Promise.resolve(
     x = x ?? {}
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
-    zuletztGeoeffnet = akNetflixEigenerSprung(x.zuletztGeoeffnet, meinTab, selbstAn)
+    zuletztGeoeffnet = akNetflixSprungLaden(x.zuletztGeoeffnet, meinTab, selbstAn)
     netflixWeiterleitungen = x.netflixWeiterleitungen ?? {}
     durchgangBesitzer = x.netflixDurchgangBesitzer ?? null
   })
@@ -2772,7 +2772,7 @@ function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
   const sprung = { id: String(naechster), zeit: Date.now(), durchgang: true, tab: meinTab }
   titelBericht.beginn(naechster, sprung.zeit)
   void speicherSchreiben({ zuletztGeoeffnet: sprung })
-  zuletztGeoeffnet = sprung
+  zuletztGeoeffnet = akNetflixEigenerSprungMerken(sprung)
   void nichtDaTun.sprung(naechster) /* Vorprüfung: Umleitung auf `/browse` = nicht bei Netflix, sofort; sonst `gehe`. */
 }
 

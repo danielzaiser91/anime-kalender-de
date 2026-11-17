@@ -16,6 +16,9 @@
   Grund „fertig" und jeder abgelaufene. Seit 15.11.2026 meldet `zurueckMelden` die Menge an den Worker
   (`POST ?zurueck=1`, Tabelle `pruefung_zurueck`), damit der Prüfstand dieselbe Zahl nennt wie die Liste.
 */
+/* Je Titel ein Schlüssel (`netflixZurueck:<Kennung>`), damit kein Tab den Stand eines anderen überschreibt (4071, 17.11.2026). */
+const ZURUECK_PRAEFIX = 'netflixZurueck:'
+/* Der Sammelschlüssel bis 17.11.2026; wandert beim Laden hinüber. Alle Einträge laufen spätestens nach 30 Tagen ab: ab 17.12.2026 kann der Rückfall weg. */
 const ZURUECK_SCHLUESSEL = 'netflixZurueckgestellt'
 const ZURUECK_GEMELDET = 'netflixZurueckGemeldet'
 const ZURUECK_ABSTAND_MS = 10 * 60 * 1000
@@ -69,6 +72,57 @@ function zurueckBis(grund, datum, jetzt) {
   const tag = zurueckDatumBis(datum, jetzt)
   if (zurueckGleich(zurueckBerlinTag(tag), zurueckBerlinTag(jetzt))) return jetzt + ZURUECK_STUNDE_MS
   return Math.min(tag ?? jetzt + 7 * ZURUECK_TAG_MS, jetzt + ZURUECK_HOECHSTENS_TAGE * ZURUECK_TAG_MS)
+}
+
+/** Die Einträge aus dem Speicher (`get(null)`): ein Schlüssel je Titel; `migrieren` = Titel, die nur im alten Sammelschlüssel stehen. */
+function zurueckEinlesen(x) {
+  const alt = x[ZURUECK_SCHLUESSEL] ?? {}
+  const neu = Object.fromEntries(
+    Object.entries(x)
+      .filter(([k]) => k.startsWith(ZURUECK_PRAEFIX))
+      .map(([k, e]) => [k.slice(ZURUECK_PRAEFIX.length), e]),
+  )
+  return { eintraege: { ...alt, ...neu }, migrieren: Object.keys(alt).filter((k) => !(k in neu)) }
+}
+
+/** Schreibt die Titel des alten Sammelschlüssels in je einen Schlüssel und löscht den alten (einmal, beim ersten Laden danach). */
+async function zurueckMigrieren(speicher, x, migrieren) {
+  if (!(ZURUECK_SCHLUESSEL in x)) return
+  if (migrieren.length) await speicher.set(Object.fromEntries(migrieren.map((k) => [ZURUECK_PRAEFIX + k, x[ZURUECK_SCHLUESSEL][k]])))
+  await speicher.remove(ZURUECK_SCHLUESSEL)
+}
+
+/** Lädt die Merkliste aus dem Speicher in `stand` (bei Bedarf wandert der alte Sammelschlüssel hinüber). */
+async function zurueckLaden(speicher, stand) {
+  const x = (await speicher.get(null)) ?? {}
+  const { eintraege, migrieren } = zurueckEinlesen(x)
+  Object.assign(stand, eintraege)
+  await zurueckMigrieren(speicher, x, migrieren)
+}
+
+/**
+ * Eine Änderung: nur der Schlüssel dieses Titels wird geschrieben (`eintrag`) oder gelöscht (`null`), nie der ganze Stand, damit ein
+ * anderer Tab seine Zurückstellungen behält (4071); `aenderung` steht im Zustandsprotokoll.
+ */
+function zurueckSchreiben(speicher, stand, kennung, eintrag, aenderung) {
+  if (eintrag) stand[kennung] = eintrag
+  else delete stand[kennung]
+  globalThis.akProtokoll?.('merkliste', { aenderung, kennung, ...(eintrag && { grund: eintrag.grund, bis: eintrag.bis }) })
+  return eintrag ? speicher.set({ [ZURUECK_PRAEFIX + kennung]: eintrag }) : speicher.remove(ZURUECK_PRAEFIX + kennung)
+}
+
+/** Übernimmt Änderungen anderer Tabs (`onChanged`) in `stand`; was dieser Tab schon so weiß, auch die eigene Schreibung, bleibt stumm. `true` = etwas war neu. */
+function zurueckFremd(aenderungen, stand) {
+  let neu = false
+  for (const [schluessel, a] of Object.entries(aenderungen)) {
+    const kennung = schluessel.slice(ZURUECK_PRAEFIX.length)
+    if (!schluessel.startsWith(ZURUECK_PRAEFIX) || JSON.stringify(a.newValue ?? null) === JSON.stringify(stand[kennung] ?? null)) continue
+    if (a.newValue) stand[kennung] = a.newValue
+    else delete stand[kennung]
+    globalThis.akProtokoll?.('merkliste', { aenderung: a.newValue ? 'fremd-gesetzt' : 'fremd-entfernt', kennung })
+    neu = true
+  }
+  return neu
 }
 
 /** Überschrift der Prüfliste: die offenen Titel. Die Zurückgestellten nennt der Knopf daneben (`netflix-liste-ansicht.js`). */
@@ -182,21 +236,18 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
   const speicher = roh.speicher ?? globalThis.akKontext.lokal
   const jetzt = roh.jetzt ?? Date.now
   const datum = roh.datum ?? (() => globalThis.erscheinungsdatum?.())
-  let stand = {}
+  const stand = {}
   const umgebung = zurueckMitMelden(roh, () => stand)
   let bereit = Promise.resolve()
 
-  /** Änderungen laufen nacheinander, erst nach dem Laden, und schreiben den ganzen Stand. */
-  const aendern = (fn) => {
+  /** Änderungen laufen nacheinander, erst nach dem Laden; geschrieben wird nur der Schlüssel dieses Titels (`zurueckSchreiben`). */
+  const aendern = (kennung, eintrag, aenderung) => {
     bereit = bereit
-      .then(() => {
-        fn(stand)
-        return speicher.set({ [ZURUECK_SCHLUESSEL]: stand })
-      })
+      .then(() => zurueckSchreiben(speicher, stand, kennung, eintrag, aenderung))
       .then(() => umgebung.geaendert?.())
       .catch(() => {})
   }
-  const entfernen = (kennung) => aendern((s) => delete s[kennung])
+  const entfernen = (kennung, aenderung = 'entfernt') => aendern(kennung, null, aenderung)
 
   const gelistet = (kennung) => titel[kennung] !== undefined
   const istFertig = (kennung) => gelistet(kennung) && fertig(kennung, titel[kennung])
@@ -205,19 +256,21 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
     const e = stand[kennung]
     if (!e) return false
     if (e.bis <= jetzt() || istFertig(kennung)) {
-      entfernen(kennung)
+      entfernen(kennung, e.bis <= jetzt() ? 'abgelaufen' : 'fertig')
       return false
     }
     return true
   }
 
-  bereit = Promise.resolve(speicher.get(ZURUECK_SCHLUESSEL))
-    .then((x) => {
-      stand = x?.[ZURUECK_SCHLUESSEL] ?? {}
-      Object.keys(stand).forEach(aktiv) /* Abgelaufenes fliegt gleich beim Laden raus. */
-    })
+  bereit = zurueckLaden(speicher, stand)
+    .then(() => Object.keys(stand).forEach(aktiv)) /* Abgelaufenes fliegt gleich beim Laden raus. */
     .then(() => umgebung.geaendert?.())
     .catch(() => {})
+  /* Andere Tabs ändern die Merkliste live; `roh.beiAenderung` (Tests) ersetzt den Hörer des Kontexts. */
+  const hoeren = roh.beiAenderung ?? ((fn) => globalThis.akKontext?.beiAenderung(fn))
+  hoeren((aenderungen, bereich) => {
+    if (bereich === 'local') void bereit.then(() => zurueckFremd(aenderungen, stand) && umgebung.geaendert?.())
+  })
 
   /* Die Einträge dieses Laufs überstehen das volle Neuladen jedes Titels (`akNetflixLaufMap`). */
   class Zurueckgestellt extends globalThis.akNetflixLaufMap(umgebung.sitzung ?? globalThis.akNetflixSitzungSpeicher?.(), LAUF_UEBERSPRUNGEN) {
@@ -231,7 +284,7 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
       else {
         const bis = zurueckBis(grund, /^Erinnern/.test(grund) ? datum() : null, jetzt())
         const am = jetzt()
-        aendern((s) => (s[k] = { grund, bis, am }))
+        aendern(k, { grund, bis, am }, 'gesetzt')
       }
       return super.set(kennung, grund)
     }
