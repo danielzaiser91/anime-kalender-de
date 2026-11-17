@@ -552,5 +552,13 @@
       "npx tsx pipeline/check-cr-faellig.ts",
       "npx tsx pipeline/check-termin-zustand.ts"
     ]
-  }
+  },
+  { "name": "AUSBLEIBEN_NACH_MS: 16 min", "datei": "shared/ausbleiben-plan.ts", "suche": "AUSBLEIBEN_NACH_MS = 15 * MINUTE", "ersetze": "AUSBLEIBEN_NACH_MS = 16 * MINUTE", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "Abgleich: Takt 1 min", "datei": "shared/ausbleiben-plan.ts", "suche": "bisMs: Infinity, taktMs: 0 }", "ersetze": "bisMs: Infinity, taktMs: MINUTE }", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "Abgleich: Altersgrenze 60 Tage", "datei": "shared/ausbleiben-plan.ts", "suche": "bisMs: Infinity, taktMs: 0 }", "ersetze": "bisMs: RECHERCHE_BIS_MS, taktMs: 0 }", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "Abgleich: ab Termin statt ab Karenz", "datei": "shared/ausbleiben-plan.ts", "suche": "[{ vonMs: AUSBLEIBEN_NACH_MS, bisMs: Infinity", "ersetze": "[{ vonMs: 0, bisMs: Infinity", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "abgleichFaellig: immer", "datei": "pipeline/lib/ausgeblieben.ts", "suche": ".includes('abgleich-anime2you')", "ersetze": ".length >= 0", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "rechercheFaellig: erschienen zählt nicht", "datei": "shared/recherche-plan.ts", "suche": "if (v.erschienenAm) return false\n  return pruefungFaellig", "ersetze": "return pruefungFaellig", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "rechercheFaellig: frühere Recherche ignoriert", "datei": "shared/recherche-plan.ts", "suche": "v.rechercheAm ? new Date(v.rechercheAm).getTime() : undefined", "ersetze": "undefined", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "terminFrist: ohne Karenz", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "getTime() + AUSBLEIBEN_NACH_MS)", "ersetze": "getTime())", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] }
 ]

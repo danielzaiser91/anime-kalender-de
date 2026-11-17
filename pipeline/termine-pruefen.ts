@@ -38,7 +38,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
-import { artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
+import { abgleichFaellig, artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { katalogBeobachtungen, katalogOhneTag, katalogStaffel, keinVerworfen } from './lib/verpasst-katalog.ts'
@@ -433,6 +433,7 @@ for (const v of verpasst) {
     if (gelesen && gelesen > v.erwartetAm && (!v.geprueftAm || gelesen > v.geprueftAm)) v.geprueftAm = gelesen
   }
   if (a2y.scrapedAt && a2y.scrapedAt > v.erwartetAm) v.newsGeprueftAm = a2y.scrapedAt
+  if (!abgleichFaellig(v.erwartetAm, JETZT)) continue
   const t = titelJeId.get(v.titleId)
   const namen = [v.name, t?.titleDe, t?.titleEn, t?.titleRomaji]
   /* Zehn Tage vor dem Termin: Eine Pause wird meist vorab angekündigt. */

@@ -17,6 +17,7 @@
  * Recherche wert.
  */
 
+import { AUSBLEIBEN_NACH_MS, faelligeArten } from '../../shared/ausbleiben-plan.ts'
 import { addDays, berlinToUtc, toIsoDate } from '../../shared/time.ts'
 
 const STUNDE = 36e5
@@ -135,15 +136,17 @@ export function terminPruefen(
   return uebernommen.some((f) => f.seriesId === seriesId && f.episode === e.episode && f.date === e.date)
 }
 
-/** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
-const KARENZ_MS = 15 * 60 * 1000
-
 /** Der Termin als echter Zeitpunkt; die Uhrzeit ist Berliner Ortszeit, der Offset (+01:00/+02:00) folgt dem Datum. Ohne Uhrzeit gilt Mitternacht. */
 export function terminZeitpunkt(datum: string, uhrzeit?: string): Date {
   return berlinToUtc(datum, uhrzeit ?? '00:00')
 }
 
+/** Ob die Anime2You-Meldungen jetzt zu diesem Vermerk abgeglichen werden (Tabelle `STUFEN['abgleich-anime2you']`). */
+export function abgleichFaellig(erwartetAm: string, jetzt: Date): boolean {
+  return faelligeArten(new Date(erwartetAm).getTime(), {}, jetzt.getTime()).includes('abgleich-anime2you')
+}
+
 /** Ab wann ein Ausbleiben gilt: Uhrzeit plus Karenz, ohne Uhrzeit das Ende des Tages (23:59:59 Ortszeit). */
 export function terminFrist(datum: string, uhrzeit?: string): Date {
-  return uhrzeit ? new Date(terminZeitpunkt(datum, uhrzeit).getTime() + KARENZ_MS) : new Date(berlinToUtc(datum, '23:59').getTime() + 59_000)
+  return uhrzeit ? new Date(terminZeitpunkt(datum, uhrzeit).getTime() + AUSBLEIBEN_NACH_MS) : new Date(berlinToUtc(datum, '23:59').getTime() + 59_000)
 }

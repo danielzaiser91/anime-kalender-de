@@ -16,10 +16,12 @@ import {
   RECHERCHE_SPAET_AB_MS,
   RECHERCHE_TAKT_FRUEH_MS,
   RECHERCHE_TAKT_SPAET_MS,
+  AUSBLEIBEN_NACH_MS,
   STUFEN,
   taktFuer,
   wortStufe,
 } from '../shared/ausbleiben-plan.ts'
+import { abgleichFaellig, terminFrist } from './lib/ausgeblieben.ts'
 import * as altRecherche from '../shared/recherche-plan.ts'
 
 let fehler = 0
@@ -125,8 +127,17 @@ pruefe('naechstePruefung Recherche: ohne Letzte erst ab 6 h', naechstePruefung('
 pruefe('naechstePruefung: Letzte hinter der letzten Stufe: keine', naechstePruefung('sichtung', 0, 61 * T, 61 * T) === null)
 pruefe('naechstePruefung nach der letzten Stufe: keine', naechstePruefung('sichtung', 0, undefined, 60 * T) === null)
 const gemeinsam = faelligeArten(0, { sichtung: 6 * H - 10 * MIN }, 6 * H)
-pruefe('faelligeArten: Sichtung nicht, Recherche ja', gemeinsam.length === 1 && gemeinsam[0] === 'recherche', gemeinsam.join())
+pruefe('faelligeArten: Sichtung nicht, Recherche und Abgleich ja', gemeinsam.join() === 'recherche,abgleich-anime2you', gemeinsam.join())
 pruefe('faelligeArten: nur Sichtung in den ersten Minuten', faelligeArten(0, {}, 6 * MIN).join() === 'sichtung')
+pruefe('faelligeArten: Termin in der Zukunft: keine Art', faelligeArten(0, {}, -1).length === 0)
+pruefe('faelligeArten: Abgleich ab 15 min, davor nicht', faelligeArten(0, {}, AUSBLEIBEN_NACH_MS - 1).join() === 'sichtung' && faelligeArten(0, {}, AUSBLEIBEN_NACH_MS).join() === 'sichtung,abgleich-anime2you')
+pruefe('faelligeArten: Abgleich bei jedem Lauf, auch direkt nach dem letzten', faelligeArten(0, { 'abgleich-anime2you': 20 * MIN }, 20 * MIN).includes('abgleich-anime2you'))
+pruefe('faelligeArten: Abgleich ohne Altersgrenze (61 Tage)', faelligeArten(0, {}, 61 * T).join() === 'abgleich-anime2you')
+pruefe('faelligeArten: Recherche vor 60 Tagen ja, ab 60 Tagen nein', faelligeArten(0, {}, 60 * T - 1).includes('recherche') && !faelligeArten(0, {}, 60 * T).includes('recherche'))
+pruefe('AUSBLEIBEN_NACH_MS', AUSBLEIBEN_NACH_MS === 15 * MIN)
+pruefe('abgleichFaellig: ab 15 min, ohne Altersgrenze', !abgleichFaellig('2026-11-15T14:00:00Z', new Date('2026-11-15T14:14:59Z')) && abgleichFaellig('2026-11-15T14:00:00Z', new Date('2026-11-15T14:15:00Z')) && abgleichFaellig('2026-11-15T14:00:00Z', new Date('2027-02-01T00:00:00Z')))
+pruefe('terminFrist: Uhrzeit + 15 min, ohne Uhrzeit Tagesschluss', terminFrist('2026-11-15', '20:00').toISOString() === '2026-11-15T19:15:00.000Z' && terminFrist('2026-11-15').toISOString() === '2026-11-15T22:59:59.000Z')
+pruefe('Tabelle Abgleich', STUFEN['abgleich-anime2you'].map((x) => [x.vonMs, x.bisMs, x.taktMs].join(':')).join(' ') === `${15 * MIN}:Infinity:0`)
 
 // Recherche-Konstanten: feste Zahlen, und das alte Modul liefert dieselben Werte.
 pruefe('RECHERCHE_AB_MS', RECHERCHE_AB_MS === 21600000)
@@ -136,6 +147,15 @@ pruefe('RECHERCHE_SPAET_AB_MS', RECHERCHE_SPAET_AB_MS === 1209600000)
 pruefe('RECHERCHE_BIS_MS', RECHERCHE_BIS_MS === 5184000000)
 pruefe('recherche-plan liefert dieselben Konstanten', altRecherche.RECHERCHE_AB_MS === RECHERCHE_AB_MS && altRecherche.RECHERCHE_TAKT_FRUEH_MS === RECHERCHE_TAKT_FRUEH_MS && altRecherche.RECHERCHE_TAKT_SPAET_MS === RECHERCHE_TAKT_SPAET_MS && altRecherche.RECHERCHE_SPAET_AB_MS === RECHERCHE_SPAET_AB_MS && altRecherche.RECHERCHE_BIS_MS === RECHERCHE_BIS_MS)
 const vermerk = { erwartetAm: '2026-11-15T14:00:00Z' }
+// Grenzen über rechercheFaellig (Lauf): Die Grenze selbst gehört zur neuen Stufe (halboffen, wie die Tabelle).
+const ab = (ms: number) => new Date(Date.parse(vermerk.erwartetAm) + ms)
+const lt = (ms: number) => ab(ms).toISOString()
+pruefe('rechercheFaellig ab 6 h', altRecherche.rechercheFaellig(vermerk, ab(6 * H)))
+pruefe('rechercheFaellig bei 14 d: spät, 6 d nach der Letzten nicht', !altRecherche.rechercheFaellig({ ...vermerk, rechercheAm: lt(8 * T) }, ab(14 * T)))
+pruefe('rechercheFaellig bei 14 d - 1 ms: früh, 6 d nach der Letzten ja', altRecherche.rechercheFaellig({ ...vermerk, rechercheAm: lt(8 * T) }, ab(14 * T - 1)))
+pruefe('rechercheFaellig bei 60 d - 1 ms ja, bei 60 d nein', altRecherche.rechercheFaellig(vermerk, ab(60 * T - 1)) && !altRecherche.rechercheFaellig(vermerk, ab(60 * T)))
+pruefe('rechercheFaellig erschienen nie', !altRecherche.rechercheFaellig({ ...vermerk, erschienenAm: '2026-11-16' }, ab(7 * T)))
+pruefe('rechercheFaellig ungültiges Datum nie', !altRecherche.rechercheFaellig({ erwartetAm: 'x' }, ab(7 * T)))
 pruefe('rechercheFaellig vor 6 h nein', !altRecherche.rechercheFaellig(vermerk, new Date('2026-11-15T19:59:59Z')))
 pruefe('naechsteRecherche: nächster Tageslauf 11:17 UTC', altRecherche.naechsteRecherche(vermerk, new Date('2026-11-15T20:00:00Z'))?.toISOString() === '2026-11-16T11:17:00.000Z')
 pruefe('naechsteRecherche: frühestens 6 h nach dem Termin, Lauf am Folgetag', altRecherche.naechsteRecherche(vermerk, new Date('2026-11-15T10:00:00Z'))?.toISOString() === '2026-11-16T11:17:00.000Z')
