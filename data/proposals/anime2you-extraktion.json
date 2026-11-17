@@ -1732,6 +1732,10 @@
       "am": "2026-11-16",
       "vorschlaege": 2
     },
+    "1071483": {
+      "am": "2026-11-17",
+      "vorschlaege": 1
+    },
     "1071494": {
       "am": "2026-11-13",
       "vorschlaege": 7
@@ -1835,6 +1839,14 @@
     "1072447": {
       "am": "2026-11-17",
       "vorschlaege": 0
+    },
+    "1072519": {
+      "am": "2026-11-17",
+      "vorschlaege": 1
+    },
+    "1072697": {
+      "am": "2026-11-17",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -14070,6 +14082,74 @@
       "artikelId": "1071433",
       "artikel": "»Digimon Frontier« erhält neue Blu-ray-Komplettbox + Design",
       "quelle": "https://www.anime2you.de/news/1071433/digimon-frontier-neue-blu-ray-komplettbox/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "The Eternal Fool’s Words of Wisdom",
+      "zitat": "Crunchyroll zeigt die Fantasy-Serie hierzulande im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der im Artikel genannte Starttermin 9. Januar 2027 wird nur für die Ausstrahlung in Japan genannt, nicht ausdrücklich für den Crunchyroll-Simulcast.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072519",
+      "artikel": "Konkreter Termin von »The Eternal Fool’s Words of Wisdom« + Trailer",
+      "quelle": "https://www.anime2you.de/news/1072519/the-eternal-fools-words-of-wisdom-termin/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Berserk",
+      "zitat": "»Berserk« erscheint voraussichtlich am 25. Februar 2027 als sogenannte »The Eclipse Edition«, die alle 25 Episoden mit deutscher und japanischer Sprachfassung auf vier Blu-ray-Discs, die sich in einem Schuber befinden, enthält.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-02-25",
+      "uhrzeit": null,
+      "anbieter": "KSM Anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig (\"voraussichtlich\").",
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „KSM Anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1071483",
+      "artikel": "»Berserk« erscheint in einer neuen Blu-ray-Komplettbox",
+      "quelle": "https://www.anime2you.de/news/1071483/berserk-neue-blu-ray-komplettbox/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "PSYREN",
+      "zitat": "Anstelle der ursprünglich für den 23. November 2026 geplanten siebten Episode von »PSYREN« wird im japanischen Fernsehen eine Sondersendung mit den Synchronsprechern der Serie ausgestrahlt. Wie es dann in den Folgewochen weitergeht und wann die siebte Episode stattdessen erscheint, ist bislang noch nicht bekannt.",
+      "art": "pause",
+      "sprache": "unklar",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7",
+      "unsicher": "Kein neuer Termin für Episode 7 bekannt; der 23. November 2026 betrifft die ausfallende Sondersendung, nicht ausdrücklich den Crunchyroll-Simulcast.",
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1072697",
+      "artikel": "»PSYREN« legt Pause auf unbestimmte Zeit vor Episode 7 ein",
+      "quelle": "https://www.anime2you.de/news/1072697/psyren-pause-vor-episode-7/",
       "veroeffentlicht": "2026-11-17",
       "gelesenAm": "2026-11-17"
     }
