@@ -169,17 +169,30 @@ globalThis.akNetflixOhneSpurZaehlen = (durchlauf) => {
  */
 globalThis.akNetflixUmgeleitet = (o, tun) => {
   /* Nur ein Sprung, den `selbstWeiter` selbst gemacht hat: ein alter Klick aus der Liste oder vom Einzelknopf zählt nicht. */
-  if (!o.selbstAn || o.laeuft || !o.ziel?.id || !o.ziel.durchgang || !o.offen) return false
+  if (!o.selbstAn || o.laeuft || !o.ziel?.id || !o.ziel.durchgang) return false
   if (!/^\/(?:[a-z-]+\/)?browse\b/.test(o.pfad)) return false
   const seit = o.jetzt - (o.ziel.zeit ?? 0)
-  if (seit < NETFLIX_UMLEITUNG_NACH_MS || seit > NETFLIX_UMLEITUNG_BIS_MS) return false
+  if (seit < NETFLIX_UMLEITUNG_NACH_MS || o.profilwahl) return false
   const kennung = String(o.ziel.id)
-  if (tun.uebersprungen.has(kennung) || o.profilwahl) return false
+  /* Länger als eine Minute auf `/browse`: egal, ob der Titel noch auf der Liste steht — der Durchgang geht weiter. */
+  if (seit > NETFLIX_UMLEITUNG_BIS_MS) return globalThis.akNetflixStillstand(kennung, tun)
+  if (!o.offen || tun.uebersprungen.has(kennung)) return false
   /* Hat die Vorprüfung dieses Titels das Urteil schon in der Hand (oder abgegeben), geht sie selbst weiter: ein Urteil, ein `weiter` je Titel (4071). */
   if (tun.nichtDa?.besetzt?.(kennung)) return true
   tun.spur('Netflix leitet auf die Startseite um', { reihe: kennung })
   if (tun.nichtDa) tun.nichtDa.urteil(kennung, 'Umleitung auf Startseite')
   else tun.uebersprungen.set(kennung, 'Netflix leitet auf die Startseite um')
+  tun.weiter()
+  return true
+}
+
+/**
+ * Stillstandssicherung: Steht der eigene Sprung länger als `NETFLIX_UMLEITUNG_BIS_MS` auf `/browse`, hat ihn niemand weitergeführt (Bericht 17.11.2026:
+ * Urteil gefallen, aber kein `weiter`). Ein Titel ohne Urteil wird mit Grund zurückgestellt (nie als „nicht bei Netflix“ gemeldet), dann geht es weiter.
+ */
+globalThis.akNetflixStillstand = (kennung, tun) => {
+  tun.spur('Durchgang stand auf der Startseite still', { reihe: kennung })
+  if (!tun.uebersprungen.has(kennung) && !tun.nichtDa?.besetzt?.(kennung)) tun.uebersprungen.set(kennung, 'Durchgang stand auf der Startseite still')
   tun.weiter()
   return true
 }

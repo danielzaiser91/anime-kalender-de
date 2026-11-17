@@ -2793,6 +2793,8 @@ function naechsterAuftrag() {
     if (kennung === hier) continue
     if (selbstUebersprungen.has(kennung) || bremse.ausgeschlossen(kennung)) continue
     if (istErledigt(kennung, 'tot')) continue
+    /* Ein Urteil ist unterwegs (Takt urteilt, bevor es fertig ist): den Titel nicht noch einmal wählen — sonst führt es niemand weiter (17.11.2026). */
+    if (nichtDaTun.besetzt(kennung)) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
     if (!offen.length) continue
     /*
