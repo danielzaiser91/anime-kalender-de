@@ -28,7 +28,7 @@ async function ausDist(route) {
 /** Läuft im Browser: wer hat den Fokus? „feld“ = sichtbares Suchfeld. */
 function fokusZiel() {
   const a = document.activeElement
-  if (a instanceof HTMLInputElement && a.type === 'search' && a.offsetParent !== null) return 'feld'
+  if (a?.tagName === 'INPUT' && a.type === 'search' && a.offsetParent !== null) return 'feld'
   return a ? `${a.tagName.toLowerCase()}${a.getAttribute('aria-hidden') ? '(versteckt)' : ''}` : 'nichts'
 }
 
@@ -37,7 +37,7 @@ function horchen() {
   window.__folge = []
   for (const art of ['focus', 'blur']) {
     document.addEventListener(art, (e) => {
-      if (e.target instanceof HTMLInputElement) window.__folge.push(`${art}:${e.target.type}${e.target.getAttribute('aria-hidden') ? '(versteckt)' : ''}`)
+      if (e.target.tagName === 'INPUT') window.__folge.push(`${art}:${e.target.type}${e.target.getAttribute('aria-hidden') ? '(versteckt)' : ''}`)
     }, true)
   }
 }
