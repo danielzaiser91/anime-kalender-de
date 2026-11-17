@@ -48,10 +48,11 @@ on:
 permissions:
   contents: read
 
-# Ein neuer Lauf derselben Liste desselben Zweigs ersetzt den laufenden (Push, Rerun des Prüfers): je Liste und Zweig
-# höchstens ein Lauf mit npm ci und Chromium, nie fünf Läufe à 50 min nebeneinander (A4, PR 3591).
+# Ein neuer Lauf derselben Liste, desselben Zweigs und desselben Kopfs ersetzt den laufenden (Rerun des Prüfers): nie fünf
+# Läufe à 50 min nebeneinander (A4, PR 3591). Der Kopf gehört zur Gruppe: Prüfer (mit kopf) und Bauer von Hand (ohne)
+# brechen sich nicht gegenseitig ab (Lehre 132, 17.11.2026).
 concurrency:
-  group: mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}
+  group: mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}-${{ inputs.kopf }}
   cancel-in-progress: true
 
 jobs:
