@@ -146,15 +146,33 @@ const mitUpdate = (zusatz) => ({ ...antworten({ mainSha: MAIN }), [PUT]: { aus: 
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('update-branch: leere Antwort für den Kopf zählt nicht als neuer Kopf (wartet, nennt dann den echten)', code === 1 && k.gewartet.length === 1 && k.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`), { code, w: k.gewartet, m: k.meldungen })
 }
-for (const [name, fehlerText, erwartet] of [['422 (Konflikt)', 'gh: Merge conflict (HTTP 422)', /update-branch abgelehnt \(422/], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen', /update-branch hing/]]) {
+const anzahlPut = (k) => k.aufrufe.filter((a) => a === PUT).length
+// A3 (PR 4104): jede 4xx-Abweisung (422 Konflikt/Kopf veraltet, 403 fehlendes Token-Recht) = nichts angestoßen, Rückfall wie bisher, nie Kopf lesen.
+for (const [name, fehlerText] of [['422', 'gh: Merge conflict (HTTP 422)'], ['403', 'gh: Resource not accessible by personal access token (HTTP 403)']]) {
   const k = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`update-branch ${name} -> Exit 2, Meldung, kein Rückfall auf Schließen/Öffnen`, code === 2 && schreibend(k.aufrufe).length === 0 && erwartet.test(k.meldungen.join()), { code, a: k.aufrufe, m: k.meldungen })
-}
-{
-  const k = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Server Error (HTTP 502)' } }))
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe('update-branch scheitert sonst (502) -> Rückfall: Schließen und Öffnen wie bisher, Exit 1', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7', k.aufrufe)
+  pruefe(`update-branch ${name} -> nichts angestoßen: ein PUT, Rückfall Schließen/Öffnen, Exit 1, Kopf nicht gelesen`, code === 1 && anzahlPut(k) === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' && !k.aufrufe.includes(KOPF_LESEN), k.aufrufe)
+}
+// A1 (PR 4104): 5xx oder Zeitlimit nach Wirkung: Kopf einmal lesen; neu = Exit 1 mit neuem Kopf, sonst Exit 2 „SCHON ANGESTOSSEN“; nie zweiter PUT, nie Schließen/Öffnen.
+for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen']]) {
+  const wirkt = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
+  const code = nachrechnen(7, wirkt.gh, wirkt.melde, wirkt.warte)
+  pruefe(`PUT wirkt, dann ${name} -> Exit 1 mit neuem Kopf, ein PUT, kein Schließen/Öffnen`, code === 1 && wirkt.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`) && anzahlPut(wirkt) === 1 && schreibend(wirkt.aufrufe).length === 0, { code, a: wirkt.aufrufe, m: wirkt.meldungen })
+  const nicht = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
+  const code2 = main(['7'], nicht.gh, nicht.melde, nicht.warte)
+  pruefe(`PUT ${name}, Kopf unverändert -> Exit 2 „SCHON ANGESTOSSEN möglich“, ein PUT, kein Schließen/Öffnen`, code2 === 2 && /SCHON ANGESTOSSEN möglich/.test(nicht.meldungen.join()) && anzahlPut(nicht) === 1 && schreibend(nicht.aufrufe).length === 0, { code2, a: nicht.aufrufe, m: nicht.meldungen })
+  const leer = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: '\n' } }))
+  const code4 = main(['7'], leer.gh, leer.melde, leer.warte)
+  pruefe(`PUT ${name}, leere Kopf-Antwort -> Exit 2 „SCHON ANGESTOSSEN möglich“ (leer ist kein neuer Kopf)`, code4 === 2 && /SCHON ANGESTOSSEN möglich/.test(leer.meldungen.join()) && schreibend(leer.aufrufe).length === 0, { code4, m: leer.meldungen })
+  const blind = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } }))
+  const code3 = main(['7'], blind.gh, blind.melde, blind.warte)
+  pruefe(`PUT ${name}, Kopf nicht lesbar -> Exit 2 „SCHON ANGESTOSSEN“ und Lesefehler, kein Schließen/Öffnen`, code3 === 2 && /SCHON ANGESTOSSEN/.test(blind.meldungen.join()) && /Kopf nicht lesbar/.test(blind.meldungen.join()) && schreibend(blind.aufrufe).length === 0, { code3, m: blind.meldungen })
+}
+// A2 (PR 4104): PUT angenommen, Kopf lesen scheitert -> „SCHON ANGESTOSSEN“, nichts weiter.
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('PUT ok, Kopf lesen wirft -> Exit 2 „SCHON ANGESTOSSEN“, kein Schließen/Öffnen, ein PUT', code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && schreibend(k.aufrufe).length === 0 && anzahlPut(k) === 1, { code, m: k.meldungen })
 }
 {
   const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))

@@ -23,6 +23,8 @@ export function ghMitWiederholung(gh, schlafen = schlafe) {
     } catch (e) {
       // merge/close/reopen nie wiederholen: nach einem 504 kann die Änderung schon durch sein (sonst falsches „already merged/closed“); `merge` prüft den Zustand selbst
       if (args[0] === 'pr' && ['merge', 'close', 'reopen'].includes(args[1])) throw e
+      // update-branch ebenso: ein zweiter PUT nach Wirkung liefe in 422 und verdeckte den neuen Kopf (tools/pr-nachrechnen-zweig.mjs liest ihn selbst nach)
+      if (anstossNummer(args) !== null) throw e
       if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
       schlafen(GH_5XX_PAUSE_MS)
       return gh(args)
@@ -58,10 +60,13 @@ export const ghLesend = (gh) => (args) => {
   return gh(args)
 }
 
-/** PR-Nummer, wenn der Aufruf die Kette neu anstößt (`pr close` oder `api -X PUT …/pulls/N/update-branch`, tools/pr-nachrechnen-zweig.mjs), sonst null. */
+/**
+ * PR-Nummer, wenn der Aufruf die Kette neu anstößt (`pr close` oder `gh api …/pulls/N/update-branch`, tools/pr-nachrechnen-zweig.mjs), sonst null.
+ * Entscheidend ist der Pfad, nicht die Schreibweise der Methode (`-X PUT`, `-XPUT`, `--method PUT`, `--method=PUT`): der Pfad hat nur den einen Schreibzweck.
+ */
 export function anstossNummer(args) {
   if (args[0] === 'pr' && args[1] === 'close') return String(args[2])
-  if (args[0] !== 'api' || !args.includes('PUT')) return null
+  if (args[0] !== 'api') return null
   const treffer = args.map((a) => /\/pulls\/(\d+)\/update-branch$/.exec(String(a))).find(Boolean)
   return treffer ? treffer[1] : null
 }

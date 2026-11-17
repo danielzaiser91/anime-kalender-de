@@ -442,7 +442,36 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   const echtAufrufe = []
   const echt = echteWelt({ trocken: false, gh: veraltet(echtAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
   pruefe('Gegenprobe ohne Trockenlauf: derselbe PR bekommt update-branch (kein Schließen), Exit 1 mit neuem Kopf', echt.exit === 1 && echtAufrufe.some((s) => s.includes('PUT') && s.includes('pulls/7/update-branch')) && !echtAufrufe.includes('pr close 7') && echt.text.includes(`neuer Kopf ${'e'.repeat(40)}`), { echtAufrufe, text: echt.text })
-  pruefe('anstossNummer: close und update-branch zählen, sonst null', anstossNummer(['pr', 'close', '7']) === '7' && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/update-branch', '-f', 'expected_head_sha=x']) === '12' && anstossNummer(['api', '-X', 'GET', 'repos/o/r/pulls/12/update-branch']) === null && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/merge']) === null && anstossNummer(['pr', 'view', '7']) === null && anstossNummer(['pr', 'reopen', '7']) === null)
+  pruefe('anstossNummer: close und update-branch zählen, sonst null', anstossNummer(['pr', 'close', '7']) === '7' && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/update-branch', '-f', 'expected_head_sha=x']) === '12' && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/merge']) === null && anstossNummer(['api', 'repos/o/r/pulls/12', '--jq', '.head.sha']) === null && anstossNummer(['pr', 'view', '7']) === null && anstossNummer(['pr', 'reopen', '7']) === null)
+  // A8 (PR 4104): alle Schreibweisen der Methode von gh api: Pfad entscheidet, Trockenlauf sperrt, Riegel zählt je PR
+  const formen = [['-X', 'PUT'], ['-XPUT'], ['--method', 'PUT'], ['--method=PUT'], ['-X', 'put'], ['-X=PUT']]
+  for (const form of formen) {
+    const args = ['api', ...form, 'repos/o/r/pulls/12/update-branch', '-f', 'expected_head_sha=x']
+    let innen = 0
+    let gesperrt = false
+    try { ghLesend(() => { innen++ })(args) } catch { gesperrt = true }
+    const riegel = ghMitAnstossRiegel(() => '', 1)
+    riegel(args)
+    let zweiter = false
+    try { riegel(['api', ...form, 'repos/o/r/pulls/13/update-branch']) } catch { zweiter = true }
+    pruefe(`update-branch in der Form ${form.join(' ')}: Nummer 12, Trockenlauf sperrt, Riegel zählt`, anstossNummer(args) === '12' && gesperrt && innen === 0 && zweiter, { form })
+  }
+  // A1 (PR 4104): ghMitWiederholung wiederholt update-branch nie; PUT mit 502 nach Wirkung ergibt über echteWelt genau einen PUT und Exit 1
+  const putSpur = []
+  const ohnePut = ghMitWiederholung((args) => { putSpur.push(args.join(' ')); throw Object.assign(new Error('gh: Server Error (HTTP 502)'), { stderr: 'HTTP 502' }) }, () => putSpur.push('pause'))
+  let putWirft = false
+  try { ohnePut(['api', '-X', 'PUT', 'repos/o/r/pulls/12/update-branch']) } catch { putWirft = true }
+  pruefe('ghMitWiederholung: update-branch nie wiederholt (kein zweiter PUT, keine Pause)', putWirft && putSpur.length === 1 && putSpur[0].includes('update-branch'), putSpur)
+  const mitPut502 = []
+  const gh502 = ghMitWiederholung((args) => {
+    if (args.some((a) => String(a).endsWith('/update-branch'))) {
+      mitPut502.push('PUT')
+      throw new Error('gh: Server Error (HTTP 502)')
+    }
+    return veraltet([])(args)
+  }, () => mitPut502.push('pause'))
+  const nach502 = echteWelt({ trocken: false, gh: gh502, repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
+  pruefe('echteWelt mit ghMitWiederholung: PUT 502 nach Wirkung -> genau ein PUT, keine Pause, Exit 1 mit neuem Kopf', nach502.exit === 1 && mitPut502.join() === 'PUT' && nach502.text.includes(`neuer Kopf ${'e'.repeat(40)}`), { mitPut502, nach502 })
   // Höchstmenge Anstöße je Lauf: neun veraltete PRs (21..29) über dieselbe echteWelt, nur die ersten acht werden geschlossen und geöffnet
   const viele = []
   let aktuell = 21

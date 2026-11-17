@@ -12,11 +12,12 @@
  *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
  *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`); bei einem reinen Bot-Datensprung (`reinerBotSprung`) genügt: der PR berührt keine bewegte Datei.
  *   Exit 1: nicht aktuell; main wurde per `update-branch` (mit `expected_head_sha`) in den Zweig geholt: der Kopf ist NEU, die Meldung nennt ihn
- *           („neuer Kopf <sha>: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen“); ein Merge auf dem alten Kopf scheitert am Kopfvergleich.
- *           Nur wenn update-branch nicht möglich war (nicht 422, kein Zeitlimit), gilt der Rückfall: geschlossen und wieder geöffnet (der Prüfer hört nicht auf `reopened`).
- *           update-branch 422 (Konflikt, Kopf veraltet) und Zeitlimit sind Exit 2 mit Meldung, nichts weiter angestoßen.
+ *           („neuer Kopf <sha>: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen“); die Merge-Zeile `… && gh pr merge` läuft danach nicht weiter (das `&&` ist der Schutz).
+ *           Nur wenn update-branch abgewiesen wurde (HTTP 4xx, z. B. 422 oder 403, oder Trockenlauf/Riegel des Nacht-Mergers), gilt der Rückfall:
+ *           geschlossen und wieder geöffnet (der Prüfer hört nicht auf `reopened`).
  *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
- *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
+ *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen oder nach einem update-branch, der gewirkt haben kann (5xx, Zeitlimit,
+ *           Kopf nicht lesbar oder nicht neu), steht „SCHON ANGESTOSSEN“ in der Meldung: Kopf prüfen, nie blind wiederholen.
  * Die Basis steht in der Checkout-Zeile des Jobs JOB: „HEAD is now at … Merge <Kopf> into <Basis>“ (Text des Merge-Commits von GitHub).
  */
 import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'

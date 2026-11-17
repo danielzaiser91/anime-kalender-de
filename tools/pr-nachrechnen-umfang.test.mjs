@@ -233,6 +233,7 @@ try {
       if (s.endsWith('/pulls/7/files --paginate --jq .[] | .filename, (.previous_filename // empty)')) return 'tools/b.mjs\n'
       if (s.endsWith('/pulls/7 --jq .merge_commit_sha')) return 'm'.repeat(40) + '\n'
       if (s.startsWith('api repos/{owner}/{repo}/commits/')) return `${refs.main}\n`
+      if (s.includes('/pulls/7/update-branch')) throw new Error('gh: Not Found (HTTP 404)')
       if (s === 'pr close 7' || s === 'pr reopen 7' || s.startsWith('pr comment 7')) return ''
       throw new Error(`unerwarteter gh-Aufruf ${s}`)
     }
