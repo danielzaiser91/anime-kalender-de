@@ -1,11 +1,11 @@
 [
-  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
-  { "name": "belegtTon: Quellenprüfung weg", "aenderungen": [{ "datei": "pipeline/bau/09-1-belege.ts", "suche": " && release.sources.some(quelleNenntTon)", "ersetze": "" }] },
-  { "name": "belegtTon: Schätzung zählt", "aenderungen": [{ "datei": "pipeline/bau/09-1-belege.ts", "suche": " && !release.schedule.estimated", "ersetze": "" }] },
-  { "name": "belegtTon: sammleBelege nutzt wieder terminBelegtNichts", "aenderungen": [{ "datei": "pipeline/bau/09-1-belege.ts", "suche": "if (!terminBelegtTon(release, heute)) continue", "ersetze": "if (terminBelegtNichts(release, heute)) continue" }] },
-  { "name": "quelleNenntTon: ADN nein", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "if (host === 'gw.api.animationdigitalnetwork.com') return true", "ersetze": "" }] },
-  { "name": "quelleNenntTon: CR-Serienseite zählt", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "&& /\\/(simulcastcalendar|news\\/)/.test(u.pathname)", "ersetze": "" }] },
-  { "name": "quelleNenntTon: CR nein", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "host === 'crunchyroll.com' &&", "ersetze": "false &&" }] },
-  { "name": "quelleNenntTon: kaputte Adresse zählt", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "  } catch {\n    return false", "ersetze": "  } catch {\n    return true" }] },
-  { "name": "quelleNenntTon: Artikelhost zählt", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "return host === 'crunchyroll.com'", "ersetze": "return host === 'anime2you.de' || host === 'crunchyroll.com'" }] }
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "belegtTon: Quellenprüfung weg", "aenderungen": [{ "datei": "pipeline/bau/09-1-belege.ts", "suche": " && release.sources.some(quelleNenntTon)", "ersetze": "" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "belegtTon: Schätzung zählt", "aenderungen": [{ "datei": "pipeline/bau/09-1-belege.ts", "suche": " && !release.schedule.estimated", "ersetze": "" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "belegtTon: sammleBelege nutzt wieder terminBelegtNichts", "aenderungen": [{ "datei": "pipeline/bau/09-1-belege.ts", "suche": "if (!terminBelegtTon(release, heute)) continue", "ersetze": "if (terminBelegtNichts(release, heute)) continue" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "quelleNenntTon: ADN nein", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "if (host === 'gw.api.animationdigitalnetwork.com') return true", "ersetze": "" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "quelleNenntTon: CR-Serienseite zählt", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "&& /\\/(simulcastcalendar|news\\/)/.test(u.pathname)", "ersetze": "" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "quelleNenntTon: CR nein", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "host === 'crunchyroll.com' &&", "ersetze": "false &&" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "quelleNenntTon: kaputte Adresse zählt", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "  } catch {\n    return false", "ersetze": "  } catch {\n    return true" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] },
+  { "name": "quelleNenntTon: Artikelhost zählt", "aenderungen": [{ "datei": "pipeline/lib/ton-quelle.ts", "suche": "return host === 'crunchyroll.com'", "ersetze": "return host === 'anime2you.de' || host === 'crunchyroll.com'" }], "tests": ["npx tsx pipeline/check-termin-ton.ts"] }
 ]
