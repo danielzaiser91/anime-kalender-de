@@ -11,18 +11,22 @@ import { amazonLinkArt } from '../../shared/plattform-suche.ts'
 
 const STREAM_PLATTFORMEN = new Set(['crunchyroll', 'netflix', 'primevideo', 'disneyplus', 'adn', 'aniverse', 'wow', 'joyn', 'rtlplus', 'youtube'])
 
-/** DD-03: Ein Weg im Bestand, den die Link-Prüfung als tot (404) kennt — oder nie geprüft hat. */
+/** DD-03: Ein Weg im Bestand, den die Link-Prüfung als tot (404) kennt — oder nie geprüft hat. Ein Netflix-404, das das Gate nicht wertet (CI-Rauschen), zählt nicht, steht aber im Namen. */
 export function toteWege(b: Bestand): Regel {
   const treffer: Treffer[] = []
-  let geprueft = 0, ungeprueft = 0
+  let geprueft = 0, ungeprueft = 0, rauschen = 0
   for (const t of b.titles) for (const s of t.streams) {
-    const l = b.linkCheck[s.url] ?? (s.seite ? b.linkCheck[s.seite] : undefined)
-    if (!l) { ungeprueft++; continue }
+    const adresse = b.linkCheck[s.url] ? s.url : s.seite
+    const roh = adresse ? b.linkCheck[adresse] : undefined
+    if (!adresse || !roh) { ungeprueft++; continue }
     geprueft++
-    if (l.status === 404) treffer.push({ schluessel: `${t.id}|${s.url}`, text: `${titelName(t)}: ${s.platform}-Weg 404 seit ${l.geprueftAm}`, ort: s.url })
+    if (roh.status !== 404) continue
+    if (b.linkGewertet[adresse]?.status !== 404) { rauschen++; continue }
+    treffer.push({ schluessel: `${t.id}|${s.url}`, text: `${titelName(t)}: ${s.platform}-Weg 404 seit ${roh.geprueftAm}`, ort: s.url })
   }
   const r = regel('DD-03', 'Weg laut Link-Prüfung tot (404)', 'Besucher klickt auf eine Seite, die es nicht gibt', geprueft, treffer)
   r.name += ` — ${ungeprueft} Wege nie geprüft`
+  if (rauschen) r.name += ` — ${rauschen} Netflix-404 als Rauschen nicht gezählt`
   return r
 }
 

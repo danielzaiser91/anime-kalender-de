@@ -10,7 +10,7 @@ import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { durchAnilistBekannt } from './fetch-anisearch-eintraege.ts'
 import type { Bestand } from '../tools/daten-detektiv/laden.ts'
 import { ohneJedenBeleg } from '../tools/daten-detektiv/regeln-titel.ts'
-import { premiereGegenErstausgabe } from '../tools/daten-detektiv/regeln-quellen.ts'
+import { premiereGegenErstausgabe, toteWege } from '../tools/daten-detektiv/regeln-quellen.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -76,5 +76,23 @@ console.log('\nBehobene Funde des Daten-Detektivs:')
   pruefe('DD-24: d und c bei aniSearch zählen als Beleg, auch über die aniSearch-Kennung', ohneBeleg.join() === '3,4', ohneBeleg)
 }
 
-console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen zu den Detektiv-Funden halten.')
+console.log('\nDD-03 zählt nur gewertete 404:')
+{
+  const nf = (n: number) => `https://www.netflix.com/title/${n}`
+  const cr = 'https://www.crunchyroll.com/series/X'
+  const titel = (id: number, platform: string, url: string) => ({ id, titleDe: `T${id}`, streams: [{ platform, url }] } as unknown as Title)
+  const tot = { status: 404, geprueftAm: '2026-11-04' }
+  const bestand = {
+    titles: [titel(1, 'netflix', nf(1)), titel(2, 'netflix', nf(2)), titel(3, 'crunchyroll', cr), titel(4, 'netflix', nf(4))],
+    linkCheck: { [nf(1)]: tot, [nf(2)]: tot, [cr]: tot, [nf(4)]: { status: 200, geprueftAm: '2026-11-04' } },
+    linkGewertet: { [nf(1)]: { status: 'unklar', geprueftAm: '2026-11-04' }, [nf(2)]: tot, [cr]: tot, [nf(4)]: { status: 200, geprueftAm: '2026-11-04' } },
+  } as unknown as Bestand
+  const r = toteWege(bestand)
+  const ids = r.treffer.map((t) => t.schluessel.split('|')[0])
+  pruefe('DD-03: Netflix-404 mit Rauschen ist kein Treffer', !ids.includes('1'), ids)
+  pruefe('DD-03: gewertetes Netflix-404 und CR-404 sind Treffer', ids.join() === '2,3', ids)
+  pruefe('DD-03: das Rauschen steht im Regelnamen', r.name.includes('1 Netflix-404 als Rauschen nicht gezählt'), r.name)
+}
+
+console.log(verletzt ?`\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen zu den Detektiv-Funden halten.')
 process.exit(verletzt ? 1 : 0)

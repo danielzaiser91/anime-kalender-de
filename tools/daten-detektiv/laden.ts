@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url'
 import { parse as yaml } from 'yaml'
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
+import { ladeGewerteteBefunde } from '../../pipeline/lib/netflix-404-gate.ts'
 
 export const WURZEL = resolve(fileURLToPath(new URL('../../', import.meta.url)))
 
@@ -39,6 +40,8 @@ export interface Bestand {
   synopsen: Set<number>
   // Zweitquellen
   linkCheck: Record<string, Linkstatus>
+  /** `linkCheck` so, wie der Bau es liest: Netflix-404 ohne Rückhalt (Massen-404-Lauf, `rausch`, JustWatch führt die Adresse) stehen als `unklar` (`pipeline/lib/netflix-404-gate.ts`). */
+  linkGewertet: Record<string, Linkstatus>
   anisearchDubs: Record<string, string>
   anisearchDubIds: Record<string, string>
   /** Folgenlisten je aniSearch-Kennung (`data/anisearch-folgen.json`). */
@@ -119,6 +122,7 @@ export function ladeBestand(heute = todayIso()): Bestand {
     meta: lies('public/data/meta.json', { titleCount: 0, releaseCount: 0, eventCount: 0, generatedAt: '' }),
     synopsen: synopsenIds(),
     linkCheck: lies('data/link-check.json', {}),
+    linkGewertet: ladeGewerteteBefunde(heute).befunde as Record<string, Linkstatus>,
     anisearchDubs: lies('data/anisearch-dubs.json', {}),
     anisearchDubIds: lies('data/anisearch-dub-ids.json', {}),
     anisearchFolgen: lies('data/anisearch-folgen.json', {}),
