@@ -50,3 +50,189 @@
   quellen:
     - https://www.kino.de/serie/aggretsuko/
     - https://animania.de/netflix-neustart-aggretsuko/
+
+# Mängel-Block 7 (17.11.2026): zwei unabhängige Quellen je Titel — TMDB-Eintrag (de-DE, im Repo: data/tmdb-titles.json) und aniSearch-Ausgabe (data/disc-ausgaben.json).
+
+- id: 8100
+  titleDe: "Mardock Scramble: The First Compression"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Mardock Scramble: The First Compression [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/73529?language=de-DE
+    - https://www.anisearch.de/article/13651,mardock-scramble-the-first-compression-blu-ray
+
+- id: 10624
+  titleDe: "Mardock Scramble: The Second Combustion"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Mardock Scramble: The Second Combustion [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/73530?language=de-DE
+    - https://www.anisearch.de/article/17582,mardock-scramble-the-second-combustion-blu-ray
+
+- id: 12053
+  titleDe: "Mardock Scramble: The Third Exhaust"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Mardock Scramble: The Third Exhaust [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/122662?language=de-DE
+    - https://www.anisearch.de/article/21441,mardock-scramble-the-third-exhaust-blu-ray
+
+- id: 10689
+  titleDe: "Appleseed XIII: Tartaros"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Appleseed XIII: Tartaros & Ouranos [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/265805?language=de-DE
+    - https://www.anisearch.de/article/20187,appleseed-xiii-tartaros-ouranos-blu-ray
+
+- id: 10693
+  titleDe: "Appleseed XIII: Ouranos"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Appleseed XIII: Tartaros & Ouranos [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/271924?language=de-DE
+    - https://www.anisearch.de/article/20187,appleseed-xiii-tartaros-ouranos-blu-ray
+
+- id: 14407
+  titleDe: "Persona 3: The Movie 1 - Spring of Birth"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Persona 3: The Movie 1 - Spring of Birth - Director’s Cut“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/212153?language=de-DE
+    - https://www.anisearch.de/article/33704,persona-3-the-movie-1-spring-of-birth-directors-cut
+
+- id: 20736
+  titleDe: "Persona 3: The Movie 2 - Midsummer Knight’s Dream"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Persona 3: The Movie 2 - Midsummer Knight’s Dream [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/297189?language=de-DE
+    - https://www.anisearch.de/article/49318,persona-3-the-movie-2-midsummer-knights-dream-blu-ray
+
+- id: 20737
+  titleDe: "Persona 3: The Movie 3 - Falling Down"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Persona 3: The Movie 3 - Falling Down [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/332169?language=de-DE
+    - https://www.anisearch.de/article/49319,persona-3-the-movie-3-falling-down-blu-ray
+
+- id: 21248
+  titleDe: "Persona 3: The Movie 4 - Winter of Rebirth"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Persona 3: The Movie 4 - Winter of Rebirth [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/372761?language=de-DE
+    - https://www.anisearch.de/article/49320,persona-3-the-movie-4-winter-of-rebirth-blu-ray
+
+- id: 17187
+  titleDe: "Ghost in the Shell: Arise - Border 1: Ghost Pain"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Ghost in the Shell: Arise - Border 1+2“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/196750?language=de-DE
+    - https://www.anisearch.de/article/42020,ghost-in-the-shell-arise-border-1-2
+
+- id: 19191
+  titleDe: "Ghost in the Shell: Arise - Border 2: Ghost Whispers"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Ghost in the Shell: Arise - Border 1+2“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/212168?language=de-DE
+    - https://www.anisearch.de/article/42020,ghost-in-the-shell-arise-border-1-2
+
+- id: 19193
+  titleDe: "Ghost in the Shell: Arise - Border 3: Ghost Tears"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Ghost in the Shell: Arise - Border 3+4“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/240341?language=de-DE
+    - https://www.anisearch.de/article/42798,ghost-in-the-shell-arise-border-3-4
+
+- id: 19195
+  titleDe: "Ghost in the Shell: Arise - Border 4: Ghost Stands Alone"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Ghost in the Shell: Arise - Border 3+4“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/279254?language=de-DE
+    - https://www.anisearch.de/article/42798,ghost-in-the-shell-arise-border-3-4
+
+- id: 20802
+  titleDe: "Digimon Adventure tri. - Chapter 1: Reunion"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Digimon Adventure tri. - The Movie Collection: Digipack (6 Filme)“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/357400?language=de-DE
+    - https://www.anisearch.de/article/123536,digimon-adventure-tri-the-movie-collection-digipack-6-filme
+
+- id: 21500
+  titleDe: "Digimon Adventure tri. - Chapter 2: Determination"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Digimon Adventure Tri. - Chapter 2: Determination [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/372752?language=de-DE
+    - https://www.anisearch.de/article/45126,digimon-adventure-tri-chapter-2-determination-blu-ray
+
+- id: 21596
+  titleDe: "Digimon Adventure tri. - Chapter 3: Confession"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Digimon Adventure Tri. - Chapter 3: Confession [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/378106?language=de-DE
+    - https://www.anisearch.de/article/45894,digimon-adventure-tri-chapter-3-confession-blu-ray
+
+- id: 100181
+  titleDe: "Digimon Adventure tri. - Chapter 6: Our Future"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Digimon Adventure Tri. - Chapter 6: Our Future [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/481760?language=de-DE
+    - https://www.anisearch.de/article/58033,digimon-adventure-tri-chapter-6-our-future-blu-ray
+
+- id: 98495
+  titleDe: "Free! Timeless Medley: The Bond"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Free! Timeless Medley: The Bond“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/450149?language=de-DE
+    - https://www.anisearch.de/article/46105,free-timeless-medley-the-bond
+
+- id: 98496
+  titleDe: "Free! Timeless Medley: The Promise"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Free! Timeless Medley: The Promise“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/460396?language=de-DE
+    - https://www.anisearch.de/article/46107,free-timeless-medley-the-promise
+
+- id: 103276
+  titleDe: "Fate/Grand Order: The Movie - Divine Realm of the Round Table: Camelot - Wandering; Agateram"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Fate/Grand Order: The Movie - Divine Realm of the Round Table: Camelot - Wandering; Agateram [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/637202?language=de-DE
+    - https://www.anisearch.de/article/125631,fate-grand-order-the-movie-divine-realm-of-the-round-table-camelot-wandering-agateram-blu-ray
+
+- id: 103277
+  titleDe: "Fate/Grand Order: The Movie - Divine Realm of the Round Table: Camelot - Paladin; Agateram"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Fate/Grand Order: The Movie - Divine Realm of the Round Table: Camelot - Paladin; Agateram [Blu-ray]“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/637462?language=de-DE
+    - https://www.anisearch.de/article/129869,fate-grand-order-the-movie-divine-realm-of-the-round-table-camelot-paladin-agateram-blu-ray
+
+- id: 101595
+  titleDe: "Princess Principal: Crown Handler 1"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Princess Principal: Crown Handler - Chapter 1&2“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/542507?language=de-DE
+    - https://www.anisearch.de/article/144246,princess-principal-crown-handler-chapter-12
+
+- id: 129759
+  titleDe: "Princess Principal: Crown Handler 2"
+  geprueftAm: "2026-11-17"
+  note: "TMDB (de-DE) und die aniSearch-Ausgabe „Princess Principal: Crown Handler - Chapter 1&2“ stützen den Namen (bei Sammelausgaben: Reihenname und Teil, der Untertitel kommt aus TMDB)."
+  quellen:
+    - https://www.themoviedb.org/movie/843267?language=de-DE
+    - https://www.anisearch.de/article/144246,princess-principal-crown-handler-chapter-12
