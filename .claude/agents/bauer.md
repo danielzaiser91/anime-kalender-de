@@ -290,4 +290,4 @@ Vor dem Anlegen eines Zweigs `git ls-remote origin <zweig>` und `gh pr list --he
 - **Nie mergen, Auto-Merge nie einschalten (16.11.2026, PR 4052):** Weder `gh pr merge` noch ein Merge-Werkzeug, auch nicht „Auto-fix“; Auto-fix heißt nur, auf rote Checks und Kommentare zu reagieren. PR 4052 ging so ohne Abnahme auf main.
 - **Zusage im Nachtrag nur gemessen (16.11.2026, PR 4054, 4053):** „Titel X bleibt“ oder „Bilanz n gleich n“ steht nur dort, wenn Bau-Vergleich oder Replay es gemessen haben, sonst „nicht gemessen“.
 - **Fixture-Namen aus der echten Quelle kopieren (16.11.2026, PR 4054):** Ein Wächterfall ohne den echten Block beweist nichts.
-- **Abbau am Titel belegen, nicht am Zähler (16.11.2026, PR 4043):** Fällt ein Zähler auf 0, gehört die Gegenprobe dazu, dass ein neuer Fall noch anschlägt.
+- **Abbau am Titel belegen, nicht am Zähler (16.11.2026, PR 4043):** Fällt ein Zähler auf 0, gehört die Gegenprobe dazu, dass ein neuer Fall noch anschlägt. Detektoren rechnen aus Rohdaten, nicht aus Vermerken eines früheren Bauschritts.
