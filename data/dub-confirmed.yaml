@@ -39829,3 +39829,21 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-17 ---
+
+- anilistId: 190054
+  title: "Meine ganz besondere Hochzeit: Special"
+  platform: netflix
+  url: https://www.netflix.com/title/82643530
+  dub: true
+  checkedAt: '2026-11-17'
+  note: "Folgen 1–3 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — Gemessen in der Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Meine Form des Glücks — Netflix: Staffel 1"
+
+- anilistId: 207254
+  title: "Thunder 3"
+  platform: netflix
+  url: https://www.netflix.com/title/82736186
+  dub: true
+  checkedAt: '2026-11-17'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: LETZTER ANGRIFF"

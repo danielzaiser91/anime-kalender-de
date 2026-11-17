@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-17T19:10:18.955Z",
+ "erzeugtAm": "2026-11-17T20:20:00.350Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -307,9 +307,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 769,
+   "gemeldet": 771,
    "gesamt": 1084,
-   "offen": 315,
+   "offen": 313,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -343,14 +343,6 @@
     {
      "url": "https://www.netflix.com/title/82036361",
      "titel": "My Hero Academia: Vigilantes Staffel 2"
-    },
-    {
-     "url": "https://www.netflix.com/title/82643530",
-     "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.netflix.com/title/82736186",
-     "titel": "Thunder 3"
     },
     {
      "url": "https://www.netflix.com/title/82741721",
