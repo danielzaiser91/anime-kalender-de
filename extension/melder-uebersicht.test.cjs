@@ -16,6 +16,7 @@
  * verdeckt sein; was hier rot ist, kann dort gar nicht erscheinen.
  */
 const { readFileSync } = require('node:fs')
+const { ladeSkripte, skripteBis } = require('./test-lader.cjs')
 const vm = require('node:vm')
 
 const faelle = []
@@ -213,18 +214,11 @@ function lade(pfad, liste, suchteil = '') {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil)
   const kontext = vm.createContext(umgebung)
   /* `box.js` lädt im Browser vor `melder.js` — hier genauso, sonst fehlt akBox(). */
-  vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/offene-netflix.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/netflix-zurueckgestellt.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/netflix-erinnern.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/netflix-durchgang-steuerung.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/netflix-staffel.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/netflix-uebernahme.js', 'utf8'), kontext)
-  vm.runInContext(readFileSync(__dirname + '/netflix-seitentreue.js', 'utf8'), kontext)
+  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['box.js', 'offene-netflix.js', 'netflix-zurueckgestellt.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-staffel.js', 'netflix-uebernahme.js', 'netflix-seitentreue.js'] }))
   if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null
   try {
-    vm.runInContext(readFileSync(__dirname + '/melder.js', 'utf8'), kontext)
+    ladeSkripte(kontext, ['melder.js'])
   } catch (e) {
     fehler = e
   }

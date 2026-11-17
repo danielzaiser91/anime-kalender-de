@@ -7,6 +7,7 @@
  * der Sandkasten läuft das echte `melder.js` und liest zurück, was beim Worker ankommt.
  */
 const { readFileSync } = require('node:fs')
+const { ladeSkripte, skripteBis } = require('./test-lader.cjs')
 const vm = require('node:vm')
 
 const faelle = []
@@ -168,8 +169,7 @@ function ladeSeite(pfad) {
   const { umgebung } = baueUmgebung(pfad, '', {})
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  const dateien = ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-alle-staffeln.js', 'melder.js']
-  for (const datei of dateien) vm.runInContext(readFileSync(__dirname + '/' + datei, 'utf8'), kontext, { filename: datei })
+  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-alle-staffeln.js', 'melder.js'] }))
   return umgebung
 }
 
