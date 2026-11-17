@@ -4,7 +4,7 @@
  */
 import type { Release, Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
-import { ergaenzeWegeAusTerminen, istKeineTitelseite, termineOhneWeg, tonOhneBeleg } from './bau/11-7-wege-aus-terminen.ts'
+import { ergaenzeWegeAusTerminen, istKeineTitelseite, termineOhneWeg, tonOhneBeleg, ueberholteNeins } from './bau/11-7-wege-aus-terminen.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, detail = ''): void {
@@ -88,6 +88,40 @@ pruefe('die Zusicherung findet ein erfundenes Tonurteil', tonOhneBeleg(new Map([
 
 pruefe('Suchen und Startseiten sind keine Titelseite', [PRIME_SUCHE, 'https://www.netflix.com/search?q=x', 'https://www.joyn.de/suche?search=x', 'https://www.aniverse.de/?s=x', 'https://netflix.com'].every(istKeineTitelseite))
 pruefe('Titelseiten sind keine Suche', ![DISNEY, 'https://www.netflix.com/title/1', 'https://animationdigitalnetwork.com/de/video/1423-eighty-six'].some(istKeineTitelseite))
+
+/*
+  Überholtes Nein (17.11.2026), Datenform der echten Fälle: 14713 Kamisama Kiss (Prime-Nein „Suche ohne Treffer“ 27.08., Aniverse-Termin 08.10., Termin ohne Adresse),
+  102836 Kuroko Movie 2 (Nein 30.08., Termin 13.09. ohne Kanal, Suchadresse), 103631 Trinity Seven (Nein dub:false, Aniverse-Termin).
+*/
+const nein = (anilistId: number, mehr: Partial<DubCheck>) => ({ anilistId, platform: 'primevideo', checkedAt: '2026-08-27', ...mehr }) as DubCheck
+const belegeAlt = [nein(14713, { available: false }), nein(102836, { available: false, checkedAt: '2026-08-30', url: PRIME_SUCHE }), nein(103631, { dub: false, checkedAt: '2026-10-16' }), nein(20801, { available: false, checkedAt: '2026-10-20' }), nein(41, { available: false }), nein(42, { dub: true }), nein(43, { available: false })]
+const kanalTermin = (id: number, ab: string, mehr: Partial<Release> = {}) =>
+  termin(id, 'primevideo', { kanal: 'Aniverse', schedule: { firstEpisodeDate: ab, episodeCount: 13 }, ...mehr })
+const termineAlt = [
+  kanalTermin(14713, '2026-10-08'),
+  termin(102836, 'primevideo', { platformUrl: PRIME_SUCHE, schedule: { firstEpisodeDate: '2026-09-13' } }),
+  kanalTermin(103631, '2026-10-15'),
+  kanalTermin(20801, '2026-10-08'),
+  kanalTermin(40, '2026-10-08'),
+  kanalTermin(41, '2026-08-01'),
+  kanalTermin(41, '2026-10-08', { slug: 'zweiter-41' }),
+  kanalTermin(42, '2026-10-08'),
+  kanalTermin(43, '2026-10-08', { slug: 'kanal-43' }),
+  termin(43, 'primevideo', { platformUrl: PRIME_SUCHE, schedule: { firstEpisodeDate: '2026-09-13' } }),
+]
+const titelAlt = new Map([14713, 102836, 103631, 20801, 43].map((id) => [id, titel(id)]))
+const ueberholt = ueberholteNeins(belegeAlt, termineAlt)
+pruefe('überholtes Nein: Kamisama Kiss und 43 (Nein älter als der Kanal-Termin), sonst keiner', [...ueberholt].sort().join() === '14713|primevideo,43|primevideo', [...ueberholt].join())
+ergaenzeWegeAusTerminen({ titles: titelAlt, releases: termineAlt, istTot: () => false, verweiseEntfernt: [], belegFuer: (id) => belegeAlt.find((b) => b.anilistId === id), nein: ueberholt })
+const wegAlt = (id: number) => titelAlt.get(id)!.streams
+pruefe('Kamisama Kiss: Weg mit Kanal, ohne Adresse, ohne Tonurteil', wegAlt(14713).length === 1 && wegAlt(14713)[0]!.kanal === 'Aniverse' && wegAlt(14713)[0]!.url === '' && wegAlt(14713)[0]!.dub === undefined && wegAlt(14713)[0]!.herkunft === 'termin', JSON.stringify(wegAlt(14713)))
+pruefe('Kuroko: ohne Kanal bleibt das Nein (kein Weg ohne Adresse und Ton)', wegAlt(102836).length === 0)
+pruefe('Trinity Seven: „ohne deutschen Ton“ bleibt, auch bei jüngerem Termin', wegAlt(103631).length === 0)
+pruefe('Nein jünger als der Termin gilt weiter', wegAlt(20801).length === 0)
+pruefe('ein Ja-Beleg (42) ist kein überholtes Nein', !ueberholt.has('42|primevideo'))
+const weg43 = titelAlt.get(43)!.streams
+pruefe('neben einem Termin ohne Kanal (43) entsteht der Weg aus dem Kanal-Termin, mit Kanal', weg43.length === 1 && weg43[0]!.kanal === 'Aniverse', JSON.stringify(weg43))
+pruefe('ohne Handbeleg gibt es nichts zu überholen (40); ein Nein, das älter als nur der spätere Termin ist, gilt dem früheren (41)', !ueberholt.has('40|primevideo') && !ueberholt.has('41|primevideo'))
 
 if (fehler) process.exit(1)
 console.log('check-wege-aus-terminen: ok')
