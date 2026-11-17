@@ -491,6 +491,22 @@
   sources:
     - https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/
 
+# The Ramparts of Ice Staffel 2: Anime2You 1056287 (Abruf 17.11.2026) nennt für Netflix „Episoden: 1 verfügbar, Simulcast: Jeden Donnerstag
+# eine neue Episode, Sprache: Deutsch, Japanisch (UT)“; Folge 1 gibt es seit Do 01.10.2026. Der automatische Termin kannte nur den Starttag
+# und keine Folgenzahl, die Staffel stand ohne nächsten Termin da. AniList und aniSearch nennen die Zahl nicht: der Bau nimmt den
+# 12er-Standard mit `episodeCountAssumed` („≈“, kein Finale ohne belegtes Ende). Der Slug ersetzt den automatischen.
+- slug: auto-213805-netflix
+  anilistId: 213805
+  titleDe: "The Ramparts of Ice: Staffel 2"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82031882
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-01"
+  hinweis: "Neue Folgen jeden Donnerstag, laut Anime2You mit deutschem Ton; die Folgenzahl der Staffel ist nicht belegt."
+  sources:
+    - https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/
+
 # Crunchyroll-Synchros, die der Automatismus am 25.10.2026 verpasst hat (altes
 # „Nein" vom 28.09. schlug den neuen Befund, Blockzahl ungleich Titelzahl). Die
 # Termine stammen aus Crunchyrolls eigenem verfuegbarAb (data/crunchyroll-neu.json).
