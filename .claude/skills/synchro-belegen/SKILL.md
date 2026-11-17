@@ -24,3 +24,5 @@ description: "Deutsche Synchro eines Titels belegen: Quellenreihenfolge, Suche �
 **Eichfall:** Nezha (Synchronkartei 25475, fernsehserien.de + wunschliste.de „Deutsche TV-Premiere 26.03.2007 RTL II") muss die Methode selbst finden. Bericht: `daniel-zum-abarbeiten/berichte/g4-g5-belege-v2.md`.
 
 **Beleg umhängen oder löschen hat vier Folgestellen (12.11.2026, PR 3608):** `belege-entfernt.yaml`, `erneut-melden.yaml`, Notizseiten-Wächter und Fremdbelege an derselben Adresse vor dem PR greppen, nicht erst in der Kette finden.
+
+**Handbeleg-Block mit Lücken-Titel (Lehre 128, 17.11.2026, PR 4096):** Vor dem Ergänzen eines Blocks zu einem Titel mit Lücken-Bereichen die Ausgabe von `ladeHandbelege()` (bzw. `dubRanges` in `titles.json`) vorher gegen nachher halten; Blöcke können zu einem Bereich verschmelzen und eine Lücke schließen.

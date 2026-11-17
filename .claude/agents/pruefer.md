@@ -132,3 +132,5 @@ Bericht: höchstens zehn Zeilen, Deutsch — Urteil (ok / ändern) / Befunde mit
 - **Bau-Vergleich baut mit Ersatz-Cache (16.11.2026, PR 4053):** Kennungen, die es in `public/data/releases.json` auf main nicht gibt, sind kein Befund am echten Bestand.
 - **Detektoren rechnen aus Rohdaten (16.11.2026, PR 4043):** Nicht aus Vermerken, die ein Bau-Schritt vorher setzt (`sharedWith`).
 - **Prüfklasse Merker (Prüfer-Vorschlag 16.11.2026):** Bei jedem Merker/Flag fragen: wird er bei der Freigabe oder bei der Ausführung gesetzt, und was passiert, wenn die Ausführung scheitert?
+- **Mängelart gegen Anbieterstand (Lehre 127, 17.11.2026, PR 4094):** Misst eine neue Mängelart gegen einen Anbieterstand, prüfen: sind laufende Titel ausgenommen, und deckt eine zweite Quelle die Stichprobe? Ein Test, der den Falschalarm als Soll festhält, ist ein Befund.
+- **K2e Handbeleg-Block zu Titel mit Lücken (Lehre 128, 17.11.2026, PR 4096):** Wer einen Block zu einem Titel mit Lücken-Bereichen ergänzt, hält die Ausgabe von `ladeHandbelege()` bzw. `dubRanges` in `titles.json` vorher gegen nachher (One Piece: Folge 492 wurde deutsch).
