@@ -9,7 +9,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
+| 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
 | 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 3 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
 | 4 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |

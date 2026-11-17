@@ -44,7 +44,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 |---|---|---|---|
 | 1 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
 | 2 | 2026-10-25 | Meine ganz besondere Hochzeit | [Special](https://www.netflix.com/title/82643530) |
-| 3 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie]() |
+| 3 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
 | 4 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 5 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 6 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |

@@ -47,7 +47,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 10 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
 | 11 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
 | 12 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 13 | Prime Video | Sankarea: Undying Love | [Hauptserie]() |
+| 13 | Prime Video | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
 | 14 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
 | 15 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
 | 16 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
