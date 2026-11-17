@@ -21,8 +21,8 @@ export function terminStufe(kennung, events, heute) {
   return tage.some((d) => d <= bis) ? 0 : 1
 }
 
-/** Laufend (Stufe 1 der Rangfolge): der Titel hat einen künftigen Termin oder läuft noch (`jpEnd` leer oder ab heute). */
-const laeuft = (t, heute) => !t.jpEnd || t.jpEnd >= heute
+/** Laufend (Stufe 1 der Rangfolge): Serie ohne Ende ab heute; ohne `jpEnd` gilt das Jahresende von `jpYear` (wie `titleStatus`), ein Film läuft nie (17.11.2026: Zorro und Eichhörnchen und Igel, 1977, standen als laufend). */
+export const laeuft = (t, heute) => t.format !== 'MOVIE' && (t.jpEnd ?? (t.jpYear ? `${t.jpYear}-12-31` : '9')) >= heute
 
 /** Die nächsten Titel: je Titel die höchste Wirkung seiner offenen Mängel, geordnet nach Wirkung, dann Termin in 30 Tagen vor laufend vor Titelrang `tr`. */
 export function nextTop(register, titel, events, heute, n, wer) {
