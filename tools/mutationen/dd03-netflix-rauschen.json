@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-detektiv-funde.ts"] },
+  { "name": "DD-03: Rausch-Zweig weg (jedes 404 zählt wieder)", "aenderungen": [{ "datei": "tools/daten-detektiv/regeln-quellen.ts", "suche": "if (b.linkGewertet[adresse]?.status !== 404) { rauschen++; continue }", "ersetze": "" }], "tests": ["npx tsx pipeline/check-detektiv-funde.ts"] },
+  { "name": "DD-03: Rausch-Zweig umgekehrt (nur Rauschen zählt)", "aenderungen": [{ "datei": "tools/daten-detektiv/regeln-quellen.ts", "suche": "if (b.linkGewertet[adresse]?.status !== 404) {", "ersetze": "if (b.linkGewertet[adresse]?.status === 404) {" }], "tests": ["npx tsx pipeline/check-detektiv-funde.ts"] },
+  { "name": "DD-03: alles gilt als Rauschen (auch CR-404)", "aenderungen": [{ "datei": "tools/daten-detektiv/regeln-quellen.ts", "suche": "if (b.linkGewertet[adresse]?.status !== 404) {", "ersetze": "if (true) {" }], "tests": ["npx tsx pipeline/check-detektiv-funde.ts"] },
+  { "name": "DD-03: Rauschen nicht im Regelnamen gezählt", "aenderungen": [{ "datei": "tools/daten-detektiv/regeln-quellen.ts", "suche": "if (rauschen) r.name += ` — ${rauschen} Netflix-404 als Rauschen nicht gezählt`", "ersetze": "" }], "tests": ["npx tsx pipeline/check-detektiv-funde.ts"] },
+  { "name": "DD-03: Nicht-404 zählt als Rauschen", "aenderungen": [{ "datei": "tools/daten-detektiv/regeln-quellen.ts", "suche": "if (roh.status !== 404) continue", "ersetze": "if (roh.status !== 404) { rauschen++; continue }" }], "tests": ["npx tsx pipeline/check-detektiv-funde.ts"] }
+]
