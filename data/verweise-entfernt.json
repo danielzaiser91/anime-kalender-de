@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-17T04:18:39.107Z",
+  "stand": "2026-11-17T04:28:51.945Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4919,17 +4919,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 3667,
-      "titel": "Strike Witches",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/Strike-Witches",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-17",
-      "letzterWeg": false
-    },
-    {
       "titleId": 3927,
       "titel": "Mobile Suit Gundam 00 Second Season",
       "plattform": "crunchyroll",
@@ -5027,17 +5016,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-17",
       "letzterWeg": false
-    },
-    {
-      "titleId": 6381,
-      "titel": "Strike Witches 2",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/Strike-Witches",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-17",
-      "letzterWeg": true
     },
     {
       "titleId": 6707,
@@ -7647,6 +7625,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 194447,
+      "titel": "Isekai Quartet 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/isekai-quartet",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-17",
+      "letzterWeg": false
+    },
+    {
       "titleId": 195153,
       "titel": "Dusk Beyond the End of the World",
       "plattform": "adn",
@@ -7790,17 +7779,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 194447,
-      "titel": "Isekai Quartet 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/series/GR8DN7N7R/isekai-quartet",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-17",
-      "letzterWeg": true
-    },
-    {
       "titleId": 102883,
       "titel": "JoJo’s Bizarre Adventure: Golden Wind",
       "plattform": "adn",
@@ -7909,6 +7887,39 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-17",
       "letzterWeg": false
+    },
+    {
+      "titleId": 3667,
+      "titel": "Strike Witches",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/Strike-Witches",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-17",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 6381,
+      "titel": "Strike Witches 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/Strike-Witches",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-17",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 194447,
+      "titel": "Isekai Quartet 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GR8DN7N7R/isekai-quartet",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-17",
+      "letzterWeg": true
     },
     {
       "titleId": 156040,

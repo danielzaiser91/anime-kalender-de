@@ -3555,7 +3555,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-26",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-08-24"
     },
@@ -3563,8 +3563,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/587",
       "name": "ADN API",
       "gesehenAm": "2026-10-19",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-10",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-08-24"
     },
     {
@@ -3747,15 +3747,15 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/398",
       "name": "ADN API",
       "gesehenAm": "2026-10-26",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-10",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-09-10"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-09-10",
       "sagt": "2026-09-10"
@@ -3773,15 +3773,15 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1419",
       "name": "ADN API",
       "gesehenAm": "2026-10-29",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-10",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-09-17"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-09-17",
       "sagt": "2026-09-17"
@@ -6221,7 +6221,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6251,7 +6251,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6281,7 +6281,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-14",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-12"
     },
     {
@@ -6665,7 +6665,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-08",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-12"
     }
   ],
@@ -7649,7 +7649,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-16",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-17"
     }
   ],
@@ -7673,7 +7673,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7689,7 +7689,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7698,7 +7698,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1321",
       "name": "ADN API",
       "gesehenAm": "2026-11-05",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-10-29"
     },
@@ -7712,8 +7712,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-16",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -7722,7 +7722,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1318",
       "name": "ADN API",
       "gesehenAm": "2026-11-05",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "gelesenAm": "2026-11-16",
       "bestaetigt": "2026-10-29"
     },
@@ -7736,8 +7736,8 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "ADN API",
       "gesehenAm": "2026-10-17",
-      "stand": "vermutlich-ueberholt",
-      "gelesenAm": "2026-11-16",
+      "stand": "aktuell",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-10-29"
     }
   ],
@@ -8588,7 +8588,7 @@
       "name": "ADN API",
       "gesehenAm": "2026-11-07",
       "stand": "aktuell",
-      "gelesenAm": "2026-11-16",
+      "gelesenAm": "2026-11-17",
       "bestaetigt": "2026-11-18"
     }
   ],
