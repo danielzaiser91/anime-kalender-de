@@ -17,6 +17,7 @@
  * Recherche wert.
  */
 
+import { AUSBLEIBEN_NACH_MS, faelligeArten } from '../../shared/ausbleiben-plan.ts'
 import { addDays, berlinToUtc, toIsoDate } from '../../shared/time.ts'
 
 const STUNDE = 36e5
@@ -135,15 +136,48 @@ export function terminPruefen(
   return uebernommen.some((f) => f.seriesId === seriesId && f.episode === e.episode && f.date === e.date)
 }
 
-/** Fünfzehn Minuten Nachsicht — ein Anbieter stellt selten auf die Sekunde ein. */
-const KARENZ_MS = 15 * 60 * 1000
-
 /** Der Termin als echter Zeitpunkt; die Uhrzeit ist Berliner Ortszeit, der Offset (+01:00/+02:00) folgt dem Datum. Ohne Uhrzeit gilt Mitternacht. */
 export function terminZeitpunkt(datum: string, uhrzeit?: string): Date {
   return berlinToUtc(datum, uhrzeit ?? '00:00')
 }
 
+/** Ob die Anime2You-Meldungen jetzt zu diesem Vermerk abgeglichen werden (Tabelle `STUFEN['abgleich-anime2you']`); ungültiges Datum: nein. */
+export function abgleichFaellig(erwartetAm: string, jetzt: Date): boolean {
+  return faelligeArten(new Date(erwartetAm).getTime(), {}, jetzt.getTime()).includes('abgleich-anime2you')
+}
+
+export interface Anime2YouVorschlag {
+  articleTitle: string
+  articleUrl: string
+  publishedAt: string
+  category: string
+  platforms: string[]
+  pause?: string
+}
+
+/** Hängt Anime2You-Pausenmeldungen, die den Titel nennen, als `hinweise` an den Vermerk (nur wenn der Abgleich fällig ist); Zahl der neuen Hinweise. */
+export function hinweiseAnhaengen(
+  v: { erwartetAm: string; platform: string; hinweise?: { quelle: string; titel: string; url: string; datum: string }[] },
+  vorschlaege: Anime2YouVorschlag[],
+  namen: (string | undefined)[],
+  jetzt: Date,
+): number {
+  if (!abgleichFaellig(v.erwartetAm, jetzt)) return 0
+  /* Zehn Tage vor dem Termin: Eine Pause wird meist vorab angekündigt. */
+  const ab = new Date(new Date(v.erwartetAm).getTime() - 10 * 864e5).toISOString()
+  const bekannt = new Set((v.hinweise ?? []).map((h) => h.url))
+  let neu = 0
+  for (const p of vorschlaege) {
+    if (!p.pause || p.category !== 'streaming' || p.publishedAt < ab || bekannt.has(p.articleUrl)) continue
+    if (p.platforms.length && !p.platforms.includes(v.platform)) continue
+    if (!artikelNenntTitel(p.articleTitle, namen)) continue
+    v.hinweise = [...(v.hinweise ?? []), { quelle: 'Anime2You', titel: p.articleTitle, url: p.articleUrl, datum: p.publishedAt }]
+    neu++
+  }
+  return neu
+}
+
 /** Ab wann ein Ausbleiben gilt: Uhrzeit plus Karenz, ohne Uhrzeit das Ende des Tages (23:59:59 Ortszeit). */
 export function terminFrist(datum: string, uhrzeit?: string): Date {
-  return uhrzeit ? new Date(terminZeitpunkt(datum, uhrzeit).getTime() + KARENZ_MS) : new Date(berlinToUtc(datum, '23:59').getTime() + 59_000)
+  return uhrzeit ? new Date(terminZeitpunkt(datum, uhrzeit).getTime() + AUSBLEIBEN_NACH_MS) : new Date(berlinToUtc(datum, '23:59').getTime() + 59_000)
 }
