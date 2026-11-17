@@ -38,11 +38,16 @@ pruefe('Sprachvariante der Adresse (`/de/title/…`) und Duplikat desselben Tite
 
 /* Regel in der Tabelle: reine Mengenabfrage, Wirkung und Zuständigkeit wie `adresse-mehrfach` */
 const regel = REGELN.find((r) => r.art === 'staffel-zuordnung')!
-const ohneKontext = { staffelZuordnung: new Map([[7, 'ueberlappung']]) } as unknown as Kontext
-const treffer = zaehleMaengel([{ id: 7 }, { id: 8 }] as unknown as Title[], ohneKontext, [regel])
+const ohneKontext = { heute: '2026-11-17', staffelZuordnung: new Map([[7, 'ueberlappung']]) } as unknown as Kontext
+const treffer = zaehleMaengel([{ id: 7, jpEnd: '2020-01-01' }, { id: 8, jpEnd: '2020-01-01' }] as unknown as Title[], ohneKontext, [regel])
 pruefe('Regel: nur der Titel in der Menge trifft, ohne Ausnahme', treffer.length === 1 && treffer[0]!.t === 7 && !treffer[0]!.grund, treffer)
-const veraltet = zaehleMaengel([{ id: 7 }, { id: 8 }, { id: 9 }, { id: 10 }] as unknown as Title[], { staffelZuordnung: new Map([[7, 'ueberlappung'], [8, 'liste-veraltet'], [9, 'ohne-bereich'], [10, 'laenger-als-staffel']]) } as unknown as Kontext, [regel])
+const veraltet = zaehleMaengel([7, 8, 9, 10].map((id) => ({ id, jpEnd: '2020-01-01' })) as unknown as Title[], { heute: '2026-11-17', staffelZuordnung: new Map([[7, 'ueberlappung'], [8, 'liste-veraltet'], [9, 'ohne-bereich'], [10, 'laenger-als-staffel']]) } as unknown as Kontext, [regel])
 pruefe('Regel: nur belegte Widersprüche sind offen; liste-veraltet und ohne-bereich sind Ausnahme mit Grund', veraltet.map((x) => `${x.t}:${x.grund ?? 'offen'}`).join() === '7:offen,8:liste-veraltet,9:ohne-staffelliste,10:offen', veraltet)
+const lauf = (id: number, jpEnd?: string) => ({ id, jpEnd }) as unknown as Title
+const laeuft = zaehleMaengel([lauf(1), lauf(2, '2026-11-17'), lauf(3, '2026-11-16'), lauf(4)], { heute: '2026-11-17', staffelZuordnung: new Map([[1, 'laenger-als-staffel'], [2, 'ueberlappung'], [3, 'ueberlappung']]) } as unknown as Kontext, [regel])
+pruefe('Regel: laufender Titel (kein Ende, Ende heute) ist Ausnahme `laeuft`, beendeter (Ende gestern) offen, Titel ohne Befund zählt nicht', laeuft.map((x) => `${x.t}:${x.grund ?? 'offen'}`).join() === '1:laeuft,2:laeuft,3:offen', laeuft)
+const sbr = zaehleMaengel([lauf(210482)], { heute: '2026-11-17', staffelZuordnung: staffelZuordnung([titel(210482, 11, '82116553'), titel(190327, 1, '82116553')], { 82116553: { ...liste(1, 1), gemeldetAm: '2026-09-25' } }, () => undefined) } as unknown as Kontext, [regel])
+pruefe('Steel Ball Run (82116553): 11 Folgen gegen Staffeln 1 + 1, ohne Netflix-Termin, läuft noch → Ausnahme `laeuft` (nicht offen)', sbr.length === 1 && sbr[0]!.grund === 'laeuft', sbr)
 pruefe('Regel: Gruppe falsch, Wirkung 2, wer wie adresse-mehrfach', regel.gruppe === 'falsch' && regel.wirkung === 2 && regel.wer === REGELN.find((r) => r.art === 'adresse-mehrfach')!.wer)
 
 if (verletzt) {

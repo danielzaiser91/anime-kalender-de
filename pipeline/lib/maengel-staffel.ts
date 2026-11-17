@@ -4,7 +4,7 @@ export const ANBIETER_STAFFELN_DATEI = 'data/anbieter-staffeln.json'
 /** Staffelliste des Anbieters je Netflix-Kennung (`ANBIETER_STAFFELN_DATEI`); `folgen` zählt je Staffel. */
 export type AnbieterStaffeln = Record<string, { staffeln?: { folgen?: number }[]; gemeldetAm?: string }>
 export type StaffelBefund = 'ohne-bereich' | 'laenger-als-staffel' | 'ueberlappung' | 'liste-veraltet'
-/** Befunde, die kein belegter Widerspruch sind: Sie stehen im Register als Ausnahme mit Grund, „offen“ zählt nur `laenger-als-staffel` und `ueberlappung`. */
+/** Befunde, die kein belegter Widerspruch sind (dazu kommt in der Regel jeder noch laufende Titel, Grund `laeuft`: seine Staffel wächst, die Liste ist ein Stand): Sie stehen im Register als Ausnahme mit Grund, „offen“ zählt nur `laenger-als-staffel` und `ueberlappung`. */
 export const STAFFEL_AUSNAHME: Partial<Record<StaffelBefund, string>> = { 'ohne-bereich': 'ohne-staffelliste', 'liste-veraltet': 'liste-veraltet' }
 
 /** Der späteste Start eines Netflix-Termins (JJJJ-MM-TT); ohne Termin `undefined`. */

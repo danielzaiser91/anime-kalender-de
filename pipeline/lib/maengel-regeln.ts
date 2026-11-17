@@ -124,7 +124,7 @@ export const REGELN: Regel[] = [
   { art: 'termin-geschaetzt-ohne-weg', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: geschaetztOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
   { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id), ausnahme: (t, k) => (k.adresseMehrfach.get(t.id) === 'franchise' ? 'gleiches-franchise' : undefined) },
-  { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => STAFFEL_AUSNAHME[k.staffelZuordnung.get(t.id)!] },
+  { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => STAFFEL_AUSNAHME[k.staffelZuordnung.get(t.id)!] ?? (laeuftNoch(t, k.heute) ? 'laeuft' : undefined) },
   { art: 'herkunft-fremder-titel', gruppe: 'falsch', wirkung: 3, wer: 'auto:bau', zaehle: (t, k) => herkunftFremderTitel(t, k.releases.get(t.id) ?? []) },
   { art: 'weg-ohne-adresse', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: (t) => Boolean(t.streams?.some((s) => !s.url)) },
 ]
