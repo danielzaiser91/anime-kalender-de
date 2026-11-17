@@ -2785,14 +2785,12 @@ let selbstGrenze = akNetflixZaehlerStand().grenze
  *
  * Genommen wird die erste offene aus der Prüfliste, die nicht die aktuelle ist.
  * „Offen" heißt hier dasselbe wie im Kasten: mindestens eine Staffel ohne
- * Antwort, und der Titel nicht als toter Verweis abgehakt.
- */
+ * Antwort (`fertig()`); ein lokaler Tot-Vermerk sperrt nicht für sich, der Bestand gewinnt (17.11.2026). */
 function naechsterAuftrag() {
   const hier = String(gemeinteReihe() ?? '')
   for (const [kennung, eintrag] of Object.entries(offeneTitel)) {
     if (kennung === hier) continue
     if (selbstUebersprungen.has(kennung) || bremse.ausgeschlossen(kennung)) continue
-    if (istErledigt(kennung, 'tot')) continue
     /* Ein Urteil ist unterwegs (Takt urteilt, bevor es fertig ist): den Titel nicht noch einmal wählen — sonst führt es niemand weiter (17.11.2026). */
     if (nichtDaTun.besetzt(kennung)) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
@@ -5239,7 +5237,7 @@ function uebersichtZeigen() {
    * zwangsläufig. Der Knopf zählt jetzt dasselbe wie alles andere.
    */
   const offeneStaffeln = Object.entries(offeneTitel).reduce((n, [id, e]) => {
-    if (istErledigt(id, 'tot')) return n
+    if (standZieleNetflix ? fertig(id, e) : istErledigt(id, 'tot')) return n
     const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
     return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
   }, 0)
@@ -6175,6 +6173,7 @@ function nfBericht() {
       gezaehlt: akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze)?.geprueft ?? selbstGezaehlt /* wie „n von m“ und der Knopf (4071) */,
       uebersprungen: akNetflixBericht.uebersprungen(selbstUebersprungen, offeneTitel),
       offen: akNetflixBericht.offene(offeneTitel, fertig),
+      ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig, { erledigt, hier: gemeinteReihe(), uebersprungen: selbstUebersprungen, bremse, nichtDa: nichtDaTun }),
       staffelnGeprueft: [...selbstStaffelnGeprueft],
       gesammelt: [...selbstGesammelt],
       spur: DURCHGANG_SPUR,

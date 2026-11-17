@@ -448,7 +448,8 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   )
   pruefe('die Folgenliste wird gegen die Adresse verglichen', /titelDerAdresse\(\) \?\? gemeinteReihe\(\)/.test(quelle))
   pruefe('ein Titelwechsel verwirft den Player-Stand der vorigen Seite', /String\(stand\.reihe \?\? ''\) !== titelHier/.test(quelle))
-  pruefe('ein toter Verweis wird uebersprungen', /istErledigt\(kennung, 'tot'\)/.test(wahl))
+  /* Seit 17.11.2026 sperrt der lokale Vermerk nicht mehr für sich: `fertig()` entscheidet (Stand gewinnt); Lauftest: netflix-tot-vermerk.test.cjs. */
+  pruefe('der Tot-Vermerk sperrt die Wahl nicht fuer sich', !/istErledigt\(kennung, 'tot'\)/.test(wahl.slice(0, wahl.indexOf('\n}\n'))))
   pruefe(
     'ein fertiger Titel ebenso — nach fertig(), derselben Rechnung wie der Dialog (22.09.2026)',
     /if \(fertig\(kennung, eintrag\)\) continue/.test(wahl),
