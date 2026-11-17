@@ -2,6 +2,7 @@ import type { Release, Title } from '../../shared/types.ts'
 import { istSichererTermin } from '../bau/11-7-wege-aus-terminen.ts'
 import { fehlendes } from '../bau/luecken-titel.ts'
 import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
+import { folgenzahlAusnahme, type FranchiseTeil } from './folgenzahl-erklaerung.ts'
 import { herkunftFremderTitel } from './herkunft-fremder-titel.ts'
 import { ohneSprachurteil } from './ohne-sprachurteil.ts'
 import { STAFFEL_AUSNAHME, type StaffelBefund } from './maengel-staffel.ts'
@@ -35,6 +36,8 @@ export interface Kontext {
   adresseMehrfach: Map<number, 'fremd' | 'franchise'>
   /** Titel, deren Staffel-Zuordnung an einer geteilten Netflix-Adresse nicht zur Staffelliste des Anbieters passt (`staffelZuordnung`). */
   staffelZuordnung: Map<number, StaffelBefund>
+  /** Die anderen Titel desselben Franchise (Format, Folgenzahl), ohne den Titel selbst. */
+  franchiseTeile: (t: Title) => FranchiseTeil[]
   /** Verneint ein Handbeleg die Plattform für einen Termin ab diesem Tag (`baueNeinGilt`)? */
   neinGilt: (id: number, plattform: string, ab: string) => boolean
 }
@@ -67,11 +70,13 @@ function folgentitelFehlen(t: Title, k: Kontext): boolean {
   return f.filter((x) => x[1]).length < n
 }
 
+const listenLaenge = (t: Title, k: Kontext): number => k.folgen(t.id)?.f?.length ?? 0
+
 function folgenzahlWiderspruch(t: Title, k: Kontext): boolean {
   const n = t.episodes ?? 0
   if (!n) return false
   const zuViele = (k.releases.get(t.id) ?? []).some((r) => r.releaseType !== 'disc' && (r.schedule?.episodeCount ?? 0) > n)
-  return zuViele || (k.folgen(t.id)?.f?.length ?? 0) > n
+  return zuViele || listenLaenge(t, k) > n
 }
 
 /** Streaming-Termine mit Quelle, die begonnen haben, ohne dass der Titel einen Weg zu dieser Plattform führt. */
@@ -138,7 +143,7 @@ export const REGELN: Regel[] = [
   { art: 'erschienen-ohne-weg', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: erschienenOhneWeg, ausnahme: belegtesNein },
   { art: 'termin-trotz-nein', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: terminTrotzNein },
   { art: 'termin-geschaetzt-ohne-weg', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: geschaetztOhneWeg },
-  { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
+  { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch, ausnahme: (t, k) => folgenzahlAusnahme(t, k.releases.get(t.id) ?? [], listenLaenge(t, k), k.franchiseTeile(t)) },
   { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id), ausnahme: (t, k) => (k.adresseMehrfach.get(t.id) === 'franchise' ? 'gleiches-franchise' : undefined) },
   { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => STAFFEL_AUSNAHME[k.staffelZuordnung.get(t.id)!] ?? (laeuftNoch(t, k.heute) ? 'laeuft' : undefined) },
   { art: 'herkunft-fremder-titel', gruppe: 'falsch', wirkung: 3, wer: 'auto:bau', zaehle: (t, k) => herkunftFremderTitel(t, k.releases.get(t.id) ?? []) },

@@ -43,6 +43,7 @@ const kontext = (ueber: Partial<Kontext> = {}): Kontext => ({
   discTitel: new Set(),
   adresseMehrfach: new Map(),
   staffelZuordnung: new Map(),
+  franchiseTeile: () => [],
   neinGilt: () => false,
   ...ueber,
 })
@@ -124,6 +125,17 @@ pruefe('neinGilt: „ohne deutschen Ton“ gilt auch für einen späteren Termin
 pruefe('folgenzahl-widerspruch: Release mit mehr Folgen', arten(gut(1), mitReleases(rel({ schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 24 } }))).join() === 'folgenzahl-widerspruch')
 pruefe('folgenzahl-widerspruch: Liste länger als Folgenzahl', arten(gut(1), kontext({ folgen: () => ({ f: Array.from({ length: 13 }, (_, i) => [i + 1, 'x'] as [number, string]) }) })).join() === 'folgenzahl-widerspruch')
 pruefe('folgenzahl-widerspruch: Disc mit mehr Folgen zählt nicht', arten(gut(1), mitReleases(rel({ releaseType: 'disc', platform: 'disc', schedule: { firstEpisodeDate: '2026-01-01', episodeCount: 99 } }))).length === 0)
+// Echte Zeilen vom 17.11.2026: Gantz (13, Prime 26, Staffel 2 hat 13), Wolf’s Rain (26, ADN 30, OVA 4), Zexal II (73, Prime 97, keine Summe passt), Super Wings (52, TV 59 nur gesichtet).
+const wid = (t: Title, k: Kontext) => arten(t, k).filter((a) => a.startsWith('folgenzahl-widerspruch'))
+const primeZahl = (n: number, extra = {}) => rel({ platform: 'primevideo', schedule: { firstEpisodeDate: '2026-09-10', episodeCount: n, ...extra } })
+const gantz = gut(1, { episodes: 13, franchiseId: 1 })
+pruefe('folgenzahl-widerspruch: Zahl = Titel + alle Serien-Staffeln des Franchise (Gantz) ist Ausnahme', wid(gantz, { ...mitReleases(primeZahl(26)), folgen: () => ({ f: Array.from({ length: 13 }, (_, i) => [i + 1, 'x'] as [number, string]) }), franchiseTeile: () => [{ format: 'TV', episodes: 13 }, { format: 'MOVIE', episodes: 1 }] }).join() === 'folgenzahl-widerspruch:anbieter-franchise')
+pruefe('folgenzahl-widerspruch: Zahl = Titel + OVA (Wolf’s Rain 26 + 4) ist Ausnahme, auch für die Liste', wid(gut(1, { episodes: 26 }), { ...kontext({ folgen: () => ({ f: Array.from({ length: 30 }, (_, i) => [i + 1, 'x'] as [number, string]) }), franchiseTeile: () => [{ format: 'OVA', episodes: 4 }] }) }).join() === 'folgenzahl-widerspruch:anbieter-franchise')
+pruefe('folgenzahl-widerspruch: Zexal II 97 ohne passende Summe bleibt offen', wid(gut(1, { episodes: 73 }), { ...mitReleases(primeZahl(97)), folgen: () => undefined, franchiseTeile: () => [{ format: 'TV', episodes: 224 }, { format: 'TV', episodes: 73 }, { format: 'OVA', episodes: 1 }] }).join() === 'folgenzahl-widerspruch')
+pruefe('folgenzahl-widerspruch: ein Film zählt nicht als Zugabe', wid(gut(1, { episodes: 26 }), { ...mitReleases(primeZahl(27)), folgen: () => undefined, franchiseTeile: () => [{ format: 'MOVIE', episodes: 1 }] }).join() === 'folgenzahl-widerspruch')
+pruefe('folgenzahl-widerspruch: eine erklärte und eine unerklärte Zahl bleiben offen', wid(gut(1, { episodes: 26 }), { ...mitReleases(primeZahl(27)), folgen: () => ({ f: Array.from({ length: 30 }, (_, i) => [i + 1, 'x'] as [number, string]) }), franchiseTeile: () => [{ format: 'OVA', episodes: 4 }] }).join() === 'folgenzahl-widerspruch')
+pruefe('folgenzahl-widerspruch: nur gesichtete Zahl (Super Wings 59 > 52) ist Ausnahme', wid(gut(1, { episodes: 52 }), { ...mitReleases(rel({ platform: 'tv', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-07', episodeCount: 59, episodeCountAssumed: true, episodeCountNurGesichtet: true } })), folgen: () => undefined }).join() === 'folgenzahl-widerspruch:nur-gesichtet')
+pruefe('folgenzahl-widerspruch: drei Zugaben als Summe erklären nichts (Grenze zwei)', wid(gut(1, { episodes: 26 }), { ...mitReleases(primeZahl(29)), folgen: () => undefined, franchiseTeile: () => [{ format: 'OVA', episodes: 1 }, { format: 'OVA', episodes: 1 }, { format: 'SPECIAL', episodes: 1 }] }).join() === 'folgenzahl-widerspruch')
 const strom = (url: string, extra = {}) => [{ platform: 'netflix', url, dub: true, ...extra }] as Title['streams']
 const geteilt = adresseMehrfach([gut(1, { streams: strom('x'), franchiseId: 10 }), gut(2, { streams: strom('x'), franchiseId: 20 }), gut(3, { streams: strom('x', { sharedWith: 3 }), franchiseId: 30 }), gut(4)])
 pruefe('adresse-mehrfach: zwei fremde Titel, eine Adresse → Mangel, auch mit `sharedWith` (der Vermerk verdeckt nichts); Einzelne nicht', [...geteilt].map(([i, w]) => `${i}${w}`).sort().join() === '1fremd,2fremd,3fremd', [...geteilt])

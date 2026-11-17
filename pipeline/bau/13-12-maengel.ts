@@ -8,6 +8,7 @@ import { discTitelIds } from '../lib/erstausgabe-ohne-weg.ts'
 import { adresseMehrfach, COVER_BEKANNT_DATEI, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
 import { ladeHandbelege } from '../lib/dub-confirmed.ts'
 import { ANBIETER_STAFFELN_DATEI, letzterNetflixStart, staffelZuordnung } from '../lib/maengel-staffel.ts'
+import { franchiseTeile } from '../lib/folgenzahl-erklaerung.ts'
 import { baueNeinGilt } from '../lib/maengel-nein.ts'
 import { MAENGEL_DATEI, schreibeFort, serialisiere, type Register } from '../lib/maengel-register.ts'
 
@@ -38,6 +39,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
   const alle = readJson<Release[]>(`${OUT}/releases.json`, [])
   const releases = new Map<number, Release[]>()
   for (const r of alle) (releases.get(r.titleId) ?? releases.set(r.titleId, []).get(r.titleId)!).push(r)
+  const teile = franchiseTeile(titel)
   return {
     heute,
     coverBekannt: readJson(COVER_BEKANNT_DATEI, {}),
@@ -46,6 +48,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
     discTitel: discTitelIds(alle),
     adresseMehrfach: adresseMehrfach(titel),
     staffelZuordnung: staffelZuordnung(titel, readJson(ANBIETER_STAFFELN_DATEI, {}), (id) => letzterNetflixStart(releases.get(id) ?? [])),
+    franchiseTeile: (t) => (teile.get(t.franchiseId ?? t.id) ?? []).filter((x) => x.id !== t.id),
     neinGilt: lazyNeinGilt(),
     ...leser(),
   }
