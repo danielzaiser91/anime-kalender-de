@@ -6,7 +6,7 @@ import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSyn
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { ausfuehrbareTests, beiSignal, laufTest, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE, spieleOriginaleZurueck } from "./mutationslaeufer.mjs"
+import { ausfuehrbareTests, normalisiereListe, beiSignal, laufTest, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE, spieleOriginaleZurueck } from "./mutationslaeufer.mjs"
 
 const hier = dirname(fileURLToPath(import.meta.url))
 const laeufer = process.argv[2] ?? join(hier, "mutationslaeufer.mjs")
@@ -324,6 +324,22 @@ for (const [befehl, cwd] of [["x\0y", ordner], [`${knoten} test.mjs`, join(ordne
   const r = await laufTest(befehl, cwd, 5)
   assert.equal(r.gruen, false)
   assert.equal(r.code, -1)
+}
+
+// Lehre 132: "tests" als String statt Liste wird abgewiesen, nicht still als Zeichenliste behandelt
+assert.throws(() => normalisiereListe([{ datei: "a", suche: "x", ersetze: "y", tests: "node test.mjs" }]), /"tests" muss eine Liste/)
+assert.equal(normalisiereListe([{ datei: "a", suche: "x", ersetze: "y", tests: ["t"] }])[0].tests[0], "t")
+{
+  const lauf = (name, test) => {
+    const liste = join(ordner, `${name}.json`)
+    writeFileSync(liste, JSON.stringify([{ name: "Kontrolle", aenderungen: [], tests: [test] }, { ...mut[0], tests: [`${knoten} test.mjs`] }]))
+    const r = spawnSync(process.execPath, [laeufer, liste, "--cwd", ordner, "--timeout", "30"], { encoding: "utf8" })
+    return r.status + r.stdout
+  }
+  const schnell = lauf("kontr-schnell", `${knoten} -e "0"`)
+  assert.match(schnell, /^0[\s\S]*GRÜN +Kontrolle \(Warnung: Kontrolle verdächtig schnell/, "Kontrolle unter 1 s: Warnung, Exit bleibt 0")
+  const langsam = lauf("kontr-langsam", `${knoten} -e "setTimeout(()=>{},1200)"`)
+  assert.ok(!langsam.includes("Warnung"), "Kontrolle über 1 s: keine Warnung")
 }
 
 rmSync(ordner, { recursive: true, force: true })

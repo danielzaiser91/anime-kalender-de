@@ -46,7 +46,15 @@ assert.equal(mutation.steps[einrichtenIdx].with.playwright, 'true', 'Chromium wi
 assert.equal(mutation.steps[einrichtenIdx].with.cache, 'aus')
 
 // A4: je Liste und Zweig ein Lauf, ein neuer ersetzt den laufenden
-assert.deepEqual(wf.concurrency, { group: 'mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}', 'cancel-in-progress': true })
+assert.deepEqual(wf.concurrency, { group: 'mutationsprobe-${{ inputs.zweig }}-${{ inputs.liste }}-${{ inputs.kopf }}', 'cancel-in-progress': true })
+// Lehre 132: Prüfer (mit kopf) und Bauer von Hand (ohne kopf) landen in verschiedenen Gruppen, gleicher Kopf bleibt eine Gruppe
+{
+  const gruppe = (i) => wf.concurrency.group.replace(/\$\{\{ inputs\.(\w+) \}\}/g, (_, n) => i[n] ?? '')
+  const a = { zweig: 'z', liste: 'l.json' }
+  assert.notEqual(gruppe({ ...a, kopf: 'a'.repeat(40) }), gruppe({ ...a, kopf: '' }), 'Prüfer und Bauer von Hand brechen sich nicht ab')
+  assert.notEqual(gruppe({ ...a, kopf: 'a'.repeat(40) }), gruppe({ ...a, kopf: 'b'.repeat(40) }), 'verschiedene Köpfe')
+  assert.equal(gruppe({ ...a, kopf: 'a'.repeat(40) }), gruppe({ ...a, kopf: 'a'.repeat(40), test: 'x' }), 'selber Kopf: der neue Lauf ersetzt den alten')
+}
 // A2: zweiter Checkout holt nur den Läufer aus main (Standardzweig), nach dem des Zweigs und vor Einrichten und Lauf
 const checkouts = mutation.steps.map((s, i) => ({ s, i })).filter((x) => x.s.uses?.startsWith('actions/checkout'))
 assert.equal(checkouts.length, 2, 'zwei Checkouts: Zweig und Läufer aus main')
