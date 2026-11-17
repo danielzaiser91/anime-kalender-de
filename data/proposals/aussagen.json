@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-16",
+  "stand": "2026-11-17",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -9301,7 +9301,7 @@
     {
       "id": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/|STEEL BALL RUN: JoJo’s Bizarre Adventure||start|netflix",
       "erstGesehen": "2026-10-13",
-      "fingerabdruck": "ff2f6c45b407",
+      "fingerabdruck": "ffeb960e6f30",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -9323,8 +9323,8 @@
         "zitat": "Freitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nFreitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nSimulcast: Jeden Freitag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
         "zuordnung": {
           "anilistId": 190327,
-          "name": "Steel Ball Run: Jojo’s Bizarre Adventure",
-          "wie": "name-genau"
+          "name": "Steel Ball Run: Jojo’s Bizarre Adventure - Phase 1",
+          "wie": "name-teil"
         },
         "bestand": {
           "status": "bekannt",
@@ -9335,7 +9335,8 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 273
-      }
+      },
+      "geaendert": "2026-11-17"
     },
     {
       "id": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/|Das Band der Unterwelt||start|netflix",
@@ -10748,8 +10749,8 @@
     {
       "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Bass X Machina||start|netflix",
       "erstGesehen": "2026-10-22",
-      "fingerabdruck": "18a9770c4fb2",
-      "offenOderUnklar": true,
+      "fingerabdruck": "e44f3f7d0474",
+      "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
           "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
@@ -10767,15 +10768,23 @@
         "konfidenz": 0.95,
         "gruende": [],
         "zitat": "3. November: »Bass X Machina«\n3. November: »Bass X Machina«\nEpisoden: unbekannt\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
-        "offen": {
-          "grund": "kein Titel mit diesem Namen",
-          "kandidaten": []
+        "zuordnung": {
+          "anilistId": -314271,
+          "name": "Bass X Machina",
+          "wie": "name-genau",
+          "abstandTage": 0
         },
         "bestand": {
-          "status": "ohne-zuordnung"
+          "status": "bekannt",
+          "release": {
+            "slug": "bass-x-machina-netflix",
+            "firstEpisodeDate": "2026-11-03"
+          },
+          "hatSynchroBelege": true
         },
         "inhaltZeichen": 262
-      }
+      },
+      "geaendert": "2026-11-17"
     },
     {
       "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Fool Night||start|netflix",

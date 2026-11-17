@@ -531176,6 +531176,7 @@
           "language": "Deutsch",
           "title": "Strike Witches: Road to Berlin",
           "status": "Abgeschlossen",
+          "dubbed": true,
           "released": "07.10.2020 - 23.12.2020",
           "publisher": [
             "AniMoon Publishing GmbH",
@@ -531237,7 +531238,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-10-08T09:37:45.280Z"
+    "fetchedAt": "2026-11-17T06:00:52.504Z"
   },
   "103123": {
     "anisearchId": 15192,

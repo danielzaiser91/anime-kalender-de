@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (412)
+### Kandidaten für neue Wege (414)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -61,6 +61,8 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Detektiv Conan: Der tickende Wolkenkratzer (779) | Crunchyroll | crunchyroll:G4VUQM050 | ja |
 | Detektiv Conan: Das 14. Ziel (780) | Crunchyroll | crunchyroll:GJWU2J7W2 | ja |
 | Detektiv Conan: Der Magier des letzten Jahrhunderts (781) | Crunchyroll | crunchyroll:GWDU8PME1 | ja |
+| Ouran High School Host Club (853) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.f33bc868-ccaa-4373-8364-3a5ca6bb5670 | ja |
+| Air Gear (857) | Amazon Prime Video | amazon:amzn1.dv.gti.66c97aeb-db50-4b80-9691-ddbb8ddeed91 | ja |
 | Angel’s Egg (885) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.19f4f07a-7fcd-45ce-9936-abf74373c70b | ja |
 | Tränen der Erinnerung: Only Yesterday (1029) | Amazon Video | amazon:amzn1.dv.gti.d09397e7-d132-4e24-b038-3e4566c17938 | ja |
 | Pom Poko (1030) | Amazon Video | amazon:amzn1.dv.gti.44c14fb0-0222-4180-8091-1c7daf9a5fd7 | ja |
