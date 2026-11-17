@@ -6,6 +6,7 @@
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 const DIST = path.resolve(import.meta.dirname, '..', 'dist')
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' }
@@ -89,7 +90,7 @@ export async function pruefeSuchIconFokus(chromium, n = 20, antworte = ausDist, 
   return { zeilen, abweichungen }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { chromium } = await import('playwright')
   const r = await pruefeSuchIconFokus(chromium, Number(process.argv[2]) || 20, undefined, { drossel: Number(process.env.AK_DROSSEL) || 1, sofort: !!process.env.AK_SOFORT })
   console.log('| Fall | Versuche | Fehlversuche | Beispiel (Fokus 50/300/1000 ms · Ereignisse) |\n|---|---|---|---|')
