@@ -21,6 +21,7 @@ import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
 import { kanalJaUeberholtNein, ohneKanalSprache } from './kanal-titel.ts'
+import { istEinzelneBrowserTotmeldung } from './browser-tot-einzeln.ts'
 import { ergaenzeMerkliste, MERKLISTE } from './kanal-merkliste.ts'
 
 export interface DubCheck {
@@ -167,7 +168,7 @@ export function ladeHandbelege(): DubCheck[] {
   const out: DubCheck[] = []
   // Schlüssel (Titel, Plattform, Adresskern) → Platz in `out`; ein Suchlauf je Eintrag war quadratisch.
   const stelle = new Map<string, number>()
-  for (const eintrag of (raw as DubCheck[]).map(ohneKanalSprache)) {
+  for (const eintrag of (raw as DubCheck[]).filter((e) => !istEinzelneBrowserTotmeldung(e)).map(ohneKanalSprache)) {
     /**
      * **Eine Lücke aus einer Kanal-Meldung ist ein Nein aus einem Kanal — und das
      * belegt nichts** (17.09.2026).
