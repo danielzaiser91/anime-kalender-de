@@ -300,7 +300,33 @@ function ansichtKopf(o) {
   return { kopf, suche, tabelle: tabelle?.wurzel ?? null }
 }
 
+/**
+ * In einem Tab, der den Durchgang nicht führt (`hinweis` aus `akNetflixStartHinweis`, 4071): „nichts da?“ und „Staffel melden“ sind gesperrt, mit der
+ * Begründung am Knopf, ebenso `selbst` (der Durchgangs-Knopf); ein kurzer Satz kommt in den `kopf`. Die Titel-Links bleiben (Nachsehen von Hand muss gehen).
+ */
+function ansichtSperren(wurzel, kopf, selbst, hinweis) {
+  if (!hinweis) return
+  for (const knopf of wurzel.querySelectorAll('.ak-tot, .ak-staffel-weg')) {
+    knopf.disabled = true
+    knopf.title = hinweis.title
+  }
+  kopf.appendChild(ansichtElement('div', 'ak-hinweis ak-gesperrt', 'Der Durchgang läuft in einem anderen Tab — melden und starten geht dort.'))
+  Object.assign(selbst, { disabled: true, textContent: hinweis.text, title: hinweis.title })
+}
+
+/** Das Suchfeld filtert die Zeilen der Liste nach ihrem Suchtext. */
+function ansichtSuchen(suche, liste) {
+  suche.addEventListener('input', () => {
+    const wort = suche.value.trim().toLowerCase()
+    for (const zeile of liste.children) {
+      zeile.style.display = !wort || zeile.dataset.suchtext.includes(wort) ? '' : 'none'
+    }
+  })
+}
+
 globalThis.akNetflixListeAnsicht = {
+  sperren: ansichtSperren,
+  suchen: ansichtSuchen,
   kopf: ansichtKopf,
   zeilen: ansichtZeilen,
   uebernahmeText: ansichtUebernahmeText,

@@ -525,8 +525,59 @@ globalThis.akNetflixStartHinweis = (besitzer, tab, jetzt) => {
   }
 }
 
-/** `zuletztGeoeffnet` eines Durchgangs aus einem anderen Tab gehört diesem Tab nicht (sonst Melde-Knopf für fremde Titel). */
-globalThis.akNetflixEigenerSprung = (z, tab) => (z?.durchgang && z.tab !== tab ? null : (z ?? null))
+/**
+ * Der Anspruch auf den Durchgang (4071, Schnitt 2): Lesen, Prüfen, Schreiben, mit Rücklesen. Zwei gleichzeitige Starts schreiben beide, der
+ * Speicher behält einen Eintrag, und nach `BESITZER_ANSPRUCH_WARTE_MS` liest jeder zurück: gewonnen hat, wer sich selbst zurückliest
+ * (`'meiner'`). Das gilt, solange beide Schreibvorgänge binnen dieser Zeit landen; landet einer später, starten beide, und der Takt
+ * (`akNetflixBesitz`, Urteil `fremd`) beendet den Verlierer binnen einer Sekunde. `null` = dieser Tab hat den Durchgang, sonst der Hinweis
+ * (`akNetflixStartHinweis`; ein gescheitertes Schreiben ist auch ein Hinweis, nie ein Start ohne Eintrag). `o`: `{ kontext (lesen,
+ * schreiben), tab, jetzt(), warte(ms), knopf? }`; `knopf` ist während des Anspruchs gesperrt (ein zweiter Klick startet nichts).
+ */
+const BESITZER_ANSPRUCH_WARTE_MS = 300
+globalThis.akNetflixBesitzAnspruch = async (o) => {
+  if (!o.kontext.lebt?.()) return { text: 'Erweiterung neu geladen', title: 'Die Erweiterung wurde neu geladen: Seite neu laden.' }
+  if (o.knopf) o.knopf.disabled = true
+  try {
+    const lesen = async () => (await o.kontext.lesen('netflixDurchgangBesitzer'))?.netflixDurchgangBesitzer ?? null
+    const vorher = globalThis.akNetflixStartHinweis(await lesen(), o.tab, o.jetzt())
+    if (vorher) return vorher
+    await o.kontext.schreiben({ netflixDurchgangBesitzer: { tab: o.tab, puls: o.jetzt() } })
+    await o.warte(BESITZER_ANSPRUCH_WARTE_MS)
+    const nachher = await lesen()
+    if (globalThis.akNetflixBesitzerUrteil(nachher, o.tab, o.jetzt()) === 'meiner') return null
+    return globalThis.akNetflixStartHinweis(nachher, o.tab, o.jetzt()) ?? { text: 'Start nicht gelungen', title: 'Der Durchgang konnte nicht beansprucht werden (Speicher nicht erreichbar). Noch einmal versuchen.' }
+  } finally {
+    /* Ein Start schließt den Dialog im selben Zug (laufStarten), ein Verlust sperrt den Knopf selbst für fünf Sekunden. */
+    if (o.knopf) o.knopf.disabled = false
+  }
+}
+
+/**
+ * `zuletztGeoeffnet` eines Durchgangs aus einem anderen Tab gehört diesem Tab nicht (sonst Melde-Knopf für fremde Titel). Ein Klick aus der Liste
+ * gilt in jedem Tab, weil der Link einen neuen Tab öffnet, der den Eintrag liest — außer im Tab, der den Durchgang führt (`laeuft`): dort gilt
+ * nur der Eintrag des eigenen Tabs (`tab`), auch ein alter Eintrag ohne Kennung ist fremd (4071).
+ */
+globalThis.akNetflixEigenerSprung = (z, tab, laeuft = false) => {
+  if (!z) return null
+  if ((z.durchgang || laeuft) && z.tab !== tab) return null
+  return z
+}
+
+/**
+ * Ein neuer Besitzer aus dem Speicher: `bei()` läuft, wenn sich damit ändert, ob ein anderer Tab den Durchgang führt (der offene Dialog sperrt oder
+ * entsperrt sich — nicht bei jedem Puls). Gibt den neuen Besitzer zurück.
+ */
+globalThis.akNetflixBesitzerUebernehmen = (alt, neu, tab, bei) => {
+  const fremd = (b) => Boolean(globalThis.akNetflixStartHinweis(b, tab, Date.now()))
+  if (fremd(alt) !== fremd(neu)) bei()
+  return neu
+}
+
+/** Ein neuer Wert von `zuletztGeoeffnet` aus dem Speicher: im Tab, der den Durchgang führt, ändert ein fremder Eintrag nichts (der bisherige bleibt). */
+globalThis.akNetflixSprungUebernehmen = (aktuell, neu, tab, laeuft) => {
+  const z = globalThis.akNetflixEigenerSprung(neu, tab, laeuft)
+  return laeuft && !z ? aktuell : z
+}
 
 /*
   **Bericht je geöffnetem Titel** (12.11.2026): Adressfolge mit Zeit, wann Hintergrund und Inhalt des

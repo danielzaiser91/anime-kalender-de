@@ -1835,7 +1835,7 @@ const erledigtGeladen = Promise.resolve(
     x = x ?? {}
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
-    zuletztGeoeffnet = akNetflixEigenerSprung(x.zuletztGeoeffnet, meinTab)
+    zuletztGeoeffnet = akNetflixEigenerSprung(x.zuletztGeoeffnet, meinTab, selbstAn)
     netflixWeiterleitungen = x.netflixWeiterleitungen ?? {}
     durchgangBesitzer = x.netflixDurchgangBesitzer ?? null
   })
@@ -2014,7 +2014,7 @@ async function merkeErledigt(id, staffel, folge) {
    */
   if (offeneTitel[String(id)] === undefined) {
     try {
-      const { zuletztGeoeffnet } = (await speicherLesen('zuletztGeoeffnet')) ?? {}
+      const zuletztGeoeffnet = akNetflixEigenerSprung(((await speicherLesen('zuletztGeoeffnet')) ?? {}).zuletztGeoeffnet, meinTab, selbstAn)
       if (
         zuletztGeoeffnet?.id &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
@@ -2438,14 +2438,14 @@ function laufStarten() {
 }
 
 /** Klick auf „▶ alle durchgehen" / „⏹ Durchgang beenden": beendet, startet oder sagt, warum nichts startet. */
-function selbstKlick(selbst) {
+async function selbstKlick(selbst) {
   if (selbstAn) {
     laufBeenden('von Hand')
     dialogSchliessen()
     return
   }
-  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel). */
-  const hinweis = akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now()) ?? (laufStarten() ? null : selbstUebersprungen.keinAuftrag())
+  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel); bei zwei Klicks binnen 300 ms gewinnt, wer sich zurückliest, sonst beendet der Takt den Verlierer (4071). */
+  const hinweis = (await akNetflixBesitzAnspruch({ kontext: globalThis.akKontext, tab: meinTab, knopf: selbst, jetzt: Date.now, warte: (ms) => new Promise((f) => setTimeout(f, ms)) })) ?? (laufStarten() ? null : (taktTun.schreiben(null), selbstUebersprungen.keinAuftrag()))
   if (!hinweis) return
   /* Kein Start: der Dialog bleibt offen und sagt es (kein Auftrag heißt meist, die Erweiterung hält einen älteren Prüfstand — ein Neuladen holt ihn). */
   const vorher = selbst.textContent
@@ -2482,7 +2482,7 @@ const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
-const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd, id) => selbstWeiter(n, nd, id), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => fetch(u, i), erledigt: (id) => offeneTitel[id] !== undefined && fertig(id, offeneTitel[id]) })
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd, id) => selbstWeiter(n, nd, id), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => (verbindungLebt() ? fetch(u, i) : Promise.reject(new Error('Erweiterung neu geladen'))), erledigt: (id) => offeneTitel[id] !== undefined && fertig(id, offeneTitel[id]) })
 const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, akNetflixZaehlerStand().titel ?? offeneTitel[String(zuletztGeoeffnet?.id)]?.titel, akNetflixWartetText(selbstWartet, Date.now())), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
@@ -2753,6 +2753,7 @@ function istAlleFolgenEintrag(text) {
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. `nichtDa`: Umleitung, der Fortschritt zählt den Titel mit. */
 function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
+  if (!verbindungLebt()) return
   /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
   akNetflixErledigtZaehlen(nichtDa, undefined, kennung)
@@ -2814,7 +2815,8 @@ function naechsterAuftrag() {
  */
 async function vielleichtSelbstStarten() {
   try {
-    if (!akNetflixSelbstTakt({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now(), bremse }, taktTun)) return
+    /* Erweiterung neu geladen (tote Verbindung): dieses Skript springt, meldet und fragt nichts mehr (4071). */
+    if (!verbindungLebt() || !akNetflixSelbstTakt({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now(), bremse }, taktTun)) return
     const ziel = zuletztGeoeffnet
     const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined, profilwahl: akProfilwahlSeite(document) }
     if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, nichtDa: nichtDaTun })) return
@@ -3736,6 +3738,7 @@ document.addEventListener('ak-oeffnen', async (e) => {
 
 /** Die Navigation, die auch ein Klick auslöst — ohne Neuladen. */
 function gehe(pfad) {
+  if (!verbindungLebt()) return
   history.pushState({}, '', pfad)
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
@@ -5395,7 +5398,7 @@ async function dialogOeffnen() {
     uebernahme: naechsteUebernahme,
     zu: dialogSchliessen,
     klick: akKlick,
-    geoeffnet: (id) => void speicherSchreiben({ zuletztGeoeffnet: { id, zeit: Date.now() } }),
+    geoeffnet: (id) => void speicherSchreiben({ zuletztGeoeffnet: { id, zeit: Date.now(), tab: meinTab } }),
   })
   const suche = ansicht.suche
   kasten.appendChild(ansicht.kopf)
@@ -5495,7 +5498,7 @@ async function dialogOeffnen() {
         die Zielseite eine andere Kennung, trägt der nächste Takt sie als
         Weiterleitung nach — und zwar dauerhaft, unabhängig von jeder Frist.
       */
-      void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
+      void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now(), tab: meinTab } })
     })
     zeile.appendChild(link)
 
@@ -5770,13 +5773,8 @@ async function dialogOeffnen() {
   }
   kasten.appendChild(liste)
   if (ansicht.tabelle) kasten.appendChild(ansicht.tabelle)
-
-  suche.addEventListener('input', () => {
-    const wort = suche.value.trim().toLowerCase()
-    for (const zeile of liste.children) {
-      zeile.style.display = !wort || zeile.dataset.suchtext.includes(wort) ? '' : 'none'
-    }
-  })
+  akNetflixListeAnsicht.sperren(kasten, ansicht.kopf, selbst, akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now())) /* führt ein anderer Tab den Durchgang (4071) */
+  akNetflixListeAnsicht.suchen(suche, liste)
 
   // Ein Klick neben den Kasten schließt — wie überall sonst auch.
   akKlick(dialog, (e) => {
@@ -6064,10 +6062,10 @@ globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
   if (bereich !== 'local') return
   // Ein Klick in einem anderen Tab sagt uns, welcher Titel gemeint ist.
   if (aenderungen.zuletztGeoeffnet) {
-    zuletztGeoeffnet = akNetflixEigenerSprung(aenderungen.zuletztGeoeffnet.newValue, meinTab)
+    zuletztGeoeffnet = akNetflixSprungUebernehmen(zuletztGeoeffnet, aenderungen.zuletztGeoeffnet.newValue, meinTab, selbstAn)
     uebersichtZeigen()
   }
-  if (aenderungen.netflixDurchgangBesitzer) durchgangBesitzer = aenderungen.netflixDurchgangBesitzer.newValue ?? null
+  if (aenderungen.netflixDurchgangBesitzer) durchgangBesitzer = akNetflixBesitzerUebernehmen(durchgangBesitzer, aenderungen.netflixDurchgangBesitzer.newValue ?? null, meinTab, () => setTimeout(dialogNeuZeichnen, 0))
   // Eine neu gemeldete Staffelaufteilung ändert die empfohlenen Folgen und
   // damit auch, was als erledigt gilt.
   if (aenderungen.anbieterStaffeln) {
