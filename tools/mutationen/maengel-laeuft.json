@@ -1,0 +1,6 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "laeuft: Film zählt als laufend", "aenderungen": [{ "datei": "tools/maengel.mjs", "suche": "t.format !== 'MOVIE' && ", "ersetze": "" }], "tests": ["node tools/maengel.test.mjs"] },
+  { "name": "laeuft: jpYear ignoriert", "aenderungen": [{ "datei": "tools/maengel.mjs", "suche": "(t.jpYear ? `${t.jpYear}-12-31` : '9')", "ersetze": "'9'" }], "tests": ["node tools/maengel.test.mjs"] },
+  { "name": "laeuft: Jahr ohne Ende gilt als beendet", "aenderungen": [{ "datei": "tools/maengel.mjs", "suche": ": '9')) >= heute", "ersetze": ": '0')) >= heute" }], "tests": ["node tools/maengel.test.mjs"] }
+]

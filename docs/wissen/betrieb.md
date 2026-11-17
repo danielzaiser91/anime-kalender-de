@@ -2316,3 +2316,6 @@ Die Einzelroute `?gemeldet=` liest eine Zeile je Anfrage und hält die Antwort 3
 
 ## Fälligkeit eines ausgebliebenen Termins: eine Tabelle (17.11.2026, PR 4116)
 Wann nachgesehen wird, steht in `shared/ausbleiben-plan.ts` (`STUFEN`, `faelligeArten`): Arten `sichtung`, `recherche`, `abgleich-anime2you` (bei jedem Lauf, ab 15 min, ohne Altersgrenze). Die Karenz „ausgeblieben ab 15 min“ ist ein Urteil, kein Takt: `AUSBLEIBEN_NACH_MS`. Die Tabelle ist halboffen `[von, bis)`; `rechercheFaellig` rief früher mit `>` und lag an genau 60 d und 14 d eine Millisekunde daneben. Offen: `naechsteRecherche` wählt den Takt noch nach `letzte + 20 h`.
+
+## Mod-Leiste in Kind-Sitzungen (17.11.2026)
+Kind-Sitzungen (Resume, Kompaktieren) starten mit leerem `CLAUDE_CODE_PLUGIN_DIRS`; der SessionStart-Hook `.claude/hooks/mod-leiste-pruefen.js` (Test `mod-leiste-pruefen-test.mjs`) legt dann die Junction `~/.claude/dev-mods/<session_id>/arbeitsliste` an, berührt `plugin.json` und meldet, den Skill `plugin-authoring` zu laden.
