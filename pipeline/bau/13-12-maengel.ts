@@ -18,7 +18,7 @@ const OUT = 'public/data'
 function leser(): Pick<Kontext, 'folgen' | 'synopse'> {
   const gruppen = new Map<number, Record<number, { de?: string; en?: string }>>()
   return {
-    folgen: (id) => (existsSync(`${OUT}/folgen/${id}.json`) ? readJson(`${OUT}/folgen/${id}.json`, {}) : undefined),
+    folgen: (id) => (existsSync(`${ROOT}/${OUT}/folgen/${id}.json`) ? readJson(`${OUT}/folgen/${id}.json`, {}) : undefined),
     synopse: (id) => {
       const g = id % SYNOPSIS_GROUPS
       if (!gruppen.has(g)) gruppen.set(g, readJson(`${OUT}/synopses/${g}.json`, {}))
