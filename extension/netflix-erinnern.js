@@ -250,7 +250,8 @@ globalThis.akNetflixSprung = async (id, tun) => {
   if (!tun.aktiv()) return
   if (tun.beurteilt?.(id)) {
     /* Ist ein Urteil unterwegs oder gefallen, geht dessen Aufrufer weiter. Sonst (anders gemeldet, übersprungen) geht dieser Sprung zurück: bliebe `zuletztGeoeffnet` auf dem Titel, hielte der Takt die Startseite für eine Umleitung. */
-    if (!tun.besetzt?.(id)) tun.weiter(1, true, id)
+    /* Ist der Titel nicht mehr das Ziel, hat der Takt (Urteil gescheitert) schon weitergeführt: ein zweites `weiter` übersprünge einen Titel. */
+    if (!tun.besetzt?.(id) && (tun.istZiel?.(id) ?? true)) tun.weiter(1, true, id)
     return
   }
   if (!umgeleitet) return tun.gehe(`/title/${id}`)
@@ -262,7 +263,7 @@ globalThis.akNetflixSprung = async (id, tun) => {
 /**
  * Die Bausteine des Urteils für `melder.js`: `urteil(id, grund)` meldet und merkt,
  * `sprung(id)` = `akNetflixSprung` mit Vorprüfung, `besetzt(id)`: das Urteil ist unterwegs oder gefallen (der Takt geht dann nicht selbst weiter).
- * `o`: `{ melden, offeneTitel, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch, erledigt?(id) (laut Prüfliste nicht mehr offen) }`.
+ * `o`: `{ melden, offeneTitel, uebersprungen, spur, gehe, weiter, aktiv, bremse, profilwahl, fetch, erledigt?(id) (laut Prüfliste nicht mehr offen), istZiel?(id) (der Titel ist noch der Sprung des Durchgangs) }`.
  */
 globalThis.akNetflixNichtDaTun = (o) => {
   const ort = { melden: o.melden, titel: (id) => o.offeneTitel[id]?.titel ?? id, nichtDa: globalThis.akNetflixNichtDa(), unterwegs: new Set(), uebersprungen: o.uebersprungen, spur: o.spur }
@@ -270,6 +271,6 @@ globalThis.akNetflixNichtDaTun = (o) => {
   const probe = (id) => globalThis.akNetflixUmleitungProbe(id, { fetch: o.fetch, profilwahl: o.profilwahl, spur: o.spur })
   const besetzt = (id) => ort.unterwegs.has(String(id)) || ort.nichtDa.has(String(id))
   const beurteilt = (id) => besetzt(id) || o.uebersprungen.has(String(id)) || Boolean(o.erledigt?.(id))
-  const sprung = (id) => globalThis.akNetflixSprung(id, { probe, urteil, beurteilt, besetzt, aktiv: o.aktiv, gehe: o.gehe, weiter: o.weiter, beleg: () => o.bremse.beleg() })
+  const sprung = (id) => globalThis.akNetflixSprung(id, { probe, urteil, beurteilt, besetzt, istZiel: o.istZiel, aktiv: o.aktiv, gehe: o.gehe, weiter: o.weiter, beleg: () => o.bremse.beleg() })
   return { urteil, sprung, besetzt }
 }

@@ -42,7 +42,6 @@ async function main() {
   pruefe('2: Titel nach Stand-Auffrischung nicht mehr auf der Liste (Bericht: „Stand von 18:32“) → weiter', t.r === true && t.w.weiter === 1, t)
   t = lauf({ jetzt: 1000 + 5000, offen: false })
   pruefe('2: unter einer Minute und nicht mehr auf der Liste: nichts', t.r === false && t.w.weiter === 0, t)
-  t = lauf({ jetzt: 1000 + 5000 }, [], false)
   t = lauf({ profilwahl: true })
   pruefe('2: Profilauswahl: nichts', t.r === false && t.w.weiter === 0, t)
   t = lauf({ selbstAn: false })
@@ -51,6 +50,49 @@ async function main() {
   pruefe('2: genau 60000 ms, Urteil gefallen: noch Geduld', t.r === true && t.w.weiter === 0, t)
   t = lauf({ pfad: '/title/7' })
   pruefe('2: Titelseite: nichts', t.r === false && t.w.weiter === 0, t)
+
+  /* Fall 3 (Prüfer A3): Das Urteil des Takts scheitert während der Vorprüfung (Titel übersprungen, unterwegs gelöscht), der Takt ist schon weiter —
+     die Vorprüfung darf dann nicht noch einmal weitergehen (Doppelsprung, ein Titel übersprungen). */
+  const sprung = async (istZiel, unterwegs = false) => {
+    const w = { weiter: [], gehe: [] }
+    const uebersprungen = new Map()
+    let antwort = null
+    const meldenHaengt = unterwegs === 'unterwegs'
+    const tun = k.akNetflixNichtDaTun({
+      melden: meldenHaengt ? () => new Promise(() => {}) : async () => ({ ok: true, text: 'ok' }),
+      offeneTitel: { 9: { titel: 'Neun' } },
+      uebersprungen,
+      spur: () => {},
+      gehe: (p) => w.gehe.push(p),
+      weiter: (...a) => w.weiter.push(a),
+      aktiv: () => true,
+      bremse: { beleg() {} },
+      profilwahl: () => false,
+      istZiel,
+      fetch: () => new Promise((ok) => {
+        antwort = () => ok({ redirected: true, url: 'https://www.netflix.com/browse' })
+      }),
+    })
+    const lauf3 = tun.sprung('9')
+    await Promise.resolve()
+    if (unterwegs === 'unterwegs') void tun.urteil('9', 'unterwegs')
+    else if (unterwegs === 'gefallen') await tun.urteil('9', 'gefallen')
+    else uebersprungen.set('9', 'Meldung gescheitert')
+    antwort()
+    await lauf3
+    return w
+  }
+  let w3 = await sprung(() => false)
+  pruefe('3: Takt ist schon weiter (Ziel ist ein anderer Titel) → kein zweites weiter, kein gehe', w3.weiter.length === 0 && w3.gehe.length === 0, w3)
+  w3 = await sprung(() => true, 'unterwegs')
+  pruefe('3: Urteil unterwegs, Titel noch Ziel → kein weiter (das Urteil führt weiter), kein gehe', w3.weiter.length === 0 && w3.gehe.length === 0, w3)
+  w3 = await sprung(undefined)
+  pruefe('3: ohne Auskunft über das Ziel (Rückfall) → weiter wie bisher', JSON.stringify(w3.weiter) === '[[1,true,"9"]]', w3)
+  w3 = await sprung(() => true)
+  pruefe('3: Sprung ist noch das Ziel (anderweitig übersprungen) → weiter(1, true, id) wie bisher', JSON.stringify(w3.weiter) === '[[1,true,"9"]]' && w3.gehe.length === 0, w3)
+  /* Zuletzt: ein gefallenes Urteil bleibt im Speicher des Kontexts (`akNetflixNichtDa`). */
+  w3 = await sprung(() => true, 'gefallen')
+  pruefe('3: Urteil gefallen („nicht bei Netflix“ gemeldet), Titel noch Ziel → kein weiter, kein gehe', w3.weiter.length === 0 && w3.gehe.length === 0, w3)
 
   if (fehler.length) {
     console.log(`\n${fehler.length} Fehler`)
