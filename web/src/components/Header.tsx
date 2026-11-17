@@ -48,7 +48,7 @@ export function Header({
   const { t } = useLang()
   const aktiv = bereichVon(view)
   const kalender = aktiv === 'kalender'
-  const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, suche, zurSuche)
+  const { sucheAuf, eingabe, kopf, icon, oeffnen } = useKopfSuche(view, kalender, suche, zurSuche)
   useEinrollen(kopf, useMobil(), view)
   return (
     <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
@@ -72,7 +72,7 @@ export function Header({
         <KopfNavigation view={view} aktiv={aktiv} onView={onView} hrefFuer={hrefFuer} />
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           {!kalender && <KopfSuchfeld suche={suche} setSuche={setSuche} className="hidden w-52 lg:block xl:w-72" />}
-          <button type="button" onClick={oeffnen} aria-expanded={kalender ? undefined : sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} ${kalender ? '' : 'lg:hidden'}`}>
+          <button ref={icon} type="button" onClick={oeffnen} aria-expanded={kalender ? undefined : sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} ${kalender ? '' : 'lg:hidden'}`}>
             <SuchZeichen />
           </button>
           <InstallButton />
