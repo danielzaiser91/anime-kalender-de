@@ -9501,6 +9501,12 @@
   url: https://www.amazon.de/dp/B0CHN14W48
   checkedAt: '2026-08-27'
   note: "Tonspuren: English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CHN14W48: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg — 18.09.2026 von AniList 101117 an 18507 gehängt: laut Kopfblock ist B0CHN14W48 „Free! -Iwatobi Swim Club-“, Staffel 1; Dive to the Future (Staffel 3) liegt unter B0CJK3GVR1"
+- anilistId: 14713
+  title: "Kamisama Kiss"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Suche auf Prime Video: kein einziger Treffer"
 - anilistId: 20801
   title: "Kamisama Kiss: Staffel 2"
   platform: primevideo
@@ -41026,5 +41032,8 @@
     - from: 1
       to: 21
       dub: true
+    - from: 492
+      to: 492
+      dub: false
   checkedAt: '2026-11-17'
-  note: "Folgen 1–21 mit deutschem Ton — ADN-Schnittstelle (gw.api.animationdigitalnetwork.com/video/show/561, gelesen 17.11.2026, data/adn-raw/561.json.gz): je Folge languages vostde und vde, available true. Der Block „Folgen 1–21 ohne deutschen Ton — Tonspuren: ja“ vom 09.11.2026 las nur die erste Spur und ist damit überholt."
+  note: "Folge 492 führt ADN nicht (Schnittstelle und Daniels Screenshot vom 04.10.2026: 491 → 493). Folgen 1–21 mit deutschem Ton — ADN-Schnittstelle (gw.api.animationdigitalnetwork.com/video/show/561, gelesen 17.11.2026, data/adn-raw/561.json.gz): je Folge languages vostde und vde, available true. Der Block „Folgen 1–21 ohne deutschen Ton — Tonspuren: ja“ vom 09.11.2026 las nur die erste Spur und ist damit überholt."
