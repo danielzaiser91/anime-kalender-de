@@ -1,0 +1,5 @@
+kategorie: bugfix
+text: Synchro-Häkchen nur noch bei belegtem Ton
+untertitel: Ein Starttermin allein zeigt kein Häkchen mehr
+wartetAuf: Bestandsbau nach PR 4134 — Termin zählt nur mit tonführender Quelle (ADN-Kalender, CR-Kalender) als Synchro-Beleg
+seit: '2026-11-17'
