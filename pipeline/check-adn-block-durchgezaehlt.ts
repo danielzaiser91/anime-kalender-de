@@ -41,6 +41,7 @@ try {
   pruefe('Folgen 1–13 bei 12 Folgen: mehr Folgen als der Titel, passt nicht', !blockPasstInTitel(block(1, 13), s1))
   pruefe('Titel ohne Folgenzahl: passt nicht', !blockPasstInTitel(block(1, 12), titel({ id: 907 })))
   pruefe('ohne Titel: passt nicht', !blockPasstInTitel(block(1, 12), undefined))
+  pruefe('Block ohne Folgen und ohne Nummern bei einem Titel mit 0 Folgen: passt', blockPasstInTitel({ episodes: [], nummern: [] } as unknown as AdnBlock, titel({ id: 908, episodes: 0 })))
 
   console.log('\nVerdrahtung: ergaenzeAdnTitel mit einer Serie, deren Folgen 13–23 nur Staffel 2 sind')
   const folgen = (von: number, bis: number): AdnEpisode[] =>
