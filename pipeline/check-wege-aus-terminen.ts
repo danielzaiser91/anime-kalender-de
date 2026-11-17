@@ -30,9 +30,7 @@ const DISNEY = 'https://www.disneyplus.com/de-de/browse/entity-be391742'
 const NETFLIX_404 = 'https://www.netflix.com/title/81253271'
 const PLUTO = 'https://pluto.tv/de/on-demand/series/dr-stone-1'
 const PRIME_SUCHE = 'https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video'
-const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map((id) => [id, titel(id)]))
-const GESCHAETZT = { firstEpisodeDate: '2026-11-03', estimated: true }
-const PRIME_SEITE = 'https://www.amazon.de/gp/video/detail/B0GZ8BBZD8'
+const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((id) => [id, titel(id)]))
 titles.get(3)!.streams = [{ platform: 'disneyplus', url: DISNEY, dub: true }]
 const releases = [
   termin(1, 'disneyplus', { platformUrl: DISNEY }),
@@ -51,13 +49,6 @@ const releases = [
   termin(14, 'netflix', { platformUrl: NETFLIX_404 }),
   termin(15, 'plutotv', { platformUrl: PLUTO }),
   termin(16, 'plutotv', { platformUrl: PLUTO, schedule: { firstEpisodeDate: '2026-10-02', estimated: true } }),
-  termin(17, 'primevideo', { schedule: GESCHAETZT }),
-  termin(18, 'primevideo', { schedule: GESCHAETZT }),
-  termin(19, 'primevideo', { schedule: GESCHAETZT }),
-  termin(20, 'primevideo', { schedule: GESCHAETZT }),
-  termin(21, 'primevideo', { schedule: GESCHAETZT, sources: [] }),
-  termin(22, 'primevideo', { platformUrl: PRIME_SUCHE }),
-  termin(23, 'disc', { schedule: GESCHAETZT }),
 ]
 const entfernt = [{ titleId: 10, plattform: 'disneyplus' }] as Parameters<typeof ergaenzeWegeAusTerminen>[0]['verweiseEntfernt']
 const tot = new Set<string>([])
@@ -66,14 +57,6 @@ const hand: Record<string, Partial<DubCheck>> = {
   '11|primevideo': { available: false },
   '12|primevideo': { dub: true, dubRanges: [{ from: 1, to: 1, dub: true }] },
   '13|disneyplus': { dub: false },
-  // Geschätzter Termin („ab sofort“) mit Handbeleg wie Z wie Zorro – Der Film: 17 deutsch mit Titelseite, 18 ohne deutschen Ton, 19 nicht verfügbar, 20 deutsch mit Suchadresse, 21 ohne Quelle, 22 sicherer Termin
-  '17|primevideo': { dub: true, url: PRIME_SEITE },
-  '18|primevideo': { dub: false, url: PRIME_SEITE },
-  '19|primevideo': { available: false },
-  '20|primevideo': { dub: true, url: PRIME_SUCHE },
-  '21|primevideo': { dub: true, url: PRIME_SEITE },
-  '22|primevideo': { dub: true, url: PRIME_SEITE },
-  '23|disc': { dub: true, url: PRIME_SEITE },
 }
 const belegFuer = (id: number, plattform: string) => hand[`${id}|${plattform}`] as DubCheck | undefined
 ergaenzeWegeAusTerminen({ titles, releases, istTot: (u: string) => tot.has(u) || u === NETFLIX_404, verweiseEntfernt: entfernt, belegFuer })
@@ -97,12 +80,6 @@ pruefe('Pluto TV: ein geschätzter Termin ergibt keinen Weg', weg(16).length ===
 pruefe('Handbeleg „nicht verfügbar“: kein Weg aus dem Termin (Kamisama Hajimemashita)', weg(11).length === 0)
 pruefe('Handbeleg „ohne deutschen Ton“: kein Weg aus dem Termin', weg(13).length === 0)
 pruefe('Handbeleg „deutsch“: Weg mit Urteil und Folgenbereich, ohne Herkunft Termin (TANK CHAIR)', weg(12).length === 1 && weg(12)[0]!.dub === true && weg(12)[0]!.dubRanges?.[0]?.to === 1 && weg(12)[0]!.herkunft === undefined)
-
-pruefe('geschätzter Termin mit Handbeleg „deutsch“: Weg mit Urteil und der Adresse des Belegs (Z wie Zorro)', weg(17).length === 1 && weg(17)[0]!.dub === true && weg(17)[0]!.url === PRIME_SEITE && weg(17)[0]!.herkunft === undefined, JSON.stringify(weg(17)))
-pruefe('geschätzter Termin mit Handbeleg „ohne deutschen Ton“ oder „nicht verfügbar“: kein Weg', weg(18).length === 0 && weg(19).length === 0)
-pruefe('geschätzter Termin mit Handbeleg „deutsch“ und Suchadresse: Weg ohne Adresse', weg(20).length === 1 && weg(20)[0]!.dub === true && weg(20)[0]!.url === '', JSON.stringify(weg(20)))
-pruefe('geschätzter Termin ohne Quelle oder Disc-Termin: auch mit Handbeleg kein Weg', weg(21).length === 0 && weg(23).length === 0)
-pruefe('sicherer Termin ohne Titelseite behält die leere Adresse, auch wenn der Beleg eine kennt', weg(22).length === 1 && weg(22)[0]!.url === '', JSON.stringify(weg(22)))
 
 pruefe('danach fehlt keinem sicheren Termin der Weg', termineOhneWeg(titles, releases, new Set(['10|disneyplus', '11|primevideo', '13|disneyplus'])).length === 0)
 pruefe('ohne die Ergänzung würde die Zusicherung greifen', termineOhneWeg(new Map([[1, titel(1)]]), [releases[0]!], new Set()).length === 1)

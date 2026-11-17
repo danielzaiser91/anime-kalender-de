@@ -43,19 +43,6 @@ export function istSichererTermin(r: Release): boolean {
   return STREAMING.has(r.platform) && r.releaseType !== 'disc' && !r.schedule?.estimated && (r.sources?.length ?? 0) > 0
 }
 
-/** Ein geschätzter Termin (nur der Meldetag, „ab sofort“) baut allein keinen Weg; belegt aber ein Handbeleg „deutsch“ den Anbieter selbst, gilt das Angebot (Z wie Zorro, 17.11.2026). */
-function geschaetztMitHandbeleg(r: Release, belegFuer: BelegFuer): boolean {
-  const kandidat = STREAMING.has(r.platform) && r.releaseType !== 'disc' && r.schedule?.estimated && (r.sources?.length ?? 0) > 0
-  return Boolean(kandidat) && belegFuer(r.titleId, r.platform, r.platformUrl)?.dub === true
-}
-
-/** Hat der Termin keine Titelseite, trägt der Weg die Adresse des Handbelegs „deutsch“ (nur bei einem geschätzten Termin; sicher belegte bleiben bei `''`). */
-function handbelegAdresse(r: Release, belegFuer: BelegFuer, istTot: IstTot): string {
-  if (!r.schedule?.estimated) return ''
-  const url = belegFuer(r.titleId, r.platform, r.platformUrl)?.url
-  return url && !istKeineTitelseite(url) && !istTot(url) ? url : ''
-}
-
 /** Ein Handbeleg „deutsch" bringt Urteil und Folgenbereiche mit; ohne ihn bleibt der Ton offen, und die Herkunft ist der Termin. */
 function tonAusBeleg(beleg: DubCheck | undefined): Pick<StreamLink, 'dub' | 'dubRanges' | 'herkunft'> {
   if (beleg?.dub !== true) return { herkunft: 'termin' }
@@ -76,8 +63,7 @@ function tonAusBeleg(beleg: DubCheck | undefined): Pick<StreamLink, 'dub' | 'dub
  *
  * **Ein Handbeleg gilt vor dem Termin** (11.10.2026: Seit diese Ergänzung läuft, gaben drei Handprüfungen dem Datensatz recht nicht mehr, und der
  * Bau lieferte nichts aus): „nicht verfügbar" oder „ohne deutschen Ton" heißt kein Weg, „deutsch" heißt ein Weg mit dem Urteil und den
- * Folgenbereichen des Belegs, dann ohne Herkunft Termin, denn der Ton ist belegt. Ein geschätzter Termin baut nur dann einen Weg, wenn ein
- * Handbeleg „deutsch" den Anbieter belegt; ohne Titelseite im Termin trägt der Weg die Adresse dieses Belegs.
+ * Folgenbereichen des Belegs, dann ohne Herkunft Termin, denn der Ton ist belegt.
  */
 export function ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntfernt, belegFuer }: {
   titles: Map<number, Title>
@@ -93,10 +79,10 @@ export function ergaenzeWegeAusTerminen({ titles, releases, istTot, verweiseEntf
   for (const r of releases) {
     const titel = titles.get(r.titleId)
     const schluessel = `${r.titleId}|${r.platform}`
-    if (!titel || !(istSichererTermin(r) || geschaetztMitHandbeleg(r, belegFuer)) || entfernt.has(schluessel)) continue
+    if (!titel || !istSichererTermin(r) || entfernt.has(schluessel)) continue
     if (titel.streams?.some((s) => s.platform === r.platform)) continue
     const belegt = r.platformUrl && !istKeineTitelseite(r.platformUrl) && !istTot(r.platformUrl)
-    const url = belegt ? r.platformUrl! : handbelegAdresse(r, belegFuer, istTot)
+    const url = belegt ? r.platformUrl! : ''
     if (neu.get(schluessel)?.weg.url) continue
     const beleg = belegFuer(r.titleId, r.platform, url || undefined)
     if (beleg?.available === false || beleg?.dub === false) {
