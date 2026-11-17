@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 17.11.2026, 10:06 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Bestandsbau zeigt keinen Alarm, letzter grüner Lauf heute um 08:46 Uhr, Deploy ebenfalls ohne Alarm (12). Offene Pull Requests bleiben stabil bei 3 (08). Nacht-Merger lief 39x, „PR-Prüfer — Neustart bei Nachtrag" 124x und „Claude — Daten-PR zusammenführen" 26x praktisch ohne Fehlschlag (01). Issue #4072 bekam am selben Tag bereits den Behebungs-PR #4097 (08). Zugänge liegen unauffällig innerhalb ihrer Fristen (04). `cartoon-reihen`, zuletzt als „grün aber leer" gemeldet, liefert jetzt wieder 1 Treffer (06).
+
+**Wo ist Verbesserungspotenzial?** `tv-de` bleibt per HTTP 403 gesperrt, jetzt 11,4 Tage ohne Treffer (vorher 10,4), weiterhin ohne Issue oder PR (06). `messbelege` liefert trotz grünem Lauf weiterhin 0 Treffer, jetzt seit 11 Tagen statt 10 (06). `kitsu-folgen` (4,7 Tage) und `kinoheld` (seit 9.11.) bleiben unverändert „grün aber leer" (06), neu dazugekommen ist `motn-changes`, „grün aber leer seit 2026-11-17" (06). Issue #1595 steht jetzt 29 Tage offen, #898 36 Tage, beide weiterhin unbearbeitet (08).
+
+**Wo sind echte Risiken und Lücken?** Der Lauf um 09:28 Uhr am 16.11. verlor 147 Verweise ohne protokollierten Grund, nur 1 weiterer ist begründet entfernt (02), im Dossier ohne Erklärung. Beim `--ersetzen`-Lauf um 04:26 Uhr kamen 2 Titel hinzu, darunter laut Meldung 10013739 „Strike Witches: Road to Berlin" ohne Cover und ohne Eintrag in `cover-ohne-bekannt.json` (09); der folgende Zusammenführen-Lauf um 04:29 Uhr verlor direkt danach wieder 1 Titel (02) — ob beides denselben Titel betrifft, zeigt das Dossier nicht sicher. Die Anime2You-Auswertung meldete um 20:13 Uhr zwei neue, als „vorher rot" markierte Fälle „Meldung mit Termin und deutschem Ton ohne Release, nicht auf der Liste" zu Yu-Gi-Oh! und Naruto Shippuden (09), noch ohne erkennbare Klärung. Die PR-Prüfkette schlug zusätzlich auf den Zweigen bauer/disney-sammel und bauer/4060 fehl (01); keiner der beiden steht unter den offenen Pull Requests (08), ob die Ursache geklärt ist, zeigt das Dossier nicht. Bauer: die 147 verlorenen Verweise, den Titel-/Cover-Vorgang zu Strike Witches, die zwei neuen Anime2You-Fälle und die PR-Prüfkette-Fehlschläge auf disney-sammel und 4060 klären.
+
+**Was läuft komplett falsch?** Keine neuen oder fortbestehenden Fälle dauerhaft falsch ausgelieferter Daten im Dossier sichtbar; der Bestandsbau zeigt keinen Alarm, die oben genannten Verluste wurden bislang nicht als roter Lauf gemeldet (01, 02, 12).
+
+
 ## 16.11.2026, 10:04 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Nacht-Merger lief in den letzten 48 Stunden 40x erfolgreich ohne einen einzigen Fehlschlag, PR-Prüfer — Neustart bei Nachtrag 133x, die Mutationsprobe alle 11 Läufe ohne Fehlschlag — ein deutlicher Rückgang gegenüber den zuletzt gemeldeten 13 von 38 Fehlschlägen (01, 10). Offene Pull Requests sind weiter von 6 (Stand 15.11.) auf 3 gesunken (08, 10). Zugänge und alle geprüften Workflow-Fristen liegen unauffällig innerhalb ihrer Grenzen, Deploy lief vor 0,6 Stunden zuletzt erfolgreich (04, 05). Der einmalige Deploy-Fehlschlag von 01:23 Uhr liegt vor diesem späteren Erfolg und zeigt keine Fortsetzung (01, 05).
