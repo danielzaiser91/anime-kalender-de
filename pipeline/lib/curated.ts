@@ -106,7 +106,7 @@ export interface CuratedWatch {
    * Wer die Produktseite von Hand heraussucht, traegt sie hier ein; sie ersetzt
    * dann die Suche.
    */
-  streams?: { platform: string; url: string; kanal?: string }[] // kanal: Prime-Zusatzkanal („Crunchyroll“, „Aniverse“); nur für einen neu angelegten Weg
+  streams?: { platform: string; url: string }[]
   sources: string[]
 }
 
