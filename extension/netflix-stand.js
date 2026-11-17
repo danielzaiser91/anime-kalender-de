@@ -97,6 +97,26 @@ async function standGeteilterVersuch(kontext) {
   return Number.isFinite(v) ? v : 0
 }
 
+/** Trägt das Ergebnis eines Abrufs ein: vereinigt mit dem Speicher (andere Tabs, andere Listen) und dem eigenen Stand, nie ersetzt. */
+async function standAbrufEintragen(kontext, am, eigen, reihenStand) {
+  const imSpeicher = (await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL]?.reihen
+  const vereint = standVereinige(standVereinige(imSpeicher, eigen), reihenStand)
+  await kontext.schreiben({ [STAND_SCHLUESSEL]: { am, reihen: vereint } })
+  return vereint
+}
+
+/** Die Sperre gehört dem Tab, der sie hält: ein abgewiesener Tab löscht die eines anderen nicht. */
+async function standSperreLoesen(kontext, tab) {
+  if ((await kontext.lesen(STAND_SPERRE))?.[STAND_SPERRE]?.tab === tab) await kontext.schreiben({ [STAND_SPERRE]: null })
+}
+
+/** Ein Stand, den ein anderer Tab schreibt, kommt über `onChanged` an. */
+function standHoeren(kontext, einlesen) {
+  kontext.beiAenderung?.((aenderung, bereich) => {
+    if (bereich === 'local' && aenderung[STAND_SCHLUESSEL]) einlesen(aenderung[STAND_SCHLUESSEL].newValue)
+  })
+}
+
 /**
  * `o`: `{ worker, reihen() (Kennungen), merken(reihe, paare), abrufen(reihe) (Einzelweg für einen Worker ohne Sammelroute),
  * geaendert(), uebernahme(Date) → Date, kontext?, jetzt?, tab?, takt? (ms, 0 = keiner), holen? (fetch, nur Tests) }`. Liest den Stand ein, hört auf Änderungen
@@ -150,15 +170,11 @@ function standNeu(o) {
       if (reihenStand === undefined) return false
       am = jetzt()
       if (reihenStand === null) return true
-      /* Vereinigt mit dem Speicher (andere Tabs, andere Listen) und dem eigenen Stand (Meldungen seit dem Abruf), nie ersetzt. */
-      const imSpeicher = (await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL]?.reihen
-      gespeichert = standVereinige(standVereinige(imSpeicher, gespeichert), reihenStand)
-      await kontext.schreiben({ [STAND_SCHLUESSEL]: { am, reihen: gespeichert } })
+      gespeichert = await standAbrufEintragen(kontext, am, gespeichert, reihenStand)
       merkeAlle(gespeichert)
       return true
     } finally {
-      /* Die Sperre gehört dem Tab, der sie hält: ein abgewiesener Tab löscht die eines anderen nicht. */
-      if ((await kontext.lesen(STAND_SPERRE))?.[STAND_SPERRE]?.tab === tab) await kontext.schreiben({ [STAND_SPERRE]: null })
+      await standSperreLoesen(kontext, tab)
       laeuft = false
       o.geaendert()
     }
@@ -170,10 +186,8 @@ function standNeu(o) {
     const vereint = standVereinige(gespeichert, { [reihe]: paare })
     if (JSON.stringify(vereint[String(reihe)]) === JSON.stringify(gespeichert[String(reihe)])) return
     gespeichert = vereint
-    void schreibeStand()
+    void standSchreiben(kontext, am, gespeichert)
   }
-
-  const schreibeStand = () => standSchreiben(kontext, am, gespeichert)
 
   /** Der Takt liest zuerst den letzten Versuch aller Tabs, dann entscheidet er. */
   const takt = async () => {
@@ -183,9 +197,7 @@ function standNeu(o) {
   const laden = async () => einlesen((await kontext.lesen(STAND_SCHLUESSEL))?.[STAND_SCHLUESSEL])
   const stand = { laden, auffrischen, eigene, takt, einlesen, text: () => standText(am, jetzt()), laeuft: () => laeuft }
   void laden().catch(() => {})
-  kontext.beiAenderung?.((aenderung, bereich) => {
-    if (bereich === 'local' && aenderung[STAND_SCHLUESSEL]) einlesen(aenderung[STAND_SCHLUESSEL].newValue)
-  })
+  standHoeren(kontext, einlesen)
   if (o.takt !== 0) setInterval(takt, o.takt ?? 60000)
   globalThis.akNetflixStand.aktuell = stand
   return stand
