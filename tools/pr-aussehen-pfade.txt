@@ -21,6 +21,7 @@ tools/ansicht-hover-cover.mjs
 tools/ansicht-hover-weitere.mjs
 tools/ansicht-saison-chip.mjs
 tools/ansicht-statusfarben.mjs
+tools/ansicht-such-icon-fokus.mjs
 tools/ansicht-termin-karte.mjs
 tools/ansicht-trefferprobe.mjs
 tools/ansicht-tv-reihe.mjs

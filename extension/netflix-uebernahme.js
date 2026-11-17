@@ -75,7 +75,7 @@ globalThis.akMeldungenNeuLaden = (reihe, jetzt = Date.now(), frist = 120000) => 
 
 /*
   **Alle Adressen in einer Anfrage** (`?gemeldet-liste=`, Worker: `pruefung-gemeldet-sammel.ts`; 16.11.2026, 4058): der
-  Dialog fragte je Titel einzeln (98 bis 230 Anfragen je Klick). Antwort: Adresse → `{ nummern, paare }`; `null`: die Route fehlt (403, 404, 405 oder
+  Dialog fragte je Titel einzeln (98 bis 230 Anfragen je Klick); seit #4059 ruft ihn `netflix-stand.js` auf, nie der Dialog selbst. Antwort: Adresse → `{ nummern, paare }`; `null`: die Route fehlt (403, 404, 405 oder
   nicht auswertbar) — dann gilt der alte Weg je Adresse; `false`: keine Auskunft (429, 5xx, Netz) — dann bleibt der lokale Stand,
   weil N Einzelanfragen bei gerissenem Deckel die Last verdoppelten.
 */
@@ -92,26 +92,6 @@ globalThis.akGemeldetSammel = async (worker, adressen, holen = fetch) => {
   } catch {
     return false
   }
-}
-
-/*
-  Der Dialog: alle Reihen in einer Anfrage (`merken` legt eine Antwort je Reihe ab); ohne Antwort (alter Worker) je Reihe
-  einzeln über `abrufen`. `true`: es wurde gefragt, der Dialog zeichnet sich danach neu.
-*/
-globalThis.akMeldungenSammeln = async (reihen, worker, merken, abrufen) => {
-  const offen = reihen.filter((r) => globalThis.akMeldungenNeuLaden(r) !== false)
-  if (!offen.length) return false
-  const adresse = (r) => `https://www.netflix.com/title/${r}`
-  /* Bis die Antwort da ist, zeigt der Kopf des Dialogs „Gemeldetes wird geladen …“ (`netflix-liste-ansicht.js`). */
-  globalThis.akMeldungenLaedt = true
-  try {
-    const antwort = await globalThis.akGemeldetSammel(worker, offen.map(adresse))
-    if (antwort) for (const r of offen) merken(r, antwort.get(adresse(r)).paare ?? [])
-    else if (antwort === null) await Promise.all(offen.map((r) => abrufen(r)))
-  } finally {
-    globalThis.akMeldungenLaedt = false
-  }
-  return true
 }
 
 /*
