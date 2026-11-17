@@ -560,5 +560,9 @@
   { "name": "abgleichFaellig: immer", "datei": "pipeline/lib/ausgeblieben.ts", "suche": ".includes('abgleich-anime2you')", "ersetze": ".length >= 0", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
   { "name": "rechercheFaellig: erschienen zählt nicht", "datei": "shared/recherche-plan.ts", "suche": "if (v.erschienenAm) return false\n  return pruefungFaellig", "ersetze": "return pruefungFaellig", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
   { "name": "rechercheFaellig: frühere Recherche ignoriert", "datei": "shared/recherche-plan.ts", "suche": "v.rechercheAm ? new Date(v.rechercheAm).getTime() : undefined", "ersetze": "undefined", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: Gate entfernt", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "if (!abgleichFaellig(v.erwartetAm, jetzt)) return 0", "ersetze": "", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: Gate invertiert", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "if (!abgleichFaellig(v.erwartetAm, jetzt)) return 0", "ersetze": "if (abgleichFaellig(v.erwartetAm, jetzt)) return 0", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: Zähler fehlt", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "    neu++\n  }\n  return neu", "ersetze": "  }\n  return neu", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: bekannte URL zählt nicht", "datei": "pipeline/lib/ausgeblieben.ts", "suche": " || bekannt.has(p.articleUrl)) continue", "ersetze": ") continue", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
   { "name": "terminFrist: ohne Karenz", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "getTime() + AUSBLEIBEN_NACH_MS)", "ersetze": "getTime())", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] }
 ]

@@ -21,7 +21,7 @@ import {
   taktFuer,
   wortStufe,
 } from '../shared/ausbleiben-plan.ts'
-import { abgleichFaellig, terminFrist } from './lib/ausgeblieben.ts'
+import { abgleichFaellig, hinweiseAnhaengen, terminFrist } from './lib/ausgeblieben.ts'
 import * as altRecherche from '../shared/recherche-plan.ts'
 
 let fehler = 0
@@ -134,6 +134,15 @@ pruefe('faelligeArten: Abgleich ab 15 min, davor nicht', faelligeArten(0, {}, AU
 pruefe('faelligeArten: Abgleich bei jedem Lauf, auch direkt nach dem letzten', faelligeArten(0, { 'abgleich-anime2you': 20 * MIN }, 20 * MIN).includes('abgleich-anime2you'))
 pruefe('faelligeArten: Abgleich ohne Altersgrenze (61 Tage)', faelligeArten(0, {}, 61 * T).join() === 'abgleich-anime2you')
 pruefe('faelligeArten: Recherche vor 60 Tagen ja, ab 60 Tagen nein', faelligeArten(0, {}, 60 * T - 1).includes('recherche') && !faelligeArten(0, {}, 60 * T).includes('recherche'))
+// Kulisse für das Gate in termine-pruefen.ts: derselbe Vorschlag, ein Vermerk jünger, einer älter als 15 min.
+const vorschlag = { articleTitle: 'Testserie Eins pausiert', articleUrl: 'https://a2y.example/1', publishedAt: '2026-11-15T10:00:00Z', category: 'streaming', platforms: ['crunchyroll'], pause: 'Pause' }
+const neuerVermerk = () => ({ erwartetAm: '2026-11-15T14:00:00Z', platform: 'crunchyroll' as string, hinweise: undefined as { quelle: string; titel: string; url: string; datum: string }[] | undefined })
+const jung = neuerVermerk()
+const alt = neuerVermerk()
+pruefe('hinweiseAnhaengen: jünger als 15 min kein Hinweis', hinweiseAnhaengen(jung, [vorschlag], ['Testserie Eins'], new Date('2026-11-15T14:14:59Z')) === 0 && !jung.hinweise)
+pruefe('hinweiseAnhaengen: ab 15 min ein Hinweis', hinweiseAnhaengen(alt, [vorschlag], ['Testserie Eins'], new Date('2026-11-15T14:15:00Z')) === 1 && alt.hinweise?.[0]?.url === vorschlag.articleUrl)
+pruefe('hinweiseAnhaengen: bekannte URL nicht doppelt', hinweiseAnhaengen(alt, [vorschlag], ['Testserie Eins'], new Date('2026-11-16T14:00:00Z')) === 0 && alt.hinweise?.length === 1)
+pruefe('hinweiseAnhaengen: ungültiges erwartetAm ergibt keinen Hinweis und keinen Absturz', hinweiseAnhaengen({ ...neuerVermerk(), erwartetAm: 'x' }, [vorschlag], ['Testserie Eins'], new Date('2026-11-16T14:00:00Z')) === 0)
 pruefe('AUSBLEIBEN_NACH_MS', AUSBLEIBEN_NACH_MS === 15 * MIN)
 pruefe('abgleichFaellig: ab 15 min, ohne Altersgrenze', !abgleichFaellig('2026-11-15T14:00:00Z', new Date('2026-11-15T14:14:59Z')) && abgleichFaellig('2026-11-15T14:00:00Z', new Date('2026-11-15T14:15:00Z')) && abgleichFaellig('2026-11-15T14:00:00Z', new Date('2027-02-01T00:00:00Z')))
 pruefe('terminFrist: Uhrzeit + 15 min, ohne Uhrzeit Tagesschluss', terminFrist('2026-11-15', '20:00').toISOString() === '2026-11-15T19:15:00.000Z' && terminFrist('2026-11-15').toISOString() === '2026-11-15T22:59:59.000Z')

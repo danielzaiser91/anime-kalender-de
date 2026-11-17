@@ -141,9 +141,40 @@ export function terminZeitpunkt(datum: string, uhrzeit?: string): Date {
   return berlinToUtc(datum, uhrzeit ?? '00:00')
 }
 
-/** Ob die Anime2You-Meldungen jetzt zu diesem Vermerk abgeglichen werden (Tabelle `STUFEN['abgleich-anime2you']`). */
+/** Ob die Anime2You-Meldungen jetzt zu diesem Vermerk abgeglichen werden (Tabelle `STUFEN['abgleich-anime2you']`); ungültiges Datum: nein. */
 export function abgleichFaellig(erwartetAm: string, jetzt: Date): boolean {
   return faelligeArten(new Date(erwartetAm).getTime(), {}, jetzt.getTime()).includes('abgleich-anime2you')
+}
+
+export interface Anime2YouVorschlag {
+  articleTitle: string
+  articleUrl: string
+  publishedAt: string
+  category: string
+  platforms: string[]
+  pause?: string
+}
+
+/** Hängt Anime2You-Pausenmeldungen, die den Titel nennen, als `hinweise` an den Vermerk (nur wenn der Abgleich fällig ist); Zahl der neuen Hinweise. */
+export function hinweiseAnhaengen(
+  v: { erwartetAm: string; platform: string; hinweise?: { quelle: string; titel: string; url: string; datum: string }[] },
+  vorschlaege: Anime2YouVorschlag[],
+  namen: (string | undefined)[],
+  jetzt: Date,
+): number {
+  if (!abgleichFaellig(v.erwartetAm, jetzt)) return 0
+  /* Zehn Tage vor dem Termin: Eine Pause wird meist vorab angekündigt. */
+  const ab = new Date(new Date(v.erwartetAm).getTime() - 10 * 864e5).toISOString()
+  const bekannt = new Set((v.hinweise ?? []).map((h) => h.url))
+  let neu = 0
+  for (const p of vorschlaege) {
+    if (!p.pause || p.category !== 'streaming' || p.publishedAt < ab || bekannt.has(p.articleUrl)) continue
+    if (p.platforms.length && !p.platforms.includes(v.platform)) continue
+    if (!artikelNenntTitel(p.articleTitle, namen)) continue
+    v.hinweise = [...(v.hinweise ?? []), { quelle: 'Anime2You', titel: p.articleTitle, url: p.articleUrl, datum: p.publishedAt }]
+    neu++
+  }
+  return neu
 }
 
 /** Ab wann ein Ausbleiben gilt: Uhrzeit plus Karenz, ohne Uhrzeit das Ende des Tages (23:59:59 Ortszeit). */

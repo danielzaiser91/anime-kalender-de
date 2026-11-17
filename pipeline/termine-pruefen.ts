@@ -38,7 +38,7 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { log, readJson, ROOT, writeJson } from './lib/util.ts'
-import { abgleichFaellig, artikelNenntTitel, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
+import { hinweiseAnhaengen, folgeAmVerpasstenTermin, rechercheFaellig, terminFrist, terminPruefen, terminZeitpunkt } from './lib/ausgeblieben.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { beobachtetAusRelease } from './lib/verpasst-beobachtet.ts'
 import { katalogBeobachtungen, katalogOhneTag, katalogStaffel, keinVerworfen } from './lib/verpasst-katalog.ts'
@@ -433,22 +433,8 @@ for (const v of verpasst) {
     if (gelesen && gelesen > v.erwartetAm && (!v.geprueftAm || gelesen > v.geprueftAm)) v.geprueftAm = gelesen
   }
   if (a2y.scrapedAt && a2y.scrapedAt > v.erwartetAm) v.newsGeprueftAm = a2y.scrapedAt
-  if (!abgleichFaellig(v.erwartetAm, JETZT)) continue
   const t = titelJeId.get(v.titleId)
-  const namen = [v.name, t?.titleDe, t?.titleEn, t?.titleRomaji]
-  /* Zehn Tage vor dem Termin: Eine Pause wird meist vorab angekündigt. */
-  const ab = new Date(new Date(v.erwartetAm).getTime() - 10 * 864e5).toISOString()
-  const bekannt = new Set((v.hinweise ?? []).map((h) => h.url))
-  for (const p of a2y.proposals ?? []) {
-    if (!p.pause || p.category !== 'streaming' || p.publishedAt < ab || bekannt.has(p.articleUrl)) continue
-    if (p.platforms.length && !p.platforms.includes(v.platform)) continue
-    if (!artikelNenntTitel(p.articleTitle, namen)) continue
-    v.hinweise = [
-      ...(v.hinweise ?? []),
-      { quelle: 'Anime2You', titel: p.articleTitle, url: p.articleUrl, datum: p.publishedAt },
-    ]
-    hinweiseNeu++
-  }
+  hinweiseNeu += hinweiseAnhaengen(v, a2y.proposals ?? [], [v.name, t?.titleDe, t?.titleEn, t?.titleRomaji], JETZT)
 }
 if (hinweiseNeu) log(`${hinweiseNeu} Anime2You-Meldung(en) einem ausgebliebenen Termin zugeordnet`)
 
