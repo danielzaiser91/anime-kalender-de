@@ -37,7 +37,7 @@ async function main() {
   t = lauf({}, [['7', 'x']])
   pruefe('2: Titel übersprungen, aber kein weiter erfolgt → weiter', t.r === true && t.w.weiter === 1, t)
   t = lauf({})
-  pruefe('2: Titel ohne Urteil → zurückgestellt mit Grund, weiter', t.r === true && t.w.weiter === 1 && t.u.get('7') === 'Durchgang stand auf der Startseite still', t)
+  pruefe('2: Titel ohne Urteil → zurückgestellt mit Grund, weiter', t.r === true && t.w.weiter === 1 && t.w.spur === 1 && t.u.get('7') === 'Durchgang stand auf der Startseite still', t)
   t = lauf({ offen: false }, [], true)
   pruefe('2: Titel nach Stand-Auffrischung nicht mehr auf der Liste (Bericht: „Stand von 18:32“) → weiter', t.r === true && t.w.weiter === 1, t)
   t = lauf({ jetzt: 1000 + 5000, offen: false })
