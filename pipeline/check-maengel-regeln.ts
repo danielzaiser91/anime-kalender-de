@@ -42,6 +42,7 @@ const kontext = (ueber: Partial<Kontext> = {}): Kontext => ({
   releases: new Map(),
   discTitel: new Set(),
   adresseMehrfach: new Map(),
+  staffelZuordnung: new Map(),
   neinGilt: () => false,
   ...ueber,
 })
