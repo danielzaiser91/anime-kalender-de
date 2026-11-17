@@ -494,4 +494,14 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
  h nicht bestätigt.\nDetails: https://anime-kalender.de/t/12344/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
+BEGIN:VEVENT
+UID:auto-1132-disc@2027-02-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270225
+DTEND;VALUE=DATE:20270226
+SUMMARY:Digimon Frontier (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/994/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
 END:VCALENDAR
