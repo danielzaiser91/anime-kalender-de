@@ -1716,9 +1716,17 @@
       "am": "2026-11-13",
       "vorschlaege": 2
     },
+    "1071412": {
+      "am": "2026-11-17",
+      "vorschlaege": 2
+    },
     "1071426": {
       "am": "2026-11-13",
       "vorschlaege": 3
+    },
+    "1071433": {
+      "am": "2026-11-17",
+      "vorschlaege": 1
     },
     "1071466": {
       "am": "2026-11-16",
@@ -1819,6 +1827,14 @@
       "am": "2026-11-16",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1072410": {
+      "am": "2026-11-17",
+      "vorschlaege": 2
+    },
+    "1072447": {
+      "am": "2026-11-17",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -13951,6 +13967,111 @@
       "quelle": "https://www.anime2you.de/news/1072274/dritte-pokemon-horizonte-staffel-auf-dvd/",
       "veroeffentlicht": "2026-11-16",
       "gelesenAm": "2026-11-16"
+    },
+    {
+      "titel": "Hell Mode",
+      "zitat": "Die zwölfteilige erste Staffel von »Hell Mode« erscheint voraussichtlich am 25. Februar 2027 in einer Blu-ray-Komplettbox, die alle Episoden auf Deutsch und Japanisch mit deutschen Untertiteln enthält.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-02-25",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": "Termin laut Artikel vorläufig (»voraussichtlich«).",
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1071412",
+      "artikel": "Erste »Hell Mode«-Staffel erscheint als Blu-ray-Komplettbox + Design",
+      "quelle": "https://www.anime2you.de/news/1071412/hell-mode-staffel-1-blu-ray-komplettbox/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Hell Mode",
+      "zitat": "Eine dritte Staffel wurde bereits angekündigt, hat allerdings noch keinen Starttermin.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071412",
+      "artikel": "Erste »Hell Mode«-Staffel erscheint als Blu-ray-Komplettbox + Design",
+      "quelle": "https://www.anime2you.de/news/1071412/hell-mode-staffel-1-blu-ray-komplettbox/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Mistress Kanan is Devilishly Easy",
+      "zitat": "Der Streaming-Dienst Crunchyroll bietet die zwölfteilige erste Staffel mit deutscher Sprachfassung sowie im Originalton mit Untertiteln auf Abruf an.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072410",
+      "artikel": "Zweite »Mistress Kanan is Devilishly Easy«-Staffel startet 2027 + Teaser",
+      "quelle": "https://www.anime2you.de/news/1072410/zweite-mistress-kanan-is-devilishly-easy-staffel-2-startet-2027/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Mistress Kanan is Devilishly Easy",
+      "zitat": "Die zweite Staffel mit dem Titel »Mistress Kanan is Devilishly Easy too EASY« startet im Laufe des nächsten Jahres im japanischen Fernsehen.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": null,
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1072410",
+      "artikel": "Zweite »Mistress Kanan is Devilishly Easy«-Staffel startet 2027 + Teaser",
+      "quelle": "https://www.anime2you.de/news/1072410/zweite-mistress-kanan-is-devilishly-easy-staffel-2-startet-2027/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Digimon Frontier",
+      "zitat": "Die neue Blu-ray-Komplettbox beinhaltet alle 50 Episoden auf Deutsch und erscheint nach aktueller Planung am 25. Februar 2027.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2027-02-25",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "50",
+      "unsicher": "Termin laut Artikel vorläufig (»nach aktueller Planung«).",
+      "wochentag": "Donnerstag",
+      "warnungen": [],
+      "artikelId": "1071433",
+      "artikel": "»Digimon Frontier« erhält neue Blu-ray-Komplettbox + Design",
+      "quelle": "https://www.anime2you.de/news/1071433/digimon-frontier-neue-blu-ray-komplettbox/",
+      "veroeffentlicht": "2026-11-17",
+      "gelesenAm": "2026-11-17"
     }
   ]
 }
