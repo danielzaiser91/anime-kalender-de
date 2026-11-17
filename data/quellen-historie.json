@@ -2181,7 +2181,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-14",
-      "stand": "vermutlich-ueberholt"
+      "stand": "aktuell"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1160",
@@ -2195,7 +2195,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2024-10-03"
     }
   ],
@@ -2204,7 +2204,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-14",
-      "stand": "vermutlich-ueberholt"
+      "stand": "aktuell"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1160",
@@ -2218,7 +2218,7 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2025-07-03"
     }
   ],
@@ -2308,13 +2308,13 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-14",
-      "stand": "vermutlich-ueberholt"
+      "stand": "aktuell"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/03/adn-bringt-tv-app-heraus-streame-anime-auf-fernseher-und-konsole/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-05",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/",
@@ -2644,13 +2644,13 @@
       "url": "https://news.animationdigitalnetwork.com/de/2026/11/10/adn-erscheint-mit-app-auf-fire-tv-und-ps4/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-11-14",
-      "stand": "vermutlich-ueberholt"
+      "stand": "aktuell"
     },
     {
       "url": "https://news.animationdigitalnetwork.com/de/2026/05/22/adn-animagic-live-synchro-mit-mayumi-tanaka/",
       "name": "news.animationdigitalnetwork.com",
       "gesehenAm": "2026-10-30",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/999",
@@ -2686,6 +2686,12 @@
     }
   ],
   "adn-1272": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/11/16/witch-watch-staffel-2-ausstrahlung-in-2027-manga-beendet/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-11-17",
+      "stand": "aktuell"
+    },
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/show/1272",
       "name": "ADN API",
