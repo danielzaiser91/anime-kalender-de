@@ -3,7 +3,7 @@
  *
  * Der Sekundentakt `akNetflixUmgeleitet` (seit 15.11.2026, PR 3933) meldete Titel als „nicht bei Netflix“, wenn der Tab
  * während der Vorprüfung auf /browse stand. 149 Netflix-Kennungen wurden so gemeldet, der Bau strich daraus 170 Wege.
- * Eine fehlerhafte Messung widerlegt nichts: solche Meldungen werden verworfen und abgehakt, nicht zugeordnet.
+ * Eine fehlerhafte Messung widerlegt nichts: solche Meldungen werden nicht zugeordnet und nicht abgehakt (zurückgestellt: sie bleiben im Briefkasten, nichts geht verloren).
  * Das Datum ist der Tag, ab dem die behobene Erweiterung (PR 4144) ausgeliefert sein kann; die Regel entfällt, sobald
  * eine einzelne Browser-Totmeldung ohnehin keinen Weg mehr streicht.
  */
