@@ -14,9 +14,9 @@
     "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
   },
   {
-    "name": "maengel-regeln.ts nurSichtungen: Disc-Filter entfernt",
+    "name": "maengel-regeln.ts nurSichtungen: Weekly-Filter entfernt",
     "aenderungen": [
-      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": ".filter((r) => r.releaseType !== 'disc')\n  return rs.length", "ersetze": "\n  return rs.length" }
+      { "datei": "pipeline/lib/maengel-regeln.ts", "suche": ".filter((r) => r.releaseType === 'weekly')\n  return rs.length", "ersetze": "\n  return rs.length" }
     ],
     "tests": ["npx tsx pipeline/check-maengel-regeln.ts"]
   },
