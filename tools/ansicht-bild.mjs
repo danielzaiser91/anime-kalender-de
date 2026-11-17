@@ -29,7 +29,7 @@ import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeEscapeStapel } from './ansicht-escape-stapel.mjs'
 import { pruefeFilterknopf } from './ansicht-filterknopf.mjs'
-import { pruefeSuchIconFokus } from './ansicht-such-icon-fokus.mjs'
+import { pruefeSuchIconFokus, pruefeSuchIconTastatur } from './ansicht-such-icon-fokus.mjs'
 import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
@@ -475,7 +475,10 @@ async function meldeSuchIconFokus() {
   const r = await pruefeSuchIconFokus(chromium, 20, antworteAusDist, { drossel: 4, sofort: true })
   console.log(`\nSuch-Icon fokussiert das Suchfeld und behält den Fokus (Rechner 1366 und Handy 390 px, Start und Datenbank, Klick direkt nach dem Laden, je 20 Versuche): ${r.abweichungen.length ? '' : 'ok'}`)
   for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
-  return r.abweichungen.length > 0
+  const t = await pruefeSuchIconTastatur(chromium, 6, antworteAusDist)
+  console.log(`Such-Icon per Tastatur (Tab, Enter, Leertaste fokussieren das Feld; Escape am aufklappbaren Handy-Feld schließt und gibt den Fokus ans Icon, je 6 Versuche): ${t.abweichungen.length ? '' : 'ok'}`)
+  for (const l of t.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length + t.abweichungen.length > 0
 }
 
 /** Escape in gestapelten Ebenen (Detail-Panel + Quellen, Trailer, Cover): schließt genau die oberste; wahr, wenn rot. */

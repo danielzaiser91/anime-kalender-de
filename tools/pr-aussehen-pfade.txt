@@ -70,6 +70,7 @@ tools/saison-chip-urteil.mjs
 tools/schwer.mjs
 tools/schwerer-lauf.mjs
 tools/such-chip-messen.mjs
+tools/such-icon-taste-urteil.mjs
 tools/suchhinweis-quickfix-pruefen.mjs
 tools/tempo-kern.mjs
 tools/termin-karte-urteil.mjs
