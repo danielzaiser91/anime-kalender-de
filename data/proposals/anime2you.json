@@ -1,15 +1,72 @@
 {
-  "scrapedAt": "2026-11-17T04:12:10.754Z",
+  "scrapedAt": "2026-11-17T13:02:10.387Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 28,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 58,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
-    "Sprachhinweis älter als 45 Tage": 8
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
+    "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Erste »Hell Mode«-Staffel erscheint als Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1071412/hell-mode-staffel-1-blu-ray-komplettbox/",
+      "publishedAt": "2026-11-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "ölfteilige erste Staffel von »Hell Mode« erscheint voraussichtlich am 25. Februar 2027 in einer Blu-ray-Komplettbox, die alle Episoden auf D"
+        },
+        {
+          "month": "2027-02",
+          "context": "nigen Monaten auf Blu-ray in den Handel. Wir fassen zusammen. Release im Februar 2027 Die zwölfteilige erste Staffel von »Hell Mode« erschei"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Digimon Frontier« erhält neue Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1071433/digimon-frontier-neue-blu-ray-komplettbox/",
+      "publishedAt": "2026-11-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "alle 50 Episoden auf Deutsch und erscheint nach aktueller Planung am 25. Februar 2027. Weitere Einzelheiten zur Ausstattung sind bislang ni"
+        },
+        {
+          "month": "2027-02",
+          "context": "-Komplettbox. Ein erstes Produktbild findet ihr weiter unten. Release im Februar 2027 Die neue Blu-ray-Komplettbox beinhaltet alle 50 Episod"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start von »Kusunoki’s Flunking Her High School Glow-Up« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1072447/start-von-kusunokis-flunking-her-high-school-glow-up/",
+      "publishedAt": "2026-11-17",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "wa Koukou Debut ni Shippaishiteiru«) wurde verkündet, dass die Serie ab April 2027 im japanischen Fernsehen ausgestrahlt wird. Anime von Ha"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Vier Februar-Neuheiten 2027 bei Anime Planet vorbestellbar",
       "articleUrl": "https://www.anime2you.de/news/1072200/anime-planet-februar-neuheiten-2027-vorbestellbar/",
