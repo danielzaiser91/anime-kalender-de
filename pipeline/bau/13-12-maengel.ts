@@ -7,6 +7,7 @@ import { log, readJson, ROOT, warn, writeText } from '../lib/util.ts'
 import { discTitelIds } from '../lib/erstausgabe-ohne-weg.ts'
 import { adresseMehrfach, COVER_BEKANNT_DATEI, REGELN, zaehleMaengel, type Kontext } from '../lib/maengel-regeln.ts'
 import { ladeHandbelege } from '../lib/dub-confirmed.ts'
+import { ANBIETER_STAFFELN_DATEI, letzterNetflixStart, staffelZuordnung } from '../lib/maengel-staffel.ts'
 import { baueNeinGilt } from '../lib/maengel-nein.ts'
 import { MAENGEL_DATEI, schreibeFort, serialisiere, type Register } from '../lib/maengel-register.ts'
 
@@ -44,6 +45,7 @@ function baueKontext(titel: Title[], heute: string): Kontext {
     releases,
     discTitel: discTitelIds(alle),
     adresseMehrfach: adresseMehrfach(titel),
+    staffelZuordnung: staffelZuordnung(titel, readJson(ANBIETER_STAFFELN_DATEI, {}), (id) => letzterNetflixStart(releases.get(id) ?? [])),
     neinGilt: lazyNeinGilt(),
     ...leser(),
   }
