@@ -24,6 +24,7 @@ const b = (rest: Record<string, unknown> = {}) => ({ platform: 'netflix', availa
 console.log('Browser-Totmeldung')
 pruefe('Durchgang, Netflix, available false: zählt nicht', istEinzelneBrowserTotmeldung(b()))
 pruefe('Übersicht-Meldung (Daniels Klick): bleibt gültig', !istEinzelneBrowserTotmeldung(b({ note: UEBERSICHT })))
+pruefe('Netflix-Handbeleg mit anderer Notiz: bleibt', !istEinzelneBrowserTotmeldung(b({ note: 'Daniels Sichtung: Netflix führt die Staffel nicht' })))
 pruefe('andere Plattform: bleibt', !istEinzelneBrowserTotmeldung(b({ platform: 'primevideo' })))
 pruefe('Netflix mit Urteil (available fehlt): bleibt', !istEinzelneBrowserTotmeldung(b({ available: undefined })))
 pruefe('available true: bleibt', !istEinzelneBrowserTotmeldung(b({ available: true })))
@@ -80,4 +81,4 @@ if (fehler) {
   console.error(`FEHL check-weg-massenabgang: ${fehler} Fälle`)
   process.exit(1)
 }
-console.log('check-weg-massenabgang: Browser-Totmeldung (7 Fälle, Kulisse mit 4 Einträgen) und Massenabgang (Grenze 39/40, je Anbieter) geprüft.')
+console.log('check-weg-massenabgang: Browser-Totmeldung (8 Fälle, Kulisse mit 4 Einträgen) und Massenabgang (Grenze 39/40, je Anbieter) geprüft.')
