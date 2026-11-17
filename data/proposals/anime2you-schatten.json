@@ -726,6 +726,31 @@
         "stichprobe": 0,
         "rest": 3
       }
+    },
+    {
+      "am": "2026-11-17",
+      "artikel": 4,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 1,
+      "ms": 2.903827000000007,
+      "faelle": [
+        {
+          "artikelId": "1072410",
+          "seite": "nurClaude",
+          "titel": "Mistress Kanan is Devilishly Easy",
+          "plattform": "crunchyroll"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 4,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 4
+      }
     }
   ]
 }
