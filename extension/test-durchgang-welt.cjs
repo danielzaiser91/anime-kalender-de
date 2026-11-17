@@ -88,25 +88,28 @@ function netzBauen({ zeit, w, frisch, uebersprungen, probeMs, postMs, probeHaeng
 
 /** Die echten Teile aus `melder.js`: `selbstWeiter`, `naechsterAuftrag` und die Zeile `const nichtDaTun = …`, verdrahtet mit Attrappen. */
 function melderBauen(k, a) {
+  let teil = null
   const bauen = new Function(
     'akNetflixNichtDaTun', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixErledigtZaehlen', 'akNetflixBericht', 'akDurchgangSchutz',
-    'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'selbstAn', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig',
+    'totMelden', 'offeneTitel', 'selbstUebersprungen', 'spur', 'gehe', 'bremse', 'akProfilwahlSeite', 'document', 'fetch', 'fertig',
     'laufBeenden', 'titelBericht', 'speicherSchreiben', 'meinTab', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'Date', 'console', 'frisch', 'istErledigt', 'gemeinteReihe', 'verbindungLebt', 'akNetflixEigenerSprungMerken',
-    `let selbstGezaehlt = akNetflixZaehlerStand().gezaehlt
+    `let selbstAn = true
+let selbstGezaehlt = akNetflixZaehlerStand().gezaehlt
 let selbstGrenze = akNetflixZaehlerStand().grenze
 let zuletztGeoeffnet = null
 ${zeile('const nichtDaTun = ')}
 ${funktion('naechsterAuftrag')}
 ${funktion('selbstWeiter')}
-return { selbstWeiter, nichtDaTun, zuletzt: () => zuletztGeoeffnet, gezaehlt: () => selbstGezaehlt, grenze: () => selbstGrenze }`,
+return { selbstWeiter, nichtDaTun, laeuft: () => selbstAn, aus: () => { selbstAn = false }, zuletzt: () => zuletztGeoeffnet, gezaehlt: () => selbstGezaehlt, grenze: () => selbstGrenze }`,
   )
-  return bauen(
+  teil = bauen(
     k.akNetflixNichtDaTun, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, k.akNetflixErledigtZaehlen, k.akNetflixBericht, () => null,
-    a.totMelden, a.offeneTitel, a.uebersprungen, (...x) => a.w.spur.push(x), a.gehe, true, a.bremse, () => false, {},
+    a.totMelden, a.offeneTitel, a.uebersprungen, (...x) => a.w.spur.push(x), a.gehe, a.bremse, () => false, {},
     (u, i) => a.antwort(String(u).replace('/title/', ''), i.signal),
     (id) => a.frisch.has(String(id)),
-    (g) => a.w.beendet.push(g), { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id, () => a.lebendig.an, k.akNetflixEigenerSprungMerken,
+    (g) => { a.w.beendet.push(g); teil?.aus() }, { beginn() {} }, async () => {}, 'tab', 'k', 1, k.Date, k.console, a.frisch, () => false, () => a.ziel()?.id, () => a.lebendig.an, k.akNetflixEigenerSprungMerken,
   )
+  return teil
 }
 
 /** Was ein Durchgang ergeben hat; der Kontext `k` steht nicht in der Ausgabe eines roten Falls (zirkulär). */
@@ -136,10 +139,16 @@ function ergebnisAus(k, w, bauteil) {
  * Ein Durchgang über elf Titel auf virtueller Uhr. `probeMs(i)` / `postMs(i)`: Antwortzeit der i-ten Vorprüfung und des i-ten
  * Posts (ms); `probeHaengt(id)`; `beiProbe(id, { frisch, uebersprungen })`: etwas geschieht, während die Vorprüfung dieses Titels läuft.
  */
-async function durchgang({ probeMs, postMs, probeHaengt = () => false, beiProbe = null, beiPost = null, dauerMs = 60000 }) {
-  const zeit = virtuelleUhr()
+async function durchgang({ dauerMs = 60000, ...o }) {
+  const tab = tabAufbauen(o)
+  tab.starten()
+  await tab.zeit.vor(dauerMs)
+  return ergebnisAus(tab.k, tab.w, tab.bauteil)
+}
+
+/** Ein Tab des Durchgangs, noch nicht gestartet; `zeit` und `w` (Posts, Proben, Sprünge) lassen sich zwischen Tabs teilen (eine Uhr, ein Worker). */
+function tabAufbauen({ zeit = virtuelleUhr(), w = { posts: [], proben: [], gehe: [], spur: [], beendet: [] }, probeMs, postMs, probeHaengt = () => false, beiProbe = null, beiPost = null }) {
   const k = kontextBauen(zeit)
-  const w = { posts: [], proben: [], gehe: [], spur: [], beendet: [] }
   let pfad = '/browse' // `gehe` ist die Navigation ohne Neuladen: danach steht die Seite auf dem Titel
   const gehe = (p) => { w.gehe.push(p); pfad = p }
   const offeneTitel = Object.fromEntries(TITEL.map((id) => [id, { titel: `Titel ${id}`, staffeln: [{ nr: 1, offen: true }] }]))
@@ -154,15 +163,12 @@ async function durchgang({ probeMs, postMs, probeHaengt = () => false, beiProbe 
   /* Der Sekundentakt von `vielleichtSelbstStarten`: steht die Seite auf der Startseite, geht `akNetflixUmgeleitet` weiter. */
   const takt = () => {
     const z = bauteil.zuletzt()
-    const o = { selbstAn: true, laeuft: false, pfad, ziel: z, jetzt: zeit.uhr.t, offen: offeneTitel[String(z?.id)] !== undefined, profilwahl: false }
+    const o = { selbstAn: bauteil.laeuft(), laeuft: false, pfad, ziel: z, jetzt: zeit.uhr.t, offen: offeneTitel[String(z?.id)] !== undefined, profilwahl: false }
     k.akNetflixUmgeleitet(o, { spur: (...a) => w.spur.push(a), uebersprungen, weiter: bauteil.selbstWeiter, nichtDa: bauteil.nichtDaTun })
   }
-  const tickt = () => { zeit.setTimeoutV(() => { takt(); tickt() }, 1000) }
-  tickt()
-  bauteil.selbstWeiter()
-  await zeit.vor(dauerMs)
-  return ergebnisAus(k, w, bauteil)
+  const tickt = () => { zeit.setTimeoutV(() => { if (bauteil.laeuft()) takt(); tickt() }, 1000) }
+  return { zeit, k, w, bauteil, starten: () => { tickt(); bauteil.selbstWeiter() } }
 }
 
 
-module.exports = { lies, melder, funktion, zeile, TITEL, FILM_ECHT, ZEHN, virtuelleUhr, kontextBauen, netzBauen, melderBauen, ergebnisAus, durchgang }
+module.exports = { tabAufbauen, lies, melder, funktion, zeile, TITEL, FILM_ECHT, ZEHN, virtuelleUhr, kontextBauen, netzBauen, melderBauen, ergebnisAus, durchgang }

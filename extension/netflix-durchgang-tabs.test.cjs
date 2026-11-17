@@ -12,7 +12,7 @@
  * Aufruf: `node extension/netflix-durchgang-tabs.test.cjs`
  */
 const vm = require('node:vm')
-const { lies, melder, funktion, virtuelleUhr, kontextBauen, durchgang } = require('./test-durchgang-welt.cjs')
+const { lies, melder, funktion, virtuelleUhr, kontextBauen, durchgang, tabAufbauen } = require('./test-durchgang-welt.cjs')
 
 const fehler = []
 const pruefe = (name, bedingung, gefunden) => {
@@ -285,6 +285,44 @@ function teilBesitzerWechsel() {
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor
 
+/**
+ * Der Titelfluss des Verlierers: beide Tabs haben den Anspruch gewonnen (das Schreiben von B landet erst nach dem Rücklesen von A, siehe
+ * `teilAnspruchGrenzen`) und gehen dieselben elf Titel durch, B 20 ms nach A. Ab dem Landen von B (825 ms) steht B als Besitzer im Speicher;
+ * der Takt (eine Sekunde) beendet A. Gezählt wird, was beim Worker ankommt (Posts je Titel). Das ist der Grenzfall, den das Fenster des Anspruchs
+ * (300 ms) nicht trägt: die ersten Titel gehen doppelt hinaus, danach nur noch von B.
+ */
+async function teilVerlierer() {
+  const zeit = virtuelleUhr()
+  const neuesW = () => ({ posts: [], proben: [], gehe: [], spur: [], beendet: [] })
+  const [a, b] = [neuesW(), neuesW()].map((w) => tabAufbauen({ zeit, w, probeMs: () => 200, postMs: () => 300 }))
+  let besitzer = { tab: 'A', puls: zeit.uhr.t }
+  zeit.setTimeoutV(() => { besitzer = { tab: 'B', puls: zeit.uhr.t } }, 825)
+  let endeA = null
+  const takt = (tab, name) => tab.k.akNetflixBesitz({ selbstAn: tab.bauteil.laeuft(), besitzer, tab: name, jetzt: zeit.uhr.t }, {
+    schreiben() {},
+    beenden: (grund) => {
+      tab.w.beendet.push(grund)
+      tab.bauteil.aus()
+      if (name === 'A') endeA = zeit.uhr.t
+    },
+  })
+  const tickt = () => zeit.setTimeoutV(() => { takt(a, 'A'); takt(b, 'B'); tickt() }, 1000)
+  tickt()
+  const t0 = zeit.uhr.t
+  a.starten()
+  await zeit.vor(20)
+  b.starten()
+  await zeit.vor(30000)
+  const ids = [...a.w.posts, ...b.w.posts].map(([id]) => id)
+  const doppelt = ids.filter((id, i) => ids.indexOf(id) !== i)
+  console.log(`   Verlierer: A ${a.w.posts.length} Posts (beendet nach ${endeA - t0} ms), B ${b.w.posts.length} Posts, doppelt: ${JSON.stringify(doppelt)}`)
+  pruefe('Verlierer: A endet binnen zwei Takten (2 s) mit dem Grund „anderer Tab“, B läuft weiter', endeA !== null && endeA - t0 <= 2000 && /anderen Tab/.test(a.w.beendet.join()) && b.bauteil.laeuft(), [endeA - t0, a.w.beendet])
+  pruefe('Verlierer: nach dem Ende meldet A nichts mehr', a.w.posts.every(([, t]) => t <= endeA), a.w.posts)
+  pruefe('Verlierer: B meldet jeden der zehn Titel mit Umleitung genau einmal', b.w.posts.length === 10 && new Set(b.w.posts.map(([id]) => id)).size === 10, b.w.posts.map(([id]) => id))
+  pruefe('Verlierer: A meldet nur vor dem Landen von Bs Eintrag (825 ms) und nie danach', a.w.posts.length > 0 && a.w.posts.every(([, zeit]) => zeit - t0 < 825), a.w.posts)
+  pruefe('Verlierer: doppelt gemeldet werden nur Titel, die A vor dem Landen von Bs Eintrag begonnen hat (Grenzfall: Schreiben 800 ms)', doppelt.length > 0 && doppelt.every((id) => a.w.posts.some(([x, zeit]) => x === id && zeit - t0 < 825)), doppelt)
+}
+
 /** Tab A springt zu X, Tab B klickt Y (gemeinsamer Platz), Tab A lädt voll neu: das Ziel bleibt X (A7 aus PR 4109, Issue 4071). */
 async function teilVollNeuladen() {
   const k = kontextBauen(virtuelleUhr())
@@ -428,6 +466,7 @@ async function haupt() {
   await teilBesitzerEnde()
   await teilEintragLesen()
   await teilVollNeuladen()
+  await teilVerlierer()
   await teilBesitzerFrist()
   teilFremderKlick()
   await teilToterKontext()

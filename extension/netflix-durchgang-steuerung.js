@@ -530,7 +530,7 @@ globalThis.akNetflixStartHinweis = (besitzer, tab, jetzt) => {
  * Der Anspruch auf den Durchgang (4071, Schnitt 2): Lesen, Prüfen, Schreiben, mit Rücklesen. Zwei gleichzeitige Starts schreiben beide, der
  * Speicher behält einen Eintrag, und nach `BESITZER_ANSPRUCH_WARTE_MS` liest jeder zurück: gewonnen hat, wer sich selbst zurückliest
  * (`'meiner'`). Das gilt, solange beide Schreibvorgänge binnen dieser Zeit landen; landet einer später, starten beide, und der Takt
- * (`akNetflixBesitz`, Urteil `fremd`) beendet den Verlierer binnen einer Sekunde. `null` = dieser Tab hat den Durchgang, sonst der Hinweis
+ * (`akNetflixBesitz`, Urteil `fremd`) beendet den Verlierer binnen zwei Takten (2 s). `null` = dieser Tab hat den Durchgang, sonst der Hinweis
  * (`akNetflixStartHinweis`; ein gescheitertes Schreiben ist auch ein Hinweis, nie ein Start ohne Eintrag). `o`: `{ kontext (lesen,
  * schreiben), tab, jetzt(), warte(ms), knopf? }`; `knopf` ist während des Anspruchs gesperrt (ein zweiter Klick startet nichts).
  */
