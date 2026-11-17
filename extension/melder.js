@@ -2415,7 +2415,7 @@ function laufStarten() {
   const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined && !selbstUebersprungen.zurueckgestellt(gemeinteReihe())
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
-  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length), undefined, null, hierAuftrag)
+  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length), undefined, null, hierAuftrag, hierAuftrag ? String(gemeinteReihe()) : null)
   selbstVersucht = null
   selbstUebersprungen.clear()
   bremse.zuruecksetzen()
@@ -2752,17 +2752,17 @@ function istAlleFolgenEintrag(text) {
 }
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. `nichtDa`: Umleitung, der Fortschritt zählt den Titel mit. */
-function selbstWeiter(frei = 0, nichtDa = false) {
+function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
   /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
-  akNetflixErledigtZaehlen(nichtDa)
+  akNetflixErledigtZaehlen(nichtDa, undefined, kennung)
   if (bremse.pause(Date.now())) return
   selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
   const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden(bremse.offen() ? `Netflix zeigte ${bremse.offen()} Titel ohne Inhalt, sie bleiben offen` : 'kein offener Auftrag mehr')
-  akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze, undefined, offeneTitel[naechster]?.titel)
+  akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze, undefined, offeneTitel[naechster]?.titel, false, naechster)
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
       `(${selbstGezaehlt}/${selbstGrenze})`,

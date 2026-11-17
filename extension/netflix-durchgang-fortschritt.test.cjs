@@ -167,7 +167,7 @@ const funktionAus = (kopf) => {
   const speicher = {}
   kontext.sessionStorage = { getItem: (n) => speicher[n] ?? null, setItem: (n, w) => { speicher[n] = String(w) }, removeItem: (n) => { delete speicher[n] } }
   const lets = melder.split('\n').filter((z) => /^let selbst(?:Gezaehlt|Grenze) = /.test(z)).join('\n')
-  const von = melder.indexOf('function selbstWeiter(frei = 0, nichtDa = false)')
+  const von = melder.indexOf('function selbstWeiter(frei = 0, nichtDa = false, kennung = null)')
   const weiter = melder.slice(von, melder.indexOf('\n}\n', von) + 2)
   /** Ein „Seitenaufruf": das Modul startet neu (Zähler aus dem Speicher), ein Sprung folgt. */
   const seite = (titelZahl) => {
@@ -203,7 +203,7 @@ const funktionAus = (kopf) => {
   const speicher = {}
   kontext.sessionStorage = { getItem: (n) => speicher[n] ?? null, setItem: (n, w) => { speicher[n] = String(w) }, removeItem: (n) => { delete speicher[n] } }
   const lets = melder.split('\n').filter((z) => /^let selbst(?:Gezaehlt|Grenze) = /.test(z)).join('\n')
-  const weiter = funktionAus('function selbstWeiter(frei = 0, nichtDa = false)')
+  const weiter = funktionAus('function selbstWeiter(frei = 0, nichtDa = false, kennung = null)')
   /** Ein Seitenaufruf mit Neustart des Moduls: `aufruf` = Quelltext des Aufrufs (Sprung, oder Rückgabe wie `akNetflixSprung`). */
   const seite = (aufruf) => {
     const offen = {}

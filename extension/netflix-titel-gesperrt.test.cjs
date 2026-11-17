@@ -174,7 +174,7 @@ const weiterLaufen = (o = {}) => {
     'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'ergebnis', 'bremse', 'meinTab', 'titelBericht', 'start', 'frei', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'nichtDaTun',
     `const akNetflixErledigtZaehlen = () => {}
 let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
-${funktionText('function selbstWeiter(frei = 0, nichtDa = false)')}
+${funktionText('function selbstWeiter(frei = 0, nichtDa = false, kennung = null)')}
 selbstWeiter(frei)
 ergebnis.merker = zuletztGeoeffnet
 ergebnis.gezaehlt = selbstGezaehlt
