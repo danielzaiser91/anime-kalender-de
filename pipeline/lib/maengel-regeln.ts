@@ -100,9 +100,10 @@ function terminFehltLaufend(t: Title, k: Kontext): boolean {
   return (!t.jpEnd || t.jpEnd >= k.heute) && !k.kuenftig.has(t.id)
 }
 
-/** Nur TV-/RTL+-Sichtungen: sie schreiben nichts fort (`expandEvents`), der nächste Termin entsteht erst mit der nächsten Sichtung. */
+/** Nur TV-/RTL+-Sichtungen: sie schreiben nichts fort (`expandEvents`), der nächste Termin entsteht erst mit der nächsten Sichtung.
+ * Nur wöchentliche Releases zählen: ein alter Block (Disney+-Batch) erklärt keinen fehlenden künftigen Termin. */
 function nurSichtungen(t: Title, k: Kontext): string | undefined {
-  const rs = (k.releases.get(t.id) ?? []).filter((r) => r.releaseType !== 'disc')
+  const rs = (k.releases.get(t.id) ?? []).filter((r) => r.releaseType === 'weekly')
   return rs.length > 0 && rs.every((r) => r.tvLetzteSichtung) ? 'nur-sichtung' : undefined
 }
 
