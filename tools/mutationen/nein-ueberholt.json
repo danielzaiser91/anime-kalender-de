@@ -1,0 +1,7 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "11-wege-abschluss: nein: im Aufruf entfernt", "aenderungen": [{ "datei": "pipeline/bau/11-wege-abschluss.ts", "suche": "belegFuer, nein: ueberholteNeins(alleChecks, releases, todayIso()) })", "ersetze": "belegFuer })" }], "tests": ["npx tsx pipeline/check-nein-handbeleg-abschluss.ts"] },
+  { "name": "11-wege-abschluss: nein: new Set()", "aenderungen": [{ "datei": "pipeline/bau/11-wege-abschluss.ts", "suche": "nein: ueberholteNeins(alleChecks, releases, todayIso())", "ersetze": "nein: new Set<string>()" }], "tests": ["npx tsx pipeline/check-nein-handbeleg-abschluss.ts"] },
+  { "name": "check-handbelege: Ausnahme überholtes Nein abgeschaltet", "aenderungen": [{ "datei": "pipeline/check-handbelege.ts", "suche": "if (ueberholt.has(`${idRoh}|${platform}`)) {", "ersetze": "if (false && ueberholt.has(`${idRoh}|${platform}`)) {" }], "tests": ["npx tsx pipeline/check-handbelege-nein-ueberholt-lauf.ts"] },
+  { "name": "check-handbelege: Ausnahme gilt immer", "aenderungen": [{ "datei": "pipeline/check-handbelege.ts", "suche": "if (ueberholt.has(`${idRoh}|${platform}`)) {", "ersetze": "if (true) {" }], "tests": ["npx tsx pipeline/check-handbelege-nein-ueberholt-lauf.ts"] }
+]
