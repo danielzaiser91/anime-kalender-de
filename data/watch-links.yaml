@@ -433,3 +433,16 @@
       dubRanges: [{ from: 1, to: 1, dub: true }]
   sources:
     - https://store.maxdome.de/mo45184724
+
+# Sankarea (11499): Der Prime-Weg stammt aus dem Aniverse-Termin (15.10.2026, Anime2You 1056322) und hatte keine Adresse. JustWatch (19.10.2026) führt den
+# Aniverse Amazon Channel mit dieser Seite (Ton de, ja). Nur die Adresse; ein Tonurteil trägt der Eintrag nicht (Kanal-Titel).
+- anilistId: 11499
+  title: "Sankarea: Undying Love"
+  links:
+    - name: Amazon Prime (Aniverse)
+      url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31
+      kind: stream
+      zugang: abo
+  sources:
+    - https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/
+    - https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31

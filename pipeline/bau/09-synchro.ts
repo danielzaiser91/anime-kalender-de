@@ -17,6 +17,9 @@ import { ergaenzeAnisearchWege } from './09-6-anisearch-wege.ts'
 import { schliesseSynchroAb } from './09-7-abschluss.ts'
 import { haltePunkt } from './phasen-zustand.ts'
 import { kennzeichneAdnNeuzugaengeOhneSprache } from './adn-sprache-offen.ts'
+import { kennzeichneNeinTermineAlsOffen } from './nein-sprache-offen.ts'
+import { ladeHandbelege } from '../lib/dub-confirmed.ts'
+import { baueNeinGilt } from '../lib/maengel-nein.ts'
 
 /**
  * Synchro-Verfügbarkeit je Plattform: Ein Stream-Link allein sagt nichts über die Sprache —
@@ -94,6 +97,7 @@ export function pruefeSynchroJePlattform({
   haltePunkt('09-6-anisearch-wege', titles)
   schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer, schreibWurzel })
   kennzeichneAdnNeuzugaengeOhneSprache(releases, titles, belege.belegFuer)
+  kennzeichneNeinTermineAlsOffen(releases, titles, baueNeinGilt(ladeHandbelege()))
   /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
   hebeFolgenzahlAufBeobachtung(releases)
   hebeFolgenzahlAnnahmeAuf(releases)
