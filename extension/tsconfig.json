@@ -15,6 +15,7 @@
   "include": [
     "adn-senden.js",
     "disney-beantwortet.js",
+    "disney-sammel.js",
     "disney-staffeln.js",
     "disney-stand-ziele.js",
     "melde-sperre.js",
@@ -26,6 +27,7 @@
     "netflix-liste-ansicht.js",
     "netflix-seitentreue.js",
     "netflix-staffel.js",
+    "netflix-stand.js",
     "netflix-stumm-seite.js",
     "netflix-stumm.js",
     "netflix-uebernahme.js",

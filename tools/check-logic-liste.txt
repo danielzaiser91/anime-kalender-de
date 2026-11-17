@@ -13,6 +13,7 @@ pipeline/check-abruf-stoerung-lauf.ts
 pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-ausreisser.ts
+pipeline/check-adn-block-durchgezaehlt.ts
 pipeline/check-adn-film.ts
 pipeline/check-adn-katalog-frist-lauf.ts
 pipeline/check-adn-katalog-frist.ts
