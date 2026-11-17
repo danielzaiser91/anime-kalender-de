@@ -67,13 +67,19 @@ async function teilA2() {
   pruefe('A2: „erledigt“ führt die zehn Kennungen (die Kennung läuft bis zum Zähler durch)', JSON.stringify(r.erledigtIds) === JSON.stringify(ZEHN), r.erledigtIds)
 }
 
-/** Fall B: die Vorprüfung des ersten Titels antwortet nie, der Takt urteilt nach 1,5 s, nach 5 s bricht die Frist die Probe ab — danach darf kein Sprung auf den gemeldeten Titel folgen. */
+/**
+ * Fall B (17.11.2026 umgekehrt, Prüfer Runde 1): Die Vorprüfung des ersten Titels antwortet nie. Solange sie läuft (Frist 5 s), steht die Seite auf
+ * `/browse`, aber das ist keine Umleitung: der Takt urteilt nicht (früher meldete er nach 1,5 s „nicht bei Netflix“, auch für vorhandene Titel).
+ * Nach 5 s bricht die Frist die Probe ab (kein Urteil, `false`), der Sprung öffnet den Titel.
+ */
 async function teilB() {
-  const r = await durchgang({ probeMs: normal, postMs: normal, probeHaengt: (id) => id === '101' })
-  console.log(`   Fall B (Probe läuft ab): ${zusammen(r)}`)
-  pruefe('B: die abgelaufene Probe führt zu keinem Sprung auf den gemeldeten Titel', r.gehePlayerBeurteilt.length === 0, r.gehe)
-  pruefe('B: der Titel wird genau einmal gemeldet', r.doppelt.length === 0, r.doppelt)
-  pruefe('B: alle zehn Titel werden der Reihe nach gemeldet (kein zweites weiter, kein übersprungener Titel)', JSON.stringify(r.postIds) === JSON.stringify(ZEHN) && r.besucht === 11, [r.postIds, r.besucht])
+  const waehrend = await durchgang({ probeMs: normal, postMs: normal, probeHaengt: (id) => id === '101', dauerMs: 4500 })
+  console.log(`   Fall B (Probe läuft noch): ${zusammen(waehrend)}`)
+  pruefe('B: während die Vorprüfung läuft, urteilt der Takt nicht (kein Post)', waehrend.posts === 0, waehrend.postIds)
+  pruefe('B: während die Vorprüfung läuft, wird nichts geöffnet', waehrend.gehe.length === 0, waehrend.gehe)
+  const danach = await durchgang({ probeMs: normal, postMs: normal, probeHaengt: (id) => id === '101', dauerMs: 10000 })
+  console.log(`   Fall B (Probe abgelaufen): ${zusammen(danach)}`)
+  pruefe('B: nach der Frist wird der Titel geöffnet statt gemeldet (keine Auskunft ist kein Urteil)', danach.posts === 0 && JSON.stringify(danach.gehe) === '["/title/101"]', [danach.postIds, danach.gehe])
 }
 
 /** Fall C und D: Der Titel gilt während der Vorprüfung anderweitig als erledigt (von Hand gemeldet) oder übersprungen — kein Sprung, kein Urteil, der Durchgang geht weiter. */
