@@ -92,6 +92,8 @@ pruefe('termin-fehlt-laufend: ein Termin ohne Sichtung daneben und keine Release
   arten(gut(1, { jpEnd: undefined }), mitReleases(sichtung(), rel({ releaseType: 'weekly' }))).join() === 'termin-fehlt-laufend'
   && arten(gut(1, { jpEnd: undefined }), mitReleases(sichtung(), rel({ releaseType: 'disc', platform: 'disc' }))).join() === 'termin-fehlt-laufend:nur-sichtung'
   && arten(gut(1, { jpEnd: undefined }), mitReleases()).join() === 'termin-fehlt-laufend')
+pruefe('termin-fehlt-laufend: echter Bestand Beyblade X (165159): zwei Sichtungen plus alter Batch (dort Disney+) ohne Sichtung: Ausnahme nur-sichtung',
+  arten(gut(1, { jpEnd: undefined }), mitReleases(sichtung(), sichtung(), rel({ releaseType: 'batch' }))).join() === 'termin-fehlt-laufend:nur-sichtung')
 pruefe('sprachurteil-offen: Treffer', arten(gut(1, { streams: [{ platform: 'netflix', url: 'u' }] as Title['streams'] })).join() === 'sprachurteil-offen')
 pruefe('sprachurteil-offen: ein Urteil genügt', !arten(gut(1, { streams: [{ platform: 'netflix', url: 'u', dub: false }, { platform: 'adn', url: 'v' }] as Title['streams'] })).includes('sprachurteil-offen'))
 pruefe('synchro-schwach: Treffer', arten(gut(1, { dubConfidence: 'low' })).join() === 'synchro-schwach')
