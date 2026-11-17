@@ -905,3 +905,13 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Seit dem Bau fehlt bei 101922 und 112151 am Crunchyroll-Weg (`sharedWith: 2`) jedes `dub` und jede `dubRanges`, obwohl die Quelle 24 Folgen deutsch belegt. Offen, nicht untersucht: ob der Bau ein Teil-Deutsch (24/26) bei geteilter Adresse verwirft statt Folgen 1–24 zu setzen, und warum 112151 (Film; Quelle: Mugen Train Arc 7/7 deutsch) ebenfalls ohne `dub` ist. Netflix, Prime und RTL+ tragen weiter `dub: true`, der Titel verliert die Synchro-Kennzeichnung also nicht insgesamt.
 
 **Was läuft komplett falsch?** Nichts Belegbares als Code-Fehler; kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, die Ursache der Teilverwerfung ist nicht gemessen.
+
+## 17.11.2026 — Wache meldet „1 Titel weniger“ (Lauf 44130852157, Issue #4137)
+
+**Was läuft korrekt.** Gemessen an `public/data/titles.json` (Stände `3b4d3059` 16.11. 22:25 UTC → `cd02ccb3` 17.11. 04:46 UTC): netto +1 Titel (2923 → 2924), keiner der früheren Titel fehlt. Der Befund „−1“ entsteht nur zwischen den Zwischenständen `550734c1` (2925) und `cd02ccb3`: dort verschwanden die Ids 10013739 (Strike Witches: Road to Berlin, ersetzt durch AniList 103119) und 194447 (Isekai Quartet 3). Isekai Quartet 3 stand nur in diesem einen Bau (`550734c1`), nie im Bestand davor.
+
+**Wo ist Verbesserungspotenzial?** Die Wache vergleicht aufeinanderfolgende Läufe, nicht gegen den letzten Stand, der schon einmal Bestand war; ein Titel, der nur einen Bau lang existierte, zählt als Verlust. Ein Vergleich gegen den Stand vor der Serie von `--ersetzen`-Läufen würde dies als unauffällig zeigen.
+
+**Wo sind echte Risiken und Lücken?** Nicht untersucht, warum Isekai Quartet 3 erst aufgenommen und im Folgebau wieder entfernt wurde: `data/verweise-entfernt.json` führt 194447 am 17.11. mit „belegtes Nein: dort gibt es keine deutsche Tonspur“ (crunchyroll), `data/maengel.json` führt 194447 als „abwesend“. Ein Titel ohne Beleg wird damit gelöscht statt verschoben (Grundsatz „Ein Vorfilter verschiebt, er löscht“) — falls die Aufnahme beabsichtigt war, ist das ein Widerspruch.
+
+**Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache gemessen ist.
