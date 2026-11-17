@@ -8,7 +8,9 @@ export function franchiseTeile(titel: Title[]): Map<number, (FranchiseTeil & { i
   const je = new Map<number, (FranchiseTeil & { id: number })[]>()
   for (const t of titel) {
     const k = t.franchiseId ?? t.id
-    ;(je.get(k) ?? je.set(k, []).get(k)!).push({ id: t.id, format: t.format, episodes: t.episodes })
+    const liste = je.get(k) ?? []
+    liste.push({ id: t.id, format: t.format, episodes: t.episodes })
+    je.set(k, liste)
   }
   return je
 }
