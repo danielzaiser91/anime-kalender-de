@@ -32,6 +32,8 @@ export async function messeEscape(seite, knopf) {
   const feldFokusKnopf = await taste.evaluate((e) => e === document.activeElement)
   await taste.click()
   await seite.waitForTimeout(500)
+  /* Sprecher steht hinter „mehr Filter“ (16.11.2026). */
+  await seite.locator('.border-dashed button[aria-expanded]').first().click()
   const sprecher = seite.getByPlaceholder(/Sprecher suchen/)
   await sprecher.click()
   await sprecher.fill('ab')

@@ -11,6 +11,7 @@
  * gilt der PR als betroffen. Grenze: ein zur Laufzeit zusammengesetzter Pfad fällt nicht auf.
  */
 import path from 'node:path'
+import { handdatenSchnitt, istHanddaten } from './pr-nachrechnen-kennung.mjs'
 
 /**
  * PR-Pfade ohne Leser in der Kette (Doku, Daniel-Dateien, Patch Notes, Markdown im Wurzelordner). `.claude/` (Agenten, Hooks, Regeln
@@ -319,12 +320,17 @@ export function geaenderteSkripte(altJson, neuJson) {
  * `pr`: Dateien des PR. `leser`: Dateien auf main, die eine bewegte Datei im Code nennen. `lies(pfad)`: Text oder null (Kopf, sonst main).
  * `botBewegt`: bewegte Bot-Dateien; im Datenkanal zählen sie nicht (wie im reinen Bot-Sprung entwertet nur ihre Berührung durch den PR; 11.11.2026, PR 3490/3474).
  * `paketSkripte`: geänderte Skripte aus package.json (null = nicht lesbar), nur gebraucht, wenn der PR package.json berührt.
+ * `frei`: Dateien, die PR und main ändern, ohne sich im Textmerge zu berühren (`pr-nachrechnen-textmerge.mjs`); sie zählen nicht als „berührt“.
+ * `kennung`: Kennungen des Handdaten-PR und main-Diff der bewegten Nicht-Bot-Dateien (`pr-nachrechnen-kennung.mjs`, F133); fehlt es oder trägt es `fehler`, gelten die Regeln unten unverändert.
  */
-export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null, paketSkripte, botBewegt = [] }) {
+export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null, paketSkripte, botBewegt = [], frei = new Set(), kennung }) {
   if (bewegt.length === 0) return null
-  const treffer = pr.find((p) => bewegt.includes(p))
+  const treffer = pr.find((p) => bewegt.includes(p) && !frei.has(p))
   if (treffer !== undefined) return `der PR berührt ${treffer}`
-  const eigene = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
+  const alle = pr.filter((p) => !ohneLeser(p) && p !== 'package.json')
+  const schnitt = handdatenSchnitt(kennung, alle, bewegt)
+  if (typeof schnitt === 'string') return schnitt
+  const eigene = schnitt === null ? alle.filter((p) => !istHanddaten(p)) : alle
   const daten = eigene.find(aendertBauDaten)
   const bauLeser = daten === undefined ? [] : bauLeserMitDatei(leser, bewegt.filter((b) => !botBewegt.includes(b)), lies)
   if (bauLeser.length > 0) return `der PR ändert ${daten}, das der Bau mit den bewegten Dateien zusammen liest (${leserText(bauLeser)})`
@@ -345,9 +351,10 @@ export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null
   const l1 = kernZuerst(leser).find((r) => vorwaerts.some((n) => trifft(n, r)))
   if (l1 !== undefined) return `der PR ruft ${l1} auf oder importiert es, das bewegte Daten liest (nennt ${genannte(l1, bewegt, lies)})`
   const rueckwaerts = rueckMenge(leser, bewegt, lies)
-  // Handdaten des PR kippen nur durch bewegte Nicht-Bot-Dateien (Bot-Dateien: nur Berührung, siehe `botBewegt`).
-  const ohneBot = botBewegt.length === 0 || !start.some(aendertBauDaten) ? rueckwaerts : rueckMenge(leserOhneBot(leser, bewegt, botBewegt, lies), bewegt.filter((b) => !botBewegt.includes(b)), lies)
-  const p = start.find((x) => (aendertBauDaten(x) ? ohneBot : rueckwaerts).has(x))
+  // F136 A (15.11.2026): Bot-Dateien entwerten nur, wenn der PR ihren Leser selbst ändert (oben); importiert der Leser nur PR-Code (PR 3717: check-logic.ts -> worker/src/templates.ts),
+  // zählt das nicht. Restlücke: Fehler aus neuem PR-Code mit neuen Bot-Daten zeigt erst der nächste Bestandsbau.
+  const ohneBot = botBewegt.length === 0 ? rueckwaerts : rueckMenge(leserOhneBot(leser, bewegt, botBewegt, lies), bewegt.filter((b) => !botBewegt.includes(b)), lies)
+  const p = start.find((x) => ohneBot.has(x))
   if (p !== undefined) return `${p} wird von Code genutzt, der bewegte Daten liest (bewegt: ${bewegt.join(', ')})`
   return null
 }

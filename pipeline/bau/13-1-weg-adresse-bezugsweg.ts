@@ -8,6 +8,12 @@ function primeBezugswege(titel: Title): WatchLink[] {
   return (titel.watchLinks ?? []).filter((w) => w.kind === 'stream' && istPrime(w) && !istKeineTitelseite(w.url))
 }
 
+/** Der einzige RTL+-Bezugsweg mit Titelseite („Rtl+“ aus JustWatch, Pokémon 98298); zwei verschiedene gelten als mehrdeutig. */
+function rtlBezugsweg(titel: Title): WatchLink | undefined {
+  const rtl = (titel.watchLinks ?? []).filter((w) => w.kind === 'stream' && /^rtl\+?$/i.test(w.name) && /^https?:\/\/plus\.rtl\.de\//i.test(w.url) && !istKeineTitelseite(w.url))
+  return rtl.length === 1 ? rtl[0] : undefined
+}
+
 /**
  * **Ein Prime-Weg ohne Adresse nimmt die Adresse des Bezugswegs desselben Titels** (16.10.2026). Der Weg aus dem Kalendertermin (`11-7`)
  * hat nur die Adresse des Termins; nennt der keine Titelseite, blieb `url: ''`, obwohl JustWatch oder aniSearch die Seite kannten. Ohne Adresse
@@ -15,6 +21,7 @@ function primeBezugswege(titel: Title): WatchLink[] {
  * Mehrdeutig (zwei Kanäle) → keine Übernahme, wie bei `adresseDesWegs`. Ein Kanal-Bezugsweg gibt seinen `kanal` mit.
  */
 function passenderBezugsweg(weg: StreamLink, titel: Title): WatchLink | undefined {
+  if (weg.platform === 'rtlplus' && !weg.url) return rtlBezugsweg(titel)
   if (weg.platform !== 'primevideo' || weg.url) return undefined
   const kandidaten = primeBezugswege(titel).filter((w) => !weg.kanal || w.name.toLowerCase() === `amazon prime (${weg.kanal.toLowerCase()})`)
   return kandidaten.length === 1 ? kandidaten[0] : undefined

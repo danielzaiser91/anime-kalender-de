@@ -15,11 +15,43 @@ globalThis.akPrimeHatTitelseite = (eintrag) => /\/detail(?:\/|\?gti=)/.test(Stri
 globalThis.akPrimeVergleich = (liste) => (a, b) =>
   (liste[a].vorrang ?? 9) - (liste[b].vorrang ?? 9) || String(liste[a].titel).localeCompare(String(liste[b].titel), 'de')
 
+/*
+  Der Knopf der Zielseite bietet das Melden an: „… · melden“, bei einem Suchauftrag „… · melden als „Titel““
+  (`zielTeil` in amazon-knopf-zeichnen.js). Mit `/melden$/` klickte der Frame bei Suchaufträgen nie (15.11.2026:
+  vier Kauf/Leihe-Filme blieben 25 s auf dem Knopf stehen und galten als „Fehler beim Melden“).
+*/
+globalThis.akPrimeBietetMelden = (text) => /melden(?: als „.*")?$/.test(String(text ?? ''))
+
+/*
+  Ein gescheiterter Eintrag kommt je Eintragskennung (Plan-Eintrag samt Query: ASIN, ASIN?ref_=…_sN, gti) nur
+  einmal in die Handliste. Ein erneuter Lauf desselben Eintrags (Frame verwaist, Tageslimit) fügt keine zweite Zeile
+  an; zwei verschiedene Einträge mit gleichem Grund bleiben zwei Zeilen. Nicht an Textgleichheit gebunden: Die Ursache
+  der Doppelung bei Captain Tsubasa S2 (15.11.2026) ist aus der gekürzten Diagnose-Spur nicht belegbar.
+*/
+globalThis.akPrimeUebersprungenDazu = (lauf, eintragKennung, text) => {
+  lauf.uebersprungenKennungen ??= []
+  if (lauf.uebersprungenKennungen.includes(eintragKennung)) return
+  lauf.uebersprungenKennungen.push(eintragKennung)
+  lauf.uebersprungen.push(text)
+}
+
 /* Der Vermerk der Prime-Liste, wie der letzte Durchgang endete. */
 globalThis.akPrimeEndeText = (ende) =>
   (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
-  (ende.uebersprungen?.length ? ` · offen (Fehler beim Melden): ${ende.uebersprungen.join('; ')}` : '') +
+  (ende.uebersprungen?.length ? ` · selbst prüfen: ${ende.uebersprungen.join('; ')}` : '') +
   (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+
+/*
+  Ein Titel gilt als frisch gemeldet, wenn **seine eigene Seite** gemeldet hat — nicht, wenn irgendeine Staffel
+  gelang: Eine gelungene Staffel unter anderer Kennung nahm sonst den Titel aus der Liste, obwohl seine Seite
+  scheiterte und der Worker ihn weiter offen führt (Captain Tsubasa, 15.11.2026: „Alles geprüft“).
+  Ein Fehlschlag **löscht keine Marke**: Hat die sichtbare Seite den Titel kurz zuvor selbst gemeldet
+  (`frischGemeldet.add` nach „gemeldet ✓“), bleibt das wahr, auch wenn der Frame danach scheitert; die Marke
+  überbrückt ohnehin nur bis zum nächsten Worker-Stand.
+*/
+globalThis.akPrimeTitelErgebnis = (lauf, frameKennung, ok, url, frischGemeldet) => {
+  if (ok && url && frameKennung === lauf.titel) frischGemeldet.add(url)
+}
 
 /* Startkennung eines Titels: die gti aus JustWatchs Adresse, sonst die Kennung der Titelseite. */
 globalThis.akPrimeStartKennung = (url, kennungAus) =>

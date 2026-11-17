@@ -105,6 +105,15 @@ for (const d of ['data/ann-ids.json', 'data/anisearch-raw/1.json.gz', 'data/prop
 pruefe('A2: Positivliste enthält keine Handdatei (*.yaml, *hand*, von-hand)', ERZEUGTE_DATEIEN.every((n) => !/\.ya?ml$|hand|ankuendigungen|kanal-seiten|cartoon-umzug|curated-ids|zuordnung-fremd/.test(n)), ERZEUGTE_DATEIEN.filter((n) => /\.ya?ml$|hand|kanal-seiten/.test(n)))
 pruefe('A2: Positivliste ist sortiert und ohne Dubletten', ERZEUGTE_DATEIEN.every((n, i) => i === 0 || ERZEUGTE_DATEIEN[i - 1] < n))
 pruefe('A2: derselbe Name außerhalb von data/ (fünf beliebige Zeichen davor) zählt nicht', erzeugteDatei('abcdeann-ids.json') === false && erzeugteDatei('tools/ann-ids.json') === false && erzeugteDatei('data/unter/ann-ids.json') === false)
+// Mängel-Register (16.11.2026): der Bau liest data/maengel.json, ein Sprung nur dieser Datei entwertet keinen PR (sie bewegt sich täglich).
+{
+  const x = lauf(3347, [{ autor: DK, dateien: ['data/maengel.json'] }], { antwort: 'der PR liest data/maengel.json (Bau)' })
+  pruefe('Mängel-Register: nur data/maengel.json bewegt (Datenkonto) -> PR bleibt aktuell, Leser nie gefragt', aktuell(x), x.r)
+  const y = lauf(3347, [{ autor: DK, dateien: ['data/maengel.json'] }], { prDateien: ['pipeline/bau/13-12-maengel.ts', 'data/maengel.json'] })
+  pruefe('Mängel-Register: berührt der PR die Datei selbst -> veraltet', veraltet(y) && /der PR berührt data\/maengel\.json/.test(y.r.grund ?? ''), y.r)
+  const z = lauf(3347, [{ autor: 'danielzaiser91', dateien: ['data/maengel.json'] }], { antwort: 'der PR liest data/maengel.json (Bau)' })
+  pruefe('Mängel-Register: von einem Menschen bewegt -> Leser-Regel, veraltet', veraltet(z), z)
+}
 // Weitere Gegenproben je Bedingung: Leser-Regel entscheidet, Urteil „veraltet“.
 for (const [name, commits] of [
   ['ein Mensch dazwischen', [...echt, { autor: 'danielzaiser91', dateien: ['data/ann-ids.json'] }]],

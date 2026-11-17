@@ -14,6 +14,7 @@ import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 import { kalenderBasis } from './kalender-filter.ts'
 import { HERKUENFTE } from './herkunft.ts'
 import { ohneEcchiGenre } from './ecchi.ts'
+import { wertungAusAdresse, wertungInAdresse } from './filter-wertung.ts'
 
 /** Woche und Monat haben ihre Filter nicht in der Adresse (`kalender-filter.ts`). */
 const istKalender = (view: ViewId): boolean => view === 'woche' || view === 'monat'
@@ -195,6 +196,7 @@ export function parseHash(hash: string): AppRoute {
     favoritesExcluded: vorlieben.favoritesExcluded, kostenlosExcluded: vorlieben.kostenlosExcluded, confirmedExcluded: vorlieben.confirmedExcluded, availableExcluded: vorlieben.availableExcluded,
     zweitanbieterExcluded: vorlieben.zweitanbieterExcluded,
     minConfidence: kalender ? 'low' : ((params.get('conf') as DubConfidence) ?? 'low'),
+    ...(kalender ? { minScore: 0, ohneWertungAus: false } : wertungAusAdresse(params)),
   }
 
   return {
@@ -217,6 +219,7 @@ export function buildHash(route: AppRoute): string {
     writeLists(params, { ...f.excluded, releaseTypes: f.excluded.releaseTypes.filter((a) => a !== 'disc') }, 'x')
     if (f.search.trim()) params.set('q', f.search.trim())
     if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
+    wertungInAdresse(params, f)
   }
   if (route.date !== todayIso()) params.set('d', route.date)
   if (route.title) params.set('t', String(route.title))

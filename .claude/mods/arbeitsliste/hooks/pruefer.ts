@@ -1,5 +1,5 @@
-// Prüfer-Erkennung wie savvy-progress (hooks/pruefer.ts): Agententyp `pruefer` oder Beschreibung, die mit „Prüfer“ beginnt.
-// Dort nachführen, falls Savvy die Regel ändert; ein Import über Modgrenzen ist nicht möglich.
+// Prüfer-Erkennung: Agententyp `pruefer` oder Beschreibung, die mit „Prüfer“ beginnt. Die Grenze in
+// .claude/hooks/agenten-grenze.js nimmt Typ `pruefer` aus (AUSGENOMMEN); beide Regeln gemeinsam ändern.
 export const istPruefer = (a: { type?: string; description: string }): boolean =>
   a.type === 'pruefer' || /^prüfer/i.test(a.description.trim())
 

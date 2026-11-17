@@ -24,6 +24,7 @@ const URL_F = 'https://www.crunchyroll.com/de/series/GTESTF/f'
 const URL_G = 'https://www.crunchyroll.com/de/series/GTESTG/g'
 const URL_H = 'https://www.crunchyroll.com/de/series/GTESTH/h'
 const URL_I = 'https://www.crunchyroll.com/de/series/GTESTI/i'
+const URL_J = 'https://www.crunchyroll.com/de/series/GTESTJ/j'
 const folge = (nummer: number, verfuegbarAb?: string) => ({ nummer, guid: `G${nummer}`, verfuegbarAb })
 const staffel = (name: string, deutscheFolgen: ReturnType<typeof folge>[]) => ({ name, folgen: 12, kacheln: 12, deutsch: 1, fremd: 0, deutscheFolgen })
 const serie = (url: string, deutscheFolgen: ReturnType<typeof folge>[]) => ({
@@ -36,7 +37,9 @@ const crDub = {
   scrapedAt: '',
   serien: [
     serie(URL_A, [folge(5, '2026-10-01T15:00:00Z'), folge(1, '2026-10-18T15:00:00Z'), folge(2, '2026-10-25T15:00:00Z'), folge(3, '2026-10-26T15:00:00Z'), folge(9, undefined)]),
-    serie(URL_B, [folge(4, '2026-10-17T23:00:00Z')]),
+    serie(URL_B, [folge(4, '2026-10-17T15:00:00Z')]),
+    /* J: 17.10. 23:00 UTC ist in Berlin (Sommerzeit) der 18.10. um 01:00 — der Tag der Widerlegung. */
+    serie(URL_J, [folge(4, '2026-10-17T23:00:00Z')]),
     serie(URL_C, []),
     /* G: Folgen 1 bis 5 deutsch nach der Widerlegung; H: nur Folge 4; I: nur Folge 1. */
     serie(URL_G, [1, 2, 3, 4, 5].map((n) => folge(n, '2026-10-20T15:00:00Z'))),
@@ -79,6 +82,8 @@ console.log('\nWiderlegung und deutsche Folgen danach:')
   pruefe('keine deutsche Folge nach der Widerlegung: Weg gelöst', danach.streams[0].dub === undefined && !danach.streams[0].dubRanges, danach.streams[0])
   const davor = lauf(URL_B, '2026-10-18')
   pruefe('deutsche Folge einen Tag vor der Widerlegung: Weg gelöst', davor.streams[0].dub === undefined, davor.streams[0])
+  const nachMitternacht = lauf(URL_J, '2026-10-18')
+  pruefe('deutsche Folge nach Mitternacht Berliner Zeit am Tag der Widerlegung: Weg bleibt', JSON.stringify(nachMitternacht.streams[0].dubRanges) === ranges(4, 4), nachMitternacht.streams[0])
   const leer = lauf(URL_C, '2026-10-18')
   pruefe('Serie ohne deutsche Folgen: Weg gelöst', leer.streams[0].dub === undefined, leer.streams[0])
   const ausland = lauf(URL_D, '2026-10-18')

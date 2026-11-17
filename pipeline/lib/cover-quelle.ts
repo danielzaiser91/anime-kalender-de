@@ -5,8 +5,9 @@ import { readJson } from './util.ts'
  * **Woher ein Cover kommt** (Daniel, 11.10.2026): zuerst das TMDB-Plakat des Titels (`data/tmdb-poster.json`, als `w500`), sonst das bisherige
  * AniList-Cover, sonst die eigene Kopie des aniSearch-Covers (Cloudflare R2, `data/cover-eigen.json`), sonst keines (die Oberfläche zeigt dann den
  * Platzhalter). aniSearch-Cover werden nie von aniSearch aus eingebunden, nur von der eigenen Bild-Domain.
+ * Danach, als letzter Rückfall in `bau/cover-regel.ts`: das Plakat eines benannten Schwestertitels (`lib/cover-von-hand.ts`).
  */
-const TMDB_BILD = 'https://image.tmdb.org/t/p/w500'
+export const TMDB_BILD = 'https://image.tmdb.org/t/p/w500'
 const ANISEARCH_AB = 10_000_000
 
 /** Öffentliche Adresse des Buckets `anime-kalender-cover` (eigene Domain, Zweck und Anlegen: `docs/wissen/quellen.md`, Abschnitt „Eigene Cover“). */

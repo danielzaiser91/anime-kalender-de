@@ -83,7 +83,7 @@ export function Chip({
       aria-label={title && zustandWort ? `${title} (${zustandWort})` : title}
       aria-pressed={excluded ? 'mixed' : active}
       className={[
-        gross ? 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border px-4 text-t3 transition' : 'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition',
+        gross ? 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border px-4 text-t3 transition' : 'inline-flex items-center justify-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition max-md:min-h-11 max-md:min-w-11',
         CLICKABLE,
         excluded
           ? // Rot und durchgestrichen: Ein bloß andersfarbiger Chip würde sich

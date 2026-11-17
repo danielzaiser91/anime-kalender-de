@@ -31,7 +31,7 @@ Quelle oder über einen Zeitraum auffällt, und sagt je Regel, ob sie hart, weic
 | DD-07 Doppelte Werke | 1 / 23.581 | 1/1: Gantz 384 und Gantz 395 (2nd Stage) tragen beide aniSearch 585 | 2,0 | weich |
 | DD-08 Ohne Weg, JustWatch kennt de-Ton | 4 / 387 | nicht gegengeprüft (JustWatch steht unter Anbieter-API) | 1,5 | weich |
 | DD-10 „Läuft" ohne Lebenszeichen > 60 Tage | 0 / 37 | — | 1,5 | weich |
-| DD-03 Weg 404 laut Link-Prüfung | 0 / 1.284 | 870 Wege (CR 672, ADN 139, YouTube 55) kennt `link-check.json` nicht; CR/ADN laufen über ihre Kataloge | 1,5 | weich |
+| DD-03 Weg 404 laut Link-Prüfung | 0 / 1.284 | 870 Wege (CR 672, ADN 139, YouTube 55) kennt `link-check.json` nicht; CR/ADN laufen über ihre Kataloge | 1,5 | weich — **17.11.2026:** zählt nur Nicht-Netflix-404 und vom Gate gewertete Netflix-404 (`ladeGewerteteBefunde`, wie Bau und Wächter); Rauschen steht im Regelnamen („n Netflix-404 als Rauschen nicht gezählt“). Wache 16.11. meldete 58 von 79 Funden falsch (Netflix-CI-404); am Bestand 49 → 0 |
 | DD-12 Weg „deutsch", Zweitquelle „kein Deutsch" | 0 / 270 | 16 MotN-Widersprüche durch gemessene Urteile entschieden (Prüfhierarchie karte.md §10) | 1,5 | weich |
 | DD-04, DD-14, DD-15, DD-20, DD-21, DD-05, DD-25 | 1 / 0 / 0 / 0 / 0 / 0 / 0 | DD-04 Thunder 3 (Beobachtung ab Folge 6, Termine tragen „≈"); DD-05: keine der 148 Cover-Lücken hat eine Zweitquelle; DD-25: keine der 158 Handlungs-Lücken | ≤ 1,0 | DD-14/15/21 hart (billig, nie falsch), DD-20 weich, Rest nein |
 | DD-22 Folgenzahl AniList ≠ aniSearch-Liste | 29 / 1.979 | 5 geprüft, 0 Fehler bei uns (Wolf’s Rain 30 = 26 + OVA, Hamtaro 296 = Gesamtserie) | 0,6 | nein |

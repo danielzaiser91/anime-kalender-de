@@ -14,6 +14,7 @@ import { findeKennungsMaps } from './lib/cr-kennung-map-wache.ts'
 const ERLAUBT: Record<string, string> = {
   'pipeline/bau/09-4-2-bloecke.ts::nachSerienId': 'wählt je Kennung den Eintrag mit den meisten deutschen Folgen und sammelt die Titel aller Adressen',
   'pipeline/lib/cr-ja-deckung.ts::nachKennung': 'wählt je Kennung den Eintrag mit den meisten deutschen Folgen und sammelt die Titel aller Adressen',
+  'pipeline/lib/cr-ja-deckung.ts::neuester': 'behält je Kennung und Block den jüngsten Abruf (geprueftAm), gleiches Datum: Null-Block gewinnt',
   'pipeline/bau/cr-serie-geteilt.ts::jung': 'behält je Kennung den jüngsten Abruf (geprueftAm)',
   'pipeline/lib/cr-block-standardname.ts::je': 'behält je Kennung den jüngsten Abruf (geprueftAm)',
   'pipeline/lib/crunchyroll-termine.ts::raus': 'behält je Kennung den Eintrag mit dem größeren Gewicht',

@@ -1,4 +1,4 @@
-// PreToolUse-Bündel (Edit|Write|NotebookEdit|MultiEdit|Bash|preview_start): alle Sperren in einem Prozess.
+// PreToolUse-Bündel (Edit|Write|NotebookEdit|MultiEdit|Bash|preview_start|mcp__ccd_turn__wrap_up): alle Sperren in einem Prozess.
 // Jedes Modul prüft das Werkzeug selbst. Ausgabe: deny eines Moduls gewinnt (mehrere Gründe untereinander), sonst die Eskalation
 // von guard; sonst nichts. `rtk hook claude` und pruefrunden.js (Matcher Agent) bleiben eigene Einträge in settings.json.
 // Module, die nur lokal liegen (nicht im öffentlichen Repo), sind über require erreichbar; fehlt eine Datei, wird sie mit einer
@@ -23,12 +23,16 @@ const MODULE = [
   ['no-verify-sperre.js', 'grund'],
   // Fetch-Tiefe-Sperre (11.11.2026): kein git fetch/pull/clone --depth im Repo oder seinen Worktrees (teilen .git).
   ['fetch-depth-sperre.js', 'grund'],
+  // Schwerlauf-Sperre (15.11.2026): Vollläufe (check-logic-alle, tests-alle, check:vor-commit …) nur über node tools/schwer.mjs.
+  ['schwerlauf-sperre.js', 'grund'],
   // Merge-Riegel (09.11.2026, PR 3266): gh pr merge nur mit node tools/pr-nachrechnen.mjs davor.
   ['merge-riegel.js', 'grund'],
   // Subagenten-Schreibsperre (PR 2942): bauer, pruefer, analyst schreiben nie im Hauptordner.
   ['subagent-schreibsperre.js', 'grund'],
   // Vorrat-Sperre (25.10.2026, F63): vorrat/*.md erst nach Bericht löschen oder verschieben (Marke `# nach-bericht`).
   ['vorrat-sperre.js', 'grund'],
+  // Wrap-up-Sperre (14.11.2026): Abschlusskasten nur mit recap, ohne Frage und Knöpfe.
+  ['wrapup-sperre.js', 'grund'],
   // Befehls-Register (13.10.2026): protokolliert nur, ändert den Befehl nicht (seit 10.11.2026 ohne updatedInput) und entscheidet nie.
   ['befehlsregister.js', 'objekt'],
 ]

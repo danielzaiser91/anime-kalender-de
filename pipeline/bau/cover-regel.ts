@@ -1,15 +1,19 @@
 import { log } from '../lib/util.ts'
 import { coverNachRegel, COVER_EIGEN_BASIS, ladeEigeneCover, ladeTmdbPlakate, type EigeneCover, type TmdbPlakate } from '../lib/cover-quelle.ts'
+import { coverVonHand, ladePlakatVon, type PlakatVon } from '../lib/cover-von-hand.ts'
 import type { Title } from '../../shared/types.ts'
 
 let plakate: TmdbPlakate | undefined
 let eigene: EigeneCover | undefined
+let vonHand: PlakatVon | undefined
 /** Einmal je Bau geladen; der Katalog (`nebendateien.ts`) nutzt dieselben Plakate. */
 const tmdbPlakate = (): TmdbPlakate => (plakate ??= ladeTmdbPlakate())
 const eigeneCover = (): EigeneCover => (eigene ??= ladeEigeneCover())
+const plakatVon = (): PlakatVon => (vonHand ??= ladePlakatVon())
 
-/** Das Cover eines Titels nach der Regel; für Katalogzeilen und die Kopien in `verschoben`, die vor `setzeCoverNachRegel` entstanden. */
-export const coverFuer = (titelId: number, bisher: string | undefined): string | undefined => coverNachRegel(titelId, bisher, tmdbPlakate(), eigeneCover())
+/** Das Cover eines Titels nach der Regel, zuletzt das Plakat des Schwestertitels aus `data/cover-von-hand.yaml`; für Katalogzeilen und die Kopien in `verschoben`, die vor `setzeCoverNachRegel` entstanden. */
+export const coverFuer = (titelId: number, bisher: string | undefined): string | undefined =>
+  coverNachRegel(titelId, bisher, tmdbPlakate(), eigeneCover()) ?? coverVonHand(titelId, plakatVon(), tmdbPlakate())
 
 function herkunft(cover: string | undefined): 'TMDB' | 'aniSearch' | 'AniList' | 'keins' {
   if (!cover) return 'keins'

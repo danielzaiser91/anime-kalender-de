@@ -5,12 +5,14 @@
 /* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
 import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 import { TEXTE_HERKUNFT } from './i18n-herkunft.ts'
+import { TEXTE_FILTER } from './i18n-filter.ts'
 import { TEXTE_ZEILEN } from './i18n-zeilen.ts'
 import { TEXTE_ANTWORT } from './i18n-antwort.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
   ...TEXTE_HERKUNFT,
+  ...TEXTE_FILTER,
   ...TEXTE_ZEILEN,
   // Fortsetzung mit eigenem Titel in der Reihenliste, keine Staffel.
   'detail.gruppeEigene': 'Eigene Serien',

@@ -531176,6 +531176,7 @@
           "language": "Deutsch",
           "title": "Strike Witches: Road to Berlin",
           "status": "Abgeschlossen",
+          "dubbed": true,
           "released": "07.10.2020 - 23.12.2020",
           "publisher": [
             "AniMoon Publishing GmbH",
@@ -531237,7 +531238,7 @@
         }
       ]
     },
-    "fetchedAt": "2026-10-08T09:37:45.280Z"
+    "fetchedAt": "2026-11-17T06:00:52.504Z"
   },
   "103123": {
     "anisearchId": 15192,
@@ -696323,6 +696324,7 @@
       ],
       "format": "Film",
       "episodes": 1,
+      "runtimeMinutes": 129,
       "season": "Herbst 2026",
       "studios": [
         "ufotable, Inc."
@@ -696351,7 +696353,7 @@
         "Mahoyo Movie"
       ]
     },
-    "fetchedAt": "2026-10-14T04:01:36.293Z"
+    "fetchedAt": "2026-11-13T06:01:02.295Z"
   },
   "143145": {
     "anisearchId": 16947,
@@ -879513,6 +879515,59 @@
     },
     "fetchedAt": "2026-10-24T06:01:41.847Z"
   },
+  "218530": {
+    "anisearchId": 22061,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "NullMeta",
+          "titleNative": "ぬるめた",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Soigne Animation Studio"
+      ],
+      "staff": [
+        {
+          "name": "Kokamumo",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kai IKARASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Shin OGASAWARA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/nlmt_anime"
+        },
+        {
+          "name": "Nlmt Anime",
+          "url": "https://nlmt-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Null-Meta"
+      ]
+    },
+    "fetchedAt": "2026-11-16T06:05:54.661Z"
+  },
   "218532": {
     "anisearchId": 22024,
     "streams": [],
@@ -880227,5 +880282,118 @@
       ]
     },
     "fetchedAt": "2026-11-09T06:01:22.258Z"
+  },
+  "219752": {
+    "anisearchId": 22102,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ore no Shibou Flag ga Todomaru Tokoro o Shiranai",
+          "titleNative": "Ore no Shibō Flag ga Todomaru Tokoro o Shiranai",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "My Death Flags Show No Sign of Ending",
+        "Ore no Shibou Flag ga Todomaru Tokoro wo Shiranai"
+      ]
+    },
+    "fetchedAt": "2026-11-15T06:00:50.381Z"
+  },
+  "219798": {
+    "anisearchId": 22099,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nanatsuya: Shinobu no Housekibako",
+          "titleNative": "Nanatsuya: Shinobu no Hōsekibako",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "J.C.STAFF Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Tomoko NINOMIYA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Chiaki KON",
+          "role": "Direction"
+        },
+        {
+          "name": "Mai FURUKI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/nanatsuya_pr"
+        },
+        {
+          "name": "Nanatsuya Shinobu Anime",
+          "url": "https://nanatsuya-shinobu-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Nanatsuya: Shinobu and Her Jewelry Box"
+      ]
+    },
+    "fetchedAt": "2026-11-13T06:01:09.471Z"
+  },
+  "219904": {
+    "anisearchId": 22101,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Re:Zero kara Hajimeru Isekai 5th Season",
+          "titleNative": "Re:ゼロから始める異世界生活 5th season",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/Rezero_official"
+        }
+      ],
+      "synonyms": [
+        "Re:Zero - Starting Life in Another World: Season 5",
+        "Re:Zero - Starting Life in Another World: Staffel 5"
+      ]
+    },
+    "fetchedAt": "2026-11-15T06:00:57.094Z"
   }
 }

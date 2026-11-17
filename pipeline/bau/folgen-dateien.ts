@@ -49,8 +49,9 @@ type WikiListe = { titel?: Record<string, { folgen: { nr: number; ead?: string }
  */
 export function erschieneneFolgen(f: Folge[], wikiHoechste: number, heute: string): Folge[] {
   const gedatet = f.filter((x) => x.datum && x.datum <= heute).map((x) => x.nr)
-  if (!gedatet.length && f.some((x) => x.datum)) return []
-  const bis = Math.max(gedatet.length ? Math.max(...gedatet) : Math.max(...f.map((x) => x.nr)), wikiHoechste)
+  // Nur künftige Daten: aniSearch belegt nichts als erschienen, es bleibt die Wikipedia-Grenze.
+  const ausAnisearch = gedatet.length ? Math.max(...gedatet) : f.some((x) => x.datum) ? 0 : Math.max(...f.map((x) => x.nr))
+  const bis = Math.max(ausAnisearch, wikiHoechste)
   return f.filter((x) => x.nr <= bis)
 }
 

@@ -4,6 +4,8 @@
  * heißt: Die Maße kamen im Seitenbau nicht an. Seiten mit eigenem Terminbild (andere Adresse der eigenen Domain)
  * zählen nicht als Mangel.
  */
+import { ueberHoechstens } from './hoechstens-ratsche.ts'
+
 export interface SeitenBild {
   slug: string
   /** `og:image` der erzeugten Seite. */
@@ -24,11 +26,14 @@ export interface CoverSeite extends SeitenBild {
   coverImage: string | undefined
 }
 
+/** Absichtlicher Abstand der Grenze in `check-cover-vorschau-bestand` zum Bestand (11.11.2026: 16 gegen 27); erst darunter lohnt das Nachziehen. */
+export const STANDARD_TROTZ_COVER_LUFT = 11
+
 export function standardTrotzCover(seiten: CoverSeite[], site: string): string[] {
   return seiten.filter((s) => s.coverImage && s.bild?.startsWith(`${site}og/default.jpg`)).map((s) => s.slug)
 }
 
 export function standardTrotzCoverMaengel(seiten: CoverSeite[], site: string, hoechstens: number): string[] {
   const slugs = standardTrotzCover(seiten, site)
-  return slugs.length > hoechstens ? [`${slugs.length} Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens ${hoechstens}`] : []
+  return ueberHoechstens(slugs.length, hoechstens) ? [`${slugs.length} Titel mit Cover zeigen das Standardbild als Link-Vorschau, erlaubt höchstens ${hoechstens}`] : []
 }

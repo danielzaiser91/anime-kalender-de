@@ -37,7 +37,7 @@ test('In Pipeline: leer oder ohne Abschnitt', () => {
 test('Daniel-Todo: nur „- “-Zeilen unter „## Daniel-Todo“, keine Nummern; ohne Unterabschnitt und Marke = Jetzt, heute', () => {
   const text = '## Daniel-Todo\n- **Mockup ansehen** ([Navigator](x)) — Vorher und Nachher\n\nKommt bald\n- Post-Center\n1. alte Nummer zählt nicht\n## Als Nächstes (Todo)\n- nicht\n'
   const v = zaehleVonDir(text)
-  expect(v.jetzt.map(e => [e.titel, e.dringlichkeit])).toEqual([['Mockup ansehen (Navigator)', 'heute'], ['Post-Center', 'heute']])
+  expect(v.jetzt.map(e => [e.titel, e.dringlichkeit])).toEqual([['Mockup ansehen', 'heute'], ['Post-Center', 'heute']])
   expect(v.spaeter).toEqual([])
 })
 
@@ -144,6 +144,17 @@ test('kurz: Datum mit Punkt ist kein Satzende, Link wird zu seinem Text', () => 
   expect(kurz('**Impressum-Anschrift eintragen (Daniel, 10.10. 12:27)** — fertig.').titel)
     .toBe('Impressum-Anschrift eintragen (Daniel, 10.10. 12:27)')
   expect(kurz('Live-Messungen in [stand.md](stand.md).').titel).toBe('Live-Messungen in stand.md')
+})
+
+test('kurz: fetter Titel ist der Titel, Doppelpunkt in der Klammer dahinter schneidet nicht (E90, 16.11.2026)', () => {
+  const e = kurz('**E90 Netflix: „Bericht laden“ klicken** (soll nicht ich: liegt nur in deiner Sitzung) — [Anleitung](file:///C:/x.md)')
+  expect(e.titel).toBe('E90 Netflix: „Bericht laden“ klicken')
+  expect(e.rest).toBe('(soll nicht ich: liegt nur in deiner Sitzung) — Anleitung')
+})
+
+test('kurz: ohne Fett schneidet ein Doppelpunkt in offener Klammer nicht', () => {
+  expect(kurz('E90 Netflix klicken (soll nicht ich: liegt in deiner Sitzung) — Link').titel)
+    .toBe('E90 Netflix klicken (soll nicht ich: liegt in deiner Sitzung)')
 })
 
 test('kurz: langer Titel bleibt ganz', () => {

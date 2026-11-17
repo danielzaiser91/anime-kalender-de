@@ -97,10 +97,17 @@ function lauf(dateien: Record<string, unknown>) {
   return { n, zeilen, rot }
 }
 const titel = [{ id: 1, franchiseId: 1 }, { id: 2, franchiseId: 1 }, { id: 3, franchiseId: 3 }]
-const basis = { 'tmdb-von-hand.yaml': [], 'titles.json': titel, 'ohne-synchro.json': [] }
+const basis = { 'tmdb-von-hand.yaml': [], 'titles.json': titel, 'ohne-synchro.json': [], 'tmdb-poster.json': {} }
 const neuerFilm = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 777, kind: 'movie' }, '2': { tmdbId: 777, kind: 'movie' } } })
 pruefe('Lauf: neuer geteilter Film in einer Reihe: genau eine Warnzeile, keine rote Zusicherung', neuerFilm.zeilen.length === 1 && neuerFilm.zeilen[0]!.includes('movie/777') && neuerFilm.zeilen[0]!.includes('[vorher rot]') && neuerFilm.rot.length === 0, neuerFilm)
-pruefe('Lauf: drei Zusicherungen gefahren', neuerFilm.n === 3, neuerFilm.n)
+pruefe('Lauf: vier Zusicherungen gefahren', neuerFilm.n === 4, neuerFilm.n)
+const ohnePlakat = { 'tmdb-von-hand.yaml': [{ anilistId: 1, ohne: true }, { anilistId: 2, tmdbId: 5 }] }
+const ohneRein = lauf({ ...basis, ...ohnePlakat, 'tmdb-titles.json': {}, 'tmdb-poster.json': { '2': { p: '/x.jpg' }, '3': null } })
+pruefe('Lauf: ohne-Titel ohne Plakat, Plakat eines Titels mit Kennung und eines Fremden: grün', ohneRein.rot.length === 0, ohneRein)
+const ohneMit = lauf({ ...basis, ...ohnePlakat, 'tmdb-titles.json': {}, 'tmdb-poster.json': { '1': { p: '/x.jpg' } } })
+pruefe('Lauf: ohne-Titel mit Plakat im Bestand: hart rot', ohneMit.rot.join() === 'kein Titel mit `ohne` in tmdb-von-hand.yaml steht in tmdb-poster.json', ohneMit)
+const ohneNull = lauf({ ...basis, ...ohnePlakat, 'tmdb-titles.json': {}, 'tmdb-poster.json': { '1': null } })
+pruefe('Lauf: auch ein null-Eintrag (Grund-Marke) eines ohne-Titels ist rot', ohneNull.rot.length === 1, ohneNull)
 const bekannterFilm = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 20455, kind: 'movie' }, '2': { tmdbId: 20455, kind: 'movie' } } })
 pruefe('Lauf: bekannter Film (movie/20455): keine Zeile', bekannterFilm.zeilen.length === 0, bekannterFilm)
 const fremderFilm = lauf({ ...basis, 'tmdb-titles.json': { '1': { tmdbId: 778, kind: 'movie' }, '3': { tmdbId: 778, kind: 'movie' } } })

@@ -52,13 +52,13 @@ async function pruefeStaffeln(melder) {
   const g7 = { akProtokoll: (art, d) => gespur.push([art, d]) }
   lade('netflix-uebernahme.js', g7)
   const ende = g7.akNetflixEnde('kein offener Auftrag mehr', new Map([['1', 'fertig'], ['9', 'zurueck']]), new Set(['1']), 4, titel, new Set(['2', '3']))
-  pruefe('Zählung: besucht 4, gemessen 1, wartend 1 (Titel 3 hat keine offene Staffel), übersprungen 1', JSON.stringify(ende.zaehlung) === JSON.stringify({ besucht: 4, gemessen: 1, wartend: 1, uebersprungen: 1 }), ende.zaehlung)
+  pruefe('Zählung: besucht 4, gemessen 1, wartend 1 (Titel 3 hat keine offene Staffel), übersprungen 1', JSON.stringify(ende.zaehlung) === JSON.stringify({ besucht: 4, gemessen: 1, wartend: 1, uebersprungen: 1, nichtDa: 0 }), ende.zaehlung)
   pruefe('Zählung geht ins Protokoll', gespur.length === 1 && gespur[0][0] === 'durchgang-zaehlung', gespur)
   const leer = g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set())
   pruefe('keine Auskunft vom Briefkasten: wartend 0', leer.zaehlung.wartend === 0, leer.zaehlung)
   const gemeldet = []
   g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(['1']), 3, titel, new Set(['2']), (art, d) => gemeldet.push([art, d]))
-  pruefe('Zählung geht als Vorfall an den Worker (genau ein Aufruf, Zahlen im Text)', gemeldet.length === 1 && gemeldet[0][0] === 'durchgang-zaehlung' && gemeldet[0][1].text === JSON.stringify({ besucht: 3, gemessen: 1, wartend: 1, uebersprungen: 1 }), gemeldet)
+  pruefe('Zählung geht als Vorfall an den Worker (genau ein Aufruf, Zahlen im Text)', gemeldet.length === 1 && gemeldet[0][0] === 'durchgang-zaehlung' && gemeldet[0][1].text === JSON.stringify({ besucht: 3, gemessen: 1, wartend: 1, uebersprungen: 1, nichtDa: 0 }), gemeldet)
   pruefe('ohne Melder (Nichtauskunft) kein Fehler', g7.akNetflixEnde('x', new Map(), new Set(), 0, titel, new Set()).zaehlung.besucht === 0)
   /* Kopfzeile (10.11.2026): Zahlen statt ~100 Namen; „besucht > 0, gemessen 0“ ist rot (Durchgang vom 09.11.: 103 besucht, 0 gemessen). */
   const gruende = new Map([['1', 'keine Folgenliste in 20 s'], ['2', 'keine Folgenliste in 20 s'], ['3', 'Erinnern statt Folgenliste'], ['4', 'keine Folgenliste in 20 s'], ['5', 'Netflix zeigt ihn nicht (E103)']])
@@ -71,9 +71,17 @@ async function pruefeStaffeln(melder) {
   pruefe('Kopf: besucht 0 (nichts zu tun) → nicht rot', nichtBesucht.rot === false, nichtBesucht)
   const einBesucht = g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(), 1, titel, new Set())
   pruefe('Kopf: besucht genau 1, gemessen 0 → rot (Schwelle > 0)', einBesucht.rot === true, einBesucht)
+  /* C (15.11.2026): sieben Titel mit klarem Urteil „nicht bei Netflix“ (gemeldet) sind eine Auskunft, kein leerer Durchgang. */
+  const sieben = new Map(['1', '2', '3', '4', '5', '6', '7'].map((k) => [k, 'Umleitung auf Startseite']))
+  const urteile = g7.akNetflixEnde('x', new Map(), new Set(), 7, titel, new Set(), null, sieben)
+  pruefe('Kopf: besucht 7, gemessen 0, sieben Urteile → nicht rot, der Text nennt „nicht bei Netflix 7“', urteile.rot === false && !/NICHTS GEMESSEN/.test(urteile.text) && /nicht bei Netflix 7 \(gemeldet\)/.test(urteile.text) && urteile.zaehlung.nichtDa === 7, urteile)
+  const einUrteil = g7.akNetflixEnde('x', new Map(), new Set(), 3, titel, new Set(), null, new Map([['5', 'Abspielfehler UI3012']]))
+  pruefe('Kopf: genau ein Urteil genügt (Schwelle > 0), gemessen 0 → nicht rot', einUrteil.rot === false && einUrteil.zaehlung.nichtDa === 1, einUrteil)
+  const keinUrteil = g7.akNetflixEnde('x', new Map([['9', 'zurueck']]), new Set(), 3, titel, new Set(), null, new Map())
+  pruefe('Kopf: zurückgestellt zählt nicht als Urteil → weiter rot, kein „nicht bei Netflix“ im Text', keinUrteil.rot === true && !/nicht bei Netflix/.test(keinUrteil.text), keinUrteil)
   const kopf = readFileSync(__dirname + '/netflix-durchgang-steuerung.js', 'utf8')
   pruefe('melder.js: Kopfzeile nutzt uebersprungenText und färbt rot, keine Namensliste mehr', kopf.includes('ende.uebersprungenText') && kopf.includes('ak-durchgang-rot') && !kopf.includes('namen.join'), kopf.length)
-  pruefe('melder.js reicht vorfallMelden durch', melder.includes('selbstGezaehlt, offeneTitel, undefined, vorfallMelden)'))
+  pruefe('melder.js reicht vorfallMelden durch', melder.includes('akNetflixBesuchtStand(), offeneTitel, undefined, vorfallMelden)'))
 }
 
 async function pruefeAlles() {

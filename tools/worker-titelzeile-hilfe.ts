@@ -26,11 +26,12 @@ export function migriere(db: DatabaseSync) {
   return db
 }
 
-type Anweisung = { run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
+type Anweisung = { sql: string; run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
 export type Hilfe = { geschrieben: number; vorUpdate?: () => void }
 
 export function d1(db: DatabaseSync, h: Hilfe) {
   const anweisung = (sql: string, werte: unknown[] = []): Anweisung => ({
+    sql,
     bind: (...w) => anweisung(sql, w),
     run: async () => {
       if (h.vorUpdate && sql.startsWith('UPDATE titel_zeile')) h.vorUpdate()
@@ -45,7 +46,7 @@ export function d1(db: DatabaseSync, h: Hilfe) {
     prepare: (sql: string) => anweisung(sql),
     batch: async (liste: Anweisung[]) => {
       const antworten = []
-      for (const a of liste) antworten.push(await a.run())
+      for (const a of liste) antworten.push(a.sql.startsWith('SELECT') ? await a.all() : await a.run())
       return antworten
     },
   }

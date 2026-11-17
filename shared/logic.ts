@@ -1,7 +1,11 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
-import { addDays, todayIso, berlinToUtc, utcZeitInBerlin } from './time.ts'
+import { addDays, todayIso, utcZeitInBerlin, toIsoDate } from './time.ts'
 import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
+import { istAusgeblieben, istKatalogstartOhneUhrzeit, markiereOhneSichtung, terminZustand, type TerminFelder } from './termin-zustand.ts'
 import { erstesFreiesDatum, folgeNachOriginal } from './synchro-original.ts'
+
+/** Berliner Kalendertag eines Vermerk-Zeitpunkts (`erwartetAm`, `neuErwartet` sind UTC). */
+const vermerkTag = (zeitpunkt: string): string => toIsoDate(new Date(zeitpunkt))
 
 /**
  * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
@@ -27,7 +31,7 @@ function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }
   */
   const ausRecherche = Object.entries(s.verpasst ?? {})
     .filter(([, v]) => v?.neuErwartet && !v.erschienenAm)
-    .map(([episode, v]) => ({ episode: Number(episode), date: String(v!.neuErwartet).slice(0, 10) }))
+    .map(([episode, v]) => ({ episode: Number(episode), date: vermerkTag(String(v!.neuErwartet)) }))
   const beobachtet = Object.entries(s.observed ?? {}).map(([episode, date]) => ({
     episode: Number(episode),
     date,
@@ -57,18 +61,40 @@ function isoWochentag(datum: string): number {
  * Woche; mit Sendetagen der nächste davon — „Dragon Ball DAIMA" bei TOGGO plus
  * springt vom Freitag auf den Montag.
  */
-export function sendeplatz(s: Release['schedule'], datum: string, schritte: number): string {
+export function sendeplatz(
+  s: Release['schedule'],
+  datum: string,
+  schritte: number,
+  pausen?: ReadonlySet<string>,
+): string {
   const tage = (s.wochentage ?? []).filter((t) => t >= 1 && t <= 7)
-  if (!tage.length) return addDays(datum, 7 * schritte)
+  if (!tage.length && !pausen?.size) return addDays(datum, 7 * schritte)
   const richtung = schritte < 0 ? -1 : 1
   let rest = Math.abs(schritte)
   let d = datum
   let guard = 0
   while (rest > 0 && guard++ < 7 * 400) {
-    d = addDays(d, richtung)
-    if (tage.includes(isoWochentag(d))) rest--
+    d = addDays(d, tage.length ? richtung : 7 * richtung)
+    /* Ein Pausentag ist kein Sendeplatz: die Zählung rückt nach (wie in `lastEpisodeDate`). */
+    if ((!tage.length || tage.includes(isoWochentag(d))) && !pausen?.has(d)) rest--
   }
   return d
+}
+
+/** Fällt der Start auf eine Pause, rückt Folge 1 auf den nächsten freien Sendeplatz, statt wegzufallen. */
+function ersterSendeplatz(s: Release['schedule'], pausen: ReadonlySet<string>): string {
+  return pausen.has(s.firstEpisodeDate) ? sendeplatz(s, s.firstEpisodeDate, 1, pausen) : s.firstEpisodeDate
+}
+
+/** Termin aus der Originaltabelle (`nachOriginal`), über Pausentage geschoben — eine Regel für Plan und Ende. */
+function nachOriginalFrei(
+  s: Release['schedule'],
+  folge: number,
+  anker: { episode: number; date: string } | undefined,
+  pausen: ReadonlySet<string>,
+): string | undefined {
+  const tag = folgeNachOriginal(s.nachOriginal, folge, anker)
+  return tag && erstesFreiesDatum(tag, pausen)
 }
 
 /**
@@ -89,9 +115,9 @@ export function lastEpisodeDate(release: Release): string | undefined {
   const first = Math.max(1, s.firstEpisodeNumber ?? 1)
   const letzte = first + s.episodeCount - 1
   const anker = stuetzpunkte(s).filter((a) => a.episode >= first && a.episode <= letzte).at(-1)
-  const nachOriginal = folgeNachOriginal(s.nachOriginal, letzte, anker)
-  if (nachOriginal) return erstesFreiesDatum(nachOriginal, skips)
-  let date = anker?.date ?? s.firstEpisodeDate
+  const nachOriginal = nachOriginalFrei(s, letzte, anker, skips)
+  if (nachOriginal) return nachOriginal
+  let date = anker?.date ?? ersterSendeplatz(s, skips)
   let produced = anker?.episode ?? first
   let guard = 0
   while (produced < letzte && guard++ < 400) {
@@ -215,11 +241,11 @@ export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>,
  *
  * Fehlt die Uhrzeit, gilt der Tag als abgeschlossen (23:59): Wir wissen dann nicht,
  * wann sie kam, aber dass sie kam. Ausnahme: ein Katalogstart (`batch`, nicht TV) gilt ab 00:00 als erschienen,
- * sonst steht am Starttag "0 von 6"; der Kasten nennt dann "Uhrzeit offen" (`heuteOffen` in `fertigAntwort`).
+ * sonst steht am Starttag "0 von 6"; der Kasten nennt dann "genaue Uhrzeit unbekannt" (`heuteOffen` in `fertigAntwort`).
  * Der Push bleibt bei 23:59 (`katalogAmTagesbeginn = false`): Netflix schaltet erst gegen 9 Uhr frei.
  */
 export function istErschienen(
-  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string }; nachLuecke?: boolean; releaseType?: string; platform?: string },
+  ereignis: TerminFelder,
   jetzt: Date = new Date(),
   katalogAmTagesbeginn = true,
 ): boolean {
@@ -232,26 +258,11 @@ export function istErschienen(
     Kachel las `verpasst`, die Zählung nur die Uhrzeit — zwei Leitungen für
     dieselbe Frage. Seitdem beantwortet diese Funktion sie für alle.
   */
-  if (istAusgeblieben(ereignis) || ereignis.nachLuecke) return false
-  return berlinToUtc(ereignis.date, ereignis.time ?? tagesGrenze(ereignis, katalogAmTagesbeginn)).getTime() <= jetzt.getTime()
+  return terminZustand(ereignis, jetzt, katalogAmTagesbeginn) === 'erschienen'
 }
 
-/** Ein Katalogstart (`batch`, nicht TV) ohne Uhrzeit: alle Folgen an einem Tag, Zeitpunkt unbekannt (Bass X Machina, 03.11.2026). */
-export function istKatalogstartOhneUhrzeit(e: { time?: string; releaseType?: string; platform?: string }): boolean {
-  return !e.time && e.releaseType === 'batch' && e.platform !== 'tv'
-}
-
-function tagesGrenze(e: { time?: string; releaseType?: string; platform?: string }, amTagesbeginn: boolean): string {
-  return amTagesbeginn && istKatalogstartOhneUhrzeit(e) ? '00:00' : '23:59'
-}
-
-/**
- * Hat der Anbieter diesen Termin verstreichen lassen, ohne die Folge bisher
- * nachzuliefern? Nachgeholt (`erschienenAm`) zählt nicht mehr dazu.
- */
-export function istAusgeblieben(ereignis: { verpasst?: { erschienenAm?: string } }): boolean {
-  return Boolean(ereignis.verpasst && !ereignis.verpasst.erschienenAm)
-}
+/* Seit dem Umbau liegen sie in `termin-zustand.ts`; die Importeure lesen sie weiter von hier. */
+export { istKatalogstartOhneUhrzeit, istAusgeblieben }
 
 /**
  * **Netflix' übliche Uhrzeit für Anime: 17:00 JST = 08:00 UTC** (25.09.2026). Netflix nennt für
@@ -263,7 +274,7 @@ export function istAusgeblieben(ereignis: { verpasst?: { erschienenAm?: string }
 export const NETFLIX_UHRZEIT_UTC = '08:00'
 
 export function expandEvents(release: Release): ReleaseEvent[] {
-  const termine = termineAusPlan(release)
+  const termine = markiereOhneSichtung(release, termineAusPlan(release))
   if (release.dateMeaning === 'available-from') for (const e of termine) e[release.erstausgabe ? 'erstausgabe' : 'imAngebot'] = true
   if (release.platform !== 'netflix' || !release.netflixOriginal) return termine
   return termine.map((e) => (e.time ? e : { ...e, time: utcZeitInBerlin(e.date, NETFLIX_UHRZEIT_UTC), timeEstimated: true }))
@@ -427,7 +438,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       alle auf dem 22.09., dem Tag von Folge 20 (16.09.2026).
     */
     if (danach && anchor && anchor.episode !== episode && s.wochentage?.length) {
-      const nachPlan = sendeplatz(s, anchor.date, episode - anchor.episode)
+      const nachPlan = sendeplatz(s, anchor.date, episode - anchor.episode, skips)
       if (nachPlan <= danach.date) return nachPlan
     }
     if (danach && anchor && anchor.episode !== episode) {
@@ -462,12 +473,12 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
      * ebenfalls hinter der belegten.
      */
     if (danach && !anchor) {
-      return sendeplatz(s, danach.date, -(danach.episode - episode))
+      return sendeplatz(s, danach.date, -(danach.episode - episode), skips)
     }
 
     return anchor
-      ? (folgeNachOriginal(s.nachOriginal, episode, anchor) ?? sendeplatz(s, anchor.date, episode - anchor.episode))
-      : sendeplatz(s, s.firstEpisodeDate, episode - first)
+      ? (nachOriginalFrei(s, episode, anchor, skips) ?? sendeplatz(s, anchor.date, episode - anchor.episode, skips))
+      : sendeplatz(s, ersterSendeplatz(s, skips), episode - first, skips)
   }
 
   const events: ReleaseEvent[] = []
@@ -517,7 +528,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
         den Vermerk, stünde der neue Termin durchgestrichen da.
       */
       verpasst:
-        s.verpasst?.[episode] && date === String(s.verpasst[episode].erwartetAm).slice(0, 10)
+        s.verpasst?.[episode] && date === vermerkTag(String(s.verpasst[episode].erwartetAm))
           ? s.verpasst[episode]
           : undefined,
     })
@@ -560,7 +571,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
 
   for (const [nr, v] of Object.entries(s.verpasst ?? {})) {
     if (!v?.erwartetAm || v.erschienenAm) continue
-    const alterTag = String(v.erwartetAm).slice(0, 10)
+    const alterTag = vermerkTag(String(v.erwartetAm))
     const episode = ausstehendAm(alterTag, Number(nr))
     if (verpasstAnVorhandenes(events, alterTag, episode, v)) continue
     if (s.lastEpisodeDate && alterTag > s.lastEpisodeDate) continue
@@ -601,7 +612,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       schutz++ < 60 &&
       events.some((a) => a !== ev && a.date === ev.date && (a.episode ?? 0) < (ev.episode ?? 0))
     ) {
-      const weiter = sendeplatz(s, ev.date, 1)
+      const weiter = sendeplatz(s, ev.date, 1, skips)
       /* Hinter einem belegten Ende wird nichts mehr angesetzt — dort gilt der Abbruch von oben. */
       if (s.lastEpisodeDate && weiter > s.lastEpisodeDate) break
       ev.date = weiter

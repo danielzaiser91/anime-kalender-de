@@ -15,7 +15,7 @@ export function pruefeTmdbHandBestand(lies: (datei: string) => string, pruefeEin
     gezaehlt++
     pruefeEinzel(name, bedingung, gefunden)
   }
-  const eintraege = (yaml.load(lies('data/tmdb-von-hand.yaml')) as { anilistId: number; tmdbId?: number }[] | null) ?? []
+  const eintraege = (yaml.load(lies('data/tmdb-von-hand.yaml')) as { anilistId: number; tmdbId?: number; ohne?: true }[] | null) ?? []
   /*
     Dieselbe TMDB-Kennung an zwei Titeln ist erlaubt und kommt vor: TMDB führt „Dragon Ball Z
     Kai" und dessen „Final Chapters" als eine Serie, unser Bestand trennt sie. Erlaubt ist das
@@ -51,5 +51,9 @@ export function pruefeTmdbHandBestand(lies: (datei: string) => string, pruefeEin
     eintraege.every((e) => bestand.has(e.anilistId)),
     eintraege.filter((e) => !bestand.has(e.anilistId)).map((e) => e.anilistId),
   )
+  // Ein Titel ohne eigenen TMDB-Eintrag trägt kein Plakat (Kitaro 10019697: es war das des Originals); die Handzeile räumt es ab, die Plakatläufe sparen ihn aus.
+  const plakate = JSON.parse(lies('data/tmdb-poster.json')) as Record<string, unknown>
+  const ohneMitPlakat = eintraege.filter((e) => e.ohne && e.anilistId in plakate).map((e) => e.anilistId)
+  pruefe('kein Titel mit `ohne` in tmdb-von-hand.yaml steht in tmdb-poster.json', ohneMitPlakat.length === 0, ohneMitPlakat)
   return gezaehlt
 }

@@ -1,0 +1,64 @@
+'2026-11-08':
+  geschafft:
+    - 'Pillen: Crunchyroll-Pillen laufender Folgen ohne „≈“, Joyn-Pillen nennen ihre Folgen, Handtermine bekommen die Tage gesichteter Folgen (318…'
+    - 'MAXX/Joyn: Termine nennen die Folge ab Sendeende auf Joyn (3032).'
+    - 'Laufende Titel: jpEnd nur noch bei abgeschlossenen Titeln, 2026er Titel stehen richtig auf „läuft“ (3184).'
+    - 'Adressen: Eine alte Titeladresse öffnet den Nachfolger (3047). Der Wechsel von Woche zu Monat springt nicht mehr (Layout-Sprung 0,25 auf 0,…'
+    - 'Erweiterung: Netflix-Profilauswahl klappt den Kasten ein (2981), Prime-Wechsel A→B→A hält nichts Falsches fest (3079).'
+    - 'Daten: Cover für Z wie Zorro, Zorros Geheimnis und M.A.S.K. (3173), Discs für Titel mit aniSearch-ID (3029), Prime-Zuordnungen gehen bei ei…'
+    - Anime2You-Artikel werden automatisch zum Handbeleg-PR (3085, 3190), Beobachtungsliste läuft stündlich und misst die Latenz (3091).
+    - Ein OmU-Begleiter legt den deutschen Termin an, sobald der Katalog die Folge führt (3172); eine Wache schlägt Alarm ab 90 min zwischen Kata…
+  probleme:
+    - '3210: Laufende Titel (34, z. B. ONE PIECE) zeigen beim Handlungs-Hinweis nicht mehr „Noch nicht erschienen“.'
+    - '3211 (Prüfer ok, Merge morgen): 139 aniSearch-Titel ohne belegtes Ende tragen den Starttag nicht mehr als Ende (Film oder genau eine Folge…'
+    - 2950 (Mutationsanker), 3123 (Netz-Wächter), 3178 (Titel unterwegs) — Prüfer „ändern“, Nachbesserung beim nächsten freien Platz.
+'2026-11-13':
+  geschafft:
+    - Kein Push mehr um Mitternacht für Termine ohne Uhrzeit (PR 3810, Anlass Devil's Crest 00:00). Nach Daniels Korrektur 14.11. 01:20 gibt es f…
+    - Netflix-Durchgang der Erweiterung (3626).
+    - Sendezeit SBR (3766).
+    - Linkprüfung der Prime-ASINs (3633).
+    - 'Weitere Fixes: 3804, 3802, 3794, 3779, 3649, 3642, 3618, 3605, 3698.'
+    - 'Erweiterung: Absturz „Extension context invalidated“ nach einem Update behoben (3780).'
+    - TMDB-Prüfung (3760).
+    - Der Worker-Wecker läuft alle 5 min, der Nacht-Merger alle 20 min (3630).
+  probleme:
+    - Wächter mit Lücken
+    - Doppelte Arbeit
+    - Falsche Signale
+    - 'Zu schnell gemergt: reflexartig gemergt, ohne Bilanz (63).'
+    - Remote
+    - CI-Stau
+    - 'Mein Fehler im Chat: Klick-Optionen gezeigt. Inzwischen ist das in Memory und Regel verankert (wrap_up nur mit recap).'
+'2026-11-14':
+  geschafft:
+    - 'Kein Push ohne Uhrzeit mehr (3828): Hat eine Folge keine Uhrzeit, kommt keine Benachrichtigung um Mitternacht. Auf der Seite steht stattdes…'
+    - 'Der Tag zählt nach Berliner Zeit, nicht nach UTC (3708, 3678, 3677, 3661, 3658): Folgen kurz nach Mitternacht stehen jetzt am richtigen Tag.'
+    - 'Crunchyroll-Wochenzeiten stimmen (3853, 3849): Vermilion Mask stand als erschienen, bevor die Folge kam. Jetzt gilt die gemessene Sendezeit.'
+    - Der Katalog läuft nach dem Ende des Simulcast-Kalenders weiter (3838).
+    - Merken-Knopf in Gold (3852, Mockup 3805).
+    - Der Wochenplan zeigt Sendepausen (3709).
+    - Favoriten mit eigener Kennung gehen nicht mehr verloren (3710).
+    - Folgenzahl bei Crunchyroll-Simuldubs (3679).
+  probleme:
+    - 'Zeitstempel und Live-Daten (Lehren 77, 80):'
+    - 'Prüfkette und Mutationsanker (Lehren 72, 79, 84):'
+    - 'Nachträge und Auflagen (Lehren 82, 85):'
+    - 'Attrappen und Kulissen (Lehren 71, 74, 75, 76):'
+    - 'Fund nachliefern (Lehren 86, 87):'
+    - 'Wachwerkzeug mit blindem Fleck (Lehre 81): liegegut blendete Entwürfe aus.'
+'2026-11-15':
+  geschafft:
+    - 'Crunchyroll-Wochentermin ohne Sichtung gilt als fällig, nicht als erschienen (3941): Eine Folge steht erst als erschienen, wenn sie gesehen…'
+    - 'Aoashi Staffel 2 bekommt wieder Termine (3920): Auch wenn die Serie unter mehreren Crunchyroll-Adressen läuft.'
+    - Kalender-Abo zeigt Zweitausstrahlung und Disc nach dem Streaming (3942).
+    - Hinweise für Webseiten und Apps im Abo, Lizenzzeile im Kalenderkopf (3958).
+    - 'Chaika Avenging Battle: widersprüchliche Messung gesperrt (3887).'
+    - Hörbücher fliegen aus dem RTL+-Katalog (3968).
+    - Plakat verschwindet mit dem TMDB-Eintrag (3954).
+    - Newsletter antwortet an kontakt@anime-kalender.de (3957).
+  probleme:
+    - 'Zahlen, die nur an einer Stelle leben (Lehren 88, 99, 100, 103, 104, 105):'
+    - 'Meine eigenen Handgriffe (Lehren 89, 90, 91, 92):'
+    - 'Werkzeug ohne Wirkung (Lehren 93, 94, 102): Lint für tools/ lief ohne Konfiguration grün; ein Hintergrundlauf in einer Subshell meldete sic…'
+    - 'Zusagen und Sicherheit (Lehren 95, 96, 97, 98, 101): Ein Bericht endete ohne Folgeauftrag; ein Mailentwurf versprach einen Bau ohne Entsche…'

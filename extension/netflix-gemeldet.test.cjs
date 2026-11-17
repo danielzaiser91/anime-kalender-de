@@ -214,6 +214,8 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, speicher)
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
+  /* `netflix-profilwahl.js` (Manifest vor `melder.js`) startet einen Takt; die Probe braucht nur die Antwort „keine Profilauswahl“. */
+  umgebung.akProfilwahlSeite = () => false
   ladeSkripte(kontext, skripteBis('melder.js', { nur: ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'melder.js'] }))
   return { umgebung, body, takte }
 }

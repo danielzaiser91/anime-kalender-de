@@ -26,12 +26,12 @@ MAIL_PROVIDER = "resend"       # resend | brevo | console
 FROM_EMAIL = "kalender@send.anime-kalender.de"
 FROM_NAME = "Anime-Kalender DE"
 # Antworten der Abonnenten sollen NICHT bei `send.anime-kalender.de` landen —
-# das ist eine reine Versand-Subdomain ohne Postfach. `info@daniel-zaiser.de`
-# wird auf das Googlemail-Postfach des Betreibers weitergeleitet.
-REPLY_TO = "info@daniel-zaiser.de"
+# das ist eine reine Versand-Subdomain ohne Postfach. `kontakt@anime-kalender.de`
+# ist die Projektadresse (Email Routing); der Betreibername darf nie öffentlich stehen.
+REPLY_TO = "kontakt@anime-kalender.de"
 SEND_HOUR_BERLIN = "7"
 # Empfänger der Überwachungsmeldungen
-MONITOR_EMAIL = "danielzaiser91@googlemail.com"
+MONITOR_EMAIL = "kontakt@anime-kalender.de"
 # Wird nach dem ersten Deploy mit der tatsächlichen Worker-Adresse gefüllt;
 # sie steckt in jedem Abmeldelink.
 WORKER_URL = "https://newsletter.animekalender.workers.dev"

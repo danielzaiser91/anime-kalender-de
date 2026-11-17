@@ -4,62 +4,11 @@ PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Seinen
+X-WR-CALDESC:Daten von anime-kalender.de unter CC BY 4.0. Hinweise für Web
+ seiten und Apps: https://anime-kalender.de/#/abo
 X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
-BEGIN:VEVENT
-UID:steel-ball-run-2nd-3rd-stage@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T080000Z
-DTEND:20261106T083000Z
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
- lge 8/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:apothecary-diaries-s3-cour1@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T160000Z
-DTEND:20261106T163000Z
-SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16914/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:pet-primevideo@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:pet (neu bei Prime Video)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/9062/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384015@2026-11-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261107T093000Z
-DTEND:20261107T100000Z
-SUMMARY:The Vermilion Mask – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16918/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:aoashi-staffel-2-crunchyroll-de-2026-10-25@2026-11-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
-SUMMARY:Aoashi Staffel 2 – Folge 3/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
-CATEGORIES:Crunchyroll
-END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -67,9 +16,8 @@ DTSTART:20261113T080000Z
 DTEND:20261113T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 9/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -78,17 +26,15 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261113T160000Z
 DTEND:20261113T163000Z
 SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16914/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261114T093000Z
-DTEND:20261114T100000Z
+DTSTART:20261114T103000Z
+DTEND:20261114T110000Z
 SUMMARY:The Vermilion Mask – Folge 3/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16918/
@@ -101,9 +47,7 @@ DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:Aoashi Staffel 2 – Folge 4/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter gena
- nnter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetail
- s: https://anime-kalender.de/t/16812/
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16812/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -123,9 +67,8 @@ DTSTART:20261120T080000Z
 DTEND:20261120T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 10/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -156,15 +99,16 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:Gantz (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/348/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei ADN im Streaming (spätestens ab 05.06.2026).\nUhrzeit
+  noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/348/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261121T093000Z
-DTEND:20261121T100000Z
+DTSTART:20261121T103000Z
+DTEND:20261121T110000Z
 SUMMARY:The Vermilion Mask – Folge 4/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -202,9 +146,8 @@ DTSTART:20261127T080000Z
 DTEND:20261127T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 11/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -222,8 +165,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261128T093000Z
-DTEND:20261128T100000Z
+DTSTART:20261128T103000Z
+DTEND:20261128T110000Z
 SUMMARY:The Vermilion Mask – Folge 5/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -250,9 +193,8 @@ DTSTART:20261204T080000Z
 DTEND:20261204T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 12/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -315,8 +257,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:The 100 Girlfriends – Staffel 2\, Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15610/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 02.02.2025).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/15610/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -325,8 +268,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15778/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 31.01.2025).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/15778/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -342,8 +286,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261205T093000Z
-DTEND:20261205T100000Z
+DTSTART:20261205T103000Z
+DTEND:20261205T110000Z
 SUMMARY:The Vermilion Mask – Folge 6/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -378,8 +322,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261212T093000Z
-DTEND:20261212T100000Z
+DTSTART:20261212T103000Z
+DTEND:20261212T110000Z
 SUMMARY:The Vermilion Mask – Folge 7/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -414,8 +358,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261219T093000Z
-DTEND:20261219T100000Z
+DTSTART:20261219T103000Z
+DTEND:20261219T110000Z
 SUMMARY:The Vermilion Mask – Folge 8/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -450,8 +394,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2026-12-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261226T093000Z
-DTEND:20261226T100000Z
+DTSTART:20261226T103000Z
+DTEND:20261226T110000Z
 SUMMARY:The Vermilion Mask – Folge 9/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -486,8 +430,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2027-01-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270102T093000Z
-DTEND:20270102T100000Z
+DTSTART:20270102T103000Z
+DTEND:20270102T110000Z
 SUMMARY:The Vermilion Mask – Folge 10/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -522,8 +466,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2027-01-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270109T093000Z
-DTEND:20270109T100000Z
+DTSTART:20270109T103000Z
+DTEND:20270109T110000Z
 SUMMARY:The Vermilion Mask – Folge 11/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -549,10 +493,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
 SUMMARY:Die Tagebücher der Apothekerin – Staffel 2 – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
- g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
- ://anime-kalender.de/t/15778/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 31.01.2025).\nUhrzeit noc
+ h nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\
+ , sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https:/
+ /anime-kalender.de/t/15778/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -570,8 +515,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384015@2027-01-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270116T093000Z
-DTEND:20270116T100000Z
+DTSTART:20270116T103000Z
+DTEND:20270116T110000Z
 SUMMARY:The Vermilion Mask – Folge 12/≈12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An

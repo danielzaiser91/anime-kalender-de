@@ -9,6 +9,7 @@
  * Profilauswahl vom 05.11.2026. Nach der Profilwahl verschwindet das Element, die Marke fällt ab.
  */
 const AK_PROFILWAHL_ELEMENT = '[data-uia="profile-gate-screen"]'
+const AK_PROFILWAHL_TAKT_MS = 500
 
 function akProfilwahlSeite(doc) {
   return Boolean(doc.querySelector(AK_PROFILWAHL_ELEMENT))
@@ -32,4 +33,4 @@ setInterval(() => {
   } catch {
     /* Vor dem Laden von melder.js gibt es noch keinen Durchgang. */
   }
-}, 500)
+}, AK_PROFILWAHL_TAKT_MS)

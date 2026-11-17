@@ -2,7 +2,7 @@
  * Tests für tools/nachrechnen-schleife.mjs: Kommentartext, Zählung der Durchgänge (Signal 10), Fehlerpfad des Kommentars,
  * Verdrahtung in pr-nachrechnen (Kommentar nach dem Anstoßen) und in liegegut (Signal 10 im Gesamtlauf).
  */
-import { grundKommentar, kommentiereGrund, schleifeSignal } from './nachrechnen-schleife.mjs'
+import { grundKommentar, kommentiereGrund, schleifeSignal, schleifenBeginn, zaehlbeginn } from './nachrechnen-schleife.mjs'
 import { nachrechnen } from './pr-nachrechnen.mjs'
 import { liegegut, liegtZeile, naechsterSchritt } from './liegegut.mjs'
 
@@ -74,6 +74,7 @@ console.log('nachrechnen-schleife: Verdrahtung in pr-nachrechnen')
       if (k.includes('/commits/')) return `${abw.main ?? MAIN}\n`
       if (k.includes('pulls/7/files')) return 'web/src/andere.ts\n'
       if (k.includes('merge_commit_sha')) return 'a'.repeat(40)
+      if (k.includes('update-branch')) throw new Error('gh: Not Found (HTTP 404)')
       if (k.startsWith('pr ')) return ''
       throw new Error(`unerwartet: ${k}`)
     }
@@ -111,9 +112,11 @@ console.log('nachrechnen-schleife: Verdrahtung in liegegut')
   const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
   const pr = (nummer, comments) => ({ number: nummer, title: `fix(x): ${nummer}`, headRefOid: KOPF, createdAt: iso(20), mergeable: 'MERGEABLE', mergeStateStatus: 'CLEAN', isDraft: false, body: '', comments, statusCheckRollup: [], reviews: [] })
   const kommentar = (stunden) => ({ author: { login: 'danielzaiser91' }, createdAt: iso(stunden), body: grundKommentar('a', 'b', 'c') })
-  const gh = (liste) => (args) => {
+  // `kopf`: Commit-Zeit des Kopfs; `commitListe`: Zeilen der PR-Commit-Liste (Zeit TAB erste Nachrichtenzeile), Standard = nur der Kopf-Commit
+  const gh = (liste, kopf = iso(10), commitListe = `${iso(10)}\tfix(x): nachbessern\n`) => (args) => {
     if (args[0] === 'pr') return JSON.stringify(liste)
-    if (args[1].includes('/commits/')) return iso(10)
+    if (args[1].includes('/commits/')) return kopf
+    if (/\/pulls\/\d+\/commits\?per_page=100$/.test(args[1])) return commitListe
     throw new Error(`unerwartet: ${args.join(' ')}`)
   }
   const git = (args) => {
@@ -121,7 +124,19 @@ console.log('nachrechnen-schleife: Verdrahtung in liegegut')
     throw Object.assign(new Error('kein Treffer'), { status: 1 })
   }
   const zeilen = liegegut(gh([pr(31, [kommentar(5), kommentar(4), kommentar(3)]), pr(32, [kommentar(5), kommentar(4)]), pr(33, [kommentar(15), kommentar(14), kommentar(13)])]), git, JETZT)
-  pruefe('PR mit 3 Durchgängen bekommt eine Zeile (SCHLEIFE, Signal 10), PR mit 2 keine, PR mit 3 Durchgängen vor dem Kopf-Commit (10 h) keine', zeilen.length === 1 && /^PR 31: SCHLEIFE .*Signal 10 Nachrechnen 3×/.test(zeilen[0]), zeilen)
+  pruefe('PR mit 3 Durchgängen bekommt eine Zeile (SCHLEIFE, Signal 10), PR mit 2 keine, PR mit 3 Durchgängen vor dem Kopf-Commit (10 h) keine', zeilen.length === 1 && /^anime-kalender-de PR 31: SCHLEIFE .*Signal 10 Nachrechnen 3×/.test(zeilen[0]), zeilen)
+  // A4 (PR 4104): update-branch setzt je Durchgang einen neuen Kopf („Merge branch 'main' into …“); gezählt wird ab dem letzten anderen Commit
+  const mergeKopf = `${iso(20)}\tfix(x): bauen\n${iso(6)}\tMerge branch 'main' into fix/x\n${iso(2)}\tMerge branch 'main' into fix/x\n`
+  const drei = [kommentar(5), kommentar(4), kommentar(3)]
+  const ueberUpdate = liegegut(gh([pr(34, drei)], iso(2), mergeKopf), git, JETZT)
+  pruefe('drei Durchgänge, jeder mit neuem update-branch-Kopf (Kopf 2 h, Bauer-Commit 20 h) -> SCHLEIFE', ueberUpdate.length === 1 && /^anime-kalender-de PR 34: SCHLEIFE .*Signal 10 Nachrechnen 3×/.test(ueberUpdate[0]), ueberUpdate)
+  const nachBauer = `${iso(20)}\tfix(x): bauen\n${iso(4.5)}\tfix(x): nachbessern\n${iso(2)}\tMerge branch 'main' into fix/x\n`
+  pruefe('Bauer-Commit zwischen den Durchgängen (4,5 h) -> Zählung beginnt dort, 2 Durchgänge -> kein Signal', liegegut(gh([pr(35, drei)], iso(2), nachBauer), git, JETZT).length === 0)
+  const zeitPunkt = (h) => JETZT - h * 3600 * 1000
+  pruefe('zaehlbeginn: jüngster Commit ohne „Merge branch \'main\' into“; nur Merges -> Kopfzeit', zaehlbeginn([{ nachricht: 'fix', zeit: zeitPunkt(9) }, { nachricht: "Merge branch 'main' into x", zeit: zeitPunkt(1) }], zeitPunkt(1)) === zeitPunkt(9) && zaehlbeginn([{ nachricht: "Merge branch 'main' into x", zeit: zeitPunkt(1) }], zeitPunkt(1)) === zeitPunkt(1) && zaehlbeginn([{ nachricht: "Merge remote-tracking branch 'origin/main' into x", zeit: zeitPunkt(3) }, { nachricht: "Merge branch 'main' into x", zeit: zeitPunkt(1) }], zeitPunkt(1)) === zeitPunkt(3))
+  let abfragen = 0
+  const zaehl = (c) => schleifenBeginn(() => { abfragen++; return `${iso(20)}\tfix\n` }, { number: 36, comments: c }, zeitPunkt(2))
+  pruefe('schleifenBeginn: unter 3 Durchgängen keine Abfrage (Kopfzeit), ab 3 die Commit-Liste', zaehl([kommentar(5), kommentar(4)]) === zeitPunkt(2) && abfragen === 0 && zaehl(drei) === Date.parse(iso(20)) && abfragen === 1)
   const funde = [{ nr: 31, signale: [{ nr: 10, seit: JETZT - 5 * 3600 * 1000 }] }]
   pruefe('LIEGT-Zeile nennt „Nachrechnen-Schleife“ mit Stunden', liegtZeile(funde, JETZT) === 'LIEGT: 31 (Nachrechnen-Schleife 5 h)', liegtZeile(funde, JETZT))
   pruefe('Schritt: Signale 10 und 8 zusammen -> SCHLEIFE (Reihenfolge egal); 8 allein bleibt STILLSTAND', naechsterSchritt([10, 8], [], false).startsWith('SCHLEIFE') && naechsterSchritt([8, 10], [], false).startsWith('SCHLEIFE') && naechsterSchritt([8], [], false) === 'STILLSTAND')

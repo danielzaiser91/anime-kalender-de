@@ -150,7 +150,7 @@ console.log('Tagesdeckel')
     .filter((f) => f.endsWith('.ts'))
     .filter((f) => readFileSync(`worker/src/${f}`, 'utf8').includes("from './tagesdeckel.ts'"))
   /* titelzeile-stapel.ts nutzt nur die Zählhülle (`zaehlendeDb` mit eigenem `vorher` für das Stapel-Budget), nicht den Deckel. */
-  pruefe(quellen.join() === 'lesedeckel.ts,pruefung-speichern.ts,titelzeile-stapel.ts', `nur Meldungs-Route, Lese-Deckel und die Zählhülle des Stapels nutzen tagesdeckel.ts (${quellen.join(', ')}) — Anmeldung, Push, Cron bleiben frei (istFrei)`)
+  pruefe(quellen.join() === 'lesedeckel.ts,pruefung-speichern.ts,pruefung-zurueck-route.ts,titelzeile-stapel.ts', `nur Meldungs-Routen, Lese-Deckel und die Zählhülle des Stapels nutzen tagesdeckel.ts (${quellen.join(', ')}) — Anmeldung, Push, Cron bleiben frei (istFrei)`)
 }
 
 console.log('Unveränderte Meldung')

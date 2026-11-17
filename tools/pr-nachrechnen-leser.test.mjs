@@ -116,8 +116,8 @@ pruefe('pfadTokens: jeder Ordnerkopf zählt', pfadTokens(['.github/a.yml', 'data
 for (const [ende, ziel] of [['.ts', 'a/b.ts'], ['.tsx', 'a/b.tsx'], ['.mjs', 'a/b.mjs'], ['.cjs', 'a/b.cjs'], ['.mts', 'a/b.mts'], ['/index.ts', 'a/b/index.ts']]) {
   pruefe(`importZiele: Kandidat ${ende}`, importZiele('a/c.ts', "import './b'").includes(ziel), importZiele('a/c.ts', "import './b'"))
 }
-// Datenkanal (Auflage A1/A3 des CI-Prüfers): ein PR mit Datenänderung, die der Bau mit der bewegten Datei zusammen liest, bleibt veraltet,
-// auch wenn sein Code sie nicht nennt. Handbelege, kuratierte Daten und Sammlerdaten, je einzeln; ohne Leser der bewegten Datei gilt er nicht.
+// Datenkanal (Auflage A1/A3 des CI-Prüfers; seit 13.11.2026 (F133) für reine Handdaten-PR gelockert: `pr-nachrechnen-kennung.test.mjs`): ein PR mit Datenänderung, die der Bau mit der bewegten Datei zusammen liest, bleibt veraltet,
+// solange keine Kennungsdaten vorliegen (Parameter `kennung` fehlt oder trägt `fehler`, fail-closed) und für jeden PR mit Code; auch wenn sein Code sie nicht nennt. Handbelege, kuratierte Daten und Sammlerdaten, je einzeln; ohne Leser der bewegten Datei gilt er nicht.
 // Der Grund nennt Leser und die bewegte Datei, die dieser Leser nennt (11.11.2026); ist sein Text nicht lesbar, die erste bewegte.
 const leserEnde = (pfad, bewegt = F) => new RegExp(`\\(Leser: ${pfad.replace(/[./]/g, '\\$&')}, nennt ${bewegt.replace(/[./]/g, '\\$&')}\\)$`)
 for (const daten of ['data/curated/tv-2026.yaml', 'data/dub-confirmed.yaml', 'data/anbieter-staffeln.json', 'data/curated/ordner/tief/a.yaml']) {
@@ -143,6 +143,7 @@ const ADN = ['data/adn-staffelzuordnung.yaml']
 pruefe('PR 3490: Bot-Datei bewegt, Leser nennt nur sie -> null', bewegtesGelesen({ bewegt: [BAUER, F], pr: ADN, leser: LESER, lies, paketSkripte: null, botBewegt: [F] }) === null)
 pruefe('PR 3490 Kontrolle: ohne botBewegt derselbe Fall -> Grund (nennt F)', leserEnde('pipeline/bau/cr.ts').test(bewegtesGelesen({ bewegt: [BAUER, F], pr: ADN, leser: LESER, lies, paketSkripte: null })))
 // Gegenfall: bewegter Code mit Leser bleibt Grund, auch wenn zugleich eine Bot-Datei bewegt ist; der Grund nennt die Datei dieses Lesers, nicht die erste.
+// Gilt ohne Kennungsdaten (hier nie übergeben); mit ihnen entscheidet bei reinen Handdaten-PR der Kennungsschnitt (F133, 13.11.2026), bewegter Code des Bau-Pfads bleibt dort Grund.
 const CODE = 'pipeline/lib/neu.ts'
 const texte = { ...BAUM, 'pipeline/bau/b.ts': "import { n } from '../lib/neu'\n// pipeline/lib/neu.ts\nconst pfad = 'pipeline/lib/neu.ts'\n" }
 const gemischt = bewegtesGelesen({ bewegt: [F, CODE], pr: ADN, leser: ['pipeline/bau/cr.ts', 'pipeline/bau/b.ts'], lies: (p) => texte[p] ?? null, paketSkripte: null, botBewegt: [F] })
@@ -157,7 +158,12 @@ pruefe('PR 3490 Rückwärtsweg: nur Bot-Datei bewegt, Leser importiert die Handd
 pruefe('PR 3490 Rückwärtsweg Kontrolle: dieselbe Lage ohne botBewegt -> Grund', rueck([BAUER, F], [], LESER) !== null, rueck([BAUER, F], [], LESER))
 pruefe('PR 3490 Rückwärtsweg Gegenfall: bewegter Code erreicht die Handdaten -> Grund, auch mit Bot-Datei', /^data\/adn-staffelzuordnung\.yaml wird von Code genutzt/.test(rueck([F, 'pipeline/lib/neu.ts'], [F], []) ?? ''), rueck([F, 'pipeline/lib/neu.ts'], [F], []))
 const codePr = bewegtesGelesen({ bewegt: [F], pr: ['data/anderes.yaml', 'pipeline/lib/adn.ts'], leser: LESER, lies: (p) => texteR[p] ?? null, paketSkripte: null, botBewegt: [F] })
-pruefe('PR 3490 Gegenfall: PR ändert Code (keine Handdaten), Leser der Bot-Datei nutzt ihn -> Grund bleibt', /^pipeline\/lib\/adn\.ts wird von Code genutzt/.test(codePr ?? ''), codePr)
+pruefe('F136 (Fall PR 3717): PR ändert Code, den nur der Leser der Bot-Datei importiert -> null', codePr === null, codePr)
+const t3717 = { 'pipeline/check-logic.ts': "import { t } from '../worker/src/templates'\nconst d = 'data/termine-verpasst.json'\n", 'worker/src/templates.ts': 'export const t = 1\n' }
+const f3717 = (pr, bot = ['data/termine-verpasst.json']) => bewegtesGelesen({ bewegt: ['data/termine-verpasst.json'], pr, leser: ['pipeline/check-logic.ts'], lies: (p) => t3717[p] ?? null, paketSkripte: null, botBewegt: bot })
+pruefe('F136 echter Fall: PR ändert worker/src/templates.ts -> null', f3717(['worker/src/templates.ts']) === null, f3717(['worker/src/templates.ts']))
+pruefe('F136 Gegenprobe: PR ändert den Leser pipeline/check-logic.ts selbst -> Grund', /^der PR liest data\/termine-verpasst\.json \(pipeline\/check-logic\.ts\)/.test(f3717(['pipeline/check-logic.ts']) ?? ''), f3717(['pipeline/check-logic.ts']))
+pruefe('F136 Kontrolle: ohne botBewegt wäre templates.ts ein Grund', (f3717(['worker/src/templates.ts'], []) ?? '').startsWith('worker/src/templates.ts wird von Code genutzt'), f3717(['worker/src/templates.ts'], []))
 pruefe('Meldung Aufruf: Bau-Leser vor Werkzeug-Leser', /^der PR ruft pipeline\/bau\/cr\.ts auf/.test(grund(['.github/workflows/lesend.yml'], { leser: ['tools/cr-vorschau.ts', 'pipeline/bau/cr.ts'] })))
 pruefe('PR ändert nur Patch Notes (ohne Leser in der Kette), Leser vorhanden -> null', grund(['data/patchnotes/neu.yaml']) === null)
 pruefe('PR ändert Datei außerhalb von data/ mit Datenendung, Leser vorhanden -> null', grund(['tools/daten.json']) === null)

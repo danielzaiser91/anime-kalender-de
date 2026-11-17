@@ -16,50 +16,12 @@
  * Netzzugriff. Verbunden sind sie über `window.postMessage`.
  */
 
-/**
- * Lebt die Verbindung zur Erweiterung noch?
- *
- * Chrome trennt beim Neuladen der Erweiterung alle laufenden
- * Content-Scripts von ihr. Sie laufen weiter, aber jeder `chrome.*`-Zugriff
- * wirft „Extension context invalidated" (Daniel, 23.08.2026, mit Bild aus
- * der Fehlerkonsole). Das trifft jede offene Seite nach jedem Neuladen.
- *
- * `chrome.runtime.id` ist der zuverlässige Prüfstein: Sie verschwindet mit
- * der Verbindung.
- */
-function verbindungLebt() {
-  try {
-    return Boolean(chrome?.runtime?.id)
-  } catch {
-    return false
-  }
-}
+/* Tot-sicherer Zugriff auf `chrome.*`: `kontext.js` (Erweiterung neu geladen = Kontext tot, 23.08.2026). */
+const verbindungLebt = () => globalThis.akKontext.lebt()
 
-/**
- * Ein Speicherzugriff, der einen toten Kontext überlebt.
- *
- * Gibt `null` zurück, statt zu werfen — der Aufrufer entscheidet, was das
- * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
- * los ist, statt mitten im Aufbau abzubrechen.
- */
-async function speicherLesen(schluessel) {
-  if (!verbindungLebt()) return null
-  try {
-    return await chrome.storage.local.get(schluessel)
-  } catch {
-    return null
-  }
-}
-
-async function speicherSchreiben(werte) {
-  if (!verbindungLebt()) return false
-  try {
-    await chrome.storage.local.set(werte)
-    return true
-  } catch {
-    return false
-  }
-}
+/** Der Speicher, der einen toten Kontext überlebt: `null`, statt zu werfen (siehe `kontext.js`). */
+const speicherLesen = async (schluessel) => globalThis.akKontext.lesen(schluessel)
+const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 /* Höchstens so viele Meldungen je Anfrage nimmt der Worker an (PRUEFUNG_STAPEL_HOECHSTENS). */
@@ -364,11 +326,15 @@ function meldungenMerken(reihe, paare) {
     m.jeNummer.set(nr, spaeter(m.jeNummer.get(nr), am))
   }
   MELDUNGEN.set(r, m)
+  globalThis.akNetflixStand?.aktuell?.eigene(r, paare ?? [])
 }
 
 /** Den Briefkasten zu einer Reihe fragen — der Dialog braucht alle, der Knopf eine. */
 async function meldungenLaden(reihe) {
-  if (!reihe || globalThis.akMeldungenNeuLaden?.(reihe) === false) return
+  if (reihe && globalThis.akMeldungenNeuLaden?.(reihe) !== false) await meldungenAbrufen(reihe)
+}
+
+async function meldungenAbrufen(reihe) {
   try {
     const adresse = `https://www.netflix.com/title/${reihe}`
     const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(adresse)}`, { cache: 'no-store' })
@@ -378,6 +344,8 @@ async function meldungenLaden(reihe) {
     /* Ohne Netz bleibt, was schon bekannt ist. */
   }
 }
+
+globalThis.akNetflixStand?.neu({ worker: WORKER, reihen: () => Object.keys(offeneTitel), merken: meldungenMerken, abrufen: meldungenAbrufen, uebernahme: naechsteUebernahme, geaendert: () => (uebersichtZeigen(), dialogNeuZeichnen()) })
 
 /**
  * Wie der Anbieter die Reihe teilt: aus dem Player, sonst aus der gerechneten
@@ -749,7 +717,7 @@ function ausWeiterleitung() {
     if (frisch && stand.reihe) {
       netflixWeiterleitungen = { ...netflixWeiterleitungen, [String(stand.reihe)]: String(zuletztGeoeffnet.id) }
       zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true, zielReihe: String(stand.reihe) }
-      void chrome.storage.local.set({ netflixWeiterleitungen, zuletztGeoeffnet })
+      void globalThis.akKontext.schreiben({ netflixWeiterleitungen, zuletztGeoeffnet })
     }
     return frisch
   } catch {
@@ -972,7 +940,7 @@ async function vorfallMelden(art, daten = {}) {
     if (VORFALL_GEMELDET.has(schluessel) || vorfallZahl >= 20) return
     VORFALL_GEMELDET.add(schluessel)
     vorfallZahl++
-    const { token } = await chrome.storage.sync.get('token')
+    const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return
     await fetch(WORKER.replace('/pruefung', '/vorfall'), {
       method: 'POST',
@@ -981,7 +949,7 @@ async function vorfallMelden(art, daten = {}) {
         plattform: 'netflix',
         art,
         url: location.href.split('?')[0],
-        version: chrome.runtime?.getManifest?.()?.version ?? null,
+        version: globalThis.akKontext.version(),
         ...daten,
       }),
     })
@@ -991,7 +959,7 @@ async function vorfallMelden(art, daten = {}) {
 }
 
 async function fundSchicken(fund) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return
   try {
     await fetch(WORKER.replace('/pruefung', '/netzfund'), {
@@ -1211,8 +1179,8 @@ async function melden({ automatisch = false } = {}) {
   if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
-  const { token } = await chrome.storage.sync.get('token')
-  if (!token) return zeigeErgebnis('Kein Token — Rechtsklick aufs Symbol, dann Optionen', false)
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
+  if (!token) return zeigeErgebnis(globalThis.akKontext.keinTokenText(), false)
 
   try {
     const antwort = await fetch(WORKER, {
@@ -1618,15 +1586,7 @@ function knopfEntfernen() {
  * wenn der Knopf steht — dann hat `knopfZeigen()` nichts weiter zu tun.
  */
 function browseWegKnopf() {
-  /*
-    **Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht.**
-
-    Daniel am 19.09.2026 an „Bakugan“ (81659233): „der titel ist nicht bei
-    netflix, der link wird auf homepage weitergeleitet, aber extension hätte
-    … meldung nicht bei netflix möglich sein“ müssen. Der Kasten zeigte nur
-    „alles gemeldet“. Derselbe Befund wie „als tot melden“ in der Liste,
-    jetzt dort angeboten, wo er auffällt — solange der Klick keine Minute her ist.
-  */
+  /* **Leitet ein Auftrag aus der Liste auf `/browse` um, gibt es den Titel dort nicht** (Bakugan 81659233, 19.09.2026): Knopf, und seit 15.11.2026 meldet es sich angemeldet von selbst (Profilauswahl = kein Urteil). */
   if (/^\/(?:[a-z-]+\/)?browse\b/.test(location.pathname)) {
     const auftrag = akNetflixBrowseAuftrag(zuletztGeoeffnet, offeneTitel, Date.now())
     if (auftrag) {
@@ -1646,10 +1606,15 @@ function browseWegKnopf() {
         knopf.onclick = async () => {
           knopf.disabled = true
           knopf.textContent = 'meldet …'
-          const r = await totMelden(auftrag.id, titel)
+          const r = await totMelden(auftrag.id, titel, 'Umleitung auf Startseite')
           knopf.textContent = r.ok ? `✓ „${titel}“ als nicht bei Netflix gemeldet` : r.text
           if (r.ok) zuletztGeoeffnet = { ...zuletztGeoeffnet, verbraucht: true }
         }
+        /* Die Profilauswahl rendert erst nach dem Takt: erst nach zwei Profilwahl-Takten gilt sie, und ein Klick dazwischen meldet nicht doppelt. */
+        const wartender = knopf
+        setTimeout(() => {
+          if (!wartender.disabled && !akProfilwahlSeite(document)) void wartender.onclick()
+        }, 2 * AK_PROFILWAHL_TAKT_MS)
       }
       return true
     }
@@ -1863,12 +1828,14 @@ let erledigt = {}
 let netflixWeiterleitungen = {}
 /** Besitzer des Durchgangs (`netflix-durchgang-steuerung.js`); `undefined` = noch nicht geladen. */
 let durchgangBesitzer
-const erledigtGeladen = chrome.storage.local
-  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen', 'netflixDurchgangBesitzer'])
+const erledigtGeladen = Promise.resolve(
+  globalThis.akKontext.lesen(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen', 'netflixDurchgangBesitzer']),
+)
   .then((x) => {
+    x = x ?? {}
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
-    zuletztGeoeffnet = akNetflixEigenerSprung(x.zuletztGeoeffnet, meinTab)
+    zuletztGeoeffnet = akNetflixSprungLaden(x.zuletztGeoeffnet, meinTab, selbstAn)
     netflixWeiterleitungen = x.netflixWeiterleitungen ?? {}
     durchgangBesitzer = x.netflixDurchgangBesitzer ?? null
   })
@@ -2047,7 +2014,7 @@ async function merkeErledigt(id, staffel, folge) {
    */
   if (offeneTitel[String(id)] === undefined) {
     try {
-      const { zuletztGeoeffnet } = (await speicherLesen('zuletztGeoeffnet')) ?? {}
+      const zuletztGeoeffnet = akNetflixEigenerSprung(((await speicherLesen('zuletztGeoeffnet')) ?? {}).zuletztGeoeffnet, meinTab, selbstAn)
       if (
         zuletztGeoeffnet?.id &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
@@ -2178,7 +2145,7 @@ async function merkeErledigt(id, staffel, folge) {
  * viele Staffeln darin stecken, steht im Tooltip des Knopfes.
  */
 function offeneTitelZahl() {
-  return Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
+  return Object.entries(offeneTitel).filter(([id]) => !selbstUebersprungen.nichtOffen(id)).length
 }
 
 function fertig(id, eintrag) {
@@ -2399,7 +2366,7 @@ function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
   bremse.zuruecksetzen()
-  taktTun.zeigen(null)
+  taktTun.aufraeumen()
   if (durchgangBesitzer?.tab === meinTab) taktTun.schreiben(null)
   DURCHLAUF.vollLauf = null
   DURCHLAUF.mehrfach = null
@@ -2417,7 +2384,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, selbstGezaehlt, offeneTitel, undefined, vorfallMelden)
+    durchgangEnde = akNetflixEnde(grund, selbstUebersprungen, fertigeTitel, akNetflixBesuchtStand(), offeneTitel, undefined, vorfallMelden)
     durchgangEndeZeigen()
   }
 }
@@ -2425,7 +2392,7 @@ function laufBeenden(grund) {
 /** Wie der letzte Durchgang endete — steht im Kasten, bis der nächste startet. */
 let durchgangEnde = null
 /** Titel, die der Durchgang abgeschlossen hat (nicht übersprungen). */
-const fertigeTitel = new Set()
+const fertigeTitel = akNetflixFertigSet()
 
 function durchgangEndeZeigen() {
   akNetflixEndeZeigen(() => netflixKasten().querySelector('.ak-z-melden'), durchgangEnde, selbstUebersprungen.zurueckText())
@@ -2445,11 +2412,10 @@ function laufStarten() {
     Jetzt wird zuerst gefragt und nur gestartet, wenn es etwas zu holen gibt. Der Rückgabewert
     sagt dem Knopf, was er anzeigen soll.
   */
-  const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined
+  const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined && !selbstUebersprungen.zurueckgestellt(gemeinteReihe())
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
-  selbstGezaehlt = 0
-  selbstGrenze = Object.keys(offeneTitel).length
+  akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length), undefined, null, hierAuftrag, hierAuftrag ? String(gemeinteReihe()) : null)
   selbstVersucht = null
   selbstUebersprungen.clear()
   bremse.zuruecksetzen()
@@ -2472,14 +2438,14 @@ function laufStarten() {
 }
 
 /** Klick auf „▶ alle durchgehen" / „⏹ Durchgang beenden": beendet, startet oder sagt, warum nichts startet. */
-function selbstKlick(selbst) {
+async function selbstKlick(selbst) {
   if (selbstAn) {
     laufBeenden('von Hand')
     dialogSchliessen()
     return
   }
-  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel). */
-  const hinweis = akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now()) ?? (laufStarten() ? null : selbstUebersprungen.keinAuftrag())
+  /* Läuft der Durchgang in einem anderen Tab, startet hier keiner (zwei Tabs führen sonst um dieselben Titel); bei zwei Klicks binnen 300 ms gewinnt, wer sich zurückliest, sonst beendet der Takt den Verlierer (4071). */
+  const hinweis = (await akNetflixBesitzAnspruch({ kontext: globalThis.akKontext, tab: meinTab, knopf: selbst, jetzt: Date.now, warte: (ms) => new Promise((f) => setTimeout(f, ms)) })) ?? (laufStarten() ? null : (taktTun.schreiben(null), selbstUebersprungen.keinAuftrag()))
   if (!hinweis) return
   /* Kein Start: der Dialog bleibt offen und sagt es (kein Auftrag heißt meist, die Erweiterung hält einen älteren Prüfstand — ein Neuladen holt ihn). */
   const vorher = selbst.textContent
@@ -2510,13 +2476,14 @@ let selbstVersucht = null
 let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text); mit Ablauf auch im Speicher (`netflix-zurueckgestellt.js`). */
-const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig)
+const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER })
 /** Tab, Bremse (kein Titelfenster in Folge = Sitzung, nicht Titel), Bericht je Titel und Takt-Verdrahtung (`netflix-durchgang-steuerung.js`). */
 const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
 const bremse = akNetflixBremseOeffnen(selbstUebersprungen, (r, g, z) => titelBericht.ausgang(r, g, z))
 const vollLaden = akNetflixVollLaden(location)
-const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter })
+const nichtDaTun = akNetflixNichtDaTun({ melden: (...a) => totMelden(...a), offeneTitel, uebersprungen: selbstUebersprungen, spur: (...a) => spur(...a), gehe: (p) => gehe(p), weiter: (n, nd, id) => selbstWeiter(n, nd, id), aktiv: () => selbstAn, bremse, profilwahl: () => akProfilwahlSeite(document), fetch: (u, i) => (verbindungLebt() ? fetch(u, i) : Promise.reject(new Error('Erweiterung neu geladen'))), erledigt: (id) => offeneTitel[id] !== undefined && fertig(id, offeneTitel[id]) })
+const taktTun = akNetflixTaktTun({ titelBericht, kasten: netflixKasten, speichern: speicherSchreiben, beenden: laufBeenden, weiter: selbstWeiter, gehe, sprung: () => zuletztGeoeffnet, tab: meinTab, fortschritt: () => akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, akNetflixZaehlerStand().titel ?? offeneTitel[String(zuletztGeoeffnet?.id)]?.titel, akNetflixWartetText(selbstWartet, Date.now())), knopfText: () => DURCHLAUF.knopf?.textContent, knopf: durchlaufKnopfZeigen })
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
 const SELBST_VERSUCHE = 2
@@ -2784,17 +2751,19 @@ function istAlleFolgenEintrag(text) {
   return /^\s*(?:alle folgen|all episodes)/i.test(String(text ?? ''))
 }
 
-/** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
-function selbstWeiter(frei = 0) {
+/** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. `nichtDa`: Umleitung, der Fortschritt zählt den Titel mit. */
+function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
+  if (!verbindungLebt()) return
   /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
+  akNetflixErledigtZaehlen(nichtDa, undefined, kennung)
   if (bremse.pause(Date.now())) return
-  selbstGrenze ??= Object.keys(offeneTitel).length
+  selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
   const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden(bremse.offen() ? `Netflix zeigte ${bremse.offen()} Titel ohne Inhalt, sie bleiben offen` : 'kein offener Auftrag mehr')
-  selbstGezaehlt++
+  akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze, undefined, offeneTitel[naechster]?.titel, false, naechster)
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
       `(${selbstGezaehlt}/${selbstGrenze})`,
@@ -2803,13 +2772,13 @@ function selbstWeiter(frei = 0) {
   const sprung = { id: String(naechster), zeit: Date.now(), durchgang: true, tab: meinTab }
   titelBericht.beginn(naechster, sprung.zeit)
   void speicherSchreiben({ zuletztGeoeffnet: sprung })
-  zuletztGeoeffnet = sprung
-  gehe(`/title/${naechster}`)
+  zuletztGeoeffnet = akNetflixEigenerSprungMerken(sprung)
+  void nichtDaTun.sprung(naechster) /* Vorprüfung: Umleitung auf `/browse` = nicht bei Netflix, sofort; sonst `gehe`. */
 }
 
 /** Wie viele Titel dieser Lauf angesprungen hat; `selbstGrenze` = bei Laufbeginn offene Titel (siehe `netflix-durchgang-schutz.js`). */
-let selbstGezaehlt = 0
-let selbstGrenze = null
+let selbstGezaehlt = akNetflixZaehlerStand().gezaehlt
+let selbstGrenze = akNetflixZaehlerStand().grenze
 
 /**
  * **Die nächste Adresse, die noch etwas zu holen hat.**
@@ -2846,10 +2815,11 @@ function naechsterAuftrag() {
  */
 async function vielleichtSelbstStarten() {
   try {
-    if (!akNetflixSelbstTakt({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now(), bremse }, taktTun)) return
+    /* Erweiterung neu geladen (tote Verbindung): dieses Skript springt, meldet und fragt nichts mehr (4071). */
+    if (!verbindungLebt() || !akNetflixSelbstTakt({ selbstAn, besitzer: durchgangBesitzer, tab: meinTab, jetzt: Date.now(), bremse }, taktTun)) return
     const ziel = zuletztGeoeffnet
-    const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined }
-    if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })) return
+    const o = { selbstAn, laeuft: DURCHLAUF.laeuft, pfad: location.pathname, ziel, jetzt: Date.now(), offen: offeneTitel[String(ziel?.id)] !== undefined, profilwahl: akProfilwahlSeite(document) }
+    if (akNetflixUmgeleitet(o, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, nichtDa: nichtDaTun })) return
     await selbstStartenSchritt()
   } catch (e) {
     const text = String(e?.message ?? e)
@@ -2871,11 +2841,10 @@ async function selbstStartenSchritt() {
     Film baut seine Liste selbst und trägt die Kennung der Adresse (`listeFuer`).
   */
   const seiteHier = String(titelDerAdresse() ?? '')
-  const filmHier =
-    DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
-  if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
+  const filmHier = DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
+  if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier) || (filmHier && !selbstWartet?.filmFrei)) {
     /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
-    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
+    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), film: filmHier, erledigt: filmHier && fertig(reihe, offeneTitel[String(reihe)]), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF, merkmale: () => akNetflixBericht.seitenmerkmale(document, location, history) }
     selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter, bremse, vollLaden })
     return
   }
@@ -2926,6 +2895,7 @@ async function selbstStartenSchritt() {
     DURCHLAUF.selbst = true
     DURCHLAUF.gesamt = 0
     DURCHLAUF.erzwungen = true
+    if (filmHier) akNetflixFilmVersuchMerken(reihe)
     await durchlaufStarten()
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0
@@ -3188,7 +3158,7 @@ async function durchlaufStandLaden(reihe) {
     /* Kein Netz — dann der letzte bekannte Stand. */
   }
   try {
-    const gespeichert = await chrome.storage.local.get(durchlaufSchluessel(reihe))
+    const gespeichert = (await globalThis.akKontext.lesen(durchlaufSchluessel(reihe))) ?? {}
     DURCHLAUF.gemeldet = new Set(gespeichert[durchlaufSchluessel(reihe)] ?? [])
   } catch {
     DURCHLAUF.gemeldet = new Set()
@@ -3197,11 +3167,8 @@ async function durchlaufStandLaden(reihe) {
 
 async function durchlaufStandSchreiben(reihe) {
   if (!reihe) return
-  try {
-    await chrome.storage.local.set({ [durchlaufSchluessel(reihe)]: [...DURCHLAUF.gemeldet] })
-  } catch {
-    /* Ohne Speicher fängt der nächste Durchlauf von vorn an, mehr nicht. */
-  }
+  /* Ohne Speicher fängt der nächste Durchlauf von vorn an, mehr nicht. */
+  await globalThis.akKontext.schreiben({ [durchlaufSchluessel(reihe)]: [...DURCHLAUF.gemeldet] })
 }
 
 /**
@@ -3737,7 +3704,7 @@ document.addEventListener('ak-weiterleitung-vergessen', async (e) => {
     console.log("[Anime-Kalender] Zum Löschen: { detail: '<reihenId>' } oder { detail: 'alle' }")
     return
   }
-  await chrome.storage.local.set({ netflixWeiterleitungen })
+  await globalThis.akKontext.schreiben({ netflixWeiterleitungen })
   console.log('[Anime-Kalender] vorher:', vorher, '→ jetzt:', netflixWeiterleitungen)
 })
 
@@ -3771,6 +3738,7 @@ document.addEventListener('ak-oeffnen', async (e) => {
 
 /** Die Navigation, die auch ein Klick auslöst — ohne Neuladen. */
 function gehe(pfad) {
+  if (!verbindungLebt()) return
   history.pushState({}, '', pfad)
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
@@ -4058,7 +4026,8 @@ async function durchlaufStarten() {
         dort 1 folge prüfen stehen." Beim ersten Kakegurui-Lauf traf es drei
         von zwölf.
       */
-      DURCHLAUF.ohneSpur = (DURCHLAUF.ohneSpur ?? 0) + 1
+      /* Ein Netflix-Fehler (UI3012, E103) ist „nicht da", nicht „ohne Tonspur" (15.11.2026). */
+      akNetflixOhneSpurZaehlen(DURCHLAUF)
       /*
         **`info`, nicht `warn` — das hier ist kein Fehler.**
 
@@ -4191,7 +4160,7 @@ async function durchlaufStarten() {
     kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
     schließen).
   */
-  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter, bremse, Date.now())) {
+  if (DURCHLAUF.selbst && selbstAn && akNetflixTitelUeberspringen(DURCHLAUF, selbstUebersprungen, selbstWeiter, bremse, Date.now(), nichtDaTun)) {
     /* Netflix zeigt den Titel nicht: übersprungen, der Durchgang geht weiter. */
   } else if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
     laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
@@ -4256,7 +4225,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   /* `bisNummer` steht nur noch in der Notiz — gefiltert wird von den Aufrufern. */
   /* Welche Folgen wirklich abgespielt wurden; nur die gehen als `gemessen` raus. */
   const gemessen = new Set(gemessenNr.map(Number))
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token || !akNetflixSeitentreu(DURCHLAUF, titelDerAdresse(), folgen)) return 0
   const reihe = gemeinteReihe()
   let gemeldet = 0
@@ -4377,7 +4346,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
 }
 
 async function durchlaufMelden(folge, echte, deutsch) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token || !akNetflixSeitentreu(DURCHLAUF, titelDerAdresse(), [folge])) return false
   /*
     **Die Staffel der Folge schlaegt die des Players — und sie gilt fuer beides.**
@@ -4608,159 +4577,7 @@ function durchlaufKnopfZeigen() {
       netflixDebugZeile(netflixKasten())
     }
   }
-  if (!DURCHLAUF.knopf) {
-    /*
-      **Beide Knöpfe in einer Zeile, nicht an zwei Bildschirmrändern.**
-
-      Der Schalter stand zuerst mit `left: 16px` da — also am anderen Ende des
-      Fensters, weit weg von dem Knopf, auf den er wirkt (Daniel, 26.08.2026:
-      „button ist links am rand statt links neben anderem button").
-
-      Ein gemeinsamer Behälter löst das ohne Rechnerei: Die Breite des
-      Hauptknopfes ändert sich mit seiner Beschriftung, jede feste Zahl wäre
-      beim nächsten Text falsch.
-    */
-    DURCHLAUF.leiste = document.createElement('div')
-    DURCHLAUF.leiste.className = 'ak-durchlauf-leiste'
-    /*
-      **Ein Klick in der Leiste gehört uns, nicht Netflix — und auch nicht mir.**
-
-      Der erste Anlauf hing `stopPropagation` in die **Capture**-Phase des
-      Behälters. Ein Ereignis läuft dort von oben nach unten: Es erreichte die
-      Leiste, wurde gestoppt — und kam bei den Knöpfen darin nie an. Beide
-      waren tot, ohne Fehlermeldung.
-
-      Gestoppt wird deshalb in der **Bubble**-Phase: Da haben die Knöpfe schon
-      reagiert, und nur der Weg nach oben endet hier.
-
-      Netflix schließt sein Overlay aber über einen Listener am Dokument, und
-      der kann in der Capture-Phase liegen — dann läuft er vor jedem Stoppen
-      hier. Deshalb zusätzlich ein eigener Wächter am Dokument, der Klicks aus
-      unserer Leiste dort abfängt.
-    */
-    for (const art of ['click', 'mousedown', 'pointerdown']) {
-      /*
-        In der Bubble-Phase, also nachdem die Knöpfe reagiert haben. Netflix
-        erfährt von dem Klick nichts mehr — sofern sein eigener Listener nicht
-        in der Capture-Phase liegt.
-      */
-      DURCHLAUF.leiste.addEventListener(art, (e) => e.stopPropagation())
-    }
-    DURCHLAUF.knopf = document.createElement('button')
-    DURCHLAUF.knopf.className = 'ak-durchlauf'
-    akKlick(
-      DURCHLAUF.knopf,
-      (e) => {
-        /*
-          Läuft schon etwas, tut ein Klick nichts mehr.
-
-          Daniel am 26.08.2026: „da steht danach aber immer noch klickbar …
-          mach es direkt nicht klickbar, sonst könnte es issues geben."
-          Abgebrochen wird über den Knopftext (der zeigt dann „abbrechen") und
-          über Escape — ein zweiter Start mitten im Lauf wäre etwas anderes.
-        */
-        /*
-          **Der Klick sagt, was er tut — zweimal geraten reicht.**
-
-          Daniel am 26.08.2026: „nichts passiert bei klick. diagnose oder weiter
-          raten?" Ein Klick, der still endet, ist von einem, der gar nicht
-          ankommt, nicht zu unterscheiden. Jetzt nennt er den Zustand, an dem er
-          scheitert.
-        */
-        const zustand = {
-          laeuft: DURCHLAUF.laeuft,
-          offen: durchlaufOffen().length,
-          folgenBekannt: DURCHLAUF.folgen.length,
-          gemeldet: DURCHLAUF.gemeldet.size,
-          auftrag: durchlaufAuftrag()?.map((f) => f.nummer) ?? null,
-          shift: e.shiftKey,
-        }
-        /*
-          **Im Lauf bricht der Klick ab — der Knopf sagt „abbrechen"** (21.09.2026). Bis 4.20.48
-          verwarf er den Klick („läuft schon"), und Daniel stand vor einem Knopf, der
-          abbrechen anbot und nichts tat. Ein zweiter Start bleibt ausgeschlossen.
-        */
-        if (DURCHLAUF.laeuft || DURCHLAUF.mehrfach) {
-          DURCHLAUF.abbruch = true
-          /* Zwischen zwei Staffeln läuft kein Durchlauf — der Abbruch muss dann an die Schleife. */
-          if (DURCHLAUF.mehrfach) DURCHLAUF.mehrfach.abbruch = true
-          console.log('[Anime-Kalender] Abbruch per Knopf:', zustand)
-          durchlaufKnopfZeigen()
-          return
-        }
-        /* „Alle Folgen anzeigen": alle offenen Staffeln nacheinander (24.09.2026). */
-        if (alleStaffelnAnsicht()) {
-          void alleStaffelnPruefen()
-          return
-        }
-        /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
-        if (!durchlaufOffen().length) {
-          console.warn('[Anime-Kalender] Klick verworfen — nichts offen:', zustand)
-          return
-        }
-        console.log('[Anime-Kalender] Durchlauf startet:', zustand)
-        /* `durchlaufStarten()` liest den Auftrag aus der Prüfliste und fällt sonst auf erste und letzte offene Folge zurück; einen vollen Lauf von Hand gibt es nicht. */
-        void durchlaufStarten()
-      },
-    )
-    /*
-      **Den Modus-Umschalter gibt es seit dem 10.09.2026 nicht mehr.**
-
-      Er wechselte zwischen „zwei Folgen", „alle" und „Anfang und Ende" — eine
-      Frage an den Menschen, deren Antwort seit heute Vormittag in der Prüfliste
-      steht: Sie nennt je Eintrag `erste` und `folgen`, also „S1 Folge 26" oder
-      „S1 F13–15". `durchlaufAuftrag()` liest das, und der Knopf schreibt es hin.
-
-      Daniel: „mach es so das es minimal invasiv für mich ist und gleichzeitig
-      maximale abdeckung hat, ein button für alles je nach zustand und
-      melde-item." Wo die Liste nichts Genaues weiß, bleibt es bei erster und
-      letzter offener Folge — dem sparsamen Weg, der seit dem 26.08.2026 der
-      richtige ist.
-    */
-
-    /**
-     * **Was nur der Rechtsklick konnte, kann jetzt ein Knopf.**
-     *
-     * „Stand für einen Lauf übergehen" stand im Tooltip des Hauptknopfs — also
-     * an einer Stelle, die niemand liest, bevor er sie braucht. Daniel am
-     * 10.09.2026: „rechtsklick verhalten ist versteckt, mach es sichtbar, es
-     * sollte kein verstecktes wissen geben, erweiterung muss klar und deutlich
-     * ihr verhalten kommunizieren."
-     *
-     * Der Rechtsklick bleibt — er ist der schnellere Weg für den, der ihn
-     * kennt. Neu ist, dass man ihn nicht kennen muss.
-     */
-    DURCHLAUF.nochmalKnopf = document.createElement('button')
-    DURCHLAUF.nochmalKnopf.className = 'ak-durchlauf ak-grenze'
-    DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
-    DURCHLAUF.nochmalKnopf.title =
-      'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
-    akKlick(DURCHLAUF.nochmalKnopf, () => {
-      console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
-      void durchlaufStandVergessen()
-    })
-    DURCHLAUF.leiste.appendChild(DURCHLAUF.nochmalKnopf)
-
-    DURCHLAUF.knopf.addEventListener(
-      'contextmenu',
-      (e) => {
-        e.preventDefault()
-        void durchlaufStandVergessen()
-      },
-      false,
-    )
-    DURCHLAUF.leiste.appendChild(DURCHLAUF.knopf)
-    /*
-      **In den Kasten, nicht an den Bildschirmrand** (10.09.2026). Die Leiste
-      war ein eigenes schwebendes Element mit eigenem Abstand; jetzt ist sie die
-      Melde-Zeile des gemeinsamen Kastens und rückt mit ihm.
-    */
-    const kasten = netflixKasten()
-    kasten.querySelector('.ak-z-melden')?.appendChild(DURCHLAUF.leiste)
-    netflixDebugZeile(kasten)
-    durchgangEndeZeigen()
-    schutzflaecheZeigen(true)
-  }
+  if (!DURCHLAUF.knopf) durchlaufKnopfBauen()
   /**
    * **Der Knopf zeigt, was noch fehlt — nicht, was es insgesamt gibt.**
    *
@@ -4828,9 +4645,8 @@ function durchlaufKnopfZeigen() {
     const imLauf = DURCHLAUF.laeuft
     const fertig = (m?.fertig ?? 0) + (imLauf || !m ? DURCHLAUF.fertig : 0)
     const gesamt = m ? m.gesamt + (imLauf ? Math.max(0, DURCHLAUF.gesamt - 2) : 0) : DURCHLAUF.gesamt
-    DURCHLAUF.knopf.textContent = lohntAbbruch
-      ? `⏹ ${fertig}/${gesamt} — abbrechen`
-      : `${fertig}/${gesamt} — läuft`
+    const zahl = (selbstAn && akNetflixKnopfZahl(taktTun.fortschritt())) || `${fertig}/${gesamt}`
+    DURCHLAUF.knopf.textContent = lohntAbbruch ? `⏹ ${zahl} — abbrechen` : `${zahl} — läuft`
     DURCHLAUF.knopf.title = lohntAbbruch
       ? 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
       : 'Läuft — gleich fertig.'
@@ -5103,6 +4919,156 @@ function durchlaufKnopfZeigen() {
     '\nDer Knopf „↻ alle" daneben prüft auch schon gemeldete Folgen noch einmal.'
 }
 
+/** Baut Leiste und Knopf des Durchlaufs beim ersten Zeigen (aus `durchlaufKnopfZeigen` herausgelöst). */
+function durchlaufKnopfBauen() {
+  /*
+    **Beide Knöpfe in einer Zeile, nicht an zwei Bildschirmrändern:** ein gemeinsamer Behälter statt fester
+    Abstände — die Breite des Hauptknopfes ändert sich mit seiner Beschriftung (26.08.2026).
+  */
+  DURCHLAUF.leiste = document.createElement('div')
+  DURCHLAUF.leiste.className = 'ak-durchlauf-leiste'
+  /*
+    **Ein Klick in der Leiste gehört uns, nicht Netflix — und auch nicht mir.**
+
+    Der erste Anlauf hing `stopPropagation` in die **Capture**-Phase des
+    Behälters. Ein Ereignis läuft dort von oben nach unten: Es erreichte die
+    Leiste, wurde gestoppt — und kam bei den Knöpfen darin nie an. Beide
+    waren tot, ohne Fehlermeldung.
+
+    Gestoppt wird deshalb in der **Bubble**-Phase: Da haben die Knöpfe schon
+    reagiert, und nur der Weg nach oben endet hier.
+
+    Netflix schließt sein Overlay aber über einen Listener am Dokument, und
+    der kann in der Capture-Phase liegen — dann läuft er vor jedem Stoppen
+    hier. Deshalb zusätzlich ein eigener Wächter am Dokument, der Klicks aus
+    unserer Leiste dort abfängt.
+  */
+  for (const art of ['click', 'mousedown', 'pointerdown']) {
+    /*
+      In der Bubble-Phase, also nachdem die Knöpfe reagiert haben. Netflix
+      erfährt von dem Klick nichts mehr — sofern sein eigener Listener nicht
+      in der Capture-Phase liegt.
+    */
+    DURCHLAUF.leiste.addEventListener(art, (e) => e.stopPropagation())
+  }
+  DURCHLAUF.knopf = document.createElement('button')
+  DURCHLAUF.knopf.className = 'ak-durchlauf'
+  akKlick(DURCHLAUF.knopf, durchlaufKnopfKlick)
+  /*
+    **Den Modus-Umschalter gibt es seit dem 10.09.2026 nicht mehr.**
+
+    Er wechselte zwischen „zwei Folgen", „alle" und „Anfang und Ende" — eine
+    Frage an den Menschen, deren Antwort seit heute Vormittag in der Prüfliste
+    steht: Sie nennt je Eintrag `erste` und `folgen`, also „S1 Folge 26" oder
+    „S1 F13–15". `durchlaufAuftrag()` liest das, und der Knopf schreibt es hin.
+
+    Daniel: „mach es so das es minimal invasiv für mich ist und gleichzeitig
+    maximale abdeckung hat, ein button für alles je nach zustand und
+    melde-item." Wo die Liste nichts Genaues weiß, bleibt es bei erster und
+    letzter offener Folge — dem sparsamen Weg, der seit dem 26.08.2026 der
+    richtige ist.
+  */
+  nochmalKnopfBauen()
+  DURCHLAUF.knopf.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault()
+      void durchlaufStandVergessen()
+    },
+    false,
+  )
+  DURCHLAUF.leiste.appendChild(DURCHLAUF.knopf)
+  /*
+    **In den Kasten, nicht an den Bildschirmrand** (10.09.2026). Die Leiste
+    war ein eigenes schwebendes Element mit eigenem Abstand; jetzt ist sie die
+    Melde-Zeile des gemeinsamen Kastens und rückt mit ihm.
+  */
+  const kasten = netflixKasten()
+  kasten.querySelector('.ak-z-melden')?.appendChild(DURCHLAUF.leiste)
+  netflixDebugZeile(kasten)
+  durchgangEndeZeigen()
+  schutzflaecheZeigen(true)
+}
+
+/** Klick auf den Durchlauf-Knopf (aus `durchlaufKnopfBauen` herausgelöst). */
+function durchlaufKnopfKlick(e) {
+  /*
+    Läuft schon etwas, tut ein Klick nichts mehr.
+
+    Daniel am 26.08.2026: „da steht danach aber immer noch klickbar …
+    mach es direkt nicht klickbar, sonst könnte es issues geben."
+    Abgebrochen wird über den Knopftext (der zeigt dann „abbrechen") und
+    über Escape — ein zweiter Start mitten im Lauf wäre etwas anderes.
+  */
+  /*
+    **Der Klick sagt, was er tut — zweimal geraten reicht.**
+
+    Daniel am 26.08.2026: „nichts passiert bei klick. diagnose oder weiter
+    raten?" Ein Klick, der still endet, ist von einem, der gar nicht
+    ankommt, nicht zu unterscheiden. Jetzt nennt er den Zustand, an dem er
+    scheitert.
+  */
+  const zustand = {
+    laeuft: DURCHLAUF.laeuft,
+    offen: durchlaufOffen().length,
+    folgenBekannt: DURCHLAUF.folgen.length,
+    gemeldet: DURCHLAUF.gemeldet.size,
+    auftrag: durchlaufAuftrag()?.map((f) => f.nummer) ?? null,
+    shift: e.shiftKey,
+  }
+  /*
+    **Im Lauf bricht der Klick ab — der Knopf sagt „abbrechen"** (21.09.2026). Bis 4.20.48
+    verwarf er den Klick („läuft schon"), und Daniel stand vor einem Knopf, der
+    abbrechen anbot und nichts tat. Ein zweiter Start bleibt ausgeschlossen.
+  */
+  if (DURCHLAUF.laeuft || DURCHLAUF.mehrfach) {
+    DURCHLAUF.abbruch = true
+    /* Zwischen zwei Staffeln läuft kein Durchlauf — der Abbruch muss dann an die Schleife. */
+    if (DURCHLAUF.mehrfach) DURCHLAUF.mehrfach.abbruch = true
+    console.log('[Anime-Kalender] Abbruch per Knopf:', zustand)
+    durchlaufKnopfZeigen()
+    return
+  }
+  /* „Alle Folgen anzeigen": alle offenen Staffeln nacheinander (24.09.2026). */
+  if (alleStaffelnAnsicht()) {
+    void alleStaffelnPruefen()
+    return
+  }
+  /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
+  if (!durchlaufOffen().length) {
+    console.warn('[Anime-Kalender] Klick verworfen — nichts offen:', zustand)
+    return
+  }
+  console.log('[Anime-Kalender] Durchlauf startet:', zustand)
+  /* `durchlaufStarten()` liest den Auftrag aus der Prüfliste und fällt sonst auf erste und letzte offene Folge zurück; einen vollen Lauf von Hand gibt es nicht. */
+  void durchlaufStarten()
+}
+
+/**
+ * **Was nur der Rechtsklick konnte, kann jetzt ein Knopf.**
+ *
+ * „Stand für einen Lauf übergehen" stand im Tooltip des Hauptknopfs — also
+ * an einer Stelle, die niemand liest, bevor er sie braucht. Daniel am
+ * 10.09.2026: „rechtsklick verhalten ist versteckt, mach es sichtbar, es
+ * sollte kein verstecktes wissen geben, erweiterung muss klar und deutlich
+ * ihr verhalten kommunizieren."
+ *
+ * Der Rechtsklick bleibt — er ist der schnellere Weg für den, der ihn
+ * kennt. Neu ist, dass man ihn nicht kennen muss.
+ */
+function nochmalKnopfBauen() {
+  DURCHLAUF.nochmalKnopf = document.createElement('button')
+  DURCHLAUF.nochmalKnopf.className = 'ak-durchlauf ak-grenze'
+  DURCHLAUF.nochmalKnopf.textContent = '↻ alle'
+  DURCHLAUF.nochmalKnopf.title =
+    'Prüft auch die Folgen noch einmal, die schon gemeldet sind.\nGilt für einen Lauf.'
+  akKlick(DURCHLAUF.nochmalKnopf, () => {
+    console.log('[Anime-Kalender] Stand wird für einen Lauf übergangen')
+    void durchlaufStandVergessen()
+  })
+  DURCHLAUF.leiste.appendChild(DURCHLAUF.nochmalKnopf)
+}
+
 /**
  * **Eine Fläche über der ganzen Ecke, die versehentliche Klicks schluckt.**
  *
@@ -5371,15 +5337,6 @@ async function dialogOeffnen() {
   } catch {
     /* Dann eben mit dem Stand von vorhin. */
   }
-  /*
-    **„Gemeldet" kommt aus dem Briefkasten, nicht aus dem lokalen Speicher.**
-    Fünf kleine Abfragen, parallel, höchstens anderthalb Sekunden — danach
-    gilt, was bis dahin da ist.
-  */
-  await Promise.race([
-    Promise.all(Object.keys(offeneTitel).map((r) => meldungenLaden(r))),
-    new Promise((fertig) => setTimeout(fertig, 1500)),
-  ])
   dialog = document.createElement('div')
   dialog.className = 'ak-dialog'
 
@@ -5387,8 +5344,6 @@ async function dialogOeffnen() {
   kasten.className = 'ak-kasten'
   dialog.appendChild(kasten)
 
-  const kopf = document.createElement('div')
-  kopf.className = 'ak-kopf'
   /**
    * Offenes zuerst, Erledigtes ans Ende.
    *
@@ -5398,20 +5353,12 @@ async function dialogOeffnen() {
    * Er soll dann wenigstens nicht mehr obenauf liegen.
    */
   const eintraege = Object.entries(offeneTitel).sort((a, b) => {
-    const d = Number(fertig(a[0], a[1])) - Number(fertig(b[0], b[1]))
+    const rang = ([id, e]) => Number(fertig(id, e)) * 2 + Number(selbstUebersprungen.zurueckgestellt(id))
+    const d = rang(a) - rang(b)
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
   })
-  const titelzeile = document.createElement('strong')
   /* Dieselbe Zahl wie am Knopf — aus derselben Funktion, nicht nachgerechnet. */
-  const nochOffen = offeneTitelZahl()
-  titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles geprüft'
-  kopf.appendChild(titelzeile)
-
-  const suche = document.createElement('input')
-  suche.className = 'ak-suche'
-  suche.type = 'search'
-  suche.placeholder = 'Suchen'
-  kopf.appendChild(suche)
+  const [nochOffen, zurueck] = [offeneTitelZahl(), selbstUebersprungen.zurueckZahl()]
 
   /**
    * Erledigtes ist standardmäßig weg.
@@ -5429,70 +5376,32 @@ async function dialogOeffnen() {
     „Weiter ansehen" (Weg freigegeben am 01.09.2026). Bis zum 21.09.2026 war es ein
     Schalter, der an blieb — siehe `laufStarten()`.
   */
-  {
-    const selbst = document.createElement('button')
-    selbst.className = 'ak-umschalter' + (selbstAn ? ' ak-selbst-an' : '')
-    selbst.textContent = selbstAn ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
-    selbst.title = selbstAn
-      ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
-      : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
-        'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
-    akKlick(selbst, () => selbstKlick(selbst))
-    kopf.appendChild(selbst)
-  }
+  const selbst = document.createElement('button')
+  selbst.className = 'ak-umschalter' + (selbstAn ? ' ak-selbst-an' : '')
+  selbst.textContent = selbstAn ? '⏹ Durchgang beenden' : '▶ alle durchgehen'
+  selbst.title = selbstAn
+    ? 'Beendet den laufenden Durchgang. Escape bricht die gerade laufende Prüfung ab.'
+    : 'Geht alle offenen Titel nacheinander durch — jede geprüfte Folge wird kurz geöffnet und ' +
+      'landet in „Weiter ansehen". Endet von selbst, wenn nichts mehr offen ist.'
+  akKlick(selbst, () => selbstKlick(selbst))
 
   /*
-    Einen eigenen Filter für Wiedervorlagen gab es kurz (4.20.46–4.20.49). Er wirkte gegen
-    „gemeldet ausblenden" und erzeugte Zwischenzustände; Daniel: „die toggle führen zu diesen
-    komischen zuständen". Die Wiedervorlage ist jetzt nur noch Farbe: blaue ↻-Pillen, blauer
-    Streifen an der Zeile.
+    Kopf in zwei Zeilen samt Ansicht der Zurückgestellten (`netflix-liste-ansicht.js`). Wiedervorlage bleibt nur Farbe
+    (blauer Streifen, 4.20.49); Zurückgestellte zählen nicht als gemeldet.
   */
-
-  if (eintraege.length - nochOffen > 0) {
-    const umschalter = document.createElement('button')
-    umschalter.className = 'ak-umschalter'
-    umschalter.textContent = `${eintraege.length - nochOffen} gemeldet zeigen`
-    akKlick(umschalter, () => {
-      const zeigen = kasten.classList.toggle('ak-mit-erledigten')
-      umschalter.textContent = zeigen
-        ? `${eintraege.length - nochOffen} gemeldet ausblenden`
-        : `${eintraege.length - nochOffen} gemeldet zeigen`
-    })
-    kopf.appendChild(umschalter)
-
-    /*
-      **Wann das Gemeldete hier wieder verschwindet.**
-
-      Ein gemeldeter Titel bleibt in der Liste stehen, bis der nächste Lauf ihn
-      übernommen hat — die Liste entsteht beim Datenlauf und weiß nichts vom
-      Briefkasten. Ohne die Uhrzeit ist von außen nicht zu unterscheiden, ob der
-      Lauf noch aussteht oder seine Arbeit nicht getan hat (Daniel, 26.08.2026:
-      „so kann ich es gegenprüfen, dass der lauf sein job gemacht hat").
-    */
-    const lauf = document.createElement('span')
-    lauf.className = 'ak-lauf'
-    lauf.title = 'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. GitHub startet ihn oft ein paar Minuten später.'
-    const zeigeLauf = () => {
-      const z = naechsteUebernahme()
-      const uhr = `${String(z.getHours()).padStart(2, '0')}:${String(z.getMinutes()).padStart(2, '0')}`
-      lauf.textContent = `Übernahme ab ${uhr} — danach hier weg`
-    }
-    zeigeLauf()
-    /* Bleibt der Dialog lange offen, wandert die Uhrzeit mit. */
-    const takt = setInterval(() => {
-      if (!lauf.isConnected) return clearInterval(takt)
-      zeigeLauf()
-    }, 60000)
-    kopf.appendChild(lauf)
-  }
-
-  const zu = document.createElement('button')
-  zu.className = 'ak-zu'
-  zu.textContent = '×'
-  zu.title = 'Schließen (Esc)'
-  akKlick(zu, dialogSchliessen)
-  kopf.appendChild(zu)
-  kasten.appendChild(kopf)
+  const ansicht = akNetflixListeAnsicht.kopf({
+    kasten,
+    titel: akNetflixKopfText(nochOffen),
+    selbst,
+    zurueck: akNetflixListeAnsicht.zeilen(eintraege, selbstUebersprungen.zurueckInfo),
+    gemeldet: eintraege.length - nochOffen - zurueck,
+    uebernahme: naechsteUebernahme,
+    zu: dialogSchliessen,
+    klick: akKlick,
+    geoeffnet: (id) => void speicherSchreiben({ zuletztGeoeffnet: { id, zeit: Date.now(), tab: meinTab } }),
+  })
+  const suche = ansicht.suche
+  kasten.appendChild(ansicht.kopf)
 
   /**
    * Eine Zeile je Titel: Name, die Folgen zum Anklicken, ihr Stand.
@@ -5589,7 +5498,7 @@ async function dialogOeffnen() {
         die Zielseite eine andere Kennung, trägt der nächste Takt sie als
         Weiterleitung nach — und zwar dauerhaft, unabhängig von jeder Frist.
       */
-      void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
+      void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now(), tab: meinTab } })
     })
     zeile.appendChild(link)
 
@@ -5858,16 +5767,14 @@ async function dialogOeffnen() {
     if (fertig(id, eintrag)) {
       zeile.classList.add('ak-abgehakt')
     }
+    /* Zurückgestellte stehen in ihrer eigenen Ansicht, nicht in der Liste. */
+    if (selbstUebersprungen.zurueckgestellt(id)) zeile.classList.add('ak-zurueck')
     liste.appendChild(zeile)
   }
   kasten.appendChild(liste)
-
-  suche.addEventListener('input', () => {
-    const wort = suche.value.trim().toLowerCase()
-    for (const zeile of liste.children) {
-      zeile.style.display = !wort || zeile.dataset.suchtext.includes(wort) ? '' : 'none'
-    }
-  })
+  if (ansicht.tabelle) kasten.appendChild(ansicht.tabelle)
+  akNetflixListeAnsicht.sperren(kasten, ansicht.kopf, selbst, akNetflixStartHinweis(durchgangBesitzer, meinTab, Date.now())) /* führt ein anderer Tab den Durchgang (4071) */
+  akNetflixListeAnsicht.suchen(suche, liste)
 
   // Ein Klick neben den Kasten schließt — wie überall sonst auch.
   akKlick(dialog, (e) => {
@@ -6082,7 +5989,7 @@ setInterval(() => void standHolen(), 5 * 60 * 1000)
  * gemeldeten Titel, nicht bei seinen Geschwistern.
  */
 async function staffelWegMelden(reihe, st, titelId, titel) {
-  const { token } = await chrome.storage.sync.get('token')
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return { ok: false, text: 'Kein Token' }
   try {
     const antwort = await fetch(WORKER, {
@@ -6109,9 +6016,9 @@ async function staffelWegMelden(reihe, st, titelId, titel) {
   }
 }
 
-async function totMelden(id, titel) {
-  const { token } = await chrome.storage.sync.get('token')
-  if (!token) return { ok: false, text: 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' }
+async function totMelden(id, titel, grund) {
+  const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
+  if (!token) return { ok: false, text: globalThis.akKontext.keinTokenText() }
   try {
     const antwort = await fetch(WORKER, {
       method: 'POST',
@@ -6123,7 +6030,7 @@ async function totMelden(id, titel) {
         sprachen: [],
         ...beobachtung(false),
         titel: titel || null,
-        notiz: 'Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um',
+        notiz: grund ? `Vom Durchgang als nicht bei Netflix gemeldet — ${grund}` : 'Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um',
       }),
     })
     if (!antwort.ok) {
@@ -6151,15 +6058,14 @@ async function totMelden(id, titel) {
  * Der Listener steht auf oberster Ebene und laeuft beim Skriptstart -- ohne
  * diese Pruefung stirbt das ganze Skript, bevor es den Knopf zeichnet.
  */
-if (verbindungLebt())
-  chrome.storage.onChanged.addListener((aenderungen, bereich) => {
+globalThis.akKontext.beiAenderung((aenderungen, bereich) => {
   if (bereich !== 'local') return
   // Ein Klick in einem anderen Tab sagt uns, welcher Titel gemeint ist.
   if (aenderungen.zuletztGeoeffnet) {
-    zuletztGeoeffnet = akNetflixEigenerSprung(aenderungen.zuletztGeoeffnet.newValue, meinTab)
+    zuletztGeoeffnet = akNetflixSprungUebernehmen(zuletztGeoeffnet, aenderungen.zuletztGeoeffnet.newValue, meinTab, selbstAn)
     uebersichtZeigen()
   }
-  if (aenderungen.netflixDurchgangBesitzer) durchgangBesitzer = aenderungen.netflixDurchgangBesitzer.newValue ?? null
+  if (aenderungen.netflixDurchgangBesitzer) durchgangBesitzer = akNetflixBesitzerUebernehmen(durchgangBesitzer, aenderungen.netflixDurchgangBesitzer.newValue ?? null, meinTab, () => setTimeout(dialogNeuZeichnen, 0))
   // Eine neu gemeldete Staffelaufteilung ändert die empfohlenen Folgen und
   // damit auch, was als erledigt gilt.
   if (aenderungen.anbieterStaffeln) {
@@ -6170,9 +6076,12 @@ if (verbindungLebt())
   erledigt = aenderungen.erledigt.newValue ?? {}
   // Die Zahl am Knopf gehört mit aktualisiert — sie zählt dasselbe.
   uebersichtZeigen()
+  dialogNeuZeichnen()
+})
+
+/* Den offenen Dialog neu zeichnen, aber die Suche und die Rollposition behalten — sonst springt die Liste weg. */
+function dialogNeuZeichnen() {
   if (!dialog) return
-  // Neu zeichnen, aber die Suche und die Rollposition behalten — sonst
-  // springt die Liste weg, während jemand sie durchgeht.
   const wort = dialog.querySelector('.ak-suche')?.value ?? ''
   const stelle = dialog.querySelector('.ak-liste')?.scrollTop ?? 0
   dialogSchliessen()
@@ -6185,7 +6094,7 @@ if (verbindungLebt())
     const liste = dialog?.querySelector('.ak-liste')
     if (liste) liste.scrollTop = stelle
   })
-})
+}
 
 /**
  * **Ein Diagnosebericht für Netflix — denselben Griff wie bei Amazon.**
@@ -6215,7 +6124,7 @@ function nfBericht() {
   }
   return {
     erzeugtAm: new Date().toISOString(),
-    version: sicher(() => chrome.runtime.getManifest().version),
+    version: globalThis.akKontext.version(),
     adresse: location.pathname + location.search,
     stand: sicher(() => ({
       reihe: stand.reihe,
@@ -6261,7 +6170,7 @@ function nfBericht() {
     /* Warum die Automatik jede Seite übersprungen oder geprüft hat (23.09.2026). */
     durchgang: sicher(() => ({
       laeuft: selbstAn,
-      gezaehlt: selbstGezaehlt,
+      gezaehlt: akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze)?.geprueft ?? selbstGezaehlt /* wie „n von m“ und der Knopf (4071) */,
       uebersprungen: akNetflixBericht.uebersprungen(selbstUebersprungen, offeneTitel),
       offen: akNetflixBericht.offene(offeneTitel, fertig),
       staffelnGeprueft: [...selbstStaffelnGeprueft],

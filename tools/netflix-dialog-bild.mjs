@@ -10,7 +10,9 @@
  * `melder.js` ausgerechnet (`staffelnVon`, `folgeZustand`, `zustandZeilen`) —
  * gegen die ausgelieferte `offene-netflix.js` und eine Meldung als Kulisse.
  * Nachgestellt ist nur das Gerüst aus Zeile, Pille und Marken, mit denselben
- * Klassen wie in `dialogOeffnen()`.
+ * Klassen wie in `dialogOeffnen()`. Der Kopf (Überschrift, Suchfeld, „nächste
+ * Übernahme“, „zurückgestellt“) kommt aus `netflix-liste-ansicht.js` selbst,
+ * mit fester Uhr und drei erfundenen Zurückgestellten (Kulisse, keine echten Titel).
  *
  * Aufruf: `node tools/netflix-dialog-bild.mjs`
  * Ergebnis: `docs/netflix-dialog.png`
@@ -20,7 +22,7 @@ import { readFileSync, mkdirSync } from 'node:fs'
 import { sperreNetz } from './netz-sperre.mjs'
 import vm from 'node:vm'
 
-const css = readFileSync('extension/melder.css', 'utf8')
+const css = ['melder.css', 'netflix-liste.css'].map((d) => readFileSync(`extension/${d}`, 'utf8')).join('\n')
 const quelle = readFileSync('extension/melder.js', 'utf8')
 const schneide = (name) => new RegExp(`function ${name}\\([^)]*\\) \\{[\\s\\S]*?\\n\\}`).exec(quelle)?.[0]
 const namen = [
@@ -88,7 +90,7 @@ zeilen = Object.entries(offeneTitel).map(([id, eintrag]) => ({
       mehrere: staffelnVon(id, eintrag).length > 1,
     }
   }),
-}))
+})).sort((a, b) => b.pillen.length - a.pillen.length).slice(0, 5)
 `,
   kontext,
 )
@@ -96,14 +98,42 @@ zeilen = Object.entries(offeneTitel).map(([id, eintrag]) => ({
 const browser = await chromium.launch()
 const seite = await browser.newPage({ viewportSize: { width: 820, height: 520 } })
 await sperreNetz(seite)
+const uhr = (iso) => Date.parse(iso)
+const kopfDaten = {
+  titel: `${kontext.zeilen.length} Titel offen`,
+  jetzt: uhr('2026-11-15T12:50:00+01:00'),
+  uebernahme: uhr('2026-11-15T13:23:00+01:00'),
+  gemeldet: 2,
+  zurueck: [
+    { id: '1', titel: 'Beispiel A', grund: 'Netflix zeigt ihn nicht (E103)', bis: uhr('2026-11-20T08:00:00+01:00'), am: uhr('2026-11-15T09:10:00+01:00') },
+    { id: '2', titel: 'Beispiel B', grund: 'Netflix zeigt ihn nicht (E103)', bis: uhr('2026-11-15T18:00:00+01:00'), am: Number.NaN },
+    { id: '3', titel: 'Beispiel C', grund: 'Titelseite nicht lesbar', bis: Number.NaN, am: uhr('2026-11-14T22:00:00+01:00') },
+  ],
+}
 await seite.setContent(`<!doctype html><meta charset="utf-8">
 <style>html{background:#141414}body{margin:0;font:13px/1.45 system-ui,sans-serif}${css}
 .ak-dialog{position:static}</style>`)
-await seite.evaluate((zeilen) => {
+await seite.addScriptTag({ content: readFileSync('extension/netflix-liste-ansicht.js', 'utf8') })
+await seite.evaluate(({ zeilen, kopfDaten }) => {
   const dialog = document.createElement('div')
   dialog.className = 'ak-dialog'
   const kasten = document.createElement('div')
   kasten.className = 'ak-kasten'
+  const selbst = document.createElement('button')
+  selbst.className = 'ak-umschalter'
+  selbst.textContent = '▶ alle durchgehen'
+  const ansicht = globalThis.akNetflixListeAnsicht.kopf({
+    kasten,
+    titel: kopfDaten.titel,
+    selbst,
+    zurueck: kopfDaten.zurueck,
+    gemeldet: kopfDaten.gemeldet,
+    uebernahme: () => new Date(kopfDaten.uebernahme),
+    zu: () => {},
+    klick: (el, fn) => el.addEventListener('click', fn),
+    jetzt: () => kopfDaten.jetzt,
+  })
+  kasten.appendChild(ansicht.kopf)
   const liste = document.createElement('div')
   liste.className = 'ak-liste'
   for (const z of zeilen) {
@@ -147,7 +177,7 @@ await seite.evaluate((zeilen) => {
   kasten.appendChild(liste)
   dialog.appendChild(kasten)
   document.body.appendChild(dialog)
-}, kontext.zeilen)
+}, { zeilen: kontext.zeilen, kopfDaten })
 
 for (const z of kontext.zeilen) {
   console.log(z.titel)

@@ -74,9 +74,22 @@ function importe(quelle) {
   return karte
 }
 
+/** `@shared/…`, wenn das tsconfig des Ziels den Alias kennt und die Datei in shared/ liegt (Worker: nein), sonst null. */
+function aliasFuer(zielPfad, datei) {
+  const o = optionenFuer(zielPfad)
+  const ziele = o.paths?.['@shared/*']
+  if (!ziele) return null
+  const wurzel = resolve(o.pathsBasePath ?? o.baseUrl ?? dirname(zielPfad), ziele[0].replace(/\*$/, ''))
+  const r = relative(wurzel, datei).replaceAll('\\', '/')
+  return r.startsWith('..') ? null : `@shared/${r}`
+}
+
 const relModul = (vonDatei, modul, zuDatei) => {
   if (!modul.startsWith('.')) return modul
-  let r = relative(dirname(zuDatei), resolve(dirname(vonDatei), modul)).replaceAll('\\', '/')
+  const datei = resolve(dirname(vonDatei), modul)
+  const alias = aliasFuer(zuDatei, datei)
+  if (alias) return alias
+  let r = relative(dirname(zuDatei), datei).replaceAll('\\', '/')
   if (!r.startsWith('.')) r = `./${r}`
   return r
 }
@@ -86,7 +99,7 @@ const spezifizierer = (vonDatei, zuDatei) => {
   return r.startsWith('.') ? r : `./${r}`
 }
 
-/** Importsätze für alle Bezeichner in `namen`, die `quelle` importiert — umgerechnet auf `ziel`. */
+/** Importsaetze für alle Bezeichner in `namen`, die `quelle` importiert — umgerechnet auf `ziel`. */
 function importsaetze(quellPfad, karte, namen, zielPfad) {
   const jeModul = new Map()
   for (const n of namen) {
@@ -118,12 +131,67 @@ function bezeichnerIn(knoten, menge = new Set()) {
 const deklName = (s) =>
   ts.isVariableStatement(s) ? s.declarationList.declarations.map((d) => d.name.getText()) : s.name ? [s.name.text] : []
 
-/** Text der Deklaration samt Kommentar davor, mit `export` vor dem Schlüsselwort. */
+/** Anfang des Kommentarblocks, der ohne Leerzeile unmittelbar über der Deklaration steht (sonst ihr eigener Anfang). */
+function kopfStart(text, s) {
+  let start = s.getStart()
+  const bereiche = ts.getLeadingCommentRanges(text, s.getFullStart()) ?? []
+  for (let i = bereiche.length - 1; i >= 0; i--) {
+    if (text.slice(bereiche[i].end, start).split('\n').length > 2) break
+    start = bereiche[i].pos
+  }
+  return start
+}
+
+/** Ende der Deklaration samt Kommentar in derselben Zeile. */
+function endeMitZeilenkommentar(text, s) {
+  const hinten = ts.getTrailingCommentRanges(text, s.end) ?? []
+  return hinten.length ? hinten[hinten.length - 1].end : s.end
+}
+
+/** Text der Deklaration samt Kommentarblock darüber, mit `export` vor dem Schlüsselwort. */
 function exportiert(text, s, gebraucht) {
-  const vorspann = text.slice(s.getFullStart(), s.getStart()).replace(/^\n+/, '')
-  const kern = text.slice(s.getStart(), s.end)
+  const vorspann = text.slice(kopfStart(text, s), s.getStart())
+  const kern = text.slice(s.getStart(), endeMitZeilenkommentar(text, s))
   const hatExport = s.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)
   return vorspann + (hatExport || !gebraucht ? kern : `export ${kern}`)
+}
+
+/** Text ohne den Bereich; Leerzeilen an der Nahtstelle bleiben wie sie waren (nie zwei, nie keine, wo eine stand). */
+function schneideWeg(text, von, bis) {
+  const davor = text.slice(0, von)
+  const danach = text.slice(bis)
+  const leer = /\n[ \t]*\n[ \t]*$/.test(davor) || /^[ \t]*\n[ \t]*\n/.test(danach)
+  const d = davor.trimEnd()
+  const n = danach.trimStart()
+  if (!n) return `${d}\n`
+  return d ? `${d}${leer ? '\n\n' : '\n'}${n}` : n
+}
+
+const istKonstante = (s) =>
+  ts.isVariableStatement(s) &&
+  Boolean(s.declarationList.flags & ts.NodeFlags.Const) &&
+  !s.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)
+
+/** Konstanten, die nur die verschobenen Deklarationen benutzen, wandern mit (bis nichts mehr dazukommt). */
+function mitzunehmende(bleiben, wandern) {
+  const mit = []
+  let rest = bleiben
+  for (let weiter = true; weiter; ) {
+    weiter = false
+    const benutzt = new Set()
+    for (const s of [...wandern, ...mit]) bezeichnerIn(s, benutzt)
+    for (const c of rest.filter(istKonstante)) {
+      const anderswo = new Set()
+      for (const s of rest) if (s !== c) bezeichnerIn(s, anderswo)
+      const namen = deklName(c)
+      if (!namen.some((n) => benutzt.has(n)) || namen.some((n) => anderswo.has(n))) continue
+      mit.push(c)
+      rest = rest.filter((s) => s !== c)
+      weiter = true
+      break
+    }
+  }
+  return { mit: bleiben.filter((s) => mit.includes(s)), rest }
 }
 
 /** Unbenutzte Importe entfernen, sonst nichts — über den Sprachdienst von TypeScript. */
@@ -154,11 +222,69 @@ function importeAufraeumen(pfad, alles = false) {
   writeFileSync(pfad, text)
 }
 
-function anhaengen(zielPfad, kopf, rumpf) {
+/** Der Name eines Importelements ohne `type`, zum Sortieren. */
+const elementName = (t) => t.replace(/^type /, '').toLowerCase()
+
+function importSatz(modul, standard, elemente) {
+  const kopf = standard ? `${standard}, ` : ''
+  const zeile = `import ${kopf}{ ${elemente.join(', ')} } from '${modul}'`
+  return zeile.length <= 120 ? zeile : `import ${kopf}{\n${elemente.map((e) => `  ${e},`).join('\n')}\n} from '${modul}'`
+}
+
+/** Die Importsätze der Datei mit benannten Importen, je Quelle gesammelt (Namensraum- und Nebenwirkungs-Importe zählen nicht). */
+function importeJeQuelle(sf) {
+  const jeModul = new Map()
+  for (const s of sf.statements) {
+    if (!ts.isImportDeclaration(s) || !s.importClause) continue
+    if (s.importClause.namedBindings && ts.isNamespaceImport(s.importClause.namedBindings)) continue
+    jeModul.set(s.moduleSpecifier.text, [...(jeModul.get(s.moduleSpecifier.text) ?? []), s])
+  }
+  return jeModul
+}
+
+/** Je Quelle genau ein Importsatz: mehrere Sätze derselben Quelle werden in den ersten gelegt, Namen sortiert. */
+function importeZusammenfuehren(pfad) {
+  const text = readFileSync(pfad, 'utf8')
+  const sf = ts.createSourceFile(pfad, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
+  const aenderungen = []
+  for (const [modul, saetze] of importeJeQuelle(sf)) {
+    const standards = saetze.filter((s) => s.importClause.name)
+    if (saetze.length < 2 || standards.length > 1) continue
+    const elemente = new Set()
+    for (const s of saetze)
+      for (const e of s.importClause.namedBindings?.elements ?? [])
+        elemente.add(`${s.importClause.isTypeOnly || e.isTypeOnly ? 'type ' : ''}${e.propertyName ? `${e.propertyName.text} as ` : ''}${e.name.text}`)
+    const sortiert = [...elemente].sort((a, b) => elementName(a).localeCompare(elementName(b)))
+    aenderungen.push([saetze[0].getStart(), saetze[0].end, importSatz(modul, standards[0]?.importClause.name.text, sortiert)])
+    for (const s of saetze.slice(1)) aenderungen.push([s.getStart(), text[s.end] === '\n' ? s.end + 1 : s.end, ''])
+  }
+  let neu = text
+  for (const [von, bis, ersatz] of aenderungen.sort((a, b) => b[0] - a[0])) neu = neu.slice(0, von) + ersatz + neu.slice(bis)
+  writeFileSync(pfad, neu)
+}
+
+function nachbearbeiten(quellPfad, zielPfad) {
+  for (const d of [quellPfad, zielPfad]) {
+    importeZusammenfuehren(d)
+    importeAufraeumen(d)
+  }
+}
+
+/** Index hinter dem letzten Importsatz (0 ohne Importe). */
+function nachImporten(text) {
+  const sf = ts.createSourceFile('x.tsx', text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
+  const letzter = [...sf.statements].reverse().find(ts.isImportDeclaration)
+  return letzter ? letzter.end : 0
+}
+
+/** `anfang` (Konstanten der verschobenen Teile) kommt direkt hinter die Importe des Ziels, `rumpf` ans Ende. */
+function anhaengen(zielPfad, kopf, rumpf, anfang = '') {
   const alt = existsSync(zielPfad) ? readFileSync(zielPfad, 'utf8') : ''
-  // Neue Importe vor die bisherigen, Rumpf ans Ende; doppelte führt „Organize Imports" zusammen.
-  const neu = alt ? `${kopf.join('\n')}\n${alt.trimEnd()}\n\n${rumpf.trim()}\n` : `${kopf.join('\n')}\n\n${rumpf.trim()}\n`
-  writeFileSync(zielPfad, neu)
+  const stelle = nachImporten(alt)
+  // Neue Importe vor die bisherigen; mehrere Sätze derselben Quelle führt `importeZusammenfuehren` zusammen.
+  const importe = [...kopf, alt.slice(0, stelle).trim()].filter(Boolean).join('\n')
+  const teile = [importe, anfang.trim(), alt.slice(stelle).trim(), rumpf.trim()].filter(Boolean)
+  writeFileSync(zielPfad, `${teile.join('\n\n')}\n`)
 }
 
 function verschiebeNamen(quellPfad, zielPfad, namen) {
@@ -166,35 +292,39 @@ function verschiebeNamen(quellPfad, zielPfad, namen) {
   const text = quelle.getFullText()
   const karte = importe(quelle)
   const gesucht = new Set(namen)
-  const wandern = quelle.statements.filter((s) => deklName(s).some((n) => gesucht.has(n)))
-  const fehlt = namen.filter((n) => !wandern.some((s) => deklName(s).includes(n)))
+  const gewaehlt = quelle.statements.filter((s) => deklName(s).some((n) => gesucht.has(n)))
+  const fehlt = namen.filter((n) => !gewaehlt.some((s) => deklName(s).includes(n)))
   if (fehlt.length) throw new Error(`nicht gefunden: ${fehlt.join(', ')}`)
-  const bleiben = quelle.statements.filter((s) => !wandern.includes(s) && !ts.isImportDeclaration(s))
+  const uebrige = quelle.statements.filter((s) => !gewaehlt.includes(s) && !ts.isImportDeclaration(s))
+  const { mit, rest: bleiben } = mitzunehmende(uebrige, gewaehlt)
+  const wandern = gewaehlt
   const bleibendeNamen = new Set(bleiben.flatMap(deklName))
   const benutzt = new Set()
-  for (const s of wandern) bezeichnerIn(s, benutzt)
+  for (const s of [...wandern, ...mit]) bezeichnerIn(s, benutzt)
   const rueckbezug = [...benutzt].filter((n) => bleibendeNamen.has(n))
   if (rueckbezug.length) console.warn(`⚠ braucht noch Namen aus ${quellPfad}: ${rueckbezug.join(', ')} — mitverschieben`)
+  if (mit.length) console.log(`mitgenommen (nur von den verschobenen Teilen benutzt): ${mit.flatMap(deklName).join(', ')}`)
   const draussen = new Set()
   for (const s of bleiben) bezeichnerIn(s, draussen)
   const rumpf = wandern.map((s) => exportiert(text, s, deklName(s).some((n) => draussen.has(n)))).join('\n\n')
-  anhaengen(zielPfad, importsaetze(quellPfad, karte, benutzt, zielPfad), rumpf)
+  const anfang = mit.map((s) => exportiert(text, s, false)).join('\n\n')
+  anhaengen(zielPfad, importsaetze(quellPfad, karte, benutzt, zielPfad), rumpf, anfang)
 
-  // Quelle: Deklarationen herausnehmen (von hinten), Import des Ziels ergänzen.
-  let neu = text
-  for (const s of [...wandern].reverse()) neu = neu.slice(0, s.getFullStart()) + neu.slice(s.end)
   const wanderNamen = wandern.flatMap(deklName).filter((n) => draussen.has(n))
-  const zielModul = spezifizierer(quellPfad, zielPfad)
-  const letzterImport = [...quelle.statements].reverse().find(ts.isImportDeclaration)
-  const stelle = letzterImport ? letzterImport.end : 0
   const nurTyp = new Set(wandern.filter((s) => ts.isInterfaceDeclaration(s) || ts.isTypeAliasDeclaration(s)).flatMap(deklName))
   const liste = wanderNamen.map((n) => (nurTyp.has(n) ? `type ${n}` : n)).join(', ')
-  if (wanderNamen.length) neu = `${neu.slice(0, stelle)}\nimport { ${liste} } from '${zielModul}'${neu.slice(stelle)}`
+  let neu = text
+  for (const s of [...wandern, ...mit].sort((a, b) => b.end - a.end)) neu = schneideWeg(neu, kopfStart(text, s), endeMitZeilenkommentar(text, s))
+  const stelle = nachImporten(neu)
+  const zielImport = `import { ${liste} } from '${spezifizierer(quellPfad, zielPfad)}'`
+  if (wanderNamen.length) neu = stelle ? `${neu.slice(0, stelle)}\n${zielImport}${neu.slice(stelle)}` : `${zielImport}\n\n${neu}`
   writeFileSync(quellPfad, neu)
-  importeAufraeumen(quellPfad)
-  importeAufraeumen(zielPfad)
+  nachbearbeiten(quellPfad, zielPfad)
   console.log(`${wanderNamen.length} Deklaration(en) nach ${zielPfad}: ${wanderNamen.join(', ')}`)
 }
+
+/** Variable ohne Typangabe: ihr Literal-Typ (`'a b'`, `5`) wird zu `string`/`number` geweitet; angegebene Typen bleiben. */
+const ohneAnnotation = (d) => (ts.isVariableDeclaration(d) || ts.isParameter(d)) && !d.type
 
 const aufModulebene = (d) => {
   let p = d.parent
@@ -248,7 +378,7 @@ function schnittstelle(quelle, pruefer, von, bis) {
         if (z >= von && z <= bis && (dz < von || dz > bis)) {
           // Der Typ an der ersten Verwendung im Abschnitt — dort ist er schon eingeengt (`if (!x) return`).
           if (!ein.has(sym.name)) {
-            const typ = pruefer.getTypeAtLocation(k)
+            const typ = ohneAnnotation(d) ? pruefer.getBaseTypeOfLiteralType(pruefer.getTypeAtLocation(k)) : pruefer.getTypeAtLocation(k)
             ein.set(sym.name, pruefer.typeToString(typ, huelle, ts.TypeFormatFlags.NoTruncation))
           }
           if (zuweisung(k.parent, k) || zaehlt(k.parent)) aendert.add(sym.name)
@@ -299,7 +429,7 @@ function modulFuer(pfad, zielPfad) {
     return teile[0].startsWith('@') ? `${teile[0]}/${teile[1]}` : teile[0]
   }
   const datei = ['.ts', '.tsx', '/index.ts'].map((e) => pfad + e).find(existsSync) ?? `${pfad}.ts`
-  return spezifizierer(zielPfad, datei)
+  return aliasFuer(zielPfad, datei) ?? spezifizierer(zielPfad, datei)
 }
 
 /** `import("/pfad/datei").Typ` (Typen, die die Quelle nicht importiert) wird `Typ` plus eigener Import. */
@@ -317,8 +447,31 @@ function typenAufloesen(ein, zielPfad) {
   return [...jeModul].map(([modul, typen]) => `import type { ${[...typen].join(', ')} } from '${modul}'`)
 }
 
+/**
+ * Bricht ab, wenn Ziel und Quelle dieselbe Datei sind oder der Bereich eine Anweisung anschneidet
+ * (`if (x)` ohne Rumpfzeile, `{` ohne `}`) — beides verschob das Werkzeug sonst still falsch (12.11.2026).
+ */
+function pruefeBereich(quelle, quellPfad, zielPfad, von, bis) {
+  if (quellPfad === zielPfad) throw new Error('Ziel ist die Quelldatei — erst in eine neue Datei herauslösen (Skill `zerlegen`).')
+  const zeile = (pos) => quelle.getLineAndCharacterOfPosition(pos).line + 1
+  const besuche = (k) => {
+    if (k.parent && (ts.isBlock(k.parent) || ts.isSourceFile(k.parent))) {
+      const a = zeile(k.getStart(quelle))
+      const e = zeile(k.end)
+      const ueberlappt = a <= bis && e >= von
+      const innen = a >= von && e <= bis
+      const umfasst = a < von && e > bis
+      if (ueberlappt && !innen && !umfasst)
+        throw new Error(`Zeilen ${von}–${bis} schneiden die Anweisung in Zeile ${a}–${e} an — Grenzen auf ganze Anweisungen legen.`)
+    }
+    ts.forEachChild(k, besuche)
+  }
+  besuche(quelle)
+}
+
 function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   const { pruefer, quelle } = programm(quellPfad)
+  pruefeBereich(quelle, quellPfad, zielPfad, von, bis)
   const { ein, aendert, aus, benutzt, hatReturn, istAsync, endetMitReturn } = schnittstelle(quelle, pruefer, von, bis)
   if (hatReturn && (!endetMitReturn || aus.size))
     throw new Error('Der Abschnitt enthält `return`, endet aber nicht damit (oder liefert Werte) — Grenzen anders wählen.')
@@ -348,8 +501,7 @@ function verschiebeAbschnitt(quellPfad, von, bis, zielPfad, funktion) {
   const importZeile = letzterImport ? quelle.getLineAndCharacterOfPosition(letzterImport.end).line + 1 : 0
   neu.splice(importZeile, 0, `import { ${funktion} } from '${spezifizierer(quellPfad, zielPfad)}'`)
   writeFileSync(quellPfad, neu.join('\n'))
-  importeAufraeumen(quellPfad)
-  importeAufraeumen(zielPfad)
+  nachbearbeiten(quellPfad, zielPfad)
   console.log(`${funktion}: ${bis - von + 1} Zeilen nach ${zielPfad}`)
   console.log(`  ein: ${namen.join(', ') || '—'}`)
   console.log(`  aus: ${[...aus].join(', ') || '—'}`)
@@ -391,8 +543,7 @@ function verschiebeJsx(quellPfad, von, bis, zielPfad, name) {
   const importZeile = letzterImport ? quelle.getLineAndCharacterOfPosition(letzterImport.end).line + 1 : 0
   neu.splice(importZeile, 0, `import { ${name} } from '${spezifizierer(quellPfad, zielPfad)}'`)
   writeFileSync(quellPfad, neu.join('\n'))
-  importeAufraeumen(quellPfad)
-  importeAufraeumen(zielPfad)
+  nachbearbeiten(quellPfad, zielPfad)
   console.log(`<${name}>: ${bis - von + 1} Zeilen nach ${zielPfad}`)
   console.log(`  Props: ${namen.join(', ') || '—'}`)
 }

@@ -5,6 +5,8 @@
  */
 import fs from 'node:fs'
 import { parse } from 'yaml'
+import { LIMIT_STAPEL_MS } from './kind-mit-limit.mjs'
+import { KOPF_ABSTAND_MS, KOPF_PRUEFUNGEN } from './pr-nachrechnen-zweig.mjs'
 import { abhaengige, grundExit2, lauf, main, MAX_PRS, PRO_PR_SEK, VERSUCHE, PAUSE_MS } from './basis-gemergt-neustart.mjs'
 
 const fehler = []
@@ -96,6 +98,13 @@ gleich('Konflikt und ersetzt zusammen: Exit 0', gemischt.code, 0)
 // Frist (A7): Worst Case = MAX_PRS Stapel-PRs je PRO_PR_SEK plus 60 s Checkout gegen timeout-minutes; je PR zwei Versuche am
 // gh-Limit (30 s) plus Pause bleiben unter PRO_PR_SEK.
 gleich('Worst Case je PR: Versuche mal 30 s plus Pausen ≤ 100 s', [PRO_PR_SEK, VERSUCHE * 30 + (VERSUCHE - 1) * (PAUSE_MS / 1000) <= PRO_PR_SEK], [100, true])
+
+// update-branch (PR 4104, A5): PUT am gh-Limit, KOPF_PRUEFUNGEN Pausen und Lesungen (je ≤ 2 s, gemessen 0,8–0,9 s) bleiben unter PRO_PR_SEK.
+const PUT_SEK = LIMIT_STAPEL_MS / 1000
+const UPDATE_WORST = PUT_SEK + (KOPF_PRUEFUNGEN * KOPF_ABSTAND_MS) / 1000 + (KOPF_PRUEFUNGEN + 1) * 2
+gleich('Worst Case je PR mit update-branch: PUT + Pausen + Lesungen ≤ PRO_PR_SEK (92 s)', [UPDATE_WORST, UPDATE_WORST <= PRO_PR_SEK], [92, true])
+gleich('Worst Case je PR mit update-branch: doppelte Prüfzahl sprengte die Frist', PUT_SEK + (2 * KOPF_PRUEFUNGEN * KOPF_ABSTAND_MS) / 1000 + (2 * KOPF_PRUEFUNGEN + 1) * 2 > PRO_PR_SEK, true)
+gleich('Grund: unklarer update-branch („SCHON ANGESTOSSEN möglich“) ist Fehler, kein „später“', grundExit2('pr-nachrechnen: FEHLER PR 7: update-branch mit unklarem Ausgang (HTTP 502), Kopf noch 08798af3f: SCHON ANGESTOSSEN möglich, Kopf später prüfen, nicht blind wiederholen'), 'fehler')
 
 // Einstieg `main`: Umgebung -> Basis, Aufruf von nachrechnen (Argumente), Trockenschalter nur bei TROCKEN=true, Meldungstext fließt in den Grund.
 function einstieg(env, antwort = 0) {

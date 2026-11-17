@@ -1,6 +1,6 @@
 {
   "env": {
-    "CLAUDE_CODE_PLUGIN_DIRS": ".claude/mods/arbeitsliste;.claude/mods/savvy-progress",
+    "CLAUDE_CODE_PLUGIN_DIRS": ".claude/mods/arbeitsliste",
     "CLAUDE_CODE_PLUGIN_DIR_WATCH": "1"
   },
   "permissions": {
@@ -79,7 +79,7 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Edit|Write|NotebookEdit|MultiEdit|Bash|PowerShell|preview_start",
+        "matcher": "Edit|Write|NotebookEdit|MultiEdit|Bash|PowerShell|preview_start|mcp__ccd_turn__wrap_up",
         "hooks": [
           {
             "type": "command",

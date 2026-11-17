@@ -55,7 +55,8 @@ export function ordneCartoonsZuAnime(): void {
   const cartoons = readJson<Title[]>(`${OUT}/cartoons.json`, [])
   if (!cartoons.length) return
   const anime = [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])]
-  const { zwillinge, unsicher } = findeZwillinge(cartoons, anime, tmdbJeAnimeAus(readJson('data/tmdb-titles.json', {})))
+  const bisher = readJson<[number, number][]>(UMZUG_DATEI, [])
+  const { zwillinge, unsicher } = findeZwillinge(cartoons, anime, tmdbJeAnimeAus(readJson('data/tmdb-titles.json', {})), new Map(bisher))
   for (const u of unsicher) {
     if (!(u.cartoonId in ZWILLING_AUSNAHMEN)) warn(`Cartoon ${u.cartoonId} hat Anime-Kandidaten ${u.kandidaten.join(', ')}, aber ${u.grund} — in ZWILLING_AUSNAHMEN begründen`)
   }
@@ -63,7 +64,6 @@ export function ordneCartoonsZuAnime(): void {
   const mitBeleg = loadDubChecks().filter((b) => weg.has(b.anilistId))
   if (mitBeleg.length) warn(`Handbeleg(e) für umgezogene Cartoons ${[...new Set(mitBeleg.map((b) => b.anilistId))].join(', ')} — auf den Anime-Titel umhängen`)
   if (weg.size) writeJson(`${OUT}/cartoons.json`, cartoons.filter((c) => !weg.has(c.id)))
-  const bisher = readJson<[number, number][]>(UMZUG_DATEI, [])
   const bekannt = new Set(bisher.map(([c]) => c))
   const umzug = [...bisher, ...zwillinge.filter((z) => !bekannt.has(z.cartoonId)).map((z) => [z.cartoonId, z.zwilling] as [number, number])]
   if (umzug.length !== bisher.length) writeJson(UMZUG_DATEI, umzug)

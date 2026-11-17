@@ -36,6 +36,8 @@ export function kalenderFilter(basis: FilterState, eigen: FilterState): FilterSt
     ...listen,
     excluded: { ...eigen.excluded, releaseTypes: disc ? [...ohneDisc, 'disc'] : ohneDisc },
     minConfidence: eigen.minConfidence,
+    minScore: eigen.minScore,
+    ohneWertungAus: eigen.ohneWertungAus,
     modus: eigen.modus,
     search: '',
   }

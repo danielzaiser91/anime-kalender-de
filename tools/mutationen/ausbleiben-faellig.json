@@ -1,0 +1,568 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": [],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts",
+      "npx tsx pipeline/check-cr-block-zaehlung.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: Plattform egal",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "release.platform !== 'crunchyroll' || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: Wochenplan egal",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "release.releaseType !== 'weekly' || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: TV-Sichtung ignoriert",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": " || release.tvLetzteSichtung",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: beobachtete Folge selbst zählt",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "if (s.observed?.[episode]) return false",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: belegtBis ignoriert",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "if (s.belegtBis && episode <= s.belegtBis.folge) return false",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: spätere Beobachtung überholt nicht",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "return !beobachtet.some((n) => n > episode)",
+        "ersetze": "return true"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungVon: belegtBis-Grenze < statt <=",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "episode <= s.belegtBis.folge",
+        "ersetze": "episode < s.belegtBis.folge"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "markiereOhneSichtung: Vermerk ignoriert",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "e.estimated && e.episode != null && !e.verpasst && ",
+        "ersetze": "e.estimated && e.episode != null && "
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "markiereOhneSichtung: estimated ignoriert",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "e.estimated && e.episode != null && !e.verpasst",
+        "ersetze": "e.episode != null && !e.verpasst"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "terminZustand: kein Deckel",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "e.ohneSichtung && jetzt.getTime() - zeitpunkt <= FAELLIG_HOECHSTENS_MS ?",
+        "ersetze": "e.ohneSichtung ?"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "terminZustand: Deckel < statt <=",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "zeitpunkt <= FAELLIG_HOECHSTENS_MS",
+        "ersetze": "zeitpunkt < FAELLIG_HOECHSTENS_MS"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "Deckel 25 h",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "FAELLIG_HOECHSTENS_MS = 24 * 36e5",
+        "ersetze": "FAELLIG_HOECHSTENS_MS = 25 * 36e5"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "Deckel 23 h",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "FAELLIG_HOECHSTENS_MS = 24 * 36e5",
+        "ersetze": "FAELLIG_HOECHSTENS_MS = 23 * 36e5"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "abstandSeitTermin: Tagesschluss 00:00",
+    "aenderungen": [
+      {
+        "datei": "shared/termin-zustand.ts",
+        "suche": "e.time ?? '23:59').getTime()",
+        "ersetze": "e.time ?? '00:00').getTime()"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "wortStufe: Schwelle 6 min",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-plan.ts",
+        "suche": "WORT_VERSPAETET_AB_MS = 5 * MINUTE",
+        "ersetze": "WORT_VERSPAETET_AB_MS = 6 * MINUTE"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "wortStufe: Schwelle 4 min",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-plan.ts",
+        "suche": "WORT_VERSPAETET_AB_MS = 5 * MINUTE",
+        "ersetze": "WORT_VERSPAETET_AB_MS = 4 * MINUTE"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "wortStufe: > statt >=",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-plan.ts",
+        "suche": "abstandMs >= WORT_VERSPAETET_AB_MS",
+        "ersetze": "abstandMs > WORT_VERSPAETET_AB_MS"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "faelligWort: invertiert",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-plan.ts",
+        "suche": "=== 'faellig' ? wortStufe",
+        "ersetze": "!== 'faellig' ? wortStufe"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "faelligWort: ohne jetzt",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-plan.ts",
+        "suche": "terminZustand(e, jetzt)",
+        "ersetze": "terminZustand(e)"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "kuenftigeAntwort: faellig undefined",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/antwort-zweige.ts",
+        "suche": "faellig: faelligWort(n, jetzt),",
+        "ersetze": "faellig: undefined,"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "kopfLaeuft: Fälligkeitszeile aus",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/antwort-kopf.tsx",
+        "suche": "else if (antwort.faellig) haupt",
+        "ersetze": "else if (false) haupt"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "kopfLaeuft: heute fest false",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/antwort-kopf.tsx",
+        "suche": "antwort.faellig, rel === T('antwort.relHeute'), T",
+        "ersetze": "antwort.faellig, false, T"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "faelligHaupt: Fehlerfarbe",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/antwort-kopf.tsx",
+        "suche": "className=\"text-ak-warnung-text\"",
+        "ersetze": "className=\"text-ak-fehler-text\""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "erschieneneSpanne: ohne jetzt",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/folgen-spanne.ts",
+        "suche": "events.filter((e) => istErschienen(e, jetzt))",
+        "ersetze": "events.filter((e) => istErschienen(e))"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "planGeschaetzt: ohne jetzt",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/folgen-spanne.ts",
+        "suche": "events.some((e) => istErschienen(e, jetzt) && e.estimated",
+        "ersetze": "events.some((e) => istErschienen(e) && e.estimated"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "expandEvents: markiert nicht",
+    "aenderungen": [
+      {
+        "datei": "shared/logic.ts",
+        "suche": "markiereOhneSichtung(release, termineAusPlan(release))",
+        "ersetze": "termineAusPlan(release)"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "faelligText: Schlüssel vertauscht",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/kasten-texte.ts",
+        "suche": "verspaetet: 'antwort.faelligVerspaetet'",
+        "ersetze": "verspaetet: 'antwort.faelligWirdGeprueft'"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "faelligText: Datum immer",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/kasten-texte.ts",
+        "suche": "[heute ? '' : formatDate(e.date), uhr]",
+        "ersetze": "[formatDate(e.date), uhr]"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "faelligText: ≈ fehlt",
+    "aenderungen": [
+      {
+        "datei": "web/src/components/detail/kasten-texte.ts",
+        "suche": "e.timeEstimated ? '≈ ' : ''",
+        "ersetze": "''"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "Katalog-Wache zählt „fällig“ nicht als verstrichen",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "ohneSichtung: false",
+        "ersetze": "ohneSichtung: true"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-block-zaehlung.ts"
+    ]
+  },
+  {
+    "name": "Push: ohne Neutralisierung",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "istErschienen({ ...e, ohneSichtung: false }, zeit)",
+        "ersetze": "istErschienen(e, zeit)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungLange: >= statt >",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "alter > tageMax",
+        "ersetze": "alter >= tageMax"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungLange: ohneSichtung ignoriert",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "e.ohneSichtung && e.episode != null && alter",
+        "ersetze": "e.episode != null && alter"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungLange: Schwelle 8 Tage",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "OHNE_SICHTUNG_WARNUNG_TAGE = 7",
+        "ersetze": "OHNE_SICHTUNG_WARNUNG_TAGE = 8"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungLange: Schwelle 6 Tage",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "OHNE_SICHTUNG_WARNUNG_TAGE = 7",
+        "ersetze": "OHNE_SICHTUNG_WARNUNG_TAGE = 6"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungLange: Tage nicht abgerundet",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "tage: Math.floor(alter)",
+        "ersetze": "tage: Math.ceil(alter)"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "ohneSichtungWarnzeile: leere Liste warnt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/cr-katalog-schaetzung.ts",
+        "suche": "if (!liste.length) return undefined",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "Bestandsskript: Warnzeile nicht gedruckt",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-cr-katalog-schaetzung-bestand.ts",
+        "suche": "if (warnzeile) console.log(warnzeile)",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  {
+    "name": "Bestandsskript: Warnung ohne Releases",
+    "aenderungen": [
+      {
+        "datei": "pipeline/check-cr-katalog-schaetzung-bestand.ts",
+        "suche": "ohneSichtungLange(releases, new Date())",
+        "ersetze": "ohneSichtungLange([], new Date())"
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-cr-faellig.ts",
+      "npx tsx pipeline/check-termin-zustand.ts"
+    ]
+  },
+  { "name": "AUSBLEIBEN_NACH_MS: 16 min", "datei": "shared/ausbleiben-plan.ts", "suche": "AUSBLEIBEN_NACH_MS = 15 * MINUTE", "ersetze": "AUSBLEIBEN_NACH_MS = 16 * MINUTE", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "Abgleich: Takt 1 min", "datei": "shared/ausbleiben-plan.ts", "suche": "bisMs: Infinity, taktMs: 0 }", "ersetze": "bisMs: Infinity, taktMs: MINUTE }", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "Abgleich: Altersgrenze 60 Tage", "datei": "shared/ausbleiben-plan.ts", "suche": "bisMs: Infinity, taktMs: 0 }", "ersetze": "bisMs: RECHERCHE_BIS_MS, taktMs: 0 }", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "Abgleich: ab Termin statt ab Karenz", "datei": "shared/ausbleiben-plan.ts", "suche": "[{ vonMs: AUSBLEIBEN_NACH_MS, bisMs: Infinity", "ersetze": "[{ vonMs: 0, bisMs: Infinity", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "abgleichFaellig: immer", "datei": "pipeline/lib/ausgeblieben.ts", "suche": ".includes('abgleich-anime2you')", "ersetze": ".length >= 0", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "rechercheFaellig: erschienen zählt nicht", "datei": "shared/recherche-plan.ts", "suche": "if (v.erschienenAm) return false\n  return pruefungFaellig", "ersetze": "return pruefungFaellig", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "rechercheFaellig: frühere Recherche ignoriert", "datei": "shared/recherche-plan.ts", "suche": "v.rechercheAm ? new Date(v.rechercheAm).getTime() : undefined", "ersetze": "undefined", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: Gate entfernt", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "if (!abgleichFaellig(v.erwartetAm, jetzt)) return 0", "ersetze": "", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: Gate invertiert", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "if (!abgleichFaellig(v.erwartetAm, jetzt)) return 0", "ersetze": "if (abgleichFaellig(v.erwartetAm, jetzt)) return 0", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: Zähler fehlt", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "    neu++\n  }\n  return neu", "ersetze": "  }\n  return neu", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "hinweiseAnhaengen: bekannte URL zählt nicht", "datei": "pipeline/lib/ausgeblieben.ts", "suche": " || bekannt.has(p.articleUrl)) continue", "ersetze": ") continue", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] },
+  { "name": "terminFrist: ohne Karenz", "datei": "pipeline/lib/ausgeblieben.ts", "suche": "getTime() + AUSBLEIBEN_NACH_MS)", "ersetze": "getTime())", "tests": ["npx tsx pipeline/check-termin-zustand.ts"] }
+]

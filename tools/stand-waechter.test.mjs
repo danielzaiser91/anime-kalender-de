@@ -51,7 +51,8 @@ assert.equal(w.waechter(stand(' (Stand 31.12.2999 00:00)'), JETZT), '', 'Zukunft
 assert.equal(w.waechter(stand(' — bereinigt 14.10.'), JETZT), 'Kopfzeile ohne „Stand TT.MM.JJJJ HH:MM“', 'ohne Stand')
 assert.equal(w.waechter(stand('', ...hand(21)), JETZT), '21 Handzeilen (erlaubt 20) — aufräumen; Kopfzeile ohne „Stand TT.MM.JJJJ HH:MM“', 'beides')
 assert.equal(w.waechter('# Stand\n## Als Nächstes\n- 🔵 x\n', JETZT), '', 'kein Abschnitt')
-assert.equal(w.waechter('', JETZT), '', 'leere Datei')
+assert.equal(w.waechter('', JETZT), w.LEER, 'leere Datei')
+assert.equal(w.waechter('\n\n', JETZT), w.LEER, 'nur Leerzeilen')
 // Der Stand einer anderen Überschrift zählt nicht
 assert.match(w.waechter(['## In Arbeit', '- x', '## Andere (Stand 20.10.2026 11:00)'].join('\n'), JETZT), /ohne „Stand/)
 
@@ -69,7 +70,7 @@ assert.equal(w.waechter(naechstes(lang(400)), JETZT), '', '400 Zeichen')
 assert.equal(w.waechter(naechstes(lang(401)), JETZT), ZU_LANG, '401 Zeichen, Fett-Titel')
 const ohneFett = '- 🔵 ' + 'y'.repeat(500)
 assert.equal(w.waechter(naechstes(ohneFett), JETZT), `Als Nächstes: 1 Zeile (${ohneFett.slice(0, 50)}) länger als 400 Zeichen — kürzen`, 'ohne Fett: Anfang 50 Zeichen')
-for (const icon of ['🔴', '🟠', '🔵', '📅', '⏳', '🚫']) assert.equal(w.waechter(naechstes(`- ${icon} x`), JETZT), '', `Icon ${icon}`)
+for (const icon of ['🔴', '🟠', '🔵', '📅', '⏳', '🚫']) assert.equal(w.waechter(naechstes(`- ${icon} ${icon === '📅' ? '12:00 ' : ''}x`), JETZT), '', `Icon ${icon}`)
 assert.equal(w.waechter(naechstes('- **Ohne** Icon'), JETZT), OHNE('1 Zeile (Ohne)'), 'ohne Icon')
 assert.equal(w.waechter(naechstes('- ohne Fett und ohne Icon'), JETZT), OHNE('1 Zeile (- ohne Fett und ohne Icon)'))
 assert.equal(w.waechter(naechstes('- x 🔴'), JETZT), OHNE('1 Zeile (- x 🔴)'), 'Icon nicht am Anfang')
@@ -158,23 +159,37 @@ assert.equal(
   'alles zugleich',
 )
 assert.equal(w.waechter(['## Top-Prios', '## Andere', ...ziel(9), '- **X** {live}'].join('\n'), JETZT), '', 'andere Abschnitte')
-// Jetzt-Zeilen: Kennung F<n>/E<n> und Grund mit Verb (kann/darf/soll nicht); 📅-Terminzeilen und Einrückungen zählen nicht
+// Jetzt-Zeilen: Kennung F<n>/E<n>; Form `- <Icon> **<Titel>** — [Text](Link)`, der Grund steht in der Jetzt-Datei (Daniel, 16.11.2026); 📅-Terminzeilen und Einrückungen zählen nicht
 const jetzt = (...zeilen) => ['## Top-Prios', '### Jetzt', ...zeilen, '', '### Später', '- 🔵 **Spät** ohne Kennung', '## In Arbeit' + FRISCH].join('\n')
-const OK = '- 🔵 **F74 Filterleiste?** (soll nicht: Gestaltung) — drei Entwürfe'
+const OK = '- 🔵 **F74 Filterleiste?** — [Anleitung](file:///C:/x/a.md)'
 const KENNUNG = 'Jetzt: 1 Zeile (Form?) ohne Kennung F<n>/E<n>'
-const GRUND = 'Jetzt: 1 Zeile (Form?) ohne Grund „kann/darf/soll nicht“'
-assert.equal(w.waechter(jetzt(OK, '- 🟠 **E28 Dai melden** (kann nicht: Prime-Konto) → x', '- 🟠 **F3 X** (darf nicht: Geld)'), JETZT), '', 'korrekte Zeilen')
-assert.equal(w.waechter(jetzt('- 🟠 **Dai melden** (kann nicht: Prime-Konto)'), JETZT), 'Jetzt: 1 Zeile (Dai melden) ohne Kennung F<n>/E<n>', 'ohne Kennung')
-assert.equal(w.waechter(jetzt('- 🔵 **F75 Form?** — drei Entwürfe'), JETZT), GRUND.replace('Form?', 'F75 Form?'), 'ohne Grund')
-assert.equal(w.waechter(jetzt('- 🔵 **Form?** — x'), JETZT), `${KENNUNG}; ${GRUND}`, 'beides fehlt')
-assert.equal(w.waechter(jetzt(OK, '  - Detail ohne alles', '- 📅 **Do 05.11.** Termin'), JETZT), '', 'Unterzeile und Terminzeile')
-assert.equal(w.waechter(jetzt('- 🔵 **EF1 Form?** (soll nicht: x)'), JETZT), KENNUNG.replace('Form?', 'EF1 Form?'), 'Kennung nur als ganzes Wort mit Ziffern')
-assert.equal(w.waechter('### Jetzt\n- 🔵 **Form?**', JETZT), `${KENNUNG}; ${GRUND}`, 'letzter Abschnitt')
+const FORM = 'Jetzt: 1 Zeile (Form?) mit Text zwischen Titel und „ — “ oder Grund im Titel — Grund gehört in die Jetzt-Datei, Abschnitt ‚Warum ich es nicht selbst tue‘'
+assert.equal(w.waechter(jetzt(OK, '- 🟠 **E28 Dai melden** — x {eigen · normal · - · 01.10.}', '- 🟠 **F3 X**', '- 🔴 [groß] **F4 Y** — z'), JETZT, () => true), '', 'korrekte Zeilen')
+assert.equal(w.waechter(jetzt('- 🟠 **Dai melden**'), JETZT), 'Jetzt: 1 Zeile (Dai melden) ohne Kennung F<n>/E<n>', 'ohne Kennung')
+assert.equal(w.waechter(jetzt('- 🔵 **F75 Form?** — drei Entwürfe'), JETZT), '', 'ohne Grund in der Zeile ist richtig')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?** — x'), JETZT), KENNUNG, 'Kennung fehlt')
+assert.equal(w.waechter(jetzt(OK, '  - Detail ohne alles', '- 📅 **Do 05.11.** Termin'), JETZT, () => true), '', 'Unterzeile und Terminzeile')
+assert.equal(w.waechter(jetzt('- 🔵 **EF1 Form?**'), JETZT), KENNUNG.replace('Form?', 'EF1 Form?'), 'Kennung nur als ganzes Wort mit Ziffern')
+assert.equal(w.waechter('### Jetzt\n- 🔵 **Form?**', JETZT), KENNUNG, 'letzter Abschnitt')
 assert.equal(w.waechter(jetzt('- 🔵 **Form?**').replace('### Jetzt', '### Heute'), JETZT), '', 'anderer Abschnitt')
-assert.equal(w.waechter(jetzt('- 🔵 **F7 X** (Kann nicht: y)'), JETZT), '', 'Grund groß geschrieben')
-assert.equal(w.waechter(jetzt('- 🔵 **F7 Form?** (kann nichts tun)'), JETZT), GRUND.replace('Form?', 'F7 Form?'), 'kann nichts ist kein Grund')
-assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT, () => true), KENNUNG, 'Kennung nur im Link-Ziel zählt nicht')
-console.log('stand-waechter.test: ok (Jetzt-Zeilen Kennung/Grund, 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
+assert.equal(w.waechter(jetzt('- 🔵 **Form?** (soll nicht: x) → [Datei](file:///C:/x/F74-x.md)'), JETZT, () => true), `${KENNUNG}; ${FORM}`, 'Kennung nur im Link-Ziel zählt nicht')
+// Der Anlass vom 16.11.2026: E90 mit Klammer zwischen Titel und Link
+const E90 = '- 🔵 **E90 Netflix: „Bericht laden“ klicken** (soll nicht ich: liegt nur in deiner angemeldeten Sitzung; kein „ja“ nötig, einfach klicken) — [Anleitung](file:///C:/x/e90.md)'
+assert.equal(w.waechter(jetzt(E90), JETZT, () => true), FORM.replace('Form?', 'E90 Netflix: „Bericht laden“ klicken'), 'Text zwischen Titel und Gedankenstrich')
+const E90_KURZ = '- 🔵 **E90 Netflix: „Bericht laden“ klicken** — [Anleitung](file:///C:/x/e90.md)'
+assert.equal(w.waechter(jetzt(E90_KURZ), JETZT, () => true), '', 'E90 gekürzt: kein Grund in der Zeile ist richtig, keine Meldung „ohne Grund“')
+assert.equal(w.waechter(jetzt('- 🔵 **F7 Form? (kann nicht: x)** — y'), JETZT), FORM.replace('Form?', 'F7 Form? (kann nicht: x)'), 'Grund im Titel')
+for (const grund of ['kann nicht', 'darf nicht', 'soll nicht', 'Kann nicht']) {
+  assert.match(w.waechter(jetzt(`- 🔵 **F7 Form ${grund}** — y`), JETZT), /Grund gehört in die Jetzt-Datei/, `Titel mit „${grund}“`)
+}
+assert.match(w.waechter(jetzt('- 🔵 **F7 Form?** kann nichts tun'), JETZT), /Grund gehört in die Jetzt-Datei/, 'Text ohne Gedankenstrich nach dem Titel')
+assert.equal(w.waechter(jetzt('- 🔵 F7 Form ohne Fett'), JETZT), '', 'ohne fetten Titel: keine Formmeldung (Kennung genügt)')
+// 📅-Zeilen: Zeit am Titelanfang (Daniel 12.11.2026 zu E57)
+for (const gut of ['- 📅 **23:30 E57 Git**', '- 📅 **13.11. 08:50 Steel Ball Run**', '- 📅 16.11. **Fristen**', '- 📅 [klein] **19.11. Probe**', '- 📅 **Do 05.11.** Termin']) {
+  assert.equal(w.waechter(jetzt(gut), JETZT), '', gut)
+}
+assert.equal(w.waechter(jetzt('- 📅 **E57 Git ab 23:30** — x'), JETZT), '📅: 1 Zeile (E57 Git ab 23:30) ohne Zeit am Anfang — „HH:MM“, „TT.MM.“ oder „TT.MM. HH:MM“ vor den Titel', 'Zeit hinten')
+console.log('stand-waechter.test: ok (📅 Zeit vorn, Jetzt-Zeilen Kennung/Form (Text vor „ — “, Grund im Titel), 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
 
 // Zeitstempel „Aktualisiert:“ in der Zukunft: 12:05 Berlin genau erlaubt (5 min), 12:06 nicht; ohne Zeile nichts
 const aktualisiert = (hhmm) => stand(FRISCH).replace('# Stand', `# Stand\nAktualisiert: 2026-10-20 ${hhmm} — x`)
@@ -224,4 +239,105 @@ if (process.platform === 'win32') {
 } else {
   console.log('stand-waechter.test: Standard-Dateisystemfall übersprungen (nur win32); Fall mit abgebildetem Pfad lief')
 }
-console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem)')
+// Jetzt-Dateien: fester Aufbau (Kennung in der Überschrift, Abschnittsreihenfolge)
+const GUT = '# F7 Titel\n\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n## Archiv\nx\n'
+const jetztStand = (zeile) => ['# Stand', '## Daniel-Todo', '### Jetzt', zeile, '### Später', '', `## In Arbeit${FRISCH}`, '', '## Als Nächstes', ...hand(40, '🔵 '), ''].join('\n')
+const ZEILE = '- 🟠 **F7 Frage** — [Datei](file:///C:/code/ai/jetzt-f7.md) {eigen · normal · - · 01.10.}'
+const mitDatei = (inhalt) => w.waechter(jetztStand(ZEILE), JETZT, () => true, (p) => (p === 'C:/code/ai/jetzt-f7.md' ? inhalt : null))
+assert.equal(mitDatei(GUT), '', 'Jetzt-Datei gut')
+const OHNE_GRUND = 'Jetzt-Datei F7: Abschnitt „Warum ich es nicht selbst tue“ nennt kein „kann nicht“, „darf nicht“ oder „soll nicht“'
+assert.equal(mitDatei(GUT.replace('kann nicht: x', 'x')), OHNE_GRUND, 'Warum-Abschnitt ohne Grund')
+assert.equal(mitDatei(GUT.replace('kann nicht: x\n', '')), OHNE_GRUND, 'Warum-Abschnitt leer')
+assert.equal(mitDatei(GUT.replace('kann nicht: x', 'x').replace('## Archiv\nx', '## Archiv\nkann nicht')), OHNE_GRUND, 'Grund im Archiv zählt nicht')
+assert.equal(mitDatei(GUT.replace('kann nicht: x', 'Das soll nicht ich entscheiden')), '', 'soll nicht im Fließtext des Abschnitts genügt')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung fehlt')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# F77 Titel')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'F77 ist nicht F7')
+assert.equal(
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Deine Aufgabe\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'),
+  'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst; Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
+  'falsche Reihenfolge',
+)
+assert.equal(
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Archiv\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'),
+  'Jetzt-Datei F7: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv',
+  'Archiv vor Worum',
+)
+assert.equal(mitDatei('# F7 T\n## Deine Aufgabe\nx\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'), '', 'Archiv darf fehlen')
+// Pflichtabschnitte je genau einmal (nur Archiv darf fehlen)
+assert.equal(
+  mitDatei('# F7 T\n## Deine Aufgabe\nx\n'),
+  'Jetzt-Datei F7: Abschnitt „Worum es geht“ fehlt; Jetzt-Datei F7: Abschnitt „Warum ich es nicht selbst tue“ fehlt',
+  'nur Aufgabe',
+)
+assert.equal(
+  mitDatei('# F7 T\n## Worum es geht\nx\n## Warum ich es nicht selbst tue\nkann nicht: x\n'),
+  'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ fehlt; Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst',
+  'Aufgabe fehlt',
+)
+assert.equal(mitDatei(GUT.replace('## Deine Aufgabe\nx\n', '## Deine Aufgabe\nx\n## Deine Aufgabe\nx\n')), 'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ doppelt', 'Aufgabe doppelt')
+assert.equal(mitDatei(`${GUT}## Archiv\nx\n`), 'Jetzt-Datei F7: Abschnitt „Archiv“ doppelt', 'Archiv doppelt')
+// Unbekannte erste Überschrift; Kennung nur im Fließtext zählt nicht
+assert.equal(mitDatei(GUT.replace('## Deine Aufgabe', '## Aufgabe\nx\n## Deine Aufgabe')), 'Jetzt-Datei F7: Abschnitt „Deine Aufgabe“ nicht zuerst', 'unbekannte erste Überschrift')
+assert.equal(mitDatei(GUT.replace('# F7 Titel', '# Titel\nF7 im Text')), 'Jetzt-Datei F7: Kennung fehlt in der Überschrift', 'Kennung nur im Fließtext')
+// Kennung nur im Link-Ziel und Zeilen ohne „- “ führen zu keiner Dateiprüfung
+const GUT_E8 = GUT.replace('# F7', '# E8')
+const lies2 = (p) => (p === 'C:/code/ai/jetzt-e8.md' ? GUT_E8 : 'kaputt')
+const E8 = '- 🟠 **E8 Handgriff** — [Datei](file:///C:/code/ai/jetzt-e8.md) {eigen · normal · - · 01.10.}'
+assert.doesNotMatch(w.waechter(jetztStand('- 🟠 Frage, kann nicht ([Datei](file:///C:/code/ai/F57-x.md))'), JETZT, () => true, lies2), /Jetzt-Datei/, 'Kennung nur im Link-Ziel')
+assert.equal(w.waechter(jetztStand([E8, '  - **F7 Unterpunkt** — [Datei](file:///C:/code/ai/jetzt-f7.md)', E8].join('\n')), JETZT, () => true, lies2), '', 'eingerückte Zeile')
+assert.equal(w.waechter(jetztStand([E8, '**F7 lose Zeile** — [Datei](file:///C:/code/ai/jetzt-f7.md)', E8].join('\n')), JETZT, () => true, lies2), '', 'Nicht-Listenzeile')
+assert.equal(w.waechter(jetztStand('- 🟠 **F7 Frage**'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
+assert.equal(w.waechter(jetztStand(ZEILE), JETZT, () => true, () => null), '', 'Datei nicht lesbar: keine Meldung')
+assert.equal(w.waechter(jetztStand(ZEILE.replace('jetzt-f7.md', 'jetzt-f7.txt')), JETZT, () => true, () => 'kaputt'), '', 'kein .md-Link: keine Meldung')
+// Top-Prios: PR als offen geführt, aber im In-Arbeit-Kopf „gemergt heute“ (Lehre 92, 15.11.2026). Auszug aus der echten stand.md vom 15.11.2026 13:55, Pfade anonymisiert.
+const JETZT_15 = Date.parse('2026-11-15T12:30:00Z')
+const KOPF_15 = '## In Arbeit (Stand 15.11.2026 13:55, autonomer Modus bis 23:30; gemergt heute 3890, 3888, 3884, 3883, 3909, 3910, 3911, 3913, 3915, 3891, 3918, 3919, 3912, 3922; Netflix Teil 2 gemergt; [Aufträge](file:///C:/x/a.md))'
+const ECHT = [
+  '## Top-Prios (Zeilen `- **Kurztitel** {status} Kurztext`)',
+  '- **Fehlerfrei** {queue} 15.11.: Diff-Mutanten (3769) und stumme Fehlerpfade (3765) seit 13.11. in der CI; offen: Bilanz in der Kette — [Analyse](file:///C:/x/b.md)',
+  '- **Autonomie** {queue} 15.11.: Arbeitsliste (3178, 3187), Anime2You-Router (3119, 3128) gemergt; offen: Wirkung Nacht-Merger messen — [Ziele](file:///C:/x/c.md)',
+  '- **Schnell live** {queue} 15.11.: Sammelzug P2a (3009) gemergt; offen: Deploy-Median neu messen (11.11.: 18,1 min)',
+  '- **Volle Daten** {pipeline} 15.11.: Netflix Teil 2 (PR 3912) abgenommen, wartet auf Kette, dann Migration + Deploy; Pluto TV gemergt; offen: OmU-Begleiter — [Ziele](file:///C:/x/c.md)',
+  KOPF_15,
+  '## Als Nächstes',
+].join('\n')
+const mitPrio = (zeile, kopf = KOPF_15) => ECHT.replace(/- \*\*Volle Daten\*\*.*/, zeile).replace(KOPF_15, kopf)
+// Soll aus der Absicht der Lehre 92: „(PR 3912) … wartet auf Kette“ bei gemergter 3912 ist genau der veraltete Stand, den der Wächter finden soll; die drei anderen Zeilen bleiben ohne Befund.
+assert.equal(w.waechter(ECHT, JETZT_15, () => true), 'Top-Prios: Volle Daten nennt PR 3912 als offen, laut In-Arbeit-Kopf gemergt', 'echte stand.md: veraltete Zeile gefunden')
+assert.equal(w.waechter(ECHT.replace(/- \*\*Volle Daten\*\*.*\n/, ''), JETZT_15, () => true), '', 'echte stand.md ohne die veraltete Zeile: kein Befund')
+const MELDUNG = (ziel, nr) => `Top-Prios: ${ziel} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} Netflix PR 3912 offen, dann Deploy'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR N offen')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} Netflix (PR 3912) offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR N) offen')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912, Prüfer läuft'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'Prüfer läuft')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR #3912 wartet auf Merge'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'wartet auf Merge, mit #')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen, PR 3922 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3922)}`, 'zwei PRs')
+// Keine Meldung: PR nicht gemergt, „offen:“ als Aufzählung, bloße Nummer ohne „PR“, Kopf ohne „gemergt heute“, andere Nummer im Kopf
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 offen, Prüfer läuft'), JETZT_15, () => true), '', 'PR nicht gemergt')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; offen: Deploy'), JETZT_15, () => true), '', '„offen:“ ist eine Aufzählung')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR #3912 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR #N offen')
+// A1: weitere Wendungen
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 wartet auf Kette'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'wartet auf Kette')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 in Prüfung'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'in Prüfung')
+// A2: die Wendung gehört nur zur unmittelbar vorangehenden PR
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; PR 3999 Prüfer läuft'), JETZT_15, () => true), '', 'A2: Semikolon trennt')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt, PR 3999 Prüfer läuft'), JETZT_15, () => true), '', 'A2: nächste PR trennt')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 Prüfer läuft, PR 3912 gemergt'), JETZT_15, () => true), '', 'A2: Wendung vor der gemergten PR')
+// A3 (Entscheidung): „offen:“ leitet eine Aufzählung ein (so steht es in den echten Zeilen), auch direkt hinter der PR keine Meldung — bekannte Grenze
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen: Deploy fehlt'), JETZT_15, () => true), '', 'A3: „offen:“ zählt nicht')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt, noch offen Deploy'), JETZT_15, () => true), '', '„offen“ nicht direkt hinter der PR zählt nicht')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 12 offen', KOPF_15.replace('3912, ', '12, ')), JETZT_15, () => true), '', 'zweistellige Nummer im Kopf zählt nicht')
+// A4: Nummernlisten und Klammern im Kopf
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 und 3913 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3913)}`, 'A4: „und“-Liste')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PRs 3912, 3913 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3913)}`, 'A4: PRs-Liste')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PRs 3912, 3999 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'A4: nur die gemergte der Liste')
+const KOPF_KLAMMER = KOPF_15.replace('gemergt heute 3890,', 'gemergt heute 3890 (Teil 1),').replace('3912, ', '').replace('3919,', '3919, 3912,')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_KLAMMER), JETZT_15, () => true), MELDUNG('Daten', 3912), 'A4: Klammer im Kopf schneidet nicht ab')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('3890,', '3890 (PR 3912),')), JETZT_15, () => true), '', 'A4: Nummer in der Klammer zählt nicht als gemergt')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} (3912) offen, Prüfer läuft'), JETZT_15, () => true), '', 'Nummer ohne „PR“')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('gemergt heute', 'erledigt')), JETZT_15, () => true), '', 'Kopf ohne „gemergt heute“')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '')), JETZT_15, () => true), '', 'Nummer nicht im Kopf')
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('; Netflix Teil 2 gemergt', '; PR 3912 gemergt')), JETZT_15, () => true), '', 'Nummer nach dem Semikolon zählt nicht')
+// Zeile außerhalb der Top-Prios löst nichts aus
+assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} x').replace('## Als Nächstes', '## Als Nächstes\n- 🔵 PR 3912 offen, Prüfer läuft'), JETZT_15, () => true), '', 'andere Abschnitte')
+console.log('stand-waechter.test: Top-Prios gemergt-aber-offen ok')
+console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Pflichtabschnitte je einmal, Archiv optional, ohne Link, Link-Ziel, Nicht-Listenzeile)')

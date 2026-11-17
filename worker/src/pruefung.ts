@@ -3,8 +3,10 @@ import { speichereMitProtokoll } from './pruefung-protokoll.ts'
 import { nichtErlaubt } from './pruefung-ablehnung.ts'
 import { loeschePruefungenMitMarke } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
+import { beantworteSammel } from './pruefung-gemeldet-sammel.ts'
 import { ausCacheFuer } from './cache-kurz.ts'
 import { tokenAusKopf, tokenGleich } from './lauf-token.ts'
+import { beantworteZurueck } from './pruefung-zurueck-route.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
@@ -81,7 +83,7 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   const ausCache = ausCacheFuer(request, ctx)
 
   if (request.method === 'GET') {
-    return await beantwortePruefungLesen({ request, env, antwort, ausCache })
+    return (await beantworteSammel({ request, env, antwort, ausCache })) ?? (await beantwortePruefungLesen({ request, env, antwort, ausCache }))
   }
 
   if (request.method === 'DELETE') {
@@ -92,6 +94,6 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
 
   const token = tokenAusKopf(request)
   if (!env.LAUF_TOKEN || !tokenGleich(token, env.LAUF_TOKEN)) return nichtErlaubt(antwort)
-
-  return await speichereMitProtokoll({ request, antwort, token, env, ctx })
+  const zurueck = new URL(request.url).searchParams.get('zurueck') === '1'
+  return await (zurueck ? beantworteZurueck({ request, env, antwort }) : speichereMitProtokoll({ request, antwort, token, env, ctx }))
 }

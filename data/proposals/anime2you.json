@@ -1,15 +1,365 @@
 {
-  "scrapedAt": "2026-11-12T18:02:37.083Z",
+  "scrapedAt": "2026-11-17T13:02:10.387Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 16,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 11,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Erste »Hell Mode«-Staffel erscheint als Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1071412/hell-mode-staffel-1-blu-ray-komplettbox/",
+      "publishedAt": "2026-11-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "ölfteilige erste Staffel von »Hell Mode« erscheint voraussichtlich am 25. Februar 2027 in einer Blu-ray-Komplettbox, die alle Episoden auf D"
+        },
+        {
+          "month": "2027-02",
+          "context": "nigen Monaten auf Blu-ray in den Handel. Wir fassen zusammen. Release im Februar 2027 Die zwölfteilige erste Staffel von »Hell Mode« erschei"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Digimon Frontier« erhält neue Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1071433/digimon-frontier-neue-blu-ray-komplettbox/",
+      "publishedAt": "2026-11-17",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "alle 50 Episoden auf Deutsch und erscheint nach aktueller Planung am 25. Februar 2027. Weitere Einzelheiten zur Ausstattung sind bislang ni"
+        },
+        {
+          "month": "2027-02",
+          "context": "-Komplettbox. Ein erstes Produktbild findet ihr weiter unten. Release im Februar 2027 Die neue Blu-ray-Komplettbox beinhaltet alle 50 Episod"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Start von »Kusunoki’s Flunking Her High School Glow-Up« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1072447/start-von-kusunokis-flunking-her-high-school-glow-up/",
+      "publishedAt": "2026-11-17",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-04",
+          "context": "wa Koukou Debut ni Shippaishiteiru«) wurde verkündet, dass die Serie ab April 2027 im japanischen Fernsehen ausgestrahlt wird. Anime von Ha"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Vier Februar-Neuheiten 2027 bei Anime Planet vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1072200/anime-planet-februar-neuheiten-2027-vorbestellbar/",
+      "publishedAt": "2026-11-16",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "r fassen nachfolgend alle Details zusammen. Vier Blu-ray-Neuheiten Am 25. Februar 2027 erscheinen unter anderem eine neue Blu-ray-Komplettbo"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Angel’s Egg« erscheint in neuer Edition auf 4K-Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1071466/angels-egg-neue-4k-blu-ray-edition/",
+      "publishedAt": "2026-11-16",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-25",
+          "context": "lease im Februar 2027 »Angel’s Egg« erscheint nach aktuellem Stand am 25. Februar 2027 in einer Standard-Edition, die den rund 71-minütigen"
+        },
+        {
+          "month": "2027-02",
+          "context": "tion auf 4K-Blu-ray. Ein erstes Produktbild findet ihr unten. Release im Februar 2027 »Angel’s Egg« erscheint nach aktuellem Stand am 25. Fe"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TOGGO plus plant erneute »Dragon Ball DAIMA«-Wiederholung",
+      "articleUrl": "https://www.anime2you.de/news/1072212/toggo-plus-dragon-ball-daima-erneute-wiederholung/",
+      "publishedAt": "2026-11-16",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-12-07",
+          "context": "sammen. Wiederholung ab Dezember 2026 »Dragon Ball DAIMA« wird ab dem 7. Dezember 2026 jeweils von Montag bis Freitag um 21:15 Uhr mit deuts"
+        },
+        {
+          "month": "2026-12",
+          "context": "ie Actionserie »Dragon Ball DAIMA« laut der aktuellen Programmplanung im Dezember 2026 erneut ab der ersten Episode. Wir fassen zusammen. Wi"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": true
+    },
+    {
+      "articleTitle": "Netflix ersetzt Originalsongs in deutscher »KPop Demon Hunters«-Fassung",
+      "articleUrl": "https://www.anime2you.de/news/1072174/netflix-ersetzt-kpop-demon-hunters-originalsongs/",
+      "publishedAt": "2026-11-16",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "MediaMarkt reduziert zahlreiche Anime-Blu-rays zum Black Friday 2026",
+      "articleUrl": "https://www.anime2you.de/news/1071924/mediamarkt-black-friday-2026-aktion/",
+      "publishedAt": "2026-11-15",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "an. Wir fassen die Angebote zusammen. Bis Ende November 2026 Bis zum 30. November 2026 um 09:00 Uhr gibt es unter anderem die Komplett- und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ProSieben FUN zeigt zehn Anime-Filme am Nikolaustag 2026",
+      "articleUrl": "https://www.anime2you.de/news/1071510/prosieben-fun-nikolaustag-2026-filme/",
+      "publishedAt": "2026-11-15",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-12-06",
+          "context": "en. Zehn Anime-Filme ab 07:50 Uhr Der große Anime-Marathon beginnt am 6. Dezember 2026 um 07:50 Uhr mit »Das Schloss im Himmel«. Danach folg"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 47/2026",
+      "articleUrl": "https://www.anime2you.de/news/1072136/anime-tv-programm-47-2026/",
+      "publishedAt": "2026-11-15",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-22",
+          "context": "amit ihr keine Sendung verpasst! Premieren und Highlights Vom 16. bis 22. November 2026 gibt es wieder zahlreiche Anime-Premieren und -Highl"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Pluto TV ergänzt zwei weitere Anime-Neuzugänge",
+      "articleUrl": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+      "publishedAt": "2026-11-14",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Fruits Basket",
+          "zusatz": "Staffel 1",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ],
+          "folgen": 25
+        },
+        {
+          "titel": "My Hero Academia",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Pluto TV"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-15"
+    },
+    {
+      "articleTitle": "Black Friday 2026: Erste große Anime-Rabattaktionen gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1071723/black-friday-2026-erste-anime-rabattaktionen/",
+      "publishedAt": "2026-11-14",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "mit zahlreichen Anime-Angeboten. Wir geben euch einen Überblick. Bis 30. November 2026 Im AniMoon-Shop gibt es bis zum 30. November 2026 mi"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix bringt »KPop Demon Hunters«-Konzerte nach Deutschland + Termine",
+      "articleUrl": "https://www.anime2you.de/news/1071559/kpop-demon-hunters-konzerte-deutschland/",
+      "publishedAt": "2026-11-14",
+      "category": "allgemein",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-06",
+          "context": "en zusammen. Fünf Konzerte in Deutschland Die Tour startet demzufolge im Juni 2027 in Nordamerika und wird ab September 2027 in Europa fortg"
+        },
+        {
+          "month": "2027-09",
+          "context": "land Die Tour startet demzufolge im Juni 2027 in Nordamerika und wird ab September 2027 in Europa fortgesetzt. In […] Der Beitrag Netflix"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Termin von »Multi-Mind Mayhem: Isekai Tensei Soudouki« + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1070995/multi-mind-mayhem-termin/",
+      "publishedAt": "2026-11-13",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-01-06",
+          "context": "hem: Isekai Tensei Soudouki« wurde heute verkündet, dass die Serie am 6. Januar 2027 im japanischen Fernsehen startet. Einen neuen Trailer f"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video ergänzt zwei Anime-Neuzugänge auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Anja und die vier Jahreszeiten",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-17"
+    },
+    {
+      "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
+      "articleUrl": "https://www.anime2you.de/news/1071143/animoon-black-weeks-2026-rabattaktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "assen die Details zusammen. 26 % Rabatt mit Gutscheincode Vom 13. bis 30. November 2026 erhalten Kunden im Rahmen der »AniMoon Black Weeks«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Bis zu 74 % Rabatt: Hardball Films startet großen Black-Week-Sale",
+      "articleUrl": "https://www.anime2you.de/news/1071343/hardball-films-black-week-2026-sale/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "Ende November 2026 Die Black-Week-Rabattaktion läuft vom 13. bis zum 30. November 2026 und umfasst einen Großteil der lieferbaren DVDs und"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime Planet startet große Black-Weeks-Aktion mit fast 500 Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1071187/anime-planet-black-week-3-fuer-2-aktion/",
+      "publishedAt": "2026-11-13",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": ". Bis Ende November 2026 Die neue 3-für-2-Aktion, die vom 13. bis zum 30. November 2026 läuft, umfasst unter anderem die Komplett- und Staff"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Starttermin der zweiten Staffel von »Avatar: Die sieben Häfen« + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1071494/avatar-die-sieben-haefen-staffel-2-starttermin/",
+      "publishedAt": "2026-11-13",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2027-05-21",
+          "context": "Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen« startet am 21. Mai 2027 bei Paramount+ in Deutschland, Österreich und der Schweiz"
+        },
+        {
+          "month": "2027-05",
+          "context": "even Havens«) verkündet. Wir fassen nachfolgend zusammen. Fortsetzung ab Mai 2027 Die zweite Staffel (»Buch«) von »Avatar: Die sieben Häfen«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Start des Action-Anime »Tsugumi Project« + Visual",
       "articleUrl": "https://www.anime2you.de/news/1070626/start-von-tsugumi-project/",
@@ -35,7 +385,32 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Detektiv Conan",
+          "zusatz": "Episode 1 bis 150",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll"
+          ],
+          "datum": "2026-11-12",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Fafner",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll"
+          ],
+          "folgen": 26,
+          "datum": "2026-11-12",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Neun Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -48,15 +423,20 @@
       "dates": [
         {
           "iso": "2027-03-19",
-          "context": "es der zweiten Staffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […]"
+          "context": "s der zweiten Staffel von »Demon Slave: The Chained Soldier« , die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich auc"
         },
         {
           "iso": "2027-05-21",
-          "context": "ffel von »Demon Slave: The Chained Soldier«, die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich […] Der Beitrag Neu"
+          "context": "fel von »Demon Slave: The Chained Soldier« , die am 19. März 2027 und 21. Mai 2027 als Blu-ray erscheinen – zusätzlich auch in einer Limited"
+        },
+        {
+          "iso": "2026-12-04",
+          "context": "Order« -Filme vorbestellbar. Die Veröffentlichung ist jeweils für den 4. Dezember 2026 geplant. Alle DVDs und Blu-rays gibt es nachfolgend i"
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "volltextGelesen": "2026-11-13"
     },
     {
       "articleTitle": "Blu-ray-Termin der zweiten »Demon Slave«-Staffel + Vorbestellung",
@@ -139,7 +519,7 @@
           "folgen": 25
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Große Anime-Rabattaktion mit Serien und Filmen bei Amazon gestartet",
@@ -322,7 +702,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -545,7 +925,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Erster Trailer zum Netflix-Anime »Fool Night« + Visual",
@@ -635,7 +1015,7 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Honey Lemon Soda",
@@ -660,7 +1040,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -733,7 +1113,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -789,7 +1169,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere",
@@ -857,7 +1237,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Sieben Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
@@ -946,23 +1326,7 @@
       ],
       "dates": [],
       "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Freitag",
-          "zeit": "18:00",
-          "satz": "»The Iceblade Sorcerer Shall Rule the World« – Staffel 2 »The Vermilion Mask« »Firefly Wedding« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Crunchyroll , Prime Video Handl"
-        },
-        {
-          "tag": "Donnerstag",
-          "zeit": "19:00",
-          "satz": "sessenheit bringt sie in große Gefahr. »The Iceblade Sorcerer Shall Rule the World« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Donnerstag um 19:00 Uhr Stream: Crunchyroll , Prime Video Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "11:30",
-          "satz": "Iceblade Sorcerer verbirgt, der zu den mächtigsten Magiern der Welt zählt. »The Vermilion Mask« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 11:30 Uhr Stream: Crunchyroll , Prime Video Handl"
-        }
-      ],
+      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
@@ -972,10 +1336,6 @@
       "category": "streaming",
       "platforms": [],
       "dates": [
-        {
-          "iso": "2026-11-16",
-          "context": "uf. Wir fassen zusammen. Ab November 2026 verfügbar »Lazarus« wird am 16. November 2026 auf HBO Max veröffentlicht. Details zu den angeboten"
-        },
         {
           "month": "2026-11",
           "context": "e Original-Serie »Lazarus« in sein Programm auf. Wir fassen zusammen. Ab November 2026 verfügbar »Lazarus« wird am 16. November 2026 auf HBO"
@@ -1057,7 +1417,7 @@
           "folgen": 24
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "19,99 Euro pro Staffel: polyband startet große »Pokémon«-Rabattaktion",
@@ -1151,7 +1511,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-17"
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im November 2026 bei aniverse",
@@ -1237,7 +1597,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
@@ -1250,7 +1610,7 @@
       "dates": [],
       "dub": "ja",
       "pause": "pause",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Bleach: Thousand-Year Blood War",
@@ -1276,7 +1636,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1288,18 +1648,6 @@
       ],
       "dates": [],
       "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:15",
-          "satz": "ch: »Magic Knight Rayearth« »The Detective Is Already Dead« – Staffel 2 »Magic Knight Rayearth« Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr Stream: Crunchyroll , Prime Video Handl"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "15:30",
-          "satz": "e drei Mädchen Prinzessin Emeraude zur Hilfe eilen. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 auf Deutsch verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Stream: Crunchyroll , Prime Video Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -1326,7 +1674,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-10"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1544,7 +1892,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1578,7 +1926,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-11"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -2064,7 +2412,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-11"
+      "discGelesen": "2026-11-17"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -2099,7 +2447,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-15"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
@@ -2330,7 +2678,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -2367,7 +2715,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Netflix nimmt Fantasy-Anime »Der Held ohne Klasse« ins Programm",
@@ -2418,7 +2766,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Zehn neue Minifiguren zu »Lord of Mysteries« vorgestellt",
@@ -2508,7 +2856,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "»Lady Oscar« erscheint in einer neuen Blu-ray-Komplettbox",
@@ -2853,7 +3201,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Blu-ray-Design von »My Love Story with Yamada-kun at Lv999« + Extras",
@@ -2935,7 +3283,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-09"
+      "sammelGelesen": "2026-11-16"
     },
     {
       "articleTitle": "Design der 30th Anniversary Edition von »Detektiv Conan«",
@@ -4343,19 +4691,6 @@
         }
       ],
       "sammelGelesen": "2026-11-10"
-    },
-    {
-      "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
-      "articleUrl": "https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/",
-      "publishedAt": "2026-10-01",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
-      "alreadyCurated": false
     },
     {
       "articleTitle": "Design der limitierten »Miss Kobayashi’s Dragon Maid«-Steelbooks enthüllt",
@@ -7335,7 +7670,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Yu-Gi-Oh!",

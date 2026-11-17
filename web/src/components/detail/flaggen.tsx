@@ -3,14 +3,10 @@ import type { Title } from '@shared/types.ts'
 import { Tooltip } from '../ui.tsx'
 import { verweiseFuer, type Verweis } from './verweise.ts'
 import type { Translate } from '../../lib/i18n.tsx'
+import { wertungText } from '../../lib/filter-wertung.ts'
 
 const FLAGGE =
   'inline-flex h-11 items-center gap-1.5 whitespace-nowrap rounded-l-[10px] bg-[rgba(8,12,18,.78)] pl-3.5 pr-3 text-t4 font-semibold text-white'
-
-/** Die Wertung mit Komma: aus 85 Prozent wird „8,5“. */
-export function wertungText(score: number): string {
-  return (score / 10).toFixed(1).replace('.', ',')
-}
 
 /** Der Pfeil sagt „führt hinaus“ — ohne ihn liest sich das Wort als Quellenangabe. */
 function Pfeil() {

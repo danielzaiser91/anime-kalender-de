@@ -21,6 +21,7 @@ tools/ansicht-hover-cover.mjs
 tools/ansicht-hover-weitere.mjs
 tools/ansicht-saison-chip.mjs
 tools/ansicht-statusfarben.mjs
+tools/ansicht-such-icon-fokus.mjs
 tools/ansicht-termin-karte.mjs
 tools/ansicht-trefferprobe.mjs
 tools/ansicht-tv-reihe.mjs
@@ -40,6 +41,7 @@ tools/buehne-name-pruefen.mjs
 tools/buehne-panel-pruefen.mjs
 tools/buehne-seite.mjs
 tools/buehne-zustand-pruefen.mjs
+tools/cls-erstladen.mjs
 tools/cls-wechsel.mjs
 tools/dist-frisch.mjs
 tools/duell-urteil.mjs
@@ -51,6 +53,8 @@ tools/filter-tempo-urteil.mjs
 tools/filter-tempo.mjs
 tools/kachel-ecken-live.mjs
 tools/kachel-ecken-messen.mjs
+tools/ladefehler-messen.mjs
+tools/ladefehler-urteil.mjs
 tools/linux-schrift.mjs
 tools/melder-kasten-bild.mjs
 tools/netz-sperre.mjs
@@ -66,6 +70,7 @@ tools/saison-chip-urteil.mjs
 tools/schwer.mjs
 tools/schwerer-lauf.mjs
 tools/such-chip-messen.mjs
+tools/such-icon-taste-urteil.mjs
 tools/suchhinweis-quickfix-pruefen.mjs
 tools/tempo-kern.mjs
 tools/termin-karte-urteil.mjs

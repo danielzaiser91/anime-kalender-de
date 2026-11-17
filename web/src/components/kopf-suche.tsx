@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ViewId } from '../lib/router.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useEscape } from '../lib/escape.ts'
 import { Suchfeld } from './Suchfeld.tsx'
 import { SuchZeichen } from './kalender/Zeichen.tsx'
 
@@ -35,9 +36,15 @@ export function useKopfSuche(view: ViewId, kalender: boolean, suche: string, zur
   const [fokusWunsch, setFokusWunsch] = useState(false)
   const eingabe = useRef<HTMLInputElement>(null)
   const kopf = useRef<HTMLElement>(null)
+  const icon = useRef<HTMLButtonElement>(null)
   useEffect(() => {
     if (sucheAuf) eingabe.current?.focus()
   }, [sucheAuf])
+  /* Escape klappt das Handy-Feld zu und gibt den Fokus ans Symbol zurück (sonst landet er im Nichts). */
+  useEscape(sucheAuf && !kalender, () => {
+    setSucheAuf(false)
+    icon.current?.focus()
+  })
   /* Beim Seitenwechsel klappt ein leeres Feld zu (sonst bleibt die Kopfzeile auf jeder Seite 56 px höher). */
   useEffect(() => {
     if (!suche && !fokusWunsch) setSucheAuf(false)
@@ -56,7 +63,7 @@ export function useKopfSuche(view: ViewId, kalender: boolean, suche: string, zur
     setFokusWunsch(true)
     zurSuche()
   }
-  return { sucheAuf, eingabe, kopf, oeffnen }
+  return { sucheAuf, eingabe, kopf, icon, oeffnen }
 }
 
 const FELD = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-24 pl-10 placeholder-shown:pr-12 text-sm text-ak-text placeholder:text-ak-sehr-leise'

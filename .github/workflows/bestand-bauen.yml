@@ -312,7 +312,41 @@ jobs:
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:qualitaet
+        # Rückgang der Titel mit Streaming-Weg: `check-qualitaet.ts` druckt eine Zeile `STREAMING_RUECKGANG …` (Exit bleibt 0),
+        # daraus wird die gelbe Lauf-Meldung (`DATEN_WARNUNG`); der Exit-Code der Messung selbst bleibt erhalten.
+        run: |
+          status=0
+          npm run check:qualitaet > "$RUNNER_TEMP/qualitaet.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/qualitaet.log"
+          if grep -q '^STREAMING_RUECKGANG ' "$RUNNER_TEMP/qualitaet.log"; then
+            rueckgang="$(grep -m1 '^STREAMING_RUECKGANG ' "$RUNNER_TEMP/qualitaet.log" | cut -d' ' -f2-)"
+            echo "::warning::Streaming-Abdeckung: ${rueckgang}"
+            DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Streaming-Abdeckung gesunken: ${rueckgang}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
+          fi
+          # Titel mit bekannter deutscher Erstausgabe, aber ohne Stream und Verweis: steigt ihre Zahl, druckt die Messung `ERSTAUSGABE_OHNE_WEG …`.
+          if grep -q '^ERSTAUSGABE_OHNE_WEG ' "$RUNNER_TEMP/qualitaet.log"; then
+            ohneWeg="$(grep -m1 '^ERSTAUSGABE_OHNE_WEG ' "$RUNNER_TEMP/qualitaet.log" | cut -d' ' -f2-)"
+            echo "::warning::Erstausgabe ohne Weg: ${ohneWeg}"
+            DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Erstausgabe bekannt, kein Weg gestiegen: ${ohneWeg}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
+          fi
+          # Mängel-Register (`data/maengel.json`, vom Bau): neu offene Mängel, Rückfälle je Art und ein Hinweis zur Vorfassung, Zeilen aus `qualitaet-warnzeilen.ts`. Cover steht nur im Register.
+          for art in NEU:neu RUECKFALL:Rückfall VORFASSUNG:Vorfassung; do
+            if grep -q "^MAENGEL_${art%%:*} " "$RUNNER_TEMP/qualitaet.log"; then
+              maengel="$(grep -m1 "^MAENGEL_${art%%:*} " "$RUNNER_TEMP/qualitaet.log" | cut -d' ' -f2-)"
+              echo "::warning::Mängel ${art##*:}: ${maengel}"
+              DATEN_WARNUNG="${DATEN_WARNUNG:+$DATEN_WARNUNG · }Mängel ${art##*:}: ${maengel}"
+              echo "DATEN_WARNUNG=${DATEN_WARNUNG}" >> "$GITHUB_ENV"
+            fi
+          done
+          # Harter Wächter rot (`HART` in check-qualitaet.ts): als gelbe Meldung sichtbar machen, sonst bleibt der Schritt unbemerkt rot.
+          if grep -q 'das darf nicht vorkommen' "$RUNNER_TEMP/qualitaet.log"; then
+            hart="$(grep 'das darf nicht vorkommen' "$RUNNER_TEMP/qualitaet.log" | sed 's/^.*⚠ *//; s/ — das darf nicht vorkommen//' | paste -sd';' -)"
+            echo "::warning::Datenqualität (hart): ${hart}"
+            echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Datenqualität hart rot: ${hart}" >> "$GITHUB_ENV"
+          fi
+          exit "$status"
 
       # Fehlt eine deutsche Crunchyroll-Folge der letzten 14 Tage als Termin, bleibt der Bau grün und die Daten gehen raus; die Folge
       # kommt als gelbe Lauf-Meldung (`DATEN_WARNUNG`) in die App und in `laeufe-aufraeumen` (Anlass 25.10.2026: Last Boss S2 #1–2,

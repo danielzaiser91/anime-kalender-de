@@ -67,6 +67,25 @@ export function roteArten(verlauf, letzterGruen = new Map(), jetztMs = Date.now(
   return rote
 }
 
+/** Notiz des Verlaufseintrags, der zu `r` (Eintrag aus `roteArten`) gehört; leer, wenn er nicht gefunden wird. */
+export function notizZu(eintraege, r) {
+  return eintraege.find((e) => e.gemeldet_am === r.am && e.zustand === r.zustand)?.notiz ?? ''
+}
+
+const NOTIZ_MAX = 160
+
+/**
+ * Wachzeile zu einer Lauf-Art aus `roteArten`. Ein grüner Lauf mit Warnung (`warnung`) ist nicht rot: eigene Überschrift,
+ * erste Zeile der Lauf-Meldung (`DATEN_WARNUNG`, auf eine Zeile gekürzt) und „ohne Warnung“ als Aufhebung.
+ */
+export function verlaufsZeile(r, notiz = '') {
+  const alter = `vor ${r.stunden.toFixed(1)} h`
+  if (r.zustand !== 'warnung') return `ROT im Verlauf: ${r.art} — letzter Lauf ${r.zustand} am ${r.am} (${alter}, kein grüner Lauf danach)`
+  const text = notiz.replace(/\s+/g, ' ').trim()
+  const kurz = text.length > NOTIZ_MAX ? `${text.slice(0, NOTIZ_MAX - 1)}…` : text
+  return `WARNUNG im Verlauf: ${r.art} — letzter Lauf warnung am ${r.am} (${alter}, kein Lauf ohne Warnung danach)${kurz ? `: ${kurz}` : ''}`
+}
+
 /**
  * Stunden Stillstand von `public/data` und ob die Grenze gerissen ist. Gemessen an den Commits 10.-17.10.2026: größte Lücke
  * eines gesunden Betriebs rund 6 h (nachts), der Stillstand vom 17.10. dauerte über 11 h; deshalb 8 h statt 3 h.

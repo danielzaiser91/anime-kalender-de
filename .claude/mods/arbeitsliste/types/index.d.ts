@@ -38,8 +38,6 @@ declare module 'claude-code' {
       ruhe: 'hart' | 'sanft' | null
       // Sparmodus aus sparmodus.txt: nur Sonnet mittel und Haiku als Subagenten.
       spar: boolean
-      // Klickzähler des Agents-Knopfs: savvy-progress hört auf diesen Schreibvorgang und schaltet sein Pane (kein Slash-Befehl im Chat).
-      agentenKnopf: number
       // Fortschritt je Ziel aus ziele.md (Balken im Pane).
       ziele: ZielStand[]
       // „Gerade in Arbeit“ aus stand.md: sichtbare Titel und Zahl der übrigen.

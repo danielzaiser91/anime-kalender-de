@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
+  { "name": "vermerkTag: UTC-Datum statt Berliner Tag", "datei": "shared/logic.ts", "suche": "const vermerkTag = (zeitpunkt: string): string => toIsoDate(new Date(zeitpunkt))", "ersetze": "const vermerkTag = (zeitpunkt: string): string => zeitpunkt.slice(0, 10)", "tests": ["npx tsx pipeline/check-erwartet-wort.ts"] },
+  { "name": "stuetzpunkte: neuErwartet als UTC-Datum", "datei": "shared/logic.ts", "suche": "date: vermerkTag(String(v!.neuErwartet))", "ersetze": "date: String(v!.neuErwartet).slice(0, 10)", "tests": ["npx tsx pipeline/check-erwartet-wort.ts"] },
+  { "name": "termineAusPlan verpasst: erwartetAm als UTC-Datum", "datei": "shared/logic.ts", "suche": "date === vermerkTag(String(s.verpasst[episode].erwartetAm))", "ersetze": "date === String(s.verpasst[episode].erwartetAm).slice(0, 10)", "tests": ["npx tsx pipeline/check-erwartet-wort.ts"] },
+  { "name": "termineAusPlan verpasst: Tagesvergleich entfällt", "datei": "shared/logic.ts", "suche": "s.verpasst?.[episode] && date === vermerkTag(String(s.verpasst[episode].erwartetAm))", "ersetze": "s.verpasst?.[episode]", "tests": ["npx tsx pipeline/check-erwartet-wort.ts"] },
+  { "name": "termineAusPlan Schleife: alterTag als UTC-Datum", "datei": "shared/logic.ts", "suche": "const alterTag = vermerkTag(String(v.erwartetAm))", "ersetze": "const alterTag = String(v.erwartetAm).slice(0, 10)", "tests": ["npx tsx pipeline/check-erwartet-wort.ts"] }
+]

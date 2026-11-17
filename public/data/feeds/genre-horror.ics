@@ -4,18 +4,20 @@ PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Horror
+X-WR-CALDESC:Daten von anime-kalender.de unter CC BY 4.0. Hinweise für Web
+ seiten und Apps: https://anime-kalender.de/#/abo
 X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-6920-tv-rtl@2026-11-07@anime-kalender-de
+UID:auto-20613-tv-prosieben-fun@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261107T221000Z
-DTEND:20261107T224000Z
-SUMMARY:Blade
-DESCRIPTION:Plattform: RTL\nRelease-Art: Wöchentlich (Simuldub)\nDetails: 
- https://anime-kalender.de/t/4057/
-CATEGORIES:RTL
+DTSTART:20261116T195500Z
+DTEND:20261116T202500Z
+SUMMARY:Akame ga Kill: Schwerter der Assassinen – Folge 1
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/7169/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
@@ -33,8 +35,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:Gantz (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/348/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei ADN im Streaming (spätestens ab 05.06.2026).\nUhrzeit
+  noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/348/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

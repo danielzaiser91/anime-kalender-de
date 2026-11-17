@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-11",
+  "stand": "2026-11-17",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -9301,7 +9301,7 @@
     {
       "id": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/|STEEL BALL RUN: JoJo’s Bizarre Adventure||start|netflix",
       "erstGesehen": "2026-10-13",
-      "fingerabdruck": "ff2f6c45b407",
+      "fingerabdruck": "ffeb960e6f30",
       "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
@@ -9323,8 +9323,8 @@
         "zitat": "Freitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nFreitag: »STEEL BALL RUN: JoJo’s Bizarre Adventure« (Simulcast)\nSimulcast: Jeden Freitag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
         "zuordnung": {
           "anilistId": 190327,
-          "name": "Steel Ball Run: Jojo’s Bizarre Adventure",
-          "wie": "name-genau"
+          "name": "Steel Ball Run: Jojo’s Bizarre Adventure - Phase 1",
+          "wie": "name-teil"
         },
         "bestand": {
           "status": "bekannt",
@@ -9335,7 +9335,8 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 273
-      }
+      },
+      "geaendert": "2026-11-17"
     },
     {
       "id": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/|Das Band der Unterwelt||start|netflix",
@@ -10748,8 +10749,8 @@
     {
       "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Bass X Machina||start|netflix",
       "erstGesehen": "2026-10-22",
-      "fingerabdruck": "18a9770c4fb2",
-      "offenOderUnklar": true,
+      "fingerabdruck": "e44f3f7d0474",
+      "offenOderUnklar": false,
       "ergebnis": {
         "quelle": {
           "url": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/",
@@ -10767,15 +10768,23 @@
         "konfidenz": 0.95,
         "gruende": [],
         "zitat": "3. November: »Bass X Machina«\n3. November: »Bass X Machina«\nEpisoden: unbekannt\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
-        "offen": {
-          "grund": "kein Titel mit diesem Namen",
-          "kandidaten": []
+        "zuordnung": {
+          "anilistId": -314271,
+          "name": "Bass X Machina",
+          "wie": "name-genau",
+          "abstandTage": 0
         },
         "bestand": {
-          "status": "ohne-zuordnung"
+          "status": "bekannt",
+          "release": {
+            "slug": "bass-x-machina-netflix",
+            "firstEpisodeDate": "2026-11-03"
+          },
+          "hatSynchroBelege": true
         },
         "inhaltZeichen": 262
-      }
+      },
+      "geaendert": "2026-11-17"
     },
     {
       "id": "https://www.anime2you.de/news/1062641/netflix-anime-neu-im-november-2026/|Fool Night||start|netflix",
@@ -14080,6 +14089,224 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 324
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/|Detektiv Conan|Episode 1 bis 150|start|crunchyroll",
+      "erstGesehen": "2026-11-13",
+      "fingerabdruck": "4d1496ac9f95",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/",
+          "veroeffentlicht": "2026-11-12",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Detektiv Conan",
+        "zusatz": "Episode 1 bis 150",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll"
+        ],
+        "datum": "2026-11-12",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "ja",
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Detektiv Conan« – Episode 1 bis 150 (OmU)\n»Detektiv Conan« – Episode 1 bis 150 (OmU)\nEpisoden: 1 bis 150 auf Japanisch verfügbar\nSprache: Deutsch, Japanisch (UT)\nHinweis: Die deutsche Synchronfassung war zuvor bereits vorhanden\nStream: Crunchyroll",
+        "zuordnung": {
+          "anilistId": 235,
+          "name": "Detektiv Conan",
+          "wie": "name-genau",
+          "abstandTage": 11266,
+          "vorbehalt": "Zusatz „Episode 1 bis 150\" nicht aufgelöst"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 437
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/|Fafner||start|crunchyroll",
+      "erstGesehen": "2026-11-13",
+      "fingerabdruck": "e5f8766de2ac",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1070797/crunchyroll-detektiv-conan-untertitel-und-mehr/",
+          "veroeffentlicht": "2026-11-12",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Fafner",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll"
+        ],
+        "datum": "2026-11-12",
+        "datumBedeutung": "tag-der-meldung",
+        "deutsch": "nein",
+        "folgen": 26,
+        "konfidenz": 0.8,
+        "gruende": [
+          "„ab sofort\" = Tag der Meldung"
+        ],
+        "zitat": "»Fafner« (OmeU)\n»Fafner« (OmeU)\nEpisoden: 26 (komplett)\nSprache: Englisch, Japanisch (UT)\nHinweis: Keine deutschen Untertitel\nStream: Crunchyroll",
+        "zuordnung": {
+          "anilistId": 75,
+          "name": "Fafner",
+          "wie": "name-genau",
+          "abstandTage": 8165
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 387
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/|Anja und die vier Jahreszeiten||start|primevideo",
+      "erstGesehen": "2026-11-14",
+      "fingerabdruck": "e389feea3817",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+          "veroeffentlicht": "2026-11-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Anja und die vier Jahreszeiten",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Anja und die vier Jahreszeiten«\nLaufzeit: 61 Minuten\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 3751,
+          "name": "Anja und die vier Jahreszeiten",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 284
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/|Code Geass: Akito the Exiled – The Wyvern Arrives||start|primevideo",
+      "erstGesehen": "2026-11-14",
+      "fingerabdruck": "ba89c64050a1",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071396/prime-video-code-geass-akito-the-exiled-und-mehr/",
+          "veroeffentlicht": "2026-11-13",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Code Geass: Akito the Exiled – The Wyvern Arrives",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Code Geass: Akito the Exiled – The Wyvern Arrives«\nLaufzeit: 51 Minuten\nSprache: Deutsch\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 8888,
+          "name": "Code Geass: Akito the Exiled - The Wyvern Arrives",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 304
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/|Fruits Basket|Staffel 1|start|",
+      "erstGesehen": "2026-11-15",
+      "fingerabdruck": "2f148e9386a5",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+          "veroeffentlicht": "2026-11-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Fruits Basket",
+        "zusatz": "Staffel 1",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "nein",
+        "folgen": 25,
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»Fruits Basket« – Staffel 1\nEpisoden: 25 (komplett)\nSprache: Japanisch (UT)\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 105334,
+          "name": "Fruits Basket",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 403
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/|My Hero Academia|Staffel 2|start|",
+      "erstGesehen": "2026-11-15",
+      "fingerabdruck": "ebd836178bbf",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1071367/pluto-tv-fruits-basket-und-mehr/",
+          "veroeffentlicht": "2026-11-14",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "My Hero Academia",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [],
+        "deutsch": "ja",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Deutsch",
+          "kein Tag genannt",
+          "kein Anbieter genannt"
+        ],
+        "zitat": "»My Hero Academia« – Staffel 2\nEpisoden: 13 von 25\nSprache: Deutsch\nStream: Pluto TV",
+        "zuordnung": {
+          "anilistId": 21856,
+          "name": "My Hero Academia 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 307
       }
     }
   ]

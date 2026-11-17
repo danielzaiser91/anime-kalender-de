@@ -1,5 +1,7 @@
 // PreToolUse(Bash): `gh pr merge <N>` wird abgewiesen, außer im selben Befehl steht davor `node tools/pr-nachrechnen.mjs <N> &&`
 // (gleiche Nummer, Verknüpfer `&&`, damit ein Exit ≠ 0 den Merge verhindert).
+// Kopfschutz (17.11.2026): zusätzlich `--match-head-commit <sha>`, damit ein neuer Kopf nach der Prüfung den Merge selbst scheitern lässt;
+// die sha wird vor dem Nachrechnen gelesen.
 // Anlass: 09.11.2026, ein Hand-Merge ohne Nachrechnen machte main rot (die Kette lief gegen ein altes main). `merge-reihe.sh` ruft
 // pr-nachrechnen selbst auf und enthält den Text `gh pr merge` nicht; es bleibt frei.
 // Zerlegung wie in no-verify-sperre.js (Heredocs weg, Ketten, `bash -c`/`eval` rekursiv); `echo`/`printf`-Text zählt nicht.
@@ -49,7 +51,15 @@ function nachgerechnet(tokens) {
   return /^\d+$/.test(tokens[k + 1] ?? '') ? tokens[k + 1] : null
 }
 
-const erlaubt = (n) => `node tools/pr-nachrechnen.mjs ${n} && t=$(gh pr view ${n} --json title -q .title) && gh pr merge ${n} --squash --subject "$t (#${n})"`
+/** Hat `gh pr merge` ab dem `gh`-Token `--match-head-commit <sha>` (oder `=<sha>`) mit nichtleerem Wert? */
+function hatKopfschutz(tokens, von) {
+  const k = tokens.findIndex((t, i) => i > von && (t === '--match-head-commit' || t.startsWith('--match-head-commit=')))
+  if (k < 0) return false
+  if (tokens[k].includes('=')) return tokens[k].length > '--match-head-commit='.length
+  return Boolean(tokens[k + 1]) && !tokens[k + 1].startsWith('-')
+}
+
+const erlaubt = (n) => `h=$(gh pr view ${n} --json headRefOid -q .headRefOid) && node tools/pr-nachrechnen.mjs ${n} && t=$(gh pr view ${n} --json title -q .title) && gh pr merge ${n} --squash --subject "$t (#${n})" --match-head-commit "$h"`
 
 /** Verweigerungstext (mit Nummer des Merges) für einen Befehl oder null. */
 function pruefeBefehl(befehl) {
@@ -68,7 +78,7 @@ function pruefeBefehl(befehl) {
       } else if (p === 'gh' || p === 'gh.exe') {
         const nummer = mergeNummer(tokens, i)
         if (nummer === null) continue
-        if (nummer === '' || !frei.has(nummer)) return erlaubt(nummer || 'N')
+        if (nummer === '' || !frei.has(nummer) || !hatKopfschutz(tokens, i)) return erlaubt(nummer || 'N')
       }
     }
   }
@@ -80,7 +90,7 @@ function pruefe(eingabe) {
   if (eingabe.tool_name !== 'Bash') return null
   const ok = pruefeBefehl(String(eingabe.tool_input?.command ?? ''))
   if (!ok) return null
-  return `„gh pr merge“ ohne Nachrechnen gesperrt: die Kette kann gegen ein altes main gelaufen sein (09.11.2026, main rot). Erlaubter Befehl: ${ok}`
+  return `„gh pr merge“ ohne Nachrechnen oder ohne --match-head-commit gesperrt: die Kette kann gegen ein altes main gelaufen sein (09.11.2026, main rot), und ein Kopf nach der Prüfung würde mitgemergt. Erlaubter Befehl: ${ok}`
 }
 
 module.exports = { pruefe, pruefeBefehl }

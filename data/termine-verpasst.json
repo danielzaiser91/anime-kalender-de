@@ -441,5 +441,36 @@
       "bild": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-21-18-02.jpg",
       "html": "www.crunchyroll.com/simulcastcalendar/2026-10-21/2026-10-21-18-02.html.gz"
     }
+  },
+  {
+    "id": "last-boss-s2-crunchyroll@2026-11-14",
+    "slug": "last-boss-s2-crunchyroll",
+    "titleId": 204389,
+    "name": "A Wild Last Boss Appeared! – Staffel 2",
+    "platform": "crunchyroll",
+    "episode": 5,
+    "erwartetAm": "2026-11-14T14:30:00.000Z",
+    "bemerktAm": "2026-11-14T15:07:02.293Z",
+    "erschienenAm": "2026-11-16T14:30:00.000Z",
+    "verzugStunden": 48,
+    "folgenVerfuegbar": 12,
+    "tagGeschaetzt": true,
+    "neuErwartet": null,
+    "recherche": null,
+    "wocheBeleg": {
+      "url": "https://www.crunchyroll.com/de/news/seasonal-lineup/2026/10/5/crunchyroll-wochenprogramm-herbst-2026",
+      "gesehenAm": "2026-11-10T18:02:11.848Z",
+      "bild": "www.crunchyroll.com/wochenprogramm/gt00361955/2026-11-14-f5-2026-11-10-18-02.webp",
+      "bildAm": "2026-11-10T18:02:11.848Z",
+      "markierung": [
+        0.5138888888888888,
+        0.814526588845655,
+        0.21861111111111112,
+        0.16990920881971466
+      ]
+    },
+    "geprueftAm": "2026-11-16T14:01:42.449Z",
+    "newsGeprueftAm": "2026-11-16T05:02:55.499Z",
+    "rechercheAm": "2026-11-16T11:02:24.185Z"
   }
 ]

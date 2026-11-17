@@ -10,6 +10,7 @@ import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeWegeNachBegrenzung, titelMitStream } from './11-2-5-wege-nach-begrenzung.ts'
 import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
+import { vermerkeGeteilteAdressen } from './geteilte-adressen.ts'
 import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
 import { verwirfKapitelShopWege } from './11-9-kapitel-shop.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
@@ -93,6 +94,7 @@ export function schliesseWegeAb({
 
   fuehrePrimeGleicheGtiZusammen(titles.values(), readJson<GtiBelegt>('data/amazon-gti-belegt.json', {}))
   baueEanHaendlerWege(titles)
+  vermerkeGeteilteAdressen(titles.values())
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
   setzeProduktFelder(titles)

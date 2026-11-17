@@ -5,6 +5,7 @@ const MAX_ZEILEN = 20
 const MAX_NAECHSTES = 80
 const MAX_ZEICHEN = 400
 const ICON = /^- (?:🔴|🟠|🔵|📅|⏳|🚫)/u
+const LEER = 'stand.md ist leer — beschädigt? Sicherung in ~/.claude/file-history'
 const STUNDE = 3600000
 const MAX_ALTER = 24 * STUNDE
 const AKTUALISIERT = /^Aktualisiert: (\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/
@@ -68,6 +69,31 @@ function topPrios(zeilen, jetzt) {
     return t !== null && jetzt - t > MAX_PRIO_ALTER
   })
   if (alt.length) meldungen.push(`Top-Prios: ${aufzaehlung(alt)} mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen`)
+  meldungen.push(...priosGemergt(liste, zeilen))
+  return meldungen
+}
+
+// Eine PR-Nennung samt Nummernliste („PR 1“, „PRs 1, 2“, „PR 1 und 2“) und dem Text bis zur nächsten PR oder zum „;“.
+const PR_NENNUNG = /PRs?\s*#?(\d+(?:(?:,\s*|\s+und\s+)#?\d+)*)\)?(.*?)(?=PRs?\s*#?\d|;|$)/g
+// „offen“ nur direkt nach den Nummern; „offen:“ leitet eine Aufzählung ein und zählt nicht.
+const OFFEN_WENDUNG = /^\s*offen\b(?!:)|Prüfer läuft|wartet auf (?:Merge|Kette)|in Prüfung/
+
+/** Meldungen zu Top-Prios-Zeilen, die eine PR als offen führen, die der Kopf von „## In Arbeit“ unter „gemergt heute …“ nennt (Lehre 92, 15.11.2026: Ziele-Box blieb nach Merges veraltet). Nur Text, kein gh. */
+function priosGemergt(liste, zeilen) {
+  const kopf = zeilen.find((z) => z.startsWith('## In Arbeit')) || ''
+  // Klammerzusätze („3890 (Teil 1), 3912“) fallen vor dem Zählen weg, damit sie die Liste nicht abschneiden.
+  const kopfListe = /gemergt heute ([^;]*)/.exec(kopf)?.[1].replace(/\([^)]*\)/g, '') || ''
+  const gemergt = new Set(kopfListe.match(/\b\d{3,5}\b/g) || [])
+  const meldungen = []
+  for (const z of liste) {
+    const offen = new Set()
+    for (const m of z.matchAll(PR_NENNUNG)) {
+      if (OFFEN_WENDUNG.test(m[2])) m[1].match(/\d+/g).forEach((nr) => offen.add(nr))
+    }
+    for (const nr of offen) {
+      if (gemergt.has(nr)) meldungen.push(`Top-Prios: ${anfang(z)} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`)
+    }
+  }
   return meldungen
 }
 
@@ -89,10 +115,19 @@ function aufzaehlung(zeilen) {
 
 const KENNUNG = /\b[FE]\d+\b/
 const GRUND = /\b(?:kann|darf|soll) nicht\b/i
+const JETZT_TITEL = /^- (?:🔴|🟠|🔵)\s*(?:\[(?:groß|klein)\]\s*)?\*\*(.+?)\*\*(.*)$/su
 /** Link-Ziele zählen nicht: eine verlinkte Datei `F74-x.md` ist keine Kennung der Zeile. */
 const ohneLinkZiel = (z) => z.replace(/\]\([^)]*\)/g, ']')
 
-/** Meldungen zu „### Jetzt“: jede Handlungs-/Fragezeile trägt F<n>/E<n> und einen Grund mit Verb (Daniel 20.10.2026); 📅-Terminzeilen und Unterzeilen zählen nicht. */
+/** Jetzt-Zeilen, deren Form nicht `- <Icon> **<Titel>** — [Text](Link)` ist: Text zwischen Titel und „ — “ oder „kann/darf/soll nicht“ im Titel (Daniel, 16.11.2026: die Leiste schnitt E90 mitten in der Klammer ab). */
+function jetztFormfehler(liste) {
+  return liste.filter((z) => {
+    const m = JETZT_TITEL.exec(z)
+    return m && (GRUND.test(m[1]) || !/^(?: — .*)?$/s.test(m[2].replace(/\s*\{[^}]*\}\s*$/, '')))
+  })
+}
+
+/** Meldungen zu „### Jetzt“: jede Handlungs-/Fragezeile trägt F<n>/E<n>; der Grund „kann/darf/soll nicht“ steht in der Jetzt-Datei, nicht in der Zeile (Daniel, 16.11.2026); 📅-Terminzeilen und Unterzeilen zählen nicht. */
 function jetztZeilen(zeilen) {
   const kopf = zeilen.findIndex((z) => z.startsWith('### Jetzt'))
   if (kopf < 0) return []
@@ -102,9 +137,16 @@ function jetztZeilen(zeilen) {
   const meldungen = []
   const ohneKennung = liste.filter((z) => !KENNUNG.test(ohneLinkZiel(z)))
   if (ohneKennung.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneKennung)} ohne Kennung F<n>/E<n>`)
-  const ohneGrund = liste.filter((z) => !GRUND.test(z))
-  if (ohneGrund.length) meldungen.push(`Jetzt: ${aufzaehlung(ohneGrund)} ohne Grund „kann/darf/soll nicht“`)
+  const form = jetztFormfehler(liste)
+  if (form.length) meldungen.push(`Jetzt: ${aufzaehlung(form)} mit Text zwischen Titel und „ — “ oder Grund im Titel — Grund gehört in die Jetzt-Datei, Abschnitt ‚Warum ich es nicht selbst tue‘`)
   return meldungen
+}
+
+const TERMIN_VORN = /^- 📅 (?:\[[^\]]*\] )?(?:\*\*)?(?:(?:Mo|Di|Mi|Do|Fr|Sa|So) )?\d{1,2}[.:]\d{2}/u
+/** 📅-Zeilen tragen die Zeit am Titelanfang (Skill daniel-dateien-pflegen; Daniel 12.11.2026 zu E57: „erst die uhrzeit dann den punkt“). */
+function terminZeilen(zeilen) {
+  const falsch = zeilen.filter((z) => z.startsWith('- 📅') && !TERMIN_VORN.test(z))
+  return falsch.length ? [`📅: ${aufzaehlung(falsch)} ohne Zeit am Anfang — „HH:MM“, „TT.MM.“ oder „TT.MM. HH:MM“ vor den Titel`] : []
 }
 
 /** Meldung, wenn „Aktualisiert: JJJJ-MM-TT HH:MM“ mehr als 5 min in der Zukunft liegt (geschätzte statt mit `date` gelesene Uhrzeit). */
@@ -131,16 +173,83 @@ function toteLinks(text, existiert) {
   return [...namen].map((n) => `Toter Link: ${n} — umbenannt? Link nachziehen`)
 }
 
-/** Meldungstext oder '' (alles in Ordnung). `existiert` prüft Dateipfade (Standard fs.existsSync). */
-function waechter(text, jetzt, existiert = fs.existsSync) {
-  return [waechterAbschnitte(text, jetzt), ...toteLinks(text, existiert)].filter(Boolean).join('; ')
+const DATEI_ABSCHNITTE = ['Deine Aufgabe', 'Worum es geht', 'Warum ich es nicht selbst tue', 'Archiv']
+
+/** Liest eine Datei als Text oder null (fehlt/unlesbar). */
+function liesDatei(pfad) {
+  try {
+    return fs.readFileSync(pfad, 'utf8')
+  } catch {
+    return null
+  }
+}
+
+/** Meldungen zum Aufbau einer Jetzt-Datei: Kennung in der ersten Überschrift, `##`-Abschnitte je genau einmal in fester Reihenfolge (Archiv darf fehlen). */
+function dateiAufbau(kennung, text) {
+  const zeilen = text.split(/\r?\n/)
+  const titel = zeilen.find((z) => /^# /.test(z)) || ''
+  const meldungen = []
+  if (!new RegExp(`\\b${kennung}\\b`).test(titel)) meldungen.push(`Jetzt-Datei ${kennung}: Kennung fehlt in der Überschrift`)
+  const ränge = zeilen.filter((z) => /^## /.test(z)).map((z) => DATEI_ABSCHNITTE.indexOf(z.slice(3).trim()))
+  DATEI_ABSCHNITTE.forEach((name, i) => {
+    const anzahl = ränge.filter((r) => r === i).length
+    if (anzahl === 0 && i < 3) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „${name}“ fehlt`)
+    if (anzahl > 1) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „${name}“ doppelt`)
+  })
+  if (ränge[0] !== 0) meldungen.push(`Jetzt-Datei ${kennung}: Abschnitt „Deine Aufgabe“ nicht zuerst`)
+  const bekannt = ränge.filter((r) => r >= 0)
+  if (bekannt.some((r, i) => i > 0 && r < bekannt[i - 1])) {
+    meldungen.push(`Jetzt-Datei ${kennung}: Abschnitte nicht in der Reihenfolge Aufgabe, Worum, Warum, Archiv`)
+  }
+  meldungen.push(...warumGrund(kennung, zeilen))
+  return meldungen
+}
+
+/** Der Abschnitt „Warum ich es nicht selbst tue“ nennt „kann/darf/soll nicht“ (der Grund steht dort, nicht in der Jetzt-Zeile; Daniel, 16.11.2026). Fehlt der Abschnitt, meldet das dateiAufbau. */
+function warumGrund(kennung, zeilen) {
+  const von = zeilen.findIndex((z) => z.startsWith('## ') && z.slice(3).trim() === DATEI_ABSCHNITTE[2])
+  if (von < 0) return []
+  let bis = zeilen.findIndex((z, i) => i > von && z.startsWith('## '))
+  if (bis < 0) bis = zeilen.length
+  return GRUND.test(zeilen.slice(von + 1, bis).join('\n')) ? [] : [`Jetzt-Datei ${kennung}: Abschnitt „${DATEI_ABSCHNITTE[2]}“ nennt kein „kann nicht“, „darf nicht“ oder „soll nicht“`]
+}
+
+/** Meldungen zu den Jetzt-Dateien: je Zeile unter „### Jetzt“ mit Kennung und `file:///`-Link auf eine .md-Datei. `lies(pfad)` liefert Text oder null. */
+function jetztDateien(text, lies) {
+  const zeilen = text.split(/\r?\n/)
+  const kopf = zeilen.findIndex((z) => z.startsWith('### Jetzt'))
+  if (kopf < 0) return []
+  let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('#'))
+  if (ende < 0) ende = zeilen.length
+  const meldungen = []
+  for (const z of zeilen.slice(kopf + 1, ende).filter((s) => s.startsWith('- '))) {
+    const kennung = KENNUNG.exec(ohneLinkZiel(z))
+    const link = [...z.matchAll(DATEI_LINK)].map((m) => m[1].split('#')[0]).find((l) => /\.md$/i.test(l))
+    if (!kennung || !link) continue
+    let pfad
+    try {
+      pfad = decodeURIComponent(link.slice('file:///'.length))
+    } catch {
+      continue
+    }
+    const inhalt = lies(pfad)
+    if (inhalt != null) meldungen.push(...dateiAufbau(kennung[0], inhalt))
+  }
+  return meldungen
+}
+
+/** Meldungstext oder '' (alles in Ordnung). `existiert` prüft Dateipfade (Standard fs.existsSync), `lies` liest Jetzt-Dateien. */
+function waechter(text, jetzt, existiert = fs.existsSync, lies = liesDatei) {
+  return [waechterAbschnitte(text, jetzt), ...toteLinks(text, existiert), ...jetztDateien(text, lies)].filter(Boolean).join('; ')
 }
 
 /** Meldungen zu den Abschnitten von stand.md als ein Text oder ''. */
 function waechterAbschnitte(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
-  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...zukunft(zeilen, jetzt)]
+  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...terminZeilen(zeilen), ...zukunft(zeilen, jetzt)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
+  // Ein leeres stand.md darf nicht „ok“ heißen (15.11.2026: `sed -i "${n}d"` mit leerem n leerte die Datei).
+  if (!text.trim()) return LEER
   if (kopf < 0) return meldungen.join('; ')
   let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
   if (ende < 0) ende = zeilen.length
@@ -160,4 +269,4 @@ function waechterAbschnitte(text, jetzt) {
   return meldungen.join('; ')
 }
 
-module.exports = { MAX_ZEILEN, MAX_ALTER, MAX_PRIOS, waechter }
+module.exports = { MAX_ZEILEN, MAX_ALTER, MAX_PRIOS, LEER, waechter }

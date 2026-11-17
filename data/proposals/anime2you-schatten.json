@@ -345,6 +345,412 @@
         "stichprobe": 0,
         "rest": 3
       }
+    },
+    {
+      "am": "2026-11-13",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.538519000000008,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-13",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.4366660000000024,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-13",
+      "artikel": 4,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 2,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 3.6546570000000145,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 4,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 4
+      }
+    },
+    {
+      "am": "2026-11-13",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.3547980000000024,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-13",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 1,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.7086320000000228,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-14",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.2740319999999912,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-14",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 1,
+      "ms": 1.6840200000000038,
+      "faelle": [
+        {
+          "artikelId": "1071705",
+          "seite": "nurClaude",
+          "titel": "Re:ZERO – Starting Life in Another World",
+          "plattform": "crunchyroll"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
+    },
+    {
+      "am": "2026-11-14",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.393578000000005,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-14",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 1,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.3376730000000094,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.4970080000000223,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.3864910000000066,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.4389559999999904,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.5982160000000079,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.29905500000001,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 1,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.739481000000012,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 1,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 1
+      }
+    },
+    {
+      "am": "2026-11-15",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 4,
+      "ms": 2.8440219999999954,
+      "faelle": [
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "adn"
+        },
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "crunchyroll"
+        },
+        {
+          "artikelId": "1072121",
+          "seite": "nurClaude",
+          "titel": "Witch Watch",
+          "plattform": "netflix"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-16",
+      "artikel": 2,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 1.6488589999999874,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 2,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 2
+      }
+    },
+    {
+      "am": "2026-11-16",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 1,
+      "ms": 3.053562999999997,
+      "faelle": [
+        {
+          "artikelId": "1072212",
+          "seite": "nurClaude",
+          "titel": "Dragon Ball DAIMA",
+          "plattform": "rtlplus"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
+    },
+    {
+      "am": "2026-11-16",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 1,
+      "nurRegel": 0,
+      "nurClaude": 0,
+      "ms": 2.280980999999997,
+      "faelle": [],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
+    },
+    {
+      "am": "2026-11-17",
+      "artikel": 4,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 0,
+      "nurClaude": 1,
+      "ms": 2.903827000000007,
+      "faelle": [
+        {
+          "artikelId": "1072410",
+          "seite": "nurClaude",
+          "titel": "Mistress Kanan is Devilishly Easy",
+          "plattform": "crunchyroll"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 4,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 4
+      }
     }
   ]
 }

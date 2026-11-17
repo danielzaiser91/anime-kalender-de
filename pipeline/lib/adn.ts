@@ -271,6 +271,15 @@ export interface Blockzuordnung {
 }
 
 /**
+ * Ein einzelner Block ist der Titel der Serienkennung, wenn Folgenzahl **und** Folgennummern in ihn passen. ADN zählt Staffeln oft durch
+ * (Dorohedoro, Staffel 2: Folgen 13–23): Die Nummer liegt dann über der Folgenzahl des Titels, und der Block gehört in die Staffelsuche (Dorohedoro 105228 → 173172).
+ */
+export function blockPasstInTitel(block: AdnBlock, titel: Title | undefined): boolean {
+  if (titel?.episodes === undefined) return false
+  return block.episodes.length <= titel.episodes && (block.nummern.at(-1) ?? 0) <= titel.episodes
+}
+
+/**
  * Ordnet die Blöcke einer ADN-Serie den AniList-Staffeln zu.
  *
  * Der Ansatz ist bewusst arithmetisch statt namensbasiert: ADN benennt seine

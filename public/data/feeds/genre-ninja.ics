@@ -4,25 +4,17 @@ PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Ninja
+X-WR-CALDESC:Daten von anime-kalender.de unter CC BY 4.0. Hinweise für Web
+ seiten und Apps: https://anime-kalender.de/#/abo
 X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
+UID:auto-128893-tv-prosieben-fun@2026-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261109T195500Z
-DTEND:20261109T202500Z
-SUMMARY:Hell’s Paradise – Folge 11
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T202000Z
-DTEND:20261109T205000Z
-SUMMARY:Hell’s Paradise – Folge 12
+DTSTART:20261116T202000Z
+DTEND:20261116T205000Z
+SUMMARY:Hell’s Paradise – Folge 13/13
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN

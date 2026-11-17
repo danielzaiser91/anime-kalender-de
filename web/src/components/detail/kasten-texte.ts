@@ -2,6 +2,7 @@ import type { ReleaseEvent, Title } from '@shared/types.ts'
 import { formatDate, weekdayName } from '@shared/time.ts'
 import { tagIstAngekuendigt } from '@shared/news-typen.ts'
 import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
+import type { WortStufe } from '@shared/ausbleiben-plan.ts'
 import type { Antwort } from './antwort-typ.ts'
 
 /** Die Überschrift des grünen Blocks „Kostenlos“: ganz oder „teilweise · 3 von 12“, verglichen mit den deutschen Folgen. */
@@ -43,6 +44,17 @@ export function ausgebliebenTerminText(
   const werte = { tag: weekdayName(e.date), datum: formatDate(e.date) }
   if (!e.time) return T(schluessel, werte)
   return T(`${schluessel}Zeit`, { ...werte, zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
+}
+
+const FAELLIG_SCHLUESSEL: Record<WortStufe, string> = {
+  'wird-geprueft': 'antwort.faelligWirdGeprueft',
+  verspaetet: 'antwort.faelligVerspaetet',}
+
+/** Die fällige Folge in Worten: heute nur mit Uhrzeit, an einem anderen Tag mit Datum („14.11.2026, 15:00 Uhr“). */
+export function faelligText(e: ReleaseEvent, stufe: WortStufe, heute: boolean, T: (k: string, v?: Record<string, string | number>) => string): string {
+  const uhr = e.time ? `${e.timeEstimated ? '≈ ' : ''}${e.time} Uhr` : ''
+  const wann = [heute ? '' : formatDate(e.date), uhr].filter(Boolean).join(', ')
+  return T(FAELLIG_SCHLUESSEL[stufe], { n: e.episode ?? '', wann })
 }
 
 /** Ein widerlegter Termin sagt nicht „erscheint heute“ (02.10.2026). Kopf, Nebenzeile und Dämpfung bei widerlegtem Termin: widerlegt ist der Termin, nicht die Ankündigung (`terminOffen`). */

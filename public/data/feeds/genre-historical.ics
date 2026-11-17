@@ -4,111 +4,11 @@ PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Historical
+X-WR-CALDESC:Daten von anime-kalender.de unter CC BY 4.0. Hinweise für Web
+ seiten und Apps: https://anime-kalender.de/#/abo
 X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-11-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261105T154000Z
-DTEND:20261105T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:steel-ball-run-2nd-3rd-stage@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T080000Z
-DTEND:20261106T083000Z
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
- lge 8/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T154000Z
-DTEND:20261106T161000Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:apothecary-diaries-s3-cour1@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T160000Z
-DTEND:20261106T163000Z
-SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16914/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00383999@2026-11-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261106T160000Z
-DTEND:20261106T163000Z
-SUMMARY:Firefly Wedding – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17358/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-118399-tv-prosieben-maxx@2026-11-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T154500Z
-DTEND:20261109T161500Z
-SUMMARY:Yashahime: Princess Half-Demon
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/11570/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T195500Z
-DTEND:20261109T202500Z
-SUMMARY:Hell’s Paradise – Folge 11
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-128893-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T202000Z
-DTEND:20261109T205000Z
-SUMMARY:Hell’s Paradise – Folge 12
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/12442/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-11-09#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T204500Z
-DTEND:20261109T211500Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-101347-tv-prosieben-fun@2026-11-09#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261109T211000Z
-DTEND:20261109T214000Z
-SUMMARY:Dororo
-DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
- nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:ProSieben FUN
-END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -146,9 +46,8 @@ DTSTART:20261113T080000Z
 DTEND:20261113T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 9/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -157,21 +56,59 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261113T160000Z
 DTEND:20261113T163000Z
 SUMMARY:Die Tagebücher der Apothekerin: Staffel 3 - Teil 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
- bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
- et.\nDetails: https://anime-kalender.de/t/16914/
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16914/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261113T160000Z
-DTEND:20261113T163000Z
+DTSTART:20261113T170000Z
+DTEND:20261113T173000Z
 SUMMARY:Firefly Wedding – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17358/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T154500Z
+DTEND:20261116T161500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T202000Z
+DTEND:20261116T205000Z
+SUMMARY:Hell’s Paradise – Folge 13/13
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-16#13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T204500Z
+DTEND:20261116T211500Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-101347-tv-prosieben-fun@2026-11-16#14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T211000Z
+DTEND:20261116T214000Z
+SUMMARY:Dororo
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/9059/
+CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-20@anime-kalender-de
@@ -180,9 +117,8 @@ DTSTART:20261120T080000Z
 DTEND:20261120T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 10/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -200,8 +136,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261120T160000Z
-DTEND:20261120T163000Z
+DTSTART:20261120T170000Z
+DTEND:20261120T173000Z
 SUMMARY:Firefly Wedding – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -238,9 +174,8 @@ DTSTART:20261127T080000Z
 DTEND:20261127T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 11/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -258,8 +193,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261127T160000Z
-DTEND:20261127T163000Z
+DTSTART:20261127T170000Z
+DTEND:20261127T173000Z
 SUMMARY:Firefly Wedding – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -274,9 +209,8 @@ DTSTART:20261204T080000Z
 DTEND:20261204T083000Z
 SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
  lge 12/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16796/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -294,8 +228,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261204T160000Z
-DTEND:20261204T163000Z
+DTSTART:20261204T170000Z
+DTEND:20261204T173000Z
 SUMMARY:Firefly Wedding – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -309,8 +243,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15778/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 31.01.2025).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/15778/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -328,8 +263,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261211T160000Z
-DTEND:20261211T163000Z
+DTSTART:20261211T170000Z
+DTEND:20261211T173000Z
 SUMMARY:Firefly Wedding – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -352,8 +287,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261218T160000Z
-DTEND:20261218T163000Z
+DTSTART:20261218T170000Z
+DTEND:20261218T173000Z
 SUMMARY:Firefly Wedding – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -376,8 +311,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261225T160000Z
-DTEND:20261225T163000Z
+DTSTART:20261225T170000Z
+DTEND:20261225T173000Z
 SUMMARY:Firefly Wedding – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -400,8 +335,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2027-01-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270101T160000Z
-DTEND:20270101T163000Z
+DTSTART:20270101T170000Z
+DTEND:20270101T173000Z
 SUMMARY:Firefly Wedding – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -424,8 +359,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2027-01-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270108T160000Z
-DTEND:20270108T163000Z
+DTSTART:20270108T170000Z
+DTEND:20270108T173000Z
 SUMMARY:Firefly Wedding – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -436,8 +371,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00383999@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20270115T160000Z
-DTEND:20270115T163000Z
+DTSTART:20270115T170000Z
+DTEND:20270115T173000Z
 SUMMARY:Firefly Wedding – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
@@ -451,8 +386,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
 SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 22.04.2024).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -461,10 +397,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
 SUMMARY:Die Tagebücher der Apothekerin – Staffel 2 – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
- g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
- ://anime-kalender.de/t/15778/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 31.01.2025).\nUhrzeit noc
+ h nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\
+ , sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https:/
+ /anime-kalender.de/t/15778/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -473,8 +410,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270131
 DTEND;VALUE=DATE:20270201
 SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16017/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 26.04.2025).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/16017/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -483,8 +421,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270219
 DTEND;VALUE=DATE:20270220
 SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 22.04.2024).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

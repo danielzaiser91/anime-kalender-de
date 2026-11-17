@@ -17,7 +17,10 @@ import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { leerraumRot } from './lib/leerraum-diff.mjs'
 import { ankerRot } from './mutationsanker.mjs'
+import { mutantenOhneTestsHinweise, stempelHinweise } from './pr-vorpruefung-hinweise.mjs'
+import { heuteBerlin } from './patchnotes-stempel-alter.mjs'
 import { BOT_PFADE_TEST, botPfadeRot } from './pr-vorpruefung-bot-pfade.mjs'
+import { kindFristRot } from './pr-vorpruefung-kind-frist.mjs'
 
 const PRUEFLISTEN = ['tools/check-logic-liste.txt', 'tools/check-bestand-liste.txt']
 
@@ -172,8 +175,19 @@ function main() {
   const lies = (name) => (existsSync(name) ? readFileSync(name, 'utf8') : null)
   const leerraum = leerraumRot(git('diff', '-U0', '--no-renames', 'origin/main...HEAD'), text)
   const botPfade = botPfadeRot(dateien, process.cwd(), () => waechterRot(BOT_PFADE_TEST, 'Bot-Pfade-Wächter (Dateinamen von Bot-Dateien in Tests der Kette)'))
-  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...botPfade, ...versionRot(), ...leerraum]
-  for (const h of urteil.gelb) console.log(`  ! Hinweis: ${h}`)
+  const kindFrist = kindFristRot(dateien, () => waechterRot('tools/test-kind-frist.mjs', 'Kindprozess in Tests ohne Frist (test-kind-frist)'))
+  const rot = [...urteil.rot, ...listenRot(lies), ...umfangRot(), ...uhrRot(dateien), ...botPfade, ...kindFrist, ...versionRot(), ...leerraum]
+  const liesBasis = (name) => {
+    try {
+      return git('show', `origin/main:${name}`)
+    } catch (e) {
+      // Neue Datei: auf main gibt es keine Basis; jeder andere Fehler soll laut werden
+      if (/does not exist in|exists on disk, but not in/.test(String(e.stderr ?? e.message))) return null
+      throw e
+    }
+  }
+  const hinweise = [...urteil.gelb, ...mutantenOhneTestsHinweise(dateien, lies, liesBasis), ...stempelHinweise(nameStatus, lies('data/patchnotes/_ueberarbeitet-bis.txt'), heuteBerlin())]
+  for (const h of hinweise) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {
     console.error(`Vorprüfung rot (${rot.length}): der CI-Prüfer würde „ändern“ sagen. Text/Commit anpassen, dann erneut einreichen.`)

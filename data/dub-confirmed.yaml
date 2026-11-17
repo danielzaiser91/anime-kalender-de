@@ -6585,7 +6585,7 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FVM9QYHR: Film geprüft, Abos: crunchyrollde, Seitenadresse: B0FWYBHG1D, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 2571
+- anilistId: 8373
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PTWL2W
@@ -7239,7 +7239,7 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DF15B196: alle 13 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B0CWCSDVF5, laut Adresse Staffel 1, zugang=kauf"
-- anilistId: 8373
+- anilistId: 2571
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PQIF2U
@@ -8869,7 +8869,7 @@
       checked: [1]
   checkedAt: '2026-08-26'
   note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, nb|Norwegisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, hi|Hindi, it|Italienisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — Durchlauf: Folge 1 — Staffel 1"
-- anilistId: 1726
+- anilistId: 10020483
   title: "Devil May Cry"
   platform: netflix
   url: https://www.netflix.com/title/81506915
@@ -13513,7 +13513,7 @@
   url: https://www.amazon.de/dp/B0DJKGJQ7K
   dub: false
   checkedAt: '2026-09-09'
-  nachgemessenAm: '2026-11-11'
+  nachgemessenAm: '2026-11-15'
   zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
 - anilistId: 177476
@@ -14299,6 +14299,7 @@
   url: https://www.amazon.de/dp/B0G6HF46PV
   dub: false
   checkedAt: '2026-10-16'
+  nachgemessenAm: '2026-11-15'
   note: "Staffel 1 hat bei Amazon keine deutsche Tonspur (alle 25 Folgen, Amazon-Seite 27.08.2026; Daniel 16.09.2026). JustWatchs Ton de (07.09.2026) gilt der ganzen Serie, Staffel 3 (B0GDFC7BL6) ist deutsch — eigene Messung schlägt JustWatch; Beleg vom 17.09.2026 (Serienton) zurückgenommen"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-09-17 ---
 
@@ -17623,7 +17624,7 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DM9XZT23: alle 13 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.7ab1d8ca-f4dc-cb15-4576-ee0a9f218561"
-- anilistId: 2571
+- anilistId: 8373
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PTWL2W
@@ -17634,7 +17635,7 @@
       dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B013PTWL2W: alle 52 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.1aa9f6db-87d3-a1ce-2929-45d5360badc1"
-- anilistId: 8373
+- anilistId: 2571
   title: "Die Biene Maja"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B013PQIF2U
@@ -34538,14 +34539,14 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0C9FR5F8C
   dub: false
-  checkedAt: '2026-10-15'
+  checkedAt: '2026-11-15'
   note: "Amazon-Seite B0C9FR5F8C: alle 1 Folge geprüft, Abos: keine Angabe, gti=amzn1.dv.gti.83838e8b-056c-4a7a-b4ce-01e88b1d189d, regionsperre=laut Seite nicht mehr im Abo"
 - anilistId: 176158
   title: "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0F2G6NRW2
   dub: false
-  checkedAt: '2026-10-15'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0F2G6NRW2: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.0d65ca7b-9a09-46c2-8dab-b70ff8c61e7f"
 - anilistId: 106479
   title: "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense."
@@ -34737,7 +34738,7 @@
   platform: disneyplus
   url: https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: en, fr-FR, ja — Widersprüchliche Meldungen zu Folge 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12"
 - anilistId: 140960
   title: "Spy × Family"
@@ -34782,7 +34783,7 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
   # Folge 25 ist das TV-Special „Winter Arc“ (48 Min., Japan 25./26.12.2025; aniSearch 19505 führt es als eigenen Eintrag, Hulu zählt 24 + 1 = 25 Folgen): keine der 24 Folgen des Titels.
   sonderfolgen: [25]
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Folgen 1–25 ohne deutschen Ton — Tonspuren: en, es-419, fr-FR, pt-BR"
 - anilistId: -131532
   title: "Monster High"
@@ -35148,7 +35149,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FDC33SZ3
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FDC33SZ3: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.26a98362-179d-44aa-b4e4-4e8ec9e6323e"
 - anilistId: 21729
   title: "Kingsglaive: Final Fantasy XV"
@@ -35170,7 +35171,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FM8SL11C
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FM8SL11C: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.3ad2ee3b-5643-450e-8867-633a5ec5ca73"
 - anilistId: 97981
   title: "Mary und die Blume der Hexen"
@@ -35201,7 +35202,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0D3KKR2ZW
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: English, Español (España), Español (México), Português (Brasil), 日本語, Español (Latinoamérica) — Amazon-Seite B0D3KKR2ZW: alle 12 Folgen geprüft, Abos: Prime, animedigitalde, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.922bf719-e049-4670-a18e-80fc50c67d20"
 - anilistId: 108553
   title: "My Hero Academia: The Movie - Heroes Rising"
@@ -35431,7 +35432,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B00G0PC16U
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Amazon-Seite B00G0PC16U: alle 1 Folge geprüft, Abos: keine Angabe, gti=amzn1.dv.gti.e4a9f6d2-122a-5f93-70f9-f1c7779b9cab"
 - anilistId: 98873
   title: "Overlord (Movies)"
@@ -35498,7 +35499,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0DRVH7MBP
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0DRVH7MBP: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.e26a1c11-fc78-4e37-9a4c-2659f9997e5a"
 - anilistId: 108307
   title: "Psycho-Pass 3"
@@ -35512,7 +35513,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0C7F9NTVC
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0C7F9NTVC: alle 8 Folgen geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.fab6fd6d-33c3-b773-a0ff-c196741053e2"
 - anilistId: 105018
   title: "Ride Your Wave"
@@ -35675,7 +35676,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FQP23X45
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FQP23X45: alle 1 Folge geprüft, Abos: Prime, zugang=abo, gti=amzn1.dv.gti.198182bc-29a0-49a0-8c54-a2ff8dcbe1f1"
 - anilistId: -62211
   title: "Sonic Boom"
@@ -35939,7 +35940,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0FBGJHHXK
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0FBGJHHXK: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.03b49366-0767-46f7-91dc-9fa95cd48518"
 - anilistId: 156040
   title: "The Most Heretical Last Boss Queen: From Villainess to Savior"
@@ -36119,7 +36120,7 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0C55SJB1W
   dub: false
-  checkedAt: '2026-10-16'
+  checkedAt: '2026-11-15'
   note: "Tonspuren: 日本語 — Amazon-Seite B0C55SJB1W: alle 24 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28dcdb64-3efe-403e-af16-eb617948d933"
 - anilistId: 136430
   title: "Vinland Saga: Staffel 2"
@@ -39377,7 +39378,6 @@
   dub: true
   checkedAt: '2026-11-12'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H6CC38TP: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.eb7896ae-ef47-4a9d-a230-016d06a59118"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-12 ---
 
 - anilistId: 531
@@ -39387,7 +39387,6 @@
   available: false
   checkedAt: '2026-11-12'
   note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
-
 # --- Anime2You-Automatik, 2026-11-12: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
 
 - anilistId: 47
@@ -39396,7 +39395,13 @@
   dub: true
   checkedAt: '2026-11-12'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/ (2026-11-08): „Der Science-Fiction-Klassiker »Akira« aus dem Jahr 1988 kann ab sofort mit deutscher Synchronisation im kostenpflichtigen Plus-Abo von Joyn gestreamt werden.“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
+- anilistId: 146493
+  title: "Ragna Crimson"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F1XK58VQ
+  available: false
+  checkedAt: '2026-11-12'
+  note: "Amazon-Seite B0F1XK58VQ: „Seite wurde nicht gefunden“ („Tut uns leid. Die eingegebene Webadresse ist keine funktionsfähige Seite auf unserer Website.“), Edge-Abruf 12.11.2026; Adresse stammt nur aus aniSearch (Partnerlink)"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-12 ---
 
 - anilistId: 146493
@@ -39407,3 +39412,1628 @@
   kanalMessung: ja
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D75XMMB1: alle 15 Folgen geprüft, Abos: aniversede, crunchyrollde, zugang=abo, gti=amzn1.dv.gti.7d2692e2-bec9-491d-a547-098c626f557b — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-13 ---
+
+- anilistId: 21698
+  title: "Haikyu!! Karasuno vs. Shiratorizawa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FJZP9BK5
+  available: false
+  checkedAt: '2026-10-24'
+  note: "Amazon-Seite B0FJZP9BK5: nur 0 von 11 Folgen geladen — Rest ungeprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, gti=amzn1.dv.gti.f258a729-c5d4-4ba2-a227-17d80b96bb0d, regionsperre=laut Seite nicht mehr im Abo"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-14 ---
+
+- anilistId: -61071
+  title: "Yakari"
+  platform: netflix
+  url: https://www.netflix.com/title/70234488
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-11-14'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, fr|Französisch [Original] — Gemessen in der Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Der Häuptlingsschmuck/Der mit dem Menschen zieht"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-14 ---
+
+- anilistId: -94107
+  title: "LEGO City Abenteuer"
+  platform: netflix
+  url: https://www.netflix.com/title/81121910
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+  checkedAt: '2026-11-14'
+  note: "Folgen 1–2 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, nl-BE|Flämisch, he|Hebräisch, it|Italienisch, ja|Japanisch, ko|Koreanisch, hr|Kroatisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — Gemessen in der Randprobe — gemessen: Folge 1 und 2, dazwischen nicht geprüft — Folge 1: LEGO City: Spezialsammlung 1 — Netflix: LEGO City 2017"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
+
+- anilistId: 112323
+  title: "Arifureta: From Commonplace to World’s Strongest 2nd Season"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B8TQ6TVJ
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0B8TQ6TVJ: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.ee8b14ff-70ba-4add-ae5a-dcf5fc73e5fa, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 101349
+  title: "Babylon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP
+  dub: false
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: 日本語 — Amazon-Seite 0J16B1NAB82TO0O5A5Q8TLG1VP: alle 12 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28b4244a-d006-4bfb-b4b4-fbbabea2d2f6"
+- anilistId: 21311
+  title: "Bungo Stray Dogs"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0825L839L
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0825L839L: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9eb75d22-6a80-a9ba-d4d2-5154c680de69, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 21679
+  title: "Bungo Stray Dogs 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B083TD7BTR
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B083TD7BTR: alle 0 Folgen geprüft, 13 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.70b7d0fd-0eed-3317-2aa2-3f50deebecd4, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C7LZCS5H
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0C7LZCS5H: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.d8790bd8-dd1b-4f82-9bb9-7a9bd658745f, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 100722
+  title: "Date a Live III"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DMB2MKZX
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0DMB2MKZX: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.cf23ee40-7141-4c78-b88e-93475acc804a, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 10719
+  title: "Haganai: I Don’t Have Many Friends"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F2958YWW
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B0F2958YWW: alle 0 Folgen geprüft, 12 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9c74b1e6-c5f9-4e8c-b706-6a51baadcb8b, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 146493
+  title: "Ragna Crimson"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CK4HJ1LT
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CK4HJ1LT: alle 24 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.ea828ab5-cc45-48ff-9252-5fee589465be — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 156040
+  title: "The Most Heretical Last Boss Queen: From Villainess to Savior"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F923DJJ9
+  dub: false
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0F923DJJ9: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.03b49366-0767-46f7-91dc-9fa95cd48518"
+- anilistId: 101348
+  title: "Vinland Saga"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0BX1M7K82
+  dub: false
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0BX1M7K82: alle 24 Folgen geprüft, Abos: Prime, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.28dcdb64-3efe-403e-af16-eb617948d933"
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B01EKI0P2U
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Amazon-Seite B01EKI0P2U: alle 0 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.60aa6831-7117-90e3-5d17-1890e7b6c218, regionsperre=laut Seite nicht mehr im Abo, ausgaben=3 (Zugangsart gilt nur für diese)"
+- anilistId: 10017859
+  title: "Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CKGQST67
+  dub: true
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CKGQST67: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.6e85ece2-b8ad-4849-9079-7eae6f370813"
+- anilistId: 10017058
+  title: "Miraculous World: New York, United Heroez"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FDV3X4X2
+  dub: true
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0FDV3X4X2: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.5a5a7885-273e-4b7a-a9b1-f36457a91c89"
+- anilistId: 10017074
+  title: "Miraculous World: Shanghai, die Legende von Ladydragon"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F79V67YM
+  dub: true
+  checkedAt: '2026-11-15'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0F79V67YM: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe, gti=amzn1.dv.gti.85cabb58-1af2-42f1-94c1-79f15aa38983"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
+
+- anilistId: 163024
+  title: "Captain Tsubasa: Staffel 2 - Die Junioren"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CM3H8VQS
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
+
+- anilistId: 1816
+  title: "Sonic X"
+  platform: netflix
+  url: https://www.netflix.com/title/60036794
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 105156
+  title: "Cautious Hero: The Hero Is Overpowered but Overly Cautious"
+  platform: netflix
+  url: https://www.netflix.com/title/81196818
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 154967
+  title: "Rascal Does Not Dream of a Sister Venturing Out"
+  platform: netflix
+  url: https://www.netflix.com/title/81765074
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 43
+  title: "Ghost in the Shell"
+  platform: netflix
+  url: https://www.netflix.com/title/540533
+  available: false
+  checkedAt: '2026-11-15'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-11-16 ---
+- anilistId: 97863
+  title: "My First Girlfriend Is a Gal"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GV5SHH5P
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton en, ja, ru, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 603
+  title: "Pretty Cure"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B6S589JZ
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll, Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 603
+  title: "Pretty Cure"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DFKJ2B99
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+- anilistId: 603
+  title: "Pretty Cure"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DF3BVTVB
+  dub: false
+  checkedAt: '2026-11-16'
+  zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# ── Handprüfung E89 vom 16.11.2026: YouTube-Verweise von deutschen Kanälen ───
+# Daniels Sichtung: deutsch vertont, Kanäle per oEmbed belegt.
+
+- anilistId: 138699
+  title: "Pokémon Evolutions"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=aNwzTyTTBS0
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
+
+- anilistId: 168092
+  title: "Pokémon Horizons: Winde aus Paldea"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=U1ouDaKXY8M
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
+
+- anilistId: 170535
+  title: "Meisterdetektiv Pikachu und der verschwundene Pudding"
+  platform: youtube
+  url: https://www.youtube.com/watch?v=Pc2qMMlNeRE
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
+
+- anilistId: 128390
+  title: "Fire Force Staffel 2 Miniepisoden"
+  platform: youtube
+  url: https://www.youtube.com/playlist?list=PLY_DM8ieCRPqNeMV1z2EJZDSgLWySL_Cx
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Daniels Sichtung 16.11.2026: 30 Videos mit deutscher Synchro. Kanal „peppermint anime“ (https://www.youtube.com/@peppermintanimeWORLD, deutsches Label)."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-16 ---
+
+- anilistId: 1689
+  title: "5 Centimeters per Second"
+  platform: netflix
+  url: https://www.netflix.com/title/70093699
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 781
+  title: "Detektiv Conan: Der Magier des letzten Jahrhunderts"
+  platform: netflix
+  url: https://www.netflix.com/title/70126871
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 6675
+  title: "Redline"
+  platform: netflix
+  url: https://www.netflix.com/title/70153298
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 288
+  title: "Beyblade"
+  platform: netflix
+  url: https://www.netflix.com/title/70155614
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 4059
+  title: "Clannad: OVA - Das Tomoyo Kapitel"
+  platform: netflix
+  url: https://www.netflix.com/title/70204963
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 166
+  title: "Samurai 7"
+  platform: netflix
+  url: https://www.netflix.com/title/70205019
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 2966
+  title: "Spice and Wolf"
+  platform: netflix
+  url: https://www.netflix.com/title/70205026
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 467
+  title: "Ghost in the Shell: Stand Alone Complex"
+  platform: netflix
+  url: https://www.netflix.com/title/70213091
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 801
+  title: "Ghost in the Shell: Stand Alone Complex 2nd GIG"
+  platform: netflix
+  url: https://www.netflix.com/title/70213091
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 934
+  title: "Higurashi no Naku Koro ni"
+  platform: netflix
+  url: https://www.netflix.com/title/70308793
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 4752
+  title: "Vampire Knight Guilty"
+  platform: netflix
+  url: https://www.netflix.com/title/70309457
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 11617
+  title: "Highschool D×D"
+  platform: netflix
+  url: https://www.netflix.com/title/80005873
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 15451
+  title: "Highschool D×D New"
+  platform: netflix
+  url: https://www.netflix.com/title/80005873
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20745
+  title: "Highschool D×D BorN"
+  platform: netflix
+  url: https://www.netflix.com/title/80005873
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 15809
+  title: "The Devil Is a Part-Timer!"
+  platform: netflix
+  url: https://www.netflix.com/title/80006149
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 5231
+  title: "Inazuma Eleven"
+  platform: netflix
+  url: https://www.netflix.com/title/80007757
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20661
+  title: "Terror in Tokio"
+  platform: netflix
+  url: https://www.netflix.com/title/80020759
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 18115
+  title: "Magi: The Kingdom of Magic"
+  platform: netflix
+  url: https://www.netflix.com/title/80028089
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20632
+  title: "Aldnoah.Zero"
+  platform: netflix
+  url: https://www.netflix.com/title/80040104
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20853
+  title: "Aldnoah.Zero 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80040104
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 18153
+  title: "Beyond the Boundary: Kyoukai no Kanata"
+  platform: netflix
+  url: https://www.netflix.com/title/80052668
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 14345
+  title: "Btooom!"
+  platform: netflix
+  url: https://www.netflix.com/title/80052713
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 14713
+  title: "Kamisama Kiss"
+  platform: netflix
+  url: https://www.netflix.com/title/80070071
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20801
+  title: "Kamisama Kiss: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80070071
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20668
+  title: "Shojo-Mangaka Nozaki-kun"
+  platform: netflix
+  url: https://www.netflix.com/title/80081848
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 102657
+  title: "Dragon Nest: Die Chroniken von Altera"
+  platform: netflix
+  url: https://www.netflix.com/title/80084763
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 9760
+  title: "Die Reise nach Agartha"
+  platform: netflix
+  url: https://www.netflix.com/title/80104167
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 997
+  title: "Sailor Moon S: Schneeprinzessin Kaguya"
+  platform: netflix
+  url: https://www.netflix.com/title/80116992
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21355
+  title: "Re:Zero - Starting Life in Another World"
+  platform: netflix
+  url: https://www.netflix.com/title/80131659
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 108632
+  title: "Re:Zero - Starting Life in Another World Season 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80131659
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 119661
+  title: "Re:Zero - Starting Life in Another World Season 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80131659
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21311
+  title: "Bungo Stray Dogs"
+  platform: netflix
+  url: https://www.netflix.com/title/80132126
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21679
+  title: "Bungo Stray Dogs 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80132126
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 103223
+  title: "Bungo Stray Dogs 3"
+  platform: netflix
+  url: https://www.netflix.com/title/80132126
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 16067
+  title: "Nagi no Asukara"
+  platform: netflix
+  url: https://www.netflix.com/title/80132218
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21120
+  title: "Haikyu!! Movie 1 - Ende und Anfang"
+  platform: netflix
+  url: https://www.netflix.com/title/80134173
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21244
+  title: "Haikyu!! Movie 2 - Gewinner und Verlierer"
+  platform: netflix
+  url: https://www.netflix.com/title/80134174
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21428
+  title: "Grimgar, Ashes and Illusions"
+  platform: netflix
+  url: https://www.netflix.com/title/80142717
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 14751
+  title: "Pretty Guardian Sailor Moon Crystal"
+  platform: netflix
+  url: https://www.netflix.com/title/80145747
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21462
+  title: "Pretty Guardian Sailor Moon Crystal Season III"
+  platform: netflix
+  url: https://www.netflix.com/title/80145747
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 93
+  title: "Mobile Suit Gundam Seed"
+  platform: netflix
+  url: https://www.netflix.com/title/80146549
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 12979
+  title: "Naruto Spin off! Rock Lee & seine Ninja-Kumpels"
+  platform: netflix
+  url: https://www.netflix.com/title/80151421
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 18617
+  title: "Girls und Panzer: Der Film"
+  platform: netflix
+  url: https://www.netflix.com/title/80159876
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21857
+  title: "Masamune-kun’s Revenge"
+  platform: netflix
+  url: https://www.netflix.com/title/80165290
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 146953
+  title: "Masamune-kun’s Revenge R"
+  platform: netflix
+  url: https://www.netflix.com/title/80165290
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20994
+  title: "Gate"
+  platform: netflix
+  url: https://www.netflix.com/title/80182163
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21364
+  title: "Gate – Teil 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80182163
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20920
+  title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth"
+  platform: netflix
+  url: https://www.netflix.com/title/80185873
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 101167
+  title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth II"
+  platform: netflix
+  url: https://www.netflix.com/title/80185873
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 112124
+  title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth III"
+  platform: netflix
+  url: https://www.netflix.com/title/80185873
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21776
+  title: "Miss Kobayashi’s Dragon Maid"
+  platform: netflix
+  url: https://www.netflix.com/title/80186349
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21676
+  title: "Danmachi: Sword Oratoria"
+  platform: netflix
+  url: https://www.netflix.com/title/80187572
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20623
+  title: "Parasyte: The Maxim"
+  platform: netflix
+  url: https://www.netflix.com/title/80191008
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21700
+  title: "Akashic Records of Bastard Magical Instructor"
+  platform: netflix
+  url: https://www.netflix.com/title/80192978
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21685
+  title: "Eromanga Sensei"
+  platform: netflix
+  url: https://www.netflix.com/title/80193052
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21860
+  title: "WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us?"
+  platform: netflix
+  url: https://www.netflix.com/title/80193136
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98659
+  title: "Classroom of the Elite"
+  platform: netflix
+  url: https://www.netflix.com/title/80193178
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21701
+  title: "Scum’s Wish"
+  platform: netflix
+  url: https://www.netflix.com/title/80194878
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98491
+  title: "In Another World with My Smartphone"
+  platform: netflix
+  url: https://www.netflix.com/title/80196595
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 147571
+  title: "In Another World with My Smartphone 2"
+  platform: netflix
+  url: https://www.netflix.com/title/80196595
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 12859
+  title: "One Piece Z"
+  platform: netflix
+  url: https://www.netflix.com/title/80198443
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 8425
+  title: "Gosick"
+  platform: netflix
+  url: https://www.netflix.com/title/80209888
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20954
+  title: "A Silent Voice"
+  platform: netflix
+  url: https://www.netflix.com/title/80223226
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98443
+  title: "Juni Taisen: Zodiac War"
+  platform: netflix
+  url: https://www.netflix.com/title/80227111
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 97832
+  title: "Citrus"
+  platform: netflix
+  url: https://www.netflix.com/title/80231942
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21742
+  title: "Katsugeki: Touken Ranbu"
+  platform: netflix
+  url: https://www.netflix.com/title/80232868
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98249
+  title: "Lu over the Wall"
+  platform: netflix
+  url: https://www.netflix.com/title/80238911
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 14741
+  title: "Love, Chunibyo & Other Delusions!"
+  platform: netflix
+  url: https://www.netflix.com/title/80239860
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 18671
+  title: "Love, Chunibyo & Other Delusions! Heart Throb"
+  platform: netflix
+  url: https://www.netflix.com/title/80239860
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 11111
+  title: "Another"
+  platform: netflix
+  url: https://www.netflix.com/title/80241072
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 777
+  title: "Hellsing Ultimate OVA"
+  platform: netflix
+  url: https://www.netflix.com/title/80988066
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 100077
+  title: "Hinamatsuri"
+  platform: netflix
+  url: https://www.netflix.com/title/80991680
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 99426
+  title: "A Place Further Than the Universe"
+  platform: netflix
+  url: https://www.netflix.com/title/80995912
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 3848
+  title: "One Piece: Chopper und das Wunder der Winterkirschblüte"
+  platform: netflix
+  url: https://www.netflix.com/title/80998780
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 97908
+  title: "Fireworks: Alles eine Frage der Zeit"
+  platform: netflix
+  url: https://www.netflix.com/title/81000505
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 163024
+  title: "Captain Tsubasa: Staffel 2 - Die Junioren"
+  platform: netflix
+  url: https://www.netflix.com/title/81003894
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 100749
+  title: "Mirai: Das Mädchen aus der Zukunft"
+  platform: netflix
+  url: https://www.netflix.com/title/81004268
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 101004
+  title: "How Not to Summon a Demon Lord"
+  platform: netflix
+  url: https://www.netflix.com/title/81004514
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 99423
+  title: "Darling in the Franxx"
+  platform: netflix
+  url: https://www.netflix.com/title/81010668
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98289
+  title: "Beyblade Burst: Evolution"
+  platform: netflix
+  url: https://www.netflix.com/title/81018295
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 101573
+  title: "Bloom into You"
+  platform: netflix
+  url: https://www.netflix.com/title/81025783
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 100977
+  title: "Cells at Work!"
+  platform: netflix
+  url: https://www.netflix.com/title/81028791
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 108631
+  title: "Cells at Work!! Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81028791
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98884
+  title: "Haikyu!! Movie 3 - Talent Und Gespür"
+  platform: netflix
+  url: https://www.netflix.com/title/81030151
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98885
+  title: "Haikyu!! Movie 4 - Ein Kampf der Konzepte"
+  platform: netflix
+  url: https://www.netflix.com/title/81030152
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 100483
+  title: "Yunas Geisterhaus"
+  platform: netflix
+  url: https://www.netflix.com/title/81037377
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 99750
+  title: "I Want to Eat Your Pancreas"
+  platform: netflix
+  url: https://www.netflix.com/title/81037593
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 101478
+  title: "Okko und ihre Geisterfreunde"
+  platform: netflix
+  url: https://www.netflix.com/title/81037597
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 100356
+  title: "Mutafukaz"
+  platform: netflix
+  url: https://www.netflix.com/title/81037697
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 849
+  title: "Die Melancholie der Haruhi Suzumiya"
+  platform: netflix
+  url: https://www.netflix.com/title/81056036
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 101921
+  title: "Kaguya-sama: Love Is War"
+  platform: netflix
+  url: https://www.netflix.com/title/81061754
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 112641
+  title: "Kaguya-sama: Love Is War?"
+  platform: netflix
+  url: https://www.netflix.com/title/81061754
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21875
+  title: "No Game No Life Zero"
+  platform: netflix
+  url: https://www.netflix.com/title/81068687
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 101166
+  title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion"
+  platform: netflix
+  url: https://www.netflix.com/title/81101468
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 7054
+  title: "Maid-sama"
+  platform: netflix
+  url: https://www.netflix.com/title/81104406
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21686
+  title: "Küss ihn, nicht mich!"
+  platform: netflix
+  url: https://www.netflix.com/title/81107662
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 107226
+  title: "How Heavy Are the Dumbbells You Lift?"
+  platform: netflix
+  url: https://www.netflix.com/title/81143618
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 107663
+  title: "Astra Lost in Space"
+  platform: netflix
+  url: https://www.netflix.com/title/81144576
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 107693
+  title: "Welcome to Demon School! Iruma-kun"
+  platform: netflix
+  url: https://www.netflix.com/title/81194192
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 116338
+  title: "Welcome to Demon-School! Iruma-kun: Staffel 2"
+  platform: netflix
+  url: https://www.netflix.com/title/81194192
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 103221
+  title: "Children of the Sea"
+  platform: netflix
+  url: https://www.netflix.com/title/81208104
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 127230
+  title: "Chainsaw Man"
+  platform: netflix
+  url: https://www.netflix.com/title/81215627
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 104157
+  title: "Rascal Does Not Dream of a Dreaming Girl"
+  platform: netflix
+  url: https://www.netflix.com/title/81228006
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 106479
+  title: "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense."
+  platform: netflix
+  url: https://www.netflix.com/title/81234294
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 163134
+  title: "Re:Zero - Starting Life in Another World: Staffel 3"
+  platform: netflix
+  url: https://www.netflix.com/title/81262169
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 108241
+  title: "Gleipnir"
+  platform: netflix
+  url: https://www.netflix.com/title/81263648
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 109020
+  title: "Sing “Yesterday” for Me"
+  platform: netflix
+  url: https://www.netflix.com/title/81266992
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98873
+  title: "Overlord (Movies)"
+  platform: netflix
+  url: https://www.netflix.com/title/81285994
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98874
+  title: "Overlord - Der dunkle Held"
+  platform: netflix
+  url: https://www.netflix.com/title/81285995
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 106240
+  title: "Hello World"
+  platform: netflix
+  url: https://www.netflix.com/title/81295070
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 113813
+  title: "Rent-a-Girlfriend"
+  platform: netflix
+  url: https://www.netflix.com/title/81299211
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 110353
+  title: "Deca-Dence"
+  platform: netflix
+  url: https://www.netflix.com/title/81299341
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 116415
+  title: "Bakugan: Armored Alliance"
+  platform: netflix
+  url: https://www.netflix.com/title/81310654
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 115230
+  title: "Tower of God"
+  platform: netflix
+  url: https://www.netflix.com/title/81329313
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 114535
+  title: "To Your Eternity"
+  platform: netflix
+  url: https://www.netflix.com/title/81333467
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 118399
+  title: "Yashahime: Princess Half-Demon"
+  platform: netflix
+  url: https://www.netflix.com/title/81336398
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 114446
+  title: "Higurashi: When They Cry Gou"
+  platform: netflix
+  url: https://www.netflix.com/title/81336986
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 131149
+  title: "Higurashi: When They Cry Sotsu"
+  platform: netflix
+  url: https://www.netflix.com/title/81336986
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 115740
+  title: "By the Grace of the Gods"
+  platform: netflix
+  url: https://www.netflix.com/title/81341928
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 117533
+  title: "Cells at Work! Code Black"
+  platform: netflix
+  url: https://www.netflix.com/title/81392162
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 103632
+  title: "Ich bin eine Spinne, na und?"
+  platform: netflix
+  url: https://www.netflix.com/title/81392169
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 117757
+  title: "Iwakakeru! Sport Climbing Girls"
+  platform: netflix
+  url: https://www.netflix.com/title/81403488
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 112151
+  title: "Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train"
+  platform: netflix
+  url: https://www.netflix.com/title/81410810
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 120697
+  title: "Don’t Toy with Me, Miss Nagatoro"
+  platform: netflix
+  url: https://www.netflix.com/title/81427422
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 112023
+  title: "The Legend of Hei: Die Kraft in dir"
+  platform: netflix
+  url: https://www.netflix.com/title/81427481
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 120120
+  title: "Tokyo Revengers"
+  platform: netflix
+  url: https://www.netflix.com/title/81442520
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 127271
+  title: "Belle"
+  platform: netflix
+  url: https://www.netflix.com/title/81492822
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 113596
+  title: "Josie, der Tiger und die Fische"
+  platform: netflix
+  url: https://www.netflix.com/title/81508630
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 129898
+  title: "The World’s Finest Assassin Gets Reincarnated in Another World as an Aristocrat"
+  platform: netflix
+  url: https://www.netflix.com/title/81511191
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 132052
+  title: "A Couple of Cuckoos"
+  platform: netflix
+  url: https://www.netflix.com/title/81594245
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 140457
+  title: "I’m Quitting Heroing"
+  platform: netflix
+  url: https://www.netflix.com/title/81594273
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 131573
+  title: "Jujutsu Kaisen 0"
+  platform: netflix
+  url: https://www.netflix.com/title/81602834
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 129192
+  title: "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!"
+  platform: netflix
+  url: https://www.netflix.com/title/81617962
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 143270
+  title: "Lycoris Recoil"
+  platform: netflix
+  url: https://www.netflix.com/title/81620000
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 130003
+  title: "Bocchi the Rock!"
+  platform: netflix
+  url: https://www.netflix.com/title/81641170
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 153452
+  title: "Ranking of Kings: The Treasure Chest of Courage"
+  platform: netflix
+  url: https://www.netflix.com/title/81644043
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 162804
+  title: "Alya Sometimes Hides Her Feelings in Russian"
+  platform: netflix
+  url: https://www.netflix.com/title/81661821
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 139092
+  title: "Welcome to Demon School! Iruma-kun: Staffel 3"
+  platform: netflix
+  url: https://www.netflix.com/title/81672787
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 20835
+  title: "One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden"
+  platform: netflix
+  url: https://www.netflix.com/title/81679587
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 159831
+  title: "Zom 100: Bucket List of the Dead"
+  platform: netflix
+  url: https://www.netflix.com/title/81680101
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 142849
+  title: "Ayakashi Triangle"
+  platform: netflix
+  url: https://www.netflix.com/title/81680115
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 151806
+  title: "Tomo-chan Is a Girl!"
+  platform: netflix
+  url: https://www.netflix.com/title/81680192
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 145665
+  title: "NieR:Automata Ver1.1a"
+  platform: netflix
+  url: https://www.netflix.com/title/81680344
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 151847
+  title: "Raeliana: Warum sie die Verlobte des Dukes wurde"
+  platform: netflix
+  url: https://www.netflix.com/title/81684407
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 151801
+  title: "Mashle: Magic and Muscles"
+  platform: netflix
+  url: https://www.netflix.com/title/81685164
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 166610
+  title: "Mashle: Magic and Muscles - The Divine Visionary Candidate Exam Arc"
+  platform: netflix
+  url: https://www.netflix.com/title/81685164
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 157198
+  title: "Dead Mount Death Play"
+  platform: netflix
+  url: https://www.netflix.com/title/81686706
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 102891
+  title: "The Deer King"
+  platform: netflix
+  url: https://www.netflix.com/title/81700393
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 161441
+  title: "Resident Evil: Death Island"
+  platform: netflix
+  url: https://www.netflix.com/title/81714596
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 5231
+  title: "Inazuma Eleven"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DRF2D2L7
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  checkedAt: '2026-11-16'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DRF2D2L7: 24 von 26 gelisteten Folgen geprüft (1–24), Abos: Prime, zugang=abo"
+
+# --- Anime2You-Automatik, 2026-11-16: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
+
+- anilistId: 170083
+  title: "Dragon Ball Daima"
+  platform: rtlplus
+  dub: true
+  checkedAt: '2026-11-16'
+  note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1072212/toggo-plus-dragon-ball-daima-erneute-wiederholung/ (2026-11-16): „Bereits seit dem 25. September 2026 sind alle Folgensowohl in der TOGGO-App als auch bei RTL+ mit deutscher Sprachfassung verfügbar.“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-16 ---
+
+- anilistId: 323
+  title: "Paranoia Agent"
+  platform: netflix
+  url: https://www.netflix.com/title/70014551
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 532
+  title: "Sailor Moon S"
+  platform: netflix
+  url: https://www.netflix.com/title/70020763
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 1566
+  title: "Ghost in the Shell: Stand Alone Complex - Solid State Society"
+  platform: netflix
+  url: https://www.netflix.com/title/70071919
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 2107
+  title: "One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin"
+  platform: netflix
+  url: https://www.netflix.com/title/70086565
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-16 ---
+
+- anilistId: 54
+  title: "Appleseed"
+  platform: netflix
+  url: https://www.netflix.com/title/70023531
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-16 ---
+
+- anilistId: 166794
+  title: "A Sign of Affection"
+  platform: netflix
+  url: https://www.netflix.com/title/81748453
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 151807
+  title: "Solo Leveling"
+  platform: netflix
+  url: https://www.netflix.com/title/81748512
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 1366
+  title: "Detektiv Conan: Die Kreuzung des Labyrinths"
+  platform: netflix
+  url: https://www.netflix.com/title/81757599
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21646
+  title: "Detektiv Conan: Die Sonnenblumen des Infernos"
+  platform: netflix
+  url: https://www.netflix.com/title/81757600
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 98222
+  title: "Detektiv Conan: Der purpurrote Liebesbrief"
+  platform: netflix
+  url: https://www.netflix.com/title/81757605
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 142219
+  title: "Detektiv Conan: Die Halloween-Braut"
+  platform: netflix
+  url: https://www.netflix.com/title/81757621
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 145728
+  title: "Spice and Wolf: Merchant Meets the Wise Wolf"
+  platform: netflix
+  url: https://www.netflix.com/title/81768918
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 8310
+  title: "Magic Kaito: Kid the Phantom Thief"
+  platform: netflix
+  url: https://www.netflix.com/title/81757633
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 140499
+  title: "Blue Giant"
+  platform: netflix
+  url: https://www.netflix.com/title/81763062
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 153332
+  title: "Die Parallelwelt-Chroniken des Aristokraten"
+  platform: netflix
+  url: https://www.netflix.com/title/81768275
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 128207
+  title: "The First Slam Dunk"
+  platform: netflix
+  url: https://www.netflix.com/title/81765372
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 163270
+  title: "Wind Breaker"
+  platform: netflix
+  url: https://www.netflix.com/title/81771389
+  available: false
+  checkedAt: '2026-11-16'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 21
+  title: "One Piece"
+  platform: adn
+  url: https://animationdigitalnetwork.com/de/video/561-one-piece
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 21
+      dub: true
+    - from: 492
+      to: 492
+      dub: false
+  checkedAt: '2026-11-17'
+  note: "Folge 492 führt ADN nicht (Schnittstelle und Daniels Screenshot vom 04.10.2026: 491 → 493). Folgen 1–21 mit deutschem Ton — ADN-Schnittstelle (gw.api.animationdigitalnetwork.com/video/show/561, gelesen 17.11.2026, data/adn-raw/561.json.gz): je Folge languages vostde und vde, available true. Der Block „Folgen 1–21 ohne deutschen Ton — Tonspuren: ja“ vom 09.11.2026 las nur die erste Spur und ist damit überholt."

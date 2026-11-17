@@ -15,7 +15,15 @@ const nurAdresse = (z: Zeile) => ({ plattform: z.plattform, url: z.url, staffel:
 /** Bildet die Abfragen aus `pruefung-stand.ts` nach — nach dem Anfang der SQL-Zeichenkette erkannt. */
 export type Titelzeile = { url: string; daten: string }
 
-function ergebnisFuer(zeilen: Zeile[], sql: string, arg: unknown[], titelzeilen: Titelzeile[] | Error) {
+/** Eine Zeile aus `pruefung_zurueck` (Migration 064); `Error` = Tabelle fehlt oder D1 antwortet nicht. */
+export type ZurueckZeile = { plattform: string; daten: string }
+type Quellen = { titelzeilen: Titelzeile[] | Error; zurueck: ZurueckZeile[] | Error }
+
+function ergebnisFuer(zeilen: Zeile[], sql: string, arg: unknown[], { titelzeilen, zurueck }: Quellen) {
+  if (sql.includes('FROM pruefung_zurueck')) {
+    if (zurueck instanceof Error) throw zurueck
+    return zurueck
+  }
   if (sql.includes('FROM titel_zeile WHERE url IN')) {
     if (titelzeilen instanceof Error) throw titelzeilen
     return titelzeilen
@@ -30,10 +38,10 @@ function ergebnisFuer(zeilen: Zeile[], sql: string, arg: unknown[], titelzeilen:
   return mitUrl.map(nurAdresse)
 }
 
-function baueDb(zeilen: Zeile[], titelzeilen: Titelzeile[] | Error) {
+function baueDb(zeilen: Zeile[], quellen: Quellen) {
   return {
     prepare(sql: string) {
-      const lauf = (arg: unknown[]) => ({ all: async () => ({ results: ergebnisFuer(zeilen, sql, arg, titelzeilen) }) })
+      const lauf = (arg: unknown[]) => ({ all: async () => ({ results: ergebnisFuer(zeilen, sql, arg, quellen) }) })
       return { bind: (...arg: unknown[]) => lauf(arg), ...lauf([]) }
     },
   }
@@ -45,15 +53,26 @@ export async function rechnePruefstand(
   anbieter: Anbieter[],
   erzeugtAm = '2026-10-11T16:00:00.000Z',
   titelzeilen: Titelzeile[] | Error = [],
+  zurueck: ZurueckZeile[] | Error = [],
+  jetzt = Date.UTC(2026, 9, 11, 16),
 ) {
-  const env = { DB: baueDb(zeilen, titelzeilen), SITE_URL: 'https://attrappe.test/' } as unknown as Env
+  const env = { DB: baueDb(zeilen, { titelzeilen, zurueck }), SITE_URL: 'https://attrappe.test/' } as unknown as Env
   const echtesFetch = globalThis.fetch
   globalThis.fetch = (async () => new Response(JSON.stringify({ erzeugtAm, anbieter }))) as typeof fetch
   try {
     const antwort = (body: unknown) => Response.json(body)
-    const res = await berechnePruefstand({ env, antwort })
+    const res = await berechnePruefstand({ env, antwort, jetzt })
     return (await res.json()) as {
-      anbieter: { plattform: string; offen: number; titel: number; unterwegs: number; ohneSeite: number; ziele: Ziel[] }[]
+      anbieter: {
+        plattform: string
+        offen: number
+        titel: number
+        unterwegs: number
+        ohneSeite: number
+        zurueck: number
+        ziel: string | null
+        ziele: (Ziel & { zurueck?: true })[]
+      }[]
     }
   } finally {
     globalThis.fetch = echtesFetch

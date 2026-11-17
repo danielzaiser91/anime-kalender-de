@@ -5,7 +5,7 @@ const tit = require(R + 'public/data/titles.json'), rel = require(R + 'public/da
 const ani = JSON.parse(fs.readFileSync(R + 'data/anisearch.json', 'utf8'));
 const mt = new Set(rel.filter(r => r.platform !== 'disc').map(r => r.titleId)), dt = new Set(rel.filter(r => r.platform === 'disc').map(r => r.titleId));
 const n = tit.filter(t => !t.streams.some(s => s.dub === true) && !mt.has(t.id) && !dt.has(t.id) && !t.deErstausgabe && !(t.watchLinks && t.watchLinks.length) && !t.ankuendigung);
-const UA = { 'User-Agent': 'anime-kalender-de-audit/1.0 (danielzaiser91@googlemail.com)' };
+const UA = { 'User-Agent': 'anime-kalender-de-audit/1.0 (kontakt@anime-kalender.de)' };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function wp(q) {
   const s = await (await fetch('https://de.wikipedia.org/w/api.php?action=query&list=search&format=json&srlimit=2&srsearch=' + encodeURIComponent(q), { headers: UA })).json();

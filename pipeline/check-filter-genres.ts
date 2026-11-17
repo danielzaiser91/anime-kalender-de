@@ -80,6 +80,7 @@ async function rendere(bau: Wurzelbauer) {
 
 async function pruefeAnsicht(wo: string, bau: Wurzelbauer, vorn: string, rang13: string, ohneTermin: string) {
   const a = await rendere(bau)
+  await a.klick(a.knopf('mehr Filter')!) /* Genre steht hinter „mehr Filter“ */
   pruefe(`${wo}: Rang 12 da, Rang 13 und Genre ohne Termin nicht`, a.hat(vorn) && !a.hat(rang13) && !a.hat(ohneTermin))
   pruefe(`${wo}: Anbieter ohne Termin im Zeitraum (Prime Video) bleibt auffindbar`, a.text().includes('Prime Video'))
   await a.tippe(ohneTermin)
@@ -117,11 +118,13 @@ await pruefeAnsicht('Filter', details(EMPTY_FILTERS), 'Gx12', 'Gx13', 'Gx15')
 
 /* Datenbank: ohne `genreListe` zeigt der Filter alle Genres und keinen Knopf. */
 const datenbank = await rendere(() => h(FilterDetailsFeld, { meta, filters: EMPTY_FILTERS, onChange: () => undefined, showConfidence: false }))
+await datenbank.klick(datenbank.knopf('mehr Filter')!)
 pruefe('Datenbank: alle 15 Genres ohne Knopf', datenbank.hat('Gx01') && datenbank.hat('Gx13') && datenbank.hat('Gx15') && !datenbank.knopf('alle anzeigen'))
 datenbank.dom.entferne()
 
 /* Gewählte und ausgeschlossene Genres hinter der Vorschau bleiben stehen — sonst fände man sie nicht wieder. */
 const gewaehlt = await rendere(details({ ...EMPTY_FILTERS, genres: ['Gx14'], excluded: { ...EMPTY_FILTERS.excluded, genres: ['Gx15'] } }))
+await gewaehlt.klick(gewaehlt.knopf('mehr Filter')!)
 pruefe('Filter: gewähltes (Gx14) und ausgeschlossenes (Gx15) Genre bleiben trotz Vorschau sichtbar', gewaehlt.hat('Gx14') && gewaehlt.hat('Gx15') && !gewaehlt.hat('Gx13'))
 gewaehlt.dom.entferne()
 

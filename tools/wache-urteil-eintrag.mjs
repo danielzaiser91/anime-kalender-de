@@ -4,6 +4,13 @@
  */
 
 const KOEPFE = ['**Was läuft korrekt.**', '**Wo ist Verbesserungspotenzial?**', '**Wo sind echte Risiken und Lücken?**', '**Was läuft komplett falsch?**']
+/** Das Modell überträgt gern das Satzzeichen eines Kopfes auf andere (Lauf 15.11.2026: Punkt statt Fragezeichen); nur das Zeichen am Kopfende ist egal, der Wortlaut nicht. */
+const kopfRest = (absatz, kopfzeile) => {
+  const wort = kopfzeile.slice(2, -3)
+  const m = new RegExp(`^\\*\\*${wort}[.?:!]?\\*\\*`).exec(absatz)
+  return m ? absatz.slice(m[0].length) : null
+}
+
 const MIN_ABSATZ = 40
 const MAX_GESAMT = 5000
 
@@ -23,8 +30,10 @@ export function pruefeUrteil(text) {
   const absaetze = rest.split(/\n{2,}/).map((a) => a.trim())
   if (absaetze.length !== KOEPFE.length) return { ok: false, fehler: `${absaetze.length} Absätze statt ${KOEPFE.length}` }
   for (const [i, kopfzeile] of KOEPFE.entries()) {
-    if (!absaetze[i].startsWith(kopfzeile)) return { ok: false, fehler: `Absatz ${i + 1} beginnt nicht mit ${kopfzeile}` }
-    if (absaetze[i].length < kopfzeile.length + MIN_ABSATZ) return { ok: false, fehler: `Absatz ${i + 1} ist leer` }
+    const text = kopfRest(absaetze[i], kopfzeile)
+    if (text === null) return { ok: false, fehler: `Absatz ${i + 1} beginnt nicht mit ${kopfzeile}` }
+    if (text.length < MIN_ABSATZ) return { ok: false, fehler: `Absatz ${i + 1} ist leer` }
+    absaetze[i] = kopfzeile + text
   }
   return { ok: true, lage: kopf[1], absaetze }
 }

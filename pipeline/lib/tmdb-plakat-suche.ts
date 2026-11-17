@@ -25,12 +25,12 @@ const GRUND_RANG: Record<KeinTreffer, number> = { 'kein Treffer': 0, unsicher: 1
  * Titel, die bei TMDB noch gesucht werden müssen: ohne Plakat im Bestand und ohne vermerkten Grund. Wer schon eine frühere Suche mit
  * leerem Ergebnis hat und ein Cover besitzt, bleibt dabei. Reihenfolge: erst Titel **ohne jedes Cover**, dann Hauptbestand, dann Katalog.
  */
-export function titelOhneTmdb(bestand: PlakatBestand, gruende: GrundBestand): Title[] {
+export function titelOhneTmdb(bestand: PlakatBestand, gruende: GrundBestand, ohne: ReadonlySet<number>): Title[] {
   const haupt = readJson<Title[]>('public/data/titles.json', [])
   const katalog = readJson<Title[]>('public/data/ohne-synchro.json', [])
   const gesehen = new Set<number>()
   const offen = [...haupt, ...katalog].filter((t) => {
-    if (gesehen.has(t.id)) return false
+    if (gesehen.has(t.id) || ohne.has(t.id)) return false
     gesehen.add(t.id)
     const id = String(t.id)
     return !bestand[id]?.p && !(id in gruende) && !(id in bestand && t.coverImage)
@@ -68,9 +68,9 @@ export async function suchePlakat(apiKey: string, t: Title): Promise<SuchErgebni
  * Plakate für Titel ohne TMDB-Plakat, in einem Block von höchstens `limit` Titeln und `fristMs` Dauer; was darüber hinausgeht, kommt im nächsten
  * Lauf (der Stand in `bestand` und `gruende` ist die Pause). Ein Fehler lässt den Titel ungesucht, nach 20 Fehlern endet der Block.
  */
-export async function plakatSuche(apiKey: string, bestand: PlakatBestand, limit: number, fristMs: number): Promise<number> {
+export async function plakatSuche(apiKey: string, bestand: PlakatBestand, limit: number, fristMs: number, ohne: ReadonlySet<number>): Promise<number> {
   const gruende = readJson<GrundBestand>(GRUND_DATEI, {})
-  const offen = titelOhneTmdb(bestand, gruende)
+  const offen = titelOhneTmdb(bestand, gruende, ohne)
   const ende = Date.now() + fristMs
   let gesucht = 0
   let gefunden = 0

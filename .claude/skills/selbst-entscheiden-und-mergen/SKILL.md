@@ -40,6 +40,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   sonst `gh workflow run deploy.yml` (PR 824, 11.10.2026: kein Deploy ausgelöst).
 - **Kein Merge auf main, solange ein Deploy einen erwarteten Live-Fix trägt (26.10.2026):** Ein push-Deploy bricht den laufenden ab (Gruppe `pages`); der Merge von PR 2108 warf den Appraisal-Deploy nach 10 min weg. Vorher `gh run list --workflow deploy.yml -L 1` — läuft er und wartet Daniel auf seinen Inhalt, Merge danach.
 - **Erste Zeile des CI-Prüfers (seit 18.10.2026):** „ok“ allein heißt Pflicht-Checks des Kopfes grün; „ok, Checks rot/laufen noch/Stand unbekannt“ ist keine Merge-Freigabe — erst den Check-Stand klären.
+- **Check-Stand maschinell lesen (Lehre 62, 14.11.2026):** `gh pr checks N --json name,bucket` statt `awk` auf die Textausgabe — Check-Namen enthalten Leerzeichen, die Spalten verrutschen. Mergebereit heißt `bucket` nirgends `fail`/`pending` und `mergeStateStatus == CLEAN`.
 - **Gesetzter Auto-Merge ist kein Merge (13.10.2026):** Der CI-Prüfer läuft nach jedem Push neu und kann
   „aendern“ sagen; dann hängt der PR still auf BLOCKED (1069 und 1074 je 20 min). In der nächsten Wachphase
   `reviewDecision` lesen; bei CHANGES_REQUESTED den letzten Prüfprotokoll-Kommentar holen
@@ -69,8 +70,10 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 
 ## Regel
 
-- **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`node tools/pr-nachrechnen.mjs <nr> && t=$(gh pr view <nr> --json title -q .title) && gh pr merge <nr>
-  --squash --subject "$t (#<nr>)"`), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
+- **Gestaltungsfragen entscheide ich nach `docs/wissen/design-regeln.md` Abschnitt 13 (E0; Daniel 16.11.2026 14:05 und 14:07: „mach du diese ui/ux entscheidung, wie es für nutzer am besten wäre“; Regeln statt Fragen).** Zu Daniel gehen nur neue Hauptansicht oder Navigation, Markenbild (Logo, Akzentfarbe, Schrift), Wegfall einer Funktion und Texte mit rechtlicher Wirkung; sonst entscheiden, bauen, als Bild zeigen.
+
+- **PRs, die ich oder meine Subagenten erzeugt haben, merge ich selbst** (`h=$(gh pr view <nr> --json headRefOid -q .headRefOid) && node tools/pr-nachrechnen.mjs <nr> && t=$(gh pr view <nr> --json title -q .title) && gh pr merge <nr>
+  --squash --subject "$t (#<nr>)" --match-head-commit "$h"`; die sha steht vor dem Nachrechnen, ein neuer Kopf lässt den Merge scheitern, der Riegel `merge-riegel.js` weist ihn sonst ab, 17.11.2026), nachdem ich den Bericht nachgeprüft habe (Diff angesehen,
   Prüfkette grün, Lauf grün). Daniel wird dafür nie gebeten. **Ab Stufe 1 kein Merge ohne
   Urteil-Kommentar des Agent-Prüfers am PR** („Prüfer Runde N: freigeben“) — ein Urteil nur im
   Bericht an mich zählt der Rundenzähler-Hook nicht; fehlt er, poste ich das Urteil mit
@@ -97,7 +100,11 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
   treffen, tun, in `stand.md` melden. Rückfrage nur bei den bekannten Grenzen: Geld,
   Außenwirkung, schwer Umkehrbares, Serverstart, Umkehr einer Entscheidung, Rechtsgrauzone —
   und bei Dingen, die nur Daniel kann (Login, Hardware, Geschmack ohne Messbares).
+  **Ob oder wann Besucher etwas bekommen (Push, Mail, Feed), ist eine Produktregel:** Die eigene Wahl wird gebaut, die Variante „gar nicht“ geht als F-Zeile nach „Jetzt“ (14.11.2026, Lehre 70: Push ohne Uhrzeit, 08:00 statt gar nicht).
 - Ein Auftrag an Daniel steht nur unter „Daniel-Todo“ in `stand.md`, wenn es ohne ihn nicht geht.
+- **Merge nur mit Kopfvergleich (16.11.2026, PR 4030, 4054):** Vor dem Merge den Kopf des PR lesen und mit dem abgenommenen vergleichen; bei Abweichung abbrechen.
+- **Reihenfolge mehrerer abgenommener PRs (16.11.2026, PR 4046 vor 4042 und 4045):** Vor dem Merge die anderen abgenommenen PRs ansehen und zuerst den mergen, dessen Kette am weitesten ist oder der am meisten liest; ein Merge kann einen Nachbarn „nicht aktuell“ machen, wenn er Dateien bewegt, die dessen Tests lesen (auch einen Ordner unter `tools/` oder `docs/wissen/design-regeln.md`; welche Dateien zählen, steht in `tools/pr-nachrechnen.mjs`).
+- **Nach zwei Runden „ändern“ auf das Belegte schneiden (16.11.2026, PR 4051, 4054, 4053):** Der Rest wird ein eigener Auftrag.
 - Merge auf `main` erst, wenn kein Bestandslauf läuft (sonst Doppelbau); Zweig-Push ist jederzeit ok.
 - **Ist main an mehreren Stellen rot, gehören die Fixes in einen PR** — jeder Einzel-PR bleibt sonst an der jeweils anderen roten Stelle hängen, und die Regeln sperren den Merge (26.10.2026: Kachel-Fix #2096 und Wächter-Fix #2098 blockierten sich, #2100 bündelt beide Commits). Vor dem Start eines Fix-Bauers fragen: Welche Ketten sind auf main rot, und deckt dieser PR alle? Bei rotem main steht der Fix-PR in der Merge-Reihe vorne; andere PRs erst danach (Vorschlags-Ledger, 01.11.2026). **„Vorne“ heißt: sofort einzeln `merge-reihe.sh <PR>` neben der laufenden Reihe** (einzige Ausnahme von „keine zweite daneben“) — der Nachschub hängt hinten an; 05.11.2026 lag 2913 (Fix für roten Bestandsbau) freigegeben hinter 30 PRs, Bestand 2,5 h rot. Vor jedem Nachschub fragen: Behebt dieser PR einen roten Lauf auf main?
 
@@ -106,3 +113,4 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 Agenten erstellen nur PRs und setzen ihren Sub-Task im Board auf aktiv; die Hauptsitzung mergt und nimmt deshalb auch das Ticket ab: nach Merge und Live-Messung auf erledigt, bei Prüfer-„ändern“ oder roter Messung zurück auf offen mit Grund. Befehle stehen im README des Ticket-Boards (`C:/code/ai/ticket-board`).
 - **Nacht-Merger mergt auch Stufe 2 (F131, 12.11.2026):** Stufe 2 nur mit Nachtrag des Dirigenten zum Kopf (Bot-Urteil allein genügt nie), grüner Kette, APPROVED und CLEAN; Workflow-PRs bleiben Handarbeit (`tools/nacht-merger-wahl.mjs`).
 - **Prüfstufe 2 erst nach CI-Urteil in den Nachschub (09.11.2026):** Ein PR der Prüfstufe 2 kommt erst in den Nachschub der Merge-Reihe, wenn der CI-Prüfer auf demselben Kopf geurteilt hat.
+- **Lehre 85 (14.11.2026):** Wer einen Stufe-2-PR auf main bringt oder eine Nachbesserung abnimmt, schreibt im selben Zug den Nachtrag zum neuen Kopf (sonst überspringt ihn der Nacht-Merger; `liegegut` meldet Signal 12). Bei reinem main-Merge belegt die gleiche Patch-ID den unveränderten Inhalt: `git diff <alt-basis> <alt-kopf> | git patch-id --stable` (`<alt-basis>` = `git merge-base <alt-kopf> <kopf>^2`) gegen `git diff <kopf>^2 <kopf> | git patch-id --stable`.

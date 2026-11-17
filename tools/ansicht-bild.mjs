@@ -29,6 +29,7 @@ import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeEscapeStapel } from './ansicht-escape-stapel.mjs'
 import { pruefeFilterknopf } from './ansicht-filterknopf.mjs'
+import { pruefeSuchIconFokus, pruefeSuchIconTastatur } from './ansicht-such-icon-fokus.mjs'
 import { pruefeTrefferprobe } from './ansicht-trefferprobe.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { pruefeHoverCover } from './ansicht-hover-cover.mjs'
@@ -469,6 +470,17 @@ async function meldeFilterknopf() {
   return r.abweichungen.length > 0
 }
 
+/** Such-Icon der Kopfleiste: Klick vor dem Eintreffen der Daten (CPU 4× gedrosselt) muss das Suchfeld fokussieren und halten; wahr, wenn rot. */
+async function meldeSuchIconFokus() {
+  const r = await pruefeSuchIconFokus(chromium, 20, antworteAusDist, { drossel: 4, sofort: true })
+  console.log(`\nSuch-Icon fokussiert das Suchfeld und behält den Fokus (Rechner 1366 und Handy 390 px, Start und Datenbank, Klick direkt nach dem Laden, je 20 Versuche): ${r.abweichungen.length ? '' : 'ok'}`)
+  for (const l of r.abweichungen) console.log(`  ✕ ${l}`)
+  const t = await pruefeSuchIconTastatur(chromium, 6, antworteAusDist)
+  console.log(`Such-Icon per Tastatur (Tab, Enter, Leertaste fokussieren das Feld; Escape am aufklappbaren Handy-Feld schließt und gibt den Fokus ans Icon, je 6 Versuche): ${t.abweichungen.length ? '' : 'ok'}`)
+  for (const l of t.abweichungen) console.log(`  ✕ ${l}`)
+  return r.abweichungen.length + t.abweichungen.length > 0
+}
+
 /** Escape in gestapelten Ebenen (Detail-Panel + Quellen, Trailer, Cover): schließt genau die oberste; wahr, wenn rot. */
 async function meldeEscapeStapel() {
   const r = await pruefeEscapeStapel(chromium, antworteAusDist)
@@ -491,6 +503,7 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   }
   if (!handy && ansichten.includes('datenbank') && (await meldeFilterknopf())) rot = true
   if (!handy && ansichten.includes('datenbank') && (await meldeEscapeStapel())) rot = true
+  if (!handy && ansichten.includes('datenbank') && (await meldeSuchIconFokus())) rot = true
   if (!handy && ansichten.includes('woche') && (await meldeHoverCover())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeEmpfehlung())) rot = true
   if (!handy && ansichten.includes('entdecken') && (await meldeZuruecksetzen())) rot = true

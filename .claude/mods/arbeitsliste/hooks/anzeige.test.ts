@@ -2,6 +2,7 @@ import { test, expect, mock } from 'claude-code/testing'
 import type { On } from 'claude-code'
 
 import { STAND, PANE, BAND, zeilen, oeffneAlle, starte } from './testhilfe'
+import { agentenWelt, fakeAgenten } from './agenten-welt'
 
 // Die Leiste: zwei Knöpfe (Agents, Arbeitsliste) und zwei Bälle, eine Zeile, sonst nichts.
 test('Leiste: zwei Knöpfe mit Zahlen, zwei leere Bälle, eine Zeile', async ($, on) => {
@@ -22,13 +23,12 @@ test('Leiste: zwei Knöpfe mit Zahlen, zwei leere Bälle, eine Zeile', async ($,
 
 test('Leiste: Prüfer zählen getrennt („Agents 1+2“), ohne Prüfer nur die Zahl', async ($, on) => {
   starte(on, null, [], true, MIT_DANIEL)
-  const laeuft = [
-    { description: 'Bauer', status: 'running' },
-    { description: 'Prüfer PR 12', status: 'running' },
-    { description: 'Gegenlesen', type: 'pruefer', status: 'running' },
-    { description: 'Prüfer fertig', status: 'done' },
+  agentenWelt.liste = [
+    { id: 'b', type: 'bauer', description: 'Bauer' },
+    { id: 'p1', type: 'general-purpose', description: 'Prüfer PR 12' },
+    { id: 'p2', type: 'pruefer', description: 'Gegenlesen' },
+    { id: 'p3', type: 'pruefer', description: 'Prüfer fertig', bericht: true },
   ]
-  on('state.get', (_$, e, next) => ((e as { plugin?: string }).plugin === 'savvy-progress' ? ({ value: { value: laeuft, version: 1 } } as never) : next(e)))
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   expect((await band.find({ key: 'agents-oeffnen' }))?.props.label).toBe('Agents 1+2')
@@ -134,14 +134,14 @@ test('Leiste auf dem Desktop: Textzeichen statt Bilder, gefüllt = an, leer = au
   await band.unmount()
 })
 
-test('Leiste: die Savvy-Zeile entfällt, nur die eigene bleibt', async ($, on) => {
+test('Leiste: die Zeile eines fremden Moduls entfällt, nur die eigene bleibt', async ($, on) => {
   starte(on, null, [], false)
-  on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'Box', props: {}, children: [{ type: 'Text', props: {}, children: ['savvy'] }] }) as never)
+  on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'Box', props: {}, children: [{ type: 'Text', props: {}, children: ['fremd'] }] }) as never)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   const reihe = { s: '' }
   zeilen(await band.drawn(), [], reihe)
-  expect(reihe.s).not.toContain('savvy')
+  expect(reihe.s).not.toContain('fremd')
   expect(reihe.s.startsWith('Agents ')).toBe(true)
   await band.unmount()
 })
@@ -245,24 +245,22 @@ test('Klick auf die Zeile: zu → öffnen mit Fokus, dahinter → nach vorn, vor
   await band.unmount()
 })
 
-test('Klick auf „Agents“ zählt nur den Knopf hoch: kein Slash-Befehl im Chat, kein eigenes Pane', async ($, on) => {
+test('Klick auf „Agents“ öffnet das Arbeitsliste-Pane, vorn schließt es; kein Befehl im Chat', async ($, on) => {
   starte(on, null)
+  let vorn = false
   const log: string[] = []
-  on('ui.panes', () => ({ value: [] }) as never)
+  on('ui.panes', () => ({ value: [{ id: 'arbeitsliste', title: 'Arbeitsliste', isShown: vorn, isFocused: vorn, isPlaced: true }] }) as never)
   on('ui.open', (_$, e) => { log.push(`open:${(e as { id?: string }).id}`); return { value: { isPlaced: true } } as never })
+  on('ui.close', (_$, e) => { log.push(`close:${(e as { id?: string }).id}`); return { value: undefined } as never })
   on('command.run', (_$, e) => { log.push(`befehl:${(e as { command?: string }).command}`); return { text: 'ok' } as never })
-  on('state.set', async (_$, e, next) => {
-    const w = e as { key?: string; value?: unknown }
-    if (w.key === 'agentenKnopf') log.push(`knopf:${w.value}`)
-    return next(e)
-  })
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   await band.press({ key: 'agents-oeffnen' })
   await new Promise(r => setTimeout(r, 30))
+  vorn = true
   await band.press({ key: 'agents-oeffnen' })
   await new Promise(r => setTimeout(r, 30))
-  expect(log).toEqual(['knopf:1', 'knopf:2'])
+  expect(log).toEqual(['open:arbeitsliste', 'close:arbeitsliste'])
   await band.unmount()
 })
 
@@ -383,7 +381,7 @@ test('Pane: ohne Pipeline-Zeilen kein Bereich', async ($, on) => {
 test('Pane: langer Titel bricht auf Panebreite um, gekürzt erst jenseits von zwei Zeilen', async ($, on) => {
   const lang = 'Wochenstart statt Alle Folgen, Termine ohne belegte Synchro gekennzeichnet'
   const sehrLang = 'x'.repeat(200)
-  const stand = `## Daniel-Todo\n### Jetzt\n\n- 🔴 **${lang}** — rest\n- 🔴 **${sehrLang}** — rest\n`
+  const stand = `## In Pipeline\n\n- [2026-10-10 14:00] **${lang}** — Ort: worker (x)\n- [2026-10-10 15:00] **${sehrLang}** — Ort: worker (x)\n`
   starte(on, null, [], true, stand)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
@@ -393,6 +391,44 @@ test('Pane: langer Titel bricht auf Panebreite um, gekürzt erst jenseits von zw
   const e = z.find(s => s.includes('Wochenstart'))!
   expect(e.length).toBeGreaterThan(60)
   expect(z.find(s => s.includes('xxxx'))!.endsWith('…')).toBe(true)
+  await pane.unmount()
+})
+
+// Daniel, 16.11.2026: die Zeile wurde in der Leiste nach „(soll nicht ich“ abgeschnitten, ohne „…“.
+// Zeilen der Zeichnung: Jetzt-Kopf, 5 Einträge (die Attrappe bricht nicht um), Pipeline-Kopf, Pipe-Zeile
+const ZEILEN_FUENF = 8
+const E90 = 'E90 Netflix: „Bericht laden“ klicken'
+const E90_ZEILE = `- 🔵 **${E90}** (soll nicht ich: liegt nur in deiner angemeldeten Sitzung; kein „ja“ nötig, einfach klicken) — [Anleitung](file:///C:/x/e90.md)`
+
+test('Pane: Jetzt zeigt den fetten Titel ganz und nichts aus der Klammer dahinter', async ($, on) => {
+  const langerTitel = 'y'.repeat(120)
+  starte(on, null, [], true, `## Daniel-Todo\n### Jetzt\n\n${E90_ZEILE}\n- 🔴 **${langerTitel}** — rest\n`)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
+  await oeffneAlle(pane)
+  const text = zeilen(await pane.drawn()).join('\n')
+  expect(text).toContain(E90)
+  expect(text).not.toContain('soll nicht ich')
+  expect(text.replace(/\s+/g, '')).toContain(langerTitel)
+  expect(text).not.toContain('…')
+  await pane.unmount()
+})
+
+test('Pane: fünf Jetzt-Einträge zu je 200 Zeichen bei 45 Spalten: alle ganz, kein „…“, übrige Bereiche bleiben sichtbar', async ($, on) => {
+  const titel = ['a', 'b', 'c', 'd', 'e'].map(c => c.repeat(200))
+  const jetzt = titel.map(t => `- 🔴 **${t}** — rest`).join('\n')
+  starte(on, null, [], true, `## Daniel-Todo\n### Jetzt\n\n${jetzt}\n\n## In Pipeline\n- [2026-10-10 12:00] **Pipe 1** — Ort: worker (x)\n`)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const pane = await $.ui.mount({ ...PANE, props: { ...PANE.props, bodyColumns: 45 }, surface: 'terminal' })
+  await oeffneAlle(pane)
+  const z = zeilen(await pane.drawn())
+  const text = z.join('\n')
+  for (const t of titel) expect(text.replace(/\s+/g, '')).toContain(t)
+  expect(text).not.toContain('…')
+  expect(z).toContain('▾ Jetzt 5')
+  expect(z.some(s => s.startsWith('▾ In Pipeline 1'))).toBe(true)
+  expect(z.some(s => s.includes('Pipe 1'))).toBe(true)
+  expect(z.length).toBe(ZEILEN_FUENF)
   await pane.unmount()
 })
 
@@ -474,31 +510,101 @@ test('Pane: aufgeklappt gibt es „Text kopieren“, der Druck legt Titel und Re
   await pane.unmount()
 })
 
-// Flackern (Daniel, 11.10.2026): ein State-Abo im Render zeichnete die Leiste bei jedem Savvy-Schritt neu.
+// Flackern (Daniel, 11.10.2026): ein State-Abo im Render zeichnete die Leiste bei jedem Schritt neu.
 test('Leiste: der Render liest nichts nach; die Agentenzahl kommt über den 3-s-Takt', async ($, on) => {
-  const uhr = mock.clock(on)
-  let laeuft = 2
-  let savvyLesen = 0
-  on('session.start', (_$, e) => ({ cwd: e.cwd }))
-  on('ui.status', () => ({ value: undefined }) as never)
-  on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
-  on('fs.read', (_$, e) => (e.path.endsWith('stand.md') ? ({ value: STAND } as never) : ({ deny: 'fehlt' } as never)))
-  on('state.get', (_$, e, next) => {
-    if ((e as { plugin?: string }).plugin !== 'savvy-progress') return next(e)
-    savvyLesen++
-    const liste = Array.from({ length: laeuft }, () => ({ description: 'Bauer', status: 'running' }))
-    return { value: { value: liste, version: savvyLesen } } as never
-  })
+  const uhr = starte(on, null, [], true, STAND, false, 2)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
-  const vorMount = savvyLesen
+  const vorMount = agentenWelt.listAufrufe
   const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
   expect((await band.find({ key: 'agents-oeffnen' }))?.props.label).toBe('Agents 2')
-  expect(savvyLesen).toBe(vorMount)
+  expect(agentenWelt.listAufrufe).toBe(vorMount)
 
-  laeuft = 3
+  agentenWelt.liste = fakeAgenten(3)
   await uhr.advance(3_000)
   expect((await band.find({ key: 'agents-oeffnen' }))?.props.label).toBe('Agents 3')
   await band.unmount()
+})
+
+const agentenLabel = async (band: { find: (q: { key: string }) => Promise<{ props: { label?: unknown } } | undefined> }) => (await band.find({ key: 'agents-oeffnen' }))?.props.label
+
+test('Leiste: finished in der Meta ohne Änderung der Transkriptdatei zählt nach dem nächsten Takt nicht mehr', async ($, on) => {
+  const uhr = starte(on, null, [], true, STAND, false, 1)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 1')
+  agentenWelt.liste = fakeAgenten(1).map(a => ({ ...a, finished: true }))
+  await uhr.advance(3_000)
+  expect(await agentenLabel(band)).toBe('Agents 0')
+  await band.unmount()
+})
+
+test('Neue Sitzung leert den Zwischenspeicher: gleicher Schlüssel, anderer Inhalt wird neu gelesen', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 1)
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 1')
+  agentenWelt.liste = fakeAgenten(1).map(a => ({ ...a, bericht: true }))
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  expect(await agentenLabel(band)).toBe('Agents 0')
+  await band.unmount()
+})
+
+test('Transkriptordner: liegt er nur unter dem Projektstamm (root), wird er gefunden', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 2)
+  Object.assign(agentenWelt, { projekt: 'C--proj', root: 'C:/proj', cwd: 'C:/x' })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 2')
+  await band.unmount()
+})
+
+test('Transkriptordner: liegt er nur unter dem Arbeitsordner (cwd), wird er gefunden', async ($, on) => {
+  starte(on, null, [], true, STAND, false, 2)
+  Object.assign(agentenWelt, { projekt: 'C--x', root: 'C:/proj', cwd: 'C:/x' })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  expect(await agentenLabel(band)).toBe('Agents 2')
+  await band.unmount()
+})
+
+// Ein Zählfehler darf nie still „0 Agenten“ heißen (Prüfer 3918 A2); „Ordner fehlt“ ist kein Fehler.
+test('Zählfehler: kaputte erste Zeile und gesperrter Ordner melden einmal einen Hinweis, fehlender Ordner nichts', async ($, on) => {
+  const uhr = starte(on, null, [], true, STAND, false, 0)
+  const hinweise: string[] = []
+  on('ui.toast', (_$, e) => { hinweise.push(String((e as { text?: string }).text)); return { value: undefined } as never })
+  agentenWelt.liste = [{ id: 'k', type: 'bauer', description: 'Kaputt', erste: '{kaputt' }]
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await uhr.advance(9_000)
+  expect(await agentenLabel(band)).toBe('Agents 1')
+  expect(hinweise).toHaveLength(1)
+  expect(hinweise[0]).toContain('Agenten zählen: Erste Zeile')
+  agentenWelt.listFehler = 'EACCES: gesperrt'
+  await uhr.advance(9_000)
+  expect(hinweise).toHaveLength(2)
+  expect(hinweise[1]).toContain('EACCES')
+  agentenWelt.listFehler = ''
+  agentenWelt.projekt = 'C--nirgends'
+  await uhr.advance(9_000)
+  expect(hinweise).toHaveLength(2)
+  expect(await agentenLabel(band)).toBe('Agents 0')
+  await band.unmount()
+})
+
+// Laufzeit im Pane zählt weiter: bei gleichem Agentenstand wird je Minute einmal neu gezeichnet (Protokollzeilen „stand“).
+test('Leiste: bei gleichem Agentenstand zeichnet jede neue Minute neu', async ($, on) => {
+  let neuGezeichnet = 0
+  const uhr = starte(on, null, [], true, STAND, false, 1)
+  on('fs.exists', (_$, e) => ({ value: e.path.endsWith('messung.an') }) as never)
+  on('fs.write', (_$, e) => {
+    if (e.path.endsWith('messung.log') && / stand /.test((e as { text: string }).text)) neuGezeichnet++
+    return { value: undefined } as never
+  })
+  await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
+  const band = await $.ui.mount({ ...BAND, surface: 'terminal' })
+  await uhr.advance(125_000)
+  await band.unmount()
+  expect(neuGezeichnet).toBeGreaterThanOrEqual(3)
 })
 
 
@@ -536,7 +642,7 @@ test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl;
   const pane = await $.ui.mount({ ...PANE, surface: 'terminal' })
   let z = zeilen(await pane.drawn())
   expect(z).toContain('▾ Jetzt 1')
-  expect(z).toContain('  🔴 Eins prüfen — x')
+  expect(z).toContain('  🔴 Eins prüfen')
   expect(z).toContain('▸ In Pipeline 1')
   expect(z.some(s => s.includes('Pipe 1'))).toBe(false)
 
@@ -551,7 +657,7 @@ test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl;
   await pane.press({ key: 'bereich:jetzt' })
   z = zeilen(await pane.drawn())
   expect(z).toContain('▸ Jetzt 1')
-  expect(z).not.toContain('  🔴 Eins prüfen — x')
+  expect(z).not.toContain('  🔴 Eins prüfen')
   await pane.unmount()
 })
 

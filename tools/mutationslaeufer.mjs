@@ -12,12 +12,13 @@
  *   { "name": "Kontrolle", "aenderungen": [] }          // unmutierter Kontrollmutant, muss grün bleiben;
  *     // ohne tests und ohne --test fährt er die tests aller Mutanten der Liste
  * suche darf mehrzeilig sein (\n); kommt sie mehrfach vor, wählt nr (n-tes Vorkommen, ab 1) und/oder zeile
- * (Vorkommen auf dieser Zeile) aus, sonst gilt der Mutant als mehrdeutig. suche "@ENDE" hängt ersetze an.
+ * (Vorkommen auf dieser Zeile) aus, sonst gilt der Mutant als mehrdeutig; ist suche eindeutig, wird zeile ignoriert. suche "@ENDE" hängt ersetze an.
  * Mehrere Änderungen einer Datei beziehen sich alle auf das Original (kein Verschieben der Anker).
  * Sicherung: Kopie `<datei>.mutlauf-orig` neben jeder berührten Datei, Rückspiel bytegleich nach jedem
  * Mutanten, bei Abbruch (Signal) und beim Ende; Rest eines toten Laufs verweigert den Start.
  * Vor dem Testlauf druckt der Läufer je Mutant `@@ Datei:Zeile` mit `-`/`+`-Zeilen; ändert die Änderung den Text nicht
  * (suche == ersetze), gilt der Mutant als „wirkungslos“ (unbrauchbar, Exit 1) und die Tests laufen nicht.
+ * Mutant ohne ausführbaren Testbefehl (fehlt, leer): „unbrauchbar“, wird nicht gefahren; Liste ganz ohne Test: Exit 1.
  * Exit 0 alle rot (Kontrollen grün), 1 Überlebende/unbrauchbare, 2 Aufruf/Grundlauf rot/Rückspiel kaputt.
  */
 import { execFileSync, spawn } from "node:child_process"
@@ -54,7 +55,8 @@ export function findeStelle(text, a) {
   const suche = passe(a.suche)
   let treffer = alleVorkommen(text, suche)
   if (treffer.length === 0) return { fehler: "nicht gefunden" }
-  if (a.zeile !== undefined) {
+  // zeile ist nur Hinweis: ein eindeutiger Anker gilt, auch wenn die Zeile nach Verschiebungen nicht mehr stimmt.
+  if (a.zeile !== undefined && treffer.length > 1) {
     treffer = treffer.filter((i) => zeileVon(text, i) === a.zeile)
     if (treffer.length === 0) return { fehler: `nicht gefunden auf Zeile ${a.zeile}` }
   }
@@ -130,7 +132,14 @@ function beendeBaum(kind) {
 export function laufTest(befehl, cwd, timeoutSek) {
   return new Promise((fertig) => {
     let ausgabe = ""
-    const kind = spawn(befehl, { cwd, shell: true, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"], windowsHide: true })
+    let kind
+    try {
+      kind = spawn(befehl, { cwd, shell: true, detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"], windowsHide: true })
+    } catch (e) {
+      // Startfehler (z. B. ungültiges Argument) wirft synchron: als roter Test werten, nicht den Lauf abbrechen.
+      fertig({ gruen: false, abgelaufen: false, code: -1, ausgabe: String(e) })
+      return
+    }
     const sammle = (d) => {
       ausgabe = (ausgabe + d).slice(-4000)
     }
@@ -154,6 +163,10 @@ export function laufTest(befehl, cwd, timeoutSek) {
     })
   })
 }
+
+// Leerer oder nur aus Leerraum bestehender Befehl läuft in der Shell als „grün“: nie als Test zählen (Lehre 132, 17.11.2026).
+export const ausfuehrbareTests = (tests) => (tests ?? []).filter((t) => typeof t === "string" && t.trim() !== "")
+const testsVon = (m, opt) => ausfuehrbareTests(m.tests ?? opt.tests)
 
 // Tests der Reihe nach, beim ersten roten Schluss: { urteil, fangend, ausgabe }.
 export async function probiereTests(tests, cwd, timeout) {
@@ -208,13 +221,14 @@ export function schlusszeile(zeilen) {
     `${zahl("nicht gefunden")} Anker nicht gefunden`,
     `${zahl("mehrdeutig")} mehrdeutig`,
     `${zahl("wirkungslos")} wirkungslos`,
+    ...(zeilen.some((z) => z.urteil === "unbrauchbar") ? [`${zeilen.filter((z) => z.urteil === "unbrauchbar").length} unbrauchbar (kein Testbefehl)`] : []),
     `${zeilen.length} gesamt`,
   ]
   return `mutationslaeufer: ${teile.join(", ")}`
 }
 
 async function lauf(opt, mutanten, originale) {
-  const grund = new Set(mutanten.flatMap((m) => m.tests ?? opt.tests))
+  const grund = new Set(mutanten.flatMap((m) => testsVon(m, opt)))
   for (const t of grund) {
     const r = await laufTest(t, opt.cwd, opt.timeout)
     if (!r.gruen) {
@@ -225,11 +239,13 @@ async function lauf(opt, mutanten, originale) {
   const zeilen = []
   for (const m of mutanten) {
     const plan = planeMutant(m, originale, opt.cwd)
+    const tests = testsVon(m, opt)
     let z = { m, kontrolle: m.aenderungen.length === 0, ...plan }
     if (plan.diff) console.log(`--- ${m.name}\n${plan.diff.join("\n")}`)
-    if (plan.texte) {
+    if (plan.texte && tests.length === 0) z = { ...z, texte: undefined, urteil: "unbrauchbar", detail: "kein Testbefehl" }
+    if (z.texte) {
       for (const [pfad, text] of plan.texte) writeFileSync(pfad, text)
-      z = { ...z, ...(await probiereTests(m.tests ?? opt.tests, opt.cwd, opt.timeout)) }
+      z = { ...z, ...(await probiereTests(tests, opt.cwd, opt.timeout)) }
       for (const [pfad, bytes] of originale) writeFileSync(pfad, bytes)
     }
     zeilen.push(z)
@@ -252,6 +268,22 @@ export function registriereSignale(proc, abhaengigkeiten) {
   for (const sig of SIGNALE) proc.on(sig, () => beiSignal(abhaengigkeiten))
 }
 
+// Spielt jede Datei einzeln zurück (ein Fehler bei einer stoppt die übrigen nicht); die Sicherungskopie
+// bleibt bei Fehler liegen. Rückgabe: Fehlertexte.
+export function spieleOriginaleZurueck(originale) {
+  const fehler = []
+  for (const [pfad, bytes] of originale) {
+    try {
+      // Nur schreiben, wenn nötig: eine unveränderte, schreibgeschützte Datei darf den Rückweg nicht stoppen.
+      if (!existsSync(pfad) || !readFileSync(pfad).equals(bytes)) writeFileSync(pfad, bytes)
+      if (existsSync(`${pfad}.mutlauf-orig`)) unlinkSync(`${pfad}.mutlauf-orig`)
+    } catch (e) {
+      fehler.push(`${pfad}: ${e.message}`)
+    }
+  }
+  return fehler
+}
+
 // Kontrolle ohne eigenes tests und ohne --test fährt die tests aller echten Mutanten (wie der Grundlauf).
 export function kontrollenMitTests(mutanten, global) {
   const alle = [...new Set(mutanten.filter((m) => m.aenderungen.length > 0).flatMap((m) => m.tests ?? global))]
@@ -265,9 +297,10 @@ export async function main(argv) {
     return 2
   }
   const mutanten = kontrollenMitTests(normalisiereListe(parseListeText(readFileSync(normalisierePfad(opt.liste, process.cwd(), process.platform), "utf8"))), opt.tests)
-  if (mutanten.some((m) => (m.tests ?? opt.tests).length === 0)) {
-    console.error("Kein Testbefehl: --test oder tests je Mutant angeben")
-    return 2
+  // Ohne einen einzigen ausführbaren Test wäre „alle grün“ wertlos: die Liste ist unbrauchbar, nicht grün.
+  if (mutanten.every((m) => m.aenderungen.length === 0 || testsVon(m, opt).length === 0)) {
+    console.log("mutationslaeufer: unbrauchbar, kein Testbefehl in der Liste (--test oder tests je Mutant angeben)")
+    return 1
   }
   const originale = new Map()
   for (const m of mutanten) {
@@ -281,10 +314,9 @@ export async function main(argv) {
   if (opt.log) mkdirSync(opt.log, { recursive: true })
   for (const [pfad, bytes] of originale) writeFileSync(`${pfad}.mutlauf-orig`, bytes)
   const zuruecksetzen = () => {
-    for (const [pfad, bytes] of originale) {
-      writeFileSync(pfad, bytes)
-      if (existsSync(`${pfad}.mutlauf-orig`)) unlinkSync(`${pfad}.mutlauf-orig`)
-    }
+    const fehler = spieleOriginaleZurueck(originale)
+    if (fehler.length > 0) console.error(`Rückspiel fehlgeschlagen:\n${fehler.join("\n")}`)
+    return fehler
   }
   registriereSignale(process, { kinder: laufendeKinder, beendeBaum, zuruecksetzen, exit: (code) => process.exit(code) })
   try {
@@ -297,7 +329,7 @@ export async function main(argv) {
     console.log(`\n${schlusszeile(zeilen)}`)
     return schlecht > 0 ? 1 : 0
   } finally {
-    zuruecksetzen()
+    if (zuruecksetzen().length > 0) throw new Error("Rückspiel kaputt: Dateien prüfen, Sicherungskopien `.mutlauf-orig` sind das Original")
   }
 }
 

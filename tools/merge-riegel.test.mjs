@@ -14,7 +14,7 @@ const lauf = (command, tool_name = 'Bash') => pruefe({ tool_name, tool_input: { 
 const gesperrt = (command, n) => {
   const g = lauf(command)
   assert.ok(g, `${command} gesperrt`)
-  assert.ok(g.includes(`node tools/pr-nachrechnen.mjs ${n} && t=$(gh pr view ${n} --json title -q .title) && gh pr merge ${n} --squash --subject "$t (#${n})"`), `${command}: erlaubter Befehl wörtlich`)
+  assert.ok(g.includes(`h=$(gh pr view ${n} --json headRefOid -q .headRefOid) && node tools/pr-nachrechnen.mjs ${n} && t=$(gh pr view ${n} --json title -q .title) && gh pr merge ${n} --squash --subject "$t (#${n})" --match-head-commit "$h"`), `${command}: erlaubter Befehl wörtlich`)
 }
 const frei = (command) => assert.equal(lauf(command), null, `${command} frei`)
 
@@ -52,14 +52,23 @@ gesperrt('eval "gh pr merge 5"', '5')
 gesperrt('echo ok\ngh pr merge 5 --squash', '5')
 gesperrt('gh pr merge --squash', 'N') // ohne Nummer (aktueller Zweig)
 gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge --squash', 'N')
+// Kopfschutz (17.11.2026): Nachrechnen allein genügt nicht, `--match-head-commit` braucht einen Wert
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash', '5')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit', '5')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit=', '5')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --match-head-commit --squash', '5')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --subject "--match-head-commit x"', '5') // Text im Wert eines anderen Schalters
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc && gh pr merge 6 --squash', '6')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && nice --match-head-commit=abc gh pr merge 5 --squash', '5') // Schalter steht vor dem Befehl, nicht dahinter
 
 for (const c of [
-  'node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash',
-  'node tools/pr-nachrechnen.mjs 3123 && t=$(gh pr view 3123 --json title -q .title) && gh pr merge 3123 --squash --subject "$t (#3123)"',
-  'cd /c/x && node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --delete-branch',
-  'node C:/code/x/tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash',
-  'node tools/pr-nachrechnen.mjs 5 && gh pr view 5 --json title && gh pr merge 5 --squash',
-  'node tools/pr-nachrechnen.mjs 5 && node tools/pr-nachrechnen.mjs 6 && gh pr merge 5 --squash && gh pr merge 6 --squash',
+  'node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc123',
+  'node tools/pr-nachrechnen.mjs 3123 && t=$(gh pr view 3123 --json title -q .title) && gh pr merge 3123 --squash --subject "$t (#3123)" --match-head-commit "$h"',
+  'h=$(gh pr view 3123 --json headRefOid -q .headRefOid) && node tools/pr-nachrechnen.mjs 3123 && gh pr merge 3123 --squash --match-head-commit "$h"',
+  'cd /c/x && node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --delete-branch --match-head-commit=abc123',
+  'node C:/code/x/tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --match-head-commit abc123 --squash',
+  'node tools/pr-nachrechnen.mjs 5 && gh pr view 5 --json title && gh pr merge 5 --squash --match-head-commit abc123',
+  'node tools/pr-nachrechnen.mjs 5 && node tools/pr-nachrechnen.mjs 6 && gh pr merge 5 --squash --match-head-commit a1 && gh pr merge 6 --squash --match-head-commit b2',
   // Lesen und anderes bleibt frei
   'gh pr view 5 --json title',
   'gh pr view 5 --json mergeStateStatus',
@@ -92,7 +101,7 @@ const prozess = (roh) => spawnSync(process.execPath, [hook], { input: roh, encod
 const rot = prozess(JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'gh pr merge 5 --squash' } }))
 assert.equal(rot.status, 0)
 assert.equal(JSON.parse(rot.stdout).hookSpecificOutput.permissionDecision, 'deny')
-const gruen = prozess(JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash' } }))
+const gruen = prozess(JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc123' } }))
 assert.equal(gruen.status, 0)
 assert.equal(gruen.stdout, '')
 const kaputt = prozess('{')

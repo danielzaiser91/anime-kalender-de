@@ -103,6 +103,16 @@ pruefe('derselbe Block unter einer anderen Kennung ist kein Widerspruch', widers
 const altLeer = { ...eintrag(URL_ALT, 0), staffeln: [{ name: 'Special', staffelId: 'SS', folgen: 0, deutsch: 0 }] } as unknown as CrSerie
 pruefe('ein leerer Block (0/0) im älteren Eintrag ist kein Widerspruch', widerspruch([altLeer, eintrag(URL_NEU, 1)], neuerWeg).length === 0)
 
+console.log('\nJüngster Eintrag entscheidet (Persona 5, 16.11.2026: Gesamtabruf 2/2 gegen 1/0 vom 26.10.)')
+const am = (e: CrSerie, tag: string): CrSerie => ({ ...e, geprueftAm: tag }) as CrSerie
+const altWeg = titel(9, [{ platform: 'crunchyroll', url: URL_ALT, dub: true } as StreamLink], 5)
+const veraltetNull = am(eintrag(URL_ALT, 0), '2026-10-26')
+pruefe('jüngerer Eintrag mit deutscher Folge hebt das ältere Null auf (Titel am älteren Eintrag)', widerspruch([veraltetNull, am(eintrag(URL_NEU, 1), '2026-11-16')], altWeg).length === 0)
+pruefe('Reihenfolge der Einträge ändert nichts', widerspruch([am(eintrag(URL_NEU, 1), '2026-11-16'), veraltetNull], altWeg).length === 0)
+pruefe('jüngeres Null gegen älteres Deutsch: weiter gemeldet', widerspruch([am(eintrag(URL_ALT, 0), '2026-11-16'), am(eintrag(URL_NEU, 1), '2026-10-26')], altWeg).length === 1)
+pruefe('gleiches Datum: Null gewinnt', widerspruch([am(eintrag(URL_ALT, 0), '2026-11-16'), am(eintrag(URL_NEU, 1), '2026-11-16')], altWeg).length === 1)
+pruefe('Null ohne Prüfdatum gegen datiertes Deutsch: Deutsch ist jünger', widerspruch([eintrag(URL_ALT, 0), am(eintrag(URL_NEU, 1), '2026-11-16')], altWeg).length === 0)
+
 console.log('\nBeleg-Mengen des Bestandswächters (crBelegKennungen)')
 const gedeckt = (teil: Partial<BelegQuellen>): boolean => crBelegKennungen(quellen(teil)).has(7)
 pruefe('Handbeleg dub false deckt nicht', !gedeckt({ handbelege: [{ platform: 'crunchyroll', dub: false, anilistId: 7 }] }))

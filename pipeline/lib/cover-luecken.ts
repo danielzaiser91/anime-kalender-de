@@ -25,6 +25,18 @@ export function pruefeCoverLuecken(reihen: Record<string, Eintrag[]>, datenbank:
   return { fehlt: fehlt.sort((a, b) => a - b), veraltet: veraltet.sort((a, b) => a - b) }
 }
 
+type Hauptzeile = { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string; coverImage?: string }
+
+/**
+ * Titel des Hauptbestands (`titles.json`) ohne Cover, die nicht auf der Handliste `data/cover-ohne-bekannt.json` (Kennung → Grund) stehen.
+ * Anders als die Lückenliste schreibt diese Liste kein Bau: ein Titel, der sein Cover verliert, fällt hier auf. `veraltet`: Kennung der Handliste mit Cover oder ohne Titel.
+ */
+export function coverOhneImHauptbestand(haupt: Hauptzeile[], bekannt: Record<string, string>): { fehlt: Hauptzeile[]; veraltet: number[] } {
+  const fehlt = haupt.filter((t) => !t.coverImage && !(String(t.id) in bekannt))
+  const ohne = new Set(haupt.filter((t) => !t.coverImage).map((t) => t.id))
+  return { fehlt, veraltet: Object.keys(bekannt).map(Number).filter((id) => !ohne.has(id)) }
+}
+
 const ANISEARCH_AB = 10_000_000
 
 /**

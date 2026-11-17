@@ -1,7 +1,7 @@
 /**
  * Katalogstart am Starttag ohne Uhrzeit (Bass X Machina, Netflix, 6 Folgen am 03.11.2026): Der Kasten schrieb bis Mitternacht „0 von 6 Folgen
  * erschienen" samt Leiste und blendete die Stream-Pille (mit „Deutsch") aus. Ab 00:00 gilt ein Katalogstart (`batch`, nicht TV) ohne Uhrzeit als
- * da, der Kasten sagt aber „Uhrzeit offen" (`heuteOffen`) statt „alle erschienen"; ab dem Folgetag normal. Läuft in `check:logic`.
+ * da, der Kasten sagt aber „genaue Uhrzeit unbekannt" (`heuteOffen`) statt „alle erschienen"; ab dem Folgetag normal. Läuft in `check:logic`.
  * Die Uhr steht fest (Berlin im November = UTC+1); die Systemuhr spielt keine Rolle.
  */
 import type { Release, Title } from '../shared/types.ts'

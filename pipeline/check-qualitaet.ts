@@ -24,6 +24,12 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'
 import { todayIso } from '../shared/time.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
+import { ohneSprachurteil as keinSprachurteil } from './lib/ohne-sprachurteil.ts'
+import { zaehleVerwaisteTermine } from './lib/verwaiste-termine.ts'
+import { MAENGEL_DATEI, offeneJeArt, type Register } from './lib/maengel-register.ts'
+import { VERLAUF_DATEI } from './lib/streaming-rueckgang.ts'
+import { warnZeilen } from './lib/qualitaet-warnzeilen.ts'
+import { discTitelIds, zaehleErstausgabeOhneWeg } from './lib/erstausgabe-ohne-weg.ts'
 
 interface Kennzahlen {
   gemessenAm: string
@@ -32,6 +38,8 @@ interface Kennzahlen {
   /** `streams` nicht leer oder `watchLinks` mit `kind: 'stream'` (`tools/streaming-weg-zaehlen.mjs`). */
   mitStreamingWeg: number
   ohneVerweis: number
+  /** Erstausgabe als Synchro bekannt, aber weder Stream noch Verweis (`lib/erstausgabe-ohne-weg.ts`). */
+  erstausgabeOhneWeg: number
   mitSynchro: number
   verweiseGesamt: number
   ohneSprachurteil: number
@@ -42,6 +50,8 @@ interface Kennzahlen {
   dubFalseImBestand: number
   doppelteAdressen: number
   verwaisteTermine: number
+  /** Offene Mängel je Art aus `data/maengel.json` (ab 16.11.2026); fehlt, solange es das Register nicht gibt. */
+  maengel?: Record<string, number>
 }
 
 /** Was nicht null sein darf. Jeder Punkt hier hatte schon einmal einen Fehler. */
@@ -52,6 +62,7 @@ function main(): void {
   const events = readJson<{ date?: string; titleId?: number }[]>('public/data/events.json', [])
   const heute = todayIso()
   const ids = new Set(titles.map((t) => t.id))
+  const cartoonIds = readJson<{ id: number }[]>('public/data/cartoons.json', []).map((c) => c.id)
 
   let verweise = 0
   let mitSynchro = 0
@@ -63,7 +74,7 @@ function main(): void {
     const s = t.streams ?? []
     verweise += s.length
     if (s.some((x) => x.dub === true)) mitSynchro++
-    if (s.length && s.every((x) => x.dub === undefined)) ohneSprachurteil++
+    if (keinSprachurteil(t)) ohneSprachurteil++
     for (const x of s) if (x.dub === false) dubFalse++
     const urls = s.map((x) => x.url)
     if (new Set(urls).size !== urls.length) doppelt++
@@ -75,6 +86,7 @@ function main(): void {
     mitVerweis: titles.filter((t) => (t.streams ?? []).length > 0).length,
     mitStreamingWeg: titles.filter(hatStreamingWeg).length,
     ohneVerweis: titles.filter((t) => !(t.streams ?? []).length).length,
+    erstausgabeOhneWeg: zaehleErstausgabeOhneWeg(titles, discTitelIds(readJson('public/data/releases.json', []))),
     mitSynchro,
     verweiseGesamt: verweise,
     ohneSprachurteil,
@@ -83,19 +95,21 @@ function main(): void {
     kuenftigeTermine: events.filter((e) => (e.date ?? '') >= heute).length,
     dubFalseImBestand: dubFalse,
     doppelteAdressen: doppelt,
-    verwaisteTermine: events.filter((e) => e.titleId && e.titleId !== -1 && !ids.has(e.titleId)).length,
+    verwaisteTermine: zaehleVerwaisteTermine(events, ids, cartoonIds),
   }
+  const register = readJson<Register | null>(MAENGEL_DATEI, null)
+  if (register) zahlen.maengel = offeneJeArt(register)
 
   /*
     Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
     nicht, ob sie steigt. Ein Eintrag je Tag genügt — mehrere Läufe am selben Tag
     überschreiben einander.
   */
-  const verlauf = readJson<Kennzahlen[]>('data/qualitaet-verlauf.json', [])
+  const verlauf = readJson<Kennzahlen[]>(VERLAUF_DATEI, [])
   const ohneHeute = verlauf.filter((v) => v.gemessenAm !== heute)
   ohneHeute.push(zahlen)
   /* Ein Jahr Verlauf genügt, um eine Entwicklung zu sehen. */
-  writeJson('data/qualitaet-verlauf.json', ohneHeute.slice(-370))
+  writeJson(VERLAUF_DATEI, ohneHeute.slice(-370))
 
   const vorher = ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
   const pfeil = (k: keyof Kennzahlen): string => {
@@ -107,9 +121,12 @@ function main(): void {
   log(`Bestand am ${heute}:`)
   log(`  ${zahlen.titel} Titel${pfeil('titel')}, davon ${zahlen.mitVerweis} mit Verweis${pfeil('mitVerweis')}, ${zahlen.mitStreamingWeg} mit Streaming-Weg${pfeil('mitStreamingWeg')}`)
   log(`  ${zahlen.mitSynchro} mit belegter Synchro${pfeil('mitSynchro')}, ${zahlen.verweiseGesamt} Verweise${pfeil('verweiseGesamt')}`)
-  log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}`)
+  log(`  offen: ${zahlen.ohneVerweis} ohne Verweis${pfeil('ohneVerweis')}, ${zahlen.ohneSprachurteil} ohne Sprachurteil${pfeil('ohneSprachurteil')}, ${zahlen.erstausgabeOhneWeg} Erstausgabe bekannt, kein Weg${pfeil('erstausgabeOhneWeg')}`)
   log(`  Lücken: ${zahlen.ohneDeutschenNamen} ohne deutschen Namen${pfeil('ohneDeutschenNamen')}, ${zahlen.serienOhneFolgenzahl} Serien ohne Folgenzahl${pfeil('serienOhneFolgenzahl')}`)
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
+
+  /* Feste Zeilen für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
+  for (const zeile of warnZeilen(zahlen, vorher, register)) console.log(zeile)
 
   let kaputt = 0
   for (const k of HART) {

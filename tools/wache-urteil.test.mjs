@@ -41,6 +41,14 @@ fehler(urteil('befund', { 3: '**Was läuft komplett falsch?**' }), /Absatz 4 ist
 fehler(urteil('befund', { 0: `**Was läuft korrekt.** ${'x'.repeat(5000)}` }), /länger/)
 fehler(urteil('befund').replace('**Wo ist Verbesserungspotenzial?**', '**Anderes.**'), /Absatz 2 beginnt nicht/)
 
+// Satzzeichen am Kopfende ist egal und wird kanonisch umgeschrieben (Lauf 15.11.2026: „Was läuft komplett falsch.“).
+const punkt = pruefeUrteil(urteil('befund', { 3: `**Was läuft komplett falsch.** ${FUELLTEXT}`, 0: `**Was läuft korrekt?** ${FUELLTEXT}`, 1: `**Wo ist Verbesserungspotenzial.** ${FUELLTEXT}` }))
+assert.equal(punkt.ok, true)
+assert.deepEqual(punkt.absaetze, pruefeUrteil(urteil('befund')).absaetze)
+assert.equal(pruefeUrteil(urteil('befund', { 2: `**Wo sind echte Risiken und Lücken** ${FUELLTEXT}` })).ok, true)
+fehler(urteil('befund', { 3: `**Was läuft komplett schlecht.** ${FUELLTEXT}` }), /Absatz 4 beginnt nicht/)
+fehler(urteil('befund', { 3: `Was läuft komplett falsch? ${FUELLTEXT}` }), /Absatz 4 beginnt nicht/)
+
 // Zeit: 11.10.2026 06:20 UTC ist 08:20 in Berlin (Sommerzeit bis 25.10.).
 assert.equal(berlinZeit(new Date('2026-10-11T06:20:00Z')), '11.10.2026, 08:20')
 

@@ -39,7 +39,7 @@ export function istKeineTitelseite(url: string): boolean {
 }
 
 /** Ein sicherer Termin: belegt, nicht geschätzt, bei einem Streaming-Anbieter. */
-function istSichererTermin(r: Release): boolean {
+export function istSichererTermin(r: Release): boolean {
   return STREAMING.has(r.platform) && r.releaseType !== 'disc' && !r.schedule?.estimated && (r.sources?.length ?? 0) > 0
 }
 

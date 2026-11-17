@@ -149,6 +149,15 @@ assert.equal(losEintrag([], SCHON - 1).grund, 'jung')
 assert.equal(SCHON, 2 * 60 * 60 * 1000, 'Schonfrist ist 2 h')
 assert.equal(L.warnzeile(20), null)
 assert.match(L.warnzeile(21), /21 Worktrees/)
+// Lose Dateien im Sammelordner (16.11.2026): nur reguläre Dateien über 24 h gehen weg, Verknüpfungen nie; die Wächterzahl zählt nur Ordner.
+const TAG = 24 * 60 * 60 * 1000
+const datei = (alter, regulaer = true) => L.bewerteLoseDatei({ regulaer, mtimeMs: JETZT - alter, jetzt: JETZT })
+assert.deepEqual(datei(TAG + 1), { aktion: 'weg', grund: 'lose-datei' }, 'alte lose Datei geht weg')
+assert.deepEqual(datei(TAG), { aktion: 'behalten', grund: 'lose-datei-jung' }, 'genau 24 h: noch jung')
+assert.deepEqual(datei(1000), { aktion: 'behalten', grund: 'lose-datei-jung' }, 'junge lose Datei bleibt')
+assert.deepEqual(datei(10 * TAG, false), { aktion: 'behalten', grund: 'kein-ordner' }, 'Symlink/Junction bleibt, auch uralt')
+assert.deepEqual(L.ordnerNamen([{ name: 'a', regulaer: false }, { name: 'vite.log', regulaer: true }, { name: 'b', regulaer: false }]), ['a', 'b'], 'Ordner zählt, Datei nicht')
+assert.match(L.schlusszeile(false, { worktrees: [{ aktion: 'behalten', grund: 'jung' }], lose: [{ aktion: 'behalten', grund: 'lose-datei-jung' }, { aktion: 'behalten', grund: 'inhalt' }], entfernt: 2, entferntDateien: 3, fehler: [] }), /Ordner entfernt 2, behalten 2; lose Dateien entfernt 3, behalten 1; Fehler 0/)
 assert.equal(L.sperreFrei(null, JETZT, () => true), true)
 assert.equal(L.sperreFrei({ pid: 1, zeit: JETZT }, JETZT, () => true), false, 'lebt: gesperrt')
 assert.equal(L.sperreFrei({ pid: 1, zeit: JETZT }, JETZT, () => false), true, 'Prozess tot: frei')
@@ -577,7 +586,7 @@ try {
   symlinkSync(fremdNm, join(tiefe('_wt-nb-tief', 7), 'node_modules'), 'junction')
   const nbListe = H.abbau(haupt, welt, false)
   assert.deepEqual(['_wt-nb-weg', '_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief', '_wt-nb-sechs'].map((n) => lose(nbListe, n).aktion), ['weg', 'behalten', 'behalten', 'behalten', 'behalten', 'behalten', 'weg'])
-  assert.deepEqual(['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief'].map((n) => lose(nbListe, n).grund), ['inhalt', 'inhalt', 'kein-ordner', 'kein-ordner', 'inhalt'])
+  assert.deepEqual(['_wt-nb-datei', '_wt-nb-git', '_wt-nb.log', '_wt-nb-link', '_wt-nb-tief'].map((n) => lose(nbListe, n).grund), ['inhalt', 'inhalt', 'lose-datei-jung', 'kein-ordner', 'inhalt'])
   // Seit 25.10.2026 zählt nur noch _worktrees/<repo>/: alte Orte (im Hauptordner, daneben) werden weder gelistet noch angefasst.
   const altOrte = [join(haupt, '_wt-alt-haupt'), join(wurzel, '_wt-alt-nachbar')]
   for (const p of altOrte) mkdirSync(p)
@@ -589,14 +598,24 @@ try {
   process.env.WT_WURZEL = echteWurzel
   const gelistet = (p) => altListe.lose.some((o) => o.pfad.replace(/\\/g, '/') === p.replace(/\\/g, '/'))
   assert.deepEqual(altOrte.map(gelistet), [false, false], 'alte Orte nicht gelistet')
-  assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length, 'Zähler: genau die Ordner unter _worktrees/<repo>/ (nach dem Abbau ist kein registrierter ohne Ordner übrig)')
+  assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length - 1, 'Zähler: genau die Ordner unter _worktrees/<repo>/ (nach dem Abbau ist kein registrierter ohne Ordner übrig)')
   // Registriert, aber ohne Ordner: zählt über die Registrierung, nicht über das Verzeichnis (und nur unter _worktrees/<repo>/).
   neu('_wt-zaehl', 'b-zaehl')
   rmSync(join(wtDir, '_wt-zaehl'), { recursive: true })
-  assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length + 1, 'Zähler: registrierter Worktree ohne Ordner')
+  assert.equal(H.zaehleWt(haupt), readdirSync(wtDir).length, 'Zähler: registrierter Worktree ohne Ordner')
   g(haupt, 'worktree', 'prune')
   assert.equal(lose(nbListe, '_wt-nb-reg'), undefined, 'registrierter Worktree daneben ist kein loser Ordner')
   assert.equal(existsSync(nachbar('_wt-nb-weg')), true, '--liste ändert nichts')
+  // Lose Dateien: alte reguläre Datei wird geplant und entfernt, junge und Verknüpfung bleiben (Verknüpfungsziel unberührt).
+  const alt = new Date('2020-01-01T00:00:00Z')
+  writeFileSync(nachbar('_wt-nb-alt.log'), 'alt')
+  utimesSync(nachbar('_wt-nb-alt.log'), alt, alt)
+  const dateiListe = H.abbau(haupt, welt, false)
+  assert.deepEqual(['_wt-nb-alt.log', '_wt-nb.log', '_wt-nb-link'].map((n) => lose(dateiListe, n).grund), ['lose-datei', 'lose-datei-jung', 'kein-ordner'])
+  assert.equal(existsSync(nachbar('_wt-nb-alt.log')), true, '--liste löscht keine Datei')
+  const dateiBericht = { worktrees: [], lose: dateiListe.lose.filter((o) => o.grund === 'lose-datei'), entfernt: 0, entferntDateien: 0, fehler: [] }
+  H.vollziehe(haupt, welt, dateiBericht)
+  assert.deepEqual([existsSync(nachbar('_wt-nb-alt.log')), existsSync(nachbar('_wt-nb.log')), lstatSync(nachbar('_wt-nb-link')).isSymbolicLink(), dateiBericht.entferntDateien, dateiBericht.entfernt], [false, true, true, 1, 0])
   // Haupt-Bestand fehlt: Abbruch, nichts wird gelöst.
   renameSync(join(haupt, 'node_modules'), join(haupt, 'node_modules-weg'))
   const ohneNm = H.abbau(haupt, welt, true)

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Anime-Kalender: Synchro melden",
   "description": "Meldet bei Netflix, Amazon, Disney+ und ADN die Tonspuren der Titel, deren deutsche Synchro im Anime-Kalender noch offen ist. Bei allen anderen Seiten bleibt sie still.",
-  "version": "4.32.111",
+  "version": "4.32.148",
   "permissions": [
     "storage"
   ],
@@ -57,6 +57,7 @@
         "https://www.netflix.com/tudum/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "offene-netflix.js",
@@ -67,19 +68,22 @@
         "netflix-durchgang-schutz.js",
         "netflix-profilwahl.js",
         "netflix-uebernahme.js",
+        "netflix-stand.js",
         "netflix-randvoll.js",
         "netflix-seitentreue.js",
         "netflix-staffel.js",
         "netflix-erinnern.js",
         "netflix-durchgang-steuerung.js",
         "netflix-zurueckgestellt.js",
+        "netflix-liste-ansicht.js",
         "netflix-alle-staffeln.js",
         "melder.js",
         "netflix-bericht.js",
         "netflix-protokoll.js"
       ],
       "css": [
-        "melder.css"
+        "melder.css",
+        "netflix-liste.css"
       ],
       "run_at": "document_idle"
     },
@@ -88,6 +92,7 @@
         "https://www.amazon.de/*"
       ],
       "js": [
+        "kontext.js",
         "ruhig.js"
       ],
       "css": [
@@ -111,6 +116,7 @@
         "https://www.amazon.de/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "melde-sperre.js",
@@ -150,6 +156,7 @@
         "https://www.disneyplus.com/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "melde-sperre.js",
@@ -157,6 +164,8 @@
         "pruefstand-zeit.js",
         "disney-stand-ziele.js",
         "disney-netz.js",
+        "netflix-uebernahme.js",
+        "disney-sammel.js",
         "disney-staffeln.js",
         "disney-beantwortet.js",
         "disney-weg.js",
@@ -173,6 +182,7 @@
         "https://animationdigitalnetwork.com/*"
       ],
       "js": [
+        "kontext.js",
         "tageslimit.js",
         "box.js",
         "melde-sperre.js",

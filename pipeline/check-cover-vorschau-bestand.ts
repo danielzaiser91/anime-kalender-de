@@ -11,6 +11,9 @@ import type { Release, Title } from '../shared/types.ts'
 import { readJson } from './lib/util.ts'
 import { ladeVorschauMasse } from './lib/vorschau-masse.ts'
 import { coverVorschauBestandMangel, standardTrotzCoverTitel } from './lib/cover-vorschau-bestand.ts'
+import { BEKANNT_STANDARD_TROTZ_COVER } from './lib/cover-vorschau-bekannt.ts'
+import { ratschenWarnzeilen } from './lib/hoechstens-ratsche.ts'
+import { STANDARD_TROTZ_COVER_LUFT } from './lib/plakat-vorschau-wache.ts'
 
 export const HOECHSTENS = 27
 
@@ -31,6 +34,8 @@ export function main(): number {
     console.error('VERSTÖSSE: 1')
     return 1
   }
+  const warnungen = ratschenWarnzeilen('Cover-Vorschau', treffer.map((t) => t.id), HOECHSTENS, { luft: STANDARD_TROTZ_COVER_LUFT, bekannt: BEKANNT_STANDARD_TROTZ_COVER })
+  for (const zeile of warnungen) console.log(zeile)
   console.log('VERSTÖSSE: 0')
   return 0
 }

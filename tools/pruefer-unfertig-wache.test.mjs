@@ -1,8 +1,9 @@
 // Kennzahl „Prüfer sah unfertige Kette“: Tabellentest der reinen Funktionen, Abruffehler und die Verdrahtung in der Wachphase.
 // Die Kommentartexte sind wörtlich die erste Zeile echter Urteile (Abruf 31.10.2026).
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { prueferZeilen, unfertigZeile, unfertigeKette, urteile } from './pruefer-unfertig-wache.mjs'
+import { MARKE_OHNE_MODELL, prueferZeilen, unfertigZeile, unfertigeKette, urteile } from './pruefer-unfertig-wache.mjs'
 
 const BOT = 'github-actions[bot]'
 const k = (titel, login = BOT) => ({ user: { login }, body: `**Prüfer-Review** für 03a88a18e - Urteil: **${titel}**\n\nProtokoll` })
@@ -24,6 +25,9 @@ gleich('fremder Autor mit gleichem Text zählt nicht', urteile([k('ok', 'fremder
 gleich('anderer Bot-Kommentar zählt nicht', urteile([{ user: { login: BOT }, body: '## Mutationsprobe für abc' }]), [])
 gleich('Zeile muss am Textanfang stehen', urteile([{ user: { login: BOT }, body: 'Hallo\n**Prüfer-Review** für abc - Urteil: **ok**' }]), [])
 gleich('ohne Text und ohne Nutzer', urteile([{}, { user: { login: BOT } }]), [])
+// 13.11.2026: Lauf ohne Modell (Kette lief beim Start) ist kein Urteil; die Marke steht wörtlich im Workflow.
+gleich('Lauf ohne Modell zählt nicht', urteile([{ user: { login: BOT }, body: `**Prüfer-Review** für abc - Urteil: **nicht beurteilt, Kette lief noch**\n\nx\n${MARKE_OHNE_MODELL}` }, OK]), ['ok'])
+gleich('Marke steht im Workflow', fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8').includes(MARKE_OHNE_MODELL), true)
 gleich('höchstens n, die ersten (neuesten) zählen', urteile([OK, LAEUFT, ROT], 2), ['ok', 'ok, Checks laufen noch: PR-Prüfkette'])
 gleich('Standard 30 Urteile', urteile(viele(0, 45)).length, 30)
 

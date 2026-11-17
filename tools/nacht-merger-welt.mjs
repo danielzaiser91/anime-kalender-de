@@ -12,9 +12,40 @@ const BAU = 'bestand-bauen.yml'
 const STUFE_LIMIT_MS = 60_000
 const zeilen = (text) => text.split(/\r?\n/).filter((z) => z.trim() !== '')
 
-export function ghEcht(args) {
-  return mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS })
+/** Pause vor der einen Wiederholung nach einem GitHub-5xx (z. B. HTTP 504, Lauf vom 13.11.2026 23:55 UTC rot). */
+export const GH_5XX_PAUSE_MS = 5000
+
+/** `gh` einmal wiederholen, wenn die Antwort ein GitHub-5xx war; der zweite Fehler (und jeder andere) wird unverändert weitergereicht. */
+export function ghMitWiederholung(gh, schlafen = schlafe) {
+  const mitWiederholung = (args) => {
+    try {
+      return gh(args)
+    } catch (e) {
+      // merge/close/reopen nie wiederholen: nach einem 504 kann die Änderung schon durch sein (sonst falsches „already merged/closed“); `merge` prüft den Zustand selbst
+      if (args[0] === 'pr' && ['merge', 'close', 'reopen'].includes(args[1])) throw e
+      // update-branch ebenso: ein zweiter PUT nach Wirkung liefe in 422 und verdeckte den neuen Kopf (tools/pr-nachrechnen-zweig.mjs liest ihn selbst nach)
+      if (anstossNummer(args) !== null) throw e
+      if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
+      schlafen(GH_5XX_PAUSE_MS)
+      return gh(args)
+    }
+  }
+  mitWiederholung.wiederholt5xx = true
+  return mitWiederholung
 }
+
+/** Squash-Merge; bei GitHub-5xx entscheidet der Zustand des PR (`MERGED` = durch, sonst Fehler weiterreichen). */
+export function mergeMit5xxPruefung(gh, pr) {
+  try {
+    return gh(['pr', 'merge', String(pr.nummer), '--squash', '--subject', `${pr.titel} (#${pr.nummer})`, '--match-head-commit', pr.kopf])
+  } catch (e) {
+    if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
+    if (gh(['pr', 'view', String(pr.nummer), '--json', 'state', '--jq', '.state']).trim() === 'MERGED') return ''
+    throw e
+  }
+}
+
+export const ghEcht = ghMitWiederholung((args) => mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS }))
 
 /** Läuft der Bestandsbau gerade im Schritt „Änderungen committen“? (`jobs`: Antwort von `gh run view --json jobs`.) Ein Merge dann erzwingt einen zweiten Bau. */
 export const bauCommittetGerade = (jobs) => jobs.some((j) => (j.steps ?? []).some((s) => s.status === 'in_progress' && s.name.includes('Änderungen committen')))
@@ -24,8 +55,20 @@ export const bestandIstRot = (laeufe, jetztMs) => bestandRotAlarm(laeufe, jetztM
 
 /** Im Trockenlauf darf nachrechnen nichts schließen oder öffnen: der Aufruf scheitert vor dem Schließen und zählt als „nicht aktuell“. */
 export const ghLesend = (gh) => (args) => {
-  if (args[0] === 'pr' && (args[1] === 'close' || args[1] === 'reopen')) throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen und öffnen)')
+  if (args[0] === 'pr' && args[1] === 'reopen') throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen und öffnen)')
+  if (anstossNummer(args) !== null) throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen oder update-branch)')
   return gh(args)
+}
+
+/**
+ * PR-Nummer, wenn der Aufruf die Kette neu anstößt (`pr close` oder `gh api …/pulls/N/update-branch`, tools/pr-nachrechnen-zweig.mjs), sonst null.
+ * Entscheidend ist der Pfad, nicht die Schreibweise der Methode (`-X PUT`, `-XPUT`, `--method PUT`, `--method=PUT`): der Pfad hat nur den einen Schreibzweck.
+ */
+export function anstossNummer(args) {
+  if (args[0] === 'pr' && args[1] === 'close') return String(args[2])
+  if (args[0] !== 'api') return null
+  const treffer = args.map((a) => /\/pulls\/(\d+)\/update-branch$/.exec(String(a))).find(Boolean)
+  return treffer ? treffer[1] : null
 }
 
 /**
@@ -37,9 +80,10 @@ export const ANSTOESSE_HOECHSTENS = 8
 export const ghMitAnstossRiegel = (gh, hoechstens = ANSTOESSE_HOECHSTENS) => {
   const angestossen = new Set()
   return (args) => {
-    if (args[0] === 'pr' && args[1] === 'close' && !angestossen.has(args[2])) {
+    const nummer = anstossNummer(args)
+    if (nummer !== null && !angestossen.has(nummer)) {
       if (angestossen.size >= hoechstens) throw new Error(`Höchstmenge ${hoechstens} Ketten-Anstöße je Lauf erreicht, nichts angestoßen`)
-      angestossen.add(args[2])
+      angestossen.add(nummer)
     }
     return gh(args)
   }
@@ -88,6 +132,7 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
     }),
     warte: schlafe,
     kopfVon: (n) => gh(['pr', 'view', String(n), '--json', 'headRefOid', '--jq', '.headRefOid']).trim(),
+    mergeStatus: (n) => gh(['pr', 'view', String(n), '--json', 'mergeStateStatus', '--jq', '.mergeStateStatus']).trim(),
     nachrechnen: (n) => {
       const meldungen = []
       const exit = nachrechnenMain([String(n)], nachrechnenGh, (t) => meldungen.push(t), schlafe)
@@ -98,6 +143,7 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
       return id !== '' && id !== 'null' && bauCommittetGerade(JSON.parse(gh(['run', 'view', id, '--json', 'jobs'])).jobs)
     },
     bestandRot: () => bestandIstRot(JSON.parse(gh(['run', 'list', '--workflow', BAU, '--limit', '30', '--json', 'status,conclusion,createdAt'])), Date.now()),
-    merge: (pr) => gh(['pr', 'merge', String(pr.nummer), '--squash', '--subject', `${pr.titel} (#${pr.nummer})`, '--match-head-commit', pr.kopf]),
+    jetzt: () => Date.now(),
+    merge: (pr) => mergeMit5xxPruefung(gh, pr),
   }
 }

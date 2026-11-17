@@ -26,7 +26,7 @@ import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSer
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
 import { ergaenzeWegeAusTmdbUndMotn } from './bau/13-3-1-tmdb-wege.ts'
 import { crStaffeln, entferneFremdeNachStaffeln, kennungAusAdresse } from './bau/cr-serie-geteilt.ts'
-import { termineAusSerie } from './lib/crunchyroll-termine.ts'
+import { alleTermine, termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
 import { vorDemStart } from './lib/crunchyroll-vollstaendig.ts'
@@ -900,6 +900,47 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     'aus dem US-Katalog kommt kein deutscher Termin',
     termineAusSerie({ ...sammel, katalog: 'us' } as CrSerie, [crTitel(1, 3, 2020)]).length === 0,
   )
+
+  /*
+    **Eine Serie, zwei Adressen (Aoashi, 15.11.2026):** Staffel 1 hängt an `/de/series/<Kennung>/…`, Staffel 2 an `/de/…`; jede
+    Adresse sieht „2 Blöcke, 1 Titel". Staffel 2 begann vor 22 Tagen (jenseits des 21-Tage-Fensters der Jüngsten-Regel).
+  */
+  const laufend = crSerie([
+    { name: 'Staffel 1', folgen: [folge(1, '2026-03-04'), folge(2, '2026-03-11'), folge(3, '2026-03-18')] },
+    { name: 'Staffel 2', folgen: [folge(1, '2026-10-25'), folge(2, '2026-11-01'), folge(3, '2026-11-08')] },
+  ])
+  const staffel2 = laufend.staffeln![1]!
+  staffel2.folgen = 5 // fünf Folgen, drei deutsch: die Staffel läuft noch
+  const adresseA = { ...laufend, url: 'https://example.test/aoashi' }
+  const adresseB = { ...laufend, url: 'https://example.test/series/CR1/aoashi' }
+  const mitUrl = (t: Title, url: string): Title => ({ ...t, streams: [{ platform: 'crunchyroll', url, dub: true }] }) as unknown as Title
+  const nachUrl = new Map([
+    [adresseB.url, [mitUrl(crTitel(1, 3, 2022), adresseB.url)]],
+    [adresseA.url, [mitUrl(crTitel(2, 5, 2026), adresseA.url)]],
+  ])
+  const jetzt = Date.parse('2026-11-16T12:00:00Z')
+  const getrennt = termineAusSerie(adresseA, nachUrl.get(adresseA.url)!, jetzt)
+  pruefe('je Adresse allein bleibt es bei „2 Blöcke, 1 Titel“ (Ausgangslage)', getrennt.length === 0, JSON.stringify(getrennt))
+  const vereint = alleTermine([adresseA, adresseB], nachUrl, jetzt)
+  pruefe('alle Adressen zusammen: beide Staffeln bekommen genau einen Termin', vereint.length === 2, JSON.stringify(vereint))
+  pruefe('Staffel 2 beginnt am 25.10.', vereint.find((t) => t.titleId === 2)?.firstEpisodeDate === '2026-10-25')
+  pruefe(
+    'ist der jüngste Block vollständig deutsch, bleibt es beim Verwerfen (Altbestand)',
+    alleTermine([adresseA, adresseB].map((s) => ({ ...s, staffeln: s.staffeln!.map((b) => ({ ...b, folgen: b.deutsch })) })), nachUrl, jetzt).length === 0,
+  )
+  /* Riegel der Vereinigung: ein dritter Titel macht die Rechnung ungleich (3 Titel, 2 Blöcke) — nichts wird geraten. */
+  const zuViele = new Map(nachUrl)
+  const adresseD = { ...laufend, url: 'https://example.test/aoashi-drittel' }
+  zuViele.set(adresseD.url, [mitUrl(crTitel(3, 9, 2023), adresseD.url)])
+  pruefe('mehr Titel als Blöcke über alle Adressen: kein Termin', alleTermine([adresseA, adresseB, adresseD], zuViele, jetzt).length === 0)
+  /* Eine Adresse, die allein aufgeht (zwei Titel, zwei Blöcke), behält ihren Weg und wird von der Vereinigung nicht übersprungen. */
+  const adresseC = { ...laufend, url: 'https://example.test/aoashi-eigen' }
+  const eigen = new Map([[adresseC.url, [mitUrl(crTitel(4, 3, 2022), adresseC.url), mitUrl(crTitel(5, 5, 2026), adresseC.url)]]])
+  pruefe('Adresse mit eigener passender Paarung: beide Termine bleiben (ohne die Zahlenprüfung der Vereinigung würde sie übersprungen)', alleTermine([adresseA, adresseB, adresseC], new Map([...nachUrl, ...eigen]), jetzt).length === 2)
+  /* Nur an (c) kippt der Fall davor: die Vereinigung hat 4 Titel für 2 Blöcke, Adresse C muss ihren eigenen Weg behalten (ohne (c) würde sie übersprungen). */
+  /* Alle Titel an einer Adresse, eine Schwesteradresse ohne Titel steht davor: genau ein Satz Termine, keine Dubletten. */
+  const leer = { ...laufend, url: 'https://example.test/aoashi-leer' }
+  pruefe('Schwesteradresse ohne Titel vor der vollständigen: keine doppelten Termine', alleTermine([leer, adresseC], eigen, jetzt).length === 2)
 }
 
 /**

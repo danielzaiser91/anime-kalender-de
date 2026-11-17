@@ -2,11 +2,11 @@
 // Wegwerf-Dateien unter os.tmpdir(); der Läufer ist als eigener Prozess aufgerufen (Exit-Code, Zurücksetzen).
 import assert from "node:assert/strict"
 import { spawn, spawnSync } from "node:child_process"
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { beiSignal, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE } from "./mutationslaeufer.mjs"
+import { ausfuehrbareTests, beiSignal, laufTest, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE, spieleOriginaleZurueck } from "./mutationslaeufer.mjs"
 
 const hier = dirname(fileURLToPath(import.meta.url))
 const laeufer = process.argv[2] ?? join(hier, "mutationslaeufer.mjs")
@@ -123,10 +123,10 @@ assert.match(r4.aus, /Rest eines abgebrochenen Laufs/)
 rmSync(join(ordner, "b.mjs.mutlauf-orig"))
 unversehrt()
 
-// 5. Grundlauf rot und fehlender Testbefehl: Exit 2, nichts verändert.
+// 5. Grundlauf rot: Exit 2; fehlender Testbefehl: Liste unbrauchbar, Exit 1 (Lehre 132); nichts verändert.
 writeFileSync(join(ordner, "kaputt.mjs"), "process.exit(1)\n")
 assert.equal(lauf([mut[2]], [], [`${knoten} kaputt.mjs`]).exit, 2)
-assert.equal(lauf([mut[2]], [], []).exit, 2)
+assert.equal(lauf([mut[2]], [], []).exit, 1)
 unversehrt()
 
 // 6. Pfade: Git-Bash-Form nur unter Windows umgesetzt, relative und Slash-Pfade gegen --cwd.
@@ -155,8 +155,13 @@ assert.match(lap.detail, /überlappen/)
 const ohneNl = new Map([[normalisierePfad("y", "/w"), Buffer.from("abc")]])
 const anhang = planeMutant({ aenderungen: [{ datei: "y", suche: "@ENDE", ersetze: "d" }] }, ohneNl, "/w")
 assert.equal([...anhang.texte.values()][0], "abc\nd\n")
-const fehltZeile = planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 99 }] }, ohneNl, "/w")
-assert.equal(fehltZeile.detail, "y: nicht gefunden auf Zeile 99")
+// zeile ist nur Hinweis: eindeutiger Anker gilt trotz falscher Zeile; mehrdeutiger mit falscher Zeile und ohne Zeile bleibt Fehler.
+const falscheZeile = planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 99 }] }, ohneNl, "/w")
+assert.equal([...falscheZeile.texte.values()][0], "d")
+const zweimal = new Map([[normalisierePfad("y", "/w"), Buffer.from("abc\nabc")]])
+assert.equal(planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 99 }] }, zweimal, "/w").detail, "y: nicht gefunden auf Zeile 99")
+assert.equal(planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d" }] }, zweimal, "/w").detail, "y: mehrdeutig (2-mal)")
+assert.equal([...planeMutant({ aenderungen: [{ datei: "y", suche: "abc", ersetze: "d", zeile: 2 }] }, zweimal, "/w").texte.values()][0], "abc\nd")
 assert.equal(planeMutant({ aenderungen: [{ datei: "y", suche: "xyz", ersetze: "d" }] }, ohneNl, "/w").detail, "y: nicht gefunden")
 
 // 9. Laufzeit: Sicherungskopie liegt während des Mutanten da; Grundlauf prüft auch die Tests je Mutant; Zeitlimit tötet den Test;
@@ -238,8 +243,8 @@ assert.equal(urteilVon(k6.aus, "Kontrolle"), "GRÜN", k6.aus)
 const k6b = lauf([mitTests, { ...kontrolle, tests: [`${knoten} test.mjs`] }], [], [])
 assert.equal(k6b.exit, 0, k6b.aus)
 const k6c = lauf([mut[0], kontrolle], [], [])
-assert.equal(k6c.exit, 2, k6c.aus)
-assert.match(k6c.aus, /Kein Testbefehl/)
+assert.equal(k6c.exit, 1, k6c.aus)
+assert.match(k6c.aus, /unbrauchbar, kein Testbefehl/)
 unversehrt()
 
 // 6d. Zähler-Kulisse: test-x ist immer grün, test-y wird ab dem zweiten Lauf rot (Zähler-Datei). Die Kontrolle steht zuerst;
@@ -266,9 +271,60 @@ const k6f = zaehlerLauf([kontrolle, mitY], [], [testX])
 assert.equal(urteilVon(k6f.aus, "Kontrolle"), "GRÜN", k6f.aus)
 // A4: Liste nur aus der Kontrolle, ohne --test: Aufrufabbruch statt stillem Lauf ohne Tests.
 const k6g = lauf([kontrolle], [], [])
-assert.equal(k6g.exit, 2, k6g.aus)
-assert.match(k6g.aus, /Kein Testbefehl/)
+assert.equal(k6g.exit, 1, k6g.aus)
+assert.match(k6g.aus, /unbrauchbar, kein Testbefehl/)
 unversehrt()
+
+// 6h. Lehre 132 (17.11.2026): leerer oder nur aus Leerraum bestehender Befehl ist kein Test (die Shell meldete „grün“, 0,05 s);
+// ein Mutant ohne ausführbaren Test ist „unbrauchbar“ (nie rot/grün, wird nicht gefahren), die übrigen laufen weiter.
+const blank = lauf([kontrolle, { ...mut[0], tests: ["  "] }], [], [])
+assert.equal(blank.exit, 1, blank.aus)
+assert.match(blank.aus, /unbrauchbar, kein Testbefehl/)
+assert.doesNotMatch(blank.aus, /GRÜN/, blank.aus)
+const gemischt = lauf([{ ...mut[1], name: "ohne-test" }, { ...mut[0], name: "mit-test", tests: [`${knoten} test-f.mjs`] }], [], [])
+assert.equal(gemischt.exit, 1, gemischt.aus)
+assert.equal(urteilVon(gemischt.aus, "ohne-test"), "unbrauchbar", gemischt.aus)
+assert.equal(urteilVon(gemischt.aus, "mit-test"), "rot", gemischt.aus)
+assert.match(gemischt.aus, /1 unbrauchbar \(kein Testbefehl\)/)
+assert.equal(ausfuehrbareTests(["", " ", "x", 5, undefined]).join("|"), "x")
+unversehrt()
+
+// 11. Ausnahme mitten im Mutanten (zweite Datei schreibgeschützt, Schreiben wirft): die erste, schon mutierte Datei
+// wird trotzdem zurückgespielt. Der erste Mutant (nur b, Anker fehlt) legt die Reihenfolge b vor a fest — ohne
+// Einzelrückspiel stoppt der Rückweg an b und a bliebe mutiert.
+chmodSync(join(ordner, "b.mjs"), 0o444)
+const ausnahme = lauf([
+  { name: "b-fehlt", datei: "b.mjs", suche: "gibt es nicht", ersetze: "x" },
+  {
+    name: "a-dann-b",
+    aenderungen: [
+      { datei: "a.mjs", suche: "A = 1", ersetze: "A = 0" },
+      { datei: "b.mjs", suche: "B = 1", ersetze: "B = 0" },
+    ],
+  },
+])
+chmodSync(join(ordner, "b.mjs"), 0o666)
+if (process.getuid?.() !== 0) {
+  assert.equal(ausnahme.exit, 2, ausnahme.aus)
+  assert.match(ausnahme.aus, /EPERM|EACCES/)
+}
+unversehrt()
+
+// 12. Rückspiel einzeln: ein Fehler bei der ersten Datei (Verzeichnis statt Datei) stoppt die zweite nicht, die Kopie bleibt.
+const dir = join(ordner, "dir.mjs")
+mkdirSync(dir)
+writeFileSync(join(ordner, "x.mjs"), "mutiert\n")
+const fehler = spieleOriginaleZurueck(new Map([[dir, Buffer.from("o")], [join(ordner, "x.mjs"), Buffer.from("original\n")]]))
+assert.equal(fehler.length, 1)
+assert.equal(readFileSync(join(ordner, "x.mjs"), "utf8"), "original\n")
+rmSync(dir, { recursive: true })
+
+// 13. Testprozess startet nicht: synchroner Startfehler (NUL im Befehl) und fehlender Ordner sind rot, kein Abbruch.
+for (const [befehl, cwd] of [["x\0y", ordner], [`${knoten} test.mjs`, join(ordner, "gibt-es-nicht")]]) {
+  const r = await laufTest(befehl, cwd, 5)
+  assert.equal(r.gruen, false)
+  assert.equal(r.code, -1)
+}
 
 rmSync(ordner, { recursive: true, force: true })
 console.log("mutationslaeufer.test: ok")

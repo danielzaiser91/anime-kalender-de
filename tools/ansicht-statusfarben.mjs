@@ -54,6 +54,8 @@ async function filterMessung(seite) {
   await seite.waitForTimeout(2000)
   await seite.locator('div.fixed button[aria-expanded]').first().click()
   await seite.locator('[data-filter-scroll]').first().waitFor({ state: 'visible' })
+  /* Genre steht hinter „mehr Filter“ (16.11.2026). */
+  await seite.locator('.border-dashed button[aria-expanded]').first().click()
   await seite.waitForTimeout(800)
   const aus = {}
   for (const modus of ['include', 'exclude']) {

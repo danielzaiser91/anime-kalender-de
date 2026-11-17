@@ -2,6 +2,7 @@ import { type ReleaseEvent, type Title, type Release } from '../../shared/types.
 import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
 import { primeKanalAnbieter, schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
+import { schreibeStreamingVorher } from '../../shared/streaming-vorher.ts'
 import { schreibeKatalogReleaseVonHand } from '../lib/katalog-belege.ts'
 import { log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
@@ -63,9 +64,11 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
 
 /** Die Marke „Zweitanbieter“ nach den Handbelegen schreiben; ein widersprechender Premiere-Beleg ist eine Warnung. */
 function schreibeZweitanbieterMitMeldung(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
-  const { anzahl, kollisionen } = schreibeZweitanbieter(events, releases, primeKanalAnbieter(titles.values()))
+  const kanalAnbieter = primeKanalAnbieter(titles.values())
+  const { anzahl, kollisionen } = schreibeZweitanbieter(events, releases, kanalAnbieter)
   for (const k of kollisionen) warn(k)
   log(`Zweitanbieter: ${anzahl} Termine`)
+  log(`Streaming vorher (Disc): ${schreibeStreamingVorher(events, releases, kanalAnbieter)} Termine`)
 }
 
 /** Reihenfolge in `events.json`: nach Tag, am Tag nach Uhrzeit (ohne Uhrzeit zuletzt). */

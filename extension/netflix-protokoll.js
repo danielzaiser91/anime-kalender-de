@@ -1,4 +1,4 @@
-/* global DURCHLAUF:readonly */
+/* global DURCHLAUF:readonly, offeneTitel:readonly, selbstUebersprungen:readonly, fertig:readonly, offeneTitelZahl:readonly */
 /*
   **Netflix: was der Kasten tut, ins Zustandsprotokoll** (4.24.22, 10.10.2026)
 
@@ -7,7 +7,7 @@
   wird verschluckt, nie weitergegeben. Der Puffer selbst steht in `protokoll.js`. Die Namen tragen
   `nfp`, weil alle Skripte einer Seite einen Scope teilen.
 */
-const nfpMerk = { nummern: new WeakMap(), zaehler: 0, knopf: '', kasten: null }
+const nfpMerk = { nummern: new WeakMap(), zaehler: 0, knopf: '', kasten: null, gepostet: new Set(), zahl: null, lage: null }
 
 /** `[1,2,3,5]` → „1–3, 5". */
 function nfpBereiche(nummern) {
@@ -96,6 +96,36 @@ function nfpKnopfAufzeichnen() {
   globalThis.akProtokoll('knopf', daten)
 }
 
+/** Woraus die Knopfzahl besteht: je Titel der Liste „offen“, „zurück“ (Merkliste) oder „fertig“ (gemeldet). */
+function nfpZahlLage() {
+  return Object.fromEntries(
+    Object.entries(offeneTitel).map(([id, e]) => [id, selbstUebersprungen.zurueckgestellt(id) ? 'zurück' : fertig(id, e) ? 'fertig' : 'offen']),
+  )
+}
+
+/** Was die Zahl bewegt hat: die Titel, deren Zustand sich zwischen zwei Lagen unterscheidet, nach Art (`liste`, `merkliste`, `gemeldet`). */
+function nfpZahlAusloeser(vorher, nachher) {
+  const arten = {}
+  for (const id of new Set([...Object.keys(vorher), ...Object.keys(nachher)])) {
+    const [a, b] = [vorher[id], nachher[id]]
+    if (a === b) continue
+    const art = !a || !b ? 'liste' : a === 'zurück' || b === 'zurück' ? 'merkliste' : 'gemeldet'
+    arten[art] = [...(arten[art] ?? []), id]
+  }
+  return arten
+}
+
+/** Nach jedem `uebersichtZeigen`: hat sich die Knopfzahl geändert, steht Art, Titel, vorher und nachher im Protokoll (Befund 8, Issue 4071). */
+function nfpZahlAufzeichnen() {
+  const lage = nfpZahlLage()
+  const zahl = offeneTitelZahl()
+  const [alt, vorher] = [nfpMerk.lage, nfpMerk.zahl]
+  Object.assign(nfpMerk, { lage, zahl })
+  if (zahl === vorher) return
+  const arten = alt ? nfpZahlAusloeser(alt, lage) : { start: [] }
+  globalThis.akProtokoll('knopfzahl', { ausloeser: Object.keys(arten).join('+'), ids: Object.values(arten).flat().slice(0, 5), vorher, nachher: zahl })
+}
+
 /**
  * Die Funktion `name` aus `melder.js` (globaler Scope) durch eine Umhüllung ersetzen. `vor` und `nach`
  * sehen die Argumente bzw. das Ergebnis; bei einer Promise-Rückgabe läuft `nach` nach dem Auflösen.
@@ -141,10 +171,23 @@ function nfpListeAufzeichnen(e) {
   })
 }
 
+/**
+ * Was ein Stapel meldet: Titelkennung (aus der Adresse), Folgennummern als Bereiche und `wiederholt` = dieselbe Folge dieses Titels
+ * ging in diesem Seitenaufruf schon einmal raus (`schon`: Set aus Adresse und Folge). So zeigt der Bericht eine Doppelmeldung.
+ */
+function nfpPostInhalt(body, schon) {
+  const stapel = Array.isArray(body?.stapel) ? body.stapel : []
+  const reihe = /\/title\/(\d+)/.exec(String(stapel[0]?.url ?? ''))?.[1] ?? null
+  const schluessel = stapel.map((m) => `${m?.url}|${m?.folge}`)
+  const wiederholt = schluessel.some((k) => schon.has(k))
+  schluessel.forEach((k) => schon.add(k))
+  return { reihe, folgen: nfpBereiche(stapel.map((m) => m?.folge_nr)), wiederholt }
+}
+
 /** Eine Antwort des Workers auf eine Meldung: Status und wie viele Einträge des Stapels bestätigt sind. */
-function nfpPostAufzeichnen(antwort, anzahl, ms) {
+function nfpPostAufzeichnen(antwort, anzahl, ms, inhalt = {}) {
   const kopie = typeof antwort.clone === 'function' ? antwort.clone() : antwort
-  const daten = { anzahl, status: antwort.status ?? null, ok: Boolean(antwort.ok), ms }
+  const daten = { anzahl, ...inhalt, status: antwort.status ?? null, ok: Boolean(antwort.ok), ms }
   Promise.resolve(kopie.json())
     .then((j) => {
       const e = Array.isArray(j?.ergebnisse) ? j.ergebnisse : null
@@ -162,21 +205,24 @@ function nfpFetchUmhuellen() {
     if (opt?.method !== 'POST' || !String(url).endsWith('/pruefung')) return original.call(this, url, opt)
     const t0 = Date.now()
     let anzahl = 1
+    let inhalt = {}
     try {
-      anzahl = JSON.parse(opt.body)?.stapel?.length ?? 1
+      const body = JSON.parse(opt.body)
+      anzahl = body?.stapel?.length ?? 1
+      inhalt = nfpPostInhalt(body, nfpMerk.gepostet)
     } catch {
       /* Keine Zahl, kein Problem. */
     }
     try {
       const antwort = await original.call(this, url, opt)
       try {
-        nfpPostAufzeichnen(antwort, anzahl, Date.now() - t0)
+        nfpPostAufzeichnen(antwort, anzahl, Date.now() - t0, inhalt)
       } catch {
         /* Messen darf nie stören. */
       }
       return antwort
     } catch (fehler) {
-      nfpAufzeichnen('worker-post', { anzahl, fehler: String(fehler?.message ?? fehler), ms: Date.now() - t0 })
+      nfpAufzeichnen('worker-post', { anzahl, ...inhalt, fehler: String(fehler?.message ?? fehler), ms: Date.now() - t0 })
       throw fehler
     }
   }
@@ -186,6 +232,7 @@ function nfpInstallieren() {
   const log = globalThis.akProtokoll
   if (!log || typeof DURCHLAUF === 'undefined') return
   nfpUmhuellen('durchlaufKnopfZeigen', null, nfpKnopfAufzeichnen)
+  nfpUmhuellen('uebersichtZeigen', null, nfpZahlAufzeichnen)
   nfpUmhuellen('durchlaufStarten', () => log('lauf-start', nfpLage()), () => log('lauf-ende', nfpLage()))
   nfpUmhuellen('durchlaufMelden', null, (ok, [folge]) =>
     log('melden', { nr: folge?.nummer ?? null, id: folge?.videoId ?? null, ok: Boolean(ok) }),
@@ -207,7 +254,7 @@ function nfpInstallieren() {
   })
   nfpFetchUmhuellen()
   window.addEventListener('message', nfpListeAufzeichnen)
-  log('start', { version: chrome.runtime.getManifest?.().version ?? null, pfad: location.pathname })
+  log('start', { version: globalThis.akKontext.version(), pfad: location.pathname })
 }
 
 nfpInstallieren()

@@ -284,6 +284,13 @@ button.ak-zu:hover { color: #e6edf3; }
 .ak-hinweis { color: #8b949e; font-size: 11px; }
 /* Durchgang ohne Messung (besucht > 0, gemessen 0): rot, damit niemand „ok“ liest. */
 .ak-hinweis.ak-durchgang-rot { color: #f85149; font-weight: 600; }
+/* Fortschritt des Durchgangs: schmaler Balken, Anteil über --ak-anteil. */
+.ak-durchgang-balken {
+  height: 3px;
+  margin-top: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to right, #3fb950 var(--ak-anteil, 0%), #30363d var(--ak-anteil, 0%));
+}
 
 /*
   Der Knopf für tote Verweise: klein, farblos, am Rand. Er wird selten gebraucht,
@@ -1784,6 +1791,9 @@ button.ak-zu:hover { color: #e6edf3; }
 /* Wiedervorlage (21.09.2026): blau — Daniel: „das icon für wiedervorlage bei den episoden …
    mach die blau oder so, dann ist es ok und keine seperate liste für wiedervorlage ist notwendig". */
 .ak-zeile.ak-wiedervorlage { box-shadow: inset 3px 0 0 #58a6ff; }
+
+/* Zurückgestellt (15.11.2026): nicht in der Liste, sondern in der eigenen Ansicht (netflix-liste.css). */
+.ak-zeile.ak-zurueck { display: none; }
 
 /* Wiedergabeseite: Kasten weg, solange kein Durchgang läuft (Marke setzt box.js). */
 html.ak-im-player:not(.ak-durchgang) .ak-box {

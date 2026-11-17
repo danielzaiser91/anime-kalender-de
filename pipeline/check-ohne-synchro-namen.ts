@@ -17,7 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 
 const roh = (t: Record<string, unknown>) => t as unknown as Title
 const zeilen = [
-  roh({ id: 902, franchiseId: 800, titleRomaji: 'Zeta', titleEn: 'Zeta', titleNative: 'ゼータ', jpYear: 2004, jpEnd: '2004-12-01', genres: ['Action'], format: 'TV', land: 'JP', fsk: 12, coverImage: 'x.jpg', synopsis: 'lang' }),
+  roh({ id: 902, franchiseId: 800, titleRomaji: 'Zeta', titleEn: 'Zeta', titleNative: 'ゼータ', jpYear: 2004, jpEnd: '2004-12-01', genres: ['Action'], format: 'TV', land: 'JP', fsk: 12, score: 73, coverImage: 'x.jpg', synopsis: 'lang' }),
   roh({ id: 903, titleRomaji: 'Alpha', jpYear: 2001 }),
   roh({ id: 901, titleRomaji: 'Alpha', titleEn: 'Alpha Story', titleDe: 'Alpha Geschichte', genres: [], jpYear: 1999 }),
 ]
@@ -25,7 +25,7 @@ const index = namensIndex(zeilen)
 
 console.log('\nNamensindex: Inhalt')
 pruefe('nach Romaji sortiert, bei Gleichstand nach Kennung', index.map((z) => z.id).join() === '901,903,902', index.map((z) => z.id))
-pruefe('Felder des Suchhinweises bleiben', JSON.stringify(index[2]) === JSON.stringify({ id: 902, franchiseId: 800, titleRomaji: 'Zeta', jpYear: 2004, jpEnd: '2004-12-01', genres: ['Action'], format: 'TV', land: 'JP', fsk: 12 }), index[2])
+pruefe('Felder des Suchhinweises bleiben', JSON.stringify(index[2]) === JSON.stringify({ id: 902, franchiseId: 800, titleRomaji: 'Zeta', jpYear: 2004, jpEnd: '2004-12-01', genres: ['Action'], format: 'TV', land: 'JP', fsk: 12, score: 73 }), index[2])
 pruefe('Cover, Inhaltsangabe und nativer Name fehlen', index.every((z) => !('coverImage' in z) && !('synopsis' in z) && !('titleNative' in z)), index)
 pruefe('gleicher englischer Name wie der romanisierte steht nur einmal', !('titleEn' in index[2]!), index[2])
 pruefe('abweichender englischer und deutscher Name bleiben', index[0]!.titleEn === 'Alpha Story' && index[0]!.titleDe === 'Alpha Geschichte', index[0])

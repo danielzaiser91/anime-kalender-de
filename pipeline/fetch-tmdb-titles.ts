@@ -113,13 +113,17 @@ function handKennungenSetzen(cache: Record<string, TmdbTitle>, vonHand: VonHandE
     banner: readJson('data/tmdb-banner.json', {}),
     folgen: readJson('data/tmdb-folgen.json', {}),
     staffel0: readJson('data/tmdb-staffel0.json', {}),
+    poster: readJson('data/tmdb-poster.json', {}),
+    posterGrund: readJson('data/tmdb-poster-grund.json', {}),
     verworfen: [],
   }
   const gesetzt = uebernimmVonHand(cache, vonHand, new Date().toISOString(), abgeleitet)
   if (abgeleitet.verworfen.length) {
     writeJson('data/tmdb-banner.json', abgeleitet.banner)
     writeJson('data/tmdb-folgen.json', abgeleitet.folgen)
-    log(`${abgeleitet.verworfen.length} Banner/Folgen alter Kennungen verworfen (Handzeilen): ${abgeleitet.verworfen.join(', ')}`)
+    writeJson('data/tmdb-poster.json', abgeleitet.poster)
+    writeJson('data/tmdb-poster-grund.json', abgeleitet.posterGrund)
+    log(`${abgeleitet.verworfen.length} Banner/Folgen/Plakate alter Kennungen verworfen (Handzeilen): ${abgeleitet.verworfen.join(', ')}`)
   }
   return gesetzt
 }

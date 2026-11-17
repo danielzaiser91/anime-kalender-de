@@ -20,8 +20,10 @@ const TEXTE = {
   'app.title': 'Anime-Kalender DE',
   'app.loading': 'Kalender wird geladen …',
   'app.loadingTitles': '{count} Einträge werden geladen …',
-  'app.loadError': 'Daten konnten nicht geladen werden',
-  'app.loadHint': 'Wurde die Datenpipeline schon ausgeführt?',
+  'app.loadError': 'Die Daten laden gerade nicht.',
+  'app.loadRetry': 'Erneut versuchen',
+  'app.loadRetryHint': 'Klappt es nicht, versuch es in ein paar Minuten noch einmal.',
+  'app.laedt': 'Lädt …',
 
   'view.woche': 'Woche',
   'view.monat': 'Monat',
@@ -505,6 +507,9 @@ const TEXTE = {
   'antwort.erscheintUmZeit': '{termin}, voraussichtlich um {zeit} Uhr.',
   // Die nächste Folge kam nicht zum angekündigten Termin (`schedule.verpasst`).
   'antwort.ausgeblieben': 'Folge {n} ist nicht erschienen',
+  // Angekündigt und verstrichen, beim Anbieter noch nicht gesehen; das Wort steigt mit dem Abstand (`shared/ausbleiben-plan.ts`).
+  'antwort.faelligWirdGeprueft': 'Folge {n} fällig seit {wann}, wird geprüft',
+  'antwort.faelligVerspaetet': 'Folge {n} fällig seit {wann}, noch nicht gesehen',
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   // Fortgeschriebener Tag (`estimated`): kein vom Anbieter genannter Tag (Wochentakt, Starttag laut Quelle, Meldetag), also „geschätzt“.
