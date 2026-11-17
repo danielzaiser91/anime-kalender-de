@@ -3,7 +3,7 @@
  * Termin in 30 Tagen vor späterem Termin vor keinem, dann laufend vor beendet, dann Titelrang `tr`; Filter `--wer`.
  */
 import assert from 'node:assert/strict'
-import { nextTop, terminStufe, uebersicht } from './maengel.mjs'
+import { laeuft, nextTop, terminStufe, uebersicht } from './maengel.mjs'
 
 const HEUTE = '2026-11-16'
 const zeile = (t, art, wirkung, wer, status = 'offen') => ({ t, art, wirkung, wer, status, seit: '2026-11-01' })
@@ -50,6 +50,12 @@ assert.deepEqual(nextTop(register, titel, events, HEUTE, 10, 'daniel').map((e) =
 assert.deepEqual(nextTop(register, titel, events, HEUTE, 10, 'auto').map((e) => e.t), [3, 5, 4, 2, 1, 6], '--wer auto: Klasse vor dem Doppelpunkt')
 assert.deepEqual(nextTop(register, titel, events, HEUTE, 10, 'hand'), [], '--wer hand: nichts')
 assert.equal(nextTop({ zeilen: [zeile(99, 'cover', 3, 'daniel')] }, titel, events, HEUTE, 5)[0].name, '?', 'Titel ohne Eintrag in titles.json: Name „?“')
+
+/* laufend: Film nie, Altbestand ohne Ende nach Jahr, neue Serie ohne Ende ja (Echtformen: Zorro, 10009970, Ranma S3). */
+assert.equal(laeuft({ format: 'MOVIE' }, HEUTE), false, 'Film ohne jpEnd')
+assert.equal(laeuft({ format: 'TV', jpYear: 1977 }, HEUTE), false, 'Altbestand 1977 ohne jpEnd')
+assert.equal(laeuft({ format: 'TV', jpYear: 2026 }, HEUTE), true, 'Serie 2026 ohne jpEnd')
+assert.equal(laeuft({ format: 'TV' }, HEUTE), true, 'ohne jedes Jahr: unbekannt gilt als laufend wie bisher')
 
 /* Übersicht: Wirkung und wer stammen aus dem Zähler, auch bei Arten ohne offene Zeile. */
 const zeilenUebersicht = uebersicht({
