@@ -4,7 +4,7 @@ import { fehlendes } from '../bau/luecken-titel.ts'
 import { zaehleErstausgabeOhneWeg } from './erstausgabe-ohne-weg.ts'
 import { herkunftFremderTitel } from './herkunft-fremder-titel.ts'
 import { ohneSprachurteil } from './ohne-sprachurteil.ts'
-import type { StaffelBefund } from './maengel-staffel.ts'
+import { STAFFEL_AUSNAHME, type StaffelBefund } from './maengel-staffel.ts'
 
 /**
  * **Regeltabelle des Mängel-Registers** (Entscheidung 16.11.2026, `docs/wissen/maengel.md`). Jede Mangelart ist eine Zeile: Gruppe, Wirkung, wer sie abbaut,
@@ -124,7 +124,7 @@ export const REGELN: Regel[] = [
   { art: 'termin-geschaetzt-ohne-weg', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: geschaetztOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch },
   { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id), ausnahme: (t, k) => (k.adresseMehrfach.get(t.id) === 'franchise' ? 'gleiches-franchise' : undefined) },
-  { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => (k.staffelZuordnung.get(t.id) === 'liste-veraltet' ? 'liste-veraltet' : undefined) },
+  { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => STAFFEL_AUSNAHME[k.staffelZuordnung.get(t.id)!] },
   { art: 'herkunft-fremder-titel', gruppe: 'falsch', wirkung: 3, wer: 'auto:bau', zaehle: (t, k) => herkunftFremderTitel(t, k.releases.get(t.id) ?? []) },
   { art: 'weg-ohne-adresse', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: (t) => Boolean(t.streams?.some((s) => !s.url)) },
 ]
