@@ -33,7 +33,7 @@ async function main() {
     return { r: k.akNetflixUmgeleitet({ ...basis, ...o }, tun), u, w }
   }
   let t = lauf({}, [], true)
-  pruefe('2: Titel beurteilt (Urteil gefallen), Sprung > 60 s auf /browse → weiter', t.r === true && t.w.weiter === 1, t)
+  pruefe('2: Titel beurteilt (Urteil unterwegs oder gefallen), Sprung > 60 s auf /browse → weiter, Titel NICHT zurückgestellt', t.r === true && t.w.weiter === 1 && t.u.size === 0, t)
   t = lauf({}, [['7', 'x']])
   pruefe('2: Titel übersprungen, aber kein weiter erfolgt → weiter', t.r === true && t.w.weiter === 1, t)
   t = lauf({})
