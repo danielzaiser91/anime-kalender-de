@@ -27,16 +27,27 @@ function nachUnklaremPut(gh, nummer, kopf, text) {
   return neu
 }
 
+/** Die eine Zeile im Rückfall: Status und gekürzter Text der 4xx-Abweisung (403/422 laufen denselben Weg; „workflow“ im Text = fehlendes Token-Recht); bei Trockenlauf/Riegel „nicht gesendet“ ohne Status. */
+function abgewiesenZeile(nummer, text) {
+  const status = /HTTP (4\d\d)/.exec(text)
+  if (status === null) return `PR ${nummer}: update-branch nicht gesendet (${text.split('\n')[0].slice(0, 120)}) – Rückfall Schließen/Öffnen`
+  const zeile = `PR ${nummer}: update-branch abgewiesen (HTTP ${status[1]}: ${text.split('\n')[0].slice(0, 120)}) – Rückfall Schließen/Öffnen`
+  return /workflow/i.test(text) ? `${zeile}; Token ohne Workflows-Recht?` : zeile
+}
+
 /**
  * Rückgabe: neuer Kopf (40 Zeichen) oder null, wenn der PUT sicher nichts bewirkt hat (4xx wie 422 und 403, Sperre) und der Rückfall
  * (Schließen/Öffnen) gelten darf. Wirft, sobald der PUT durch sein kann und kein neuer Kopf sichtbar ist.
  */
-export function aktualisiereZweig(gh, nummer, kopf, warte) {
+export function aktualisiereZweig(gh, nummer, kopf, warte, melde = () => {}) {
   try {
     gh(['api', '-X', 'PUT', `repos/{owner}/{repo}/pulls/${nummer}/update-branch`, '-f', `expected_head_sha=${kopf}`])
   } catch (e) {
     const text = String(e.message)
-    if (NICHT_ANGESTOSSEN.test(text)) return null
+    if (NICHT_ANGESTOSSEN.test(text)) {
+      melde(abgewiesenZeile(nummer, text))
+      return null
+    }
     return nachUnklaremPut(gh, nummer, kopf, text)
   }
   for (let i = 0; ; i++) {

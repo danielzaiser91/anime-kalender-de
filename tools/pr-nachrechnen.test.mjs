@@ -153,6 +153,21 @@ for (const [name, fehlerText] of [['422', 'gh: Merge conflict (HTTP 422)'], ['40
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe(`update-branch ${name} -> nichts angestoßen: ein PUT, Rückfall Schließen/Öffnen, Exit 1, Kopf nicht gelesen`, code === 1 && anzahlPut(k) === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' && !k.aufrufe.includes(KOPF_LESEN), k.aufrufe)
 }
+// A3 (Entscheidung Dirigent): im Rückfall genau eine Zeile „update-branch abgewiesen (HTTP <status>: <Text ≤ 120 Zeichen>) – Rückfall Schließen/Öffnen“; „workflow“ im Text ergänzt den Hinweis auf das Token-Recht.
+const T403 = 'gh: Resource not accessible by personal access token - refusing to allow a Personal Access Token to create or update workflow `.github/workflows/x.yml` without `workflow` scope (HTTP 403)'
+{
+  const k = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } }))
+  main(['7'], k.gh, k.melde, k.warte)
+  const zeilen = k.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
+  pruefe('Rückfallzeile 422: genau eine, mit Status und Text, ohne Token-Hinweis', zeilen.length === 1 && zeilen[0] === 'PR 7: update-branch abgewiesen (HTTP 422: gh: Merge conflict (HTTP 422)) – Rückfall Schließen/Öffnen', k.meldungen)
+  const k3 = kulisse(mitUpdate({ [PUT]: { fehler: T403 } }))
+  main(['7'], k3.gh, k3.melde, k3.warte)
+  const z3 = k3.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
+  pruefe('Rückfallzeile 403 mit „workflow“: genau eine, HTTP 403, Text auf 120 Zeichen gekürzt, „Token ohne Workflows-Recht?“', z3.length === 1 && z3[0] === `PR 7: update-branch abgewiesen (HTTP 403: ${T403.slice(0, 120)}) – Rückfall Schließen/Öffnen; Token ohne Workflows-Recht?` && T403.length > 121, k3.meldungen)
+  const k4 = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Resource not accessible (HTTP 403)' } }))
+  main(['7'], k4.gh, k4.melde, k4.warte)
+  pruefe('Rückfallzeile 403 ohne „workflow“: kein Token-Hinweis', !k4.meldungen.join().includes('Workflows-Recht'), k4.meldungen)
+}
 // A1 (PR 4104): 5xx oder Zeitlimit nach Wirkung: Kopf einmal lesen; neu = Exit 1 mit neuem Kopf, sonst Exit 2 „SCHON ANGESTOSSEN“; nie zweiter PUT, nie Schließen/Öffnen.
 for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen']]) {
   const wirkt = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))

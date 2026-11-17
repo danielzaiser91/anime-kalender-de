@@ -338,7 +338,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert`)
     return 1
   }
-  const neuerKopf = aktualisiereZweig(gh, nummer, pr.headRefOid, warte)
+  const neuerKopf = aktualisiereZweig(gh, nummer, pr.headRefOid, warte, melde)
   if (neuerKopf === null) anstossen(gh, nummer, main, warte)
   kommentiereGrund(gh, melde, nummer, grundKommentar(kurz(basis), kurz(main), urteil.grund))
   const stand = `NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund})`
