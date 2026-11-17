@@ -6,7 +6,7 @@ import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSyn
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
-import { beiSignal, laufTest, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE, spieleOriginaleZurueck } from "./mutationslaeufer.mjs"
+import { ausfuehrbareTests, beiSignal, laufTest, normalisierePfad, planeMutant, registriereSignale, schlusszeile, SIGNALE, spieleOriginaleZurueck } from "./mutationslaeufer.mjs"
 
 const hier = dirname(fileURLToPath(import.meta.url))
 const laeufer = process.argv[2] ?? join(hier, "mutationslaeufer.mjs")
@@ -123,10 +123,10 @@ assert.match(r4.aus, /Rest eines abgebrochenen Laufs/)
 rmSync(join(ordner, "b.mjs.mutlauf-orig"))
 unversehrt()
 
-// 5. Grundlauf rot und fehlender Testbefehl: Exit 2, nichts verändert.
+// 5. Grundlauf rot: Exit 2; fehlender Testbefehl: Liste unbrauchbar, Exit 1 (Lehre 132); nichts verändert.
 writeFileSync(join(ordner, "kaputt.mjs"), "process.exit(1)\n")
 assert.equal(lauf([mut[2]], [], [`${knoten} kaputt.mjs`]).exit, 2)
-assert.equal(lauf([mut[2]], [], []).exit, 2)
+assert.equal(lauf([mut[2]], [], []).exit, 1)
 unversehrt()
 
 // 6. Pfade: Git-Bash-Form nur unter Windows umgesetzt, relative und Slash-Pfade gegen --cwd.
@@ -243,8 +243,8 @@ assert.equal(urteilVon(k6.aus, "Kontrolle"), "GRÜN", k6.aus)
 const k6b = lauf([mitTests, { ...kontrolle, tests: [`${knoten} test.mjs`] }], [], [])
 assert.equal(k6b.exit, 0, k6b.aus)
 const k6c = lauf([mut[0], kontrolle], [], [])
-assert.equal(k6c.exit, 2, k6c.aus)
-assert.match(k6c.aus, /Kein Testbefehl/)
+assert.equal(k6c.exit, 1, k6c.aus)
+assert.match(k6c.aus, /unbrauchbar, kein Testbefehl/)
 unversehrt()
 
 // 6d. Zähler-Kulisse: test-x ist immer grün, test-y wird ab dem zweiten Lauf rot (Zähler-Datei). Die Kontrolle steht zuerst;
@@ -271,8 +271,22 @@ const k6f = zaehlerLauf([kontrolle, mitY], [], [testX])
 assert.equal(urteilVon(k6f.aus, "Kontrolle"), "GRÜN", k6f.aus)
 // A4: Liste nur aus der Kontrolle, ohne --test: Aufrufabbruch statt stillem Lauf ohne Tests.
 const k6g = lauf([kontrolle], [], [])
-assert.equal(k6g.exit, 2, k6g.aus)
-assert.match(k6g.aus, /Kein Testbefehl/)
+assert.equal(k6g.exit, 1, k6g.aus)
+assert.match(k6g.aus, /unbrauchbar, kein Testbefehl/)
+unversehrt()
+
+// 6h. Lehre 132 (17.11.2026): leerer oder nur aus Leerraum bestehender Befehl ist kein Test (die Shell meldete „grün“, 0,05 s);
+// ein Mutant ohne ausführbaren Test ist „unbrauchbar“ (nie rot/grün, wird nicht gefahren), die übrigen laufen weiter.
+const blank = lauf([kontrolle, { ...mut[0], tests: ["  "] }], [], [])
+assert.equal(blank.exit, 1, blank.aus)
+assert.match(blank.aus, /unbrauchbar, kein Testbefehl/)
+assert.doesNotMatch(blank.aus, /GRÜN/, blank.aus)
+const gemischt = lauf([{ ...mut[1], name: "ohne-test" }, { ...mut[0], name: "mit-test", tests: [`${knoten} test-f.mjs`] }], [], [])
+assert.equal(gemischt.exit, 1, gemischt.aus)
+assert.equal(urteilVon(gemischt.aus, "ohne-test"), "unbrauchbar", gemischt.aus)
+assert.equal(urteilVon(gemischt.aus, "mit-test"), "rot", gemischt.aus)
+assert.match(gemischt.aus, /1 unbrauchbar \(kein Testbefehl\)/)
+assert.equal(ausfuehrbareTests(["", " ", "x", 5, undefined]).join("|"), "x")
 unversehrt()
 
 // 11. Ausnahme mitten im Mutanten (zweite Datei schreibgeschützt, Schreiben wirft): die erste, schon mutierte Datei

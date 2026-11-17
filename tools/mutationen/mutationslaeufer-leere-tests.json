@@ -1,0 +1,9 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [], "tests": ["node tools/mutationslaeufer.test.mjs"] },
+  { "name": "ausfuehrbareTests: Leerraum zählt als Test", "datei": "tools/mutationslaeufer.mjs", "suche": "typeof t === \"string\" && t.trim() !== \"\"", "ersetze": "typeof t === \"string\"", "tests": ["node tools/mutationslaeufer.test.mjs"] },
+  { "name": "testsVon: Mutanten-tests ignoriert", "datei": "tools/mutationslaeufer.mjs", "suche": "ausfuehrbareTests(m.tests ?? opt.tests)", "ersetze": "ausfuehrbareTests(opt.tests)", "tests": ["node tools/mutationslaeufer.test.mjs"] },
+  { "name": "main: Liste ohne Test bricht schon bei einem Mutanten ohne Test ab", "datei": "tools/mutationslaeufer.mjs", "suche": "mutanten.every((m) => m.aenderungen.length === 0 ||", "ersetze": "mutanten.some((m) => m.aenderungen.length === 0 ||", "tests": ["node tools/mutationslaeufer.test.mjs"] },
+  { "name": "main: Liste ohne Test läuft weiter statt unbrauchbar", "datei": "tools/mutationslaeufer.mjs", "suche": "mutanten.every((m) => m.aenderungen.length === 0 ||", "ersetze": "mutanten.every((m) => false &&", "tests": ["node tools/mutationslaeufer.test.mjs"] },
+  { "name": "lauf: Mutant ohne Test wird trotzdem gefahren", "datei": "tools/mutationslaeufer.mjs", "suche": "if (plan.texte && tests.length === 0)", "ersetze": "if (false && plan.texte && tests.length === 0)", "tests": ["node tools/mutationslaeufer.test.mjs"] },
+  { "name": "schlusszeile: unbrauchbar nicht gezählt", "datei": "tools/mutationslaeufer.mjs", "suche": "...(zeilen.some((z) => z.urteil === \"unbrauchbar\") ?", "ersetze": "...(false ?", "tests": ["node tools/mutationslaeufer.test.mjs"] }
+]
