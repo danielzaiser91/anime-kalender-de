@@ -39671,3 +39671,29 @@
       dub: false
   checkedAt: '2026-11-17'
   note: "Folge 492 führt ADN nicht (Schnittstelle und Daniels Screenshot vom 04.10.2026: 491 → 493). Folgen 1–21 mit deutschem Ton — ADN-Schnittstelle (gw.api.animationdigitalnetwork.com/video/show/561, gelesen 17.11.2026, data/adn-raw/561.json.gz): je Folge languages vostde und vde, available true. Der Block „Folgen 1–21 ohne deutschen Ton — Tonspuren: ja“ vom 09.11.2026 las nur die erste Spur und ist damit überholt."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-17 ---
+
+- anilistId: 174576
+  title: "Wistoria: Wand and Sword"
+  platform: netflix
+  url: https://www.netflix.com/title/81900358
+  available: false
+  checkedAt: '2026-11-17'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 182300
+  title: "Wistoria: Wand and Sword"
+  platform: netflix
+  url: https://www.netflix.com/title/81900358
+  available: false
+  checkedAt: '2026-11-17'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 158559
+  title: "2.5 Dimensional Seduction"
+  platform: netflix
+  url: https://www.netflix.com/title/81909977
+  available: false
+  checkedAt: '2026-11-17'
+  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"

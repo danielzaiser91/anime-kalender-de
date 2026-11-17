@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-17T16:55:49.932Z",
+ "erzeugtAm": "2026-11-17T18:18:14.014Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -312,8 +312,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 769,
-   "gesamt": 914,
-   "offen": 145,
+   "gesamt": 911,
+   "offen": 142,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -339,10 +339,6 @@
     {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
-    },
-    {
-     "url": "https://www.netflix.com/title/81900358",
-     "titel": "Wistoria: Wand and Sword"
     },
     {
      "url": "https://www.netflix.com/title/82036361",
@@ -382,10 +378,6 @@
       1,
       2
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81909977",
-     "titel": "2.5 Dimensional Seduction"
     },
     {
      "url": "https://www.netflix.com/title/81910037",
