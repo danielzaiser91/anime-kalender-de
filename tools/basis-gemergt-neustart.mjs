@@ -1,17 +1,18 @@
 /**
  * Wird ein PR gemergt, den offene PRs als Basis nennen („mergen nach #N“, Erkennung `basisNummer` aus tools/pr-pruefer-basis-offen.mjs),
- * rechnet dieses Werkzeug deren Kette nach: je Stapel-PR `tools/pr-nachrechnen.mjs` (schließt und öffnet nur, wenn die Kette gegen einen
- * älteren main lief, sonst „aktuell“ ohne Neustart, also kein Doppelstart). Aufruf aus .github/workflows/pr-pruefer-nachtrag.yml
+ * rechnet dieses Werkzeug deren Kette nach: je Stapel-PR `tools/pr-nachrechnen.mjs` (holt main per `update-branch` in den Zweig, neuer Kopf, Exit 1;
+ * nur wenn das scheitert, Schließen und Öffnen; läuft die Kette schon gegen den jetzigen main: „aktuell“ ohne Neustart, also kein Doppelstart). Aufruf aus .github/workflows/pr-pruefer-nachtrag.yml
  * (Ereignis pull_request_target closed, nur gemergt). Nur Node-Bordmittel.
  * Umgebung: GITHUB_REPOSITORY, GH_TOKEN (nur ein PAT löst Folgeläufe aus), BASIS_PR; TROCKEN=true rechnet nur, schließt nichts.
  *
  * Ausgang je Stapel-PR (Exit von pr-nachrechnen und Grund aus seiner Meldung):
- *   0 aktuell, 1 Kette neu gestartet                  -> grün
+ *   0 aktuell, 1 Kette neu gestartet (neuer Kopf)     -> grün
  *   3 ersetzt (ein anderer PR trägt „ersetzt PR N“)   -> grün, Zeile „ERSETZT“
  *   2 mit „Konflikt mit main“                         -> grün, Zeile „KONFLIKT“ (main einmergen startet die Kette)
  *   2 „noch nicht berechnet“ (mergeable UNKNOWN direkt nach dem Merge) oder „läuft noch“ (Kette, Job) -> ein Neuversuch nach Pause;
  *     bleibt es dabei: grün, Zeile „NICHT NEU GERECHNET“ mit dem Handgriff (erwarteter Zustand, kein Fehler)
- *   2 sonst (Abruf-, Lese-, Schließfehler, „SCHON ANGESTOSSEN“) -> rot
+ *   2 sonst (Abruf-, Lese-, Schließfehler, „SCHON ANGESTOSSEN“, update-branch mit unklarem Ausgang) -> rot
+ *   (ein update-branch, das GitHub mit 4xx abweist, z. B. 422 oder 403, endet nicht hier: nichts angestoßen, Rückfall Schließen/Öffnen, Exit 1)
  * Rot (Exit 1) ist damit nur: PR-Liste nicht lesbar, BASIS_PR fehlt, echter Fehler bei einem Stapel-PR; sonst gäbe es Fehlalarme
  * in laeufe-aufraeumen.
  */
@@ -22,8 +23,8 @@ import { main as nachrechnenMain, gh as ghNachrechnen, schlafe } from './pr-nach
 
 /**
  * Höchstens so viele Stapel-PRs je Merge; die übrigen bekommen ihre Kette beim nächsten Push oder durch den Nacht-Merger.
- * Frist je PR höchstens PRO_PR_SEK: ein Neustart wartet bis 60 s auf den Merge-Commit, zwei Versuche ohne Neustart enden je am
- * gh-Limit von 30 s, dazu die Pause (80 s). Dazu 60 s Checkout; die Summe steht als Test gegen timeout-minutes (9).
+ * Frist je PR höchstens PRO_PR_SEK: update-branch braucht den PUT (30 s Limit), KOPF_PRUEFUNGEN Pausen à 2 s und Lesungen (92 s); ein
+ * Schließen/Öffnen wartet bis 60 s auf den Merge-Commit, zwei Versuche ohne Neustart enden je am gh-Limit von 30 s, dazu die Pause (80 s). Dazu 60 s Checkout; die Summe steht als Test gegen timeout-minutes (9).
  */
 export const MAX_PRS = 4
 export const PRO_PR_SEK = 100

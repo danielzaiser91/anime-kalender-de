@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
-import { schleifeSignal } from './nachrechnen-schleife.mjs'
+import { schleifeSignal, schleifenBeginn } from './nachrechnen-schleife.mjs'
 import { PRAEFIX as ABNAHME_PRAEFIX } from './abnahme-freigabe.mjs'
 import { hatNachtrag } from './nacht-merger-wahl.mjs'
 import { vorratMeldung } from './liegegut-vorrat.mjs'
@@ -358,7 +358,7 @@ function bewertePr(ghFn, gitFn, pr, geteilt, jetzt, karte, stapel, imZug, repo, 
   const kopfZeit = kopfZeitVon(ghFn, pr, karte)
   if (Number.isNaN(kopfZeit)) throw new Error(`PR ${pr.number}: Kopf-Zeit nicht lesbar`)
   if (pr.isDraft) return bewerteEntwurf(pr, kopfZeit, jetzt, repo)
-  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt), ...schleifeSignal(pr, kopfZeit), ...nachtragSignal(pr, kopfZeit, jetzt, stufeFn)]
+  const signale = [...signaleEinzel(pr, kopfZeit, jetzt), ...stillstandSignal(pr, kopfZeit, jetzt), ...schleifeSignal(pr, schleifenBeginn(ghFn, pr, kopfZeit)), ...nachtragSignal(pr, kopfZeit, jetzt, stufeFn)]
   const texte = signale.map((s) => `${s.nr} ${s.text}`)
   const zeiten = signale.map((s) => s.seit)
   const nummern = signale.map((s) => s.nr)

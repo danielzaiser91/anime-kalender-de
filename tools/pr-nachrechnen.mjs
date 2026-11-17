@@ -11,9 +11,13 @@
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
  *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
  *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`); bei einem reinen Bot-Datensprung (`reinerBotSprung`) genügt: der PR berührt keine bewegte Datei.
- *   Exit 1: nicht aktuell; der PR wurde geschlossen und wieder geöffnet, die Kette läuft neu (der Prüfer hört nicht auf `reopened`).
+ *   Exit 1: nicht aktuell; main wurde per `update-branch` (mit `expected_head_sha`) in den Zweig geholt: der Kopf ist NEU, die Meldung nennt ihn
+ *           („neuer Kopf <sha>: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen“); die Merge-Zeile `… && gh pr merge` läuft danach nicht weiter (das `&&` ist der Schutz).
+ *           Nur wenn update-branch abgewiesen wurde (HTTP 4xx, z. B. 422 oder 403, oder Trockenlauf/Riegel des Nacht-Mergers), gilt der Rückfall:
+ *           geschlossen und wieder geöffnet (der Prüfer hört nicht auf `reopened`).
  *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
- *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen, steht „SCHON ANGESTOSSEN“ in der Meldung.
+ *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen oder nach einem update-branch, der gewirkt haben kann (5xx, Zeitlimit,
+ *           Kopf nicht lesbar oder nicht neu), steht „SCHON ANGESTOSSEN“ in der Meldung: Kopf prüfen, nie blind wiederholen.
  * Die Basis steht in der Checkout-Zeile des Jobs JOB: „HEAD is now at … Merge <Kopf> into <Basis>“ (Text des Merge-Commits von GitHub).
  */
 import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
@@ -30,6 +34,7 @@ import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-
 import { standardPaket } from './pr-nachrechnen-paket-git.mjs'
 import { prueferSperre } from './pr-nachrechnen-pruefer.mjs'
 import { standardTextmerge } from './pr-nachrechnen-textmerge.mjs'
+import { aktualisiereZweig } from './pr-nachrechnen-zweig.mjs'
 
 export const KETTE = 'pr-pruefung.yml'
 /** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
@@ -333,9 +338,13 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert`)
     return 1
   }
-  anstossen(gh, nummer, main, warte)
+  const neuerKopf = aktualisiereZweig(gh, nummer, pr.headRefOid, warte, melde)
+  if (neuerKopf === null) anstossen(gh, nummer, main, warte)
   kommentiereGrund(gh, melde, nummer, grundKommentar(kurz(basis), kurz(main), urteil.grund))
-  melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`)
+  const stand = `NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund})`
+  melde(neuerKopf === null
+    ? `PR ${nummer}: ${stand}, geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`
+    : `PR ${nummer}: ${stand}, main per update-branch in den Zweig geholt; neuer Kopf ${neuerKopf}: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen`)
   return 1
 }
 

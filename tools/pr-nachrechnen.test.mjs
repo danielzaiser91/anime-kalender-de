@@ -11,6 +11,7 @@ import { parse } from 'yaml'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
+import { KOPF_ABSTAND_MS, KOPF_PRUEFUNGEN } from './pr-nachrechnen-zweig.mjs'
 import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, kettenweit, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
@@ -123,6 +124,85 @@ const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') |
   const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
   const code = nachrechnen(7, k.gh, k.melde, k.warte)
   pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
+}
+// update-branch (Lehre 129, 17.11.2026, tools/pr-nachrechnen-zweig.mjs): main kommt per PUT in den Zweig, der Kopf ist danach neu und wird genannt.
+pruefe('pr-nachrechnen-zweig.mjs: Grenzen 15 Lesungen à 2000 ms (30 s)', KOPF_PRUEFUNGEN === 15 && KOPF_ABSTAND_MS === 2000, { KOPF_PRUEFUNGEN, KOPF_ABSTAND_MS })
+const KOPF_NEU = 'd4'.padEnd(40, '4')
+const PUT = `api -X PUT repos/{owner}/{repo}/pulls/7/update-branch -f expected_head_sha=${KOPF}`
+const KOPF_LESEN = 'api repos/{owner}/{repo}/pulls/7 --jq .head.sha'
+const mitUpdate = (zusatz) => ({ ...antworten({ mainSha: MAIN }), [PUT]: { aus: '{"message":"Updating pull request branch."}' }, [KOPF_LESEN]: { aus: `${KOPF_NEU}\n` }, ...zusatz })
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: [`${KOPF}\n`, `${KOPF}\n`, `${KOPF_NEU}\n`] } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  const m = k.meldungen.join()
+  pruefe('update-branch: Exit 1, kein Schließen/Öffnen, PUT mit expected_head_sha des Kopfs', code === 1 && schreibend(k.aufrufe).length === 0 && k.aufrufe.includes(PUT), k.aufrufe)
+  pruefe('update-branch: Meldung nennt den neuen Kopf vollständig und die Handlung', m.includes(`neuer Kopf ${KOPF_NEU}: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen`), k.meldungen)
+  pruefe('update-branch: wartet, bis der Kopf neu ist (zwei Wartezeiten à KOPF_ABSTAND_MS)', k.gewartet.join() === '2000,2000', k.gewartet)
+  pruefe('update-branch: Grund wird kommentiert', k.aufrufe.includes('pr comment 7'), k.aufrufe)
+  pruefe('update-branch: Reihenfolge, PUT vor dem Lesen des Kopfs', k.aufrufe.indexOf(PUT) < k.aufrufe.indexOf(KOPF_LESEN), k.aufrufe)
+}
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: ['\n', `${KOPF_NEU}\n`] } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  pruefe('update-branch: leere Antwort für den Kopf zählt nicht als neuer Kopf (wartet, nennt dann den echten)', code === 1 && k.gewartet.length === 1 && k.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`), { code, w: k.gewartet, m: k.meldungen })
+}
+const anzahlPut = (k) => k.aufrufe.filter((a) => a === PUT).length
+// A3 (PR 4104): jede 4xx-Abweisung (422 Konflikt/Kopf veraltet, 403 fehlendes Token-Recht) = nichts angestoßen, Rückfall wie bisher, nie Kopf lesen.
+for (const [name, fehlerText] of [['422', 'gh: Merge conflict (HTTP 422)'], ['403', 'gh: Resource not accessible by personal access token (HTTP 403)']]) {
+  const k = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte)
+  pruefe(`update-branch ${name} -> nichts angestoßen: ein PUT, Rückfall Schließen/Öffnen, Exit 1, Kopf nicht gelesen`, code === 1 && anzahlPut(k) === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' && !k.aufrufe.includes(KOPF_LESEN), k.aufrufe)
+}
+// A3 (Entscheidung Dirigent): im Rückfall genau eine Zeile „update-branch abgewiesen (HTTP <status>: <Text ≤ 120 Zeichen>) – Rückfall Schließen/Öffnen“; „workflow“ im Text ergänzt den Hinweis auf das Token-Recht.
+const T403 = 'gh: Resource not accessible by personal access token - refusing to allow a Personal Access Token to create or update workflow `.github/workflows/x.yml` without `workflow` scope (HTTP 403)'
+{
+  const k = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } }))
+  main(['7'], k.gh, k.melde, k.warte)
+  const zeilen = k.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
+  pruefe('Rückfallzeile 422: genau eine, mit Status und Text, ohne Token-Hinweis', zeilen.length === 1 && zeilen[0] === 'PR 7: update-branch abgewiesen (HTTP 422: gh: Merge conflict (HTTP 422)) – Rückfall Schließen/Öffnen', k.meldungen)
+  const k3 = kulisse(mitUpdate({ [PUT]: { fehler: T403 } }))
+  main(['7'], k3.gh, k3.melde, k3.warte)
+  const z3 = k3.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
+  pruefe('Rückfallzeile 403 mit „workflow“: genau eine, HTTP 403, Text auf 120 Zeichen gekürzt, „Token ohne Workflows-Recht?“', z3.length === 1 && z3[0] === `PR 7: update-branch abgewiesen (HTTP 403: ${T403.slice(0, 120)}) – Rückfall Schließen/Öffnen; Token ohne Workflows-Recht?` && T403.length > 121, k3.meldungen)
+  const k4 = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Resource not accessible (HTTP 403)' } }))
+  main(['7'], k4.gh, k4.melde, k4.warte)
+  pruefe('Rückfallzeile 403 ohne „workflow“: kein Token-Hinweis', !k4.meldungen.join().includes('Workflows-Recht'), k4.meldungen)
+}
+// A1 (PR 4104): 5xx oder Zeitlimit nach Wirkung: Kopf einmal lesen; neu = Exit 1 mit neuem Kopf, sonst Exit 2 „SCHON ANGESTOSSEN“; nie zweiter PUT, nie Schließen/Öffnen.
+for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen']]) {
+  const wirkt = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
+  const code = nachrechnen(7, wirkt.gh, wirkt.melde, wirkt.warte)
+  pruefe(`PUT wirkt, dann ${name} -> Exit 1 mit neuem Kopf, ein PUT, kein Schließen/Öffnen`, code === 1 && wirkt.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`) && anzahlPut(wirkt) === 1 && schreibend(wirkt.aufrufe).length === 0, { code, a: wirkt.aufrufe, m: wirkt.meldungen })
+  const nicht = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
+  const code2 = main(['7'], nicht.gh, nicht.melde, nicht.warte)
+  pruefe(`PUT ${name}, Kopf unverändert -> Exit 2 „SCHON ANGESTOSSEN möglich“, ein PUT, kein Schließen/Öffnen`, code2 === 2 && /SCHON ANGESTOSSEN möglich/.test(nicht.meldungen.join()) && anzahlPut(nicht) === 1 && schreibend(nicht.aufrufe).length === 0, { code2, a: nicht.aufrufe, m: nicht.meldungen })
+  const leer = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: '\n' } }))
+  const code4 = main(['7'], leer.gh, leer.melde, leer.warte)
+  pruefe(`PUT ${name}, leere Kopf-Antwort -> Exit 2 „SCHON ANGESTOSSEN möglich“ (leer ist kein neuer Kopf)`, code4 === 2 && /SCHON ANGESTOSSEN möglich/.test(leer.meldungen.join()) && schreibend(leer.aufrufe).length === 0, { code4, m: leer.meldungen })
+  const blind = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } }))
+  const code3 = main(['7'], blind.gh, blind.melde, blind.warte)
+  pruefe(`PUT ${name}, Kopf nicht lesbar -> Exit 2 „SCHON ANGESTOSSEN“ und Lesefehler, kein Schließen/Öffnen`, code3 === 2 && /SCHON ANGESTOSSEN/.test(blind.meldungen.join()) && /Kopf nicht lesbar/.test(blind.meldungen.join()) && schreibend(blind.aufrufe).length === 0, { code3, m: blind.meldungen })
+}
+// A2 (PR 4104): PUT angenommen, Kopf lesen scheitert -> „SCHON ANGESTOSSEN“, nichts weiter.
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('PUT ok, Kopf lesen wirft -> Exit 2 „SCHON ANGESTOSSEN“, kein Schließen/Öffnen, ein PUT', code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && schreibend(k.aufrufe).length === 0 && anzahlPut(k) === 1, { code, m: k.meldungen })
+}
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
+  const code = main(['7'], k.gh, k.melde, k.warte)
+  pruefe('update-branch angenommen, Kopf bleibt alt -> Exit 2 „SCHON ANGESTOSSEN“, nach KOPF_PRUEFUNGEN+1 Lesungen', code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && k.gewartet.length === 15 && k.aufrufe.filter((a) => a === KOPF_LESEN).length === 16 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen, n: k.gewartet.length })
+}
+{
+  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
+  const code = nachrechnen(7, k.gh, k.melde, k.warte, undefined, undefined, undefined, undefined, undefined, true)
+  pruefe('--trocken: kein update-branch', code === 1 && !k.aufrufe.includes(PUT), k.aufrufe)
+}
+{
+  const r = prozess(mitUpdate({}), ['7'])
+  const args = r.aufrufe.map(([, a]) => a.join(' '))
+  pruefe('Prozess: update-branch -> Exit 1, neuer Kopf auf stdout, nichts geschlossen', r.status === 1 && r.aus.includes(`neuer Kopf ${KOPF_NEU}`) && args.includes(PUT) && schreibend(args).length === 0, { status: r.status, aus: r.aus, args })
 }
 // Prüfer-Sperre (12.11.2026): Verdrahtung durch nachrechnen() und main(); die Kommentarformen prüft pr-nachrechnen-pruefer.test.mjs.
 {
