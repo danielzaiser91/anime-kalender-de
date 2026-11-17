@@ -39697,3 +39697,11 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+- anilistId: 207254
+  title: "Thunder 3"
+  platform: netflix
+  url: https://www.netflix.com/title/82736186
+  dub: true
+  checkedAt: '2026-11-17'
+  note: "Anime2You (news/1055937, Staffel-2-Meldung): Netflix zeigte die zwölfteilige Serie Juli bis August 2026 mit deutscher Sprachfassung — Netflix-Seite nicht abgerufen"
