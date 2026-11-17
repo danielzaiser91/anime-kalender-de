@@ -4,6 +4,7 @@ import {
   staffelnDesFranchise,
   ordneBloeckeZuStaffeln,
   alsEinBlock,
+  blockPasstInTitel,
 } from '../lib/adn.ts'
 import { readJson, log, warn, ROOT } from '../lib/util.ts'
 import { ausreisserAusArchiv, ohneAusreisser } from '../lib/adn-ausreisser.ts'
@@ -165,10 +166,7 @@ function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs, ca
      * Block eben doch mehrere Staffeln, und die Suche muss laufen, sonst behauptet
      * der Datensatz 26 Folgen für einen Zwölfteiler.
      */
-    const passtInDenTitel =
-      bloecke.length === 1 &&
-      serienTitel?.episodes !== undefined &&
-      bloecke[0].episodes.length <= serienTitel.episodes
+    const passtInDenTitel = bloecke.length === 1 && blockPasstInTitel(bloecke[0], serienTitel)
     const staffeln =
       !passtInDenTitel && serienTitel?.franchiseId
         ? staffelnDesFranchise(titles.values(), serienTitel.franchiseId)
