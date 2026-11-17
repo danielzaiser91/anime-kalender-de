@@ -24,23 +24,12 @@ kontext.globalThis = kontext
 vm.createContext(kontext)
 for (const datei of ['netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-uebernahme.js', 'netflix-bericht.js']) vm.runInContext(lies(datei), kontext)
 
-const SCHLUESSEL = 'netflixZurueckgestellt'
+const { speicherNeu, zurueckStart, stand, standSetzen } = require('./test-zurueck-speicher.cjs')
 const MINUTE = 60 * 1000
 const STUNDE = 60 * MINUTE
 const TAG = 24 * STUNDE
 /* 15.10.2026, 10:00 Berlin (Sommerzeit). */
 const ZEHN = Date.UTC(2026, 9, 15, 8, 0)
-
-const speicherNeu = (start = {}) => {
-  const daten = { ...start }
-  const kopie = (x) => JSON.parse(JSON.stringify(x))
-  return {
-    daten,
-    get: async (k) => (k in daten ? { [k]: kopie(daten[k]) } : {}),
-    set: async (o) => void Object.assign(daten, kopie(o)),
-  }
-}
-const stand = (speicher) => speicher.daten[SCHLUESSEL] ?? {}
 
 /** Ein Seitenaufruf zur Uhrzeit `jetzt`: neue Merkliste über demselben Speicher, `datum` = was die Seite zeigt. */
 const seite = async (speicher, jetzt, o = {}) => {

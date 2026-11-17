@@ -28,22 +28,17 @@ console.log('Netflix: zurückgestellte Titel in der Prüfliste')
 const JETZT = Date.UTC(2026, 10, 15, 11, 0)
 const TAG = 24 * 3600 * 1000
 
-const speicherNeu = (start) => {
-  const daten = { ...start }
-  return { daten, get: async (k) => (k in daten ? { [k]: daten[k] } : {}), set: async (o) => void Object.assign(daten, o) }
-}
+const { speicherNeu, zurueckStart, stand, standSetzen } = require('./test-zurueck-speicher.cjs')
 async function pruefeInfo() {
   const bis = Date.UTC(2026, 10, 20)
   const gemessen = Date.UTC(2026, 10, 14, 17, 0)
-  const speicher = speicherNeu({
-    netflixZurueckgestellt: {
+  const speicher = speicherNeu(zurueckStart({
       1: { grund: 'Erinnern 20. November', bis },
       2: { grund: 'alt', bis: JETZT - 1 },
       3: { grund: 'fertig-Fall', bis },
       5: { grund: 'mit Messung', bis, am: gemessen },
       9: { grund: 'nicht gelistet', bis },
-    },
-  })
+  }))
   const titel = { 1: {}, 2: {}, 3: {}, 4: {}, 5: {} }
   const karte = kontext.akNetflixZurueckNeu(titel, (k) => k === '3', { speicher, jetzt: () => JETZT, datum: () => null })
   await karte.geladen()
@@ -59,10 +54,10 @@ async function pruefeInfo() {
 
   karte.set('4', 'keine Folgenliste in 20 s')
   await karte.geladen()
-  const neu = speicher.daten.netflixZurueckgestellt['4']
+  const neu = stand(speicher)['4']
   pruefe('Zurückstellen speichert die Messung: `am` = jetzt, neben Grund und Ablauf', JSON.stringify(neu) === JSON.stringify({ grund: 'keine Folgenliste in 20 s', bis: JETZT + TAG, am: JETZT }), neu)
   pruefe('… und `zurueckInfo` nennt sie', karte.zurueckInfo('4')?.am === JETZT && karte.zurueckInfo('4')?.bis === JETZT + TAG, karte.zurueckInfo('4'))
-  pruefe('… der alte Eintrag daneben bleibt ohne `am`', !('am' in speicher.daten.netflixZurueckgestellt['1']), speicher.daten.netflixZurueckgestellt['1'])
+  pruefe('… der alte Eintrag daneben bleibt ohne `am`', !('am' in stand(speicher)['1']), stand(speicher)['1'])
 }
 
 pruefeInfo().then(() => {

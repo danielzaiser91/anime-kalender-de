@@ -21,7 +21,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "10",
     "ersetze": "0",
-    "zeile": 21,
+    "zeile": 24,
     "nr": 1
    }
   ],
@@ -37,7 +37,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "60",
     "ersetze": "0",
-    "zeile": 21
+    "zeile": 24
    }
   ],
   "tests": [
@@ -52,7 +52,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "1000",
     "ersetze": "0",
-    "zeile": 21
+    "zeile": 24
    }
   ],
   "tests": [
@@ -187,7 +187,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest >= 0",
-    "zeile": 121
+    "zeile": 175
    }
   ],
   "tests": [
@@ -202,7 +202,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "rest > 0",
     "ersetze": "rest <= 0",
-    "zeile": 121
+    "zeile": 175
    }
   ],
   "tests": [
@@ -217,7 +217,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "0",
     "ersetze": "1",
-    "zeile": 121
+    "zeile": 175
    }
   ],
   "tests": [
@@ -367,7 +367,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "melde()",
     "ersetze": "void 0",
-    "zeile": 159
+    "zeile": 213
    }
   ],
   "tests": [
@@ -1562,8 +1562,8 @@
   "aenderungen": [
    {
     "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": "return speicher.set({ [ZURUECK_SCHLUESSEL]: stand })\n      })\n      .then(() => umgebung.geaendert?.())",
-    "ersetze": "return speicher.set({ [ZURUECK_SCHLUESSEL]: stand })\n      })\n      .then(() => roh.geaendert?.())"
+    "suche": "zurueckSchreiben(speicher, stand, kennung, eintrag, aenderung))\n      .then(() => umgebung.geaendert?.())",
+    "ersetze": "speicher.remove(ZURUECK_PRAEFIX + kennung)\n      })\n      .then(() => roh.geaendert?.())"
    }
   ],
   "tests": [
@@ -1576,8 +1576,8 @@
   "aenderungen": [
    {
     "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": "Object.keys(stand).forEach(aktiv) /* Abgelaufenes fliegt gleich beim Laden raus. */\n    })\n    .then(() => umgebung.geaendert?.())",
-    "ersetze": "Object.keys(stand).forEach(aktiv) /* Abgelaufenes fliegt gleich beim Laden raus. */\n    })\n    .then(() => roh.geaendert?.())"
+    "suche": "Object.keys(stand).forEach(aktiv)) /* Abgelaufenes fliegt gleich beim Laden raus. */\n    .then(() => umgebung.geaendert?.())",
+    "ersetze": "Object.keys(stand).forEach(aktiv)) /* Abgelaufenes fliegt gleich beim Laden raus. */\n    .then(() => roh.geaendert?.())"
    }
   ],
   "tests": [
