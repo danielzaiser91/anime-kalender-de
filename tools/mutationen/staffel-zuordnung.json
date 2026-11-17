@@ -48,6 +48,38 @@
     ]
   },
   {
+    "name": "pipeline/lib/maengel-regeln.ts:127 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/maengel-regeln.ts",
+        "suche": "laeuftNoch(t, k.heute) ? 'laeuft' : undefined",
+        "ersetze": "laeuftNoch(t, k.heute) ? undefined : 'laeuft'",
+        "zeile": 127
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-maengel-staffel.ts",
+      "npx tsx pipeline/check-maengel-bau-lauf.ts",
+      "npx tsx pipeline/check-maengel-regeln.ts"
+    ]
+  },
+  {
+    "name": "pipeline/lib/maengel-regeln.ts:127 Argumente getauscht laeuftNoch",
+    "aenderungen": [
+      {
+        "datei": "pipeline/lib/maengel-regeln.ts",
+        "suche": "laeuftNoch(t, k.heute)",
+        "ersetze": "laeuftNoch(k.heute, t)",
+        "zeile": 127
+      }
+    ],
+    "tests": [
+      "npx tsx pipeline/check-maengel-staffel.ts",
+      "npx tsx pipeline/check-maengel-bau-lauf.ts",
+      "npx tsx pipeline/check-maengel-regeln.ts"
+    ]
+  },
+  {
     "name": "pipeline/lib/maengel-staffel.ts:12 || → &&",
     "aenderungen": [
       {
