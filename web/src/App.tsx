@@ -185,8 +185,7 @@ export default function App() {
     />
   )
 
-  /* Als Funktion, nicht als Element: eine Komponentengrenze hängt den Kopf neu ein, sobald die Daten da sind, und nimmt Fokus und Suchzustand mit (Issue 4072). */
-  if (!data) return StartGeruest({ kopf })
+  if (!data) return StartGeruest({ kopf }) // Funktion statt Element: eine Komponentengrenze hängt den Kopf neu ein und nimmt Fokus mit (4072)
 
   const kalender = route.view === 'woche' || route.view === 'monat'
 
