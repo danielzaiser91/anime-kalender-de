@@ -3,6 +3,8 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import { main, kanalTitelOhneZweite, artikelId, textZeilen, artikelBloecke, holeJson, sprachStellen, artikelAuszug, sucheUrl } from './anime2you-suche.mjs'
 
 const EINTRAEGE = [
@@ -138,4 +140,7 @@ for (const befehl of [[], ['suche'], ['artikel'], ['unbekannt', 'x']]) {
 
 assert.equal((await lauf([], kulisse(() => ({})))).code, 2, 'ohne Befehl: Aufruf-Hinweis, Exit 2')
 assert.equal((await lauf(['suche'], kulisse(() => ({})))).code, 2, 'suche ohne Titel')
+// Einstieg als echter Prozess: ohne Argumente Aufrufhinweis und Exit 2 (kein Netzabruf)
+const p = spawnSync(process.execPath, [fileURLToPath(new URL('./anime2you-suche.mjs', import.meta.url))], { encoding: 'utf8', timeout: 20000, windowsHide: true })
+assert.ok(p.status === 2 && p.stdout.startsWith('Aufruf:'), 'Prozess: Exit 2 mit Hinweis, Ausgabe: ' + p.stdout + p.stderr)
 console.log('anime2you-suche: Kanal-Titel-Liste, Suche, Artikel, Sperre (429/403) und Obergrenzen geprüft, Exit-Codes 0/1/2')
