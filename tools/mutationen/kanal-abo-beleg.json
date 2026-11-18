@@ -1,0 +1,135 @@
+[
+ {
+  "name": "Kontrolle",
+  "aenderungen": [],
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M1 vergleicheBelege Kanal-Term weg",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "nachDatum || Number(istKanalTitel(a)) - Number(istKanalTitel(b)) || ",
+  "ersetze": "nachDatum || ",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M2 vergleicheBelege Vorzeichen Kanal",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "Number(istKanalTitel(a)) - Number(istKanalTitel(b))",
+  "ersetze": "Number(istKanalTitel(b)) - Number(istKanalTitel(a))",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M3 vergleicheBelege Kanal nach Folgen",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "nachDatum || Number(istKanalTitel(a)) - Number(istKanalTitel(b)) || gepruefteFolgen(b) - gepruefteFolgen(a)",
+  "ersetze": "nachDatum || gepruefteFolgen(b) - gepruefteFolgen(a) || Number(istKanalTitel(a)) - Number(istKanalTitel(b))",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M4 vergleicheBelege Folgen weg",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": " || gepruefteFolgen(b) - gepruefteFolgen(a)",
+  "ersetze": "",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M5 ersetztBeleg Kanal-Zeile weg",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "  if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true",
+  "ersetze": "",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M6 ersetztBeleg !== zu ===",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "if (istKanalTitel(bisher) !== istKanalTitel(neu))",
+  "ersetze": "if (istKanalTitel(bisher) === istKanalTitel(neu))",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M7 ersetztBeleg andere Ausgabe ersetzt nie",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true",
+  "ersetze": "if (istKanalTitel(bisher) !== istKanalTitel(neu)) return false",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M8 ersetztBeleg nur Kanal ersetzt",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true",
+  "ersetze": "if (istKanalTitel(bisher) !== istKanalTitel(neu)) return istKanalTitel(neu)",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M9 ersetztBeleg nur Abo ersetzt",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true",
+  "ersetze": "if (istKanalTitel(bisher) !== istKanalTitel(neu)) return !istKanalTitel(neu)",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M10 ersetztBeleg Kanal-Zeile vor Datumsvergleich",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": "  if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true",
+  "ersetze": "  if (istKanalTitel(bisher) !== istKanalTitel(neu)) return false; if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M11 istSchwaechereSchwester Kanal-Bedingung weg",
+  "datei": "pipeline/lib/staerkste-seite.ts",
+  "suche": " || istKanalTitel(a) !== istKanalTitel(b)",
+  "ersetze": "",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M12 Verdrahtung 09-1-1 Sortierung weg",
+  "datei": "pipeline/bau/09-1-1-beleg-index.ts",
+  "suche": "liste.sort(vergleicheBelege)",
+  "ersetze": "void vergleicheBelege",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M13 Verdrahtung 09-1-4 ersetztBeleg immer",
+  "datei": "pipeline/bau/09-1-4-checks-youtube.ts",
+  "suche": "if (ersetztBeleg(checks.get(k), c))",
+  "ersetze": "if (true || ersetztBeleg(checks.get(k), c))",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ },
+ {
+  "name": "M14 Verdrahtung 09-1-4 ersetztBeleg nie nach erstem",
+  "datei": "pipeline/bau/09-1-4-checks-youtube.ts",
+  "suche": "if (ersetztBeleg(checks.get(k), c))",
+  "ersetze": "if (!checks.has(k) || (ersetztBeleg(checks.get(k), c) && false))",
+  "tests": [
+   "npx tsx pipeline/check-staerkste-seite.ts"
+  ]
+ }
+]
