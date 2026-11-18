@@ -9,7 +9,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { istFremd, ladeFremdeMeldungen, type FremdeMeldung } from './netflix-fremde-meldung.ts'
-import { istFehlUmleitung, UMLEITUNG_GILT_AB } from './netflix-umleitung-meldung.ts'
+import { istFehlUmleitung, UMLEITUNG_GILT_AB, zeitUnlesbar } from './netflix-umleitung-meldung.ts'
 import { log, ROOT } from './util.ts'
 
 type Meldung = { id: number; url: string; plattform: string; folge?: string | null; befund?: string; notiz?: string | null; gemeldet_am?: string }
@@ -38,7 +38,8 @@ export function sperreAufPruefungen<T extends Meldung>(pruefungen: T[], sperre: 
   const r = ohneGesperrtePruefungen(pruefungen, sperre)
   const nennung = [...r.jeAdresse].map(([url, n]) => `${url.replace('https://www.netflix.com/title/', 'netflix/')}: ${n}`).join(', ')
   log(`Sperrliste (netflix-fremde-meldungen.json): ${r.gesperrt.length} von ${pruefungen.length} Prüfungen verworfen und abgehakt${nennung ? ` (${nennung})` : ''}`)
-  log(`Netflix-Umleitungsmeldungen (Fehltakt, vor ${UMLEITUNG_GILT_AB}): ${r.zurueckgestellt.length} von ${pruefungen.length} Prüfungen zurückgestellt (bleiben im Briefkasten, nicht abgehakt)`)
+  const unlesbar = pruefungen.filter((p) => r.zurueckgestellt.includes(p.id) && zeitUnlesbar(p)).length
+  log(`Netflix-Umleitungsmeldungen (Fehltakt, vor ${UMLEITUNG_GILT_AB}): ${r.zurueckgestellt.length} von ${pruefungen.length} Prüfungen zurückgestellt (bleiben im Briefkasten, nicht abgehakt)${unlesbar ? `, davon ${unlesbar} mit unlesbarem gemeldet_am` : ''}`)
   return r
 }
 

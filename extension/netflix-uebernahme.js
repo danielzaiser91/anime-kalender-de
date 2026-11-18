@@ -117,21 +117,24 @@ globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
 globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null, nichtDa = globalThis.akNetflixNichtDa()) => {
   const nichtFertig = [...uebersprungen.keys()].filter((r) => !fertigeTitel.has(r))
   const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet?.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
+  const erinnern = nichtFertig.filter((r) => /^Erinnern-Knopf/.test(String(uebersprungen.get(r)))).length
   const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length, nichtDa: nichtDa.size }
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
   /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
   void melden?.('durchgang-zaehlung', { text: JSON.stringify(zaehlung) })
-  const rot = akNetflixNullGemessen(zaehlung)
-  const urteile = zaehlung.nichtDa ? `, nicht bei Netflix ${zaehlung.nichtDa} (gemeldet)` : ''
+  const rot = akNetflixNullGemessen(zaehlung, erinnern)
+  const urteile = (zaehlung.nichtDa ? `, nicht bei Netflix ${zaehlung.nichtDa} (gemeldet)` : '') + (erinnern ? `, Erinnern-Knopf ${erinnern} (zurückgestellt)` : '')
   const text = ` · besucht ${besucht}, gemessen ${zaehlung.gemessen}${urteile}, wartet auf Übernahme ${wartend}${rot ? ' · ⚠ NICHTS GEMESSEN — der Durchgang hat nichts geliefert, nicht „ok“ melden' : ''}`
   return { grund, uebersprungen: nichtFertig, zaehlung, text, rot, uebersprungenText: akNetflixUebersprungenZahlen(nichtFertig, uebersprungen) }
 }
 
 /**
  * Besucht, aber nichts gemessen und kein Urteil: der Durchgang war wirkungslos (09.11.2026: 103 besucht, 0 gemessen, niemand merkte es).
- * Ein Urteil „nicht bei Netflix“ (gemeldet) ist eine Auskunft (15.11.2026: sieben Titel, Bericht blieb rot).
+ * Ein Urteil „nicht bei Netflix“ (gemeldet) ist eine Auskunft (15.11.2026: sieben Titel, Bericht blieb rot). Ebenso der Erinnern-Knopf:
+ * die Seite hat den Titel als angekündigt gezeigt (18.11.2026: sechs Titel, alle mit Erinnern-Knopf, Bericht „NICHTS GEMESSEN" war falsch).
+ * Störungen, Notausgang („keine Folgenliste in 20 s") und leere Titelfenster bleiben keine Auskunft.
  */
-const akNetflixNullGemessen = (zaehlung) => zaehlung.besucht > 0 && zaehlung.gemessen === 0 && !zaehlung.nichtDa
+const akNetflixNullGemessen = (zaehlung, erinnern = 0) => zaehlung.besucht > 0 && zaehlung.gemessen === 0 && !zaehlung.nichtDa && !erinnern
 
 /** Die Titel, die dieser Lauf als „nicht bei Netflix“ gemeldet hat (Kennung → Grund); überlebt das Neuladen, `clear()` beim Start. */
 let nichtDaMap = null
@@ -141,7 +144,11 @@ globalThis.akNetflixNichtDa = () => (nichtDaMap ??= globalThis.akNetflixLaufMap 
 const akNetflixUebersprungenZahlen = (kennungen, gruende) => {
   if (!kennungen.length) return ''
   const je = new Map()
-  for (const k of kennungen) je.set(gruende.get(k), (je.get(gruende.get(k)) ?? 0) + 1)
+  /* Ohne Klammer: „Erinnern-Knopf mit Datum (19.11.)" und „(25.11.)" sind eine Art (wie `ansichtGrundArt`). */
+  for (const k of kennungen) {
+    const art = String(gruende.get(k)).replace(/^(Erinnern-Knopf mit Datum) \(.*\)$/, '$1')
+    je.set(art, (je.get(art) ?? 0) + 1)
+  }
   const teile = [...je].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]))).map(([g, n]) => `${n}× ${g}`)
   return ` · übersprungen: ${kennungen.length} (${teile.join(', ')})`
 }

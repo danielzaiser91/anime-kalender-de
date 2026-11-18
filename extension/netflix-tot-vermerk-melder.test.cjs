@@ -101,12 +101,28 @@ async function knoepfeFaelle() {
     pruefe('Meldeknopf mit Termin, Stand führt den Titel offen: aktiv, bietet „ab <Termin>“ an', b.aktiv === true && b.text === 'Noch nicht da — „ab 19. November" melden', b)
     s.body.innerText = 'Erinnern'
     const ohne = s.im('beschriftung()')
-    pruefe('Meldeknopf ohne Termin: „angekündigt“, kein Knopf, nie „nicht abrufbar“', ohne.aktiv === false && ohne.text === 'Angekündigt — Netflix nennt keinen Termin' && !/nicht abrufbar/.test(ohne.text), ohne)
+    pruefe('Meldeknopf ohne Termin: klickbar als „Zurückstellen“, nie „nicht abrufbar“ (18.11.2026)', ohne.aktiv === true && ohne.text === 'Zurückstellen — Erinnern-Knopf ohne Datum' && !/nicht abrufbar/.test(ohne.text), ohne)
     const k0 = s.posts.length
     s.im('zeigeErgebnis = (text, ok) => { globalThis.erg = [text, ok] }')
     await s.im('melden()')
-    pruefe('Klick ohne Termin meldet nichts (kein POST an den Worker)', s.posts.length === k0, s.posts)
-    pruefe('… und sagt es: Text „Angekündigt …“, nicht als Erfolg', JSON.stringify(s.im('globalThis.erg')) === JSON.stringify(['Angekündigt — Netflix nennt keinen Termin', false]), s.im('globalThis.erg'))
+    await tick()
+    pruefe('Klick ohne Termin meldet nichts (nur die Menge der Zurückstellungen geht an den Worker, keine Meldung zum Titel)', s.posts.slice(k0).every((p) => p.eintraege && !p.url && !p.erscheint), s.posts)
+    pruefe('… stellt den Titel zurück (Grund „Erinnern-Knopf ohne Datum“) und sagt es als Erfolg', JSON.stringify(s.im('globalThis.erg')) === JSON.stringify(['Zurückgestellt ✓', true]) && s.im(`selbstUebersprungen.get('${K(1)}')`) === 'Erinnern-Knopf ohne Datum', [s.im('globalThis.erg'), s.im(`selbstUebersprungen.get('${K(1)}')`)])
+    const danach = s.im('beschriftung()')
+    pruefe('… danach steht „Zurückgestellt bis <Tag> ✓“, nicht mehr klickbar', danach.aktiv === false && /^Zurückgestellt bis \d{1,2}\.\d{1,2}\. ✓ — Erinnern-Knopf ohne Datum$/.test(danach.text), danach)
+    /* Melde-Knopf immer da (Daniel, 18.11.2026, Punkt 4): auch ohne Text steht er abgeblendet im Kasten, nie versteckt; ein Titelwechsel räumt die Rückmeldung. */
+    const meldeKnopf = () => alleElemente(s.body).find((el) => String(el.className).split(/\s+/).includes('ak-melder'))
+    s.body.innerText = 'Abspielen 1. Folge'
+    s.im('knopfZeigen()')
+    const leer = meldeKnopf()
+    pruefe('Titelseite ohne Meldung (Folgenliste, „Abspielen“): Knopf sichtbar, abgeblendet, Platzhalter statt leer', leer && leer.hidden === false && leer.disabled === true && leer.textContent === 'Nichts zu melden', leer && [leer.hidden, leer.disabled, leer.textContent])
+    meldeKnopf().classList.add('ak-erfolg')
+    meldeKnopf().textContent = 'Zurückgestellt ✓'
+    s.im('knopfZeigen()')
+    pruefe('laufende Rückmeldung bleibt bei gleicher Adresse stehen', meldeKnopf().textContent === 'Zurückgestellt ✓')
+    meldeKnopf().akPfad = '/title/vorheriger-titel'
+    s.im('knopfZeigen()')
+    pruefe('Titelwechsel (andere Adresse): die Rückmeldung des vorigen Titels ist sofort weg, der Zustand des neuen steht da', !meldeKnopf().classList.contains('ak-erfolg') && meldeKnopf().textContent === 'Nichts zu melden', meldeKnopf().textContent)
     await s.im('dialogOeffnen()')
     const k = totKnoepfe(s)
     pruefe('Liste, Stand führt den Titel offen: alle drei „nichts da?“ sind aktiv (Titel 3 steht nicht im Stand, trägt aber keinen Vermerk)', k.length === 3 && k.every((x) => x.disabled === false && x.textContent === 'nichts da?'), k.map((x) => [x.disabled, x.textContent]))

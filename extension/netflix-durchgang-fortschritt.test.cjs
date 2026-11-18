@@ -176,7 +176,7 @@ const funktionAus = (kopf) => {
     const ergebnis = {}
     new Function(
       'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun', 'akNetflixErledigtZaehlen',
-      `const verbindungLebt = () => true\nconst akNetflixEigenerSprungMerken = (s) => s\n${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
+      `const verbindungLebt = () => true\nconst akNetflixSprungWiederholt = () => false\nconst akNetflixGesprungenLeeren = () => {}\nconst spur = () => {}\nconst akNetflixEigenerSprungMerken = (s) => s\n${lets}\nlet zuletztGeoeffnet = null\nconst vorher = [selbstGezaehlt, selbstGrenze]\n${weiter}\nselbstWeiter()\nergebnis.vorher = vorher\nergebnis.nachher = [selbstGezaehlt, selbstGrenze]`,
     )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} }, () => {})
     return ergebnis
   }
@@ -211,7 +211,7 @@ const funktionAus = (kopf) => {
     const ergebnis = {}
     new Function(
       'offeneTitel', 'akDurchgangSchutz', 'laufBeenden', 'naechsterAuftrag', 'speicherSchreiben', 'gehe', 'console', 'Date', 'LAUF_SCHLUESSEL', 'LAUF_HOECHSTENS_MS', 'bremse', 'meinTab', 'titelBericht', 'akNetflixZaehlerStand', 'akNetflixZaehlerSetze', 'akNetflixErledigtStand', 'akNetflixErledigtZaehlen', 'akNetflixFortschrittStand', 'akNetflixBericht', 'fertig', 'selbstUebersprungen', 'ergebnis', 'nichtDaTun',
-      `const verbindungLebt = () => true\nconst akNetflixEigenerSprungMerken = (s) => s\n${lets}\nlet zuletztGeoeffnet = null\n${weiter}\n${aufruf}\nergebnis.f = akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, undefined)`,
+      `const verbindungLebt = () => true\nconst akNetflixSprungWiederholt = () => false\nconst akNetflixGesprungenLeeren = () => {}\nconst spur = () => {}\nconst akNetflixEigenerSprungMerken = (s) => s\n${lets}\nlet zuletztGeoeffnet = null\n${weiter}\n${aufruf}\nergebnis.f = akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze, undefined)`,
     )(offen, () => null, () => {}, () => '1', async () => {}, () => {}, { log() {} }, { now: () => 1 }, 'k', 1, { pause: () => null, offen: () => 0 }, 'a', { beginn() {} }, k.akNetflixZaehlerStand, k.akNetflixZaehlerSetze, k.akNetflixErledigtStand, k.akNetflixErledigtZaehlen, k.akNetflixFortschrittStand, kontext.akNetflixBericht, () => false, { nichtOffen: () => false }, ergebnis, { sprung: () => {} })
     return ergebnis.f
   }

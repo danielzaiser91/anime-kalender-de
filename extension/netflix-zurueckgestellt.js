@@ -10,7 +10,7 @@
   leert nur den Arbeitsspeicher, nie den Speicher. Lädt laut Manifest vor `melder.js`.
 
   Ablauf: „Erinnern" mit erkanntem Datum → bis zu diesem Tag (heute: nur 1 Stunde, danach wieder offen; Europe/Berlin; Netflix nennt kein Jahr, ein
-  vergangenes Datum ohne Jahr gilt als unlesbar); „Erinnern" ohne (lesbares) Datum → 7 Tage; alles andere (keine
+  vergangenes Datum ohne Jahr gilt als unlesbar); „Erinnern" ohne (lesbares) Datum → 7 Tage (eine Woche gewählt, nicht gemessen: Netflix nennt dann keinen Termin, und ein Tag wäre mehr Besuche ohne Neues; Grund „Erinnern-Knopf ohne Datum", mit Datum „Erinnern-Knopf mit Datum (19.11.)", 18.11.2026); alles andere (keine
   Folgenliste, nach N Versuchen offen) → 1 Tag; nie mehr als 30 Tage (ein falsch gelesenes Datum sperrt keinen
   Titel für ein Jahr). Ein Titel, der nach dem Worker-Stand fertig ist, fliegt raus, ebenso ein Eintrag mit dem
   Grund „fertig" und jeder abgelaufene. Seit 15.11.2026 meldet `zurueckMelden` die Menge an den Worker
@@ -51,7 +51,9 @@ function zurueckTagAnfang(j, m, t) {
 
 /** „29. September" / „3. Okt. 2026" → Beginn dieses Tages in Berlin (ohne Jahr: nur ein Datum von heute an); sonst `null`. */
 function zurueckDatumBis(text, jetzt) {
-  const treffer = /(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)\.?(?:\s+(\d{4}))?/.exec(String(text ?? ''))
+  /* Auch die Kurzform aus dem Grund („19.11."), siehe `akNetflixErinnernGrund`. */
+  const zahl = /^\s*(\d{1,2})\.(\d{1,2})\.\s*$/.exec(String(text ?? ''))
+  const treffer = zahl ? [zahl[0], zahl[1], ZURUECK_MONATE[Number(zahl[2]) - 1] ?? '', undefined] : /(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)\.?(?:\s+(\d{4}))?/.exec(String(text ?? ''))
   if (!treffer) return null
   const t = Number(treffer[1])
   const m = ZURUECK_MONATE.indexOf(treffer[2].toLowerCase().slice(0, 3).replace('mar', 'mär')) + 1
@@ -72,6 +74,16 @@ function zurueckBis(grund, datum, jetzt) {
   const tag = zurueckDatumBis(datum, jetzt)
   if (zurueckGleich(zurueckBerlinTag(tag), zurueckBerlinTag(jetzt))) return jetzt + ZURUECK_STUNDE_MS
   return Math.min(tag ?? jetzt + 7 * ZURUECK_TAG_MS, jetzt + ZURUECK_HOECHSTENS_TAGE * ZURUECK_TAG_MS)
+}
+
+/**
+ * Das Datum zu einem Grund: Steht es im Grund („Erinnern-Knopf mit Datum (19.11.)"), gilt dieses; „… ohne Datum" hat keins (nie ein
+ * zweites Mal von der Seite lesen: Grund und Frist kommen aus einer Messung). Nur ein alter Grund („Erinnern statt Folgenliste") liest `datum()`.
+ */
+function zurueckDatumQuelle(grund, datum) {
+  const imGrund = /^Erinnern-Knopf mit Datum \(([^)]*)\)/.exec(grund)
+  if (imGrund) return imGrund[1]
+  return /^Erinnern/.test(grund) && !/^Erinnern-Knopf ohne Datum/.test(grund) ? datum() : null
 }
 
 /** Die Einträge aus dem Speicher (`get(null)`): ein Schlüssel je Titel; `migrieren` = Titel, die nur im alten Sammelschlüssel stehen. */
@@ -284,7 +296,7 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
       const k = String(kennung)
       if (grund === 'fertig') entfernen(k)
       else {
-        const bis = zurueckBis(grund, /^Erinnern/.test(grund) ? datum() : null, jetzt())
+        const bis = zurueckBis(grund, zurueckDatumQuelle(grund, datum), jetzt())
         const am = jetzt()
         aendern(k, { grund, bis, am }, 'gesetzt')
       }

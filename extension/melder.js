@@ -1119,8 +1119,8 @@ function beschriftung(spuren) {
     if (totGilt(gemeinteReihe())) {
       return { text: 'Als nicht abrufbar gemeldet ✓', klasse: 'ak-nein', aktiv: false }
     }
-    /* Mit Termin ein Knopf, ohne Termin nur der Hinweis „angekündigt“ (`netflix-erinnern.js`). */
-    if (keineFolgeVorhanden()) return akNetflixErinnernKnopf(erscheinungsdatum())
+    /* Mit Termin „ab <Termin> melden“, ohne Termin „Zurückstellen“ bzw. der Stand der Zurückstellung (`netflix-erinnern.js`). */
+    if (keineFolgeVorhanden()) return akNetflixErinnernKnopf(erscheinungsdatum(), selbstUebersprungen.zurueckInfo(gemeinteReihe()))
     /*
       **Kein Hinweis mehr auf die alte Automatik.**
 
@@ -1167,8 +1167,8 @@ async function melden({ automatisch = false } = {}) {
   const ohneFolge = !spuren && keineFolgeVorhanden()
   if (!stand.reihe) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
   if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
-  /* „Erinnern“ ohne Termin ist eine Ankündigung, kein Befund: nichts melden. */
-  if (ohneFolge && !erscheinungsdatum()) return zeigeErgebnis(akNetflixErinnernKnopf(null).text, false)
+  /* „Erinnern“ ohne Termin ist eine Ankündigung, kein Befund: nichts melden, nur zurückstellen (18.11.2026). */
+  if (ohneFolge && !erscheinungsdatum()) return zeigeErgebnis(akNetflixErinnernZurueckstellen(selbstUebersprungen, gemeinteReihe()), true)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
@@ -1511,6 +1511,7 @@ const DURCHGANG_SPUR = []
 function spur(was, dazu) {
   try {
     DURCHGANG_SPUR.push({ zeit: new Date().toISOString(), was, ...(dazu ?? {}) })
+    akNetflixSpurMerken(DURCHGANG_SPUR.at(-1)) /* im `sessionStorage`: überlebt das Neuladen jedes Titels (18.11.2026) */
     if (DURCHGANG_SPUR.length > 60) DURCHGANG_SPUR.shift()
   } catch {
     /* Eine Diagnose darf nie im Weg stehen. */
@@ -1743,24 +1744,8 @@ function knopfZeigen() {
     akKlick(knopf, melden)
     netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
   }
-  const { text, klasse, aktiv } = beschriftung(spuren)
-  /*
-    **Ohne Text kein Knopf.**
-
-    Seit dem 26.08.2026 gibt es den Hinweis „Auf Abspielen klicken, dann läuft
-    es von selbst" nicht mehr — er beschrieb eine Automatik, die abgeschaltet
-    ist. Ein leerer Knopf an ihrer Stelle wäre schlimmer als keiner: Er sähe
-    aus, als ließe sich etwas anklicken.
-  */
-  knopf.hidden = !text
-  if (!text) return
-  knopf.hidden = false
-  knopf.disabled = !aktiv
-  if (!knopf.classList.contains('ak-erfolg') && !knopf.classList.contains('ak-fehler')) {
-    knopf.textContent = text
-    knopf.classList.remove('ak-ja', 'ak-nein', 'ak-leer')
-    knopf.classList.add(klasse)
-  }
+  /* Der Knopf bleibt auf einer gesuchten Titelseite immer sichtbar, ohne Text steht er abgeblendet da (Daniel, 18.11.2026); ein Schreibvorgang für Text, Klasse und Zustand. */
+  akNetflixKnopfSchreiben(knopf, beschriftung(spuren), location.pathname)
 }
 
 // --- Die Übersicht: was noch zu prüfen ist -----------------------------------
@@ -1787,8 +1772,9 @@ function knopfZeigen() {
  * Pipeline, die weiss, welcher Tag heute ist.
  */
 function erscheinungsdatum() {
-  const text = document.body?.innerText ?? ''
-  // Ab 29. September / Ab 3. Oktober 2026
+  const q = (s) => document.querySelector?.(s)?.innerText
+  const text = q('[role="dialog"]:has([data-uia="add-to-remind-me"])') ?? q('[role="dialog"]') ?? document.body?.innerText ?? ''
+  // Ab 29. September / Ab 3. Oktober 2026; zuerst das Titelfenster (Billboard und Reihen dahinter nennen Termine anderer Titel, 18.11.2026)
   const treffer = /\bAb\s+(\d{1,2}\.\s*[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc]+(?:\s+\d{4})?)/.exec(text)
   return treffer ? treffer[1].replace(/\s+/g, ' ').trim() : null
 }
@@ -2748,8 +2734,9 @@ function istAlleFolgenEintrag(text) {
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. `nichtDa`: Umleitung, der Fortschritt zählt den Titel mit. */
 function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
   if (!verbindungLebt()) return
-  /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
+  /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz und dürfen wieder angesprungen werden. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
+  if (frei) akNetflixGesprungenLeeren()
   akNetflixErledigtZaehlen(nichtDa, undefined, kennung)
   if (bremse.pause(Date.now())) return
   selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
@@ -2757,6 +2744,7 @@ function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden(bremse.offen() ? `Netflix zeigte ${bremse.offen()} Titel ohne Inhalt, sie bleiben offen` : 'kein offener Auftrag mehr')
+  if (akNetflixSprungWiederholt(naechster, selbstUebersprungen, spur)) return selbstWeiter()
   akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze, undefined, offeneTitel[naechster]?.titel, false, naechster)
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
@@ -2830,10 +2818,10 @@ async function selbstStartenSchritt() {
   if (!reihe || offeneTitel[String(reihe)] === undefined) return
   if (selbstVersucht === reihe) return
   /*
-    **Entschieden wird erst mit der Folgenliste dieser Seite** (23.09.2026): Beim Sprung lagen noch
-    die Folgen des vorigen Titels in `DURCHLAUF.folgen`, und die Automatik meldete „nichts". Ein
-    Film baut seine Liste selbst und trägt die Kennung der Adresse (`listeFuer`).
+    **Entschieden wird erst mit der Folgenliste dieser Seite** (23.09.2026): Beim Sprung lagen noch die Folgen des vorigen Titels in `DURCHLAUF.folgen`.
+    Ein Film baut seine Liste selbst (`listeFuer`) — in jedem Takt, nicht nur beim Neuzeichnen: One Piece Fan Letter wartete 20 s (18.11.2026).
   */
+  folgenFuerFilmErgaenzen()
   const seiteHier = String(titelDerAdresse() ?? '')
   const filmHier = DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier) || (filmHier && !selbstWartet?.filmFrei)) {
@@ -4948,20 +4936,7 @@ function durchlaufKnopfBauen() {
   DURCHLAUF.knopf = document.createElement('button')
   DURCHLAUF.knopf.className = 'ak-durchlauf'
   akKlick(DURCHLAUF.knopf, durchlaufKnopfKlick)
-  /*
-    **Den Modus-Umschalter gibt es seit dem 10.09.2026 nicht mehr.**
-
-    Er wechselte zwischen „zwei Folgen", „alle" und „Anfang und Ende" — eine
-    Frage an den Menschen, deren Antwort seit heute Vormittag in der Prüfliste
-    steht: Sie nennt je Eintrag `erste` und `folgen`, also „S1 Folge 26" oder
-    „S1 F13–15". `durchlaufAuftrag()` liest das, und der Knopf schreibt es hin.
-
-    Daniel: „mach es so das es minimal invasiv für mich ist und gleichzeitig
-    maximale abdeckung hat, ein button für alles je nach zustand und
-    melde-item." Wo die Liste nichts Genaues weiß, bleibt es bei erster und
-    letzter offener Folge — dem sparsamen Weg, der seit dem 26.08.2026 der
-    richtige ist.
-  */
+  /* Seit 10.09.2026 kein Modus-Umschalter: die Prüfliste nennt je Eintrag `erste` und `folgen`, `durchlaufAuftrag()` liest das; ohne Angabe erste und letzte offene Folge. */
   nochmalKnopfBauen()
   DURCHLAUF.knopf.addEventListener(
     'contextmenu',
@@ -6166,7 +6141,7 @@ function nfBericht() {
       ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig, { erledigt, hier: gemeinteReihe(), uebersprungen: selbstUebersprungen, bremse, nichtDa: nichtDaTun }),
       staffelnGeprueft: [...selbstStaffelnGeprueft],
       gesammelt: [...selbstGesammelt],
-      spur: DURCHGANG_SPUR,
+      spur: akNetflixSpurLesen(DURCHGANG_SPUR),
       ...akNetflixSitzungBericht(titelBericht, bremse, meinTab, durchgangBesitzer, Date.now()),
     })),
     seite: sicher(() => akNetflixBericht.seitenmerkmale(document, location, history)),
