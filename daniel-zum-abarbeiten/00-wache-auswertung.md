@@ -926,3 +926,13 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Nicht untersucht, warum Isekai Quartet 3 erst aufgenommen und im Folgebau wieder entfernt wurde: `data/verweise-entfernt.json` führt 194447 am 17.11. mit „belegtes Nein: dort gibt es keine deutsche Tonspur“ (crunchyroll), `data/maengel.json` führt 194447 als „abwesend“. Ein Titel ohne Beleg wird damit gelöscht statt verschoben (Grundsatz „Ein Vorfilter verschiebt, er löscht“) — falls die Aufnahme beabsichtigt war, ist das ein Widerspruch.
 
 **Was läuft komplett falsch?** Nichts Belegbares: kein Fehlerschritt, der Lauf ist absichtlich rot. Kein Pull Request, da keine Codeursache gemessen ist.
+
+## 18.11.2026 — Wache meldet „4 Urteile verloren; disneyplus: 4 Synchro-Belege weniger; adn: Kill La Kill“ (Lauf 44347443741, Issue #4222)
+
+**Was läuft korrekt.** Die Wache hat beide Rückgänge im Bestandsbau gefunden (17.11. 17:10 und 18.11. 04:29). Von den 11 Urteilen im ersten Lauf hat sie 7 selbst als erklärt (ℹ) eingestuft: Prime-Kanal-Titel herabgestuft, ein Weg verschoben (The Ramparts of Ice), 3 begründet entfernt. Das Protokoll zeigt keinen Fehlerschritt; der Lauf ist absichtlich rot (`exit 1` im Schritt „Befund melden und rot werden“).
+
+**Wo ist Verbesserungspotenzial?** Bei den 4 Disney+-Fällen (Black Clover 97940, Jujutsu Kaisen 0, Infinity Castle, Star Wars Visionen) steht im Befund der link-check mit Status 200 (26.10./09.11.), der Verlust ist also nicht durch eine tote Seite erklärt. Die Wache nennt die Quelle der Rücknahme (Handmeldung, Abruf, Bau) nicht; sie sollte sie je Titel mitschreiben.
+
+**Wo sind echte Risiken und Lücken?** Nicht gemessen, welche Quelle die 4 Disney+-Urteile und das ADN-Urteil zu Kill La Kill (18679) zurückgenommen hat. `data/verweise-entfernt.json` führt Kill La Kill nur für crunchyroll (entfernt 18.11.), nicht für adn. Dasselbe Muster (Meldung widerspricht 200er link-check) wie am 15.11.
+
+**Was läuft komplett falsch?** Nichts Belegbares als Codefehler; kein Pull Request. Eine Zuordnung an einen Commit unterbleibt, weil die Quelle nicht gemessen ist.
