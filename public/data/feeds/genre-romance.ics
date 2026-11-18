@@ -224,6 +224,28 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:angeloid-sora-no-otoshimono-s1-s2-bundle@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Angeloid – Sora no Otoshimono – Staffel 1 & 2 – Komplett-Bund
+ le (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/3685/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:spice-and-wolf-2024-vol1@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 22.04.2024).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:love-hina-komplett-bundle@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
@@ -761,6 +783,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:spice-and-wolf-2024-vol2@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 22.04.2024).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
@@ -1053,6 +1086,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-338-disc@2027-01-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270128
+DTEND;VALUE=DATE:20270129
+SUMMARY:Lady Oscar: Die Rose von Versailles (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/304/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
@@ -1133,6 +1176,16 @@ SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
  ch vor der Disc bei Crunchyroll im Streaming (ab 22.04.2024).\nUhrzeit noc
  h nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-176276-disc@2027-03-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270319
+DTEND;VALUE=DATE:20270320
+SUMMARY:Demon Slave: Staffel 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15771/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
