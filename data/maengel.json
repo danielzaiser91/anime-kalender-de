@@ -17,7 +17,7 @@
     "kein-weg": {"wirkung":3,"wer":"daniel","offen":196,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":3},
     "erstausgabe-ohne-weg": {"wirkung":3,"wer":"daniel","offen":166,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "termin-fehlt-laufend": {"wirkung":3,"wer":"auto:anbieterkalender","offen":2,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":1},
-    "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":148,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
+    "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":147,"neu":0,"behoben":1,"rueckfall":0,"ausnahme":0},
     "synchro-schwach": {"wirkung":2,"wer":"hand:synchro-belegen","offen":67,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "erschienen-ohne-weg": {"wirkung":3,"wer":"hand:synchro-belegen","offen":2,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":3},
     "termin-trotz-nein": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
@@ -26,7 +26,7 @@
     "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":478},
     "staffel-zuordnung": {"wirkung":2,"wer":"hand:synchro-belegen","offen":6,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":67},
     "herkunft-fremder-titel": {"wirkung":3,"wer":"auto:bau","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":5,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0}
+    "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":4,"neu":0,"behoben":1,"rueckfall":0,"ausnahme":0}
   },
   "zeilen": [
     {"t":10013739,"art":"cover","wirkung":3,"wer":"auto:tmdb-poster","status":"abwesend","seit":"2026-11-17","bis":"2026-11-17"},
@@ -3506,7 +3506,7 @@
     {"t":16592,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"behoben","seit":"2026-11-16","bis":"2026-11-18"},
     {"t":17895,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
     {"t":18115,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-17"},
-    {"t":18679,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-18"},
+    {"t":18679,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"behoben","seit":"2026-11-18","bis":"2026-11-18"},
     {"t":19115,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
     {"t":20519,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"behoben","seit":"2026-11-16","bis":"2026-11-18"},
     {"t":20521,"art":"sprachurteil-offen","wirkung":2,"wer":"hand:synchro-belegen","status":"offen","seit":"2026-11-16"},
@@ -3801,7 +3801,7 @@
     {"t":482,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"behoben","seit":"2026-11-16","bis":"2026-11-16"},
     {"t":11499,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"behoben","seit":"2026-11-16","bis":"2026-11-17"},
     {"t":14713,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-17"},
-    {"t":18679,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-18"},
+    {"t":18679,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"behoben","seit":"2026-11-18","bis":"2026-11-18"},
     {"t":129874,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-16"},
     {"t":142329,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-16"},
     {"t":170083,"art":"weg-ohne-adresse","wirkung":3,"wer":"auto:anbieterkalender","status":"offen","seit":"2026-11-16"}
