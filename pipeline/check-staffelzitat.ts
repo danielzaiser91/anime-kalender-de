@@ -8,7 +8,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { staffelzitatVerstoesse } from './lib/staffelzitat.ts'
+import { staffelzitatVerstoesse, veralteteBekannte } from './lib/staffelzitat.ts'
 
 let verletzt = 0
 let faelle = 0
@@ -60,6 +60,16 @@ const adresseMitStaffelwort = staffelzitatVerstoesse(
   folgen,
 )
 pruefe('Staffelwort nur in der Adresse des Zitats: kein Verstoß', adresseMitStaffelwort.length === 0, adresseMitStaffelwort)
+const nurSeitenadresse = staffelzitatVerstoesse(
+  [{ anilistId: 7, url: url('B0X'), note: 'Folgen geprüft, Seitenadresse: B0Y, laut Adresse Staffel 1', zweiteQuelle: A2Y('Die zweite Staffel läuft.') }],
+  folgen,
+)
+pruefe('Seitenadresse ohne Amazon-Seite: Staffel der Notiz gilt, Zitat Staffel 2 gegen Staffel 1 ist ein Verstoß', nurSeitenadresse.length === 1 && nurSeitenadresse[0].grund.includes('Adresse ist Staffel 1'), nurSeitenadresse)
+const ohneTitel = staffelzitatVerstoesse([{ anilistId: 99, url: url('B0X'), note: 'Amazon-Seite B0X: alle 18 Folgen geprüft', zweiteQuelle: A2Y('Die zweite Staffel läuft.') }], folgen)
+pruefe('Titel fehlt in der Folgenzahl-Liste: Folgenzahl-Regel stumm, kein Verstoß', ohneTitel.length === 0, ohneTitel)
+const stale = veralteteBekannte([{ id: 9367, url: '', grund: '' }], new Set([9367, 5]))
+pruefe('veralteteBekannte: nur die Kennung ohne Fund (5)', stale.length === 1 && stale[0] === 5, stale)
+pruefe('veralteteBekannte: ohne Verstöße ist jeder Eintrag veraltet', veralteteBekannte([], new Set([9367, 5])).length === 2)
 
 // Der Wächter als Prozess (Verdrahtung: Datei lesen, Urteil, Exit-Code, Marke)
 const repo = fileURLToPath(new URL('..', import.meta.url))
@@ -80,11 +90,14 @@ function lauf(eintraege: string): { status: number | null; ausgabe: string } {
 const zeile = (id: number, asin: string, note: string, zitat: string): string =>
   `- anilistId: ${id}\n  platform: primevideo\n  url: ${url(asin)}\n  dub: true\n  note: ${JSON.stringify(note)}\n  zweiteQuelle: ${JSON.stringify(zitat)}\n`
 try {
-  const schlecht = lauf(zeile(115740, 'B0CTLKK9LQ', NOTE_115740, ZITAT_115740))
+  const freezing = zeile(9367, 'B0CH9BW1PW', NOTE_FREEZING, ZITAT_FREEZING)
+  const schlecht = lauf(zeile(115740, 'B0CTLKK9LQ', NOTE_115740, ZITAT_115740) + freezing)
   pruefe('Prozess, 115740 alt: Exit 1, Fehlerzeile, Marke, VERSTÖSSE: 1', schlecht.status === 1 && schlecht.ausgabe.includes('FEHLER: Staffelzitat 115740') && schlecht.ausgabe.includes('VERSTÖSSE: 1') && schlecht.ausgabe.includes('staffelzitat-bestand'), schlecht.ausgabe)
-  const gut = lauf(zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_FREMD, ZITAT_CLANNAD) + zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_EIGEN, ZITAT_CLANNAD))
-  pruefe('Prozess, Clannad: Exit 0, 2 Zitate geprüft, VERSTÖSSE: 0', gut.status === 0 && gut.ausgabe.includes('2 Zitate geprüft, 0 Verstöße') && gut.ausgabe.includes('VERSTÖSSE: 0'), gut.ausgabe)
-  const bekannt = lauf(zeile(9367, 'B0CH9BW1PW', NOTE_FREEZING, ZITAT_FREEZING))
+  const gut = lauf(zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_FREMD, ZITAT_CLANNAD) + zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_EIGEN, ZITAT_CLANNAD) + freezing)
+  pruefe('Prozess, Clannad: Exit 0, 3 Zitate geprüft, VERSTÖSSE: 0', gut.status === 0 && gut.ausgabe.includes('3 Zitate geprüft, 0 Verstöße') && gut.ausgabe.includes('VERSTÖSSE: 0'), gut.ausgabe)
+  const veraltet = lauf(zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_EIGEN, ZITAT_CLANNAD))
+  pruefe('Prozess, bekannter Eintrag 9367 ohne Fund: Exit 1, Fehlerzeile, VERSTÖSSE: 1', veraltet.status === 1 && veraltet.ausgabe.includes('STAFFELZITAT_BEKANNT enthält 9367 ohne Fund') && veraltet.ausgabe.includes('VERSTÖSSE: 1'), veraltet.ausgabe)
+  const bekannt = lauf(freezing)
   pruefe('Prozess, Freezing 9367 (bekannter Fund): Exit 0, WARNUNG statt Fehler, kein Rot', bekannt.status === 0 && bekannt.ausgabe.includes('⚠ WARNUNG Staffelzitat 9367') && !bekannt.ausgabe.includes('FEHLER') && bekannt.ausgabe.includes('0 Verstöße, 1 bekannt'), bekannt.ausgabe)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })

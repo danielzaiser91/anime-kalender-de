@@ -17,10 +17,19 @@ export interface Staffelverstoss {
   grund: string
 }
 
-/** Titel mit bekanntem Fund, den ein eigener Daten-PR klärt; die Liste darf nur sinken. */
+/** Titel mit bekanntem Fund, den ein eigener Daten-PR klärt; ein Eintrag ohne Fund macht den Wächter rot (`veralteteBekannte`), die Liste kann also nur sinken. */
 export const STAFFELZITAT_BEKANNT = new Set<number>([9367])
 
-/** Zeilen mit Anime2You-Zitat, deren Zitat laut `pruefeStaffel` eine andere Staffel nennt als die Adresse (Urteil „abweichung“); „unbekannt“ zählt nicht. */
+/** Kennungen aus `bekannt`, an denen es keinen Verstoß (mehr) gibt: Der Eintrag ist zu streichen. */
+export function veralteteBekannte(verstoesse: Staffelverstoss[], bekannt: Set<number>): number[] {
+  const mitFund = new Set(verstoesse.map((v) => v.id))
+  return [...bekannt].filter((id) => !mitFund.has(id))
+}
+
+/**
+ * Zeilen mit Anime2You-Zitat, deren Zitat laut `pruefeStaffel` eine andere Staffel nennt als die Adresse (Urteil „abweichung“); „unbekannt“ zählt nicht.
+ * Grenze: Fehlt der Titel in `folgenJeId`, ist die Folgenzahl-Regel stumm (nur die Notiz-Staffel urteilt).
+ */
 export function staffelzitatVerstoesse(zeilen: Zeile[], folgenJeId: Map<number, number | null>): Staffelverstoss[] {
   const out: Staffelverstoss[] = []
   for (const z of zeilen) {

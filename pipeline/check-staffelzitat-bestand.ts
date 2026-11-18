@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { readJson, ROOT } from './lib/util.ts'
-import { staffelzitatVerstoesse, STAFFELZITAT_BEKANNT } from './lib/staffelzitat.ts'
+import { staffelzitatVerstoesse, STAFFELZITAT_BEKANNT, veralteteBekannte } from './lib/staffelzitat.ts'
 import { meldeVerletzte } from './lib/quarantaene.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -33,5 +33,7 @@ const treffer = meldeVerletzte(
   () => true,
 )
 console.log(`check-staffelzitat-bestand: ${zeilen.filter((z) => String(z.zweiteQuelle ?? '').startsWith('Anime2You')).length} Zitate geprüft, ${neu.length} Verstöße, ${alle.length - neu.length} bekannt.`)
-console.log(`VERSTÖSSE: ${treffer.length}`)
-process.exit(treffer.length ? 1 : 0)
+const veraltet = veralteteBekannte(alle, STAFFELZITAT_BEKANNT)
+for (const id of veraltet) console.error(`FEHLER: STAFFELZITAT_BEKANNT enthält ${id} ohne Fund — Eintrag in pipeline/lib/staffelzitat.ts streichen`)
+console.log(`VERSTÖSSE: ${treffer.length + veraltet.length}`)
+process.exit(treffer.length + veraltet.length ? 1 : 0)
