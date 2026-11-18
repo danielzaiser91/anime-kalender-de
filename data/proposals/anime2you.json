@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-11-17T17:01:58.068Z",
+  "scrapedAt": "2026-11-18T04:11:08.068Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "schon in einem Rubrik-Feed gelesen": 8,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
-    "Sprachhinweis älter als 45 Tage": 6
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
+    "schon in einem Rubrik-Feed gelesen": 30,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "Sprachhinweis älter als 45 Tage": 8
   },
   "proposals": [
     {
@@ -114,7 +114,109 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "verschiebungen": [
+        {
+          "titel": "Pokémon – Staffel 6 bis 9 (Limitierte Komplettbox)",
+          "alt": "2026-12-18",
+          "neu": "2027-05-28"
+        },
+        {
+          "titel": "Pokémon – Staffel 10 bis 13 (Limitierte Komplettbox)",
+          "alt": "2026-12-18",
+          "neu": "2027-06-25"
+        },
+        {
+          "titel": "Pokémon – Staffel 14 bis 16 (Limitierte Komplettbox)",
+          "alt": "2026-12-18",
+          "neu": "2027-01-29"
+        },
+        {
+          "titel": "Pokémon – Staffel 17 bis 19 (Limitierte Komplettbox)",
+          "alt": "2026-12-18",
+          "neu": "2027-02-26"
+        },
+        {
+          "titel": "Pokémon – Staffel 20 bis 22 (Limitierte Komplettbox)",
+          "alt": "2026-12-18",
+          "neu": "2027-03-26"
+        },
+        {
+          "titel": "Pokémon – Staffel 23 bis 25 (Limitierte Komplettbox)",
+          "alt": "2026-12-18",
+          "neu": "2027-04-30"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Bocchi the Rock! – Vol. 2 (Limited Edition)",
+          "alt": "2026-12-04",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "2.5 Dimensional Seduction – Vol. 4 (Limited Edition)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Inazuma Eleven: Team Oger greift an!",
+          "alt": "2026-12-18",
+          "neu": "2027-01-29"
+        },
+        {
+          "titel": "Infinite Dendrogram – Vol. 2 (Limited Edition)",
+          "alt": "2026-11-13",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Sakamoto Days – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-20",
+          "neu": "2026-12-04"
+        },
+        {
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-20"
+        },
+        {
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Limited Edition)",
+          "alt": "2026-12-04",
+          "neu": "2026-12-18"
+        },
+        {
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Limited Edition)",
+          "alt": "2026-12-18",
+          "neu": "2027-01-15"
+        },
+        {
+          "titel": "Strike Witches (Staffel 2) – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-06",
+          "neu": "2026-11-27"
+        },
+        {
+          "titel": "The Café Terrace and Its Goddesses – Staffel 1 (Komplettbox)",
+          "alt": "2026-11-20",
+          "neu": "2027-02-05"
+        },
+        {
+          "titel": "The Café Terrace and Its Goddesses – Staffel 2 (Komplettbox)",
+          "alt": "2027-02-05",
+          "neu": "2027-03-19"
+        },
+        {
+          "titel": "Virgin Road – Vol. 1 (Limited Edition mit Sammelschuber)",
+          "alt": "2026-11-13",
+          "neu": "2026-11-20"
+        }
+      ]
     },
     {
       "articleTitle": "Vier Februar-Neuheiten 2027 bei Anime Planet vorbestellbar",
@@ -261,7 +363,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-15"
+      "sammelGelesen": "2026-11-18"
     },
     {
       "articleTitle": "Black Friday 2026: Erste große Anime-Rabattaktionen gestartet",
@@ -1685,7 +1787,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-15"
+      "sammelGelesen": "2026-11-18"
     },
     {
       "articleTitle": "Zwei Anime-Neuzugänge auf Deutsch bei Crunchyroll",
@@ -1723,7 +1825,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-15"
+      "sammelGelesen": "2026-11-18"
     },
     {
       "articleTitle": "Crunchyroll zeigt dritte »Mashle«-Staffel im Simulcast",
@@ -1941,7 +2043,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-15"
+      "sammelGelesen": "2026-11-18"
     },
     {
       "articleTitle": "Crunchyroll ergänzt zwei weitere Anime-Neuzugänge auf Deutsch",
@@ -1975,7 +2077,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-15"
+      "sammelGelesen": "2026-11-18"
     },
     {
       "articleTitle": "Crunchyroll bringt besonderes »Black Clover«-Erlebnis nach Deutschland",
@@ -2496,7 +2598,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-15"
+      "sammelGelesen": "2026-11-18"
     },
     {
       "articleTitle": "ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere",
