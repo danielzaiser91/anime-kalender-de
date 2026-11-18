@@ -57,6 +57,20 @@ interface Kennzahlen {
 /** Was nicht null sein darf. Jeder Punkt hier hatte schon einmal einen Fehler. */
 const HART: (keyof Kennzahlen)[] = ['dubFalseImBestand', 'doppelteAdressen', 'verwaisteTermine']
 
+/**
+ * Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
+ * nicht, ob sie steigt. Ein Eintrag je Tag genügt — mehrere Läufe am selben Tag
+ * überschreiben einander. Gibt den Eintrag davor zurück.
+ */
+function schreibeVerlauf(zahlen: Kennzahlen, heute: string): Kennzahlen | null {
+  const verlauf = readJson<Kennzahlen[]>(VERLAUF_DATEI, [])
+  const ohneHeute = verlauf.filter((v) => v.gemessenAm !== heute)
+  ohneHeute.push(zahlen)
+  /* Ein Jahr Verlauf genügt, um eine Entwicklung zu sehen. */
+  writeJson(VERLAUF_DATEI, ohneHeute.slice(-370))
+  return ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
+}
+
 function main(): void {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const events = readJson<{ date?: string; titleId?: number }[]>('public/data/events.json', [])
@@ -100,18 +114,7 @@ function main(): void {
   const register = readJson<Register | null>(MAENGEL_DATEI, null)
   if (register) zahlen.maengel = offeneJeArt(register)
 
-  /*
-    Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
-    nicht, ob sie steigt. Ein Eintrag je Tag genügt — mehrere Läufe am selben Tag
-    überschreiben einander.
-  */
-  const verlauf = readJson<Kennzahlen[]>(VERLAUF_DATEI, [])
-  const ohneHeute = verlauf.filter((v) => v.gemessenAm !== heute)
-  ohneHeute.push(zahlen)
-  /* Ein Jahr Verlauf genügt, um eine Entwicklung zu sehen. */
-  writeJson(VERLAUF_DATEI, ohneHeute.slice(-370))
-
-  const vorher = ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
+  const vorher = schreibeVerlauf(zahlen, heute)
   const pfeil = (k: keyof Kennzahlen): string => {
     if (!vorher || typeof zahlen[k] !== 'number' || typeof vorher[k] !== 'number') return ''
     const d = (zahlen[k] as number) - (vorher[k] as number)
