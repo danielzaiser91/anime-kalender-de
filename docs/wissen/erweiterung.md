@@ -2035,6 +2035,18 @@ einen **vorhandenen** Kasten — den es nur auf Suchseiten gab. Jetzt baut sie i
 `/gp/video/`-Adresse. Der Bericht trägt seitdem auch `sichtbarkeit` (Player-Container, Videos mit
 Stummschaltung und Höhe), damit die nächste unsichtbare Erweiterung nicht geraten werden muss.
 
+## Alles, was Hörer und Takt vor dem Warten erreichen, steht vor dem `await` (18.11.2026)
+
+Auf der Startseite steht `amazon.js` bis zu 5 min am `id = await new Promise` (Z. ~6200), während
+`primeHoerer`, `primeTakt`, `beiAenderung`, Klick-Hörer und Rückrufe schon laufen. Jedes `const`/`let`/
+`class`, das erst NACH dem `await` deklariert wird und von dort aus erreichbar ist, wirft
+„Cannot access … before initialization" (Daniel, 18.11.2026: `primeLaufName`; dieselbe Klasse mit
+`letzterStand`, `eintrag`, `gesehen`, `knopf`, `meldeSperre` u. a.). Deshalb stehen diese Zustände
+im Block bei `primeFehler` (zugewiesen wird weiter unten), und `leererStand`/`primeLaufName` sind
+Funktionsdeklarationen. Wächter: `node tools/amazon-tdz-pruefen.cjs` (statisch, Aufrufgraph, auch
+try/catch-verschluckte Fälle) und der Durchgangs-Fall in `tools/amazon-startseite-pruefen.cjs`
+(Frame-Antwort und hängender Frame während des Wartens).
+
 ## „▶ alle durchgehen" für Disney+ (4.24.0, 27.09.2026)
 
 `extension/disney-durchgang.js`, eigene Datei (disney.js lag schon über 800 Zeilen). Disney+ prüft
