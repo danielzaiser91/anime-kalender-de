@@ -7,6 +7,7 @@ name: Ladezeiten am Handy messen
 #
 # Gemessen wird `dist/` aus diesem Stand von `main` (ohne Netz, Pixel 7, 4× CPU), nicht die Live-Seite. Ergebnis: Tabelle in der Zusammenfassung des Laufs und
 # `ladezeiten.json` als Artefakt (30 Tage). Es werden keine Dateien im Repo geschrieben, deshalb steht nichts in `tools/quellen-liste.sh`.
+# Job `live` (seit 18.11.2026): Lighthouse und Leerlauf gegen die Live-Seite, mit Urteil (siehe dort).
 
 on:
   # Zeitplan: Cloudflare-Wecker (`shared/weckplan.ts`) startet diesen Lauf täglich um 16 UTC per workflow_dispatch — zu der Stunde läuft sonst kein täglicher Lauf;
@@ -63,4 +64,33 @@ jobs:
           name: ladezeiten
           path: ergebnis/ladezeiten.json
           retention-days: 30
+          if-no-files-found: ignore
+
+  # Live-Messung (18.11.2026, Auftrag perf-waechter): Lighthouse mobil (3 Läufe je Seite, Median gegen `tools/lighthouse-grenzen.mjs`, Profil `live`)
+  # und Leerlauf/Leck (`tools/leerlauf-tempo.mjs`) gegen anime-kalender.de. Rot, sobald eine Grenze reißt — so sieht `tools/laeufe-aufraeumen.mjs` es.
+  # Verlauf: Tabellen in der Zusammenfassung, JSON als Artefakt `leistung-live` (90 Tage); keine Repo-Dateien, also nichts in `tools/quellen-liste.sh`.
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+
+      - name: Lighthouse mobil gegen die Live-Seite
+        run: node tools/lighthouse-messen.mjs --basis https://anime-kalender.de/ --profil live --n 3 --ausgabe ergebnis/lighthouse-live.json
+
+      # Läuft auch nach rotem Lighthouse: zwei unabhängige Befunde, beide gehören in den Verlauf.
+      - name: Leerlauf und Leck-Wache gegen die Live-Seite
+        if: ${{ !cancelled() }}
+        run: node tools/leerlauf-tempo.mjs --ausgabe ergebnis/leerlauf-live.json
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: leistung-live
+          path: ergebnis/
+          retention-days: 90
           if-no-files-found: ignore
