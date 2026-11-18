@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-18T16:10:49.683Z",
+ "erzeugtAm": "2026-11-18T17:59:18.929Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -777,9 +777,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 178,
+   "gemeldet": 182,
    "gesamt": 340,
-   "offen": 162,
+   "offen": 158,
    "ohneSeite": 13,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -821,22 +821,6 @@
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
      "titel": "Welcome to Demon School! Iruma-kun"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a",
-     "titel": "Star Wars: Visionen präsentiert - Die neunte Jedi"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034",
-     "titel": "Demon Slayer: Kimetsu no Yaiba - Infinity Castle"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194",
-     "titel": "Jujutsu Kaisen 0"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a",
-     "titel": "Black Clover"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-dc471806-a107-436c-9bec-0e4455c7249c",
