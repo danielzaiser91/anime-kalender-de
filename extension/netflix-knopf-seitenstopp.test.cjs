@@ -77,7 +77,7 @@ const GLOBALE = [
 /** Seite mit Ereigniskette; `seitenStopp`: Dokument-Capture-Listener, der click stoppt wie Netflix. */
 function seiteNeu({ seitenStopp }) {
   const body = macheElement('body')
-  body.innerText = 'Erinnern'
+  body.innerText = 'Erinnern Ab 19. November' /* ohne Termin gibt es keinen Meldeknopf */
   const fensterCapture = []
   const dokumentCapture = []
   const meldungen = []

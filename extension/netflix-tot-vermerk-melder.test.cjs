@@ -43,8 +43,10 @@ async function szene({ pfad = '/title/99999999', start = {}, liste = LISTE, stan
   ladeSkripte(kontext, ['melder.js', 'netflix-bericht.js'])
   let freigeben
   const frei = new Promise((r) => { freigeben = r })
-  umgebung.fetch = async (adresse) => {
+  const posts = []
+  umgebung.fetch = async (adresse, init) => {
     const a = String(adresse)
+    if (init?.method === 'POST') posts.push(JSON.parse(init.body))
     if (a.includes('stand=1')) {
       const ziele = (stand ?? []).map((id) => ({ url: url(id) }))
       return { ok: true, json: async () => ({ anbieter: stand ? [{ plattform: 'netflix', offen: ziele.length, ziele }] : [] }) }
@@ -59,7 +61,7 @@ async function szene({ pfad = '/title/99999999', start = {}, liste = LISTE, stan
   await vm.runInContext('standHolen()', kontext)
   await tick()
   const im = (code) => vm.runInContext(code, kontext)
-  return { body, im, freigeben: async () => { freigeben(); await tick() }, tooltip: () => suche(body, 'ak-uebersicht')?.title }
+  return { body, im, posts, freigeben: async () => { freigeben(); await tick() }, tooltip: () => suche(body, 'ak-uebersicht')?.title }
 }
 const totKnoepfe = (s) => alleElemente(s.body).filter((el) => String(el.className).split(/\s+/).includes('ak-tot'))
 
@@ -94,12 +96,27 @@ async function knoepfeFaelle() {
   {
     const s = await szene({ pfad: `/title/${K(1)}`, start: { erledigt: TOT }, stand: [K(1), K(2)] })
     s.im(`stand.reihe = '${K(1)}'`)
-    s.body.innerText = 'Erinnern'
+    s.body.innerText = 'Erinnern Ab 19. November'
     const b = s.im('beschriftung()')
-    pruefe('Meldeknopf, Stand führt den Titel offen: aktiv, bietet das Melden an', b.aktiv === true && /^Keine Folge da/.test(b.text), b)
+    pruefe('Meldeknopf mit Termin, Stand führt den Titel offen: aktiv, bietet „ab <Termin>“ an', b.aktiv === true && b.text === 'Noch nicht da — „ab 19. November" melden', b)
+    s.body.innerText = 'Erinnern'
+    const ohne = s.im('beschriftung()')
+    pruefe('Meldeknopf ohne Termin: „angekündigt“, kein Knopf, nie „nicht abrufbar“', ohne.aktiv === false && ohne.text === 'Angekündigt — Netflix nennt keinen Termin' && !/nicht abrufbar/.test(ohne.text), ohne)
+    const k0 = s.posts.length
+    s.im('zeigeErgebnis = (text, ok) => { globalThis.erg = [text, ok] }')
+    await s.im('melden()')
+    pruefe('Klick ohne Termin meldet nichts (kein POST an den Worker)', s.posts.length === k0, s.posts)
+    pruefe('… und sagt es: Text „Angekündigt …“, nicht als Erfolg', JSON.stringify(s.im('globalThis.erg')) === JSON.stringify(['Angekündigt — Netflix nennt keinen Termin', false]), s.im('globalThis.erg'))
     await s.im('dialogOeffnen()')
     const k = totKnoepfe(s)
     pruefe('Liste, Stand führt den Titel offen: alle drei „nichts da?“ sind aktiv (Titel 3 steht nicht im Stand, trägt aber keinen Vermerk)', k.length === 3 && k.every((x) => x.disabled === false && x.textContent === 'nichts da?'), k.map((x) => [x.disabled, x.textContent]))
+  }
+  {
+    const s = await szene({ pfad: `/title/${K(2)}`, stand: [K(1), K(2)] })
+    s.im(`stand.reihe = '${K(2)}'`)
+    s.body.innerText = 'Erinnern Ab 19. November'
+    await s.im('melden()')
+    pruefe('Klick mit Termin meldet den Termin (ein POST, erscheint + Notiz)', s.posts.length === 1 && s.posts[0].erscheint === '19. November' && /19\. November/.test(s.posts[0].notiz), s.posts)
   }
   {
     const s = await szene({ pfad: `/title/${K(1)}`, start: { erledigt: TOT }, stand: null })

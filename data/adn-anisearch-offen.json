@@ -1,5 +1,5 @@
 {
-  "anzahl": 21,
+  "anzahl": 22,
   "serien": [
     {
       "showId": 444,
@@ -139,6 +139,13 @@
       "title": "Babar",
       "originalTitle": "Babar",
       "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1218,
+      "title": "Kill la Kill",
+      "originalTitle": "キルラキル",
+      "grund": "titelliste-fehlt",
       "kandidaten": []
     },
     {
