@@ -2345,4 +2345,6 @@ Der Kalender hält alle Web-Vitals-Budgets. **Datenbank und Titel reißen LCP (B
 
 **Kalender-Bytes zweigipflig (zweiter Live-Lauf 44260603953):** Median 1 174 783 statt 611 496 Bytes bei gleichem Stand. Auf einem langsamen Runner fällt das Nachladen der vollen Daten (`planeNachladen`, ≈ 390 KB gzip, spätestens nach 6 s) noch ins Lighthouse-Fenster. Die Byte-Grenze des Kalenders deckt deshalb beide Gipfel (1,35 MB); der Start selbst bleibt über `tools/start-budget.mjs` (190 KB gzip) streng bewacht. Im selben Lauf: Datenbank TBT 751 ms, Performance 57 — die Grenzen stehen auf dem höchsten bzw. niedrigsten Median aus vier Läufen mit Abstand.
 
+**Dritter Live-Lauf 44261473268** (`benchmark` 2459–2492, langsamer Runner): Kalender TBT 206 ms — das Budget von 200 ms reißt dort schon heute, die Grenze ist deshalb eine Ratsche (270 ms) statt des Budgets; Datenbank TBT 765, Titel 1083 ms, Performance 97/56/52. Grenzen jetzt aus fünf Medianen je Seite (zwei PR, drei live). Ein Lauf auf einem schnellen Runner hat noch keinen `benchmark`-Wert; ihn liefert der nächste.
+
 **Leerlauf live 18.11.2026** (Desktop, 70 s): Kalender CPU 0,04 %, Script 0,1 ms/s, 1 Layout/min, Heap 9,9 MB, 1476 Knoten; Datenbank 0,05 %, 0 ms/s, 15,8 MB, 1943 Knoten; kein Intervall, keine Animation; Leck-Wache +0,48 MB nach 20 Wechseln (Grenze 1 MB).
