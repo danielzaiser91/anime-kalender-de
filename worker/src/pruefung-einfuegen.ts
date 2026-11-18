@@ -20,21 +20,21 @@ export type Abgeleitet = {
   rohUebernommen: number | null
 }
 
+/*
+  **`titel_id` sagt, für welchen Auftrag gemeldet wurde — die Adresse sagt es nicht.**
+
+  Anbieter führen denselben Anime unter mehreren Kennungen; wer aus der
+  Prüfliste heraus öffnet, weiß trotzdem, welcher Titel gemeint war. Ohne
+  dieses Feld musste der Bau die Adresse im Datensatz suchen und fiel sonst
+  auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
+  02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
+*/
+const EINFUEGEN = `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash, rohfolge, roh_uebernommen)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26)`
+
 export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>, url: string, a: Abgeleitet): Promise<void> {
   const { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, rohfolge, rohUebernommen } = a
-  await env.DB.prepare(
-    /*
-      **`titel_id` sagt, für welchen Auftrag gemeldet wurde — die Adresse sagt es nicht.**
-
-      Anbieter führen denselben Anime unter mehreren Kennungen; wer aus der
-      Prüfliste heraus öffnet, weiß trotzdem, welcher Titel gemeint war. Ohne
-      dieses Feld musste der Bau die Adresse im Datensatz suchen und fiel sonst
-      auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
-      02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
-    */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash, rohfolge, roh_uebernommen)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26)`,
-  )
+  await env.DB.prepare(EINFUEGEN)
     .bind(
       String(daten.plattform ?? 'unbekannt'),
       url,
