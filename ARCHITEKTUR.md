@@ -67,6 +67,8 @@ Nachgeladen wird nur, wer es anfordert:
 Diese Trennung ist die wichtigste Architekturentscheidung des Projekts und der Grund, warum
 der Kalender trotz 2.922 Titeln (Stand 25.10.2026) unter der Grenze von 250 KB startet (Messung: `tools/start-budget.mjs`).
 
+**Laufzeit-Budgets (18.11.2026):** Neben den Bytes beim Bau wachen zwei Messungen über die laufende Seite — Lighthouse mobil je Seite (LCP, CLS, TBT, Byte-Gewicht mit Covern, vier Kategorien; Grenzen und Basis in `tools/lighthouse-grenzen.mjs`) und der Leerlauf (CPU < 1 %, kein Takt unter 1 s, keine Dauer-Animation, Heap-Wachstum ≤ 1 MB; `tools/leerlauf-urteil.mjs`). Beide in der PR-Kette und täglich gegen live; Messrezept in `docs/wissen/betrieb.md`, „Lighthouse und Leerlauf als Wächter“.
+
 ## Wo wir an den Grenzen stehen
 
 Quelle: [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)

@@ -65,13 +65,6 @@
       "seit": "2026-11-08"
     },
     {
-      "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless…",
-      "id": 184591,
-      "anbieter": "disc",
-      "start": "2026-11-19",
-      "seit": "2026-11-08"
-    },
-    {
       "titel": "Call of the Night: Staffel 2",
       "id": 175914,
       "anbieter": "disc",
@@ -164,6 +157,13 @@
     }
   ],
   "abgeloest": [
+    {
+      "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless…",
+      "id": 184591,
+      "anbieter": "disc",
+      "start": "2026-11-19",
+      "seit": "2026-11-08"
+    },
     {
       "titel": "M.A.S.K.",
       "id": 5000003,
