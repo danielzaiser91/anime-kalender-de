@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-18T08:52:47.304Z",
+ "erzeugtAm": "2026-11-18T11:22:39.949Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -309,8 +309,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 1092,
-   "offen": 321,
+   "gesamt": 1091,
+   "offen": 320,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -450,10 +450,6 @@
     {
      "url": "https://www.netflix.com/title/81644043",
      "titel": "Ranking of Kings: The Treasure Chest of Courage"
-    },
-    {
-     "url": "https://www.netflix.com/title/81659233",
-     "titel": "Bakugan"
     },
     {
      "url": "https://www.netflix.com/title/81680101",
