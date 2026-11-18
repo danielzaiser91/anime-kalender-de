@@ -194,8 +194,8 @@
    "aenderungen": [
     {
      "datei": "extension/melder.js",
-     "suche": "  selbstVersucht = null\n  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n",
-     "ersetze": "  selbstVersucht = null\n  bremse.zuruecksetzen()\n"
+     "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
+     "ersetze": "  bremse.zuruecksetzen()\n  const hierAuftrag"
     }
    ],
    "tests": [
