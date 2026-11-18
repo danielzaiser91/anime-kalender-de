@@ -6,8 +6,8 @@
   nur „Erinnern", keine Folgenliste, nur „Ähnliche Titel". Der Durchgang wartete die ganze Frist auf
   eine Liste (20 s plus Takt, gut 30 s), die dort nie kommt. Jetzt geht er nach `ERINNERN_NACH_MS`
   weiter und **meldet nichts** (wie Disney+: ein Nein hat mehrere Gründe, und das Merkmal ist unbelegt).
-  Ein Nein meldet weiter nur der Klick auf „Keine Folge da — als nicht abrufbar melden" (`melden()`);
-  die Automatik dafür wurde am 26.08.2026 bewusst entfernt. Der Titel steht als übersprungen in der Endliste.
+  Gemeldet wird nur der Klick auf „Noch nicht da — ab <Termin> melden" (`melden()`, nur mit Termin; ohne Termin heißt es
+  „Angekündigt", 18.11.2026); die Automatik dafür wurde am 26.08.2026 bewusst entfernt. Der Titel steht als übersprungen in der Endliste.
 
   Das Merkmal ist das des Knopfes (`keineFolgeVorhanden()`, Text „Erinnern" / „Remind me"); ein
   sprachfreies Merkmal im DOM oder Netzwerk ist ohne Mitschnitt einer solchen Seite nicht belegt.
@@ -20,6 +20,16 @@ const ERINNERN_NACH_MS = 3000
 */
 const LEER_NACH_MS = 8000
 globalThis.akNetflixLeerNach = LEER_NACH_MS
+
+/**
+ * Der Melde-Knopf auf einer Titelseite mit „Erinnern“ (18.11.2026): Nennt Netflix einen Termin, meldet der Klick „ab <Termin>“.
+ * Ohne Termin ist der Titel angekündigt, nicht abwesend — kein Knopf, nie „nicht abrufbar“ (das streicht den Weg).
+ * Anzeige (`beschriftung`) und Handlung (`melden`) lesen diese eine Funktion.
+ */
+globalThis.akNetflixErinnernKnopf = (termin) =>
+  termin
+    ? { text: `Noch nicht da — „ab ${termin}" melden`, klasse: 'ak-nein', aktiv: true }
+    : { text: 'Angekündigt — Netflix nennt keinen Termin', klasse: 'ak-leer', aktiv: false }
 
 /**
  * Ein Film hat keine Folgenliste und geht über `/watch` — aber nur, wenn seine Titelseite Inhalt zeigt (16.11.2026, Appleseed: unter

@@ -229,13 +229,14 @@ function zurueckMitMelden(roh, stand) {
 /**
  * Die Merkliste des Durchgangs (`Map` Kennung → Grund) samt dauerhafter Zurückstellung.
  * `titel`: die Prüfliste (Kennung → Eintrag); `fertig(kennung, eintrag)`: Worker-Stand, `true` = nicht mehr offen.
- * `roh` (Tests, Melder): `{ speicher, jetzt, datum }`; `geaendert()` (Melder): nach dem Laden und nach jedem Schreiben,
+ * `roh` (Tests, Melder): `{ speicher, jetzt, datum, standDa() }` (`standDa`: der Worker-Stand ist da, erst dann löscht „fertig“ eine Zurückstellung); `geaendert()` (Melder): nach dem Laden und nach jedem Schreiben,
  * damit die Zähler der Prüfliste neu rechnen; `worker` (Melder): Adresse des Workers, an den die Zurückstellungen gemeldet werden.
  */
 globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
   const speicher = roh.speicher ?? globalThis.akKontext.lokal
   const jetzt = roh.jetzt ?? Date.now
   const datum = roh.datum ?? (() => globalThis.erscheinungsdatum?.())
+  const standDa = roh.standDa ?? (() => true)
   const stand = {}
   const umgebung = zurueckMitMelden(roh, () => stand)
   let bereit = Promise.resolve()
@@ -255,7 +256,8 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
   const aktiv = (kennung) => {
     const e = stand[kennung]
     if (!e) return false
-    if (e.bis <= jetzt() || istFertig(kennung)) {
+    /* „Fertig“ löscht nur auf Antwort des Worker-Stands: davor gilt der lokale Rückfall, der offene Titel zu früh als fertig zählt (18.11.2026). */
+    if (e.bis <= jetzt() || (standDa() && istFertig(kennung))) {
       entfernen(kennung, e.bis <= jetzt() ? 'abgelaufen' : 'fertig')
       return false
     }

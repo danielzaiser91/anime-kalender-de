@@ -1119,18 +1119,8 @@ function beschriftung(spuren) {
     if (totGilt(gemeinteReihe())) {
       return { text: 'Als nicht abrufbar gemeldet ✓', klasse: 'ak-nein', aktiv: false }
     }
-    if (keineFolgeVorhanden()) {
-      // Nennt die Seite einen Termin, gehoert er an den Knopf — dann sieht
-      // man vor dem Klick, was gemeldet wird.
-      const termin = erscheinungsdatum()
-      return {
-        text: termin
-          ? `Noch nicht da — „ab ${termin}" melden`
-          : 'Keine Folge da — als nicht abrufbar melden',
-        klasse: 'ak-nein',
-        aktiv: true,
-      }
-    }
+    /* Mit Termin ein Knopf, ohne Termin nur der Hinweis „angekündigt“ (`netflix-erinnern.js`). */
+    if (keineFolgeVorhanden()) return akNetflixErinnernKnopf(erscheinungsdatum())
     /*
       **Kein Hinweis mehr auf die alte Automatik.**
 
@@ -1177,6 +1167,8 @@ async function melden({ automatisch = false } = {}) {
   const ohneFolge = !spuren && keineFolgeVorhanden()
   if (!stand.reihe) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
   if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
+  /* „Erinnern“ ohne Termin ist eine Ankündigung, kein Befund: nichts melden. */
+  if (ohneFolge && !erscheinungsdatum()) return zeigeErgebnis(akNetflixErinnernKnopf(null).text, false)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
@@ -1240,10 +1232,8 @@ async function melden({ automatisch = false } = {}) {
          */
         erscheint: ohneFolge ? erscheinungsdatum() : undefined,
         notiz: ohneFolge
-          ? erscheinungsdatum()
-            ? `Noch nicht abrufbar — Netflix nennt „${erscheinungsdatum()}"`
-            : 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
-          : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
+          ? `Noch nicht abrufbar — Netflix nennt „${erscheinungsdatum()}"`
+          :`${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
       }),
     })
     const daten = await antwort.json().catch(() => ({}))
@@ -2480,7 +2470,7 @@ let selbstVersucht = null
 let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text); mit Ablauf auch im Speicher (`netflix-zurueckgestellt.js`). */
-const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER })
+const selbstUebersprungen = akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER, standDa: () => Boolean(standZieleNetflix && akNetflixWartet) })
 /** Tab, Bremse (kein Titelfenster in Folge = Sitzung, nicht Titel), Bericht je Titel und Takt-Verdrahtung (`netflix-durchgang-steuerung.js`). */
 const meinTab = akNetflixTabKennung()
 const titelBericht = akNetflixTitelBericht(meinTab)
@@ -4499,9 +4489,9 @@ function folgenFuerFilmErgaenzen() {
       noch gar nicht abrufbar. Der Klick führte folgerichtig auf `/watch/…` mit
       Fehlercode E103, „Dieser Titel steht nicht zum Streaming zur Verfügung".
 
-      Der Melde-Knopf daneben kennt den Fall längst und bietet „Keine Folge da —
-      als nicht abrufbar melden" an. Das ist die richtige Antwort; ein
-      Durchlauf, der ins Leere fährt, ist keine.
+      Der Melde-Knopf daneben kennt den Fall längst („Angekündigt" bzw. „ab
+      <Termin>" melden). Das ist die richtige Antwort; ein Durchlauf, der ins
+      Leere fährt, ist keine.
     */
     if (keineFolgeVorhanden()) return
     const reihe = gemeinteReihe()

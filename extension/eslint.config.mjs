@@ -122,6 +122,7 @@ export default [
         akNetflixFertigSet: 'readonly',
         akNetflixLaufVergessen: 'readonly',
         akNetflixLeerNach: 'readonly',
+        akNetflixErinnernKnopf: 'readonly',
         akNetflixBremseTakt: 'readonly',
         akNetflixBremseOeffnen: 'readonly',
         akNetflixBremseEnde: 'readonly',
