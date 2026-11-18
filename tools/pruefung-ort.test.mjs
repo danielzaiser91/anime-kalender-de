@@ -52,7 +52,7 @@ assert.match(gewarnt.join('\n'), /^⚠ WARNUNG pruefung-ort: Diff des PR nicht l
 
 /** Wegwerf-Repo mit Läufer-Kopien, Prüfliste, Tests und Zuordnung; `rotB` lässt die Nacht-Prüfung und den Nacht-Test scheitern, `ohnePr` lässt die PR-Prüfung weg,
  *  `aendere` = Datei, die ein PR-Zweig ändert und per Merge-Commit hereinkommt (`HEAD^1` = Stand davor); ohne `aendere` bleibt es bei einem einfachen Commit. */
-function baueRepo({ rotB = false, ohnePr = false, aendere = null, doppelt = false } = {}) {
+function baueRepo({ rotB = false, ohnePr = false, aendere = null, doppelt = false, zweitePr = false } = {}) {
   const ordner = mkdtempSync(join(tmpdir(), 'pruefung-ort-'))
   mkdirSync(join(ordner, 'tools'))
   mkdirSync(join(ordner, 'pipeline'))
@@ -61,7 +61,7 @@ function baueRepo({ rotB = false, ohnePr = false, aendere = null, doppelt = fals
   for (const k of KOPIEN) copyFileSync(join(WURZEL, 'tools', k), join(ordner, 'tools', k))
   copyFileSync(join(WURZEL, 'package.json'), join(ordner, 'package.json'))
   symlinkSync(join(WURZEL, 'node_modules'), join(ordner, 'node_modules'), 'junction')
-  const pruefungen = ['pipeline/check-a-pr.ts', 'pipeline/check-b-nachts.ts', 'pipeline/check-c-liest.ts'].filter((p) => !(ohnePr && p.includes('check-a')))
+  const pruefungen = ['pipeline/check-a-pr.ts', 'pipeline/check-b-nachts.ts', 'pipeline/check-c-liest.ts', ...(zweitePr ? ['pipeline/check-d-pr.ts'] : [])].filter((p) => !(ohnePr && p.includes('check-a')))
   const tests = ['a-pr.test.mjs', 'b-nachts.test.mjs', 'c-liest.test.mjs']
   for (const p of pruefungen) writeFileSync(join(ordner, p), p.includes('check-b') && rotB ? 'process.exit(3)\n' : "console.log('still')\n")
   for (const t of tests) writeFileSync(join(ordner, 'tools', t), t.startsWith('b-') && rotB ? 'process.exit(3)\n' : "console.log('still')\n")
@@ -199,6 +199,18 @@ try {
   const a = lauf(ausnahmeRepo, 'check-logic-alle.mjs', [], false, { BESTAND_AUSNAHMEN: join(ausnahmeRepo, 'ausnahmen.json') })
   assert.equal(a.status, 0, `Ausnahme einer Nacht-Prüfung im PR-Lauf: ${a.text}`)
   console.log('  ✓ Dublette und Ausnahme einer Nacht-Prüfung werden über die ganze Liste geprüft')
+  // `--teil k/n` geht durch den Ort-Filter (echter Name check:logic, zwei PR-Prüfungen a und d): die Vereinigung der Teile ist die Ort-Menge ohne die Nacht-Einträge b und c.
+  const geteilt = baueRepo({ zweitePr: true })
+  ordnerListe.push(geteilt)
+  const gelaufen = []
+  for (const teil of ['1/2', '2/2']) {
+    const t = lauf(geteilt, 'check-logic-alle.mjs', ['--teil', teil])
+    assert.equal(t.status, 0, `Teil ${teil}: Exit ${t.status}\n${t.text}`)
+    assert.match(t.text, new RegExp(`Ort pr, Teil ${teil}, 1 von 4`), 'Teil nennt Ort und Listenlänge')
+    gelaufen.push(...['a', 'b', 'c', 'd'].filter((n) => nennt(t.text, `pipeline/check-${n}-`)))
+  }
+  assert.deepEqual(gelaufen.sort(), ['a', 'd'], 'Teile zusammen: genau die PR-Prüfungen, nie ein Nacht-Eintrag')
+  console.log('  ✓ --teil: Vereinigung der Teile = Ort-Menge ohne Nacht-Einträge')
   console.log('pruefung-ort: ok (Modus, Lesedateien, Aufteilung, check-logic-alle und tests-alle als Prozess im Merge-Commit, Rot nur nachts)')
 } finally {
   for (const o of ordnerListe) {

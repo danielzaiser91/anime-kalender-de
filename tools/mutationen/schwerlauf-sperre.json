@@ -61,5 +61,7 @@
   { "name": "H08 Segmentschleife ohne Hintergrund-Flag", "aenderungen": [{ "datei": ".claude/hooks/schwerlauf-sperre.js", "suche": "const treffer = pruefeSegment(tokens, hintergrund)", "ersetze": "const treffer = pruefeSegment(tokens)" }], "tests": ["node tools/schwerlauf-sperre.test.mjs"] },
   { "name": "H09 Hintergrund-Fund meldet Volllauf-Text", "aenderungen": [{ "datei": ".claude/hooks/schwerlauf-sperre.js", "suche": "if (fund.schwer) return", "ersetze": "if (false) return" }], "tests": ["node tools/schwerlauf-sperre.test.mjs"] },
   { "name": "H10 leeres Node ohne Skript gilt als schwer", "aenderungen": [{ "datei": ".claude/hooks/schwerlauf-sperre.js", "suche": "positionsArgumente(args)[0] ?? ''", "ersetze": "positionsArgumente(args)[0] ?? 'schwer'" }], "tests": ["node tools/schwerlauf-sperre.test.mjs"] },
+  { "name": "M53 Ziel check:logic-1 fehlt", "aenderungen": [{ "datei": ".claude/hooks/schwerlauf-sperre.js", "suche": "'check:logic-1', ", "ersetze": "" }], "tests": ["node tools/schwerlauf-sperre.test.mjs"] },
+  { "name": "M54 Ziel check:logic-2 fehlt", "aenderungen": [{ "datei": ".claude/hooks/schwerlauf-sperre.js", "suche": "'check:logic-2', ", "ersetze": "" }], "tests": ["node tools/schwerlauf-sperre.test.mjs"] },
   { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["node tools/schwerlauf-sperre.test.mjs"] }
 ]
