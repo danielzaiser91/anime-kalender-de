@@ -27,8 +27,8 @@ function fall(beschreibung, aendere, muster, aendereAktion = () => {}) {
 
 const sammler = (doc) => Object.values(doc.jobs).find((j) => j.name === 'PR-Prüfkette')
 const ohneLogik = (d) => { d.jobs.logik.steps = d.jobs.logik.steps.filter((s) => !/check:logic/.test(s.run ?? '')) }
-fall('Prüfung fehlt', ohneLogik, /"check:logic" läuft 0-mal/)
-fall('Prüfung doppelt', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:logic' }) }, /"check:logic" läuft 2-mal/)
+fall('Prüfung fehlt', ohneLogik, /"check:logic-1" läuft 0-mal/)
+fall('Prüfung doppelt', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:logic-1' }) }, /"check:logic-1" läuft 2-mal/)
 fall('Sammeljob verliert needs', (d) => { sammler(d).needs = sammler(d).needs.slice(1) }, /fehlt in needs/)
 fall('Sammeljob ohne die Aussehen-Jobs', (d) => { sammler(d).needs = sammler(d).needs.filter((id) => id !== 'aussehen') }, /"aussehen" fehlt in needs/)
 fall('Sammeljob ohne always()', (d) => { sammler(d).if = "${{ !startsWith(github.head_ref, 'daten/') }}" }, /always\(\)/)
@@ -43,8 +43,8 @@ fall('Namensbruchteil eines Prüfnamens', (d) => { d.jobs.logik.steps.unshift({ 
 fall('Sammeljob liest needs nicht', (d) => { sammler(d).steps[1] = { run: "jq -e '.result == \"success\"' x" } }, /nicht auf success/)
 const pruefSchritt = (d) => d.jobs.logik.steps.find((s) => /check:logic/.test(s.run ?? ''))
 fall('Prüfschritt mit if: false', (d) => { pruefSchritt(d).if = 'false' }, /Schlüssel "if" am Schritt/)
-fall('Prüfschritt mit || true', (d) => { pruefSchritt(d).run = 'npm run check:logic || true' }, /run ist nicht exakt/)
-fall('Prüfschritt mit ; true', (d) => { pruefSchritt(d).run = 'npm run check:logic; true' }, /run ist nicht exakt/)
+fall('Prüfschritt mit || true', (d) => { pruefSchritt(d).run = 'npm run check:logic-1 || true' }, /run ist nicht exakt/)
+fall('Prüfschritt mit ; true', (d) => { pruefSchritt(d).run = 'npm run check:logic-1; true' }, /run ist nicht exakt/)
 fall('Prüfschritt mit continue-on-error', (d) => { pruefSchritt(d)['continue-on-error'] = true }, /Schlüssel "continue-on-error" am Schritt/)
 fall('Teiljob mit continue-on-error', (d) => { d.jobs.logik['continue-on-error'] = true }, /Job "logik": Schlüssel "continue-on-error"/)
 fall('Teiljob mit if: false', (d) => { d.jobs.logik.if = '${{ false }}' }, /Teiljob "logik": if ist nicht textgleich/)
@@ -58,12 +58,12 @@ const logikSchritt = (d) => d.jobs.logik.steps.findIndex((s) => /check:logic/.te
 const setzeRun = (d, run) => { d.jobs.logik.steps[logikSchritt(d)].run = run }
 const setzeSchritt = (d, schluessel, wert) => { d.jobs.logik.steps[logikSchritt(d)][schluessel] = wert }
 const ABGEFANGEN = /run ist nicht exakt/
-fall('echo als Prüfung', (d) => setzeRun(d, 'echo npm run check:logic'), /"check:logic" läuft 0-mal/)
-fall('Kommentar als Prüfung', (d) => setzeRun(d, '# npm run check:logic'), /"check:logic" läuft 0-mal/)
-fall('run-Block mit true danach', (d) => setzeRun(d, 'npm run check:logic\ntrue\n'), ABGEFANGEN)
-fall('set +e davor', (d) => setzeRun(d, 'set +e\nnpm run check:logic\n'), ABGEFANGEN)
-fall('& am Ende', (d) => setzeRun(d, 'npm run check:logic &'), ABGEFANGEN)
-fall('--dry-run', (d) => setzeRun(d, 'npm run check:logic --dry-run'), ABGEFANGEN)
+fall('echo als Prüfung', (d) => setzeRun(d, 'echo npm run check:logic-1'), /"check:logic-1" läuft 0-mal/)
+fall('Kommentar als Prüfung', (d) => setzeRun(d, '# npm run check:logic-1'), /"check:logic-1" läuft 0-mal/)
+fall('run-Block mit true danach', (d) => setzeRun(d, 'npm run check:logic-1\ntrue\n'), ABGEFANGEN)
+fall('set +e davor', (d) => setzeRun(d, 'set +e\nnpm run check:logic-1\n'), ABGEFANGEN)
+fall('& am Ende', (d) => setzeRun(d, 'npm run check:logic-1 &'), ABGEFANGEN)
+fall('--dry-run', (d) => setzeRun(d, 'npm run check:logic-1 --dry-run'), ABGEFANGEN)
 fall('working-directory am Schritt', (d) => setzeSchritt(d, 'working-directory', 'web'), /Schlüssel "working-directory"/)
 fall('shell am Schritt', (d) => setzeSchritt(d, 'shell', 'bash {0}'), /Schlüssel "shell"/)
 fall('defaults.run.shell im Workflow', (d) => { d.defaults = { run: { shell: 'bash {0}' } } }, /Workflow: Schlüssel "defaults"/)
@@ -126,9 +126,9 @@ fall('fremdes Env am Bau', (d) => { d.jobs.bau.steps.find((s) => s.name === 'Bau
 fall('weiteres Env am Bau', (d) => { d.jobs.bau.steps.find((s) => s.name === 'Bauen').env.NODE_OPTIONS = '--require x' }, /env am Schritt nur/)
 fall('anderes Env am Schritt', (d) => { d.jobs.logik.steps.at(-1).env = { X: 1 } }, /env am Schritt nur/)
 // Gut-Fall: die echte Datei trägt GH_TOKEN am Schritt check:logic (patchnotes-kommentar.mjs liest damit die PR-Kommentare) und ist grün (Zeile 16).
-assert.deepEqual(lesen().jobs.logik.steps.at(-1), { run: 'npm run check:logic', env: { GH_TOKEN: '${{ github.token }}' } }, 'GH_TOKEN fehlt am check:logic-Schritt')
+assert.deepEqual(lesen().jobs.logik.steps.at(-1), { run: 'npm run check:logic-1', env: { GH_TOKEN: '${{ github.token }}' } }, 'GH_TOKEN fehlt am check:logic-Schritt')
 fall('GH_TOKEN in anderem Teiljob', (d) => { d.jobs.typen.steps.at(-1).env = { GH_TOKEN: '${{ github.token }}' } }, /GH_TOKEN am Schritt nur bei/)
-fall('GH_TOKEN an check:logic in anderem Teiljob', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:logic', env: { GH_TOKEN: '${{ github.token }}' } }) }, /GH_TOKEN am Schritt nur bei/)
+fall('GH_TOKEN an check:logic in anderem Teiljob', (d) => { d.jobs.typen.steps.push({ run: 'npm run check:logic-1', env: { GH_TOKEN: '${{ github.token }}' } }) }, /GH_TOKEN am Schritt nur bei/)
 fall('GH_TOKEN an anderem Schritt im Job logik', (d) => { d.jobs.logik.steps.push({ run: 'npm run check:umfang', env: { GH_TOKEN: '${{ github.token }}' } }) }, /GH_TOKEN am Schritt nur bei/)
 fall('GH_TOKEN mit fremdem Wert', (d) => { d.jobs.logik.steps.at(-1).env = { GH_TOKEN: '${{ secrets.X }}' } }, /env am Schritt nur/)
 fall('Upload in anderem Teiljob mit richtigem with', (d) => { d.jobs.typen.steps.push({ uses: 'actions/upload-pages-artifact@v3', with: { path: 'dist', 'retention-days': 3 } }) }, /nur im Job "bau"/)
