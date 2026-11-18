@@ -88,3 +88,59 @@ export async function ausDistLiefern(ctx, dist) {
     return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body: readFileSync(datei) })
   })
 }
+
+/** Läuft in der Seite: führt Buch über jedes `setInterval` (Takt, Anlage, Ende, Aufrufer), damit der Leerlauf-Test Dauertakte findet. */
+export function timerHaken() {
+  const liste = []
+  window.__intervalle = liste
+  const setzen = window.setInterval.bind(window)
+  const loeschen = window.clearInterval.bind(window)
+  window.setInterval = (fn, takt, ...rest) => {
+    const id = setzen(fn, takt, ...rest)
+    const ort = String(new Error().stack ?? '').split('\n').slice(2, 4).map((z) => z.trim()).join(' ← ')
+    liste.push({ id, takt: Number(takt) || 0, angelegt: Math.round(performance.now()), beendet: null, ort })
+    return id
+  }
+  window.clearInterval = (id) => {
+    const e = liste.find((x) => x.id === id && x.beendet === null)
+    if (e) e.beendet = Math.round(performance.now())
+    return loeschen(id)
+  }
+}
+
+const metrik = async (cdp) => Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map((m) => [m.name, m.value]))
+
+/** Misst `dauerMs` Leerlauf: CPU- und Skriptanteil, Layouts und Stil-Neuberechnungen je Minute, laufende Intervalle und unendliche Animationen. */
+export async function leerlaufMessen(seite, cdp, dauerMs) {
+  await cdp.send('Performance.enable')
+  const vorher = await metrik(cdp)
+  const t0 = Date.now()
+  await seite.waitForTimeout(dauerMs)
+  const nachher = await metrik(cdp)
+  const sekunden = (Date.now() - t0) / 1000
+  const d = (k) => nachher[k] - vorher[k]
+  const inSeite = await seite.evaluate(() => ({
+    intervalle: (window.__intervalle ?? []).filter((x) => x.beendet === null),
+    kurzlebig: (window.__intervalle ?? []).filter((x) => x.beendet !== null && x.takt < 1000),
+    animationen: document.getAnimations().filter((a) => a.playState === 'running' && a.effect?.getTiming().iterations === Infinity).map((a) => a.animationName ?? a.constructor.name),
+    knoten: document.getElementsByTagName('*').length,
+  }))
+  return {
+    sekunden: Math.round(sekunden),
+    cpu: d('TaskDuration') / sekunden,
+    scriptMsJeS: Math.round((d('ScriptDuration') * 1000 * 10) / sekunden) / 10,
+    layoutsJeMin: Math.round((d('LayoutCount') * 60) / sekunden),
+    stileJeMin: Math.round((d('RecalcStyleCount') * 60) / sekunden),
+    heapMb: Math.round(nachher.JSHeapUsedSize / 1e5) / 10,
+    ...inSeite,
+  }
+}
+
+/** Belegter JS-Heap in Bytes nach 2 s Ruhe und dreifacher Bereinigung (Finalizer und Nachzügler geben erst später frei; einfach gemessen streute der Wert ±0,5 MB, 18.11.2026). */
+export async function heapNachGc(seite, cdp) {
+  await seite.waitForTimeout(2000)
+  await cdp.send('HeapProfiler.collectGarbage')
+  await cdp.send('HeapProfiler.collectGarbage')
+  await cdp.send('HeapProfiler.collectGarbage')
+  return (await cdp.send('Runtime.getHeapUsage')).usedSize
+}

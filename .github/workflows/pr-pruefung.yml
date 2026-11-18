@@ -225,6 +225,12 @@ jobs:
             befehl: npm run check:suchhinweis
           - teil: Filter-Tempo
             befehl: npm run check:filter-tempo
+          # Lighthouse mobil gegen dist (3 Läufe je Seite, Median gegen tools/lighthouse-grenzen.json) und Leerlauf/Leck (70 s je Ansicht), 18.11.2026.
+          # Nur hier, nicht in `npm run build` und nicht im Deploy-Weg: der Deploy wartet sonst auf ≈ 5 min Messung.
+          - teil: Lighthouse
+            befehl: npm run check:lighthouse
+          - teil: Leerlauf
+            befehl: npm run check:leerlauf
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
           - teil: Bühne-Messen
