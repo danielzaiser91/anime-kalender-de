@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-56 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+58 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -25,6 +25,7 @@ Stand: 2026-11-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
 | 2026-11-22 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 47/2026](https://www.anime2you.de/news/1072136/anime-tv-programm-47-2026/) |
+| 2026-11-23 | ? | – unklar | [»PSYREN« legt Pause auf unbestimmte Zeit vor Episode 7 ein](https://www.anime2you.de/news/1072697/psyren-pause-vor-episode-7/) |
 | 2026-11-23 | ? | – unklar | [ProSieben MAXX startet zweiten werktäglichen Anime-Block](https://www.anime2you.de/news/1068887/prosieben-maxx-zweiter-werktaeglicher-anime-block/) |
 | 2026-12-13, 2026-12 (Monat) | ? | ✅ zugesagt | [Anime-Weihnachtsfilm »Tokyo Godfathers« bald erneut auf ZDFneo](https://www.anime2you.de/news/1068738/tokyo-godfathers-bald-erneut-auf-zdfneo/) |
 | 2026-12-04, 2026-12 (Monat) | ? | – unklar | [ProSieben MAXX zeigt »Wandering Witch: Elainas Reise« als TV-Premiere](https://www.anime2you.de/news/1066039/prosieben-maxx-zeigt-wandering-witch-elainas-reise/) |
@@ -47,61 +48,60 @@ Stand: 2026-11-17. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-01-09 | ? | – unklar | [Starttermin von »Wound and Bandage« steht fest + Teaser](https://www.anime2you.de/news/1061578/starttermin-von-wound-and-bandage/) |
 | 2027-02 (Monat) | netflix | – unklar | [Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«](https://www.anime2you.de/news/1043291/the-one-piece-staffel-1-neues-visual/) |
 | 2027-03-31, 2027-03 (Monat) | ? | – unklar | [Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027](https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/) |
-| 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
 
-… und 16 weitere.
+… und 18 weitere.
 
-Dazu 66 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 69 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 11 |
-| adn-catalog | 0.9 Tage her | 120 |
+| adn | 0.0 Tage her | 10 |
+| adn-catalog | 1.9 Tage her | 120 |
 | adn-news | 0.1 Tage her | 69 |
-| anilist-voices | 1.0 Tage her | 3012 |
-| anime-offline-database | 1.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 99 |
+| anilist-voices | 2.0 Tage her | 3012 |
+| anime-offline-database | 2.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 101 |
 | anisearch | 0.9 Tage her | 1 |
-| anisearch-cover-eigen | 12.6 Tage her | 138 |
+| anisearch-cover-eigen | 13.6 Tage her | 138 |
 | anisearch-dubs | 1.0 Tage her | 11951 |
-| anisearch-eintraege | 1.0 Tage her | 400 |
-| anisearch-folgen | 1.0 Tage her | 452 |
-| anisearch-slugs | 1.0 Tage her | 14919 |
+| anisearch-eintraege | 2.0 Tage her | 400 |
+| anisearch-folgen | 2.0 Tage her | 452 |
+| anisearch-slugs | 2.0 Tage her | 14919 |
 | anisearch-zuordnung | 1.0 Tage her | 18518 |
-| ann-voices | 1.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 20 |
-| cartoon-folgen | 1.0 Tage her | 366 |
-| cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 2 |
-| cinestar | 1.0 Tage her | 1 |
-| cr-einzelwerke | 3.5 Tage her | 1 |
-| cr-filmbloecke | 3.5 Tage her | 1 |
-| crunchyroll-dub | 0.5 Tage her | 1156 |
+| ann-voices | 2.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 9 |
+| cartoon-folgen | 2.0 Tage her | 366 |
+| cartoon-reihen | 1.0 Tage her | 1 |
+| cartoons | 1.0 Tage her | 1 |
+| cinestar | 2.0 Tage her | 1 |
+| cr-einzelwerke | 4.5 Tage her | 1 |
+| cr-filmbloecke | 4.5 Tage her | 1 |
+| crunchyroll-dub | 1.5 Tage her | 1156 |
 | crunchyroll-neu | 0.0 Tage her | 196 |
-| crunchyroll-offene | 1.0 Tage her | 7 |
+| crunchyroll-offene | 2.0 Tage her | 7 |
 | crunchyroll-woche | 0.0 Tage her | 63 |
-| justwatch-audio | 1.0 Tage her | 71 |
-| kinoheld | 1.0 Tage her | 0 |
-| kitsu-folgen | 4.5 Tage her | 0 |
-| link-check | 1.0 Tage her | 18 |
+| justwatch-audio | 1.0 Tage her | 17 |
+| kinoheld | 2.0 Tage her | 0 |
+| kitsu-folgen | 5.5 Tage her | 0 |
+| link-check | 2.0 Tage her | 18 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 10.0 Tage her | 2123 |
+| motn | 11.0 Tage her | 2123 |
 | motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 2.1 Tage her | 0 |
-| rtlplus-folgen | 1.0 Tage her | 3 |
-| tmdb-banner | 1.0 Tage her | 11 |
-| tmdb-folgen | 1.0 Tage her | 945 |
-| tmdb-kino | 1.0 Tage her | 3 |
-| tmdb-poster | 1.0 Tage her | 236 |
-| tmdb-titles | 1.0 Tage her | 400 |
+| rohfolgen | 0.3 Tage her | 0 |
+| rtlplus-folgen | 2.0 Tage her | 3 |
+| tmdb-banner | 2.0 Tage her | 11 |
+| tmdb-folgen | 2.0 Tage her | 945 |
+| tmdb-kino | 2.0 Tage her | 3 |
+| tmdb-poster | 2.0 Tage her | 236 |
+| tmdb-titles | 2.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 1 |
-| tv-de | 11.2 Tage her | 0 |
-| tv-programm | 0.0 Tage her | 285 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 1.0 Tage her | 5373 |
-| wikidata-titel | 1.0 Tage her | 16 |
+| trailer | 1.0 Tage her | 3 |
+| tv-de | 12.2 Tage her | 0 |
+| tv-programm | 0.0 Tage her | 286 |
+| vorfaelle | 0.0 Tage her | 10 |
+| wikidata-imdb | 2.0 Tage her | 5373 |
+| wikidata-titel | 2.0 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 10 |
-| youtube-check | 1.0 Tage her | 1 |
+| youtube-check | 2.0 Tage her | 1 |
