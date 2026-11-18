@@ -10,9 +10,15 @@ export function zitatStaffeln(zitat) {
   return [...String(zitat).matchAll(STAFFEL)].map((m) => (m[1] ? ORDNUNG[m[1].toLowerCase()] : Number(m[2])))
 }
 
-/** Staffel der Adresse laut Notiz („laut Adresse Staffel N“) und die dort geprüfte Folgenzahl („alle N Folgen geprüft“); null, wenn nicht genannt. */
+/**
+ * Staffel der Adresse laut Notiz („laut Adresse Staffel N“) und die dort geprüfte Folgenzahl („alle N Folgen geprüft“); null, wenn nicht genannt.
+ * Nennt die Notiz eine andere „Seitenadresse“ als die gelesene „Amazon-Seite“, gehört die Staffel der Seitenadresse, nicht der Zeilenadresse (Clannad 4181, 18.11.2026).
+ */
 export function adressStaffel(note) {
-  const s = /laut Adresse Staffel (\d+)/.exec(note || '')
+  const seite = /Amazon-Seite (\w+)/.exec(note || '')?.[1]
+  const seitenadresse = /Seitenadresse: (\w+)/.exec(note || '')?.[1]
+  const fremd = Boolean(seite && seitenadresse && seite !== seitenadresse)
+  const s = fremd ? null : /laut Adresse Staffel (\d+)/.exec(note || '')
   const f = /alle (\d+) Folgen? geprüft/.exec(note || '')
   return { staffel: s ? Number(s[1]) : null, folgen: f ? Number(f[1]) : null }
 }

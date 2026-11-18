@@ -586,6 +586,7 @@ pipeline/check-staffelsumme-gruppe.ts
 pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung-franchise.ts
 pipeline/check-staffelzaehlung.ts
+pipeline/check-staffelzitat.ts
 pipeline/check-stand-halten.ts
 pipeline/check-streaming-kleinfixes.ts
 pipeline/check-streaming-luecke-klassen.ts
