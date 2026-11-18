@@ -1,6 +1,6 @@
 # Wache — Bestand und Briefkasten
 
-**⚠ Auffälligkeit** · letzter Befund vom 17.11.2026 um 17:54 Uhr
+**⚠ Auffälligkeit** · letzter Befund vom 18.11.2026 um 17:28 Uhr
 
 Diese Zeile nennt den letzten **Befund**, nicht den letzten Lauf: Seit dem 26.09.2026 wird nur noch
 ein Befund committet (Daniel: „Behalten, still bei Ruhe"). Ob die Wache täglich läuft, steht in
@@ -19,55 +19,76 @@ komisch vorkam. Das soll ihm keiner mehr abverlangen.
 
 ## Was aufgefallen ist
 
-- 1 Titel weniger
+- Patch Notes: anisearch-ende-nur-belegt liegt seit 2026-11-10 im Vorrat (wartet auf: Bestandsbau nach PR 3211 — jpEnd in aniSearch-Spalte und -Titeln nur bei belegtem Ende) – prüfen, ob die Wirkung live ist, dann freigeben
+- 4 Urteile verloren (3 weitere sind begründet entfernt) (4 weitere durch Kanal-Titel herabgestuft); 2 Titel ohne Synchro-Beleg (3 weitere durch Kanal-Titel herabgestuft) (1 weitere durch verschobenen Weg); disneyplus: 4 Synchro-Belege weniger; disneyplus: fehlt Black Clover (97940): https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a (link-check: {"status":200,"geprueftAm":"2026-11-09"}); disneyplus: fehlt Jujutsu Kaisen 0 (131573): https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194 (link-check: {"status":200,"geprueftAm":"2026-10-26"}); disneyplus: fehlt Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788): https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034 (link-check: {"status":200,"geprueftAm":"2026-10-26"}); disneyplus: fehlt Star Wars: Visionen präsentiert - Die neunte Jedi (213847): https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a (link-check: {"status":200,"geprueftAm":"2026-11-09"})
+- 1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger; adn: fehlt Kill La Kill (18679): https://animationdigitalnetwork.com/de/video/1218-kill-la-kill (kein link-check-Eintrag)
+- Terminableitung: 1 Serien mehr wegen „Folgenzahl geht nicht auf" (jetzt 45)
 
 ## Bestand — die letzten 24 Stunden
 
 ```
-38 Läufe in den letzten 1 Tagen (2352 insgesamt)
+⚠  Patch Notes: anisearch-ende-nur-belegt liegt seit 2026-11-10 im Vorrat (wartet auf: Bestandsbau nach PR 3211 — jpEnd in aniSearch-Spalte und -Titeln nur bei belegtem Ende) – prüfen, ob die Wirkung live ist, dann freigeben
 
-16.11., 17:44  Bestand — zusammenführ   verweise -2, mitUrteil -1, ohneUrteil -1, releases +2, termine +2
-            ℹ  erklärt, nicht rot: primevideo: Beleg gewollt entfernt – Chaika, die Sargprinzessin (20462): Seite B07MXMCF4V ist die Staffel-2-Seite (Avenging Battle, 20719, 10 Folgen; Notiz oben, 14./15.11.2026); 20462 (Staffel 1, 12 Folgen) führt B07LHFLDBS. Die Meldung in prime-zugeordnet.json schrieb sie Staffel 1 zu, weil die Seite Sekunden später die gti von Staffel 1 zeigte (widersprüchliche Messung 14.11.2026). Neumessung der Seite steht aus (16.11.2026)
-16.11., 20:03  Bestand — zusammenführ   verweise -5, mitUrteil +1, ohneUrteil -6, releases -3, termine -3
-16.11., 20:31  Bestand — zusammenführ   verweise -1, ohneUrteil -1
-16.11., 20:59  Bestand — zusammenführ   releases +1, termine +1
-16.11., 22:17  Bestand — zusammenführ   verweise -12, ohneUrteil -12
-17.11., 04:26  --ersetzen               titel +2
-17.11., 04:29  Bestand — zusammenführ   titel -1, verweise +1, ohneUrteil +1
-            ⚠  1 Titel weniger
-17.11., 05:13  Bestand — zusammenführ   termine +7
-17.11., 08:48  Bestand — zusammenführ   verweise +1, mitUrteil +1, releases +1, termine +1
-17.11., 13:30  Bestand — zusammenführ   releases +1, termine +1
-17.11., 13:57  Bestand — zusammenführ   termine +11
-17.11., 14:13  Bestand — zusammenführ   releases +1, termine +1
+30 Läufe in den letzten 1 Tagen (2382 insgesamt)
 
-Stand jetzt: 2924 Titel, 2141 Urteile, 303 offen
-Über den Zeitraum: Titel +1, Urteile +1, offen -19
+17.11., 16:43  Bestand — zusammenführ   verweise +1, ohneUrteil +1
+17.11., 17:10  Bestand — zusammenführ   verweise -1, mitUrteil -11, ohneUrteil +10, titelMitSynchro -6
+            ℹ  erklärt, nicht rot: 3 Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war; 1 Titel ohne Synchro-Beleg, weil ihr Weg an einen anderen Titel ging; netflix: Weg verschoben – The Ramparts of Ice: Staffel 2 (213805): https://www.netflix.com/title/82031882 → The Ramparts of Ice (186497); primevideo: 4 Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)
+            ⚠  4 Urteile verloren (3 weitere sind begründet entfernt) (4 weitere durch Kanal-Titel herabgestuft); 2 Titel ohne Synchro-Beleg (3 weitere durch Kanal-Titel herabgestuft) (1 weitere durch verschobenen Weg); disneyplus: 4 Synchro-Belege weniger; disneyplus: fehlt Black Clover (97940): https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a (link-check: {"status":200,"geprueftAm":"2026-11-09"}); disneyplus: fehlt Jujutsu Kaisen 0 (131573): https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194 (link-check: {"status":200,"geprueftAm":"2026-10-26"}); disneyplus: fehlt Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788): https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034 (link-check: {"status":200,"geprueftAm":"2026-10-26"}); disneyplus: fehlt Star Wars: Visionen präsentiert - Die neunte Jedi (213847): https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a (link-check: {"status":200,"geprueftAm":"2026-11-09"})
+               • Ame & Yuki: Die Wolfskinder (12355) · primevideo · Synchro-Urteil jetzt offen
+               • Attack on Titan (16498) · primevideo · Synchro-Urteil jetzt offen (link-check: 200 am 2026-09-28)
+               • Der Junge und das Biest (20981) · primevideo · Synchro-Urteil jetzt offen
+               • Black Clover (97940) · disneyplus · Synchro-Urteil jetzt offen (link-check: 200 am 2026-11-09)
+               • The First Slam Dunk (128207) · primevideo · Synchro-Urteil jetzt offen
+               • Jujutsu Kaisen 0 (131573) · disneyplus · Synchro-Urteil jetzt offen (link-check: 200 am 2026-10-26)
+               • Dorohedoro: Staffel 2 (173172) · crunchyroll · Synchro-Urteil jetzt offen
+               • Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788) · disneyplus · Synchro-Urteil jetzt offen (link-check: 200 am 2026-10-26)
+               • Star Wars: Visionen präsentiert - Die neunte Jedi (213847) · disneyplus · Synchro-Urteil jetzt offen (link-check: 200 am 2026-11-09)
+               • Thunder 3 (207254) · netflix · Synchro-Urteil jetzt offen (link-check: 200 am 2026-11-09)
+               • The Ramparts of Ice: Staffel 2 (213805) · netflix · Synchro-Beleg verschoben zu The Ramparts of Ice (186497)
+17.11., 18:18  Bestand — zusammenführ   verweise -3, ohneUrteil -3
+17.11., 18:57  Bestand — zusammenführ   verweise +170, ohneUrteil +170
+17.11., 19:44  Bestand — zusammenführ   verweise +3, ohneUrteil +3
+17.11., 20:19  Bestand — zusammenführ   mitUrteil +2, ohneUrteil -2, titelMitSynchro +2
+17.11., 23:12  Bestand — zusammenführ   mitUrteil +1, ohneUrteil -1, titelMitSynchro +1
+18.11., 04:29  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1, titelMitSynchro -1, releases +2, termine +24
+            ⚠  1 Urteile verloren; 1 Titel ohne Synchro-Beleg; adn: 1 Synchro-Belege weniger; adn: fehlt Kill La Kill (18679): https://animationdigitalnetwork.com/de/video/1218-kill-la-kill (kein link-check-Eintrag)
+               • Kill La Kill (18679) · adn · Synchro-Beleg weg
+               • Es war einmal … der Mensch (10004749) · primevideo · Synchro-Beleg weg (link-check: 503 am 2026-11-04)
+18.11., 05:12  Bestand — zusammenführ   termine +7
+18.11., 06:43  Bestand — zusammenführ   mitUrteil +57, ohneUrteil -57, titelMitSynchro +55, releases +4, termine +4
+18.11., 08:52  Bestand — zusammenführ   titel +1, verweise -2, mitUrteil +86, ohneUrteil -88, titelMitSynchro +52, releases +3, termine +3
+18.11., 11:22  Bestand — zusammenführ   mitUrteil -1, ohneUrteil +1, titelMitSynchro -1
+            ℹ  erklärt, nicht rot: 1 Titel ohne Synchro-Beleg, weil ihr Ja nur Amazons Sprachangabe auf einem Kanal-Titel war; primevideo: 1 Synchro-Belege herabgestuft (Kanal-Titel, Amazons Sprachangabe)
+18.11., 12:00  Bestand — zusammenführ   mitUrteil +4, ohneUrteil -4, titelMitSynchro +2
 
-⚠  1 Lauf/Läufe mit Auffälligkeiten — siehe oben.
+Stand jetzt: 2925 Titel, 2278 Urteile, 334 offen
+Über den Zeitraum: Titel +1, Urteile +137, offen +30
+
+⚠  2 Lauf/Läufe mit Auffälligkeiten — siehe oben.
 ```
 
 ## Briefkasten
 
 ```
-Briefkasten: 4105 Meldungen auf 230 Adressen (primevideo 514, adn 158, disneyplus 2217, netflix 1216)
-Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 426 Adressen
+Briefkasten: 4080 Meldungen auf 229 Adressen (primevideo 514, adn 133, disneyplus 2217, netflix 1216)
+Liste daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md: 425 Adressen
 Zurückgestellt (data/meldungen-zurueckgestellt.json): 0 Adressen im Briefkasten
 Alle Adressen sind gelistet.
-Übernahme: zuletzt 2026-11-16T22:10:27.448Z (data/meldungen-uebernahme.json)
-✓ refresh-hourly.yml: letzter Erfolg vor 1 h (Frist 3 h)
-✓ refresh-data.yml: letzter Erfolg vor 13 h (Frist 36 h)
-✓ refresh-weekly.yml: letzter Erfolg vor 36 h (Frist 336 h)
+Übernahme: zuletzt 2026-11-18T11:15:03.211Z (data/meldungen-uebernahme.json)
+✓ refresh-hourly.yml: letzter Erfolg vor 0 h (Frist 3 h)
+✓ refresh-data.yml: letzter Erfolg vor 12 h (Frist 36 h)
+✓ refresh-weekly.yml: letzter Erfolg vor 59 h (Frist 336 h)
 ✓ daten-auf-abruf.yml: letzter Erfolg vor 7 h (Frist 36 h)
-✓ anisearch-katalog.yml: letzter Erfolg vor 11 h (Frist 36 h)
-✓ tonspuren-monatlich.yml: letzter Erfolg vor 253 h (Frist 1008 h)
-✓ bestand-bauen.yml: letzter Erfolg vor 1 h (Frist 18 h)
+✓ anisearch-katalog.yml: letzter Erfolg vor 10 h (Frist 36 h)
+✓ tonspuren-monatlich.yml: letzter Erfolg vor 276 h (Frist 1008 h)
+✓ bestand-bauen.yml: letzter Erfolg vor 0 h (Frist 18 h)
 ✓ d1-verbrauch.yml: letzter Erfolg vor 23 h (Frist 48 h)
-✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 1 h (Frist 3 h)
-✓ claude-wache-urteil.yml: letzter Erfolg vor 8 h (Frist 36 h)
-✓ claude-verpasst-recherche.yml: letzter Erfolg vor 6 h (Frist 36 h)
-✓ claude-daten-merge.yml: letzter Erfolg vor 1 h (Frist 48 h)
-✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 1 h
+✓ claude-anime2you-extraktion.yml: letzter Erfolg vor 0 h (Frist 3 h)
+✓ claude-wache-urteil.yml: letzter Erfolg vor 7 h (Frist 36 h)
+✓ claude-verpasst-recherche.yml: letzter Erfolg vor 5 h (Frist 36 h)
+✓ claude-daten-merge.yml: letzter Erfolg vor 0 h (Frist 48 h)
+✓ GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor 0 h
 ℹ Ablaufdatum unbekannt (gueltigBis leer): CLAUDE_CODE_OAUTH_TOKEN, LAUF_TOKEN, CR_ZUGANG, ANISEARCH_TOKEN, TMDB_API_KEY, YOUTUBE_API_KEY, STREAMING_API_KEY, SERPER_API_KEY, DATEN_APP_KEY, DISCORD_WEBHOOK, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ANALYTICS_TOKEN, NACHT_MERGER_TOKEN, GITHUB_WECKER_TOKEN, MAIL_API_KEY, WEICHE_TOKEN — Daniel liest es einmal im Konto ab und trägt es ins Register ein.
 
 Zugänge unauffällig.
@@ -79,10 +100,10 @@ Serien, für die keine Termine entstanden — je Grund, mit der Veränderung sei
 (`data/termine-ausgelassen.json`, Skill `stille-ausfaelle-verhindern`).
 
 ```
- 228  Blöcke und Titel verschieden viele (±0)
-  44  Folgenzahl geht nicht auf (±0)
+ 227  Blöcke und Titel verschieden viele (-1)
+  45  Folgenzahl geht nicht auf (+1)
    4  deutscher Termin vor der japanischen Ausstrahlung (±0)
-(Vergleich mit dem Stand vom 2026-11-16)
+(Vergleich mit dem Stand vom 2026-11-17)
 ```
 
 ## Tagebuch
@@ -91,6 +112,7 @@ Die letzten 60 Läufe. Älteres hat seinen Zweck erfüllt.
 
 | Zeitpunkt | Titel / Urteile / offen | Veränderung | Befund |
 |---|---|---|---|
+| 18.11.2026 17:28 | 2925 / 2278 / 334 | Titel +1, Urteile +137, offen +30 | Patch Notes: anisearch-ende-nur-belegt liegt seit 2026-11-10 im Vorrat (wartet auf: Bestandsbau nach PR 3211 — jpEnd in aniSearch-Spalte und -Titeln nur bei belegtem Ende) – prüfen, ob die Wirkung live ist, dann freigeben; 4 Urteile verloren (3 weitere sind begründet entfernt) (4 weitere durch Kanal-Titel herabgestuft); 2 Titel ohne Synchro-Beleg (3 weitere durch Kanal-Titel herabgestuft) (1 weitere durch verschobenen Weg); disneyplus: 4 Synchro-Belege weniger; disneyplus: fehlt Black Clover (97940): https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a (link-check: {"status":200,"geprueftAm":"2026-11-09"}); disneyplus: fehlt Jujutsu Kaisen 0 (131573): https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194 (link-check: {"status":200,"geprueftAm":"2026-10-26"}); disneyplus: fehlt Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788): https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034 (link-check: {"status":200,"geprueftAm":"2026-10-26"}); disneyplus: fehlt Star Wars: Visionen präsentiert - Die neunte Jedi (213847): https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a (link-check: {"status":200,"geprueftAm":"2026-11-09"}) |
 | 17.11.2026 17:54 | 2924 / 2141 / 303 | Titel +1, Urteile +1, offen -19 | 1 Titel weniger |
 | 16.11.2026 18:02 | 2923 / 2140 / 322 | Titel 0, Urteile +6, offen -153 | 1 Titel weniger; 2 Urteile verloren; 1 Titel ohne Synchro-Beleg; crunchyroll: 2 Synchro-Belege weniger; crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba (101922): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag); crunchyroll: fehlt Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train (112151): https://www.crunchyroll.com/de/demon-slayer-kimetsu-no-yaiba (kein link-check-Eintrag); 147 Verweise ohne protokollierten Grund weg (1 weitere sind begründet entfernt) |
 | 15.11.2026 15:46 | 2923 / 2134 / 475 | Titel 0, Urteile +3, offen 0 | 1 Urteile verloren; primevideo: 1 Synchro-Belege weniger; primevideo: fehlt Captain Tsubasa: Staffel 2 - Die Junioren (163024): https://www.amazon.de/gp/video/detail/B0CM3H8VQS (link-check: {"status":200,"geprueftAm":"2026-10-05","prime":true}) |
