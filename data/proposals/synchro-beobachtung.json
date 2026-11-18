@@ -72,13 +72,6 @@
       "seit": "2026-11-08"
     },
     {
-      "titel": "Bocchi the Rock!",
-      "id": 130003,
-      "anbieter": "disc",
-      "start": "2026-11-20",
-      "seit": "2026-11-08"
-    },
-    {
       "titel": "Call of the Night: Staffel 2",
       "id": 175914,
       "anbieter": "disc",
@@ -93,11 +86,25 @@
       "seit": "2026-11-08"
     },
     {
+      "titel": "2.5 Dimensional Seduction",
+      "id": 185515,
+      "anbieter": "disc",
+      "start": "2026-11-20",
+      "seit": "2026-11-18"
+    },
+    {
       "titel": "Soukou Kihei Votoms: Haiiro no Hexe",
       "id": 206163,
       "anbieter": "unbekannt",
       "start": "2026-11-20",
       "seit": "2026-11-08"
+    },
+    {
+      "titel": "Battle Through the Heavens The Movie: Battle of the Two Emperors",
+      "id": 219986,
+      "anbieter": "unbekannt",
+      "start": "2026-11-22",
+      "seit": "2026-11-18"
     },
     {
       "titel": "Strike Witches 2",
@@ -111,6 +118,13 @@
       "id": 212539,
       "anbieter": "unbekannt",
       "start": "2026-11-27",
+      "seit": "2026-11-08"
+    },
+    {
+      "titel": "Bocchi the Rock!",
+      "id": 130003,
+      "anbieter": "disc",
+      "start": "2026-12-04",
       "seit": "2026-11-08"
     },
     {
