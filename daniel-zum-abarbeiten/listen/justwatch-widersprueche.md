@@ -7,7 +7,7 @@ Abschnitt „JustWatch-Ton je Seite“. Unsere Messung (Handbeleg, Meldung der E
 <!-- anime:start -->
 ## Anime
 
-Flagge „Deutsch“: 98 Wege, nur Hinweis: 1.
+Flagge „Deutsch“: 101 Wege, nur Hinweis: 1.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 7, Mehrteiler 3.
 
@@ -15,7 +15,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | crunchyroll | 7 | 0 | 0.0 % | Flagge |
 | disneyplus | 7 | 0 | 0.0 % | Flagge |
-| primevideo | 138 | 1 | 0.7 % | Flagge |
+| primevideo | 141 | 1 | 0.7 % | Flagge |
 
 ### Widersprüche (1)
 
@@ -23,7 +23,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 |---|---|---|---|---|
 | Vampire Hunter D: Bloodlust (543) | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.68239688-dba5-4abc-a3b5-5e554d51081f | de, Stand 2026-10-26 | Handbeleg 2026-10-31 |
 
-### Kandidaten für neue Wege (414)
+### Kandidaten für neue Wege (418)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -139,6 +139,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Der Mohnblumenberg (10029) | Amazon Video | amazon:amzn1.dv.gti.863e0dd6-b461-4d65-acc1-ea1bfd73648f | ja |
 | Ein Brief an Momo (10389) | Amazon Video | amazon:amzn1.dv.gti.64a9f6b5-208b-fc5c-a720-81f53f632866 | ja |
 | Black Rock Shooter (11285) | Amazon Prime Video | amazon:amzn1.dv.gti.654442b8-82b8-4968-910f-08d89912be54 | ja |
+| Sankarea: Undying Love (11499) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31 | nein |
 | Detektiv Conan: Der 11. Stürmer (12117) | Crunchyroll | crunchyroll:G50UZEM25 | ja |
 | Detektiv Conan: Der 11. Stürmer (12117) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.73db36e2-567d-4735-9d33-18aaa84b4c17 | ja |
 | Detektiv Conan: Der 11. Stürmer (12117) | Amazon Video | amazon:amzn1.dv.gti.aeb88c68-4b71-9e00-ac23-39682343d2b4 | ja |
@@ -355,7 +356,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | The Ghost in the Shell (177699) | Amazon Prime Video | amazon:amzn1.dv.gti.e6239860-6c74-4435-8c48-3e9c88948635 | ja |
 | Tamon’s B-Side (178005) | Crunchyroll | crunchyroll:GE00366316DEDE | nein |
 | Tamon’s B-Side (178005) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.bad3ebdd-db9c-4e1b-8b68-8937781accff | nein |
-| Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788) | Crunchyroll | crunchyroll:GMEE00351144FRFR | nein |
+| Demon Slayer: Kimetsu no Yaiba - Infinity Castle (178788) | Crunchyroll | crunchyroll:GMEE00351144ITIT | nein |
 | Dealing with Mikadono Sisters Is a Breeze (178886) | Crunchyroll | crunchyroll:GMKUE3PMQ | nein |
 | Dealing with Mikadono Sisters Is a Breeze (178886) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.c2c6a127-1420-431c-9937-2429e95a3458 | nein |
 | Magic Maker: How to Make Magic in Another World (179297) | Crunchyroll | crunchyroll:GG1UX5177 | nein |
@@ -431,8 +432,11 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Overgeared (212888) | Crunchyroll | crunchyroll:GE00384228TLPH | nein |
 | Overgeared (212888) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.de0581bf-0804-48bd-980f-80a99ab258a8 | nein |
 | Reporter Blues (10003873) | Amazon Prime Video | amazon:amzn1.dv.gti.c4f1ebf2-aff4-40b9-b00f-f90501583590 | ja |
+| Death Note: Relight 2 - L’s Successors (10005194) | Amazon Video | amazon:amzn1.dv.gti.54bbf9d8-9ab5-3d9b-9475-92f0dfb9ae1f | nein |
+| Dante’s Inferno: Ein Animiertes Epos (10005407) | Lionsgate+ Amazon Channel | amazon:amzn1.dv.gti.723f2cb8-52f7-4ba9-ae84-fd560f1333ad | nein |
 | Operation: Nussknacker - Auf die Nüsse, fertig, los! (10009667) | Amazon Prime Video | amazon:amzn1.dv.gti.48b8e647-d786-3a45-f5fc-3142d0233dc5 | ja |
 | Operation: Nussknacker - Auf die Nüsse, fertig, los! (10009667) | Amazon Video | amazon:amzn1.dv.gti.46a9f6ca-b9f5-4ab1-602e-e1d0f52f985b | ja |
+| Sword Art Online II: Debriefing (10009918) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.ed149a10-1f97-4600-88b0-48b699aa6fdf | nein |
 | Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Amazon Prime Video | amazon:amzn1.dv.gti.32ac38e0-8be2-b94b-399a-af7fa671fd1e | ja |
 | Fischen Impossible: Eine tierische Rettungsaktion (10011556) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.a511744f-6f1c-4fef-8b94-bae2f9b794a8 | ja |
 | Prinz Ribbit: Ein Frosch auf Umwegen! (10011569) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.173ef223-b562-4f1a-a361-f8a85f8ba18d | ja |
