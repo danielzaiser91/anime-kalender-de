@@ -55,10 +55,10 @@ jobs:
   # **Schlank** (`[schlank]` in der Commit-Nachricht, gesetzt von `bash tools/pushen.sh --schlank`): Für kleine Änderungen, die lokal vollständig geprüft sind. Deployt wird
   # gleich nach dem Bau; die Prüfungen laufen weiter und melden sich rot, wenn doch etwas nicht stimmt.
   # **Deploy aus dem geprüften Build** (16.10.2026): Hat die PR-Prüfkette genau diesen Quelltext schon gebaut und geprüft, wird ihr Artefakt ausgeliefert
-  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen in `build` und `pruefen` alle Schritte nach dem Hochladen bzw. der Herkunftsprüfung; ohne Treffer läuft alles wie bisher.
+  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen in `build`, `pruefen` und `zusicherungen` alle Schritte nach dem Hochladen bzw. der Herkunftsprüfung; ohne Treffer läuft alles wie bisher.
   # **Drei Hops statt sechs** (10.11.2026): GitHub kennt keine Prioritäten, jeder Job reiht sich neu in die Runner-Warteschlange ein (Bericht CI-Stau). Der frühere Job `herkunft`
-  # ist als Composite-Schritt (`.github/actions/herkunft-holen`) an den Anfang von `build` und `pruefen` gewandert; beide Jobs laufen weiter parallel. Das Artefakt lädt nur `build` hoch.
-  # Beide Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
+  # ist als Composite-Schritt (`.github/actions/herkunft-holen`) an den Anfang von `build`, `pruefen` und `zusicherungen` gewandert; alle laufen weiter parallel. Das Artefakt lädt nur `build` hoch.
+  # Alle drei Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -238,7 +238,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success') &&
       !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
     steps:
-      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
+      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Workflows-Beleg (tools/workflows-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 30
@@ -258,7 +258,7 @@ jobs:
         run: git sparse-checkout disable
 
       # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade `pruefen` grün gefahren (tools/workflows-beleg.mjs),
-      # entfällt `check:workflows` (~7 min). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
+      # entfällt `check:workflows` (~7 min je Treffer; Treffer 3 von 35 Läufen ohne Herkunft-Treffer, 17. und 18.11.2026). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
       - name: Workflows-Beleg früherer Deploy-Läufe suchen
         id: wbeleg
         if: ${{ steps.herkunft.outputs.treffer != '1' }}
@@ -500,7 +500,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # Fail-closed (Prüfer 3367 A3): Urteilen `build` und `pruefen` verschieden über die Herkunft (API-Ausfall nur in einem Job), ginge sonst ein
+      # Fail-closed (Prüfer 3367 A3): Urteilen `build`, `pruefen` und `zusicherungen` verschieden über die Herkunft (API-Ausfall nur in einem Job), ginge sonst ein
       # selbst gebauter Stand ohne Prüflauf live. Dann kein Deploy, Lauf rot; ein neuer Lauf entscheidet erneut.
       - name: Herkunft von build, pruefen und zusicherungen vergleichen
         env:

@@ -118,7 +118,7 @@ for (const datei of KETTEN_WORKFLOWS) {
   assert.deepEqual(unzulaessigeAufrufe(wf), [], `${datei} ruft etwas außerhalb von .github/actions/`)
 }
 
-// Verdrahtung in deploy.yml (geparst, 10.11.2026): `build` und `pruefen` laufen parallel und prüfen die Herkunft je als ersten Schritt (Composite), kein eigener Job `herkunft`.
+// Verdrahtung in deploy.yml (geparst, 10.11.2026): `build`, `pruefen` und `zusicherungen` laufen parallel und prüfen die Herkunft je als ersten Schritt (Composite), kein eigener Job `herkunft`.
 const wf = parse(readFileSync(resolve(import.meta.dirname, '../.github/workflows/deploy.yml'), 'utf8'))
 const jobs = wf.jobs
 assert.deepEqual(Object.keys(jobs), ['build', 'pruefen', 'zusicherungen', 'deploy_hart', 'deploy_schlank', 'abschluss'], 'sechs Jobs, in drei Wellen: (build, pruefen, zusicherungen) -> deploy -> abschluss')
@@ -158,9 +158,18 @@ nach('pruefen', 'herkunft', "steps.herkunft.outputs.treffer != '1'")
 nach('zusicherungen', 'herkunft', "steps.herkunft.outputs.treffer != '1'")
 // 18.11.2026: jede Prüfung läuft in genau einem der beiden Prüfjobs (Aufteilung ohne Verlust); `check:workflows` bleibt in `pruefen` (der Workflows-Beleg liest diesen Job).
 const PRUEFUNGEN = { 'data:validate': 'pruefen', 'check:workflows': 'pruefen', 'check:extension': 'pruefen', 'check:pfade': 'zusicherungen', 'check:logic': 'zusicherungen', 'check:search': 'zusicherungen', 'check:hooks': 'zusicherungen' }
+// Ein Aufruf ist eine eigene Zeile `npm run X` (kein `echo npm run X`, kein `|| true`), im Schritt ohne `continue-on-error`, im Job ohne `continue-on-error`, mit dem Standard-`if`
+// (nur `check:workflows` zusätzlich mit dem Workflows-Beleg, festgehalten in workflows-beleg.test.mjs): sonst ist die Prüfung nur zum Schein verdrahtet.
+const KEIN_TREFFER = "${{ steps.herkunft.outputs.treffer != '1' }}"
+const WENN = { 'check:workflows': "${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' }}" }
 for (const [befehl, job] of Object.entries(PRUEFUNGEN)) {
-  const wo = ['pruefen', 'zusicherungen'].filter((j) => jobs[j].steps.some((s) => String(s.run ?? '').includes(`npm run ${befehl}`)))
-  assert.deepEqual(wo, [job], `${befehl} läuft genau in ${job}`)
+  const treffer = (j) => jobs[j].steps.filter((s) => String(s.run ?? '').split('\n').some((z) => z.trim() === `npm run ${befehl}`))
+  assert.deepEqual(['pruefen', 'zusicherungen'].filter((j) => treffer(j).length > 0), [job], `${befehl} läuft genau in ${job}`)
+  assert.equal(treffer(job).length, 1, `${befehl}: genau ein Schritt`)
+  const s = treffer(job)[0]
+  assert.equal(s['continue-on-error'], undefined, `${befehl}: Schritt ohne continue-on-error`)
+  assert.equal(jobs[job]['continue-on-error'], undefined, `${job}: Job ohne continue-on-error`)
+  assert.equal(s.if, WENN[befehl] ?? KEIN_TREFFER, `${befehl}: Schritt läuft ohne Treffer, nie durch eine zusätzliche Bedingung übersprungen`)
 }
 const hart = jobs.deploy_hart
 assert.deepEqual([hart.needs].flat().sort(), ['build', 'pruefen', 'zusicherungen'])
@@ -182,7 +191,7 @@ assert.equal(messSchritte.length, 2, 'abschluss: Einrichten und Messung der Kach
 for (const s of messSchritte) assert.equal(s['continue-on-error'], true, `abschluss: „${s.name ?? s.uses}“ macht den Lauf nicht rot`)
 assert.equal(abschlussSchritte.find((s) => s.name === 'Lauf abmelden')['continue-on-error'], true, 'abschluss: Abmeldung macht den Lauf nicht rot')
 
-// A3 (Prüfer 3367): fail-closed, wenn build und pruefen die Herkunft verschieden beurteilen. Beide Jobs geben ihr Urteil aus, der erste Schritt von deploy_hart
+// A3 (Prüfer 3367): fail-closed, wenn build, pruefen und zusicherungen die Herkunft verschieden beurteilen. Beide Jobs geben ihr Urteil aus, der erste Schritt von deploy_hart
 // vergleicht es vor dem Deploy; der Vergleich wird als echtes Skript ausgeführt (Wertepaare: gleich, build allein, pruefen allein).
 for (const id of ['build', 'pruefen', 'zusicherungen']) assert.ok(jobs[id].outputs.treffer.includes('steps.herkunft.outputs.treffer'), `${id} gibt das Herkunftsurteil aus`)
 const vergleich = hart.steps[0]
