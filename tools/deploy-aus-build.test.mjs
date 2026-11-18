@@ -161,7 +161,11 @@ const PRUEFUNGEN = { 'data:validate': 'pruefen', 'check:workflows': 'pruefen', '
 // Ein Aufruf ist eine eigene Zeile `npm run X` (kein `echo npm run X`, kein `|| true`), im Schritt ohne `continue-on-error`, im Job ohne `continue-on-error`, mit dem Standard-`if`
 // (nur `check:workflows` zusätzlich mit dem Workflows-Beleg, festgehalten in workflows-beleg.test.mjs): sonst ist die Prüfung nur zum Schein verdrahtet.
 const KEIN_TREFFER = "${{ steps.herkunft.outputs.treffer != '1' }}"
-const WENN = { 'check:workflows': "${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' }}" }
+// 18.11.2026: `check:workflows` und `check:extension` zusätzlich nur bei berührten Pfaden (tools/deploy-pfade.mjs, Test deploy-pfade.test.mjs; fehlende Ausgabe heißt: läuft).
+const WENN = {
+  'check:workflows': "${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' && steps.pfade.outputs.workflows != '0' }}",
+  'check:extension': "${{ steps.herkunft.outputs.treffer != '1' && steps.pfade.outputs.extension != '0' }}",
+}
 for (const [befehl, job] of Object.entries(PRUEFUNGEN)) {
   const treffer = (j) => jobs[j].steps.filter((s) => String(s.run ?? '').split('\n').some((z) => z.trim() === `npm run ${befehl}`))
   assert.deepEqual(['pruefen', 'zusicherungen'].filter((j) => treffer(j).length > 0), [job], `${befehl} läuft genau in ${job}`)
@@ -199,7 +203,8 @@ assert.equal(hart.steps.indexOf(vergleich) < hart.steps.findIndex((s) => s.id ==
 assert.ok(vergleich.env.BAU_TREFFER.includes('needs.build.outputs.treffer') && vergleich.env.PRUEF_TREFFER.includes('needs.pruefen.outputs.treffer') && vergleich.env.ZUS_TREFFER.includes('needs.zusicherungen.outputs.treffer'), 'Vergleich liest die Urteile aller drei Jobs')
 assert.equal(vergleich['continue-on-error'], undefined, 'ein Widerspruch macht den Job rot')
 assert.equal(vergleich.if, undefined, 'der Vergleich läuft immer')
-assert.equal(hart.steps.find((s) => s.id === 'deployment').if, undefined, 'der Deploy läuft nur, wenn der Vergleich bestanden hat (kein always())')
+// 18.11.2026: nur noch die Veraltet-Bedingung; ohne Statusfunktion (kein always()) setzt GitHub `success()` davor, der Deploy braucht also weiter den bestandenen Vergleich.
+assert.equal(hart.steps.find((s) => s.id === 'deployment').if, "${{ steps.veraltet.outputs.veraltet != '1' }}", 'der Deploy läuft nur, wenn der Vergleich bestanden hat und kein neuerer schon deployt hat (kein always())')
 const vergleichLauf = (bau, pruef, zus) => spawnSync('bash', ['-c', vergleich.run], { encoding: 'utf8', windowsHide: true, timeout: 20_000, env: { ...process.env, BAU_TREFFER: bau, PRUEF_TREFFER: pruef, ZUS_TREFFER: zus } })
 for (const [bau, pruef, zus] of [['1', '1', '1'], ['', '', '']]) assert.equal(vergleichLauf(bau, pruef, zus).status, 0, `gleiches Urteil (build '${bau}', pruefen '${pruef}', zusicherungen '${zus}') deployt`)
 // Je Job allein abweichend (beide Richtungen): auch `zusicherungen` allein muss den Deploy stoppen.
