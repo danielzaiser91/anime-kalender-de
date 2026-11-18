@@ -62,9 +62,9 @@ writeFileSync(
 )
 /* Beim Laden liest `bau/grundlagen.ts` diese Handdatei; leer genügt. */
 writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
-/* Zwei tote Adressen laut Handbeleg „nicht verfügbar“ (JSON ist gültiges YAML). */
-const tot = (id: number, pfad: string) => ({ anilistId: id, title: `Erfunden ${-id}`, platform: 'primevideo', url: `https://shop.example/${pfad}`, available: false, checkedAt: '2026-11-11' })
-writeFileSync(join(wurzel, 'data', 'dub-confirmed.yaml'), JSON.stringify([tot(-16, 'apple16'), tot(-17, 'apple17')]))
+/* Zwei tote Adressen laut Handbeleg „nicht verfügbar“, dazu ein Beleg „verfügbar“ (gilt nicht als tot) (JSON ist gültiges YAML). */
+const tot = (id: number, pfad: string, available = false) => ({ anilistId: id, title: `Erfunden ${-id}`, platform: 'primevideo', url: `https://shop.example/${pfad}`, available, checkedAt: '2026-11-11' })
+writeFileSync(join(wurzel, 'data', 'dub-confirmed.yaml'), JSON.stringify([tot(-16, 'apple16'), tot(-17, 'apple17'), tot(-15, 'apple15', true)]))
 
 type Weg = { name: string; url: string; zugang?: string; dub?: unknown; dubRanges?: unknown }
 let verletzt = 0
