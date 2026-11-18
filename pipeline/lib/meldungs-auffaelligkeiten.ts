@@ -17,10 +17,47 @@ export function folgenzahlIstBefund(gemeldet: number, episodes: number | undefin
   return gemeldet - episodes > Math.max(2, episodes * 0.25)
 }
 
+/** Wortlaut des Folgen-Befunds; „(je Staffel)“ zeigt, dass je Staffel gezählt wurde (`gemeldeteFolgen`), und liest `trifftNochZu`. */
+export const folgenBefundText = (gemeldet: number, titel: string, episodes: number | undefined, adresse: string): string =>
+  `${gemeldet} Folgen gemeldet (je Staffel), ${titel} hat ${episodes} (${adresse})`
+
+type Meldungszeile = { folgen?: unknown; folge_nr?: number | null; staffel?: unknown }
+
+/**
+ * Folgenzahl, die eine Meldungsgruppe für den Titel meldet (18.11.2026): Eine Seite mit mehreren Staffeln (ADN 1350: Staffel 1 und 2
+ * unter einer Adresse) zählt nur die Zeilen der Staffel des Titels; ist sie nicht bestimmbar, gibt es keine Zahl (null) — kein Befund.
+ */
+export function gemeldeteFolgen(gruppe: Meldungszeile[], titelStaffel: number | undefined): number | null {
+  const staffeln = new Set(gruppe.map((x) => x.staffel).filter((n): n is number => typeof n === 'number' && Number.isFinite(n)))
+  const mehrere = staffeln.size >= 2
+  if (mehrere && (titelStaffel === undefined || !staffeln.has(titelStaffel))) return null
+  const zeilen = mehrere ? gruppe.filter((x) => x.staffel === titelStaffel) : gruppe
+  const angegeben = zeilen.map((x) => (typeof x.folgen === 'number' && Number.isFinite(x.folgen) ? x.folgen : 0))
+  return Math.max(...angegeben, zeilen.filter((x) => x.folge_nr != null).length)
+}
+
 /** „Titel 123 (Name)“: die Kennung bleibt, der Name erspart das Nachschlagen. */
 export function titelMitName(id: number, liste: Benennbar[]): string {
   const t = liste.find((x) => x.id === id)
   return t ? `Titel ${id} (${anzeigeName(t)})` : `Titel ${id}`
+}
+
+/**
+ * Folgenzahl der Meldung gegen den Titel — nur grobe Abweichungen. Weniger Folgen als der Titel ist bei keinem Anbieter ein Befund
+ * (die Seite zeigt eine Staffel). `ungeprueft`: mehrere Staffeln auf der Seite, die des Titels unbestimmbar.
+ */
+export function pruefeFolgenzahl(
+  gruppe: Array<Meldungszeile & { id: number }>,
+  t: (Benennbar & { episodes?: number }) | undefined,
+  titelStaffel: number | undefined,
+  liste: Benennbar[],
+  adresse: string,
+): { befund: string | null; ungeprueft: boolean } {
+  const gemeldet = gemeldeteFolgen(gruppe, titelStaffel)
+  if (gemeldet === null) return { befund: null, ungeprueft: true }
+  if (!t || !folgenzahlIstBefund(gemeldet, t.episodes)) return { befund: null, ungeprueft: false }
+  const text = folgenBefundText(gemeldet, titelMitName(t.id, liste), t.episodes, adresse)
+  return { befund: `Meldung ${gruppe.map((x) => x.id).join(',')}: ${text}`, ungeprueft: false }
 }
 
 /**
@@ -32,7 +69,7 @@ export function trifftNochZu(
   liste: Array<{ id: number; episodes?: number }>,
   staffelNr: (id: number) => number | undefined,
 ): boolean {
-  const folgen = /: (\d+) Folgen gemeldet, Titel (-?\d+)(?: \(.*?\))? hat \d+ \(/.exec(text)
+  const folgen = /: (\d+) Folgen gemeldet \(je Staffel\), Titel (-?\d+)(?: \(.*?\))? hat \d+ \(/.exec(text)
   if (folgen) return folgenzahlIstBefund(Number(folgen[1]), liste.find((x) => x.id === Number(folgen[2]))?.episodes)
   const staffel = /: Titel (-?\d+)(?: \(.*?\))? ist Staffel (\d+), die Seite .* Staffel (\d+)$/.exec(text)
   if (!staffel) return false
