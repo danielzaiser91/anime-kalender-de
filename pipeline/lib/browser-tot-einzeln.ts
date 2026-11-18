@@ -7,8 +7,12 @@
  * unabhängig davon in `09-2-linkpruefung.ts`). Die Übersicht-Meldung („als toter Verweis gemeldet“) ist Daniels bewusster
  * Klick und bleibt gültig.
  */
+import { istBelegNachStichtag, istUmleitungsNotiz } from './netflix-umleitung-meldung.ts'
+
 const DURCHGANG = /^Vom Durchgang als nicht bei Netflix gemeldet/
 
-export function istEinzelneBrowserTotmeldung(b: { platform?: string; available?: boolean; note?: string } | null | undefined): boolean {
-  return b?.platform === 'netflix' && b.available === false && DURCHGANG.test(b.note ?? '')
+/** Ausnahme (18.11.2026): Eine Umleitungs-Meldung nach dem Stichtag stammt von der behobenen Erweiterung und gilt (PR 4186 stellte nur den Stapel um). */
+export function istEinzelneBrowserTotmeldung(b: { platform?: string; available?: boolean; note?: string; checkedAt?: string } | null | undefined): boolean {
+  if (b?.platform !== 'netflix' || b.available !== false || !DURCHGANG.test(b.note ?? '')) return false
+  return !(istUmleitungsNotiz(b.note) && istBelegNachStichtag(b.checkedAt))
 }

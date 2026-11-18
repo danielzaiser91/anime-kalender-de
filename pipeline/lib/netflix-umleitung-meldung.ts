@@ -31,3 +31,15 @@ export function istFehlUmleitung(p: Meldung): boolean {
   const ms = gemeldetMs(p.gemeldet_am)
   return Number.isNaN(ms) || ms < Date.parse(UMLEITUNG_GILT_AB)
 }
+
+/**
+ * Ein Handbeleg trägt nur ein Datum (`checkedAt`): „nach dem Stichtag“ ist ein späterer Tag als der des Stichtags.
+ * Belege vom 17.11. selbst sind nicht zu trennen und bleiben beim Fehltakt (gemessen 18.11.2026: 11 von 185, 174 vom 18.11.).
+ */
+export function istBelegNachStichtag(checkedAt: string | undefined): boolean {
+  return typeof checkedAt === 'string' && checkedAt.slice(0, 10) > UMLEITUNG_GILT_AB.slice(0, 10)
+}
+
+export function istUmleitungsNotiz(note: string | undefined): boolean {
+  return NOTIZ.test(note ?? '')
+}
