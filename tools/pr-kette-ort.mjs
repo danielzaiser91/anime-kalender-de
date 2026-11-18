@@ -67,13 +67,31 @@ function nachtWorkflowFehler(doc) {
   return f
 }
 
+/** Bedingung der Nachbarschritte in `zusicherungen`: ohne Herkunft-Treffer laufen sie, bei Treffer gilt die PR-Kette. */
+const DEPLOY_IF = "${{ steps.herkunft.outputs.treffer != '1' }}"
+const VOR_SCHRITT = 'Zusicherungen prüfen'
+const NACH_SCHRITT = 'Fortschritt — Zusicherungen geprüft'
+
+/** Verstöße am Deploy-Schritt selbst: Bedingung wortgleich, kein Ausweg am Schritt oder am Job, Lage zwischen den beiden Nachbarschritten. */
+function deploySchrittFehler(job, schritt) {
+  const f = []
+  if (schritt['continue-on-error'] !== undefined) f.push('deploy.yml: Schritt check:nachts-deploy ohne continue-on-error')
+  if (job['continue-on-error'] !== undefined) f.push('deploy.yml: Job zusicherungen ohne continue-on-error (Rot darf nicht verschluckt werden)')
+  if (schritt.if !== DEPLOY_IF) f.push(`deploy.yml: Schritt check:nachts-deploy: if muss wortgleich "${DEPLOY_IF}" sein (wie die Nachbarschritte)`)
+  const namen = job.steps.map((s) => s.name)
+  const lage = job.steps.indexOf(schritt)
+  if (!(namen.indexOf(VOR_SCHRITT) >= 0 && namen.indexOf(VOR_SCHRITT) < lage && lage < namen.indexOf(NACH_SCHRITT))) f.push(`deploy.yml: Schritt check:nachts-deploy muss hinter "${VOR_SCHRITT}" und vor "${NACH_SCHRITT}" stehen`)
+  return f
+}
+
 /** Verstöße des Deploy-Jobs: mit `deploy: true`-Einträgen führt `zusicherungen` `npm run check:nachts-deploy` ohne Ausweg aus. */
 function deployFehler(doc, ort) {
   const braucht = ARTEN.some((a) => Object.values(ort[a] ?? {}).some((e) => e.ort === 'nachts' && e.deploy === true))
-  const schritte = (doc?.jobs?.zusicherungen?.steps ?? []).filter((s) => String(s.run ?? '').split('\n').some((z) => z.trim() === 'npm run check:nachts-deploy'))
+  const job = doc?.jobs?.zusicherungen ?? { steps: [] }
+  const schritte = (job.steps ?? []).filter((s) => String(s.run ?? '').split('\n').some((z) => z.trim() === 'npm run check:nachts-deploy'))
   if (!braucht) return schritte.length > 0 ? ['deploy.yml: check:nachts-deploy steht da, aber kein Eintrag hat deploy: true'] : []
   if (schritte.length !== 1) return [`deploy.yml: Job zusicherungen braucht genau einen Schritt mit "npm run check:nachts-deploy", gefunden ${schritte.length}`]
-  return schritte[0]['continue-on-error'] === undefined ? [] : ['deploy.yml: Schritt check:nachts-deploy ohne continue-on-error']
+  return deploySchrittFehler(job, schritte[0])
 }
 
 /** Alle Verstöße gegen die Regeln im Kopf; `wurzel` = Repo-Wurzel. */

@@ -126,6 +126,20 @@ try {
     y.jobs.pruefen.steps.push(s)
   })), /genau einen Schritt mit "npm run check:nachts-deploy"/)
   rot('Deploy: Schritt zweimal', mitDeploy(deployYaml((y) => zusicherungen(y).push({ run: 'npm run check:nachts-deploy' }))), /genau einen Schritt mit "npm run check:nachts-deploy", gefunden 2/)
+  const deploySchritt = (y) => zusicherungen(y).find((s) => s.run === 'npm run check:nachts-deploy')
+  const verschiebe = (y, ziel) => {
+    const s = deploySchritt(y)
+    ohneSchritt(y)
+    zusicherungen(y).splice(ziel(zusicherungen(y)), 0, s)
+  }
+  rot('Deploy: Schritt mit if: false (Sicherung still aus)', mitDeploy(deployYaml((y) => (deploySchritt(y).if = 'false'))), /if muss wortgleich/)
+  rot('Deploy: Schritt mit anderem if', mitDeploy(deployYaml((y) => (deploySchritt(y).if = "${{ always() }}"))), /if muss wortgleich/)
+  rot('Deploy: Schritt ohne if', mitDeploy(deployYaml((y) => delete deploySchritt(y).if)), /if muss wortgleich/)
+  rot('Deploy: Job zusicherungen mit continue-on-error', mitDeploy(deployYaml((y) => (y.jobs.zusicherungen['continue-on-error'] = true))), /Job zusicherungen ohne continue-on-error/)
+  rot('Deploy: Schritt hinter dem Fortschritt-Schritt', mitDeploy(deployYaml((y) => verschiebe(y, (s) => s.length))), /hinter "Zusicherungen prüfen" und vor/)
+  rot('Deploy: Schritt vor „Zusicherungen prüfen“', mitDeploy(deployYaml((y) => verschiebe(y, (s) => s.findIndex((x) => x.name === 'Zusicherungen prüfen')))), /hinter "Zusicherungen prüfen" und vor/)
+  rot('Deploy: Nachbarschritt „Zusicherungen prüfen“ fehlt', mitDeploy(deployYaml((y) => (y.jobs.zusicherungen.steps = zusicherungen(y).filter((s) => s.name !== 'Zusicherungen prüfen')))), /hinter "Zusicherungen prüfen" und vor/)
+  rot('Deploy: Schritt am Anfang des Jobs', mitDeploy(deployYaml((y) => verschiebe(y, () => 0))), /hinter "Zusicherungen prüfen" und vor/)
   rot('Deploy: Schritt da, aber kein Eintrag mit deploy: true', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => {
     nurEinDeploy(j)
     j.logik[ersterNachtsEintrag(j, 'logik')].deploy = false
