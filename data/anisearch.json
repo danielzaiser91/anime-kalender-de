@@ -880363,6 +880363,34 @@
     },
     "fetchedAt": "2026-11-13T06:01:09.471Z"
   },
+  "219866": {
+    "anisearchId": 22103,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Isekai Douraku ni Akitara",
+          "titleNative": "Isekai Dōraku ni Akitara",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "A Thirty-Something Nobody’s Carefree Life",
+        "Living It Up in Another World Until I Get Bored"
+      ]
+    },
+    "fetchedAt": "2026-11-18T06:01:03.244Z"
+  },
   "219904": {
     "anisearchId": 22101,
     "streams": [],
