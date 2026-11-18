@@ -88,8 +88,8 @@ async function haupt() {
   pruefe('Erinnern: weiter nach der Schonzeit (spätestens Sekunde 5), nicht nach der Frist', erinnern.erstesWeiter !== null && erinnern.erstesWeiter <= 5, erinnern.erstesWeiter)
   await new Promise((fertig) => setImmediate(fertig))
   pruefe('Erinnern: genau einmal weiter und nie gemeldet', erinnern.gemeldet === 0 && erinnern.weiter === 1, [erinnern.gemeldet, erinnern.weiter])
-  pruefe('Erinnern: die Spur nennt den Grund', erinnern.spuren.includes('Erinnern statt Folgenliste') && !erinnern.spuren.includes('keine Folgenliste'), erinnern.spuren)
-  pruefe('Erinnern: der Titel gilt als übersprungen, der Grund steht dabei', erinnern.uebersprungen.get('70177034') === 'Erinnern statt Folgenliste', [...erinnern.uebersprungen])
+  pruefe('Erinnern: die Spur nennt den Grund', erinnern.spuren.includes('Erinnern-Knopf ohne Datum') && !erinnern.spuren.includes('keine Folgenliste'), erinnern.spuren)
+  pruefe('Erinnern: der Titel gilt als übersprungen, der Grund steht dabei', erinnern.uebersprungen.get('70177034') === 'Erinnern-Knopf ohne Datum', [...erinnern.uebersprungen])
 
   const vorSchonzeit = await spiel({ text: MODAL_ERINNERN, endeNach: 2 })
   pruefe('Erinnern: in den ersten Sekunden noch kein Urteil (Liste könnte noch kommen)', vorSchonzeit.weiter === 0 && vorSchonzeit.gemeldet === 0)

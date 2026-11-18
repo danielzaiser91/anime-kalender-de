@@ -1,0 +1,8 @@
+[
+  { "name": "Erinnern: Datum nur aus o.datum, nie von der Seite", "aenderungen": [{ "datei": "extension/netflix-erinnern.js", "suche": "(o.datum ?? globalThis.erscheinungsdatum)?.()", "ersetze": "(o.datum)?.()" }], "tests": ["node --require ./extension/test-kontext.cjs extension/netflix-erinnern-grund.test.cjs"] },
+  { "name": "Sprung: gemessener Titel bekommt den Zurück-Grund", "aenderungen": [{ "datei": "extension/netflix-erinnern.js", "suche": "gemessen ? 'fertig' :", "ersetze": "false ? 'fertig' :" }], "tests": ["node --require ./extension/test-kontext.cjs extension/netflix-sprung-einmal.test.cjs"] },
+  { "name": "Sprung: Messung wird nie gelesen (alles gilt als gemessen)", "aenderungen": [{ "datei": "extension/netflix-erinnern.js", "suche": "gemessen ? 'fertig' :", "ersetze": "true ? 'fertig' :" }], "tests": ["node --require ./extension/test-kontext.cjs extension/netflix-sprung-einmal.test.cjs"] },
+  { "name": "Durchgangsende: Spur bleibt stehen", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-spur', [])", "ersetze": "void 0" }], "tests": ["node --require ./extension/test-kontext.cjs extension/netflix-sprung-einmal.test.cjs"] }
+,
+  { "name": "H3: zweite Stufe (erster Dialog) entfernt", "aenderungen": [{ "datei": "extension/melder.js", "suche": " ?? q('[role=\"dialog\"]') ?? document.body", "ersetze": " ?? document.body" }], "tests": ["node --require ./extension/test-kontext.cjs extension/netflix-erinnern-grund.test.cjs"] }
+]

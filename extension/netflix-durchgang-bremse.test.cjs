@@ -183,11 +183,11 @@ for (const [name, inhalt] of [['kaputtes JSON', '{{'], ['falsche Form', '{"folge
   r = lauf(BERICHT_LEER, { erinnern: true, dauer: 8000 })
   pruefe('… genau an der Leer-Frist (8 s) mit „Erinnern": noch warten', r.aufrufe.weiter === 0 && r.gebucht.size === 0 && r.b.offen() === 0)
   r = lauf(BERICHT_LEER, { erinnern: true, dauer: 8001 })
-  pruefe('… nach der Leer-Frist zählt es als Störung, nicht als „Erinnern statt Folgenliste"', r.b.offen() === 1 && r.gebucht.size === 0)
+  pruefe('… nach der Leer-Frist zählt es als Störung, nicht als „Erinnern-Knopf"', r.b.offen() === 1 && r.gebucht.size === 0)
   r = lauf(BERICHT_YAKARI)
   pruefe('echter Titel ohne Folgenliste (Yakari): wie bisher übersprungen, Bremse meldet Erfolg', r.gebucht.get('70155614') === 'keine Folgenliste in 20 s' && r.aufrufe.ok === 1 && r.b.offen() === 0, [...r.gebucht])
   r = lauf(BERICHT_YAKARI, { erinnern: true, dauer: 3000 })
-  pruefe('echter Titel mit „Erinnern": wie bisher übersprungen', r.gebucht.get('70155614') === 'Erinnern statt Folgenliste' && r.aufrufe.ok === 1)
+  pruefe('echter Titel mit „Erinnern": wie bisher übersprungen', r.gebucht.get('70155614') === 'Erinnern-Knopf ohne Datum' && r.aufrufe.ok === 1)
   /* Kreislauf: zwei Fehlschläge, dann ein echter Titel → die beiden werden mit ihrem Grund gebucht. */
   const gebucht = new Map()
   const b = k.akNetflixBremseOeffnen(gebucht, undefined, null)
