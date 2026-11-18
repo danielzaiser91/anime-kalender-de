@@ -306,7 +306,7 @@ const abdruckIn = (ordner) => {
 // 5. Verdrahtung: geparste Workflows und die Autor-Adresse in commit-data.sh.
 {
   const deploy = yaml.load(readFileSync(join(wurzel, '.github/workflows/deploy.yml'), 'utf8'))
-  const schritte = deploy.jobs.pruefen.steps
+  const schritte = deploy.jobs.zusicherungen.steps
   const beleg = schritte.find((s) => s.id === 'beleg')
   gleich(beleg.run, 'node tools/logik-beleg.mjs gueltig', 'deploy.yml: Beleg-Schritt ruft logik-beleg gueltig')
   gleich(schritte.indexOf(beleg) < schritte.findIndex((s) => s.name === 'Zusicherungen prüfen'), true, 'deploy.yml: Beleg vor den Zusicherungen')
