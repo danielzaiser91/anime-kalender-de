@@ -1,4 +1,5 @@
 import { adressGleich, type DubCheck } from './dub-confirmed.ts'
+import { istKanalTitel } from './kanal-titel.ts'
 
 /**
  * Wie viele Folgen ein Ja-Beleg geprüft hat („alle 14 Folgen geprüft" in der Notiz der Erweiterung); Neins und Belege ohne Zahl zählen 0.
@@ -32,6 +33,7 @@ export function ersetztBeleg(bisher: DubCheck | undefined, neu: DubCheck): boole
 export function istSchwaechereSchwester(belege: DubCheck[], vorhandeneUrl: string, seite: string): boolean {
   const a = belege.find((c) => c.url && adressGleich(c.url, vorhandeneUrl))
   const b = belege.find((c) => c.url && adressGleich(c.url, seite))
-  if (!a || !b || (a.checkedAt ?? '') !== (b.checkedAt ?? '')) return false
+  /* Kanal-Adresse und Prime-Abo-Adresse sind verschiedene Ausgaben, nie Schwestern (Yu-Gi-Oh! 481, 18.11.2026). */
+  if (!a || !b || istKanalTitel(a) !== istKanalTitel(b) || (a.checkedAt ?? '') !== (b.checkedAt ?? '')) return false
   return gepruefteFolgen(b) < gepruefteFolgen(a)
 }
