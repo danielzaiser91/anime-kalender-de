@@ -40,7 +40,15 @@ assert.deepEqual(nachOrt(ALLE_NAMEN, ORT, 'tests', 'pr'), ALLE_NAMEN, 'Art ohne 
 assert.deepEqual(nachOrt(['x.test.mjs', 'y.test.mjs'], { tests: { 'tools/y.test.mjs': { ort: 'nachts' } } }, 'tests', 'nachts', (t) => `tools/${t}`), ['y.test.mjs'], 'Name über die Namensfunktion')
 assert.deepEqual(leseOrt(join(tmpdir(), 'gibt-es-nicht-ort')), { logik: {}, tests: {} }, 'ohne Datei keine Nacht-Einträge')
 assert.deepEqual(beruehrteDateien(WURZEL, {}), [], 'außerhalb des PR-Ereignisses nichts berührt')
-assert.equal(beruehrteDateien(join(tmpdir(), 'gibt-es-nicht-ort'), { GITHUB_EVENT_NAME: 'pull_request' }), ALLE, 'unlesbarer Diff: Marke alle')
+const gewarnt = []
+const warnAlt = console.warn
+console.warn = (z) => gewarnt.push(z)
+try {
+  assert.equal(beruehrteDateien(join(tmpdir(), 'gibt-es-nicht-ort'), { GITHUB_EVENT_NAME: 'pull_request' }), ALLE, 'unlesbarer Diff: Marke alle')
+} finally {
+  console.warn = warnAlt
+}
+assert.match(gewarnt.join('\n'), /^⚠ WARNUNG pruefung-ort: Diff des PR nicht lesbar/, 'der Rückfall ist als Warnzeile sichtbar (hier abgefangen, damit das CI-Log die Zeile nur bei echtem Rückfall trägt)')
 
 /** Wegwerf-Repo mit Läufer-Kopien, Prüfliste, Tests und Zuordnung; `rotB` lässt die Nacht-Prüfung und den Nacht-Test scheitern, `ohnePr` lässt die PR-Prüfung weg,
  *  `aendere` = Datei, die ein PR-Zweig ändert und per Merge-Commit hereinkommt (`HEAD^1` = Stand davor); ohne `aendere` bleibt es bei einem einfachen Commit. */
