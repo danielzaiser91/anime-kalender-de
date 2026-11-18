@@ -1,11 +1,12 @@
 {
-  "scrapedAt": "2026-11-18T14:02:35.522Z",
+  "scrapedAt": "2026-11-18T15:02:12.059Z",
   "verworfen": {
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 7,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 1,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -293,7 +294,7 @@
       "articleTitle": "Netflix ersetzt Originalsongs in deutscher »KPop Demon Hunters«-Fassung",
       "articleUrl": "https://www.anime2you.de/news/1072174/netflix-ersetzt-kpop-demon-hunters-originalsongs/",
       "publishedAt": "2026-11-16",
-      "category": "allgemein",
+      "category": "streaming",
       "platforms": [
         "netflix"
       ],
