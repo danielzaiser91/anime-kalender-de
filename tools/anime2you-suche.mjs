@@ -6,11 +6,14 @@
 //       WordPress-Schnittstelle /wp-json/wp/v2/posts?search= (robots.txt erlaubt sie, gelesen 18.11.2026, docs/wissen/quellen.md).
 //   node tools/anime2you-suche.mjs artikel <URL|ID>...
 //       Artikeltext mit Titelblöcken (»Titel«, Zeile „Sprache:“) und Sprachstellen.
+//   node tools/anime2you-suche.mjs pruefe <AniList-ID> --zitat "<Satz>" [--datei <dub-confirmed.yaml>] [--titel <titles.json>]
+//       Hält die im Zitat genannte Staffel gegen die Staffel jeder Adresse des Titels (passt / abweichung / unbekannt), Exit 1 bei Abweichung.
 // Abrufregeln wie pipeline/scrape-anime2you.ts: eigener generischer User-Agent, Pause zwischen Anfragen, bei 429/403 Pause und
 // Wiederholung statt Abbruch; bleibt es dabei, steht die Stelle als Nichtauskunft („fehler“) in der Ausgabe, nie als „kein Treffer“.
 import fs from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import yaml from 'js-yaml'
+import { pruefeTitel, zitatStaffeln } from './anime2you-staffel.mjs'
 
 export const BASIS = 'https://www.anime2you.de'
 export const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -164,8 +167,17 @@ export async function main(args, { fetchFn = fetch, schlafen = (ms) => new Promi
     ausgabe = await suche(rest.join(' '), { seiten, filter: opt.filter, fetchFn, schlafen })
   } else if (befehl === 'artikel' && rest.length) {
     ausgabe = await artikel(rest, { fetchFn, schlafen })
+  } else if (befehl === 'pruefe' && rest.length === 1 && opt.zitat) {
+    const id = Number(rest[0])
+    const eintraege = yaml.load(fs.readFileSync(opt.datei || 'data/dub-confirmed.yaml', 'utf8'))
+    const titel = JSON.parse(fs.readFileSync(opt.titel || 'public/data/titles.json', 'utf8'))
+    const folgen = (Array.isArray(titel) ? titel : titel.titles).find((t) => t.id === id)?.episodes ?? null
+    const zeilen = pruefeTitel(eintraege, id, opt.zitat, folgen)
+    ausgabe = { anilistId: id, anilistFolgen: folgen, zitatStaffeln: zitatStaffeln(opt.zitat), zeilen, hinweis: 'Nur Zeilen mit „passt“ dürfen das Zitat als zweiteQuelle tragen; „abweichung“ und „unbekannt“ nicht.' }
+    schreibe(JSON.stringify(ausgabe, null, 1))
+    return zeilen.some((z) => z.urteil === 'abweichung') ? 1 : 0
   } else {
-    schreibe('Aufruf: anime2you-suche.mjs liste [--kanal W] | suche <Titel> [--seiten N] [--filter W] | artikel <URL|ID>...')
+    schreibe('Aufruf: anime2you-suche.mjs liste [--kanal W] | suche <Titel> [--seiten N] [--filter W] | artikel <URL|ID>... | pruefe <AniList-ID> --zitat "<Satz>" [--datei Y] [--titel J]')
     return 2
   }
   schreibe(JSON.stringify(ausgabe, null, 1))
