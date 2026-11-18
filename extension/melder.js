@@ -1772,7 +1772,7 @@ function knopfZeigen() {
  * Pipeline, die weiss, welcher Tag heute ist.
  */
 function erscheinungsdatum() {
-  const text = document.querySelector?.('[role="dialog"]')?.innerText || (document.body?.innerText ?? '')
+  const text = document.querySelector?.('[role="dialog"]:has([data-uia="add-to-remind-me"])')?.innerText || (document.body?.innerText ?? '')
   // Ab 29. September / Ab 3. Oktober 2026; zuerst das Titelfenster (Billboard und Reihen dahinter nennen Termine anderer Titel, 18.11.2026)
   const treffer = /\bAb\s+(\d{1,2}\.\s*[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc]+(?:\s+\d{4})?)/.exec(text)
   return treffer ? treffer[1].replace(/\s+/g, ' ').trim() : null

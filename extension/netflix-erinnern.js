@@ -222,7 +222,9 @@ globalThis.akNetflixGesprungenLeeren = (speicher = globalThis.akNetflixSitzungSp
 globalThis.akNetflixSprungWiederholt = (kennung, uebersprungen, spur, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
   if (!kennung || !globalThis.akNetflixLaufLesen(speicher, GESPRUNGEN_SCHLUESSEL).includes(String(kennung))) return false
   spur('Titel schon angesprungen, kein zweiter Sprung', { reihe: String(kennung) })
-  uebersprungen.set(String(kennung), 'zweiter Sprung im selben Durchgang vermieden')
+  /* Ein schon gemessener Titel (wartet nur auf die Übernahme) wird nicht zurückgestellt: „fertig“ nimmt ihn nur aus der Wahl. */
+  const gemessen = globalThis.akNetflixLaufLesen(speicher, 'ak-netflix-fertig').includes(String(kennung))
+  uebersprungen.set(String(kennung), gemessen ? 'fertig' : 'zweiter Sprung im selben Durchgang vermieden')
   return true
 }
 

@@ -65,6 +65,29 @@ d.akNetflixZaehlerSetze(0, 3, sp, 'neuer Lauf', true, '1')
 pruefe('neuer Durchgang (Zähler 0): alles vergessen', wiederholt('80186475') === false)
 pruefe('ohne Kennung: kein Urteil', wiederholt(null) === false && wiederholt(undefined) === false)
 
+/* Prüfer H2: ein schon gemessener Titel (wartet nur auf Übernahme) bekommt keinen falschen Zurück-Grund. */
+{
+  const s2 = speicherNeu()
+  const d3 = dokument(s2)
+  const g = new Map()
+  d3.akNetflixZaehlerSetze(1, 3, s2, 'Pokémon', false, '80186475')
+  s2.setItem('ak-netflix-fertig', JSON.stringify(['80186475']))
+  const r = d3.akNetflixSprungWiederholt('80186475', g, () => {}, s2)
+  pruefe('gemessener Titel: zweiter Sprung verhindert, aber „fertig“ statt „zweiter Sprung“ als Grund', r === true && g.get('80186475') === 'fertig', [...g])
+  d3.akNetflixLaufSchreiben(s2, 'ak-netflix-fertig', [])
+  d3.akNetflixSprungWiederholt('80186475', g, () => {}, s2)
+  pruefe('Gegenprobe: nicht gemessen → Grund „zweiter Sprung …“', g.get('80186475') === 'zweiter Sprung im selben Durchgang vermieden', [...g])
+}
+
+/* Prüfer H1: Ende des Durchgangs leert die Spur des Tabs. */
+{
+  const s3 = speicherNeu()
+  const d4 = dokument(s3)
+  d4.akNetflixSpurMerken({ was: 'alt' }, s3)
+  d4.akNetflixLaufVergessen(s3)
+  pruefe('Durchgangsende (akNetflixLaufVergessen) leert die Spur', d4.akNetflixLaufLesen(s3, 'ak-netflix-spur').length === 0)
+}
+
 /* Verdrahtung in `selbstWeiter`: der Sprung geht nicht an einen Titel, den der Durchgang schon angesprungen hat. */
 const melder = lies('melder.js')
 const fn = (name) => {

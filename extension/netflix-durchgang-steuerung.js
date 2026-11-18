@@ -471,6 +471,7 @@ globalThis.akNetflixLaufVergessen = (speicher = sitzungSpeicher()) => {
   globalThis.akNetflixLaufSchreiben(speicher, FERTIG_SCHLUESSEL, [])
   globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-uebersprungen', [])
   globalThis.akNetflixLaufSchreiben(speicher, EIGENER_SPRUNG_SCHLUESSEL, [])
+  globalThis.akNetflixLaufSchreiben(speicher, 'ak-netflix-spur', [])
 }
 
 /*

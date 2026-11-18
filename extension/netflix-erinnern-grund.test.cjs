@@ -47,6 +47,15 @@ const erinnernBeschlossen = (datum) => {
   return uebersprungen.get('81218604')
 }
 pruefe('Durchgang: Banana Fish (Datum 19. November) → Grund mit Datum', erinnernBeschlossen('19. November') === 'Erinnern-Knopf mit Datum (19.11.)', erinnernBeschlossen('19. November'))
+/* Prüfer A1: ohne `o.datum` liest die Wartefunktion `erscheinungsdatum()` der Seite. */
+kontext.erscheinungsdatum = () => '19. November'
+const ohneOrt = (() => {
+  const u = new Map()
+  warte({ seite: '1', seit: 1_000_000 }, { seite: '1', reihe: '1', erinnern: true, durchlauf: { folgen: [] }, jetzt: 1_005_000, frist: 20000 }, { spur: () => {}, uebersprungen: u, weiter: () => {} })
+  return u.get('1')
+})()
+delete kontext.erscheinungsdatum
+pruefe('Durchgang ohne o.datum: Datum kommt aus erscheinungsdatum() der Seite', ohneOrt === 'Erinnern-Knopf mit Datum (19.11.)', ohneOrt)
 pruefe('Durchgang: Yu-Gi-Oh! (kein Datum) → Grund ohne Datum', erinnernBeschlossen(null) === 'Erinnern-Knopf ohne Datum', erinnernBeschlossen(null))
 
 async function frist(g, datumVonSeite) {
