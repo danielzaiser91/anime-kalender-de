@@ -2330,3 +2330,15 @@ Zwei Messungen halten die Seite „im Grünen“, beide in der PR-Kette (Teile `
 **Das 300-ms-Intervall der Startseite** (Live-Basis 18.11.2026) ist `planeNachladen` in `web/src/lib/start-daten.ts`: es wartet auf die Bilder der sichtbaren Karten (längstens 6 s) und startet dann das Nachladen der vollen Daten. Gemessen lebt es 0,6–0,9 s nach dem Laden und beendet sich selbst; im Leerlauf läuft kein Intervall. Bleibt.
 
 **Lokal im Cloud-Container:** Playwright 1.62 sucht `chromium-1234`, vorinstalliert ist `chromium-1243` — `PLAYWRIGHT_BROWSERS_PATH` auf einen Ordner mit Verknüpfungen `chromium-1234 → /opt/pw-browsers/chromium-1243` (ebenso `chromium_headless_shell-1234`) setzen; für Lighthouse `CHROME_PATH=/opt/pw-browsers/chromium`. Gegen die Live-Seite scheitert Lighthouse dort am Zertifikat des Ausgangs-Proxys (Interstitial); live misst nur der Workflow.
+
+**Basis 18.11.2026** (CI-Runner, Median aus 3 Läufen; PR-Kette Lauf 44259412724 gegen `dist`, Live Lauf 44259410560; Grenzen und Herleitung im Kopf von `tools/lighthouse-grenzen.mjs`):
+
+| Seite (pr / live) | LCP ms | CLS | TBT ms | Bytes | Perf | A11y | BP | SEO |
+|---|---|---|---|---|---|---|---|---|
+| Kalender | 923 / 981 | 0,001 / 0 | 53 / 25 | 609 343 / 611 496 | 100 / 100 | 96 / 96 | 100 / 100 | 100 / 100 |
+| Datenbank | 12 750 / 14 255 | 0,001 / 0,001 | 228 / 264 | 2 895 718 / 2 969 651 | 71 / 70 | 100 / 100 | 100 / 100 | 100 / 100 |
+| Titel (`?t=21`) | 15 406 / 16 518 | 0,002 / 0,003 | 353 / 375 | 3 362 521 / 3 435 182 | 66 / 65 | 100 / 100 | 100 / 100 | 100 / 100 |
+
+Der Kalender hält alle Web-Vitals-Budgets. **Datenbank und Titel reißen LCP (Budget 2,5 s) und TBT (200 ms) schon heute** und laden 2,9–3,4 MB (vor allem `titles.json`, 815 KB gzip, und Cover): dort sind die Grenzen Ratschen auf den heutigen Stand plus Rauschabstand, nicht das Budget — ein offener Befund, kein Ziel. Streuung je Einzellauf: LCP ±10 %, TBT 205–312 ms bei Median 228, Performance ±4 Punkte; ein Live-Lauf lud den Kalender mit 1,17 MB (Cover der Woche), der Median fing ihn ab. Laufzeit Lighthouse 3 × 3 Seiten ≈ 2,7 min, Leerlauf ≈ 3,3 min.
+
+**Leerlauf live 18.11.2026** (Desktop, 70 s): Kalender CPU 0,04 %, Script 0,1 ms/s, 1 Layout/min, Heap 9,9 MB, 1476 Knoten; Datenbank 0,05 %, 0 ms/s, 15,8 MB, 1943 Knoten; kein Intervall, keine Animation; Leck-Wache +0,48 MB nach 20 Wechseln (Grenze 1 MB).
