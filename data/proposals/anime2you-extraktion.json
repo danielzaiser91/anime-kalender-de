@@ -1877,6 +1877,22 @@
       "am": "2026-11-18",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1073191": {
+      "am": "2026-11-18",
+      "vorschlaege": 2
+    },
+    "1073246": {
+      "am": "2026-11-18",
+      "vorschlaege": 1
+    },
+    "1073260": {
+      "am": "2026-11-18",
+      "vorschlaege": 0
+    },
+    "1073288": {
+      "am": "2026-11-18",
+      "vorschlaege": 0
     }
   },
   "vorschlaege": [
@@ -14500,6 +14516,69 @@
       "artikelId": "1071011",
       "artikel": "Zwei neue »Miss Kobayashi’s Dragon Maid«-Plüschfiguren vorgestellt",
       "quelle": "https://www.anime2you.de/news/1071011/zwei-miss-kobayashis-dragon-maid-plueschfiguren/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Spice & Wolf: Merchant Meets the Wise Wolf",
+      "zitat": "Ein Disc-Release erfolgt derzeit durch AniMoon Publishing.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Der Artikel nennt keinen genauen Zeitpunkt für den Disc-Release, nur dass er derzeit läuft.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1073246",
+      "artikel": "Start der zweiten Staffel des »Spice and Wolf«-Reboots + Visual",
+      "quelle": "https://www.anime2you.de/news/1073246/spice-and-wolf-staffel-2-start/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Sakamoto Days",
+      "zitat": "Der Streaming-Dienst Netflix zeigt die Fortsetzung im Simulcast.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1073191",
+      "artikel": "Konkreter Termin der zweiten »Sakamoto Days«-Staffel + Trailer",
+      "quelle": "https://www.anime2you.de/news/1073191/sakamoto-days-staffel-2-termin/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Sakamoto Days",
+      "zitat": "Ab dem 27. November 2026 erscheint diese durch AniMoon Publishing auf Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-27",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1073191",
+      "artikel": "Konkreter Termin der zweiten »Sakamoto Days«-Staffel + Trailer",
+      "quelle": "https://www.anime2you.de/news/1073191/sakamoto-days-staffel-2-termin/",
       "veroeffentlicht": "2026-11-18",
       "gelesenAm": "2026-11-18"
     }
