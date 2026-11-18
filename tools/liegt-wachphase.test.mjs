@@ -71,7 +71,7 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     'api repos/danielzaiser91/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
     'run list --repo danielzaiser91/anime-kalender-de --workflow deploy.yml --branch main --status success --limit 6 --json databaseId': { aus: '[]' },
     'secret list --repo danielzaiser91/anime-kalender-de --json name': { aus: '[{"name":"LAUF_TOKEN"}]' },
-    ...Object.fromEntries(['bestand-bauen.yml', 'deploy.yml'].map((w) => [`run list --repo danielzaiser91/anime-kalender-de --workflow ${w} --limit 200 --json status,conclusion,createdAt,databaseId`, { aus: '[]' }])),
+    ...Object.fromEntries(['bestand-bauen.yml', 'deploy.yml', 'nacht-pruefung.yml'].map((w) => [`run list --repo danielzaiser91/anime-kalender-de --workflow ${w} --limit 200 --json status,conclusion,createdAt,databaseId`, { aus: '[]' }])),
   }
   const abruf = path.join(werk, 'abruf-abgelehnt.mjs')
   fs.writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")
