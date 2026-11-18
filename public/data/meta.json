@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-18T05:12:23.199Z",
+  "generatedAt": "2026-11-18T06:52:24.448Z",
   "titleCount": 2924,
-  "belegtCount": 2596,
-  "releaseCount": 891,
-  "eventCount": 4577,
+  "belegtCount": 2620,
+  "releaseCount": 895,
+  "eventCount": 4581,
   "genres": [
     "Action",
     "Adventure",
@@ -233,7 +233,6 @@
     "Arthouse Cnma Amazon Channel",
     "Kino On Demand",
     "Amazon Prime (ProSieben Fun)",
-    "Aniverse Amazon Channel",
     "Ard Plus Amazon Channel",
     "Buy Zoxs",
     "Hbo Max",
@@ -242,8 +241,8 @@
     "Amazon (Blu-ray)",
     "Amazon (DVD)",
     "Amazon (Trilogie, 3 DVDs)",
+    "Aniverse Amazon Channel",
     "Flimmerkistetv Amazon Channel",
-    "Jpc",
     "Kinderwelt Amazon Channel",
     "Verleihshop (Leih-DVD)",
     "Videobuster (Leih-Disc)",
@@ -252,6 +251,7 @@
     "Behind The Tree",
     "Disney Plus",
     "Hbo Max Amazon Channel",
+    "Jpc",
     "Justwatch Tv Plus",
     "Lionsgate+ Amazon Channel",
     "Netzkino Select Amazon Channel",
@@ -305,7 +305,7 @@
     2009,
     2008
   ],
-  "patchnotesStand": "2026-11-17",
+  "patchnotesStand": "2026-11-18",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",
