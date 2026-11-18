@@ -27,6 +27,9 @@ const NOTE_115740 = 'Tonspuren: Deutsch, 日本語, English — Amazon-Seite B0C
 const ZITAT_CLANNAD = A2Y('Ab dem 21. Dezember 2023 ist die zweite Staffel der Drama-Serie »Clannad« mit deutscher und japanischer Vertonung bei aniverse verfügbar.')
 const NOTE_CLANNAD_FREMD = 'Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJQF3729: alle 24 Folgen geprüft, Abos: animedigitalde, aniversede, Seitenadresse: B0D956JD5Y, laut Adresse Staffel 1, zugang=abo_und_kauf'
 const NOTE_CLANNAD_EIGEN = 'Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJQF3729: alle 25 Folgen geprüft, Abos: animedigitalde, aniversede, laut Adresse Staffel 2, zugang=abo_und_kauf'
+// Freezing (9367): Adresse B0CH9BW1PW zeigt 18 Folgen, AniList 12; Zitat „zweite Staffel“ (bekannter Fund)
+const ZITAT_FREEZING = 'Anime2You 2024-10-30: Die zweite Staffel von »Freezing« sowie die dazugehörigen OVA-Episoden sind ab dem 14. November 2024 mit deutscher Synchronisation sowie im Originalton bei aniverse auf Abruf verfügbar. — https://www.anime2you.de/news/842289/aniverse-november-2024-neuzugaenge/'
+const NOTE_FREEZING = 'Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CH9BW1PW: alle 18 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf'
 const url = (asin: string): string => `https://www.amazon.de/gp/video/detail/${asin}`
 const folgen = new Map<number, number | null>([[115740, 12], [4181, 24], [7, 12]])
 
@@ -52,6 +55,11 @@ const folgenAbweichung = staffelzitatVerstoesse([{ anilistId: 7, url: url('B0X')
 pruefe('Staffel der Adresse unbekannt, aber 18 statt 12 Folgen: Verstoß', folgenAbweichung.length === 1, folgenAbweichung)
 const unbekannt = staffelzitatVerstoesse([{ anilistId: 7, url: url('B0X'), note: 'Amazon-Seite B0X: alle 12 Folgen geprüft', zweiteQuelle: A2Y('Die zweite Staffel läuft.') }], folgen)
 pruefe('Staffel der Adresse unbekannt, Folgenzahl passt: „unbekannt“ ist kein Verstoß', unbekannt.length === 0, unbekannt)
+const adresseMitStaffelwort = staffelzitatVerstoesse(
+  [{ anilistId: 7, url: url('B0X'), note: 'laut Adresse Staffel 3', zweiteQuelle: 'Anime2You 2026-03-26: Der Film »X« ist auf Deutsch verfügbar. — https://www.anime2you.de/news/1/zweite-staffel-x/' }],
+  folgen,
+)
+pruefe('Staffelwort nur in der Adresse des Zitats: kein Verstoß', adresseMitStaffelwort.length === 0, adresseMitStaffelwort)
 
 // Der Wächter als Prozess (Verdrahtung: Datei lesen, Urteil, Exit-Code, Marke)
 const repo = fileURLToPath(new URL('..', import.meta.url))
@@ -60,7 +68,7 @@ function lauf(eintraege: string): { status: number | null; ausgabe: string } {
   mkdirSync(join(wurzel, 'data'), { recursive: true })
   mkdirSync(join(wurzel, 'public', 'data'), { recursive: true })
   writeFileSync(join(wurzel, 'data', 'dub-confirmed.yaml'), eintraege)
-  writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify([{ id: 115740, episodes: 12 }, { id: 4181, episodes: 24 }]))
+  writeFileSync(join(wurzel, 'public', 'data', 'titles.json'), JSON.stringify([{ id: 115740, episodes: 12 }, { id: 4181, episodes: 24 }, { id: 9367, episodes: 12 }]))
   const r = spawnSync(process.execPath, [join(repo, 'node_modules/tsx/dist/cli.mjs'), join(repo, 'pipeline/check-staffelzitat-bestand.ts')], {
     env: { ...process.env, AK_ROOT: wurzel },
     encoding: 'utf8',
@@ -76,6 +84,8 @@ try {
   pruefe('Prozess, 115740 alt: Exit 1, Fehlerzeile, Marke, VERSTÖSSE: 1', schlecht.status === 1 && schlecht.ausgabe.includes('FEHLER: Staffelzitat 115740') && schlecht.ausgabe.includes('VERSTÖSSE: 1') && schlecht.ausgabe.includes('staffelzitat-bestand'), schlecht.ausgabe)
   const gut = lauf(zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_FREMD, ZITAT_CLANNAD) + zeile(4181, 'B0CJQF3729', NOTE_CLANNAD_EIGEN, ZITAT_CLANNAD))
   pruefe('Prozess, Clannad: Exit 0, 2 Zitate geprüft, VERSTÖSSE: 0', gut.status === 0 && gut.ausgabe.includes('2 Zitate geprüft, 0 Verstöße') && gut.ausgabe.includes('VERSTÖSSE: 0'), gut.ausgabe)
+  const bekannt = lauf(zeile(9367, 'B0CH9BW1PW', NOTE_FREEZING, ZITAT_FREEZING))
+  pruefe('Prozess, Freezing 9367 (bekannter Fund): Exit 0, WARNUNG statt Fehler, kein Rot', bekannt.status === 0 && bekannt.ausgabe.includes('⚠ WARNUNG Staffelzitat 9367') && !bekannt.ausgabe.includes('FEHLER') && bekannt.ausgabe.includes('0 Verstöße, 1 bekannt'), bekannt.ausgabe)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
