@@ -31,6 +31,7 @@ import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { vorladeBasis } from './pr-basis.mjs'
 import { beruehrteDateien, leseModus, leseOrt, nachOrt } from './pruefung-ort.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
+import { leseTeil, waehleTeil } from './tests-teil.mjs'
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
   console.log('Aufruf: node tools/check-logic-alle.mjs [liste] [name] [--alle]\n  liste: Prüfliste (Standard tools/check-logic-liste.txt), name: Anzeigename (Standard check:logic), --alle: auch nach einem Fehler weiterlaufen.')
@@ -40,7 +41,8 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
-const [listeArg = 'tools/check-logic-liste.txt', name = 'check:logic'] = process.argv.slice(2).filter((a) => !a.startsWith('--'))
+const teil = leseTeil(process.argv)
+const [listeArg = 'tools/check-logic-liste.txt', name = 'check:logic'] = process.argv.slice(2).filter((a, i, alle) => !a.startsWith('--') && alle[i - 1] !== '--teil')
 const mitSperre = name === 'check:logic'
 const ausnahmenDatei = process.env.BESTAND_AUSNAHMEN ?? join(tools, 'check-logic-bestand-ausnahmen.json')
 
@@ -81,8 +83,10 @@ const alleDateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf
 // Ort jeder Prüfung (tools/pruefung-ort.mjs): ohne --nachts laufen die Nacht-Einträge nicht mit (außer der PR ändert eine ihrer Lesedateien), mit --nachts nur sie.
 const modus = mitSperre ? leseModus(process.argv) : 'pr'
 const beruehrt = mitSperre && modus === 'pr' ? beruehrteDateien(wurzel) : []
-const dateien = mitSperre ? nachOrt(alleDateien, leseOrt(wurzel), 'logik', modus, (e) => e, beruehrt) : alleDateien
-if (mitSperre) console.log(`${name}: Ort ${modus}, ${dateien.length} von ${alleDateien.length} Prüfungen der Liste.`)
+const dateienOrt = mitSperre ? nachOrt(alleDateien, leseOrt(wurzel), 'logik', modus, (e) => e, beruehrt) : alleDateien
+// `--teil k/n` (tools/tests-teil.mjs): jede n-te Prüfung nach Ort; die Teile sind disjunkt und ergeben zusammen alle (tools/check-logic-teil.test.mjs).
+const dateien = teil ? waehleTeil(dateienOrt, teil) : dateienOrt
+if (mitSperre) console.log(`${name}: Ort ${modus}${teil ? `, Teil ${teil.k}/${teil.n}` : ''}, ${dateien.length} von ${alleDateien.length} Prüfungen der Liste.`)
 if (mitSperre && modus === 'pr') {
   const nachtsMit = dateien.filter((d) => leseOrt(wurzel).logik?.[d]?.ort === 'nachts')
   if (nachtsMit.length > 0) console.log(`${name}: Nacht-Prüfungen mit berührter Lesedatei laufen im PR mit: ${nachtsMit.join(', ')}`)
