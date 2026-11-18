@@ -10,6 +10,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import { copyFileSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ALLE, beruehrteDateien, leseModus, leseOrt, liestBeruehrtes, nachOrt } from './pruefung-ort.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
@@ -65,6 +66,7 @@ function baueRepo({ rotB = false, ohnePr = false, aendere = null, doppelt = fals
     tests: { [`tools/${tests[1]}`]: eintrag(false), [`tools/${tests[2]}`]: eintrag(true) },
   }
   writeFileSync(join(ordner, 'tools/pruefung-ort.json'), JSON.stringify(ort))
+  writeFileSync(join(ordner, '.claude', 'hooks', '.gitkeep'), '')
   writeFileSync(join(ordner, 'data/c.txt'), 'eins\n')
   writeFileSync(join(ordner, 'data/fremd.txt'), 'eins\n')
   writeFileSync(join(ordner, '.gitignore'), 'node_modules\n')
@@ -121,6 +123,27 @@ try {
   assert.match(nachts.logik, /Ort nachts, 2 von 3/)
   assert.match(nachts.tests, /2 von 2 Tests grün/)
   console.log('  ✓ Läufer: ohne Flag nur PR, --nachts beide Nacht-Einträge')
+
+  // Flacher Klon wie in der CI (`git clone --depth=1`: der erste Elternteil des Merge-Commits fehlt, die Basis wird nachgeladen): der Diff ist lesbar, kein Rückfall auf „alle“.
+  const flachKlon = (repo) => {
+    const eltern = mkdtempSync(join(tmpdir(), 'pruefung-ort-flach-'))
+    const klon = join(eltern, 'klon')
+    execFileSync('git', ['clone', '-q', '--depth=1', pathToFileURL(repo).href, klon], { stdio: 'ignore', timeout: 60_000 })
+    symlinkSync(join(WURZEL, 'node_modules'), join(klon, 'node_modules'), 'junction')
+    ordnerListe.push(klon, eltern)
+    return klon
+  }
+  const imFlachen = (repo) => {
+    const klon = flachKlon(repo)
+    assert.throws(() => execFileSync('git', ['cat-file', '-e', 'HEAD^1^{commit}'], { cwd: klon, stdio: 'ignore', timeout: 60_000 }), 'Voraussetzung: der erste Elternteil fehlt im flachen Klon')
+    return klon
+  }
+  const klonBerührt = imFlachen(baueRepo({ aendere: 'data/c.txt' }))
+  assert.deepEqual(beruehrteDateien(klonBerührt, { GITHUB_EVENT_NAME: 'pull_request' }), ['data/c.txt'], 'flacher Klon: Basis nachgeladen, Diff lesbar')
+  const klonFremd = imFlachen(baueRepo({ aendere: 'data/fremd.txt' }))
+  const flachOhne = pruefeBeide(klonFremd, [], true, ['a-pr'], ['b-nachts', 'c-liest'], 'flacher Klon, PR ändert nur data/fremd.txt')
+  assert.doesNotMatch(flachOhne.logik + flachOhne.tests, /nicht lesbar|laufen im PR mit/, 'flacher Klon: weder Rückfall noch Mitlauf')
+  console.log('  ✓ Flacher Klon: Basis wird nachgeladen, die Lesedatei-Auswahl wirkt (kein stiller Rückfall auf alle)')
 
   // PR-Ereignis: ändert der PR die Lesedatei, läuft der Nacht-Eintrag mit liest mit (und nur der), sonst nicht.
   const berührt = baueRepo({ aendere: 'data/c.txt' })
