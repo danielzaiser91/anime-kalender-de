@@ -1,3 +1,0 @@
-[
-  { "name": "Kommentar-Änderung (ohne Wirkung): Nachtlauf auf dem Runner, Ergebniszeilen im Log des Grundlaufs", "datei": "tools/pruefung-ort.mjs", "suche": "Ort jeder Prüfung (18.11.2026):", "ersetze": "Ort jeder Prüfung (18.11.2026) auf dem Runner:", "tests": ["npm run check:nachts"] }
-]
