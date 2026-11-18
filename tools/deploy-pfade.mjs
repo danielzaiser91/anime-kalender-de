@@ -6,8 +6,10 @@
  * schon in der PR-Kette (`pr-pruefung.yml`: Teiljobs workflows, workflows2, uebrige, logik). Jeder Fehler (gh, Git, kein Lauf) heißt „alle Prüfungen“.
  *
  * - `workflows` (check:workflows): `ZAEHLT` aus `workflows-beleg.mjs`, alles außer Datenpfaden (die Tests lesen fast jeden Ordner, gemessen 18.11.2026).
- * - `extension` (check:extension): `extension/`, `tools/` (die Prüfskripte), Paket- und Lint-Dateien, `public/data/pruefliste-stand.json`
- *   und `daniel-zum-abarbeiten/listen/17-vorfaelle.md` (beide liest eine Prüfung).
+ * - `extension` (check:extension): `extension/`, `tools/` (die Prüfskripte), Paket- und Lint-Dateien und alles, was die Skripte und `extension/*.test.cjs` außerhalb davon lesen
+ *   (Beleg, Suche nach `readFileSync`/`lies(` 18.11.2026): `worker/src/` (amazon, melde-sperre, netflix-staffelwahl), `public/data/titles.json` (disney: jede Disney+-Adresse des Bestands steht in der Liste),
+ *   `public/data/pruefliste-stand.json` (extension-listenstand-pruefen.cjs:52), `data/adn-raw/` (adn.test.cjs:294), `data/amazon-raw/getdetailwidgets-B0CKPCSHMC.json.gz` (amazon-nachladen.test.cjs:35).
+ *   Da `titles.json` bei fast jedem Bestandsbau wandert, läuft die Prüfung bei Daten-Deploys meist mit; gespart wird sie bei Code-Pushes ohne diese Pfade.
  * - `logik` (check:logic): `zaehlt` aus `logik-beleg.mjs`, dieselben Pfade wie der Logik-Beleg.
  *
  * Aufruf im Workflow `deploy.yml` (Jobs `pruefen`, `zusicherungen`): `node tools/deploy-pfade.mjs` schreibt `workflows`, `extension`, `logik` (je 0/1) nach $GITHUB_OUTPUT.
@@ -18,9 +20,9 @@ import { pathToFileURL } from 'node:url'
 import { zaehlt as zaehltLogik } from './logik-beleg.mjs'
 import { ZAEHLT as zaehltWorkflows } from './workflows-beleg.mjs'
 
-const EXTENSION_EINZELN = ['public/data/pruefliste-stand.json', 'daniel-zum-abarbeiten/listen/17-vorfaelle.md']
+const EXTENSION_EINZELN = ['public/data/titles.json', 'public/data/pruefliste-stand.json', 'data/amazon-raw/getdetailwidgets-B0CKPCSHMC.json.gz']
 export const zaehltExtension = (pfad) =>
-  pfad.startsWith('extension/') || pfad.startsWith('tools/') || /^(package(-lock)?\.json|eslint[^/]*|tsconfig[^/]*)$/.test(pfad) || EXTENSION_EINZELN.includes(pfad)
+  pfad.startsWith('extension/') || pfad.startsWith('tools/') || pfad.startsWith('worker/') || pfad.startsWith('data/adn-raw/') || /^(package(-lock)?\.json|eslint[^/]*|tsconfig[^/]*)$/.test(pfad) || EXTENSION_EINZELN.includes(pfad)
 
 /** Bedarf je Prüfung aus der Liste geänderter Dateien. */
 export const bedarf = (dateien) => ({

@@ -10,20 +10,23 @@ import { LAEUFE_HOECHSTENS, main as veraltetMain, pruefe, ueberholer } from './d
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 // 1. Bedarf je Pfad
-assert.deepEqual(bedarf(['public/data/titles.json', 'public/data/news.json']), { workflows: false, extension: false, logik: false }, 'nur Datenpfade: nichts nötig')
+assert.deepEqual(bedarf(['public/data/news.json', 'public/data/meta.json']), { workflows: false, extension: false, logik: false }, 'nur Datenpfade: nichts nötig')
 assert.deepEqual(bedarf(['web/src/App.tsx']), { workflows: true, extension: false, logik: true }, 'Web-Code: Workflows und Logik, nicht die Erweiterung')
 assert.equal(bedarf(['extension/amazon.js']).extension, true, 'extension/ weckt die Erweiterungsprüfung')
 assert.equal(bedarf(['tools/pr-stufe.mjs']).extension, true, 'tools/ weckt sie ebenfalls (die Prüfskripte liegen dort)')
 assert.equal(bedarf(['package-lock.json']).extension, true, 'Paketdatei weckt sie')
 assert.equal(bedarf(['public/data/pruefliste-stand.json']).extension, true, 'Prüflisten-Stand liest eine Erweiterungsprüfung')
-assert.equal(bedarf(['public/data/titles.json']).extension, false, 'andere Bestandsdateien nicht')
+assert.equal(bedarf(['public/data/titles.json']).extension, true, 'titles.json liest extension/disney.test.cjs (Disney+-Adressen des Bestands)')
+for (const p of ['worker/src/pruefung-lesen.ts', 'data/adn-raw/x.json.gz', 'data/amazon-raw/getdetailwidgets-B0CKPCSHMC.json.gz']) assert.equal(bedarf([p]).extension, true, `${p} liest eine Erweiterungsprüfung`)
+assert.equal(bedarf(['public/data/news.json']).extension, false, 'andere Bestandsdateien nicht')
+assert.equal(bedarf(['web/src/App.tsx', 'pipeline/build.ts', 'shared/logic.ts']).extension, false, 'Web, Pipeline, shared: keine Erweiterungsprüfung')
 assert.deepEqual(bedarf([]), { workflows: false, extension: false, logik: false }, 'leere Änderung: nichts')
 assert.equal(bedarf(['.github/workflows/deploy.yml']).workflows, true, 'Workflow-Datei weckt check:workflows')
 
 // 2. rechne: Fehler heißen alles
 const alles = { workflows: true, extension: true, logik: true }
 const ok = (dateien) => ({ letzterGruenerStand: () => 'a'.repeat(40), geaendert: () => dateien })
-assert.deepEqual({ ...rechne({}, ok(['public/data/titles.json'])), grund: 0 }, { workflows: false, extension: false, logik: false, grund: 0 })
+assert.deepEqual({ ...rechne({}, ok(['public/data/news.json'])), grund: 0 }, { workflows: false, extension: false, logik: false, grund: 0 })
 assert.deepEqual({ ...rechne({}, { letzterGruenerStand: () => undefined, geaendert: () => [] }), grund: 0 }, { ...alles, grund: 0 }, 'kein grüner Lauf: alles')
 assert.deepEqual({ ...rechne({}, { letzterGruenerStand: () => { throw new Error('gh kaputt') }, geaendert: () => [] }), grund: 0 }, { ...alles, grund: 0 }, 'gh kaputt: alles')
 assert.deepEqual({ ...rechne({}, { letzterGruenerStand: () => 'b', geaendert: () => { throw new Error('Commit fehlt') } }), grund: 0 }, { ...alles, grund: 0 }, 'Basis nicht lesbar: alles')
@@ -109,6 +112,7 @@ assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'neu'), lauf(12, 'neuer')],
     throw new Error(`unerwartet ${pfad}`)
   }
   assert.equal(pruefe({ GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '7' }, { api }).veraltet, true)
+  assert.equal(pruefe({ GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '7' }, { api: (p) => (p.includes('/compare/') ? { status: 'diverged' } : api(p)) }).veraltet, false, 'Stand nicht voraus (compare ≠ ahead): deployen')
   assert.equal(pruefe({ GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '7' }, { api: () => { throw new Error('403') } }).veraltet, false, 'API-Fehler: deployen')
   let datei = ''
   veraltetMain({ GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '7', GITHUB_OUTPUT: 'x' }, () => {}, { api }, (_, t) => { datei += t })
