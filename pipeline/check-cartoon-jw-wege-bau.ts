@@ -22,9 +22,12 @@ writeFileSync(
     eintrag(12, {}),
     eintrag(13, { anbieterDe: ['Netflix'] }),
     eintrag(14, { anbieterDe: ['Netflix'] }),
+    eintrag(15, { anbieterDe: ['Netflix'] }),
+    eintrag(16, { anbieterDe: ['Netflix'] }),
+    eintrag(17, { anbieterDe: ['Netflix'] }),
   ])),
 )
-const angebot = (anbieter: string, art: string, pfad: string) => ({ anbieter, art, url: `https://shop.example/${pfad}`, audio: [] })
+const angebot = (anbieter: string, art: string, pfad: string, audio: string[] = []) => ({ anbieter, art, url: `https://shop.example/${pfad}`, audio })
 writeFileSync(
   join(wurzel, 'data', 'justwatch-audio.json'),
   JSON.stringify({
@@ -40,10 +43,16 @@ writeFileSync(
     },
     '-12': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'RENT', 'apple12')] },
     '-13': { geprueftAm: '2026-11-11', ohneTreffer: true, angebote: [] },
+    '-15': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'BUY', 'apple15', ['en'])] },
+    '-16': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'BUY', 'apple16', ['en'])] },
+    '-17': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'BUY', 'apple17', ['de'])] },
   }),
 )
 /* Beim Laden liest `bau/grundlagen.ts` diese Handdatei; leer genügt. */
 writeFileSync(join(wurzel, 'data', 'kino-ankuendigungen.yaml'), '[]\n')
+/* Zwei tote Adressen laut Handbeleg „nicht verfügbar“ (JSON ist gültiges YAML). */
+const tot = (id: number, pfad: string) => ({ anilistId: id, title: `Erfunden ${-id}`, platform: 'primevideo', url: `https://shop.example/${pfad}`, available: false, checkedAt: '2026-11-11' })
+writeFileSync(join(wurzel, 'data', 'dub-confirmed.yaml'), JSON.stringify([tot(-16, 'apple16'), tot(-17, 'apple17')]))
 
 type Weg = { name: string; url: string; zugang?: string; dub?: unknown; dubRanges?: unknown }
 let verletzt = 0
@@ -62,10 +71,13 @@ try {
   pruefe('ohne Stream: Leihe wird Kaufweg bei Apple TV', kurz(-12), ['Apple TV|kauf'])
   pruefe('JustWatch ohne Treffer: kein Weg', kurz(-13), [])
   pruefe('ohne JustWatch-Zeile: kein Weg', kurz(-14), [])
+  pruefe('Titel mit Stream, JustWatch nennt nur Englisch: Zusatzrunde nimmt Apple TV trotzdem (wie bei Anime)', kurz(-15), ['Apple TV|kauf'])
+  pruefe('tote Adresse (Handbeleg), Zusatzrunde: kein Weg', kurz(-16), [])
+  pruefe('tote Adresse (Handbeleg), Runde ohne Weg: kein Weg', kurz(-17), [])
   pruefe('Adresse stammt von JustWatch', wege(-11).find((w) => w.name === 'Apple TV')?.url, 'https://shop.example/apple11')
   pruefe('kein Weg trägt ein Sprachurteil', [-11, -12].flatMap(wege).filter((w) => w.dub !== undefined || w.dubRanges !== undefined).length, 0)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
 if (verletzt) process.exit(1)
-console.log('  Cartoon-JustWatch-Wege: 6 Fälle grün')
+console.log('  Cartoon-JustWatch-Wege: 9 Fälle grün')
