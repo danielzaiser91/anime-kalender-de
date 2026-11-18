@@ -1,15 +1,15 @@
 import { type IstTot } from '../lib/adresse-tot.ts'
 import { readJson, log } from '../lib/util.ts'
-import { type WatchLink, type Title } from '../../shared/types.ts'
+import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
-import { providerName, stripAffiliate } from '../../shared/mappings.ts'
+import { stripAffiliate } from '../../shared/mappings.ts'
 import { loadDubChecks, neinHandbelege } from '../lib/dub-confirmed.ts'
 import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
-import { providerToPlatform } from './titel-hilfen.ts'
-import { entfernteVerweise, ergaenzeWegeOhneWeg, PHYSISCHE_SHOPS, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
+import { entfernteVerweise, ergaenzeWegeOhneWeg, type JwEintrag } from './11-2-2-wege-ohne-weg.ts'
 import { mitStaffelTreffer } from './11-2-5-wege-nach-begrenzung.ts'
 import { folgestaffelBilanz, folgestaffelZeile, mitFolgestaffelEintraegen, neueFolgestaffelIds, wegeZahlen } from './11-2-6-folgestaffel-eintraege.ts'
 import { ergaenzeAboWege, type JwAbo } from './11-2-3-abo-wege.ts'
+import { ergaenzeJwWeitereWege } from './11-2-7-jw-weitere-wege.ts'
 import { ergaenzeKaufWege, primeNeinTitel, type JwKauf } from './11-2-4-kauf-wege.ts'
 
 type Runde = {
@@ -101,40 +101,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, istTot }: Run
         jwDirekt++
       }
     }
-    /*
-      **Auch Titel mit Wegen bekommen JustWatchs übrige Angebote** (Daniel, 17.09.2026,
-      zu Apple TV). TMDBs Anbieterliste ist dieselbe Datenbasis, aber je Titel teils
-      Wochen alt; JustWatch fragt der Wochenlauf jetzt reihum. Übernommen wird nur,
-      was keine eigene Plattform hat (die haben Verweise mit Sprachurteil) und noch
-      nicht als Weg dasteht — dieselben Regeln wie für Titel ohne jeden Weg.
-    */
-    for (const title of titles.values()) {
-      if (!(title.streams ?? []).length && !(title.watchLinks ?? []).length) continue
-      if (tmdbMehrdeutig.has(String(title.id))) continue
-      const angebote = jw[String(title.id)]?.angebote ?? []
-      if (!angebote.length) continue
-      const wege = title.watchLinks ?? []
-      for (const a of angebote) {
-        if (!a.url || /^justwatch/i.test(a.anbieter) || istTot(a.url)) continue
-        if (providerToPlatform(a.anbieter)) continue
-        const name = providerName(a.anbieter)
-        if (!name || wege.some((w) => w.name === name)) continue
-        /*
-          Nur digital. Gemessen am 17.09.2026: 728 der 781 zusätzlichen Wege wären
-          Disc-Händler gewesen (bücher.de, Thalia, Zavvi …) — ohne Angabe zur Ausgabe,
-          Zavvi verkauft UK-Importe. Kinos sind keine Bezugswege.
-        */
-        if (PHYSISCHE_SHOPS.test(a.anbieter) || a.art === 'CINEMA') continue
-        wege.push({
-          name,
-          url: stripAffiliate(a.url),
-          kind: 'stream',
-          zugang: a.art === 'FLATRATE' ? 'abo' : a.art === 'FREE' || a.art === 'ADS' ? 'kostenlos' : 'kauf',
-        } as WatchLink)
-        jwNeu++
-      }
-      if (wege.length) title.watchLinks = wege.sort((x, y) => (x.kind === y.kind ? 0 : x.kind === 'stream' ? -1 : 1))
-    }
+    jwNeu = ergaenzeJwWeitereWege({ titles: titles.values(), jw, tmdbMehrdeutig, istTot })
     /*
       **Bei einem Film ist JustWatchs Tonspur eine Aussage über das Werk** (17.09.2026).
 
