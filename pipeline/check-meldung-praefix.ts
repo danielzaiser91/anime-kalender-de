@@ -6,7 +6,7 @@ import type { Title } from '../shared/types.ts'
 import { leereVerluste, releasesAus, type Vorschlag } from './lib/meldungen.ts'
 import { praefixTitel } from './lib/meldung-praefix.ts'
 import { einzelOhneRelease } from './lib/sammel-unzugeordnet.ts'
-import { verlustZeile } from './lib/meldungen-ohne-release-zeilen.ts'
+import { mehrdeutigZeile, verlustZeile } from './lib/meldungen-ohne-release-zeilen.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -70,10 +70,40 @@ pruefe('Gegenfall Twisted-Wonderland: ein Treffer, aber Staffel 2 gibt es im Bes
 const angebot = lauf(meldung('AniMoon-Angebot: Zweite »Demon Slave«-Staffel zum Sonderpreis', '2026-10-31'))
 pruefe('Gegenfall Preisangebot: das Datum ist das Ende der Aktion → kein Termin, als „ohne Titel“ gezählt', angebot.neu.length === 0 && angebot.verluste.ohneTitel.length === 1, angebot.verluste)
 
-for (const wort of ['Rabatt', 'Rabattaktion', 'Aktion', 'Sale', 'Angebot', 'Sonderpreis']) {
-  const l = lauf(meldung(`Zweite »Demon Slave«-Staffel: ${wort} bis Monatsende`, '2026-10-31'))
-  pruefe(`Angebotswort „${wort}“ sperrt den Kurznamen`, l.neu.length === 0 && l.verluste.ohneTitel.length === 1, l.verluste)
+for (const satz of ['mit Rabatt', 'mit Rabattaktion', 'in der Aktion', 'im Sale', 'im Angebot', 'zum Sonderpreis', 'in der Sparaktion', 'zum Black Friday', 'in den Black-Weeks', 'reduziert', 'zum Deal-Preis', 'günstiger', 'Vorbestellphase endet am 31.10.', 'bis zum 31.10.']) {
+  const l = lauf(meldung(`Zweite »Demon Slave«-Staffel ${satz}`, '2026-10-31'))
+  pruefe(`Angebotsformulierung „${satz}“ sperrt den Kurznamen`, l.neu.length === 0 && l.verluste.ohneTitel.length === 1, l.verluste)
 }
+
+/* Format der Meldung gegen Format des Treffers (Prüfer R1, 18.11.2026): „Street Fighter“ als Netflix-Serie ist nicht „Street Fighter II: The Animated Movie“. */
+for (const format of ['MOVIE', 'OVA', 'SPECIAL']) {
+  const nurFilm = [titel(1362, `Street Fighter II: The Animated ${format}`, 1362, 1994, { format })]
+  const serie = lauf(meldung('Netflix zeigt neue »Street Fighter«-Serie', '2026-12-01', { category: 'streaming', platforms: ['netflix'] }), nurFilm)
+  pruefe(`Format ${format} für eine Serien-Meldung (Streaming) → mehrdeutig, kein Termin`, serie.neu.length === 0 && serie.verluste.mehrdeutig.length === 1, serie.verluste)
+  const staffel = lauf(meldung('Blu-ray-Termin der zweiten »Street Fighter«-Staffel', '2026-12-01'), nurFilm)
+  pruefe(`Format ${format} für eine Meldung mit Staffelwort (Disc) → mehrdeutig, kein Termin`, staffel.neu.length === 0 && staffel.verluste.mehrdeutig.length === 1, staffel.verluste)
+}
+/* Jedes Signal der Meldungsart allein: Kategorie ohne Stichwort, Stichwort ohne Kategorie (Disc), je mit dem Fixture des falschen Formats. */
+const SERIE = [titel(77, 'Street Fighter The Series', 77, 1995)]
+const FILM = [titel(1362, 'Street Fighter II: The Animated Movie', 1362, 1994, { format: 'MOVIE' })]
+const alleinKino = lauf(meldung('»Street Fighter« ab 1. Dezember', '2026-12-01', { category: 'kino', platforms: ['kino'] }), SERIE)
+pruefe('Kategorie „kino“ allein (kein Stichwort) → Film-Meldung, TV-Serie passt nicht', alleinKino.neu.length === 0 && alleinKino.verluste.mehrdeutig.length === 1, alleinKino.verluste)
+const alleinStream = lauf(meldung('Netflix: »Street Fighter« ab 1. Dezember', '2026-12-01', { category: 'streaming', platforms: ['netflix'] }), FILM)
+pruefe('Kategorie „streaming“ allein (kein Stichwort) → Serien-Meldung, Film passt nicht', alleinStream.neu.length === 0 && alleinStream.verluste.mehrdeutig.length === 1, alleinStream.verluste)
+for (const wort of ['Film', 'Movie', 'Kino']) {
+  const l = lauf(meldung(`»Street Fighter« ${wort} erscheint auf Blu-ray`, '2026-12-01'), SERIE)
+  pruefe(`Film-Stichwort „${wort}“ allein (Disc) → Film-Meldung, TV-Serie passt nicht`, l.neu.length === 0 && l.verluste.mehrdeutig.length === 1, l.verluste)
+}
+for (const wort of ['Staffel', 'Season', 'Simulcast', 'Serie', 'Start']) {
+  const l = lauf(meldung(`»Street Fighter« ${wort} erscheint auf Blu-ray`, '2026-12-01'), FILM)
+  pruefe(`Serien-Stichwort „${wort}“ allein (Disc) → Serien-Meldung, Film passt nicht`, l.neu.length === 0 && l.verluste.mehrdeutig.length === 1, l.verluste)
+}
+const filmZuFilm =lauf(meldung('»Street Fighter« startet im Kino', '2026-12-01', { category: 'kino', platforms: ['kino'] }), [titel(1362, 'Street Fighter II: The Animated Movie', 1362, 1994, { format: 'MOVIE' })])
+pruefe('Film-Meldung (Kino) an einen Film: Termin, Format passt', filmZuFilm.neu.length === 1 && filmZuFilm.neu[0]!.titleId === 1362, filmZuFilm.verluste)
+const filmZuSerie = lauf(meldung('»Street Fighter« startet im Kino', '2026-12-01', { category: 'kino', platforms: ['kino'] }), [titel(77, 'Street Fighter The Series', 77, 1995)])
+pruefe('Film-Meldung (Kino) an eine TV-Serie → mehrdeutig, kein Termin', filmZuSerie.neu.length === 0 && filmZuSerie.verluste.mehrdeutig.length === 1, filmZuSerie.verluste)
+const discBox = lauf(meldung('»Street Fighter« erscheint als Blu-ray-Box', '2026-12-01'), [titel(1362, 'Street Fighter II: The Animated Movie', 1362, 1994, { format: 'MOVIE' })])
+pruefe('Disc-Box ohne Film- oder Serienwort: das Format entscheidet nicht (Termin)', discBox.neu.length === 1, discBox.verluste)
 const sammel = lauf(
   meldung('»Love & Lies« – Staffel 1', '2026-12-01', { category: 'streaming', platforms: ['netflix'], dates: [{ iso: '2026-12-01', context: 'Sammelartikel' }] }),
   [titel(300, 'Love and Lies', 300, 2026), titel(301, 'Love and Lies Remix', 300, 2026)],
@@ -87,13 +117,15 @@ pruefe('Gegenfall Wortgrenze: „Hell Mod“ ist kein ganzes Wort von „Hell Mo
 const anderes = lauf(meldung('»Hell Mode Special« erscheint als Blu-ray', '2027-02-25'))
 pruefe('Gegenfall: Name länger als der Titelanfang → ohneTitel', anderes.neu.length === 0 && anderes.verluste.ohneTitel.length === 1, anderes.verluste)
 
-pruefe('praefixTitel: ein Treffer → Titel', 'titel' in (praefixTitel('»Hell Mode«', ALLE, false) ?? {}))
-pruefe('praefixTitel: mehrere Teile ohne Angabe → mehrdeutig', 'mehrdeutig' in (praefixTitel('»Fate/stay night: Heaven’s Feel«', FATE, false) ?? {}))
-pruefe('praefixTitel: eine Franchise mit Angabe → der älteste (Basis für reihenTeil)', (praefixTitel('»Demon Slave«', ALLE, true) as { titel: Title }).titel.id === 141821)
+pruefe('praefixTitel: ein Treffer → Titel', 'titel' in (praefixTitel(meldung('»Hell Mode«', '2027-02-25'), ALLE, false) ?? {}))
+pruefe('praefixTitel: mehrere Teile ohne Angabe → mehrdeutig', 'mehrdeutig' in (praefixTitel(meldung('»Fate/stay night: Heaven’s Feel«', '2026-12-18'), FATE, false) ?? {}))
+pruefe('praefixTitel: eine Franchise mit Angabe → der älteste (Basis für reihenTeil)', (praefixTitel(meldung('»Demon Slave«', '2027-03-19'), ALLE, true) as { titel: Title }).titel.id === 141821)
 
 const streaming = lauf(meldung('Neue »Fate/stay night: Heaven’s Feel«-Folgen im Simulcast', '2026-12-18', { category: 'streaming', platforms: ['netflix'] }))
 pruefe('Liste: eine mehrdeutige Streaming-Meldung mit deutschem Ton steht auf der Liste „nicht zugeordnet“', einzelOhneRelease(streaming.verluste, []).length === 1, streaming.verluste)
-pruefe('Logzeile nennt die mehrdeutigen', verlustZeile(streaming.verluste).includes('1 mit mehrdeutigem Kurznamen'), verlustZeile(streaming.verluste))
+pruefe('Namentliche Logzeile nennt die Überschrift der mehrdeutigen Meldung', mehrdeutigZeile(streaming.verluste)?.includes('1 Meldungen mit mehrdeutigem Kurznamen') === true && mehrdeutigZeile(streaming.verluste)?.includes('Neue »Fate/stay night: Heaven’s Feel«-Folgen im Simulcast') === true, mehrdeutigZeile(streaming.verluste))
+pruefe('Namentliche Logzeile entfällt ohne mehrdeutige Meldung', mehrdeutigZeile(leereVerluste()) === undefined)
+pruefe('Logzeile nennt die mehrdeutigen',verlustZeile(streaming.verluste).includes('1 mit mehrdeutigem Kurznamen'), verlustZeile(streaming.verluste))
 
 if (fehler) {
   console.error(`${fehler} Fehler`)

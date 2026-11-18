@@ -548,7 +548,7 @@ function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: s
   if (treffer?.genau) return { titel: treffer.titel }
   const sammel = istSammelMeldung(v) ? sammelTitel(v.articleTitle, titel, synonyme) : undefined
   if (sammel) return { titel: sammel }
-  const befund = praefixTitel(v.articleTitle, titel, teilAusUeberschrift(ohneSammelName(v.articleTitle))?.nummer !== undefined)
+  const befund = praefixTitel(v, titel, teilAusUeberschrift(ohneSammelName(v.articleTitle))?.nummer !== undefined)
   return befund && ('titel' in befund ? { titel: befund.titel, praefix: true } : befund)
 }
 

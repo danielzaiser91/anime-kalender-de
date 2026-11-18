@@ -1,5 +1,6 @@
 import type { Title } from '../../shared/types.ts'
 import { nachJahrUndId } from '../../shared/titles.ts'
+import type { Vorschlag } from './meldungen.ts'
 import { sammelName, namensWoerter } from './sammel-titel.ts'
 
 /**
@@ -9,11 +10,24 @@ import { sammelName, namensWoerter } from './sammel-titel.ts'
  */
 export type PraefixBefund =
   | { titel: Title }
-  /** Mehrere Titel beginnen so und sind nicht sicher zu trennen: keiner wird geraten, der Grund wird gezählt. */
+  /** Mehrere Titel beginnen so und sind nicht sicher zu trennen, oder keiner hat das Format der Meldung: keiner wird geraten, der Grund wird gezählt. */
   | { mehrdeutig: true }
 
-/** Ein Preisangebot nennt als Datum sein Ende, nicht ein Erscheinen („Dritte »ARIFURETA«-Staffel zum Sonderpreis“, bis 31.10.). */
-const ANGEBOT = /\b(angebot|sonderpreis|rabatt\w*|aktion|sale)\b/i
+/**
+ * Ein Preisangebot nennt als Datum sein Ende, nicht ein Erscheinen („Dritte »ARIFURETA«-Staffel zum Sonderpreis“, bis 31.10.). Gelistet sind die
+ * Formulierungen echter Meldungen (Sparaktion, Black Friday/Weeks, reduziert, Deal-Preis, „Vorbestellphase endet am“).
+ */
+const ANGEBOT = /\b(angebot|sonderpreis|rabatt\w*|aktion|sale|spar\w*|black|reduziert|deal\w*|günstig\w*|endet|bis zum)\b/i
+
+/** Was die Meldung ankündigt: ein Film (Kino, Film-Wort) oder eine Serie (Streaming, Staffel/Simulcast/Start); eine Disc-Box ohne Hinweis lässt beides offen. */
+function meldungsArt(v: Pick<Vorschlag, 'articleTitle' | 'category'>): 'film' | 'serie' | undefined {
+  if (v.category === 'kino' || /\b(film|movie|kino)\b/i.test(v.articleTitle)) return 'film'
+  return v.category === 'streaming' || /\b(staffel|season|simulcast|serie|start)\b/i.test(v.articleTitle) ? 'serie' : undefined
+}
+
+/** Ein Film-Treffer für eine Serien-Meldung („Street Fighter“ → „Street Fighter II: The Animated Movie“) wäre ein falsches Werk. */
+const formatPasst = (t: Title, art: 'film' | 'serie' | undefined): boolean =>
+  art === 'film' ? t.format === 'MOVIE' : art === 'serie' ? !['MOVIE', 'OVA', 'SPECIAL'].includes(t.format ?? '') : true
 
 const beginntMit = (frage: string[], name: string): boolean => {
   const w = namensWoerter(name)
@@ -21,15 +35,18 @@ const beginntMit = (frage: string[], name: string): boolean => {
 }
 
 /**
- * Eindeutig ist: genau ein Titel beginnt so, oder alle gehören zu einer Franchise und die Überschrift nennt eine Staffel/einen Film
- * (`teilAngabe`) — dann wählt `reihenTeil` den Teil und gibt auf, wenn es keinen findet. Mehrere Franchisen („Princess Mononoke“ neben den Mononoke-Filmen)
- * oder mehrere Teile ohne Angabe (Heaven’s Feel: drei Filme, eine Box) sind mehrdeutig.
+ * Eindeutig ist: genau ein Titel passenden Formats beginnt so, oder alle gehören zu einer Franchise und die Überschrift nennt eine Staffel/einen Film
+ * (`teilAngabe`) — dann wählt `reihenTeil` den Teil und gibt auf, wenn es keinen findet. Mehrere Franchisen („Princess Mononoke“ neben den Mononoke-Filmen),
+ * mehrere Teile ohne Angabe (Heaven’s Feel: drei Filme, eine Box) und Treffer nur anderen Formats sind mehrdeutig.
  */
-export function praefixTitel(artikelTitel: string, anime: Title[], teilAngabe: boolean): PraefixBefund | undefined {
-  const frage = namensWoerter(sammelName(artikelTitel) ?? '')
-  if (frage.length < 2 || ANGEBOT.test(artikelTitel)) return undefined
-  const treffer = anime.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => n && beginntMit(frage, n)))
-  if (!treffer.length) return undefined
+export function praefixTitel(v: Pick<Vorschlag, 'articleTitle' | 'category'>, anime: Title[], teilAngabe: boolean): PraefixBefund | undefined {
+  const frage = namensWoerter(sammelName(v.articleTitle) ?? '')
+  if (frage.length < 2 || ANGEBOT.test(v.articleTitle)) return undefined
+  const namenstreffer = anime.filter((t) => [t.titleDe, t.titleEn, t.titleRomaji].some((n) => n && beginntMit(frage, n)))
+  if (!namenstreffer.length) return undefined
+  const art = meldungsArt(v)
+  const treffer = namenstreffer.filter((t) => formatPasst(t, art))
+  if (!treffer.length) return { mehrdeutig: true }
   if (treffer.length === 1) return { titel: treffer[0]! }
   const reihe = (t: Title) => t.franchiseId ?? t.id
   const eineReihe = treffer.every((t) => reihe(t) === reihe(treffer[0]!))
