@@ -1,0 +1,3 @@
+[
+  { "name": "Kontrolle: Nachtlauf und Deploy-Teil auf dem Runner (Ergebniszeilen im Artefakt, vor dem ersten echten Lauf von nacht-pruefung.yml)", "aenderungen": [], "tests": ["npm run check:nachts", "npm run check:nachts-deploy"] }
+]
