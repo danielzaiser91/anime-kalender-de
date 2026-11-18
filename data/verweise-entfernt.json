@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-17T23:12:29.217Z",
+  "stand": "2026-11-18T04:29:32.955Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -5312,7 +5312,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-18",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 19191,
