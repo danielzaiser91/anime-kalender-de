@@ -75,3 +75,24 @@
   edition: "Limited Edition, Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-18" }
   sources: [https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/]
+
+- slug: virgin-road-vol2
+  anilistId: 129193
+  titleDe: "Virgin Road – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-17" }
+  sources: [https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/, https://www.anime2you.de/news/1043751/disc-neuheiten-september-2026/]
+
+# ---------------------------------------------------------------- Januar 2027
+- slug: virgin-road-vol3
+  anilistId: 129193
+  titleDe: "Virgin Road – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2027-01-29" }
+  sources: [https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/]
