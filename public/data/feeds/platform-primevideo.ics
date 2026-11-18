@@ -416,4 +416,14 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  et.\nDetails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
+BEGIN:VEVENT
+UID:the-mighty-nein-s2-primevideo@2027-03-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270324
+DTEND;VALUE=DATE:20270325
+SUMMARY:The Mighty Nein
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/-219080/
+CATEGORIES:Prime Video
+END:VEVENT
 END:VCALENDAR
