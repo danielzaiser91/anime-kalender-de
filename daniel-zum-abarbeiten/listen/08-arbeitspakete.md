@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-18 · **11 offene Verweise** in **10 Zeilen**,
+Stand 2026-11-18 · **10 offene Verweise** in **9 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 10
+## Paket 1 — Zeilen 1 bis 9
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -43,5 +43,4 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 6 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 7 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 8 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
-| 9 | Prime Video | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
-| 10 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 9 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |

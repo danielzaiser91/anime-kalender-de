@@ -139,7 +139,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Der Mohnblumenberg (10029) | Amazon Video | amazon:amzn1.dv.gti.863e0dd6-b461-4d65-acc1-ea1bfd73648f | ja |
 | Ein Brief an Momo (10389) | Amazon Video | amazon:amzn1.dv.gti.64a9f6b5-208b-fc5c-a720-81f53f632866 | ja |
 | Black Rock Shooter (11285) | Amazon Prime Video | amazon:amzn1.dv.gti.654442b8-82b8-4968-910f-08d89912be54 | ja |
-| Sankarea: Undying Love (11499) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31 | nein |
+| Sankarea: Undying Love (11499) | Aniverse Amazon Channel | amazon:amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31 | ja |
 | Detektiv Conan: Der 11. Stürmer (12117) | Crunchyroll | crunchyroll:G50UZEM25 | ja |
 | Detektiv Conan: Der 11. Stürmer (12117) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.73db36e2-567d-4735-9d33-18aaa84b4c17 | ja |
 | Detektiv Conan: Der 11. Stürmer (12117) | Amazon Video | amazon:amzn1.dv.gti.aeb88c68-4b71-9e00-ac23-39682343d2b4 | ja |
@@ -452,7 +452,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 <!-- cartoons:start -->
 ## Cartoons
 
-Flagge „Deutsch“: 3 Wege, nur Hinweis: 0.
+Flagge „Deutsch“: 2 Wege, nur Hinweis: 0.
 
 JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine Flagge): mehrere Staffeln 130, Mehrteiler 1.
 
@@ -466,7 +466,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (59)
+### Kandidaten für neue Wege (60)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -509,6 +509,7 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Barbie: Dreamtopia (-78839) | RTL+ Max Amazon Channel | amazon:amzn1.dv.gti.f792f85e-0684-40f0-8c17-66c1a0eb879c | nein |
 | Danger & Eggs (-71986) | Amazon Prime Video | amazon:amzn1.dv.gti.2d98b375-22d9-4415-a20e-c99eab7ddf70 | nein |
 | Wolkenkinder (-55371) | Kixi Select Amazon Channel | amazon:amzn1.dv.gti.58a21643-6cf7-45ff-8475-1234f21ec4a0 | nein |
+| Talking Tom Shorts (-219909) | Amazon Prime Video | amazon:amzn1.dv.gti.9eba81de-2e2c-2dda-0a85-c187578d4727 | ja |
 | Dschungelbuch - Safari (-78328) | ZDF Select Amazon Channel  | amazon:amzn1.dv.gti.1cabe050-add2-188b-8ccd-e94744664377 | nein |
 | Tashi (-75488) | ZDF Select Amazon Channel  | amazon:amzn1.dv.gti.217480fa-7517-48b3-a804-527616bc2902 | nein |
 | Hinter der Gartenmauer (-61617) | HBO Max Amazon Channel | amazon:amzn1.dv.gti.c0a9f6d9-78fd-6fd5-52de-0f46f244c4d1 | nein |
