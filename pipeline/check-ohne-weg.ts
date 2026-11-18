@@ -8,7 +8,6 @@ import { ohneWegFehler } from './lib/pruefung.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import { ohneStreamingWeg, type OhneWegEintrag } from '../shared/ohne-weg.ts'
 import { hatStreamingWeg } from '../tools/streaming-weg-zaehlen.mjs'
-import { translate } from '../web/src/lib/i18n.tsx'
 import { ohneWegText } from '../web/src/components/detail/ohne-weg.ts'
 
 let verletzt = 0
@@ -124,12 +123,11 @@ console.log('\nKennungen und Anzeigetext')
 const ak = (n: number) => (n < 0 ? n : n + 1_000_000)
 const uebersetzt = uebersetzeDatei('ohne-weg.json', { 900001: gut[1], '-7': gut[3] }, ak) as Record<string, OhneWegEintrag>
 pruefe('Schlüssel auf ak übersetzt, negative Kennung bleibt, Inhalt unverändert', Object.keys(uebersetzt).sort().join() === '-7,1900001' && uebersetzt['1900001']?.ab === '2026-12-01', uebersetzt)
-const t = (key: string, params?: Record<string, string | number>) => translate(key as never, params)
-pruefe('Text kein-dub nennt den Tag deutsch', ohneWegText(gut[2]!, t) === 'Bisher nur im Originalton gefunden, geprüft am 26.10.2026.', ohneWegText(gut[2]!, t))
-pruefe('Text angekuendigt nimmt `ab`', ohneWegText(gut[1]!, t) === 'Noch nicht gestartet, geplant ab 01.12.2026.', ohneWegText(gut[1]!, t))
-pruefe('Text offen nennt kein Datum', ohneWegText(gut[3]!, t) === 'Ein Streaming-Angebot ist noch nicht belegt.')
-pruefe('Text nur-kauf und film-ohne-abo nennen JustWatch und den Tag', ohneWegText({ reason: 'nur-kauf', checkedAt: '2026-11-17' }, t).includes('17.11.2026') && ohneWegText({ reason: 'film-ohne-abo', checkedAt: '2026-11-17' }, t).includes('kein Streaming-Angebot'))
-pruefe('Gegenfall: ein Grund ohne Tag erfindet keinen', ohneWegText({ reason: 'nur-kauf' }, t) === 'Ein Streaming-Angebot ist noch nicht belegt.')
+pruefe('Text kein-dub nennt den Tag deutsch', ohneWegText(gut[2]!) === 'Bisher nur im Originalton gefunden, geprüft am 26.10.2026.', ohneWegText(gut[2]!))
+pruefe('Text angekuendigt: keiner (der Starttag steht schon im Kasten)', ohneWegText(gut[1]!) === undefined)
+pruefe('Text offen nennt kein Datum', ohneWegText(gut[3]!) === 'Ein Streaming-Angebot ist noch nicht belegt.')
+pruefe('Text nur-kauf und film-ohne-abo nennen JustWatch und den Tag', ohneWegText({ reason: 'nur-kauf', checkedAt: '2026-11-17' })?.includes('17.11.2026') === true && ohneWegText({ reason: 'film-ohne-abo', checkedAt: '2026-11-17' })?.includes('kein Streaming-Angebot') === true)
+pruefe('Gegenfall: ein Grund ohne Tag erfindet keinen', ohneWegText({ reason: 'nur-kauf' }) === 'Ein Streaming-Angebot ist noch nicht belegt.')
 
 if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)

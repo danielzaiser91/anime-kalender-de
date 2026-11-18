@@ -4,7 +4,6 @@ import { gemerkt, holeMitNeuversuch, type NeuversuchOptionen } from './lade-neuv
 import { ecchiZeigen, istEcchi, ohneEcchi } from './ecchi.ts'
 import { merkeSammelartikel } from './sammel-belege.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
-import type { OhneWegEintrag } from '@shared/ohne-weg.ts'
 import type { WochenDatei } from '@shared/wochen-datei.ts'
 import { KACHEL_DATEI } from '@shared/wochen-kacheln.ts'
 import { entpackeKachel } from '@shared/wochen-packen.ts'
@@ -408,14 +407,6 @@ export function loadSynonyme(): Promise<void> {
 
 export function synonymeFuer(id: number): string[] {
   return SYNONYME.get(id) ?? []
-}
-
-let ohneWegPromise: Promise<Record<number, OhneWegEintrag>> | undefined
-
-/** Warum ein Titel keinen Streaming-Weg hat (`ohne-weg.json`) — eine Datei, erst geladen, wenn ein Titel ohne Weg offen ist. */
-export function loadOhneWeg(titleId: number): Promise<OhneWegEintrag | undefined> {
-  ohneWegPromise ??= loadJson<Record<number, OhneWegEintrag>>('ohne-weg.json').catch(() => ({}))
-  return ohneWegPromise.then((alle) => alle[titleId])
 }
 
 let kinoZuletztPromise: Promise<Record<number, string>> | undefined

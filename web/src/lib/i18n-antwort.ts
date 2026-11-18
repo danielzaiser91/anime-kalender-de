@@ -32,10 +32,4 @@ export const TEXTE_ANTWORT = {
   'antwort.finaleFolgenNr': 'Finale Folgen ({von}–{bis})',
   'antwort.erscheinenRelativ': 'erscheinen {rel}, am {tag} den {datum}.',
   'antwort.erscheinenDatum': 'erscheinen am {tag} den {datum}.',
-  // Warum ein Titel keinen Streaming-Weg hat (`ohne-weg.json`): jeder Grund nennt seinen Tag, `offen` sagt nur, dass noch nichts belegt ist.
-  'antwort.ohneWegAngekuendigt': 'Noch nicht gestartet, geplant ab {datum}.',
-  'antwort.ohneWegKeinDub': 'Bisher nur im Originalton gefunden, geprüft am {datum}.',
-  'antwort.ohneWegNurKauf': 'Laut JustWatch nur zum Kaufen oder Leihen, geprüft am {datum}.',
-  'antwort.ohneWegFilm': 'Laut JustWatch kein Streaming-Angebot, geprüft am {datum}.',
-  'antwort.ohneWegOffen': 'Ein Streaming-Angebot ist noch nicht belegt.',
 } as const

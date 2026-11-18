@@ -20,6 +20,7 @@ const DATEI = {
   900001: { reason: 'kein-dub', checkedAt: '2026-10-26', source: 'handbeleg' },
   900002: { reason: 'nur-kauf', checkedAt: '2026-11-17', source: 'justwatch' },
   900003: { reason: 'offen' },
+  900004: { reason: 'angekuendigt', ab: '2999-01-01', source: 'termin' },
 }
 const titel = (id: number, extra: Record<string, unknown> = {}) => ({ id, streams: [], ...extra }) as unknown as Title
 
@@ -52,6 +53,7 @@ pruefe('Ein Abruf von ohne-weg.json', abrufe.length === 1 && abrufe[0]!.includes
 const zwei = await zeige(titel(900002))
 pruefe('Zweiter Titel: eigener Satz, kein zweiter Abruf', zwei?.grund === 'nur-kauf' && zwei.text === 'Laut JustWatch nur zum Kaufen oder Leihen, geprüft am 17.11.2026.' && abrufe.length === 1, { zwei, abrufe })
 pruefe('Grund offen: Satz ohne Datum', (await zeige(titel(900003)))?.text === 'Ein Streaming-Angebot ist noch nicht belegt.')
+pruefe('Grund angekuendigt: keine Zeile (Starttag steht schon im Kasten)', (await zeige(titel(900004))) === undefined)
 pruefe('Titel ohne Eintrag: keine Zeile', (await zeige(titel(900009))) === undefined)
 pruefe('Zurück auf einen Titel mit Stream: Zeile weg', (await zeige(titel(900001, { streams: [{ platform: 'netflix' }] }))) === undefined)
 
