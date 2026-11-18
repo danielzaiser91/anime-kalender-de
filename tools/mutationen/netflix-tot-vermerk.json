@@ -140,7 +140,7 @@
    }
   ],
   "tests": [
-   "node extension/netflix-staffelzaehlung.test.cjs"
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
   ]
  },
  {
@@ -149,7 +149,7 @@
    {
     "datei": "extension/melder.js",
     "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
-    "ersetze": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag"
+    "ersetze": "  const hierAuftrag"
    },
    {
     "datei": "extension/melder.js",
@@ -167,7 +167,7 @@
    {
     "datei": "extension/melder.js",
     "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
-    "ersetze": "  selbstUebersprungen.clear()\n  const hierAuftrag"
+    "ersetze": "  bremse.zuruecksetzen()\n  const hierAuftrag"
    },
    {
     "datei": "extension/melder.js",
@@ -185,7 +185,7 @@
    {
     "datei": "extension/melder.js",
     "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
-    "ersetze": "  bremse.zuruecksetzen()\n  const hierAuftrag"
+    "ersetze": "  selbstUebersprungen.clear()\n  const hierAuftrag"
    },
    {
     "datei": "extension/melder.js",
