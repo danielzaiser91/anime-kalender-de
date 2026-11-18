@@ -8,9 +8,9 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 3 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
 | 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 29 Adressen, 132 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](listen/06-netflix-rest.md) | 83 Titel, 11 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 3 | [Netflix](listen/06-netflix-rest.md) | 76 Titel, 4 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 9 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
-| 7 | [Disney+](listen/07-disneyplus.md) | 43 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
+| 7 | [Disney+](listen/07-disneyplus.md) | 42 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](listen/21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
@@ -19,8 +19,8 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2925 Titeln zeigen **209** keinen einzigen Bezugsweg,
-**114** davon mit belegter deutscher Synchro. Für die ist die
+Von 2925 Titeln zeigen **210** keinen einzigen Bezugsweg,
+**115** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
 
