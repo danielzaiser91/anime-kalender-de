@@ -8929,7 +8929,10 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
   }
 
-  const primeLaufName = (lauf) => (liste[lauf.titel] ?? suchliste[lauf.titel] ?? suchliste[lauf.suche])?.titel ?? '?'
+  /* Deklaration statt const: Hörer und Takt laufen auf der Startseite schon, während das Skript oben auf eine Kennung wartet (`id = await`). */
+  function primeLaufName(lauf) {
+    return (liste[lauf.titel] ?? suchliste[lauf.titel] ?? suchliste[lauf.suche])?.titel ?? '?'
+  }
 
   /** Titel sind durch: erst die Treffer einer gelesenen Suche, dann die nächste offene Suche (Weg B). */
   function primeSucheBeginnen(lauf) {
