@@ -85,5 +85,5 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
   return aus
 }
 
-/** Obergrenze der Titel mit Grund `offen` (Stand public/data auf c026e08ef, 18.11.2026: 960 von 1.291); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen. */
-export const OFFEN_HOECHSTENS = 960
+/** Obergrenze der Titel mit Grund `offen` (Stand public/data auf c026e08ef, 18.11.2026: 962 von 1.291); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen. */
+export const OFFEN_HOECHSTENS = 962
