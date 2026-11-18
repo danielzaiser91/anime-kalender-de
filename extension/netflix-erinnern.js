@@ -154,6 +154,57 @@ const listeWartenSchritt = (wartet, o, tun) => {
   return null
 }
 
+/*
+  **Jeder Titel bekommt je Durchgang einen Sprung — und die Spur überlebt das Neuladen** (18.11.2026).
+
+  Daniel, Bericht 4.32.158: „der selbe titel wird mehrmals durchgegangen" — AnoHana lud um 08:40:14 und 08:41:20 (66 s ohne Entscheidung dazwischen).
+  Warum, war nicht zu lesen: `DURCHGANG_SPUR` lag im Arbeitsspeicher und ging mit jedem Neuladen verloren (der Bericht zeigte nur zwei Einträge).
+  Jetzt liegt die Spur im `sessionStorage` (`akNetflixSpurMerken`/`akNetflixSpurLesen`, je Eintrag das Dokument `dok`), und ein Titel, den der
+  Durchgang schon angesprungen hat, wird nicht noch einmal angesprungen, sondern mit Grund zurückgestellt (`akNetflixSprungWiederholt`).
+  Eine Bremse-Pause gibt ihre Titel frei (`akNetflixGesprungenLeeren`).
+*/
+const SPUR_SCHLUESSEL = 'ak-netflix-spur'
+const GESPRUNGEN_SCHLUESSEL = 'ak-netflix-gesprungen'
+const SPUR_HOECHSTENS = 60
+const SPUR_DOKUMENT = Math.random().toString(36).slice(2, 6)
+
+/** Hängt einen Eintrag an die Spur im `sessionStorage` (die letzten `SPUR_HOECHSTENS`); ohne Speicher bleibt nur die Spur im Arbeitsspeicher. */
+globalThis.akNetflixSpurMerken = (eintrag, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
+  try {
+    const liste = globalThis.akNetflixLaufLesen(speicher, SPUR_SCHLUESSEL)
+    liste.push({ ...eintrag, dok: SPUR_DOKUMENT })
+    speicher.setItem(SPUR_SCHLUESSEL, JSON.stringify(liste.slice(-SPUR_HOECHSTENS)))
+  } catch (e) {
+    console.info('[Anime-Kalender] Spur nicht gespeichert', String(e?.message ?? e))
+  }
+}
+
+/** Die Spur des Tabs über alle Neuladungen; ohne gespeicherte Spur `rueckfall` (die Spur dieses Dokuments). */
+globalThis.akNetflixSpurLesen = (rueckfall, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
+  const liste = globalThis.akNetflixLaufLesen(speicher, SPUR_SCHLUESSEL)
+  return liste.length ? liste : rueckfall
+}
+
+/** Merkt ein Sprungziel des Durchgangs (verschiedene Titel); `akNetflixZaehlerSetze` ruft es bei jedem Sprung. */
+globalThis.akNetflixGesprungenMerken = (speicher, kennung) => {
+  const liste = globalThis.akNetflixLaufLesen(speicher, GESPRUNGEN_SCHLUESSEL)
+  if (kennung != null && !liste.includes(String(kennung))) globalThis.akNetflixLaufSchreiben(speicher, GESPRUNGEN_SCHLUESSEL, [...liste, String(kennung)])
+}
+
+/** Beginn eines Durchgangs und Ende einer Bremse-Pause: alle Titel dürfen wieder angesprungen werden. */
+globalThis.akNetflixGesprungenLeeren = (speicher = globalThis.akNetflixSitzungSpeicher?.()) => globalThis.akNetflixLaufSchreiben(speicher, GESPRUNGEN_SCHLUESSEL, [])
+
+/**
+ * Ist `kennung` in diesem Durchgang schon angesprungen worden? Dann kein zweiter Sprung: der Titel wird zurückgestellt, der Grund steht in
+ * der Endliste und in der Spur. `true` = der Aufrufer wählt den nächsten Titel.
+ */
+globalThis.akNetflixSprungWiederholt = (kennung, uebersprungen, spur, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
+  if (!kennung || !globalThis.akNetflixLaufLesen(speicher, GESPRUNGEN_SCHLUESSEL).includes(String(kennung))) return false
+  spur('Titel schon angesprungen, kein zweiter Sprung', { reihe: String(kennung) })
+  uebersprungen.set(String(kennung), 'zweiter Sprung im selben Durchgang vermieden')
+  return true
+}
+
 /**
  * Grund für einen Titel, der nach allen Versuchen offen blieb (Eintrag in `selbstUebersprungen`);
  * ein gerissenes Tageslimit gehört dazu, weil dann die Meldungen scheiterten, nicht der Titel.

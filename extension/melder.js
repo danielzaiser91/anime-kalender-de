@@ -1511,6 +1511,7 @@ const DURCHGANG_SPUR = []
 function spur(was, dazu) {
   try {
     DURCHGANG_SPUR.push({ zeit: new Date().toISOString(), was, ...(dazu ?? {}) })
+    akNetflixSpurMerken(DURCHGANG_SPUR.at(-1)) /* im `sessionStorage`: überlebt das Neuladen jedes Titels (18.11.2026) */
     if (DURCHGANG_SPUR.length > 60) DURCHGANG_SPUR.shift()
   } catch {
     /* Eine Diagnose darf nie im Weg stehen. */
@@ -2748,8 +2749,9 @@ function istAlleFolgenEintrag(text) {
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. `nichtDa`: Umleitung, der Fortschritt zählt den Titel mit. */
 function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
   if (!verbindungLebt()) return
-  /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz. */
+  /* `frei`: nach einer Pause wieder drankommende Titel — ihre Sprünge zählen nicht gegen den Schutz und dürfen wieder angesprungen werden. */
   selbstGezaehlt = Math.max(0, selbstGezaehlt - frei)
+  if (frei) akNetflixGesprungenLeeren()
   akNetflixErledigtZaehlen(nichtDa, undefined, kennung)
   if (bremse.pause(Date.now())) return
   selbstGrenze ??= akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length
@@ -2757,6 +2759,7 @@ function selbstWeiter(frei = 0, nichtDa = false, kennung = null) {
   if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden(bremse.offen() ? `Netflix zeigte ${bremse.offen()} Titel ohne Inhalt, sie bleiben offen` : 'kein offener Auftrag mehr')
+  if (akNetflixSprungWiederholt(naechster, selbstUebersprungen, spur)) return selbstWeiter()
   akNetflixZaehlerSetze(++selbstGezaehlt, selbstGrenze, undefined, offeneTitel[naechster]?.titel, false, naechster)
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
@@ -4948,20 +4951,7 @@ function durchlaufKnopfBauen() {
   DURCHLAUF.knopf = document.createElement('button')
   DURCHLAUF.knopf.className = 'ak-durchlauf'
   akKlick(DURCHLAUF.knopf, durchlaufKnopfKlick)
-  /*
-    **Den Modus-Umschalter gibt es seit dem 10.09.2026 nicht mehr.**
-
-    Er wechselte zwischen „zwei Folgen", „alle" und „Anfang und Ende" — eine
-    Frage an den Menschen, deren Antwort seit heute Vormittag in der Prüfliste
-    steht: Sie nennt je Eintrag `erste` und `folgen`, also „S1 Folge 26" oder
-    „S1 F13–15". `durchlaufAuftrag()` liest das, und der Knopf schreibt es hin.
-
-    Daniel: „mach es so das es minimal invasiv für mich ist und gleichzeitig
-    maximale abdeckung hat, ein button für alles je nach zustand und
-    melde-item." Wo die Liste nichts Genaues weiß, bleibt es bei erster und
-    letzter offener Folge — dem sparsamen Weg, der seit dem 26.08.2026 der
-    richtige ist.
-  */
+  /* Seit 10.09.2026 kein Modus-Umschalter: die Prüfliste nennt je Eintrag `erste` und `folgen`, `durchlaufAuftrag()` liest das; ohne Angabe erste und letzte offene Folge. */
   nochmalKnopfBauen()
   DURCHLAUF.knopf.addEventListener(
     'contextmenu',
@@ -6166,7 +6156,7 @@ function nfBericht() {
       ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig, { erledigt, hier: gemeinteReihe(), uebersprungen: selbstUebersprungen, bremse, nichtDa: nichtDaTun }),
       staffelnGeprueft: [...selbstStaffelnGeprueft],
       gesammelt: [...selbstGesammelt],
-      spur: DURCHGANG_SPUR,
+      spur: akNetflixSpurLesen(DURCHGANG_SPUR),
       ...akNetflixSitzungBericht(titelBericht, bremse, meinTab, durchgangBesitzer, Date.now()),
     })),
     seite: sicher(() => akNetflixBericht.seitenmerkmale(document, location, history)),

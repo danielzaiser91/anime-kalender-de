@@ -175,6 +175,9 @@ const weiterLaufen = (o = {}) => {
     `const verbindungLebt = () => true
 const akNetflixEigenerSprungMerken = (s) => s
 const akNetflixErledigtZaehlen = () => {}
+const akNetflixSprungWiederholt = () => false
+const akNetflixGesprungenLeeren = () => {}
+const spur = () => {}
 let selbstGezaehlt = start, selbstGrenze = null, zuletztGeoeffnet = null
 ${funktionText('function selbstWeiter(frei = 0, nichtDa = false, kennung = null)')}
 selbstWeiter(frei)
@@ -285,7 +288,7 @@ const schrittLaufen = async (durchlauf) => {
   const args = [true, durchlauf, { pathname: '/title/5' }, () => '5', { 5: {} }, () => '5', () => false, 20000, { ok: () => z.bremseOk++ }, (w, o, tun) => { z.tun = tun; z.ort = o; return w }, () => {}, new Map(), () => {}, { seitenmerkmale: () => ({}) }, {}, {}, jetzt(1000), { versucht: () => false }]
   const f = new Function(
     'selbstAn', 'DURCHLAUF', 'location', 'gemeinteReihe', 'offeneTitel', 'titelDerAdresse', 'keineFolgeVorhanden', 'SELBST_LISTE_WARTEN', 'bremse', 'akNetflixListeWarten', 'spur', 'selbstUebersprungen', 'selbstWeiter', 'akNetflixBericht', 'document', 'history', 'Date', 'vollLaden',
-    `let selbstVersucht = null, selbstWartet = null\n${funktionText('async function selbstStartenSchritt()')}\nreturn selbstStartenSchritt()`,
+    `let selbstVersucht = null, selbstWartet = null\nconst folgenFuerFilmErgaenzen = () => {}\n${funktionText('async function selbstStartenSchritt()')}\nreturn selbstStartenSchritt()`,
   )
   try {
     await f(...args)

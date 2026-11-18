@@ -387,9 +387,11 @@ globalThis.akNetflixFilmGescheitert = (reihe, erledigt, uebersprungen, weiter) =
 globalThis.akNetflixZaehlerSetze = (gezaehlt, grenze, speicher = sitzungSpeicher(), titel = null, startTitel = false, kennung = null) => {
   try {
     if (gezaehlt === 0) for (const s of [ERLEDIGT_SCHLUESSEL, BESUCHT_SCHLUESSEL, FILM_SCHLUESSEL]) speicher?.removeItem(s)
+    if (gezaehlt === 0) globalThis.akNetflixGesprungenLeeren?.(speicher)
     if (gezaehlt === null) speicher?.removeItem(ZAEHLER_SCHLUESSEL)
     else speicher?.setItem(ZAEHLER_SCHLUESSEL, JSON.stringify({ gezaehlt, grenze, titel }))
     if (gezaehlt > 0 || startTitel) globalThis.akNetflixBesuchtZaehlen(speicher, kennung ?? titel)
+    if (gezaehlt > 0 && !startTitel) globalThis.akNetflixGesprungenMerken?.(speicher, kennung)
   } catch {
     /* Ohne Speicher gilt der Stand bis zum Neuladen. */
   }
@@ -696,6 +698,7 @@ globalThis.akNetflixTaktTun = (d) => ({
     akNetflixFortschrittZeigen(() => d.kasten().querySelector('.ak-z-melden'), null)
     akNetflixZaehlerSetze(null)
     akNetflixLaufVergessen()
+    globalThis.akNetflixGesprungenLeeren?.()
     this.raeumen()
   },
   weiter: d.weiter,
