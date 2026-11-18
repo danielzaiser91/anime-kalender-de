@@ -17,6 +17,8 @@ export function kennzahlen(bericht) {
     tbt: Math.round(a('total-blocking-time')),
     bytes: Math.round(a('total-byte-weight')),
     ...Object.fromEntries(MINDESTENS.map((id) => [id, k(id)])),
+    // Rechnergeschwindigkeit laut Lighthouse: TBT skaliert mit ihr (gleicher Code, zwei Runner: TBT 228 und 591 ms, 18.11.2026); nur Anzeige.
+    benchmark: Math.round(bericht.environment?.benchmarkIndex ?? 0),
   }
 }
 

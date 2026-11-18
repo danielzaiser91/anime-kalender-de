@@ -8,7 +8,8 @@ const bericht = {
   categories: { performance: { score: 0.99 }, accessibility: { score: 0.96 }, 'best-practices': { score: 0.96 }, seo: { score: 1 } },
 }
 const k = kennzahlen(bericht)
-assert.deepEqual(k, { lcp: 923, cls: 0.001, tbt: 93, bytes: 198145, performance: 99, accessibility: 96, 'best-practices': 96, seo: 100 }, 'Kennzahlen aus dem Bericht')
+assert.deepEqual(k, { lcp: 923, cls: 0.001, tbt: 93, bytes: 198145, performance: 99, accessibility: 96, 'best-practices': 96, seo: 100, benchmark: 0 }, 'Kennzahlen aus dem Bericht')
+assert.equal(kennzahlen({ ...bericht, environment: { benchmarkIndex: 1834.6 } }).benchmark, 1835, 'Rechnergeschwindigkeit mitgeschrieben')
 assert.equal(kennzahlen({ ...bericht, categories: { ...bericht.categories, seo: { score: null } } }).seo, undefined, 'Kategorie ohne Punkte bleibt leer')
 
 assert.equal(mediane([{ ...k, lcp: 900 }, { ...k, lcp: 5000 }, { ...k, lcp: 1000 }]).lcp, 1000, 'Median, nicht Mittel: ein Ausreißer zählt nicht')
@@ -34,4 +35,4 @@ assert.match(tabelle({ Kalender: k }, { Kalender: g }), /\| Kalender \| 923 \(�
 for (const profil of ['pr', 'live']) {
   for (const seite of Object.keys(SEITEN)) assert.deepEqual(verstoesse(seite, { ...k, lcp: 0, tbt: 0, bytes: 0, cls: 0, performance: 100, accessibility: 100, 'best-practices': 100, seo: 100 }, GRENZEN[profil][seite]), [], `${profil}/${seite}: jede Grenze gesetzt`)
 }
-console.log('lighthouse-urteil: 18 Fälle ✓')
+console.log('lighthouse-urteil: 19 Fälle ✓')
