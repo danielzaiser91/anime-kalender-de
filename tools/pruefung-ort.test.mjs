@@ -43,7 +43,7 @@ assert.equal(beruehrteDateien(join(tmpdir(), 'gibt-es-nicht-ort'), { GITHUB_EVEN
 
 /** Wegwerf-Repo mit Läufer-Kopien, Prüfliste, Tests und Zuordnung; `rotB` lässt die Nacht-Prüfung und den Nacht-Test scheitern, `ohnePr` lässt die PR-Prüfung weg,
  *  `aendere` = Datei, die ein PR-Zweig ändert und per Merge-Commit hereinkommt (`HEAD^1` = Stand davor); ohne `aendere` bleibt es bei einem einfachen Commit. */
-function baueRepo({ rotB = false, ohnePr = false, aendere = null } = {}) {
+function baueRepo({ rotB = false, ohnePr = false, aendere = null, doppelt = false } = {}) {
   const ordner = mkdtempSync(join(tmpdir(), 'pruefung-ort-'))
   mkdirSync(join(ordner, 'tools'))
   mkdirSync(join(ordner, 'pipeline'))
@@ -56,7 +56,9 @@ function baueRepo({ rotB = false, ohnePr = false, aendere = null } = {}) {
   const tests = ['a-pr.test.mjs', 'b-nachts.test.mjs', 'c-liest.test.mjs']
   for (const p of pruefungen) writeFileSync(join(ordner, p), p.includes('check-b') && rotB ? 'process.exit(3)\n' : "console.log('still')\n")
   for (const t of tests) writeFileSync(join(ordner, 'tools', t), t.startsWith('b-') && rotB ? 'process.exit(3)\n' : "console.log('still')\n")
-  writeFileSync(join(ordner, 'tools/check-logic-liste.txt'), `${pruefungen.join('\n')}\n`)
+  const liste = doppelt ? [...pruefungen, pruefungen.at(-1)] : pruefungen
+  writeFileSync(join(ordner, 'tools/check-logic-liste.txt'), `${liste.join('\n')}\n`)
+  writeFileSync(join(ordner, 'ausnahmen.json'), JSON.stringify({ hoechstens: 1, ausnahmen: [{ datei: 'pipeline/check-b-nachts.ts', erlaubt: ['public/data/x.json'], bis: '2999-12-31' }] }))
   const eintrag = (liest) => ({ ort: 'nachts', grund: 'g', beleg: 'b', ...(liest ? { liest: ['data/c.txt'] } : {}) })
   const ort = {
     logik: { 'pipeline/check-b-nachts.ts': eintrag(false), 'pipeline/check-c-liest.ts': eintrag(true) },
@@ -82,8 +84,8 @@ function baueRepo({ rotB = false, ohnePr = false, aendere = null } = {}) {
 }
 
 const ordnerListe = []
-const lauf = (ordner, skript, args, ereignis = false) => {
-  const env = { ...process.env }
+const lauf = (ordner, skript, args, ereignis = false, extraEnv = {}) => {
+  const env = { ...process.env, ...extraEnv }
   delete env.CI
   delete env.GITHUB_EVENT_NAME
   if (ereignis) env.GITHUB_EVENT_NAME = 'pull_request'
@@ -153,6 +155,19 @@ try {
   assert.equal(p.status, 1, p.text)
   assert.match(p.text, /enthält keine Prüfung/)
   console.log('  ✓ PR-Lauf ohne PR-Prüfung: rot')
+
+  // Prüfungen über die ganze Liste, nicht über die Auswahl: Ein doppelter Nacht-Eintrag fällt auch im PR-Lauf auf (Sortier-/Dublettenregel), und eine Ausnahme
+  // (`BESTAND_AUSNAHMEN`) für eine Nacht-Prüfung bricht den PR-Lauf nicht ab („nicht in der Liste“), obwohl die Prüfung dort nicht läuft.
+  const doppelt = baueRepo({ doppelt: true })
+  ordnerListe.push(doppelt)
+  const d = lauf(doppelt, 'check-logic-alle.mjs', [])
+  assert.notEqual(d.status, 0, d.text)
+  assert.match(d.text, /pipeline\/check-c-liest\.ts steht mehrfach/)
+  const ausnahmeRepo = baueRepo()
+  ordnerListe.push(ausnahmeRepo)
+  const a = lauf(ausnahmeRepo, 'check-logic-alle.mjs', [], false, { BESTAND_AUSNAHMEN: join(ausnahmeRepo, 'ausnahmen.json') })
+  assert.equal(a.status, 0, `Ausnahme einer Nacht-Prüfung im PR-Lauf: ${a.text}`)
+  console.log('  ✓ Dublette und Ausnahme einer Nacht-Prüfung werden über die ganze Liste geprüft')
   console.log('pruefung-ort: ok (Modus, Lesedateien, Aufteilung, check-logic-alle und tests-alle als Prozess im Merge-Commit, Rot nur nachts)')
 } finally {
   for (const o of ordnerListe) {
