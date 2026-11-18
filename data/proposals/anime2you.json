@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-18T15:02:12.059Z",
+  "scrapedAt": "2026-11-18T17:02:06.120Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 8,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 13,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
+    "schon in einem Rubrik-Feed gelesen": 7,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -44,7 +44,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "»Digimon Frontier« erhält neue Blu-ray-Komplettbox + Design",
