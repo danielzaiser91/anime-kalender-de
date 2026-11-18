@@ -11,10 +11,12 @@ import { gzipSync } from 'node:zlib'
 const TYPEN = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.webp': 'image/webp', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain' }
 const TEXT = /^(text\/|application\/(json|manifest|xml)|image\/svg)/
 
-/** Die Datei zu einem Pfad: Ordner liefern ihre `index.html` (vorgerenderte Seiten `/t/<id>/`). */
+/** Die Datei zu einem Pfad: Ordner liefern ihre `index.html` (vorgerenderte Seiten `/t/<id>/`); nichts außerhalb von `dist` (aufgelöst). */
 function dateiFuer(dist, pfad) {
+  /* Ein kaputtes Escape (`%zz`) ließe decodeURIComponent werfen und den Auslieferer mitten in der Messung beenden. */
+  if (/%(?![0-9a-f]{2})/i.test(pfad)) return undefined
   const roh = path.join(dist, decodeURIComponent(pfad))
-  if (!roh.startsWith(path.resolve(dist))) return undefined
+  if (roh !== dist && !roh.startsWith(dist + path.sep)) return undefined
   if (existsSync(roh) && statSync(roh).isDirectory()) return path.join(roh, 'index.html')
   return roh
 }

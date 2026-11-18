@@ -51,18 +51,20 @@ async function einLauf(adresse, chrome) {
   return kennzahlen(bericht)
 }
 
-/** Grenzen auf main (erster Elternteil des Merge-Commits im PR-Ereignis); null außerhalb eines PR oder wenn die Datei dort fehlt. */
+/**
+ * Grenzen auf main (erster Elternteil des Merge-Commits im PR-Ereignis); null außerhalb eines PR oder wenn die Datei dort fehlt (erster PR).
+ * Jeder andere Fehler (kein Elternteil, unlesbare Datei) wirft: eine Ratsche, die still ausfällt, wacht nicht.
+ */
 async function grenzenAufMain() {
   if (process.env.GITHUB_EVENT_NAME !== 'pull_request') return null
-  try {
-    const text = execFileSync('git', ['show', `HEAD^1:${GRENZEN_PFAD}`], { cwd: WURZEL, encoding: 'utf8', timeout: 30000, stdio: ['ignore', 'pipe', 'ignore'] })
-    const datei = path.join(mkdtempSync(path.join(tmpdir(), 'lh-grenzen-')), 'main.mjs')
-    writeFileSync(datei, text)
-    return (await import(pathToFileURL(datei).href)).GRENZEN
-  } catch {
-    console.log(`lighthouse: ${GRENZEN_PFAD} auf main nicht lesbar, Ratsche ohne Basis`)
+  const git = (...args) => execFileSync('git', args, { cwd: WURZEL, encoding: 'utf8', timeout: 30000, stdio: ['ignore', 'pipe', 'pipe'] })
+  if (!git('ls-tree', '--name-only', 'HEAD^1', '--', GRENZEN_PFAD).trim()) {
+    console.log(`lighthouse: ${GRENZEN_PFAD} fehlt auf main (erster PR), Ratsche ohne Basis`)
     return null
   }
+  const datei = path.join(mkdtempSync(path.join(tmpdir(), 'lh-grenzen-')), 'main.mjs')
+  writeFileSync(datei, git('show', `HEAD^1:${GRENZEN_PFAD}`))
+  return (await import(pathToFileURL(datei).href)).GRENZEN
 }
 
 /** Misst alle Seiten `n`-mal (Seiten abwechselnd, damit eine Störung nicht alle Läufe einer Seite trifft). */
