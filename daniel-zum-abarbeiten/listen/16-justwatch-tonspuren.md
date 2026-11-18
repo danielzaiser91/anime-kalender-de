@@ -1,13 +1,13 @@
 # Was JustWatch zu offenen Verweisen sagt
 
-Stand: 2026-11-17. Erzeugt von `npm run data:justwatch`.
+Stand: 2026-11-18. Erzeugt von `npm run data:justwatch`.
 
 **Das sind Kandidaten, keine Belege.** Die Angabe gilt der **Serie**, nicht der
 einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, belegt
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-29 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+30 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
@@ -16,6 +16,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
 | [A Certain Magical Index](https://anime-kalender.de/#/datenbank?t=4654) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Toaru-Majutsu-no-Index) |
+| [Attack on Titan](https://anime-kalender.de/#/datenbank?t=16498) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Attack-on-Titan) |
 | [Arpeggio of Blue Steel: Ars Nova - Cadenza](https://anime-kalender.de/#/datenbank?t=20764) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Film/Arpeggio-of-Blue-Steel-Ars-Nova-Cadenza) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
@@ -175,7 +176,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [Wolkig mit Aussicht auf Fleischbällchen](https://anime-kalender.de/#/datenbank?t=-70967) | [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP026964060040), [Kixi Select Amazon Channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1754912c-0bd5-43a8-89da-a067da59c7f1) 🇩🇪 |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-70933) | [Disney Plus](https://www.disneyplus.com/browse/entity-ccf1f1a3-7509-435e-aae1-88eb6b3342b0) |
 | [Bunsen ist ein Biest](https://anime-kalender.de/#/datenbank?t=-70491) | [Apple TV Store](https://tv.apple.com/de/show/bunsen-ist-ein-biest/umc.cmc.5hzoy2ht6zx5srqnwhw1ycjeo?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
-| [undefined](https://anime-kalender.de/#/datenbank?t=-69776) | [Apple TV Store](https://tv.apple.com/de/show/jeff--some-aliens/umc.cmc.6zeb50n4mh3djuo3r2m5xlmkh?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-69776) | [Apple TV Store](https://tv.apple.com/de/show/jeff--some-aliens/umc.cmc.6zeb50n4mh3djuo3r2m5xlmkh?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv), [Joyn](https://www.joyn.de/serien/jeff-und-some-aliens) |
 | [Die unglaublichen Abenteuer von Blinky Bill](https://anime-kalender.de/#/datenbank?t=-82080) | [ZDF Select Amazon Channel ](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8620bf7a-2ece-406b-9434-660b404bdfb8) 🇩🇪, [KiKA](https://www.kika.de/blinky-bill/die-unglaublichen-abenteuer-von-blinky-bill-100), [ZDFtivi Amazon channel](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8620bf7a-2ece-406b-9434-660b404bdfb8) 🇩🇪, [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP028469680055) |
 | [Sieben Zwerge & ich](https://anime-kalender.de/#/datenbank?t=-79681) | [Magenta TV+](https://www.magenta.tv/serie/-/GN_EP027473560006) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-76718) | [Apple TV Store](https://tv.apple.com/de/show/es-war-einmal--nach-roald-dahl/umc.cmc.5zc35kzs4r1nyntmuiss48dne?at=1000l3V2&ct=app_tv&itscg=30200&itsct=justwatch_tv) |
