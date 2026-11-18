@@ -74,6 +74,21 @@ function gleicherTitel(a: Set<string>, name: string): boolean {
   return kleiner.size > 0 && [...kleiner].filter((w) => groesser.has(w)).length / kleiner.size >= 0.5
 }
 
+/** Zahlen hinter „Vol./Volume/Teil/Part" und hinter „Staffel/Season" eines Titels. */
+export function teilZahlen(titel: string): { vol: Set<string>; staffel: Set<string> } {
+  const sammle = (muster: RegExp): Set<string> => new Set([...titel.matchAll(muster)].flatMap((m) => m[1]!.match(/\d+/g) ?? []))
+  return { vol: sammle(/\b(?:vol(?:ume)?\.?|teil|part)\s*(\d+(?:\s*[+/&]\s*\d+)*)/gi), staffel: sammle(/\b(?:staffel|season)\s*(\d+(?:\s*[+/&]\s*\d+)*)/gi) }
+}
+
+const ueberschneiden = (a: Set<string>, b: Set<string>): boolean => !a.size || !b.size || [...a].some((x) => b.has(x))
+
+/** Volume und Staffel dürfen sich nicht widersprechen: „Vol. 2" deckt nie den Termin von „Vol. 1" (Anlass 18.11.2026: Ron Kamonohashi S2, Shield Hero S4). */
+export function teileVertraeglich(a: string, b: string): boolean {
+  const x = teilZahlen(a)
+  const y = teilZahlen(b)
+  return ueberschneiden(x.vol, y.vol) && ueberschneiden(x.staffel, y.staffel)
+}
+
 export type DiscAbgleich = { art: 'gedeckt' } | { art: 'anderer-tag'; tag: string } | { art: 'fehlt' }
 
 /**
@@ -84,7 +99,7 @@ export type DiscAbgleich = { art: 'gedeckt' } | { art: 'anderer-tag'; tag: strin
 export function discAbgleich(zeile: DiscZeile, termine: { name: string; datum: string }[]): DiscAbgleich {
   const a = new Set(titelKern(zeile.titel))
   if (!a.size) return { art: 'gedeckt' }
-  const passend = termine.filter((t) => gleicherTitel(a, t.name))
+  const passend = termine.filter((t) => gleicherTitel(a, t.name) && teileVertraeglich(zeile.titel, t.name))
   if (passend.some((t) => tageZwischen(t.datum, zeile.datum) <= 3)) return { art: 'gedeckt' }
   return passend[0] ? { art: 'anderer-tag', tag: passend[0].datum } : { art: 'fehlt' }
 }
