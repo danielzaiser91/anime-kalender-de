@@ -134293,82 +134293,83 @@
     "titel": 147103,
     "folge": 1,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651190": {
     "titel": 147103,
     "folge": 2,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651191": {
     "titel": 147103,
     "folge": 3,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651192": {
     "titel": 147103,
     "folge": 4,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651193": {
     "titel": 147103,
     "folge": 5,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651194": {
     "titel": 147103,
     "folge": 6,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651195": {
     "titel": 147103,
     "folge": 7,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651196": {
     "titel": 147103,
     "folge": 8,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651197": {
     "titel": 147103,
     "folge": 9,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651198": {
     "titel": 147103,
     "folge": 10,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651199": {
     "titel": 147103,
     "folge": 11,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651200": {
     "titel": 147103,
     "folge": 12,
     "grund": "titel",
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81651201": {
     "grund": "offen",
     "kandidaten": [
       147103,
       167486,
-      169441
+      169441,
+      190054
     ],
-    "gesehen": "2026-09-24T17:47:44Z"
+    "gesehen": "2026-11-17T19:52:47Z"
   },
   "netflix:81782096": {
     "titel": 169441,
@@ -137019,6 +137020,81 @@
     "folge": 13,
     "grund": "titel",
     "gesehen": "2026-10-31T08:49:32Z"
+  },
+  "netflix:82643530": {
+    "titel": 190054,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:52:32Z"
+  },
+  "netflix:82643531": {
+    "titel": 190054,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:52:32Z"
+  },
+  "netflix:82643532": {
+    "titel": 190054,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:52:32Z"
+  },
+  "netflix:82764610": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764611": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764612": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764613": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764614": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764615": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764616": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764617": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764618": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764619": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:06Z"
+  },
+  "netflix:82764620": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:07Z"
+  },
+  "netflix:82764621": {
+    "titel": 207254,
+    "grund": "einziger-kandidat",
+    "gesehen": "2026-11-17T19:53:07Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiZTU0Mjk4YzktMjU2Ni00YTk3LWI0YjctYjA4NjU0MDNh": {
     "titel": 182578,
