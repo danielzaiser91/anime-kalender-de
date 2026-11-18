@@ -98,7 +98,7 @@ for (const wort of ['Staffel', 'Season', 'Simulcast', 'Serie', 'Start']) {
   const l = lauf(meldung(`»Street Fighter« ${wort} erscheint auf Blu-ray`, '2026-12-01'), FILM)
   pruefe(`Serien-Stichwort „${wort}“ allein (Disc) → Serien-Meldung, Film passt nicht`, l.neu.length === 0 && l.verluste.mehrdeutig.length === 1, l.verluste)
 }
-const filmZuFilm =lauf(meldung('»Street Fighter« startet im Kino', '2026-12-01', { category: 'kino', platforms: ['kino'] }), [titel(1362, 'Street Fighter II: The Animated Movie', 1362, 1994, { format: 'MOVIE' })])
+const filmZuFilm = lauf(meldung('»Street Fighter« startet im Kino', '2026-12-01', { category: 'kino', platforms: ['kino'] }), [titel(1362, 'Street Fighter II: The Animated Movie', 1362, 1994, { format: 'MOVIE' })])
 pruefe('Film-Meldung (Kino) an einen Film: Termin, Format passt', filmZuFilm.neu.length === 1 && filmZuFilm.neu[0]!.titleId === 1362, filmZuFilm.verluste)
 const filmZuSerie = lauf(meldung('»Street Fighter« startet im Kino', '2026-12-01', { category: 'kino', platforms: ['kino'] }), [titel(77, 'Street Fighter The Series', 77, 1995)])
 pruefe('Film-Meldung (Kino) an eine TV-Serie → mehrdeutig, kein Termin', filmZuSerie.neu.length === 0 && filmZuSerie.verluste.mehrdeutig.length === 1, filmZuSerie.verluste)
@@ -127,7 +127,7 @@ const streaming = lauf(meldung('Neue »Fate/stay night: Heaven’s Feel«-Folgen
 pruefe('Liste: eine mehrdeutige Streaming-Meldung mit deutschem Ton steht auf der Liste „nicht zugeordnet“', einzelOhneRelease(streaming.verluste, []).length === 1, streaming.verluste)
 pruefe('Namentliche Logzeile nennt die Überschrift der mehrdeutigen Meldung', mehrdeutigZeile(streaming.verluste)?.includes('1 Meldungen mit mehrdeutigem Kurznamen') === true && mehrdeutigZeile(streaming.verluste)?.includes('Neue »Fate/stay night: Heaven’s Feel«-Folgen im Simulcast') === true, mehrdeutigZeile(streaming.verluste))
 pruefe('Namentliche Logzeile entfällt ohne mehrdeutige Meldung', mehrdeutigZeile(leereVerluste()) === undefined)
-pruefe('Logzeile nennt die mehrdeutigen',verlustZeile(streaming.verluste).includes('1 mit mehrdeutigem Kurznamen'), verlustZeile(streaming.verluste))
+pruefe('Logzeile nennt die mehrdeutigen', verlustZeile(streaming.verluste).includes('1 mit mehrdeutigem Kurznamen'), verlustZeile(streaming.verluste))
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
