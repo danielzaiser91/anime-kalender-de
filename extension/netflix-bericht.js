@@ -66,6 +66,32 @@ globalThis.akNetflixBericht = {
       .map(([reihe, e]) => ({ reihe, titel: e?.titel ?? null }))
   },
 
+  /**
+   * Warum die Auftragswahl offene Titel auslässt (17.11.2026: 151 offen, nur 10 besucht — 149 Titel trugen einen
+   * lokalen Tot-Vermerk). Gleiche Reihenfolge der Gründe wie `naechsterAuftrag()`; `tot` zählt die Vermerke der Listentitel im
+   * Speicher, `totUndOffen` die davon, die der Bestand offen führt (die Wahl lässt sie nicht mehr aus).
+   * `w`: `erledigt` (Speicher), `hier`, `uebersprungen`, `bremse`, `nichtDa`.
+   */
+  ausgelassen(titel, fertig, w) {
+    const gruende = { aktuell: 0, zurueckgestellt: 0, bremse: 0, nichtDaImLauf: 0, ohneOffeneStaffel: 0, wirdVorgelegt: 0 }
+    let tot = 0
+    let totUndOffen = 0
+    for (const [id, e] of Object.entries(titel)) {
+      const istTot = (w.erledigt[id] ?? []).includes('tot')
+      if (istTot) tot++
+      if (fertig(id, e)) continue
+      if (istTot) totUndOffen++
+      const grund = id === String(w.hier ?? '') ? 'aktuell'
+        : w.uebersprungen.has(id) ? 'zurueckgestellt'
+          : w.bremse.ausgeschlossen(id) ? 'bremse'
+            : w.nichtDa.besetzt(id) ? 'nichtDaImLauf'
+              : !(e?.staffeln ?? []).some((st) => st.offen) ? 'ohneOffeneStaffel'
+                : 'wirdVorgelegt'
+      gruende[grund]++
+    }
+    return { tot, totUndOffen, gruende }
+  },
+
   /** Welche Staffeln die Seite bisher geladen hat — je Netflix-Staffelkennung; `gruppen`: `folgenJeStaffel(...)`. */
   geladen(gruppen) {
     return [...gruppen.entries()].map(([seasonId, g]) => {

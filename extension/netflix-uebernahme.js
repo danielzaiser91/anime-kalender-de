@@ -14,8 +14,12 @@
   genügte irgendeine Meldung des Titels, und rund 115 offene Staffeln blieben liegen) — außer eine
   Wiedervorlage (`seit` an einer offenen Staffel) verlangt eine neuere.
 */
-/* Reihen mit Meldungen im Briefkasten, die der Stand noch als offen führt; `fertig()` in melder.js fragt sie. */
-globalThis.akNetflixWartet = new Set()
+/*
+  Reihen mit Meldungen im Briefkasten, die der Stand noch als offen führt; `fertig()` in melder.js fragt sie.
+  `null`, bis die erste Übernahme geantwortet hat: bis dahin gilt der Rückfall ohne Stand (Tot-Vermerk), sonst käme
+  ein eben gemeldeter Titel im Fenster zwischen Stand und Übernahme sofort wieder.
+*/
+globalThis.akNetflixWartet = null
 
 /** Hat jede offene Staffel des Eintrags mindestens ein gemeldetes Paar? (`paar.staffel` = Staffelnummer.) */
 globalThis.akNetflixStaffelnGedeckt = (eintrag, paare) =>
@@ -112,7 +116,7 @@ globalThis.akNetflixTotGemeldet = async (id, frisch, merkeTot) => {
  */
 globalThis.akNetflixEnde = (grund, uebersprungen, fertigeTitel, besucht, offeneTitel, wartet = globalThis.akNetflixWartet, melden = null, nichtDa = globalThis.akNetflixNichtDa()) => {
   const nichtFertig = [...uebersprungen.keys()].filter((r) => !fertigeTitel.has(r))
-  const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
+  const wartend = Object.entries(offeneTitel).filter(([id, e]) => wartet?.has(id) && !fertigeTitel.has(id) && (e?.staffeln ?? []).some((st) => st.offen)).length
   const zaehlung = { besucht, gemessen: fertigeTitel.size, wartend, uebersprungen: nichtFertig.length, nichtDa: nichtDa.size }
   globalThis.akProtokoll?.('durchgang-zaehlung', zaehlung)
   /* Meldeweg `/vorfall` (vorhanden, ohne neues Schema): die Zählung steht als Text; der Vorfall-Abruf listet sie. */
