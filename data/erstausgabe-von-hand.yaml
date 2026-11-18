@@ -490,3 +490,92 @@
   sources:
     - https://de.wikipedia.org/wiki/Wundersame_Geschichten
     - https://www.fernsehserien.de/wundersame-geschichten
+
+# Mängel W2 Block 9b (17.11.2026): Titel mit Stufe `low`, deren deutsche Fassung Anime2You als Anbieter-Meldung ausdrücklich nennt
+# (Kino, Disc oder TV mit deutscher Sprachfassung/Synchronisation). `von` ist der früheste dort belegte Erscheinungstag; Disc-Tage
+# stehen in `data/disc-ausgaben.json`. Titel, deren Disc oder Kinostart noch in der Zukunft liegt (Bocchi the Rock!, Isekai Onsen
+# Paradise, Strike Witches 2, Witch on the Holy Night), stehen bewusst nicht hier: „Auf Deutsch seit“ wäre dort noch falsch.
+- anilistId: 177132
+  title: 'A New Dawn'
+  von: '2026-10-15'
+  publisher: 'polyband anime'
+  sources:
+    - https://www.anime2you.de/news/1036946/a-new-dawn-deutscher-kinostart/
+    - https://www.anime2you.de/news/1056972/a-new-dawn-erscheint-auf-blu-ray/
+
+- anilistId: 185212
+  title: 'Detektiv Conan: Der Flashback des Einäugigen'
+  von: '2025-08-26'
+  publisher: 'Crunchyroll'
+  sources:
+    - https://www.anime2you.de/news/911154/crunchyroll-detektiv-conan-film-28-kino/
+    - https://www.anime2you.de/news/1044161/detektiv-conan-film-28-disc-release/
+
+- anilistId: 198369
+  title: 'Detektiv Conan: Der gefallene Engel des Highways'
+  von: '2026-08-25'
+  publisher: 'Crunchyroll'
+  sources:
+    - https://www.anime2you.de/news/1030216/detektiv-conan-film-29-synchro-teaser/
+    - https://www.anime2you.de/news/1044161/detektiv-conan-film-28-disc-release/
+
+- anilistId: 130622
+  title: 'The Birth Of Kitaro - Das Geheimnis von Gegege'
+  von: '2025-11-18'
+  publisher: 'polyband anime'
+  sources:
+    - https://www.anime2you.de/news/954505/the-birth-of-kitaro-im-kino/
+
+- anilistId: 164212
+  title: 'Girls Band Cry'
+  von: '2026-08-07'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.anime2you.de/news/991696/girls-band-cry-disc-termin/
+    - https://www.anime2you.de/news/1023593/girls-band-cry-synchro-trailer/
+
+- anilistId: 100388
+  title: 'Banana Fish'
+  von: '2026-08-21'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.anime2you.de/news/991727/banana-fish-limited-edition-blu-ray/
+    - https://www.anime2you.de/news/1012794/banana-fish-volume-1-blu-ray-vorbestellbar/
+
+- anilistId: 174188
+  title: 'Nukitashi: Welcome to Love Island!'
+  von: '2026-10-23'
+  publisher: 'AniMoon Publishing'
+  sources:
+    - https://www.anime2you.de/news/998432/nukitashi-keine-fsk-freigabe/
+    - https://www.anime2you.de/news/925391/nukitashi-erste-disc-details/
+
+- anilistId: 175914
+  title: 'Call of the Night: Season 2'
+  von: '2026-09-18'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.anime2you.de/news/923340/call-of-the-night-staffel-2-disc-termin/
+
+- anilistId: 21032
+  title: 'Sindbad: The Flying Princess and the Secret Island'
+  von: '2019-06-14'
+  publisher: 'KAZÉ'
+  sources:
+    - https://www.anime2you.de/news/267455/die-abenteuer-des-jungen-sinbad-trilogie-erscheint-auf-dvd-und-blu-ray/
+    - https://www.anime2you.de/news/318357/die-abenteuer-des-jungen-sinbad-die-trilogie-blu-ray/
+
+- anilistId: 100658
+  title: 'Sinbad: Night at High Noon and the Wonder Gate'
+  von: '2019-06-14'
+  publisher: 'KAZÉ'
+  sources:
+    - https://www.anime2you.de/news/267455/die-abenteuer-des-jungen-sinbad-trilogie-erscheint-auf-dvd-und-blu-ray/
+    - https://www.anime2you.de/news/318357/die-abenteuer-des-jungen-sinbad-die-trilogie-blu-ray/
+
+- anilistId: 19191
+  title: 'Ghost in the Shell: Arise - Border 2: Ghost Whispers'
+  von: '2017-03-31'
+  sources:
+    - https://www.anime2you.de/news/373156/ghost-in-the-shell-arise-erscheint-als-komplettbox/
+    - https://www.anime2you.de/news/395321/ghost-in-the-shell-arise-erneut-auf-prosieben-maxx/
