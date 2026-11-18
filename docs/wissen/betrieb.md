@@ -123,6 +123,7 @@ Quelle committet wurden. **Eine gelbe Karte wird behandelt wie eine rote.**
 
 **Prüfwerkzeuge (12.10.2026):** `npm run check:logic` bricht beim ersten roten Ergebnis ab;
 `npm run check:logic -- --alle` lässt alle laufen und listet am Ende jede rote Prüfung (Exit 1).
+Die PR-Kette fährt `check:logic` seit 18.11.2026 in zwei Jobs (`check:logic-1`/`-2` = `--teil 1/2`/`2/2`, jede zweite Prüfung je Teil; Wächter `tools/check-logic-teil.test.mjs`); Deploy und Bestandsbau fahren weiter das ganze `check:logic`.
 `check:panel` und `check:ansichten` melden mit dem Befehl `npm run build`, wenn `dist/` fehlt oder
 älter als `web/src` ist (baut nie selbst). `commit-data.sh` nimmt für `DATEN_WARNUNG` auch Zeilen
 mit `FEHLER:` auf (Test in `commit-data-test.sh`).

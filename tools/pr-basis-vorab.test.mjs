@@ -13,7 +13,7 @@ import { pathToFileURL } from 'node:url'
 
 const WURZEL = process.argv[2] ?? tmpdir()
 const REPO = resolve(import.meta.dirname, '..')
-const KOPIEN = ['check-logic-alle.mjs', 'arbeiterpool.mjs', 'bau-umgebung.mjs', 'liste-pruefen.mjs', 'sperre-umgebung.mjs', 'check-logic-vollstaendig.mjs', 'bestand-sperre.cjs', 'git-stand-wache.mjs', 'pr-basis.mjs', 'check-logic-historie.mjs', 'pruefung-ort.mjs']
+const KOPIEN = ['check-logic-alle.mjs', 'arbeiterpool.mjs', 'bau-umgebung.mjs', 'liste-pruefen.mjs', 'sperre-umgebung.mjs', 'check-logic-vollstaendig.mjs', 'bestand-sperre.cjs', 'git-stand-wache.mjs', 'pr-basis.mjs', 'check-logic-historie.mjs', 'pruefung-ort.mjs', 'tests-teil.mjs']
 
 const gitIn = (ordner) => (...args) =>
   execFileSync('git', ['-c', 'core.autocrlf=false', '-c', 'user.name=t', '-c', 'user.email=t@t', ...args], { cwd: ordner, encoding: 'utf8', windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] }).trim()
