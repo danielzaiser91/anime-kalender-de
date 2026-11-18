@@ -2738,3 +2738,8 @@ Anlass: Daniels Bericht 09:42 mit sechs Erinnern-Titeln (AnoHana, Banana Fish, O
 - **Melde-Knopf:** ohne Termin „Zurückstellen — Erinnern-Knopf ohne Datum“ (stellt zurück, meldet nichts), danach „Zurückgestellt bis 25.11. ✓“; er bleibt auf gesuchten Titelseiten immer sichtbar (ohne Text abgeblendet „Nichts zu melden“), ein Adresswechsel räumt die Rückmeldung.
 - **Ein Sprung je Titel:** `akNetflixSprungWiederholt` hält einen zweiten Sprung auf (Grund „zweiter Sprung im selben Durchgang vermieden“); die Spur liegt im `sessionStorage` und überlebt das Neuladen (vorher gingen alle Einträge vor dem letzten Laden verloren). Den Grund des doppelten AnoHana-Besuchs (66 s ohne Entscheidung) belegt der Bericht nicht.
 - **Offen:** „Folge prüfen“/„alle“ (Leiste `DURCHLAUF.leiste`) verschwinden bei Titeln ohne Folgenliste weiterhin; ein gemeinsamer Zustandsrechner für den ganzen Kasten ist nicht gebaut.
+
+## Netflix-Umleitungs-Totmeldungen: Stichtag belegt, Textvergleich-Falle (18.11.2026)
+
+- Stichtag `UMLEITUNG_GILT_AB` = `2026-11-17T18:15:04Z`: Merge von PR 4144 (18:14:41Z), danach „Version gezählt“ 4.32.151 (71e1278e, 18:15:04Z; der Bericht nannte 4.32.150, die liegt mit 17:05Z vor dem Merge). Vorher geschätzt `2026-11-20`; dadurch blieben 152 Meldungen aus Daniels Durchgang vom 18.11. (Erweiterung 4.32.157) zurückgestellt.
+- Falle: `gemeldet_am` hat zwei Formen (Worker `jetztIso()`: `…T…Z`; SQLite/Kopie: `… …`). Ein Textvergleich `' ' < 'T'` ist am selben Tag immer wahr. `gemeldetMs()` normalisiert; leeres/unlesbares `gemeldet_am` bleibt zurückgestellt und steht in der Logzeile („davon N mit unlesbarem gemeldet_am“).
