@@ -44,7 +44,7 @@ function baueRepo({ rotB = false, ohneDeploy = false, ohnePr = false } = {}) {
   writeFileSync(join(ordner, 'tools/check-logic-liste.txt'), `${pruefungen.join('\n')}\n`)
   const eintrag = (deploy) => ({ ort: 'nachts', grund: 'g', beleg: 'b', deploy: deploy && !ohneDeploy })
   const ort = {
-    logik: { [pruefungen[1]]: eintrag(false), [pruefungen[2]]: eintrag(true) },
+    logik: { 'pipeline/check-b-nachts.ts': eintrag(false), 'pipeline/check-c-deploy.ts': eintrag(true) },
     tests: { [`tools/${tests[1]}`]: eintrag(false), [`tools/${tests[2]}`]: eintrag(true) },
   }
   writeFileSync(join(ordner, 'tools/pruefung-ort.json'), JSON.stringify(ort))
