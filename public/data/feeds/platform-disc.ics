@@ -10,36 +10,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-527-disc@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261110
-DTEND;VALUE=DATE:20261111
-SUMMARY:Pokémon (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/483/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:virgin-road-vol1@2026-11-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261113
-DTEND;VALUE=DATE:20261114
-SUMMARY:Virgin Road – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12466/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:infinite-dendrogram-vol2@2026-11-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261113
-DTEND;VALUE=DATE:20261114
-SUMMARY:Infinite Dendrogram – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/10319/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:kamisama-kiss-staffel-2-2026-11-15@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261115
@@ -210,33 +180,43 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:cafe-terrace-and-its-goddesses-s1-box@2026-11-20@anime-kalender-de
+UID:virgin-road-vol1@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
+SUMMARY:Virgin Road – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14548/
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12466/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:sakamoto-days-vol1@2026-11-20@anime-kalender-de
+UID:2-5-dimensional-seduction-vol4@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+SUMMARY:2.5 Dimensional Seduction – Vol. 4 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16410/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:bocchi-the-rock-vol1@2026-11-20@anime-kalender-de
+UID:infinite-dendrogram-vol2@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:Bocchi the Rock! – Vol. 1 (Disc)
+SUMMARY:Infinite Dendrogram – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12647/
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/10319/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:my-love-story-with-yamada-kun-vol1@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -295,8 +275,9 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:As a Reincarnated Aristocrat – Staffel 2 – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15989/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 20.10.2024).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/15989/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -556,11 +537,21 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:bocchi-the-rock-vol2@2026-12-04@anime-kalender-de
+UID:sakamoto-days-vol1@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
-SUMMARY:Bocchi the Rock! – Vol. 2 (Disc)
+SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:bocchi-the-rock-vol1@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Bocchi the Rock! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12647/
 CATEGORIES:DVD / Blu-ray
@@ -841,6 +832,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:bocchi-the-rock-vol2@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Bocchi the Rock! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12647/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:spice-and-wolf-2024-vol3@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
@@ -906,10 +907,11 @@ DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
 SUMMARY:As a Reincarnated Aristocrat – Staffel 2 – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
- g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
- ://anime-kalender.de/t/15989/
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 20.10.2024).\nUhrzeit noc
+ h nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Tag\
+ , sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https:/
+ /anime-kalender.de/t/15989/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -1029,6 +1031,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:cafe-terrace-and-its-goddesses-s1-box@2027-02-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270205
+DTEND;VALUE=DATE:20270206
+SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14548/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:im-standing-on-a-million-lives-s2-box@2027-02-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270205
@@ -1078,16 +1090,6 @@ DTEND;VALUE=DATE:20270206
 SUMMARY:Neon Genesis Evangelion (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/21/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-166477-disc@2027-02-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270205
-DTEND;VALUE=DATE:20270206
-SUMMARY:The Café Terrace and Its Goddesses (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -1184,6 +1186,16 @@ DTEND;VALUE=DATE:20270306
 SUMMARY:Afro Samurai + Afro Samurai Resurrection (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1140/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-166477-disc@2027-03-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270319
+DTEND;VALUE=DATE:20270320
+SUMMARY:The Café Terrace and Its Goddesses (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

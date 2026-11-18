@@ -10,88 +10,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-10#64@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T161000Z
-DTEND:20261110T164000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-11-10#65@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T163000Z
-DTEND:20261110T170000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T165500Z
-DTEND:20261110T172500Z
-SUMMARY:Detektiv Conan – Folge 172
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:yaiba-samurai-legend-prosieben-maxx@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T172500Z
-DTEND:20261110T175500Z
-SUMMARY:YAIBA: Samurai Legend – Folge 4/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:yaiba-samurai-legend-joyn@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T175000Z
-DTEND:20261110T182000Z
-SUMMARY:YAIBA: Samurai Legend – Folge 4/24
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Wöchentlich (Simuldub)\nDetails:
-  https://anime-kalender.de/t/15908/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
-UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T175000Z
-DTEND:20261110T182000Z
-SUMMARY:ONE PIECE – Folge 783/877
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom
-  Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
- eitet.\nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261110T201500Z
-DTEND:20261110T204500Z
-SUMMARY:Pokémon Reisen: Die Serie
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-527-disc@2026-11-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261110
-DTEND;VALUE=DATE:20261111
-SUMMARY:Pokémon (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/483/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T143000Z
@@ -502,17 +420,6 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1218@2026-11-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261118T080000Z
-DTEND:20261118T083000Z
-SUMMARY:Kill la Kill (neu bei ADN)
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
- em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
- s://anime-kalender.de/t/6710/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1N334@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T143000Z
@@ -577,6 +484,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T201500Z
+DTEND:20261118T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261118
@@ -585,6 +502,17 @@ SUMMARY:Memories (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1262/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-18679-adn@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:Kill La Kill (neu bei ADN)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/6710/
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-11-19#78@anime-kalender-de
@@ -797,33 +725,23 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cafe-terrace-and-its-goddesses-s1-box@2026-11-20@anime-kalender-de
+UID:2-5-dimensional-seduction-vol4@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
+SUMMARY:2.5 Dimensional Seduction – Vol. 4 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14548/
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16410/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:sakamoto-days-vol1@2026-11-20@anime-kalender-de
+UID:my-love-story-with-yamada-kun-vol1@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
-SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:bocchi-the-rock-vol1@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Bocchi the Rock! – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12647/
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -1545,11 +1463,21 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:bocchi-the-rock-vol2@2026-12-04@anime-kalender-de
+UID:sakamoto-days-vol1@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
-SUMMARY:Bocchi the Rock! – Vol. 2 (Disc)
+SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:bocchi-the-rock-vol1@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Bocchi the Rock! – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12647/
 CATEGORIES:DVD / Blu-ray
@@ -2383,6 +2311,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:bocchi-the-rock-vol2@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Bocchi the Rock! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12647/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:dr-stone-science-future-part2@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
@@ -2631,6 +2569,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:cafe-terrace-and-its-goddesses-s1-box@2027-02-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270205
+DTEND;VALUE=DATE:20270206
+SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14548/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:bocchi-the-rock-vol3@2027-02-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270205
@@ -2648,16 +2596,6 @@ DTEND;VALUE=DATE:20270206
 SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 3 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14576/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-166477-disc@2027-02-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270205
-DTEND;VALUE=DATE:20270206
-SUMMARY:The Café Terrace and Its Goddesses (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -3063,6 +3001,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-166477-disc@2027-03-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270319
+DTEND;VALUE=DATE:20270320
+SUMMARY:The Café Terrace and Its Goddesses (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15195/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-22@anime-kalender-de
