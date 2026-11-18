@@ -10,16 +10,21 @@ export function gepruefteFolgen(c: DubCheck): number {
   return Number(/alle (\d+) Folgen geprüft/.exec(c.note ?? '')?.[1] ?? 0)
 }
 
-/** Sortierfolge der Belege einer Plattform: jüngster zuerst, bei gleichem Datum die Seite mit den meisten geprüften Folgen; sonst bleibt die Reihenfolge der Datei. */
+/**
+ * Sortierfolge der Belege einer Plattform: jüngster zuerst, bei gleichem Datum die Abo-Ausgabe vor der Kanal-Ausgabe, innerhalb einer Ausgabe die Seite
+ * mit den meisten geprüften Folgen; sonst bleibt die Reihenfolge der Datei. Kanal und Abo zählen ihre Folgen nicht gegeneinander (Yu-Gi-Oh! 481:
+ * 40 Kanal-Folgen verdrängten die 25 der Abo-Seite); die feste Ausgabe-Reihenfolge hält den Vergleich widerspruchsfrei.
+ */
 export function vergleicheBelege(a: DubCheck, b: DubCheck): number {
   const nachDatum = (b.checkedAt ?? '').localeCompare(a.checkedAt ?? '')
-  return nachDatum || gepruefteFolgen(b) - gepruefteFolgen(a)
+  return nachDatum || Number(istKanalTitel(a)) - Number(istKanalTitel(b)) || gepruefteFolgen(b) - gepruefteFolgen(a)
 }
 
-/** Beim Ablegen je Titel und Plattform: Bei gleichem Datum ersetzt eine Seite mit weniger geprüften Folgen die bisherige nicht (Gleichstand oder fehlende Zahl: die spätere Zeile, wie zuvor). */
+/** Beim Ablegen je Titel und Plattform: Bei gleichem Datum ersetzt eine Seite mit weniger geprüften Folgen die bisherige nicht, solange beide zur selben Ausgabe (Kanal oder Abo) gehören (Gleichstand oder fehlende Zahl: die spätere Zeile, wie zuvor). */
 export function ersetztBeleg(bisher: DubCheck | undefined, neu: DubCheck): boolean {
   if (!bisher) return true
   if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true
+  if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true
   const alt = gepruefteFolgen(bisher)
   const jetzt = gepruefteFolgen(neu)
   /* Ohne Zahl an einer der beiden Seiten gibt es nichts zu vergleichen: wie zuvor gewinnt die spätere Zeile. */

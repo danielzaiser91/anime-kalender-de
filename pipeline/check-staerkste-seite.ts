@@ -40,6 +40,12 @@ function zeile(seite: string, folgen: number | null, datum = '2026-10-16', dub =
 `
 }
 
+/** Eine Kanal-Zeile mit zweiter Quelle (dub bleibt Ja), Notiz wie bei Yu-Gi-Oh! 481, B07FB4D9KM. */
+function kanalZeile(seite: string, folgen: number, datum = '2026-10-16'): string {
+  const notiz = `Tonspuren: Deutsch — Amazon-Seite ${seite}: alle ${folgen} Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg`
+  return zeile(seite, folgen, datum).replace(/  note: .*\n/, `  note: "${notiz}"\n  zweiteQuelle: "Anime2You 2024-06-26: Beleg — https://www.anime2you.de/news/803417/x"\n`)
+}
+
 /** Die Zuordnung aus `prime-zugeordnet.json`: Daniel stand auf der Seite `gemeldet`. */
 function meldung(gemeldet: string): string {
   return JSON.stringify({
@@ -76,6 +82,14 @@ try {
   pruefe('ein Nein mit Zahl schlägt kein Ja', primeWege([zeile('B0AAAAAAA4', 40, '2026-10-16', 'false'), VIERZEHN]).join() === 'B0FWJZ331M')
   pruefe('Titel ohne Weg, starke Seite zuerst in der Datei: sie wird angelegt', primeWege([DREI_UND_DREISSIG, SIEBEN], undefined, true).join() === 'B0FV7YYGQC')
   pruefe('Titel ohne Weg, starke Seite zuletzt: dieselbe', primeWege([SIEBEN, DREI_UND_DREISSIG], undefined, true).join() === 'B0FV7YYGQC')
+  console.log('\nKanal- und Abo-Ausgabe sind getrennte Wege (Yu-Gi-Oh! 481):')
+  const kanalVorn = primeWege([kanalZeile('B0KANAL001', 40), zeile('B0ABO00001', 25)], undefined, false, ['B0KANAL001', 'B0ABO00001'])
+  pruefe('Kanal-Seite (40 Folgen) vor Abo-Seite (25), gleiches Datum: beide Wege bleiben', kanalVorn.sort().join() === 'B0ABO00001,B0KANAL001', kanalVorn)
+  const aboVorn = primeWege([zeile('B0ABO00001', 25), kanalZeile('B0KANAL001', 40)], undefined, false, ['B0KANAL001', 'B0ABO00001'])
+  pruefe('Abo-Seite vor Kanal-Seite: beide Wege bleiben', aboVorn.sort().join() === 'B0ABO00001,B0KANAL001', aboVorn)
+  const kanalMeldung = primeWege([zeile('B0ABO00001', 25), kanalZeile('B0KANAL001', 40)], 'B0ABO00001', false, ['B0KANAL001'])
+  pruefe('die gemeldete Abo-Seite wird neben der Kanal-Seite angelegt, nicht als Schwester verworfen', kanalMeldung.sort().join() === 'B0ABO00001,B0KANAL001', kanalMeldung)
+
   console.log('\nKein zweiter Weg durch die gemeldete, schwächere Seite:')
   const mitMeldung = primeWege([SIEBEN, DREI_UND_DREISSIG, VIERZEHN], 'B084DBMYFX')
   pruefe('Daniel meldete die 7-Folgen-Seite: nur die 33-Folgen-Seite bleibt', mitMeldung.join() === 'B0FV7YYGQC', mitMeldung)
@@ -109,6 +123,14 @@ try {
   pruefe('istSchwaechereSchwester: Seite ohne Beleg nicht', !istSchwaechereSchwester([{ ...ja('B0B', 8), checkedAt: undefined as unknown as string }], AMAZON + 'B0B', AMAZON + 'B0A'))
   const kanal = (c: DubCheck): DubCheck => ({ ...c, note: `${c.note} — ACHTUNG: Kanal-Titel` })
   pruefe('istSchwaechereSchwester: Kanal-Adresse gegen Abo-Adresse sind zwei Ausgaben (Yu-Gi-Oh! 481)', !istSchwaechereSchwester([ja('B0A', 25), kanal(ja('B0B', 40))], AMAZON + 'B0B', AMAZON + 'B0A'))
+  const urlsNachSortierung = (belege: DubCheck[]): string => belege.sort(vergleicheBelege).map((c) => c.url!.replace(AMAZON, '')).join()
+  pruefe('vergleicheBelege: Kanal mit mehr Folgen verdrängt die Abo-Seite nicht', urlsNachSortierung([kanal(ja('B0K', 40)), ja('B0A', 25)]) === 'B0A,B0K')
+  pruefe('vergleicheBelege: Abo vor Kanal unabhängig von der Dateireihenfolge', urlsNachSortierung([ja('B0A', 25), kanal(ja('B0K', 40))]) === 'B0A,B0K')
+  pruefe('vergleicheBelege: je Ausgabe weiter nach Folgen (Kanal 40 vor Kanal 30, Abo 25 vor Abo 10)', urlsNachSortierung([kanal(ja('B0K30', 30)), ja('B0A10', 10), kanal(ja('B0K40', 40)), ja('B0A25', 25)]) === 'B0A25,B0A10,B0K40,B0K30')
+  pruefe('vergleicheBelege: jüngerer Kanal-Beleg schlägt älteren Abo-Beleg', urlsNachSortierung([ja('B0A', 25), kanal(ja('B0K', 3, '2026-10-17'))]) === 'B0K,B0A')
+  pruefe('ersetztBeleg: Kanal (40) ersetzt Abo (25) am selben Tag: spätere Zeile', ersetztBeleg(ja('B0A', 25), kanal(ja('B0K', 40))))
+  pruefe('ersetztBeleg: Abo (25) ersetzt Kanal (40) am selben Tag: spätere Zeile', ersetztBeleg(kanal(ja('B0K', 40)), ja('B0A', 25)))
+  pruefe('ersetztBeleg: zwei Kanal-Seiten, weniger Folgen ersetzt nicht', !ersetztBeleg(kanal(ja('B0K', 40)), kanal(ja('B0L', 25))))
   pruefe('istSchwaechereSchwester: zwei Kanal-Adressen bleiben Schwestern', istSchwaechereSchwester([kanal(ja('B0A', 40)), kanal(ja('B0B', 25))], AMAZON + 'B0A', AMAZON + 'B0B'))
   pruefe('istSchwaechereSchwester: anderes Datum nicht', !istSchwaechereSchwester([ja('B0A', 7, '2026-10-01'), ja('B0B', 8)], AMAZON + 'B0B', AMAZON + 'B0A'))
 } finally {
