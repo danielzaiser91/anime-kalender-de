@@ -4,9 +4,9 @@
   "aenderungen": [
    {
     "datei": "extension/melder.js",
-    "suche": "akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER })",
-    "ersetze": "akNetflixZurueckNeu(fertig, offeneTitel, { geaendert: () => uebersichtZeigen(), worker: WORKER })",
-    "zeile": 2476
+    "suche": "akNetflixZurueckNeu(offeneTitel, fertig, { geaendert: () => uebersichtZeigen(), worker: WORKER, standDa:",
+    "ersetze": "akNetflixZurueckNeu(fertig, offeneTitel, { geaendert: () => uebersichtZeigen(), worker: WORKER, standDa:",
+    "zeile": 2473
    }
   ],
   "tests": [
@@ -1307,8 +1307,8 @@
   "aenderungen": [
    {
     "datei": "extension/melder.js",
-    "suche": "{ geaendert: () => uebersichtZeigen(), worker: WORKER }",
-    "ersetze": "{ geaendert: () => uebersichtZeigen() }"
+    "suche": "{ geaendert: () => uebersichtZeigen(), worker: WORKER, standDa:",
+    "ersetze": "{ geaendert: () => uebersichtZeigen(), standDa:"
    }
   ],
   "tests": [
