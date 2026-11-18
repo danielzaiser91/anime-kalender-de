@@ -154,7 +154,7 @@ async function mitWartefunktion() {
   /* Zusammenspiel mit der Wartefunktion: derselbe Grund, dasselbe Datum */
   const f = speicherNeu()
   const lauf = await seite(f, { datum: '30. Oktober' })
-  kontext.akNetflixListeWarten({ seite: 'x', seit: JETZT - 5000 }, { seite: 'x', reihe: '80186475', erinnern: true, frist: 20000, jetzt: JETZT, durchlauf: { folgen: [] } }, { spur() {}, uebersprungen: lauf.karte, weiter() {} })
+  kontext.akNetflixListeWarten({ seite: 'x', seit: JETZT - 5000 }, { seite: 'x', reihe: '80186475', erinnern: true, datum: () => '30. Oktober', frist: 20000, jetzt: JETZT, durchlauf: { folgen: [] } }, { spur() {}, uebersprungen: lauf.karte, weiter() {} })
   await ruhe()
   pruefe('netflix-erinnern.js + Merkliste: Erinnern-Titel wird mit Datum gespeichert', stand(f)['80186475']?.bis === berlin(2026, 10, 29, 23), stand(f))
 }

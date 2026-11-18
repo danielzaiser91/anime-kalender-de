@@ -26,10 +26,64 @@ globalThis.akNetflixLeerNach = LEER_NACH_MS
  * Ohne Termin ist der Titel angekündigt, nicht abwesend — kein Knopf, nie „nicht abrufbar“ (das streicht den Weg).
  * Anzeige (`beschriftung`) und Handlung (`melden`) lesen diese eine Funktion.
  */
-globalThis.akNetflixErinnernKnopf = (termin) =>
-  termin
-    ? { text: `Noch nicht da — „ab ${termin}" melden`, klasse: 'ak-nein', aktiv: true }
-    : { text: 'Angekündigt — Netflix nennt keinen Termin', klasse: 'ak-leer', aktiv: false }
+globalThis.akNetflixErinnernKnopf = (termin, zurueck = null) => {
+  if (termin) return { text: `Noch nicht da — „ab ${termin}" melden`, klasse: 'ak-nein', aktiv: true }
+  /* Ohne Termin gibt es nichts zu melden (Daniel, 18.11.2026: „es sollte auf zurückgestellt gesetzt werden"): der Klick stellt den Titel zurück. */
+  if (zurueck) return { text: `Zurückgestellt bis ${globalThis.akNetflixTagKurz(zurueck.bis)} ✓ — ${zurueck.grund}`, klasse: 'ak-leer', aktiv: false }
+  return { text: `Zurückstellen — ${globalThis.akNetflixErinnernGrund(null)}`, klasse: 'ak-leer', aktiv: true }
+}
+
+/** Berliner Kalendertag eines Zeitpunkts als „25.11.". */
+globalThis.akNetflixTagKurz = (ms) => {
+  const t = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', day: 'numeric', month: 'numeric' }).formatToParts(new Date(ms))
+  return `${t.find((p) => p.type === 'day').value}.${t.find((p) => p.type === 'month').value}.`
+}
+
+/** Was der Melde-Knopf zeigt: die Beschriftung der Lage, ohne Text ein abgeblendeter Platzhalter (nie versteckt, nie leer). */
+globalThis.akNetflixKnopfZustand = (z) => (z?.text ? { text: z.text, klasse: z.klasse, aktiv: Boolean(z.aktiv) } : { text: 'Nichts zu melden', klasse: 'ak-leer', aktiv: false })
+
+/**
+ * Schreibt den Zustand des Melde-Knopfs in einem Zug (erst berechnen, dann schreiben). Wechselt die Adresse, fällt die Rückmeldung des
+ * vorigen Titels („Zurückgestellt ✓") sofort weg; sonst bleibt eine laufende Rückmeldung (`ak-erfolg`/`ak-fehler`) stehen.
+ */
+globalThis.akNetflixKnopfSchreiben = (el, beschriftung, pfad) => {
+  const z = globalThis.akNetflixKnopfZustand(beschriftung)
+  if (el.akPfad !== pfad) {
+    el.akPfad = pfad
+    el.classList.remove('ak-erfolg', 'ak-fehler')
+  }
+  el.hidden = false
+  el.disabled = !z.aktiv
+  if (el.classList.contains('ak-erfolg') || el.classList.contains('ak-fehler')) return
+  el.textContent = z.text
+  el.classList.remove('ak-ja', 'ak-nein', 'ak-leer')
+  el.classList.add(z.klasse)
+}
+
+/** Klick „Zurückstellen" bei „Erinnern" ohne Termin: nur zurückstellen, nichts melden. Gibt den Text für die Rückmeldung zurück. */
+globalThis.akNetflixErinnernZurueckstellen = (karte, reihe) => {
+  karte.set(String(reihe), globalThis.akNetflixErinnernGrund(null))
+  return 'Zurückgestellt ✓'
+}
+
+const ERINNERN_MONATE = ['jan', 'feb', 'mär', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dez']
+
+/** „19. November" / „3. Okt. 2026" → „19.11." (Netflix nennt Tag und Monat); ohne lesbares Datum `null`. */
+globalThis.akNetflixDatumKurz = (text) => {
+  const t = /(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)/.exec(String(text ?? ''))
+  const m = t ? ERINNERN_MONATE.indexOf(t[2].toLowerCase().slice(0, 3).replace('mar', 'mär')) + 1 : 0
+  return m ? `${Number(t[1])}.${m}.` : null
+}
+
+/**
+ * Der Grund einer Zurückstellung wegen des Erinnern-Knopfes (18.11.2026, Daniel: „wenn Netflix ein Datum nennt, muss das auch der Grund sein").
+ * Das Datum steht im Grund, und `zurueckBis` liest es von dort: Grund und „zurück bis" kommen aus derselben Messung. Die Klammer lässt
+ * die Prüfliste alle Daten als eine Art zählen (`ansichtGrundArt`).
+ */
+globalThis.akNetflixErinnernGrund = (datum) => {
+  const kurz = globalThis.akNetflixDatumKurz(datum)
+  return kurz ? `Erinnern-Knopf mit Datum (${kurz})` : 'Erinnern-Knopf ohne Datum'
+}
 
 /**
  * Ein Film hat keine Folgenliste und geht über `/watch` — aber nur, wenn seine Titelseite Inhalt zeigt (16.11.2026, Appleseed: unter
@@ -54,11 +108,17 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   return { ...neu, film: Boolean(o.film), frist: kurz ? Math.min(LEER_NACH_MS, o.frist) : o.frist }
 }
 
-/** Der Wartetext für den Kasten („wartet auf die Folgenliste, 12 von 20 s“); leer, wenn nichts mehr gewartet wird. */
+/** Die erste Handlung des Titelfensters (Text des Dialogs) ist „Erinnern": Netflix zeigt dort keine Folgenliste und kein „Abspielen". */
+const erinnernImFenster = (m) => /^(?:Erinnern|Remind me)\b/i.test(m?.dialoge?.anfang ?? '')
+
+/**
+ * Der Wartetext für den Kasten („wartet auf die Folgenliste, 12 s (Notausgang nach 20 s)“); leer, wenn nichts mehr gewartet wird.
+ * Die Frist ist der Notausgang, nicht die erwartete Dauer: entschieden wird am Zustand der Seite (Abspielen, Erinnern), 18.11.2026.
+ */
 globalThis.akNetflixWartetText = (wartet, jetzt) => {
   if (!wartet?.frist || wartet.entschieden || wartet.filmFrei) return ''
   const s = Math.min(Math.floor((jetzt - wartet.seit) / 1000), Math.round(wartet.frist / 1000))
-  return `wartet auf ${wartet.film ? 'den Titel' : 'die Folgenliste'}, ${s} von ${Math.round(wartet.frist / 1000)} s`
+  return `wartet auf ${wartet.film ? 'den Titel' : 'die Folgenliste'}, ${s} s (Notausgang nach ${Math.round(wartet.frist / 1000)} s)`
 }
 
 /**
@@ -73,7 +133,8 @@ const listeWartenSchritt = (wartet, o, tun) => {
   if (film) return film
   const dauer = o.jetzt - wartet.seit
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
-  const erinnernJetzt = o.erinnern && dauer >= ERINNERN_NACH_MS
+  /* Zeigt das Titelfenster selbst „Erinnern" als erste Handlung, ist der Zustand da (18.11.2026): keine Schonzeit; ob er noch dem vorigen Titel gehört, klärt das volle Neuladen unten. */
+  const erinnernJetzt = o.erinnern && (erinnernImFenster(o.merkmale?.()) || dauer >= ERINNERN_NACH_MS)
   /* Die kurze Frist gilt für jedes leere Titelfenster, unabhängig von Netzantworten (Bericht 14.11.2026: umgebogene Titelseite stand 23 s statt 8 s + Neuladen). */
   const leerFrist = Math.min(o.frist, LEER_NACH_MS)
   if (!erinnernJetzt && dauer <= leerFrist) return wartet
@@ -102,8 +163,9 @@ const listeWartenSchritt = (wartet, o, tun) => {
       tun.vollLaden.laden(o.reihe)
       return { ...wartet, entschieden: true }
     }
-    tun.spur('Erinnern statt Folgenliste', { ...dazu, seite: merkmale })
-    tun.uebersprungen.set(o.reihe, 'Erinnern statt Folgenliste')
+    const grund = globalThis.akNetflixErinnernGrund((o.datum ?? globalThis.erscheinungsdatum)?.())
+    tun.spur(grund, { ...dazu, seite: merkmale })
+    tun.uebersprungen.set(o.reihe, grund)
     tun.weiter()
     return { ...wartet, entschieden: true }
   }
@@ -111,6 +173,59 @@ const listeWartenSchritt = (wartet, o, tun) => {
   tun.uebersprungen.set(o.reihe, `keine Folgenliste in ${Math.round(o.frist / 1000)} s`)
   tun.weiter()
   return null
+}
+
+/*
+  **Jeder Titel bekommt je Durchgang einen Sprung — und die Spur überlebt das Neuladen** (18.11.2026).
+
+  Daniel, Bericht 4.32.158: „der selbe titel wird mehrmals durchgegangen" — AnoHana lud um 08:40:14 und 08:41:20 (66 s ohne Entscheidung dazwischen).
+  Warum, war nicht zu lesen: `DURCHGANG_SPUR` lag im Arbeitsspeicher und ging mit jedem Neuladen verloren (der Bericht zeigte nur zwei Einträge).
+  Jetzt liegt die Spur im `sessionStorage` (`akNetflixSpurMerken`/`akNetflixSpurLesen`, je Eintrag das Dokument `dok`), und ein Titel, den der
+  Durchgang schon angesprungen hat, wird nicht noch einmal angesprungen, sondern mit Grund zurückgestellt (`akNetflixSprungWiederholt`).
+  Eine Bremse-Pause gibt ihre Titel frei (`akNetflixGesprungenLeeren`).
+*/
+const SPUR_SCHLUESSEL = 'ak-netflix-spur'
+const GESPRUNGEN_SCHLUESSEL = 'ak-netflix-gesprungen'
+const SPUR_HOECHSTENS = 60
+const SPUR_DOKUMENT = Math.random().toString(36).slice(2, 6)
+
+/** Hängt einen Eintrag an die Spur im `sessionStorage` (die letzten `SPUR_HOECHSTENS`); ohne Speicher bleibt nur die Spur im Arbeitsspeicher. */
+globalThis.akNetflixSpurMerken = (eintrag, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
+  try {
+    const liste = globalThis.akNetflixLaufLesen(speicher, SPUR_SCHLUESSEL)
+    liste.push({ ...eintrag, dok: SPUR_DOKUMENT })
+    speicher.setItem(SPUR_SCHLUESSEL, JSON.stringify(liste.slice(-SPUR_HOECHSTENS)))
+  } catch (e) {
+    console.info('[Anime-Kalender] Spur nicht gespeichert', String(e?.message ?? e))
+  }
+}
+
+/** Die Spur des Tabs über alle Neuladungen; ohne gespeicherte Spur `rueckfall` (die Spur dieses Dokuments). */
+globalThis.akNetflixSpurLesen = (rueckfall, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
+  const liste = globalThis.akNetflixLaufLesen(speicher, SPUR_SCHLUESSEL)
+  return liste.length ? liste : rueckfall
+}
+
+/** Merkt ein Sprungziel des Durchgangs (verschiedene Titel); `akNetflixZaehlerSetze` ruft es bei jedem Sprung. */
+globalThis.akNetflixGesprungenMerken = (speicher, kennung) => {
+  const liste = globalThis.akNetflixLaufLesen(speicher, GESPRUNGEN_SCHLUESSEL)
+  if (kennung != null && !liste.includes(String(kennung))) globalThis.akNetflixLaufSchreiben(speicher, GESPRUNGEN_SCHLUESSEL, [...liste, String(kennung)])
+}
+
+/** Beginn eines Durchgangs und Ende einer Bremse-Pause: alle Titel dürfen wieder angesprungen werden. */
+globalThis.akNetflixGesprungenLeeren = (speicher = globalThis.akNetflixSitzungSpeicher?.()) => globalThis.akNetflixLaufSchreiben(speicher, GESPRUNGEN_SCHLUESSEL, [])
+
+/**
+ * Ist `kennung` in diesem Durchgang schon angesprungen worden? Dann kein zweiter Sprung: der Titel wird zurückgestellt, der Grund steht in
+ * der Endliste und in der Spur. `true` = der Aufrufer wählt den nächsten Titel.
+ */
+globalThis.akNetflixSprungWiederholt = (kennung, uebersprungen, spur, speicher = globalThis.akNetflixSitzungSpeicher?.()) => {
+  if (!kennung || !globalThis.akNetflixLaufLesen(speicher, GESPRUNGEN_SCHLUESSEL).includes(String(kennung))) return false
+  spur('Titel schon angesprungen, kein zweiter Sprung', { reihe: String(kennung) })
+  /* Ein schon gemessener Titel (wartet nur auf die Übernahme) wird nicht zurückgestellt: „fertig“ nimmt ihn nur aus der Wahl. */
+  const gemessen = globalThis.akNetflixLaufLesen(speicher, 'ak-netflix-fertig').includes(String(kennung))
+  uebersprungen.set(String(kennung), gemessen ? 'fertig' : 'zweiter Sprung im selben Durchgang vermieden')
+  return true
 }
 
 /**
