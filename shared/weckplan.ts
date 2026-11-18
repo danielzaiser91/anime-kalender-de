@@ -36,6 +36,8 @@ export const WECKPLAN: Weckplan[] = [
   { workflow: 'anisearch-katalog.yml', stunden: [6], abstandMin: 600 },
   // Ladezeiten am Handy auf dem GitHub-Rechner (ab 12.10.2026, Eichung der Grenzen); 16 Uhr, zu der Stunde läuft kein anderer Tageslauf.
   { workflow: 'ladezeiten.yml', stunden: [16], abstandMin: 600 },
+  // Nachtprüfung (ab 18.11.2026): die aus der PR-Kette verschobenen langsamen Prüfungen (tools/pruefung-ort.json) gegen main; 01 Uhr, vor dem Tageslauf (04).
+  { workflow: 'nacht-pruefung.yml', stunden: [1], abstandMin: 600 },
   // Meldungen offizieller Anime-Websites (ab 13.10.2026): 13 Uhr, nach Tageslauf (04), aniSearch-Katalog (06) und Anime2You-Auswertung (12, seit 07.11.2026 stündlich), vor den Ladezeiten (16).
   { workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 },
   // Meldungskopie (ab 14.10.2026): D1-Export der drei Meldungstabellen, 03 Uhr (kein anderer Tageslauf; ein Export blockiert die D1 kurz). Spätestens nach 33 h nachgeholt (wecker-wache), Grenze 36 h. Abstand 13 h: ein Handlauf um 12 Uhr (15 h vor 03 Uhr) darf den nächsten Wecker-Start nicht sperren (16.10.2026 fehlte er so).

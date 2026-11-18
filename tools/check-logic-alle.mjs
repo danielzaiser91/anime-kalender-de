@@ -29,6 +29,7 @@ import { historieErgebnis } from './check-logic-historie.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { vorladeBasis } from './pr-basis.mjs'
+import { leseModus, leseOrt, nachOrt } from './pruefung-ort.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
@@ -76,8 +77,16 @@ function pruefeAusnahmeGenutzt(ausnahme, spurDatei) {
   return null
 }
 
-const dateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf8'))
+const alleDateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf8'))
+// Ort jeder Prüfung (tools/pruefung-ort.mjs): ohne --nachts laufen die Nacht-Einträge nicht mit, mit --nachts nur sie.
+const modus = mitSperre ? leseModus(process.argv) : 'pr'
+const dateien = mitSperre ? nachOrt(alleDateien, leseOrt(wurzel), 'logik', modus) : alleDateien
+if (mitSperre) console.log(`${name}: Ort ${modus}, ${dateien.length} von ${alleDateien.length} Prüfungen der Liste.`)
 
+if (dateien.length === 0 && modus === 'deploy') {
+  console.log(`${name}: keine Prüfung mit Ort deploy.`)
+  process.exit(0)
+}
 if (dateien.length === 0) {
   console.error(`${name}: ${listeArg} enthält keine Prüfung.`)
   process.exit(1)
@@ -93,14 +102,14 @@ const historie = historieErgebnis(wurzel)
 if (historie.warnung) console.warn(`${name}: ${historie.warnung}`)
 else console.log(`${name}: ${historie.zeile}`)
 
-const listenProbleme = listenFehler(dateien, listeArg)
+const listenProbleme = listenFehler(alleDateien, listeArg)
 if (listenProbleme.length) {
   for (const p of listenProbleme) console.error(`${name}: ${p}`)
   process.exit(1)
 }
 
 const alle = process.argv.includes('--alle') || process.env.CI === 'true'
-const ausnahmen = ladeAusnahmen(dateien)
+const ausnahmen = ladeAusnahmen(alleDateien)
 const spurOrdner = mkdtempSync(join(tmpdir(), 'bestand-spur-'))
 
 /** Ein Auftrag je Prüfung; die Spur-Datei ist je Prüfung eigen, weil Prüfungen gleichzeitig laufen. */

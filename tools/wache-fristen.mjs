@@ -32,6 +32,7 @@ export const FRISTEN_STUNDEN = {
   'claude-daten-merge.yml': 48,
   'anisearch-katalog.yml': 36,
   'ladezeiten.yml': 36,
+  'nacht-pruefung.yml': 36,
   'offizielle-news.yml': 36,
   'meldungskopie.yml': 36,
   'refresh-weekly.yml': 336,
