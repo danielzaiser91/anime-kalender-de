@@ -458,14 +458,6 @@ jobs:
           fi
           npm run check:search
 
-      # Aus der PR-Kette in die Nacht verschobene Prüfungen, die echte Bot-Daten lesen (`deploy: true` in tools/pruefung-ort.json, Wächter tools/pr-kette-ort.mjs):
-      # Ein Datenstand, den der Bestandsbau nach main schreibt, kann sie rot machen, also halten sie hier den Deploy an und nicht erst nachts (18.11.2026).
-      - name: Nacht-Prüfungen mit Datenbezug
-        if: ${{ steps.herkunft.outputs.treffer != '1' }}
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:nachts-deploy
-
       - name: Fortschritt — Zusicherungen geprüft
         if: ${{ steps.herkunft.outputs.treffer != '1' }}
         continue-on-error: true

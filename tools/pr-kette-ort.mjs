@@ -2,11 +2,11 @@
  * Wächter über den Ort jeder Prüfung (18.11.2026, Teil von `tools/pr-kette-pruefen.mjs`): Jede Prüfung steht in genau einem Ort, „pr“ (PR-Kette und Deploy)
  * oder „nachts“ (`.github/workflows/nacht-pruefung.yml`). Die Nacht-Einträge stehen in `tools/pruefung-ort.json`, alles andere läuft im PR.
  * Regeln:
- *  - jeder Eintrag hat Ort (pr/nachts), `grund`, `beleg` (Datei:Zeile, was ihn rot machen kann) und bei „nachts“ `deploy` (true/false: liest er echte Bot-Daten,
- *    läuft er zusätzlich im Deploy-Job `zusicherungen`); jede Datei gibt es, Logik-Einträge stehen in `tools/check-logic-liste.txt`;
+ *  - jeder Eintrag hat Ort (pr/nachts), `grund`, `beleg` (Datei:Zeile, was ihn rot machen kann) und bei „nachts“ optional `liest` (Repo-Dateien unter `data/`, Ordner mit `/` am Ende,
+ *    die die Prüfung echt liest: ändert ein PR eine davon, läuft sie im PR mit, `tools/pruefung-ort.mjs`); jede Datei gibt es, Logik-Einträge stehen in `tools/check-logic-liste.txt`;
  *  - `erwartet` nennt die Zahl der Nacht-Einträge je Art: wer einen Eintrag streicht (Prüfung wandert still zurück in den PR) oder anfügt, ändert sie bewusst mit;
- *  - `check:nachts(-logik|-tests|-deploy)` stehen in package.json in fester Form; `nacht-pruefung.yml` hat nur `workflow_dispatch` und zwei Jobs, die `npm run check:nachts-logik`
- *    bzw. `-tests` ohne `if` und ohne `continue-on-error` ausführen; steht ein Eintrag mit `deploy: true` da, führt der Deploy-Job `zusicherungen` `npm run check:nachts-deploy` ohne `continue-on-error` aus.
+ *  - `check:nachts(-logik|-tests)` stehen in package.json in fester Form; `nacht-pruefung.yml` hat nur `workflow_dispatch` und zwei Jobs, die `npm run check:nachts-logik`
+ *    bzw. `-tests` ohne `if` und ohne `continue-on-error` ausführen; der Deploy (`deploy.yml`) führt keine Nacht-Prüfung aus (Ziel: live unter 5 min, Entscheidung 18.11.2026).
  * Aufruf: über `node tools/pr-kette-pruefen.mjs [wurzel]`; `ortFehler(wurzel)` liefert die Verstöße (leer = in Ordnung).
  */
 import { existsSync, readFileSync } from 'node:fs'
@@ -21,20 +21,25 @@ const SKRIPTE = {
   'check:nachts-logik': 'node tools/check-logic-alle.mjs --nachts',
   'check:nachts-tests': 'node tools/tests-alle.mjs --nachts --alle',
   'check:nachts': 'npm run check:nachts-logik && npm run check:nachts-tests',
-  'check:nachts-deploy': 'node tools/check-logic-alle.mjs --nachts-deploy && node tools/tests-alle.mjs --nachts-deploy',
 }
-const EINTRAG_SCHLUESSEL = ['ort', 'grund', 'beleg', 'deploy']
+const EINTRAG_SCHLUESSEL = ['ort', 'grund', 'beleg', 'liest']
 const ARTEN = ['logik', 'tests']
 
-/** Verstöße eines Eintrags (Form): bekannte Schlüssel, Ort, Grund, Beleg, `deploy` bei „nachts“. */
+/** Verstöße von `liest`: nur bei „nachts“, Liste nichtleerer Pfade unter `data/` ohne `..`. */
+function liestFehler(art, name, e) {
+  if (e?.liest === undefined) return []
+  if (e.ort !== 'nachts') return [`${art} ${name}: liest gilt nur bei nachts`]
+  const gut = Array.isArray(e.liest) && e.liest.length > 0 && e.liest.every((l) => typeof l === 'string' && l.startsWith('data/') && !l.includes('..'))
+  return gut ? [] : [`${art} ${name}: liest muss eine nichtleere Liste von Pfaden unter data/ sein`]
+}
+
+/** Verstöße eines Eintrags (Form): bekannte Schlüssel, Ort, Grund, Beleg, `liest`. */
 function eintragFehler(art, name, e) {
   const f = []
   for (const k of Object.keys(e ?? {})) if (!EINTRAG_SCHLUESSEL.includes(k)) f.push(`${art} ${name}: Schlüssel "${k}" nicht erlaubt`)
   if (e?.ort !== 'pr' && e?.ort !== 'nachts') f.push(`${art} ${name}: ort muss "pr" oder "nachts" sein`)
   for (const k of ['grund', 'beleg']) if (typeof e?.[k] !== 'string' || e[k].trim() === '') f.push(`${art} ${name}: ${k} fehlt`)
-  if (e?.ort === 'nachts' && typeof e.deploy !== 'boolean') f.push(`${art} ${name}: deploy (true/false) fehlt`)
-  if (e?.ort === 'pr' && e.deploy !== undefined) f.push(`${art} ${name}: deploy gilt nur bei nachts`)
-  return f
+  return [...f, ...liestFehler(art, name, e)]
 }
 
 /** Verstöße der Zuordnung gegen die echten Prüfungen: Datei vorhanden, Zahl der Nacht-Einträge. */
@@ -67,31 +72,13 @@ function nachtWorkflowFehler(doc) {
   return f
 }
 
-/** Bedingung der Nachbarschritte in `zusicherungen`: ohne Herkunft-Treffer laufen sie, bei Treffer gilt die PR-Kette. */
-const DEPLOY_IF = "${{ steps.herkunft.outputs.treffer != '1' }}"
-const VOR_SCHRITT = 'Zusicherungen prüfen'
-const NACH_SCHRITT = 'Fortschritt — Zusicherungen geprüft'
-
-/** Verstöße am Deploy-Schritt selbst: Bedingung wortgleich, kein Ausweg am Schritt oder am Job, Lage zwischen den beiden Nachbarschritten. */
-function deploySchrittFehler(job, schritt) {
+/** Verstöße im Deploy: kein Schritt führt eine Nacht-Prüfung aus (der Deploy darf nicht länger werden). */
+function deployFehler(doc) {
   const f = []
-  if (schritt['continue-on-error'] !== undefined) f.push('deploy.yml: Schritt check:nachts-deploy ohne continue-on-error')
-  if (job['continue-on-error'] !== undefined) f.push('deploy.yml: Job zusicherungen ohne continue-on-error (Rot darf nicht verschluckt werden)')
-  if (schritt.if !== DEPLOY_IF) f.push(`deploy.yml: Schritt check:nachts-deploy: if muss wortgleich "${DEPLOY_IF}" sein (wie die Nachbarschritte)`)
-  const namen = job.steps.map((s) => s.name)
-  const lage = job.steps.indexOf(schritt)
-  if (!(namen.indexOf(VOR_SCHRITT) >= 0 && namen.indexOf(VOR_SCHRITT) < lage && lage < namen.indexOf(NACH_SCHRITT))) f.push(`deploy.yml: Schritt check:nachts-deploy muss hinter "${VOR_SCHRITT}" und vor "${NACH_SCHRITT}" stehen`)
+  for (const [id, job] of Object.entries(doc?.jobs ?? {})) {
+    for (const s of job.steps ?? []) if (String(s.run ?? '').includes('check:nachts')) f.push(`deploy.yml: Job ${id} führt eine Nacht-Prüfung aus (check:nachts), der Deploy darf dadurch nicht länger werden`)
+  }
   return f
-}
-
-/** Verstöße des Deploy-Jobs: mit `deploy: true`-Einträgen führt `zusicherungen` `npm run check:nachts-deploy` ohne Ausweg aus. */
-function deployFehler(doc, ort) {
-  const braucht = ARTEN.some((a) => Object.values(ort[a] ?? {}).some((e) => e.ort === 'nachts' && e.deploy === true))
-  const job = doc?.jobs?.zusicherungen ?? { steps: [] }
-  const schritte = (job.steps ?? []).filter((s) => String(s.run ?? '').split('\n').some((z) => z.trim() === 'npm run check:nachts-deploy'))
-  if (!braucht) return schritte.length > 0 ? ['deploy.yml: check:nachts-deploy steht da, aber kein Eintrag hat deploy: true'] : []
-  if (schritte.length !== 1) return [`deploy.yml: Job zusicherungen braucht genau einen Schritt mit "npm run check:nachts-deploy", gefunden ${schritte.length}`]
-  return deploySchrittFehler(job, schritte[0])
 }
 
 /** Alle Verstöße gegen die Regeln im Kopf; `wurzel` = Repo-Wurzel. */
@@ -104,13 +91,14 @@ export function ortFehler(wurzel) {
   fehler.push(...zuordnungFehler(ort, alle))
   const { scripts } = JSON.parse(lies('package.json'))
   for (const [name, soll] of Object.entries(SKRIPTE)) if (scripts[name] !== soll) fehler.push(`package.json: ${name} muss "${soll}" sein`)
-  fehler.push(...nachtWorkflowFehler(parse(lies('.github/workflows/nacht-pruefung.yml'))), ...deployFehler(parse(lies('.github/workflows/deploy.yml')), ort))
+  fehler.push(...nachtWorkflowFehler(parse(lies('.github/workflows/nacht-pruefung.yml'))), ...deployFehler(parse(lies('.github/workflows/deploy.yml'))))
   return fehler
 }
 
 /** Zählzeile für das CI-Log. */
 export function ortZeile(wurzel) {
   const ort = JSON.parse(readFileSync(join(wurzel, ORT_DATEI), 'utf8'))
-  const zahl = (art, modus) => nachOrt(Object.keys(ort[art] ?? {}), ort, art, modus).length
-  return `${zahl('logik', 'nachts')} Logik-Prüfungen und ${zahl('tests', 'nachts')} Tests nachts (davon im Deploy: ${zahl('logik', 'deploy')} und ${zahl('tests', 'deploy')}), alle übrigen im PR`
+  const zahl = (art) => nachOrt(Object.keys(ort[art] ?? {}), ort, art, 'nachts').length
+  const mitLesen = (art) => Object.values(ort[art] ?? {}).filter((e) => e.liest?.length > 0).length
+  return `${zahl('logik')} Logik-Prüfungen und ${zahl('tests')} Tests nachts (davon mit Lesedateien, die im PR mitlaufen: ${mitLesen('logik')} und ${mitLesen('tests')}), alle übrigen im PR`
 }

@@ -90,7 +90,7 @@ export function schritteAlarmZeile(rote, schritte, jetztMs) {
 }
 
 export const holeLaeufeJson = (gh, repo, workflow) =>
-  JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', workflow, '--limit', '200', '--json', 'status,conclusion,createdAt,databaseId'))
+  JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', workflow, '--limit', '200', '--json', 'status,conclusion,createdAt,databaseId,headSha'))
 
 /** Alle Alarmzeilen (Bestandsbau 6 h, Fehlerschritte, Deploy) in einem Text; jede Teilprüfung meldet ihren Lesefehler selbst. */
 export function rotAlarmText(gh, repo, jetztMs) {
@@ -132,7 +132,9 @@ export function nachtAlarmZeile(laeufe, jetztMs, grenzeStunden = NACHT_ALTER_STU
   const fertig = neu.find((l) => l.conclusion)
   if (fertig && ROT.has(fertig.conclusion)) {
     const rote = roteSeitGruen(neu).length
-    return `ALARM Nachtprüfung rot (neuester Lauf ${fertig.createdAt}, ${rote} rote/abgebrochene seit dem letzten grünen; Log: gh run view ${fertig.databaseId})`
+    const gruen = neu.find((l) => l.conclusion === 'success')
+    const kurz = (l) => String(l?.headSha ?? '?').slice(0, 7)
+    return `ALARM Nachtprüfung rot (neuester Lauf ${fertig.createdAt}, ${rote} rote/abgebrochene seit dem letzten grünen; Commits ${kurz(gruen)}..${kurz(fertig)} auf main, git log ${kurz(gruen)}..${kurz(fertig)}; Log: gh run view ${fertig.databaseId})`
   }
   const stunden = (jetztMs - Date.parse(neu[0].createdAt)) / 3_600_000
   if (stunden > grenzeStunden) return `ALARM Nachtprüfung seit ${stunden.toFixed(1)} h nicht gestartet (letzter Start ${neu[0].createdAt}, Grenze ${grenzeStunden} h)`

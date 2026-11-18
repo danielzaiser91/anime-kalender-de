@@ -66,10 +66,10 @@ try {
   rot('Nacht-Eintrag Test entfernt', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => delete j.tests[ersterNachtsEintrag(j, 'tests')]), /^tests: \d+ Nacht-Einträge, erwartet \d+/)
   rot('Nacht-Eintrag ergänzt ohne „erwartet“', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => {
     const neu = lies(w, 'tools/check-logic-liste.txt').split('\n').find((z) => z.startsWith('pipeline/check-') && !(z in j.logik))
-    j.logik[neu] = { ort: 'nachts', grund: 'x', beleg: 'y', deploy: false }
+    j.logik[neu] = { ort: 'nachts', grund: 'x', beleg: 'y' }
   }), /^logik: \d+ Nacht-Einträge, erwartet \d+/)
-  rot('Nacht-Eintrag auf Prüfung, die es nicht gibt', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => (j.logik['pipeline/check-gibt-es-nicht.ts'] = { ort: 'nachts', grund: 'x', beleg: 'y', deploy: false })), /gibt es nicht/)
-  rot('Test-Eintrag auf Test, den es nicht gibt', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => (j.tests['tools/gibt-es-nicht.test.mjs'] = { ort: 'nachts', grund: 'x', beleg: 'y', deploy: false })), /gibt es nicht/)
+  rot('Nacht-Eintrag auf Prüfung, die es nicht gibt', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => (j.logik['pipeline/check-gibt-es-nicht.ts'] = { ort: 'nachts', grund: 'x', beleg: 'y' })), /gibt es nicht/)
+  rot('Test-Eintrag auf Test, den es nicht gibt', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => (j.tests['tools/gibt-es-nicht.test.mjs'] = { ort: 'nachts', grund: 'x', beleg: 'y' })), /gibt es nicht/)
   rot('Datei fehlt', (w) => rmSync(join(w, 'tools/pruefung-ort.json')), /pruefung-ort\.json fehlt/)
   rot('fremder Schlüssel oben', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => (j.sonst = {})), /Schlüssel "sonst" nicht erlaubt/)
 
@@ -77,7 +77,6 @@ try {
   for (const [feld, wert, muster] of [
     ['grund', '', /grund fehlt/],
     ['beleg', undefined, /beleg fehlt/],
-    ['deploy', undefined, /deploy \(true\/false\) fehlt/],
     ['ort', 'irgendwo', /ort muss "pr" oder "nachts" sein/],
     ['unbekannt', 1, /Schlüssel "unbekannt" nicht erlaubt/],
   ]) {
@@ -89,7 +88,7 @@ try {
   }
 
   // package.json: jedes der vier Skripte in fester Form.
-  for (const name of ['check:nachts-logik', 'check:nachts-tests', 'check:nachts', 'check:nachts-deploy']) {
+  for (const name of ['check:nachts-logik', 'check:nachts-tests', 'check:nachts']) {
     rot(`package.json: ${name} verändert`, (w) => aendereJson(w, 'package.json', (j) => (j.scripts[name] += ' && echo egal')), new RegExp(`package.json: ${name} muss`))
     rot(`package.json: ${name} fehlt`, (w) => aendereJson(w, 'package.json', (j) => delete j.scripts[name]), new RegExp(`package.json: ${name} muss`))
   }
@@ -103,53 +102,25 @@ try {
   rot('Nacht-Workflow: Logik läuft doppelt, Tests nie', (w) => aendereYaml(w, '.github/workflows/nacht-pruefung.yml', (y) => (y.jobs.tests.steps.at(-1).run = 'npm run check:nachts-logik')), /jeder Job führt genau einen Schritt aus/)
   rot('Nacht-Workflow: Schritt führt etwas anderes aus', (w) => aendereYaml(w, '.github/workflows/nacht-pruefung.yml', (y) => (y.jobs.logik.steps.at(-1).run = 'npm run check:logic')), /jeder Job führt genau einen Schritt aus/)
 
-  // Deploy: der Schritt für Einträge mit deploy: true. Die Fälle bauen ihre Zuordnung selbst (genau ein Eintrag mit deploy: true), unabhängig von der echten Einordnung.
-  const nurEinDeploy = (j) => {
-    for (const art of ['logik', 'tests']) for (const e of Object.values(j[art])) if (e.ort === 'nachts') e.deploy = false
-    j.logik[ersterNachtsEintrag(j, 'logik')].deploy = true
-  }
-  const mitDeploy = (aendere) => (w) => {
-    aendereJson(w, 'tools/pruefung-ort.json', nurEinDeploy)
-    aendere(w)
-  }
-  const zusicherungen = (y) => y.jobs.zusicherungen.steps
+  // Lesedateien: Form von liest.
+  const ersterMitLiest = (j, art) => Object.keys(j[art]).find((k) => j[art][k].liest)
+  assert.ok(ersterMitLiest(JSON.parse(readFileSync(join(WURZEL, 'tools/pruefung-ort.json'), 'utf8')), 'logik'), 'Voraussetzung: die echte Zuordnung hat Logik-Einträge mit liest')
+  const mitLiest = (aendere) => (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => aendere(j.logik[ersterMitLiest(j, 'logik')], j))
+  rot('liest: leere Liste', mitLiest((e) => (e.liest = [])), /liest muss eine nichtleere Liste/)
+  rot('liest: keine Liste', mitLiest((e) => (e.liest = 'data/a.json')), /liest muss eine nichtleere Liste/)
+  rot('liest: Pfad außerhalb von data', mitLiest((e) => (e.liest = ['tools/a.mjs'])), /liest muss eine nichtleere Liste/)
+  rot('liest: Pfad mit ..', mitLiest((e) => (e.liest = ['data/../tools/a.mjs'])), /liest muss eine nichtleere Liste/)
+  rot('liest: Eintrag mit Ort pr', mitLiest((e) => (e.ort = 'pr')), /liest gilt nur bei nachts/)
+
+  // Deploy: kein Schritt führt eine Nacht-Prüfung aus (der Deploy darf nicht länger werden, Entscheidung 18.11.2026).
   const deployYaml = (f) => (w) => aendereYaml(w, '.github/workflows/deploy.yml', f)
-  const ohneSchritt = (y) => (y.jobs.zusicherungen.steps = zusicherungen(y).filter((s) => s.run !== 'npm run check:nachts-deploy'))
-  const gruen = kopie()
-  mitDeploy(() => {})(gruen)
-  assert.deepEqual(ortFehler(gruen), [], 'Fixture mit genau einem deploy-Eintrag und dem Deploy-Schritt ist grün')
-  rot('Deploy: Schritt check:nachts-deploy fehlt', mitDeploy(deployYaml(ohneSchritt)), /genau einen Schritt mit "npm run check:nachts-deploy"/)
-  rot('Deploy: Schritt mit continue-on-error', mitDeploy(deployYaml((y) => (zusicherungen(y).find((s) => s.run === 'npm run check:nachts-deploy')['continue-on-error'] = true))), /Schritt check:nachts-deploy ohne continue-on-error/)
-  rot('Deploy: Schritt im falschen Job (pruefen statt zusicherungen)', mitDeploy(deployYaml((y) => {
-    const s = zusicherungen(y).find((x) => x.run === 'npm run check:nachts-deploy')
-    ohneSchritt(y)
-    y.jobs.pruefen.steps.push(s)
-  })), /genau einen Schritt mit "npm run check:nachts-deploy"/)
-  rot('Deploy: Schritt zweimal', mitDeploy(deployYaml((y) => zusicherungen(y).push({ run: 'npm run check:nachts-deploy' }))), /genau einen Schritt mit "npm run check:nachts-deploy", gefunden 2/)
-  const deploySchritt = (y) => zusicherungen(y).find((s) => s.run === 'npm run check:nachts-deploy')
-  const verschiebe = (y, ziel) => {
-    const s = deploySchritt(y)
-    ohneSchritt(y)
-    zusicherungen(y).splice(ziel(zusicherungen(y)), 0, s)
-  }
-  rot('Deploy: Schritt mit if: false (Sicherung still aus)', mitDeploy(deployYaml((y) => (deploySchritt(y).if = 'false'))), /if muss wortgleich/)
-  rot('Deploy: Schritt mit anderem if', mitDeploy(deployYaml((y) => (deploySchritt(y).if = "${{ always() }}"))), /if muss wortgleich/)
-  rot('Deploy: Schritt ohne if', mitDeploy(deployYaml((y) => delete deploySchritt(y).if)), /if muss wortgleich/)
-  rot('Deploy: Job zusicherungen mit continue-on-error', mitDeploy(deployYaml((y) => (y.jobs.zusicherungen['continue-on-error'] = true))), /Job zusicherungen ohne continue-on-error/)
-  rot('Deploy: Schritt hinter dem Fortschritt-Schritt', mitDeploy(deployYaml((y) => verschiebe(y, (s) => s.length))), /hinter "Zusicherungen prüfen" und vor/)
-  rot('Deploy: Schritt vor „Zusicherungen prüfen“', mitDeploy(deployYaml((y) => verschiebe(y, (s) => s.findIndex((x) => x.name === 'Zusicherungen prüfen')))), /hinter "Zusicherungen prüfen" und vor/)
-  rot('Deploy: Nachbarschritt „Zusicherungen prüfen“ fehlt', mitDeploy(deployYaml((y) => (y.jobs.zusicherungen.steps = zusicherungen(y).filter((s) => s.name !== 'Zusicherungen prüfen')))), /hinter "Zusicherungen prüfen" und vor/)
-  rot('Deploy: Schritt am Anfang des Jobs', mitDeploy(deployYaml((y) => verschiebe(y, () => 0))), /hinter "Zusicherungen prüfen" und vor/)
-  rot('Deploy: Schritt da, aber kein Eintrag mit deploy: true', (w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => {
-    nurEinDeploy(j)
-    j.logik[ersterNachtsEintrag(j, 'logik')].deploy = false
-  }), /kein Eintrag hat deploy: true/)
-  rot('Deploy: Eintrag mit deploy: true ohne Nacht-Ort', mitDeploy((w) => aendereJson(w, 'tools/pruefung-ort.json', (j) => (j.logik[ersterNachtsEintrag(j, 'logik')].ort = 'pr'))), /deploy gilt nur bei nachts/)
+  rot('Deploy: Nacht-Prüfung im Job zusicherungen', deployYaml((y) => y.jobs.zusicherungen.steps.push({ name: 'Nacht', run: 'npm run check:nachts' })), /führt eine Nacht-Prüfung aus/)
+  rot('Deploy: Nacht-Prüfung im Job pruefen', deployYaml((y) => y.jobs.pruefen.steps.push({ name: 'Nacht', run: 'npm run check:nachts-logik' })), /Job pruefen führt eine Nacht-Prüfung aus/)
 
   // Verdrahtung im Aufrufer: `pr-kette-pruefen.mjs <wurzel>` meldet den Verstoß mit Exit 1, die echte Wurzel mit Exit 0 und Zählzeile.
   const gut = spawnSync(process.execPath, [join(WURZEL, 'tools/pr-kette-pruefen.mjs'), WURZEL], { encoding: 'utf8', windowsHide: true, timeout: 60_000 })
   assert.equal(gut.status, 0, `${gut.stdout}${gut.stderr}`)
-  assert.match(gut.stdout, /Ort je Prüfung: \d+ Logik-Prüfungen und \d+ Tests nachts \(davon im Deploy: \d+ und \d+\), alle übrigen im PR/)
+  assert.match(gut.stdout, /Ort je Prüfung: \d+ Logik-Prüfungen und \d+ Tests nachts \(davon mit Lesedateien, die im PR mitlaufen: \d+ und \d+\), alle übrigen im PR/)
   const w = kopie()
   aendereJson(w, 'tools/pruefung-ort.json', (j) => delete j.tests[ersterNachtsEintrag(j, 'tests')])
   const schlecht = spawnSync(process.execPath, [join(WURZEL, 'tools/pr-kette-pruefen.mjs'), w], { encoding: 'utf8', windowsHide: true, timeout: 60_000 })

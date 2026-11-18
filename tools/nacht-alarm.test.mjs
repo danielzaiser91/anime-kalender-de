@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { nachtAlarmZeile, nachtText, rotAlarmText } from './bestand-rot-alarm.mjs'
 
 const JETZT = Date.parse('2026-11-19T12:00:00Z')
-const lauf = (conclusion, createdAt, status = 'completed') => ({ status, conclusion, createdAt, databaseId: 77 })
+const lauf = (conclusion, createdAt, status = 'completed', headSha = 'ffffffffffffffffffffffffffffffffffffffff') => ({ status, conclusion, createdAt, databaseId: 77, headSha })
 const vor = (stunden, sekunden = 0) => new Date(JETZT - stunden * 3_600_000 - sekunden * 1000).toISOString()
 const zeile = (laeufe) => nachtAlarmZeile(laeufe, JETZT)
 
@@ -25,7 +25,7 @@ assert.equal(zeile([lauf('success', vor(26))]), undefined, 'genau 26 h sind noch
 assert.match(zeile([lauf('success', vor(26, 1))]), /^ALARM Nachtprüfung seit 26\.0 h nicht gestartet \(letzter Start .*, Grenze 26 h\)$/)
 assert.match(zeile([lauf('success', vor(50))]), /^ALARM Nachtprüfung seit 50\.0 h nicht gestartet/)
 // Rot: jeder rote Ausgang des neuesten fertigen Laufs; Zeile nennt den Lauf und die Zahl der roten seit dem letzten grünen.
-for (const c of ['failure', 'timed_out', 'cancelled']) assert.match(zeile([lauf(c, vor(3))]), /^ALARM Nachtprüfung rot \(neuester Lauf .*, 1 rote\/abgebrochene seit dem letzten grünen; Log: gh run view 77\)$/, c)
+for (const c of ['failure', 'timed_out', 'cancelled']) assert.match(zeile([lauf(c, vor(3))]), /^ALARM Nachtprüfung rot \(neuester Lauf .*, 1 rote\/abgebrochene seit dem letzten grünen; Commits \?\.\.fffffff auf main, git log \?\.\.fffffff; Log: gh run view 77\)$/, c)
 for (const c of ['success', 'skipped', 'neutral']) assert.equal(zeile([lauf(c, vor(3))]), undefined, `${c} ist kein Alarm`)
 // Nur der neueste fertige Lauf zählt: grün nach rot entwarnt, rot nach grün alarmiert, laufende und übersprungene Läufe davor ändern es nicht.
 assert.equal(zeile([lauf('failure', vor(30)), lauf('success', vor(5))]), undefined)
@@ -33,6 +33,17 @@ assert.match(zeile([lauf('success', vor(30)), lauf('failure', vor(5))]), /1 rote
 assert.match(zeile([lauf('success', vor(40)), lauf('failure', vor(30)), lauf('failure', vor(5))]), /2 rote\/abgebrochene seit dem letzten grünen/)
 assert.equal(zeile([lauf('success', vor(30)), lauf(null, vor(1), 'in_progress')]), undefined, 'ein laufender neuer Lauf ist frisch genug')
 assert.match(zeile([lauf('failure', vor(5)), lauf(null, vor(1), 'in_progress')]), /^ALARM Nachtprüfung rot/, 'ein laufender Lauf entwarnt einen roten nicht')
+// Verursacher: die Zeile nennt den Commit-Bereich vom letzten grünen zum roten Kopf (beide Kurzhashes, sieben Zeichen).
+const GRUEN = 'aaaaaaa1111111111111111111111111111111aa'
+const ROT = 'bbbbbbb2222222222222222222222222222222bb'
+const bereich = zeile([lauf('success', vor(30), 'completed', GRUEN), lauf('failure', vor(5), 'completed', ROT)])
+assert.match(bereich, /Commits aaaaaaa\.\.bbbbbbb auf main, git log aaaaaaa\.\.bbbbbbb;/)
+assert.doesNotMatch(bereich, /aaaaaaa1/, 'nur sieben Zeichen')
+// Mehrere rote nach dem letzten grünen: der neueste rote Kopf, der jüngste grüne Lauf.
+const mehrere = zeile([lauf('success', vor(50), 'completed', 'cccccccdddd'), lauf('success', vor(40), 'completed', GRUEN), lauf('failure', vor(30), 'completed', 'eeeeeeeffff'), lauf('failure', vor(5), 'completed', ROT)])
+assert.match(mehrere, /Commits aaaaaaa\.\.bbbbbbb auf main/)
+// Ohne grünen Lauf in der Liste: Fragezeichen statt erfundenem Anfang.
+assert.match(zeile([lauf('failure', vor(5), 'completed', ROT)]), /Commits \?\.\.bbbbbbb auf main/)
 // Reihenfolge der Eingabe ist egal (gh liefert neueste zuerst, der Test auch umgekehrt).
 assert.equal(zeile([lauf('success', vor(5)), lauf('failure', vor(30))]), undefined)
 assert.match(zeile([lauf('failure', vor(5)), lauf('success', vor(30))]), /^ALARM Nachtprüfung rot/)
@@ -46,6 +57,7 @@ const ghMit = (antwort) => (...a) => {
 }
 assert.equal(nachtText(ghMit(JSON.stringify([lauf('success', vor(3))])), 'o/r', JETZT), 'Nachtprüfung: kein Alarm')
 assert.deepEqual(aufrufe[0].slice(0, 6), ['run', 'list', '--repo', 'o/r', '--workflow', 'nacht-pruefung.yml'])
+assert.ok(aufrufe[0].some((a) => /(^|,)headSha(,|$)/.test(a)), 'gh fragt headSha mit ab')
 assert.match(nachtText(ghMit(JSON.stringify([lauf('failure', vor(3))])), 'o/r', JETZT), /^ALARM Nachtprüfung rot/)
 assert.equal(nachtText(ghMit(new Error('gh weg\nzweite Zeile')), 'o/r', JETZT), 'ALARM? Läufe der Nachtprüfung nicht lesbar: gh weg')
 assert.match(nachtText(ghMit('kein json'), 'o/r', JETZT), /^ALARM\? Läufe der Nachtprüfung nicht lesbar: /)
