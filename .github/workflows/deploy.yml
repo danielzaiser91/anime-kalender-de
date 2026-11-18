@@ -55,10 +55,10 @@ jobs:
   # **Schlank** (`[schlank]` in der Commit-Nachricht, gesetzt von `bash tools/pushen.sh --schlank`): Für kleine Änderungen, die lokal vollständig geprüft sind. Deployt wird
   # gleich nach dem Bau; die Prüfungen laufen weiter und melden sich rot, wenn doch etwas nicht stimmt.
   # **Deploy aus dem geprüften Build** (16.10.2026): Hat die PR-Prüfkette genau diesen Quelltext schon gebaut und geprüft, wird ihr Artefakt ausgeliefert
-  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen in `build` und `pruefen` alle Schritte nach dem Hochladen bzw. der Herkunftsprüfung; ohne Treffer läuft alles wie bisher.
+  # (Beweis und Rückfälle: tools/deploy-aus-build.mjs, Baum in version.json). Dann entfallen in `build`, `pruefen` und `zusicherungen` alle Schritte nach dem Hochladen bzw. der Herkunftsprüfung; ohne Treffer läuft alles wie bisher.
   # **Drei Hops statt sechs** (10.11.2026): GitHub kennt keine Prioritäten, jeder Job reiht sich neu in die Runner-Warteschlange ein (Bericht CI-Stau). Der frühere Job `herkunft`
-  # ist als Composite-Schritt (`.github/actions/herkunft-holen`) an den Anfang von `build` und `pruefen` gewandert; beide Jobs laufen weiter parallel. Das Artefakt lädt nur `build` hoch.
-  # Beide Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
+  # ist als Composite-Schritt (`.github/actions/herkunft-holen`) an den Anfang von `build`, `pruefen` und `zusicherungen` gewandert; alle laufen weiter parallel. Das Artefakt lädt nur `build` hoch.
+  # Alle drei Jobs haben die Rechte des früheren `herkunft` (die Herkunftsprüfung liest Pull Requests und Läufe); `pages`/`id-token` brauchen nur die Deploy-Jobs.
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -238,7 +238,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success') &&
       !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
     steps:
-      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
+      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Workflows-Beleg (tools/workflows-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 30
@@ -257,15 +257,8 @@ jobs:
         if: ${{ steps.herkunft.outputs.treffer != '1' }}
         run: git sparse-checkout disable
 
-      # Hat der Bestandsbau `check:logic` für genau diesen Inhalt (außerhalb der Datenpfade) schon grün gefahren, steht der Abdruck in
-      # seiner Commit-Nachricht und der Lauf unten spart die ~3 min. Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung.
-      - name: Logik-Beleg des Bestandsbaus lesen
-        id: beleg
-        if: ${{ steps.herkunft.outputs.treffer != '1' }}
-        run: node tools/logik-beleg.mjs gueltig
-
       # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade `pruefen` grün gefahren (tools/workflows-beleg.mjs),
-      # entfällt `check:workflows` (~7 min). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
+      # entfällt `check:workflows` (~7 min je Treffer; Treffer 3 von 35 Läufen ohne Herkunft-Treffer, 17. und 18.11.2026). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
       - name: Workflows-Beleg früherer Deploy-Läufe suchen
         id: wbeleg
         if: ${{ steps.herkunft.outputs.treffer != '1' }}
@@ -330,6 +323,91 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Workflow-Dateien geprüft"
+
+      # Die Zusicherungen der Erweiterung. Sie lagen bis zum 23.08.2026 in
+      # keiner Kette und liefen deshalb genau einmal — an dem Tag, an dem sie
+      # geschrieben wurden.
+      - name: Erweiterung prüfen
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run check:extension
+
+  # **Zusicherungen parallel zu `pruefen`** (18.11.2026): `check:workflows` (Median 452 s) und `check:pfade`/`check:search` (Median 375 s) liefen nacheinander im Job `pruefen`
+  # (Median 986 s, Messung 35 Läufe ohne Treffer vom 17./18.11.2026). Jetzt laufen sie als zwei Jobs nebeneinander; `deploy_hart` wartet auf beide, kein Deploy ohne beide grün.
+  # `pruefen` behält `check:workflows` samt Workflows-Beleg (tools/workflows-beleg.mjs liest dessen Job und letzten Schritt); die Herkunftsprüfung läuft in beiden Jobs.
+  zusicherungen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      treffer: ${{ steps.herkunft.outputs.treffer }}
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    env:
+      LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
+      LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
+      LAUF_SCHRITTE: '6'
+    if: >-
+      (github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success') &&
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
+    steps:
+      # Zunächst nur `tools` mit Verlauf für die Herkunftsprüfung und den Logik-Beleg (tools/logik-beleg.mjs): Commit-Nachrichten der letzten 30, ohne ihre Inhalte.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 30
+          filter: blob:none
+          sparse-checkout: |
+            tools
+            .github/actions
+
+      # Dieselbe Prüfung wie in `build`; bei Treffer entfallen alle folgenden Schritte (der Job bleibt grün, die Prüfung der PR-Kette gilt).
+      - name: Herkunft prüfen
+        id: herkunft
+        timeout-minutes: 5
+        uses: ./.github/actions/herkunft-holen
+
+      - name: Vollständig auschecken
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        run: git sparse-checkout disable
+
+      # Hat der Bestandsbau `check:logic` für genau diesen Inhalt (außerhalb der Datenpfade) schon grün gefahren, steht der Abdruck in
+      # seiner Commit-Nachricht und der Lauf unten spart die ~3 min. Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung.
+      - name: Logik-Beleg des Bestandsbaus lesen
+        id: beleg
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        run: node tools/logik-beleg.mjs gueltig
+
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
+      #
+      # Am 21.08.2026 hat ein Auftrags-Lauf seinen eigenen Zweig angelegt und
+      # ist dorthin gewechselt — auf dem gab es `tools/lauf-melden.sh` noch
+      # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
+      # dessen Arbeit fertig und richtig war.
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+
+      - name: Fortschritt — Abhängigkeiten installiert
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Abhängigkeiten installiert"
 
       # Die Zusicherungen aus der Prüfkette vor dem Commit. Sie gehören auch
       # hierher: Die Nachtläufe committen ohne menschlichen Blick, und der
@@ -400,15 +478,6 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:hooks
 
-      # Die Zusicherungen der Erweiterung. Sie lagen bis zum 23.08.2026 in
-      # keiner Kette und liefen deshalb genau einmal — an dem Tag, an dem sie
-      # geschrieben wurden.
-      - name: Erweiterung prüfen
-        if: ${{ steps.herkunft.outputs.treffer != '1' }}
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:extension
-
       # Die Zugangsart ist die einzige Angabe, bei der ein Fehler den Leser
       # Geld kostet — „kostenlos" vor einer Kasse.
       - name: Fortschritt — Hooks-Regeln geprüft
@@ -418,12 +487,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Hooks-Regeln geprüft"
 
-  # Beide Jobs grün: Bau und Prüfung gelaufen oder (Treffer) das Artefakt der PR-Prüfkette liegt, dann entfallen die Schritte, die Jobs bleiben grün.
+  # Alle drei Jobs grün: Bau und beide Prüfungen gelaufen oder (Treffer) das Artefakt der PR-Prüfkette liegt, dann entfallen die Schritte, die Jobs bleiben grün.
   # `!cancelled()` ist nötig, weil übersprungene Needs den Job sonst mitüberspringen.
   deploy_hart:
-    needs: [build, pruefen]
+    needs: [build, pruefen, zusicherungen]
     if: >-
-      ${{ !cancelled() && needs.build.result == 'success' && needs.pruefen.result == 'success' &&
+      ${{ !cancelled() && needs.build.result == 'success' && needs.pruefen.result == 'success' && needs.zusicherungen.result == 'success' &&
       !contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -431,15 +500,16 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # Fail-closed (Prüfer 3367 A3): Urteilen `build` und `pruefen` verschieden über die Herkunft (API-Ausfall nur in einem Job), ginge sonst ein
+      # Fail-closed (Prüfer 3367 A3): Urteilen `build`, `pruefen` und `zusicherungen` verschieden über die Herkunft (API-Ausfall nur in einem Job), ginge sonst ein
       # selbst gebauter Stand ohne Prüflauf live. Dann kein Deploy, Lauf rot; ein neuer Lauf entscheidet erneut.
-      - name: Herkunft von build und pruefen vergleichen
+      - name: Herkunft von build, pruefen und zusicherungen vergleichen
         env:
           BAU_TREFFER: ${{ needs.build.outputs.treffer }}
           PRUEF_TREFFER: ${{ needs.pruefen.outputs.treffer }}
+          ZUS_TREFFER: ${{ needs.zusicherungen.outputs.treffer }}
         run: |
-          if [ "$BAU_TREFFER" != "$PRUEF_TREFFER" ]; then
-            echo "::error::Kein Deploy: build (Treffer '${BAU_TREFFER}') und pruefen (Treffer '${PRUEF_TREFFER}') haben die Herkunft verschieden beurteilt. Lauf neu starten."
+          if [ "$BAU_TREFFER" != "$PRUEF_TREFFER" ] || [ "$BAU_TREFFER" != "$ZUS_TREFFER" ]; then
+            echo "::error::Kein Deploy: build (Treffer '${BAU_TREFFER}'), pruefen (Treffer '${PRUEF_TREFFER}') und zusicherungen (Treffer '${ZUS_TREFFER}') haben die Herkunft verschieden beurteilt. Lauf neu starten."
             exit 1
           fi
 
@@ -465,7 +535,7 @@ jobs:
   # Einrichten 4, Messung 8 (lokal gegen live 3 x ca. 117 s, 30.10.2026) = 19 min, Job-Frist 20: die Job-Frist greift nie vor einer Schritt-Frist (kein Job-Abbruch, der den Lauf rot macht).
   # Einrichten und Messung stehen auf `continue-on-error`: ein Hänger dort bleibt ein Befund der Messung, kein roter Lauf.
   abschluss:
-    needs: [build, pruefen, deploy_hart, deploy_schlank]
+    needs: [build, pruefen, zusicherungen, deploy_hart, deploy_schlank]
     if: always() && needs.build.result != 'skipped'
     timeout-minutes: 20
     runs-on: ubuntu-latest

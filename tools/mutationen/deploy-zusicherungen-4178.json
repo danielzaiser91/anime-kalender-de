@@ -1,0 +1,386 @@
+[
+ {
+  "name": "Kontrolle",
+  "aenderungen": []
+ },
+ {
+  "name": "M1 coe Zusicherungen-Schritt",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      - name: Zusicherungen prüfen\n",
+    "ersetze": "      - name: Zusicherungen prüfen\n        continue-on-error: true\n"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M2 coe Hooks-Schritt",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      - name: Hooks-Regeln prüfen\n",
+    "ersetze": "      - name: Hooks-Regeln prüfen\n        continue-on-error: true\n"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M3 Hooks-if && false",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      - name: Hooks-Regeln prüfen\n        if: ${{ steps.herkunft.outputs.treffer != '1' }}",
+    "ersetze": "      - name: Hooks-Regeln prüfen\n        if: ${{ steps.herkunft.outputs.treffer != '1' && false }}"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M4 Zusicherungen-if && false",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      - name: Zusicherungen prüfen\n        if: ${{ steps.herkunft.outputs.treffer != '1' }}",
+    "ersetze": "      - name: Zusicherungen prüfen\n        if: ${{ steps.herkunft.outputs.treffer != '1' && false }}"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M5 check:hooks || true",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "run: npm run check:hooks",
+    "ersetze": "run: npm run check:hooks || true"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M6 check:search || true",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "          npm run check:search\n",
+    "ersetze": "          npm run check:search || true\n"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M7 herkunft-id in zusicherungen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "        id: herkunft\n",
+    "ersetze": "        id: herkunft_x\n",
+    "nr": 3
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M8 zusicherungen-Job-if ohne workflow_run-Erfolg",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      github.event.workflow_run.conclusion == 'success') &&",
+    "ersetze": "      true) &&",
+    "nr": 3
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M9 deploy_hart-if ohne zusicherungen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": " && needs.zusicherungen.result == 'success'",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M10 deploy_hart-needs ohne zusicherungen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "needs: [build, pruefen, zusicherungen]",
+    "ersetze": "needs: [build, pruefen]"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M11 Vergleich ohne ZUS",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": " || [ \"$BAU_TREFFER\" != \"$ZUS_TREFFER\" ]",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M12 Output zusicherungen fest 1",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      treffer: ${{ steps.herkunft.outputs.treffer }}",
+    "ersetze": "      treffer: '1'",
+    "nr": 3
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M13 ZUS_TREFFER aus pruefen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "ZUS_TREFFER: ${{ needs.zusicherungen.outputs.treffer }}",
+    "ersetze": "ZUS_TREFFER: ${{ needs.pruefen.outputs.treffer }}"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M14 check:pfade doppelt in pruefen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "run: npm run check:extension",
+    "ersetze": "run: npm run check:extension && npm run check:pfade"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M15 data:validate weg",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "run: npm run data:validate",
+    "ersetze": "run: echo data-validate"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M16 Vollauschecken zusicherungen nie",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "      - name: Vollständig auschecken\n        if: ${{ steps.herkunft.outputs.treffer != '1' }}",
+    "ersetze": "      - name: Vollständig auschecken\n        if: false",
+    "nr": 2
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M17 fetch-depth zusicherungen 2",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "          fetch-depth: 30",
+    "ersetze": "          fetch-depth: 2",
+    "nr": 2
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M18 Job-coe zusicherungen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "  zusicherungen:\n    runs-on: ubuntu-latest",
+    "ersetze": "  zusicherungen:\n    continue-on-error: true\n    runs-on: ubuntu-latest"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M19 deploy_hart-if ohne pruefen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": " && needs.pruefen.result == 'success'",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M20 LOGIK_BELEGT fest 1",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "LOGIK_BELEGT: ${{ steps.beleg.outputs.gueltig }}",
+    "ersetze": "LOGIK_BELEGT: 1"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M21 Job-coe pruefen",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "  pruefen:\n    runs-on: ubuntu-latest",
+    "ersetze": "  pruefen:\n    continue-on-error: true\n    runs-on: ubuntu-latest"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M22 check:pfade per echo statt Aufruf",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "          npm run check:pfade\n",
+    "ersetze": "          echo npm run check:pfade\n"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M23 echo check:hooks",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "run: npm run check:hooks",
+    "ersetze": "run: echo npm run check:hooks"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M24 echo data:validate",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "run: npm run data:validate",
+    "ersetze": "run: echo npm run data:validate"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ },
+ {
+  "name": "M25 echo check:extension",
+  "aenderungen": [
+   {
+    "datei": ".github/workflows/deploy.yml",
+    "suche": "run: npm run check:extension",
+    "ersetze": "run: echo npm run check:extension"
+   }
+  ],
+  "tests": [
+   "node tools/deploy-aus-build.test.mjs",
+   "node tools/logik-beleg.test.mjs",
+   "node tools/workflows-beleg.test.mjs"
+  ]
+ }
+]
