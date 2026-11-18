@@ -103,8 +103,10 @@ async function knoepfeFaelle() {
     const ohne = s.im('beschriftung()')
     pruefe('Meldeknopf ohne Termin: „angekündigt“, kein Knopf, nie „nicht abrufbar“', ohne.aktiv === false && ohne.text === 'Angekündigt — Netflix nennt keinen Termin' && !/nicht abrufbar/.test(ohne.text), ohne)
     const k0 = s.posts.length
+    s.im('zeigeErgebnis = (text, ok) => { globalThis.erg = [text, ok] }')
     await s.im('melden()')
     pruefe('Klick ohne Termin meldet nichts (kein POST an den Worker)', s.posts.length === k0, s.posts)
+    pruefe('… und sagt es: Text „Angekündigt …“, nicht als Erfolg', JSON.stringify(s.im('globalThis.erg')) === JSON.stringify(['Angekündigt — Netflix nennt keinen Termin', false]), s.im('globalThis.erg'))
     await s.im('dialogOeffnen()')
     const k = totKnoepfe(s)
     pruefe('Liste, Stand führt den Titel offen: alle drei „nichts da?“ sind aktiv (Titel 3 steht nicht im Stand, trägt aber keinen Vermerk)', k.length === 3 && k.every((x) => x.disabled === false && x.textContent === 'nichts da?'), k.map((x) => [x.disabled, x.textContent]))

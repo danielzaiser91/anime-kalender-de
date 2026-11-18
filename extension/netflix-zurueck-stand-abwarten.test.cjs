@@ -70,10 +70,16 @@ async function lauf() {
   await karte.geladen()
   pruefe('Stand sagt „fertig“: die Zurückstellung geht', !stand(speicher)['81947352'] && Boolean(stand(speicher)['70177034']), Object.keys(stand(speicher)))
 
-  /* Abgelaufenes geht auch ohne Stand. */
+  /* Abgelaufenes geht auch ohne Stand, auch genau zum Ablaufzeitpunkt; eine Millisekunde davor gilt noch. */
   const alt = speicherNeu(zurueckStart({ 12345: { grund: 'x', bis: JETZT - 1 } }))
   await seitenaufruf(alt, { stand: new Set() })
   pruefe('abgelaufen: geht auch ohne Worker-Stand', Object.keys(stand(alt)).length === 0, stand(alt))
+  const genau = speicherNeu(zurueckStart({ 12345: { grund: 'x', bis: JETZT } }))
+  await seitenaufruf(genau, { stand: new Set() })
+  pruefe('Ablaufzeitpunkt genau jetzt: abgelaufen', Object.keys(stand(genau)).length === 0, stand(genau))
+  const knapp = speicherNeu(zurueckStart({ 12345: { grund: 'x', bis: JETZT + 1 } }))
+  await seitenaufruf(knapp, { stand: new Set() })
+  pruefe('eine Millisekunde vor dem Ablauf: gilt noch', Object.keys(stand(knapp)).length === 1, stand(knapp))
 
   /* Ohne `standDa` (Tests, Aufrufer ohne Stand) gilt wie bisher: „fertig“ löscht sofort. */
   const ohne = speicherNeu(zurueckStart({ 70177034: { grund: 'x', bis } }))
@@ -87,18 +93,21 @@ async function verdrahtung() {
   pruefe('melder.js: Anweisung der Merkliste gefunden', Boolean(treffer))
   if (!treffer) return
   const speicher = speicherNeu(zurueckStart({ 70177034: { grund: 'x', bis: JETZT + TAG } }))
-  const umgebung = { standZieleNetflix: null, akNetflixWartet: new Set() }
+  const umgebung = { standZieleNetflix: null, akNetflixWartet: null }
   const bauen = new Function(
     'akNetflixZurueckNeu', 'offeneTitel', 'fertig', 'uebersichtZeigen', 'WORKER', 'umgebung', 'speicher', 'jetzt',
-    `const akNetflixWartet = umgebung.akNetflixWartet
-     const lesen = { get standZieleNetflix() { return umgebung.standZieleNetflix } }
+    `const lesen = { get standZieleNetflix() { return umgebung.standZieleNetflix }, get akNetflixWartet() { return umgebung.akNetflixWartet } }
      with (lesen) { return ${treffer[1].replace(/\{ geaendert/, '{ speicher, jetzt, geaendert')} }`,
   )
   const karte = bauen(kontext.akNetflixZurueckNeu, TITEL, () => true, () => {}, '', umgebung, speicher, () => JETZT)
   await karte.geladen()
-  pruefe('melder.js: ohne Worker-Stand bleibt die Zurückstellung trotz lokalem „fertig“', Boolean(stand(speicher)['70177034']), stand(speicher))
+  pruefe('melder.js: ohne Worker-Stand bleibt die Zurückstellung trotz lokalem „fertig“', Boolean(stand(speicher)['70177034']) && karte.zurueckZahl() === 1, stand(speicher))
   umgebung.standZieleNetflix = new Set(['https://www.netflix.com/title/70177034'])
-  pruefe('melder.js: mit Stand gilt „fertig“ wieder (Stand führt den Titel offen: fertig = true hier erzwungen)', karte.zurueckgestellt('70177034') === false)
+  pruefe('melder.js: Stand da, aber keine Wartemenge: noch kein Löschen', karte.zurueckgestellt('70177034') === true && Boolean(stand(speicher)['70177034']))
+  umgebung.akNetflixWartet = new Set()
+  karte.zurueckgestellt('70177034')
+  await karte.geladen()
+  pruefe('melder.js: mit Stand und Wartemenge gilt „fertig“ (hier erzwungen): Zurückstellung geht', karte.zurueckgestellt('70177034') === false && !stand(speicher)['70177034'], stand(speicher))
 }
 
 lauf()
