@@ -32,7 +32,7 @@ const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
 /* Reihenfolge wie im Manifest: `melder.js` baut beim Laden `nichtDaTun` aus `netflix-erinnern.js` und `netflix-uebernahme.js`. */
-const DATEIEN = ['kontext', 'box', 'netflix-uebernahme', 'netflix-erinnern', 'netflix-durchgang-steuerung', 'netflix-zurueckgestellt', 'melder']
+const DATEIEN = ['kontext', 'box', 'netflix-uebernahme', 'netflix-erinnern', 'netflix-durchgang-steuerung', 'netflix-zurueckgestellt', 'netflix-staffelzaehlung', 'melder']
 const quelle = DATEIEN.map((d) => readFileSync(`extension/${d}.js`, 'utf8')).join(String.fromCharCode(10))
 
 const fehler = []

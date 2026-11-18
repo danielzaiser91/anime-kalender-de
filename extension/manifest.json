@@ -77,6 +77,7 @@
         "netflix-zurueckgestellt.js",
         "netflix-liste-ansicht.js",
         "netflix-alle-staffeln.js",
+        "netflix-staffelzaehlung.js",
         "melder.js",
         "netflix-bericht.js",
         "netflix-protokoll.js"

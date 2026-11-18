@@ -20,6 +20,7 @@
     "disney-stand-ziele.js",
     "melde-sperre.js",
     "netflix-alle-staffeln.js",
+    "netflix-staffelzaehlung.js",
     "netflix-bericht.js",
     "netflix-durchgang-schutz.js",
     "netflix-durchgang-steuerung.js",
