@@ -4,6 +4,9 @@
 # Zur Sprache der Discs sagt keiner der Artikel etwas; deshalb steht hier keine Sprachangabe.
 
 # ---------------------------------------------------------------- 06.11.2026 (Crunchyroll)
+# Anime2You 1065213 (29.10.2026, geändert 01.11.), Überschrift „6. November:", Tabellenzeile „Lord of Mysteries – Staffel 1 (Komplettbox) | Blu-ray".
+# Dieselbe Zeile in der Monatsübersicht 1062132 (data/proposals/anime2you.json, discZeilen): 2026-11-06 „Lord of Mysteries – Staffel 1", crunchyroll, blu-ray.
+# Keine spätere Verschiebungsmeldung (1068595, 1072337) nennt den Titel.
 - slug: lord-of-mysteries-s1-komplettbox
   anilistId: 137667
   titleDe: "Lord of Mysteries – Staffel 1 – Komplettbox"
@@ -14,6 +17,7 @@
   schedule: { firstEpisodeDate: "2026-11-06" }
   sources: [https://www.anime2you.de/news/1065213/crunchyroll-blu-ray-releaseplan-bis-dezember-2026/, https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/]
 
+# Anime2You 1065213, Überschrift „6. November:", Tabellenzeile „Re:ZERO – Staffel 3 – Vol. 2 | Blu-ray"; Monatsübersicht 1062132 (discZeilen): 2026-11-06 „Re:ZERO (Staffel 3) – Vol. 2", crunchyroll.
 - slug: re-zero-s3-vol2
   anilistId: 163134
   titleDe: "Re:ZERO – Staffel 3 – Vol. 2"
@@ -25,6 +29,7 @@
   sources: [https://www.anime2you.de/news/1065213/crunchyroll-blu-ray-releaseplan-bis-dezember-2026/, https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/]
 
 # ---------------------------------------------------------------- 20.11.2026
+# Anime2You 1065213, Überschrift „20. November:", Tabellenzeile „Meisterdetektiv Ron Kamonohashi – Staffel 2 – Vol. 2 | Blu-ray"; Monatsübersicht 1062132 (discZeilen): 2026-11-20 „Ron Kamonohashi’s Forbidden Deductions (Staffel 2) – Vol. 2", crunchyroll.
 - slug: ron-kamonohashi-s2-vol2
   anilistId: 172355
   titleDe: "Master Detective Ron Kamonohashi – Staffel 2 – Vol. 2"
@@ -35,6 +40,7 @@
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1065213/crunchyroll-blu-ray-releaseplan-bis-dezember-2026/, https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/]
 
+# Anime2You 1065213, Überschrift „20. November:", Tabellenzeile „The Rising of the Shield Hero – Staffel 4 – Vol. 1 (Limited Edition mit Sammelschuber) | Blu-ray"; Monatsübersicht 1062132 (discZeilen): 2026-11-20 „The Rising of the Shield Hero (Staffel 4) – Vol. 1", crunchyroll.
 - slug: shield-hero-s4-vol1
   anilistId: 173780
   titleDe: "The Rising of the Shield Hero – Staffel 4 – Vol. 1"
@@ -45,6 +51,7 @@
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1065213/crunchyroll-blu-ray-releaseplan-bis-dezember-2026/, https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/]
 
+# Anime2You 1058300 (12.10.2026), Tabelle: „Angeloid – Sora no Otoshimono – Staffel 1 & 2 (Komplett-Bundle) | 20.11. | DVD & Blu-ray"; Monatsübersicht 1062132 (discZeilen): 2026-11-20 „Angeloid – Staffel 1 + 2", nipponart.
 - slug: angeloid-sora-no-otoshimono-s1-s2-bundle
   anilistId: 5958
   titleDe: "Angeloid – Sora no Otoshimono – Staffel 1 & 2 – Komplett-Bundle"
@@ -55,6 +62,7 @@
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/, https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/]
 
+# Anime2You 1072337 (17.11.2026), Verschiebungstabelle: „Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1 (Limited Edition mit Sammelschuber) | 06.11. | 20.11." (alt, neu).
 - slug: spice-and-wolf-2024-vol1
   anilistId: 145728
   titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1"
@@ -66,6 +74,7 @@
   sources: [https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/, https://www.anime2you.de/news/1062132/disc-neuheiten-november-2026/]
 
 # ---------------------------------------------------------------- Dezember 2026
+# Anime2You 1072337, Verschiebungstabelle: „Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2 (Limited Edition) | 04.12. | 18.12." (alt, neu).
 - slug: spice-and-wolf-2024-vol2
   anilistId: 145728
   titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2"
@@ -76,6 +85,7 @@
   schedule: { firstEpisodeDate: "2026-12-18" }
   sources: [https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/]
 
+# Anime2You 1068595 (06.11.2026, vom Artikel am 10.11. geändert; die Kopie in data/proposals ist älter), Verschiebungstabelle: „Virgin Road – Vol. 2 (Limited Edition) | 04.12. | 17.12." (alt, neu). 1072337 nennt Vol. 2 nicht.
 - slug: virgin-road-vol2
   anilistId: 129193
   titleDe: "Virgin Road – Vol. 2"
@@ -84,9 +94,10 @@
   publisher: "AniMoon Publishing"
   edition: "Limited Edition, Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-17" }
-  sources: [https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/, https://www.anime2you.de/news/1043751/disc-neuheiten-september-2026/]
+  sources: [https://www.anime2you.de/news/1068595/28-blu-ray-verschiebungen/]
 
 # ---------------------------------------------------------------- Januar 2027
+# Anime2You 1068595, Verschiebungstabelle: „Virgin Road – Vol. 3 (Limited Edition) | 15.01. | 29.01." (alt, neu).
 - slug: virgin-road-vol3
   anilistId: 129193
   titleDe: "Virgin Road – Vol. 3"
