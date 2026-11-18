@@ -231,3 +231,18 @@
     - https://www.joyn.de/serien/yaiba-samurai-legend
     - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
     - https://www.anime2you.de/news/1069021/joyn-yaiba-samurai-legend-und-mehr/
+
+# The Mighty Nein, Staffel 2 — Prime Video, alle 8 Folgen am 24.03.2027 (Ankündigung von Prime Video am 15.11.2026, englische Berichte).
+# TV Insider (Terminliste): „The Mighty Nein, Season 2 Premiere (All Episodes), March 24, 2027, Prime Video“; Nerdist: „The second chapter of The Mighty Nein will release on March 24, 2027“, alle Folgen auf einmal, acht Folgen.
+# Westliche Produktion (TMDB 219080, Cartoon-Kennung -219080). Staffel 1 hat laut Handbeleg eine deutsche Fassung (Folgen 1–8); für Staffel 2 nennt keine Quelle eine deutsche Tonspur, der Handbeleg gilt nur bis Folge 8. Keine Uhrzeit: Prime-Start ohne Beleg.
+- slug: the-mighty-nein-s2-primevideo
+  anilistId: -219080
+  titleDe: "The Mighty Nein"
+  platform: primevideo
+  platformUrl: https://www.primevideo.com/-/de/detail/0MD5F00E71JERTL1FLARU1SLO5
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2027-03-24", firstEpisodeNumber: 9, episodeCount: 8 }
+  hinweis: "Staffel 2, alle 8 Folgen am 24.03.2027. Deutsche Fassung für diese Staffel noch nicht belegt."
+  sources:
+    - https://www.tvinsider.com/1303804/the-mighty-nein-season-2-premiere-date-details/
+    - https://nerdist.com/article/the-mighty-nein-season-2-release-date-schedule-synopsis/
