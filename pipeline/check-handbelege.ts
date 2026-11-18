@@ -46,6 +46,7 @@
  *
  * Aufruf: npm run check:handbelege
  */
+import { istEinzelneBrowserTotmeldung } from './lib/browser-tot-einzeln.ts'
 import { loadDubChecks, adressKern, neinHandbelege, veralteterBeleg, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
@@ -85,7 +86,7 @@ const belege = loadDubChecks()
  * Verweis bereits zusammen, und genau diese Zusammenfuehrung soll unten geprueft
  * werden. Wer das Ergebnis gegen sich selbst prueft, prueft nichts.
  */
-const rohBelege = (yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) ??
+const rohBelege = ((yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) ??
   []) as {
   anilistId?: number
   platform?: string
@@ -96,7 +97,7 @@ const rohBelege = (yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml
   dub?: boolean
   available?: boolean
   note?: string
-}[]
+}[]).filter((b) => !istEinzelneBrowserTotmeldung(b)) // wie `ladeHandbelege`: zählt nicht, kann also keinen Beleg verschlucken (Bakugan, 18.11.2026)
 
 /** Alle Belege eines Verweises zusammen — ein Verweis, nicht ein Eintrag. */
 const jeVerweis = new Map<string, typeof belege>()

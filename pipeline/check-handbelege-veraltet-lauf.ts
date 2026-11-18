@@ -65,6 +65,17 @@ pruefe('Ja, jüngstes Ladefehler-Nein: kein Fund', ladefehler.status === 0 && la
 const dazwischen = lauf(JA(true) + ECHTES_NEIN + LADEFEHLER, false)
 pruefe('Ja, echtes Nein, jüngster Ladefehler: das Nein gilt, kein Fund', dazwischen.status === 0 && dazwischen.text.includes('überall gilt der jüngste'), dazwischen)
 
+const NETFLIX = (datum: string, note: string): string => `- anilistId: 900201
+  title: "Veraltet Probe"
+  platform: netflix
+  url: https://www.netflix.com/title/81659233
+  available: false
+  checkedAt: '${datum}'
+  note: "${note}"
+`
+const durchgang = lauf(NETFLIX('2026-10-21', 'Aus der Übersicht als toter Verweis gemeldet') + NETFLIX('2026-11-18', 'Vom Durchgang als nicht bei Netflix gemeldet'), false)
+pruefe('jüngere Einzelmeldung des Netflix-Durchgangs: kein „veralteter Beleg“', !durchgang.text.includes('veralteten Beleg'), durchgang)
+
 if (fehler) {
   console.error(`FEHL check-handbelege-veraltet-lauf: ${fehler}`)
   process.exit(1)
