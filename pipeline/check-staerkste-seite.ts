@@ -107,7 +107,10 @@ try {
   pruefe('ersetztBeleg: Seite mit Zahl ersetzt eine ohne', ersetztBeleg({ ...ja('B0A', 8), note: undefined }, ja('B0B', 3)))
   pruefe('istSchwaechereSchwester: gleich viele Folgen nicht', !istSchwaechereSchwester([ja('B0A', 8), ja('B0B', 8)], AMAZON + 'B0B', AMAZON + 'B0A'))
   pruefe('istSchwaechereSchwester: Seite ohne Beleg nicht', !istSchwaechereSchwester([{ ...ja('B0B', 8), checkedAt: undefined as unknown as string }], AMAZON + 'B0B', AMAZON + 'B0A'))
-  pruefe('istSchwaechereSchwester: anderes Datum nicht', !istSchwaechereSchwester([ja('B0A', 7, '2026-10-01'), ja('B0B', 8)], AMAZON + 'B0B', AMAZON + 'B0A'))
+  const kanal = (c: DubCheck): DubCheck => ({ ...c, note: `${c.note} — ACHTUNG: Kanal-Titel` })
+  pruefe('istSchwaechereSchwester: Kanal-Adresse gegen Abo-Adresse sind zwei Ausgaben (Yu-Gi-Oh! 481)', !istSchwaechereSchwester([ja('B0A', 25), kanal(ja('B0B', 40))], AMAZON + 'B0B', AMAZON + 'B0A'))
+  pruefe('istSchwaechereSchwester: zwei Kanal-Adressen bleiben Schwestern', istSchwaechereSchwester([kanal(ja('B0A', 40)), kanal(ja('B0B', 25))], AMAZON + 'B0A', AMAZON + 'B0B'))
+  pruefe('istSchwaechereSchwester: anderes Datum nicht',!istSchwaechereSchwester([ja('B0A', 7, '2026-10-01'), ja('B0B', 8)], AMAZON + 'B0B', AMAZON + 'B0A'))
 } finally {
   rmSync(kulisse, { recursive: true, force: true })
 }
