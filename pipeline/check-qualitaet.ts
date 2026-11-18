@@ -57,6 +57,24 @@ interface Kennzahlen {
 /** Was nicht null sein darf. Jeder Punkt hier hatte schon einmal einen Fehler. */
 const HART: (keyof Kennzahlen)[] = ['dubFalseImBestand', 'doppelteAdressen', 'verwaisteTermine']
 
+/**
+ * Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
+ * nicht, ob sie steigt. Ein Eintrag je Tag genügt — mehrere Läufe am selben Tag
+ * überschreiben einander. Gibt den Eintrag davor (`vorher`, für den Pfeil) und
+ * den Stand für die Warnzeilen zurück: der heutige Eintrag, falls ein früherer
+ * Lauf des Tages ihn schon geschrieben hat, sonst der Vortag — so meldet ein
+ * Anstieg vom Morgen nicht jeder weitere Lauf desselben Tages erneut.
+ */
+function schreibeVerlauf(zahlen: Kennzahlen, heute: string): { vorher: Kennzahlen | null; bezug: Kennzahlen | null } {
+  const verlauf = readJson<Kennzahlen[]>(VERLAUF_DATEI, [])
+  const ohneHeute = verlauf.filter((v) => v.gemessenAm !== heute)
+  ohneHeute.push(zahlen)
+  /* Ein Jahr Verlauf genügt, um eine Entwicklung zu sehen. */
+  writeJson(VERLAUF_DATEI, ohneHeute.slice(-370))
+  const vorher = ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
+  return { vorher, bezug: verlauf.find((v) => v.gemessenAm === heute) ?? vorher }
+}
+
 function main(): void {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const events = readJson<{ date?: string; titleId?: number }[]>('public/data/events.json', [])
@@ -100,18 +118,7 @@ function main(): void {
   const register = readJson<Register | null>(MAENGEL_DATEI, null)
   if (register) zahlen.maengel = offeneJeArt(register)
 
-  /*
-    Der Verlauf steht als Liste, nicht als einzelner Stand: Eine Zahl allein sagt
-    nicht, ob sie steigt. Ein Eintrag je Tag genügt — mehrere Läufe am selben Tag
-    überschreiben einander.
-  */
-  const verlauf = readJson<Kennzahlen[]>(VERLAUF_DATEI, [])
-  const ohneHeute = verlauf.filter((v) => v.gemessenAm !== heute)
-  ohneHeute.push(zahlen)
-  /* Ein Jahr Verlauf genügt, um eine Entwicklung zu sehen. */
-  writeJson(VERLAUF_DATEI, ohneHeute.slice(-370))
-
-  const vorher = ohneHeute.length > 1 ? ohneHeute[ohneHeute.length - 2]! : null
+  const { vorher, bezug } = schreibeVerlauf(zahlen, heute)
   const pfeil = (k: keyof Kennzahlen): string => {
     if (!vorher || typeof zahlen[k] !== 'number' || typeof vorher[k] !== 'number') return ''
     const d = (zahlen[k] as number) - (vorher[k] as number)
@@ -126,7 +133,7 @@ function main(): void {
   log(`  ${zahlen.kuenftigeTermine} künftige Termine${pfeil('kuenftigeTermine')}`)
 
   /* Feste Zeilen für den Schritt „Datenqualität messen“ (bestand-bauen.yml): daraus wird die DATEN_WARNUNG. Exit bleibt 0. */
-  for (const zeile of warnZeilen(zahlen, vorher, register)) console.log(zeile)
+  for (const zeile of warnZeilen(zahlen, bezug, register)) console.log(zeile)
 
   let kaputt = 0
   for (const k of HART) {
