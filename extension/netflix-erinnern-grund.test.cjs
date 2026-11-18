@@ -67,6 +67,22 @@ async function frist(g, datumVonSeite) {
   return stand(speicher)['1']
 }
 
+/* Prüfer H3: erscheinungsdatum() aus melder.js, Rückfallkette Erinnern-Dialog → erster Dialog → Seitentext. */
+{
+  const quelle = readFileSync(resolve(__dirname, 'melder.js'), 'utf8')
+  const von = quelle.search(/^function erscheinungsdatum\(/m)
+  const code = quelle.slice(von, quelle.indexOf('\n}\n', von) + 2)
+  const datum = (dialoge, body) => new Function('document', `${code}; return erscheinungsdatum()`)({
+    body: { innerText: body },
+    querySelector: (s) => dialoge.find((d) => !s.includes(':has(') || d.erinnern),
+  })
+  const mitErinnern = { erinnern: true, innerText: 'Erinnern Ab 19. November' }
+  const ohneErinnern = { erinnern: false, innerText: 'Abspielen 1. Folge' }
+  pruefe('H3: Dialog mit Erinnern-Knopf liefert sein Datum', datum([mitErinnern], 'Ab 3. Dezember') === '19. November')
+  pruefe('H3: Dialog ohne Erinnern-Knopf, Datum nur im Seitentext außerhalb → kein Datum', datum([ohneErinnern], 'Billboard Ab 3. Dezember') === null, datum([ohneErinnern], 'Billboard Ab 3. Dezember'))
+  pruefe('H3: ganz ohne Dialog gilt der Seitentext wie bisher', datum([], 'Ab 3. Dezember') === '3. Dezember')
+}
+
 async function haupt() {
   const mit = await frist('Erinnern-Knopf mit Datum (19.11.)', null)
   pruefe('mit Datum: „zurück bis" ist der 19.11. 00:00 Berlin (= 18.11. 23:00 UTC), nicht 25.11.', mit?.bis === Date.UTC(2026, 10, 18, 23, 0), mit)
