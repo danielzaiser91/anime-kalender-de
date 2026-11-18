@@ -223,9 +223,9 @@ async function pruefeTermine(): Promise<void> {
   pruefe('Termin: ohne Synonymliste keiner', neu(zeile('Cyberpunk: Edgerunners II', undefined, 'netflix'), new Map()).length === 0)
   pruefe('Termin: M.A.S.K., Zorro-Film, Steel Ball Run bleiben ohne Termin',
     [zeile('M.A.S.K.'), zeile('Z wie Zorro – Der Film'), zeile('STEEL BALL RUN: JoJo’s Bizarre Adventure', '2nd-3rd STAGE')].every((v) => neu(v).length === 0))
-  // Eine Meldung, die keine Sammelzeile ist, nutzt den neuen Weg nicht: „Love & Lies“ in einer Überschrift bleibt ohne Treffer.
-  const ueberschrift: Vorschlag = { ...zeile('Love & Lies'), dates: [{ iso: '2026-11-03', context: 'Start am 3. November' }] }
-  pruefe('Überschrift (kein Sammelartikel) nutzt den Namensabgleich nicht', neu(ueberschrift).length === 0)
+  // Eine Meldung, die keine Sammelzeile ist, nutzt das Synonym nicht: „Edgerunners II“ in einer Überschrift bleibt ohne Treffer (der Kurzname `praefixTitel` kennt keine Synonyme).
+  const ueberschrift: Vorschlag = { ...zeile('Cyberpunk: Edgerunners II', undefined, 'netflix'), dates: [{ iso: '2026-11-03', context: 'Start am 3. November' }] }
+  pruefe('Überschrift (kein Sammelartikel) nutzt den Synonymabgleich nicht', neu(ueberschrift).length === 0)
   const filmUeberschrift: Vorschlag = { ...zeile('Clannad: Der Film'), dates: [{ iso: '2026-11-03', context: 'Start am 3. November' }] }
   pruefe('Überschrift mit Film-Wort im Namen bleibt wie bisher ohne Termin', neu(filmUeberschrift).length === 0)
   // Teil-Wörter außerhalb des Namens zählen weiter: „Staffel 4“ ohne Staffel 4 im Bestand bleibt ohne Termin.

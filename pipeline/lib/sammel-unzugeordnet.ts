@@ -41,7 +41,7 @@ const eintrag = (v: Vorschlag): NichtZugeordnet => ({
  * Ein gelesener Sammelartikel (`sammel` gefüllt) zählt nicht als Einzelartikel: seine Zeilen stehen einzeln auf der Liste (Disney+ „Acht Anime-Neuzugänge“).
  */
 export function einzelOhneRelease(verluste: Verluste, sammelVorschlaege: Vorschlag[]): NichtZugeordnet[] {
-  return [...verluste.ohneTitel, ...verluste.ohneTeil, ...verluste.ohneAnbieter]
+  return [...verluste.ohneTitel, ...verluste.mehrdeutig, ...verluste.ohneTeil, ...verluste.ohneAnbieter]
     .filter((v) => !sammelVorschlaege.includes(v) && !v.sammel?.length && v.category === 'streaming' && spracheDerMeldung(v) === 'ja')
     .map((v) => ({ titel: /»([^«]+)«/.exec(v.articleTitle)?.[1] ?? v.articleTitle, artikel: v.articleUrl, tag: terminDerMeldung(v)!, anbieter: v.platforms ?? [], quelle: 'Einzelartikel' }))
 }

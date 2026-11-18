@@ -144,7 +144,7 @@ function repo() {
 
 // 2. Wahl des Belegs (eingespritzte Antworten).
 const lauf = (id, sha) => ({ id, head_sha: sha })
-const jobs = (name, conclusion) => [{ name: 'herkunft', conclusion: 'success' }, { name, conclusion, steps: [{ name: 'Erweiterung prüfen', conclusion }] }]
+const jobs = (name, conclusion) => [{ name: 'herkunft', conclusion: 'success' }, { name, conclusion, steps: [{ name: 'Workflow-Prüfung belegt', conclusion }] }]
 const stand = { A: 'abdruck-A', B: 'abdruck-B', C: 'abdruck-A', D: 'abdruck-A' }
 const abdruckVonSha = (sha) => {
   if (!(sha in stand)) throw new Error('unlesbar')
@@ -186,10 +186,10 @@ const suche = (laeufe, jobsVon, eigeneId = 9999, abdruck = 'abdruck-A') => suche
 {
   const schritt = (name, conclusion) => ({ name, conclusion })
   const pruefen = (conclusion, schritte, name = 'pruefen') => [{ name, conclusion, steps: schritte }]
-  const geprueft = [schritt('Zusicherungen prüfen', 'success'), schritt('Erweiterung prüfen', 'success')]
+  const geprueft = [schritt('Zusicherungen prüfen', 'success'), schritt('Workflow-Prüfung belegt', 'success')]
   ok(pruefenGruen(pruefen('success', geprueft)), 'pruefen grün, Erweiterung geprüft: Beleg')
-  ok(!pruefenGruen(pruefen('success', [schritt('Zusicherungen prüfen', 'skipped'), schritt('Erweiterung prüfen', 'skipped')])), 'pruefen grün durch Treffer (Prüfschritte übersprungen): kein Beleg')
-  ok(!pruefenGruen(pruefen('success', [schritt('Zusicherungen prüfen', 'success'), schritt('Erweiterung prüfen', 'failure')])), 'letzter Prüfschritt rot: kein Beleg')
+  ok(!pruefenGruen(pruefen('success', [schritt('Zusicherungen prüfen', 'skipped'), schritt('Workflow-Prüfung belegt', 'skipped')])), 'pruefen grün durch Treffer (Prüfschritte übersprungen): kein Beleg')
+  ok(!pruefenGruen(pruefen('success', [schritt('Zusicherungen prüfen', 'success'), schritt('Workflow-Prüfung belegt', 'failure')])), 'letzter Prüfschritt rot: kein Beleg')
   ok(!pruefenGruen(pruefen('success', [schritt('Zusicherungen prüfen', 'success')])), 'letzter Prüfschritt fehlt: kein Beleg')
   ok(!pruefenGruen(pruefen('success', undefined)), 'Schritte fehlen in der Antwort: kein Beleg')
   ok(!pruefenGruen(pruefen('failure', geprueft)), 'Job rot trotz grünem Schritt: kein Beleg')
@@ -267,9 +267,10 @@ const ENV = { GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '99' }
   ok(beleg['continue-on-error'] === undefined && beleg.if === keinTreffer, 'deploy.yml: Beleg-Schritt läuft ohne Treffer des geprüften Baus (Fehler stecken im Skript)')
   const pruefung = schritte.find((s) => s.name === 'Workflow-Dateien prüfen')
   gleich(pruefung.run, 'npm run check:workflows', 'deploy.yml: die Prüfung bleibt npm run check:workflows')
-  gleich(pruefung.if, "${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' }}", 'deploy.yml: Prüfung nur ohne Treffer und ohne Beleg')
+  gleich(pruefung.if, "${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' && steps.pfade.outputs.workflows != '0' }}", 'deploy.yml: Prüfung nur ohne Treffer, ohne Beleg und bei berührten Pfaden')
   const letzter = schritte.find((s) => s.name === LETZTER_PRUEFSCHRITT)
-  ok(letzter && letzter['continue-on-error'] === undefined && letzter.if === keinTreffer && schritte.indexOf(pruefung) < schritte.indexOf(letzter), 'deploy.yml: letzter Prüfschritt (Beleg-Kriterium) steht nach den Prüfungen, ohne continue-on-error, nur ohne Treffer')
+  gleich(letzter?.if, "${{ steps.herkunft.outputs.treffer != '1' && (steps.wbeleg.outputs.gueltig == '1' || steps.pfade.outputs.workflows != '0') }}", 'deploy.yml: Beleg-Schritt läuft nur, wenn check:workflows lief oder belegt war (Pfad-Auslassung belegt nichts)')
+  ok(letzter['continue-on-error'] === undefined && schritte.indexOf(pruefung) < schritte.indexOf(letzter) && schritte.indexOf(letzter) === schritte.length - 1, 'deploy.yml: Beleg-Schritt steht nach den Prüfungen als letzter, ohne continue-on-error')
   ok(schritte.indexOf(beleg) < schritte.indexOf(pruefung), 'deploy.yml: Beleg vor der Prüfung')
   const holen = schritte.find((s) => String(s.uses).startsWith('actions/checkout')).with
   gleich([holen['fetch-depth'], holen.filter, holen['sparse-checkout'].split(String.fromCharCode(10)).filter(Boolean)], [30, 'blob:none', ['tools', '.github/actions']], 'deploy.yml: Checkout holt Verlauf und Bäume ohne Blobs, dazu die lokale Aktion')

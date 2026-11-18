@@ -36,7 +36,7 @@ export function abdruckVon(pfadeUndHashes) {
 export const NIE_COMMITTET = ['data/dub-pruefliste-zurueckgestellt.md']
 
 /** Zählt der Pfad zum Abdruck? Nein bei Datenpfaden und bei Ausgaben, die nie in einen Commit gehen. */
-const zaehlt = (pfad) => !istDatenpfad(pfad) && !NIE_COMMITTET.includes(pfad)
+export const zaehlt = (pfad) => !istDatenpfad(pfad) && !NIE_COMMITTET.includes(pfad)
 
 /** Abdruck der Arbeitskopie in `cwd`. */
 export function abdruckAusGit(cwd = process.cwd(), lauf = git) {

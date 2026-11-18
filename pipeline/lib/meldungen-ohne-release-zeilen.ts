@@ -11,8 +11,13 @@ export function zeilenOhneRelease(befunde: OhneReleaseBefund[], bekannt: readonl
   return zeilen
 }
 
+/** Die mehrdeutigen Kurznamen mit Überschrift, wie bei den Part-/Cour-Hinweisen: eine Zahl allein lässt sich nicht nachprüfen. */
+export function mehrdeutigZeile(v: Verluste): string | undefined {
+  return v.mehrdeutig.length ? `${v.mehrdeutig.length} Meldungen mit mehrdeutigem Kurznamen keinem Titel sicher zuzuordnen — kein Termin: ${v.mehrdeutig.map((m) => m.articleTitle).join(' | ')}` : undefined
+}
+
 /** Die Logzeile des Baus (`bau/08-news-tv.ts`): Meldungen mit Termin ohne Release nach Grund; die letzten beiden zählen mit, sind aber kein Verlust. */
 export function verlustZeile(v: Verluste): string {
   const gezaehlt = `${v.nurStart.length} nur Sammelartikel-Start, ${v.schonBelegt.length} schon belegt`
-  return `Meldungen mit Termin ohne Release: ${v.ohneTitel.length} ohne Titel, ${v.ohneTeil.length} mit unklarem Teil, ${v.ohneAnbieter.length} ohne Anbieter; gezählt, kein Verlust: ${gezaehlt} (Streaming mit deutschem Ton: data/proposals/nicht-zugeordnet.json)`
+  return `Meldungen mit Termin ohne Release: ${v.ohneTitel.length} ohne Titel, ${v.mehrdeutig.length} mit mehrdeutigem Kurznamen, ${v.ohneTeil.length} mit unklarem Teil, ${v.ohneAnbieter.length} ohne Anbieter; gezählt, kein Verlust: ${gezaehlt} (Streaming mit deutschem Ton: data/proposals/nicht-zugeordnet.json)`
 }
