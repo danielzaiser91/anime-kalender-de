@@ -1,0 +1,110 @@
+{
+  "_hinweis": "Nacht-Einträge (18.11.2026): laufen nicht in der PR-Kette, sondern nachts gegen main (nacht-pruefung.yml). Alles, was hier nicht steht, hat den Ort pr. liest = Repo-Dateien, die die Prüfung echt liest (Spur): ändert ein PR eine davon, läuft sie im PR mit (Entscheidung 18.11.2026; im Deploy laufen Nacht-Prüfungen nicht). Spur der Lesungen: Wegwerf-Probe mit fs-Hook unter bestand-sperre.cjs, 18.11.2026. Wächter: tools/pr-kette-ort.mjs; „erwartet“ nur zusammen mit einem Eintrag ändern.",
+  "erwartet": {
+    "logik": 8,
+    "tests": 6
+  },
+  "logik": {
+    "pipeline/check-adn-katalog-frist-lauf.ts": {
+      "ort": "nachts",
+      "grund": "Prozess gegen Attrappe (adn-franzoesisch-mock), 27 s; in 5 Tagen 0 Funde",
+      "beleg": "Kulisse AK_ROOT (Z. 52-56); Spur: nur data/ankuendigungen.yaml (handgepflegt, Leser pipeline/lib/ankuendigungen.ts:29), kein Bot-Bestand; Urteil über Katalog-Fixture",
+      "liest": [
+        "data/ankuendigungen.yaml"
+      ]
+    },
+    "pipeline/check-adn-sprachriegel-lauf.ts": {
+      "ort": "nachts",
+      "grund": "Prozess gegen Attrappe, 24 s; in 5 Tagen 0 Funde",
+      "beleg": "Kulisse AK_ROOT (Z. 53-74), Fixture pipeline/fixtures/adn-sprachriegel-ausschnitt.json (Z. 20); Spur: 1 Lesung data/ankuendigungen.yaml (handgepflegt), kein Bot-Bestand",
+      "liest": [
+        "data/ankuendigungen.yaml"
+      ]
+    },
+    "pipeline/check-fetch-pruefungen-laufzeit.ts": {
+      "ort": "nachts",
+      "grund": "Prozess gegen Attrappe (meldung-staffel-mock), 181 s, längste Prüfung in check:logic; in 5 Tagen 0 Funde",
+      "beleg": "lauf() startet die --trocken-Fälle ohne AK_ROOT (Z. 26-35): sie lesen echte data/anbieter-staffeln.json, prime-zugeordnet.json, anbieter-vorschlaege.json, amazon-gti-belegt.json, verweise-entfernt.json (Spur 20 Lesungen je Datei); die Attrappe nutzt Netflix 81152346 (tools/meldung-staffel-mock.mjs:14), die echte anbieter-staffeln.json und dub-confirmed.yaml führen diese Kennung: Daten können die Zusicherung kippen",
+      "liest": [
+        "data/dub-confirmed.yaml",
+        "data/belege-entfernt.yaml",
+        "data/prime-zugeordnet.json",
+        "data/anbieter-staffeln.json",
+        "data/anbieter-vorschlaege.json",
+        "data/amazon-gti-belegt.json",
+        "data/verweise-entfernt.json",
+        "data/netflix-fremde-meldungen.json",
+        "data/pruefliste-regeln.json",
+        "data/curated/"
+      ]
+    },
+    "pipeline/check-jw-folgestaffel-bestand-lauf.ts": {
+      "ort": "nachts",
+      "grund": "Prozess gegen Wegwerf-Wurzel, 22 s; in 5 Tagen 0 Funde",
+      "beleg": "AK_ROOT = Wegwerf-Wurzel (Z. 45-48), Kennungen ab 900000; Spur: nur Verzeichnisabfragen in data/anisearch-raw (Roh-Archiv der Sammler, Leser pipeline/lib/anisearch-relationen.ts:8), das Urteil hängt an der Fixture, nicht am Archivinhalt"
+    },
+    "pipeline/check-jw-namenssuche-lauf.ts": {
+      "ort": "nachts",
+      "grund": "Prozess mit Kulisse, 88 s; in 5 Tagen 0 Funde",
+      "beleg": "Spur: keine Lesung unter data/ oder public/data (Kulisse im Temp-Ordner, Z. 132-135)"
+    },
+    "pipeline/check-meldungs-auffaelligkeiten.ts": {
+      "ort": "nachts",
+      "grund": "3 Läufe gegen Attrappe, 45 s; in 5 Tagen 0 Funde",
+      "beleg": "Spur: keine Lesung unter data/ oder public/data (liest nur das eigene Log, Z. 70)"
+    },
+    "pipeline/check-netflix-tonspur-lauf.ts": {
+      "ort": "nachts",
+      "grund": "Lauf mit Kulisse, 19 s; in 5 Tagen 0 Funde",
+      "beleg": "Spur: keine Lesung unter data/ oder public/data; alle Dateien in der Wegwerf-Wurzel (Z. 40-85), Fixture pipeline/fixtures/netflix-titelseite-chihiro.html"
+    },
+    "pipeline/check-stumme-quellen.ts": {
+      "ort": "nachts",
+      "grund": "Prozess, 85 s; in 5 Tagen 0 Funde",
+      "beleg": "Spur: keine Lesung unter data/ oder public/data; schreibt und liest data/source-health.json und tv-programm.json nur in der Kulisse (Z. 31-124)"
+    }
+  },
+  "tests": {
+    "tools/akroot-schreibziel.test.mjs": {
+      "ort": "nachts",
+      "grund": "249 s, führt jede check-*.ts mit Kulisse ein zweites Mal aus (check:logic fährt sie schon); 1 Fund in 5 Tagen (16.11.)",
+      "beleg": "Z. 197-210: startet die Prüfungen ohne AK_ROOT und verlangt, dass der Repo-Baum unverändert bleibt; Spur: liest echte data/ankuendigungen.yaml, dub-confirmed.yaml, prime-zugeordnet.json, anbieter-staffeln.json, anbieter-vorschlaege.json, amazon-gti-belegt.json, verweise-entfernt.json, das Roh-Archiv anisearch-raw: ein Datenstand, der einen Schreiber auslöst, macht ihn rot",
+      "liest": [
+        "data/dub-confirmed.yaml",
+        "data/belege-entfernt.yaml",
+        "data/prime-zugeordnet.json",
+        "data/anbieter-staffeln.json",
+        "data/anbieter-vorschlaege.json",
+        "data/amazon-gti-belegt.json",
+        "data/verweise-entfernt.json",
+        "data/ankuendigungen.yaml",
+        "data/curated/"
+      ]
+    },
+    "tools/bash-an-angehaengtes-log.test.mjs": {
+      "ort": "nachts",
+      "grund": "130 s, startet zwei andere Tests mit Anhänge-Log; in 5 Tagen 0 Funde",
+      "beleg": "Z. 12-21: Hüllen bau-schon-gebaut.test.mjs und commit-data.test.mjs; Spur: keine Lesung unter data/ oder public/data"
+    },
+    "tools/bestand-rot-alarm.test.mjs": {
+      "ort": "nachts",
+      "grund": "220 s, Randfälle des Alarms und zwei Prozess-Verdrahtungen; in 5 Tagen 0 Funde",
+      "beleg": "Attrappe-gh (Z. 6-60 ff.); Spur: nur data/zugangs-register.json, daniel-zum-abarbeiten/stand.md und /vorrat (von Hand gepflegt), kein Bot-Bestand. Der neue Nacht-Alarm hat seine Fälle in tools/nacht-alarm.test.mjs (bleibt im PR)"
+    },
+    "tools/commit-data.test.mjs": {
+      "ort": "nachts",
+      "grund": "123 s, Simulation von commit-data.sh in einem Wegwerf-Repo; in 5 Tagen 0 Funde",
+      "beleg": "Z. 9-13: bash tools/commit-data-test.sh (Wegwerf-Repo, Attrappe-npm, Kopierliste nur aus tools/); Spur: keine Lesung unter data/ oder public/data"
+    },
+    "tools/modul-umzug.test.mjs": {
+      "ort": "nachts",
+      "grund": "58 s, Werkzeug-Test mit Wegwerf-Ordnern; in 5 Tagen 0 Funde",
+      "beleg": "Z. 3-34: eigene Quelle QUELLE im Temp-Ordner; Spur: keine Lesung unter data/ oder public/data"
+    },
+    "tools/wache-limit-haenger.test.mjs": {
+      "ort": "nachts",
+      "grund": "63 s, wartet auf Zeitlimit-Abbrüche mit hängendem Ersatz-gh; in 5 Tagen 0 Funde",
+      "beleg": "Z. 9-30: Wegwerf-Wurzel mit Kopien aus tools/, gh-Attrappe; Spur: keine Lesung unter data/ oder public/data"
+    }
+  }
+}

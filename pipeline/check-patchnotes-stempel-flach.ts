@@ -141,7 +141,7 @@ const kaputt = imFlachenKlon(umschreiben, (klon, origin) => {
 pruefe('Historie: ist der Anlagetag nicht lesbar (Objekt fehlt), meldet die Regel das statt „heute“ → Exit 1 mit dem Anlagetag-Text', kaputt.status === 1 && kaputt.aus.includes('Anlagetag eines umgeschriebenen'), kaputt)
 
 // Verdrahtung: der Runner holt die Historie vor den Prüfungen. Kulisse: flacher Klon mit den Runner-Dateien und einer Prüfung, die bei flachem Klon rot ist.
-const RUNNER = ['check-logic-alle', 'arbeiterpool', 'check-logic-vollstaendig', 'sperre-umgebung', 'git-stand-wache', 'check-logic-historie', 'bau-umgebung', 'liste-pruefen', 'pr-basis']
+const RUNNER = ['check-logic-alle', 'arbeiterpool', 'check-logic-vollstaendig', 'sperre-umgebung', 'git-stand-wache', 'check-logic-historie', 'bau-umgebung', 'liste-pruefen', 'pr-basis', 'pruefung-ort']
 const PRUEFUNG = "import { execFileSync } from 'node:child_process'\nconst flach = execFileSync('git', ['rev-parse', '--is-shallow-repository'], { encoding: 'utf8' }).trim()\nconsole.log('flach:', flach)\nprocess.exit(flach === 'true' ? 1 : 0)\n"
 function runnerLauf(mitSperre: boolean, name = 'check:bestand'): { status: number | null; aus: string } {
   const runnerKulisse = mkdtempSync(`${tmpdir()}/stempel-flach-r-`)

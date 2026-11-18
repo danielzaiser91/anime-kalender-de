@@ -35,7 +35,7 @@ Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen an
 npm run check:vor-commit
 ```
 
-Agenten fahren `check:vor-commit` nicht lokal, die PR-Prüfkette tut es (F40, 19.10.2026; lokal nur berührte Tests und `tsc --noEmit`, Ablauf in `.claude/agents/bauer.md`). Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne eigenen Prüfer-Agent, der CI-Prüfer prüft schlank; Details im Volltext). Nach Generatorlauf **alles** stagen. Lokal zusätzlich nur `check:handbelege` (bei geänderten Belegen); `check:ansichten`/`check:panel` laufen in der Kette als PR-Aussehen. Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
+Agenten fahren `check:vor-commit` nicht lokal, die PR-Prüfkette tut es (F40, 19.10.2026; lokal nur berührte Tests und `tsc --noEmit`, Ablauf in `.claude/agents/bauer.md`); die Kette fährt seit 18.11.2026 nur den schnellen Kern, die langsamen Prüfungen aus `tools/pruefung-ort.json` laufen nachts (`nacht-pruefung.yml`, `npm run check:nachts`) und bei Berührung ihrer Dateien lokal beim Bauer. Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne eigenen Prüfer-Agent, der CI-Prüfer prüft schlank; Details im Volltext). Nach Generatorlauf **alles** stagen. Lokal zusätzlich nur `check:handbelege` (bei geänderten Belegen); `check:ansichten`/`check:panel` laufen in der Kette als PR-Aussehen. Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
 
 ## Wissen nach Thema (`grep -n "^## " docs/wissen/<datei>.md`)
 

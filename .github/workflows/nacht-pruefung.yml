@@ -1,0 +1,43 @@
+name: Nachtprüfung
+
+# **Die langsamen Prüfungen, die nicht mehr in der PR-Kette laufen** (18.11.2026, Ziel PR-Kette unter 10 min; Zuordnung: `tools/pruefung-ort.json`, Wächter:
+# `tools/pr-kette-ort.mjs`). Der Wecker (`shared/weckplan.ts`) startet den Lauf täglich um 01 UTC per workflow_dispatch gegen main; `wecker-wache.yml` holt Überfälliges nach.
+# Rot erzeugt eine ALARM-Zeile (`tools/bestand-rot-alarm.mjs`, sichtbar in `node tools/laeufe-aufraeumen.mjs --trocken`): Der Lauf selbst bleibt rot, ein roter Test
+# wird nicht abgefangen. Logik und Tests laufen in zwei Jobs, damit eine rote Logik-Prüfung die Tests nicht verdeckt. Schreibt nichts ins Repo,
+# deshalb steht nichts in `tools/quellen-liste.sh`.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TZ: Europe/Berlin
+
+concurrency:
+  group: nacht-pruefung
+  cancel-in-progress: false
+
+jobs:
+  logik:
+    name: Nacht – Logik
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - run: npm run check:nachts-logik
+
+  tests:
+    name: Nacht – Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - run: npm run check:nachts-tests

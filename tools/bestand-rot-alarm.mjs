@@ -90,7 +90,7 @@ export function schritteAlarmZeile(rote, schritte, jetztMs) {
 }
 
 export const holeLaeufeJson = (gh, repo, workflow) =>
-  JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', workflow, '--limit', '200', '--json', 'status,conclusion,createdAt,databaseId'))
+  JSON.parse(gh('run', 'list', '--repo', repo, '--workflow', workflow, '--limit', '200', '--json', 'status,conclusion,createdAt,databaseId,headSha'))
 
 /** Alle Alarmzeilen (Bestandsbau 6 h, Fehlerschritte, Deploy) in einem Text; jede Teilprüfung meldet ihren Lesefehler selbst. */
 export function rotAlarmText(gh, repo, jetztMs) {
@@ -117,5 +117,35 @@ export function rotAlarmText(gh, repo, jetztMs) {
   } catch (fehler) {
     zeilen.push(`ALARM? Läufe des Deploys nicht lesbar: ${String(fehler.message).split('\n')[0]}`)
   }
+  zeilen.push(nachtText(gh, repo, jetztMs))
   return zeilen.join('\n')
+}
+
+export const NACHT_WORKFLOW = 'nacht-pruefung.yml'
+/** Der Wecker startet täglich; 26 h = ein Tag plus Verspätung. Älter heißt: der Wecker hat den Lauf nicht gestartet. */
+export const NACHT_ALTER_STUNDEN = 26
+
+/** Nachtprüfung (`tools/pruefung-ort.json`): neuester fertiger Lauf rot, nie gelaufen oder seit mehr als 26 h kein Start = ALARM; sonst `undefined`. */
+export function nachtAlarmZeile(laeufe, jetztMs, grenzeStunden = NACHT_ALTER_STUNDEN) {
+  const neu = [...laeufe].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+  if (neu.length === 0) return 'ALARM Nachtprüfung noch nie gelaufen (nacht-pruefung.yml starten, Wecker prüfen)'
+  const fertig = neu.find((l) => l.conclusion)
+  if (fertig && ROT.has(fertig.conclusion)) {
+    const rote = roteSeitGruen(neu).length
+    const gruen = neu.find((l) => l.conclusion === 'success')
+    const kurz = (l) => String(l?.headSha ?? '?').slice(0, 7)
+    return `ALARM Nachtprüfung rot (neuester Lauf ${fertig.createdAt}, ${rote} rote/abgebrochene seit dem letzten grünen; Commits ${kurz(gruen)}..${kurz(fertig)} auf main, git log ${kurz(gruen)}..${kurz(fertig)}; Log: gh run view ${fertig.databaseId})`
+  }
+  const stunden = (jetztMs - Date.parse(neu[0].createdAt)) / 3_600_000
+  if (stunden > grenzeStunden) return `ALARM Nachtprüfung seit ${stunden.toFixed(1)} h nicht gestartet (letzter Start ${neu[0].createdAt}, Grenze ${grenzeStunden} h)`
+  return undefined
+}
+
+/** Zeile der Nachtprüfung für `rotAlarmText`; ein Lesefehler ist selbst eine Zeile. */
+export function nachtText(gh, repo, jetztMs) {
+  try {
+    return nachtAlarmZeile(holeLaeufeJson(gh, repo, NACHT_WORKFLOW), jetztMs) ?? 'Nachtprüfung: kein Alarm'
+  } catch (fehler) {
+    return `ALARM? Läufe der Nachtprüfung nicht lesbar: ${String(fehler.message).split('\n')[0]}`
+  }
 }

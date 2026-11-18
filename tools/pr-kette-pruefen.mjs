@@ -9,13 +9,15 @@
  *    Rahmen (Trigger, Rechte, Runner, Frist, `with` je Action, Schritte der Action `kette-einrichten`) siehe tools/pr-kette-rahmen.mjs;
  *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job in `needs`, auch `PR-Aussehen…` (davon nur die Form ausgenommen), sein `if` ist textgleich `always() && <if der Teiljobs>`
  *    (sonst überspringt ihn ein roter Teiljob, und übersprungen zählt als bestanden), er hat genau einen Schritt, dessen Zeilen und env textgleich der Sollfassung sind.
- * Aufruf: node tools/pr-kette-pruefen.mjs  (Exit 1 bei Verstoß; läuft über tools/pr-kette-pruefen.test.mjs in check:workflows)
+ *  - der Ort jeder Prüfung (PR oder nachts) ist eindeutig und die Nachtprüfung verdrahtet (`tools/pr-kette-ort.mjs`, Zuordnung `tools/pruefung-ort.json`, seit 18.11.2026).
+ * Aufruf: node tools/pr-kette-pruefen.mjs [wurzel]  (Exit 1 bei Verstoß; läuft über tools/pr-kette-pruefen.test.mjs in check:workflows)
  */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
 import { DATENBAU_NAME, pruefeDatenbau } from './pr-kette-datenbau.mjs'
+import { ortFehler, ortZeile } from './pr-kette-ort.mjs'
 import { pruefeRahmen, pruefeSchrittfolge } from './pr-kette-rahmen.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
@@ -176,11 +178,13 @@ export function pruefeKette(doc, scripts, aktion) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const doc = parse(readFileSync(resolve(WURZEL, '.github/workflows/pr-pruefung.yml'), 'utf8'))
-  const { scripts } = JSON.parse(readFileSync(resolve(WURZEL, 'package.json'), 'utf8'))
-  const aktion = parse(readFileSync(resolve(WURZEL, '.github/actions/kette-einrichten/action.yml'), 'utf8'))
-  const fehler = pruefeKette(doc, scripts, aktion)
+  const wurzel = process.argv[2] ? resolve(process.argv[2]) : WURZEL
+  const doc = parse(readFileSync(resolve(wurzel, '.github/workflows/pr-pruefung.yml'), 'utf8'))
+  const { scripts } = JSON.parse(readFileSync(resolve(wurzel, 'package.json'), 'utf8'))
+  const aktion = parse(readFileSync(resolve(wurzel, '.github/actions/kette-einrichten/action.yml'), 'utf8'))
+  const fehler = [...pruefeKette(doc, scripts, aktion), ...ortFehler(wurzel)]
   for (const f of fehler) console.error(`✗ ${f}`)
   if (fehler.length > 0) process.exit(1)
   console.log(`pr-kette-pruefen: ${npmNamen(scripts['check:vor-commit']).length} Prüfungen, jede in genau einem Teiljob; Sammeljob vollständig.`)
+  console.log(`pr-kette-pruefen: Ort je Prüfung: ${ortZeile(wurzel)}.`)
 }

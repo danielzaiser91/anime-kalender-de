@@ -4,19 +4,27 @@
  * Ohne `--alle` startet nach dem ersten roten Test keiner mehr; mit `--alle` laufen alle durch, am Ende steht die Liste der roten (Exit 1).
  * Alle Tests laufen unter der Bestandssperre (`tools/bestand-sperre.cjs`, wie `check:logic`); sie dürfen `public/data` nicht lesen.
  * Mit `--teil k/n` nur Teil k von n (`tools/tests-teil.mjs`; die PR-Kette fährt zwei Teile in zwei Jobs).
+ * Ohne `--nachts` fehlen die Tests, die `tools/pruefung-ort.json` für die Nacht nennt; `--nachts` fährt nur sie (`npm run check:nachts`).
+ * Im PR-Ereignis laufen davon die mit, deren `liest`-Datei der PR ändert (`beruehrteDateien`).
  * Läuft in `npm run check:workflows`. Eine neue Test-Datei ist damit ohne Eintrag in `package.json` dabei:
  * die lange `&&`-Kette dort war die Stelle, an der jeder PR mit neuem Test mit den anderen kollidierte.
  */
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
+import { beruehrteDateien, leseModus, leseOrt, nachOrt } from './pruefung-ort.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 import { findeTests } from './tests-liste.mjs'
 import { leseTeil, waehleTeil } from './tests-teil.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
-const alleTests = findeTests(tools, wurzel)
+// Ort jeder Prüfung (tools/pruefung-ort.mjs): ohne --nachts laufen die Nacht-Einträge nicht mit (außer der PR ändert eine ihrer Lesedateien), mit --nachts nur sie.
+const modus = leseModus(process.argv)
+const beruehrt = modus === 'pr' ? beruehrteDateien(wurzel) : []
+const alleTests = nachOrt(findeTests(tools, wurzel), leseOrt(wurzel), 'tests', modus, (t) => `tools/${t}`, beruehrt)
+const nachtsMit = alleTests.filter((t) => leseOrt(wurzel).tests?.[`tools/${t}`]?.ort === 'nachts')
+if (modus === 'pr' && nachtsMit.length > 0) console.log(`tests-alle: Nacht-Tests mit berührter Lesedatei laufen im PR mit: ${nachtsMit.join(', ')}`)
 const alle = process.argv.includes('--alle')
 const LANGSAM = ['quellen-pr.test.mjs', 'quellen-pr-pruefung.test.mjs', 'bash-an-angehaengtes-log.test.mjs', 'commit-data.test.mjs', 'akroot-schreibziel.test.mjs']
 const teil = leseTeil(process.argv)

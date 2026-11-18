@@ -8,6 +8,11 @@ name: PR-Prüfkette
 # wenn alle Teiljobs `success` melden (übersprungen oder Mix = rot; nur `cancelled` = abgebrochener Lauf, Urteil in tools/kette-urteil.mjs). Jede Prüfung aus `check:vor-commit` steht in genau einem
 # Teiljob; `tools/pr-kette-pruefen.mjs` (Test in `check:workflows`) rechnet das nach und prüft die `needs` des Sammeljobs.
 #
+# **Schlanke Kette (seit 18.11.2026, Ziel unter 10 min):** Die Kette fährt den schnellen Kern. Die langsamen Logik-Prüfungen und Tests, die nur Code prüfen, laufen nachts gegen main
+# (`nacht-pruefung.yml`, Wecker 01 UTC, `npm run check:nachts`); im Deploy laufen sie nicht, die mit Lesedateien (`liest`) laufen im PR mit, wenn er eine davon ändert. Welche das sind, steht in `tools/pruefung-ort.json`
+# (je Eintrag Grund und Beleg); `check:logic` und `tests-alle` lassen sie ohne `--nachts` aus, `tools/pr-kette-ort.mjs` rechnet nach, dass jede Prüfung genau einen Ort hat.
+# Rot nachts erzeugt eine ALARM-Zeile (`tools/bestand-rot-alarm.mjs`, Wachphase). Wer eine dieser Dateien ändert, fährt sie lokal (`npm run check:nachts`).
+#
 # Kein Pfadfilter auf Workflow-Ebene: ein ausgefilterter Pflicht-Check meldet sich nie, der PR hinge fest.
 # Daten-PRs der Sammler (`daten/`) überspringt jeder Job-`if` — übersprungen zählt als bestanden.
 

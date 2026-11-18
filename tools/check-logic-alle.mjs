@@ -29,6 +29,7 @@ import { historieErgebnis } from './check-logic-historie.mjs'
 import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { vorladeBasis } from './pr-basis.mjs'
+import { beruehrteDateien, leseModus, leseOrt, nachOrt } from './pruefung-ort.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
@@ -76,7 +77,16 @@ function pruefeAusnahmeGenutzt(ausnahme, spurDatei) {
   return null
 }
 
-const dateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf8'))
+const alleDateien = listenEintraege(readFileSync(resolve(wurzel, listeArg), 'utf8'))
+// Ort jeder Prüfung (tools/pruefung-ort.mjs): ohne --nachts laufen die Nacht-Einträge nicht mit (außer der PR ändert eine ihrer Lesedateien), mit --nachts nur sie.
+const modus = mitSperre ? leseModus(process.argv) : 'pr'
+const beruehrt = mitSperre && modus === 'pr' ? beruehrteDateien(wurzel) : []
+const dateien = mitSperre ? nachOrt(alleDateien, leseOrt(wurzel), 'logik', modus, (e) => e, beruehrt) : alleDateien
+if (mitSperre) console.log(`${name}: Ort ${modus}, ${dateien.length} von ${alleDateien.length} Prüfungen der Liste.`)
+if (mitSperre && modus === 'pr') {
+  const nachtsMit = dateien.filter((d) => leseOrt(wurzel).logik?.[d]?.ort === 'nachts')
+  if (nachtsMit.length > 0) console.log(`${name}: Nacht-Prüfungen mit berührter Lesedatei laufen im PR mit: ${nachtsMit.join(', ')}`)
+}
 
 if (dateien.length === 0) {
   console.error(`${name}: ${listeArg} enthält keine Prüfung.`)
@@ -93,14 +103,14 @@ const historie = historieErgebnis(wurzel)
 if (historie.warnung) console.warn(`${name}: ${historie.warnung}`)
 else console.log(`${name}: ${historie.zeile}`)
 
-const listenProbleme = listenFehler(dateien, listeArg)
+const listenProbleme = listenFehler(alleDateien, listeArg)
 if (listenProbleme.length) {
   for (const p of listenProbleme) console.error(`${name}: ${p}`)
   process.exit(1)
 }
 
 const alle = process.argv.includes('--alle') || process.env.CI === 'true'
-const ausnahmen = ladeAusnahmen(dateien)
+const ausnahmen = ladeAusnahmen(alleDateien)
 const spurOrdner = mkdtempSync(join(tmpdir(), 'bestand-spur-'))
 
 /** Ein Auftrag je Prüfung; die Spur-Datei ist je Prüfung eigen, weil Prüfungen gleichzeitig laufen. */
