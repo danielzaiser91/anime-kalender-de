@@ -14,25 +14,32 @@ const reihe = [
   { id: 5, name: 'Reihe 2', format: 'TV', jpYear: 2021 },
 ]
 const NETFLIX = 'https://www.netflix.com/title/81183924'
-const netflixTitel = { id: 6, titleDe: 'Gti-Titel 6', episodes: 6, streams: [{ platform: 'netflix', url: NETFLIX }] }
-const attrappe = { titles: [titel(1, 24), titel(2, 12), titel(3, 12), titel(4, 12), titel(5, 12), netflixTitel], franchises: { 40: reihe }, cartoons: [] }
+/* Netflix trennt die Staffeln je Gruppe, ADN nicht: die Mehrstaffel-Fälle (Lauf 7-9) laufen über ADN-Adressen. */
+const ADN_S2 = 'https://animationdigitalnetwork.com/de/video/1350-staffel-zwei'
+const ADN_OHNE_REIHE = 'https://animationdigitalnetwork.com/de/video/1351-ohne-reihe'
+const netflixTitel = { id: 6, titleDe: 'Gti-Titel 6', episodes: 6, streams: [{ platform: 'netflix', url: NETFLIX }, { platform: 'adn', url: ADN_OHNE_REIHE }] }
+const titel5 = { ...titel(5, 12), streams: [...titel(5, 12).streams, { platform: 'adn', url: ADN_S2 }] }
+const attrappe = { titles: [titel(1, 24), titel(2, 12), titel(3, 12), titel(4, 12), titel5, netflixTitel], franchises: { 40: reihe }, cartoons: [] }
 const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
 const befundDatei = /(?:^|[\\/])data[\\/]meldungs-auffaelligkeiten\.json$/
 const am = '2026-10-01'
 const alteDateien = {
   1: [
     { am: '2026-01-01', text: 'Meldung 1: alter Befund, den der Lauf nicht mehr erzeugt' },
-    { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
+    { am, text: 'Meldung 6: 40 Folgen gemeldet (je Staffel), Titel 2 (Gti-Titel 2) hat 12 (X)' },
   ],
   2: [
-    { am, text: 'Meldung 900002: 40 Folgen gemeldet, Titel 3 (Gti-Titel 3) hat 12 (0TESTGTI3)' },
+    { am, text: 'Meldung 900002: 40 Folgen gemeldet (je Staffel), Titel 3 (Gti-Titel 3) hat 12 (0TESTGTI3)' },
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
   ],
-  3: [{ am, text: 'Meldung 5: 30 Folgen gemeldet, Titel 1 (Gti-Titel 1) hat 12 (X)' }],
+  3: [{ am, text: 'Meldung 5: 30 Folgen gemeldet (je Staffel), Titel 1 (Gti-Titel 1) hat 12 (X)' }],
   5: [],
   6: [],
+  7: [{ am: '2026-11-10', text: 'Meldung 26355,26356: 25 Folgen gemeldet, Titel 5 (Gti-Titel 5) hat 12 (https://animationdigitalnetwork.com/de/video/1350-staffel-zwei)' }],
+  8: [],
+  9: [],
   4: [
-    { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
+    { am, text: 'Meldung 6: 40 Folgen gemeldet (je Staffel), Titel 2 (Gti-Titel 2) hat 12 (X)' },
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
   ],
 }
@@ -88,11 +95,30 @@ const netflixZeilen = (ersteId, ersteKennung) =>
     notiz: null,
   }))
 
+/* Lauf 7-9: eine Adresse, mehrere Staffeln, je Eintrag [Staffel, Anzahl Zeilen] (ADN 1350: Staffel 1 und 2 unter einer Adresse). */
+const mehrStaffeln = (ersteId, url, staffeln) =>
+  staffeln.flatMap(([staffel, anzahl], k) =>
+    Array.from({ length: anzahl }, (_x, i) => ({
+      ...zeile(ersteId + k * 100 + i, 6, 0),
+      plattform: 'adn',
+      url,
+      seiten_kennung: null,
+      folge_nr: i + 1,
+      staffel,
+      folge: null,
+      notiz: null,
+      folgen: null,
+    })),
+  )
+
 const LIEFERUNG = {
   1: () => [zeile(900001, 1, 6), zeile(900002, 3, 40), zeile(900003, 4, 12, 2, 4)],
   4: () => [zeile(900002, 3, 40)],
   5: () => netflixZeilen(900101, 81508284),
   6: () => netflixZeilen(900201, 99000001),
+  7: () => mehrStaffeln(900301, ADN_S2, [[1, 13], [2, 12]]),
+  8: () => mehrStaffeln(900401, ADN_S2, [[1, 3], [2, 20]]),
+  9: () => mehrStaffeln(900501, ADN_OHNE_REIHE, [[1, 6], [2, 10]]),
 }
 
 globalThis.fetch = async (url, opt) => {
