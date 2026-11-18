@@ -41619,3 +41619,30 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
+
+# --- Anime2You-Aussagen zu Disney+ (18.11.2026): Das Termin-Ja fiel mit PR 4134 weg (Neuzugangsartikel belegt den Termin, nicht den Ton), die Artikel nennen die Sprache aber selbst ---
+
+- anilistId: 97940
+  title: "Black Clover"
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-11-18'
+  note: "Anime2You-Artikel https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/ (2026-08-01): „»Black Clover« – Staffel 1 Episoden: 51 (komplett) Sprache: Deutsch, Japanisch (UT) Stream: Disney+“, dazu „Alle Serien erscheinen mit deutscher Synchronisation.“ Aussage des Artikels; Seite des Anbieters nennt keine Tonspur."
+- anilistId: 213847
+  title: "Star Wars: Visionen präsentiert - Die neunte Jedi"
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-11-18'
+  note: "Anime2You-Artikel https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/ (2026-08-01): „»Star Wars: Visionen – Die neunte Jedi« Episoden: 8 (komplett) Sprache: Deutsch, Japanisch (UT) Stream: Disney+“. Aussage des Artikels; Seite des Anbieters nicht geprüft."
+- anilistId: 178788
+  title: "Demon Slayer: Kimetsu no Yaiba - Infinity Castle"
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-11-18'
+  note: "Anime2You-Artikel https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/ (2026-09-28): „»Demon Slayer: Kimetsu no Yaiba – Infinity Castle I« Laufzeit: 155 Minuten Sprache: Deutsch, Japanisch (UT) Stream: Disney+“. Aussage des Artikels; Seite des Anbieters nicht geprüft."
+- anilistId: 131573
+  title: "Jujutsu Kaisen 0"
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-11-18'
+  note: "Anime2You-Artikel https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/ (2026-09-28): „Sprache: Deutsch, Japanisch (UT)“ zu »Jujutsu Kaisen 0« auf Disney+ (Aussage des Artikels, Zitat in data/proposals/aussagen.json). Seite des Anbieters nicht geprüft."
