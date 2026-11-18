@@ -1,11 +1,11 @@
 {
-  "scrapedAt": "2026-11-18T17:02:06.120Z",
+  "scrapedAt": "2026-11-18T18:07:42.243Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 14,
-    "schon in einem Rubrik-Feed gelesen": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 12,
+    "schon in einem Rubrik-Feed gelesen": 8,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
     "Sprachhinweis älter als 45 Tage": 6
   },
@@ -20,6 +20,34 @@
         {
           "iso": "2026-11-30",
           "context": "Anime-Produkte reduziert sind – teilweise sogar um mehr als 90 %. Bis 30. November 2026 Zu den Highlights der Aktion gehören unter anderem d"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix erhöht Zahlungen an Synchronsprecher und hält an KI-Regeln fest",
+      "articleUrl": "https://www.anime2you.de/news/1072370/netflix-erhoeht-zahlungen-an-synchronsprecher/",
+      "publishedAt": "2026-11-18",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "hinweis": "sprache",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Offizielle Sammelkarten zu »Solo Leveling« vorgestellt + Bilder",
+      "articleUrl": "https://www.anime2you.de/news/1073340/offizielle-solo-leveling-sammelkarten/",
+      "publishedAt": "2026-11-18",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "P vorbestellt werden können. Wir fassen die Details zusammen. Release im Mai 2027 Die sogenannten »Manyc Cards« zu »Solo Leveling« erscheine"
         }
       ],
       "dub": "unklar",
@@ -129,7 +157,7 @@
       "dates": [],
       "dub": "unklar",
       "pause": "verschoben",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "verschiebungen": [
         {
           "titel": "Pokémon – Staffel 6 bis 9 (Limitierte Komplettbox)",
@@ -2191,7 +2219,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "discZeilen": [
         {
           "datum": "2026-11-06",

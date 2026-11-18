@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-18 · **21 offene Verweise** in **20 Zeilen**.
+Stand 2026-11-18 · **16 offene Verweise** in **15 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,35 +33,30 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Netflix](07-netflix.md) | 8 |
 | [Prime Video](07-primevideo.md) | 7 |
-| [Disney+](07-disneyplus.md) | 5 |
+| [Netflix](07-netflix.md) | 7 |
+| [Disney+](07-disneyplus.md) | 1 |
 | [Pluto TV](07-plutotv.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-11-06 | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 2 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
-| 3 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
-| 4 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
-| 5 | 2026-09-29 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle](https://www.disneyplus.com/browse/entity-b8b65a37-0205-4771-bd07-24b5c4406034) |
-| 6 | 2026-09-28 | Jujutsu Kaisen | [0](https://www.disneyplus.com/browse/entity-7c74ce17-ce8d-42d7-b2b5-afc0db501194) |
-| 7 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 8 | 2026-08-30 | Black Clover | [Hauptserie](https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a) |
-| 9 | 2026-08-05 | Star Wars: Visionen | [präsentiert - Die neunte Jedi](https://www.disneyplus.com/de-de/browse/entity-921588f0-9a3b-4cd6-80d6-0a7cc9ed388a) |
-| 10 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
-| 11 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 12 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 13 | 2024-09-20 | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 14 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
-| 15 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
-| 16 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 17 | 2019-12-13 | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
-| 18 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 19 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 20 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 1 | 2026-10-15 | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
+| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
+| 3 | 2026-10-06 | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
+| 4 | 2026-09-26 | Welcome to Demon School! Iruma-kun | [Staffel 4](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
+| 5 | 2026-06-22 | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
+| 6 | 2025-04-09 | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 7 | 2024-10-20 | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 8 | 2024-09-20 | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 9 | 2024-09-05 | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 10 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 11 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 12 | 2019-12-13 | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
+| 13 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 14 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 15 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
