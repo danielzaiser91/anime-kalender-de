@@ -1,0 +1,3 @@
+[
+  { "name": "A1 --teil umgeht den Ort-Filter", "aenderungen": [{ "datei": "tools/check-logic-alle.mjs", "suche": "const dateien = teil ? waehleTeil(dateienOrt, teil) : dateienOrt", "ersetze": "const dateien = teil ? waehleTeil(alleDateien, teil) : dateienOrt" }], "tests": ["node tools/pruefung-ort.test.mjs"] }
+]
