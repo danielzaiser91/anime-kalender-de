@@ -121,8 +121,8 @@ for (const datei of KETTEN_WORKFLOWS) {
 // Verdrahtung in deploy.yml (geparst, 10.11.2026): `build` und `pruefen` laufen parallel und prüfen die Herkunft je als ersten Schritt (Composite), kein eigener Job `herkunft`.
 const wf = parse(readFileSync(resolve(import.meta.dirname, '../.github/workflows/deploy.yml'), 'utf8'))
 const jobs = wf.jobs
-assert.deepEqual(Object.keys(jobs), ['build', 'pruefen', 'deploy_hart', 'deploy_schlank', 'abschluss'], 'fünf Jobs, in drei Wellen: (build, pruefen) -> deploy -> abschluss')
-for (const id of ['build', 'pruefen']) {
+assert.deepEqual(Object.keys(jobs), ['build', 'pruefen', 'zusicherungen', 'deploy_hart', 'deploy_schlank', 'abschluss'], 'sechs Jobs, in drei Wellen: (build, pruefen, zusicherungen) -> deploy -> abschluss')
+for (const id of ['build', 'pruefen', 'zusicherungen']) {
   assert.equal(jobs[id].needs, undefined, `${id} wartet auf nichts (parallel, kein Hop vorweg)`)
   assert.ok(jobs[id].if.includes("github.event.workflow_run.conclusion == 'success'"), `${id}: gescheiterter Datenlauf veröffentlicht nichts`)
   assert.ok(!jobs[id].if.includes('treffer'), `${id} entfällt bei Treffer nicht als Job, nur seine Schritte`)
@@ -155,14 +155,21 @@ const nach = (job, id, bedingung) => {
 }
 nach('build', 'hochladen', "steps.hochladen.outcome != 'success'")
 nach('pruefen', 'herkunft', "steps.herkunft.outputs.treffer != '1'")
+nach('zusicherungen', 'herkunft', "steps.herkunft.outputs.treffer != '1'")
+// 18.11.2026: jede Prüfung läuft in genau einem der beiden Prüfjobs (Aufteilung ohne Verlust); `check:workflows` bleibt in `pruefen` (der Workflows-Beleg liest diesen Job).
+const PRUEFUNGEN = { 'data:validate': 'pruefen', 'check:workflows': 'pruefen', 'check:extension': 'pruefen', 'check:pfade': 'zusicherungen', 'check:logic': 'zusicherungen', 'check:search': 'zusicherungen', 'check:hooks': 'zusicherungen' }
+for (const [befehl, job] of Object.entries(PRUEFUNGEN)) {
+  const wo = ['pruefen', 'zusicherungen'].filter((j) => jobs[j].steps.some((s) => String(s.run ?? '').includes(`npm run ${befehl}`)))
+  assert.deepEqual(wo, [job], `${befehl} läuft genau in ${job}`)
+}
 const hart = jobs.deploy_hart
-assert.deepEqual([hart.needs].flat().sort(), ['build', 'pruefen'])
-assert.ok(hart.if.includes("needs.build.result == 'success' && needs.pruefen.result == 'success'"), 'Bau und Prüfung grün (bei Treffer sind beide ohne Schritte grün)')
+assert.deepEqual([hart.needs].flat().sort(), ['build', 'pruefen', 'zusicherungen'])
+assert.ok(hart.if.includes("needs.build.result == 'success' && needs.pruefen.result == 'success' && needs.zusicherungen.result == 'success'"), 'Bau und beide Prüfungen grün (bei Treffer sind alle ohne Schritte grün)')
 assert.ok(hart.if.includes('!cancelled()'), 'übersprungene Needs dürfen den Deploy nicht verhindern')
 assert.ok(hart.if.includes("!contains(github.event.head_commit.message, '[schlank]')"), 'schlanker Commit deployt über deploy_schlank')
 assert.equal(jobs.deploy_schlank.needs, 'build', 'schlank wartet nur auf den Bau')
 assert.ok(jobs.abschluss.if.includes("needs.build.result != 'skipped'"), 'Abschluss hängt nicht am Deploy')
-assert.deepEqual([jobs.abschluss.needs].flat().sort(), ['build', 'deploy_hart', 'deploy_schlank', 'pruefen'])
+assert.deepEqual([jobs.abschluss.needs].flat().sort(), ['build', 'deploy_hart', 'deploy_schlank', 'pruefen', 'zusicherungen'])
 // A1 (Prüfer 3367): jeder Job hat eine Frist, und `abschluss` (hält die Gruppe `pages`) hat sie an jedem Schritt; die Summe bleibt unter der Job-Frist,
 // damit kein Job-Abbruch den Lauf rot macht. Einrichten und Messung der Kachelränder sind Befund, nie roter Lauf.
 for (const [id, job] of Object.entries(jobs)) assert.ok(Number.isInteger(job['timeout-minutes']) && job['timeout-minutes'] > 0, `Job ${id} hat timeout-minutes`)
@@ -177,19 +184,20 @@ assert.equal(abschlussSchritte.find((s) => s.name === 'Lauf abmelden')['continue
 
 // A3 (Prüfer 3367): fail-closed, wenn build und pruefen die Herkunft verschieden beurteilen. Beide Jobs geben ihr Urteil aus, der erste Schritt von deploy_hart
 // vergleicht es vor dem Deploy; der Vergleich wird als echtes Skript ausgeführt (Wertepaare: gleich, build allein, pruefen allein).
-for (const id of ['build', 'pruefen']) assert.ok(jobs[id].outputs.treffer.includes('steps.herkunft.outputs.treffer'), `${id} gibt das Herkunftsurteil aus`)
+for (const id of ['build', 'pruefen', 'zusicherungen']) assert.ok(jobs[id].outputs.treffer.includes('steps.herkunft.outputs.treffer'), `${id} gibt das Herkunftsurteil aus`)
 const vergleich = hart.steps[0]
 assert.equal(hart.steps.indexOf(vergleich) < hart.steps.findIndex((s) => s.id === 'deployment'), true, 'der Vergleich steht vor dem Deploy')
-assert.ok(vergleich.env.BAU_TREFFER.includes('needs.build.outputs.treffer') && vergleich.env.PRUEF_TREFFER.includes('needs.pruefen.outputs.treffer'), 'Vergleich liest die Urteile beider Jobs')
+assert.ok(vergleich.env.BAU_TREFFER.includes('needs.build.outputs.treffer') && vergleich.env.PRUEF_TREFFER.includes('needs.pruefen.outputs.treffer') && vergleich.env.ZUS_TREFFER.includes('needs.zusicherungen.outputs.treffer'), 'Vergleich liest die Urteile aller drei Jobs')
 assert.equal(vergleich['continue-on-error'], undefined, 'ein Widerspruch macht den Job rot')
 assert.equal(vergleich.if, undefined, 'der Vergleich läuft immer')
 assert.equal(hart.steps.find((s) => s.id === 'deployment').if, undefined, 'der Deploy läuft nur, wenn der Vergleich bestanden hat (kein always())')
-const vergleichLauf = (bau, pruef) => spawnSync('bash', ['-c', vergleich.run], { encoding: 'utf8', windowsHide: true, timeout: 20_000, env: { ...process.env, BAU_TREFFER: bau, PRUEF_TREFFER: pruef } })
-for (const [bau, pruef] of [['1', '1'], ['', '']]) assert.equal(vergleichLauf(bau, pruef).status, 0, `gleiches Urteil (build '${bau}', pruefen '${pruef}') deployt`)
-for (const [bau, pruef] of [['', '1'], ['1', '']]) {
-  const r = vergleichLauf(bau, pruef)
-  assert.equal(r.status, 1, `verschiedenes Urteil (build '${bau}', pruefen '${pruef}') ist rot`)
+const vergleichLauf = (bau, pruef, zus) => spawnSync('bash', ['-c', vergleich.run], { encoding: 'utf8', windowsHide: true, timeout: 20_000, env: { ...process.env, BAU_TREFFER: bau, PRUEF_TREFFER: pruef, ZUS_TREFFER: zus } })
+for (const [bau, pruef, zus] of [['1', '1', '1'], ['', '', '']]) assert.equal(vergleichLauf(bau, pruef, zus).status, 0, `gleiches Urteil (build '${bau}', pruefen '${pruef}', zusicherungen '${zus}') deployt`)
+// Je Job allein abweichend (beide Richtungen): auch `zusicherungen` allein muss den Deploy stoppen.
+for (const [bau, pruef, zus] of [['', '1', '1'], ['1', '', '1'], ['1', '1', ''], ['', '', '1'], ['1', '', ''], ['', '1', '']]) {
+  const r = vergleichLauf(bau, pruef, zus)
+  assert.equal(r.status, 1, `verschiedenes Urteil (build '${bau}', pruefen '${pruef}', zusicherungen '${zus}') ist rot`)
   assert.ok(r.stdout.includes('::error::Kein Deploy'), 'mit Meldung')
-  assert.ok(r.stdout.includes(`build (Treffer '${bau}')`) && r.stdout.includes(`pruefen (Treffer '${pruef}')`), 'Meldung nennt beide Urteile')
+  assert.ok(r.stdout.includes(`build (Treffer '${bau}')`) && r.stdout.includes(`pruefen (Treffer '${pruef}')`) && r.stdout.includes(`zusicherungen (Treffer '${zus}')`), 'Meldung nennt alle drei Urteile')
 }
 console.log('deploy-aus-build.test: ok')
