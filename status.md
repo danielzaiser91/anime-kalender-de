@@ -51,6 +51,7 @@ Ziel (Daniel, 08.10.2026): Daten aktuell halten und Neuigkeiten einarbeiten, ohn
 
 
 ### In Arbeit
+- Wache 18.11. (#4222, 2 SP): 4 Disney+-Urteile (17.11. 17:10) und ADN Kill La Kill (18.11. 04:29) verloren, Quelle nicht gemessen; link-check steht auf 200. Auswertung in `daniel-zum-abarbeiten/00-wache-auswertung.md`, offen: Meldequelle je Titel klären.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
