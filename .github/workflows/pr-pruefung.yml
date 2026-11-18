@@ -33,8 +33,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # `check:logic` in zwei Jobs (`--teil k/2`, tools/tests-teil.mjs: jede zweite Prüfung je Teil; Wächter tools/check-logic-teil.test.mjs, 18.11.2026).
   logik:
-    name: Kette – Logik
+    name: Kette – Logik 1
     if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -43,9 +44,23 @@ jobs:
       - uses: ./.github/actions/kette-einrichten
         with:
           playwright: 'true'
-      - run: npm run check:logic
+      - run: npm run check:logic-1
         env:
           # check-patchnotes-pflicht liest die Kommentare des PR (Ausweg aus einem Falschtreffer der Textsuche).
+          GH_TOKEN: ${{ github.token }}
+
+  logik2:
+    name: Kette – Logik 2
+    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - run: npm run check:logic-2
+        env:
           GH_TOKEN: ${{ github.token }}
 
   bau:
@@ -140,7 +155,7 @@ jobs:
   # diesen Job überspringen, und übersprungen zählt als bestanden. Hier zählt nur `success`; sind alle Teiljobs `cancelled` (Neustart durch Push), ist es kein Fehlschlag.
   kette:
     name: PR-Prüfkette
-    needs: [logik, bau, workflows, workflows2, typen, uebrige, datenbau, aussehen]
+    needs: [logik, logik2, bau, workflows, workflows2, typen, uebrige, datenbau, aussehen]
     if: ${{ always() && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
