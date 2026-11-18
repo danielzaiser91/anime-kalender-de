@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-11-18T17:59:18.929Z",
+ "erzeugtAm": "2026-11-18T18:19:38.834Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -313,8 +313,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 918,
-   "offen": 147,
+   "gesamt": 917,
+   "offen": 146,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -371,10 +371,6 @@
       1,
       2
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/81910037",
-     "titel": "Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells"
     },
     {
      "url": "https://www.netflix.com/title/81940284",

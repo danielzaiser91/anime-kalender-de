@@ -39993,7 +39993,6 @@
   available: false
   checkedAt: '2026-11-15'
   note: "Aus der Prüfliste gemeldet: nachgesehen, den Titel gibt es bei Prime Video nicht"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-15 ---
 
 # --- Kanal-Meldungen mit zweiter Quelle belegt, 2026-11-16 ---
@@ -40005,7 +40004,6 @@
   checkedAt: '2026-11-16'
   zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton en, ja, ru, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 - anilistId: 603
   title: "Pretty Cure"
   platform: primevideo
@@ -40014,7 +40012,6 @@
   checkedAt: '2026-11-16'
   zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll, Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 2 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 - anilistId: 603
   title: "Pretty Cure"
   platform: primevideo
@@ -40023,7 +40020,6 @@
   checkedAt: '2026-11-16'
   zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 - anilistId: 603
   title: "Pretty Cure"
   platform: primevideo
@@ -40032,7 +40028,6 @@
   checkedAt: '2026-11-16'
   zweiteQuelle: "JustWatch 2026-10-19: Crunchyroll Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 # ── Handprüfung E89 vom 16.11.2026: YouTube-Verweise von deutschen Kanälen ───
 # Daniels Sichtung: deutsch vertont, Kanäle per oEmbed belegt.
 
@@ -40043,7 +40038,6 @@
   dub: true
   checkedAt: '2026-11-16'
   note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
-
 - anilistId: 168092
   title: "Pokémon Horizons: Winde aus Paldea"
   platform: youtube
@@ -40051,7 +40045,6 @@
   dub: true
   checkedAt: '2026-11-16'
   note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
-
 - anilistId: 170535
   title: "Meisterdetektiv Pikachu und der verschwundene Pudding"
   platform: youtube
@@ -40059,7 +40052,6 @@
   dub: true
   checkedAt: '2026-11-16'
   note: "Daniels Sichtung 16.11.2026: deutsch vertont. Kanal „Offizieller Pokémon Youtube Kanal“ (https://www.youtube.com/@Pokemonoffiziell)."
-
 - anilistId: 128390
   title: "Fire Force Staffel 2 Miniepisoden"
   platform: youtube
@@ -40081,7 +40073,6 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   checkedAt: '2026-11-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DRF2D2L7: 24 von 26 gelisteten Folgen geprüft (1–24), Abos: Prime, zugang=abo"
-
 # --- Anime2You-Automatik, 2026-11-16: Synchro-Aussage im Artikel, Titel und Weg eindeutig ---
 
 - anilistId: 170083
@@ -40090,7 +40081,6 @@
   dub: true
   checkedAt: '2026-11-16'
   note: "Anime2You-Automatik: Artikel https://www.anime2you.de/news/1072212/toggo-plus-dragon-ball-daima-erneute-wiederholung/ (2026-11-16): „Bereits seit dem 25. September 2026 sind alle Folgensowohl in der TOGGO-App als auch bei RTL+ mit deutscher Sprachfassung verfügbar.“ Aussage des Artikels; Seite des Anbieters nicht geprüft."
-
 - anilistId: 21
   title: "One Piece"
   platform: adn
@@ -40105,7 +40095,6 @@
       dub: false
   checkedAt: '2026-11-17'
   note: "Folge 492 führt ADN nicht (Schnittstelle und Daniels Screenshot vom 04.10.2026: 491 → 493). Folgen 1–21 mit deutschem Ton — ADN-Schnittstelle (gw.api.animationdigitalnetwork.com/video/show/561, gelesen 17.11.2026, data/adn-raw/561.json.gz): je Folge languages vostde und vde, available true. Der Block „Folgen 1–21 ohne deutschen Ton — Tonspuren: ja“ vom 09.11.2026 las nur die erste Spur und ist damit überholt."
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-17 ---
 
 - anilistId: 174576
@@ -40115,7 +40104,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 182300
   title: "Wistoria: Wand and Sword"
   platform: netflix
@@ -40123,7 +40111,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 158559
   title: "2.5 Dimensional Seduction"
   platform: netflix
@@ -40131,7 +40118,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-17 ---
 
 - anilistId: 190054
@@ -40141,7 +40127,6 @@
   dub: true
   checkedAt: '2026-11-17'
   note: "Folgen 1–3 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — Gemessen in der Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 13: Meine Form des Glücks — Netflix: Staffel 1"
-
 - anilistId: 207254
   title: "Thunder 3"
   platform: netflix
@@ -40149,7 +40134,6 @@
   dub: true
   checkedAt: '2026-11-17'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — Gemessen in der Randprobe — gemessen: Folge 1 und 12, dazwischen nicht geprüft — Folge 12: LETZTER ANGRIFF — zweite Quelle: Anime2You (news/1055937, Staffel-2-Meldung), Netflix zeigte die zwölfteilige Serie Juli bis August 2026 mit deutscher Sprachfassung"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-18 ---
 
 - anilistId: 185262
@@ -40159,7 +40143,6 @@
   dub: false
   checkedAt: '2026-11-09'
   note: "Folgen 1–12 ohne deutschen Ton — Tonspuren: ja"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-17 ---
 
 - anilistId: 174576
@@ -40169,7 +40152,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 182300
   title: "Wistoria: Wand and Sword"
   platform: netflix
@@ -40177,7 +40159,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 158559
   title: "2.5 Dimensional Seduction"
   platform: netflix
@@ -40185,7 +40166,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-18 ---
 
 - anilistId: 173694
@@ -40193,9 +40173,8 @@
   platform: netflix
   url: https://www.netflix.com/title/81910037
   available: false
-  checkedAt: '2026-11-17'
+  checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 158928
   title: "Spy × Family Code: White"
   platform: netflix
@@ -40203,7 +40182,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 164212
   title: "Girls Band Cry"
   platform: netflix
@@ -40211,7 +40189,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 111314
   title: "Uzumaki"
   platform: netflix
@@ -40219,7 +40196,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 173693
   title: "Loner Life in Another World"
   platform: netflix
@@ -40227,7 +40203,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 133845
   title: "Overlord: The Sacred Kingdom"
   platform: netflix
@@ -40235,7 +40210,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 177506
   title: "Possibly the Greatest Alchemist of All Time"
   platform: netflix
@@ -40243,7 +40217,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 147105
   title: "Atelier of Witch Hat"
   platform: netflix
@@ -40251,7 +40224,6 @@
   available: false
   checkedAt: '2026-11-17'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 43
   title: "Ghost in the Shell"
   platform: netflix
@@ -40259,7 +40231,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 1816
   title: "Sonic X"
   platform: netflix
@@ -40267,7 +40238,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 323
   title: "Paranoia Agent"
   platform: netflix
@@ -40275,7 +40245,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 532
   title: "Sailor Moon S"
   platform: netflix
@@ -40283,7 +40252,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 54
   title: "Appleseed"
   platform: netflix
@@ -40291,7 +40259,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 1566
   title: "Ghost in the Shell: Stand Alone Complex - Solid State Society"
   platform: netflix
@@ -40299,7 +40266,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 2107
   title: "One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin"
   platform: netflix
@@ -40307,7 +40273,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 1689
   title: "5 Centimeters per Second"
   platform: netflix
@@ -40315,7 +40280,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 781
   title: "Detektiv Conan: Der Magier des letzten Jahrhunderts"
   platform: netflix
@@ -40323,7 +40287,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 6675
   title: "Redline"
   platform: netflix
@@ -40331,7 +40294,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 288
   title: "Beyblade"
   platform: netflix
@@ -40339,7 +40301,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 4059
   title: "Clannad: OVA - Das Tomoyo Kapitel"
   platform: netflix
@@ -40347,7 +40308,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 166
   title: "Samurai 7"
   platform: netflix
@@ -40355,7 +40315,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 2966
   title: "Spice and Wolf"
   platform: netflix
@@ -40363,7 +40322,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 467
   title: "Ghost in the Shell: Stand Alone Complex"
   platform: netflix
@@ -40371,7 +40329,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 801
   title: "Ghost in the Shell: Stand Alone Complex 2nd GIG"
   platform: netflix
@@ -40379,7 +40336,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 934
   title: "Higurashi no Naku Koro ni"
   platform: netflix
@@ -40387,7 +40343,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 4752
   title: "Vampire Knight Guilty"
   platform: netflix
@@ -40395,7 +40350,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 11617
   title: "Highschool D×D"
   platform: netflix
@@ -40403,7 +40357,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 15451
   title: "Highschool D×D New"
   platform: netflix
@@ -40411,7 +40364,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20745
   title: "Highschool D×D BorN"
   platform: netflix
@@ -40419,7 +40371,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 15809
   title: "The Devil Is a Part-Timer!"
   platform: netflix
@@ -40427,7 +40378,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 5231
   title: "Inazuma Eleven"
   platform: netflix
@@ -40435,7 +40385,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20661
   title: "Terror in Tokio"
   platform: netflix
@@ -40443,7 +40392,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 18115
   title: "Magi: The Kingdom of Magic"
   platform: netflix
@@ -40451,7 +40399,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20632
   title: "Aldnoah.Zero"
   platform: netflix
@@ -40459,7 +40406,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20853
   title: "Aldnoah.Zero 2"
   platform: netflix
@@ -40467,7 +40413,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 18153
   title: "Beyond the Boundary: Kyoukai no Kanata"
   platform: netflix
@@ -40475,7 +40420,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 14345
   title: "Btooom!"
   platform: netflix
@@ -40483,7 +40427,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 14713
   title: "Kamisama Kiss"
   platform: netflix
@@ -40491,7 +40434,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20801
   title: "Kamisama Kiss: Staffel 2"
   platform: netflix
@@ -40499,7 +40441,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20668
   title: "Shojo-Mangaka Nozaki-kun"
   platform: netflix
@@ -40507,7 +40448,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 102657
   title: "Dragon Nest: Die Chroniken von Altera"
   platform: netflix
@@ -40515,7 +40455,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 9760
   title: "Die Reise nach Agartha"
   platform: netflix
@@ -40523,7 +40462,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 997
   title: "Sailor Moon S: Schneeprinzessin Kaguya"
   platform: netflix
@@ -40531,7 +40469,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21355
   title: "Re:Zero - Starting Life in Another World"
   platform: netflix
@@ -40539,7 +40476,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 108632
   title: "Re:Zero - Starting Life in Another World Season 2"
   platform: netflix
@@ -40547,7 +40483,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 119661
   title: "Re:Zero - Starting Life in Another World Season 2"
   platform: netflix
@@ -40555,7 +40490,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21311
   title: "Bungo Stray Dogs"
   platform: netflix
@@ -40563,7 +40497,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21679
   title: "Bungo Stray Dogs 2"
   platform: netflix
@@ -40571,7 +40504,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 103223
   title: "Bungo Stray Dogs 3"
   platform: netflix
@@ -40579,7 +40511,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 16067
   title: "Nagi no Asukara"
   platform: netflix
@@ -40587,7 +40518,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21120
   title: "Haikyu!! Movie 1 - Ende und Anfang"
   platform: netflix
@@ -40595,7 +40525,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21244
   title: "Haikyu!! Movie 2 - Gewinner und Verlierer"
   platform: netflix
@@ -40603,7 +40532,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21428
   title: "Grimgar, Ashes and Illusions"
   platform: netflix
@@ -40611,7 +40539,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 14751
   title: "Pretty Guardian Sailor Moon Crystal"
   platform: netflix
@@ -40619,7 +40546,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21462
   title: "Pretty Guardian Sailor Moon Crystal Season III"
   platform: netflix
@@ -40627,7 +40553,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 93
   title: "Mobile Suit Gundam Seed"
   platform: netflix
@@ -40635,7 +40560,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 12979
   title: "Naruto Spin off! Rock Lee & seine Ninja-Kumpels"
   platform: netflix
@@ -40643,7 +40567,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 18617
   title: "Girls und Panzer: Der Film"
   platform: netflix
@@ -40651,7 +40574,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21857
   title: "Masamune-kun’s Revenge"
   platform: netflix
@@ -40659,7 +40581,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 146953
   title: "Masamune-kun’s Revenge R"
   platform: netflix
@@ -40667,7 +40588,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20994
   title: "Gate"
   platform: netflix
@@ -40675,7 +40595,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21364
   title: "Gate – Teil 2"
   platform: netflix
@@ -40683,7 +40602,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20920
   title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth"
   platform: netflix
@@ -40691,7 +40609,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 101167
   title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth II"
   platform: netflix
@@ -40699,7 +40616,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 112124
   title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth III"
   platform: netflix
@@ -40707,7 +40623,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21776
   title: "Miss Kobayashi’s Dragon Maid"
   platform: netflix
@@ -40715,7 +40630,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21676
   title: "Danmachi: Sword Oratoria"
   platform: netflix
@@ -40723,7 +40637,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20623
   title: "Parasyte: The Maxim"
   platform: netflix
@@ -40731,7 +40644,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21700
   title: "Akashic Records of Bastard Magical Instructor"
   platform: netflix
@@ -40739,7 +40651,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21685
   title: "Eromanga Sensei"
   platform: netflix
@@ -40747,7 +40658,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21860
   title: "WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us?"
   platform: netflix
@@ -40755,7 +40665,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98659
   title: "Classroom of the Elite"
   platform: netflix
@@ -40763,7 +40672,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21701
   title: "Scum’s Wish"
   platform: netflix
@@ -40771,7 +40679,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98491
   title: "In Another World with My Smartphone"
   platform: netflix
@@ -40779,7 +40686,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 147571
   title: "In Another World with My Smartphone 2"
   platform: netflix
@@ -40787,7 +40693,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 12859
   title: "One Piece Z"
   platform: netflix
@@ -40795,7 +40700,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 8425
   title: "Gosick"
   platform: netflix
@@ -40803,7 +40707,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20954
   title: "A Silent Voice"
   platform: netflix
@@ -40811,7 +40714,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98443
   title: "Juni Taisen: Zodiac War"
   platform: netflix
@@ -40819,7 +40721,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 97832
   title: "Citrus"
   platform: netflix
@@ -40827,7 +40728,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21742
   title: "Katsugeki: Touken Ranbu"
   platform: netflix
@@ -40835,7 +40735,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98249
   title: "Lu over the Wall"
   platform: netflix
@@ -40843,7 +40742,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 14741
   title: "Love, Chunibyo & Other Delusions!"
   platform: netflix
@@ -40851,7 +40749,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 18671
   title: "Love, Chunibyo & Other Delusions! Heart Throb"
   platform: netflix
@@ -40859,7 +40756,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 11111
   title: "Another"
   platform: netflix
@@ -40867,7 +40763,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 777
   title: "Hellsing Ultimate OVA"
   platform: netflix
@@ -40875,7 +40770,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 100077
   title: "Hinamatsuri"
   platform: netflix
@@ -40883,7 +40777,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 99426
   title: "A Place Further Than the Universe"
   platform: netflix
@@ -40891,7 +40784,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 3848
   title: "One Piece: Chopper und das Wunder der Winterkirschblüte"
   platform: netflix
@@ -40899,7 +40791,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 97908
   title: "Fireworks: Alles eine Frage der Zeit"
   platform: netflix
@@ -40907,7 +40798,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 163024
   title: "Captain Tsubasa: Staffel 2 - Die Junioren"
   platform: netflix
@@ -40915,7 +40805,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 100749
   title: "Mirai: Das Mädchen aus der Zukunft"
   platform: netflix
@@ -40923,7 +40812,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 101004
   title: "How Not to Summon a Demon Lord"
   platform: netflix
@@ -40931,7 +40819,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 99423
   title: "Darling in the Franxx"
   platform: netflix
@@ -40939,7 +40826,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98289
   title: "Beyblade Burst: Evolution"
   platform: netflix
@@ -40947,7 +40833,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 101573
   title: "Bloom into You"
   platform: netflix
@@ -40955,7 +40840,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 100977
   title: "Cells at Work!"
   platform: netflix
@@ -40963,7 +40847,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 108631
   title: "Cells at Work!! Staffel 2"
   platform: netflix
@@ -40971,7 +40854,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98884
   title: "Haikyu!! Movie 3 - Talent Und Gespür"
   platform: netflix
@@ -40979,7 +40861,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98885
   title: "Haikyu!! Movie 4 - Ein Kampf der Konzepte"
   platform: netflix
@@ -40987,7 +40868,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 100483
   title: "Yunas Geisterhaus"
   platform: netflix
@@ -40995,7 +40875,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 99750
   title: "I Want to Eat Your Pancreas"
   platform: netflix
@@ -41003,7 +40882,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 101478
   title: "Okko und ihre Geisterfreunde"
   platform: netflix
@@ -41011,7 +40889,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 100356
   title: "Mutafukaz"
   platform: netflix
@@ -41019,7 +40896,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 849
   title: "Die Melancholie der Haruhi Suzumiya"
   platform: netflix
@@ -41027,7 +40903,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 101921
   title: "Kaguya-sama: Love Is War"
   platform: netflix
@@ -41035,7 +40910,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 112641
   title: "Kaguya-sama: Love Is War?"
   platform: netflix
@@ -41043,7 +40917,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21875
   title: "No Game No Life Zero"
   platform: netflix
@@ -41051,7 +40924,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 101166
   title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion"
   platform: netflix
@@ -41059,7 +40931,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 7054
   title: "Maid-sama"
   platform: netflix
@@ -41067,7 +40938,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21686
   title: "Küss ihn, nicht mich!"
   platform: netflix
@@ -41075,7 +40945,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 107226
   title: "How Heavy Are the Dumbbells You Lift?"
   platform: netflix
@@ -41083,7 +40952,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 107663
   title: "Astra Lost in Space"
   platform: netflix
@@ -41091,7 +40959,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 107693
   title: "Welcome to Demon School! Iruma-kun"
   platform: netflix
@@ -41099,7 +40966,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 116338
   title: "Welcome to Demon-School! Iruma-kun: Staffel 2"
   platform: netflix
@@ -41107,7 +40973,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 105156
   title: "Cautious Hero: The Hero Is Overpowered but Overly Cautious"
   platform: netflix
@@ -41115,7 +40980,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 103221
   title: "Children of the Sea"
   platform: netflix
@@ -41123,7 +40987,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 127230
   title: "Chainsaw Man"
   platform: netflix
@@ -41131,7 +40994,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 104157
   title: "Rascal Does Not Dream of a Dreaming Girl"
   platform: netflix
@@ -41139,7 +41001,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 106479
   title: "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense."
   platform: netflix
@@ -41147,7 +41008,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 163134
   title: "Re:Zero - Starting Life in Another World: Staffel 3"
   platform: netflix
@@ -41155,7 +41015,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 108241
   title: "Gleipnir"
   platform: netflix
@@ -41163,7 +41022,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 109020
   title: "Sing “Yesterday” for Me"
   platform: netflix
@@ -41171,7 +41029,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98873
   title: "Overlord (Movies)"
   platform: netflix
@@ -41179,7 +41036,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98874
   title: "Overlord - Der dunkle Held"
   platform: netflix
@@ -41187,7 +41043,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 106240
   title: "Hello World"
   platform: netflix
@@ -41195,7 +41050,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 113813
   title: "Rent-a-Girlfriend"
   platform: netflix
@@ -41203,7 +41057,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 110353
   title: "Deca-Dence"
   platform: netflix
@@ -41211,7 +41064,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 116415
   title: "Bakugan: Armored Alliance"
   platform: netflix
@@ -41219,7 +41071,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 115230
   title: "Tower of God"
   platform: netflix
@@ -41227,7 +41078,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 114535
   title: "To Your Eternity"
   platform: netflix
@@ -41235,7 +41085,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 118399
   title: "Yashahime: Princess Half-Demon"
   platform: netflix
@@ -41243,7 +41092,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 114446
   title: "Higurashi: When They Cry Gou"
   platform: netflix
@@ -41251,7 +41099,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 131149
   title: "Higurashi: When They Cry Sotsu"
   platform: netflix
@@ -41259,7 +41106,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 115740
   title: "By the Grace of the Gods"
   platform: netflix
@@ -41267,7 +41113,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 117533
   title: "Cells at Work! Code Black"
   platform: netflix
@@ -41275,7 +41120,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 103632
   title: "Ich bin eine Spinne, na und?"
   platform: netflix
@@ -41283,7 +41127,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 117757
   title: "Iwakakeru! Sport Climbing Girls"
   platform: netflix
@@ -41291,7 +41134,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 112151
   title: "Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train"
   platform: netflix
@@ -41299,7 +41141,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 120697
   title: "Don’t Toy with Me, Miss Nagatoro"
   platform: netflix
@@ -41307,7 +41148,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 112023
   title: "The Legend of Hei: Die Kraft in dir"
   platform: netflix
@@ -41315,7 +41155,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 120120
   title: "Tokyo Revengers"
   platform: netflix
@@ -41323,7 +41162,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 127271
   title: "Belle"
   platform: netflix
@@ -41331,7 +41169,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 113596
   title: "Josie, der Tiger und die Fische"
   platform: netflix
@@ -41339,7 +41176,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 129898
   title: "The World’s Finest Assassin Gets Reincarnated in Another World as an Aristocrat"
   platform: netflix
@@ -41347,7 +41183,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 132052
   title: "A Couple of Cuckoos"
   platform: netflix
@@ -41355,7 +41190,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 140457
   title: "I’m Quitting Heroing"
   platform: netflix
@@ -41363,7 +41197,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 131573
   title: "Jujutsu Kaisen 0"
   platform: netflix
@@ -41371,7 +41204,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 129192
   title: "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!"
   platform: netflix
@@ -41379,7 +41211,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 143270
   title: "Lycoris Recoil"
   platform: netflix
@@ -41387,7 +41218,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 130003
   title: "Bocchi the Rock!"
   platform: netflix
@@ -41395,7 +41225,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 153452
   title: "Ranking of Kings: The Treasure Chest of Courage"
   platform: netflix
@@ -41403,7 +41232,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 177166
   title: "Bakugan"
   platform: netflix
@@ -41411,7 +41239,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 162804
   title: "Alya Sometimes Hides Her Feelings in Russian"
   platform: netflix
@@ -41419,7 +41246,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 139092
   title: "Welcome to Demon School! Iruma-kun: Staffel 3"
   platform: netflix
@@ -41427,7 +41253,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 20835
   title: "One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden"
   platform: netflix
@@ -41435,7 +41260,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 159831
   title: "Zom 100: Bucket List of the Dead"
   platform: netflix
@@ -41443,7 +41267,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 142849
   title: "Ayakashi Triangle"
   platform: netflix
@@ -41451,7 +41274,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 151806
   title: "Tomo-chan Is a Girl!"
   platform: netflix
@@ -41459,7 +41281,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 145665
   title: "NieR:Automata Ver1.1a"
   platform: netflix
@@ -41467,7 +41288,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 151847
   title: "Raeliana: Warum sie die Verlobte des Dukes wurde"
   platform: netflix
@@ -41475,7 +41295,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 151801
   title: "Mashle: Magic and Muscles"
   platform: netflix
@@ -41483,7 +41302,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 166610
   title: "Mashle: Magic and Muscles - The Divine Visionary Candidate Exam Arc"
   platform: netflix
@@ -41491,7 +41309,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 157198
   title: "Dead Mount Death Play"
   platform: netflix
@@ -41499,7 +41316,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 102891
   title: "The Deer King"
   platform: netflix
@@ -41507,7 +41323,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 161441
   title: "Resident Evil: Death Island"
   platform: netflix
@@ -41515,7 +41330,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 166794
   title: "A Sign of Affection"
   platform: netflix
@@ -41523,7 +41337,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 151807
   title: "Solo Leveling"
   platform: netflix
@@ -41531,7 +41344,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 1366
   title: "Detektiv Conan: Die Kreuzung des Labyrinths"
   platform: netflix
@@ -41539,7 +41351,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 21646
   title: "Detektiv Conan: Die Sonnenblumen des Infernos"
   platform: netflix
@@ -41547,7 +41358,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 98222
   title: "Detektiv Conan: Der purpurrote Liebesbrief"
   platform: netflix
@@ -41555,7 +41365,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 142219
   title: "Detektiv Conan: Die Halloween-Braut"
   platform: netflix
@@ -41563,7 +41372,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 8310
   title: "Magic Kaito: Kid the Phantom Thief"
   platform: netflix
@@ -41571,7 +41379,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 140499
   title: "Blue Giant"
   platform: netflix
@@ -41579,7 +41386,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 154967
   title: "Rascal Does Not Dream of a Sister Venturing Out"
   platform: netflix
@@ -41587,7 +41393,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 128207
   title: "The First Slam Dunk"
   platform: netflix
@@ -41595,7 +41400,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 153332
   title: "Die Parallelwelt-Chroniken des Aristokraten"
   platform: netflix
@@ -41603,7 +41407,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 145728
   title: "Spice and Wolf: Merchant Meets the Wise Wolf"
   platform: netflix
@@ -41611,7 +41414,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 - anilistId: 163270
   title: "Wind Breaker"
   platform: netflix
@@ -41619,7 +41421,6 @@
   available: false
   checkedAt: '2026-11-18'
   note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"
-
 # --- Anime2You-Aussagen zu Disney+ (18.11.2026): Das Termin-Ja fiel mit PR 4134 weg (Neuzugangsartikel belegt den Termin, nicht den Ton), die Artikel nennen die Sprache aber selbst ---
 
 - anilistId: 97940

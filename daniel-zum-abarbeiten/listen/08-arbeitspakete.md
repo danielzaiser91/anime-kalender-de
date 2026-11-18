@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-18 · **17 offene Verweise** in **16 Zeilen**,
+Stand 2026-11-18 · **16 offene Verweise** in **15 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,7 +31,7 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 16
+## Paket 1 — Zeilen 1 bis 15
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -44,10 +44,9 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 7 | Netflix | My Hero Academia | [Vigilantes Staffel 2](https://www.netflix.com/title/82036361) |
 | 8 | Netflix | Atelier of Witch Hat | [Hauptserie](https://www.netflix.com/title/82741721) |
 | 9 | Prime Video | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
-| 10 | Netflix | Failure Frame: I Became the Strongest and Annihilated Everything with Low-Level Spells | [Hauptserie](https://www.netflix.com/title/81910037) |
-| 11 | Prime Video | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
-| 12 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
-| 13 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 14 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
-| 15 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
-| 16 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
+| 10 | Prime Video | Sankarea: Undying Love | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31) |
+| 11 | Netflix | Possibly the Greatest Alchemist of All Time | [Hauptserie](https://www.netflix.com/title/82058586) |
+| 12 | Prime Video | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
+| 13 | Netflix | Uzumaki | [Hauptserie](https://www.netflix.com/title/81943371) |
+| 14 | Netflix | Overlord | [The Sacred Kingdom](https://www.netflix.com/title/82040442) |
+| 15 | Netflix | Spy × Family | [Code: White](https://www.netflix.com/title/81924850) |
