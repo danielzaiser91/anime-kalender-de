@@ -5236,14 +5236,8 @@ function uebersichtZeigen() {
    * Zwei Zähler, zwei Einheiten, dieselbe Frage — dann widersprechen sie sich
    * zwangsläufig. Der Knopf zählt jetzt dasselbe wie alles andere.
    */
-  const offeneStaffeln = globalThis.akNetflixOffeneStaffeln(offeneTitel, {
-    mitStand: Boolean(standZieleNetflix),
-    fertig,
-    erledigtTot: (id) => istErledigt(id, 'tot'),
-    staffelnVon,
-    empfohleneFolgen,
-    kuerzelErledigt,
-  })
+  const offeneStaffeln = globalThis.akNetflixOffeneStaffeln(offeneTitel, Boolean(standZieleNetflix), (id) => istErledigt(id, 'tot'),
+    fertig, staffelnVon, empfohleneFolgen, kuerzelErledigt)
   /**
    * **Der Knopf zählt, was in der Liste steht — nichts anderes.**
    *

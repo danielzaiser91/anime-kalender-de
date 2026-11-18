@@ -21,14 +21,15 @@ const zaehle = kontext.akNetflixOffeneStaffeln
 
 const titel = { 111: { name: 'tot' }, 222: { name: 'offen' } }
 const bau = (mitStand, fertigIds = []) =>
-  zaehle(titel, {
+  zaehle(
+    titel,
     mitStand,
-    fertig: (id) => fertigIds.includes(id),
-    erledigtTot: (id) => id === '111',
-    staffelnVon: () => ['S1', 'S2'],
-    empfohleneFolgen: (e) => e.staffeln,
-    kuerzelErledigt: () => false,
-  })
+    (id) => id === '111',
+    (id) => fertigIds.includes(id),
+    () => ['S1', 'S2'],
+    (e) => e.staffeln,
+    () => false,
+  )
 
 console.log('Staffelzählung: Stand gegen Tot-Vermerk')
 pruefe('ohne Stand: der Tot-Vermerk nimmt seine Staffeln aus der Zählung', bau(false) === 2, bau(false))
