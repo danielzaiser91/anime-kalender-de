@@ -1119,8 +1119,8 @@ function beschriftung(spuren) {
     if (totGilt(gemeinteReihe())) {
       return { text: 'Als nicht abrufbar gemeldet ✓', klasse: 'ak-nein', aktiv: false }
     }
-    /* Mit Termin ein Knopf, ohne Termin nur der Hinweis „angekündigt“ (`netflix-erinnern.js`). */
-    if (keineFolgeVorhanden()) return akNetflixErinnernKnopf(erscheinungsdatum())
+    /* Mit Termin „ab <Termin> melden“, ohne Termin „Zurückstellen“ bzw. der Stand der Zurückstellung (`netflix-erinnern.js`). */
+    if (keineFolgeVorhanden()) return akNetflixErinnernKnopf(erscheinungsdatum(), selbstUebersprungen.zurueckInfo(gemeinteReihe()))
     /*
       **Kein Hinweis mehr auf die alte Automatik.**
 
@@ -1167,8 +1167,8 @@ async function melden({ automatisch = false } = {}) {
   const ohneFolge = !spuren && keineFolgeVorhanden()
   if (!stand.reihe) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
   if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
-  /* „Erinnern“ ohne Termin ist eine Ankündigung, kein Befund: nichts melden. */
-  if (ohneFolge && !erscheinungsdatum()) return zeigeErgebnis(akNetflixErinnernKnopf(null).text, false)
+  /* „Erinnern“ ohne Termin ist eine Ankündigung, kein Befund: nichts melden, nur zurückstellen (18.11.2026). */
+  if (ohneFolge && !erscheinungsdatum()) return zeigeErgebnis(akNetflixErinnernZurueckstellen(selbstUebersprungen, gemeinteReihe()), true)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}

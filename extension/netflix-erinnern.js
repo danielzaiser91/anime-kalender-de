@@ -26,10 +26,24 @@ globalThis.akNetflixLeerNach = LEER_NACH_MS
  * Ohne Termin ist der Titel angekündigt, nicht abwesend — kein Knopf, nie „nicht abrufbar“ (das streicht den Weg).
  * Anzeige (`beschriftung`) und Handlung (`melden`) lesen diese eine Funktion.
  */
-globalThis.akNetflixErinnernKnopf = (termin) =>
-  termin
-    ? { text: `Noch nicht da — „ab ${termin}" melden`, klasse: 'ak-nein', aktiv: true }
-    : { text: 'Angekündigt — Netflix nennt keinen Termin', klasse: 'ak-leer', aktiv: false }
+globalThis.akNetflixErinnernKnopf = (termin, zurueck = null) => {
+  if (termin) return { text: `Noch nicht da — „ab ${termin}" melden`, klasse: 'ak-nein', aktiv: true }
+  /* Ohne Termin gibt es nichts zu melden (Daniel, 18.11.2026: „es sollte auf zurückgestellt gesetzt werden"): der Klick stellt den Titel zurück. */
+  if (zurueck) return { text: `Zurückgestellt bis ${globalThis.akNetflixTagKurz(zurueck.bis)} ✓ — ${zurueck.grund}`, klasse: 'ak-leer', aktiv: false }
+  return { text: `Zurückstellen — ${globalThis.akNetflixErinnernGrund(null)}`, klasse: 'ak-leer', aktiv: true }
+}
+
+/** Berliner Kalendertag eines Zeitpunkts als „25.11.". */
+globalThis.akNetflixTagKurz = (ms) => {
+  const t = new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', day: 'numeric', month: 'numeric' }).formatToParts(new Date(ms))
+  return `${t.find((p) => p.type === 'day').value}.${t.find((p) => p.type === 'month').value}.`
+}
+
+/** Klick „Zurückstellen" bei „Erinnern" ohne Termin: nur zurückstellen, nichts melden. Gibt den Text für die Rückmeldung zurück. */
+globalThis.akNetflixErinnernZurueckstellen = (karte, reihe) => {
+  karte.set(String(reihe), globalThis.akNetflixErinnernGrund(null))
+  return 'Zurückgestellt ✓'
+}
 
 const ERINNERN_MONATE = ['jan', 'feb', 'mär', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dez']
 
