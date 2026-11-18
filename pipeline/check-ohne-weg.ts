@@ -2,7 +2,8 @@
  * Zusicherungen zu `ohne-weg.json` (Grund je Titel ohne Streaming-Weg): Regeln, Wächter, Kennungsübersetzung, Anzeigetext. Den Bauschritt prüft `check-ohne-weg-lauf.ts`.
  * Aufruf: `npm run check:logic`.
  */
-import { baueOhneWeg, type OhneWegEingabe } from './lib/ohne-weg.ts'
+import { baueOhneWeg, OFFEN_HOECHSTENS, type OhneWegEingabe } from './lib/ohne-weg.ts'
+import { zaehleGruende } from './bau/13-13-ohne-weg.ts'
 import { ohneWegFehler } from './lib/pruefung.ts'
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import { ohneStreamingWeg, type OhneWegEintrag } from '../shared/ohne-weg.ts'
@@ -49,6 +50,10 @@ const e5 = lauf({ titel: [titel(900005)], handbelege: [check(900005, 'prime', { 
 pruefe('Gegenfall: ein Ja auf anderer Plattform hebt den Grund auf', e5[900005]?.reason === 'offen', e5)
 const e6 = lauf({ titel: [titel(900006)], handbelege: [check(900006, 'prime', { available: false })] })
 pruefe('Gegenfall: „nicht verfügbar“ ist kein Originalton-Beleg', e6[900006]?.reason === 'offen', e6)
+const e6b = lauf({ titel: [titel(900035)], handbelege: [check(900035, 'prime', { dub: false, available: false, checkedAt: '2026-10-31' })] })
+pruefe('Gegenfall: verschmolzene Zeile mit dub:false und jüngerem available:false (Goblin Slayer) trägt keinen Originalton-Tag', e6b[900035]?.reason === 'offen', e6b)
+const e6c = lauf({ titel: [titel(900036)], handbelege: [check(900036, 'prime', { dub: false, checkedAt: '2026-09-28' }), check(900036, 'netflix', { available: false, checkedAt: '2026-10-31' })] })
+pruefe('Originalton auf einer, „nicht verfügbar“ auf anderer Plattform: der Originalton-Tag zählt', e6c[900036]?.reason === 'kein-dub' && e6c[900036]?.checkedAt === '2026-09-28', e6c)
 
 const e7 = lauf({ titel: [titel(900007)], justwatch: { 900007: jw('a1', 1, ['BUY', 'RENT']) } })
 pruefe('JustWatch nur Kauf/Leihe: Tag aus geprueftAm', e7[900007]?.reason === 'nur-kauf' && e7[900007]?.checkedAt === '2026-11-17' && e7[900007]?.source === 'justwatch', e7)
@@ -109,6 +114,11 @@ for (const [name, e] of [
   ['angekuendigt ohne Starttag (checkedAt zählt dort nicht)', { reason: 'angekuendigt', checkedAt: '2026-11-17' }],
 ] as [string, OhneWegEintrag][])
   pruefe(`Fehler: ${name}`, ohneWegFehler({ 5: e }, [5], 9).fehler.length === 1)
+const fehlerText = (e: OhneWegEintrag) => ohneWegFehler({ 5: e }, [5], 9).fehler.join()
+pruefe('Fehlertext nennt bei angekuendigt den Starttag, sonst den Prüftag', fehlerText({ reason: 'angekuendigt' }).includes('Starttag (ab)') && fehlerText({ reason: 'nur-kauf' }).includes('Prüftag (checkedAt)'))
+/* Die Grenze sinkt nur: 960 war der Stand vom 18.11.2026; mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
+pruefe('Grenze für „offen“ ist gesetzt und höchstens 960', OFFEN_HOECHSTENS > 0 && OFFEN_HOECHSTENS <= 960, OFFEN_HOECHSTENS)
+pruefe('Logzeile zählt je Grund alphabetisch', zaehleGruende({ 1: { reason: 'offen' }, 2: { reason: 'kein-dub' }, 3: { reason: 'offen' } }) === 'kein-dub 1, offen 2')
 
 console.log('\nKennungen und Anzeigetext')
 const ak = (n: number) => (n < 0 ? n : n + 1_000_000)

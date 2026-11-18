@@ -14,14 +14,15 @@ import type { Title } from '../../shared/types.ts'
 
 const OUT = 'public/data'
 
-/** Zählt je Grund, für die Logzeile. */
-function zaehleGruende(e: Record<number, { reason: string }>): string {
+/** Zählt je Grund, alphabetisch, für die Logzeile. */
+export function zaehleGruende(e: Record<number, { reason: string }>): string {
   const n = new Map<string, number>()
   for (const x of Object.values(e)) n.set(x.reason, (n.get(x.reason) ?? 0) + 1)
-  return [...n].map(([g, z]) => `${g} ${z}`).join(', ')
+  return [...n].sort().map(([g, z]) => `${g} ${z}`).join(', ')
 }
 
-export function schreibeOhneWeg(): void {
+/** `bauer` und `grenze` setzen nur Tests (kaputter Bauer, Grenze 0); im Bau gelten die Vorgaben. */
+export function schreibeOhneWeg({ bauer = baueOhneWeg, grenze = OFFEN_HOECHSTENS }: { bauer?: typeof baueOhneWeg; grenze?: number } = {}): void {
   const titel = [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])]
   const eingabe: OhneWegEingabe = {
     titel,
@@ -30,8 +31,8 @@ export function schreibeOhneWeg(): void {
     justwatch: readJson('data/justwatch-audio.json', {}),
     heute: todayIso(),
   }
-  const eintraege = baueOhneWeg(eingabe)
-  const { fehler, warnungen } = ohneWegFehler(eintraege, titel.filter(ohneStreamingWeg).map((t) => t.id), OFFEN_HOECHSTENS)
+  const eintraege = bauer(eingabe)
+  const { fehler, warnungen } = ohneWegFehler(eintraege, titel.filter(ohneStreamingWeg).map((t) => t.id), grenze)
   brichAbBeiWiderspruch(fehler, 'Widerspruch/Widersprüche in ohne-weg.json — Bau abgebrochen.')
   for (const w of warnungen) warn(`⚠ WARNUNG ${w}`)
   writeJson(`${OUT}/ohne-weg.json`, eintraege)

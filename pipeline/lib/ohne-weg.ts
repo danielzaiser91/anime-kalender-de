@@ -37,8 +37,9 @@ export function ersterStart(termine: readonly Termin[], heute: string): string |
 export function originaltonAm(checks: readonly Handbeleg[]): string | undefined {
   if (checks.some((c) => urteilVon(c) === 'ja')) return undefined
   const gilt = neinHandbelege([...checks])
+  /* Eine verschmolzene Zeile mit `dub: false` und jüngerem `available: false` (Goblin Slayer, Prime) trägt den Tag der Seitenprüfung, nicht den des Originalton-Belegs: sie zählt nicht. */
   const tage = checks
-    .filter((c) => c.dub === false && urteilVon(c) === 'nein' && (gilt.has(dubKey(c.anilistId, c.platform)) || [...gilt].some((k) => k.startsWith(`${dubKey(c.anilistId, c.platform)}|`))))
+    .filter((c) => c.dub === false && c.available !== false && urteilVon(c) === 'nein' && gilt.has(dubKey(c.anilistId, c.platform)))
     .map((c) => c.checkedAt ?? '')
     .filter(Boolean)
   return tage.sort().at(-1)
