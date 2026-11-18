@@ -104,6 +104,8 @@ const filmZuSerie = lauf(meldung('»Street Fighter« startet im Kino', '2026-12-
 pruefe('Film-Meldung (Kino) an eine TV-Serie → mehrdeutig, kein Termin', filmZuSerie.neu.length === 0 && filmZuSerie.verluste.mehrdeutig.length === 1, filmZuSerie.verluste)
 const discBox = lauf(meldung('»Street Fighter« erscheint als Blu-ray-Box', '2026-12-01'), [titel(1362, 'Street Fighter II: The Animated Movie', 1362, 1994, { format: 'MOVIE' })])
 pruefe('Disc-Box ohne Film- oder Serienwort: das Format entscheidet nicht (Termin)', discBox.neu.length === 1, discBox.verluste)
+pruefe('Gegenfall „Black Clover“/„Spartacus“ ist kein Angebotswort (Präfix-Weg bleibt offen)', 'titel' in (praefixTitel({ articleTitle: 'Neue »Black Clover«-Staffel startet', category: 'streaming' }, [titel(5, 'Black Clover: Next Chapter', 5, 2026)], false) ?? {}) && 'titel' in (praefixTitel({ articleTitle: 'Neue »Sparta Kid«-Staffel startet', category: 'streaming' }, [titel(6, 'Sparta Kid: Rising', 6, 2026)], false) ?? {}))
+
 const sammel = lauf(
   meldung('»Love & Lies« – Staffel 1', '2026-12-01', { category: 'streaming', platforms: ['netflix'], dates: [{ iso: '2026-12-01', context: 'Sammelartikel' }] }),
   [titel(300, 'Love and Lies', 300, 2026), titel(301, 'Love and Lies Remix', 300, 2026)],

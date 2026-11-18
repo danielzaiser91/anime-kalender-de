@@ -17,7 +17,7 @@ export type PraefixBefund =
  * Ein Preisangebot nennt als Datum sein Ende, nicht ein Erscheinen („Dritte »ARIFURETA«-Staffel zum Sonderpreis“, bis 31.10.). Gelistet sind die
  * Formulierungen echter Meldungen (Sparaktion, Black Friday/Weeks, reduziert, Deal-Preis, „Vorbestellphase endet am“).
  */
-const ANGEBOT = /\b(angebot|sonderpreis|rabatt\w*|aktion|sale|spar\w*|black|reduziert|deal\w*|günstig\w*|endet|bis zum)\b/i
+const ANGEBOT = /\b(angebot|sonderpreis|rabatt\w*|aktion|sale|\w*sparaktion|black[\s-](?:friday|weeks?|days?)|reduziert|deal\w*|günstig\w*|endet|bis zum)\b/i
 
 /** Was die Meldung ankündigt: ein Film (Kino, Film-Wort) oder eine Serie (Streaming, Staffel/Simulcast/Start); eine Disc-Box ohne Hinweis lässt beides offen. */
 function meldungsArt(v: Pick<Vorschlag, 'articleTitle' | 'category'>): 'film' | 'serie' | undefined {
