@@ -550,6 +550,20 @@ Reihenfolge `discKaufUrl` / `buyUrlNachVerschiebung` / `kaufwegFuerDiscs` (`pipe
 - Gegenprobe im Lauf: Titel, Jahr und Cover müssen mit `data/luecken-titel.json` übereinstimmen (sonst eine Logzeile); `tools/lueckenlisten.test.mjs` rechnet A/B-Regel, Sortierung und A + B = Hauptbestand nach.
 - Ersetzt `listen/banner-luecken.md` (Stand 11.10.2026, wurde im Plakat-Lauf geschrieben): Der Plakat-Lauf schreibt sie nicht mehr, die Banner-Liste ist `listen/luecken/banner.md`.
 
+## Titel ohne Streaming-Weg: `ohne-weg.json` nennt den belegten Grund (18.11.2026)
+
+„Ohne Streaming-Weg“ heißt wie in `tools/streaming-weg-zaehlen.mjs` (`hatStreamingWeg`): kein `streams`-Eintrag und kein `watchLinks`-Eintrag mit `kind: 'stream'`; `shared/ohne-weg.ts` führt dieselbe Aussage fürs Web, ein Test hält beide gleich. Der Bau (`pipeline/bau/13-13-ohne-weg.ts`, Regeln `pipeline/lib/ohne-weg.ts`) schreibt aus den fertigen Dateien `public/data/ohne-weg.json`: Kennung → `{ reason, checkedAt?, ab?, source? }`. Das Panel lädt die Datei erst, wenn ein Titel ohne Weg offen ist (`web/src/components/detail/ohne-weg.tsx`); Start-Chunk gemessen ±0 Byte (index-Chunk 452.436 B vor und nach dem Bau, `node tools/start-budget.mjs` 184,3 KB). Datei 51 KB, gzip 5,5 KB.
+
+Gründe nur mit Beleg, in dieser Reihenfolge; jeder Titel hat genau einen:
+
+- `angekuendigt` — noch kein Termin vor heute auf einem Nicht-Disc-Weg, mindestens einer ab heute (`ab`); ein künftiger **Disc**-Termin zählt nicht (der Entwurf vom 18.11. hatte 22 Blu-ray-Bundles als „Start in Zukunft“ gezählt). Das Panel zeigt dafür keine eigene Zeile: Der Starttag steht schon im Kasten.
+- `kein-dub` — Handbeleg `dub: false` ohne `available: false`, kein Ja desselben Titels, vom Urteilsweg (`neinHandbelege`) als geltend bestätigt; `checkedAt` = Tag dieses Belegs. Ein „nicht verfügbar“ ist kein Originalton-Beleg (Goblin Slayer, Prime: die verschmolzene Zeile trägt den Tag der Seitenprüfung).
+- `nur-kauf` — JustWatch dem Titel zugeordnet (nicht `ohneTreffer`, mit Kennung, Kennung gehört keinem zweiten Titel), alle Angebote Kauf/Leihe; `checkedAt` = `geprueftAm`.
+- `film-ohne-abo` — Film, JustWatch zugeordnet, kein Angebot; `checkedAt` = `geprueftAm`.
+- `offen` — alles andere, ausdrücklich auch: JustWatch `ohneTreffer` (Zuordnungslücke, kein Beleg für „kein Angebot“), Abo-Angebot ohne belegten deutschen Ton, nur Disc.
+
+Stand `public/data` auf `c64adaa17`, 18.11.2026, 1.291 Titel ohne Streaming-Weg (Anime 991, Cartoons 300): `offen` 962 (Anime 784, Cartoons 178), `nur-kauf` 250 (153 / 97), `kein-dub` 45 (20 / 25), `film-ohne-abo` 33 (33 / 0), `angekuendigt` 1 (1 / 0). Wächter `ohneWegFehler` (`pipeline/lib/pruefung.ts`): jeder Titel ohne Weg hat einen Eintrag, jeder Grund außer `offen` seinen Tag (Fehler, der Bau bricht ab); mehr `offen` als `OFFEN_HOECHSTENS` (`pipeline/lib/ohne-weg.ts`, 962) ist eine Warnzeile, kein Abbruch — die Grenze wird mit jedem Abbau nachgezogen und steigt nie. `offen` baut man mit Belegen ab (JustWatch-Neuzuordnung der `ohneTreffer`-Titel, Handprüfung), nicht mit Texten.
+
 ## Große Cover, Titelrang und Suche in Zeitscheiben (07.10.2026)
 
 **Anlass:** Daniel, 07.10.2026: Das vergrößerte Cover („Rascal Does Not Dream of a Dear Friend") war unscharf; die Suche in der Datenbank mit dem Schalter „ohne deutsche Synchro" fror die Seite ein.
