@@ -20,17 +20,12 @@ export interface Staffelverstoss {
 /** Titel mit bekanntem Fund, den ein eigener Daten-PR klärt; die Liste darf nur sinken. */
 export const STAFFELZITAT_BEKANNT = new Set<number>([9367])
 
-/** Das Zitat ohne die angehängte Adresse („ — https://…“): Adressen tragen keine Staffelwörter. */
-function zitatText(zweiteQuelle: string): string {
-  return zweiteQuelle.replace(/\s+—\s+https?:\/\/\S+\s*$/, '')
-}
-
 /** Zeilen mit Anime2You-Zitat, deren Zitat laut `pruefeStaffel` eine andere Staffel nennt als die Adresse (Urteil „abweichung“); „unbekannt“ zählt nicht. */
 export function staffelzitatVerstoesse(zeilen: Zeile[], folgenJeId: Map<number, number | null>): Staffelverstoss[] {
   const out: Staffelverstoss[] = []
   for (const z of zeilen) {
     if (typeof z.zweiteQuelle !== 'string' || !z.zweiteQuelle.startsWith('Anime2You')) continue
-    const urteil = pruefeStaffel(zitatText(z.zweiteQuelle), z.note, folgenJeId.get(z.anilistId) ?? null)
+    const urteil = pruefeStaffel(z.zweiteQuelle, z.note, folgenJeId.get(z.anilistId) ?? null)
     if (urteil.urteil === 'abweichung') out.push({ id: z.anilistId, url: z.url ?? '', grund: urteil.grund })
   }
   return out
