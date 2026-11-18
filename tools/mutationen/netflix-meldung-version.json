@@ -1,0 +1,389 @@
+[
+ {
+  "name": "erweiterungVersion: Grenze 20 -> 19",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "{1,20}",
+    "ersetze": "{1,19}"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: Grenze 20 -> 21",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "{1,20}",
+    "ersetze": "{1,21}"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: leere Zeichenkette erlaubt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "{1,20}",
+    "ersetze": "{0,20}"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: Zeichenform nicht geprüft",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "FORM.test(v)",
+    "ersetze": "v.length > 0"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: Anfang nicht verankert",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "/^[\\w.+-]{1,20}$/",
+    "ersetze": "/[\\w.+-]{1,20}$/"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: Ende nicht verankert",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "/^[\\w.+-]{1,20}$/",
+    "ersetze": "/^[\\w.+-]{1,20}/"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: Typ nicht geprüft",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "typeof v === 'string' && ",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "erweiterungVersion: falsches Feld",
+  "aenderungen": [
+   {
+    "datei": "worker/src/erweiterung-version.ts",
+    "suche": "daten.version",
+    "ersetze": "daten.versionen"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "meldungsHash: Version bleibt im Hash",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-unveraendert.ts",
+    "suche": "filter(([k]) => k !== 'version')",
+    "ersetze": "filter(() => true)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "meldungsHash: Array-Schutz entfernt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-unveraendert.ts",
+    "suche": " && !Array.isArray(w)",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "meldungsHash: rohfolgen nicht bereinigt (A1)",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-unveraendert.ts",
+    "suche": "if (Array.isArray(rumpf.rohfolgen)) rumpf.rohfolgen =",
+    "ersetze": "if (false) rumpf.rohfolgen ="
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "meldungsHash: Einträge von rohfolgen nicht bereinigt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-unveraendert.ts",
+    "suche": "(istObjekt(r) ? ohneVersionFeld(r) : r)",
+    "ersetze": "(r)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "meldungsHash: Hash ohne ohneVersion",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-unveraendert.ts",
+    "suche": "const inhalt = ohneVersion(daten)",
+    "ersetze": "const inhalt = daten"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "eintragAusMeldung: Version nicht übergeben",
+  "aenderungen": [
+   {
+    "datei": "worker/src/titelzeile-format.ts",
+    "suche": "rohTitel, erweiterungVersion(daten))",
+    "ersetze": "rohTitel, null)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "mitZusatz: nur Version zählt nicht als Zusatz",
+  "aenderungen": [
+   {
+    "datei": "worker/src/titelzeile-format.ts",
+    "suche": "rohTitel === null && version === null) return e",
+    "ersetze": "rohTitel === null) return e"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "mitZusatz: Version nicht gesetzt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/titelzeile-format.ts",
+    "suche": "neu[VERSION] = version",
+    "ersetze": "void 0"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "mitZusatz: Version an Stelle 15",
+  "aenderungen": [
+   {
+    "datei": "worker/src/titelzeile-format.ts",
+    "suche": "neu[VERSION] = version",
+    "ersetze": "neu[ROH_TITEL] = version"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "gleicherInhalt: Version zählt",
+  "aenderungen": [
+   {
+    "datei": "worker/src/titelzeile-format.ts",
+    "suche": "e[ROH_TITEL] ?? null])",
+    "ersetze": "e[ROH_TITEL] ?? null, e[VERSION] ?? null])"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "gleicherInhalt: Ausschnitt bis Version",
+  "aenderungen": [
+   {
+    "datei": "worker/src/titelzeile-format.ts",
+    "suche": "e[FOLGEN] ?? null, e[ROH_TITEL] ?? null])",
+    "ersetze": "e.slice(FOLGEN, VERSION)])"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "fuegePruefungEin: Version nicht gebunden",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-einfuegen.ts",
+    "suche": "      erweiterungVersion(daten),",
+    "ersetze": "      null,"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts",
+   "npx tsx tools/worker-pruefung-einfuegen.test.ts"
+  ]
+ },
+ {
+  "name": "speichereZurueck: Version nicht gebunden",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "jetzt.toISOString(), version)",
+    "ersetze": "jetzt.toISOString(), null)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "speichereZurueck: Update ohne Version",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": ", ext_version = excluded.ext_version",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "speichereZurueck: Version zählt als Änderung",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck.ts",
+    "suche": "WHERE pruefung_zurueck.daten <> excluded.daten",
+    "ersetze": "WHERE pruefung_zurueck.daten <> excluded.daten OR pruefung_zurueck.ext_version IS NOT excluded.ext_version"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "beantworteZurueck: Version nicht übergeben",
+  "aenderungen": [
+   {
+    "datei": "worker/src/pruefung-zurueck-route.ts",
+    "suche": "jetzt, erweiterungVersion(roh as Record<string, unknown>))",
+    "ersetze": "jetzt)"
+   }
+  ],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts"
+  ]
+ },
+ {
+  "name": "beobachtung: nie Version",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "return version ? { ...b, version } : b",
+    "ersetze": "return b"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-meldung-version.test.cjs"
+  ]
+ },
+ {
+  "name": "beobachtung: immer Feld (auch leer)",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "return version ? { ...b, version } : b",
+    "ersetze": "return { ...b, version }"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-meldung-version.test.cjs"
+  ]
+ },
+ {
+  "name": "beobachtung: Version nicht gelesen",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "const version = globalThis.akKontext.version()",
+    "ersetze": "const version = null"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-meldung-version.test.cjs"
+  ]
+ },
+ {
+  "name": "zurueckMelden: Rumpf ohne Version",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "version: o.version?.() ?? null",
+    "ersetze": "version: null"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-meldung-version.test.cjs"
+  ]
+ },
+ {
+  "name": "zurueckMitMelden: Standard ohne Version",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-zurueckgestellt.js",
+    "suche": "version: roh.version ?? (() => globalThis.akKontext?.version?.() ?? null),",
+    "ersetze": "version: () => null,"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-meldung-version.test.cjs"
+  ]
+ },
+ {
+  "name": "Kontrolle: unmutiert",
+  "aenderungen": [],
+  "tests": [
+   "npx tsx tools/worker-meldung-version.test.ts",
+   "node extension/netflix-meldung-version.test.cjs",
+   "npx tsx tools/worker-pruefung-einfuegen.test.ts"
+  ]
+ }
+]

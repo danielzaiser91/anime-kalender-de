@@ -1,6 +1,6 @@
 /**
- * Zusicherungen zu `fuegePruefungEin()` aus `worker/src/pruefung-einfuegen.ts` an einer DB-Attrappe (keine D1): 26 Spalten und
- * 26 Platzhalter in derselben Reihenfolge wie die gebundenen Werte, Kürzungen je Feld, `null` für fehlende Angaben, `titelId` vor
+ * Zusicherungen zu `fuegePruefungEin()` aus `worker/src/pruefung-einfuegen.ts` an einer DB-Attrappe (keine D1): 27 Spalten und
+ * 27 Platzhalter in derselben Reihenfolge wie die gebundenen Werte, Kürzungen je Feld, `null` für fehlende Angaben, `titelId` vor
  * `titel_id`, Zahlen über `zahlOderNull`, das Abgeleitete unverändert. Läuft in `check:worker`.
  */
 import type { Env } from '../worker/src/env.ts'
@@ -77,17 +77,18 @@ async function fallVoll() {
       titel_id: 999,
       suchUrl: 'https://s/'.padEnd(600, 'x'),
       folge: 'F'.repeat(250),
+      version: '4.32.0',
     },
     'https://www.netflix.com/title/1',
     abgeleitet,
   )
   uhrZurueck()
   const platzhalter = /VALUES \(([^)]+)\)/.exec(voll.fang.sql)![1]!.split(',').map((s) => s.trim())
-  pruefe('26 Platzhalter ?1..?26 in Folge', platzhalter, Array.from({ length: 26 }, (_, i) => `?${i + 1}`))
-  pruefe('26 gebundene Werte', voll.fang.werte.length, 26)
+  pruefe('27 Platzhalter ?1..?27 in Folge', platzhalter, Array.from({ length: 27 }, (_, i) => `?${i + 1}`))
+  pruefe('27 gebundene Werte', voll.fang.werte.length, 27)
   pruefe('run() lief einmal', voll.fang.gelaufen, 1)
   const v = nachSpalte(voll.fang.sql, voll.fang.werte)
-  pruefe('Spaltenzahl', Object.keys(v).length, 26)
+  pruefe('Spaltenzahl', Object.keys(v).length, 27)
   const am = String(v.gemeldet_am)
   pruefe('gemeldet_am: Sekunden-ISO mit Z, feste Uhr', am, '2026-11-12T10:20:30Z')
   delete v.gemeldet_am
@@ -117,6 +118,7 @@ async function fallVoll() {
     hash: 'abc123',
     rohfolge: '{"nummer":3}',
     roh_uebernommen: 0,
+    ext_version: '4.32.0',
   })
 }
 
@@ -158,6 +160,7 @@ async function fallLeer() {
     hash: 'abc123',
     rohfolge: null,
     roh_uebernommen: null,
+    ext_version: null,
   })
 }
 
@@ -168,6 +171,12 @@ async function fallLang() {
   const g = nachSpalte(lang.fang.sql, lang.fang.werte)
   pruefe('staffeln auf 4000 Zeichen', String(g.staffeln).length, 4000)
   pruefe('abos auf 1000 Zeichen', String(g.abos).length, 1000)
+  // Eine unbrauchbare Version (zu lang, Zahl, Zeichen außerhalb der Form) wird nicht gespeichert, die Meldung bleibt gültig.
+  for (const schlecht of ['4'.repeat(21), 4, '4 32', '<b>']) {
+    const m = umgebung()
+    await fuegePruefungEin(m.env, { version: schlecht }, 'https://x/', abgeleitet)
+    pruefe(`Version ${JSON.stringify(schlecht)} wird null`, nachSpalte(m.fang.sql, m.fang.werte).ext_version, null)
+  }
 }
 
 async function main() {
