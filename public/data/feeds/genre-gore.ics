@@ -188,6 +188,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:virgin-road-vol2@2026-12-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Virgin Road – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12466/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe@2026-12-18@
  anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -239,6 +249,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter Ta
  g\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: https
  ://anime-kalender.de/t/14999/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:virgin-road-vol3@2027-01-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270129
+DTEND;VALUE=DATE:20270130
+SUMMARY:Virgin Road – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12466/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
