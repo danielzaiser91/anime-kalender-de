@@ -30,13 +30,15 @@ export const bedarf = (dateien) => ({
 })
 
 const git = (args) => execFileSync('git', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'], timeout: 60_000 })
-export const ECHT = {
+/** `ausfuehren` ist für den Test einspritzbar: `status=success` in der URL ist tragend, ohne sie läge der Vergleich an einem roten Lauf. */
+export const macheEcht = (ausfuehren = execFileSync) => ({
   letzterGruenerStand: (repo) => {
-    const roh = execFileSync('gh', ['api', `repos/${repo}/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=1`], { encoding: 'utf8', timeout: 60_000 })
+    const roh = ausfuehren('gh', ['api', `repos/${repo}/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=1`], { encoding: 'utf8', timeout: 60_000 })
     return JSON.parse(roh).workflow_runs?.[0]?.head_sha
   },
   geaendert: (basis) => git(['diff', '--name-only', '-z', basis, 'HEAD']).split('\0').filter(Boolean),
-}
+})
+export const ECHT = macheEcht()
 
 /** `{ ...bedarf, grund }`; bei jedem Fehler alles `true`. */
 export function rechne(env, w = ECHT) {

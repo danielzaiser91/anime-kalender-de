@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { bedarf, main as pfadeMain, rechne } from './deploy-pfade.mjs'
+import { bedarf, macheEcht, main as pfadeMain, rechne } from './deploy-pfade.mjs'
 import { LAEUFE_HOECHSTENS, main as veraltetMain, pruefe, ueberholer } from './deploy-veraltet.mjs'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -29,6 +29,15 @@ assert.deepEqual({ ...rechne({}, { letzterGruenerStand: () => { throw new Error(
 assert.deepEqual({ ...rechne({}, { letzterGruenerStand: () => 'b', geaendert: () => { throw new Error('Commit fehlt') } }), grund: 0 }, { ...alles, grund: 0 }, 'Basis nicht lesbar: alles')
 assert.deepEqual({ ...rechne({}, ok(['a\nb'])), grund: 0 }, { ...alles, grund: 0 }, 'Pfad mit Zeilenumbruch: alles')
 
+// 2b. ECHT fragt nur erfolgreiche Läufe von main ab (Prüfer 4227 A2: ohne status=success blieb der Test grün)
+{
+  const aufrufe = []
+  const echt = macheEcht((befehl, args) => (aufrufe.push([befehl, ...args]), JSON.stringify({ workflow_runs: [{ head_sha: 'c'.repeat(40) }] })))
+  assert.equal(echt.letzterGruenerStand('o/r'), 'c'.repeat(40))
+  const url = aufrufe[0].find((a) => a.includes('/runs?'))
+  assert.ok(aufrufe[0][0] === 'gh' && url.includes('workflows/deploy.yml/runs?') && url.includes('branch=main') && url.includes('status=success') && url.includes('per_page=1'), `Abfrage: ${url}`)
+}
+
 // 3. main schreibt die Ausgabe
 {
   let datei = ''
@@ -52,6 +61,37 @@ assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'neu')], jobsVon: jobs({}),
 assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'quer')], jobsVon: jobs({ 1011: grün }), vorausVon: voraus([]) }), null, 'Stand nicht voraus (gleich, hinter, getrennt): deployen')
 assert.equal(ueberholer({ eigener, laeufe: [lauf(9, 'aelter')], jobsVon: jobs({ 1009: grün }), vorausVon: voraus(['alt>aelter']) }), null, 'ältere Läufe zählen nie')
 assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'neu', 'queued')], jobsVon: jobs({ 1011: grün }), vorausVon: voraus(['alt>neu']) }), null, 'wartender Lauf zählt nicht')
+// A1 (Prüfer 4227): B (neu, schnell) wartet hinter C, A (alt, langsam) ersetzt B, B endet cancelled. A darf nicht den alten Stand deployen, sondern stößt main an.
+const ersetzt = [{ name: 'deploy_hart', conclusion: 'cancelled' }, { name: 'abschluss', conclusion: 'skipped' }]
+assert.deepEqual(
+  (({ run_number, art }) => ({ run_number, art }))(ueberholer({ eigener, laeufe: [lauf(11, 'neu')], jobsVon: jobs({ 1011: ersetzt }), vorausVon: voraus(['alt>neu']) })),
+  { run_number: 11, art: 'ersetzt' },
+  'neuerer Deploy-Job cancelled, Stand voraus: ersetzt',
+)
+assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'quer')], jobsVon: jobs({ 1011: ersetzt }), vorausVon: voraus([]) }), null, 'ersetzter Lauf mit Stand nicht voraus: normal deployen')
+assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'neu'), lauf(12, 'neuer')], jobsVon: jobs({ 1011: ersetzt, 1012: grün }), vorausVon: voraus(['alt>neu', 'alt>neuer']) }).art, 'ausgeliefert', 'noch neuerer grüner Lauf zählt vor dem ersetzten: kein Anstoß')
+assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'neu'), lauf(12, 'neuer')], jobsVon: jobs({ 1011: grün, 1012: ersetzt }), vorausVon: voraus(['alt>neu', 'alt>neuer']) }).art, 'ersetzt', 'der neueste ersetzte Lauf wartet noch auf seinen Deploy: Anstoß')
+{
+  const api = (pfad) => {
+    if (pfad.endsWith('/runs/7')) return eigener
+    if (pfad.includes('/workflows/deploy.yml/runs')) return { workflow_runs: [lauf(11, 'neu')] }
+    if (pfad.endsWith('/runs/1011/jobs?per_page=100')) return { jobs: ersetzt }
+    if (pfad.includes('/compare/alt...neu')) return { status: 'ahead' }
+    throw new Error(`unerwartet ${pfad}`)
+  }
+  const env = { GITHUB_REPOSITORY: 'o/r', GITHUB_RUN_ID: '7', GITHUB_OUTPUT: 'x' }
+  let datei = ''
+  const angestossen = []
+  assert.equal(veraltetMain(env, () => {}, { api, anstossen: (r) => angestossen.push(r) }, (_, t) => { datei += t }), 0)
+  assert.deepEqual([datei, angestossen], ['veraltet=1\n', ['o/r']], 'A deployt nicht und stößt genau einen Deploy-Lauf für main an')
+  const meldungen = []
+  assert.equal(veraltetMain(env, (t) => meldungen.push(t), { api, anstossen: () => { throw new Error('403') } }, () => {}), 1, 'Anstoß scheitert: Schritt rot, nie still grün')
+  assert.ok(meldungen.some((t) => t.startsWith('::error::')))
+  const grünApi = (pfad) => (pfad.endsWith('/runs/1011/jobs?per_page=100') ? { jobs: grün } : api(pfad))
+  const nie = []
+  assert.equal(veraltetMain(env, () => {}, { api: grünApi, anstossen: (r) => nie.push(r) }, () => {}), 0)
+  assert.deepEqual(nie, [], 'neuerer Lauf schon ausgeliefert: kein Anstoß')
+}
 {
   const viele = Array.from({ length: LAEUFE_HOECHSTENS + 3 }, (_, i) => lauf(11 + i, `s${i}`))
   const gefragt = []
@@ -95,6 +135,7 @@ assert.equal(ueberholer({ eigener, laeufe: [lauf(11, 'neu', 'queued')], jobsVon:
     assert.equal(schritte.find((s) => s.id === 'deployment').if, "${{ steps.veraltet.outputs.veraltet != '1' }}", `${id}: Deploy entfällt, wenn ein neuerer schon ausgeliefert hat`)
     assert.ok(schritte.indexOf(veraltet) < schritte.findIndex((s) => s.id === 'deployment'), `${id}: Prüfung vor dem Deploy`)
   }
+  for (const id of ['deploy_hart', 'deploy_schlank']) assert.equal(deploy.jobs[id].permissions.actions, 'write', `${id}: Recht für den Anstoß eines Deploy-Laufs (gh workflow run)`)
   const paths = deploy.on.push['paths-ignore']
   for (const p of ['.claude/**', 'daniel-zum-abarbeiten/**']) assert.ok(paths.includes(p), `paths-ignore: ${p}`)
   const pruefen = deploy.jobs.pruefen.steps
