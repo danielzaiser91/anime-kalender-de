@@ -35,6 +35,12 @@ pruefe('neu am Vortag, heute behoben: Zeile `behoben` ohne `ereignis`', zeile(ne
 const rueckDann = fort(fort(dritt, [T(1, 'a'), T(2, 'a'), T(4, 'a')], '2026-11-07'), [T(1, 'a'), T(4, 'a')], '2026-11-08')
 pruefe('Rückfall am Vortag, heute behoben: ohne `ereignis`', zeile(rueckDann, 2).status === 'behoben' && zeile(rueckDann, 2).ereignis === undefined, zeile(rueckDann, 2))
 
+/* Kontrolle (18.11.2026): Ein zweiter Bau am selben Tag meldet „neu“ nicht erneut — das Register trägt das Ereignis nur im Bau, der es findet. */
+const zweitNochmal = fort(zweit, [T(1, 'a'), T(4, 'a')], '2026-11-05')
+pruefe('Kontrolle: zweiter Bau desselben Tages ohne Warnzeile, `seit` bleibt', maengelWarnZeilen(zweitNochmal).length === 0 && zeile(zweitNochmal, 4).seit === '2026-11-05', maengelWarnZeilen(zweitNochmal))
+const zweitMehr = fort(zweitNochmal, [T(1, 'a'), T(4, 'a'), T(5, 'a')], '2026-11-05')
+pruefe('zweiter Bau desselben Tages mit weiterem neuen Titel meldet nur diesen', JSON.stringify(maengelWarnZeilen(zweitMehr)) === '["MAENGEL_NEU a: 1 (5)"]', maengelWarnZeilen(zweitMehr))
+
 const rueck = fort(dritt, [T(1, 'a'), T(2, 'a'), T(4, 'a')], '2026-11-07')
 pruefe('Rückfall: behoben und wieder offen, `seit` neu', rueck.zaehler.a!.rueckfall === 1 && rueck.zaehler.a!.neu === 0 && zeile(rueck, 2).ereignis === 'rueckfall' && zeile(rueck, 2).status === 'offen' && zeile(rueck, 2).seit === '2026-11-07', rueck)
 

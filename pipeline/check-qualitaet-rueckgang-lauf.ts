@@ -38,27 +38,32 @@ const titelMitErstausgabe = [
   { id: 900005, titleRomaji: 'E', format: 'MOVIE', episodes: 1, streams: [] },
 ]
 
-function lauf(vorherWert: number, vorherErstausgabe?: number, titelListe: unknown[] = titel, termine: unknown[] = []): string {
+/** Mehrere Läufe nacheinander in derselben Kulisse (derselbe Tag, derselbe Verlauf), je Lauf mit eigener Titelliste; Rückgabe: Ausgabe je Lauf. */
+function laufFolge(vorherWert: number, vorherErstausgabe: number | undefined, titelListen: unknown[][], termine: unknown[] = []): string[] {
   const ak = mkdtempSync(join(tmpdir(), 'qualitaet-rueckgang-'))
   try {
     mkdirSync(join(ak, 'public', 'data'), { recursive: true })
     mkdirSync(join(ak, 'data'), { recursive: true })
-    writeFileSync(join(ak, 'public', 'data', 'titles.json'), JSON.stringify(titelListe))
     writeFileSync(join(ak, 'public', 'data', 'events.json'), '[]')
     writeFileSync(join(ak, 'public', 'data', 'releases.json'), JSON.stringify(termine))
     writeFileSync(join(ak, VERLAUF_DATEI), JSON.stringify([{ gemessenAm: '2000-01-01', mitStreamingWeg: vorherWert, ...(vorherErstausgabe === undefined ? {} : { erstausgabeOhneWeg: vorherErstausgabe }) }]))
-    const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-qualitaet.ts')], {
-      env: { ...process.env, AK_ROOT: ak },
-      encoding: 'utf8',
-      timeout: 60000,
-      windowsHide: true,
+    return titelListen.map((titelListe) => {
+      writeFileSync(join(ak, 'public', 'data', 'titles.json'), JSON.stringify(titelListe))
+      const r = spawnSync(process.execPath, [tsx, join(wurzel, 'pipeline/check-qualitaet.ts')], {
+        env: { ...process.env, AK_ROOT: ak },
+        encoding: 'utf8',
+        timeout: 60000,
+        windowsHide: true,
+      })
+      if (r.status !== 0) throw new Error(`Exit ${r.status}: ${r.stderr}`)
+      return `${r.stdout}${r.stderr}`
     })
-    if (r.status !== 0) throw new Error(`Exit ${r.status}: ${r.stderr}`)
-    return `${r.stdout}${r.stderr}`
   } finally {
     rmSync(ak, { recursive: true, force: true })
   }
 }
+
+const lauf = (vorherWert: number, vorherErstausgabe?: number, titelListe: unknown[] = titel, termine: unknown[] = []): string => laufFolge(vorherWert, vorherErstausgabe, [titelListe], termine)[0]!
 
 const mit = lauf(3)
 pruefe('Rückgang 3 → 2 meldet im Lauf die Zeile', mit.includes(`${RUECKGANG_ZEILE}mitStreamingWeg: 3 → 2`), mit)
@@ -80,5 +85,17 @@ pruefe('Titel mit Disc-Termin zählt nicht als „kein Weg“ (Verlauf 1 → 0)'
 const mitKino = lauf(3, 0, titelMitErstausgabe, [{ titleId: 900003, releaseType: 'kino' }])
 pruefe('Titel mit Kino-Termin zählt weiter (Anstieg 0 → 1)', mitKino.includes(`${ERSTAUSGABE_OHNE_WEG_ZEILE}erstausgabeOhneWeg: 0 → 1 (+1)`), mitKino)
 
+/* Mehrere Läufe am selben Tag (14.–18.11.2026: jeder Bau meldete „165 → 166“ erneut): Bezug ist der zuletzt gespeicherte Stand des Tages. */
+const zweiterStand = { id: 900006, titleRomaji: 'F', format: 'MOVIE', episodes: 1, streams: [], deErstausgabe: erst }
+const [t1, t2, t3] = laufFolge(3, 0, [titelMitErstausgabe, titelMitErstausgabe, [...titelMitErstausgabe, zweiterStand]])
+pruefe('Tag, Lauf 1: Anstieg 0 → 1 meldet', t1!.includes(`${ERSTAUSGABE_OHNE_WEG_ZEILE}erstausgabeOhneWeg: 0 → 1 (+1)`), t1)
+pruefe('Tag, Lauf 2 mit gleichem Wert: keine Erstausgabe-Zeile', !t2!.includes(ERSTAUSGABE_OHNE_WEG_ZEILE), t2)
+pruefe('Tag, Lauf 2: der Pfeil im Protokoll zeigt weiter gegen den Vortag', t2!.includes('1 Erstausgabe bekannt, kein Weg (+1)'), t2)
+pruefe('Tag, Lauf 3 mit erneutem Anstieg: Zeile 1 → 2', t3!.includes(`${ERSTAUSGABE_OHNE_WEG_ZEILE}erstausgabeOhneWeg: 1 → 2 (+1)`), t3)
+const [s1, s2] = laufFolge(3, undefined, [titel, titel])
+pruefe('Tag, Lauf 1 und 2: Streaming-Rückgang 3 → 2 meldet nur im ersten', s1!.includes(`${RUECKGANG_ZEILE}mitStreamingWeg: 3 → 2`) && !s2!.includes(RUECKGANG_ZEILE), [s1, s2])
+const [r1, r2] = laufFolge(3, undefined, [titel, [titel[0]]])
+pruefe('Tag: erneuter Rückgang 2 → 1 meldet im zweiten Lauf wieder', r1!.includes(`${RUECKGANG_ZEILE}mitStreamingWeg: 3 → 2`) && r2!.includes(`${RUECKGANG_ZEILE}mitStreamingWeg: 2 → 1`), [r1, r2])
+
 if (verletzt) process.exit(1)
-console.log('check-qualitaet-rueckgang-lauf: 8 Fälle grün')
+console.log('check-qualitaet-rueckgang-lauf: 14 Fälle grün')
