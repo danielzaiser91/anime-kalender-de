@@ -10,7 +10,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { folgenzahlIstBefund, momentaufnahme, neueBefunde, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
+import { folgenzahlIstBefund, gemeldeteFolgen, momentaufnahme, neueBefunde, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -58,7 +58,7 @@ pruefe(neueBefunde([], momentaufnahme(['a', 'b'], [], '2026-10-19', () => false)
 
 type Zeile = { pfad: string; inhalt: string }
 type Befund = { am: string; text: string }
-type Ergebnis = { befunde: Befund[] | null; warnung: string | undefined; abrufe: Zeile[]; merker: string | undefined; status: number | null; fehler: string }
+type Ergebnis = { befunde: Befund[] | null; warnung: string | undefined; abrufe: Zeile[]; merker: string | undefined; status: number | null; fehler: string; ausgabe: string }
 
 function laufe(nr: number): Ergebnis {
   const ordner = mkdtempSync(join(tmpdir(), 'auffaelligkeiten-'))
@@ -77,6 +77,7 @@ function laufe(nr: number): Ergebnis {
     merker: zeilen.find((s) => /quittung-offen[\\/]pruefungen-abhaken\.json$/.test(s.pfad))?.inhalt,
     status: lauf.status,
     fehler: lauf.stderr.slice(-300),
+    ausgabe: lauf.stdout + lauf.stderr,
   }
 }
 
@@ -132,6 +133,26 @@ pruefe(r6.befunde?.length === 1 && r6.befunde[0]!.text.includes('16 Folgen gemel
 const erwartetNeu = 'DATEN_WARNUNG=1 neue Meldung(en) auffällig (1 offen), siehe '
 pruefe(r6.warnung?.includes(erwartetNeu) === true && r6.warnung.includes('.json — neu: Meldung 900201 (+15): 16 Folgen gemeldet, Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: die Warnung nennt den neuen Text nicht: ${r6.warnung}`)
 
+/* Eine Adresse, zwei Staffeln (ADN 1350, 18.11.2026): Titel 5 ist Staffel 2 von 12 Folgen; gezählt werden nur deren Zeilen. */
+const r7 = laufe(7)
+pruefe(r7.status === 0, `Lauf 7 endete mit ${r7.status}: ${r7.fehler}`)
+pruefe(r7.befunde !== null && r7.befunde.length === 0, `Lauf 7: 13 + 12 Zeilen zweier Staffeln zählen für Staffel 2 nur 12: ${JSON.stringify(r7.befunde)}`)
+const r8 = laufe(8)
+pruefe(r8.status === 0, `Lauf 8 endete mit ${r8.status}: ${r8.fehler}`)
+pruefe(r8.befunde?.length === 1 && r8.befunde[0]!.text.includes('20 Folgen gemeldet, Titel 5 (Gti-Titel 5) hat 12'), `Lauf 8: 20 Zeilen der Staffel 2 bei 12 Folgen bleiben ein Befund: ${JSON.stringify(r8.befunde)}`)
+const r9 = laufe(9)
+pruefe(r9.status === 0, `Lauf 9 endete mit ${r9.status}: ${r9.fehler}`)
+pruefe(r9.befunde !== null && r9.befunde.length === 0, `Lauf 9: Staffel des Titels nicht bestimmbar ist kein Befund: ${JSON.stringify(r9.befunde)}`)
+pruefe(r9.ausgabe.includes('Folgenzahl nicht geprüft') && r9.ausgabe.includes('Titel 6'), `Lauf 9: die ungeprüfte Folgenzahl steht nicht im Log: ${r9.ausgabe.slice(-400)}`)
+
+const zeilen = (staffel: number, n: number) => Array.from({ length: n }, (_x, i) => ({ staffel, folge_nr: i + 1 }))
+const zwei = [...zeilen(1, 12), ...zeilen(2, 13)]
+pruefe(gemeldeteFolgen(zwei, 1) === 12 && gemeldeteFolgen(zwei, 2) === 13, 'zwei Staffeln: je Staffel nur die eigenen Zeilen')
+pruefe(gemeldeteFolgen(zwei, undefined) === null && gemeldeteFolgen(zwei, 3) === null, 'zwei Staffeln ohne bestimmbare Staffel des Titels: keine Zahl')
+pruefe(gemeldeteFolgen(zeilen(2, 5), undefined) === 5 && gemeldeteFolgen(zeilen(2, 5), 7) === 5, 'eine Staffel in der Gruppe zählt wie bisher, auch ohne Titelstaffel')
+pruefe(gemeldeteFolgen([{ staffel: null, folgen: 9 }, { folgen: 24 }], 1) === 24, 'Staffel null zählt nicht als zweite Staffel; die angegebene Folgenzahl gilt')
+pruefe(gemeldeteFolgen([...zeilen(1, 3), { staffel: 2, folgen: 30 }], 2) === 30, 'angegebene Folgenzahl der Titelstaffel zählt, die der anderen nicht')
+
 const text = (n: number) => ({ am: '2026-11-06', text: `Meldung ${n}: x` })
 pruefe(warnungsText(2, 3).startsWith('2 neue Meldung(en) auffällig (3 offen), siehe ') && warnungsText(2, 3).endsWith('.json'), 'Warnung ohne Texte ändert sich')
 pruefe(warnungsText(1, 1, [text(7)]).endsWith(' — neu: Meldung 7: x'), 'Warnung nennt den einen neuen Text nicht')
@@ -143,4 +164,4 @@ if (fehler.length) {
   console.error(`check-meldungs-auffaelligkeiten: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3), genau ein neuer Befund warnt mit „1 neue … (3 offen)“ (Lauf 4); gesperrte Netflix-Folgen sind weder auffällig noch offen (Lauf 5: 16 abgehakt), ungesperrte bleiben auffällig und die Warnung nennt ihren Text (Lauf 6).')
+console.log('check-meldungs-auffaelligkeiten: weniger Folgen kein Befund; Befund bleibt, solange er zutrifft (Lauf 2: 2 offen, keine Warnung), erledigter fällt weg (Lauf 3), genau ein neuer Befund warnt mit „1 neue … (3 offen)“ (Lauf 4); gesperrte Netflix-Folgen sind weder auffällig noch offen (Lauf 5: 16 abgehakt), ungesperrte bleiben auffällig und die Warnung nennt ihren Text (Lauf 6); Seite mit zwei Staffeln (ADN) zählt nur die Zeilen der Titelstaffel (Lauf 7: 13+12 kein Befund, Lauf 8: 20 von 12 Befund, Lauf 9: Staffel nicht bestimmbar, kein Befund, im Log).')
