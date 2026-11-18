@@ -1116,7 +1116,7 @@ function beschriftung(spuren) {
      * Statusanzeige rührte sich nicht („ich reporte, reloade, steht weiterhin
      * 10").
      */
-    if (istErledigt(gemeinteReihe(), 'tot')) {
+    if (totGilt(gemeinteReihe())) {
       return { text: 'Als nicht abrufbar gemeldet ✓', klasse: 'ak-nein', aktiv: false }
     }
     if (keineFolgeVorhanden()) {
@@ -2148,6 +2148,9 @@ function offeneTitelZahl() {
   return Object.entries(offeneTitel).filter(([id]) => !selbstUebersprungen.nichtOffen(id)).length
 }
 
+/** Ein Tot-Vermerk sperrt Knöpfe nur, solange der Bestand den Titel nicht offen führt (`fertig()`: Stand, sonst der Vermerk selbst). */
+const totGilt = (id) => istErledigt(id, 'tot') && fertig(id, offeneTitel[String(id)])
+
 function fertig(id, eintrag) {
   /*
     **Erledigt ist, was der Worker nicht mehr als Ziel führt** — dieselbe Regel
@@ -2163,7 +2166,7 @@ function fertig(id, eintrag) {
     zum nächsten Stand-Abruf. Ohne Antwort des Workers bleibt die Rechnung
     darunter der Rückfall.
   */
-  if (standZieleNetflix) {
+  if (standZieleNetflix && akNetflixWartet) {
     return akNetflixErledigtLautStand(id, standZieleNetflix, frischGemeldetNetflix, akNetflixWartet)
   }
   if (istErledigt(id, 'tot')) return true
@@ -2412,13 +2415,14 @@ function laufStarten() {
     Jetzt wird zuerst gefragt und nur gestartet, wenn es etwas zu holen gibt. Der Rückgabewert
     sagt dem Knopf, was er anzeigen soll.
   */
+  /* Erst den Laufzustand des vorigen Durchgangs verwerfen, dann fragen: sonst sperrt er die Wahl, die der Knopf zählt (17.11.2026). */
+  selbstUebersprungen.clear()
+  bremse.zuruecksetzen()
   const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined && !selbstUebersprungen.zurueckgestellt(gemeinteReihe())
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
   akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length), undefined, null, hierAuftrag, hierAuftrag ? String(gemeinteReihe()) : null)
   selbstVersucht = null
-  selbstUebersprungen.clear()
-  bremse.zuruecksetzen()
   selbstStaffelnGeprueft.clear()
   selbstGesammelt.clear()
   selbstVersuche.clear()
@@ -5236,8 +5240,7 @@ function uebersichtZeigen() {
    * Zwei Zähler, zwei Einheiten, dieselbe Frage — dann widersprechen sie sich
    * zwangsläufig. Der Knopf zählt jetzt dasselbe wie alles andere.
    */
-  const offeneStaffeln = globalThis.akNetflixOffeneStaffeln(offeneTitel, Boolean(standZieleNetflix), (id) => istErledigt(id, 'tot'),
-    fertig, staffelnVon, empfohleneFolgen, kuerzelErledigt)
+  const offeneStaffeln = globalThis.akNetflixOffeneStaffeln(offeneTitel, fertig, staffelnVon, empfohleneFolgen, kuerzelErledigt)
   /**
    * **Der Knopf zählt, was in der Liste steht — nichts anderes.**
    *
@@ -5718,8 +5721,8 @@ async function dialogOeffnen() {
      */
     const tot = document.createElement('button')
     tot.className = 'ak-tot'
-    tot.textContent = istErledigt(id, 'tot') ? 'nichts da ✓' : 'nichts da?'
-    tot.disabled = istErledigt(id, 'tot')
+    tot.textContent = totGilt(id) ? 'nichts da ✓' : 'nichts da?'
+    tot.disabled = totGilt(id)
     /**
      * „Tot" heißt hier: dort ist nichts abzuspielen.
      *

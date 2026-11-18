@@ -73,7 +73,7 @@ globalThis.akNetflixBericht = {
    * `w`: `erledigt` (Speicher), `hier`, `uebersprungen`, `bremse`, `nichtDa`.
    */
   ausgelassen(titel, fertig, w) {
-    const gruende = { aktuell: 0, zurueckgestellt: 0, bremse: 0, urteilUnterwegs: 0, ohneOffeneStaffel: 0, wirdVorgelegt: 0 }
+    const gruende = { aktuell: 0, zurueckgestellt: 0, bremse: 0, nichtDaImLauf: 0, ohneOffeneStaffel: 0, wirdVorgelegt: 0 }
     let tot = 0
     let totUndOffen = 0
     for (const [id, e] of Object.entries(titel)) {
@@ -84,7 +84,7 @@ globalThis.akNetflixBericht = {
       const grund = id === String(w.hier ?? '') ? 'aktuell'
         : w.uebersprungen.has(id) ? 'zurueckgestellt'
           : w.bremse.ausgeschlossen(id) ? 'bremse'
-            : w.nichtDa.besetzt(id) ? 'urteilUnterwegs'
+            : w.nichtDa.besetzt(id) ? 'nichtDaImLauf'
               : !(e?.staffeln ?? []).some((st) => st.offen) ? 'ohneOffeneStaffel'
                 : 'wirdVorgelegt'
       gruende[grund]++
