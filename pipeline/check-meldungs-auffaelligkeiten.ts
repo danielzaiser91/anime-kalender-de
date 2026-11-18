@@ -10,7 +10,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { folgenzahlIstBefund, gemeldeteFolgen, momentaufnahme, neueBefunde, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
+import { folgenBefundText, folgenzahlIstBefund, gemeldeteFolgen, momentaufnahme, neueBefunde, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
@@ -32,17 +32,19 @@ pruefe(titelMitName(7, [{ id: 7, titleEn: 'Seventh' }]) === 'Titel 7 (Seventh)',
 pruefe(titelMitName(8, [{ id: 7, titleDe: 'Siebter' }]) === 'Titel 8', 'unbekannte Kennung ohne Namen')
 const liste = [{ id: 3, episodes: 12 }, { id: -4, episodes: 12 }]
 const staffel = (id: number): number | undefined => (id === 3 ? 1 : undefined)
-const folgenText = 'Meldung 1: 40 Folgen gemeldet, Titel 3 (Name (2020)) hat 12 (X)'
+const folgenText = 'Meldung 1: 40 Folgen gemeldet (je Staffel), Titel 3 (Name (2020)) hat 12 (X)'
 pruefe(trifftNochZu(folgenText, liste, staffel), 'Folgen-Befund mit Klammer im Namen trifft noch zu')
 pruefe(!trifftNochZu(folgenText, [{ id: 3, episodes: 40 }], staffel), 'Folgen-Befund trifft nach geänderter Folgenzahl noch zu')
 pruefe(!trifftNochZu(folgenText, [], staffel), 'Folgen-Befund trifft für einen verschwundenen Titel noch zu')
-pruefe(trifftNochZu('Meldung 1: 40 Folgen gemeldet, Titel -4 hat 12 (X)', liste, staffel), 'Befund an negativer Kennung ohne Namen')
+pruefe(trifftNochZu('Meldung 1: 40 Folgen gemeldet (je Staffel), Titel -4 hat 12 (X)', liste, staffel), 'Befund an negativer Kennung ohne Namen')
 const staffelText = 'Meldung 1: Titel 3 (Name) ist Staffel 1, die Seite https://x/y Staffel 2'
 pruefe(trifftNochZu(staffelText, liste, staffel), 'Staffel-Widerspruch trifft noch zu')
 pruefe(!trifftNochZu(staffelText, liste, () => 2), 'Staffel-Widerspruch trifft nach geänderter Staffelnummer noch zu')
 pruefe(!trifftNochZu(staffelText, liste, () => 3), 'Staffel-Widerspruch trifft bei Nummer 3 statt 1 noch zu')
 pruefe(!trifftNochZu('Meldung 1: Titel 3 ist Staffel 1, die Seite X Staffel 1', liste, staffel), 'Staffel 1 gegen Staffel 1 ist ein Widerspruch')
 pruefe(!trifftNochZu(staffelText, liste, () => undefined), 'Staffel-Widerspruch trifft ohne Reihe noch zu')
+pruefe(!trifftNochZu('Meldung 1: 40 Folgen gemeldet, Titel 3 (Name) hat 12 (X)', liste, staffel), 'Altform ohne „(je Staffel)“ (Zahl über alle Staffeln) bleibt stehen')
+pruefe(trifftNochZu('Meldung 1: ' + folgenBefundText(40, 'Titel 3 (Name)', 12, 'X'), liste, staffel) && !trifftNochZu('Meldung 1: ' + folgenBefundText(14, 'Titel 3 (Name)', 12, 'X'), liste, staffel), 'folgenBefundText: Text wird nicht gelesen oder Zahl nicht gegen den Bestand gerechnet')
 pruefe(!trifftNochZu('Meldung 1: etwas anderes', liste, staffel), 'unlesbarer Text gilt als offen')
 const alt = [{ am: '2026-01-01', text: 'bleibt' }, { am: '2026-01-01', text: 'fällt weg' }]
 const eintraege = momentaufnahme(['bleibt', 'bleibt', 'neu'], alt, '2026-10-19', (t) => t === 'bleibt')
@@ -129,20 +131,22 @@ pruefeAbhaken(5, r5, gesperrteIds)
 
 const r6 = laufe(6)
 pruefe(r6.status === 0, `Lauf 6 endete mit ${r6.status}: ${r6.fehler}`)
-pruefe(r6.befunde?.length === 1 && r6.befunde[0]!.text.includes('16 Folgen gemeldet, Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: ungesperrte Folgen müssen auffällig bleiben: ${JSON.stringify(r6.befunde)}`)
+pruefe(r6.befunde?.length === 1 && r6.befunde[0]!.text.includes('16 Folgen gemeldet (je Staffel), Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: ungesperrte Folgen müssen auffällig bleiben: ${JSON.stringify(r6.befunde)}`)
 const erwartetNeu = 'DATEN_WARNUNG=1 neue Meldung(en) auffällig (1 offen), siehe '
-pruefe(r6.warnung?.includes(erwartetNeu) === true && r6.warnung.includes('.json — neu: Meldung 900201 (+15): 16 Folgen gemeldet, Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: die Warnung nennt den neuen Text nicht: ${r6.warnung}`)
+pruefe(r6.warnung?.includes(erwartetNeu) === true && r6.warnung.includes('.json — neu: Meldung 900201 (+15): 16 Folgen gemeldet (je Staffel), Titel 6 (Gti-Titel 6) hat 6'), `Lauf 6: die Warnung nennt den neuen Text nicht: ${r6.warnung}`)
 
 /* Eine Adresse, zwei Staffeln (ADN 1350, 18.11.2026): Titel 5 ist Staffel 2 von 12 Folgen; gezählt werden nur deren Zeilen. */
 const r7 = laufe(7)
 pruefe(r7.status === 0, `Lauf 7 endete mit ${r7.status}: ${r7.fehler}`)
-pruefe(r7.befunde !== null && r7.befunde.length === 0, `Lauf 7: 13 + 12 Zeilen zweier Staffeln zählen für Staffel 2 nur 12: ${JSON.stringify(r7.befunde)}`)
+pruefe(r7.befunde !== null && r7.befunde.length === 0, `Lauf 7: 13 + 12 Zeilen zweier Staffeln zählen für Staffel 2 nur 12, und der Altbefund „25 Folgen gemeldet“ (Zahl über beide Staffeln) fällt weg: ${JSON.stringify(r7.befunde)}`)
+pruefe(r7.ausgabe.includes('Folgenzahl nicht geprüft (mehrere Staffeln, Titelstaffel unbestimmbar): 0 Adresse(n)'), `Lauf 7: Zählzeile fehlt: ${r7.ausgabe.slice(-400)}`)
 const r8 = laufe(8)
 pruefe(r8.status === 0, `Lauf 8 endete mit ${r8.status}: ${r8.fehler}`)
-pruefe(r8.befunde?.length === 1 && r8.befunde[0]!.text.includes('20 Folgen gemeldet, Titel 5 (Gti-Titel 5) hat 12'), `Lauf 8: 20 Zeilen der Staffel 2 bei 12 Folgen bleiben ein Befund: ${JSON.stringify(r8.befunde)}`)
+pruefe(r8.befunde?.length === 1 && r8.befunde[0]!.text.includes('20 Folgen gemeldet (je Staffel), Titel 5 (Gti-Titel 5) hat 12'), `Lauf 8: 20 Zeilen der Staffel 2 bei 12 Folgen bleiben ein Befund: ${JSON.stringify(r8.befunde)}`)
 const r9 = laufe(9)
 pruefe(r9.status === 0, `Lauf 9 endete mit ${r9.status}: ${r9.fehler}`)
 pruefe(r9.befunde !== null && r9.befunde.length === 0, `Lauf 9: Staffel des Titels nicht bestimmbar ist kein Befund: ${JSON.stringify(r9.befunde)}`)
+pruefe(r9.ausgabe.includes('Folgenzahl nicht geprüft (mehrere Staffeln, Titelstaffel unbestimmbar): 1 Adresse(n)'), `Lauf 9: Zählzeile fehlt: ${r9.ausgabe.slice(-400)}`)
 pruefe(r9.ausgabe.includes('Folgenzahl nicht geprüft') && r9.ausgabe.includes('Titel 6'), `Lauf 9: die ungeprüfte Folgenzahl steht nicht im Log: ${r9.ausgabe.slice(-400)}`)
 
 const zeilen = (staffel: number, n: number) => Array.from({ length: n }, (_x, i) => ({ staffel, folge_nr: i + 1 }))
@@ -152,6 +156,8 @@ pruefe(gemeldeteFolgen(zwei, undefined) === null && gemeldeteFolgen(zwei, 3) ===
 pruefe(gemeldeteFolgen(zeilen(2, 5), undefined) === 5 && gemeldeteFolgen(zeilen(2, 5), 7) === 5, 'eine Staffel in der Gruppe zählt wie bisher, auch ohne Titelstaffel')
 pruefe(gemeldeteFolgen([{ staffel: null, folgen: 9 }, { folgen: 24 }], 1) === 24, 'Staffel null zählt nicht als zweite Staffel; die angegebene Folgenzahl gilt')
 pruefe(gemeldeteFolgen([...zeilen(1, 3), { staffel: 2, folgen: 30 }], 2) === 30, 'angegebene Folgenzahl der Titelstaffel zählt, die der anderen nicht')
+
+pruefe(gemeldeteFolgen([...zeilen(1, 3), { staffel: 2, folge_nr: null }, { staffel: 2, folge_nr: null }], 2) === 0, 'Zeilen ohne Folgennummer (null) in der Titelstaffel zählen nicht')
 
 const text = (n: number) => ({ am: '2026-11-06', text: `Meldung ${n}: x` })
 pruefe(warnungsText(2, 3).startsWith('2 neue Meldung(en) auffällig (3 offen), siehe ') && warnungsText(2, 3).endsWith('.json'), 'Warnung ohne Texte ändert sich')

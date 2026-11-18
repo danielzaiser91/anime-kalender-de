@@ -46,7 +46,7 @@ import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './l
 import { ladePruefTitel } from './lib/pruef-titel.ts'
 import { OFFEN, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quittieren.ts'
 import { schalterOderAbbruch } from './lib/schalter.ts'
-import { folgenzahlIstBefund, gemeldeteFolgen, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
+import { pruefeFolgenzahl, schreibeAuffaelligkeiten, titelMitName, trifftNochZu, warnungsText } from './lib/meldungs-auffaelligkeiten.ts'
 import { ladeMeldungen, legeAbhakenAb, sperreAufPruefungen } from './lib/meldungen-stapel.ts'
 import { baueNachUrl } from './lib/nach-url.ts'
 import { berlinDatum, ladeBesitz, zieheFremdeBelegeZurueck } from './lib/beleg-fremd-zugeordnet.ts'
@@ -362,6 +362,7 @@ const unbekanntZaehler = neuerZaehler()
   steht in `data/meldungs-auffaelligkeiten.json`.
 */
 const auffaellig: string[] = []
+const folgenUngeprueft: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
 /**
  * Wie der Anbieter seine Staffeln selbst einteilt, je Adresse.
@@ -778,12 +779,9 @@ for (const gruppe of jeAdresse.values()) {
   /* Folgenzahl der Meldung gegen den Titel — nur grobe Abweichungen, Prime schneidet oft anders zu. */
   if (ids.length === 1) {
     const t = liste.find((x) => x.id === ids[0])
-    const gemeldet = gemeldeteFolgen(gruppe, t && reiheVon.has(t.id) ? staffelNummern(reiheVon.get(t.id)!).get(t.id) : undefined)
-    if (gemeldet === null) log(`Folgenzahl nicht geprüft: ${p.url} nennt mehrere Staffeln, die des Titels ${ids[0]} ist nicht bestimmbar`)
-    /* Weniger Folgen als der Titel ist bei keinem Anbieter ein Befund (Netflix 24.09., alle 19.10.2026): die Seite zeigt eine Staffel. */
-    else if (t && folgenzahlIstBefund(gemeldet, t.episodes)) {
-      auffaellig.push(`Meldung ${gruppe.map((x) => x.id).join(',')}: ${gemeldet} Folgen gemeldet, ${titelMitName(t.id, liste)} hat ${t.episodes} (${p.seiten_kennung ?? p.url})`)
-    }
+    const f = pruefeFolgenzahl(gruppe, t, t && reiheVon.has(t.id) ? staffelNummern(reiheVon.get(t.id)!).get(t.id) : undefined, liste, p.seiten_kennung ?? p.url)
+    if (f.ungeprueft) folgenUngeprueft.push(`Folgenzahl nicht geprüft: ${p.url} nennt mehrere Staffeln, die des Titels ${ids[0]} ist nicht bestimmbar`)
+    if (f.befund) auffaellig.push(f.befund)
   }
 
   /**
@@ -1214,6 +1212,7 @@ log(
       : ''),
 )
 if (zaehlzeile(unbekanntZaehler)) log(zaehlzeile(unbekanntZaehler))
+log([...folgenUngeprueft, `Folgenzahl nicht geprüft (mehrere Staffeln, Titelstaffel unbestimmbar): ${folgenUngeprueft.length} Adresse(n)`].join('\n'))
 for (const o of offenGeblieben) warn(o)
 for (const a of auffaellig) warn(`Auffällig: ${a}`)
 if (!TROCKEN) {

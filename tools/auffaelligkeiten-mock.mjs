@@ -26,20 +26,20 @@ const am = '2026-10-01'
 const alteDateien = {
   1: [
     { am: '2026-01-01', text: 'Meldung 1: alter Befund, den der Lauf nicht mehr erzeugt' },
-    { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
+    { am, text: 'Meldung 6: 40 Folgen gemeldet (je Staffel), Titel 2 (Gti-Titel 2) hat 12 (X)' },
   ],
   2: [
-    { am, text: 'Meldung 900002: 40 Folgen gemeldet, Titel 3 (Gti-Titel 3) hat 12 (0TESTGTI3)' },
+    { am, text: 'Meldung 900002: 40 Folgen gemeldet (je Staffel), Titel 3 (Gti-Titel 3) hat 12 (0TESTGTI3)' },
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
   ],
-  3: [{ am, text: 'Meldung 5: 30 Folgen gemeldet, Titel 1 (Gti-Titel 1) hat 12 (X)' }],
+  3: [{ am, text: 'Meldung 5: 30 Folgen gemeldet (je Staffel), Titel 1 (Gti-Titel 1) hat 12 (X)' }],
   5: [],
   6: [],
-  7: [],
+  7: [{ am: '2026-11-10', text: 'Meldung 26355,26356: 25 Folgen gemeldet, Titel 5 (Gti-Titel 5) hat 12 (https://animationdigitalnetwork.com/de/video/1350-staffel-zwei)' }],
   8: [],
   9: [],
   4: [
-    { am, text: 'Meldung 6: 40 Folgen gemeldet, Titel 2 (Gti-Titel 2) hat 12 (X)' },
+    { am, text: 'Meldung 6: 40 Folgen gemeldet (je Staffel), Titel 2 (Gti-Titel 2) hat 12 (X)' },
     { am, text: 'Meldung 900003: Titel 4 (Gti-Titel 4) ist Staffel 1, die Seite 0TESTGTI4 Staffel 2' },
   ],
 }

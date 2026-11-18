@@ -17,6 +17,10 @@ export function folgenzahlIstBefund(gemeldet: number, episodes: number | undefin
   return gemeldet - episodes > Math.max(2, episodes * 0.25)
 }
 
+/** Wortlaut des Folgen-Befunds; „(je Staffel)“ zeigt, dass je Staffel gezählt wurde (`gemeldeteFolgen`), und liest `trifftNochZu`. */
+export const folgenBefundText = (gemeldet: number, titel: string, episodes: number | undefined, adresse: string): string =>
+  `${gemeldet} Folgen gemeldet (je Staffel), ${titel} hat ${episodes} (${adresse})`
+
 type Meldungszeile = { folgen?: unknown; folge_nr?: number | null; staffel?: unknown }
 
 /**
@@ -39,6 +43,24 @@ export function titelMitName(id: number, liste: Benennbar[]): string {
 }
 
 /**
+ * Folgenzahl der Meldung gegen den Titel — nur grobe Abweichungen. Weniger Folgen als der Titel ist bei keinem Anbieter ein Befund
+ * (die Seite zeigt eine Staffel). `ungeprueft`: mehrere Staffeln auf der Seite, die des Titels unbestimmbar.
+ */
+export function pruefeFolgenzahl(
+  gruppe: Array<Meldungszeile & { id: number }>,
+  t: (Benennbar & { episodes?: number }) | undefined,
+  titelStaffel: number | undefined,
+  liste: Benennbar[],
+  adresse: string,
+): { befund: string | null; ungeprueft: boolean } {
+  const gemeldet = gemeldeteFolgen(gruppe, titelStaffel)
+  if (gemeldet === null) return { befund: null, ungeprueft: true }
+  if (!t || !folgenzahlIstBefund(gemeldet, t.episodes)) return { befund: null, ungeprueft: false }
+  const text = folgenBefundText(gemeldet, titelMitName(t.id, liste), t.episodes, adresse)
+  return { befund: `Meldung ${gruppe.map((x) => x.id).join(',')}: ${text}`, ungeprueft: false }
+}
+
+/**
  * Trifft ein bisheriger Befund am geladenen Bestand noch zu? Ein Eintrag lebt so lange wie sein Befund, nicht bis zum
  * Abhaken seiner Meldung. Unlesbarer Text gilt als erledigt.
  */
@@ -47,7 +69,7 @@ export function trifftNochZu(
   liste: Array<{ id: number; episodes?: number }>,
   staffelNr: (id: number) => number | undefined,
 ): boolean {
-  const folgen = /: (\d+) Folgen gemeldet, Titel (-?\d+)(?: \(.*?\))? hat \d+ \(/.exec(text)
+  const folgen = /: (\d+) Folgen gemeldet \(je Staffel\), Titel (-?\d+)(?: \(.*?\))? hat \d+ \(/.exec(text)
   if (folgen) return folgenzahlIstBefund(Number(folgen[1]), liste.find((x) => x.id === Number(folgen[2]))?.episodes)
   const staffel = /: Titel (-?\d+)(?: \(.*?\))? ist Staffel (\d+), die Seite .* Staffel (\d+)$/.exec(text)
   if (!staffel) return false
