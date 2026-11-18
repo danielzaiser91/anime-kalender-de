@@ -74,6 +74,20 @@ const e12 = lauf({
 pruefe('Gegenfall: eine JustWatch-Kennung an zwei TMDB-Reihen trägt keinen Grund', e12[900012]?.reason === 'offen' && e12[900013]?.reason === 'offen', e12)
 const e12b = lauf({ titel: [titel(900034, { format: 'MOVIE' })], justwatch: { 900034: jw('a6', 8, [], { geprueftAm: '' }) } })
 pruefe('Gegenfall: ein Befund ohne Prüftag trägt keinen Grund (kein Datum ohne Quelle)', e12b[900034]?.reason === 'offen', e12b)
+/* Heute ist 2026-11-18: 27 Tage alt gilt noch, 28 Tage nicht mehr (`befundGilt`, `BEFUND_MAX_TAGE` 28), und ein verfehlter Befund (`verfehltAm`) sagt nichts über heute. */
+const alt = lauf({
+  titel: [titel(900037), titel(900038), titel(900039, { format: 'MOVIE' }), titel(900040, { format: 'MOVIE' }), titel(900041)],
+  justwatch: {
+    900037: jw('b1', 31, ['BUY'], { geprueftAm: '2026-10-22' }),
+    900038: jw('b2', 32, ['BUY'], { geprueftAm: '2026-10-21' }),
+    900039: jw('b3', 33, [], { geprueftAm: '2026-10-22' }),
+    900040: jw('b4', 34, [], { geprueftAm: '2026-10-21' }),
+    900041: jw('b5', 35, ['BUY'], { verfehltAm: '2026-11-17' }),
+  },
+})
+pruefe('Befund 27 Tage alt gilt: nur-kauf und film-ohne-abo', alt[900037]?.reason === 'nur-kauf' && alt[900039]?.reason === 'film-ohne-abo', alt)
+pruefe('Gegenfall: Befund 28 Tage alt trägt keinen Grund (nur-kauf und Film bleiben offen)', alt[900038]?.reason === 'offen' && alt[900040]?.reason === 'offen', alt)
+pruefe('Gegenfall: verfehlter Befund trägt keinen Grund', alt[900041]?.reason === 'offen', alt)
 
 console.log('\nVorrang und Umfang')
 const e13 = lauf({
@@ -115,8 +129,8 @@ for (const [name, e] of [
   pruefe(`Fehler: ${name}`, ohneWegFehler({ 5: e }, [5], 9).fehler.length === 1)
 const fehlerText = (e: OhneWegEintrag) => ohneWegFehler({ 5: e }, [5], 9).fehler.join()
 pruefe('Fehlertext nennt bei angekuendigt den Starttag, sonst den Prüftag', fehlerText({ reason: 'angekuendigt' }).includes('Starttag (ab)') && fehlerText({ reason: 'nur-kauf' }).includes('Prüftag (checkedAt)'))
-/* Die Grenze sinkt nur: 962 war der Stand vom 18.11.2026; mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
-pruefe('Grenze für „offen“ ist gesetzt und höchstens 962', OFFEN_HOECHSTENS > 0 && OFFEN_HOECHSTENS <= 962, OFFEN_HOECHSTENS)
+/* Die Grenze sinkt nur: 1056 war der Stand vom 18.11.2026; mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
+pruefe('Grenze für „offen“ ist gesetzt und höchstens 1056', OFFEN_HOECHSTENS > 0 && OFFEN_HOECHSTENS <= 1056, OFFEN_HOECHSTENS)
 pruefe('Logzeile zählt je Grund alphabetisch', zaehleGruende({ 1: { reason: 'offen' }, 2: { reason: 'kein-dub' }, 3: { reason: 'offen' } }) === 'kein-dub 1, offen 2')
 
 console.log('\nKennungen und Anzeigetext')

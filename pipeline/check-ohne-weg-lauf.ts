@@ -17,7 +17,8 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 }
 
 const titel = (id: number, extra: Record<string, unknown> = {}) => ({ id, format: 'TV', streams: [], ...extra })
-const jw = (jwId: string, tmdbId: number, art: string[]) => ({ geprueftAm: '2026-11-17', jwId, tmdbId, angebote: art.map((a) => ({ anbieter: 'X', art: a, audio: [] })) })
+/* 2999: der Befund ist in jedem Lauf jünger als 28 Tage, ohne dass der Test die Uhr liest. */
+const jw = (jwId: string, tmdbId: number, art: string[]) => ({ geprueftAm: '2999-12-31', jwId, tmdbId, angebote: art.map((a) => ({ anbieter: 'X', art: a, audio: [] })) })
 
 const wurzel = mkdtempSync(join(tmpdir(), 'ohne-weg-'))
 try {

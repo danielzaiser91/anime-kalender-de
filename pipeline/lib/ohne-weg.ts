@@ -11,6 +11,7 @@ import type { Title } from '../../shared/types.ts'
 import { dubKey, neinHandbelege, urteilVon, type DubCheck } from './dub-confirmed.ts'
 import { geteilteJwKennungen } from './jw-kennung-fremd.ts'
 import type { JwBefund } from './jw-vertrauen.ts'
+import { befundGilt } from './jw-seite.ts'
 
 type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil' | 'checkedAt'>
 type Termin = { titleId: number; platform: string; date: string }
@@ -45,9 +46,12 @@ export function originaltonAm(checks: readonly Handbeleg[]): string | undefined 
   return tage.sort().at(-1)
 }
 
-/** Ein JustWatch-Befund, der dem Titel wirklich zugeordnet ist: nicht `ohneTreffer`, mit Kennung, und die Kennung gehört keinem zweiten Titel. */
-export function jwZugeordnet(b: JwBefund | undefined, geteilt: ReadonlySet<string>): b is JwBefund {
-  return Boolean(b && !b.ohneTreffer && b.jwId && b.geprueftAm && !geteilt.has(b.jwId))
+/**
+ * Ein JustWatch-Befund, der dem Titel wirklich zugeordnet ist und etwas über heute sagt: `befundGilt` (gefunden, nicht verfehlt, jünger als `BEFUND_MAX_TAGE`,
+ * wie der Bau ihn überall liest) und die Kennung gehört keinem zweiten Titel. Ein älterer Befund trägt keinen Grund, der Titel bleibt `offen`.
+ */
+export function jwZugeordnet(b: JwBefund | undefined, geteilt: ReadonlySet<string>, heute: string): b is JwBefund {
+  return befundGilt(b, heute) && !geteilt.has(b.jwId!)
 }
 
 const KAUF = new Set<string | undefined>(['BUY', 'RENT'])
@@ -80,10 +84,13 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
   for (const t of eingabe.titel) {
     if (!ohneStreamingWeg(t)) continue
     const b = eingabe.justwatch[t.id]
-    aus[t.id] = grundVon(t, { termine: termine.get(t.id) ?? [], checks: checks.get(t.id) ?? [], jw: jwZugeordnet(b, geteilt) ? b : undefined, heute: eingabe.heute })
+    aus[t.id] = grundVon(t, { termine: termine.get(t.id) ?? [], checks: checks.get(t.id) ?? [], jw: jwZugeordnet(b, geteilt, eingabe.heute) ? b : undefined, heute: eingabe.heute })
   }
   return aus
 }
 
-/** Obergrenze der Titel mit Grund `offen` (Stand public/data auf c026e08ef, 18.11.2026: 962 von 1.291); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen. */
-export const OFFEN_HOECHSTENS = 962
+/**
+ * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` auf main c64adaa17, 18.11.2026: 1.056 von 1.291, davon 94 mit einem JustWatch-Befund
+ * über 28 Tage); sinkt mit jedem nachgetragenen Beleg und jeder JustWatch-Erneuerung, dann wird sie nachgezogen.
+ */
+export const OFFEN_HOECHSTENS = 1056
