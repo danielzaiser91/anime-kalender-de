@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-11-18T04:11:08.068Z",
+  "scrapedAt": "2026-11-18T07:06:21.461Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 56,
-    "schon in einem Rubrik-Feed gelesen": 30,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Sprachhinweis älter als 45 Tage": 8
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "schon in einem Rubrik-Feed gelesen": 8,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 2,
+    "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
     {
@@ -1680,7 +1680,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "M.A.S.K.",
@@ -6711,7 +6711,7 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Gunslinger Girl",
@@ -8187,7 +8187,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "The First Slam Dunk",
