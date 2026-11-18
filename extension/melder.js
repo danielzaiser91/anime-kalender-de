@@ -1116,7 +1116,7 @@ function beschriftung(spuren) {
      * Statusanzeige rührte sich nicht („ich reporte, reloade, steht weiterhin
      * 10").
      */
-    if (istErledigt(gemeinteReihe(), 'tot')) {
+    if (totGilt(gemeinteReihe())) {
       return { text: 'Als nicht abrufbar gemeldet ✓', klasse: 'ak-nein', aktiv: false }
     }
     if (keineFolgeVorhanden()) {
@@ -2148,6 +2148,9 @@ function offeneTitelZahl() {
   return Object.entries(offeneTitel).filter(([id]) => !selbstUebersprungen.nichtOffen(id)).length
 }
 
+/** Ein Tot-Vermerk sperrt Knöpfe nur, solange der Bestand den Titel nicht offen führt (`fertig()`: Stand, sonst der Vermerk selbst). */
+const totGilt = (id) => istErledigt(id, 'tot') && fertig(id, offeneTitel[String(id)])
+
 function fertig(id, eintrag) {
   /*
     **Erledigt ist, was der Worker nicht mehr als Ziel führt** — dieselbe Regel
@@ -2163,7 +2166,7 @@ function fertig(id, eintrag) {
     zum nächsten Stand-Abruf. Ohne Antwort des Workers bleibt die Rechnung
     darunter der Rückfall.
   */
-  if (standZieleNetflix) {
+  if (standZieleNetflix && akNetflixWartet) {
     return akNetflixErledigtLautStand(id, standZieleNetflix, frischGemeldetNetflix, akNetflixWartet)
   }
   if (istErledigt(id, 'tot')) return true
@@ -2412,13 +2415,14 @@ function laufStarten() {
     Jetzt wird zuerst gefragt und nur gestartet, wenn es etwas zu holen gibt. Der Rückgabewert
     sagt dem Knopf, was er anzeigen soll.
   */
+  /* Erst den Laufzustand des vorigen Durchgangs verwerfen, dann fragen: sonst sperrt er die Wahl, die der Knopf zählt (17.11.2026). */
+  selbstUebersprungen.clear()
+  bremse.zuruecksetzen()
   const hierAuftrag = Boolean(titelDerAdresse()) && offeneTitel[String(gemeinteReihe())] !== undefined && !selbstUebersprungen.zurueckgestellt(gemeinteReihe())
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
   akNetflixZaehlerSetze((selbstGezaehlt = 0), (selbstGrenze = akNetflixBericht.offene(offeneTitel, selbstUebersprungen.nichtOffen).length), undefined, null, hierAuftrag, hierAuftrag ? String(gemeinteReihe()) : null)
   selbstVersucht = null
-  selbstUebersprungen.clear()
-  bremse.zuruecksetzen()
   selbstStaffelnGeprueft.clear()
   selbstGesammelt.clear()
   selbstVersuche.clear()
@@ -2785,14 +2789,12 @@ let selbstGrenze = akNetflixZaehlerStand().grenze
  *
  * Genommen wird die erste offene aus der Prüfliste, die nicht die aktuelle ist.
  * „Offen" heißt hier dasselbe wie im Kasten: mindestens eine Staffel ohne
- * Antwort, und der Titel nicht als toter Verweis abgehakt.
- */
+ * Antwort (`fertig()`); ein lokaler Tot-Vermerk sperrt nicht für sich, der Bestand gewinnt (17.11.2026). */
 function naechsterAuftrag() {
   const hier = String(gemeinteReihe() ?? '')
   for (const [kennung, eintrag] of Object.entries(offeneTitel)) {
     if (kennung === hier) continue
     if (selbstUebersprungen.has(kennung) || bremse.ausgeschlossen(kennung)) continue
-    if (istErledigt(kennung, 'tot')) continue
     /* Ein Urteil ist unterwegs (Takt urteilt, bevor es fertig ist): den Titel nicht noch einmal wählen — sonst führt es niemand weiter (17.11.2026). */
     if (nichtDaTun.besetzt(kennung)) continue
     const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
@@ -5238,11 +5240,7 @@ function uebersichtZeigen() {
    * Zwei Zähler, zwei Einheiten, dieselbe Frage — dann widersprechen sie sich
    * zwangsläufig. Der Knopf zählt jetzt dasselbe wie alles andere.
    */
-  const offeneStaffeln = Object.entries(offeneTitel).reduce((n, [id, e]) => {
-    if (istErledigt(id, 'tot')) return n
-    const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
-    return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
-  }, 0)
+  const offeneStaffeln = globalThis.akNetflixOffeneStaffeln(offeneTitel, fertig, staffelnVon, empfohleneFolgen, kuerzelErledigt)
   /**
    * **Der Knopf zählt, was in der Liste steht — nichts anderes.**
    *
@@ -5723,8 +5721,8 @@ async function dialogOeffnen() {
      */
     const tot = document.createElement('button')
     tot.className = 'ak-tot'
-    tot.textContent = istErledigt(id, 'tot') ? 'nichts da ✓' : 'nichts da?'
-    tot.disabled = istErledigt(id, 'tot')
+    tot.textContent = totGilt(id) ? 'nichts da ✓' : 'nichts da?'
+    tot.disabled = totGilt(id)
     /**
      * „Tot" heißt hier: dort ist nichts abzuspielen.
      *
@@ -6175,6 +6173,7 @@ function nfBericht() {
       gezaehlt: akNetflixFortschrittStand(selbstGezaehlt, selbstGrenze)?.geprueft ?? selbstGezaehlt /* wie „n von m“ und der Knopf (4071) */,
       uebersprungen: akNetflixBericht.uebersprungen(selbstUebersprungen, offeneTitel),
       offen: akNetflixBericht.offene(offeneTitel, fertig),
+      ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig, { erledigt, hier: gemeinteReihe(), uebersprungen: selbstUebersprungen, bremse, nichtDa: nichtDaTun }),
       staffelnGeprueft: [...selbstStaffelnGeprueft],
       gesammelt: [...selbstGesammelt],
       spur: DURCHGANG_SPUR,

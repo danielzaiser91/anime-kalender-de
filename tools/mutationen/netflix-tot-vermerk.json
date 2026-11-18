@@ -1,0 +1,590 @@
+[
+ {
+  "name": "Kontrolle (unmutiert)",
+  "aenderungen": [],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs",
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-staffelzaehlung.test.cjs",
+   "node extension/netflix-uebernahme.test.cjs",
+   "node extension/erledigt.test.cjs"
+  ]
+ },
+ {
+  "name": "Tot-Vermerk: die Wahl sperrt wieder für sich (alter Fehler)",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "    /* Ein Urteil ist unterwegs (Takt urteilt",
+    "ersetze": "    if (istErledigt(kennung, 'tot')) continue\n    /* Ein Urteil ist unterwegs (Takt urteilt"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs"
+  ]
+ },
+ {
+  "name": "Zählung: fertig() wird nicht gefragt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-staffelzaehlung.js",
+    "suche": "if (fertig(id, e)) return n",
+    "ersetze": "if (false) return n"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-staffelzaehlung.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Zählung: lokal abgehakte Kürzel zählen mit",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-staffelzaehlung.js",
+    "suche": ".filter((k) => !kuerzelErledigt(id, k))",
+    "ersetze": ".filter((k) => true)"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-staffelzaehlung.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Zählung: staffelnVon nicht benutzt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-staffelzaehlung.js",
+    "suche": "staffeln: staffelnVon(id, e)",
+    "ersetze": "staffeln: e.staffeln"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-staffelzaehlung.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Zählung: fertig immer false",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "akNetflixOffeneStaffeln(offeneTitel, fertig,",
+    "ersetze": "akNetflixOffeneStaffeln(offeneTitel, () => false,"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Zählung: nur der Tot-Vermerk statt fertig",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "akNetflixOffeneStaffeln(offeneTitel, fertig,",
+    "ersetze": "akNetflixOffeneStaffeln(offeneTitel, (id) => istErledigt(id, 'tot'),"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Zählung: staffelnVon durch e.staffeln",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "fertig, staffelnVon, empfohleneFolgen, kuerzelErledigt)",
+    "ersetze": "fertig, (id, e) => e.staffeln, empfohleneFolgen, kuerzelErledigt)"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Zählung: kuerzelErledigt immer false",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "fertig, staffelnVon, empfohleneFolgen, kuerzelErledigt)",
+    "ersetze": "fertig, staffelnVon, empfohleneFolgen, () => false)"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Zählung: fertig und staffelnVon vertauscht",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "akNetflixOffeneStaffeln(offeneTitel, fertig, staffelnVon,",
+    "ersetze": "akNetflixOffeneStaffeln(offeneTitel, staffelnVon, fertig,"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Manifest: Zählung hinter melder.js",
+  "aenderungen": [
+   {
+    "datei": "extension/manifest.json",
+    "suche": "\"netflix-staffelzaehlung.js\",\n        \"melder.js\",",
+    "ersetze": "\"melder.js\",\n        \"netflix-staffelzaehlung.js\","
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Start: Zurücksetzen von Lauf und Bremse hinter der Vorabprüfung",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
+    "ersetze": "  const hierAuftrag"
+   },
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstVersucht = null\n  selbstStaffelnGeprueft.clear()",
+    "ersetze": "  selbstVersucht = null\n  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  selbstStaffelnGeprueft.clear()"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Start: nur selbstUebersprungen.clear() hinter der Vorabprüfung",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
+    "ersetze": "  bremse.zuruecksetzen()\n  const hierAuftrag"
+   },
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstVersucht = null\n  selbstStaffelnGeprueft.clear()",
+    "ersetze": "  selbstVersucht = null\n  selbstUebersprungen.clear()\n  selbstStaffelnGeprueft.clear()"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Start: nur bremse.zuruecksetzen() hinter der Vorabprüfung",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
+    "ersetze": "  selbstUebersprungen.clear()\n  const hierAuftrag"
+   },
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstVersucht = null\n  selbstStaffelnGeprueft.clear()",
+    "ersetze": "  selbstVersucht = null\n  bremse.zuruecksetzen()\n  selbstStaffelnGeprueft.clear()"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Start: selbstUebersprungen.clear() entfällt",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
+    "ersetze": "  bremse.zuruecksetzen()\n  const hierAuftrag"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Start: bremse.zuruecksetzen() entfällt",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "  selbstUebersprungen.clear()\n  bremse.zuruecksetzen()\n  const hierAuftrag",
+    "ersetze": "  selbstUebersprungen.clear()\n  const hierAuftrag"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Meldeknopf liest den Vermerk ohne Stand",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "if (totGilt(gemeinteReihe())) {",
+    "ersetze": "if (istErledigt(gemeinteReihe(), 'tot')) {"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Liste: „nichts da“ gesperrt ohne Stand",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "tot.disabled = totGilt(id)",
+    "ersetze": "tot.disabled = istErledigt(id, 'tot')"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Liste: „nichts da ✓“ ohne Stand",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "tot.textContent = totGilt(id) ?",
+    "ersetze": "tot.textContent = istErledigt(id, 'tot') ?"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "totGilt: nur der Vermerk",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "istErledigt(id, 'tot') && fertig(id, offeneTitel[String(id)])",
+    "ersetze": "istErledigt(id, 'tot')"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "totGilt: nur fertig()",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "const totGilt = (id) => istErledigt(id, 'tot') && fertig(",
+    "ersetze": "const totGilt = (id) => fertig("
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "fertig(): Stand gilt schon vor der ersten Übernahme",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "if (standZieleNetflix && akNetflixWartet) {",
+    "ersetze": "if (standZieleNetflix) {"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs",
+   "node extension/netflix-tot-vermerk.test.cjs"
+  ]
+ },
+ {
+  "name": "Übernahme: akNetflixWartet startet als leere Menge",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-uebernahme.js",
+    "suche": "globalThis.akNetflixWartet = null",
+    "ersetze": "globalThis.akNetflixWartet = new Set()"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs",
+   "node extension/netflix-tot-vermerk.test.cjs"
+  ]
+ },
+ {
+  "name": "Ende: wartet ohne ?. (null)",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-uebernahme.js",
+    "suche": "wartet?.has(id)",
+    "ersetze": "wartet.has(id)"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: aktuell nie",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "id === String(w.hier ?? '') ?",
+    "ersetze": "false ?"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: zurückgestellt nie",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "w.uebersprungen.has(id) ?",
+    "ersetze": "false ?"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: bremse nie",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "w.bremse.ausgeschlossen(id) ?",
+    "ersetze": "false ?"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: nichtDaImLauf nie",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "w.nichtDa.besetzt(id) ?",
+    "ersetze": "false ?"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: ohneOffeneStaffel nie",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "!(e?.staffeln ?? []).some((st) => st.offen) ?",
+    "ersetze": "false ?"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: tot zählt nicht",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "if (istTot) tot++",
+    "ersetze": "if (false) tot++"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: totUndOffen ohne Bestandsurteil",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "      if (fertig(id, e)) continue\n      if (istTot) totUndOffen++",
+    "ersetze": "      if (istTot) totUndOffen++\n      if (fertig(id, e)) continue"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Bericht: Grund zurückgestellt wird nicht genannt",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-bericht.js",
+    "suche": "w.uebersprungen.has(id) ? 'zurueckgestellt'",
+    "ersetze": "false ? 'zurueckgestellt'"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Bericht: hier null",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "hier: gemeinteReihe(), uebersprungen: selbstUebersprungen",
+    "ersetze": "hier: null, uebersprungen: selbstUebersprungen"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Bericht: uebersprungen leer",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "uebersprungen: selbstUebersprungen, bremse, nichtDa",
+    "ersetze": "uebersprungen: { has: () => false }, bremse, nichtDa"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Bericht: bremse leer",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "uebersprungen: selbstUebersprungen, bremse, nichtDa",
+    "ersetze": "uebersprungen: selbstUebersprungen, bremse: { ausgeschlossen: () => false }, nichtDa"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Bericht: nichtDa leer",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "bremse, nichtDa: nichtDaTun })",
+    "ersetze": "bremse, nichtDa: { besetzt: () => false } })"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Bericht: erledigt leer",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig, { erledigt,",
+    "ersetze": "ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig, { erledigt: {},"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Stand: eigene Meldung dieser Seite (frisch) zählt nicht",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-uebernahme.js",
+    "suche": " || frisch.has(String(id))",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs"
+  ]
+ },
+ {
+  "name": "Stand: Meldung im Briefkasten (wartet) zählt nicht",
+  "aenderungen": [
+   {
+    "datei": "extension/netflix-uebernahme.js",
+    "suche": " || wartet.has(String(id))",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs"
+  ]
+ },
+ {
+  "name": "fertig(): Tot-Rückfall ohne Stand entfällt",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "  if (istErledigt(id, 'tot')) return true\n  const staffeln = staffelnVon(id, eintrag)",
+    "ersetze": "  const staffeln = staffelnVon(id, eintrag)"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Wahl: fertig()-Filter entfällt",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "    if (fertig(kennung, eintrag)) continue\n    return kennung",
+    "ersetze": "    return kennung"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Wahl: nichtDa-Filter entfällt",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "    if (nichtDaTun.besetzt(kennung)) continue",
+    "ersetze": ""
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk.test.cjs",
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ },
+ {
+  "name": "Aufruf Bericht: fertig immer true",
+  "aenderungen": [
+   {
+    "datei": "extension/melder.js",
+    "suche": "ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, fertig,",
+    "ersetze": "ausgelassen: akNetflixBericht.ausgelassen(offeneTitel, () => true,"
+   }
+  ],
+  "tests": [
+   "node extension/netflix-tot-vermerk-melder.test.cjs"
+  ]
+ }
+]

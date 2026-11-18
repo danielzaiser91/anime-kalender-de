@@ -169,7 +169,7 @@ function ladeSeite(pfad) {
   const { umgebung } = baueUmgebung(pfad, '', {})
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-alle-staffeln.js', 'melder.js'] }))
+  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-alle-staffeln.js', 'netflix-staffelzaehlung.js', 'melder.js'] }))
   return umgebung
 }
 
