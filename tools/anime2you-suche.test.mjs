@@ -127,6 +127,15 @@ assert.deepEqual([lj.anzahl, lj.titel.map((t) => t.anilistId)], [1, [1]])
 assert.equal(fs.readFileSync(datei, 'utf8'), vorher)
 fs.rmSync(dir, { recursive: true })
 
+// weniger als eine volle Seite beendet die Suche trotz --seiten 3; Aufrufhinweis und Exit 2 je Befehl ohne Argument
+const k7 = kulisse(() => ({ body: SUCHE }))
+await lauf(['suche', 'x', '--seiten', '3'], k7)
+assert.equal(k7.aufrufe.length, 1)
+for (const befehl of [[], ['suche'], ['artikel'], ['unbekannt', 'x']]) {
+  const h = await lauf(befehl, kulisse(() => ({})))
+  assert.ok(h.code === 2 && h.text.startsWith('Aufruf:'), `Hinweis bei ${befehl.join(' ') || 'leer'}`)
+}
+
 assert.equal((await lauf([], kulisse(() => ({})))).code, 2, 'ohne Befehl: Aufruf-Hinweis, Exit 2')
 assert.equal((await lauf(['suche'], kulisse(() => ({})))).code, 2, 'suche ohne Titel')
 console.log('anime2you-suche: Kanal-Titel-Liste, Suche, Artikel, Sperre (429/403) und Obergrenzen geprüft, Exit-Codes 0/1/2')
