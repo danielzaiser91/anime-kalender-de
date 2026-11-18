@@ -1744,24 +1744,8 @@ function knopfZeigen() {
     akKlick(knopf, melden)
     netflixKasten().querySelector('.ak-z-melden')?.appendChild(knopf)
   }
-  const { text, klasse, aktiv } = beschriftung(spuren)
-  /*
-    **Ohne Text kein Knopf.**
-
-    Seit dem 26.08.2026 gibt es den Hinweis „Auf Abspielen klicken, dann läuft
-    es von selbst" nicht mehr — er beschrieb eine Automatik, die abgeschaltet
-    ist. Ein leerer Knopf an ihrer Stelle wäre schlimmer als keiner: Er sähe
-    aus, als ließe sich etwas anklicken.
-  */
-  knopf.hidden = !text
-  if (!text) return
-  knopf.hidden = false
-  knopf.disabled = !aktiv
-  if (!knopf.classList.contains('ak-erfolg') && !knopf.classList.contains('ak-fehler')) {
-    knopf.textContent = text
-    knopf.classList.remove('ak-ja', 'ak-nein', 'ak-leer')
-    knopf.classList.add(klasse)
-  }
+  /* Der Knopf bleibt auf einer gesuchten Titelseite immer sichtbar, ohne Text steht er abgeblendet da (Daniel, 18.11.2026); ein Schreibvorgang für Text, Klasse und Zustand. */
+  akNetflixKnopfSchreiben(knopf, beschriftung(spuren), location.pathname)
 }
 
 // --- Die Übersicht: was noch zu prüfen ist -----------------------------------

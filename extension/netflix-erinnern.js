@@ -39,6 +39,27 @@ globalThis.akNetflixTagKurz = (ms) => {
   return `${t.find((p) => p.type === 'day').value}.${t.find((p) => p.type === 'month').value}.`
 }
 
+/** Was der Melde-Knopf zeigt: die Beschriftung der Lage, ohne Text ein abgeblendeter Platzhalter (nie versteckt, nie leer). */
+globalThis.akNetflixKnopfZustand = (z) => (z?.text ? { text: z.text, klasse: z.klasse, aktiv: Boolean(z.aktiv) } : { text: 'Nichts zu melden', klasse: 'ak-leer', aktiv: false })
+
+/**
+ * Schreibt den Zustand des Melde-Knopfs in einem Zug (erst berechnen, dann schreiben). Wechselt die Adresse, fällt die Rückmeldung des
+ * vorigen Titels („Zurückgestellt ✓") sofort weg; sonst bleibt eine laufende Rückmeldung (`ak-erfolg`/`ak-fehler`) stehen.
+ */
+globalThis.akNetflixKnopfSchreiben = (el, beschriftung, pfad) => {
+  const z = globalThis.akNetflixKnopfZustand(beschriftung)
+  if (el.akPfad !== pfad) {
+    el.akPfad = pfad
+    el.classList.remove('ak-erfolg', 'ak-fehler')
+  }
+  el.hidden = false
+  el.disabled = !z.aktiv
+  if (el.classList.contains('ak-erfolg') || el.classList.contains('ak-fehler')) return
+  el.textContent = z.text
+  el.classList.remove('ak-ja', 'ak-nein', 'ak-leer')
+  el.classList.add(z.klasse)
+}
+
 /** Klick „Zurückstellen" bei „Erinnern" ohne Termin: nur zurückstellen, nichts melden. Gibt den Text für die Rückmeldung zurück. */
 globalThis.akNetflixErinnernZurueckstellen = (karte, reihe) => {
   karte.set(String(reihe), globalThis.akNetflixErinnernGrund(null))
