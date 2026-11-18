@@ -1233,7 +1233,7 @@ async function melden({ automatisch = false } = {}) {
         erscheint: ohneFolge ? erscheinungsdatum() : undefined,
         notiz: ohneFolge
           ? `Noch nicht abrufbar — Netflix nennt „${erscheinungsdatum()}"`
-          :`${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
+          : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
       }),
     })
     const daten = await antwort.json().catch(() => ({}))
