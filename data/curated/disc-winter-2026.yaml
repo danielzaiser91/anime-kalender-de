@@ -152,7 +152,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
-  hinweis: "Jahr aus dem Artikeldatum abgeleitet. Vol. 2 hat noch keinen Termin."
+  hinweis: "Jahr aus dem Artikeldatum abgeleitet."
   buyUrl: https://www.amazon.de/dp/B0HMCG93DS
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
