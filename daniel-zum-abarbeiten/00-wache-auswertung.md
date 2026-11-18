@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 18.11.2026, 10:04 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Bestandsbau zeigt keinen Alarm, letzter grüner Lauf heute um 08:11 Uhr, Deploy ebenfalls ohne Alarm (12). „Nacht-Merger" lief 44x ohne Fehlschlag, „PR-Prüfer — Neustart bei Nachtrag" 123x, „Claude — Daten-PR zusammenführen" 29x praktisch ohne Fehlschlag (01). Zugänge liegen unauffällig innerhalb ihrer Fristen (04, 05). Offene Pull Requests bleiben niedrig bei 3, alle vom 18.11. (08).
+
+**Wo ist Verbesserungspotenzial?** `tv-de` bleibt per HTTP 403 gesperrt, jetzt 12,4 Tage ohne Treffer (vorher 11,4 am 17.11.), weiterhin ohne Issue oder PR (06). `messbelege` liefert trotz grünem Lauf weiterhin 0 Treffer, jetzt seit 12 Tagen statt 11 (06). `kitsu-folgen` jetzt 5,7 Tage ohne Treffer (vorher 4,7), `kinoheld` weiterhin seit dem 9.11. „grün aber leer" (06). Neu: `cartoons` und `cartoon-reihen` melden heute erneut „grün aber leer seit 2026-11-18", nachdem `cartoon-reihen` laut letztem Urteil (10) kurz 1 Treffer lieferte — wirkt flatterhaft statt dauerhaft behoben (06). Issue #1595 steht jetzt 30 Tage offen, #898 37 Tage, beide weiterhin unbearbeitet (08).
+
+**Wo sind echte Risiken und Lücken?** Im Lauf um 17:10 Uhr am 17.11. verloren vier Disney+-Titel ihr Synchro-Urteil (jetzt „offen"): Black Clover, Jujutsu Kaisen 0, Demon Slayer: Kimetsu no Yaiba - Infinity Castle und Star Wars: Visionen präsentiert - Die neunte Jedi — alle vier mit link-check-Status 200 vom 26.10. bzw. 9.11., also kurz vor dem Verlust noch bestätigt, ohne erklärende Zeile im Dossier (02). Im selben Lauf ging außerdem der primevideo-Beleg von vier weiteren Titeln auf „Kanal-Titel, Amazons Sprachangabe" zurück — das ist erklärt (02); die vier Disney+-Fälle sind es nicht. Die Mutationsprobe schlug am 17.11. dreimal unmittelbar nacheinander auf main fehl (20:19, 20:21, 20:28 Uhr), seitdem laut Dossier ohne Prüfung, ob ein echter Mutant überlebt hat (01). „Ladezeiten am Handy messen" schlug heute dreimal auf dem offenen PR #4182 fehl (01, 08) — ausgerechnet der PR, der Lighthouse und Leerlauf als neue Wächter einführen soll. Bauer: die vier verlorenen Disney+-Synchro-Urteile und den Ladezeiten-Fehlschlag auf PR #4182 klären.
+
+**Was läuft komplett falsch?** Keine neuen Fälle dauerhaft falsch ausgelieferter Daten im Dossier sichtbar; der Bestandsbau zeigt keinen Alarm, die oben genannten Verluste sind bislang nicht als roter Lauf gemeldet (01, 02, 12).
+
+
 ## 17.11.2026, 10:06 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Bestandsbau zeigt keinen Alarm, letzter grüner Lauf heute um 08:46 Uhr, Deploy ebenfalls ohne Alarm (12). Offene Pull Requests bleiben stabil bei 3 (08). Nacht-Merger lief 39x, „PR-Prüfer — Neustart bei Nachtrag" 124x und „Claude — Daten-PR zusammenführen" 26x praktisch ohne Fehlschlag (01). Issue #4072 bekam am selben Tag bereits den Behebungs-PR #4097 (08). Zugänge liegen unauffällig innerhalb ihrer Fristen (04). `cartoon-reihen`, zuletzt als „grün aber leer" gemeldet, liefert jetzt wieder 1 Treffer (06).
