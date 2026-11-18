@@ -5,6 +5,7 @@
  */
 import { type Env } from './env.ts'
 import { ablehnungLoggen } from './pruefung-ablehnung.ts'
+import { erweiterungVersion } from './erweiterung-version.ts'
 import { mitTagesdeckel } from './tagesdeckel.ts'
 import { pruefeZurueck, speichereZurueck } from './pruefung-zurueck.ts'
 
@@ -29,7 +30,7 @@ export async function beantworteZurueck(kontext: Kontext): Promise<Response> {
   }
   return await mitTagesdeckel({ env: kontext.env, antwort: kontext.antwort }, async (k) => {
     try {
-      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)
+      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt, erweiterungVersion(roh as Record<string, unknown>))
     } catch (e) {
       if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e
       const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'

@@ -245,8 +245,8 @@
   "aenderungen": [
    {
     "datei": "extension/netflix-zurueckgestellt.js",
-    "suche": "o.holen(`${o.worker}?zurueck=1`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    })",
-    "ersetze": "o.holen({\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege }),\n    }, `${o.worker}?zurueck=1`)",
+    "suche": "o.holen(`${o.worker}?zurueck=1`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege, version: o.version?.() ?? null }),\n    })",
+    "ersetze": "o.holen({\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },\n      body: JSON.stringify({ plattform: 'netflix', eintraege, version: o.version?.() ?? null }),\n    }, `${o.worker}?zurueck=1`)",
     "zeile": 126
    }
   ],
@@ -367,7 +367,7 @@
     "datei": "extension/netflix-zurueckgestellt.js",
     "suche": "melde()",
     "ersetze": "void 0",
-    "zeile": 225
+    "zeile": 226
    }
   ],
   "tests": [
@@ -536,8 +536,8 @@
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck-route.ts",
-    "suche": "mitTagesdeckel({ env: kontext.env, antwort: kontext.antwort }, async (k) => {\n    try {\n      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)\n    } catch (e) {\n      if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e\n      const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'\n      ablehnungLoggen('pruefung-zurueck', { status: 503, grund })\n      return k.antwort({ ok: false, error: grund }, 503)\n    }\n    return k.antwort({ ok: true, eintraege: Object.keys(geprueft.eintraege).length })\n  })",
-    "ersetze": "mitTagesdeckel(async (k) => {\n    try {\n      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)\n    } catch (e) {\n      if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e\n      const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'\n      ablehnungLoggen('pruefung-zurueck', { status: 503, grund })\n      return k.antwort({ ok: false, error: grund }, 503)\n    }\n    return k.antwort({ ok: true, eintraege: Object.keys(geprueft.eintraege).length })\n  }, { env: kontext.env, antwort: kontext.antwort })",
+    "suche": "mitTagesdeckel({ env: kontext.env, antwort: kontext.antwort }, async (k) => {\n    try {\n      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt, erweiterungVersion(roh as Record<string, unknown>))\n    } catch (e) {\n      if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e\n      const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'\n      ablehnungLoggen('pruefung-zurueck', { status: 503, grund })\n      return k.antwort({ ok: false, error: grund }, 503)\n    }\n    return k.antwort({ ok: true, eintraege: Object.keys(geprueft.eintraege).length })\n  })",
+    "ersetze": "mitTagesdeckel(async (k) => {\n    try {\n      await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt, erweiterungVersion(roh as Record<string, unknown>))\n    } catch (e) {\n      if (!/no such table/i.test(String((e as Error)?.message ?? e))) throw e\n      const grund = 'Tabelle pruefung_zurueck fehlt (Migration 064)'\n      ablehnungLoggen('pruefung-zurueck', { status: 503, grund })\n      return k.antwort({ ok: false, error: grund }, 503)\n    }\n    return k.antwort({ ok: true, eintraege: Object.keys(geprueft.eintraege).length })\n  }, { env: kontext.env, antwort: kontext.antwort })",
     "zeile": 30
    }
   ],
@@ -550,7 +550,7 @@
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck-route.ts",
-    "suche": "await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)",
+    "suche": "await speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt, erweiterungVersion(roh as Record<string, unknown>))",
     "ersetze": "void 0",
     "zeile": 32
    }
@@ -564,8 +564,8 @@
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck-route.ts",
-    "suche": "speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt)",
-    "ersetze": "speichereZurueck(geprueft.plattform, k.env, geprueft.eintraege, jetzt)",
+    "suche": "speichereZurueck(k.env, geprueft.plattform, geprueft.eintraege, jetzt, erweiterungVersion(roh as Record<string, unknown>))",
+    "ersetze": "speichereZurueck(geprueft.plattform, k.env, geprueft.eintraege, jetzt, erweiterungVersion(roh as Record<string, unknown>))",
     "zeile": 32
    }
   ],
@@ -608,7 +608,7 @@
     "datei": "worker/src/pruefung-zurueck-route.ts",
     "suche": "503",
     "ersetze": "0",
-    "zeile": 36
+    "zeile": 37
    }
   ],
   "tests": [
@@ -1042,7 +1042,7 @@
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "await env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())\n    .run()",
+    "suche": "await env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am, ext_version) VALUES (?1, ?2, ?3, ?4)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am, ext_version = excluded.ext_version\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString(), version)\n    .run()",
     "ersetze": "void 0",
     "zeile": 50
    }
@@ -1052,12 +1052,12 @@
   ]
  },
  {
-  "name": "worker/src/pruefung-zurueck.ts:50 Argumente getauscht env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind",
+  "name": "worker/src/pruefung-zurueck.ts:50 Argumente getauscht env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am, ext_version) VALUES (?1, ?2, ?3, ?4)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am, ext_version = excluded.ext_version\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind",
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-zurueck.ts",
-    "suche": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())",
-    "ersetze": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(JSON.stringify(eintraege), plattform, jetzt.toISOString())",
+    "suche": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am, ext_version) VALUES (?1, ?2, ?3, ?4)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am, ext_version = excluded.ext_version\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString(), version)",
+    "ersetze": "env.DB.prepare(\n    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am, ext_version) VALUES (?1, ?2, ?3, ?4)\n     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am, ext_version = excluded.ext_version\n     WHERE pruefung_zurueck.daten <> excluded.daten`,\n  )\n    .bind(JSON.stringify(eintraege), plattform, jetzt.toISOString())",
     "zeile": 50
    }
   ],
