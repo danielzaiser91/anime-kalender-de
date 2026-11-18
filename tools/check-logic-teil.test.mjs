@@ -30,7 +30,7 @@ function lauf(liste, marken, teil) {
   rmSync(marken, { recursive: true, force: true })
   mkdirSync(marken, { recursive: true })
   const args = [join(WURZEL, 'tools/check-logic-alle.mjs'), liste, 'wegwerf', ...(teil ? ['--teil', teil] : [])]
-  const r = spawnSync(process.execPath, args, { cwd: WURZEL, encoding: 'utf8' })
+  const r = spawnSync(process.execPath, args, { cwd: WURZEL, encoding: 'utf8', timeout: 120000 })
   assert.equal(r.status, 0, `Teil ${teil ?? 'alle'} endet mit Exit 0: ${r.stdout}\n${r.stderr}`)
   return readdirSync(marken).sort()
 }
