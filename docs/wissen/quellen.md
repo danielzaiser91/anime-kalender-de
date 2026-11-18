@@ -4420,3 +4420,7 @@ Die Quelle mit dem besten Umfang für lineares Free-TV (MAXX, Folgennummer, Folg
 ## Anime2You Belegsuche (robots.txt gelesen 18.11.2026)
 
 `https://www.anime2you.de/robots.txt` (HTTP 200, 18.11.2026): `User-agent: *` sperrt nur `/wp-admin/`, `/wp-includes/` und `/media/partner/`; gesperrt sind namentlich DotBot, AhrefsBot, SemrushBot, MJ12bot, BLEXBot. Der Suchpfad `/?s=` und die Schnittstelle `/wp-json/wp/v2/posts` sind erlaubt (Abruf `?search=…&_fields=…` lieferte 200). `tools/anime2you-suche.mjs` nutzt die Schnittstelle mit Pause 1,5 s und generischem User-Agent (Synchro-Belegsuche, [maengel.md](maengel.md)).
+
+## 18.11.2026 — Kurzname in »…« als Namensanfang (Hell Mode, Blu-ray 25.02.2027)
+
+Anime2You nennt oft nur den Anfang des Titels. Gemessen auf `anime2you.json` + `titles.json`: 66 Meldungen mit Termin ohne Titel, davon 10 mit Präfix-Kandidat (der Rest sind Aktionen, TV-Guides, Titel nicht im Bestand). `pipeline/lib/meldung-praefix.ts` (`praefixTitel`) übernimmt, was eindeutig ist: genau ein Treffer, oder eine Franchise plus Staffel-/Filmwort (`reihenTeil` wählt den Teil). Mehrere Franchisen oder mehrere Teile ohne Angabe: `Verluste.mehrdeutig` (Logzeile, `nicht-zugeordnet.json`). Ein Preisangebot („zum Sonderpreis“) nennt als Datum sein Ende und wird nie so übernommen. Die Release trägt „Titel über den Kurznamen … zugeordnet“ in `herkunft`. Offen, nicht Teil dieser Änderung: dieselbe Angebots-Meldung mit exaktem Namen (Higurashi GOU) hat dasselbe Risiko.

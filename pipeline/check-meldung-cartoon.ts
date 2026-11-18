@@ -117,7 +117,7 @@ function jahrFaelle(): void {
   v.ohneAnbieter.push(BASS_MELDUNG, BASS_MELDUNG, BASS_MELDUNG)
   v.nurStart.push(BASS_MELDUNG, BASS_MELDUNG, BASS_MELDUNG, BASS_MELDUNG)
   v.schonBelegt.push(...Array<Vorschlag>(5).fill(BASS_MELDUNG))
-  pruefe('Logzeile des Baus zählt jeden Grund einzeln (1, 2, 3, 4, 5)', verlustZeile(v).startsWith('Meldungen mit Termin ohne Release: 1 ohne Titel, 2 mit unklarem Teil, 3 ohne Anbieter; gezählt, kein Verlust: 4 nur Sammelartikel-Start, 5 schon belegt'), verlustZeile(v))
+  pruefe('Logzeile des Baus zählt jeden Grund einzeln (1, 2, 3, 4, 5)', verlustZeile(v).startsWith('Meldungen mit Termin ohne Release: 1 ohne Titel, 0 mit mehrdeutigem Kurznamen, 2 mit unklarem Teil, 3 ohne Anbieter; gezählt, kein Verlust: 4 nur Sammelartikel-Start, 5 schon belegt'), verlustZeile(v))
   const angekuendigt = { ...(anime(900020, 'Neuer Sammel') as object), ankuendigung: { synchro: 'angekuendigt', omuAb: '2026-11-03' } } as never
   const nurStart = ausMeldung({ ...BASS_MELDUNG, articleTitle: 'Netflix: »Neuer Sammel« startet', dates: [{ iso: '2026-11-04', context: 'Sammelartikel' }] }, [angekuendigt], [])
   pruefe('Sammelartikel-Start einer frischen Ankündigung: kein Release, als „nur Start“ gezählt', nurStart.neu.length === 0 && nurStart.verluste.nurStart.length === 1 && nurStart.verluste.ohneTitel.length === 0, nurStart.verluste)
@@ -199,7 +199,7 @@ async function bauFall(): Promise<void> {
   const datei = JSON.parse(readFileSync(join(wurzel, 'data', 'proposals', 'nicht-zugeordnet.json'), 'utf8')) as { eintraege: { titel: string; quelle: string }[] }
   const titel = datei.eintraege.map((e) => `${e.titel}/${e.quelle}`).sort()
   pruefe('Bau: die drei Verluste stehen als Einzelartikel auf der Liste, die beiden Cartoon-Termine nicht', JSON.stringify(titel) === JSON.stringify(['Bass X Machina/Einzelartikel', 'LEGO One Piece/Einzelartikel', 'Unbekannt/Einzelartikel']), titel)
-  pruefe('Bau: Verluste stehen im Log, nach Grund gezählt', zeilen.some((z) => z.includes('Meldungen mit Termin ohne Release: 1 ohne Titel, 1 mit unklarem Teil, 1 ohne Anbieter')), zeilen.filter((z) => z.includes('ohne Release')))
+  pruefe('Bau: Verluste stehen im Log, nach Grund gezählt', zeilen.some((z) => z.includes('Meldungen mit Termin ohne Release: 1 ohne Titel, 0 mit mehrdeutigem Kurznamen, 1 mit unklarem Teil, 1 ohne Anbieter')), zeilen.filter((z) => z.includes('ohne Release')))
 }
 
 try {
