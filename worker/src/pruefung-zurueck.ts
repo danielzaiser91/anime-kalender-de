@@ -45,14 +45,17 @@ export function pruefeZurueck(roh: unknown, jetzt: number): { plattform: string;
   return { plattform: daten.plattform, eintraege }
 }
 
-/** Eine Zeile je Anbieter; unveränderter Inhalt schreibt nichts (0 Zeilen). */
-export async function speichereZurueck(env: Env, plattform: string, eintraege: ZurueckEintraege, jetzt: Date): Promise<void> {
+/**
+ * Eine Zeile je Anbieter; unveränderter Inhalt schreibt nichts (0 Zeilen). `version` (Migration 065) ist die Erweiterung, die die
+ * Menge zuletzt geändert hat: sie steht nicht in der Änderungsbedingung, ein Versionswechsel allein schreibt nichts.
+ */
+export async function speichereZurueck(env: Env, plattform: string, eintraege: ZurueckEintraege, jetzt: Date, version: string | null = null): Promise<void> {
   await env.DB.prepare(
-    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am) VALUES (?1, ?2, ?3)
-     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am
+    `INSERT INTO pruefung_zurueck (plattform, daten, gemeldet_am, ext_version) VALUES (?1, ?2, ?3, ?4)
+     ON CONFLICT(plattform) DO UPDATE SET daten = excluded.daten, gemeldet_am = excluded.gemeldet_am, ext_version = excluded.ext_version
      WHERE pruefung_zurueck.daten <> excluded.daten`,
   )
-    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString())
+    .bind(plattform, JSON.stringify(eintraege), jetzt.toISOString(), version)
     .run()
 }
 

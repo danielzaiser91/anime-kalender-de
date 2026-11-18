@@ -4,6 +4,7 @@
  */
 import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
+import { erweiterungVersion } from './erweiterung-version.ts'
 
 /** Was `speichereDaten` aus der Meldung abgeleitet hat und der Einfüge-Weg braucht. */
 export type Abgeleitet = {
@@ -29,8 +30,8 @@ export type Abgeleitet = {
   auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
   02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
 */
-const EINFUEGEN = `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash, rohfolge, roh_uebernommen)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26)`
+const EINFUEGEN = `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash, rohfolge, roh_uebernommen, ext_version)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27)`
 
 export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>, url: string, a: Abgeleitet): Promise<void> {
   const { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, rohfolge, rohUebernommen } = a
@@ -98,6 +99,8 @@ export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>,
       hash,
       rohfolge,
       rohUebernommen,
+      /* Erweiterungsversion der Meldung (Migration 065), nur zur Auswertung. */
+      erweiterungVersion(daten),
     )
     .run()
 }

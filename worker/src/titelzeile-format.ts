@@ -7,6 +7,8 @@
  * nicht, weil D1 nach Zeilen rechnet und die Sicht `pruefung_titel` den Text mit `json_each` lesen können muss.
  */
 
+import { erweiterungVersion } from './erweiterung-version.ts'
+
 /** Ids der abgeleiteten Zeilen beginnen hier; darunter liegen `prime_folge` (< 10^9) und `pruefung.rohfolge`. */
 export const TITEL_ID_AB = 2_000_000_000
 const JE_TITEL = 10_000_000_000
@@ -15,9 +17,10 @@ const JE_STAFFEL = 100_000
 
 /**
  * Eine Folge: [staffel, nummer, folgentitel, gti, sprachen, vorhanden, ton_de, art, titel_id, gemeldet_am,
- * meldung_uebernommen, rohfolge_uebernommen, notiz, fassung, folgen?, roh_titel?]. Die beiden letzten nur, wo belegt (Netflix, 14.10.2026):
+ * meldung_uebernommen, rohfolge_uebernommen, notiz, fassung, folgen?, roh_titel?, version?]. Die drei letzten nur, wo belegt (Netflix, 14.10.2026):
  * `folgen` = Folgenzahl der Seite (Hand-Meldung), `roh_titel` = Titel der Rohfolge, wo er von `folge` abweicht (Netflix meldet
- * als `folge` die Kennung). `fassung` zählt (0..99, danach von vorn; 100 Änderungen einer Folge zwischen Lesen und Abhaken sind praktisch
+ * als `folge` die Kennung), `version` = Erweiterungsversion der Meldung, die den Inhalt zuletzt geändert hat (18.11.2026; ein
+ * Versionswechsel allein macht keine neue Fassung, sie steht nicht in `gleicherInhalt`). `fassung` zählt (0..99, danach von vorn; 100 Änderungen einer Folge zwischen Lesen und Abhaken sind praktisch
  * ausgeschlossen) jede inhaltliche Änderung und steckt in
  * der Id: Eine Id, die der Bau vor einer Änderung gelesen hat, hakt die geänderte Folge nicht ab (wie eine neue Zeile in `pruefung`).
  */
@@ -38,6 +41,7 @@ export type Eintrag = [
   number,
   (number | null)?,
   (string | null)?,
+  (string | null)?,
 ]
 
 /** Stellen im Eintrag, wo mehr als eine Zahl gelesen wird. */
@@ -49,6 +53,7 @@ export const ROHFOLGE_UEBERNOMMEN = 11
 export const FASSUNG = 13
 export const FOLGEN = 14
 export const ROH_TITEL = 15
+export const VERSION = 16
 
 export type TitelDaten = {
   /** Die Aufteilung des Anbieters, wie die Erweiterung sie meldet. */
@@ -147,15 +152,16 @@ export function eintragAusMeldung(
     0,
   ]
   const rohTitel = roh?.titel ? String(roh.titel).slice(0, 200) : null
-  return mitZusatz(e, zahl(daten.folgen), rohTitel === e[2] ? null : rohTitel)
+  return mitZusatz(e, zahl(daten.folgen), rohTitel === e[2] ? null : rohTitel, erweiterungVersion(daten))
 }
 
-/** Hängt `folgen` und `roh_titel` nur an, wo belegt: Disney+-Einträge bleiben 14 Felder lang. */
-function mitZusatz(e: Eintrag, folgen: number | null, rohTitel: string | null): Eintrag {
-  if (folgen === null && rohTitel === null) return e
+/** Hängt `folgen`, `roh_titel` und `version` nur an, wo belegt: Disney+-Einträge bleiben 14 Felder lang. */
+function mitZusatz(e: Eintrag, folgen: number | null, rohTitel: string | null, version: string | null): Eintrag {
+  if (folgen === null && rohTitel === null && version === null) return e
   const neu: Eintrag = [...e]
   neu[FOLGEN] = folgen
-  if (rohTitel !== null) neu[ROH_TITEL] = rohTitel
+  if (rohTitel !== null || version !== null) neu[ROH_TITEL] = rohTitel
+  if (version !== null) neu[VERSION] = version
   return neu
 }
 

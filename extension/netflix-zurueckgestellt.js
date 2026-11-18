@@ -192,7 +192,7 @@ async function zurueckMelden(o) {
     const antwort = await o.holen(`${o.worker}?zurueck=1`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-      body: JSON.stringify({ plattform: 'netflix', eintraege }),
+      body: JSON.stringify({ plattform: 'netflix', eintraege, version: o.version?.() ?? null }),
     })
     if (!antwort.ok) return { art: 'abgelehnt', spaeter: ZURUECK_ABSTAND_MS }
   } catch {
@@ -214,6 +214,7 @@ function zurueckMitMelden(roh, stand) {
     worker: roh.worker,
     token: roh.token ?? (async () => (await globalThis.akKontext.lesen('token', 'sync'))?.token),
     holen: roh.holen ?? ((...a) => fetch(...a)),
+    version: roh.version ?? (() => globalThis.akKontext?.version?.() ?? null),
   }
   /* Nacheinander: zwei Änderungen kurz hintereinander (Laden, dann Aufräumen) sollen nicht zweimal melden. */
   let kette = Promise.resolve()

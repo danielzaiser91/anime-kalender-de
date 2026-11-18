@@ -51,8 +51,21 @@ export function normalisiert(wert: unknown): unknown {
   return wert
 }
 
+const istObjekt = (w: unknown): w is Record<string, unknown> => Boolean(w) && typeof w === 'object' && !Array.isArray(w)
+const ohneVersionFeld = (o: Record<string, unknown>) => Object.fromEntries(Object.entries(o).filter(([k]) => k !== 'version'))
+
+/** Der Rumpf ohne `version`, auch in den Einträgen von `rohfolgen` (Durchgang und Randprobe spreizen sie dorthin); andere Werte bleiben gleich. */
+export function ohneVersion(daten: unknown): unknown {
+  if (!istObjekt(daten)) return daten
+  const rumpf = ohneVersionFeld(daten)
+  if (Array.isArray(rumpf.rohfolgen)) rumpf.rohfolgen = rumpf.rohfolgen.map((r) => (istObjekt(r) ? ohneVersionFeld(r) : r))
+  return rumpf
+}
+
+/** Ohne `version` (Erweiterungsversion, `erweiterung-version.ts`): ein Update der Erweiterung macht keine Meldung „geändert“. */
 export async function meldungsHash(daten: unknown): Promise<string> {
-  const bytes = new TextEncoder().encode(JSON.stringify(normalisiert(daten)))
+  const inhalt = ohneVersion(daten)
+  const bytes = new TextEncoder().encode(JSON.stringify(normalisiert(inhalt)))
   const digest = await crypto.subtle.digest('SHA-256', bytes)
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('')
 }

@@ -4185,9 +4185,12 @@ async function durchlaufStarten() {
  * gibt, hat keine Tonspur.
  */
 function beobachtung(vorhanden, deutsch, angenommen = false) {
-  return vorhanden
+  const b = vorhanden
     ? { vorhanden: 'ja', ton_de: deutsch ? 'ja' : 'nein', art: angenommen ? 'angenommen' : 'gemessen' }
     : { vorhanden: 'nein', art: 'gemessen' }
+  /* Die Erweiterungsversion geht mit jeder Netflix-Meldung mit (18.11.2026: 152 falsche Umleitungsmeldungen, Version nicht feststellbar). */
+  const version = globalThis.akKontext.version()
+  return version ? { ...b, version } : b
 }
 
 /** Eine Folge des Durchlaufs melden — dieselbe Route wie eine Handmeldung. */
