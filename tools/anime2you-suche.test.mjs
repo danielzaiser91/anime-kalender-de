@@ -5,6 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { pruefeStaffel, zitatStaffeln } from './anime2you-staffel.mjs'
 import { main, kanalTitelOhneZweite, artikelId, textZeilen, artikelBloecke, holeJson, sprachStellen, artikelAuszug, sucheUrl } from './anime2you-suche.mjs'
 
 const EINTRAEGE = [
@@ -140,6 +141,27 @@ for (const befehl of [[], ['suche'], ['artikel'], ['unbekannt', 'x']]) {
 
 assert.equal((await lauf([], kulisse(() => ({})))).code, 2, 'ohne Befehl: Aufruf-Hinweis, Exit 2')
 assert.equal((await lauf(['suche'], kulisse(() => ({})))).code, 2, 'suche ohne Titel')
+// Staffelprüfung: Zitat-Staffel gegen die Staffel der Adresse (115740: „erste Staffel“ an Staffel-2-Adresse)
+assert.deepEqual(zitatStaffeln('Die erste Staffel von »X« und Season 3'), [1, 3])
+assert.deepEqual(zitatStaffeln('Der zweite Part von »X«'), [], 'ohne „Staffel“ keine Nummer')
+assert.equal(pruefeStaffel('Die erste Staffel von »X« …', 'alle 12 Folgen geprüft, laut Adresse Staffel 2, zugang=abo').urteil, 'abweichung')
+assert.equal(pruefeStaffel('Die zweite Staffel von »X« …', 'laut Adresse Staffel 2').urteil, 'passt')
+assert.equal(pruefeStaffel('»X« erscheint auf aniverse', 'laut Adresse Staffel 2').urteil, 'passt', 'Zitat ohne Staffel')
+assert.equal(pruefeStaffel('Die erste Staffel von »X«', 'alle 12 Folgen geprüft').urteil, 'unbekannt', 'Adress-Staffel fehlt')
+assert.equal(pruefeStaffel('Die erste Staffel von »X«', 'alle 25 Folgen geprüft', 12).urteil, 'abweichung', 'Folgenzahl der Adresse passt nicht zum Kurztitel')
+assert.equal(pruefeStaffel('Die erste Staffel von »X«', 'alle 25 Folgen geprüft', 224).urteil, 'unbekannt', 'langer Titel: Folgenzahl sagt nichts')
+{
+  const dateiS = path.join(os.tmpdir(), `a2y-staffel-${process.pid}.yaml`)
+  const titelS = dateiS.replace('.yaml', '.json')
+  fs.writeFileSync(dateiS, '- anilistId: 9\n  url: https://x/A\n  note: "laut Adresse Staffel 2"\n- anilistId: 9\n  url: https://x/B\n  note: "laut Adresse Staffel 1"\n')
+  fs.writeFileSync(titelS, '[{"id":9,"episodes":12}]')
+  const ausgabeS = []
+  const codeS = await main(['pruefe', '9', '--zitat', 'Die erste Staffel von »X«', '--datei', dateiS, '--titel', titelS], { schreibe: (s) => ausgabeS.push(s) })
+  assert.equal(codeS, 1, 'Abweichung an einer Adresse: Exit 1')
+  assert.deepEqual(JSON.parse(ausgabeS[0]).zeilen.map((z) => z.urteil), ['abweichung', 'passt'])
+  fs.rmSync(dateiS)
+  fs.rmSync(titelS)
+}
 // Einstieg als echter Prozess: ohne Argumente Aufrufhinweis und Exit 2 (kein Netzabruf)
 const p = spawnSync(process.execPath, [fileURLToPath(new URL('./anime2you-suche.mjs', import.meta.url))], { encoding: 'utf8', timeout: 20000, windowsHide: true })
 assert.ok(p.status === 2 && p.stdout.startsWith('Aufruf:'), 'Prozess: Exit 2 mit Hinweis, Ausgabe: ' + p.stdout + p.stderr)
