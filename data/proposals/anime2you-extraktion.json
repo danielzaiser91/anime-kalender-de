@@ -1671,6 +1671,10 @@
       "am": "2026-11-15",
       "vorschlaege": 0
     },
+    "1070931": {
+      "am": "2026-11-18",
+      "vorschlaege": 0
+    },
     "1070963": {
       "am": "2026-11-16",
       "vorschlaege": 2
@@ -1678,6 +1682,10 @@
     "1070995": {
       "am": "2026-11-13",
       "vorschlaege": 0
+    },
+    "1071011": {
+      "am": "2026-11-18",
+      "vorschlaege": 1
     },
     "1071032": {
       "am": "2026-11-13",
@@ -1864,6 +1872,11 @@
     "1072697": {
       "am": "2026-11-17",
       "vorschlaege": 1
+    },
+    "1073183": {
+      "am": "2026-11-18",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     }
   },
   "vorschlaege": [
@@ -14468,6 +14481,27 @@
       "quelle": "https://www.anime2you.de/news/1072337/animoon-polyband-20-disc-verschiebungen/",
       "veroeffentlicht": "2026-11-17",
       "gelesenAm": "2026-11-17"
+    },
+    {
+      "titel": "Miss Kobayashi’s Dragon Maid",
+      "zitat": "Eine neue Steelbook-Edition kommt im Dezember 2026 in den deutschen Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Unklar, ob sich die Steelbook-Edition auf eine Staffel oder den Film bezieht.",
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1071011",
+      "artikel": "Zwei neue »Miss Kobayashi’s Dragon Maid«-Plüschfiguren vorgestellt",
+      "quelle": "https://www.anime2you.de/news/1071011/zwei-miss-kobayashis-dragon-maid-plueschfiguren/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
     }
   ]
 }
