@@ -361,6 +361,9 @@ jobs:
             belegt. Concurrency-Änderungen in Workflows spielst du gegen workflow_run, push und "ein wartender
             Lauf je Gruppe (queue: single)" durch. Jeder neue Wächter braucht einen Fixture-Negativtest, der
             ohne seinen Fix rot ist; sonst "aendern".
+            Neuer Test (Lehre 152, 18.11.2026): Der Beleg, dass er gegen die Basisdatei (main-Fassung des Prüflings)
+            mindestens einen Fall rot macht, muss in Beschreibung oder Nachtrag stehen; ohne ihn "aendern", auch wenn
+            die Kette grün ist.
             Neue Titel- oder Datenquelle neben titles.json oder neuer Schreiber einer gelesenen Datei: Leser per
             Grep aufzählen und jeden prüfen. Feldformate (z. B. Sprachcodes) mit dem Erzeuger vergleichen, nicht
             mit der Fixture.
