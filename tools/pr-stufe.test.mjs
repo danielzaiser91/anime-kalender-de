@@ -19,6 +19,7 @@ const fall = (name, dateien, erwartet) => {
 
 fall('Textänderung i18n → 0', [d('web/src/i18n.ts', ['  knopf: "Speichern"'], ['  knopf: "Sichern"'])], 0)
 fall('Patchnotes-Text → 0', [d('data/patchnotes/neue-ansicht.yaml', ['  text: Neue Ansicht'])], 0)
+fall('Patchnotes-Vorrat → 0', [d('data/patchnotes/vorrat/neue-ansicht.yaml', ['  text: Neue Ansicht'])], 0)
 fall('Doku → 0', [d('docs/wissen/betrieb.md', zeilen(80))], 0)
 fall('CSS ≤ 30 Zeilen → 0', [d('web/src/styles.css', zeilen(20), zeilen(10))], 0)
 fall('CSS > 30 Zeilen → 1', [d('web/src/styles.css', zeilen(31))], 1)
