@@ -31,6 +31,25 @@ globalThis.akNetflixErinnernKnopf = (termin) =>
     ? { text: `Noch nicht da — „ab ${termin}" melden`, klasse: 'ak-nein', aktiv: true }
     : { text: 'Angekündigt — Netflix nennt keinen Termin', klasse: 'ak-leer', aktiv: false }
 
+const ERINNERN_MONATE = ['jan', 'feb', 'mär', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dez']
+
+/** „19. November" / „3. Okt. 2026" → „19.11." (Netflix nennt Tag und Monat); ohne lesbares Datum `null`. */
+globalThis.akNetflixDatumKurz = (text) => {
+  const t = /(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)/.exec(String(text ?? ''))
+  const m = t ? ERINNERN_MONATE.indexOf(t[2].toLowerCase().slice(0, 3).replace('mar', 'mär')) + 1 : 0
+  return m ? `${Number(t[1])}.${m}.` : null
+}
+
+/**
+ * Der Grund einer Zurückstellung wegen des Erinnern-Knopfes (18.11.2026, Daniel: „wenn Netflix ein Datum nennt, muss das auch der Grund sein").
+ * Das Datum steht im Grund, und `zurueckBis` liest es von dort: Grund und „zurück bis" kommen aus derselben Messung. Die Klammer lässt
+ * die Prüfliste alle Daten als eine Art zählen (`ansichtGrundArt`).
+ */
+globalThis.akNetflixErinnernGrund = (datum) => {
+  const kurz = globalThis.akNetflixDatumKurz(datum)
+  return kurz ? `Erinnern-Knopf mit Datum (${kurz})` : 'Erinnern-Knopf ohne Datum'
+}
+
 /**
  * Ein Film hat keine Folgenliste und geht über `/watch` — aber nur, wenn seine Titelseite Inhalt zeigt (16.11.2026, Appleseed: unter
  * `/title/…` die Startseite, 20 s im Player und ein zweiter Versuch). Zeigt sie Inhalt: `filmFrei` (oder, war der Film schon im Player
@@ -102,8 +121,9 @@ const listeWartenSchritt = (wartet, o, tun) => {
       tun.vollLaden.laden(o.reihe)
       return { ...wartet, entschieden: true }
     }
-    tun.spur('Erinnern statt Folgenliste', { ...dazu, seite: merkmale })
-    tun.uebersprungen.set(o.reihe, 'Erinnern statt Folgenliste')
+    const grund = globalThis.akNetflixErinnernGrund((o.datum ?? globalThis.erscheinungsdatum)?.())
+    tun.spur(grund, { ...dazu, seite: merkmale })
+    tun.uebersprungen.set(o.reihe, grund)
     tun.weiter()
     return { ...wartet, entschieden: true }
   }

@@ -157,7 +157,7 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   let e = erinnern(false)
   pruefe('Erinnern, noch nicht voll geladen: Seite wird voll geladen, nichts zurückgestellt', e.geladen === 1 && e.uebersprungen.size === 0 && e.weiter === 0 && e.rest.entschieden === true, e)
   e = erinnern(true)
-  pruefe('Erinnern nach vollem Laden: gilt, zurückgestellt „Erinnern statt Folgenliste“', e.geladen === 0 && e.uebersprungen.get('81196818') === 'Erinnern statt Folgenliste' && e.weiter === 1, e)
+  pruefe('Erinnern nach vollem Laden: gilt, zurückgestellt „Erinnern-Knopf ohne Datum“', e.geladen === 0 && e.uebersprungen.get('81196818') === 'Erinnern-Knopf ohne Datum' && e.weiter === 1, e)
   e = erinnern(undefined)
   pruefe('Erinnern ohne Neulade-Baustein (Rückfall): wie bisher zurückgestellt', e.uebersprungen.size === 1 && e.weiter === 1, e)
 
