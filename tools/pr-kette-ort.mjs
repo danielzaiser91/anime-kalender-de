@@ -37,7 +37,7 @@ function eintragFehler(art, name, e) {
   return f
 }
 
-/** Verstöße der Zuordnung gegen die echten Prüfungen: Datei vorhanden, Zahl, Vollständigkeit der Aufteilung. */
+/** Verstöße der Zuordnung gegen die echten Prüfungen: Datei vorhanden, Zahl der Nacht-Einträge. */
 function zuordnungFehler(ort, alle) {
   const f = []
   for (const art of ARTEN) {

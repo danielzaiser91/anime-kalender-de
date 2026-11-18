@@ -29,7 +29,7 @@ assert.deepEqual(nachOrt(['x.test.mjs', 'y.test.mjs'], { tests: { 'tools/y.test.
 assert.deepEqual(leseOrt(join(tmpdir(), 'gibt-es-nicht-ort')), { logik: {}, tests: {} }, 'ohne Datei keine Nacht-Einträge')
 
 /** Wegwerf-Repo mit Läufer-Kopien, Prüfliste, Tests und Zuordnung; `rotB` lässt die Nacht-Prüfung und den Nacht-Test scheitern, `ohneDeploy` streicht `deploy: true`. */
-function baueRepo({ rotB = false, ohneDeploy = false } = {}) {
+function baueRepo({ rotB = false, ohneDeploy = false, ohnePr = false } = {}) {
   const ordner = mkdtempSync(join(tmpdir(), 'pruefung-ort-'))
   mkdirSync(join(ordner, 'tools'))
   mkdirSync(join(ordner, 'pipeline'))
@@ -37,7 +37,7 @@ function baueRepo({ rotB = false, ohneDeploy = false } = {}) {
   for (const k of KOPIEN) copyFileSync(join(WURZEL, 'tools', k), join(ordner, 'tools', k))
   copyFileSync(join(WURZEL, 'package.json'), join(ordner, 'package.json'))
   symlinkSync(join(WURZEL, 'node_modules'), join(ordner, 'node_modules'), 'junction')
-  const pruefungen = ['pipeline/check-a-pr.ts', 'pipeline/check-b-nachts.ts', 'pipeline/check-c-deploy.ts']
+  const pruefungen = ['pipeline/check-a-pr.ts', 'pipeline/check-b-nachts.ts', 'pipeline/check-c-deploy.ts'].filter((p) => !(ohnePr && p.includes('check-a')))
   const tests = ['a-pr.test.mjs', 'b-nachts.test.mjs', 'c-deploy.test.mjs']
   for (const p of pruefungen) writeFileSync(join(ordner, p), p.includes('check-b') && rotB ? 'process.exit(3)\n' : "console.log('still')\n")
   for (const t of tests) writeFileSync(join(ordner, 'tools', t), t.startsWith('b-') && rotB ? 'process.exit(3)\n' : "console.log('still')\n")
@@ -114,12 +114,22 @@ try {
   assert.match(l.text, /keine Prüfung mit Ort deploy/)
   assert.equal(lauf(leer, 'tests-alle.mjs', ['--nachts-deploy']).status, 0, 'Tests ohne deploy-Eintrag: leerer Lauf ist grün')
   console.log('  ✓ Deploy-Lauf ohne deploy-Eintrag: leer und grün')
+
+  // Nur der leere Deploy-Lauf ist grün: steht in der Liste nur Nacht-Zeug, ist der PR-Lauf leer und rot (sonst läuft die Kette still ohne Prüfung).
+  const ohnePr = baueRepo({ ohnePr: true })
+  ordnerListe.push(ohnePr)
+  const p = lauf(ohnePr, 'check-logic-alle.mjs', [])
+  assert.equal(p.status, 1, p.text)
+  assert.match(p.text, /enthält keine Prüfung/)
+  console.log('  ✓ PR-Lauf ohne PR-Prüfung: rot')
   console.log('pruefung-ort: ok (Modus, Aufteilung, check-logic-alle und tests-alle als Prozess, Rot nur nachts, leerer Deploy-Lauf)')
 } finally {
   for (const o of ordnerListe) {
     try {
       unlinkSync(join(o, 'node_modules'))
-    } catch {}
+    } catch (fehler) {
+      if (fehler.code !== 'ENOENT') throw fehler // fehlt der Link (baueRepo früh gescheitert), darf das den eigentlichen Fehler nicht verdecken
+    }
     rmSync(o, { recursive: true, force: true })
   }
 }

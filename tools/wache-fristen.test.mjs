@@ -28,6 +28,7 @@ const GROESSTE_LUECKE = {
   'ladezeiten.yml': 24.0,
   'offizielle-news.yml': 24.0,
   'meldungskopie.yml': 33.2,
+  'nacht-pruefung.yml': 24.0, // Soll-Takt täglich, noch keine Läufe (18.11.2026): nach einer Woche gegen gh run list nachmessen
   'refresh-weekly.yml': 243.6,
   'tonspuren-monatlich.yml': 867.7,
 }
