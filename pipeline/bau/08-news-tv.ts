@@ -1,7 +1,7 @@
 import { readJson, log, warn } from '../lib/util.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
 import { type Vorschlag, leereVerluste, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
-import { verlustZeile } from '../lib/meldungen-ohne-release-zeilen.ts'
+import { mehrdeutigZeile, verlustZeile } from '../lib/meldungen-ohne-release-zeilen.ts'
 import { alsTitel, type CartoonEintrag } from '../lib/cartoons.ts'
 import { ohneTote } from '../lib/cartoon-aufnahme.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
@@ -45,6 +45,8 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     synonymeJeTitel([...titles.keys()]),
   )
   log(verlustZeile(verluste))
+  const mehrdeutig = mehrdeutigZeile(verluste)
+  if (mehrdeutig) log(mehrdeutig)
   log(`${teilVerworfen.length} Anime2You-Meldungen mit Part-/Cour-/Box-Hinweis keinem Teil sicher zuzuordnen — verworfen${teilVerworfen.length ? `: ${teilVerworfen.join(' | ')}` : ''}`)
   releases.push(...ausMeldungen)
   releases.push(...termineAusEigenen(ladeEigeneTitel(), releases))

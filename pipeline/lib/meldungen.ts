@@ -34,7 +34,8 @@ import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
 import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
 import { frischAngekuendigt } from '../bau/ohne-beleg.ts'
-import { istSammelMeldung, ohneSammelName, sammelTitel } from './sammel-titel.ts'
+import { istSammelMeldung, ohneSammelName, sammelName, sammelTitel } from './sammel-titel.ts'
+import { praefixTitel } from './meldung-praefix.ts'
 import { artikelNamen, nameTrifft } from './titel-name-trifft.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
@@ -507,6 +508,8 @@ function sammelTagIstNurStart(v: Vorschlag, treffer: Title, heute: string, abged
 export interface Verluste {
   /** Kein Titel (Anime oder Cartoon) mit genau diesem Namen. */
   ohneTitel: Vorschlag[]
+  /** Der Name ist nur Namensanfang mehrerer Titel (`praefixTitel`): keiner wird geraten. */
+  mehrdeutig: Vorschlag[]
   /** Titel gefunden, aber Staffel/Teil der Überschrift nicht eindeutig. */
   ohneTeil: Vorschlag[]
   /** Titel und Tag da, aber kein Anbieter, den wir führen. */
@@ -517,7 +520,7 @@ export interface Verluste {
   schonBelegt: Vorschlag[]
 }
 
-export const leereVerluste = (): Verluste => ({ ohneTitel: [], ohneTeil: [], ohneAnbieter: [], nurStart: [], schonBelegt: [] })
+export const leereVerluste = (): Verluste => ({ ohneTitel: [], mehrdeutig: [], ohneTeil: [], ohneAnbieter: [], nurStart: [], schonBelegt: [] })
 
 /** Slug-Teil eines automatischen Releases; Cartoons (negative Kennung) als `c<Zahl>`, kein doppelter Strich. */
 const autoKennung = (id: number): string => (id < 0 ? `c${-id}` : String(ALTE_AUTO_KENNUNG[id] ?? id))
@@ -531,13 +534,22 @@ export function cartoonPasstZumTermin(cartoon: Title, tag: string): boolean {
   return cartoon.jpYear !== undefined && Math.abs(cartoon.jpYear - Number(tag.slice(0, 4))) <= 1
 }
 
-/** Der gemeinte Titel: die gesetzte Kennung, sonst ein genauer Name; eine Sammelzeile darf zusätzlich über Synonym oder eindeutigen Namensanfang (nur Anime). */
-function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: string, synonyme: Map<number, string[]>): Title | undefined {
+/** Der gemeinte Titel (`praefix`: nur über den Kurznamen gefunden), `mehrdeutig` oder `undefined` = kein Titel. */
+type Basis = { titel: Title; praefix?: true } | { mehrdeutig: true } | undefined
+
+/** Der gemeinte Titel: die gesetzte Kennung, sonst ein genauer Name; eine Sammelzeile darf zusätzlich über Synonym oder eindeutigen Namensanfang, jede Meldung über den eindeutigen Kurznamen (nur Anime). */
+function basisDerMeldung(v: Vorschlag, titel: Title[], cartoons: Title[], tag: string, synonyme: Map<number, string[]>): Basis {
   const kandidaten = [...titel, ...cartoons.filter((c) => cartoonPasstZumTermin(c, tag))]
-  if (v.titleId) return kandidaten.find((t) => t.id === v.titleId)
+  if (v.titleId) {
+    const t = kandidaten.find((k) => k.id === v.titleId)
+    return t && { titel: t }
+  }
   const treffer = findeTitel(v.articleTitle, kandidaten)
-  if (treffer?.genau) return treffer.titel
-  return istSammelMeldung(v) ? sammelTitel(v.articleTitle, titel, synonyme) : undefined
+  if (treffer?.genau) return { titel: treffer.titel }
+  const sammel = istSammelMeldung(v) ? sammelTitel(v.articleTitle, titel, synonyme) : undefined
+  if (sammel) return { titel: sammel }
+  const befund = praefixTitel(v, titel, teilAusUeberschrift(ohneSammelName(v.articleTitle))?.nummer !== undefined)
+  return befund && ('titel' in befund ? { titel: befund.titel, praefix: true } : befund)
 }
 
 /** Der Termin einer Meldung als Release (Slug ohne Datum, siehe Kommentar am Slug). */
@@ -614,11 +626,12 @@ export function releasesAus(
      * Überschrift sagt nicht, welche der vier Staffeln gemeint ist; als Meldung
      * ist das in Ordnung, als Kalendereintrag wäre es eine Falschangabe.
      */
-    const basis = basisDerMeldung(v, titel, cartoons, tag, synonyme)
-    if (!basis) {
-      verluste?.ohneTitel.push(v)
+    const gemeint = basisDerMeldung(v, titel, cartoons, tag, synonyme)
+    if (!gemeint || 'mehrdeutig' in gemeint) {
+      verluste?.[gemeint ? 'mehrdeutig' : 'ohneTitel'].push(v)
       continue
     }
+    const basis = gemeint.titel
 
     const teilText = istSammelMeldung(v) ? ohneSammelName(v.articleTitle) : v.articleTitle
     const treffer = reihenTeil(basis, kandidaten, teilText) ?? vermerkeTeilHinweis(teilText, verworfen)
@@ -642,7 +655,8 @@ export function releasesAus(
     }
     belegeTermin(belegt, treffer.id, platform, tag)
 
-    out.push(releaseAusMeldung(v, treffer, platform, tag, sprache, vorhanden, heute))
+    const release = releaseAusMeldung(v, treffer, platform, tag, sprache, vorhanden, heute)
+    out.push(gemeint.praefix ? { ...release, herkunft: `${release.herkunft} Titel über den Kurznamen »${sammelName(v.articleTitle)}« zugeordnet.` } : release)
   }
   return out.map((r) => mitPlanDesKanalAnbieters(r, vorhanden))
 }

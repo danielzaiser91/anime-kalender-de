@@ -1,5 +1,5 @@
 # Disc-Termine Februar 2027 aus Anime2You-Meldungen (Auftrag „beispiele-mightynein-hellmode-1811“, 18.11.2026).
-# Der automatische Weg (`releasesAus`) verwirft diese Meldung: »Hell Mode« in der Überschrift ist nur ein Namensanfang des AniList-Titels, kein genauer Treffer.
+# Der automatische Weg (`releasesAus`) übernimmt diese Meldung über den Kurznamen »Hell Mode« ebenfalls; der kuratierte Termin hier geht vor, die Meldung zählt dann als „schon belegt“.
 
 # Anime2You 1071412 (17.11.2026): „Die zwölfteilige erste Staffel von »Hell Mode« erscheint voraussichtlich am 25. Februar 2027 in einer Blu-ray-Komplettbox“, alle Episoden auf Deutsch und Japanisch (laut Artikel; voraussichtlich = `estimated`).
 - slug: hell-mode-staffel-1-komplettbox

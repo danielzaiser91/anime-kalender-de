@@ -4421,6 +4421,10 @@ Die Quelle mit dem besten Umfang für lineares Free-TV (MAXX, Folgennummer, Folg
 
 `https://www.anime2you.de/robots.txt` (HTTP 200, 18.11.2026): `User-agent: *` sperrt nur `/wp-admin/`, `/wp-includes/` und `/media/partner/`; gesperrt sind namentlich DotBot, AhrefsBot, SemrushBot, MJ12bot, BLEXBot. Der Suchpfad `/?s=` und die Schnittstelle `/wp-json/wp/v2/posts` sind erlaubt (Abruf `?search=…&_fields=…` lieferte 200). `tools/anime2you-suche.mjs` nutzt die Schnittstelle mit Pause 1,5 s und generischem User-Agent (Synchro-Belegsuche, [maengel.md](maengel.md)).
 
+## 18.11.2026 — Kurzname in »…« als Namensanfang (Hell Mode, Blu-ray 25.02.2027)
+
+Anime2You nennt oft nur den Anfang des Titels. Gemessen auf `anime2you.json` + `titles.json`: 66 Meldungen mit Termin ohne Titel, davon 10 mit Präfix-Kandidat (der Rest sind Aktionen, TV-Guides, Titel nicht im Bestand). `pipeline/lib/meldung-praefix.ts` (`praefixTitel`) übernimmt, was eindeutig ist: genau ein Treffer, oder eine Franchise plus Staffel-/Filmwort (`reihenTeil` wählt den Teil). Mehrere Franchisen oder mehrere Teile ohne Angabe: `Verluste.mehrdeutig` (Logzeile, `nicht-zugeordnet.json`). Ein Preisangebot („zum Sonderpreis“) nennt als Datum sein Ende und wird nie so übernommen. Die Release trägt „Titel über den Kurznamen … zugeordnet“ in `herkunft`. Offen, nicht Teil dieser Änderung: dieselbe Angebots-Meldung mit exaktem Namen (Higurashi GOU) hat dasselbe Risiko.
+
 ## Streaming-Lücke „Quelle nennt deutschen Ton, Bestand hat keinen Weg“: 32 Fälle gemessen, kein Bau-Fehler (18.11.2026)
 
 Messung an `public/data` (Stand 18.11.2026) gegen `data/justwatch-audio.json`, `data/dub-confirmed.yaml`, `data/prime-zugeordnet.json`, `data/crunchyroll-de-kennungen.json`, `public/data/news.json`, `releases.json`. Die Klassen aus `pipeline/lib/streaming-luecke-klassen.ts` tragen die Zahl im ganzen Bestand (991 Titel ohne Streaming-Weg: A1a 8, A1c 2, A1x 1, A3a 27, A3b 12, A3c 1, A3d 3, K 1, B 278, C 658).
