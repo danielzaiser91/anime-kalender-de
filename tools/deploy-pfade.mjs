@@ -29,11 +29,13 @@ export const bedarf = (dateien) => ({
   logik: dateien.some(zaehltLogik),
 })
 
-const ausfuehren = (befehl, args) => execFileSync(befehl, args, { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'], timeout: 60_000 })
+const git = (args) => execFileSync('git', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'], timeout: 60_000 })
 export const ECHT = {
-  letzterGruenerStand: (repo) =>
-    JSON.parse(ausfuehren('gh', ['api', `repos/${repo}/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=1`])).workflow_runs?.[0]?.head_sha,
-  geaendert: (basis) => ausfuehren('git', ['diff', '--name-only', '-z', basis, 'HEAD']).split('\0').filter(Boolean),
+  letzterGruenerStand: (repo) => {
+    const roh = execFileSync('gh', ['api', `repos/${repo}/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=1`], { encoding: 'utf8', timeout: 60_000 })
+    return JSON.parse(roh).workflow_runs?.[0]?.head_sha
+  },
+  geaendert: (basis) => git(['diff', '--name-only', '-z', basis, 'HEAD']).split('\0').filter(Boolean),
 }
 
 /** `{ ...bedarf, grund }`; bei jedem Fehler alles `true`. */
