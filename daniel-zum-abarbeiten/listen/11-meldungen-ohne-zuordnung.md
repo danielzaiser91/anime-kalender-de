@@ -380,7 +380,6 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/gp/video/detail/B0CW5WH6XZ | Tokyo Ghoul:re — Staffel 2: 12 Folgen gemeldet, Zielstaffel hat 24 | dub | [Tokyo Ghoul:re](https://anilist.co/anime/100240) | Staffel 2 prüfen: Folgenzahl passt nicht |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5 | Black Butler — Staffel 3 in der Reihe nicht zu bestimmen | kein_dub | [Black Butler](https://anilist.co/anime/4898) | Seite B0CVF6Q2JS als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5 | Black Butler — Staffel 5 in der Reihe nicht zu bestimmen | dub | [Black Butler](https://anilist.co/anime/4898) | Seite B0DZ75H7NL als Verweis an den Titel von Staffel 5 eintragen |
-| adn | https://animationdigitalnetwork.com/de/video/1350-hell-mode-the-hardcore-gamer-dominates-in-another-world-with-garbage-balancing | HELL MODE: The Hardcore Gamer Dominates in Another World with Garbage Balancing | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1431-nia-liston-the-merciless-maiden | Nia Liston: The Merciless Maiden | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1432-dragon-ball-super-beerus | Dragon Ball Super: Beerus | kein_dub | — | Titel von Hand suchen |
 | adn | https://animationdigitalnetwork.com/de/video/1430-my-girlfriends-friend | My Girlfriend's Friend | kein_dub | — | Titel von Hand suchen |
