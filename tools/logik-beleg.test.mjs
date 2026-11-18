@@ -316,8 +316,8 @@ const abdruckIn = (ordner) => {
   gleich(zusicherung.env.LOGIK_BELEGT, '${{ steps.beleg.outputs.gueltig }}', 'deploy.yml: LOGIK_BELEGT kommt aus dem Beleg-Schritt')
   gleich(
     zusicherung.run,
-    'npm run check:pfade\nif [ "$LOGIK_BELEGT" = 1 ]; then\n  echo "check:logic übersprungen: vom Bestandsbau für diesen Inhalt belegt (Schritt „Logik-Beleg“)."\nelse\n  npm run check:logic\nfi\nnpm run check:search\n',
-    'deploy.yml: check:logic nur im Zweig ohne Beleg, pfade und search immer',
+    'npm run check:pfade\nif [ "$LOGIK_BELEGT" = 1 ]; then\n  echo "check:logic übersprungen: vom Bestandsbau für diesen Inhalt belegt (Schritt „Logik-Beleg“)."\nelif [ "$LOGIK_NOETIG" = 0 ]; then\n  echo "check:logic übersprungen: seit dem letzten grünen Deploy-Lauf kein Pfad berührt, den es liest (Schritt „Betroffene Pfade“)."\nelse\n  npm run check:logic\nfi\nnpm run check:search\n',
+    'deploy.yml: check:logic nur im Zweig ohne Beleg und bei berührten Pfaden, pfade und search immer',
   )
   const bau = yaml.load(readFileSync(join(wurzel, '.github/workflows/bestand-bauen.yml'), 'utf8'))
   const vor = Object.values(bau.jobs).flatMap((j) => j.steps).find((s) => s.name === 'Neue Handbelege prüfen')

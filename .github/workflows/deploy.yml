@@ -19,6 +19,11 @@ on:
       - '*.md'
       - 'extension/**'
       - 'worker/**'
+      # 18.11.2026: Agenten-Regeln und Übergabedateien gehen nicht in die Seite. Der Bau liest sie nicht (`frei()` in tools/bau-eingaben.mjs, die Spur würde es
+      # melden; `.claude/` steht dort nirgends), kein Deploy-Schritt greift darauf zu. Prüfungen, die sie lesen (tools/*.test.mjs), laufen in der PR-Kette
+      # und bei jedem Push, der auch andere Pfade berührt (Vergleich gegen den letzten grünen Lauf: tools/deploy-pfade.mjs). Pushes der Wache (`chore(wache)`) lösten bisher je einen Deploy aus.
+      - '.claude/**'
+      - 'daniel-zum-abarbeiten/**'
   # Ohne das hier gehen die Daten der Nachtläufe nie live. GitHub startet
   # bewusst keine Workflows für Pushes, die aus einer Action mit dem
   # GITHUB_TOKEN kommen — sonst könnte sich eine Action endlos selbst
@@ -42,13 +47,9 @@ permissions:
   # Für das Aufräumen der Statusanzeige: `gh run list` liest die Läufe des Repos.
   actions: read
 
-concurrency:
-  # Pushes der Daten-App überspringt der Job-`if`; der Lauf selbst bekäme sonst die Gruppe und verdrängte einen wartenden Deploy.
-  # Ebenso ein workflow_run-Lauf nach nicht erfolgreichem Bestandsbau (16.10.2026: er verdrängte den push-Deploy und übersprang sich dann selbst).
-  # Kein Lauf bricht einen laufenden Deploy ab, er wartet; ein neuerer wartender ersetzt den älteren (GitHub hält je Gruppe nur einen).
-  # Vorher brach jeder Merge den laufenden ab: 60 von ~290 Deploys in 7 Tagen, ein Live-Fix kam je Merge ~8 min später (26.10.2026).
-  group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success') && format('uebersprungen-{0}', github.run_id) || 'pages' }}
-  cancel-in-progress: false
+# Die Gruppe `pages` hängt nur noch an den Deploy-Jobs (`deploy_hart`, `deploy_schlank`), nicht mehr am ganzen Lauf (18.11.2026): Am Lauf hielt sie auch `abschluss`
+# (199 s Nachlauf mit Kachelmessung), 16 von 22 Läufen warteten darauf, im Median etwa 330 s. Bau und Prüfungen verschiedener Läufe laufen jetzt nebeneinander;
+# dass ein älterer Lauf dabei nie einen neueren überschreibt, sichert der Schritt „Veraltet?“ (tools/deploy-veraltet.mjs) in beiden Deploy-Jobs.
 
 jobs:
   # **Zwei Wege zum Deploy** (Daniel, 08.10.2026): Der Bau und die Prüfungen laufen nebeneinander. **Hart** (Standard): Deployt wird erst, wenn beides grün ist.
@@ -257,6 +258,15 @@ jobs:
         if: ${{ steps.herkunft.outputs.treffer != '1' }}
         run: git sparse-checkout disable
 
+      # Berührt die Änderung seit dem letzten grünen Deploy-Lauf keinen Pfad, den `check:workflows` bzw. `check:extension` lesen, entfallen sie (tools/deploy-pfade.mjs).
+      # Sie liefen in der PR-Kette (Teiljobs workflows, workflows2, uebrige). Fehlt die Ausgabe (Schritt gescheitert), laufen sie: Die Gates prüfen auf `!= '0'`.
+      - name: Betroffene Pfade seit dem letzten grünen Lauf
+        id: pfade
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/deploy-pfade.mjs
+
       # Hat ein früherer Deploy-Lauf für denselben Inhalt außerhalb der Datenpfade `pruefen` grün gefahren (tools/workflows-beleg.mjs),
       # entfällt `check:workflows` (~7 min je Treffer; Treffer 3 von 35 Läufen ohne Herkunft-Treffer, 17. und 18.11.2026). Jeder Fehler hier heißt nur „nicht belegt“: dann läuft die Prüfung wie bisher.
       - name: Workflows-Beleg früherer Deploy-Läufe suchen
@@ -312,7 +322,7 @@ jobs:
       # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
       # der das bemerkt, bevor ein Nachtlauf ausbleibt.
       - name: Workflow-Dateien prüfen
-        if: ${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' && steps.wbeleg.outputs.gueltig != '1' && steps.pfade.outputs.workflows != '0' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:workflows
@@ -328,10 +338,16 @@ jobs:
       # keiner Kette und liefen deshalb genau einmal — an dem Tag, an dem sie
       # geschrieben wurden.
       - name: Erweiterung prüfen
-        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        if: ${{ steps.herkunft.outputs.treffer != '1' && steps.pfade.outputs.extension != '0' }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:extension
+
+      # Beleg-Kriterium für spätere Läufe (tools/workflows-beleg.mjs, `LETZTER_PRUEFSCHRITT`): grün nur, wenn `check:workflows` in diesem Lauf lief oder belegt war.
+      # Ein Lauf, der sie wegen unberührter Pfade übersprang, belegt nichts (sein Stand beruht auf dem Vorgänger, nicht auf eigener Prüfung).
+      - name: Workflow-Prüfung belegt
+        if: ${{ steps.herkunft.outputs.treffer != '1' && (steps.wbeleg.outputs.gueltig == '1' || steps.pfade.outputs.workflows != '0') }}
+        run: echo "Workflow-Prüfung für diesen Stand gelaufen oder belegt."
 
   # **Zusicherungen parallel zu `pruefen`** (18.11.2026): `check:workflows` (Median 452 s) und `check:pfade`/`check:search` (Median 375 s) liefen nacheinander im Job `pruefen`
   # (Median 986 s, Messung 35 Läufe ohne Treffer vom 17./18.11.2026). Jetzt laufen sie als zwei Jobs nebeneinander; `deploy_hart` wartet auf beide, kein Deploy ohne beide grün.
@@ -379,6 +395,15 @@ jobs:
         id: beleg
         if: ${{ steps.herkunft.outputs.treffer != '1' }}
         run: node tools/logik-beleg.mjs gueltig
+
+      # Wie in `pruefen`: `check:logic` entfällt, wenn seit dem letzten grünen Deploy-Lauf kein Pfad berührt ist, den der Logik-Beleg zählt (tools/deploy-pfade.mjs);
+      # es lief in der PR-Kette (Teiljob logik) und im Bestandsbau vor jedem Datencommit. `check:pfade`, `check:search` und `check:hooks` (zusammen etwa 12 s) bleiben immer.
+      - name: Betroffene Pfade seit dem letzten grünen Lauf
+        id: pfade
+        if: ${{ steps.herkunft.outputs.treffer != '1' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/deploy-pfade.mjs
 
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
@@ -449,10 +474,13 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           LOGIK_BELEGT: ${{ steps.beleg.outputs.gueltig }}
+          LOGIK_NOETIG: ${{ steps.pfade.outputs.logik }}
         run: |
           npm run check:pfade
           if [ "$LOGIK_BELEGT" = 1 ]; then
             echo "check:logic übersprungen: vom Bestandsbau für diesen Inhalt belegt (Schritt „Logik-Beleg“)."
+          elif [ "$LOGIK_NOETIG" = 0 ]; then
+            echo "check:logic übersprungen: seit dem letzten grünen Deploy-Lauf kein Pfad berührt, den es liest (Schritt „Betroffene Pfade“)."
           else
             npm run check:logic
           fi
@@ -496,6 +524,15 @@ jobs:
       !contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # `actions: write` nur für den Anstoß eines frischen Deploy-Laufs, wenn ein neuerer Lauf in der Gruppe ersetzt wurde (tools/deploy-veraltet.mjs).
+    permissions: { contents: read, pages: write, id-token: write, actions: write }
+    # Nur der Deploy ist serialisiert (18.11.2026, vorher der ganze Lauf). Pushes der Daten-App überspringt der `if` von `build`; ihr Lauf bekäme sonst die Gruppe und verdrängte einen wartenden Deploy.
+    # Ebenso ein workflow_run-Lauf nach nicht erfolgreichem Bestandsbau (16.10.2026: er verdrängte den push-Deploy und übersprang sich dann selbst).
+    # Kein Lauf bricht einen laufenden Deploy ab, er wartet; ein neuerer wartender ersetzt den älteren (GitHub hält je Gruppe nur einen, der ältere endet `cancelled`: der neuere gewinnt).
+    # Vorher brach jeder Merge den laufenden ab: 60 von ~290 Deploys in 7 Tagen, ein Live-Fix kam je Merge ~8 min später (26.10.2026).
+    concurrency:
+      group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success') && format('uebersprungen-{0}', github.run_id) || 'pages' }}
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -513,7 +550,20 @@ jobs:
             exit 1
           fi
 
+      # Überholt ein neuerer Lauf diesen (er hatte den geprüften Bau, dieser musste prüfen), darf dieser nicht über ihn deployen.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: tools
+
+      - name: Veraltet?
+        id: veraltet
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/deploy-veraltet.mjs
+
       - id: deployment
+        if: ${{ steps.veraltet.outputs.veraltet != '1' }}
         uses: actions/deploy-pages@v4
 
   deploy_schlank:
@@ -521,17 +571,33 @@ jobs:
     if: ${{ contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions: { contents: read, pages: write, id-token: write, actions: write }
+    concurrency:
+      group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success') && format('uebersprungen-{0}', github.run_id) || 'pages' }}
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: tools
+
+      - name: Veraltet?
+        id: veraltet
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/deploy-veraltet.mjs
+
       - id: deployment
+        if: ${{ steps.veraltet.outputs.veraltet != '1' }}
         uses: actions/deploy-pages@v4
 
   # Abmeldung und Aufräumen nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
   # Danach (30.10.2026): Kachelränder an der ausgelieferten Seite, dieselbe Pixelmessung wie in der PR-Kette, aber gegen die echte Adresse (Service Worker gesperrt, fremde Bilder ersetzt).
-  # Ein Befund macht nur diese Schritte rot (`continue-on-error`), nie den Deploy und nie die Abmeldung (sie steht davor). Der Job hält die Gruppe `pages`,
-  # daher eine Frist an jedem Schritt (Test: deploy-aus-build.test.mjs): Checkout 2, Melder 1, Abmeldung 1, Aufräumen 3 (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer),
+  # Ein Befund macht nur diese Schritte rot (`continue-on-error`), nie den Deploy und nie die Abmeldung (sie steht davor). Der Job hängt seit 18.11.2026 nicht mehr an der Gruppe `pages`
+  # (er blockiert keinen folgenden Lauf); die Frist an jedem Schritt bleibt (Test: deploy-aus-build.test.mjs): Checkout 2, Melder 1, Abmeldung 1, Aufräumen 3 (ein hängender Checkout hielt die Gruppe am 16.10.2026 sechs Minuten, normal unter einer),
   # Einrichten 4, Messung 8 (lokal gegen live 3 x ca. 117 s, 30.10.2026) = 19 min, Job-Frist 20: die Job-Frist greift nie vor einer Schritt-Frist (kein Job-Abbruch, der den Lauf rot macht).
   # Einrichten und Messung stehen auf `continue-on-error`: ein Hänger dort bleibt ein Befund der Messung, kein roter Lauf.
   abschluss:
