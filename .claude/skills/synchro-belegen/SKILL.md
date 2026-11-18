@@ -15,6 +15,8 @@ description: "Deutsche Synchro eines Titels belegen: Quellenreihenfolge, Suche �
 
 **Suche** immer über alle Typen (Serie/Film/Special/OVA) und alle Titelvarianten — unsere Einordnung kann falsch sein. Kein Treffer ist kein „nein".
 
+**Anime2You-Suche (18.11.2026):** `node tools/anime2you-suche.mjs liste --kanal aniverse | suche <Titel> | artikel <URL|ID>` liefert JSON (schreibt nie in `data/`); Aufruf und Regeln in `docs/wissen/maengel.md`, „Werkzeug für die Anime2You-Belegsuche“.
+
 **Berichtsmuster je Titel:** Quellen mit URL, Zitat ≤ 12 Wörter, Abrufdatum, Gegenprobe, **Liste der nicht erreichten Quellen**.
 
 **Wann ein Lauf zählt (Daniel, 09.10.2026)**
