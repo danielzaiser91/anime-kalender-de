@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { main, kanalTitelOhneZweite, artikelId, textZeilen, artikelBloecke, holeJson } from './anime2you-suche.mjs'
+import { main, kanalTitelOhneZweite, artikelId, textZeilen, artikelBloecke, holeJson, sprachStellen, artikelAuszug, sucheUrl } from './anime2you-suche.mjs'
 
 const EINTRAEGE = [
   { anilistId: 1, title: 'Eins', dub: true, note: 'Tonspuren: Deutsch — Abos: Prime, aniversede, Seitenadresse: B0X, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg' },
@@ -31,6 +31,22 @@ assert.ok(zeilen.includes('Stream: aniverse & mehr') && !zeilen.some((z) => z.in
 const bloecke = artikelBloecke(zeilen)
 assert.deepEqual(bloecke.map((b) => [b.name, b.sprache]), [['M.A.S.K.', 'Deutsch'], ['Zweiter Titel', ''], ['Dritter', 'Japanisch (UT)']], 'Sprache gehört zum nächsten Kopf, nicht zum vorigen')
 
+// Grenzen der Blocksuche: „Sprache:“ höchstens 13 Zeilen unter dem Kopf; ein neuer Kopf beendet den Block; Kopf ab 171 Zeichen zählt nicht
+const fuell = (n) => Array.from({ length: n }, (_, i) => 'Zeile ' + i)
+assert.equal(artikelBloecke(['»A«', ...fuell(12), 'Sprache: Deutsch'])[0].sprache, 'Deutsch', 'Zeile 13 unter dem Kopf zählt')
+assert.equal(artikelBloecke(['»A«', ...fuell(13), 'Sprache: Deutsch'])[0].sprache, '', 'Zeile 14 nicht mehr')
+assert.equal(artikelBloecke(['»A«', '»B«', 'Sprache: Deutsch'])[0].sprache, '', 'der zweite Kopf beendet den Block von A')
+assert.equal(artikelBloecke(['»A«', '»B« Sprache: egal', 'Sprache: Deutsch'])[0].sprache, '', 'Kopf mit 170 Zeichen gilt noch als Kopf')
+const lang = '»B« ' + 'x'.repeat(166)
+assert.equal(lang.length, 170)
+assert.equal(artikelBloecke(['»A«', lang, 'Sprache: Deutsch'])[0].sprache, '', 'genau 170 Zeichen: noch Kopf')
+assert.equal(artikelBloecke(['»A«', lang + 'x', 'Sprache: Deutsch'])[0].sprache, 'Deutsch', '171 Zeichen: kein Kopf, Sprache gehört zu A')
+assert.equal(artikelBloecke(['»Z«']).length, 1, 'Kopf in der letzten Zeile')
+assert.ok(sprachStellen(['Sprache: ' + 'x'.repeat(391)]).length === 1 && sprachStellen(['Sprache: ' + 'x'.repeat(392)]).length === 0, 'Sprachstellen bis 400 Zeichen')
+assert.equal(sprachStellen(Array.from({ length: 45 }, () => 'Sprache: Deutsch')).length, 40, 'höchstens 40 Sprachstellen')
+assert.deepEqual(artikelAuszug({ id: 1 }), { id: 1, url: undefined, titel: '', datum: '', bloecke: [], sprachstellen: [] }, 'Beitrag ohne Inhalt, Titel und Datum')
+assert.ok(sucheUrl('x').includes('page=1'), 'Standardseite 1')
+
 // Kulisse: fetch-Attrappe mit Schlüssel je Pfad, Pausen werden mitgeschrieben
 const POST = { id: 1065078, link: 'https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/', title: { rendered: 'Neue Anime-Katalogtitel bei aniverse' }, date: '2026-10-28T14:00:00', content: { rendered: HTML } }
 const SUCHE = [
@@ -41,6 +57,7 @@ function kulisse(antwortFuer) {
   const aufrufe = []
   const pausen = []
   const fetchFn = async (url, opts) => {
+    assert.ok(opts.signal instanceof AbortSignal, 'jeder Abruf mit Zeitgrenze')
     aufrufe.push({ url, ua: opts.headers['User-Agent'] })
     const a = antwortFuer(url, aufrufe.length)
     return { status: a.status ?? 200, ok: (a.status ?? 200) < 400, json: async () => a.body }
@@ -58,6 +75,7 @@ const s = await lauf(['suche', 'aniverse', 'Katalog', '--filter', 'neue'], k1)
 assert.equal(s.code, 0)
 const sj = JSON.parse(s.text)
 assert.deepEqual(sj.treffer.map((t) => t.id), [1065078], 'Filter behält nur den passenden Treffer')
+assert.equal(sj.treffer[0].datum, '2026-10-28', 'Datum ohne Uhrzeit')
 assert.ok(k1.aufrufe[0].url.includes('search=aniverse%20Katalog') && k1.aufrufe[0].url.includes('/wp-json/wp/v2/posts'))
 assert.ok(/anime-kalender\.de/.test(k1.aufrufe[0].ua) && !/@|Daniel/i.test(k1.aufrufe[0].ua), 'generischer User-Agent ohne persönliche Daten')
 
@@ -81,6 +99,7 @@ assert.deepEqual(k3.pausen, [30000, 60000])
 const k4 = kulisse(() => ({ status: 403 }))
 const r4 = await holeJson('https://x.example/', k4)
 assert.ok(/HTTP 403 nach 2 Wiederholungen \(Nichtauskunft/.test(r4.fehler) && k4.aufrufe.length === 3)
+assert.deepEqual(k4.pausen, [30000, 60000], 'nach dem letzten Versuch keine Pause mehr')
 const k5 = kulisse(() => ({ status: 404 }))
 assert.equal((await holeJson('https://x.example/', k5)).fehler, 'HTTP 404')
 assert.equal(k5.aufrufe.length, 1, '404 ist eine eindeutige Antwort, keine Wiederholung')
