@@ -44,6 +44,7 @@ tools/buehne-zustand-pruefen.mjs
 tools/cls-erstladen.mjs
 tools/cls-wechsel.mjs
 tools/dist-frisch.mjs
+tools/dist-http.mjs
 tools/duell-urteil.mjs
 tools/ecken-urteil.mjs
 tools/einstellungen-bild.mjs
@@ -55,6 +56,11 @@ tools/kachel-ecken-live.mjs
 tools/kachel-ecken-messen.mjs
 tools/ladefehler-messen.mjs
 tools/ladefehler-urteil.mjs
+tools/leerlauf-tempo.mjs
+tools/leerlauf-urteil.mjs
+tools/lighthouse-grenzen.mjs
+tools/lighthouse-messen.mjs
+tools/lighthouse-urteil.mjs
 tools/linux-schrift.mjs
 tools/melder-kasten-bild.mjs
 tools/netz-sperre.mjs
