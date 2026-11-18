@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-11-18 · **10 offene Verweise** in **9 Zeilen**.
+Stand 2026-11-18 · **9 offene Verweise** in **8 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 6 |
+| [Prime Video](07-primevideo.md) | 5 |
 | [Netflix](07-netflix.md) | 2 |
 | [Disney+](07-disneyplus.md) | 1 |
 | [Pluto TV](07-plutotv.md) | 1 |
@@ -48,9 +48,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 4 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
 | 5 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
 | 6 | 2019-12-13 | Dr. Stone | [Hauptserie](https://pluto.tv/gsa/shows/dr-stone/) |
-| 7 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 8 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 9 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 7 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 8 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

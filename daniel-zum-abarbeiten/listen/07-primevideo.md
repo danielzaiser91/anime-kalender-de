@@ -1,6 +1,6 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-11-18 · **6 offene Verweise** in **5 Zeilen**.
+Stand 2026-11-18 · **5 offene Verweise** in **4 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -11,6 +11,5 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 |---|---|---|---|
 | 1 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Mugen Train Arc]() · [Entertainment District Arc]() |
 | 2 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
-| 3 | 2014-12-11 | Chaika, die Sargprinzessin | [Avenging Battle](https://www.amazon.de/gp/video/detail/B07MXMCF4V) |
-| 4 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
-| 5 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
+| 3 | 2009-03-27 | Black Butler | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5) |
+| 4 | 2003-10-22 | Ikki Tousen: Dragon Girls | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1374d3dd-9d96-4d41-b0f8-38932f0c9145) |
