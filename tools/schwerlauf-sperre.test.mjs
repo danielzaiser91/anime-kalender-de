@@ -28,6 +28,8 @@ const GESPERRT = [
   'npm run check:vor-commit',
   'npm run check:logic',
   'npm run check:logic -- --alle',
+  'npm run check:logic-1',
+  'npm run check:logic-2',
   'npm run check:tests-1',
   'npm run check:tests-2',
   'npm run check:bestand',

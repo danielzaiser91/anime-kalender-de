@@ -1,4 +1,4 @@
-// PreToolUse(Bash): Vollläufe der Prüfkette (`check-logic-alle`, `tests-alle`, `npm run check:vor-commit|check:logic|check:tests-1|check:tests-2|
+// PreToolUse(Bash): Vollläufe der Prüfkette (`check-logic-alle`, `tests-alle`, `npm run check:vor-commit|check:logic|check:logic-1|check:logic-2|check:tests-1|check:tests-2|
 // check:bestand|check:bestand-liste`) werden abgewiesen, wenn sie direkt starten. Erlaubt bleibt derselbe Lauf hinter `node tools/schwer.mjs …`
 // (eine Schlange, `tools/schwerer-lauf.mjs`). Anlass (15.11.2026, 20:19): ein Bauer startete `node tools/check-logic-alle.mjs` im Hintergrund,
 // ~20 Node/esbuild-Prozesse, 3,2 GB RAM; die Regel F40 (bauer.md) stand nur als Vorsatz da.
@@ -8,7 +8,7 @@
 const { zerlege, ohneHeredoc, eingebetteterBefehl, programmName } = require('./hauptordner-sperre.js')
 
 const SKRIPTE = new Set(['check-logic-alle', 'tests-alle'])
-const NPM_ZIELE = new Set(['check:vor-commit', 'check:logic', 'check:tests-1', 'check:tests-2', 'check:bestand', 'check:bestand-liste'])
+const NPM_ZIELE = new Set(['check:vor-commit', 'check:logic', 'check:logic-1', 'check:logic-2', 'check:tests-1', 'check:tests-2', 'check:bestand', 'check:bestand-liste'])
 const VORSATZ = new Set(['env', 'nohup', 'time', 'command', 'exec', 'nice', 'timeout'])
 /** Node-/npx-Optionen, die das nächste Token als Wert nehmen. */
 const MIT_WERT = new Set(['--require', '-r', '--import', '-p', '--package'])
