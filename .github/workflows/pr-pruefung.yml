@@ -4,7 +4,7 @@ name: PR-Prüfkette
 # Bis zum 10.10.2026 lief jede Prüfung erst nach dem Merge. Der Job `kette` heißt `PR-Prüfkette`; dieser Name ist der
 # Pflicht-Check im Ruleset. Berührt keinen Datenlauf: nur `pull_request`, nur lesen.
 #
-# Seit 16.10.2026 laufen die Prüfungen von `check:vor-commit` in fünf parallelen Teiljobs; `kette` ist der Sammeljob und nur grün,
+# Seit 16.10.2026 laufen die Prüfungen von `check:vor-commit` in parallelen Teiljobs (Logik und Tests je in zwei Teilen); `kette` ist der Sammeljob und nur grün,
 # wenn alle Teiljobs `success` melden (übersprungen oder Mix = rot; nur `cancelled` = abgebrochener Lauf, Urteil in tools/kette-urteil.mjs). Jede Prüfung aus `check:vor-commit` steht in genau einem
 # Teiljob; `tools/pr-kette-pruefen.mjs` (Test in `check:workflows`) rechnet das nach und prüft die `needs` des Sammeljobs.
 #

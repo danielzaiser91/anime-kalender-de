@@ -26,10 +26,11 @@ function schreibeListe(marken) {
 }
 
 /** Läuft Teil k/2 über die Liste und gibt zurück, welche Prüfungen gelaufen sind (Exit 0 verlangt). */
-function lauf(liste, marken, teil) {
+function lauf(liste, marken, teil, teilVorn = false) {
   rmSync(marken, { recursive: true, force: true })
   mkdirSync(marken, { recursive: true })
-  const args = [join(WURZEL, 'tools/check-logic-alle.mjs'), liste, 'wegwerf', ...(teil ? ['--teil', teil] : [])]
+  const option = teil ? ['--teil', teil] : []
+  const args = [join(WURZEL, 'tools/check-logic-alle.mjs'), ...(teilVorn ? option : []), liste, 'wegwerf', ...(teilVorn ? [] : option)]
   const r = spawnSync(process.execPath, args, { cwd: WURZEL, encoding: 'utf8', timeout: 120000 })
   assert.equal(r.status, 0, `Teil ${teil ?? 'alle'} endet mit Exit 0: ${r.stdout}\n${r.stderr}`)
   return readdirSync(marken).sort()
@@ -45,6 +46,8 @@ try {
   assert.ok(eins.length > 0 && zwei.length > 0, `beide Teile haben Prüfungen (${eins.length}/${zwei.length})`)
   assert.deepEqual([...eins, ...zwei].sort(), NAMEN, 'Teil 1 und Teil 2 zusammen sind genau alle Prüfungen, keine doppelt, keine fehlt')
   assert.deepEqual([eins.length, zwei.length].sort(), [3, 4], 'Teile gleich groß (7 = 4 + 3)')
+  assert.deepEqual(lauf(liste, marken, '1/2', true), eins, '`--teil 1/2` vor Liste und Name: dieselbe Auswahl (der Wert von --teil ist kein Listenpfad)')
+  assert.deepEqual(lauf(liste, marken, '2/2', true), zwei, '`--teil 2/2` vor Liste und Name: dieselbe Auswahl')
 
   const paket = JSON.parse(readFileSync(join(WURZEL, 'package.json'), 'utf8')).scripts
   assert.equal(paket['check:logic-1'], 'node tools/check-logic-alle.mjs --teil 1/2', 'check:logic-1 fährt Teil 1/2')
