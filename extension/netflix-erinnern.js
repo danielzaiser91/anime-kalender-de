@@ -73,11 +73,17 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   return { ...neu, film: Boolean(o.film), frist: kurz ? Math.min(LEER_NACH_MS, o.frist) : o.frist }
 }
 
-/** Der Wartetext für den Kasten („wartet auf die Folgenliste, 12 von 20 s“); leer, wenn nichts mehr gewartet wird. */
+/** Die erste Handlung des Titelfensters (Text des Dialogs) ist „Erinnern": Netflix zeigt dort keine Folgenliste und kein „Abspielen". */
+const erinnernImFenster = (m) => /^(?:Erinnern|Remind me)\b/i.test(m?.dialoge?.anfang ?? '')
+
+/**
+ * Der Wartetext für den Kasten („wartet auf die Folgenliste, 12 s (Notausgang nach 20 s)“); leer, wenn nichts mehr gewartet wird.
+ * Die Frist ist der Notausgang, nicht die erwartete Dauer: entschieden wird am Zustand der Seite (Abspielen, Erinnern), 18.11.2026.
+ */
 globalThis.akNetflixWartetText = (wartet, jetzt) => {
   if (!wartet?.frist || wartet.entschieden || wartet.filmFrei) return ''
   const s = Math.min(Math.floor((jetzt - wartet.seit) / 1000), Math.round(wartet.frist / 1000))
-  return `wartet auf ${wartet.film ? 'den Titel' : 'die Folgenliste'}, ${s} von ${Math.round(wartet.frist / 1000)} s`
+  return `wartet auf ${wartet.film ? 'den Titel' : 'die Folgenliste'}, ${s} s (Notausgang nach ${Math.round(wartet.frist / 1000)} s)`
 }
 
 /**
@@ -92,7 +98,8 @@ const listeWartenSchritt = (wartet, o, tun) => {
   if (film) return film
   const dauer = o.jetzt - wartet.seit
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
-  const erinnernJetzt = o.erinnern && dauer >= ERINNERN_NACH_MS
+  /* Zeigt das Titelfenster selbst „Erinnern" als erste Handlung, ist der Zustand da (18.11.2026): keine Schonzeit; ob er noch dem vorigen Titel gehört, klärt das volle Neuladen unten. */
+  const erinnernJetzt = o.erinnern && (erinnernImFenster(o.merkmale?.()) || dauer >= ERINNERN_NACH_MS)
   /* Die kurze Frist gilt für jedes leere Titelfenster, unabhängig von Netzantworten (Bericht 14.11.2026: umgebogene Titelseite stand 23 s statt 8 s + Neuladen). */
   const leerFrist = Math.min(o.frist, LEER_NACH_MS)
   if (!erinnernJetzt && dauer <= leerFrist) return wartet

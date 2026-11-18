@@ -2830,10 +2830,10 @@ async function selbstStartenSchritt() {
   if (!reihe || offeneTitel[String(reihe)] === undefined) return
   if (selbstVersucht === reihe) return
   /*
-    **Entschieden wird erst mit der Folgenliste dieser Seite** (23.09.2026): Beim Sprung lagen noch
-    die Folgen des vorigen Titels in `DURCHLAUF.folgen`, und die Automatik meldete „nichts". Ein
-    Film baut seine Liste selbst und trägt die Kennung der Adresse (`listeFuer`).
+    **Entschieden wird erst mit der Folgenliste dieser Seite** (23.09.2026): Beim Sprung lagen noch die Folgen des vorigen Titels in `DURCHLAUF.folgen`.
+    Ein Film baut seine Liste selbst (`listeFuer`) — in jedem Takt, nicht nur beim Neuzeichnen: One Piece Fan Letter wartete 20 s (18.11.2026).
   */
+  folgenFuerFilmErgaenzen()
   const seiteHier = String(titelDerAdresse() ?? '')
   const filmHier = DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier) || (filmHier && !selbstWartet?.filmFrei)) {
