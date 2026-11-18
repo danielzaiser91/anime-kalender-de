@@ -31,11 +31,18 @@ pruefe('available true: bleibt', !istEinzelneBrowserTotmeldung(b({ available: tr
 pruefe('ohne Notiz: bleibt', !istEinzelneBrowserTotmeldung(b({ note: undefined })))
 pruefe('leer/undefiniert: bleibt', !istEinzelneBrowserTotmeldung(undefined) && !istEinzelneBrowserTotmeldung(null))
 
+console.log('Stichtag (UMLEITUNG_GILT_AB = 17.11. 18:15Z, Beleg trägt nur ein Datum)')
+pruefe('Umleitung, Beleg vom 18.11.: zählt (behobene Erweiterung)', !istEinzelneBrowserTotmeldung(b({ checkedAt: '2026-11-18' })))
+pruefe('Umleitung, Beleg vom Stichtag-Tag 17.11.: zählt nicht (mehrdeutig)', istEinzelneBrowserTotmeldung(b({ checkedAt: '2026-11-17' })))
+pruefe('Umleitung, Beleg vom 16.11. (Fehltakt): zählt nicht', istEinzelneBrowserTotmeldung(b({ checkedAt: '2026-11-16' })))
+pruefe('Umleitung ohne checkedAt: zählt nicht', istEinzelneBrowserTotmeldung(b({ checkedAt: undefined })))
+pruefe('Durchgang mit anderem Grund (404), 18.11.: zählt weiter nicht (nicht Fehltakt-Sache)', istEinzelneBrowserTotmeldung(b({ note: 'Vom Durchgang als nicht bei Netflix gemeldet — Titelseite 404', checkedAt: '2026-11-18' })))
+
 /* Kulisse: AK_ROOT vor dem Import setzen (ROOT wird beim Laden festgelegt). */
 const wurzel = mkdtempSync(join(tmpdir(), 'ak-browser-tot-'))
 mkdirSync(join(wurzel, 'data'))
-const eintrag = (id: number, platform: string, url: string, note: string, urteil = '  available: false') =>
-  `- anilistId: ${id}\n  title: "T${id}"\n  platform: ${platform}\n  url: ${url}\n${urteil}\n  checkedAt: '2026-11-16'\n  note: ${JSON.stringify(note)}\n`
+const eintrag = (id: number, platform: string, url: string, note: string, urteil = '  available: false', am = '2026-11-16') =>
+  `- anilistId: ${id}\n  title: "T${id}"\n  platform: ${platform}\n  url: ${url}\n${urteil}\n  checkedAt: '${am}'\n  note: ${JSON.stringify(note)}\n`
 writeFileSync(
   join(wurzel, 'data', 'dub-confirmed.yaml'),
   [
@@ -43,6 +50,9 @@ writeFileSync(
     eintrag(900002, 'netflix', 'https://www.netflix.com/title/900002', UEBERSICHT),
     eintrag(900003, 'netflix', 'https://www.netflix.com/title/900003', 'Tonspuren: Deutsch', '  dub: true'),
     eintrag(900004, 'primevideo', 'https://www.amazon.de/dp/B000000004', DURCHGANG),
+    eintrag(900005, 'netflix', 'https://www.netflix.com/title/900005', DURCHGANG, '  available: false', '2026-11-18'),
+    eintrag(900006, 'netflix', 'https://www.netflix.com/title/900006', DURCHGANG, '  available: false', '2026-11-17'),
+    eintrag(900007, 'netflix', 'https://www.netflix.com/title/900007', 'Vom Durchgang als nicht bei Netflix gemeldet — Titelseite 404', '  available: false', '2026-11-18'),
   ].join('\n'),
 )
 process.env.AK_ROOT = wurzel
@@ -50,7 +60,7 @@ const { ladeHandbelege } = await import('./lib/dub-confirmed.ts')
 const geladen = ladeHandbelege()
   .map((c) => c.anilistId)
   .sort()
-pruefe('ladeHandbelege: Durchgang-Meldung fehlt, die drei anderen bleiben', geladen.join() === '900002,900003,900004', geladen)
+pruefe('ladeHandbelege: Fehltakt-Meldungen (16./17.11., 404-Notiz) fehlen; Übersicht, Urteil, Prime und Umleitung vom 18.11. bleiben', geladen.join() === '900002,900003,900004,900005', geladen)
 
 console.log('Delta-Wache')
 const kz = (entfernt: Record<string, number>): Kennzahlen => ({
@@ -81,4 +91,4 @@ if (fehler) {
   console.error(`FEHL check-weg-massenabgang: ${fehler} Fälle`)
   process.exit(1)
 }
-console.log('check-weg-massenabgang: Browser-Totmeldung (8 Fälle, Kulisse mit 4 Einträgen) und Massenabgang (Grenze 39/40, je Anbieter) geprüft.')
+console.log('check-weg-massenabgang: Browser-Totmeldung (13 Fälle, Kulisse mit 7 Einträgen) und Massenabgang (Grenze 39/40, je Anbieter) geprüft.')
