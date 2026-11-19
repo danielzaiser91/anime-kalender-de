@@ -119,6 +119,14 @@ const VORHER = ['- anilistId: 1', '  url: https://alt.example/', '  checkedAt: 2
   pruefe('Notizseite: geteilte Seite (sharedWith) bleibt angehängt', zieheFremdeBelegeZurueck(mitNotiz(besitz()), geteilt, VORHER.length, [{ id: 7 }], MELDUNG, [], []), 0)
   pruefe('Notizseite: geteilte Seite, Zeilen unverändert', geteilt, vorher)
 
+  const altfall = [...primeBlock(10015, 'B07FBGYPR6', 'B0GWMY6WCP')]
+  process.env.AK_NOTIZSEITE_ALTFAELLE = JSON.stringify(['10015@B0GWMY6WCP'])
+  pruefe('Notizseite: Altfall der Ratsche wird nicht neu gesperrt', zieheFremdeBelegeZurueck(mitNotiz(besitz()), altfall, 0, [{ id: 7 }], MELDUNG, [], []), 0)
+  delete process.env.AK_NOTIZSEITE_ALTFAELLE
+
+  const nurUrl = [...primeBlock(10015, 'B0GWMY6WCP', 'B07FBGYPR6')]
+  pruefe('Notizseite: eine fremde url allein ist Sache der Adressprüfung, nicht dieser', zieheFremdeBelegeZurueck(mitNotiz(besitz()), nurUrl, 0, [{ id: 7 }], MELDUNG, [], []), 0)
+
   const ohne = [...primeBlock(10015, 'B07FBGYPR6', 'B0GWMY6WCP')]
   pruefe('Notizseite: ohne Titelliste im Besitz wird nichts geprüft', zieheFremdeBelegeZurueck(besitz(), ohne, 0, [{ id: 7 }], MELDUNG, [], []), 0)
 }

@@ -77,7 +77,7 @@ function lauf(zeilen: unknown[], mitStreamDateien = true) {
       encoding: 'utf8',
       windowsHide: true,
       timeout: 120_000,
-      env: { ...process.env, LAUF_TOKEN: 'test', AK_ROOT: tmp, AK_MELDUNGEN: join(tmp, 'meldungen.json') },
+      env: { ...process.env, LAUF_TOKEN: 'test', AK_ROOT: tmp, AK_MELDUNGEN: join(tmp, 'meldungen.json'), AK_NOTIZSEITE_ALTFAELLE: JSON.stringify(['900101@B0FREMD004']) /* der schon bestehende Treffer gilt dem Notizseiten-Wächter als Altfall */ },
     })
     const ausgabe = `${r.stdout}\n${r.stderr}`
     if (r.status !== 0 || !ausgabe.includes('Prüfungen abgeholt')) fehler.push(`Lauf endete mit ${r.status}, ohne Schlusszeile: ${ausgabe.slice(-400)}`)

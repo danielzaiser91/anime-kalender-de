@@ -1,4 +1,5 @@
 import { findeFremdeNotizseiten } from './handbeleg-notizseite.ts'
+import { leseAltfaelle } from './handbeleg-notizseite-altfaelle.ts'
 import { liegenGeblieben, type OhneZuordnung } from './meldungen-liste.ts'
 import type { Besitz, BelegBlock } from './beleg-fremd-zugeordnet.ts'
 
@@ -17,7 +18,9 @@ export function verschiebeFremdeNotizseite(
   liste: OhneZuordnung[],
 ): boolean {
   if (!besitz.notizseiten) return false
-  const fremd = findeFremdeNotizseiten([{ anilistId: b.id, platform: b.platform, url: b.url, note: b.note }], besitz.notizseiten)
+  // Nur die Notizseite: die Adresse prüft `verschiebeFremdenBeleg` mit eigener Regel (schon bestehende Treffer sind nicht neu); Altfälle wie im Wächter.
+  const altfaelle = leseAltfaelle()
+  const fremd = findeFremdeNotizseiten([{ anilistId: b.id, platform: b.platform, note: b.note }], besitz.notizseiten).filter((f) => !altfaelle.includes(f))
   if (!fremd.length) return false
   besitz.verschoben++
   besitz.gruppen.add(gruppe[0]!.id)
