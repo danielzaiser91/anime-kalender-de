@@ -60,6 +60,7 @@ Immer in dieser Reihenfolge:
 1. **Zeit prüfen.** Systemzeit gegen die Endzeit. Ist sie erreicht oder überschritten:
    Abschluss (siehe unten), sonst weiter.
 2. **Stand einsammeln**, ohne zu raten:
+   - **zuerst das Lagebuch** `.claude/dirigent/lage.md` lesen und `git pull --ff-only` im Hauptordner (hält „Kalender heute“ in der Leiste aktuell); jede Änderung dieser Wachphase dort im selben Zug nachführen (19.11.2026)
    - `status.md` des Projekts (Abschnitte „In Arbeit", „Queue", Dauerauftrag)
    - `TODO.md`, falls vorhanden
    - laufende und fertige Läufe (`gh run list`), Ergebnisse auswerten, die seit dem letzten
