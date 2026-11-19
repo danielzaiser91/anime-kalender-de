@@ -97,6 +97,7 @@ const VORHER = ['- anilistId: 1', '  url: https://alt.example/', '  checkedAt: 2
         { id: 15489, streams: [weg(prime('B0GWMY6WCP'))] },
         { id: 900001, streams: [weg(prime('B0SHARED01'), { sharedWith: 2 })] },
         { id: 900002, streams: [weg(prime('B0SHARED01'), { sharedWith: 2 })] },
+        { id: 900007, streams: [weg(prime('B0SOLOSHA1'), { sharedWith: 2 })] },
       ],
       {},
     ),
@@ -114,7 +115,7 @@ const VORHER = ['- anilistId: 1', '  url: https://alt.example/', '  checkedAt: 2
   pruefe('Notizseite: gezählt, gemeldet, Gruppe', [b.verschoben, [...b.gruppen], warnungen.length, liste.length, liste[0]?.vorschlag], [1, [7], 1, 1, [10015]])
   pruefe('Notizseite: Handlungshinweis nennt die Seite', liste[0]?.zuTun?.includes('B0GWMY6WCP'), true)
 
-  const geteilt = [...VORHER, ...primeBlock(900001, 'B0SHARED01', 'B0SHARED01'), ...primeBlock(10015, 'B07FBGYPR6', 'B0SHARED01')]
+  const geteilt = [...VORHER, ...primeBlock(900001, 'B0SHARED01', 'B0SHARED01'), ...primeBlock(10015, 'B07FBGYPR6', 'B0SHARED01'), ...primeBlock(10015, 'B07FBGYPR6', 'B0SOLOSHA1')]
   const vorher = [...geteilt]
   pruefe('Notizseite: geteilte Seite (sharedWith) bleibt angehängt', zieheFremdeBelegeZurueck(mitNotiz(besitz()), geteilt, VORHER.length, [{ id: 7 }], MELDUNG, [], []), 0)
   pruefe('Notizseite: geteilte Seite, Zeilen unverändert', geteilt, vorher)

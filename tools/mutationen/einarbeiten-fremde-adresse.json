@@ -182,6 +182,16 @@
     "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
   },
   {
+    "name": "findeFremdeNotizseiten: Besitzer-Vergleich umgekehrt",
+    "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "|| o.has(b.anilistId)", "ersetze": "|| !o.has(b.anilistId)" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
+    "name": "findeFremdeNotizseiten: sharedWith-Ausnahme entfernt",
+    "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "besitz.geteilt.has(a) || ", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
     "name": "main: Titelliste nicht an ladeBesitz",
     "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "ladeBesitz(ROOT, liste)", "ersetze": "ladeBesitz(ROOT)" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
