@@ -12,7 +12,7 @@ import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
 import type { Title } from '../../shared/types.ts'
 import { dubKey, neinHandbelege, urteilVon, type DubCheck } from './dub-confirmed.ts'
 import { geteilteJwKennungen } from './jw-kennung-fremd.ts'
-import type { JwBefund } from './jw-vertrauen.ts'
+import { BEFUND_MAX_TAGE, type JwBefund } from './jw-vertrauen.ts'
 import { befundGilt } from './jw-seite.ts'
 import { aboOhneDeutsch, discErschienen, jwOhneStream, KAUF } from './ohne-weg-belege.ts'
 
@@ -74,10 +74,13 @@ function grundVon(
   if (ab) return { reason: 'angekuendigt', ab, source: 'termin' }
   const original = originaltonAm(e.checks)
   if (original) return { reason: 'kein-dub', checkedAt: original, source: 'handbeleg' }
+  /* Ein Handbeleg „deutsch“ widerspricht „kein Stream gefunden“ und „Stream ohne deutschen Ton“. */
+  const handbelegJa = e.checks.some((c) => urteilVon(c) === 'ja')
   const jw = jwZugeordnet(e.roh, e.geteilt, e.heute) ? e.roh : undefined
   const angebote = jw?.angebote ?? []
   if (jw && angebote.length && angebote.every((a) => KAUF.has(a.art))) return { reason: 'nur-kauf', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jw && !angebote.length && t.format === 'MOVIE') return { reason: 'film-ohne-abo', checkedAt: jw.geprueftAm, source: 'justwatch' }
+  if (handbelegJa) return { reason: 'offen' }
   if (jw && aboOhneDeutsch(jw)) return { reason: 'abo-ohne-ton', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jwOhneStream(e.roh, e.geteilt, e.heute) && discErschienen(e.ausgaben, e.termine, e.heute)) return { reason: 'nur-disc', checkedAt: e.roh.geprueftAm, source: 'disc' }
   return { reason: 'offen' }
@@ -104,7 +107,20 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
 }
 
 /**
- * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` auf main f3f138a02, 19.11.2026: 541 von 1.056 Titeln ohne Weg, vor `abo-ohne-ton` und `nur-disc` 913;
- * Luft 59, weil ein JustWatch-Befund nach 28 Tagen ohne Erneuerung den Grund wieder verliert); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen.
+ * Titel, die `offen` bleiben, obwohl eine Disc erschienen ist und ein (nicht verfehlter) JustWatch-Befund vorliegt, der nur wegen seines Alters
+ * (ab `BEFUND_MAX_TAGE`) nichts mehr trägt — für die Logzeile: so wird die stille Rückkehr nach `offen` sichtbar.
+ */
+export function zaehleVeralteteBefunde(eingabe: OhneWegEingabe, eintraege: Record<number, OhneWegEintrag>): number {
+  const termine = jeKennung(eingabe.termine, (x) => x.titleId)
+  const alt = (b: JwBefund | undefined) => !!b && !b.verfehltAm && !b.namenTreffer && (Date.parse(eingabe.heute) - Date.parse(b.geprueftAm)) / 86_400_000 >= BEFUND_MAX_TAGE
+  return Object.entries(eintraege).filter(
+    ([id, x]) => x.reason === 'offen' && alt(eingabe.justwatch[id]) && discErschienen(eingabe.discAusgaben[id] ?? [], termine.get(Number(id)) ?? [], eingabe.heute),
+  ).length
+}
+
+/**
+ * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` nach main 86903e13d, `heute` 2026-11-19: 569 von 1.056 Titeln ohne Weg, vor `abo-ohne-ton` und `nur-disc` 913;
+ * Luft 31). Ohne Erneuerung der JustWatch-Befunde (Wochenlauf, eigener PR) steigt `offen`, weil jeder Befund nach 28 Tagen den Grund verliert: gemessen mit `heute`
+ * 2026-11-23 764, 2026-12-05 822. Die Warnzeile ist dann gewollt; die Grenze wird nicht angehoben, sondern sinkt mit jedem nachgetragenen Beleg.
  */
 export const OFFEN_HOECHSTENS = 600

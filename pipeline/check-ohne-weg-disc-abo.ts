@@ -2,7 +2,7 @@
  * Die Gründe `abo-ohne-ton` und `nur-disc` in `ohne-weg.json` (19.11.2026): Beleg, Sperren, Vorrang, Anzeigesatz. Je Zusicherung ein Fall, der ohne sie rot wird.
  * Die übrigen Gründe prüft `check-ohne-weg.ts`. Aufruf: `npm run check:logic`.
  */
-import { baueOhneWeg, type OhneWegEingabe } from './lib/ohne-weg.ts'
+import { baueOhneWeg, zaehleVeralteteBefunde, type OhneWegEingabe } from './lib/ohne-weg.ts'
 import type { OhneWegEintrag } from '../shared/ohne-weg.ts'
 import { ohneWegText } from '../web/src/components/detail/ohne-weg.ts'
 
@@ -96,9 +96,28 @@ const mehrere = lauf({
 pruefe('Je Titel der eigene Prüftag, ein Titel ohne Disc bleibt offen', mehrere[900005]?.checkedAt === '2026-11-10' && mehrere[900006]?.checkedAt === '2026-11-12' && mehrere[900007]?.reason === 'offen', mehrere)
 pruefe('Titel mit Weg bekommt keinen Grund, auch nicht mit Disc', Object.keys(lauf({ titel: [titel(900008, { streams: [{ platform: 'netflix' }] })], justwatch: { 900008: ohneTreffer() }, discAusgaben: { 900008: disc('2020-01-01') } })).length === 0)
 
+const handbelegJa = { anilistId: 900001, platform: 'prime', dub: true, checkedAt: '2026-10-01' } as never
+pruefe('Handbeleg „deutsch“ sperrt nur-disc (Re:Hamatora)', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') }, handbelege: [handbelegJa] })?.reason === 'offen')
+pruefe('Handbeleg „deutsch“ sperrt abo-ohne-ton', einzeln(befund('h1', [{ art: 'FLATRATE', audio: ['en'] }]), { handbelege: [handbelegJa] })?.reason === 'offen')
+pruefe('Gegenfall: Handbeleg „deutsch“ eines anderen Titels sperrt nicht', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') }, handbelege: [{ ...(handbelegJa as object), anilistId: 900009 } as never] })?.reason === 'nur-disc')
+pruefe('Gegenfall: Handbeleg „nicht verfügbar“ (available false) sperrt nicht', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') }, handbelege: [{ anilistId: 900001, platform: 'prime', dub: true, available: false, checkedAt: '2026-10-01' } as never] })?.reason === 'nur-disc')
+const namensvetter = { jwId: 'v', gleicherName: true }
+pruefe('Namensvetter bei JustWatch (namenTreffer) bleibt offen', einzeln(ohneTreffer({ namenTreffer: namensvetter }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
+pruefe('Gegenfall: ohne namenTreffer derselbe Fall nur-disc', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'nur-disc')
+pruefe('Namensvetter an gefundenem Titel ohne Angebot bleibt offen', einzeln(befund('n1', [], { namenTreffer: namensvetter }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
+
+console.log('\nveraltete Befunde (Logzeile)')
+const altB = (extra: Record<string, unknown> = {}) => ohneTreffer({ geprueftAm: '2026-10-21', ...extra })
+const zaehleEin = { titel: [titel(900011), titel(900012), titel(900013), titel(900014), titel(900015)], termine: [], handbelege: [], discAusgaben: { 900011: disc('2020-01-01'), 900012: disc('2020-01-01'), 900013: disc('2020-01-01'), 900014: disc('2020-01-01') }, heute: HEUTE }
+const zJw = { 900011: altB(), 900012: altB({ verfehltAm: '2026-10-22' }), 900013: ohneTreffer(), 900014: altB({ namenTreffer: namensvetter }), 900015: altB() }
+const zE = { ...zaehleEin, justwatch: zJw } as unknown as OhneWegEingabe
+pruefe('Zählung: nur offene Titel mit Disc und altem, nicht verfehltem Befund ohne Namensvetter (hier 1 von 5)', zaehleVeralteteBefunde(zE, baueOhneWeg(zE)) === 1, zaehleVeralteteBefunde(zE, baueOhneWeg(zE)))
+const zGrenze = { ...zE, justwatch: { ...zJw, 900011: altB({ geprueftAm: '2026-10-22' }) } } as unknown as OhneWegEingabe
+pruefe('Zählung: Befund 27 Tage alt gilt noch (nur-disc), zählt nicht', zaehleVeralteteBefunde(zGrenze, baueOhneWeg(zGrenze)) === 0)
+
 console.log('\nAnzeigesatz')
 pruefe('Text abo-ohne-ton nennt den Tag deutsch', ohneWegText({ reason: 'abo-ohne-ton', checkedAt: '2026-11-17' }) === 'Laut JustWatch im Stream ohne deutschen Ton, geprüft am 17.11.2026.', ohneWegText({ reason: 'abo-ohne-ton', checkedAt: '2026-11-17' }))
-pruefe('Text nur-disc nennt den Tag und kein JustWatch', ohneWegText({ reason: 'nur-disc', checkedAt: '2026-11-17' }) === 'Auf DVD oder Blu-ray erhältlich, Streaming bisher nicht gefunden, geprüft am 17.11.2026.', ohneWegText({ reason: 'nur-disc', checkedAt: '2026-11-17' }))
+pruefe('Text nur-disc nennt den Tag und kein JustWatch', ohneWegText({ reason: 'nur-disc', checkedAt: '2026-11-17' }) === 'Auf DVD oder Blu-ray erschienen, Streaming bisher nicht gefunden, geprüft am 17.11.2026.', ohneWegText({ reason: 'nur-disc', checkedAt: '2026-11-17' }))
 pruefe('Gegenfall: beide Gründe ohne Tag erfinden keinen', ohneWegText({ reason: 'abo-ohne-ton' }) === 'Ein Streaming-Angebot ist noch nicht belegt.' && ohneWegText({ reason: 'nur-disc' }) === 'Ein Streaming-Angebot ist noch nicht belegt.')
 
 if (verletzt) {

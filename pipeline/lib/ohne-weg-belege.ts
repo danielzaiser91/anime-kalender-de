@@ -30,9 +30,10 @@ export function discErschienen(ausgaben: readonly { datum?: string }[], termine:
 /**
  * Der JustWatch-Eintrag, der zu einer erschienenen Disc „Streaming bisher nicht gefunden“ trägt: jünger als `BEFUND_MAX_TAGE`, nicht verfehlt,
  * kein Angebot außer Kauf/Leihe (auch kein veraltetes Abo), und entweder `ohneTreffer` oder ein gefundener Titel, dessen Kennung keinem zweiten gehört.
+ * Kennt JustWatch einen Namensvetter (`namenTreffer`), kann der Stream beim Elternwerk liegen: kein Beleg.
  */
 export function jwOhneStream(b: JwBefund | undefined, geteilt: ReadonlySet<string>, heute: string): b is JwBefund {
-  if (!b || b.verfehltAm || !ISO_TAG.test(b.geprueftAm)) return false
+  if (!b || b.verfehltAm || b.namenTreffer || !ISO_TAG.test(b.geprueftAm)) return false
   if (alleAngebote(b).some((a) => !KAUF.has(a.art))) return false
   if (b.ohneTreffer) return (Date.parse(heute) - Date.parse(b.geprueftAm)) / 86_400_000 < BEFUND_MAX_TAGE
   return befundGilt(b, heute) && !geteilt.has(b.jwId!)

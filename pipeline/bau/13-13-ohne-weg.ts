@@ -5,7 +5,8 @@
  */
 import { log, readJson, warn, writeJson } from '../lib/util.ts'
 import { ladeHandbelege } from '../lib/dub-confirmed.ts'
-import { baueOhneWeg, OFFEN_HOECHSTENS, type OhneWegEingabe } from '../lib/ohne-weg.ts'
+import { baueOhneWeg, OFFEN_HOECHSTENS, zaehleVeralteteBefunde, type OhneWegEingabe } from '../lib/ohne-weg.ts'
+import { BEFUND_MAX_TAGE } from '../lib/jw-vertrauen.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { ohneWegFehler } from '../lib/pruefung.ts'
 import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
@@ -38,4 +39,5 @@ export function schreibeOhneWeg({ bauer = baueOhneWeg, grenze = OFFEN_HOECHSTENS
   for (const w of warnungen) warn(`⚠ WARNUNG ${w}`)
   writeJson(`${OUT}/ohne-weg.json`, eintraege)
   log(`ohne-weg.json: ${Object.keys(eintraege).length} Titel ohne Streaming-Weg (${zaehleGruende(eintraege)})`)
+  log(`ohne-weg.json: ${zaehleVeralteteBefunde(eingabe, eintraege)} Titel mit erschienener Disc bleiben offen, weil ihr JustWatch-Befund älter als ${BEFUND_MAX_TAGE} Tage ist`)
 }
