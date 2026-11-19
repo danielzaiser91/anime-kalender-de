@@ -1,6 +1,6 @@
 // Prüft Pfade in Anleitungen (`.claude/**/*.md`, `CLAUDE.md`) und in Hook-Meldetexten auf Existenz (Anlass 11.11.2026:
 // Hook-Meldung und Skill zeigten auf das seit G4 leere `~/.claude/rules/`, eine Regel nannte einen Hook, den es nicht gibt).
-// Nicht im Repo liegt `daniel-zum-abarbeiten/` (lokal ausgeschlossen): nicht geprüft.
+// Nicht im Repo liegen `daniel-zum-abarbeiten/` und `.claude/dirigent/` (lokal ausgeschlossen): nicht geprüft.
 // Geprüft werden nur Repo-Pfade mit bekannter Wurzel. Ausdrücklich frei: Platzhalter (`NN-`),
 // Pfade außerhalb des Repos (`~/`, `C:/`), erzeugte/ignorierte Ordner (`data/cache/`, `node_modules/`, `dist/`).
 // Verboten bleiben `~/.claude/rules|agents|skills/` (auch als `C:/Users/<name>/.claude/…`): seit G4 liegt dort nichts mehr, alles steht im Projekt.
@@ -8,7 +8,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const WURZELN = ['.claude', 'tools', 'pipeline', 'shared', 'docs', 'web', 'worker', 'data', 'extension', 'public', 'ARCHITEKTUR.md', 'CLAUDE.md']
-const FREI = /^(\.claude\/settings\.local\.json|data\/cache\/|node_modules\/|dist\/|public\/data\/)/
+const FREI = /^(\.claude\/settings\.local\.json|\.claude\/dirigent\/|data\/cache\/|node_modules\/|dist\/|public\/data\/)/
 // Bekannte Funde in Dateien, die dieser PR nicht anfasst (Bauer/Prüfer/Delegieren: PRs 3248/3413/3414) oder die absichtlich
 // ein Gegenbeispiel zeigen; die Liste darf nur sinken: ein Eintrag, der nicht mehr zutrifft, macht die Prüfung rot.
 const BEKANNT = [
