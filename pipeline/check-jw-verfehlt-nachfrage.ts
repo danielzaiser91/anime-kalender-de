@@ -42,22 +42,29 @@ interface Befund {
 const titel = (id: number, tmdbId: number) => ({ id, tmdbId, titleEn: `Titel ${id}`, format: 'TV', streams: [{ platform: 'netflix', url: `https://www.netflix.com/title/${id}`, dub: true }], watchLinks: [] })
 const alterBefund = (jwId: string, tmdbId: number): Befund => ({ geprueftAm: '2026-11-11', jwId, tmdbId, jwPfad: `/de/Serie/${jwId}`, angebote: [] })
 
-type Detail = 'leer' | 'angebot' | 'nicht-gefunden' | 'sperre' | 'andere-kennung'
+type Detail = 'leer' | 'angebot' | 'nicht-gefunden' | 'sperre' | 'graphql-fehler' | 'andere-kennung' | 'suche-findet'
 const angebot = [{ monetizationType: 'FLATRATE', audioLanguages: ['de'], subtitleLanguages: [], standardWebURL: 'https://x', package: { clearName: 'Netflix' } }]
 const detailKnoten = (tmdbId: number, offers: unknown[]) => ({ id: 'tm1', objectType: 'MOVIE', content: { title: 'T', fullPath: '', ageCertification: '12', externalIds: { tmdbId: String(tmdbId) } }, offers })
 
 /** Ein Lauf mit einem Titel und seinem alten Befund; die Namenssuche liefert nie etwas, die Nachfrage über den Pfad (`urlV2`) die Antwort `detail`. */
-async function lauf(id: number, tmdbId: number, vorher: Befund, detail: Detail = 'nicht-gefunden'): Promise<{ befund: Befund; pfade: string[] }> {
+async function lauf(id: number, tmdbId: number, vorher: Befund, detail: Detail = 'nicht-gefunden'): Promise<{ befund: Befund; pfade: string[]; folge: string[] }> {
   writeFileSync(join(oeffentlich, 'titles.json'), JSON.stringify([titel(id, tmdbId)]))
   writeFileSync(join(oeffentlich, 'releases.json'), '[]')
   writeFileSync(join(ordner, 'tmdb-von-hand.yaml'), '[]\n')
   writeFileSync(join(ordner, 'justwatch-audio.json'), JSON.stringify({ [String(id)]: vorher }))
   const pfade: string[] = []
+  const folge: string[] = []
   const abruf = (async (_url: string, init?: RequestInit) => {
     const q = JSON.parse(String(init?.body ?? '{}'))
-    if (!String(q.query).includes('urlV2')) return { data: { popularTitles: { edges: [] } } }
+    if (!String(q.query).includes('urlV2')) {
+      folge.push('suche')
+      const treffer = detail === 'suche-findet' ? [{ node: { ...detailKnoten(tmdbId, angebot), id: 'tm9', content: { ...detailKnoten(tmdbId, []).content, fullPath: '/de/Film/aus-der-suche' } } }] : []
+      return { data: { popularTitles: { edges: treffer } } }
+    }
+    folge.push('urlV2')
     pfade.push(q.variables.p)
     if (detail === 'sperre') throw new Error('429 Too Many Requests')
+    if (detail === 'graphql-fehler') return { errors: [{ message: 'Interner Fehler', extensions: { code: 'INTERNAL' } }], data: null }
     if (detail === 'nicht-gefunden') return { errors: [{ message: 'URL not found', extensions: { code: 'NOT_FOUND' } }], data: null }
     const kennung = detail === 'andere-kennung' ? tmdbId + 1 : tmdbId
     return { data: { urlV2: { node: detailKnoten(kennung, detail === 'angebot' ? angebot : []) } } }
@@ -67,12 +74,12 @@ async function lauf(id: number, tmdbId: number, vorher: Befund, detail: Detail =
   console.log = () => undefined
   console.warn = () => undefined
   try {
-    await main(['--limit', '5', '--alter', '0'], { abruf, pause: async () => undefined })
+    await main(['--limit', '5', '--alter', '0'], { abruf, pause: async () => void folge.push('pause') })
   } finally {
     console.log = log
     console.warn = warnung
   }
-  return { befund: JSON.parse(readFileSync(join(ordner, 'justwatch-audio.json'), 'utf8'))[String(id)], pfade }
+  return { befund: JSON.parse(readFileSync(join(ordner, 'justwatch-audio.json'), 'utf8'))[String(id)], pfade, folge }
 }
 
 /* Negi: Befund trägt TMDB 16950, der Titel hat 8859 — der Befund gehört einem anderen Titel und wird nicht behalten. */
@@ -82,7 +89,8 @@ pruefe('fremde Kennung: Befund wird nicht behalten (kein jwId, kein verfehltAm)'
 pruefe('fremde Kennung: Befund steht als ohneTreffer mit unserer Kennung', fremd.ohneTreffer === true && fremd.tmdbId === 8859, fremd)
 
 /* Kontrolle: gleiche Kennung, Namenssuche findet nichts — die alte Antwort bleibt, mit verfehltAm. */
-const { befund: gleich, pfade: gleichPfade } = await lauf(900102, 8859, alterBefund('ts1', 8859))
+const { befund: gleich, pfade: gleichPfade, folge: gleichFolge } = await lauf(900102, 8859, alterBefund('ts1', 8859))
+pruefe('gleiche Kennung: zwischen Namenssuche und Nachfrage liegt eine Pause', gleichFolge.join(',').includes('suche,pause,urlV2'), gleichFolge)
 pruefe('gleiche Kennung, Adresse unbekannt: alte Antwort bleibt mit verfehltAm', gleich.jwId === 'ts1' && gleich.verfehltAm === '2026-11-19' && !gleich.ohneTreffer, gleich)
 pruefe('gleiche Kennung: genau einmal über den gespeicherten Pfad nachgefragt', gleichPfade.length === 1 && gleichPfade[0] === '/de/Serie/ts1', gleichPfade)
 
@@ -98,6 +106,11 @@ pruefe('Nachfrage mit Angeboten: Angebot übernommen, kein verfehltAm', mit.ange
 /* Gegenproben: Sperre ist keine Verneinung; ein Knoten mit anderer Kennung wird nicht übernommen. */
 const { befund: gesperrt } = await lauf(900105, 38954, alterBefund('tm140811', 38954), 'sperre')
 pruefe('Sperre bei der Nachfrage: alter Befund unverändert', gesperrt.geprueftAm === '2026-11-11' && !gesperrt.verfehltAm && gesperrt.jwId === 'tm140811', gesperrt)
+const { befund: fehlerAntwort } = await lauf(900107, 38954, alterBefund('tm140811', 38954), 'graphql-fehler')
+pruefe('GraphQL-Fehler ohne NOT_FOUND bei der Nachfrage: alter Befund unverändert, keine Verneinung', fehlerAntwort.geprueftAm === '2026-11-11' && !fehlerAntwort.verfehltAm, fehlerAntwort)
+/* Findet die Namenssuche den Titel, fragt der Lauf nicht nach, und der Suchtreffer gilt. */
+const { befund: gesucht, pfade: gesuchtPfade } = await lauf(900108, 38954, alterBefund('tm140811', 38954), 'suche-findet')
+pruefe('Namenssuche findet den Titel: keine Nachfrage, Suchtreffer übernommen', gesuchtPfade.length === 0 && gesucht.jwId === 'tm9' && gesucht.jwPfad === '/de/Film/aus-der-suche', { gesucht, gesuchtPfade })
 const { befund: anders } = await lauf(900106, 38954, alterBefund('tm140811', 38954), 'andere-kennung')
 pruefe('Nachfrage mit anderer Kennung: nicht übernommen, alte Antwort bleibt mit verfehltAm', anders.jwId === 'tm140811' && anders.verfehltAm === '2026-11-19', anders)
 
