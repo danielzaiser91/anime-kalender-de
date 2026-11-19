@@ -734,6 +734,23 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   })
   /** Wie oft der 500-ms-Takt hintereinander geworfen hat — der Durchgang darf daran nicht sterben. */
   let primeFehler = 0
+  /*
+    Zustand, den Hörer, Takte und Rückrufe vor dem Warten auf eine Kennung (`id = await`) schon
+    erreichen. Alles, was sie lesen, steht VOR diesem `await`, sonst TDZ (18.11.2026, `primeLaufName`);
+    `node tools/amazon-tdz-pruefen.cjs` prüft es. Zugewiesen wird weiter unten.
+  */
+  let letzterStand = ''
+  let letzterFortschritt = Date.now()
+  let letzteZahl = -1
+  let letzteKennung = null
+  let langsam = false
+  let frischeStaffel = null
+  let eintrag = null
+  let meldeSperre = null
+  let gesehen = leererStand()
+  const knopf = document.createElement('button')
+  knopf.className = 'ak-amazon-knopf'
+  knopf.type = 'button'
   /**
    * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
    *
@@ -6231,6 +6248,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     // Die Adresse hat sich unterdessen geändert — die gemerkte Startadresse
     // stammt noch von der Seite, auf der wir angekommen sind.
     startAdresse = location.href || startAdresse
+    // Die Geduldsfrist beginnt mit dem Titel, nicht mit dem Skriptstart auf der Startseite.
+    letzterFortschritt = Date.now()
   }
 
   /**
@@ -6382,7 +6401,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
 
   listenId = listenSchluessel()
-  let eintrag = eintragFuer(listenId)
+  eintrag = eintragFuer(listenId)
   /*
     **Auf einer Suchseite gibt es nichts zu melden.**
 
@@ -6396,9 +6415,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
 
   // --- Der Knopf -----------------------------------------------------------
 
-  const knopf = document.createElement('button')
-  knopf.className = 'ak-amazon-knopf'
-  knopf.type = 'button'
   document.body.appendChild(knopf)
 
 
@@ -6432,19 +6448,21 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * Adresse, wird der Stand **ersetzt**, nicht ergänzt. Ein alter Stand kann
    * damit gar nicht überleben.
    */
-  const leererStand = () => ({
-    fuerAdresse: null,
-    nummern: new Set(),
-    gesamt: null,
-    jeFolge: new Map(),
-    /* Folgen, die hier nicht abrufbar sind — sie zählen weder mit noch dagegen. */
-    gesperrt: new Map(),
-    /* Wie viele Folgenabschnitte die Seite kennt und wie viele davon noch fehlen. */
-    abschnitte: null,
-    /* Was der Hydration-Block über die Seite selbst sagt. */
-    seite: null,
-  })
-  let gesehen = leererStand()
+  function leererStand() {
+    return {
+      fuerAdresse: null,
+      nummern: new Set(),
+      gesamt: null,
+      jeFolge: new Map(),
+      /* Folgen, die hier nicht abrufbar sind — sie zählen weder mit noch dagegen. */
+      gesperrt: new Map(),
+      /* Wie viele Folgenabschnitte die Seite kennt und wie viele davon noch fehlen. */
+      abschnitte: null,
+      /* Was der Hydration-Block über die Seite selbst sagt. */
+      seite: null,
+    }
+  }
+  gesehen = leererStand()
   /* Deutsch steht in den Folgen, nie in einem Sammelwert (Hell Mode, 30.08.2026). */
   const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
   const deutschInFolgen = () => [...gesehen.jeFolge.values()].some(hatDeutsch)
@@ -6458,21 +6476,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * ausschließlich über das Netz (gemessen am 23.08.2026, siehe
    * `amazon-leser.js`).
    */
-  /**
-   * Muss **vor** dem Hörer stehen, nicht darunter.
-   *
-   * `let` hebt den Namen hoch, aber nicht den Wert: Ein Zugriff vor der Zeile
-   * wirft `ReferenceError`. Der Hörer kann sofort feuern — der Leser schickt
-   * seine erste Nachricht, während dieses Skript noch aufgebaut wird —, und
-   * dann bricht der Aufbau ab: kein Takt, kein Knopf, keine Reaktion auf einen
-   * Staffelwechsel.
-   *
-   * Genau dieselbe Falle steht weiter oben schon einmal beschrieben, für
-   * `dialog`. Zweimal dieselbe Ursache in einer Datei heißt: Wer hier eine
-   * Variable ergänzt, die ein Hörer benutzt, deklariert sie **darüber**.
-   */
-  let frischeStaffel = null
-
   /**
    * Was der Worker über gemeldete Titel weiß — die verlässliche Quelle.
    *
@@ -6687,17 +6690,14 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     zeichnen()
   })
 
-  let letzterStand = ''
   /**
-   * Wann die Zahl zuletzt gestiegen ist.
+   * `letzterFortschritt` (deklariert im Zustandsblock oben): wann die Zahl zuletzt gestiegen ist.
    *
    * `amazon-leser.js` holt die übrigen Abschnitte selbst nach — solange das
    * läuft, wäre „weitere Abschnitte öffnen" eine falsche Aufforderung. Bleibt
    * die Zahl aber stehen, ist das Nachholen fehlgeschlagen, und dann muss der
    * Knopf den Weg zeigen: Daniel kann die Abschnitte von Hand durchklicken.
    */
-  let letzterFortschritt = Date.now()
-  let letzteZahl = -1
   /** Welche Staffel gerade gemeldet wurde — hält den Knopf auf „gemeldet". */
   let gemeldeteStaffel = null
   const GEDULD_MS = 8000
@@ -7029,7 +7029,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
 
   // Sperre nach angekommener Meldung (melde-sperre.js, Daniel 16.10.2026): am Befund, nicht an der Beschriftung.
-  const meldeSperre = globalThis.AK_MELDE_SPERRE.fuer(knopf, {
+  meldeSperre = globalThis.AK_MELDE_SPERRE.fuer(knopf, {
     befund: () => `${location.pathname}|${staffelSchluessel()}|${deutschInFolgen()}`,
     angekommen: () => globalThis.AK_MELDUNG_BELEGT(liste[listenId]?.url, asin, briefkastenAdressen, briefkastenSeiten),
     zeichneRoh: () => zeichnenRoh(),
@@ -7041,7 +7041,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   })
 
   function zeichnen() {
-    meldeSperre.zeichnen()
+    meldeSperre?.zeichnen()
   }
 
   function zeichnenRoh() {
@@ -7375,7 +7375,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
   adressKennungFortschreiben()
 
-  let letzteKennung = staffelKennung()
+  letzteKennung = staffelKennung()
 
   function beiStaffelwechsel() {
     const kennung = staffelKennung()
@@ -7930,7 +7930,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
   }
 
-  let langsam = false
   let taktGeber = setInterval(taktSchritt, 500)
 
   /**
