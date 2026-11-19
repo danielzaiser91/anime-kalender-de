@@ -108,10 +108,10 @@ pruefe('Namensvetter an gefundenem Titel ohne Angebot bleibt offen', einzeln(bef
 
 console.log('\nveraltete Befunde (Logzeile)')
 const altB = (extra: Record<string, unknown> = {}) => ohneTreffer({ geprueftAm: '2026-10-21', ...extra })
-const zaehleEin = { titel: [titel(900011), titel(900012), titel(900013), titel(900014), titel(900015)], termine: [], handbelege: [], discAusgaben: { 900011: disc('2020-01-01'), 900012: disc('2020-01-01'), 900013: disc('2020-01-01'), 900014: disc('2020-01-01') }, heute: HEUTE }
-const zJw = { 900011: altB(), 900012: altB({ verfehltAm: '2026-10-22' }), 900013: ohneTreffer(), 900014: altB({ namenTreffer: namensvetter }), 900015: altB() }
+const zaehleEin = { titel: [titel(900011), titel(900012), titel(900013), titel(900014), titel(900015), titel(900016)], termine: [], handbelege: [], discAusgaben: { 900011: disc('2020-01-01'), 900012: disc('2020-01-01'), 900013: disc('2020-01-01'), 900014: disc('2020-01-01'), 900016: disc('2020-01-01') }, heute: HEUTE }
+const zJw = { 900011: altB(), 900012: altB({ verfehltAm: '2026-10-22' }), 900013: ohneTreffer(), 900014: altB({ namenTreffer: namensvetter }), 900015: altB(), 900016: befund('z6', [{ art: 'FLATRATE', audio: ['de'] }]) }
 const zE = { ...zaehleEin, justwatch: zJw } as unknown as OhneWegEingabe
-pruefe('Zählung: nur offene Titel mit Disc und altem, nicht verfehltem Befund ohne Namensvetter (hier 1 von 5)', zaehleVeralteteBefunde(zE, baueOhneWeg(zE)) === 1, zaehleVeralteteBefunde(zE, baueOhneWeg(zE)))
+pruefe('Zählung: nur offene Titel mit Disc und altem, nicht verfehltem Befund ohne Namensvetter (hier 1 von 6; Titel 900016: frischer Befund mit deutschem Abo bleibt offen, zählt nicht)', zaehleVeralteteBefunde(zE, baueOhneWeg(zE)) === 1, zaehleVeralteteBefunde(zE, baueOhneWeg(zE)))
 const zGrenze = { ...zE, justwatch: { ...zJw, 900011: altB({ geprueftAm: '2026-10-22' }) } } as unknown as OhneWegEingabe
 pruefe('Zählung: Befund 27 Tage alt gilt noch (nur-disc), zählt nicht', zaehleVeralteteBefunde(zGrenze, baueOhneWeg(zGrenze)) === 0)
 
