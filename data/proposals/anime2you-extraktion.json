@@ -1964,6 +1964,10 @@
       "am": "2026-11-19",
       "vorschlaege": 0
     },
+    "1073600": {
+      "am": "2026-11-19",
+      "vorschlaege": 6
+    },
     "1073645": {
       "am": "2026-11-19",
       "vorschlaege": 1
@@ -15499,6 +15503,150 @@
       "artikelId": "1073454",
       "artikel": "Erste »Mushoku Tensei«-Staffel erscheint als Blu-ray-Gesamtausgabe",
       "quelle": "https://www.anime2you.de/news/1073454/mushoku-tensei-staffel-1-blu-ray-gesamtausgabe/",
+      "veroeffentlicht": "2026-11-19",
+      "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+      "zitat": "4. Dezember: »STEEL BALL RUN: JoJo’s Bizarre Adventure« – Staffelfinale Simulcast: Jeden Freitag Sprache: Deutsch, Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073600",
+      "artikel": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "quelle": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+      "veroeffentlicht": "2026-11-19",
+      "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "The Ramparts of Ice",
+      "zitat": "Donnerstag: »The Ramparts of Ice« – Staffel 2 (Simulcast) Simulcast: Jeden Donnerstag Sprache: Deutsch, Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Donnerstag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073600",
+      "artikel": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "quelle": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+      "veroeffentlicht": "2026-11-19",
+      "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "Tougen Anki",
+      "zitat": "Freitag: »Tougen Anki« – Staffel 2 (Simulcast) Simulcast: Jeden Freitag Sprache: Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073600",
+      "artikel": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "quelle": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+      "veroeffentlicht": "2026-11-19",
+      "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "Ranma 1/2",
+      "zitat": "Samstag: »Ranma 1/2« – Staffel 3 (Simulcast) Simulcast: Jeden Samstag Sprache: Deutsch, Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Samstag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073600",
+      "artikel": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "quelle": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+      "veroeffentlicht": "2026-11-19",
+      "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "Blue Box",
+      "zitat": "Sonntag: »Blue Box« – Staffel 2 (Simulcast) Simulcast: Jeden Sonntag Sprache: Deutsch, Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "deutsch+omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073600",
+      "artikel": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "quelle": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+      "veroeffentlicht": "2026-11-19",
+      "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "Dragon Ball Super: Beerus",
+      "zitat": "Sonntag: »Dragon Ball Super: Beerus« (Simulcast) Simulcast: Jeden Sonntag Sprache: Japanisch (UT)",
+      "art": "folgen",
+      "sprache": "omu",
+      "plattform": "netflix",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Netflix",
+      "sender": null,
+      "wochentage": "Jeden Sonntag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „netflix“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073600",
+      "artikel": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "quelle": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
       "veroeffentlicht": "2026-11-19",
       "gelesenAm": "2026-11-19"
     }
