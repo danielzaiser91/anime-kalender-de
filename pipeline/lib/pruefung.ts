@@ -17,6 +17,7 @@
  * durchkommt, wird gar nicht erst geschrieben.
  */
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
+import type { OhneWegEintrag } from '../../shared/ohne-weg.ts'
 import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
 import { premiereFehler } from './premiere.ts'
@@ -301,4 +302,26 @@ export function deutschNurAusSpracheTermin(releases: Release[], titles: Map<numb
 /** Kein automatischer Termin trägt als Beleg eine Meldung, die nur Originalton nennt — sie widerlegt die deutsche Fassung (Beerus, 10.10.2026). Handeinträge zitieren solche Artikel bewusst (Kino-OmU). */
 export function releasesAusNurOriginalton(releases: Release[], adressen: ReadonlySet<string>): string[] {
   return releases.filter((r) => r.automatisch && r.sources.some((u) => adressen.has(u))).map((r) => `"${r.slug}": Beleg nennt nur Originalton mit Untertiteln`)
+}
+
+const ISO_TAG = /^\d{4}-\d{2}-\d{2}$/
+
+/**
+ * `ohne-weg.json` gegen die Titel ohne Streaming-Weg: jeder hat genau einen Eintrag und kein anderer; jeder Grund außer `offen` trägt seinen Tag
+ * (`checkedAt` aus der Quelle, bei `angekuendigt` der künftige Starttag `ab`). Mehr `offen` als `grenze` ist eine Warnung, kein Abbruch:
+ * ein neuer Titel ohne Beleg darf den Tagesbau nicht anhalten; die Grenze wird mit jedem Abbau nachgezogen (nur sinken).
+ */
+export function ohneWegFehler(eintraege: Record<number, OhneWegEintrag>, titelOhneWeg: readonly number[], grenze: number): Pruefergebnis {
+  const fehler: string[] = []
+  const soll = new Set(titelOhneWeg)
+  for (const id of soll) if (!eintraege[id]) fehler.push(`Titel ${id}: ohne Streaming-Weg, aber ohne Eintrag in ohne-weg.json`)
+  for (const [id, e] of Object.entries(eintraege)) {
+    if (!soll.has(Number(id))) fehler.push(`Titel ${id}: steht in ohne-weg.json, hat aber einen Streaming-Weg`)
+    if (e.reason === 'offen') continue
+    const tag = e.reason === 'angekuendigt' ? e.ab : e.checkedAt
+    if (!tag || !ISO_TAG.test(tag)) fehler.push(`Titel ${id}: Grund „${e.reason}“ ohne ${e.reason === 'angekuendigt' ? 'Starttag (ab)' : 'Prüftag (checkedAt)'}`)
+  }
+  const offen = Object.values(eintraege).filter((e) => e.reason === 'offen').length
+  const warnungen = offen > grenze ? [`ohne-weg.json: ${offen} Titel „offen“, mehr als die Grenze ${grenze} — Gründe nachtragen oder die Grenze begründet ändern`] : []
+  return { fehler, warnungen }
 }

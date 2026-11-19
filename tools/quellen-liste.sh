@@ -378,6 +378,8 @@ QUELLEN=(
   # rot („stimmt mit der ausgelieferten überein", Lauf 35567600545).
   public/data/pruefliste-stand.json
   public/data/pruefstand.json
+  # Grund je Titel ohne Streaming-Weg (18.11.2026): vom Bau aus den fertigen Dateien geschrieben, das Detail-Panel lädt sie bei Bedarf.
+  public/data/ohne-weg.json
   daniel-zum-abarbeiten/listen/08-arbeitspakete.md
   # Die Listen je Anbieter — sieben Dateien, die `data:dub-checks` bei jedem Lauf
   # neu schreibt und die bis zum 29.08.2026 keine einzige Zeile hier hatten.
