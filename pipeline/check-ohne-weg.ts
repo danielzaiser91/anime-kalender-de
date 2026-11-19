@@ -66,7 +66,7 @@ pruefe('JustWatch ohneTreffer ist kein Beleg „laut JustWatch“: nie film-ohne
 const e10 = lauf({ titel: [titel(900010, { format: 'MOVIE' })], justwatch: { 900010: jw('a4', 4, []) } })
 pruefe('Film, JustWatch zugeordnet, kein Angebot: film-ohne-abo', e10[900010]?.reason === 'film-ohne-abo' && e10[900010]?.checkedAt === '2026-11-17', e10)
 const e11 = lauf({ titel: [titel(900011)], justwatch: { 900011: jw('a5', 5, []) } })
-pruefe('Gegenfall: eine Serie ohne Angebot bleibt offen', e11[900011]?.reason === 'offen', e11)
+pruefe('Serie, JustWatch zugeordnet, kein Angebot: kein-angebot (seit 19.11.2026, vorher offen)', e11[900011]?.reason === 'kein-angebot' && e11[900011]?.checkedAt === '2026-11-17', e11)
 const e12 = lauf({
   titel: [titel(900012, { format: 'MOVIE' }), titel(900013, { format: 'MOVIE' })],
   justwatch: { 900012: jw('gleich', 6, []), 900013: jw('gleich', 7, []) },
