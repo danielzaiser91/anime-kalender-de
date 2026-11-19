@@ -4290,5 +4290,120 @@
   },
   "date-a-bullet-dead-or-bullet-blu-ray-2022-02-07": {},
   "date-a-bullet-nightmare-or-queen-blu-ray-2022-02-07": {},
-  "auto-213805-netflix": {}
+  "auto-213805-netflix": {},
+  "hell-mode-staffel-1-komplettbox": {
+    "tmdbId": 280049,
+    "justwatchUrl": "https://www.themoviedb.org/tv/280049-herumodo-yari-yu-mi-hao-kinogemaha-fei-she-ding-no-yi-shi-jie-de-wu-shuang-suru-hajimarino-zhao-huan-shi/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "adn"
+    ],
+    "inhaltAm": "2026-11-19"
+  },
+  "lord-of-mysteries-s1-komplettbox": {
+    "tmdbId": 232230,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/232230-gui-mi-zhi-zhu/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-11-19"
+  },
+  "re-zero-s3-vol2": {},
+  "ron-kamonohashi-s2-vol2": {},
+  "shield-hero-s4-vol1": {},
+  "angeloid-sora-no-otoshimono-s1-s2-bundle": {
+    "tmdbId": 37437,
+    "fsk": 16,
+    "inhaltAm": "2026-11-19"
+  },
+  "spice-and-wolf-2024-vol1": {
+    "tmdbId": 229676,
+    "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-11-19"
+  },
+  "spice-and-wolf-2024-vol2": {
+    "tmdbId": 229676,
+    "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ],
+    "inhaltAm": "2026-11-19"
+  },
+  "virgin-road-vol2": {
+    "tmdbId": 117886
+  },
+  "virgin-road-vol3": {
+    "tmdbId": 117886
+  },
+  "the-mighty-nein-s2-primevideo": {
+    "tmdbId": 219080,
+    "fsk": 18,
+    "justwatchUrl": "https://www.themoviedb.org/tv/219080-the-mighty-nein/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ],
+    "inhaltAm": "2026-11-19"
+  }
 }

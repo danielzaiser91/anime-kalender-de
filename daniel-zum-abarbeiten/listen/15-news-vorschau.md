@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-11-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-11-19. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -14,7 +14,6 @@ Stand: 2026-11-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | ? | – unklar | [HBO Max nimmt Original-Serie »Lazarus« ins Programm](https://www.anime2you.de/news/1065659/lazarus-bald-auf-hbo-max/) |
 | 2026-12 (Monat), 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt mit Film und TV-Premiere zurück](https://www.anime2you.de/news/1065927/prosieben-maxx-anime-night-rueckkehr/) |
 | 2026-11-24, 2026-11 (Monat) | disneyplus | – unklar | [Disney+ kündigt zwei Anime-Neuzugänge für November 2026 an](https://www.anime2you.de/news/1065975/disney-plus-neu-im-november-2026/) |
-| 2026-11 (Monat) | primevideo, aniverse | – unklar | [Neue Anime-Katalogtitel im November 2026 bei aniverse](https://www.anime2you.de/news/1065078/aniverse-november-2026-neuzugaenge/) |
 | 2026-11 (Monat) | adn | – unklar | [ADN kündigt sechs Anime-Neuzugänge für November 2026 an](https://www.anime2you.de/news/1064806/adn-neuzugaenge-im-november-2026/) |
 | 2026-11-06, 2026-11 (Monat) | ? | – unklar | [»Anime Night« auf ProSieben MAXX kehrt verkürzt zurück](https://www.anime2you.de/news/1063716/prosieben-maxx-anime-night-kehrt-verkuerzt-zurueck/) |
 | 2026-11-16, 2026-11-23, 2026-11 (Monat) | ? | ✅ zugesagt | [ProSieben FUN zeigt »Akame ga KILL!« als Pay-TV-Premiere](https://www.anime2you.de/news/1063292/prosieben-fun-zeigt-akame-ga-kill/) |
@@ -48,60 +47,61 @@ Stand: 2026-11-18. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-01-09 | ? | – unklar | [Starttermin von »Wound and Bandage« steht fest + Teaser](https://www.anime2you.de/news/1061578/starttermin-von-wound-and-bandage/) |
 | 2027-02 (Monat) | netflix | – unklar | [Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«](https://www.anime2you.de/news/1043291/the-one-piece-staffel-1-neues-visual/) |
 | 2027-03-31, 2027-03 (Monat) | ? | – unklar | [Nutzer verlieren gekaufte Inhalte: Tapas bestätigt Abschaltung für 2027](https://www.anime2you.de/news/1057381/tapas-bestaetigt-abschaltung-fuer-maerz-2027/) |
+| 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
 
 … und 18 weitere.
 
-Dazu 69 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 68 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 10 |
-| adn-catalog | 1.9 Tage her | 120 |
-| adn-news | 0.1 Tage her | 69 |
-| anilist-voices | 2.0 Tage her | 3012 |
-| anime-offline-database | 2.0 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 101 |
+| adn | 0.0 Tage her | 11 |
+| adn-catalog | 2.9 Tage her | 120 |
+| adn-news | 0.1 Tage her | 68 |
+| anilist-voices | 3.0 Tage her | 3012 |
+| anime-offline-database | 3.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 99 |
 | anisearch | 0.9 Tage her | 1 |
-| anisearch-cover-eigen | 13.6 Tage her | 138 |
+| anisearch-cover-eigen | 14.6 Tage her | 138 |
 | anisearch-dubs | 1.0 Tage her | 11951 |
-| anisearch-eintraege | 2.0 Tage her | 400 |
-| anisearch-folgen | 2.0 Tage her | 452 |
-| anisearch-slugs | 2.0 Tage her | 14919 |
-| anisearch-zuordnung | 1.0 Tage her | 18518 |
-| ann-voices | 2.0 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 9 |
-| cartoon-folgen | 2.0 Tage her | 366 |
-| cartoon-reihen | 1.0 Tage her | 1 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 2.0 Tage her | 1 |
-| cr-einzelwerke | 4.5 Tage her | 1 |
-| cr-filmbloecke | 4.5 Tage her | 1 |
-| crunchyroll-dub | 1.5 Tage her | 1156 |
-| crunchyroll-neu | 0.0 Tage her | 196 |
-| crunchyroll-offene | 2.0 Tage her | 7 |
+| anisearch-eintraege | 3.0 Tage her | 400 |
+| anisearch-folgen | 3.0 Tage her | 452 |
+| anisearch-slugs | 3.0 Tage her | 14919 |
+| anisearch-zuordnung | 1.0 Tage her | 18519 |
+| ann-voices | 3.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 46 |
+| cartoon-folgen | 3.0 Tage her | 366 |
+| cartoon-reihen | 1.0 Tage her | 0 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 3.0 Tage her | 1 |
+| cr-einzelwerke | 5.5 Tage her | 1 |
+| cr-filmbloecke | 5.5 Tage her | 1 |
+| crunchyroll-dub | 0.5 Tage her | 1156 |
+| crunchyroll-neu | 0.0 Tage her | 198 |
+| crunchyroll-offene | 3.0 Tage her | 7 |
 | crunchyroll-woche | 0.0 Tage her | 63 |
-| justwatch-audio | 1.0 Tage her | 17 |
-| kinoheld | 2.0 Tage her | 0 |
-| kitsu-folgen | 5.5 Tage her | 0 |
-| link-check | 2.0 Tage her | 18 |
+| justwatch-audio | 1.0 Tage her | 12 |
+| kinoheld | 3.0 Tage her | 0 |
+| kitsu-folgen | 6.5 Tage her | 0 |
+| link-check | 3.0 Tage her | 18 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 11.0 Tage her | 2123 |
-| motn-changes | 0.0 Tage her | 0 |
+| motn | 12.0 Tage her | 2123 |
+| motn-changes | 0.0 Tage her | 47 |
 | rohfolgen | 0.3 Tage her | 0 |
-| rtlplus-folgen | 2.0 Tage her | 3 |
-| tmdb-banner | 2.0 Tage her | 11 |
-| tmdb-folgen | 2.0 Tage her | 945 |
-| tmdb-kino | 2.0 Tage her | 3 |
-| tmdb-poster | 2.0 Tage her | 236 |
-| tmdb-titles | 2.0 Tage her | 400 |
+| rtlplus-folgen | 3.0 Tage her | 3 |
+| tmdb-banner | 3.0 Tage her | 11 |
+| tmdb-folgen | 3.0 Tage her | 945 |
+| tmdb-kino | 3.0 Tage her | 3 |
+| tmdb-poster | 3.0 Tage her | 236 |
+| tmdb-titles | 3.0 Tage her | 400 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 3 |
-| tv-de | 12.2 Tage her | 0 |
-| tv-programm | 0.0 Tage her | 286 |
-| vorfaelle | 0.0 Tage her | 10 |
-| wikidata-imdb | 2.0 Tage her | 5373 |
-| wikidata-titel | 2.0 Tage her | 16 |
+| trailer | 1.0 Tage her | 2 |
+| tv-de | 13.2 Tage her | 0 |
+| tv-programm | 0.0 Tage her | 282 |
+| vorfaelle | 0.0 Tage her | 8 |
+| wikidata-imdb | 3.0 Tage her | 5373 |
+| wikidata-titel | 3.0 Tage her | 16 |
 | wikipedia-folgen | 0.0 Tage her | 10 |
-| youtube-check | 2.0 Tage her | 1 |
+| youtube-check | 3.0 Tage her | 1 |
