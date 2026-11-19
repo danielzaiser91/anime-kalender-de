@@ -331,9 +331,10 @@ jobs:
           ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
         run: bash tools/schritt.sh --zeit 25m "aniSearch-Einträge" -- npm run data:anisearch-eintraege -- --limit 400
 
-      # Tonspuren laut JustWatch: die einzige maschinelle Quelle für Prime Video und die Kanal-Angebote. Fragt reihum alle Titel (alle vier Wochen jeder).
+      # Tonspuren laut JustWatch: die einzige maschinelle Quelle für Prime Video und die Kanal-Angebote. Fragt reihum alle Titel (alle drei Wochen jeder: fällig ab 20 Tagen, Befund gilt 28; `ABRUF_ALTER_TAGE`).
+      # 1.200 je Woche: rund 3.100 Titel in drei Wochenläufen, gemessen 1,3 s je Titel (800 in 17–19 min, Läufe 12.–26.10.2026) → ~26 min von 35; der Stand wird erst am Ende geschrieben.
       - name: Tonspuren laut JustWatch
-        run: bash tools/schritt.sh --zeit 35m "Tonspuren laut JustWatch" -- npm run data:justwatch -- --limit 800
+        run: bash tools/schritt.sh --zeit 35m "Tonspuren laut JustWatch" -- npm run data:justwatch -- --limit 1200
 
       # Direkt hinter JustWatch, weil es die zweite Quelle ist: Was gerade geholt wurde, wird im selben Durchgang ausgewertet.
       - name: Kanal-Meldungen gegen JustWatch prüfen

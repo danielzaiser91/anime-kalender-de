@@ -230,6 +230,12 @@ export function schlusszeile(zeilen) {
   return `mutationslaeufer: ${teile.join(", ")}`
 }
 
+// Maschinenlesbare Zeile (19.11.2026): N überlebende von M echten Mutanten (Kontrollen zählen nicht); Workflow und Prüfer lesen sie.
+export function ueberlebendeZeile(zeilen) {
+  const echt = zeilen.filter((z) => !z.kontrolle)
+  return `Überlebende: ${echt.filter((z) => z.urteil === "GRÜN").length} von ${echt.length}`
+}
+
 async function lauf(opt, mutanten, originale) {
   const grund = new Set(mutanten.flatMap((m) => testsVon(m, opt)))
   for (const t of grund) {
@@ -334,6 +340,7 @@ export async function main(argv) {
     console.log(`\n${md}`)
     const schlecht = bewerte(zeilen)
     console.log(`\n${schlusszeile(zeilen)}`)
+    console.log(ueberlebendeZeile(zeilen))
     return schlecht > 0 ? 1 : 0
   } finally {
     if (zuruecksetzen().length > 0) throw new Error("Rückspiel kaputt: Dateien prüfen, Sicherungskopien `.mutlauf-orig` sind das Original")

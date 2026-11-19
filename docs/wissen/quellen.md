@@ -3870,6 +3870,7 @@ Messung: `daniel-zum-abarbeiten/berichte/justwatch-vertrauen-2026-10-11.md`. Pri
 - **Mehrteiler später:** Der Abruf speichert je Staffel `staffeln` (Nummer, Abo-Angebote mit `audio` und Adresse; `pipeline/lib/jw-staffeln.ts`). Eine Regel für Mehrteiler erst, wenn eine Messung wie im Bericht ≥ 98 % bei n ≥ 50 zeigt.
   - Die Staffeln kommen in derselben `popularTitles`-Anfrage mit (`... on Show { seasons { … } }`), kein Zusatzabruf. Stichprobe 11.10.2026 von Daniels IP: 3 Probeabrufe (Date a Live, Vinland Saga, Niko) und ein Lauf mit 15 Titeln, 0 Fehler; `robots.txt` von `apis.justwatch.com` erlaubt alles. Je Staffel stehen nur Abo-, Werbe- und Gratis-Angebote (Kauf und Leihe würden die Datei aufblähen); gut 100 Byte je Serie, bei Prime-Serien mit vielen Staffeln mehr.
   - Serien ohne `staffeln` (alle Befunde vor dem 11.10.2026) holt der Wochenlauf vor der 28-Tage-Frist nach (`vorgezogen()` in `fetch-justwatch-audio.ts`, 1.938 Serien, bei `--limit 800` rund drei Wochenläufe); Befunde hinter einem „Deutsch laut JustWatch"-Weg werden 21 Tage statt 28 alt erneuert, damit die Kennzeichnung zwischen zwei Läufen nicht ausläuft.
+  - 19.11.2026: Die Abrufgrenze gilt für alle Befunde: fällig ab 20 Tagen (`ABRUF_ALTER_TAGE` = `BEFUND_MAX_TAGE` − 8), vorher ab 28 = Gültigkeit, also bis zu 7 Tage ohne gültigen Befund (801 Titel am 19.11.). Wochenlauf `--limit 1200` (rund 3.100 Titel in drei Läufen); Wächter `pipeline/check-jw-abrufgrenze.ts`.
 
 ## aniSearch-API: keine Suche, aber die Titelliste trägt den Katalogabgleich (11.10.2026)
 

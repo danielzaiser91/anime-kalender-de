@@ -464,7 +464,7 @@ for (const [text, teil, ort] of [
   w.ergebnis(w.offen()[0], { ok: false, grund: 'Knopf blieb bei: 75 Folgen gelesen (von 100 fehlen Folge 73–97)', abschnitte: ['73–97: 0/25, HTTP 200'], staffeln: [] })
   pruefe('Steuerung: der Eintrag nennt den Grund', /^Naruto – Knopf blieb bei: 75 Folgen gelesen \(von 100 fehlen Folge 73–97\)$/.test(w.lauf().uebersprungen[0]), w.lauf().uebersprungen)
   pruefe('Steuerung: die Spur trägt die Abschnitte', w.lauf().spur.some((s) => s.was === 'seite' && s.abschnitte?.[0] === '73–97: 0/25, HTTP 200'), w.lauf().spur)
-  pruefe('Endanzeige: Titel und Grund stehen in der Liste, als „selbst prüfen“ benannt', /· selbst prüfen: Naruto – Knopf blieb bei: 75 Folgen/.test(w.kontext.akPrimeEndeText({ grund: 'nichts mehr offen', uebersprungen: w.lauf().uebersprungen, suchen: 0 })))
+  pruefe('Endanzeige: Titel und Grund stehen in der Liste, als „selbst prüfen“ benannt', /\n• Naruto – Knopf blieb bei: 75 Folgen/.test(w.kontext.akPrimeEndeText({ grund: 'nichts mehr offen', uebersprungen: w.lauf().uebersprungen, suchen: 0 })))
 }
 
 /*
@@ -767,6 +767,46 @@ for (const [text, teil, ort] of [
   const adresse = w.kontext.akPrimeEintragAdresse(`${GTI}?ref_=atv_dp_season_select_s2`, (g) => gemerkt.push(g))
   pruefe('gti mit Query: Adresse und Merker ohne Query', adresse === `https://watch.amazon.de/detail?gti=${GTI}` && gemerkt.join() === GTI, [adresse, gemerkt])
   pruefe('ASIN mit Query behält die Query', w.kontext.akPrimeEintragAdresse('B0B6HHFR44?ref_=atv_dp_season_select_s5', () => {}) === 'https://www.amazon.de/gp/video/detail/B0B6HHFR44?ref_=atv_dp_season_select_s5')
+}
+
+/*
+  **Fester Zähler und Ergebnisbericht (Daniel, 18.11.2026):** „13/13, dann 14/14, dann 15/15" — der Nenner wuchs mit den Treffern der
+  Suchen. Hier: 2 Titel + 1 Suche mit 3 Treffern; der Nenner bleibt 3, am Ende steht ein Bericht mit Zahlen.
+*/
+{
+  const FISCH = 'https://www.amazon.de/s?k=Fischen%20Impossible&i=instant-video'
+  const w = welt({ suchen: { [FISCH]: { titel: 'Fischen Impossible', suchbegriff: 'Fischen Impossible', folgen: 1 } } })
+  w.kontext.listenId = 'irgendwas'
+  const stand = []
+  const merke = () => stand.push(w.lauf() ? w.kontext.akPrimeFortschritt(w.lauf()) : null)
+  vm.runInContext('primeLaufStarten()', w.kontext)
+  merke()
+  w.ergebnis(w.offen()[0], { hier: 'B07VP6VPVR', staffeln: [] })
+  merke()
+  w.ergebnis(w.offen()[0], { hier: 'B07FB4D9KM', staffeln: [] })
+  merke()
+  w.ergebnis(w.offen()[0], { hier: '', treffer: ['B0AAAAAAA1', 'B0AAAAAAA2', 'B0AAAAAAA3'], grund: 'Treffer gelesen' })
+  merke()
+  while (w.lauf()) {
+    w.ergebnis(w.offen()[0], { hier: 'x', staffeln: [] })
+    merke()
+  }
+  const lebend = stand.filter(Boolean)
+  pruefe('Zähler: der Nenner steht beim Start fest (2 Titel + 1 Suche) und wandert nie', lebend.length >= 4 && lebend.every((z) => z.gesamt === 3), lebend)
+  pruefe('Zähler: nr wächst nie über den Nenner und fällt nie', lebend.every((z, i) => z.nr <= z.gesamt && (i === 0 || z.nr >= lebend[i - 1].nr)), lebend)
+  pruefe('Zähler: die Treffer einer Suche zählen nicht als eigene Titel (Suche = 3. Schritt)', lebend.at(-1).nr === 3 && w.ende().erledigt === 3, [lebend.at(-1), w.ende()])
+  const text = w.kontext.akPrimeEndeText(w.ende())
+  pruefe('Bericht: Kopf mit Titel- und Seitenzahl', /^Durchgang fertig · 3 Titel · \d+ Seiten gemeldet(\n.*)?$/.test(text), text)
+}
+
+{
+  const text = welt().kontext.akPrimeEndeText({ grund: 'nichts mehr offen', erledigt: 5, seiten: 12, uebersprungen: ['Naruto – Knopf blieb bei: x', 'Bleach – y'], suchen: 2 })
+  pruefe(
+    'Bericht: Kopf, je übersprungenem Titel eine Zeile, Suchaufträge am Ende',
+    text === 'Durchgang fertig · 5 Titel · 12 Seiten gemeldet\n2 selbst prüfen:\n• Naruto – Knopf blieb bei: x\n• Bleach – y\n2 Suchaufträge von Hand',
+    text,
+  )
+  pruefe('Bericht: ein Abbruch nennt den Grund im Kopf', /^Durchgang beendet · von Hand · 1 Titel/.test(welt().kontext.akPrimeEndeText({ grund: 'von Hand', erledigt: 1, uebersprungen: [], suchen: 0 })))
 }
 
 console.log('')

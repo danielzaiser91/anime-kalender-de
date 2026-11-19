@@ -10,12 +10,23 @@ import type { Staffel } from './jw-staffeln.ts'
 /** Ein Befund, der älter ist, sagt nichts mehr über heute (28 Tage, wie die Wiedervorlage des Abrufs). */
 export const BEFUND_MAX_TAGE = 28
 
+/** Ein Befund wird fällig, bevor er verfällt: ein Wochenlauf (7 Tage) plus ein Tag Luft unter `BEFUND_MAX_TAGE` (Wochenlauf `refresh-weekly.yml`). */
+export const ABRUF_ALTER_TAGE = BEFUND_MAX_TAGE - 8
+
+/** Fälligkeitsalter des Abrufs (`--alter N`), ohne Angabe `ABRUF_ALTER_TAGE`. */
+export function abrufAlterTage(args: string[]): number {
+  const i = args.indexOf('--alter')
+  return i >= 0 && args[i + 1] ? Number(args[i + 1]) : ABRUF_ALTER_TAGE
+}
+
 export interface JwBefund {
   geprueftAm: string
   jwId?: string
   jwPfad?: string
   ohneTreffer?: boolean
   verfehltAm?: string
+  /** Nur bei `ohneTreffer`: ein Namensvetter auf JustWatch, bewusst nicht zugeordnet (`lib/jw-namenstreffer.ts`). */
+  namenTreffer?: unknown
   angebote: JwAngebot[]
   /** Staffeln laut JustWatch (seit 11.10.2026); fehlt bei Filmen und älteren Befunden. */
   staffeln?: Staffel[]

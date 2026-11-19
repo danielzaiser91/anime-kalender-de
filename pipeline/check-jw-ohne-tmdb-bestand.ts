@@ -9,8 +9,8 @@ import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
 import { ROOT, readJson } from './lib/util.ts'
 import { namenProLauf, namensLage } from './lib/jw-namenssuche.ts'
+import { BEFUND_MAX_TAGE } from './lib/jw-vertrauen.ts'
 
-const BEFUND_MAX_TAGE = 28
 const titles = [...readJson<Title[]>('public/data/titles.json', []), ...readJson<Title[]>('public/data/cartoons.json', [])]
 const tmdb = readJson<Record<string, { tmdbId?: number }>>('data/tmdb-titles.json', {})
 const bestand = readJson<Record<string, { geprueftAm: string }>>('data/justwatch-audio.json', {})

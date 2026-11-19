@@ -25,7 +25,7 @@ const jw = (jwId: string, tmdbId: number, art: string[], extra: Record<string, u
   ({ geprueftAm: '2026-11-17', jwId, tmdbId, angebote: art.map((a) => ({ anbieter: 'X', art: a, audio: [] })), ...extra }) as unknown as OhneWegEingabe['justwatch'][string]
 
 function lauf(eingabe: Partial<OhneWegEingabe>): Record<number, OhneWegEintrag> {
-  return baueOhneWeg({ titel: [], termine: [], handbelege: [], justwatch: {}, heute: HEUTE, ...eingabe })
+  return baueOhneWeg({ titel: [], termine: [], handbelege: [], justwatch: {}, discAusgaben: {}, heute: HEUTE, ...eingabe })
 }
 
 console.log('\nGründe')
@@ -124,13 +124,15 @@ for (const [name, e] of [
   ['kein-dub ohne Prüftag', { reason: 'kein-dub' }],
   ['nur-kauf mit kaputtem Prüftag', { reason: 'nur-kauf', checkedAt: '18.11.2026' }],
   ['film-ohne-abo ohne Prüftag', { reason: 'film-ohne-abo' }],
+  ['abo-ohne-ton ohne Prüftag', { reason: 'abo-ohne-ton' }],
+  ['nur-disc mit kaputtem Prüftag', { reason: 'nur-disc', checkedAt: '2026-11' }],
   ['angekuendigt ohne Starttag (checkedAt zählt dort nicht)', { reason: 'angekuendigt', checkedAt: '2026-11-17' }],
 ] as [string, OhneWegEintrag][])
   pruefe(`Fehler: ${name}`, ohneWegFehler({ 5: e }, [5], 9).fehler.length === 1)
 const fehlerText = (e: OhneWegEintrag) => ohneWegFehler({ 5: e }, [5], 9).fehler.join()
 pruefe('Fehlertext nennt bei angekuendigt den Starttag, sonst den Prüftag', fehlerText({ reason: 'angekuendigt' }).includes('Starttag (ab)') && fehlerText({ reason: 'nur-kauf' }).includes('Prüftag (checkedAt)'))
-/* Die Grenze sinkt nur: 1056 war der Stand vom 18.11.2026; mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
-pruefe('Grenze für „offen“ ist gesetzt und höchstens 1056', OFFEN_HOECHSTENS > 0 && OFFEN_HOECHSTENS <= 1056, OFFEN_HOECHSTENS)
+/* Die Grenze sinkt nur: 600 war der Stand vom 19.11.2026 (541 gemessen, vorher 913); mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
+pruefe('Grenze für „offen“ ist gesetzt und höchstens 600', OFFEN_HOECHSTENS > 0 && OFFEN_HOECHSTENS <= 600, OFFEN_HOECHSTENS)
 pruefe('Logzeile zählt je Grund alphabetisch', zaehleGruende({ 1: { reason: 'offen' }, 2: { reason: 'kein-dub' }, 3: { reason: 'offen' } }) === 'kein-dub 1, offen 2')
 
 console.log('\nKennungen und Anzeigetext')
