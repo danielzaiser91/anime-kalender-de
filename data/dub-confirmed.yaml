@@ -15213,18 +15213,6 @@
 - anilistId: 21450
   title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
   platform: primevideo
-  url: https://www.amazon.de/dp/B0F9FWKDXT
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
-  checkedAt: '2026-09-20'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0F4V6JFH9: nur 48 von 71 Folgen geladen — Rest ungeprüft, Abos: animedigitalde, laut Adresse Staffel 1, zugang=abo, gti=amzn1.dv.gti.89943e43-c4ae-4f79-802f-9387359a5b34, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-- anilistId: 21450
-  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
-  platform: primevideo
   url: https://www.amazon.de/dp/B0F4KCHZBR
   available: false
   checkedAt: '2026-09-20'
@@ -31433,19 +31421,6 @@
   available: false
   checkedAt: '2026-10-13'
   note: "Amazon-Seite B0F4KCHZBR: nur 0 von 2 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.743ea777-81f5-4213-a794-4ec035fa3f75, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 21450
-  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
-  platform: primevideo
-  url: https://www.amazon.de/gp/video/detail/B0F9FWKDXT
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 26
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
-  kanalMessung: ja
-  checkedAt: '2026-10-13'
-  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0F4V6JFH9: nur 48 von 71 Folgen geladen — Rest ungeprüft, Abos: animedigitalde, zugang=abo, gti=amzn1.dv.gti.89943e43-c4ae-4f79-802f-9387359a5b34, regionsperre=laut Seite nicht mehr im Abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 - anilistId: 170206
   title: "Scott Pilgrim hebt ab"
   platform: netflix

@@ -981,3 +981,7 @@
   url: https://www.amazon.de/dp/B0CMZZVV7R
   grund: 'Seite führt Shana Staffel 1 und 2 (Daniel 13.09.2026, mit Bild); die Messung (24 Folgen) ist nicht staffelgenau und gilt über den Beleg vom 19.11.2026 dem Titel 355. 2787 behält seine eigenen Seiten 0NQ6I1WXBDFEZHZBCNOTC626F9 und B0FFGWVYVK (je 24 Folgen, Ja, 28.09.2026) (PR 4312)'
   entferntAm: '2026-11-19'
+- anilistId: 21450
+  url: https://www.amazon.de/dp/B0F4V6JFH9
+  grund: 'Seite B0F4V6JFH9 ist die JoJo-Sammelseite (71 Folgen); die Messung „Folgen 1–26, laut Adresse Staffel 1“ gehört der 26-Folgen-Staffel (14719, Zuordnung der Adresse B0F9FWKDXT), nicht Diamond Is Unbreakable mit 39 Folgen (PR 4312)'
+  entferntAm: '2026-11-19'
