@@ -1269,8 +1269,8 @@ Ursachen von `offen` (`lib/ohne-weg-offen.ts`, spiegelt die Reihenfolge von `gru
 |---|---|
 | `handbeleg-deutsch` | Handbeleg sagt deutsch, aber kein Stream-Weg im Bestand |
 | `jw-kein-befund` | JustWatch-Eintrag fehlt ganz |
-| `jw-kein-treffer` | `ohneTreffer`, jünger als 28 Tage, ohne erschienene Disc: wirklich kein Treffer |
-| `jw-mehrdeutig` | `ohneTreffer` mit `namenTreffer` (nur ein Namensvetter, bewusst nicht zugeordnet) |
+| `jw-kein-treffer` | `ohneTreffer`, jünger als 28 Tage, ohne erschienene Disc: kein Treffer (auch mit `namenTreffer` ohne `gleicherName`: Suchrauschen, z. B. „Pale Cocoon“ → „Pale Rider“) |
+| `jw-mehrdeutig` | `ohneTreffer` mit `namenTreffer.gleicherName` (gleichnamiger Kandidat mit anderer TMDB-Kennung, bewusst nicht zugeordnet); 19.11.2026: 10 von 117 Namenstreffern, die übrigen 107 sind Rauschen und zählen zu `jw-kein-treffer` bzw. `jw-abgelaufen` |
 | `jw-fremd` | Treffer vorhanden, aber die `jwId` gehört auch einer zweiten TMDB-Reihe (`geteilteJwKennungen`) |
 | `jw-verfehlt` | Befund trägt `verfehltAm` |
 | `jw-abgelaufen` | Befund (mit oder ohne Treffer) ist ≥ 28 Tage alt (`BEFUND_MAX_TAGE`): kommt mit dem JustWatch-Wochenlauf zurück |
@@ -1278,4 +1278,4 @@ Ursachen von `offen` (`lib/ohne-weg-offen.ts`, spiegelt die Reihenfolge von `gru
 
 Die Ursachen sind der Bau-Regel von Hand nachgebaut (Doppelpflege); `pipeline/check-ohne-weg-ursachen.ts` hält Grenztag (28/27 Tage), Reihenfolge und Randfälle fest und startet das Werkzeug als Prozess.
 
-**Zahlen 19.11.2026:** Mit der `justwatch-audio.json` vom Bestandsbau 09:15 (Stand `7672309c`) liefert das Werkzeug exakt `public/data/ohne-weg.json` (1.057 Titel, `offen` 569, `nur-disc` 343, `nur-kauf` 76, `kein-dub` 42, `film-ohne-abo` 25, `abo-ohne-ton` 1, `angekuendigt` 1). Mit dem Lauf auf Abruf `data:justwatch` von 09:47 (`8a949295`) steht `offen` bei 418: Der Bau von 09:15 kannte diese Befunde noch nicht, der nächste Bestandsbau gleicht an. **Die Bau-Logzeile und das Werkzeug stimmen nur bei gleichem Stand der Eingabedateien überein.** Erst messen, dann die Frage „wie viele Titel fehlt ein Beleg“ beantworten: Ein Großteil von `offen` ist `jw-kein-treffer` und `jw-mehrdeutig`, also eine Zuordnungsfrage, kein Fehlen des Weges.
+**Zahlen 19.11.2026:** Mit der `justwatch-audio.json` vom Bestandsbau 09:15 (Stand `7672309c`) liefert das Werkzeug exakt `public/data/ohne-weg.json` (1.057 Titel, `offen` 569, `nur-disc` 343, `nur-kauf` 76, `kein-dub` 42, `film-ohne-abo` 25, `abo-ohne-ton` 1, `angekuendigt` 1). Mit dem Lauf auf Abruf `data:justwatch` von 09:47 (`8a949295`) steht `offen` bei 418: Der Bau von 09:15 kannte diese Befunde noch nicht, der nächste Bestandsbau gleicht an. **Die Bau-Logzeile und das Werkzeug stimmen nur bei gleichem Stand der Eingabedateien überein.** Erst messen, dann die Frage „wie viele Titel fehlt ein Beleg“ beantworten: Ein Großteil von `offen` ist `jw-kein-treffer` (326 von 416 am 19.11.2026, davon 107 mit Namenstreffer ohne `gleicherName`) und nur 10 `jw-mehrdeutig`: überwiegend schlicht kein Treffer, keine Zuordnungsfrage.
