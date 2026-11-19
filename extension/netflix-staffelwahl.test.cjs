@@ -351,8 +351,8 @@ function workerFelder(roh) {
   const quelle = readFileSync(__dirname + '/../worker/src/pruefung-rohfolgen-speichern.ts', 'utf8')
   const gelesen = new Set([...quelle.matchAll(/\bf\.([A-Za-z_]+)/g)].map((m) => m[1]))
   const gesendet = new Set(roh.flatMap((r) => Object.keys(r)))
-  /* `art` steckt in der Beobachtung und gehört der Meldung (`index.ts`), nicht der Rohzeile. */
-  const verloren = [...gesendet].filter((k) => !gelesen.has(k) && k !== 'art')
+  /* `art` steckt in der Beobachtung und gehört der Meldung (`index.ts`), nicht der Rohzeile; ebenso `seitenAdresse` (Migration 066, nur am Rumpf gespeichert). */
+  const verloren = [...gesendet].filter((k) => !gelesen.has(k) && k !== 'art' && k !== 'seitenAdresse')
   pruefe('der Worker liest `staffelNr` und `staffelText`', gelesen.has('staffelNr') && gelesen.has('staffelText'), [...gelesen])
   pruefe('jedes gesendete Feld der Rohfolge liest der Worker', verloren.length === 0, verloren)
 }
