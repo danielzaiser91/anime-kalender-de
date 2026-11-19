@@ -104,7 +104,7 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
 }
 
 /**
- * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` auf main 8a0a57694, 19.11.2026: 537 von 1.056 Titeln ohne Weg, vor `abo-ohne-ton` und `nur-disc` 913;
- * Luft 63, weil ein JustWatch-Befund nach 28 Tagen ohne Erneuerung den Grund wieder verliert); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen.
+ * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` auf main f3f138a02, 19.11.2026: 541 von 1.056 Titeln ohne Weg, vor `abo-ohne-ton` und `nur-disc` 913;
+ * Luft 59, weil ein JustWatch-Befund nach 28 Tagen ohne Erneuerung den Grund wieder verliert); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen.
  */
 export const OFFEN_HOECHSTENS = 600

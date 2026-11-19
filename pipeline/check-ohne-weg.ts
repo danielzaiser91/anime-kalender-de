@@ -131,7 +131,7 @@ for (const [name, e] of [
   pruefe(`Fehler: ${name}`, ohneWegFehler({ 5: e }, [5], 9).fehler.length === 1)
 const fehlerText = (e: OhneWegEintrag) => ohneWegFehler({ 5: e }, [5], 9).fehler.join()
 pruefe('Fehlertext nennt bei angekuendigt den Starttag, sonst den Prüftag', fehlerText({ reason: 'angekuendigt' }).includes('Starttag (ab)') && fehlerText({ reason: 'nur-kauf' }).includes('Prüftag (checkedAt)'))
-/* Die Grenze sinkt nur: 600 war der Stand vom 19.11.2026 (537 gemessen, vorher 1056); mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
+/* Die Grenze sinkt nur: 600 war der Stand vom 19.11.2026 (541 gemessen, vorher 913); mit jedem nachgetragenen Beleg darf sie fallen, nie steigen. */
 pruefe('Grenze für „offen“ ist gesetzt und höchstens 600', OFFEN_HOECHSTENS > 0 && OFFEN_HOECHSTENS <= 600, OFFEN_HOECHSTENS)
 pruefe('Logzeile zählt je Grund alphabetisch', zaehleGruende({ 1: { reason: 'offen' }, 2: { reason: 'kein-dub' }, 3: { reason: 'offen' } }) === 'kein-dub 1, offen 2')
 
