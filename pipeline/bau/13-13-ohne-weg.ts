@@ -9,6 +9,7 @@ import { baueOhneWeg, OFFEN_HOECHSTENS, zaehleVeralteteBefunde, type OhneWegEing
 import { BEFUND_MAX_TAGE } from '../lib/jw-vertrauen.ts'
 import { ladeAndereWerke, ohneAndereWerke } from '../lib/ohne-weg-andere-werke.ts'
 import { abgelaufenWarnung, offenUrsachen } from '../lib/ohne-weg-offen.ts'
+import { staffelDesTitels } from './widerlegung-staffel.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { ohneWegFehler } from '../lib/pruefung.ts'
 import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
@@ -26,8 +27,10 @@ export function zaehleGruende(e: Record<number, { reason: string }>): string {
 
 /** Die Eingabe der Regeln aus den fertig geschriebenen Dateien; `tools/ohne-weg-gruende.ts` liest genauso, damit Messung und Bau nicht auseinanderlaufen. */
 export function ladeOhneWegEingabe(): OhneWegEingabe {
+  const titel = [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])]
   return {
-    titel: [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])],
+    titel,
+    staffelNr: Object.fromEntries(titel.filter(ohneStreamingWeg).map((t) => [t.id, staffelDesTitels(t, titel)])),
     termine: readJson(`${OUT}/events.json`, []),
     handbelege: ladeHandbelege(),
     justwatch: ohneAndereWerke(readJson('data/justwatch-audio.json', {}), ladeAndereWerke()),
