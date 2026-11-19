@@ -67,7 +67,7 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
     [graphqlSchluessel.replace('owner={owner}', 'owner=danielzaiser91').replace('name={repo}', 'name=anime-kalender-nativ')]: { aus: `${KOPF_NATIV} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
-    'api repos/danielzaiser91/anime-kalender-de/issues/comments?sort=created&direction=desc&per_page=100': { aus: '[]' },
+    'api repos/danielzaiser91/anime-kalender-de/pulls?state=open&per_page=100': { aus: '[]' }, // Wache „Kopf ohne Urteil“ (19.11.2026)
     'api repos/danielzaiser91/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
     'run list --repo danielzaiser91/anime-kalender-de --workflow deploy.yml --branch main --status success --limit 6 --json databaseId': { aus: '[]' },
     'secret list --repo danielzaiser91/anime-kalender-de --json name': { aus: '[{"name":"LAUF_TOKEN"}]' },
