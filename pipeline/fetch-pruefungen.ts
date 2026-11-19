@@ -16,7 +16,7 @@
  */
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
-import { mitWegVermerk, urteilsMeldung, urteilsZeilen, wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
+import { mitWegVermerk, urteilsMeldung, urteilsZeilen, wegGiltGanzerAdresse, wegWiderspruchtSich } from './lib/weg-entwerten.ts'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { wegAusMeldung } from './lib/weg-aus-meldung.js'
 import { resolve } from 'node:path'
@@ -40,7 +40,7 @@ import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { ratePerName } from './lib/namens-zuordnung.ts'
 import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, widerspruchZumTitel, zaehlzeile } from './lib/unbekannte-seite.ts'
-import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
+import { reiheJeTitel, staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
@@ -504,11 +504,7 @@ for (const p of pruefungen) {
 let ueberFolgentitel = 0
 
 /** Die Reihe je Titel, aus dem gebauten Datensatz. */
-const reiheVon = new Map<number, Reiheneintrag[]>()
-{
-  const reihen = JSON.parse(readFileSync(resolve(ROOT, 'public/data/franchises.json'), 'utf8')) as Record<string, Reiheneintrag[]>
-  for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
-}
+const reiheVon = reiheJeTitel(JSON.parse(readFileSync(resolve(ROOT, 'public/data/franchises.json'), 'utf8')) as Record<string, Reiheneintrag[]>)
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
   /**
@@ -799,6 +795,10 @@ for (const gruppe of jeAdresse.values()) {
    * Ein Nachschlagen ist eine Momentaufnahme. Die jüngere ist die bessere.
    */
   const jueng = [...gruppe].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : 1))
+  if (wegWiderspruchtSich(jueng[jueng.length - 1])) {
+    liegenGeblieben(offenGeblieben, ohneZuordnung, p, '„nicht verfügbar“ nennt selbst eine deutsche Tonspur (Panel einer anderen Seite?)', ids, 'Meldung prüfen und verwerfen')
+    continue
+  }
   /*
     **Ein „weg" für eine Staffel streicht nicht den ganzen Weg**.
 

@@ -2,6 +2,13 @@ import { ausstrahlungsZeit, istWerbeEintrag, staffelBeschriftungen } from '../..
 
 export type Reiheneintrag = { id: number; name: string; format?: string; beiwerk?: boolean; jpYear?: number; jpStart?: string }
 
+/** Die Reihe je Titel aus `franchises.json` (Schlüssel: Kennung jedes Glieds). */
+export function reiheJeTitel(reihen: Record<string, Reiheneintrag[]>): Map<number, Reiheneintrag[]> {
+  const reiheVon = new Map<number, Reiheneintrag[]>()
+  for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
+  return reiheVon
+}
+
 /** Staffelnummer je Hauptstaffel einer Reihe — nur wenn die Reihe mehr als eine hat. */
 export function staffelNummern(reihe: Reiheneintrag[]): Map<number, number> {
   const haupt = reihe
