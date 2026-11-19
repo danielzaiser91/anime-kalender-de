@@ -14,7 +14,7 @@ const vm = require('node:vm')
 /* `box.js` lädt im Browser vor `amazon.js` — hier genauso, sonst fehlt akBox(). */
 /* Reihenfolge wie im Manifest (ohne die Datenlisten); der Durchgang braucht tageslimit und die prime-*-Helfer. */
 const DATEIEN = [
-  'kontext', 'tageslimit', 'box', 'melde-sperre', 'pruefstand-zeit', 'prime-titelseite', 'prime-durchgang-suche',
+  'kontext', 'tageslimit', 'box', 'titel-bindung', 'melde-sperre', 'pruefstand-zeit', 'prime-titelseite', 'prime-durchgang-suche',
   'prime-stand-ziele', 'prime-fassungen', 'prime-stand', 'prime-such-bruecke', 'prime-region', 'prime-treffer-kopf',
   'amazon-knopf-zeichnen', 'amazon',
 ]

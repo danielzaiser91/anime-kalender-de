@@ -33,6 +33,7 @@
     "netflix-stumm.js",
     "netflix-uebernahme.js",
     "prime-durchgang-suche.js",
+    "titel-bindung.js",
     "prime-fassungen.js",
     "prime-region.js",
     "prime-stand-ziele.js",

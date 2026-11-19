@@ -7374,11 +7374,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
   adressKennungFortschreiben()
 
-  /*
-    **Verlässt die Seite den Titel, ist das Panel leer** (19.11.2026, Landei II): Ohne Kennung in der Adresse (Startseite)
-    lief `adressKennungFortschreiben()` ins Leere, und `id`, Eintrag und Zählstand blieben die des alten Titels.
-    Zurückgesetzt wird wie bei einem Start auf einer Seite ohne Titel; bei der Rückkehr liest `beiStaffelwechsel()` neu.
-  */
+  /* Verlässt die Seite den Titel, ist das Panel leer wie bei einem Start ohne Titel (19.11.2026, Landei II); bei der Rückkehr liest `beiStaffelwechsel()` neu. */
   const titelBindung = globalThis.akTitelBindung.fuer({
     kennung: asinAusAdresse,
     beiWechsel: (alt, neu) => {
@@ -7410,54 +7406,13 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     id = jetzt
     listenId = listenSchluessel(listenId)
     eintrag = eintragFuer(listenId)
-    /*
-      **Das Leeren hier ist weg — es machte kaputt, was es schützen sollte.**
-
-      Der Zählstand gehört zur Staffel, nicht zur Sitzung. Bis 2.3 leerte ihn
-      `beiStaffelwechsel()` bei jedem erkannten Kennungswechsel, und das lief
-      im Takt: **nach** dem Empfang der Widget-Antwort. Bei einer Sammelseite
-      gehen Adress-Kennung und `titleID` im Quelltext dauerhaft auseinander —
-      der Wechsel galt damit als erkannt, sobald die Antwort da war, und der
-      Stand war eine Zehntelsekunde später wieder leer. Am Knopf stand
-      „Tonspuren noch nicht geladen", obwohl zwölf Folgen angekommen waren.
-
-      Seit 2.3 hängt der Stand an der Adresse (siehe `leererStand()`), und der
-      Empfänger ersetzt ihn, wenn eine Antwort für eine andere kommt. Ein
-      zweiter Ort, der leert, kann diese Regel nur noch brechen.
-
-      gesehen = leererStand()
-    */
+    /* Kein `gesehen = leererStand()` im Takt: Der Zählstand hängt an der Adresse, der Empfänger ersetzt ihn (seit 2.3; Leeren löschte frisch angekommene Folgen). */
     letzteZahl = -1
-    /*
-      **`gemeldeteStaffelNummer` wird hier nicht mehr geleert (15.09.2026).** Sie
-      kommt aus dem Schnappschuss, und `staffelKennung()` liest sie: Ein neuer
-      Schnappschuss galt damit selbst als Wechsel und löschte die Nummer, die er
-      gerade gebracht hatte. Solange der Muster-Rückfall in `staffelAusSeite()`
-      bestand, fiel das nicht auf. Der Empfänger leert sie beim Adresswechsel —
-      derselbe Grundsatz wie beim Zählstand darüber.
-    */
+    /* `gemeldeteStaffel` leert der Empfänger beim Adresswechsel; hier geleert, löschte der neue Schnappschuss seine eigene Nummer (15.09.2026). */
     gemeldeteStaffel = null
     letzterStand = ''
     letzterFortschritt = Date.now()
-    /**
-     * **Auch die Zustände, die an einem Titel hängen — sonst bleiben sie kleben.**
-     *
-     * `frischeStaffel` merkt sich die Kennung des zuletzt gezielt geholten
-     * Blocks; `quelltextPasst()` verlangt in seiner letzten Zeile, dass sie zur
-     * Kennung im Quelltext passt. Gesetzt wurde sie im Mitleser-Empfang,
-     * geleert **nirgends** — nach einem Wechsel stand dort weiter die des
-     * vorigen Titels, und damit war `quelltextPasst()` dauerhaft falsch.
-     *
-     * Sichtbar durch das Diagnosefeld (Daniel, 25.08.2026, nach mehreren
-     * Wechseln zwischen Serien):
-     *
-     *     frischeStaffel: 0FQH6UJINFTOTF1LP1IH1VQ7T5   (Clannad, vorheriger Abruf)
-     *     ausSeite:       B0FZLQTT9W                    (die jetzige Seite)
-     *     folgen: 0, sprachen: neun Stück               (vom vorigen Titel)
-     *
-     * Dasselbe gilt für das Titel-Kennung-Paar in `quelltextVeraltet()`. Beide
-     * gehören zum Titel, also enden sie mit ihm.
-     */
+    /* Was an einem Titel hängt, endet mit ihm: `frischeStaffel` und das Titel-Kennung-Paar der vorigen Seite machten `quelltextPasst()` dauerhaft falsch (25.08.2026). */
     frischeStaffel = null
     titelZuQuelltext = null
     /* Hängt an der alten Adresse — mit ihr wandert er weg. */
@@ -8027,28 +7982,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (!seitenKarte) return abweisenMitGrund('Kein Titel geöffnet')
     // „Nicht abrufbar" ist eine eigene Aussage, kein Sonderfall von „kein
     // Deutsch" — siehe den Kommentar am Knopf.
-    /**
-     * Ein Klick, bevor der Stand da ist, meldet womöglich zum zweiten Mal.
-     *
-     * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
-     * ist `erledigt` leer, und der Knopf lädt zum Melden ein, obwohl der Titel
-     * längst durch ist — „nach dem ‚alles gemeldet' neuladen erlaubt erneutes
-     * melden für paar sekunden, dann springt es zurück".
-     *
-     * Gesperrt wird der **Klick**, nicht die Anzeige: Was der Knopf über
-     * Sprache und Folgenzahl sagt, stimmt auch ohne den gespeicherten Stand.
-     */
-    /**
-     * Auf den gespeicherten Stand warten, statt den Klick zu verwerfen.
-     *
-     * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
-     * ist `erledigt` leer, und der Knopf lädt zum Melden ein, obwohl der Titel
-     * längst durch ist — „nach dem ‚alles gemeldet' neuladen erlaubt erneutes
-     * melden für paar sekunden, dann springt es zurück".
-     *
-     * Gewartet wird auf das Lade-Promise selbst, nicht in einer Schleife: Ein
-     * Klick ist gewollt, er soll nur einen Wimpernschlag später greifen.
-     */
+    /* Auf den gespeicherten Stand warten, statt den Klick zu verwerfen: Direkt nach dem Laden ist `erledigt` noch leer, und ein Klick meldete zum zweiten Mal. */
     if (!standGeladen) {
       try {
         await standFertig

@@ -216,7 +216,7 @@ function lade(pfad, liste, suchteil = '', start = {}) {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, start)
   const kontext = vm.createContext(umgebung)
   /* `box.js` lädt im Browser vor `melder.js` — hier genauso, sonst fehlt akBox(). */
-  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'offene-netflix.js', 'netflix-zurueckgestellt.js', 'netflix-liste-ansicht.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-staffel.js', 'netflix-uebernahme.js', 'netflix-stand.js', 'netflix-seitentreue.js', 'netflix-staffelzaehlung.js'] }))
+  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'titel-bindung.js', 'offene-netflix.js', 'netflix-zurueckgestellt.js', 'netflix-liste-ansicht.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-staffel.js', 'netflix-uebernahme.js', 'netflix-stand.js', 'netflix-seitentreue.js', 'netflix-staffelzaehlung.js'] }))
   if (liste) umgebung.AK_OFFENE_TITEL = liste
   let fehler = null
   try {
