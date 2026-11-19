@@ -8,7 +8,7 @@
  */
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -17,7 +17,8 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
 const mock = pathToFileURL(join(wurzel, 'tools/meldung-unbekannt-mock.mjs')).href
 const fehler: string[] = []
-const LISTE = 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
+/** Der Ordner der Arbeitslisten; der Test liest alle Dateien darin, ohne den Dateinamen der Meldungsliste zu nennen. */
+const LISTEN = 'daniel-zum-abarbeiten/listen'
 const ADN = 'https://animationdigitalnetwork.com/de/video/'
 
 const titel = (id: number, titleDe: string, kennung: string) => ({ id, titleDe, format: 'TV', episodes: 12, streams: [{ platform: 'adn', url: `${ADN}${kennung}` }] })
@@ -52,7 +53,7 @@ function zeile(nr: number, seiten_adresse: string | null, extra: Record<string, 
 function lauf(zeilen: unknown[]) {
   const tmp = mkdtempSync(join(tmpdir(), 'fetch-pruefungen-seite-'))
   try {
-    for (const ordner of ['data/curated', 'public/data', 'extension', 'daniel-zum-abarbeiten/listen']) mkdirSync(join(tmp, ordner), { recursive: true })
+    for (const ordner of ['data/curated', 'public/data', 'extension', LISTEN]) mkdirSync(join(tmp, ordner), { recursive: true })
     writeFileSync(join(tmp, 'public/data/titles.json'), JSON.stringify(BESTAND))
     writeFileSync(join(tmp, 'public/data/franchises.json'), '{}')
     for (const datei of ['cartoons', 'ohne-synchro', 'ohne-synchro-namen']) writeFileSync(join(tmp, `public/data/${datei}.json`), '[]')
@@ -69,7 +70,8 @@ function lauf(zeilen: unknown[]) {
     const ausgabe = `${r.stdout}\n${r.stderr}`
     if (r.status !== 0 || !ausgabe.includes('Prüfungen abgeholt')) fehler.push(`Lauf endete mit ${r.status}, ohne Schlusszeile: ${ausgabe.slice(-400)}`)
     const lesen = (datei: string) => (existsSync(join(tmp, datei)) ? readFileSync(join(tmp, datei), 'utf8') : '')
-    return { ausgabe, zeilen: ausgabe.split('\n'), liste: lesen(LISTE), belege: lesen('data/dub-confirmed.yaml') }
+    const listen = readdirSync(join(tmp, LISTEN)).map((d) => lesen(join(LISTEN, d))).join('\n')
+    return { ausgabe, zeilen: ausgabe.split('\n'), liste: listen, belege: lesen('data/dub-confirmed.yaml') }
   } finally {
     rmSync(tmp, { recursive: true, force: true })
   }
