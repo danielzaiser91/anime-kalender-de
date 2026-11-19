@@ -97,9 +97,15 @@ function befunde(quelltext) {
   const weg = new Map()
   const stapel = []
   for (const f of alleFunktionen) if (f !== haupt.block && f.range[0] < grenze) { weg.set(f, 'früh angemeldet' + (f.id ? ' > ' + f.id.name : '')); stapel.push(f) }
+  /* Eine erreichte Funktion kann in ihr verschachtelte Rückrufe anmelden: sie zählen mit. */
+  const kinder = new Map()
+  for (const g of alleFunktionen) {
+    const p = umgebendeFunktion(g)
+    if (p) kinder.set(p, [...(kinder.get(p) ?? []), g])
+  }
   while (stapel.length) {
     const f = stapel.pop()
-    for (const g of kanten.get(f) ?? []) if (!weg.has(g)) { weg.set(g, `${weg.get(f)} > ${g.id?.name ?? 'Funktion@' + g.loc.start.line}`); stapel.push(g) }
+    for (const g of [...(kanten.get(f) ?? []), ...(kinder.get(f) ?? [])]) if (!weg.has(g)) { weg.set(g, `${weg.get(f)} > ${g.id?.name ?? 'Funktion@' + g.loc.start.line}`); stapel.push(g) }
   }
   const zeilen = []
   for (const s of manager.scopes) {

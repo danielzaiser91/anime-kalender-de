@@ -184,6 +184,8 @@ const PFADE = [
   /* Prime-Durchgang läuft, die Seite wartet noch auf eine Kennung: Antwort eines Frames bzw. hängender Frame (18.11.2026). */
   { pfad: '/gp/video/storefront', suche: '', durchgang: 'nachricht' },
   { pfad: '/gp/video/storefront', suche: '', durchgang: 'haengt' },
+  /* Startseite, nach 60 s öffnet jemand einen Titel: die Geduldsfrist beginnt dann, nicht beim Skriptstart (Prüfer 4236 A1). */
+  { pfad: '/gp/video/storefront', suche: '', frist: true },
 ]
 /* Feste Uhr für die Durchgangs-Fälle: der hängende Frame wird über sie alt. */
 const uhr = { jetzt: 1_800_000_000_000 }
@@ -251,6 +253,23 @@ function pruefeDurchgang(art, { takte, nachrichtenHoerer, erzeugt, sitzung }) {
  * 09.09.2026 — „Death Note: Relight" ist ein Eintrag mit zwei Folgen, den Prime
  * als zwei Kauftitel mit eigenen Kennungen führt.
  */
+/**
+ * Während das Skript auf der Startseite wartet, vergehen 60 s; dann öffnet jemand einen Titel (die Adresse trägt
+ * eine Kennung, der nächste Takt beendet das Warten). `letzterFortschritt` muss dann frisch sein, sonst ist die
+ * Geduldsfrist des Knopfs sofort abgelaufen. Gelesen wird über die Zeichen-Welt, die erst nach dem Warten entsteht.
+ */
+function startFrist(sandkasten, nachDenAbrufen) {
+  const vor = uhr.jetzt
+  uhr.jetzt += 60_000
+  sandkasten.location.pathname = '/dp/B0FRISTTEST'
+  nachDenAbrufen.push(() => {
+    const wert = sandkasten.AK_ZEICHNEN_WELT?.letzterFortschritt
+    const ok = wert === uhr.jetzt
+    console.log(`  Frist: ${typeof wert !== 'number' ? 'FEHLER — Skript kam nicht über das Warten hinaus, der Fall misst nichts' : ok ? 'ok, letzterFortschritt nach dem Warten neu gesetzt' : `FALSCH, letzterFortschritt ${wert - vor} ms nach Skriptstart statt ${uhr.jetzt - vor}`}`)
+    if (!ok) fehlgeschlagen = true
+  })
+}
+
 function baueKarten(mach) {
   const karte = (titel, kennung) => {
     const k = mach()
@@ -289,7 +308,7 @@ function baueKarten(mach) {
   ]
 }
 
-for (const { pfad, suche, stand, leer, durchgang } of PFADE) {
+for (const { pfad, suche, stand, leer, durchgang, frist } of PFADE) {
   const { mach, body } = baueDom()
   /* Amazons eigener Satz auf einer leeren Suche — ohne ihn gilt sie als ungelesen. */
   if (leer) body.innerText = 'Für „Death Note Relight“ wurden keine Ergebnisse gefunden.'
@@ -442,7 +461,7 @@ for (const { pfad, suche, stand, leer, durchgang } of PFADE) {
     console,
     performance: { now: () => Date.now() },
     navigator: { clipboard: { writeText: () => Promise.resolve() } },
-    Date: durchgang ? UhrDatum : Date,
+    Date: durchgang || frist ? UhrDatum : Date,
     JSON,
     Math,
     Set,
@@ -480,6 +499,7 @@ for (const { pfad, suche, stand, leer, durchgang } of PFADE) {
     verschluckt.
   */
   let taktFehler = null
+  if (frist) startFrist(sandkasten, nachDenAbrufen)
   for (const fn of takte.slice(0, 3)) {
     try {
       const r = fn()
@@ -540,7 +560,7 @@ for (const { pfad, suche, stand, leer, durchgang } of PFADE) {
     der Knopf hatte keinen Platz (Daniel, 26.09.2026, mit Bild der Startseite). Die Prüfung
     zeigte „Kasten: FEHLT“ und blieb grün.
   */
-  if (pfad.startsWith('/gp/video/') && !kasten) {
+  if (pfad.startsWith('/gp/video/') && !kasten && !frist) {
     console.log('  ⚠ Auf der Prime-Video-Seite fehlt der Kasten — die Prüfliste ist nicht erreichbar.')
     fehlgeschlagen = true
   }

@@ -6248,6 +6248,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     // Die Adresse hat sich unterdessen geändert — die gemerkte Startadresse
     // stammt noch von der Seite, auf der wir angekommen sind.
     startAdresse = location.href || startAdresse
+    // Die Geduldsfrist beginnt mit dem Titel, nicht mit dem Skriptstart auf der Startseite.
+    letzterFortschritt = Date.now()
   }
 
   /**
@@ -6475,20 +6477,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * `amazon-leser.js`).
    */
   /**
-   * Muss **vor** dem Hörer stehen, nicht darunter.
-   *
-   * `let` hebt den Namen hoch, aber nicht den Wert: Ein Zugriff vor der Zeile
-   * wirft `ReferenceError`. Der Hörer kann sofort feuern — der Leser schickt
-   * seine erste Nachricht, während dieses Skript noch aufgebaut wird —, und
-   * dann bricht der Aufbau ab: kein Takt, kein Knopf, keine Reaktion auf einen
-   * Staffelwechsel.
-   *
-   * Genau dieselbe Falle steht weiter oben schon einmal beschrieben, für
-   * `dialog`. Zweimal dieselbe Ursache in einer Datei heißt: Wer hier eine
-   * Variable ergänzt, die ein Hörer benutzt, deklariert sie **darüber**.
-   */
-
-  /**
    * Was der Worker über gemeldete Titel weiß — die verlässliche Quelle.
    *
    * Geholt wird einmal je Seitenaufruf, im Hintergrund. Schlägt es fehl, bleibt
@@ -6703,7 +6691,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   })
 
   /**
-   * Wann die Zahl zuletzt gestiegen ist.
+   * `letzterFortschritt` (deklariert im Zustandsblock oben): wann die Zahl zuletzt gestiegen ist.
    *
    * `amazon-leser.js` holt die übrigen Abschnitte selbst nach — solange das
    * läuft, wäre „weitere Abschnitte öffnen" eine falsche Aufforderung. Bleibt

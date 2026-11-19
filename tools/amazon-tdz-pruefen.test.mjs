@@ -32,6 +32,8 @@ pruefe('späte Funktion nie früh erreicht: kein Fund', zahl(skript('  setTimeou
 pruefe('lokale Variable gleichen Namens verdeckt: kein Fund', zahl(skript('  setTimeout(() => { const spaet = 3; return spaet })', '  const spaet = 1')) === 0)
 pruefe('Initialisierung der späten Bindung selbst zählt nicht', zahl(skript('', '  const spaet = 1')) === 0)
 pruefe('Zeile und Weg stehen im Befund', /spaet \(Zeile 4\) benutzt in Zeile 5 \[früh angemeldet > innen\]/.test(befunde(skript('  setTimeout(() => innen())', '  const spaet = 1\n  function innen() { return spaet }'))[0] ?? ''))
+pruefe('früh erreichte späte Funktion meldet Rückruf mit später Bindung an: Fund', zahl(skript('  setTimeout(() => reg())', '  const spaet = 1\n  function reg() { window.addEventListener("m", () => spaet) }')) === 1)
+pruefe('früh erreichte späte Funktion, Rückruf ohne späte Bindung: kein Fund', zahl(skript('  setTimeout(() => reg())', '  const spaet = 1\n  function reg() { window.addEventListener("m", () => 1) }\n  function spaeter() { return spaet }\n  spaeter()')) === 0)
 
 /* Kein await im Skript: der Wächter wirft, statt still grün zu melden. */
 let geworfen = false

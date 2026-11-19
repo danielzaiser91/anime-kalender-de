@@ -2047,6 +2047,12 @@ Funktionsdeklarationen. Wächter: `node tools/amazon-tdz-pruefen.cjs` (statisch,
 try/catch-verschluckte Fälle) und der Durchgangs-Fall in `tools/amazon-startseite-pruefen.cjs`
 (Frame-Antwort und hängender Frame während des Wartens).
 
+Grenze des Wächters: Er prüft nur bis zum ersten top-level `await` der async-IIFE. Ein späteres `await`
+im Skript erzeugt kein zweites Fenster, das er beobachtet. Verschachtelte Rückrufe einer früh erreichten
+Funktion zählen mit; Zugriffe anderer Module über die `globalThis`-Getter (`AK_ZEICHNEN_WELT`, Z. ~7100)
+sind erst nach dem Warten möglich und deshalb nicht Gegenstand. Zustände mit Uhr-Wert (`letzterFortschritt`)
+werden nach dem Warten neu gesetzt, sonst beginnt ihre Frist beim Skriptstart.
+
 ## „▶ alle durchgehen" für Disney+ (4.24.0, 27.09.2026)
 
 `extension/disney-durchgang.js`, eigene Datei (disney.js lag schon über 800 Zeilen). Disney+ prüft
