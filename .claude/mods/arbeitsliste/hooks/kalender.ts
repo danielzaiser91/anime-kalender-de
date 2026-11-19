@@ -30,6 +30,15 @@ export function heuteBerlin(ms: number): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms))
 }
 
+// Berliner Uhrzeit „HH:MM“ zu einem Zeitpunkt.
+export function uhrzeitBerlin(ms: number): string {
+  return new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(ms))
+}
+
+// Vorbei ist ein Termin, dessen Uhrzeit heute schon verstrichen ist; ohne Uhrzeit nie.
+export const istVorbei = (z: KalenderZeile, datum: string, jetztMs: number): boolean =>
+  !!z.zeit && datum === heuteBerlin(jetztMs) && z.zeit < uhrzeitBerlin(jetztMs)
+
 // „62“ → „F62“, „62, 63“ → „F62–63“, getrennte Nummern bis drei einzeln, sonst „n Folgen“; ohne Nummern bei Batch „alle n Folgen“.
 export function folgenText(nummern: number[], batchAnzahl?: number): string {
   const n = [...new Set(nummern)].sort((a, b) => a - b)

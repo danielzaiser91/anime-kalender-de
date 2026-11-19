@@ -1,6 +1,6 @@
 import { test, expect } from 'claude-code/testing'
 
-import { anbieterName, folgenText, heuteBerlin, kalenderHeute, kalenderZeilenText, termineAusDatei, wocheDeckt } from './kalender'
+import { anbieterName, folgenText, heuteBerlin, istVorbei, kalenderHeute, kalenderZeilenText, termineAusDatei, uhrzeitBerlin, wocheDeckt } from './kalender'
 import type { KalenderTermin } from './kalender'
 import { EVENTS_DATEI, WOCHE_DATEI, ladeKalender } from './kalender-laden'
 import { PANE, STAND, kalenderWelt, starte, zeilen } from './testhilfe'
@@ -43,6 +43,17 @@ test('kalenderHeute: gleicher Titel bei zwei Sendern bleibt getrennt; timeEstima
     TAG
   )
   expect(z.map(kalenderZeilenText)).toEqual(['07:00 A · Y · F1', '≈08:00 A · X · F1', 'B · Netflix · alle 12 Folgen'])
+})
+
+test('istVorbei: verstrichene Uhrzeit des heutigen Berliner Tages; ohne Uhrzeit oder an anderem Tag nie', () => {
+  const z = (zeit: string | null) => ({ zeit, geschaetzt: false, name: 'A', anbieter: 'Netflix', folgen: 'F1' })
+  const jetzt = Date.parse('2026-11-19T16:30:00Z') // 17:30 in Berlin
+  expect(uhrzeitBerlin(jetzt)).toBe('17:30')
+  expect(istVorbei(z('17:10'), TAG, jetzt)).toBe(true)
+  expect(istVorbei(z('17:30'), TAG, jetzt)).toBe(false)
+  expect(istVorbei(z('18:00'), TAG, jetzt)).toBe(false)
+  expect(istVorbei(z(null), TAG, jetzt)).toBe(false)
+  expect(istVorbei(z('09:00'), '2026-11-20', jetzt)).toBe(false)
 })
 
 test('folgenText und anbieterName', () => {
@@ -132,14 +143,14 @@ test('Pane: „Kalender heute“ mit Anzahl, Zeilen, Einklappen; „Gerade in Ar
   const { p } = await paneMitKalender($, on, WOCHE(ECHT))
   const z = zeilen(await p.drawn())
   expect(z).toContain('▾ Kalender heute 7')
-  expect(z).toContain('  09:50 Super Wings · Super RTL · F62–63')
-  expect(z).toContain('  ≈18:50 ONE PIECE · ProSieben MAXX · F788')
+  expect(z).toEqual(expect.arrayContaining(['Super Wings', 'Super RTL · F62–63', '  09:50']))
+  expect(z).toEqual(expect.arrayContaining(['ONE PIECE', 'ProSieben MAXX · F788', ' ≈18:50']))
   expect(z.join('\n')).not.toContain('Gerade in Arbeit')
   expect(z.join('\n')).not.toContain('Naruto')
   await p.press({ key: 'bereich:kalender' })
   const zu = zeilen(await p.drawn())
   expect(zu).toContain('▸ Kalender heute 7')
-  expect(zu).not.toContain('  09:50 Super Wings · Super RTL · F62–63')
+  expect(zu).not.toContain('Super RTL · F62–63')
   await p.unmount()
 })
 
@@ -148,11 +159,11 @@ test('Pane: lange Liste ist gekürzt und klappt über „weitere“ aus; ohne Te
   const { p } = await paneMitKalender($, on, WOCHE(viele))
   let z = zeilen(await p.drawn())
   expect(z).toContain('▾ Kalender heute 9')
-  expect(z).toContain('  00:00 Titel 0 · Netflix · F1')
-  expect(z).not.toContain('  08:00 Titel 8 · Netflix · F1')
+  expect(z).toContain('Titel 0')
+  expect(z).not.toContain('Titel 8')
   await p.press({ key: 'mehr:kalender' })
   z = zeilen(await p.drawn())
-  expect(z).toContain('  08:00 Titel 8 · Netflix · F1')
+  expect(z).toContain('Titel 8')
   await p.unmount()
 })
 
@@ -173,6 +184,6 @@ test('Pane: Änderung der Datei und Tageswechsel erscheinen im Takt, ohne Neusta
   await uhr.advance(90_000)
   const z = zeilen(await p.drawn())
   expect(z).toContain('▾ Kalender heute 1')
-  expect(z).toContain('  08:00 Morgen · Netflix · F1')
+  expect(z).toEqual(expect.arrayContaining(['Morgen', 'Netflix · F1', '  08:00']))
   await p.unmount()
 })
