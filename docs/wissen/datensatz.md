@@ -1249,3 +1249,33 @@ Devils' Crest (`devils-crest-primevideo`) trug nur `observed: {1}`, obwohl der A
 `sammleBelege` (`bau/09-1-belege.ts`) setzte jedem Stream von Titel und Anbieter `dub: true`, sobald irgendein Termin dastand; 09-5-1 (MOTN) überspringt Streams mit Urteil, also gewann das Termin-Ja. Gemessen am Bestand 17.11.2026: 393 Streams mit `dub: true` ohne Handbeleg hatten einen passenden Termin (CR 286, ADN 93, Netflix 8, Disney+ 5, Prime 1), darunter Star Wars Visions (Termin nur aus einem Neuzugangsartikel) und neun begonnene, geschätzte CR-Termine.
 
 **Jetzt** (`terminBelegtTon`, `lib/ton-quelle.ts`): Der Termin belegt den Ton nur ohne Schätzung (`schedule.estimated`, auch begonnen) und mit einer Quelle, die die Sprachfassung führt: ADN-Kalender-Endpunkt (`gw.api…`, `vde`) oder Crunchyroll-Simulcastkalender bzw. Wochenartikel (ohne deutschen Eintrag dort wird der Termin verworfen, `05-releases.ts`). Eine CR-Serienseite, Neuzugangsartikel (anime2you), aniSearch, Anbieterseiten und MOTN-Termine belegen den Termin, nicht den Ton. `terminBelegtNichts` bleibt unverändert (`kanalFehler` fragt nur nach dem Termin). Wo MOTN (09-5-1), CR-Katalog/`slotBelegt` oder ein Handbeleg den Ton deckt, kommt das Ja über diesen Weg zurück; die Verlustliste steht im PR. Test: `pipeline/check-termin-ton.ts`, Mutanten `tools/mutationen/termin-ton.json`.
+
+## Gründe ohne Weg messen: `tools/ohne-weg-gruende.ts` (19.11.2026)
+
+Auftrag `gruende-ohne-weg-messen` (Hauptziel Volle Daten, F145: bis 25.11. hat jeder Titel einen Streaming-Weg oder einen belegten Grund). Das Werkzeug ruft `baueOhneWeg()` mit heutigem Datum auf `public/data` + `data/` auf (`ladeOhneWegEingabe()` in `bau/13-13-ohne-weg.ts`, dieselbe Eingabe wie der Bau) und liest nur.
+
+```bash
+npx tsx tools/ohne-weg-gruende.ts                    # Zahl je Grund, Summe, „offen“ nach Ursache, Bau-Logzeile
+npx tsx tools/ohne-weg-gruende.ts --json             # dasselbe für Maschinen
+npx tsx tools/ohne-weg-gruende.ts --grund nur-disc   # Kennung<TAB>Name; auch --grund offen/jw-mehrdeutig
+npx tsx tools/ohne-weg-gruende.ts --heute 2026-11-19 # Stichtag festlegen
+```
+
+Gründe (`reason`, Regeln in `lib/ohne-weg.ts`): `angekuendigt` (Start in der Zukunft), `kein-dub` (Handbeleg „nur Originalton“), `nur-kauf` / `film-ohne-abo` / `abo-ohne-ton` (gültiger JustWatch-Befund), `nur-disc` (Disc erschienen, JustWatch fand keinen Stream), `offen` (kein Beleg).
+
+Ursachen von `offen` (`lib/ohne-weg-offen.ts`, spiegelt die Reihenfolge von `grundVon`; nur Messung, der Bau liest sie nicht):
+
+| Ursache | Bedeutung |
+|---|---|
+| `handbeleg-deutsch` | Handbeleg sagt deutsch, aber kein Stream-Weg im Bestand |
+| `jw-kein-befund` | JustWatch-Eintrag fehlt ganz |
+| `jw-kein-treffer` | `ohneTreffer`, jünger als 28 Tage, ohne erschienene Disc: wirklich kein Treffer |
+| `jw-mehrdeutig` | `ohneTreffer` mit `namenTreffer` (nur ein Namensvetter, bewusst nicht zugeordnet) |
+| `jw-fremd` | Treffer vorhanden, aber die `jwId` gehört auch einer zweiten TMDB-Reihe (`geteilteJwKennungen`) |
+| `jw-verfehlt` | Befund trägt `verfehltAm` |
+| `jw-abgelaufen` | Befund (mit oder ohne Treffer) ist ≥ 28 Tage alt (`BEFUND_MAX_TAGE`): kommt mit dem JustWatch-Wochenlauf zurück |
+| `jw-gilt-*` | Befund gilt, trägt aber keinen Grund: ohne Angebot (Serie; mit erschienener Disc wäre es `nur-disc`), Abo mit deutschem Ton, Abo ohne Tonangabe (Kino und Kauf zählen nicht mit), sonst |
+
+Die Ursachen sind der Bau-Regel von Hand nachgebaut (Doppelpflege); `pipeline/check-ohne-weg-ursachen.ts` hält Grenztag (28/27 Tage), Reihenfolge und Randfälle fest und startet das Werkzeug als Prozess.
+
+**Zahlen 19.11.2026:** Mit der `justwatch-audio.json` vom Bestandsbau 09:15 (Stand `7672309c`) liefert das Werkzeug exakt `public/data/ohne-weg.json` (1.057 Titel, `offen` 569, `nur-disc` 343, `nur-kauf` 76, `kein-dub` 42, `film-ohne-abo` 25, `abo-ohne-ton` 1, `angekuendigt` 1). Mit dem Lauf auf Abruf `data:justwatch` von 09:47 (`8a949295`) steht `offen` bei 418: Der Bau von 09:15 kannte diese Befunde noch nicht, der nächste Bestandsbau gleicht an. **Die Bau-Logzeile und das Werkzeug stimmen nur bei gleichem Stand der Eingabedateien überein.** Erst messen, dann die Frage „wie viele Titel fehlt ein Beleg“ beantworten: Ein Großteil von `offen` ist `jw-kein-treffer` und `jw-mehrdeutig`, also eine Zuordnungsfrage, kein Fehlen des Weges.
