@@ -5639,8 +5639,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
         Briefkasten wieder abgefragt ist; „4 offen" wirkte deshalb hängend (26.09.2026).
         Die Pille bleibt kurz, Grund der Pause und Zahlen stehen im Tooltip (13.10.2026).
       */
-      const gesamt = Math.max(lauf.titelGesamt ?? 0, lauf.fertig.length + (lauf.titel ? 1 : 0))
-      const nr = Math.min(lauf.fertig.length + 1, gesamt)
+      const { nr, gesamt } = globalThis.akPrimeFortschritt(lauf)
       const grundPause = globalThis.AK_TAGESLIMIT?.text()
       setz(uebersichtKnopf, 'textContent', `${grundPause ? '⏸' : '⏹'} ${nr}/${gesamt}`)
       setz(uebersichtKnopf, 'title', `${grundPause ? `${grundPause} · ` : ''}Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet. Liste öffnen — dort lässt sich der Durchgang beenden`)
@@ -5851,6 +5850,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (ende) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-hinweis ak-durchgang-ende'
+      zeile.style.whiteSpace = 'pre-line'
       zeile.textContent = akPrimeEndeText(ende)
       kasten.appendChild(zeile)
     }
@@ -8873,7 +8873,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       fertig: [],
       uebersprungen: [],
       spur: [],
-      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length,
+      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length + suchOffen().length,
       seiten: 0,
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
@@ -8901,7 +8901,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       sessionStorage.removeItem(PRIME_LAUF)
       sessionStorage.setItem(
         PRIME_LAUF_ENDE,
-        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, suchen: suchOffen().length, spur: lauf.spur }),
+        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, suchen: suchOffen().length, erledigt: lauf.fertig.length, seiten: lauf.seiten, spur: lauf.spur }),
       )
     } catch {
       /* Ohne Speicher endet er trotzdem — der Takt findet keinen Lauf mehr. */
@@ -9042,7 +9042,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     const grenze = lauf.planBekannt && !lauf.suche ? PRIME_FRAMES : 1
     while (primeFrames.size < grenze && lauf.plan.length) primeFrameOeffnen(lauf, lauf.plan.shift())
     if (!primeFrames.size && !lauf.plan.length) {
-      if (!lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
+      if (!lauf.suche && !lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
       lauf.titel = null
       lauf.suche = null
       primeLaufSchreiben(lauf)
