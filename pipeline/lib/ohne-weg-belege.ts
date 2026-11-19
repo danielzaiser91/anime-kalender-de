@@ -1,5 +1,5 @@
 /**
- * Die Belege der Gründe `abo-ohne-ton` und `nur-disc` in `ohne-weg.ts` (19.11.2026): reine Funktionen über einen JustWatch-Befund,
+ * Die Belege der Gründe `abo-ohne-ton`, `nur-disc` und `kein-angebot` in `ohne-weg.ts` (19.11.2026): reine Funktionen über einen JustWatch-Befund,
  * die Disc-Ausgaben (`data/disc-ausgaben.json`) und die Termine eines Titels.
  */
 import { BEFUND_MAX_TAGE, type JwBefund } from './jw-vertrauen.ts'
@@ -25,6 +25,15 @@ export function aboOhneDeutsch(b: JwBefund): boolean {
 export function discErschienen(ausgaben: readonly { datum?: string }[], termine: readonly { platform: string; date: string }[], heute: string): boolean {
   const vorbei = (tag: string | undefined) => !!tag && VOLLER_TAG.test(tag) && tag <= heute
   return ausgaben.some((a) => vorbei(a.datum)) || termine.some((e) => e.platform === 'disc' && vorbei(e.date))
+}
+
+/**
+ * Der frische JustWatch-Befund, der den Titel nicht gefunden hat (`ohneTreffer`, Ursache `jw-kein-treffer`): Beleg für „kein Angebot gefunden“, nicht für „gibt es nicht“.
+ * Ein gleichnamiger Kandidat mit anderer Kennung (`namenTreffer.gleicherName`) ist eine Zuordnungsfrage und trägt nichts; ein verfehlter oder ab `BEFUND_MAX_TAGE` alter Befund auch nicht.
+ */
+export function jwKeinTreffer(b: JwBefund | undefined, heute: string): b is JwBefund {
+  if (!b?.ohneTreffer || b.verfehltAm || b.namenTreffer?.gleicherName || !ISO_TAG.test(b.geprueftAm)) return false
+  return (Date.parse(heute) - Date.parse(b.geprueftAm)) / 86_400_000 < BEFUND_MAX_TAGE
 }
 
 /**

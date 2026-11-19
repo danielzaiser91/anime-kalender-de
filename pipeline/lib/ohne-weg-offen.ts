@@ -39,7 +39,7 @@ export function offenUrsache(
   const b = eingabe.justwatch[t.id]
   if (!b) return 'jw-kein-befund'
   const alt = tage(eingabe.heute, b.geprueftAm) >= BEFUND_MAX_TAGE
-  if (b.ohneTreffer) return b.namenTreffer?.gleicherName ? 'jw-mehrdeutig' : alt ? 'jw-abgelaufen' : 'jw-kein-treffer'
+  if (b.ohneTreffer) return b.verfehltAm ? 'jw-verfehlt' : b.namenTreffer?.gleicherName ? 'jw-mehrdeutig' : alt ? 'jw-abgelaufen' : 'jw-kein-treffer'
   if (b.verfehltAm) return 'jw-verfehlt'
   if (b.jwId && e.geteilt.has(b.jwId)) return 'jw-fremd'
   if (alt) return 'jw-abgelaufen'

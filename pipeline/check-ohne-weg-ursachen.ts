@@ -35,7 +35,7 @@ const faelle: Record<number, [string, string | undefined]> = {
   6: ['nur-disc', undefined],
   7: ['offen', 'handbeleg-deutsch'],
   8: ['offen', 'jw-kein-befund'],
-  9: ['offen', 'jw-kein-treffer'],
+  9: ['kein-angebot', undefined],
   10: ['offen', 'jw-mehrdeutig'],
   11: ['offen', 'jw-fremd'],
   12: ['offen', 'jw-verfehlt'],
@@ -55,14 +55,25 @@ const faelle: Record<number, [string, string | undefined]> = {
   24: ['offen', 'jw-mehrdeutig'],
   /* Wie 15, aber mit erschienener Disc: der Disc-Mangel ist der Unterschied zwischen offen und nur-disc. */
   25: ['nur-disc', undefined],
-  /* Namenstreffer ohne gleichen Namen ist Suchrauschen: frisch = kein-treffer, alt = abgelaufen (nur gleicherName: true ist mehrdeutig). */
-  26: ['offen', 'jw-kein-treffer'],
+  /* Namenstreffer ohne gleichen Namen ist Suchrauschen: frisch = kein-angebot, alt = abgelaufen (nur gleicherName: true ist mehrdeutig). */
+  26: ['kein-angebot', undefined],
   27: ['offen', 'jw-abgelaufen'],
+  /* kein-angebot (19.11.2026): frischer ohneTreffer. Ohne gültigen Prüftag bleibt der Rest `jw-kein-treffer` (nur dieser Weg, sonst gibt es die Ursache nicht mehr). */
+  28: ['offen', 'jw-kein-treffer'],
+  /* ohneTreffer und zugleich verfehlt: verfehlt, nie kein-angebot. */
+  29: ['offen', 'jw-verfehlt'],
+  /* Handbeleg „deutsch“ geht vor kein-angebot. */
+  30: ['offen', 'handbeleg-deutsch'],
+  /* Letzter Tag, an dem ohneTreffer noch gilt (27 Tage) und der erste, an dem nicht (28). */
+  31: ['kein-angebot', undefined],
+  32: ['offen', 'jw-abgelaufen'],
+  /* Disc erschienen und ohneTreffer: nur-disc geht vor kein-angebot. */
+  33: ['nur-disc', undefined],
 }
 const eingabe: OhneWegEingabe = {
   titel: Object.keys(faelle).map((k) => titel(Number(k), Number(k) === 4 ? 'MOVIE' : 'TV')),
   termine: [{ titleId: 1, platform: 'netflix', date: '2999-01-01' }],
-  handbelege: [check(2, 'prime', { dub: false }), check(7, 'prime', { dub: true })],
+  handbelege: [check(2, 'prime', { dub: false }), check(7, 'prime', { dub: true }), check(30, 'prime', { dub: true })],
   justwatch: {
     3: befund('k3', 3, [{ art: 'RENT' }]),
     4: befund('k4', 4, []),
@@ -88,8 +99,14 @@ const eingabe: OhneWegEingabe = {
     25: befund('k25', 25, []),
     26: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x', gleicherName: false } }),
     27: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x', gleicherName: false }, geprueftAm: '2026-10-01' }),
+    28: befund(undefined, 0, [], { ohneTreffer: true, geprueftAm: '' }),
+    29: befund(undefined, 0, [], { ohneTreffer: true, verfehltAm: '2026-11-10' }),
+    30: befund(undefined, 0, [], { ohneTreffer: true }),
+    31: befund(undefined, 0, [], { ohneTreffer: true, geprueftAm: '2026-10-23' }),
+    32: befund(undefined, 0, [], { ohneTreffer: true, geprueftAm: '2026-10-22' }),
+    33: befund(undefined, 0, [], { ohneTreffer: true }),
   },
-  discAusgaben: { 6: [{ datum: '2020-01-01' }], 25: [{ datum: '2020-01-01' }] },
+  discAusgaben: { 6: [{ datum: '2020-01-01' }], 25: [{ datum: '2020-01-01' }], 33: [{ datum: '2020-01-01' }] },
   heute: HEUTE,
 }
 
