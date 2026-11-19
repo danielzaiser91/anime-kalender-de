@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-19T20:01:43.351Z",
+  "scrapedAt": "2026-11-19T21:01:51.036Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 11,
+    "schon in einem Rubrik-Feed gelesen": 12,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 6,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 5,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -184,6 +184,23 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll kündigt zwei neue Simulcasts für Winter 2027 an",
+      "articleUrl": "https://www.anime2you.de/news/1073585/crunchyroll-spice-and-wolf-und-mehr/",
+      "publishedAt": "2026-11-19",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "gen. Wir fassen die Details zusammen. Zwei Fortsetzungen im Simulcast Im Januar 2027 geht die Fantasy-Serie »Spice & Wolf: Merchant Meets th"
+        }
+      ],
+      "dub": "nein",
       "alreadyCurated": false
     },
     {
