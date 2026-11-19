@@ -92,6 +92,9 @@ const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
 const SITZUNG = 'eigene-sitzung'
 const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.claude/autonomer-modus-bis.txt']
 
+// Inhalt von woche.json und Stand (mtime) für „Kalender heute“; leer = Datei fehlt. `starte` setzt beides zurück.
+export const kalenderWelt = { woche: '', mtime: 1 }
+
 // `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
 export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false, ziele = '') {
   const uhr = mock.clock(on)
@@ -102,11 +105,14 @@ export function starte(on: On, marker: string | null, status: (string | undefine
   agentenWelt.liste = fakeAgenten(agenten, pruefer)
   haengeAgentenListe(on)
   if (engine) on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
+  Object.assign(kalenderWelt, { woche: '', mtime: 1 })
+  on('fs.stat', (_$, e) => (e.path.endsWith('woche.json') && kalenderWelt.woche ? ({ value: { kind: 'file', size: kalenderWelt.woche.length, mtimeMs: kalenderWelt.mtime, isLink: false } } as never) : ({ deny: 'fehlt' } as never)))
   on('fs.read', ($, e) => {
     // Der Pfad kommt mit Rückwärtsschrägstrichen an (Windows).
     // Unter Linux (PR-Kette) steht vor „C:/…“ womöglich das Arbeitsverzeichnis: alles vor „C:/“ weg.
     const pfad = e.path.replace(/\\/g, '/').replace(/^.*?(?=C:\/)/, '')
     if (pfad.endsWith('stand.md')) return { value: stand } as never
+    if (kalenderWelt.woche && pfad.endsWith('woche.json')) return { value: kalenderWelt.woche } as never
     if (ziele && pfad.endsWith('ziele.md')) return { value: ziele } as never
     if (marker !== null && pfad === `${MARKER_ORDNER}/${SITZUNG}.txt`) return { value: marker } as never
     if (FREMDE_MARKER.includes(pfad)) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never

@@ -1,11 +1,9 @@
-// Ziele-Kasten (Daniel, 08.11.2026): Meilensteine aus `daniel-zum-abarbeiten/ziele.md` und „Gerade in Arbeit“ aus den Kennzeichen von stand.md.
+// Ziele-Kasten (Daniel, 08.11.2026): Meilensteine aus `daniel-zum-abarbeiten/ziele.md` aus `daniel-zum-abarbeiten/ziele.md`.
 // ziele.md: `## <Zielname>`, darunter `- [erreicht|in Arbeit|offen] Meilenstein — [Beleg](…)`; die Reihenfolge ist die Reihenfolge der Meilensteine.
-import { auswerten } from './stand-kennzeichen.mjs'
 import type { ZielStand } from '../types'
 export type { ZielStand }
 
 const BALKEN = 10
-const MAX_GERADE = 5
 const MEILENSTEIN = /^- \[(erreicht|in Arbeit|offen)\]\s+(.+?)(?:\s+—\s+.*)?$/
 
 // Meilenstein ohne Beleg-Knöpfe und Fettdruck; „nächster“ ist der erste nicht erreichte.
@@ -33,9 +31,3 @@ export const zielZeile = (z: ZielStand): string => `${balken(z)} ${z.erreicht} v
 
 // Ziel zu einer Kastenzeile „Ziel 1 · Autonomie“: der Zielname kommt im Titel vor.
 export const zielZu = (titel: string, ziele: ZielStand[]): ZielStand | undefined => ziele.find(z => titel.includes(z.name))
-
-// Titel der laufenden Punkte (In Arbeit ohne „wartet“) in Rangfolge, höchstens fünf; `mehr` = was darüber hinaus läuft.
-export function geradeInArbeit(text: string, jetzt: number): { titel: string[]; mehr: number } {
-  const alle = auswerten(text, jetzt).laufend.map(e => e.titel)
-  return { titel: alle.slice(0, MAX_GERADE), mehr: Math.max(0, alle.length - MAX_GERADE) }
-}
