@@ -49,6 +49,7 @@ import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
+import { darfNachfragen, nachfrageUeberPfad } from './lib/jw-nachfrage.ts'
 import { abrufAlterTage } from './lib/jw-vertrauen.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
 import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
@@ -123,7 +124,7 @@ query Suche($q: String!, $country: Country!, $language: Language!) {
   }
 }`
 
-interface JwKnoten {
+export interface JwKnoten {
   id: string
   objectType: string
   content: { title: string; originalReleaseYear?: number | null; fullPath: string; ageCertification?: string | null; externalIds?: { tmdbId?: number | null } | null }
@@ -193,6 +194,14 @@ async function sucheUeberNamen(t: Title, erwartet: number | string, w: Welt): Pr
   return { naeherung: besterNamensTreffer(namen, alle, erwartet) }
 }
 
+/** Findet die Namenssuche den Titel nicht, fragt der Lauf einmal über den gespeicherten Pfad nach (`lib/jw-nachfrage.ts`). */
+async function sucheOderNachfrage(t: Title, erwartet: number, vorher: Befund | undefined, w: Welt): Promise<{ treffer?: JwKnoten; naeherung?: NamensTreffer }> {
+  const gesucht = await sucheUeberNamen(t, erwartet, w)
+  if (gesucht.treffer || !darfNachfragen(vorher, erwartet)) return gesucht
+  await w.pause()
+  return { ...gesucht, treffer: await nachfrageUeberPfad(vorher.jwPfad, erwartet, w.abruf, ENDPUNKT, UA) }
+}
+
 /** Titel mit frischem Kino- oder Disc-Termin aus den veröffentlichten Terminen (`jw-frische.ts`). */
 function frischeAusTermine(): Set<number> {
   return ladeFrische('public/data/releases.json', todayIso())
@@ -206,7 +215,9 @@ function frischeAusTermine(): Set<number> {
  */
 function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string, erwartet: number | undefined, naeherung?: NamensTreffer): boolean {
   const vorher = bestand[schluessel]
-  if (vorher && !vorher.ohneTreffer && vorher.jwId) {
+  /* Ein Befund mit fremder TMDB-Kennung (Magister Negi Magi: 16950 statt 8859) gehört einem anderen Titel und bleibt nicht stehen. */
+  const kennungFremd = erwartet !== undefined && vorher?.tmdbId !== undefined && Number(vorher.tmdbId) !== erwartet
+  if (vorher && !vorher.ohneTreffer && vorher.jwId && !kennungFremd) {
     bestand[schluessel] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
     return true
   }
@@ -355,7 +366,7 @@ async function frageOffene(offen: Title[], limit: number, tmdb: Record<string, {
         sauber „0 zugeordnet, 0 Fehler" — der erste Probelauf am 07.09.2026 tat
         genau das, an fünf Titeln, deren Treffer JustWatch alle kannte.
       */
-      const { treffer: gefunden, naeherung } = erwartet ? await sucheUeberNamen(t, erwartet, w) : { treffer: undefined, naeherung: undefined }
+      const { treffer: gefunden, naeherung } = erwartet ? await sucheOderNachfrage(t, erwartet, bestand[String(t.id)], w) : { treffer: undefined, naeherung: undefined }
       /* Eine Kennung, die schon eine andere TMDB-Reihe hält, ist ein Fehlgriff von JustWatch (Spin-off auf Hauptserie). */
       const { treffer, halter } = nimmTreffer(bestand, String(t.id), gefunden, erwartet)
       if (halter) z.abgewiesen.push(`${t.titleDe || t.titleRomaji || t.titleEn} (${t.id}, Halter ${halter})`)
