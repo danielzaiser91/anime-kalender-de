@@ -20,7 +20,6 @@ export const OFFEN_URSACHEN = [
   'jw-fremd',
   'jw-verfehlt',
   'jw-abgelaufen',
-  'jw-gilt-ohne-angebot',
   'jw-gilt-abo-mit-deutsch',
   'jw-gilt-abo-ton-unbekannt',
   'jw-gilt-sonst',
@@ -44,7 +43,6 @@ export function offenUrsache(
   if (b.jwId && e.geteilt.has(b.jwId)) return 'jw-fremd'
   if (alt) return 'jw-abgelaufen'
   const abo = alleAngebote(b).filter((a) => a.art !== 'BUY' && a.art !== 'RENT' && a.art !== 'CINEMA')
-  if (!alleAngebote(b).length) return 'jw-gilt-ohne-angebot'
   if (abo.some((a) => a.audio?.includes('de'))) return 'jw-gilt-abo-mit-deutsch'
   if (abo.some((a) => !(a.audio ?? []).length)) return 'jw-gilt-abo-ton-unbekannt'
   return 'jw-gilt-sonst'

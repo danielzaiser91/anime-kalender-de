@@ -13,7 +13,7 @@ import type { Title } from '../../shared/types.ts'
 import { dubKey, neinHandbelege, urteilVon, type DubCheck } from './dub-confirmed.ts'
 import { geteilteJwKennungen } from './jw-kennung-fremd.ts'
 import { BEFUND_MAX_TAGE, type JwBefund } from './jw-vertrauen.ts'
-import { befundGilt } from './jw-seite.ts'
+import { alleAngebote, befundGilt } from './jw-seite.ts'
 import { aboOhneDeutsch, discErschienen, jwKeinTreffer, jwOhneStream, KAUF } from './ohne-weg-belege.ts'
 
 type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil' | 'checkedAt'>
@@ -83,7 +83,8 @@ function grundVon(
   if (handbelegJa) return { reason: 'offen' }
   if (jw && aboOhneDeutsch(jw)) return { reason: 'abo-ohne-ton', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jwOhneStream(e.roh, e.geteilt, e.heute) && discErschienen(e.ausgaben, e.termine, e.heute)) return { reason: 'nur-disc', checkedAt: e.roh.geprueftAm, source: 'disc' }
-  /* Schwächer als jede Disc und jeder Befund mit Angebot: JustWatch kennt den Titel nicht, das heißt „nichts gefunden“. */
+  /* Schwächer als jede Disc und jeder Befund mit Angebot: JustWatch kennt den Titel nicht (`ohneTreffer`) oder führt ihn ohne jedes Angebot (auch ohne Staffel-Angebote), das heißt „nichts gefunden“. */
+  if (jw && !jw.namenTreffer && !alleAngebote(jw).length) return { reason: 'kein-angebot', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jwKeinTreffer(e.roh, e.heute)) return { reason: 'kein-angebot', checkedAt: e.roh.geprueftAm, source: 'justwatch' }
   return { reason: 'offen' }
 }

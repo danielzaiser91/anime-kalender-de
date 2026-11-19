@@ -41,7 +41,8 @@ const faelle: Record<number, [string, string | undefined]> = {
   12: ['offen', 'jw-verfehlt'],
   13: ['offen', 'jw-abgelaufen'],
   14: ['offen', 'jw-abgelaufen'],
-  15: ['offen', 'jw-gilt-ohne-angebot'],
+  /* Gefundener Titel ohne jedes Angebot (19.11.2026: 23 Serien standen als offen): kein-angebot, die Ursache `jw-gilt-ohne-angebot` gibt es nicht mehr. */
+  15: ['kein-angebot', undefined],
   16: ['offen', 'jw-gilt-abo-mit-deutsch'],
   17: ['offen', 'jw-gilt-abo-ton-unbekannt'],
   18: ['offen', 'jw-gilt-sonst'],
