@@ -130,7 +130,9 @@ try {
   pruefe('ersetztBeleg: weniger Folgen am selben Tag ersetzt nicht', !ersetztBeleg(ja('B0A', 8), ja('B0B', 7)))
   pruefe('ersetztBeleg: genau eine Folge mehr ersetzt', ersetztBeleg(ja('B0A', 7), ja('B0B', 8)))
   pruefe('ersetztBeleg: gleich viele ersetzt (spätere Zeile)', ersetztBeleg(ja('B0A', 7), ja('B0B', 7)))
-  pruefe('ersetztBeleg: anderes Datum ersetzt immer', ersetztBeleg(ja('B0A', 9, '2026-10-17'), ja('B0B', 2)))
+  pruefe('ersetztBeleg: jüngeres Datum ersetzt, auch mit weniger Folgen', ersetztBeleg(ja('B0A', 9), ja('B0B', 2, '2026-10-17')))
+  /* Shana 355: der Beleg vom 19.11. steht vor der Nein-Zeile vom 31.10.; die spätere Zeile darf ihn nicht verdrängen. */
+  pruefe('ersetztBeleg: älteres Datum ersetzt nie, auch als spätere Zeile', !ersetztBeleg(ja('B0A', 2, '2026-11-19'), { ...ja('B0B', 9, '2026-10-31'), dub: undefined, available: false }))
   const paar = [ja('B0A', 7), ja('B0B', 8)]
   pruefe('istSchwaechereSchwester: weniger Folgen, gleiches Datum', istSchwaechereSchwester(paar, AMAZON + 'B0B', AMAZON + 'B0A'))
   pruefe('istSchwaechereSchwester: die stärkere ist es nicht', !istSchwaechereSchwester(paar, AMAZON + 'B0A', AMAZON + 'B0B'))

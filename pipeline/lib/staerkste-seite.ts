@@ -20,10 +20,11 @@ export function vergleicheBelege(a: DubCheck, b: DubCheck): number {
   return nachDatum || Number(istKanalTitel(a)) - Number(istKanalTitel(b)) || gepruefteFolgen(b) - gepruefteFolgen(a)
 }
 
-/** Beim Ablegen je Titel und Plattform: Bei gleichem Datum ersetzt eine Seite mit weniger geprüften Folgen die bisherige nicht, solange beide zur selben Ausgabe (Kanal oder Abo) gehören (Gleichstand oder fehlende Zahl: die spätere Zeile, wie zuvor). */
+/** Beim Ablegen je Titel und Plattform: Ein älteres Datum ersetzt nie ein jüngeres (Shana 355, 19.11.2026). Bei gleichem Datum ersetzt eine Seite mit weniger geprüften Folgen die bisherige nicht, solange beide zur selben Ausgabe (Kanal oder Abo) gehören (Gleichstand oder fehlende Zahl: die spätere Zeile, wie zuvor). */
 export function ersetztBeleg(bisher: DubCheck | undefined, neu: DubCheck): boolean {
   if (!bisher) return true
-  if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true
+  const nachDatum = (neu.checkedAt ?? '').localeCompare(bisher.checkedAt ?? '')
+  if (nachDatum) return nachDatum > 0
   if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true
   const alt = gepruefteFolgen(bisher)
   const jetzt = gepruefteFolgen(neu)
