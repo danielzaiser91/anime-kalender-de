@@ -14,18 +14,21 @@ import { dubKey, neinHandbelege, urteilVon, type DubCheck } from './dub-confirme
 import { geteilteJwKennungen } from './jw-kennung-fremd.ts'
 import { BEFUND_MAX_TAGE, type JwBefund } from './jw-vertrauen.ts'
 import { alleAngebote, befundGilt } from './jw-seite.ts'
+import { aboAndereStaffel } from './ohne-weg-staffel.ts'
 import { aboOhneDeutsch, discErschienen, jwKeinTreffer, jwOhneStream, KAUF } from './ohne-weg-belege.ts'
 
 type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil' | 'checkedAt'>
 type Termin = { titleId: number; platform: string; date: string }
 
 export interface OhneWegEingabe {
-  titel: Pick<Title, 'id' | 'format' | 'streams' | 'watchLinks'>[]
+  titel: Pick<Title, 'id' | 'format' | 'streams' | 'watchLinks' | 'franchiseId'>[]
   termine: Termin[]
   handbelege: Handbeleg[]
   justwatch: Record<string, JwBefund>
   /** Die deutschen Disc-Ausgaben je Titel (`data/disc-ausgaben.json`, aniSearch); nur das Datum zählt hier. */
   discAusgaben: Record<string, { datum?: string }[]>
+  /** Die Staffelnummer je Titel in seiner Reihe (`staffelDesTitels`); fehlt sie, gibt es keinen Grund `abo-andere-staffel`. */
+  staffelNr?: Record<number, number | undefined>
   heute: string
 }
 
@@ -68,7 +71,7 @@ function jeKennung<T>(liste: readonly T[], id: (x: T) => number): Map<number, T[
 /** Der Grund eines einzelnen Titels ohne Weg. */
 function grundVon(
   t: OhneWegEingabe['titel'][number],
-  e: { termine: Termin[]; checks: Handbeleg[]; roh: JwBefund | undefined; geteilt: ReadonlySet<string>; ausgaben: { datum?: string }[]; heute: string },
+  e: { termine: Termin[]; checks: Handbeleg[]; roh: JwBefund | undefined; geteilt: ReadonlySet<string>; ausgaben: { datum?: string }[]; heute: string; staffelNr?: number; geschwisterMitWeg?: boolean },
 ): OhneWegEintrag {
   const ab = ersterStart(e.termine, e.heute)
   if (ab) return { reason: 'angekuendigt', ab, source: 'termin' }
@@ -82,6 +85,7 @@ function grundVon(
   if (jw && !angebote.length && t.format === 'MOVIE') return { reason: 'film-ohne-abo', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (handbelegJa) return { reason: 'offen' }
   if (jw && aboOhneDeutsch(jw)) return { reason: 'abo-ohne-ton', checkedAt: jw.geprueftAm, source: 'justwatch' }
+  if (jw && aboAndereStaffel(jw, e.staffelNr, !!e.geschwisterMitWeg)) return { reason: 'abo-andere-staffel', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jwOhneStream(e.roh, e.geteilt, e.heute) && discErschienen(e.ausgaben, e.termine, e.heute)) return { reason: 'nur-disc', checkedAt: e.roh.geprueftAm, source: 'disc' }
   /* Schwächer als jede Disc und jeder Befund mit Angebot: JustWatch kennt den Titel nicht (`ohneTreffer`) oder führt ihn ohne jedes Angebot (auch ohne Staffel-Angebote), das heißt „nichts gefunden“. */
   if (jw && !jw.namenTreffer && !alleAngebote(jw).length) return { reason: 'kein-angebot', checkedAt: jw.geprueftAm, source: 'justwatch' }
@@ -94,6 +98,8 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
   const termine = jeKennung(eingabe.termine, (x) => x.titleId)
   const checks = jeKennung(eingabe.handbelege, (x) => x.anilistId)
   const geteilt = new Set(geteilteJwKennungen(eingabe.justwatch).keys())
+  /* Reihen, in denen ein Titel einen Streaming-Weg trägt; der Titel selbst hat keinen (sonst käme er hier nicht an). */
+  const reihenMitWeg = new Set(eingabe.titel.filter((t) => t.franchiseId !== undefined && !ohneStreamingWeg(t)).map((t) => t.franchiseId))
   const aus: Record<number, OhneWegEintrag> = {}
   for (const t of eingabe.titel) {
     if (!ohneStreamingWeg(t)) continue
@@ -104,6 +110,8 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
       geteilt,
       ausgaben: eingabe.discAusgaben[t.id] ?? [],
       heute: eingabe.heute,
+      staffelNr: eingabe.staffelNr?.[t.id],
+      geschwisterMitWeg: reihenMitWeg.has(t.franchiseId),
     })
   }
   return aus

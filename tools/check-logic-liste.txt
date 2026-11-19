@@ -483,6 +483,7 @@ pipeline/check-ohne-weg-andere-werke.ts
 pipeline/check-ohne-weg-disc-abo.ts
 pipeline/check-ohne-weg-lauf.ts
 pipeline/check-ohne-weg-panel.ts
+pipeline/check-ohne-weg-staffel.ts
 pipeline/check-ohne-weg-ursachen.ts
 pipeline/check-ohne-weg.ts
 pipeline/check-omu-ohne-termin.ts
