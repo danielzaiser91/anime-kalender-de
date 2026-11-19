@@ -22,17 +22,22 @@ export function zaehleGruende(e: Record<number, { reason: string }>): string {
   return [...n].sort().map(([g, z]) => `${g} ${z}`).join(', ')
 }
 
-/** `bauer` und `grenze` setzen nur Tests (kaputter Bauer, Grenze 0); im Bau gelten die Vorgaben. */
-export function schreibeOhneWeg({ bauer = baueOhneWeg, grenze = OFFEN_HOECHSTENS }: { bauer?: typeof baueOhneWeg; grenze?: number } = {}): void {
-  const titel = [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])]
-  const eingabe: OhneWegEingabe = {
-    titel,
+/** Die Eingabe der Regeln aus den fertig geschriebenen Dateien; `tools/ohne-weg-gruende.ts` liest genauso, damit Messung und Bau nicht auseinanderlaufen. */
+export function ladeOhneWegEingabe(): OhneWegEingabe {
+  return {
+    titel: [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])],
     termine: readJson(`${OUT}/events.json`, []),
     handbelege: ladeHandbelege(),
     justwatch: readJson('data/justwatch-audio.json', {}),
     discAusgaben: readJson('data/disc-ausgaben.json', {}),
     heute: todayIso(),
   }
+}
+
+/** `bauer` und `grenze` setzen nur Tests (kaputter Bauer, Grenze 0); im Bau gelten die Vorgaben. */
+export function schreibeOhneWeg({ bauer = baueOhneWeg, grenze = OFFEN_HOECHSTENS }: { bauer?: typeof baueOhneWeg; grenze?: number } = {}): void {
+  const eingabe = ladeOhneWegEingabe()
+  const titel = eingabe.titel
   const eintraege = bauer(eingabe)
   const { fehler, warnungen } = ohneWegFehler(eintraege, titel.filter(ohneStreamingWeg).map((t) => t.id), grenze)
   brichAbBeiWiderspruch(fehler, 'Widerspruch/Widersprüche in ohne-weg.json — Bau abgebrochen.')
