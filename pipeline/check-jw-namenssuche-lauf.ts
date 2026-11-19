@@ -59,6 +59,7 @@ const ANTWORTEN = {
   'Doppelt': [knoten('jw13a', 'MOVIE', 'Doppelt', 2020, '777005'), knoten('jw13b', 'MOVIE', 'Doppelt', 2021, '777006')],
   'Fremd': [knoten('jw14', 'MOVIE', 'Fremd', 2020, '777002')],
   'Abgewiesen': [knoten('jw77', 'MOVIE', 'Abgewiesen', 2020, null)],
+  'Super Wings': [knoten('jw21', 'SHOW', 'Super Wings', 2014, '71026'), knoten('jw22', 'MOVIE', 'Super Wings', 2018, '5')],
 }
 globalThis.fetch = async (url, init) => {
   const q = JSON.parse(init.body).variables.q
@@ -140,6 +141,17 @@ function laeufe(plan: { tag: string; args?: string[]; modus?: string }[], kuliss
     rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
   }
 }
+
+/* Staffelname gegen Franchise (19.11.2026): Staffel 1 führt TMDB 71026, Staffel 2 hat keine Kennung und findet das Franchise unter dem Namen ohne Zusatz. */
+const staffelLauf = laeufe([{ tag: '2026-10-23' }], {
+  titel: [
+    titel(900021, 'Super Wings', { titleDe: 'Super Wings', titleEn: undefined, format: 'TV', episodes: 40, jpYear: 2014, deErstausgabe: undefined, tmdbId: 71026 }),
+    titel(900022, 'x', { titleDe: 'Super Wings (Staffel 2)', titleEn: undefined, format: 'TV', episodes: 52, jpYear: 2017, deErstausgabe: undefined }),
+  ],
+})
+const sb = staffelLauf.bestand['900022']
+pruefe('Staffel: erst der Name mit Zusatz, dann ohne, je einmal', staffelLauf.aufrufe.join('|') === 'Super Wings (Staffel 2)|Super Wings', staffelLauf.aufrufe)
+pruefe('Staffel: Franchise-Eintrag (SHOW, nicht der MOVIE) trotz Kennung der Staffel 1, Weg „über Namen“', sb?.jwId === 'jw21' && sb?.tmdbId === 71026 && sb?.ueberName === true && !sb?.ohneTreffer, sb)
 
 const tag1 = laeufe([{ tag: '2026-10-23' }])
 const b = tag1.bestand
