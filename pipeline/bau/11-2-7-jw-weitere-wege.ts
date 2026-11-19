@@ -11,7 +11,8 @@ type JwAngebote = Record<string, { angebote?: { anbieter: string; art?: string; 
  * zu Apple TV). TMDBs Anbieterliste ist dieselbe Datenbasis, aber je Titel teils
  * Wochen alt; JustWatch fragt der Wochenlauf jetzt reihum. Übernommen wird nur,
  * was keine eigene Plattform hat (die haben Verweise mit Sprachurteil) und noch
- * nicht als Weg dasteht — dieselben Regeln wie für Titel ohne jeden Weg.
+ * nicht als Weg dasteht. Ein Angebot ohne Beleg für deutschen Ton fällt weg
+ * (`ohneBelegDeutsch`): 11-2-2 prüft das bei Titeln mit Wegen, und hier hat jeder schon einen.
  * Gilt für Anime und Cartoons gleich (Cartoons seit 18.11.2026). Gibt die Zahl der neuen Wege zurück.
  */
 export function ergaenzeJwWeitereWege({ titles, jw, tmdbMehrdeutig, istTot }: {
