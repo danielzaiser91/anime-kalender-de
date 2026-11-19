@@ -88,7 +88,7 @@ function messenAusDateien(): Kennzahlen {
     titel: titelJetzt(),
     releases: lies<unknown[]>('public/data/releases.json', []),
     termine: lies<unknown[]>('public/data/events.json', []),
-    entfernt: lies<{ verweise?: unknown[] }>('data/verweise-entfernt.json', {}),
+    entfernt: lies<{ verweise?: unknown[]; belegWege?: unknown[] }>('data/verweise-entfernt.json', {}),
     kanal: kanalTitelMenge(ladeHandbelege()),
     belegeEntfernt: ladeBelegeEntfernt(DATEI_BELEGE_ENTFERNT),
   })
