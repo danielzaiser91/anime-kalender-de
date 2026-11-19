@@ -164,6 +164,10 @@ const PR_4317 = ['pipeline/lib/disc-anisearch-datum.ts', 'pipeline/check-disc-an
   pruefe('fremder Bot im Mischsprung: seine Datei -> Leser-Regel, veraltet', veraltet(f) && f.paareAufrufe === 1, f)
   const n = lauf(4317, [{ autor: MENSCH, dateien: ['data/ann-ids.json'] }], { prDateien: PR_4317, antwort: 'der PR liest data/ann-ids.json' })
   pruefe('nur Menschen im Sprung: keine Paarung gelesen, Leser-Regel, veraltet', veraltet(n) && n.paareAufrufe === 0, n)
+  const eins = lauf(4317, [{ autor: DK, dateien: ['data/ann-ids.json'] }, { autor: MENSCH, dateien: ['tools/lighthouse-grenzen.mjs'] }], { prDateien: PR_4317 })
+  pruefe('Meldung: genau eine Bot-Datei freigegeben -> Zusatz in der Meldung', /zählen nur bei Berührung/.test(eins.r.ausnahme ?? ''), eins.r)
+  const ohne = lauf(4317, [{ autor: MENSCH, dateien: ['tools/lighthouse-grenzen.mjs'] }], { prDateien: PR_4317 })
+  pruefe('Meldung: nur Menschen-Dateien, nichts freigegeben -> kein Zusatz', /^nur Fremdes ohne Zusammenhang/.test(ohne.r.ausnahme ?? '') && !/Berührung/.test(ohne.r.ausnahme), ohne.r)
   const d = lauf(4317, [{ autor: DK, dateien: ['data/ann-ids.json'] }, { autor: 'github-actions[bot]', dateien: ['data/adn-catalog.json'] }], { prDateien: PR_4317 })
   pruefe('nur Datenkonten im Sprung: keine Paarung gelesen (Verhalten unverändert), aktuell', aktuell(d) && d.paareAufrufe === 0, d)
 }
