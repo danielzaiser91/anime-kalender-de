@@ -290,6 +290,7 @@ pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-folgenzahl-sichtung.ts
 pipeline/check-geteilte-adressen.ts
 pipeline/check-gleiche-adresse.ts
+pipeline/check-gleichtag-grenze.ts
 pipeline/check-hand-gesehen.ts
 pipeline/check-hand-quelle-artikel.ts
 pipeline/check-handbeleg-anbieter-zaehlung.ts
