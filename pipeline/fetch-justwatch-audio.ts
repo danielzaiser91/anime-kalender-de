@@ -206,7 +206,9 @@ function frischeAusTermine(): Set<number> {
  */
 function verbucheFehlschlag(bestand: Record<string, Befund>, schluessel: string, erwartet: number | undefined, naeherung?: NamensTreffer): boolean {
   const vorher = bestand[schluessel]
-  if (vorher && !vorher.ohneTreffer && vorher.jwId) {
+  /* Ein Befund mit fremder TMDB-Kennung (Magister Negi Magi: 16950 statt 8859) gehört einem anderen Titel und bleibt nicht stehen. */
+  const kennungFremd = erwartet !== undefined && vorher?.tmdbId !== undefined && Number(vorher.tmdbId) !== erwartet
+  if (vorher && !vorher.ohneTreffer && vorher.jwId && !kennungFremd) {
     bestand[schluessel] = { ...vorher, geprueftAm: todayIso(), verfehltAm: todayIso() }
     return true
   }
