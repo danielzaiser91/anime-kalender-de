@@ -41671,3 +41671,23 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: „Date a Live | In deiner Region nicht mehr auf Prime Video verfügbar“ — Film-Beschreibung „Bereits ganze sechs Mal hat Shidou Itsuka …“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-19 ---
+
+- anilistId: 20474
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GX7VDJK3
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-13'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20799
+  title: "JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GX7VDJK3
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-10-13'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
