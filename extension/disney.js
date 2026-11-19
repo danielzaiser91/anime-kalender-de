@@ -723,7 +723,6 @@
 
   async function melden() {
     const karte = titelBindung.karte()
-    if (!karte) return signal('gemeldet', { ok: false })
     const echte = ergebnisse.filter(
       (r) => r.sprachen && !gemeldeteNummern.has(folgenSchluessel(r.staffel, r.nummer)),
     )
@@ -928,7 +927,6 @@
     Meldung unter der falschen Reihe erzeugt.
   */
   function pruefeAdresse() {
-    titelBindung.pruefen()
     const jetzt = kennung(location.href)
     if (jetzt === seite) return
     seite = jetzt

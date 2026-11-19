@@ -103,6 +103,12 @@ async function netflix() {
   im(`stand.reihe = '${ID}'`)
   gehe(`/watch/${ID}`)
   pruefe('Player: der Stand bleibt', im('stand.reihe') === ID, im('stand.reihe'))
+  /* Nennt der Player eine andere Reihe als die Titelseite, ist das ein Wechsel von Titel zu Titel, kein Verlassen. */
+  gehe(`/title/${ID}`)
+  im("stand.reihe = '80000002'")
+  gehe('/watch/80000002')
+  pruefe('Player mit anderer Reihe: der Stand bleibt', im('stand.reihe') === '80000002', im('stand.reihe'))
+  im(`stand.reihe = '${ID}'`)
   /* Im Durchlauf ebenso, auch auf einer Seite ohne Titel. */
   im('DURCHLAUF.laeuft = true')
   gehe('/browse')
@@ -190,6 +196,7 @@ async function prime() {
   pruefe('… mit Grund', nach.gruende[0] === 'Kein Titel geöffnet', nach.gruende)
   const mitten = await primeKlick({ mittendrin: true })
   pruefe('Wechsel, während der Token geholt wird: nichts gesendet', mitten.gesendet.length === 0, mitten)
+  pruefe('… mit Grund am Knopf, ohne Fehlermeldung an den Worker', mitten.gruende[0] === 'Seite verlassen — nicht gemeldet', mitten.gruende)
   /* Gemischte Staffel: je Folge eine Meldung; nach der ersten verlässt die Seite den Titel, die zweite bleibt aus. */
   const gemischt = await primeKlick({ mischung: true })
   pruefe('Wechsel zwischen zwei Folgenmeldungen: nur die erste ging raus', gemischt.gesendet.length === 1, gemischt.gesendet.length)
@@ -275,21 +282,29 @@ async function disney() {
   console.log('Disney+: melden()')
   const text = lies('disney.js')
   const funktion = ausschnitt(text, 'async function melden() {', '\n  }\n')
-  const lauf = async ({ verlassenVorKlick, verlassenMittendrin }) => {
+  const lauf = async ({ verlassenVorKlick, verlassenMittendrin, zweiFolgen }) => {
     const adresse = { kennung: 'abc' }
     const gesendet = []
+    const signale = []
     let tokenFreigabe
     const token = new Promise((r) => (tokenFreigabe = r))
     const welt = {
       akTitelBindung: regelLaden(),
       akKontext: { lesen: () => token.then(() => ({ token: 'tok' })), keinTokenText: () => '' },
-      AK_DISNEY_NETZ: { sende: async (url, init) => { gesendet.push(init.body); return { ok: true } } },
+      AK_DISNEY_NETZ: {
+        sende: async (url, init) => {
+          gesendet.push(init.body)
+          if (zweiFolgen) adresse.kennung = null
+          return { ok: true }
+        },
+      },
       AK_DISNEY_STAFFELN: { staffelnDerMeldung: () => [], titelIdFuer: () => null },
     }
     const bindung = welt.akTitelBindung.fuer({ kennung: () => adresse.kennung })
     const { klick } = handlerKompilieren(`async function melden() {${funktion}`, {
       titelBindung: bindung,
-      ergebnisse: [{ staffel: 1, nummer: 1, sprachen: ['de'], titel: 'x' }],
+      ergebnisse: [1, 2].slice(0, zweiFolgen ? 2 : 1).map((nummer) => ({ staffel: 1, nummer, sprachen: ['de'], titel: 'x' })),
+      signal: (...a) => signale.push(a),
       gemeldeteNummern: new Set(),
       folgenSchluessel: (s, n) => `${s}-${n}`,
       inBahnen: async (liste, arbeit) => { for (const x of liste) await arbeit(x) },
@@ -305,11 +320,17 @@ async function disney() {
     if (verlassenMittendrin) adresse.kennung = null
     tokenFreigabe()
     await l
-    return gesendet
+    return { gesendet, signale }
   }
-  pruefe('Kontrolle: auf der Titelseite geht die Meldung raus', (await lauf({})).length === 1)
-  pruefe('nach dem Verlassen: nichts gesendet', (await lauf({ verlassenVorKlick: true })).length === 0)
-  pruefe('Wechsel, während der Token geholt wird: nichts gesendet', (await lauf({ verlassenMittendrin: true })).length === 0)
+  pruefe('Kontrolle: auf der Titelseite geht die Meldung raus', (await lauf({})).gesendet.length === 1)
+  const nach = await lauf({ verlassenVorKlick: true })
+  pruefe('nach dem Verlassen: nichts gesendet', nach.gesendet.length === 0, nach.gesendet)
+  pruefe('… und der Klick meldet „nicht gemeldet“ zurück', JSON.stringify(nach.signale) === '[["gemeldet",{"ok":false}]]', nach.signale)
+  const mitten = await lauf({ verlassenMittendrin: true })
+  pruefe('Wechsel, während der Token geholt wird: nichts gesendet', mitten.gesendet.length === 0, mitten.gesendet)
+  pruefe('… und der Klick meldet „nicht gemeldet“ zurück', JSON.stringify(mitten.signale) === '[["gemeldet",{"ok":false}]]', mitten.signale)
+  const zwei = await lauf({ zweiFolgen: true })
+  pruefe('Wechsel zwischen zwei Folgenmeldungen: nur die erste ging raus', zwei.gesendet.length === 1, zwei.gesendet.length)
 }
 
 async function haupt() {

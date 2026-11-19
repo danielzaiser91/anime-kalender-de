@@ -10,7 +10,7 @@
 globalThis.akTitelBindung = (() => {
   /**
    * `kennung()` nennt den Titel der Adresse (null: keine Titelseite). `beiWechsel(alt, neu)` (optional) läuft einmal je
-   * Wechsel. Eine Karte verfällt beim Verlassen und bei der Rückkehr; den Wechsel von Titel zu Titel prüft der Anbieter selbst.
+   * Wechsel. Eine Karte verfällt beim Verlassen (auch nach der Rückkehr); den Wechsel von Titel zu Titel prüft der Anbieter selbst.
    */
   function fuer({ kennung, beiWechsel }) {
     let an = kennung()
@@ -22,7 +22,7 @@ globalThis.akTitelBindung = (() => {
         if (jetzt !== an) {
           const alt = an
           an = jetzt
-          if (alt === null || jetzt === null) zaehler++
+          if (jetzt === null) zaehler++
           beiWechsel?.(alt, jetzt)
         }
         return jetzt !== null
@@ -33,7 +33,7 @@ globalThis.akTitelBindung = (() => {
       },
       /** Vor jedem Senden: gilt die Seite des Klicks noch? */
       gueltig(karte) {
-        return Boolean(karte) && this.pruefen() && karte.zaehler === zaehler
+        return this.pruefen() && karte?.zaehler === zaehler
       },
     }
   }

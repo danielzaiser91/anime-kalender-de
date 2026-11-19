@@ -124,7 +124,6 @@
 
   async function melden() {
     const karte = titelBindung.karte()
-    if (!karte) return
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
     if (!titelBindung.gueltig(karte)) return verlassen()
@@ -143,7 +142,6 @@
 
   async function wegMelden() {
     const karte = titelBindung.karte()
-    if (!karte) return
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
     if (!titelBindung.gueltig(karte)) return verlassen()
@@ -202,7 +200,6 @@
 
   /* ADN wechselt die Seite ohne Neuladen: der Kasten gehört zur Serie der Adresse. */
   function pruefeAdresse() {
-    titelBindung.pruefen()
     const id = L.showId(location.pathname)
     const jetzt = id ? String(id) : null
     if (jetzt === S.seite) return
