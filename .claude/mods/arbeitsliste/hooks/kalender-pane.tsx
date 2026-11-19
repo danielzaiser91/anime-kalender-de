@@ -23,15 +23,14 @@ function kalenderEintrag(a: any, z: KalenderZeile, vorbei: boolean, key: string)
   )
 }
 
+// Kein „weitere/weniger“: der Bereich klappt nur als Ganzes (Daniel, 20.11.2026).
 export function kalenderBereich(a: any, stand: KalenderStand, jetztMs: number) {
-  const { Box, kopf, istAuf, mehr, schnitt } = a
+  const { Box, kopf, istAuf } = a
   if (!stand.zeilen.length) return null
-  const s = schnitt(stand.zeilen, 'kalender')
   return (
     <Box flexDirection="column">
       {kopf('kalender', 'Kalender heute', stand.zeilen.length)}
-      {istAuf('kalender') ? s.sichtbar.map((z: KalenderZeile, i: number) => kalenderEintrag(a, z, istVorbei(z, stand.datum, jetztMs), `kal-${i}`)) : null}
-      {istAuf('kalender') ? mehr('kalender', s) : null}
+      {istAuf('kalender') ? stand.zeilen.map((z: KalenderZeile, i: number) => kalenderEintrag(a, z, istVorbei(z, stand.datum, jetztMs), `kal-${i}`)) : null}
     </Box>
   )
 }
