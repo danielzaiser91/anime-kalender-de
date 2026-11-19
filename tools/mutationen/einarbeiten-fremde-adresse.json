@@ -82,7 +82,7 @@
   },
   {
     "name": "main: Besitz ohne Zuordnungen geladen",
-    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>())", "ersetze": "zugeordnet: []" }],
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "const zugeordnet = Object.entries(leseZugeordnet<ZuordnungEintrag>())", "ersetze": "const zugeordnet: [string, ZuordnungEintrag][] = []" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
