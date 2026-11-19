@@ -15,6 +15,7 @@ import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.t
 import { schreibeEmpfehlung } from './bau/13-10-empfehlung.ts'
 import { schreibeCoverLuecken } from './bau/13-11-cover-luecken.ts'
 import { schreibeMaengel } from './bau/13-12-maengel.ts'
+import { schreibeOhneWeg } from './bau/13-13-ohne-weg.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { pruefeSchalter } from './bau/phasen-zustand.ts'
 import { merkeBestandVorher } from './lib/bestand-vorher.ts'
@@ -45,6 +46,7 @@ function liefereAus({ synchro, quarantaene, ...rest }: Phasenergebnis): void {
   schreibeEmpfehlung()
   schreibeCoverLuecken()
   schreibeMaengel()
+  schreibeOhneWeg()
 }
 
 pruefeSchalter()
