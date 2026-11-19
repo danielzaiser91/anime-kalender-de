@@ -1,7 +1,7 @@
 import { test, expect } from 'claude-code/testing'
 
 import { PANE, STAND, zeilen, starte } from './testhilfe'
-import { balken, geradeInArbeit, zaehleZiele, zielZeile, zielZu } from './ziele'
+import { balken, zaehleZiele, zielZeile, zielZu } from './ziele'
 
 const ZIELE = `# Ziele
 
@@ -18,9 +18,6 @@ Alles läuft ohne KI weiter.
 ## Vollständige Daten
 Noch keine Meilensteine.
 `
-
-const K = (art: string, titel: string, tag: string, extra = '') => `- 🔵 **${titel}** {${art} · normal · - · ${tag}${extra}} Text`
-const STAND_K = ['## In Arbeit (Stand 08.11.2026 12:00)', K('auftrag', 'Eins', '01.11.'), K('kritisch', 'Zwei', '02.11.'), K('eigen', 'Drei', '03.11.', ' · wartet: Lauf'), K('eigen', 'Vier', '04.11.'), K('eigen', 'Fünf', '05.11.'), K('eigen', 'Sechs', '06.11.'), K('eigen', 'Sieben', '07.11.'), K('eigen', 'Acht', '08.11.'), '## Als Nächstes', K('kritisch', 'Nicht laufend', '01.11.')].join('\n')
 
 test('zaehleZiele: Zählung, nächster Meilenstein ohne Fettdruck und Beleg, Ziel ohne Meilensteine', () => {
   const z = zaehleZiele(ZIELE)
@@ -46,21 +43,14 @@ test('zielZu: Name im Kastentitel; kein Treffer ohne Namen', () => {
   expect(zielZu('Ziel 9 · Unbekannt', z)).toBeUndefined()
 })
 
-test('geradeInArbeit: Rangfolge, wartet und „Als Nächstes“ zählen nicht, höchstens fünf', () => {
-  const g = geradeInArbeit(STAND_K, Date.parse('2026-11-08T12:00:00Z'))
-  expect(g.titel).toEqual(['Zwei', 'Eins', 'Vier', 'Fünf', 'Sechs'])
-  expect(g.mehr).toBe(2)
-  expect(geradeInArbeit('', 0)).toEqual({ titel: [], mehr: 0 })
-})
-
 async function pane($: any, on: any, stand: string, ziele: string) {
   starte(on, null, [], true, stand, false, 0, 0, false, ziele)
   await $.session.start({ cwd: 'C:/x', surface: 'terminal', isInteractive: true })
   return $.ui.mount({ ...PANE, surface: 'terminal' })
 }
 
-test('Pane: Ziele-Kasten mit % in der Zeile, Balken im Ausklapp-Teil; „Gerade in Arbeit“ mit fünf Zeilen und Rest', async ($, on) => {
-  const stand = `# Stand\n\n## Top-Prios\n- **Autonomie** {arbeit-ich} läuft\n- **Live in 5 min** {queue} x\n- **Vollständige Daten** {queue} y\n\n${STAND_K}\n`
+test('Pane: Ziele-Kasten mit % in der Zeile, Balken im Ausklapp-Teil; „Gerade in Arbeit“ gibt es nicht mehr', async ($, on) => {
+  const stand = `# Stand\n\n## Top-Prios\n- **Autonomie** {arbeit-ich} läuft\n- **Live in 5 min** {queue} x\n- **Vollständige Daten** {queue} y\n\n## In Arbeit (Stand 08.11.2026 12:00)\n- 🔵 **Eins** {auftrag · normal · - · 01.11.} Text\n`
   const p = await pane($, on, stand, ZIELE)
   let z = zeilen(await p.drawn())
   expect(z.slice(0, 4)).toEqual(['Ziele', ' CLAUDE  Autonomie 50 %', '▸', ' QUEUE  Live in 5 min 0 %'])
@@ -72,26 +62,14 @@ test('Pane: Ziele-Kasten mit % in der Zeile, Balken im Ausklapp-Teil; „Gerade 
   expect(z).toContain('█████░░░░░ 2 von 4 · Prüfer in der Cloud')
   expect(z).toContain('░░░░░░░░░░ 0 von 1 · Deploy unter 5 min')
   expect(z.join('\n')).not.toContain('0 von 0')
-  expect(z).toContain('▾ Gerade in Arbeit')
-  expect(z).toContain('  ● Zwei')
-  expect(z).toContain('  + 2 weitere')
-  expect(z.join('\n')).not.toContain('Nicht laufend')
-  // Einklapp-Schalter wie bei den anderen Bereichen
-  await p.press({ key: 'bereich:gerade' })
-  const zu = zeilen(await p.drawn())
-  expect(zu).toContain('▸ Gerade in Arbeit')
-  expect(zu).not.toContain('  ● Zwei')
-  expect(zu).not.toContain('  + 2 weitere')
-  await p.press({ key: 'bereich:gerade' })
-  expect(zeilen(await p.drawn())).toContain('  ● Zwei')
+  expect(z.join('\n')).not.toContain('Gerade in Arbeit')
   await p.unmount()
 })
 
-test('Pane: ohne ziele.md kein Balken und kein Fehler; ohne Kennzeichen kein „Gerade in Arbeit“', async ($, on) => {
+test('Pane: ohne ziele.md kein Balken und kein Fehler', async ($, on) => {
   const p = await pane($, on, `# Stand\n\n## Top-Prios\n- **Ziel 1 · Autonomie** {arbeit-ich} läuft\n\n${STAND}`, '')
   const z = zeilen(await p.drawn())
   expect(z.join('\n')).not.toContain('█')
   expect(z.join('\n')).not.toContain('░')
-  expect(z).not.toContain('Gerade in Arbeit')
   await p.unmount()
 })

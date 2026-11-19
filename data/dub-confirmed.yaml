@@ -41689,3 +41689,21 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: Staffel 2 „Seiran“ (100780, Herbst 2019): „In deiner Region nicht mehr auf Prime Video verfügbar“, 12 Folgen, keine Sprachangabe. Die erste Staffel (20628, 2018) ist die Adresse B09MHFZFC8, Kanal, Deutsch, 12 Folgen — sie gehört zu 20628, nicht zu 100780."
+
+# --- Prime-Seiten in Edge gelesen am 2026-11-19 (Bericht prime-region-6-2026-11-19) ---
+
+- anilistId: 20711
+  title: "Re:␣Hamatora"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FY77MLTT
+  available: false
+  checkedAt: '2026-11-19'
+  note: "Nur über ein Kanalabo auf Amazon, nicht in Prime enthalten. Edge, 19.11.2026: Seite abrufbar, „Re:Hamatora – Staffel 2“, 24 Folgen, „Wiedergabesprachen | Deutsch, 日本語 | Untertitel | Deutsch“, Folge 1 „Re: 01 - Melancholy Of Hero“ nur mit „Buchen“ (0,99 €/Monat für 2 Monat(e), „Nur für kurze Zeit“), kein „In Prime enthalten“."
+
+- anilistId: 20741
+  title: "Date a Live: The Movie – Mayuri Judgement"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GW93GHPY
+  available: false
+  checkedAt: '2026-11-19'
+  note: "Edge, 19.11.2026: „Date a Live | In deiner Region nicht mehr auf Prime Video verfügbar“ — Film-Beschreibung „Bereits ganze sechs Mal hat Shidou Itsuka …“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."

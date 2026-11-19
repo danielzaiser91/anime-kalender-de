@@ -40,8 +40,8 @@ declare module 'claude-code' {
       spar: boolean
       // Fortschritt je Ziel aus ziele.md (Balken im Pane).
       ziele: ZielStand[]
-      // „Gerade in Arbeit“ aus stand.md: sichtbare Titel und Zahl der übrigen.
-      gerade: { titel: string[]; mehr: number }
+      // „Kalender heute“: Zeilen des Berliner Tages aus woche.json bzw. events.json.
+      kalender: { datum: string; zeilen: { zeit: string | null; geschaetzt: boolean; name: string; anbieter: string; folgen: string }[] }
     }
   }
 }
