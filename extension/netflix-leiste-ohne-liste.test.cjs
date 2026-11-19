@@ -25,7 +25,8 @@ async function seite(pfad) {
   await tick()
   vm.runInContext('durchlaufKnopfZeigen()', kontext)
   await tick()
-  return { body, im: (code) => vm.runInContext(code, kontext) }
+  const im = (code) => vm.runInContext(code, kontext)
+  return { body, im }
 }
 
 ;(async () => {

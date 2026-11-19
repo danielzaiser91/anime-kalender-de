@@ -4500,8 +4500,7 @@ function folgenFuerFilmErgaenzen() {
 
 function durchlaufKnopfZeigen() {
   folgenFuerFilmErgaenzen()
-  const bauen = () => (durchlaufKnopfBauen(), schutzflaecheZeigen(false))
-  if (akNetflixLeisteOhneListe(DURCHLAUF, imPlayer() || alleStaffelnAnsicht(), bauen, () => netflixKasten().querySelector('.ak-z-melden'))) return
+  if (akNetflixLeisteOhneListe(DURCHLAUF, imPlayer() || alleStaffelnAnsicht(), leisteOhneListeBauen, meldeZeile)) return
   /*
     **Der Durchlauf über die ganze Reihe ist richtig, nicht zu viel.**
 
@@ -4906,6 +4905,15 @@ function durchlaufKnopfZeigen() {
       : '') +
     '\nUmschalt+Klick: prüft alle offenen Folgen statt nur der genannten.' +
     '\nDer Knopf „↻ alle" daneben prüft auch schon gemeldete Folgen noch einmal.'
+}
+
+/** Die Melde-Zeile des Kastens, in die die Leiste gehört. */
+const meldeZeile = () => netflixKasten().querySelector('.ak-z-melden')
+
+/** Leiste ohne Folgenliste: gebaut wie sonst, aber ohne Schutzfläche (es läuft nichts). */
+function leisteOhneListeBauen() {
+  durchlaufKnopfBauen()
+  schutzflaecheZeigen(false)
 }
 
 /** Baut Leiste und Knopf des Durchlaufs beim ersten Zeigen (aus `durchlaufKnopfZeigen` herausgelöst). */
