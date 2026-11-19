@@ -1,0 +1,8 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-ohne-weg-ursachen.ts"] },
+  { "name": "mehrdeutig schon bei jedem Namenstreffer (alte Regel)", "aenderungen": [{ "datei": "pipeline/lib/ohne-weg-offen.ts", "suche": "b.namenTreffer?.gleicherName ? 'jw-mehrdeutig'", "ersetze": "b.namenTreffer ? 'jw-mehrdeutig'" }], "tests": ["npx tsx pipeline/check-ohne-weg-ursachen.ts"] },
+  { "name": "mehrdeutig nur ohne gleicherName (umgekehrt)", "aenderungen": [{ "datei": "pipeline/lib/ohne-weg-offen.ts", "suche": "b.namenTreffer?.gleicherName ? 'jw-mehrdeutig'", "ersetze": "b.namenTreffer && !b.namenTreffer.gleicherName ? 'jw-mehrdeutig'" }], "tests": ["npx tsx pipeline/check-ohne-weg-ursachen.ts"] },
+  { "name": "mehrdeutig nie", "aenderungen": [{ "datei": "pipeline/lib/ohne-weg-offen.ts", "suche": "b.namenTreffer?.gleicherName ? 'jw-mehrdeutig'", "ersetze": "false ? 'jw-mehrdeutig'" }], "tests": ["npx tsx pipeline/check-ohne-weg-ursachen.ts"] },
+  { "name": "ohne gleicherName: alt/frisch vertauscht", "aenderungen": [{ "datei": "pipeline/lib/ohne-weg-offen.ts", "suche": "alt ? 'jw-abgelaufen' : 'jw-kein-treffer'", "ersetze": "alt ? 'jw-kein-treffer' : 'jw-abgelaufen'" }], "tests": ["npx tsx pipeline/check-ohne-weg-ursachen.ts"] },
+  { "name": "ohne gleicherName: immer kein-treffer", "aenderungen": [{ "datei": "pipeline/lib/ohne-weg-offen.ts", "suche": "alt ? 'jw-abgelaufen' : 'jw-kein-treffer'", "ersetze": "'jw-kein-treffer'" }], "tests": ["npx tsx pipeline/check-ohne-weg-ursachen.ts"] }
+]
