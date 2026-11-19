@@ -70,7 +70,8 @@ export interface Eingabe {
   titel: Title[]
   releases: unknown
   termine: unknown
-  entfernt: { verweise?: unknown[] }
+  /** `data/verweise-entfernt.json`: `verweise` (Gedächtnis) und `belegWege` (per Handbeleg gestrichen) zählen beide als protokolliert. */
+  entfernt: { verweise?: unknown[]; belegWege?: unknown[] }
   /** Schlüssel „Titel|Anbieter“ der Handbelege mit `kanalOhneBeleg` (`kanalTitelSchluessel()`). Titelweit, nicht je Adresse: JustWatch ersetzt die Amazon-Adresse (gti), der Beleg nennt die alte. */
   kanal: ReadonlySet<string>
   /** Einträge aus `data/belege-entfernt.yaml`. */
@@ -88,8 +89,15 @@ export function belegGruende(liste: readonly BelegEntfernt[], titel: readonly Pi
   return Object.fromEntries(liste.map((b) => [entfernterBelegSchluessel(b), `${namen.get(b.anilistId) ?? 'Titel'} (${b.anilistId}): ${b.grund}`]))
 }
 
+/** Alle Einträge des Entfernungsprotokolls: Gedächtnis und per Handbeleg gestrichene Wege. */
+function protokollEintraege(entfernt: Eingabe['entfernt']): { plattform?: string }[] {
+  const liste = (x: unknown) => (Array.isArray(x) ? (x as { plattform?: string }[]) : [])
+  return [...liste(entfernt.verweise), ...liste(entfernt.belegWege)]
+}
+
 export function messen(e: Eingabe): Kennzahlen {
-  const { titel, releases, termine, entfernt, kanal } = e
+  const { titel, releases, termine, kanal } = e
+  const protokoll = protokollEintraege(e.entfernt)
   const kanalOhneUrteil: Record<string, number> = {}
   let kanalTitelOhneSynchro = 0
   const jeAnbieter: Record<string, number> = {}
@@ -128,7 +136,7 @@ export function messen(e: Eingabe): Kennzahlen {
     mitUrteil,
     ohneUrteil,
     titelMitSynchro,
-    entferntProtokolliert: Array.isArray(entfernt.verweise) ? entfernt.verweise.length : 0,
+    entferntProtokolliert: protokoll.length,
     /**
      * **Dasselbe je Anbieter — sonst bleibt die Aufschlüsselung ohne Erklärung.**
      *
@@ -143,13 +151,11 @@ export function messen(e: Eingabe): Kennzahlen {
      * Live, „7th Time Loop". Wer das am nächsten Morgen liest, sieht fünf
      * Alarme und muss jeden einzeln nachschlagen.
      */
-    entferntJeAnbieter: Array.isArray(entfernt.verweise)
-      ? (entfernt.verweise as { plattform?: string }[]).reduce<Record<string, number>>((n, e) => {
-          const p = e.plattform ?? 'unbekannt'
-          n[p] = (n[p] ?? 0) + 1
-          return n
-        }, {})
-      : {},
+    entferntJeAnbieter: protokoll.reduce<Record<string, number>>((n, e) => {
+      const p = e.plattform ?? 'unbekannt'
+      n[p] = (n[p] ?? 0) + 1
+      return n
+    }, {}),
     entfernteBelege: (e.belegeEntfernt ?? []).map(entfernterBelegSchluessel),
     releases: Array.isArray(releases) ? releases.length : 0,
     termine: Array.isArray(termine) ? termine.length : 0,
