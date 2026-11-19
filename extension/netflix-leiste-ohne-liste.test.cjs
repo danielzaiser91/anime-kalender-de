@@ -54,9 +54,13 @@ async function seite(pfad) {
   vm.runInContext(readFileSync(resolve(__dirname, 'netflix-durchgang-steuerung.js'), 'utf8'), k)
   const fall = (d, anderswo = false) => {
     let gebaut = 0
+    const el0 = () => ({ hidden: false, disabled: false, textContent: '', title: '', parentElement: null, classList: { remove() {} }, appendChild() {} })
+    /* Die Helfer von `melder.js`, die die Funktion über den Seitenbereich aufruft. */
+    k.durchlaufKnopfBauen = () => { gebaut++; D.knopf = el0(); D.leiste = el0() }
+    k.schutzflaecheZeigen = () => {}
+    k.netflixKasten = () => ({ querySelector: () => null })
     const D = { laeuft: false, mehrfach: null, folgen: [], knopf: null, leiste: null, nochmalKnopf: null, ...d }
-    const el = () => ({ hidden: false, disabled: false, textContent: '', title: '', parentElement: null, classList: { remove() {} }, appendChild() {} })
-    const ergebnis = k.akNetflixLeisteOhneListe(D, anderswo, () => { gebaut++; D.knopf = el(); D.leiste = el() }, () => null)
+    const ergebnis = k.akNetflixLeisteOhneListe(D, anderswo)
     return { ergebnis, gebaut, D }
   }
   assert.equal(fall({}).ergebnis, true, 'Grundfall')

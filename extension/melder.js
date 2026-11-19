@@ -4500,10 +4500,9 @@ function folgenFuerFilmErgaenzen() {
 
 function durchlaufKnopfZeigen() {
   folgenFuerFilmErgaenzen()
-  if (akNetflixLeisteOhneListe(DURCHLAUF, imPlayer() || alleStaffelnAnsicht(), leisteOhneListeBauen, meldeZeile)) return
+  if (akNetflixLeisteOhneListe(DURCHLAUF, imPlayer() || alleStaffelnAnsicht())) return
   /*
     **Der Durchlauf über die ganze Reihe ist richtig, nicht zu viel.**
-
     Eine Fassung vorher hatte ich ihn auf einer geerbten Seite gesperrt: „Blauer
     Himmel in der Ferne!" sei eine Folge, die Reihe habe 54, das wären
     dreiundfünfzig Meldungen zu viel. Daniel hat widersprochen, und er hat
@@ -4905,15 +4904,6 @@ function durchlaufKnopfZeigen() {
       : '') +
     '\nUmschalt+Klick: prüft alle offenen Folgen statt nur der genannten.' +
     '\nDer Knopf „↻ alle" daneben prüft auch schon gemeldete Folgen noch einmal.'
-}
-
-/** Die Melde-Zeile des Kastens, in die die Leiste gehört. */
-const meldeZeile = () => netflixKasten().querySelector('.ak-z-melden')
-
-/** Leiste ohne Folgenliste: gebaut wie sonst, aber ohne Schutzfläche (es läuft nichts). */
-function leisteOhneListeBauen() {
-  durchlaufKnopfBauen()
-  schutzflaecheZeigen(false)
 }
 
 /** Baut Leiste und Knopf des Durchlaufs beim ersten Zeigen (aus `durchlaufKnopfZeigen` herausgelöst). */

@@ -69,8 +69,6 @@ function knopfText({ offeneStaffeln, gemeldet, imLauf = [] }) {
     offeneTitel: offeneStaffeln ? { 1: { titel: 'T', staffeln: [{ nr: 1, offen: true, folgen: 2 }] } } : {},
     folgenFuerFilmErgaenzen: () => {},
     imPlayer: () => false,
-    leisteOhneListeBauen: () => {},
-    meldeZeile: () => null,
     durchlaufOffen: () => [],
     alleStaffelnAnsicht: () => true,
     gemeinteReihe: () => 1,
