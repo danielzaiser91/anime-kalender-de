@@ -709,6 +709,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   const PRIME_RUHE_MS = 1000
   const PRIME_FRAMES = 3
   const PRIME_FRAME_NAME = 'ak-durchgang'
+  const PRIME_NACHHOLEN_MS = 8000
+  let primeNachholTimer = null
   const IM_FRAME = Boolean(window.top) && window !== window.top
   const SUCHE_IM_FRAME = IM_FRAME && /^\/s(\/|$)/.test(location.pathname)
   const sucheFrame = { start: Date.now(), fertig: false }
@@ -8869,10 +8871,25 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       Ohne frischen Abruf zeigte die Liste danach „nur auf diesem Rechner" und dieselbe Zahl
       offener Titel wie vorher, obwohl alles angekommen war (26.09.2026).
     */
+    primeBriefkastenFrisch()
+    primeBriefkastenNachholen()
+  }
+
+  function primeBriefkastenFrisch() {
     void Promise.resolve(briefkastenHolen(true)).then(() => {
       letzteSignatur = null
       uebersichtZeichnen()
     })
+  }
+
+  /* Meldungen, die beim ersten Abruf noch unterwegs waren, gelten sonst bis zum Seitenwechsel als „nur auf diesem Rechner" (Higurashi, 19.11.2026). Ein einziger Nachabruf, kein Polling. */
+  function primeBriefkastenNachholen() {
+    clearTimeout(primeNachholTimer)
+    primeNachholTimer = setTimeout(() => {
+      primeNachholTimer = null
+      primeBriefkastenFrisch()
+    }, PRIME_NACHHOLEN_MS)
+    window.addEventListener('pagehide', () => clearTimeout(primeNachholTimer), { once: true })
   }
 
   function primeTitelBeginnen(lauf, schluessel) {

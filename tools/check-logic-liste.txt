@@ -478,6 +478,7 @@ pipeline/check-og-schaetz.ts
 pipeline/check-og-schriften.ts
 pipeline/check-og-termin.ts
 pipeline/check-ohne-synchro-namen.ts
+pipeline/check-ohne-weg-andere-werke.ts
 pipeline/check-ohne-weg-disc-abo.ts
 pipeline/check-ohne-weg-lauf.ts
 pipeline/check-ohne-weg-panel.ts

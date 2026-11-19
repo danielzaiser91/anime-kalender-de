@@ -41647,3 +41647,45 @@
   dub: true
   checkedAt: '2026-11-19'
   note: "Tonspuren: Deutsch — Amazon-Seite B0H1R11K51: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
+
+# --- Prime-Seiten in Edge gelesen am 2026-11-19 (Bericht prime-cr-7-faelle-2026-11-19) ---
+
+- anilistId: 355
+  title: "Shakugan no Shana"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CMZZVV7R
+  dub: true
+  checkedAt: '2026-11-19'
+  note: "Edge, 19.11.2026: „In Prime enthalten.“ — „2 Staffeln“ — „Wiedergabesprachen | Deutsch, 日本語 | Untertitel | Deutsch [UT]“, Seite zeigt 24 Folgen. Ton je Folge nicht einzeln geprüft. Am 31.10. stand diese Seite noch regionsgesperrt (der Beleg vom 31.10. gilt der Adresse watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-…, nicht dieser)."
+
+- anilistId: 10162
+  title: "Usagi Drop"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CFXKNX5N
+  available: false
+  checkedAt: '2026-11-19'
+  note: "Edge, 19.11.2026: „Usagi Drop | In deiner Region nicht mehr auf Prime Video verfügbar“ — „11 Folgen“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
+
+- anilistId: 12413
+  title: "Jormungand"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCLRXGC
+  available: false
+  checkedAt: '2026-11-19'
+  note: "Edge, 19.11.2026: „Jormungand | In deiner Region nicht mehr auf Prime Video verfügbar“ — „Staffel 1 … 12 Folgen“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
+
+- anilistId: 13331
+  title: "Jormungand: Perfect Order"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNCGXVNT
+  available: false
+  checkedAt: '2026-11-19'
+  note: "Edge, 19.11.2026: „Jormungand | In deiner Region nicht mehr auf Prime Video verfügbar“ — „Staffel 2 … 12 Folgen“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
+
+- anilistId: 100780
+  title: "Legend of the Galactic Heroes: Die Neue These"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0C8X3SVR3
+  available: false
+  checkedAt: '2026-11-19'
+  note: "Edge, 19.11.2026: Staffel 2 „Seiran“ (100780, Herbst 2019): „In deiner Region nicht mehr auf Prime Video verfügbar“, 12 Folgen, keine Sprachangabe. Die erste Staffel (20628, 2018) ist die Adresse B09MHFZFC8, Kanal, Deutsch, 12 Folgen — sie gehört zu 20628, nicht zu 100780."
