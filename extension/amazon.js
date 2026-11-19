@@ -5850,7 +5850,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (ende) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.style.whiteSpace = 'pre-line'
       zeile.textContent = akPrimeEndeText(ende)
       kasten.appendChild(zeile)
     }
