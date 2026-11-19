@@ -35,10 +35,25 @@ export function namensSchluessel(name: string): string {
     .join(' ')
 }
 
-/** Die Suchbegriffe: alle verschiedenen Namen des Titels (deutsch, romaji, englisch). */
+/** Staffelzusatz am Ende („: Staffel 2“, „(Teil 3)“, „Season 2“, „2nd Season“); Ziffer Pflicht, „Final Season“ und „Baki 2“ bleiben unberührt. */
+const STAFFEL_ZUSATZ = /\s*[:\-–]?\s*\(?\s*(?:(?:Staffel|Season|Teil|Part)\s+\d+|\d+(?:st|nd|rd|th)\s+Season)\s*\)?\s*$/i
+
+/** Der Name ohne Staffelzusatz; `undefined`, wenn keiner dran hängt oder nichts übrig bliebe. */
+export function ohneStaffelzusatz(name: string): string | undefined {
+  const kurz = name.replace(STAFFEL_ZUSATZ, '').trim()
+  return kurz && kurz !== name.trim() ? kurz : undefined
+}
+
+/** Die Namen des Titels ohne Staffelzusatz (JustWatch DE führt nur das Franchise, 19.11.2026). */
+function franchiseNamen(t: Pick<Title, 'titleDe' | 'titleEn' | 'titleRomaji' | 'titleNative'>): string[] {
+  return [t.titleDe, t.titleRomaji, t.titleEn, t.titleNative].filter((n): n is string => Boolean(n)).flatMap((n) => ohneStaffelzusatz(n) ?? [])
+}
+
+/** Die Suchbegriffe: alle verschiedenen Namen des Titels (deutsch, romaji, englisch), danach die ohne Staffelzusatz. */
 export function suchNamen(t: Pick<Title, 'titleDe' | 'titleEn' | 'titleRomaji'>): string[] {
   const roh = [t.titleDe, t.titleRomaji, t.titleEn].filter((n): n is string => Boolean(n))
-  return roh.filter((n, i) => roh.findIndex((m) => namensSchluessel(m) === namensSchluessel(n)) === i)
+  const alle = [...roh, ...roh.flatMap((n) => ohneStaffelzusatz(n) ?? [])]
+  return alle.filter((n, i) => alle.findIndex((m) => namensSchluessel(m) === namensSchluessel(n)) === i)
 }
 
 function jahre(t: TitelKurz): number[] {
@@ -65,13 +80,49 @@ export function passtZumTitel(t: TitelKurz, k: NamensKnoten): boolean {
   )
 }
 
-/** Das Urteil über alle Treffer aller Suchen zu einem Titel; `bekannteTmdb` = Kennungen, die schon einer unserer Titel führt. */
-export function waehleKnoten<K extends NamensKnoten>(t: TitelKurz, knoten: K[], bekannteTmdb: ReadonlySet<number>): NamensUrteil<K> {
-  const passend = knoten.filter((k) => passtZumTitel(t, k)).filter((k, i, alle) => alle.findIndex((m) => m.id === k.id) === i)
+/**
+ * Ein Staffeltitel passt zum Franchise-Eintrag: Serie (nie Film), Name ohne Staffelzusatz gleich, Start des Franchise höchstens ein Jahr nach
+ * unserem frühesten Jahr (eine Fortsetzung kommt nie vor dem Start der Reihe; Moonlight Mile 1st Season gegen den Film 2002 passt nicht).
+ */
+export function passtZumFranchise(t: TitelKurz, k: NamensKnoten): boolean {
+  const unsere = new Set(franchiseNamen(t).map(namensSchluessel))
+  const jahr = k.content.originalReleaseYear
+  const eigene = jahre(t)
+  return (
+    t.format !== 'MOVIE' &&
+    k.objectType === 'SHOW' &&
+    unsere.has(namensSchluessel(k.content.title)) &&
+    typeof jahr === 'number' &&
+    eigene.length > 0 &&
+    jahr <= Math.min(...eigene) + 1
+  )
+}
+
+/** Kennungen unserer anderen Titel, deren Name (mit oder ohne Staffelzusatz) dem Franchise-Namen von `t` gleicht: dieselbe Reihe, kein fremder Halter. */
+export function geschwisterKennungen(t: Title, andere: Iterable<Title>, tmdbVon: (x: Title) => number | undefined): Set<number> {
+  const unsere = new Set(franchiseNamen(t).map(namensSchluessel))
+  const aus = new Set<number>()
+  for (const x of andere) {
+    const id = tmdbVon(x)
+    const namen = [x.titleDe, x.titleRomaji, x.titleEn, x.titleNative].filter((n): n is string => Boolean(n))
+    if (id && x !== t && namen.some((n) => unsere.has(namensSchluessel(ohneStaffelzusatz(n) ?? n)))) aus.add(id)
+  }
+  return aus
+}
+
+/**
+ * Das Urteil über alle Treffer aller Suchen zu einem Titel; `bekannteTmdb` = Kennungen, die schon einer unserer Titel führt.
+ * Ohne strengen Treffer gilt der Franchise-Eintrag (`passtZumFranchise`), und eine Kennung, die nur Geschwister derselben Reihe führen (`geschwister`), ist dann nicht fremd.
+ */
+export function waehleKnoten<K extends NamensKnoten>(t: TitelKurz, knoten: K[], bekannteTmdb: ReadonlySet<number>, geschwister: ReadonlySet<number> = new Set()): NamensUrteil<K> {
+  const einmal = (liste: K[]) => liste.filter((k, i, alle) => alle.findIndex((m) => m.id === k.id) === i)
+  const streng = einmal(knoten.filter((k) => passtZumTitel(t, k)))
+  const ueberFranchise = !streng.length
+  const passend = ueberFranchise ? einmal(knoten.filter((k) => passtZumFranchise(t, k))) : streng
   if (!passend.length) return { art: 'keiner' }
   if (passend.length > 1) return { art: 'mehrdeutig', anzahl: passend.length }
   const tmdbId = Number(passend[0].content.externalIds?.tmdbId)
-  if (Number.isFinite(tmdbId) && bekannteTmdb.has(tmdbId)) return { art: 'fremd', tmdbId }
+  if (Number.isFinite(tmdbId) && bekannteTmdb.has(tmdbId) && !(ueberFranchise && geschwister.has(tmdbId))) return { art: 'fremd', tmdbId }
   return { art: 'treffer', knoten: passend[0] }
 }
 
