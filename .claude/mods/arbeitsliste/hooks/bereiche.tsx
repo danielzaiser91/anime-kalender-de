@@ -6,8 +6,8 @@ import type { Verweis } from './zaehlen'
 import { zielZeile, zielZu } from './ziele'
 import type { ZielStand } from './ziele'
 
-// Standard: alles zu, nur „Jetzt“ und „Gerade in Arbeit“ offen; ein Eintrag in der Liste kehrt den Standard um.
-const STANDARD_OFFEN = ['jetzt', 'gerade']
+// Standard: alles zu, nur „Jetzt“ und „Kalender heute“ offen; ein Eintrag in der Liste kehrt den Standard um.
+const STANDARD_OFFEN = ['jetzt', 'kalender']
 
 export const bereichsKennung = (id: string): string => `bereich:${id}`
 

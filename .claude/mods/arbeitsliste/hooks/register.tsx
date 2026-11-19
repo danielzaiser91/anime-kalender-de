@@ -17,11 +17,15 @@ import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './b
 import type { PrioUmfeld } from './bereiche'
 import { zaehleTopPrios, zeichenJeSpalte } from './prios'
 import type { PrioEintrag } from './prios'
-import { geradeInArbeit, zaehleZiele } from './ziele'
+import { zaehleZiele } from './ziele'
 import type { ZielStand } from './ziele'
 import { zaehleUnterwegs } from './unterwegs'
 import type { UnterwegsEintrag } from './unterwegs'
 import { unterwegsBereich } from './unterwegs-pane'
+import { ladeKalender } from './kalender-laden'
+import type { KalenderCache } from './kalender-laden'
+import type { KalenderStand } from './kalender'
+import { kalenderBereich } from './kalender-pane'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
 const ZIELE_DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/ziele.md'
@@ -47,7 +51,9 @@ const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, wa
 // Schlüssel V2: ein beim Hot-Reload erhaltener Altzustand ohne status/details darf nicht gezeichnet werden.
 const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPriosV2' } as const, [] as PrioEintrag[])
 const ziele = atom({ plugin: 'arbeitsliste', key: 'ziele' } as const, [] as ZielStand[])
-const gerade = atom({ plugin: 'arbeitsliste', key: 'gerade' } as const, { titel: [], mehr: 0 } as { titel: string[]; mehr: number })
+// „Kalender heute“: Zeilen des Berliner Tages; der Zwischenspeicher der Termindateien liegt im Modul, nur der Stand im Atom.
+const kalender = atom({ plugin: 'arbeitsliste', key: 'kalender' } as const, { datum: '', zeilen: [] } as KalenderStand)
+const kalenderCache: KalenderCache = {}
 const unterwegs = atom({ plugin: 'arbeitsliste', key: 'unterwegs' } as const, [] as UnterwegsEintrag[])
 const regeln = atom({ plugin: 'arbeitsliste', key: 'regeln' } as const, [] as Regel[])
 // Minute der letzten Neuzeichnung: der Countdown „in 13 h 45 min“ ändert sich nur beim Minutenwechsel.
@@ -236,6 +242,13 @@ async function aktualisiereZiele($: EngineInterface): Promise<void> {
   if (!gleich(await read($, ziele), neu)) await update($, ziele, () => neu)
 }
 
+// Berliner Tag und Termindateien je Takt prüfen; zeichnet nur bei geänderten Zeilen neu.
+async function aktualisiereKalender($: EngineInterface): Promise<void> {
+  const dateien = { stat: (p: string) => $.fs.stat(p), read: (p: string) => $.fs.read(p) as Promise<string> }
+  const neu = await ladeKalender(dateien, await $.clock.now(), kalenderCache)
+  if (!gleich(await read($, kalender), neu)) await update($, kalender, () => neu)
+}
+
 // Liest die Datei neu; der Zeitgeber startet beim ersten Aufruf (auch nach Hot-Reload).
 async function aktualisiere($: EngineInterface): Promise<void> {
   const bis = await lieseAutonomBis($)
@@ -258,8 +271,6 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     if (!gleich(await read($, pipeline), neuPipeline)) await update($, pipeline, () => neuPipeline)
     const neueTop = zaehleTopPrios(text)
     if (!gleich(await read($, topPrios), neueTop)) await update($, topPrios, () => neueTop)
-    const neuGerade = geradeInArbeit(text, Date.now())
-    if (!gleich(await read($, gerade), neuGerade)) await update($, gerade, () => neuGerade)
     const neueRegeln = zaehleRegelmaessig(text)
     if (!gleich(await read($, regeln), neueRegeln)) await update($, regeln, () => neueRegeln)
     const neuUnterwegs = zaehleUnterwegs(text, Date.now())
@@ -271,6 +282,7 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     fehler = 'stand.md nicht lesbar'
   }
   await aktualisiereZiele($)
+  await aktualisiereKalender($)
   const n = neu && neuVon ? zuLang(neu, [...neuVon.jetzt, ...neuVon.spaeter]) : 0
   const status = fehler ?? (n ? `Arbeitsliste: ${n} Titel über ${KURZTITEL_MAX} Zeichen` : undefined)
   if (status !== letzterStatus) {
@@ -331,7 +343,7 @@ type PaneDaten = {
   von: ReturnType<typeof teile>
   top: PrioEintrag[]
   ziele: ZielStand[]
-  gerade: { titel: string[]; mehr: number }
+  kalender: KalenderStand
   unterwegs: UnterwegsEintrag[]
 }
 
@@ -347,9 +359,9 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const von = teile(await read($, vonDir), new Date())
   const top = await read($, topPrios)
   const zieleListe = await read($, ziele)
-  const geradeListe = await read($, gerade)
+  const kalenderStand = await read($, kalender)
   const unterwegsListe = await read($, unterwegs)
-  return { auf, ausgeklappt, jetztMs, regelListe, pipeListe, von, top, ziele: zieleListe, gerade: geradeListe, unterwegs: unterwegsListe }
+  return { auf, ausgeklappt, jetztMs, regelListe, pipeListe, von, top, ziele: zieleListe, kalender: kalenderStand, unterwegs: unterwegsListe }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -463,19 +475,6 @@ function paneJetzt(a: Ansicht, d: PaneDaten) {
   )
 }
 
-// Laufende Punkte aus den Kennzeichen von stand.md, höchstens fünf (Rang: tools/naechster.mjs).
-function paneGerade(a: Ansicht, d: PaneDaten) {
-  const { Box, Text, kopf, istAuf } = a
-  if (!d.gerade.titel.length) return null
-  return (
-    <Box flexDirection="column">
-      {kopf('gerade', 'Gerade in Arbeit')}
-      {istAuf('gerade') ? d.gerade.titel.map((t, i) => <Text key={`gerade-${i}`} wrap="wrap">{`  ● ${t}`}</Text>) : null}
-      {istAuf('gerade') && d.gerade.mehr ? <Text dimColor>{`  + ${d.gerade.mehr} weitere`}</Text> : null}
-    </Box>
-  )
-}
-
 function panePipeline(a: Ansicht, d: PaneDaten) {
   const { Box, Text, kopf, istAuf, kt, punkt, verweise, details, mehr, schnitt } = a
   if (!d.pipeListe.length) return null
@@ -568,7 +567,7 @@ async function zeichnePane($: EngineInterface, e: any) {
       {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
       {paneJetzt(a, d)}
       {unterwegsBereich(a, d.unterwegs, d.jetztMs)}
-      {paneGerade(a, d)}
+      {kalenderBereich(a, d.kalender)}
       {panePipeline(a, d)}
       {paneRegeln($, a, d)}
     </Box>
