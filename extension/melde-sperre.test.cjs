@@ -156,7 +156,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
     },
   })
   vm.runInContext(sperreCode, k)
-  vm.runInContext(quelle.slice(von, bis).replace(/\bconst meldeSperre\b/, 'var meldeSperre'), k)
+  vm.runInContext(quelle.slice(von, bis).replace(/^ {2}meldeSperre = /m, 'var meldeSperre = '), k)
 
   k.zeichnen()
   pruefe('vor der Meldung: Knopf klickbar', !knopf.disabled && knopf.textContent.endsWith('melden'), knopf.textContent)
@@ -317,7 +317,7 @@ console.log('Melde-Knopf: Sperre nach angekommener Meldung\n')
   /* Die Marke „alles durch" (`gemeldetMarke(an, …)`) hängt an `durchFuerPfad`, nicht an einer Konstanten. */
   pruefe('die Marke folgt der Sperre und dem Pfad-Merker', lies('amazon-knopf-zeichnen.js').includes('const an = meldeSperre.gesperrt() || durchFuerPfad === location.pathname'))
   pruefe('genau ein Vermerk und kein zweiter Weg zur Marke', (quelle.match(/meldeSperre\.vermerken\(/g) ?? []).length === 1)
-  pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\.zeichnen\(\)\s*\}/.test(quelle))
+  pruefe('zeichnen() läuft über die Sperre', /function zeichnen\(\) \{\s*meldeSperre\?\.zeichnen\(\)\s*\}/.test(quelle))
 }
 
 /* --- ADN und Disney+: „kein Klick" heißt gesperrt ---------------------------- */

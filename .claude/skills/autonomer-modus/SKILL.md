@@ -82,7 +82,7 @@ Immer in dieser Reihenfolge:
    - **Regeln aktuell:** Regeln, Skills, Hooks und Mods liegen im Projekt (`.claude/`); ein gemergter PR gilt nach `git pull --ff-only` im Hauptordner, in laufenden Sitzungen nach Neustart (09.11.2026).
    - **Prüftisch:** in der ersten Wachphase des Tages den fälligen Bereich nach Skill
      `prueftisch` an einen Analysten geben (Daniel, 16.10.2026).
-   - **Tagesbericht des Vortags:** in der ersten Wachphase des Tages zuerst `node tools/tageskennzahlen.mjs --anhaengen --lehren=<lehren.md im Hauptordner>` mit `run_in_background` (nur der Vortag; der Volllauf kostet ~5000 Abrufe und leert das geteilte Kontingent, 16.11.2026; schreibt `tools/kennzahlen/tage.jsonl` und `daten.js` für die Kennzahlen-Ansicht), dann `daniel-zum-abarbeiten/berichte/tagesbericht-JJJJ-MM-TT.md` schreiben (15.11.2026, PR 3932; Einzelheiten `docs/wissen/betrieb.md`, Abschnitt Tageskennzahlen).
+   - **Tagesbericht des Vortags:** in der ersten Wachphase des Tages zuerst in einem eigenen Worktree (nie im Hauptordner, er wird nur gelesen; 19.11.2026 schrieb der Lauf dort drei Dateien) `node tools/tageskennzahlen.mjs --anhaengen --lehren=<lehren.md im Hauptordner>` mit `run_in_background`, Ergebnis als PR „chore(kennzahlen)“ (nur der Vortag; der Volllauf kostet ~5000 Abrufe und leert das geteilte Kontingent, 16.11.2026; schreibt `tools/kennzahlen/tage.jsonl` und `daten.js` für die Kennzahlen-Ansicht), dann `daniel-zum-abarbeiten/berichte/tagesbericht-JJJJ-MM-TT.md` schreiben (15.11.2026, PR 3932; Einzelheiten `docs/wissen/betrieb.md`, Abschnitt Tageskennzahlen).
 
    **Ein roter Lauf wird bemerkt, nicht gemeldet.** Daniel am 07.09.2026: „wann immer ein
    lauf fehlschlägt musst du selbst mitbekommen, anschauen, und handeln, und im anschluss
