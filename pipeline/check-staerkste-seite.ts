@@ -133,6 +133,12 @@ try {
   pruefe('ersetztBeleg: jüngeres Datum ersetzt, auch mit weniger Folgen', ersetztBeleg(ja('B0A', 9), ja('B0B', 2, '2026-10-17')))
   /* Shana 355: der Beleg vom 19.11. steht vor der Nein-Zeile vom 31.10.; die spätere Zeile darf ihn nicht verdrängen. */
   pruefe('ersetztBeleg: älteres Datum ersetzt nie, auch als spätere Zeile', !ersetztBeleg(ja('B0A', 2, '2026-11-19'), { ...ja('B0B', 9, '2026-10-31'), dub: undefined, available: false }))
+  /* 97863: Kauf-Seite (Ja, 01.09.) gegen Kanal-Seite (Nein, 16.11.): das Nein einer anderen Adresse verdrängt das Ja in keiner Reihenfolge. */
+  const nein = (seite: string, datum: string): DubCheck => ({ ...ja(seite, 0, datum), dub: false, note: undefined })
+  pruefe('ersetztBeleg: jüngeres Nein einer anderen Adresse ersetzt ein Ja nicht', !ersetztBeleg(ja('B0A', 11, '2026-09-01'), nein('B0K', '2026-11-16')))
+  pruefe('ersetztBeleg: älteres Ja ersetzt ein jüngeres Nein einer anderen Adresse', ersetztBeleg(nein('B0K', '2026-11-16'), ja('B0A', 11, '2026-09-01')))
+  pruefe('ersetztBeleg: jüngeres Nein derselben Adresse ersetzt das Ja', ersetztBeleg(ja('B0A', 11, '2026-09-01'), nein('B0A', '2026-11-16')))
+  pruefe('ersetztBeleg: jüngeres Ja einer anderen Adresse ersetzt ein Nein', ersetztBeleg(nein('B0K', '2026-09-01'), ja('B0A', 11, '2026-11-16')))
   const paar = [ja('B0A', 7), ja('B0B', 8)]
   pruefe('istSchwaechereSchwester: weniger Folgen, gleiches Datum', istSchwaechereSchwester(paar, AMAZON + 'B0B', AMAZON + 'B0A'))
   pruefe('istSchwaechereSchwester: die stärkere ist es nicht', !istSchwaechereSchwester(paar, AMAZON + 'B0A', AMAZON + 'B0B'))
