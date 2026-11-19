@@ -3481,13 +3481,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
 
   /**
-   * „Prime führt diesen Titel nicht" — die Meldung dazu.
-   *
-   * Gemeldet wird unter der **Suchadresse**, denn die steht in unserem
-   * Bestand; die Übernahme macht daraus ein `available: false` und entfernt
-   * den Verweis. Das ist derselbe Weg, den Crunchyroll seit dem 27.08.2026
-   * geht, und dieselbe Begründung: Ein Verweis, der auf eine Trefferliste
-   * ohne den gesuchten Titel führt, kostet einen Klick und liefert nichts.
+   * „Prime führt diesen Titel nicht" — die Meldung dazu, unter der **Suchadresse** aus unserem Bestand: die Übernahme macht
+   * daraus `available: false` und entfernt den Verweis (wie bei Crunchyroll seit 27.08.2026).
    */
   async function nichtBeiPrimeMelden(auftrag, befund, knopf, nachher) {
     knopf.disabled = true
