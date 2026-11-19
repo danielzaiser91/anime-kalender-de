@@ -969,3 +969,11 @@
   url: https://www.amazon.de/gp/video/detail/B07MXMCF4V
   grund: 'Seite B07MXMCF4V ist die Staffel-2-Seite (Avenging Battle, 20719, 10 Folgen; Notiz oben, 14./15.11.2026); 20462 (Staffel 1, 12 Folgen) führt B07LHFLDBS. Die Meldung in prime-zugeordnet.json schrieb sie Staffel 1 zu, weil die Seite Sekunden später die gti von Staffel 1 zeigte (widersprüchliche Messung 14.11.2026). Neumessung der Seite steht aus (16.11.2026)'
   entferntAm: '2026-11-16'
+- anilistId: 15489
+  url: https://www.amazon.de/gp/video/detail/B0H1R11K51
+  grund: 'Seite B0H1R11K51 ist Prime-Staffel 1 (49 Folgen, Folge 1 „Yuma startet durch“) und gehört Yu-Gi-Oh! Zexal (10015, Folgen 1–49), nicht Zexal II; die Messung vom 16.10.2026 hing an der Serien-gti und ist zu 10015 umgehängt (19.11.2026)'
+  entferntAm: '2026-11-19'
+- anilistId: 10015
+  url: https://www.amazon.de/gp/video/detail/B0H298L2X9
+  grund: 'Seite B0H298L2X9 ist Prime-Staffel 3 (48 Folgen) und gehört Yu-Gi-Oh! Zexal II (15489, Folgen 26–73); Meldungen von der Zexal-Serienseite B07FBGYPR6 nennen sie als Seite des Anime, ihr Beleg bleibt bei 15489 (19.11.2026)'
+  entferntAm: '2026-11-19'
