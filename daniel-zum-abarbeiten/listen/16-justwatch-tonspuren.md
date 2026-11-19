@@ -7,14 +7,13 @@ einzelnen Folge — bei „Kill Blue" meldet JustWatch `de` für alle zwölf, be
 sind acht. Und ein fehlendes `de` belegt nichts: Netflix meldet dort gar keine
 Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
-25 offene Verweise, zu denen JustWatch eine Tonspur nennt.
+24 offene Verweise, zu denen JustWatch eine Tonspur nennt.
 
 | Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |
 |---|---|---|---|---|
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Pokémon](https://anime-kalender.de/#/datenbank?t=527) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Pokemon) |
 | [Sonic X](https://anime-kalender.de/#/datenbank?t=1816) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/Sonic-X) |
-| [A Certain Magical Index](https://anime-kalender.de/#/datenbank?t=4654) | primevideo | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Toaru-Majutsu-no-Index) |
 | [Steins;Gate 0](https://anime-kalender.de/#/datenbank?t=21127) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, es, ja, pt` | [JustWatch](https://www.justwatch.com/de/Serie/Steins-Gate-0) |
 | [Konosuba: God’s Blessing on This Wonderful World!](https://anime-kalender.de/#/datenbank?t=21202) | primevideo | 🇩🇪 **Deutsch dabei** | `de` | [JustWatch](https://www.justwatch.com/de/Serie/KonoSuba-Gods-blessing-on-this-wonderful-world) |
 | [Grimgar, Ashes and Illusions](https://anime-kalender.de/#/datenbank?t=21428) | crunchyroll | 🇩🇪 **Deutsch dabei** | `de, en, ja` | [JustWatch](https://www.justwatch.com/de/Serie/Grimgar-Ashes-and-Illusions) |
@@ -39,7 +38,7 @@ Tonspur. Was hier steht, sagt, **wo sich das Nachsehen lohnt**.
 
 ## Titel ganz ohne Bezugsweg
 
-22 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
+23 Titel im Hauptbestand haben keinen einzigen Weg — hier nennt JustWatch einen.
 Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro; das 🇩🇪 sagt,
 dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 
@@ -64,6 +63,7 @@ dass JustWatch für dieses Angebot auch eine deutsche Tonspur kennt.
 | [undefined](https://anime-kalender.de/#/datenbank?t=-71819) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8ae79b2-3f2f-7f4b-43e2-7d08428286b5), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8ae79b2-3f2f-7f4b-43e2-7d08428286b5) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-70933) | [Disney Plus](https://www.disneyplus.com/browse/entity-ccf1f1a3-7509-435e-aae1-88eb6b3342b0) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-67111) | [Crunchyroll](https://www.crunchyroll.com/watch/GN7UDV5QV) |
+| [undefined](https://anime-kalender.de/#/datenbank?t=-46848) | [Disney Plus](https://www.disneyplus.com/browse/entity-c752c178-c507-4c43-a73f-b6b64abf06d9), [Amazon Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.faa9f6b6-b747-4fb8-8b36-0e93bab76961), [Videobuster](https://www.videobuster.de/dvd-bluray-verleih/189149/angry-birds-toons-staffel-1?campaign=vb50feed#rental&rental-dvd), [MagentaTV](https://www.magenta.tv/serie/angry-birds-toons/staffel-2/GN_SEASON_9835465_DE_2) |
 | [Shaun das Schaf - Meisterschaf](https://anime-kalender.de/#/datenbank?t=-82679) | [Disney Plus](https://www.disneyplus.com/browse/entity-cb9eb827-5e12-4dba-b823-4261e8c92108) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-44169) | [Disney Plus](https://www.disneyplus.com/browse/entity-9098dd1f-505d-4c50-845a-fc323d110072) |
 | [undefined](https://anime-kalender.de/#/datenbank?t=-81614) | [Amazon Prime Video](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c), [Amazon Prime Video Free with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c), [Amazon Prime Video with Ads](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c), [Amazon MX Player](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c) |
