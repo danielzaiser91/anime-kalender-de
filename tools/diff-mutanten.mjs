@@ -9,6 +9,7 @@
  *   node tools/diff-mutanten.mjs --liste          nur die Liste (JSON) auf stdout, fährt der Läufer direkt
  *   node tools/diff-mutanten.mjs --test "<befehl>"  Testbefehl statt der Zuordnung Datei → Test (mehrfach möglich)
  *   node tools/diff-mutanten.mjs --basis <ref>    gegen <ref> statt origin/main vergleichen (Zweig baut auf offenem PR auf)
+ * Je Datei läuft eine Sonde mit (wirft beim Laden): bleibt sie grün, lädt der Test die Datei nicht → Abbruch, Exit 2, kein „Überlebt“ (19.11.2026).
  * Test je Datei: `<name>.test.(mjs|cjs|ts|tsx)` neben der Datei, sonst `pipeline/check-<name>.ts`; ohne Test keine Läuferfahrt.
  * Mutantenarten: Vergleich getauscht, Grenze ±1, && ↔ ||, ?:-Zweige vertauscht, Zahl 0/1, Aufruf entfernt, Argumente getauscht.
  */
@@ -145,6 +146,24 @@ export function unbrauchbare(ausgabe) {
   return ausgabe.split('\n').filter((z) => /^(nicht gefunden|mehrdeutig|wirkungslos) /.test(z)).map((z) => z.replace(/\s+/, ' ').trim())
 }
 
+/** Sonde je Datei (19.11.2026): wirft beim Laden. Bleibt der Test grün, lädt er die Datei nicht, und „überlebt“ wäre ohne Aussage. */
+export const SONDE = 'Sonde (Test lädt Datei)'
+export function sondenFuer(fahrbar) {
+  const gesehen = new Set()
+  const sonden = []
+  for (const m of fahrbar) {
+    const datei = m.aenderungen[0].datei
+    if (gesehen.has(datei)) continue
+    gesehen.add(datei)
+    const ersetze = "throw new Error('diff-mutanten-sonde')"
+    sonden.push({ name: `${datei} ${SONDE}`, aenderungen: [{ datei, suche: '@ENDE', ersetze }], tests: m.tests })
+  }
+  return sonden
+}
+
+/** Dateien, deren Sonde überlebt hat (Name `<datei> Sonde …` unter den Überlebenden). */
+export const blinde = (lebt) => lebt.filter((n) => n.endsWith(` ${SONDE}`)).map((n) => n.slice(0, -SONDE.length - 1))
+
 /** Vergleichsbasis: `--basis <ref>`, sonst origin/main. */
 export function basisAus(argv) {
   const i = argv.indexOf('--basis')
@@ -162,7 +181,7 @@ function main(argv) {
   const ordner = mkdtempSync(join(tmpdir(), 'diff-mutanten-'))
   try {
     const pfad = join(ordner, 'liste.json')
-    writeFileSync(pfad, JSON.stringify(fahrbar))
+    writeFileSync(pfad, JSON.stringify([...fahrbar, ...sondenFuer(fahrbar)]))
     const lauf = spawnSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'mutationslaeufer.mjs'), pfad], { encoding: 'utf8', maxBuffer: 1 << 28 })
     const aus = `${lauf.stdout ?? ''}${lauf.stderr ?? ''}`
     if (lauf.status !== 0 && lauf.status !== 1) {
@@ -170,11 +189,16 @@ function main(argv) {
       process.exitCode = 2
       return
     }
-    const lebt = ueberlebende(aus)
+    const alleLebend = ueberlebende(aus)
+    const blind = blinde(alleLebend)
+    for (const d of blind) console.log(`  ! ABBRUCH ${d}: der gewählte Test lädt die Datei nicht (Sonde blieb grün), keine Aussage über ihre Mutanten (--test prüfen).`)
+    const lebt = alleLebend.filter((n) => !n.endsWith(` ${SONDE}`) && !blind.some((d) => n.startsWith(`${d}:`)))
     for (const n of lebt) console.log(`  ! Überlebt: ${n}`)
     const kaputt = unbrauchbare(aus)
     for (const n of kaputt) console.log(`  ! Unbrauchbar (nie getestet): ${n}`)
-    console.log(`diff-mutanten: ${fahrbar.length} Mutanten, ${lebt.length} überlebt, ${kaputt.length} unbrauchbar.`)
+    const bewertet = fahrbar.filter((m) => !blind.includes(m.aenderungen[0].datei)).length
+    console.log(`diff-mutanten: ${bewertet} Mutanten, ${lebt.length} überlebt, ${kaputt.length} unbrauchbar.`)
+    if (blind.length) process.exitCode = 2
   } finally {
     rmSync(ordner, { recursive: true, force: true })
   }

@@ -118,15 +118,16 @@ try {
       ZWEIG: 'feat/x',
       RUNNER_TEMP: temp,
       GITHUB_STEP_SUMMARY: summary,
+      GITHUB_OUTPUT: join(temp, 'ausgabe.txt'),
       GITHUB_SERVER_URL: 'https://github.example',
       GITHUB_REPOSITORY: 'o/r',
       GITHUB_RUN_ID: '77',
     }, arbeit)
-    return { ...r, ergebnis: readFileSync(join(temp, 'mutation', 'ergebnis.md'), 'utf8'), summary: readFileSync(summary, 'utf8') }
+    return { ...r, temp, ergebnis: readFileSync(join(temp, 'mutation', 'ergebnis.md'), 'utf8'), summary: readFileSync(summary, 'utf8') }
   }
   const alleRot = lauf([rot])
   assert.equal(alleRot.status, 0, alleRot.stdout + alleRot.stderr)
-  assert.match(alleRot.ergebnis, /^## Mutationsprobe für `feat\/x` \(`liste\.json`\)\n\nExit 0 /)
+  assert.match(alleRot.ergebnis, /^## Mutationsprobe für `feat\/x` \(`liste\.json`\)\n\nÜberlebende: 0 von 1\n\nExit 0 /)
   assert.match(alleRot.ergebnis, /actions\/runs\/77/)
   assert.match(alleRot.ergebnis, /Kopf: `unbekannt`\./, 'ohne Git-Stand steht „unbekannt“, nie eine leere Angabe')
   assert.match(alleRot.ergebnis, /\| rot /)
@@ -140,14 +141,19 @@ try {
   assert.equal(ohneTest.status, 1, 'ohne Standardtest und ohne eigene tests ist die Liste unbrauchbar (Exit 1), nie grün (Lehre 132)')
   assert.match(ohneTest.stdout + ohneTest.ergebnis, /unbrauchbar, kein Testbefehl/)
   const ueberlebt = lauf([rot, grün])
+  const echtLebt = lauf([rot, { name: 'lebt', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=1 ' }])
   assert.equal(ueberlebt.status, 1, 'ein Überlebender macht den Lauf rot, auch wenn der Läufer im Kopf „alle rot“ meldet (A2)')
   assert.ok(!ueberlebt.stdout.includes('gefälscht'), 'der manipulierte Läufer aus dem Kopf läuft nicht')
   assert.match(ueberlebt.ergebnis, /Läufer aus main, Liste und Tests vom Kopf\.$/m)
   assert.match(ueberlebt.ergebnis, /\nExit 1 /)
+  assert.match(echtLebt.ergebnis, /\n\nÜberlebende: 1 von 2\n/, 'Zahl der Überlebenden maschinenlesbar im Ergebnis')
+  assert.equal(readFileSync(join(echtLebt.temp, 'mutation', 'ueberlebende.txt'), 'utf8'), 'Überlebende: 1 von 2\n', 'Datei im Artefakt')
+  assert.match(readFileSync(join(echtLebt.temp, 'ausgabe.txt'), 'utf8'), /^ueberlebende=Überlebende: 1 von 2\n$/, 'Job-Ausgabe')
   assert.match(ueberlebt.ergebnis, /GRÜN|grün/i)
   const grundrot = lauf([{ name: 'x', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2', tests: ['node -e "process.exit(1)"'] }])
   assert.equal(grundrot.status, 2, 'roter Grundlauf = Exit 2')
   assert.match(grundrot.ergebnis, /\nExit 2 /)
+  assert.match(grundrot.ergebnis, /Überlebende: unbekannt/, 'ohne Läuferzeile keine erfundene Zahl')
   assert.ok(grundrot.ergebnis.includes('Grundlauf ohne Mutation ist rot'), 'ohne Tabelle steht das Log-Ende im Ergebnis')
   assert.equal(readFileSync(join(arbeit, 'a.txt'), 'utf8'), 'wert=1\n', 'Datei nach allen Läufen zurückgesetzt')
   // Im Git-Stand trägt das Ergebnis den echten Kopf-SHA (der Prüfer ordnet den Kommentar daran dem Push zu).

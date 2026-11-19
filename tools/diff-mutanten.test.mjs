@@ -4,7 +4,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmdirSync, rmSync, symlinkSync, w
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { basisAus, geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
+import { SONDE, basisAus, blinde, sondenFuer, geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -172,7 +172,11 @@ try {
   const ohneT = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
   pruefe('Datei ohne Test: Hinweis mit Dateiname', ohneT.stdout.includes('! Kein Test gefunden für tools/solo.mjs'))
   const mitT = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--test', 'node tools/lib.test.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
-  pruefe('--test: Mutanten der Datei ohne Test werden gefahren', !mitT.stdout.includes('Kein Test gefunden') && mitT.stdout.includes('! Überlebt: tools/solo.mjs:1 && → ||'))
+  // Der „12 von 12 überlebt“-Fall (19.11.2026): lib.test.mjs lädt solo.mjs nie, also bliebe jeder Mutant grün.
+  pruefe('--test, der die Datei nicht lädt: ABBRUCH statt „Überlebt“, Exit 2', !mitT.stdout.includes('Kein Test gefunden') && mitT.stdout.includes('! ABBRUCH tools/solo.mjs') && !mitT.stdout.includes('Überlebt: tools/solo.mjs') && mitT.status === 2)
+  pruefe('Abbruch: Schlusszeile zählt die blinde Datei nicht mit', mitT.stdout.includes("diff-mutanten: 9 Mutanten, 5 überlebt") && !mitT.stdout.includes(SONDE))
+  pruefe('sondenFuer: eine Sonde je Datei', sondenFuer([{ aenderungen: [{ datei: 'a' }] }, { aenderungen: [{ datei: 'a' }] }, { aenderungen: [{ datei: 'b' }] }]).length === 2)
+  pruefe('blinde: nur Sonden-Namen, Dateiname ohne Zusatz', blinde([`x.mjs ${SONDE}`, 'x.mjs:1 && → ||']).join() === 'x.mjs')
   // Grundlauf rot: Läuferfehler wird ausgegeben
   writeFileSync(join(wurzel, 'tools/lib.test.mjs'), 'process.exit(1)\n')
   git('commit', '-q', '-am', 'rot')
