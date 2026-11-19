@@ -45,6 +45,11 @@ gleich('Kopf ohne Urteil, Prüfer-Lauf übersprungen (daten/-Zweig, Fork): kein 
 gleich('Kopf ohne Urteil, Lauf gescheitert (failure): Neustart', los({ kommentare: [], lauf: { id: 5, status: 'completed', conclusion: 'failure' } }), true)
 gleich('Kopf ohne Urteil, Versuch 1 bis 3: Neustart', [1, 2, 3].map((v) => los({ kommentare: [], lauf: { ...lauf, run_attempt: v } })), [true, true, true])
 gleich('Kopf ohne Urteil, Versuch 4: Schluss (Schleifenschutz; die Wache meldet den Kopf nach 60 min)', los({ kommentare: [], lauf: { ...lauf, run_attempt: 4 } }), false)
+// Marken-Pfad („Basis offen“-Kommentar): erst nach grüner Kette neu (trennt `!== success` von `=== success`).
+gleich('Marke, Basis offen, Kette rot: kein Neustart', los({ kommentare: [OFFEN()], basisOffen: true, kette: { conclusion: 'failure' } }), false)
+gleich('Marke, Basis offen, Kette grün: Neustart', los({ kommentare: [OFFEN()], basisOffen: true, kette: { conclusion: 'success' } }), true)
+gleich('Marke, Basis offen, Kette unbekannt (null): kein Neustart', los({ kommentare: [OFFEN()], basisOffen: true, kette: null }), false)
+gleich('Marke, Basis nicht offen, Kette rot: Neustart', los({ kommentare: [OFFEN()], basisOffen: false, kette: { conclusion: 'failure' } }), true)
 gleich('Kopf ohne Urteil, Basis offen und Kette rot: trotzdem Neustart (es folgt der Kommentar „Basis offen“)', los({ kommentare: [], basisOffen: true, kette: { conclusion: 'failure' } }), true)
 gleich('PR geschlossen', los({ pr: pr({ state: 'closed' }) }), false)
 gleich('PR Entwurf', los({ pr: pr({ draft: true }) }), false)
