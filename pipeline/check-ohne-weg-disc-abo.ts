@@ -1,5 +1,5 @@
 /**
- * Die Gründe `abo-ohne-ton` und `nur-disc` in `ohne-weg.json` (19.11.2026): Beleg, Sperren, Vorrang, Anzeigesatz. Je Zusicherung ein Fall, der ohne sie rot wird.
+ * Die Gründe `abo-ohne-ton`, `nur-disc` und `kein-angebot` in `ohne-weg.json` (19.11.2026): Beleg, Sperren, Vorrang, Anzeigesatz. Je Zusicherung ein Fall, der ohne sie rot wird.
  * Die übrigen Gründe prüft `check-ohne-weg.ts`. Aufruf: `npm run check:logic`.
  */
 import { baueOhneWeg, zaehleVeralteteBefunde, type OhneWegEingabe } from './lib/ohne-weg.ts'
@@ -63,15 +63,15 @@ pruefe('Abo ohne Deutsch: abo-ohne-ton geht vor', einzeln(befund('d4', [{ art: '
 pruefe('Handbeleg Originalton geht vor', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') }, handbelege: [{ anilistId: 900001, platform: 'prime', dub: false, checkedAt: '2026-10-01' } as never] })?.reason === 'kein-dub')
 pruefe('Künftiger Streamstart geht vor', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') }, termine: [{ titleId: 900001, platform: 'netflix', date: '2026-12-01' }] })?.reason === 'angekuendigt')
 pruefe('Gegenfall: ohne JustWatch-Eintrag kein Grund (kein Tag aus der Quelle)', einzeln(undefined, { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
-pruefe('Gegenfall: ohne Disc kein Grund', einzeln(ohneTreffer())?.reason === 'offen')
-pruefe('Gegenfall: Disc eines anderen Titels', einzeln(ohneTreffer(), { discAusgaben: { 900009: disc('2020-01-01') } })?.reason === 'offen')
+pruefe('Gegenfall: ohne Disc nicht nur-disc (frisch ohneTreffer: kein-angebot)', einzeln(ohneTreffer())?.reason === 'kein-angebot')
+pruefe('Gegenfall: Disc eines anderen Titels: nicht nur-disc', einzeln(ohneTreffer(), { discAusgaben: { 900009: disc('2020-01-01') } })?.reason === 'kein-angebot')
 pruefe('Disc am Stichtag zählt (Grenze genau heute)', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2026-11-18') } })?.reason === 'nur-disc')
-pruefe('Gegenfall: Disc morgen', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2026-11-19') } })?.reason === 'offen')
-pruefe('Gegenfall: Disc ohne vollen Tag', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2019-12-00') } })?.reason === 'offen' && einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('') } })?.reason === 'offen' && einzeln(ohneTreffer(), { discAusgaben: { 900001: [{}] } })?.reason === 'offen')
+pruefe('Gegenfall: Disc morgen: nicht nur-disc', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2026-11-19') } })?.reason === 'kein-angebot')
+pruefe('Gegenfall: Disc ohne vollen Tag: nicht nur-disc', ['2019-12-00', ''].every((d) => einzeln(ohneTreffer(), { discAusgaben: { 900001: disc(d) } })?.reason === 'kein-angebot') && einzeln(ohneTreffer(), { discAusgaben: { 900001: [{}] } })?.reason === 'kein-angebot')
 pruefe('Eine künftige neben einer erschienenen Disc: Grund', einzeln(ohneTreffer(), { discAusgaben: { 900001: [...disc('2027-01-01'), ...disc('2010-03-08')] } })?.reason === 'nur-disc')
 pruefe('Disc-Termin in events.json, schon vorbei: Grund', einzeln(ohneTreffer(), { termine: [{ titleId: 900001, platform: 'disc', date: '2026-11-01' }] })?.reason === 'nur-disc')
-pruefe('Gegenfall: Disc-Termin in events.json noch in der Zukunft', einzeln(ohneTreffer(), { termine: [{ titleId: 900001, platform: 'disc', date: '2027-01-28' }] })?.reason === 'offen')
-pruefe('Gegenfall: ein vergangener Streamtermin ist keine Disc', einzeln(ohneTreffer(), { termine: [{ titleId: 900001, platform: 'netflix', date: '2026-11-01' }] })?.reason === 'offen')
+pruefe('Gegenfall: Disc-Termin in events.json noch in der Zukunft: nicht nur-disc', einzeln(ohneTreffer(), { termine: [{ titleId: 900001, platform: 'disc', date: '2027-01-28' }] })?.reason === 'kein-angebot')
+pruefe('Gegenfall: ein vergangener Streamtermin ist keine Disc', einzeln(ohneTreffer(), { termine: [{ titleId: 900001, platform: 'netflix', date: '2026-11-01' }] })?.reason === 'kein-angebot')
 pruefe('ohneTreffer 27 Tage alt gilt', einzeln(ohneTreffer({ geprueftAm: '2026-10-22' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'nur-disc')
 pruefe('Gegenfall: ohneTreffer 28 Tage alt', einzeln(ohneTreffer({ geprueftAm: '2026-10-21' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: Befund ohne Prüftag', einzeln(ohneTreffer({ geprueftAm: '' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
@@ -93,7 +93,7 @@ const mehrere = lauf({
   justwatch: { 900005: ohneTreffer({ geprueftAm: '2026-11-10' }), 900006: ohneTreffer({ geprueftAm: '2026-11-12' }), 900007: ohneTreffer() },
   discAusgaben: { 900005: disc('2020-01-01'), 900006: disc('2020-01-01') },
 })
-pruefe('Je Titel der eigene Prüftag, ein Titel ohne Disc bleibt offen', mehrere[900005]?.checkedAt === '2026-11-10' && mehrere[900006]?.checkedAt === '2026-11-12' && mehrere[900007]?.reason === 'offen', mehrere)
+pruefe('Je Titel der eigene Prüftag, ein Titel ohne Disc ist kein-angebot', mehrere[900005]?.checkedAt === '2026-11-10' && mehrere[900006]?.checkedAt === '2026-11-12' && mehrere[900007]?.reason === 'kein-angebot', mehrere)
 pruefe('Titel mit Weg bekommt keinen Grund, auch nicht mit Disc', Object.keys(lauf({ titel: [titel(900008, { streams: [{ platform: 'netflix' }] })], justwatch: { 900008: ohneTreffer() }, discAusgaben: { 900008: disc('2020-01-01') } })).length === 0)
 
 const handbelegJa = { anilistId: 900001, platform: 'prime', dub: true, checkedAt: '2026-10-01' } as never
@@ -105,6 +105,23 @@ const namensvetter = { jwId: 'v', gleicherName: true }
 pruefe('Namensvetter bei JustWatch (namenTreffer) bleibt offen', einzeln(ohneTreffer({ namenTreffer: namensvetter }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: ohne namenTreffer derselbe Fall nur-disc', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'nur-disc')
 pruefe('Namensvetter an gefundenem Titel ohne Angebot bleibt offen', einzeln(befund('n1', [], { namenTreffer: namensvetter }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
+
+console.log('\nkein-angebot')
+const k1 = einzeln(ohneTreffer())
+pruefe('Frisch, ohneTreffer: Grund, Tag aus geprueftAm, Quelle JustWatch', k1?.reason === 'kein-angebot' && k1.checkedAt === '2026-11-17' && k1.source === 'justwatch', k1)
+pruefe('Namenstreffer ohne gleichen Namen (Suchrauschen) gilt', einzeln(ohneTreffer({ namenTreffer: { jwId: 'v', gleicherName: false } }))?.reason === 'kein-angebot')
+pruefe('Gegenfall: gleichnamiger Kandidat (Zuordnungsfrage) bleibt offen', einzeln(ohneTreffer({ namenTreffer: namensvetter }))?.reason === 'offen')
+pruefe('Gegenfall: Handbeleg „deutsch“ bleibt offen', einzeln(ohneTreffer(), { handbelege: [handbelegJa] })?.reason === 'offen')
+pruefe('Gegenfall: Befund 28 Tage alt bleibt offen', einzeln(ohneTreffer({ geprueftAm: '2026-10-21' }))?.reason === 'offen')
+pruefe('Befund 27 Tage alt gilt', einzeln(ohneTreffer({ geprueftAm: '2026-10-22' }))?.reason === 'kein-angebot')
+pruefe('Gegenfall: verfehlter Befund bleibt offen', einzeln(ohneTreffer({ verfehltAm: '2026-11-17' }))?.reason === 'offen')
+pruefe('Gegenfall: Prüftag kein voller Tag bleibt offen', einzeln(ohneTreffer({ geprueftAm: '2026-11' }))?.reason === 'offen' && einzeln(ohneTreffer({ geprueftAm: '' }))?.reason === 'offen')
+pruefe('Gegenfall: ohne JustWatch-Eintrag bleibt offen', einzeln(undefined)?.reason === 'offen')
+pruefe('Gegenfall: gefundener Titel ist nie kein-angebot (ohne Disc bleibt offen)', einzeln(befund('k1', []))?.reason === 'offen')
+pruefe('Erschienene Disc geht vor (nur-disc)', einzeln(ohneTreffer(), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'nur-disc')
+pruefe('Künftiger Streamstart geht vor', einzeln(ohneTreffer(), { termine: [{ titleId: 900001, platform: 'netflix', date: '2026-12-01' }] })?.reason === 'angekuendigt')
+pruefe('Handbeleg Originalton geht vor', einzeln(ohneTreffer(), { handbelege: [{ anilistId: 900001, platform: 'prime', dub: false, checkedAt: '2026-10-01' } as never] })?.reason === 'kein-dub')
+pruefe('Cartoon (negative Kennung) bekommt den Grund', lauf({ titel: [titel(-900010)], justwatch: { '-900010': ohneTreffer() } })[-900010]?.reason === 'kein-angebot')
 
 console.log('\nveraltete Befunde (Logzeile)')
 const altB = (extra: Record<string, unknown> = {}) => ohneTreffer({ geprueftAm: '2026-10-21', ...extra })
@@ -118,10 +135,11 @@ pruefe('Zählung: Befund 27 Tage alt gilt noch (nur-disc), zählt nicht', zaehle
 console.log('\nAnzeigesatz')
 pruefe('Text abo-ohne-ton nennt den Tag deutsch', ohneWegText({ reason: 'abo-ohne-ton', checkedAt: '2026-11-17' }) === 'Laut JustWatch im Stream ohne deutschen Ton, geprüft am 17.11.2026.', ohneWegText({ reason: 'abo-ohne-ton', checkedAt: '2026-11-17' }))
 pruefe('Text nur-disc nennt den Tag und kein JustWatch', ohneWegText({ reason: 'nur-disc', checkedAt: '2026-11-17' }) === 'Auf DVD oder Blu-ray erschienen, Streaming bisher nicht gefunden, geprüft am 17.11.2026.', ohneWegText({ reason: 'nur-disc', checkedAt: '2026-11-17' }))
-pruefe('Gegenfall: beide Gründe ohne Tag erfinden keinen', ohneWegText({ reason: 'abo-ohne-ton' }) === 'Ein Streaming-Angebot ist noch nicht belegt.' && ohneWegText({ reason: 'nur-disc' }) === 'Ein Streaming-Angebot ist noch nicht belegt.')
+pruefe('Text kein-angebot: Fund mit Tag, keine Behauptung „gibt es nicht“', ohneWegText({ reason: 'kein-angebot', checkedAt: '2026-11-17' }) === 'Kein Angebot gefunden (geprüft am 17.11.2026).', ohneWegText({ reason: 'kein-angebot', checkedAt: '2026-11-17' }))
+pruefe('Gegenfall: alle drei Gründe ohne Tag erfinden keinen', ['abo-ohne-ton', 'nur-disc', 'kein-angebot'].every((reason) => ohneWegText({ reason } as OhneWegEintrag) === 'Ein Streaming-Angebot ist noch nicht belegt.'))
 
 if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)
   process.exit(1)
 }
-console.log('\n✓ ohne-weg-disc-abo: abo-ohne-ton und nur-disc mit Beleg, Sperren, Vorrang und Anzeigesatz in Ordnung')
+console.log('\n✓ ohne-weg-disc-abo: abo-ohne-ton, nur-disc und kein-angebot mit Beleg, Sperren, Vorrang und Anzeigesatz in Ordnung')

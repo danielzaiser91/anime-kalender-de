@@ -62,7 +62,7 @@ const e8b = lauf({ titel: [titel(900033)], justwatch: { 900033: jw('a9', 9, ['RE
 pruefe('Ein einziges Leih-Angebot genügt (Grenze 1)', e8b[900033]?.reason === 'nur-kauf', e8b)
 
 const e9 = lauf({ titel: [titel(900009, { format: 'MOVIE' })], justwatch: { 900009: jw('a3', 3, [], { ohneTreffer: true }) } })
-pruefe('Gegenfall: JustWatch ohneTreffer ist eine Zuordnungslücke, kein Beleg', e9[900009]?.reason === 'offen', e9)
+pruefe('JustWatch ohneTreffer ist kein Beleg „laut JustWatch“: nie film-ohne-abo, nur kein-angebot mit Quelle JustWatch', e9[900009]?.reason === 'kein-angebot', e9)
 const e10 = lauf({ titel: [titel(900010, { format: 'MOVIE' })], justwatch: { 900010: jw('a4', 4, []) } })
 pruefe('Film, JustWatch zugeordnet, kein Angebot: film-ohne-abo', e10[900010]?.reason === 'film-ohne-abo' && e10[900010]?.checkedAt === '2026-11-17', e10)
 const e11 = lauf({ titel: [titel(900011)], justwatch: { 900011: jw('a5', 5, []) } })
@@ -126,6 +126,7 @@ for (const [name, e] of [
   ['film-ohne-abo ohne Prüftag', { reason: 'film-ohne-abo' }],
   ['abo-ohne-ton ohne Prüftag', { reason: 'abo-ohne-ton' }],
   ['nur-disc mit kaputtem Prüftag', { reason: 'nur-disc', checkedAt: '2026-11' }],
+  ['kein-angebot ohne Prüftag', { reason: 'kein-angebot' }],
   ['angekuendigt ohne Starttag (checkedAt zählt dort nicht)', { reason: 'angekuendigt', checkedAt: '2026-11-17' }],
 ] as [string, OhneWegEintrag][])
   pruefe(`Fehler: ${name}`, ohneWegFehler({ 5: e }, [5], 9).fehler.length === 1)

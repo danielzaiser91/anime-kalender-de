@@ -3,7 +3,7 @@
  * in `titles.json`: Sie betrifft 1.291 von 3.842 Titeln und wird nur im Detail-Panel gelesen.
  * Gründe gibt es nur mit Beleg; was kein Beleg trägt, heißt `offen`.
  */
-export const OHNE_WEG_GRUENDE = ['angekuendigt', 'kein-dub', 'nur-kauf', 'film-ohne-abo', 'abo-ohne-ton', 'nur-disc', 'offen'] as const
+export const OHNE_WEG_GRUENDE = ['angekuendigt', 'kein-dub', 'nur-kauf', 'film-ohne-abo', 'abo-ohne-ton', 'nur-disc', 'kein-angebot', 'offen'] as const
 export type OhneWegGrund = (typeof OHNE_WEG_GRUENDE)[number]
 
 /**

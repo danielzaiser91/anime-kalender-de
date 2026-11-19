@@ -2,10 +2,10 @@
  * **Warum ein Titel keinen Streaming-Weg hat — nur mit Beleg** (18.11.2026, `ohne-weg.json`). Wer kein Beleg trägt, steht als `offen` da.
  *
  * Reihenfolge: Start in der Zukunft, Handbeleg „nur Originalton“, JustWatch „nur Kauf/Leihe“, Film ohne Streaming-Angebot bei JustWatch,
- * Abo bei JustWatch ohne deutschen Ton, schon erschienene Disc ohne Streaming-Fund.
+ * Abo bei JustWatch ohne deutschen Ton, schon erschienene Disc ohne Streaming-Fund, zuletzt frischer JustWatch-Befund ohne Treffer.
  * Nie ein Grund: ein künftiger **Disc**-Termin allein (Blu-ray-Bundles) und ein veralteter oder verfehlter JustWatch-Befund.
- * `ohneTreffer` (der Titel wurde dort nicht gefunden — eine Zuordnungslücke) ist kein Beleg „laut JustWatch“; es trägt nur zusammen mit einer
- * erschienenen Disc den Grund `nur-disc`, dessen Satz JustWatch nicht nennt.
+ * `ohneTreffer` (der Titel wurde dort nicht gefunden) ist kein Beleg „laut JustWatch“, nur „bei der Prüfung nichts gefunden“: mit erschienener Disc
+ * `nur-disc`, sonst (ohne gleichnamigen Kandidaten) `kein-angebot` (19.11.2026; gemessen fehlen ~91 % dort wirklich).
  */
 import type { OhneWegEintrag } from '../../shared/ohne-weg.ts'
 import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
@@ -14,7 +14,7 @@ import { dubKey, neinHandbelege, urteilVon, type DubCheck } from './dub-confirme
 import { geteilteJwKennungen } from './jw-kennung-fremd.ts'
 import { BEFUND_MAX_TAGE, type JwBefund } from './jw-vertrauen.ts'
 import { befundGilt } from './jw-seite.ts'
-import { aboOhneDeutsch, discErschienen, jwOhneStream, KAUF } from './ohne-weg-belege.ts'
+import { aboOhneDeutsch, discErschienen, jwKeinTreffer, jwOhneStream, KAUF } from './ohne-weg-belege.ts'
 
 type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil' | 'checkedAt'>
 type Termin = { titleId: number; platform: string; date: string }
@@ -83,6 +83,8 @@ function grundVon(
   if (handbelegJa) return { reason: 'offen' }
   if (jw && aboOhneDeutsch(jw)) return { reason: 'abo-ohne-ton', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jwOhneStream(e.roh, e.geteilt, e.heute) && discErschienen(e.ausgaben, e.termine, e.heute)) return { reason: 'nur-disc', checkedAt: e.roh.geprueftAm, source: 'disc' }
+  /* Schwächer als jede Disc und jeder Befund mit Angebot: JustWatch kennt den Titel nicht, das heißt „nichts gefunden“. */
+  if (jwKeinTreffer(e.roh, e.heute)) return { reason: 'kein-angebot', checkedAt: e.roh.geprueftAm, source: 'justwatch' }
   return { reason: 'offen' }
 }
 
