@@ -117,7 +117,7 @@ async function haupt() {
     pille(alle)?.hoerer.click?.()
     const zeilen = liste(alle) ? texte(liste(alle)) : []
     const vermerk = zeilen.find((t) => /^Durchgang beendet/.test(t))
-    pruefe('Fehlgeschlagene Staffeln stehen als „selbst prüfen“', vermerk === 'Durchgang beendet · von Hand · selbst prüfen: Naruto · Staffel 2', vermerk)
+    pruefe('Fehlgeschlagene Staffeln stehen als „selbst prüfen“', vermerk === 'Durchgang beendet · von Hand\n1 selbst prüfen:\n• Naruto · Staffel 2', vermerk)
     pruefe('das Wort „übersprungen" kommt nicht mehr vor', !zeilen.some((t) => /übersprungen/.test(t)), zeilen)
   }
 

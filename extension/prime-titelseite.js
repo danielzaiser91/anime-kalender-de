@@ -35,11 +35,23 @@ globalThis.akPrimeUebersprungenDazu = (lauf, eintragKennung, text) => {
   lauf.uebersprungen.push(text)
 }
 
-/* Der Vermerk der Prime-Liste, wie der letzte Durchgang endete. */
-globalThis.akPrimeEndeText = (ende) =>
-  (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
-  (ende.uebersprungen?.length ? ` · selbst prüfen: ${ende.uebersprungen.join('; ')}` : '') +
-  (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+/*
+  Fortschritt am Knopf: Nenner = Titel + Suchaufträge, beim Start gezählt (`titelGesamt`) und danach fest. Treffer einer
+  Suche zählen nicht mit — ihre Zahl steht erst fest, wenn die Suche gelesen ist; vorher wuchs „13/13“ auf „16/16“
+  (Daniel, 18.11.2026). Während der Treffer steht der Zähler bei ihrer Suche.
+*/
+globalThis.akPrimeFortschritt = (lauf) => {
+  const gesamt = Math.max(lauf.titelGesamt ?? 0, 1)
+  return { gesamt, nr: Math.min(lauf.fertig.length + (lauf.suche ? 0 : 1), gesamt) }
+}
+
+/* Ergebnisbericht der Prime-Liste, Aufbau wie Disney+ (`akDisneyEndeText`): Kopf mit Zahlen, dann je Auffälligem eine Zeile. */
+globalThis.akPrimeEndeText = (ende) => {
+  const zahlen = [ende.erledigt != null && `${ende.erledigt} Titel`, ende.seiten != null && `${ende.seiten} Seiten gemeldet`].filter(Boolean)
+  const kopf = [ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`, ...zahlen].join(' · ')
+  const hand = ende.uebersprungen?.length ? `\n${ende.uebersprungen.length} selbst prüfen:\n${ende.uebersprungen.map((u) => `• ${u}`).join('\n')}` : ''
+  return kopf + hand + (ende.suchen ? `\n${ende.suchen} Suchaufträge von Hand` : '')
+}
 
 /*
   Ein Titel gilt als frisch gemeldet, wenn **seine eigene Seite** gemeldet hat — nicht, wenn irgendeine Staffel
