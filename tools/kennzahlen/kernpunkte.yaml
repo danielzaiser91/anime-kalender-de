@@ -62,3 +62,35 @@
     - 'Meine eigenen Handgriffe (Lehren 89, 90, 91, 92):'
     - 'Werkzeug ohne Wirkung (Lehren 93, 94, 102): Lint für tools/ lief ohne Konfiguration grün; ein Hintergrundlauf in einer Subshell meldete sic…'
     - 'Zusagen und Sicherheit (Lehren 95, 96, 97, 98, 101): Ein Bericht endete ohne Folgeauftrag; ein Mailentwurf versprach einen Bau ohne Entsche…'
+'2026-11-16':
+  geschafft:
+    - 'Kurze Datenaussetzer zeigen keine Fehlerseite mehr (4045): Ein einzelner 503 beim Laden führt zu einem Neuversuch statt zur Entwicklerseite…'
+    - Kein Layoutsprung beim Erstladen von Datenbank, News und Saison (4042), live gemessen 0,000.
+    - Filterfenster nutzt die Breite, neue Gruppen Film / Serie und Wertung (4031).
+    - 'Demon Slayer Staffel 1 wieder mit Deutsch bei Crunchyroll (4054): Ein teils deutscher Block kippt das Serienurteil nicht mehr.'
+    - 'Mehr belegte Wege: Inazuma Eleven Folgen 1–24 deutsch bei Prime Video (4023), Bakugan: Armored Alliance bei RTL+ (4024), Gaiden Teil 1 und…'
+    - Kitaro Shinsei-ban zeigt wieder ein Bild (4029), mit Wache für Cover-Verlust.
+    - Prüflisten-Dialog lädt mit einer Sammelanfrage statt einer je Titel (4061).
+    - 'Mängelregister (4033): data/maengel.json, Wache meldet NEU und RÜCKFALL; erster Abbau-Block (4043), Mängelart herkunft-fremder-titel (4053).'
+  probleme:
+    - 'Ableitung statt Lesung (107, 109, 111, 123): Eine Vermutung des Analysten wurde Bau-Auftrag, ein Einzelbefund zur Kanalregel, „104 ÷ 2“ zum…'
+    - 'Merge-Ablauf (113, 120, 121): Ein 502 beim Merge ging trotzdem durch; ein eigener Merge machte den fast fertigen PR daneben wieder „nicht a…'
+    - 'Uhrzeiten geschätzt (122, 124): bis zu zwölf Minuten daneben, auch in Stand-Skripten.'
+    - 'Wache und Cloud (117, 118): Ein gefundener Verlust stand elf Stunden nur in einer Doku-Datei; eine Cloud-Sitzung schaltete Auto-Merge ein.'
+    - 'Prüfqualität (114, 119): Ein Abbau-PR hätte das Register blind gemacht; ein Prüfer erklärte eine Wirkung des PR zur Basis-Abweichung.'
+    - 'Sonstiges (108, 110, 112, 115, 116, 125): Kanal-Beleg übersehen, GitHub-Kontingent geleert, Mod-Leiste fehlte zwei Stunden, 404-Vorgabe ohn…'
+'2026-11-17':
+  geschafft:
+    - 'Netflix-Wege sind zurück (4144, 4146, 4147, 4149): Ein Fehler im Netflix-Durchgang hatte 149 vorhandene Titel als tot gemeldet; live fehlte…'
+    - 'Mehr deutsche Titel (4142): Mängel titel-de von 55 auf 32.'
+    - 'One Piece Folge 492 bleibt richtig ausgewiesen (4096): Zwei Handbelege verschmolzen nicht mehr zu einem falschen „deutsch“.'
+    - 'Kleine Fixes: Such-Icon fokussiert das Suchfeld (4097), Escape schließt die Handy-Suche (4120), Ramparts of Ice zeigt Folgen wöchentlich (4…'
+    - 'Merge mit Kopfschutz (4112): Ein Commit nach der Prüfung wird nicht mehr mitgemergt.'
+    - 'Netflix-Durchgang der Erweiterung neu geschnitten (4105, 4109, 4113): eine Meldung je Titel, ein Durchgang je Browser, stabile Knopfzahl.'
+    - 'Wächter: Muster unter Windows (4097), stummes Signal 10 wieder hörbar (4104).'
+  probleme:
+    - 'Netflix-Ausfall aus eigenem PR (140): PR 3933 (15.11.) führte einen Streichgrund ohne Hochrechnung und ohne Wache ein. Steht jetzt in der P…'
+    - 'Belegsuche zweimal in die Cloud (126, 141): Dort erreicht sie die Quellen nicht. Ergebnis in der Cloud 0, lokal 12 plus 52 Titel.'
+    - Zusammengeführte Ausgabe nicht geprüft (128) und Bilanz als Summe statt je Titel (138).
+    - 'Werkzeug-Nebenwirkungen (129, 131, 132, 133): Nachrechnen gegen alte Basis, Mutationsjob ohne Test grün, Wächter an der Kopfzeit verstummt.'
+    - 'Sonstiges (127, 130, 134–137, 139): Mängelregel meldete laufende Serien, Doppelklick startete doppelt, Test mit process.exit(0) prüfte nich…'
