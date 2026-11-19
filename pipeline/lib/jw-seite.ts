@@ -34,7 +34,7 @@ export function befundGilt(befund: JwBefund | undefined, heute: string): befund 
 }
 
 /** Alle Angebote des Befunds samt der Staffel-Angebote (dieselbe Seite kann nur in einer Staffel stehen). */
-function alleAngebote(befund: JwBefund): JwAngebot[] {
+export function alleAngebote(befund: JwBefund): JwAngebot[] {
   return [...befund.angebote, ...(befund.staffeln ?? []).flatMap((s) => s.angebote)]
 }
 

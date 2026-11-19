@@ -1,4 +1,4 @@
-import type { OhneWegEintrag } from '@shared/ohne-weg.ts'
+import type { OhneWegEintrag, OhneWegGrund } from '@shared/ohne-weg.ts'
 import { formatDate } from '@shared/time.ts'
 import { loadJson } from '../../lib/data.ts'
 
@@ -7,10 +7,12 @@ import { loadJson } from '../../lib/data.ts'
   jedes Wort dort kostet jeden Erstbesucher Bytes (Start-Budget), diese Zeile sieht nur, wer ein Panel ohne Streaming-Weg öffnet.
 */
 const OFFEN = 'Ein Streaming-Angebot ist noch nicht belegt.'
-const SAETZE: Record<'kein-dub' | 'nur-kauf' | 'film-ohne-abo', string> = {
+const SAETZE: Record<Exclude<OhneWegGrund, 'angekuendigt' | 'offen'>, string> = {
   'kein-dub': 'Bisher nur im Originalton gefunden, geprüft am {datum}.',
   'nur-kauf': 'Laut JustWatch nur zum Kaufen oder Leihen, geprüft am {datum}.',
   'film-ohne-abo': 'Laut JustWatch kein Streaming-Angebot, geprüft am {datum}.',
+  'abo-ohne-ton': 'Laut JustWatch im Stream ohne deutschen Ton, geprüft am {datum}.',
+  'nur-disc': 'Auf DVD oder Blu-ray erschienen, Streaming bisher nicht gefunden, geprüft am {datum}.',
 }
 
 /**
