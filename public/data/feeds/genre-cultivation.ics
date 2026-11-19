@@ -190,10 +190,10 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-813-disc@2026-11-20@anime-kalender-de
+UID:auto-813-disc@2027-02-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
 SUMMARY:Dragon Ball Z (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/713/

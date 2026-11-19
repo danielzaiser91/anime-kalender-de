@@ -82,6 +82,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-141391-netflix@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:Call of the Night (Synchro offen)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalog\nSynchro offen: Der Te
+ rmin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht bestät
+ igt.\nDetails: https://anime-kalender.de/t/13665/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-10021751-netflix@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126

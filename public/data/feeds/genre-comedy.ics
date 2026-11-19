@@ -756,16 +756,6 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-813-disc@2026-11-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261120
-DTEND;VALUE=DATE:20261121
-SUMMARY:Dragon Ball Z (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/713/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:black-clover-s2-crunchyroll-synchro@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
@@ -937,6 +927,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-141391-netflix@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:Call of the Night (Synchro offen)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalog\nSynchro offen: Der Te
+ rmin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht bestät
+ igt.\nDetails: https://anime-kalender.de/t/13665/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-26@anime-kalender-de
@@ -2677,6 +2678,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
   noch nicht bestätigt.\nGeschätzter Termin: kein vom Anbieter genannter 
  Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\nDetails: htt
  ps://anime-kalender.de/t/873/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-813-disc@2027-02-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+SUMMARY:Dragon Ball Z (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/713/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

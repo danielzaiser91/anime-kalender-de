@@ -23,7 +23,7 @@
     "termin-trotz-nein": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "termin-geschaetzt-ohne-weg": {"wirkung":2,"wer":"hand:synchro-belegen","offen":4,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "folgenzahl-widerspruch": {"wirkung":2,"wer":"hand:synchro-belegen","offen":19,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":10},
-    "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":456},
+    "adresse-mehrfach": {"wirkung":3,"wer":"hand:synchro-belegen","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":458},
     "staffel-zuordnung": {"wirkung":2,"wer":"hand:synchro-belegen","offen":6,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":27},
     "herkunft-fremder-titel": {"wirkung":3,"wer":"auto:bau","offen":0,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "weg-ohne-adresse": {"wirkung":3,"wer":"auto:anbieterkalender","offen":3,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0}

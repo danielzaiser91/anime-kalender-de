@@ -41611,3 +41611,39 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G1DNTRJ6: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.3e22a2d0-05db-4788-824c-956e4882ad54"
+
+- anilistId: 180829
+  title: "Yandere Dark Elf: She Chased Me All the Way from Another World!"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DJKGJQ7K
+  dub: false
+  checkedAt: '2026-09-09'
+  nachgemessenAm: '2026-11-19'
+  zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-19 ---
+
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B07FBGYPR6
+  dub: true
+  checkedAt: '2026-11-19'
+  note: "Tonspuren: Deutsch — Amazon-Seite B07FBGYPR6: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
+
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GWMY6WCP
+  dub: true
+  checkedAt: '2026-11-19'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GWMY6WCP: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.aed248db-43ab-414d-9570-379aadd3c3e1"
+
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H1R11K51
+  dub: true
+  checkedAt: '2026-11-19'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0H1R11K51: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
