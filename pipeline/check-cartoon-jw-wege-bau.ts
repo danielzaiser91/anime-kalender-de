@@ -26,6 +26,7 @@ writeFileSync(
     eintrag(16, { anbieterDe: ['Netflix'] }),
     eintrag(17, { anbieterDe: ['Netflix'] }),
     eintrag(18, { anbieterDe: ['Netflix'] }),
+    eintrag(19, { anbieterDe: ['Netflix'] }),
   ])),
 )
 const angebot = (anbieter: string, art: string, pfad: string, audio: string[] = []) => ({ anbieter, art, url: `https://shop.example/${pfad}`, audio })
@@ -47,12 +48,24 @@ writeFileSync(
     '-15': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'BUY', 'apple15', ['en'])] },
     '-16': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'BUY', 'apple16', ['en'])] },
     '-17': { geprueftAm: '2026-11-11', angebote: [angebot('Apple TV', 'BUY', 'apple17', ['de'])] },
+    '-19': {
+      geprueftAm: '2026-11-11',
+      angebote: [
+        angebot('Apple TV', 'BUY', 'apple19'),
+        angebot('Sky Go', 'FLATRATE', 'sky19'),
+        angebot('Kika', 'FREE', 'kika19'),
+        angebot('maxdome', 'BUY', 'maxdome19'),
+        angebot('Rakuten TV', 'BUY', 'rakuten19'),
+        angebot('Google Play Movies', 'BUY', 'google19'),
+        angebot('Netzkino', 'FREE', 'netzkino19', ['en']),
+      ],
+    },
     '-18': {
       geprueftAm: '2026-11-11',
       angebote: [
-        angebot('Apple TV', 'BUY', 'apple18', ['en']),
-        angebot('Sky Go', 'FLATRATE', 'sky18', ['en']),
-        angebot('Kika', 'FREE', 'kika18', ['en']),
+        angebot('Apple TV', 'BUY', 'apple18', ['de', 'en']),
+        angebot('Sky Go', 'FLATRATE', 'sky18', ['de']),
+        angebot('Kika', 'FREE', 'kika18'),
         angebot('Thalia', 'BUY', 'thalia18', ['en']),
         angebot('Cinestar', 'CINEMA', 'kino18', ['en']),
         angebot('JustWatch TV', 'FLATRATE', 'jw18', ['en']),
@@ -83,14 +96,15 @@ try {
   pruefe('ohne Stream: Leihe wird Kaufweg bei Apple TV', kurz(-12), ['Apple TV|kauf'])
   pruefe('JustWatch ohne Treffer: kein Weg', kurz(-13), [])
   pruefe('ohne JustWatch-Zeile: kein Weg', kurz(-14), [])
-  pruefe('Titel mit Stream, JustWatch nennt nur Englisch: Zusatzrunde nimmt Apple TV trotzdem (wie bei Anime)', kurz(-15), ['Apple TV|kauf'])
+  pruefe('Titel mit Stream, JustWatch nennt nur Englisch: Zusatzrunde nimmt Apple TV nicht (Synchro ist nicht Untertitel)', kurz(-15), [])
   pruefe('tote Adresse (Handbeleg), Zusatzrunde: kein Weg', kurz(-16), [])
   pruefe('tote Adresse (Handbeleg), Runde ohne Weg: kein Weg', kurz(-17), [])
   pruefe('Zusatzrunde: Kauf, Abo und gratis; ohne Disc-Händler, Kino und JustWatch-Eigenwerbung', kurz(-18), ['Apple TV|kauf', 'Kika|kostenlos', 'Sky Go|abo'])
+  pruefe('Zusatzrunde nach den vier der ersten Runde: Angebote ohne Tonangabe kommen dazu, Englisch nicht', kurz(-19), ['Apple TV|kauf', 'Google Play|kauf', 'Kika|kostenlos', 'Rakuten TV|kauf', 'Sky Go|abo', 'maxdome|kauf'])
   pruefe('Adresse stammt von JustWatch', wege(-11).find((w) => w.name === 'Apple TV')?.url, 'https://shop.example/apple11')
   pruefe('kein Weg trägt ein Sprachurteil', [-11, -12].flatMap(wege).filter((w) => w.dub !== undefined || w.dubRanges !== undefined).length, 0)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
 if (verletzt) process.exit(1)
-console.log('  Cartoon-JustWatch-Wege: 10 Fälle grün')
+console.log('  Cartoon-JustWatch-Wege: 11 Fälle grün')

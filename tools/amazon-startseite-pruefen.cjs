@@ -12,7 +12,13 @@ const { readFileSync } = require('node:fs')
 const vm = require('node:vm')
 
 /* `box.js` lädt im Browser vor `amazon.js` — hier genauso, sonst fehlt akBox(). */
-const quelle = readFileSync('extension/kontext.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/box.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/melde-sperre.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/pruefstand-zeit.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-stand.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-such-bruecke.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-stand-ziele.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/prime-region.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/amazon-knopf-zeichnen.js', 'utf8') + String.fromCharCode(10) + readFileSync('extension/amazon.js', 'utf8')
+/* Reihenfolge wie im Manifest (ohne die Datenlisten); der Durchgang braucht tageslimit und die prime-*-Helfer. */
+const DATEIEN = [
+  'kontext', 'tageslimit', 'box', 'melde-sperre', 'pruefstand-zeit', 'prime-titelseite', 'prime-durchgang-suche',
+  'prime-stand-ziele', 'prime-fassungen', 'prime-stand', 'prime-such-bruecke', 'prime-region', 'prime-treffer-kopf',
+  'amazon-knopf-zeichnen', 'amazon',
+]
+const quelle = DATEIEN.map((d) => readFileSync(`extension/${d}.js`, 'utf8')).join(String.fromCharCode(10))
 const liste = JSON.parse(
   readFileSync('extension/offene-amazon.js', 'utf8')
     .replace(/^globalThis\.AK_OFFENE_AMAZON\s*=\s*/, '')
@@ -142,6 +148,7 @@ function baueDom() {
     querySelector(wahl) { return suche(this, wahl) },
     querySelectorAll: () => [],
     focus() {},
+    setAttribute() {},
 insertBefore(k) { this.kinder.push(k); return k },
   })
   const body = mach()
@@ -174,7 +181,69 @@ const PFADE = [
   { pfad: '/s', suche: '?k=Death%20Note%20Relight&i=instant-video', leer: true },
   /* Die Stand-Probe vom 14.09.2026 — eigene Liste, eigene Abruf-Antworten (siehe `STAND_LISTE`). */
   { pfad: '/gp/video/storefront', suche: '', stand: true },
+  /* Prime-Durchgang läuft, die Seite wartet noch auf eine Kennung: Antwort eines Frames bzw. hängender Frame (18.11.2026). */
+  { pfad: '/gp/video/storefront', suche: '', durchgang: 'nachricht' },
+  { pfad: '/gp/video/storefront', suche: '', durchgang: 'haengt' },
+  /* Startseite, nach 60 s öffnet jemand einen Titel: die Geduldsfrist beginnt dann, nicht beim Skriptstart (Prüfer 4236 A1). */
+  { pfad: '/gp/video/storefront', suche: '', frist: true },
 ]
+/* Feste Uhr für die Durchgangs-Fälle: der hängende Frame wird über sie alt. */
+const uhr = { jetzt: 1_800_000_000_000 }
+class UhrDatum extends Date {
+  constructor(...a) {
+    super(...(a.length ? a : [uhr.jetzt]))
+  }
+
+  static now() {
+    return uhr.jetzt
+  }
+}
+const FRAME_KENNUNG = 'B0FRAME001'
+const startLauf = () => ({
+  seit: uhr.jetzt,
+  titel: SUCH_ADRESSE,
+  plan: [],
+  planBekannt: false,
+  staffelNr: {},
+  laufend: [FRAME_KENNUNG],
+  fertig: [],
+  uebersprungen: [],
+  spur: [],
+  titelGesamt: 1,
+  seiten: 0,
+})
+
+/**
+ * Der Prime-Durchgang auf der Startseite, während amazon.js noch auf eine Kennung wartet: Die Antwort
+ * eines Frames (`primeHoerer`) und der Takt mit hängendem Frame (`primeKoordinieren`) erreichen
+ * Bindungen, die erst nach dem Warten deklariert werden. Erwartet: kein Wurf, Ergebnis im Lauf verbucht.
+ * `primeTakt` fängt Würfe selbst ab — deshalb zählt der gespeicherte Lauf (`spur`), nicht der Wurf.
+ */
+function pruefeDurchgang(art, { takte, nachrichtenHoerer, erzeugt, sitzung }) {
+  const lauf = () => JSON.parse(sitzung.get('ak-prime-lauf') ?? sitzung.get('ak-prime-lauf-ende') ?? 'null')
+  const frame = () => erzeugt.find((e) => e.name === 'ak-durchgang')
+  const takt = takte.find((f) => f.name === 'primeTakt')
+  if (!frame() && takt) takt()
+  let wurf = null
+  if (!frame()) wurf = new Error('Der Takt hat keinen Durchgangs-Frame geöffnet — der Fall misst nichts')
+  else if (art === 'nachricht') {
+    const quelle = {}
+    frame().contentWindow = quelle
+    const e = { data: { marke: 'ak-prime-frame', ok: true, hier: FRAME_KENNUNG, staffeln: [] }, origin: 'https://www.amazon.de', source: quelle }
+    try {
+      for (const fn of nachrichtenHoerer) fn(e)
+    } catch (err) {
+      wurf = err
+    }
+  } else {
+    uhr.jetzt += 91_000
+    takt()
+  }
+  const seite = (lauf()?.spur ?? []).find((z) => z.was === 'seite' && z.kennung === FRAME_KENNUNG)
+  const verbucht = Boolean(seite) && (art === 'nachricht' ? seite.ok === true : seite.ok === false)
+  console.log(`  Durchgang (${art}): ${wurf ? 'FEHLER — ' + wurf.message : verbucht ? 'ok, Ergebnis verbucht' : 'Ergebnis NICHT verbucht'}`)
+  if (wurf || !verbucht || (art === 'nachricht' && nachrichtenHoerer.length === 0)) fehlgeschlagen = true
+}
 
 /**
  * Zwei Trefferkarten, wie Amazon sie auf einer Suchseite ausliefert.
@@ -184,6 +253,23 @@ const PFADE = [
  * 09.09.2026 — „Death Note: Relight" ist ein Eintrag mit zwei Folgen, den Prime
  * als zwei Kauftitel mit eigenen Kennungen führt.
  */
+/**
+ * Während das Skript auf der Startseite wartet, vergehen 60 s; dann öffnet jemand einen Titel (die Adresse trägt
+ * eine Kennung, der nächste Takt beendet das Warten). `letzterFortschritt` muss dann frisch sein, sonst ist die
+ * Geduldsfrist des Knopfs sofort abgelaufen. Gelesen wird über die Zeichen-Welt, die erst nach dem Warten entsteht.
+ */
+function startFrist(sandkasten, nachDenAbrufen) {
+  const vor = uhr.jetzt
+  uhr.jetzt += 60_000
+  sandkasten.location.pathname = '/dp/B0FRISTTEST'
+  nachDenAbrufen.push(() => {
+    const wert = sandkasten.AK_ZEICHNEN_WELT?.letzterFortschritt
+    const ok = wert === uhr.jetzt
+    console.log(`  Frist: ${typeof wert !== 'number' ? 'FEHLER — Skript kam nicht über das Warten hinaus, der Fall misst nichts' : ok ? 'ok, letzterFortschritt nach dem Warten neu gesetzt' : `FALSCH, letzterFortschritt ${wert - vor} ms nach Skriptstart statt ${uhr.jetzt - vor}`}`)
+    if (!ok) fehlgeschlagen = true
+  })
+}
+
 function baueKarten(mach) {
   const karte = (titel, kennung) => {
     const k = mach()
@@ -222,7 +308,7 @@ function baueKarten(mach) {
   ]
 }
 
-for (const { pfad, suche, stand, leer } of PFADE) {
+for (const { pfad, suche, stand, leer, durchgang, frist } of PFADE) {
   const { mach, body } = baueDom()
   /* Amazons eigener Satz auf einer leeren Suche — ohne ihn gilt sie als ungelesen. */
   if (leer) body.innerText = 'Für „Death Note Relight“ wurden keine Ergebnisse gefunden.'
@@ -231,6 +317,10 @@ for (const { pfad, suche, stand, leer } of PFADE) {
   /* Der Takt sammelt sich hier; ausgelöst wird er nach dem Laden. */
   const takte = []
   const angehaengt = []
+  /* Durchgang: Tab-Speicher mit laufendem Lauf, angemeldete Nachrichten-Hörer, erzeugte Elemente. */
+  const sitzung = new Map(durchgang ? [['ak-prime-lauf', JSON.stringify(startLauf())]] : [])
+  const nachrichtenHoerer = []
+  const erzeugt = []
   const sandkasten = {
     globalThis: null,
     AK_OFFENE_AMAZON: stand ? STAND_LISTE : liste,
@@ -254,7 +344,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
       Suchseite war das genau der Ausstieg, den niemand gesehen hat.
     */
     sessionStorage: (() => {
-      const werte = new Map()
+      const werte = sitzung
       return {
         getItem: (k) => (werte.has(k) ? werte.get(k) : null),
         setItem: (k, v) => werte.set(k, String(v)),
@@ -269,7 +359,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
         removeItem: (k) => werte.delete(k),
       }
     })(),
-    location: { pathname: pfad, search: suche, href: 'https://www.amazon.de' + pfad + suche },
+    location: { pathname: pfad, search: suche, origin: 'https://www.amazon.de', href: 'https://www.amazon.de' + pfad + suche },
     document: {
       /*
         `classList` gehört dazu: `amazon.js` markiert seine Seiten seit dem
@@ -286,7 +376,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
       },
       body: { ...body, appendChild(k) { angehaengt.push(k); return k } },
       title: 'Amazon.de',
-      createElement: () => mach(),
+      createElement: () => { const e = mach(); erzeugt.push(e); return e },
       /*
         Textknoten sind der zweite Baustein des Kastens: Die Ankreuz-Zeilen
         setzen ihren Text über , nicht über .
@@ -324,7 +414,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
       runtime: { id: 'test' },
       storage: { local: { get: (k, cb) => cb({}), set: (v, cb) => cb && cb() } },
     },
-    window: { addEventListener() {}, location: { pathname: pfad, search: '' } }, MutationObserver: class { observe() {} }, requestAnimationFrame: () => 0,
+    window: { addEventListener(art, fn) { if (art === 'message') nachrichtenHoerer.push(fn) }, location: { pathname: pfad, search: '' } }, MutationObserver: class { observe() {} }, requestAnimationFrame: () => 0,
     /* In der Stand-Probe: leerer Briefkasten, der Worker-Stand nennt einen Eintrag. */
     fetch: (u) =>
       Promise.resolve({
@@ -371,7 +461,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
     console,
     performance: { now: () => Date.now() },
     navigator: { clipboard: { writeText: () => Promise.resolve() } },
-    Date,
+    Date: durchgang || frist ? UhrDatum : Date,
     JSON,
     Math,
     Set,
@@ -409,6 +499,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
     verschluckt.
   */
   let taktFehler = null
+  if (frist) startFrist(sandkasten, nachDenAbrufen)
   for (const fn of takte.slice(0, 3)) {
     try {
       const r = fn()
@@ -428,6 +519,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
       if (!passt) fehlgeschlagen = true
     })
   }
+  if (durchgang) pruefeDurchgang(durchgang, { takte, nachrichtenHoerer, erzeugt, sitzung })
   let klickFehler = null
   if (uebersicht?.hoerer?.click) {
     try { uebersicht.hoerer.click() } catch (err) { klickFehler = err }
@@ -468,7 +560,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
     der Knopf hatte keinen Platz (Daniel, 26.09.2026, mit Bild der Startseite). Die Prüfung
     zeigte „Kasten: FEHLT“ und blieb grün.
   */
-  if (pfad.startsWith('/gp/video/') && !kasten) {
+  if (pfad.startsWith('/gp/video/') && !kasten && !frist) {
     console.log('  ⚠ Auf der Prime-Video-Seite fehlt der Kasten — die Prüfliste ist nicht erreichbar.')
     fehlgeschlagen = true
   }
@@ -506,7 +598,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
 setTimeout(() => {
   for (const pruefung of nachDenAbrufen) pruefung()
   if (fehlgeschlagen) {
-    console.error('\nDer Suchkasten wird nicht erreicht oder die Stand-Probe zählt falsch — die Prüfung misst dann nichts.')
+    console.error('\nDer Suchkasten wird nicht erreicht, die Stand-Probe zählt falsch oder der Durchgang-Fall wirft/verbucht nicht — die Prüfung misst dann nichts.')
     process.exit(1)
   }
 }, 50)
