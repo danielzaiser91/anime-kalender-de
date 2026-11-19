@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-19T15:02:01.544Z",
+  "scrapedAt": "2026-11-19T16:01:50.673Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
-    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 8,
+    "schon in einem Rubrik-Feed gelesen": 10,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 8,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -99,6 +99,56 @@
         {
           "iso": "2027-01-04",
           "context": "eute verkündet, dass die neue Anime-Adaption des Gourmet-Manga ab dem 4. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Amazon reduziert Anime-Streaming-Channels zum Black Friday",
+      "articleUrl": "https://www.anime2you.de/news/1073503/amazon-black-friday-2026-streaming-angebote/",
+      "publishedAt": "2026-11-19",
+      "category": "streaming",
+      "platforms": [
+        "primevideo",
+        "aniverse"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "aten zu vergünstigten Preisen an. Wir geben euch einen Überblick. Bis 30. November 2026 Im Zuge der Aktion lässt sich aniverse noch bis zum"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Black-Friday-Aktion: Paramount+ reduziert Abo-Preise um 75 %",
+      "articleUrl": "https://www.anime2you.de/news/1073451/paramount-plus-black-friday-aktion/",
+      "publishedAt": "2026-11-19",
+      "category": "streaming",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "dard- als auch das Premium-Abo um 75 % reduziert erhältlich sind. Bis 30. November 2026 Das Standard-Abo, das unter anderem werbefreies Full"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Amazon startet Black-Friday-Woche mit XXL-Anime-Angeboten",
+      "articleUrl": "https://www.anime2you.de/news/1073541/amazon-black-friday-2026-anime-angebote/",
+      "publishedAt": "2026-11-19",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-30",
+          "context": "ute seine große Black-Friday-Woche gestartet, in deren Rahmen bis zum 30. November 2026 zahlreiche Anime-DVDs und -Blu-rays reduziert sind."
         }
       ],
       "dub": "unklar",
