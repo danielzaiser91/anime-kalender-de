@@ -201,7 +201,7 @@ async function kastenLauf(fall, apiStatus = 200, gemeldet = [], postAntwort = al
     akBerichtSchalter: () => ({}),
   })
   k.globalThis = k
-  for (const datei of ['disney-netz.js', 'melde-sperre.js', 'adn-leser.js', 'adn-senden.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
+  for (const datei of ['titel-bindung.js', 'disney-netz.js', 'melde-sperre.js', 'adn-leser.js', 'adn-senden.js', 'adn.js']) vm.runInContext(lies(datei), k, { filename: datei })
   await new Promise((fertig) => setTimeout(fertig, 50))
   return { gesendet, knopf: knoepfe[0], alle: knoepfe, k }
 }
@@ -230,6 +230,27 @@ async function kastenFaelle() {
   await syn.knopf.onclick()
   pruefe('Klick: ein Stapel mit der Meldung', syn.gesendet.length === 1 && syn.gesendet[0].stapel.length === 1 && syn.gesendet[0].stapel[0].plattform === 'adn')
   pruefe('... danach „gemeldet" ohne Klick-Aktion', /✓ 1 gemeldet/.test(syn.knopf.textContent) && !syn.knopf.onclick, syn.knopf.textContent)
+
+  /* Seite verlassen (19.11.2026, Landei II): was der Kasten noch zeigt, meldet nichts mehr. */
+  const verlassen = await lauf('film-synchro')
+  verlassen.k.location.pathname = '/de'
+  await verlassen.knopf.onclick()
+  pruefe('Seite verlassen: der Klick meldet nichts', verlassen.gesendet.length === 0, verlassen.gesendet)
+  const wegVerlassen = await lauf('film-ohne-video', 404)
+  wegVerlassen.k.location.pathname = '/de'
+  await wegVerlassen.knopf.onclick()
+  pruefe('Seite verlassen: auch „nicht im Angebot“ geht nicht mehr raus', wegVerlassen.gesendet.length === 0, wegVerlassen.gesendet)
+  /* Wechsel mitten im Klick, während der Token geholt wird. */
+  const mitten = await lauf('film-synchro')
+  const mittenKlick = mitten.knopf.onclick()
+  mitten.k.location.pathname = '/de'
+  await mittenKlick
+  pruefe('Seite verlassen mitten im Klick: nichts gesendet', mitten.gesendet.length === 0, mitten.gesendet)
+  const wegMitten = await lauf('film-ohne-video', 404)
+  const wegMittenKlick = wegMitten.knopf.onclick()
+  wegMitten.k.location.pathname = '/de'
+  await wegMittenKlick
+  pruefe('Seite verlassen mitten im „nicht im Angebot“: nichts gesendet', wegMitten.gesendet.length === 0, wegMitten.gesendet)
 
   const schon = await lauf('serie-untertitel', 200, ['Suikoden - Folge 1'])
   const titel = F['serie-untertitel'].videos.map((v) => v.title)

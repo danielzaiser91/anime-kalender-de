@@ -62,7 +62,7 @@ async function klick(e, umgebung = {}) {
   const f = new Function(
     'knopf', 'verbindungLebt', 'standGeladen', 'standFertig', 'erledigt', 'listenId', 'staffelSchluessel', 'letzterStand', 'zeichnen',
     'location', 'htmlNeuLesen', 'sprachenAusFolgen', 'geladeneFolgen', 'deutschInFolgen', 'gesehen', 'seitenLage', 'ueberKanal',
-    'setTimeout', 'abweisen', 'abweisenMitGrund', 'chrome', 'globalThis', 'quelltextVonFruehererSeite', 'titelVerlassen', 'document', 'eintrag', 'asinAusAdresse', 'asinAusSeite', 'seitenTitel',
+    'setTimeout', 'abweisen', 'abweisenMitGrund', 'chrome', 'globalThis', 'quelltextVonFruehererSeite', 'titelVerlassen', 'document', 'eintrag', 'asinAusAdresse', 'asinAusSeite', 'seitenTitel', 'titelBindung',
     `return (async () => {\n${klickCodeMitToken}\nreturn 'sendet'\n})()`,
   )
   const ergebnis = await f(
@@ -73,7 +73,7 @@ async function klick(e, umgebung = {}) {
     (grund, ok = false) => abgewiesen.push({ grund, ok }),
     (grund) => abgewiesen.push({ grund, ok: false }),
     chromeTest, kasten,
-    () => false, null, { querySelector: () => null }, { titel: 'T' }, () => 'A', () => 'A', () => 'T',
+    () => false, null, { querySelector: () => null }, { titel: 'T' }, () => 'A', () => 'A', () => 'T', { karte: () => ({}), gueltig: () => true },
   )
   return { sendet: ergebnis === 'sendet', abgewiesen, knopf }
 }

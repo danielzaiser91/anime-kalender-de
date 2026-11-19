@@ -718,7 +718,12 @@
     return globalThis.akDisneyWegSenden(e, { worker: WORKER, anbieterStaffeln, weg: globalThis.AK_DISNEY_WEG })
   }
 
+  /* Was nach dem Verlassen der Titelseite noch läuft, sendet nicht mehr (19.11.2026). */
+  const titelBindung = globalThis.akTitelBindung.fuer({ kennung: () => kennung(location.href) ?? null })
+
   async function melden() {
+    const karte = titelBindung.karte()
+    if (!karte) return signal('gemeldet', { ok: false })
     const echte = ergebnisse.filter(
       (r) => r.sprachen && !gemeldeteNummern.has(folgenSchluessel(r.staffel, r.nummer)),
     )
@@ -730,6 +735,7 @@
         klasse: 'schlecht',
       })
     }
+    if (!titelBindung.gueltig(karte)) return signal('gemeldet', { ok: false })
 
     /* Wie Disney+ die Reihe teilt — damit lässt sich die Meldung später unserer Staffel zuordnen. */
     const staffeln = globalThis.AK_DISNEY_STAFFELN.staffelnDerMeldung(echte, anbieterStaffeln)
@@ -739,6 +745,7 @@
     await inBahnen(
       echte,
       async (r) => {
+        if (!titelBindung.gueltig(karte)) return
         /* Mit Wiederholung und `keepalive` (`disney-netz.js`): ein Fehlschlag ohne Antwort ist meist vorübergehend. */
         const antwort = await globalThis.AK_DISNEY_NETZ.sende(WORKER, {
           method: 'POST',
@@ -921,6 +928,7 @@
     Meldung unter der falschen Reihe erzeugt.
   */
   function pruefeAdresse() {
+    titelBindung.pruefen()
     const jetzt = kennung(location.href)
     if (jetzt === seite) return
     seite = jetzt

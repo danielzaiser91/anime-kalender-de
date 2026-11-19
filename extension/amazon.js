@@ -7374,6 +7374,25 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
   adressKennungFortschreiben()
 
+  /*
+    **Verlässt die Seite den Titel, ist das Panel leer** (19.11.2026, Landei II): Ohne Kennung in der Adresse (Startseite)
+    lief `adressKennungFortschreiben()` ins Leere, und `id`, Eintrag und Zählstand blieben die des alten Titels.
+    Zurückgesetzt wird wie bei einem Start auf einer Seite ohne Titel; bei der Rückkehr liest `beiStaffelwechsel()` neu.
+  */
+  const titelBindung = globalThis.akTitelBindung.fuer({
+    kennung: asinAusAdresse,
+    beiWechsel: (alt, neu) => {
+      letzteKennung = ''
+      if (neu) return
+      id = null
+      gesehen = leererStand()
+      listenId = listenSchluessel(null)
+      eintrag = eintragFuer(listenId)
+      letzterStand = ''
+      knopf.disabled = true
+    },
+  })
+
   letzteKennung = staffelKennung()
 
   function beiStaffelwechsel() {
@@ -7382,7 +7401,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     notiere('staffelwechsel', { von: letzteKennung, nach: kennung, adresse: location.search })
     letzteKennung = kennung
     gabStaffelwechsel = true
-    const jetzt = asin()
+    const jetzt = titelBindung.pruefen() ? asin() : null
     if (!jetzt) {
       /* Ohne Kennung bricht der Wechsel hier ab — und genau das war unsichtbar. */
       notiere('staffelwechsel-ohne-asin', { kennung })
@@ -7964,6 +7983,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     */
     htmlNeuLesen()
     adressKennungFortschreiben()
+    titelBindung.pruefen()
     /*
       Der Sparmodus gehört zur alten Seite. Ihn stehen zu lassen hieße, den
       Wechsel zwar sofort zu bemerken und dann vier Sekunden zu warten.
@@ -8002,6 +8022,9 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       knopf.title = 'Die Erweiterung wurde neu geladen. Diese Seite kennt sie noch nicht — einmal aktualisieren, dann geht es weiter.'
       return
     }
+    /* Die Seite des Klicks: ohne Titel in der Adresse gibt es nichts zu melden, und was nach einem Wechsel noch läuft, wird nicht gesendet. */
+    const seitenKarte = titelBindung.karte()
+    if (!seitenKarte) return abweisenMitGrund('Kein Titel geöffnet')
     // „Nicht abrufbar" ist eine eigene Aussage, kein Sonderfall von „kein
     // Deutsch" — siehe den Kommentar am Knopf.
     /**
@@ -8167,6 +8190,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       knopf.textContent = globalThis.akKontext.keinTokenText()
       return
     }
+    if (!titelBindung.gueltig(seitenKarte)) return abweisenMitGrund('Seite verlassen — nicht gemeldet')
     sendetGerade = true
     knopf.disabled = true
     knopf.textContent = 'sende …'
@@ -8214,6 +8238,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     try {
       let antwort
       for (const teil of teile) {
+      if (!titelBindung.gueltig(seitenKarte)) throw new Error('Seite verlassen, Rest nicht gemeldet')
       antwort = await mitFrist(
         fetch(WORKER, {
         method: 'POST',

@@ -118,9 +118,16 @@
 
   const senden = (token, body) => SENDEN.sendeMitKoerper({ sende: NETZ.sende, holen: (...a) => fetch(...a), url: WORKER, token, body })
 
+  /* Was nach dem Verlassen der Serienseite noch läuft, sendet nicht mehr (19.11.2026). */
+  const titelBindung = globalThis.akTitelBindung.fuer({ kennung: () => String(L.showId(location.pathname) || '') || null })
+  const verlassen = () => zeige('Seite verlassen — nicht gemeldet', { klasse: 'schlecht' })
+
   async function melden() {
+    const karte = titelBindung.karte()
+    if (!karte) return
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
+    if (!titelBindung.gueltig(karte)) return verlassen()
     const offen = offene()
     let fehler = null
     for (let i = 0; i < offen.length && !fehler; i += STAPEL) {
@@ -135,8 +142,11 @@
   }
 
   async function wegMelden() {
+    const karte = titelBindung.karte()
+    if (!karte) return
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
+    if (!titelBindung.gueltig(karte)) return verlassen()
     const antwort = await senden(token, L.wegMeldung(S.serie, S.url))
     const grund = antwort.daten?.error ? ` (${antwort.daten.error})` : ''
     zeige(`${S.serie.titel}\n${antwort.ok ? '✓ „nicht im Angebot" gemeldet' : `${antwort.fehler}${grund} — Klick sendet erneut`}`, {
@@ -192,6 +202,7 @@
 
   /* ADN wechselt die Seite ohne Neuladen: der Kasten gehört zur Serie der Adresse. */
   function pruefeAdresse() {
+    titelBindung.pruefen()
     const id = L.showId(location.pathname)
     const jetzt = id ? String(id) : null
     if (jetzt === S.seite) return

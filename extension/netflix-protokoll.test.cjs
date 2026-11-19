@@ -210,7 +210,7 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, speicher)
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  ladeSkripte(kontext, skripteBis('netflix-protokoll.js', { nur: ['kontext.js', 'box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'protokoll.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-staffelzaehlung.js', 'melder.js', 'netflix-bericht.js', 'netflix-protokoll.js'] }))
+  ladeSkripte(kontext, skripteBis('netflix-protokoll.js', { nur: ['kontext.js', 'box.js', 'titel-bindung.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'protokoll.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-staffelzaehlung.js', 'melder.js', 'netflix-bericht.js', 'netflix-protokoll.js'] }))
   return { umgebung, body, takte }
 }
 
