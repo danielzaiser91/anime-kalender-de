@@ -28,5 +28,15 @@
   { "name": "Bremse: Titel ohne Inhalt zählt nicht als fertig", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "|| Boolean(bremse)", "ersetze": "" }] },
   { "name": "Bremse: Rest-Text bei Fertig mit Offenen nicht gekürzt", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "(fertig && offen ? ende.uebersprungenText.replace(/^ · übersprungen: \\d+/, '') : ende.uebersprungenText)", "ersetze": "ende.uebersprungenText" }] },
   { "name": "Bremse: Offen-Anzeige bei Fertig fehlt", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "`Durchgang fertig${offen ? ` · ${offen} offen` : ''}`", "ersetze": "'Durchgang fertig'" }] },
+  { "name": "Leiste: Player zählt nicht", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "if (o.imPlayer || o.alle", "ersetze": "if (o.alle" }] },
+  { "name": "Leiste: Alle-Staffeln zählt nicht", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "|| o.alle ||", "ersetze": "||" }] },
+  { "name": "Leiste: Lauf zählt nicht", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "|| D.laeuft ||", "ersetze": "||" }] },
+  { "name": "Leiste: Zwischen-Staffeln zählt nicht", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "|| D.mehrfach ||", "ersetze": "||" }] },
+  { "name": "Leiste: Folgenliste zählt nicht", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "|| D.folgen.length) return false", "ersetze": "|| false) return false" }] },
+  { "name": "Leiste: immer neu bauen", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "if (!D.knopf) {\n    o.bauen()", "ersetze": "if (true) {\n    o.bauen()" }] },
+  { "name": "Leiste: Knopf bleibt klickbar", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "D.knopf.disabled = true\n  D.knopf.classList.remove('ak-fertig')\n  if (D.nochmalKnopf)", "ersetze": "D.knopf.disabled = false\n  D.knopf.classList.remove('ak-fertig')\n  if (D.nochmalKnopf)" }] },
+  { "name": "Leiste: alle-Knopf bleibt sichtbar", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "if (D.nochmalKnopf) D.nochmalKnopf.hidden = true", "ersetze": "" }] },
+  { "name": "Leiste: Text ohne Grund", "aenderungen": [{ "datei": "extension/netflix-durchgang-steuerung.js", "suche": "'Keine Folgenliste — nichts zu prüfen'", "ersetze": "''" }] },
+  { "name": "Leiste: Verdrahtung entfernt", "aenderungen": [{ "datei": "extension/melder.js", "suche": "if (akNetflixLeisteOhneListe(", "ersetze": "if (0 && akNetflixLeisteOhneListe(" }] },
   { "name": "Bremse: Kontrolle", "aenderungen": [] }
 ]

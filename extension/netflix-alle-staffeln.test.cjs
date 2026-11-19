@@ -69,6 +69,9 @@ function knopfText({ offeneStaffeln, gemeldet, imLauf = [] }) {
     offeneTitel: offeneStaffeln ? { 1: { titel: 'T', staffeln: [{ nr: 1, offen: true, folgen: 2 }] } } : {},
     folgenFuerFilmErgaenzen: () => {},
     imPlayer: () => false,
+    durchlaufKnopfBauen: () => {},
+    schutzflaecheZeigen: () => {},
+    netflixKasten: () => ({ querySelector: () => null }),
     durchlaufOffen: () => [],
     alleStaffelnAnsicht: () => true,
     gemeinteReihe: () => 1,
@@ -77,6 +80,7 @@ function knopfText({ offeneStaffeln, gemeldet, imLauf = [] }) {
   kontext.globalThis = kontext
   vm.createContext(kontext)
   vm.runInContext(modul, kontext)
+  vm.runInContext(readFileSync(resolve(__dirname, 'netflix-durchgang-steuerung.js'), 'utf8'), kontext)
   vm.runInContext(`${code.join('\n\n')}\ndurchlaufKnopfZeigen()`, kontext)
   return knopf
 }
