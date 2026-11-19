@@ -1,3 +1,4 @@
+import '../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import { createPortal } from 'react-dom'
 import { useEscape } from '../lib/escape.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'

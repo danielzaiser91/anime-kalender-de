@@ -1,3 +1,4 @@
+import '../../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import { useMemo, useState } from 'react'
 import type { Dataset } from '../../lib/data.ts'
 import { useEmpfehlungsDaten } from '../../lib/empfehlung-daten.ts'

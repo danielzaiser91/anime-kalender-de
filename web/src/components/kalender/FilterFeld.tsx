@@ -1,3 +1,4 @@
+import '../../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import { useMemo } from 'react'
 import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'

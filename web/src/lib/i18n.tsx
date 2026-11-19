@@ -2,6 +2,9 @@ import { GENRE_DE, KEYWORD_DE } from '@shared/mappings.ts'
 import type { ReleaseType } from '@shared/types.ts'
 import { TEXTE_SEITEN } from './i18n-seiten.ts'
 import { TEXTE_KALENDER } from './i18n-kalender.ts'
+import type { TEXTE_SPAET } from './i18n-spaet.ts'
+import { SPAET } from './i18n-spaet-ablage.ts'
+import '@/lib/i18n-knoten.ts'
 
 /**
  * Alle Texte der Oberfläche — auf Deutsch, und nur auf Deutsch.
@@ -19,7 +22,6 @@ import { TEXTE_KALENDER } from './i18n-kalender.ts'
 const TEXTE = {
   'app.title': 'Anime-Kalender DE',
   'app.loading': 'Kalender wird geladen …',
-  'app.loadingTitles': '{count} Einträge werden geladen …',
   'app.loadError': 'Die Daten laden gerade nicht.',
   'app.loadRetry': 'Erneut versuchen',
   'app.loadRetryHint': 'Klappt es nicht, versuch es in ein paar Minuten noch einmal.',
@@ -29,67 +31,16 @@ const TEXTE = {
   'view.monat': 'Monat',
   'view.datenbank': 'Datenbank',
   'view.news': 'News',
-  'news.titel': 'Was sich getan hat',
-  'news.leer': 'Noch keine Meldungen.',
-  'news.rssHint': 'Diese Meldungen als RSS-Feed, z. B. für einen Feedreader',
-  'news.kino.titel': 'Im Kino',
-  'news.kino.ab': 'ab {d}',
-  'news.kino.am': 'am {d}',
-  'news.kino.start': 'Start {d}',
-  'news.kino.bis': 'bis {d}',
-  'news.kino.zurueck': 'Zurück',
-  'news.kino.weiter': 'Weiter',
   // Eine Zeile je Meldung, so kurz wie möglich — die Karte nennt den Titel schon.
-  'news.art.neu': 'Neu auf Deutsch',
-  'news.art.folgen': 'Neue Folgen',
-  'news.art.angekuendigt': 'Angekündigt',
-  'news.art.disc': 'Auf Disc',
-  'news.art.kino': 'Im Kino',
-  'news.art.verspaetet': 'Nicht erschienen',
-  'news.neu': 'Erstmals mit deutscher Synchro bei {anbieter}',
-  'news.auchBei': 'Jetzt auch auf Deutsch bei {anbieter}',
-  'news.kurz.auchBei': 'auch bei {anbieter}',
-  'news.neuOhne': 'Erstmals mit deutscher Synchro',
-  'news.folge': 'Folge {von} auf Deutsch bei {anbieter}',
-  'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
-  'news.angekuendigt': 'Start am {datum} bei {anbieter}',
-  'news.angekuendigtTv': 'Im TV{sender} am {tag}, den {datum}',
-  'news.angekuendigtTvPremiere': 'Deutsche TV-Premiere{sender} am {tag}, den {datum}',
-  'news.omuAngekuendigt': 'Start {wann} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
-  'news.omuOffen': 'Start {wann} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
-  'news.kurz.omu': 'OmU ab {datum} · {anbieter}',
-  'news.disc': 'Erscheint am {datum} auf Disc',
-  'news.discAusgabe': '{ausgabe} erscheint am {datum} auf Disc',
-  'news.kino': 'Kinostart am {datum}',
-  'news.verspaetet': 'Folge {von} war für den {datum} {wie} und ist nicht erschienen',
-  'news.nachgereicht': 'Folge {von} ist da, {wie} war der {erwartet}',
   /*
     **Eine abgelöste Meldung bleibt stehen**. Sie wird
     durchgestrichen, nennt aber, wodurch sie ersetzt wurde — mit Verweis auf die
     Quelle der neueren Angabe. So ist der Weg nachvollziehbar, statt dass eine
     Meldung spurlos verschwindet.
   */
-  'news.ersetzt': 'ersetzt durch {datum}',
-  'news.ersetztTitel': 'Diese Meldung wurde von einer neueren Angabe abgelöst — nachsehen',
-  'news.zurueckgezogen': 'zurückgezogen', 'news.zurueckgezogenOmu': 'zurückgezogen: nur OmU',
-  'news.zurueckgezogenTitel': 'Die Ankündigung wurde durch eine Prüfung widerlegt',
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
-  'news.alle': 'Alles',
-  'news.weitere': '+{n} weitere',
-  'news.aeltere': 'Ältere News (bis {datum})',
-  'news.seit': 'seit {datum}',
-  'news.gleich': '{n} weitere „auch bei …“-Meldungen anzeigen',
-  'news.gleichZu': '„auch bei …“-Meldungen einklappen',
   // Der Chip nennt die Art, die Zeile nennt die Umstände — sonst steht beides zweimal da
   // („Kino 29.09." neben dem Chip „Im Kino").
-  'news.kurz.neu': 'bei {anbieter}',
-  'news.kurz.folge': 'E{von} · {anbieter}',
-  'news.kurz.folgen': 'E{von}–{bis} · {anbieter}',
-  'news.kurz.angekuendigt': 'ab {datum} · {anbieter}',
-  'news.kurz.disc': 'ab {datum}',
-  'news.kurz.discAusgabe': '{ausgabe} · ab {datum}',
-  'news.kurz.kino': 'ab {datum}',
-  'news.kurz.verspaetet': 'E{von}, erwartet zum {datum}',
   /*
     **Die Suche erklärt sich selbst**: Welche Felder durchsucht werden, ist
     nirgends sichtbar — nach der Projektregel „alles offen kommunizieren" steht es am Suchfeld.
@@ -125,7 +76,6 @@ const TEXTE = {
   'sprung.ersterTitel': 'Zum frühesten Termin',
   'sprung.letzterTitel': 'Zum spätesten Termin',
   'nav.forward': 'vor',
-  'nav.language': 'Sprache',
 
   'release.weekly': 'Wöchentlich (Simuldub)',
   'release.weekly.short': 'Wöchentlich',
@@ -162,25 +112,6 @@ const TEXTE = {
   'card.missedLateBadge': 'kam {d}',
 
   'filter.button': 'Filter',
-  'filter.reset': 'zurücksetzen',
-  'filter.platform': 'Plattform',
-  'filter.meineAnbieter': 'Meine Anbieter',
-  'filter.meineAnbieterMerken': 'Als meine Anbieter merken',
-  'filter.provider': 'Bezugsquelle ({count} Anbieter)',
-  'filter.releaseType': 'Release-Art',
-  'filter.status': 'Status',
-  'filter.fsk': 'FSK',
-  'filter.year': 'Jahr',
-  'filter.confidence': 'Belegstärke',
-  'filter.genre': 'Genre',
-  'filter.keywords': 'Keywords ({count} verfügbar)',
-  'filter.confirmedOnly': 'nur bestätigte Termine',
-  'filter.confirmedOnlyHint': 'Blendet geschätzte Termine aus — es bleiben nur die vom Anbieter bestätigten',
-  'filter.favourites': 'nur Favoriten',
-  'filter.fskFrom': 'ab {n}',
-  'filter.beleg': 'alle|≥ mittel|≥ stark|mehrfach stark',
-  'filter.showMore': 'alle anzeigen ({count})',
-  'filter.showLess': 'weniger anzeigen',
 
   'week.today': 'heute',
   'week.empty':
@@ -206,118 +137,44 @@ const TEXTE = {
   'card.favourite': 'Als Favorit merken',
   'card.unfavourite': 'Aus Favoriten entfernen',
 
-  'db.sort': 'Sortierung',
-  'db.sortRelevanz': 'Beste Treffer',
-  'db.sortTitle': 'Titel A–Z',
-  'db.sortYear': 'Jahr (neu zuerst)',
-  'db.sortScore': 'Bewertung',
-  'db.more': 'Weitere {count} anzeigen',
-  'db.remaining': '({count} übrig)',
-  'db.groupSeasons': 'Staffeln zusammenfassen',
   // Der Text sprach bis zum 12.08.2026 von „der neuesten Staffel" — das war die
   // alte, falsche Auswahl des Reihen-Vertreters.
-  'db.groupSeasonsHint':
-    'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel, die übrigen stehen in ihrer Detailansicht.',
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
-  'db.withoutDub': 'Anime ohne deutsche Synchro',
-  'db.withoutDubHint':
-    'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
-  'db.withoutDubLoading': 'Wird geladen. Das ist die größte Liste der Seite.',
-  'db.noDubBadge': 'keine deutsche Synchro',
-  'db.angekuendigt': 'angekündigt',
-  'db.noDubWatch': '☆ merken → Bescheid bei Synchro',
-  'db.noDubWatched': '★ gemerkt',
-  'db.seasons': '{count} Staffeln',
-  'db.episodes': '{count} Ep.',
 
   // **„Eintrag" ist unser Wort, nicht seins.** Unter einer Shop-Pille im
   // Detail-Panel stand „2 Einträge" — Daniel am 03.09.2026: „wieso steht da
   // ‚2 einträge‘? unnötig verwirrende info". Gemeint sind zwei Adressen beim
   // selben Händler: bei einer Disc zwei Ausgaben, bei einem Kaufstream zwei
   // Käufe. „Angebote" trifft beide und sagt, was hinter dem Klick wartet.
-  'where.angebote': '{count} Angebote',
   /* Disc-Bereich: eine Zeile je Variante, nach Art gruppiert (Mockup B3, 27.10.2026). */
-  'disc.variante': '1 Variante',
-  'disc.varianten': '{n} Varianten',
-  'disc.art.gesamt': 'Gesamtausgaben',
-  'disc.art.box': 'Boxen',
-  'disc.art.vol': 'Volumes',
-  'disc.art.film': 'Filme',
-  'disc.art.sonst': 'Sonstiges',
-  'disc.format.b': 'Blu-ray',
-  'disc.format.d': 'DVD',
-  'disc.format.u': '4K',
-  'disc.alleZeigen': 'Alle {n} anzeigen',
-  'disc.kalender': 'Kalendereintrag',
-  'disc.google': 'Google',
-  'disc.datei': 'Datei (.ics)',
-  'disc.quelle': 'Quelle: aniSearch',
 
   // Zwei Fassungen, je nachdem ob ein Newsletter hinterlegt ist. Daniels
   // Vorgabe (15.08.2026): Der Text soll sagen, was der Stern bewirkt, und
   // nichts versprechen, was ohne Abo gar nicht passieren kann.
-  'detail.noDubWatchOpen':
-    'Interessiert dich dieser Titel und du möchtest direkt informiert werden, wenn es Termine gibt? Dann markier ihn mit dem ☆ und meld dich beim Newsletter an.',
-  'detail.noDubWatchConnected':
-    'Interessiert dich dieser Titel und du möchtest direkt informiert werden, wenn es Termine gibt? Dann markier ihn mit dem ☆, wir schreiben dir an {mail}.',
-  'detail.noDubWatched': '★ Gemerkt. Du bekommst Bescheid, sobald es eine Synchro gibt.',
 
   // „Deutsche Releases" war zweideutig — es klang nach „hier erschienen",
   // gemeint ist aber der Termin der deutschen Synchronfassung (Daniel,
   // 15.08.2026).
-  'detail.kaufenBei': 'Kaufen bei {shop}',
-  'detail.beiShop': 'Bei {shop}',
-  'detail.beiShopSuchen': 'Bei {shop} suchen',
   /* Disc-Termin ohne Shop-Adresse — die Pille verspricht dann keinen Klick (23.09.2026). */
-  'detail.kaufausgabe': 'Kaufausgabe',
-  'detail.merkenTitel': 'In den Kalender übernehmen',
   /* Der Kino-Banner im Detail-Panel (17.09.2026). */
-  'kino.ab': 'Ab {datum} im Kino',
-  'kino.laeuft': 'Läuft im Kino',
-  'kino.laeuftBis': 'Im Kino bis {datum}',
-  'kino.nurAm': 'Nur am {datum} im Kino',
-  'kino.wieder': 'Wiederaufführung',
-  'detail.merkenGoogle': 'Google Kalender',
-  'detail.merkenIcs': 'Kalenderdatei (.ics)',
   'detail.abDatum': 'ab {d}',
   'detail.seitDatum': 'seit {d}',
-  'detail.tvGesehen': 'im TV am {d}',
   'detail.neuAm': 'neue Folge {d}',
   // Der Bereich „Release-Termine für deutsche Synchro" ist am 16.09.2026 entfallen:
   // Was er trug, steht im Antwort-Kasten darüber (Status in Worten), am Cover (FSK)
   // oder nirgends mehr („Erscheinungstermin: unbekannt" war eine Nicht-Auskunft).
-  'antwort.imAngebotSeit': 'Bei {anbieter} im Angebot seit {datum}',
-  'detail.linkStream': 'ansehen',
-  'detail.linkBuy': 'kaufen oder leihen',
 
-  'detail.ausgabeKanal': '{kanal}-Kanal',
-  'detail.ausgabeAndere': 'andere Ausgabe',
-  'detail.ausgabeOhneDe': 'ohne DE',
-  'detail.ausgabeNurUt': 'nur dt. Untertitel',
-  'detail.ausgabeTitel': '{anbieter} führt zwei Ausgaben. Diese hat keinen deutschen Ton, die andere schon.',
-  'where.umschalter': 'Stream oder Disc',
-  'where.umschalterStream': 'Stream',
-  'where.umschalterDisc': 'Disc',
   // Steht bei den Titeln, zu denen wir keinen Anbieter kennen — 665 von 2.760.
   // Ein Satz, weil er eine Aufgabe hat: das Suchen auf dieser Seite beenden.
   // Ohne ihn fehlte der Abschnitt ganz, und „läuft nirgends" war von „wissen
   // wir nicht" nicht zu unterscheiden.
   // Steht unter einer Pille, deren Adresse auf genau eine Folge zeigt — etwa
   // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
-  'detail.nurFolge': 'nur Folge {n}',
-  'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
-  'detail.sharedUrl': '{count} Einträge',
   // Steht, wo der Anbieter mehrere unserer Einträge in **einer** durchlaufenden
   // Folgenliste führt: Prime zeigt „Captain Tsubasa (2018)" mit 91 Folgen, und
   // dieser Eintrag sind davon die Nummern 53 bis 91. Ohne die Angabe sucht
   // jemand 39 Folgen auf einer Seite, die 91 zeigt.
-  'detail.teilBereich': 'Flg. {von}–{bis}',
-  'detail.teilBereichTitel': 'Dieser Eintrag umfasst dort die Folgen {von} bis {bis}',
-  'detail.teilFolge': 'Flg. {nr}',
-  'detail.teilFolgeTitel': 'Dieser Eintrag umfasst dort die Folge {nr}',
-  'detail.teilStaffel': 'Staffel {von}–{bis}',
-  'detail.teilStaffelEine': 'Staffel {nr}',
   'detail.teilLautTmdb': 'laut TMDB',
   // Steht als „!" neben dem Anbieter, wenn der deutsche Ton Lücken hat. Der
   // Anbieter gilt trotzdem als deutsch — eine Folge genügt (Daniel,
@@ -328,15 +185,10 @@ const TEXTE = {
   // **Auf eine Zeile gekürzt**. In der Pille steht
   // nur noch, was fehlt: das Kreuz, die Sprache, die Folgen. Der volle Satz
   // steht im Tooltip daneben.
-  'detail.dubLuecken': 'ohne Deutsch: Fg. {n}',
-  'detail.staffelNummer': 'Staffel {n}',
-  'detail.dubLueckenTitel': 'Nicht alle Folgen auf Deutsch',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
   // unserer Einträge auf dieselbe Adresse zeigen. Wie der Anbieter seinerseits
   // in Staffeln teilt, steht auf einer Seite, die ihre Staffelliste per
   // JavaScript nachlädt — geprüft ist es also nicht.
-  'detail.sharedUrlNote':
-    'Führt zu {count} unserer Einträge. Der Anbieter teilt die Reihe womöglich anders in Staffeln.',
   // Steht nur, wo der deutsche Ton **mittendrin** aufhört oder anfängt — bei
   // Black Clover auf Netflix ab Folge 156. Ist die ganze Staffel deutsch, sagt
   // das Häkchen daneben schon alles, und eine zweite Angabe wäre Lärm.
@@ -349,60 +201,28 @@ const TEXTE = {
   'detail.dubFrom': 'Fg. ab {n}',
   // Wo nur die erste Folge dort liegt — auf einem Verlagskanal bei YouTube der
   // Normalfall. „1–1" wäre richtig gerechnet und trotzdem verwirrend.
-  'detail.dubNurEine': 'nur Fg. 1',
-  'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
   // **Das Label sagt, was es auf Deutsch gibt**. Vorher nannte es die Lücke — „✕ DE 5–7" —, also das, was
   // fehlt. Wer vor der Pille steht, will aber wissen, was er bekommt, und bei mehr als
   // einem Wechsel wird die Lücken-Form ohnehin unübersichtlich.
-  'detail.dubDe': 'Fg. {bereiche}',
   // Ab drei Bereichen bliebe die Pille nicht mehr schmal. Die Zahl sagt, dass da noch
   // etwas kommt; die vollständige Aufzählung steht im Hinweis daneben.
-  'detail.dubDeMehr': 'Fg. {bereiche} +{n} Bereiche',
   // Der Hinweis, zeilenweise.
   'detail.dubKopfVon': '{n} von {m} Folgen auf Deutsch',
   'detail.dubKopf': '{n} Folgen auf Deutsch',
-  'detail.dubOhneTonZeile': 'Anbieter führt auch die Episoden {bereiche}, allerdings ohne deutsche Synchro.',
-  'detail.dubOhneTonEine': 'Anbieter führt auch die Episode {bereiche}, allerdings ohne deutsche Synchro.',
   // „Nicht im Angebot" statt „nicht erfasst": Bei bekannter Folgenzahl ist das die
   // Aussage, die der Leser braucht — dort gibt es sie nicht, nicht einmal untertitelt.
-  'detail.dubNichtImAngebot': 'Nicht im Angebot: {bereiche}',
-  'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
-  'detail.genres': 'Genres',
   // Die vier Gruppen der Reihenliste. „Hauptserie" statt „Staffeln", weil eine
   // Reihe aus einem einzigen Teil bestehen kann und „Staffeln" dann falsch
   // klingt; „Specials & OVAs" nennt beides, weil der Unterschied hier keiner ist.
   'detail.gruppeStaffeln': 'Hauptserie',
-  'detail.gruppeSpecials': 'Specials & OVAs',
-  'detail.gruppeFilme': 'Filme',
-  'detail.reiheSuche': 'In der Reihe suchen',
   // Am Abzeichen in der Reihenliste — das Zeichen selbst ist 🇩🇪 ✕, der Satz
   // steht im Hinweis. „Bisher" fehlt bewusst: Wir wissen nicht, ob eine kommt.
-  'detail.reiheOhneSynchro': 'Keine deutsche Synchro',
-  'detail.reiheKeinTreffer': 'Kein Teil passt',
-  'detail.reiheKuenftig': 'noch nicht erschienen',
   'detail.folgenKurz': '{n} Fg.',
   'detail.folgenBereich': 'Fg. {bereich}',
-  'detail.folgenOhneAnbieter': 'Für Folgen {bereich} kennen wir keinen deutschen Anbieter.',
-  'detail.folgeOhneAnbieter': 'Für Folge {bereich} kennen wir keinen deutschen Anbieter.',
-  'detail.werkangaben': 'Zum Werk',
-  'detail.faktFsk': 'Altersfreigabe',
-  'detail.keywords': 'Keywords',
-  'detail.plot': 'Handlung',
-  'detail.plotMore': 'mehr anzeigen',
-  'detail.plotLess': 'weniger anzeigen',
-  'detail.plotQuelle': 'Quelle:',
   // **Der Ersatz sagt, wessen Handlung dasteht.** Ohne den Namen liest jemand
   // die Handlung von Staffel 1 und hält sie für die von Staffel 3.
-  'detail.plotVonTeil': 'Noch nicht erschienen — hier steht die Handlung von „{teil}".',
-  'detail.plotOnlyEnglish': 'Diese Beschreibung gibt es nur auf Englisch.',
-  'detail.seasons': 'Alles aus dieser Reihe',
-  'detail.reiheZurueck': 'Vorherige Teile',
-  'detail.reiheWeiter': 'Weitere Teile',
   // Zwei Termine, keiner belegbar — beide anzeigen statt einen zu verschweigen
   // (Daniels Regel, 13.08.2026).
-  'detail.disputedDate': 'Eine andere Quelle nennt:',
-  'detail.disputedDateHint':
-    'Welcher Tag stimmt, ist offen. Oben steht der, mit dem wir rechnen.',
   // Belegkette eines Termins. Kurz halten: Das steht unter jedem Termin, und
   // gelesen wird es nur von dem kleinen Teil, der wirklich nachprüfen will.
   // Handlung **und** Zielort in einem Knopf — man soll vor dem Klick wissen,
@@ -410,67 +230,23 @@ const TEXTE = {
   // gibt noch nichts zu sehen, nur etwas vorzubestellen.
   // Weitere Schreibweisen, nach dem Muster von MyAnimeLists „Alternative
   // Titles": ein Aufklapper statt drei dauerhafter Zeilen.
-  'detail.otherTitles': '{count} weitere Schreibweisen',
-  'detail.otherTitlesHide': 'Schreibweisen ausblenden',
-  'detail.titleRomaji': 'Umschrift',
-  'detail.titleEn': 'Englisch',
-  'detail.titleNative': 'Original',
-  'detail.scoreHint':
-    'So haben die Nutzer von {quelle} diesen Titel bewertet.',
-  'detail.editionCount': '{count} Ausgaben',
-  'detail.preorderAt': 'Vorbestellen bei {shop}',
-  'detail.buyAt': 'Kaufen bei {shop}',
   // Steht statt eines Links, wenn die Termine aus einer Programmschnittstelle
   // stammen. Ein Link auf einen API-Endpunkt hilft niemandem weiter.
-  'detail.sourceProvider': 'direkt von {anbieter} ausgelesen',
-  'detail.olderSource': '1 ältere Quelle',
-  'detail.olderSources': '{count} ältere Quellen',
-  'detail.olderSourcesHide': 'ältere Quellen ausblenden',
-  'detail.sourceStale': 'veraltete Info',
-  'detail.sourceMaybeStale': 'veraltete Info',
-  'detail.autoSource': 'automatisch übernommen',
-  'detail.autoSourceHint':
-    'Info wurde automatisiert aus der verlinkten Quelle herausgelesen. Für genauere Details die Quelle konsultieren.',
-  'detail.newsHeading': 'Was die Quellen melden',
-  'detail.newsShow': 'Mehr Details ({count})',
-  'detail.newsHide': 'Details ausblenden',
-  'detail.newsHint': 'Die Quelle nennt keinen Tag. Hier steht ihr Wortlaut.',
-  'detail.seasonLoading': 'Wird geladen …',
-  'detail.start': 'Start',
-  'detail.startCinema': 'Im Kino ab',
-  'detail.startDisc': 'Im Handel ab',
   // „Start" wäre bei einem Katalogtitel eine Falschbehauptung: ADN nahm
   // „Sword Art Online" am 11.06.2025 ins Angebot, die deutsche Fassung gibt es
   // seit 2013. Was wir wissen, ist das Datum der Verfügbarkeit — mehr nicht.
-  'detail.availableFrom': 'Erscheinungstermin',
   /*
     Eigene Beschriftung, weil „Erscheinungstermin" hier die falsche Auskunft
     waere: Der Tag sagt, seit wann der Anbieter den Titel listet — die deutsche
     Fassung kann Jahre aelter sein. Bei „Elfen Lied" stand „Erscheinungstermin
     13.08.2025" fuer eine Serie von 2004 (27.08.2026, im Dev-Server gesehen).
   */
-  'detail.offerSince': 'Im Angebot seit',
-  'detail.availableFromNote':
-    'Seit diesem Tag steht der Titel dort im Angebot. Die deutsche Fassung selbst kann älter sein.',
 
-  'detail.time': 'Uhrzeit',
-  'detail.unknown': 'unbekannt',
-  'detail.episodes': 'Folgen',
-  'detail.voices': 'Deutsche Stimmen',
-  'detail.voicesLoading': 'Wird geladen …',
-  'detail.voicesNone': 'Keine Angaben gefunden.',
   // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
   // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
-  'detail.voicesSource': 'Angaben von',
-  'detail.aehnlich': 'Ähnliche Titel',
-  'detail.aehnlichLaedt': 'Wird geladen …',
-  'detail.aehnlichKeine': 'Keine ähnlichen Titel gefunden.',
-  'detail.aehnlichGemeinsam': 'gemeinsam: {merkmale}',
-  'detail.nextEpisode': 'Nächste Folge',
 
   // Die Antwortzeile ganz oben im Panel — sie beantwortet in einem Satz,
   // wonach jemand das Panel überhaupt öffnet. Vier Fälle, gleiche Höhe.
-  'antwort.folge': 'Folge {n}',
   /*
     **Die Überschrift nennt zuerst, wonach gefragt wird.**
 
@@ -480,12 +256,8 @@ const TEXTE = {
     den 12.09.2026" und „Wöchentlich samstags" wären dieselbe Auskunft zweimal
     auf einem Bildschirm (CLAUDE.md, „Keine Information zweimal").
   */
-  'antwort.naechsteFolge': 'Nächste Folge',
-  'antwort.naechsteFolgeNr': 'Nächste Folge (Folge {n})',
   // Wo noch keine Folge draußen ist, ist die nächste die erste — und das ist
   // die interessantere Auskunft: Die Reihe fängt an.
-  'antwort.ersteFolgeNr': 'Erste Folge (Folge {n})',
-  'antwort.ersteFolge': 'Erste Folge',
   /*
     **Ein Komplettabwurf bringt alle Folgen an einem Tag**.
 
@@ -494,52 +266,24 @@ const TEXTE = {
     das eine noch das andere wahr — es kommt der ganze Block.
   */
   'antwort.alleFolgen': 'Alle {count} Folgen', 'antwort.alleFolgenOhneZahl': 'Alle Folgen',
-  'antwort.angebotRelativ': 'im Angebot {rel}, am {tag} den {datum}.',
-  'antwort.angebotDatum': 'im Angebot ab {tag} den {datum}.',
   // Nur noch diese eine steht aus.
-  'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
-  'antwort.finaleFolge': 'Finale Folge',
-  'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
   // Ohne relative Angabe (Kino, Angebot) trägt das Datum allein.
-  'antwort.erscheintDatum': 'erscheint am {tag} den {datum}.',
   // Die Uhrzeit hängt hinten an, wo eine bekannt ist — „voraussichtlich", weil
   // der einzelne Termin aus dem gemessenen Rhythmus fortgeschrieben ist.
-  'antwort.erscheintUmZeit': '{termin}, voraussichtlich um {zeit} Uhr.',
   // Die nächste Folge kam nicht zum angekündigten Termin (`schedule.verpasst`).
-  'antwort.ausgeblieben': 'Folge {n} ist nicht erschienen',
   // Angekündigt und verstrichen, beim Anbieter noch nicht gesehen; das Wort steigt mit dem Abstand (`shared/ausbleiben-plan.ts`).
   'antwort.faelligWirdGeprueft': 'Folge {n} fällig seit {wann}, wird geprüft',
   'antwort.faelligVerspaetet': 'Folge {n} fällig seit {wann}, noch nicht gesehen',
   'antwort.angekuendigtFuer': 'angekündigt für {tag} den {datum}.',
-  'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   // Fortgeschriebener Tag (`estimated`): kein vom Anbieter genannter Tag (Wochentakt, Starttag laut Quelle, Meldetag), also „geschätzt“.
   'antwort.erwartetFuer': 'erwartet für {tag} den {datum} (geschätzt).',
-  'antwort.erwartetFuerZeit': 'erwartet für {tag} den {datum}, {zeit} Uhr (geschätzt).',
-  'antwort.verschobenVon': 'verschoben vom {datum}',
   // Steht der neue Tag nur geschätzt da, klänge „verschoben“ nach einer Ansage des Anbieters.
-  'antwort.verschobenGeschaetzt': 'erwartet statt {datum} (geschätzt)',
-  'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
-  'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
-  'antwort.amDatum': 'am {datum}',
-  'antwort.relGestern': 'gestern',
-  'antwort.relHeute': 'heute',
-  'antwort.relMorgen': 'morgen',
-  'antwort.relInTagen': 'in {count} Tagen',
-  'antwort.relInEinerWoche': 'in einer Woche',
-  'antwort.relInWochen': 'in {count} Wochen',
-  'antwort.relInEinemMonat': 'in einem Monat',
-  'antwort.relInMonaten': 'in {count} Monaten',
-  'antwort.relInEinemJahr': 'in einem Jahr',
-  'antwort.relInJahren': 'in {count} Jahren',
   // Ohne Wochentag: der Rhythmus sagt nur noch die Frequenz, der Tag steht in
   // der Überschrift.
   'antwort.rhythmusWoechentlichKurz': 'Wöchentlich',
-  'antwort.taktUnklar': 'Takt unklar',
-  'antwort.rhythmusWoechentlich': 'Wöchentlich {tag}s',
   // „freitags", nicht „Frs" — siehe DetailPanel. Kleingeschrieben, weil es ein
   // Adverb ist: „wöchentlich freitags".
   'antwort.nochFolgen': 'noch {count} Folgen bis zum Finale am {datum}',
-  'antwort.letzteFolge': 'letzte Folge',
   'antwort.erschienenZahl': '{raus} von {gesamt} Folgen erschienen',
   // Dieselbe Zeile, aber ohne die vordere Zahl: Die steht hervorgehoben
   // davor, weil sie die Auskunft ist, um die es geht.
@@ -548,7 +292,6 @@ const TEXTE = {
   // auf Deutsch" die Überschrift allein. „Vollständig synchronisiert" und
   // „Alle Folgen auf Deutsch" sagten dasselbe noch zwei weitere Male und sind
   // am 03.09.2026 entfallen („Keine Information zweimal", CLAUDE.md).
-  'antwort.fertigTitel': 'Auf Deutsch verfügbar',
   'antwort.fertigZahl': 'Alle {count} Folgen auf Deutsch',
   /*
     **Was belegt ist, nicht was vermutet wird.**
@@ -559,64 +302,20 @@ const TEXTE = {
   */
   'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
   'antwort.teilweiseNeben': 'Übrige Folgen: nicht auf Deutsch belegt',
-  'kostenlos.ganz': 'Kostenlos',
-  'kostenlos.teil': 'Teilweise kostenlos',
   'kostenlos.zahl': '{frei} von {von} Folgen',
-  'bereich.abo': 'Abo',
-  'bereich.kauf': 'Kauf / Leihe',
-  'bereich.tv': 'TV',
-  'bereich.unbekannt': 'Weitere',
   // Steht unter der Überschrift bei Titeln, zu denen wir keinen eigenen Termin
   // haben — 1.985 Stück. „Seit" statt „erschienen am": aniSearch nennt die
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar
   // den Simulcast-Start. Die Quelle steht im Tooltip, damit die Zeile kurz bleibt.
-  'antwort.deSeit': 'Auf Deutsch seit {datum}',
-  'antwort.deZeitraum': 'Auf Deutsch erschienen {zeitraum}',
-  'antwort.deZeitraumPublisher': 'Auf Deutsch erschienen {zeitraum} · {publisher}',
   // **Dieselbe Angabe, aber unter einem Nein.** Wo wir selbst keine Fassung
   // belegen können, stand „Noch keine deutsche Fassung" über „Auf Deutsch seit
   // 03.11.2024" — ein offener Widerspruch. Die Fremdquelle
   // muss sich hier selbst nennen: Dann steht dort nicht zweimal dasselbe mit
   // umgekehrtem Vorzeichen, sondern unsere Auskunft und die von aniSearch.
-  'antwort.deSeitFremd': 'aniSearch nennt {datum}',
-  'antwort.deSeitFremdPublisher': 'aniSearch nennt {datum} · {publisher}',
-  'antwort.deSeitPublisher': 'Auf Deutsch seit {datum} · {publisher}',
-  'antwort.deVerlag': 'Deutsche Fassung bei {publisher}',
-  'antwort.deVerlagFremd': 'aniSearch nennt eine deutsche Ausgabe bei {publisher}',
-  'antwort.deSeitQuelle': 'Deutsche Erstveröffentlichung laut aniSearch — wir haben dazu keinen eigenen Termin gemessen.',
-  'antwort.deSeitWikipedia': 'Deutsche Erstausstrahlung laut Episodenliste der Wikipedia.',
-  'antwort.filmTitel': 'Auf Deutsch verfügbar',
-  'antwort.filmOhneTitel': 'Noch keine deutsche Fassung',
-  'antwort.filmOhneNeben': 'Kein deutscher Anbieter führt ihn bisher',
   // Ein angekündigter Kinofilm ohne deutsche Fassung: Der
   // Kasten nennt den japanischen Kinostart und was zum deutschen bekannt ist,
   // statt nur „Noch keine deutsche Fassung" zu sagen.
-  'antwort.kinoAb': 'In {land} ab {datum} im Kino',
-  'antwort.kinoSeit': 'Seit {datum} in {adj} Kinos',
-  'antwort.kinoJahr': 'In {land} {jahr} im Kino',
-  'antwort.kinoOffen': 'In {land} als Kinofilm angekündigt',
-  'antwort.kinoDeTermin': 'Deutscher Kinostart: {datum}',
-  'antwort.filmDeStreamOffen': 'Streamstart noch nicht bekannt',
-  'antwort.filmDeKinoAb': 'Ab {datum} im Kino',
-  'antwort.filmDeKinoSeit': 'Seit {datum} im Kino',
-  'antwort.filmDeStreamAb': 'Ab {datum} bei {anbieter}',
-  'antwort.filmDeStreamSeit': 'Seit {datum} bei {anbieter}',
-  'antwort.filmDeBeideAb': 'Ab {datum} im Kino und bei {anbieter}',
-  'antwort.filmDeBeideSeit': 'Seit {datum} im Kino und bei {anbieter}',
-  'antwort.kinoFassungOmu': 'nur OmU',
-  'antwort.kinoFassungSynchro': 'mit deutscher Synchro',
-  'antwort.kinoFassungBeides': 'Synchro und OmU',
-  'antwort.kinoDeOffen': 'Deutscher Kinostart noch nicht bekannt',
-  'antwort.kinoDeZeitraum': 'Deutscher Kinostart: {zeitraum}',
-  'antwort.kinoDeVerleih': 'In Deutschland bei {verleih}, Termin noch offen',
-  'antwort.kinoMerken': 'Merk dir den Film mit ☆ und abonnier den Newsletter. Dann sagen wir Bescheid, sobald der deutsche Kinostart feststeht.',
-  'antwort.kinoMerkenMail': 'Merk dir den Film mit ☆. Sobald der deutsche Kinostart feststeht, schreiben wir an {mail}.',
-  'antwort.kinoGemerkt': '★ Gemerkt. Du bekommst Bescheid, sobald der deutsche Kinostart feststeht.',
   // Der deutsche Kinostart steht fest, aber ohne Synchro — der Stern wartet dann auf die Fassung.
-  'antwort.kinoMerkenFassung': 'Merk dir den Film mit ☆ und abonnier den Newsletter. Dann sagen wir Bescheid, sobald es ihn auf Deutsch gibt.',
-  'antwort.kinoMerkenFassungMail': 'Merk dir den Film mit ☆. Sobald es ihn auf Deutsch gibt, schreiben wir an {mail}.',
-  'antwort.kinoGemerktFassung': '★ Gemerkt. Du bekommst Bescheid, sobald es ihn auf Deutsch gibt.',
-  'antwort.ohneTitel': 'Noch keine deutsche Fassung',
   // Der deutsche Termin stand da, doch der Anbieter selbst führt an dem Tag nur OmU (02.10.2026).
   'antwort.widerlegtTitel': 'Angekündigt — vom Anbieter widerlegt',
   'antwort.widerlegtNeben': 'Am {datum} führt Crunchyrolls Wochenprogramm nur die japanische Fassung.',
@@ -626,122 +325,38 @@ const TEXTE = {
   'antwort.omuSeit': 'mit Untertiteln seit {wann}',
   'antwort.synchroTerminOffen': 'Synchro-Termin offen',
   'antwort.synchroOffen': 'Synchro offen',
-  'antwort.ankuendigungQuelle': 'Laut {anbieter}, Stand {datum}',
-  'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
   // JustWatch gilt der Serie, nicht der Folge (Entscheidung 07.09.2026).
-  'antwort.westlichJw': 'Deutsche Fassung laut JustWatch',
-  'antwort.westlichJwNeben': 'Für die Serie, nicht je Folge: {anbieter}',
-  'antwort.faktErschienen': 'erschienen',
-  'antwort.faktFsk': 'Altersfreigabe',
   // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der
   // Stelle, an der bei einer Serie der Fortschrittsbalken steht.
-  'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
-  'antwort.discSeit': 'seit {datum}',
   'einstellungen.titel': 'Einstellungen',
-  'einstellungen.schliessen': 'Einstellungen schließen',
-  'db.westlich': 'Cartoon',
-  'db.westlichHinweis': 'Westliche Animation — kein Anime im Sinne der Datenbanken, aber auf Deutsch zu sehen.',
-  'trailer.ansehen': 'Trailer anschauen',
-  'trailer.ansehenFremd': 'Trailer auf {sprache}',
-  'trailer.nochKeinDeutscher': 'Einen deutschen Trailer haben wir noch nicht gefunden.',
-  'kino.tickets': 'Kinos & Tickets',
-  'trailer.ohne': 'Trailer',
-  'trailer.keinerGefunden': 'Einen Trailer haben wir noch nicht gefunden.',
-  'trailer.suchen': 'Auf YouTube suchen',
-  'trailer.sprache.en': 'Englisch',
-  'trailer.sprache.ja': 'Japanisch',
-  'trailer.ueberschrift': 'Trailer für {titel}',
-  'trailer.beiYoutube': 'In YouTube öffnen',
-  'trailer.schliessen': 'Trailer schließen',
-  'antwort.discAm': 'am {datum}',
-  'antwort.faktPublisher': 'Label',
-  'antwort.faktEdition': 'Ausgabe',
-  'antwort.faktStudio': 'Studio',
-  'antwort.fsk': 'FSK {n}',
   'antwort.fskAnbieter': 'FSK {n} laut Anbieter',  'detail.lastEpisode': 'Letzte Folge',
-  'detail.allDates': 'Alle Termine',
-  'detail.showAllDates': 'alle {count} Termine anzeigen',
-  'detail.showFewer': 'weniger anzeigen',
-  'detail.watchOn': 'Bei {platform} ansehen',
-  'detail.buy': 'Kaufen',
   // Ein Knopf sagt, was der Klick bewirkt, nicht wohin er zeigt (Daniel,
   // 24.08.2026: „das button-label sollte lieber sagen was der effekt des
   // klicks ist"). Zwei Fassungen, weil zwei Plätze: der große Knopf trägt
   // das Verb, die Zeile je Termin nur das Ziel — dort steht das Verb im
   // aria-label, und für eine Zeile mit Datum und Folgennummer wäre der
   // ganze Satz zu lang.
-  'detail.addToGoogleAction': 'In Google Calendar eintragen',
-  'detail.addToGoogle': 'Google Calendar',
-  'detail.addSingle': 'Diese Folge zu Google Calendar hinzufügen',
-  'detail.downloadIcs': 'Kalenderdatei laden',
-  'detail.downloadIcsHint':
-    'Alle kommenden Folgen als Kalenderdatei. Ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar gibt es den Knopf daneben.',
   'detail.share': 'Teilen',
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
-  'detail.source': 'Quelle',
-  'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
-  'filter.available': 'stream verfügbar',
-  'filter.kostenlos': 'nur kostenlos',
   // Schnellfilter, kurz und allgemein; ✅ zeigt nur, 🚫 blendet aus (04.10.2026).
-  'filter.schnell.favoriten': 'Favoriten',
-  'filter.schnell.kostenlos': 'kostenlos',
-  'filter.schnell.bestaetigt': 'bestätigt',
-  'filter.schnell.tv': 'TV',
-  'filter.schnell.disc': 'Disc',
-  'filter.schnell.verfuegbar': 'verfügbar',
-  'filter.schnell.cartoon': 'Cartoon',
   'filter.zustand.nichts': 'nicht gewählt',
   'filter.zustand.ja': 'ausgewählt',
   'filter.zustand.nein': 'ausgeschlossen',
-  'filter.kostenlosHint': 'Nur Titel mit kostenlosen Folgen, etwa bei TOGGO oder YouTube.',
-  'filter.availableHint':
-    'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
-  'detail.estimatedDate': 'geschätzter Termin',
-  'detail.estimatedWhy':
-    'Kein vom Anbieter genannter Tag, sondern geschätzt, etwa aus dem Rhythmus der Reihe oder den Originalterminen. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
-  'detail.timeNoteSource': 'Quelle',
-  'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
-  'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch, dort als vorläufige Schätzung geführt.',
-  'detail.close': 'Schließen',
-  'detail.hiddenNote': 'Dieser Titel ist von dir ausgeblendet. Bis du ihn wieder einblendest, wird hier nichts gezeigt.',
-  'detail.noMeta': 'Zu diesem Eintrag liegen keine Metadaten vor.',
   'detail.dubYes': 'Deutsche Synchro hier belegt',
   // Fähnchen „Premiere" an TV-Pille und Kalender-Kachel (Daniel, 22.09.2026: Tooltip, „nicht verpassen").
-  'tv.premiereHinweis': 'Erstmals auf Deutsch, im TV. Nicht verpassen!',
-  'tv.laeuft': 'Läuft',
-  'tv.imProgramm': 'Im TV-Programm',
-  'tv.live': 'Live auf {name}',
-  'tv.liveKnopf': '{sender} live',
-  'tv.liveSender': '{sender} live auf {name}',
-  'tv.quelle': 'Quelle des Termins: {name}',
   // Der Anbieter führt den Titel, die Adresse kennt nur TMDB — der Klick landet dort (22.09.2026).
-  'detail.ueberTmdb': '{name} (über TMDB)',
   'detail.dubUnknown': 'Der Anbieter macht dazu keine öffentliche Angabe.',
   // Bleibt vergleichsweise lang: Hier hängt eine Kaufentscheidung dran, und der
   // Leser kann den Unterschied nicht selbst herleiten.
-  'detail.metaFrom': 'Metadaten von AniList',
-  'quellen.heading': 'Woher diese Angaben stammen ({count})',
-  'quellen.colSource': 'Quelle',
-  'quellen.colFeeds': 'liefert',
-  'quellen.feedTermine': 'Termine',
-  'quellen.feedOriginal': 'Originaltermine als Grundlage geschätzter Folgen',
-  'quellen.feedWerk': 'Titel, Cover, Genres, Jahr, Studio, Folgenzahl',
   // aniSearch liefert den **Haupttitel** seiner Seite, nicht zwingend einen
   // deutschen — bei „Maomao no Hitorigoto Dai 2 Ki" ist es eine zweite
   // Umschrift. Die Zeile sagt jetzt, was wirklich kommt.
-  'quellen.feedDeutsch': 'Titel und Beschreibung, wo vorhanden auf Deutsch',
-  'quellen.feedStimmen': 'deutsche Sprechrollen',
-  'quellen.feedAnbieterName': 'Anbieter selbst',
-  'quellen.feedAnbieter': 'wo verfügbar, Sprachfassung',
-  'quellen.feedFsk': 'Altersfreigabe',
-  'quellen.note': 'Termine sind je Eintrag belegt und verlinkt. Bei den übrigen Angaben steht, welche Quelle sie im Regelfall liefert — sie werden nicht einzeln nachgewiesen.',
-  'detail.malMeaning': 'Die Kennung dieses Anime bei MyAnimeList.',
 
   ...TEXTE_SEITEN,
   ...TEXTE_KALENDER,
 }
 
-export type TranslationKey = keyof typeof TEXTE
+export type TranslationKey = keyof typeof TEXTE | keyof typeof TEXTE_SPAET
 export type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
 /** „{n} Folgen“ wird bei n = 1 (auch „≈ 1“) zu „{n} Folge“. */
@@ -753,7 +368,7 @@ export function einzahlFolge(text: string, params: Record<string, string | numbe
 
 /** Ohne Hook-Namen: für Code außerhalb von Komponenten, etwa den RSS-Feed im Bau. */
 export function translate(key: TranslationKey, params?: Record<string, string | number>): string {
-  const roh: string = TEXTE[key] ?? key
+  const roh: string = (TEXTE as Record<string, string>)[key] ?? SPAET[key] ?? key
   if (!params) return roh
   return einzahlFolge(roh, params).replace(/\{(\w+)\}/g, (match, name: string) =>
     params[name] !== undefined ? String(params[name]) : match,

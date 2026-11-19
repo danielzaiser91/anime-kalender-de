@@ -18,7 +18,7 @@
   { "name": "felder-fest: Berichtigung ohne Wolf-Girl-Eintrag", "aenderungen": [{ "datei": "pipeline/lib/news-felder-fest.ts", "suche": "  ['angekuendigt:auto-20701-primevideo:2026-11-19', ['jahre', 'discSeitText', 'schonKaufbar']],\n", "ersetze": "" }] },
   { "name": "news-text: Satz schonKaufbar entfernt", "aenderungen": [{ "datei": "web/src/lib/news-text.ts", "suche": "if (m.schonKaufbar) return", "ersetze": "if (false) return" }] },
   { "name": "news-text: Quellenzusatz fehlt", "aenderungen": [{ "datei": "web/src/lib/news-text.ts", "suche": "t('news.angekAbo', { datum, anbieter }) + lautQuelle(m, am)", "ersetze": "t('news.angekAbo', { datum, anbieter })" }] },
-  { "name": "i18n: Text ohne Abo", "aenderungen": [{ "datei": "web/src/lib/i18n-seiten.ts", "suche": "'Ab {datum} im Abo bei {anbieter}!'", "ersetze": "'Ab {datum} bei {anbieter}!'" }] },
+  { "name": "i18n: Text ohne Abo", "aenderungen": [{ "datei": "web/src/lib/i18n-spaet.ts", "suche": "'Ab {datum} im Abo bei {anbieter}!'", "ersetze": "'Ab {datum} bei {anbieter}!'" }] },
   { "name": "mail: Satz schonKaufbar entfernt", "aenderungen": [{ "datei": "worker/src/mail-abschnitte.ts", "suche": "if (m.schonKaufbar) return", "ersetze": "if (false) return" }] },
   { "name": "mail: Kanal fehlt", "aenderungen": [{ "datei": "worker/src/mail-abschnitte.ts", "suche": "${m.kanal ? ` (${m.kanal})` : ''}!`", "ersetze": "!`" }] },
   { "name": "chips-regeln: Kanal-Vergleich weg", "aenderungen": [{ "datei": "web/src/components/detail/chips-regeln.ts", "suche": "(r.kanal ?? '').toLowerCase() === (kanal ?? '').toLowerCase() &&", "ersetze": "" }] },

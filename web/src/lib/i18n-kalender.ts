@@ -7,7 +7,6 @@ import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 import { TEXTE_HERKUNFT } from './i18n-herkunft.ts'
 import { TEXTE_FILTER } from './i18n-filter.ts'
 import { TEXTE_ZEILEN } from './i18n-zeilen.ts'
-import { TEXTE_ANTWORT } from './i18n-antwort.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
@@ -18,13 +17,8 @@ export const TEXTE_KALENDER = {
   'detail.gruppeEigene': 'Eigene Serien',
   // Neuverfilmung einer Serie der Reihe samt ihren Fortsetzungen; zählt für sich (Yaiba 2025).
   'detail.gruppeNeuverfilmung': 'Neuverfilmung',
-  ...TEXTE_ANTWORT,
   // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
-  'geplant.marke': 'Geplant',
-  'geplant.hinweis': 'Das Original ist noch nicht erschienen',
   // Kurzfassung am Schalter der Reihenliste (einzeilige Kopfzeile); der volle Satz steht in `detail.reiheOhneSchalter` als Tooltip.
-  'detail.reiheOhneSchalterKurz': 'Teile ohne Synchro zeigen ({n})',
-  'detail.reiheNurOhne': 'Alle übrigen Teile sind ohne Synchro oder geplant — der Schalter blendet sie ein.',
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',
@@ -59,7 +53,6 @@ export const TEXTE_KALENDER = {
   'kal.zweitSatz': 'Neu auf {anbieter} · erschien zuerst auf Deutsch bei: {erster}',
   'kal.zweitHinweis': 'Zuerst bei {erster}, seit {datum}. {anbieter} zieht nach.',
   'kal.zweitHinweisKatalog': 'Zuerst bei {erster}, seit mindestens {datum} im Angebot. {anbieter} zieht nach.',
-  'kal.tvWeitere': '+{n} weitere',
   'kal.keineAusstrahlung': 'Keine Ausstrahlung.',
   'kal.imTvZahl': '{n} im TV',
   'kal.imHandelZahl': '{n} im Handel',
@@ -79,18 +72,6 @@ export const TEXTE_KALENDER = {
   'kal.erstausgabe': 'Erstver­öffentlichung',
   'kal.erstausgabeHinweis': 'Erster Tag der deutschen Fassung, laut aniSearch.',
   'kal.favorit': 'Favorit',
-  'detail.neuigkeiten': 'Neuigkeiten',
-  'detail.neuigkeitenAlle': 'Alle {n} Meldungen',
-  'detail.staffelVon': 'Staffel {n} von {von}',
-  'detail.reihe': 'Reihe',
-  'detail.eineStaffel': '1 Staffel',
-  'detail.einFilm': '1 Film',
-  'detail.einSpecial': '1 Special',
-  'detail.eineEigeneSerie': '1 eigene Serie',
-  'detail.reiheEigeneSerien': '{n} eigene Serien',
-  'detail.staffelnZahl': '{n} Staffeln',
-  'detail.reiheFilme': '{n} Filme',
-  'detail.reiheSpecials': '{n} Specials',
   'kal.startHinweis': 'Ab hier gibt es diese Staffel mit deutscher Synchro.',
   'kal.finaleHinweis': 'Letzte Folge der Staffel — danach ist sie auf Deutsch vollständig.',
   'kal.folge': 'Folge {n}',
@@ -106,46 +87,12 @@ export const TEXTE_KALENDER = {
   'kal.katalogAlleVermutlich': 'Vermutlich alle {n} Folgen auf einmal',
   'fachwort.omu': 'Originalton mit deutschen Untertiteln — keine deutsche Synchro',
   'kal.omu': 'OmU', 'kal.synchroOffen': 'Synchro offen', 'kal.synchroOffenHinweis': 'Der Termin ist belegt, eine deutsche Synchro nicht.',
-  'detail.pilleNurOmu': 'Hier läuft vorerst nur der Originalton mit deutschen Untertiteln. Die deutsche Synchro ist noch nicht erschienen.',
-  'detail.pilleNurOmuOffen': 'Hier läuft bisher nur der Originalton mit deutschen Untertiteln. Eine deutsche Synchro ist nicht bekannt.',
-  'fachwort.zeitumstellung': 'Am 25.10.2026 endet in Deutschland die Sommerzeit: Die Uhren werden um 1 Stunde zurückgestellt. Bleibt die Sendezeit im Ausland gleich, liegt sie in Deutschland ab dann 1 Stunde früher auf der Uhr.',
-  'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
-  'kal.tagMitTiteln': '{datum}: {titel}',
   'kal.undWeitere': 'und {n} weitere',
-  'kal.alleAmTag': 'Alle Termine am {datum}',
-  'kal.zurWoche': 'In der Woche zeigen',
-  'kal.tagOeffnen': 'Woche mit dem {datum} öffnen',
-  'kal.tvAmTag': 'Im Fernsehen am {datum}',
 
-  'filter.schnell': 'Schnell',
-  'filter.schnell.zweitanbieter': 'Zweitanbieter',
-  'filter.mehr': 'mehr Filter ▾',
-  'filter.weniger': 'weniger Filter ▴',
-  'filter.anbieter': 'Anbieter',
-  'filter.favHinweis': 'Titel mit Stern',
-  'filter.kostenlosKurz': 'Free-TV, TOGGO, YouTube',
-  'filter.bestaetigt': 'Nur bestätigte Termine',
-  'filter.bestaetigtHinweis': 'ohne geschätzte (≈)',
-  'filter.nurFavoriten': 'Nur Favoriten',
-  'filter.nurKostenlos': 'Nur kostenlos',
   /* Der Chip heißt, was er **tut** — vorher „Fernsehen zeigen" und leuchtete, solange das
      Fernsehen an war; der Zähler stand deshalb auf 1, ohne dass etwas ausgeblendet war.
      */
-  'filter.tvAusblenden': 'TV-Termine ausblenden',
-  'filter.discAusblenden': 'Disc-Termine ausblenden',
-  'filter.sucheAlle': 'Filter durchsuchen …',
-  'filter.sucheLeer': 'Probier ein anderes Wort, etwa ein Genre oder einen Anbieter.',
-  'filter.sucheEcchi': 'Ecchi-Titel sind ausgeblendet.',
-  'filter.sucheEcchiZeigen': 'Ecchi-Titel zeigen',
-  'filter.anilist': 'Favoriten aus AniList übernehmen',
-  'filter.weitere': 'Weitere Filter: Release-Art, Jahr, FSK, Status, Keywords',
-  'filter.weitereZu': 'Weitere Filter ausblenden',
-  'filter.treffer': 'von {gesamt} Terminen {zeitraum}',
   'filter.inDieserWoche': 'in dieser Woche',
   'filter.imMonat': 'im {monat}',
-  'filter.fertig': 'Fertig',
-  'filter.alleZuruecksetzen': 'Alle zurücksetzen',
-  'filter.entfernen': '{name} entfernen',
-  'filter.ohneTv': 'ohne Fernsehen',
   'filter.suche': 'Suche: {q}',
 }
