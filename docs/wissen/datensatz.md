@@ -1269,7 +1269,7 @@ Ursachen von `offen` (`lib/ohne-weg-offen.ts`, spiegelt die Reihenfolge von `gru
 |---|---|
 | `handbeleg-deutsch` | Handbeleg sagt deutsch, aber kein Stream-Weg im Bestand |
 | `jw-kein-befund` | JustWatch-Eintrag fehlt ganz |
-| `jw-kein-treffer` | `ohneTreffer`, jünger als 28 Tage, ohne erschienene Disc: kein Treffer (auch mit `namenTreffer` ohne `gleicherName`: Suchrauschen, z. B. „Pale Cocoon“ → „Pale Rider“) |
+| `jw-kein-treffer` | `ohneTreffer`, jünger als 28 Tage, ohne erschienene Disc: kein Treffer der Namenssuche (auch mit `namenTreffer` ohne `gleicherName`: Suchrauschen, z. B. „Pale Cocoon“ → „Pale Rider“); für Titel mit Staffelzusatz („Staffel N“, „Teil N“, „Nth Season“) heißt das nicht „JustWatch führt ihn nicht“: DE führt nur das Franchise, seit 19.11.2026 fragt die Suche auch den Namen ohne Zusatz (`quellen.md`, Staffelname gegen Franchise); Reste wie JoJo Stone Ocean (Teilname ≠ Franchise-Name) bleiben hier |
 | `jw-mehrdeutig` | `ohneTreffer` mit `namenTreffer.gleicherName` (gleichnamiger Kandidat mit anderer TMDB-Kennung, bewusst nicht zugeordnet); 19.11.2026: 10 von 117 Namenstreffern, die übrigen 107 sind Rauschen und zählen zu `jw-kein-treffer` bzw. `jw-abgelaufen` |
 | `jw-fremd` | Treffer vorhanden, aber die `jwId` gehört auch einer zweiten TMDB-Reihe (`geteilteJwKennungen`) |
 | `jw-verfehlt` | Befund trägt `verfehltAm` |
