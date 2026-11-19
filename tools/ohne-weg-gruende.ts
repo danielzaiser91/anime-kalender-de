@@ -14,6 +14,7 @@ import { baueOhneWeg, type OhneWegEingabe } from '../pipeline/lib/ohne-weg.ts'
 import { offenUrsachen, OFFEN_URSACHEN } from '../pipeline/lib/ohne-weg-offen.ts'
 import { OHNE_WEG_GRUENDE } from '../shared/ohne-weg.ts'
 import type { Title } from '../shared/types.ts'
+import { pathToFileURL } from 'node:url'
 
 function argument(name: string): string | undefined {
   const i = process.argv.indexOf(name)
@@ -62,4 +63,4 @@ function main(): void {
   console.log(`Bau-Logzeile: ohne-weg.json: ${m.gesamt} Titel ohne Streaming-Weg (${m.logzeile})`)
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main()
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main()

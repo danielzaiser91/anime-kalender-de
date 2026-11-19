@@ -5,6 +5,11 @@
 import { baueOhneWeg, type OhneWegEingabe } from './lib/ohne-weg.ts'
 import { offenUrsachen, OFFEN_URSACHEN } from './lib/ohne-weg-offen.ts'
 import { messe } from '../tools/ohne-weg-gruende.ts'
+import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -40,6 +45,16 @@ const faelle: Record<number, [string, string | undefined]> = {
   16: ['offen', 'jw-gilt-abo-mit-deutsch'],
   17: ['offen', 'jw-gilt-abo-ton-unbekannt'],
   18: ['offen', 'jw-gilt-sonst'],
+  /* Grenztag: 28 Tage alt gilt nicht mehr (jw-abgelaufen), 27 gilt (hier Grund abo-ohne-ton). */
+  20: ['offen', 'jw-abgelaufen'],
+  21: ['abo-ohne-ton', undefined],
+  /* Kino und Leihe neben einem Abo ohne Tonangabe zählen nicht als Abo-Ton: bleibt „ton-unbekannt“, auch wenn sie Deutsch nennen. */
+  22: ['offen', 'jw-gilt-abo-ton-unbekannt'],
+  23: ['offen', 'jw-gilt-abo-ton-unbekannt'],
+  /* Mehrdeutig geht vor abgelaufen. */
+  24: ['offen', 'jw-mehrdeutig'],
+  /* Wie 15, aber mit erschienener Disc: der Disc-Mangel ist der Unterschied zwischen offen und nur-disc. */
+  25: ['nur-disc', undefined],
 }
 const eingabe: OhneWegEingabe = {
   titel: Object.keys(faelle).map((k) => titel(Number(k), Number(k) === 4 ? 'MOVIE' : 'TV')),
@@ -62,8 +77,14 @@ const eingabe: OhneWegEingabe = {
     16: befund('k16', 16, [{ art: 'FLATRATE', audio: ['de'] }]),
     17: befund('k17', 17, [{ art: 'FLATRATE', audio: [] }]),
     18: befund('k18', 18, [{ art: 'CINEMA', audio: ['en'] }]),
+    20: befund('k20', 20, [{ art: 'FLATRATE', audio: ['en'] }], { geprueftAm: '2026-10-22' }),
+    21: befund('k21', 21, [{ art: 'FLATRATE', audio: ['en'] }], { geprueftAm: '2026-10-23' }),
+    22: befund('k22', 22, [{ art: 'FLATRATE', audio: [] }, { art: 'CINEMA', audio: ['de'] }]),
+    23: befund('k23', 23, [{ art: 'FLATRATE', audio: [] }, { art: 'RENT', audio: ['de'] }]),
+    24: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x' }, geprueftAm: '2026-10-01' }),
+    25: befund('k25', 25, []),
   },
-  discAusgaben: { 6: [{ datum: '2020-01-01' }] },
+  discAusgaben: { 6: [{ datum: '2020-01-01' }], 25: [{ datum: '2020-01-01' }] },
   heute: HEUTE,
 }
 
@@ -79,8 +100,32 @@ pruefe('Die Ursachen zählen genau die `offen`-Titel', ursachen.size === Object.
 
 /* Das Werkzeug über dieselbe Fixture (nicht über Dateien, die in der PR-Kette fehlen können): Summe der Gründe = Gesamtzahl, Ursachen = offen. */
 const m = messe(eingabe)
-pruefe('messe: Summe der Gründe = Gesamtzahl', Object.values(m.gruende).reduce((a, b) => a + b, 0) === m.gesamt && m.gesamt === 18, m.gruende)
-pruefe('messe: Summe der Ursachen = Zahl offen', Object.values(m.offen).reduce((a, b) => a + b, 0) === m.gruende.offen && m.gruende.offen === 12, m.offen)
+pruefe('messe: Summe der Gründe = Gesamtzahl', Object.values(m.gruende).reduce((a, b) => a + b, 0) === m.gesamt && m.gesamt === Object.keys(faelle).length, m.gruende)
+pruefe('messe: Summe der Ursachen = Zahl offen', Object.values(m.offen).reduce((a, b) => a + b, 0) === m.gruende.offen && m.gruende.offen === Object.values(faelle).filter(([g]) => g === 'offen').length, m.offen)
+
+/* Das Werkzeug als Prozess über eine Kulisse (AK_ROOT, ohne Handbelege): ohne Start von main() bliebe die Ausgabe leer. */
+const wurzel = mkdtempSync(join(tmpdir(), 'ohne-weg-gruende-'))
+try {
+  for (const o of ['public/data', 'data']) mkdirSync(join(wurzel, o), { recursive: true })
+  const schreibe = (pfad: string, d: unknown) => writeFileSync(join(wurzel, pfad), JSON.stringify(d))
+  schreibe('public/data/titles.json', eingabe.titel)
+  schreibe('public/data/cartoons.json', [])
+  schreibe('public/data/events.json', eingabe.termine)
+  schreibe('data/justwatch-audio.json', eingabe.justwatch)
+  schreibe('data/disc-ausgaben.json', eingabe.discAusgaben)
+  const skript = fileURLToPath(new URL('../tools/ohne-weg-gruende.ts', import.meta.url))
+  const aufruf = (...args: string[]) => spawnSync(process.execPath, ['--import', 'tsx', skript, ...args, '--heute', HEUTE], { encoding: 'utf8', windowsHide: true, timeout: 60_000, env: { ...process.env, AK_ROOT: wurzel } })
+  const erwartet = messe({ ...eingabe, handbelege: [] })
+  const json = aufruf('--json')
+  const gelesen = json.status === 0 ? JSON.parse(json.stdout) : undefined
+  pruefe('Prozess --json: Exit 0, gesamt und Gründe wie messe()', gelesen?.gesamt > 0 && JSON.stringify(gelesen.gruende) === JSON.stringify(erwartet.gruende) && JSON.stringify(gelesen.offen) === JSON.stringify(erwartet.offen), { status: json.status, stdout: json.stdout.slice(0, 200), stderr: json.stderr.slice(0, 300) })
+  const text = aufruf()
+  pruefe('Prozess ohne Option: Kopfzeile mit Gesamtzahl und Bau-Logzeile', text.stdout.includes(`Titel ohne Streaming-Weg am ${HEUTE}: ${erwartet.gesamt}`) && text.stdout.includes('Bau-Logzeile: ohne-weg.json:'), text.stdout.slice(0, 200))
+  const liste = aufruf('--grund', 'offen/jw-mehrdeutig')
+  pruefe('Prozess --grund offen/jw-mehrdeutig: genau Kennung 10 und 24', liste.stdout.trim().split('\n').map((z) => z.split('\t')[0]).join() === '10,24', liste.stdout)
+} finally {
+  rmSync(wurzel, { recursive: true, force: true })
+}
 
 if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)

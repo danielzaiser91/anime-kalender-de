@@ -1,6 +1,9 @@
 /**
  * **Warum ein Titel in `ohne-weg.json` auf `offen` steht** (19.11.2026, Messwerkzeug `tools/ohne-weg-gruende.ts`). Spiegelt die Reihenfolge von
  * `grundVon` in `ohne-weg.ts`: Ein Handbeleg „deutsch“ geht vor, dann kommt der JustWatch-Befund. Nur Messung, der Bau liest das nicht.
+ *
+ * **Doppelpflege:** Ändert sich eine Regel in `grundVon`, `jwZugeordnet` oder `jwOhneStream`, gehört diese Zuordnung mit (`check-ohne-weg-ursachen.ts`
+ * hält die Randfälle fest). `jw-gilt-*` und `jw-kein-treffer` sind die Fälle, in denen nur ein Beleg fehlt (z. B. die erschienene Disc für `nur-disc`).
  */
 import type { Title } from '../../shared/types.ts'
 import { urteilVon } from './dub-confirmed.ts'
