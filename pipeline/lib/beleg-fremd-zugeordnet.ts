@@ -36,10 +36,10 @@ export interface Besitz {
 export function ladeBesitz(wurzel: string, titel?: BesitzTitel[]): Besitz {
   const datei = resolve(wurzel, 'data/dub-confirmed.yaml')
   const belege = (existsSync(datei) ? (yaml.load(readFileSync(datei, 'utf8')) as BelegAdresse[] | null) : null) ?? []
-  // Roh wie der Wächter (`check-handbeleg-notizseite-bestand`), nicht über `leseZugeordnet`: gleiche Eingabe, gleiches Urteil.
-  const roh = resolve(wurzel, 'data/prime-zugeordnet.json')
-  const notizseiten = titel && baueBesitz(titel, existsSync(roh) ? JSON.parse(readFileSync(roh, 'utf8')) : {})
-  return { zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>()), belege, verschoben: 0, gruppen: new Set(), notizseiten }
+  // Über `leseZugeordnet` (einziger Zugang): ohne gesperrte Seiten; der Wächter liest roh (mehr Besitzer): der Einleser sperrt höchstens mehr, nie weniger als er.
+  const zugeordnet = Object.entries(leseZugeordnet<ZuordnungEintrag>())
+  const notizseiten = titel && baueBesitz(titel, Object.fromEntries(zugeordnet))
+  return { zugeordnet, belege, verschoben: 0, gruppen: new Set(), notizseiten }
 }
 
 /**
