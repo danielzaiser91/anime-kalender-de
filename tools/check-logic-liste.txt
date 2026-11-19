@@ -110,6 +110,7 @@ pipeline/check-beleg-marken.ts
 pipeline/check-beleg-namensformen.ts
 pipeline/check-beleg-sonderfolgen.ts
 pipeline/check-beleg-stoerung.ts
+pipeline/check-beleg-wege-protokoll.ts
 pipeline/check-belege-entfernt.ts
 pipeline/check-belege-riegel-schreiben.ts
 pipeline/check-belegstaerke-forum.ts

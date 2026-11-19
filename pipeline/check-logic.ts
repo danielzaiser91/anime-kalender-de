@@ -4314,7 +4314,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'das Entfernt-Gedächtnis schreibt gesperrte Verweise mit',
-    bau.includes('const verweise = [...verweiseEntfernt, ...uebernommen]'),
+    bau.includes('const verweise = [...neu, ...uebernommeneVerweise(alt.verweise ?? [], neu, titel, grenze)]'),
     'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',
   )
   /* Die Amazon-Sperre hält die übrigen Anbieter nicht auf (seit 07.09.2026 sonst alle Verweise ungeprüft): check-links-sperre-laufzeit.ts. */
