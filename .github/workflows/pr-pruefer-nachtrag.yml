@@ -7,8 +7,8 @@ name: PR-Prüfer — Neustart bei Nachtrag
 # `issue_comment` läuft mit Repo-Rechten in der Fassung von main: der Kommentartext geht nur über `env`, nie in `run:`,
 # und es wird kein PR-Code ausgeführt oder ausgecheckt.
 
-# Zweiter Auslöser (`workflow_run`): Endet die PR-Prüfkette eines Kopfes, dessen letztes Prüfer-Urteil „nicht beurteilt, Kette lief noch“
-# lautete (Marke im Kommentar, gesetzt in pr-pruefer.yml), startet tools/pr-pruefer-nach-kette.mjs den Prüfer neu. Ohne PR-Code, ohne Kommentartext.
+# Zweiter Auslöser (`workflow_run`): Endet die PR-Prüfkette eines Kopfes, der noch kein Prüfer-Urteil hat (der Prüfer sah die Kette laufen und schwieg,
+# seit 19.11.2026 ohne Kommentar; Altbestand: Marke „nicht beurteilt“ in pr-pruefer.yml), startet tools/pr-pruefer-nach-kette.mjs den Prüfer neu. Ohne PR-Code, ohne Kommentartext.
 
 on:
   issue_comment:

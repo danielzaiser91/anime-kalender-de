@@ -1,6 +1,7 @@
 /**
- * Startet den CI-Prüfer neu, sobald die PR-Prüfkette eines Kopfes fertig ist, nachdem er sie unfertig sah und
- * „nicht beurteilt“ kommentiert hat (Marke MARKE_KETTE_OFFEN, gesetzt in pr-pruefer.yml). Aufruf aus
+ * Startet den CI-Prüfer neu, sobald die PR-Prüfkette eines Kopfes fertig ist und der Kopf noch kein Urteil hat. Seit 19.11.2026
+ * kommentiert der Prüfer bei laufender Kette nicht mehr: Kein Prüfer-Kommentar zum Kopf heißt „Kette lief noch“ (davor: Kommentar
+ * „nicht beurteilt“ mit Marke MARKE_KETTE_OFFEN, bleibt für „Basis offen“ und Altbestand gültig). Aufruf aus
  * .github/workflows/pr-pruefer-nachtrag.yml (Ereignis workflow_run der „PR-Prüfkette“); nur Node-Bordmittel.
  * Umgebung: GITHUB_REPOSITORY, KOPF_SHA (head_sha des Kettenlaufs); kein Kommentartext, keine PR-Ausgabe.
  */
@@ -14,7 +15,7 @@ import { MARKE_OHNE_MODELL } from './pruefer-unfertig-wache.mjs'
 import { neuesterLauf, neustart } from './pr-pruefer-neustart.mjs'
 
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
-/** Höchstens so viele „nicht beurteilt“-Kommentare je Kopf lösen einen Neustart aus (Schleifenschutz bei wiederholten Ketten). */
+/** Höchstens so viele Neustarts je Kopf (Schleifenschutz bei wiederholten Ketten): Marken-Kommentare bzw. Versuche des Laufs (`run_attempt`). */
 export const MAX_NEUSTARTS = 2
 // Der Prüfer-Lauf (Job-Timeout 30 min) liest das Kettenlog nach ~13 min und braucht danach noch bis zu 17 min für Modell und
 // Kommentar: das Kettenende fällt meist mitten in seinen Lauf, sein Kommentar mit der Marke entsteht erst am Schluss.
@@ -33,8 +34,16 @@ export function entscheide({ kommentare, kopf, pr, lauf, basisOffen = false, ket
   if (pr.state !== 'open' || pr.draft) return { los: false, grund: 'PR nicht offen oder Entwurf' }
   if (pr.head?.sha !== kopf) return { los: false, grund: 'Kopf inzwischen ein anderer' }
   if (!lauf) return { los: false, grund: 'kein Prüfer-Lauf zum Kopf' }
+  // Kein Prüfer-Lauf für diesen Kopf vorgesehen (daten/-Zweig, Fork, Probezweige): der Lauf endet „übersprungen“, nie mit Urteil.
+  if (lauf.conclusion === 'skipped') return { los: false, grund: 'Prüfer-Lauf übersprungen (Kopf nicht prüfpflichtig)' }
   const letztes = letztesUrteil(kommentare, kopf)
-  if (!letztes || !String(letztes.body).includes(MARKE_KETTE_OFFEN)) return { los: false, grund: 'letztes Urteil war nicht „Kette offen“' }
+  // Seit 19.11.2026: der Prüfer sah die Kette laufen und schwieg. Auch eine rote Kette zählt (Ende success oder failure); jeder Neustart ist ein Versuch des Laufs.
+  if (!letztes) {
+    const versuch = lauf.run_attempt ?? 1
+    if (versuch > MAX_NEUSTARTS + 1) return { los: false, grund: `schon ${versuch} Versuche ohne Urteil (Grenze ${MAX_NEUSTARTS} Neustarts)` }
+    return { los: true, grund: 'Kette fertig, Kopf ohne Urteil (Prüfer sah sie laufen und schwieg)' }
+  }
+  if (!String(letztes.body).includes(MARKE_KETTE_OFFEN)) return { los: false, grund: 'Kopf hat ein Urteil' }
   const kurz = `**Prüfer-Review** für ${kopf.slice(0, 9)} `
   // Läufe ohne Modell (Kette lief beim Start, 13.11.2026) kosten fast nichts und zählen nicht gegen die Grenze.
   const bisher = kommentare.filter((k) => k.user?.login === CI_BOT && String(k.body ?? '').startsWith(kurz) && String(k.body).includes(MARKE_KETTE_OFFEN) && !String(k.body).includes(MARKE_OHNE_MODELL)).length

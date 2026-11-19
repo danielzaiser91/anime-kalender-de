@@ -218,14 +218,14 @@ jobs:
       # bereinigte Log (kettenlog-voll.txt) in den Prüfordner. Fail-soft: ohne Datei gilt „nicht beurteilt“.
       # Frist 0 (13.11.2026): Der Schritt hielt bis zu 36 min einen Runner, nur um auf die Kette zu warten; bei Runner-Mangel
       # wartet die Kette ihrerseits auf Runner (23 von 41 Prüfer-Jobs warteten die vollen 36 min). Läuft die Kette
-      # noch, beendet sich der Prüfer sofort mit „nicht beurteilt“; pr-pruefer-nachtrag.yml startet ihn nach Kettenende neu.
+      # noch, beendet sich der Prüfer sofort und schweigt (seit 19.11.2026 ohne Kommentar); pr-pruefer-nachtrag.yml startet ihn nach Kettenende neu.
       - name: Kettenlog bereitlegen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/pr-kettenlog.mjs "$HEAD_SHA" "$RUNNER_TEMP/pruefer" 0 "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" || echo "Kettenlog nicht bereitgelegt"
 
-      # Kette läuft noch: kein Modellaufruf (er ergäbe nur „nicht beurteilt“). Das Platzhalter-Urteil „aendern“ lässt
-      # „Protokoll und Freigabe“ den Kommentar „nicht beurteilt, Kette lief noch“ samt Marke schreiben.
+      # Kette läuft noch: kein Modellaufruf (er ergäbe nur „nicht beurteilt“). Das Platzhalter-Urteil „aendern“ führt in „Protokoll und
+      # Freigabe“ zu art=offen, und dort endet der Lauf ohne Kommentar (19.11.2026).
       - name: Kette läuft noch
         id: kette
         run: |
@@ -526,7 +526,7 @@ jobs:
         run: node tools/pr-checks-stand.mjs "$HEAD_SHA" 120 >> "$GITHUB_OUTPUT"
 
       # „ok“ ohne Zusatz nur bei grünem Check-Stand; sonst „ok, Checks rot: …“ (Freigabe bleibt, das Ruleset sperrt den
-      # Merge ohnehin). Laufen die Pflicht-Checks noch, ist es „nicht beurteilt“ ohne Review (Nachlauf nach Kettenende).
+      # Merge ohnehin). Laufen die Pflicht-Checks noch, bleibt der Lauf ohne Kommentar und Review (Nachlauf nach Kettenende).
       - name: Protokoll und Freigabe
         if: always()
         env:
@@ -586,6 +586,15 @@ jobs:
             hinweis='Die PR-Prüfkette lief beim Urteil noch; das Urteil gilt erst nach Kettenende. Der Prüfer startet dann von selbst neu.'
             { printf '%s\n\n' "$hinweis"; cat "$T/protokoll.md"; } > "$T/protokoll.neu"
             mv "$T/protokoll.neu" "$T/protokoll.md"
+          fi
+          # Kette beim Urteil noch offen (19.11.2026): kein Kommentar, kein Review. 571 von 1278 Prüfer-Kommentaren einer Woche waren „nicht beurteilt“,
+          # 73 % der PRs betroffen. Das Urteil kommt allein aus dem Neustart nach Kettenende (pr-pruefer-nach-kette.mjs: Kopf ohne Urteil -> Neustart);
+          # fällt er aus, meldet tools/pruefer-unfertig-wache.mjs „Kopf ohne Urteil seit > 60 min“. Befunde eines Modelllaufs bleiben im Lauf-Protokoll.
+          # „Basis offen“ bleibt ein Kommentar: Er trägt echte Befunde, und der Neustart wartet dort auf den Basis-Merge.
+          if [ "$art" = "offen" ] && [ "$basis_offen" != "1" ]; then
+            echo "Kette beim Urteil noch offen: kein Kommentar, kein Review; Neustart nach Kettenende (pr-pruefer-nachtrag.yml, Job nach-kette)."
+            cat "$T/protokoll.md" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+            exit 0
           fi
           titel="$art"
           if [ "$art" = "ok" ] && [ "${CHECKS:-}" != "gruen" ]; then

@@ -1,17 +1,14 @@
-// Kennzahl „Prüfer sah unfertige Kette“: Tabellentest der reinen Funktionen, Abruffehler und die Verdrahtung in der Wachphase.
+// Wächter „Kopf ohne Urteil“ (19.11.2026): Tabellentest der reinen Funktionen, Ablauf mit eingespeistem gh, Abruffehler und die Verdrahtung in der Wachphase.
 // Die Kommentartexte sind wörtlich die erste Zeile echter Urteile (Abruf 31.10.2026).
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { MARKE_OHNE_MODELL, prueferZeilen, unfertigZeile, unfertigeKette, urteile } from './pruefer-unfertig-wache.mjs'
+import { MARKE_OHNE_MODELL, hatUrteil, prueferZeilen, pruefpflichtig } from './pruefer-unfertig-wache.mjs'
 
 const BOT = 'github-actions[bot]'
-const k = (titel, login = BOT) => ({ user: { login }, body: `**Prüfer-Review** für 03a88a18e - Urteil: **${titel}**\n\nProtokoll` })
-const OK = k('ok')
-const LAEUFT = k('ok, Checks laufen noch: PR-Prüfkette')
-const ROT = k('ok, Checks rot: PR-Datenbau, PR-Prüfkette')
-const AENDERN = k('aendern, Auflagen offen: Dirigent entscheidet')
-const viele = (unfertig, gesamt) => Array.from({ length: gesamt }, (_, i) => (i < unfertig ? LAEUFT : OK))
+const KOPF = 'c'.repeat(40)
+const ALT = 'a'.repeat(40)
+const k = (titel, kopf = KOPF, login = BOT, extra = '') => ({ user: { login }, body: `**Prüfer-Review** für ${kopf.slice(0, 9)} - Urteil: **${titel}**\n\nProtokoll${extra}` })
 
 let faelle = 0
 const gleich = (name, ist, soll) => {
@@ -19,50 +16,69 @@ const gleich = (name, ist, soll) => {
   faelle++
 }
 
-// Auswahl: nur der Bot, nur die Urteilszeile, höchstens n
-gleich('Urteilszeilen des Bots', urteile([OK, LAEUFT, ROT, AENDERN]), ['ok', 'ok, Checks laufen noch: PR-Prüfkette', 'ok, Checks rot: PR-Datenbau, PR-Prüfkette', 'aendern, Auflagen offen: Dirigent entscheidet'])
-gleich('fremder Autor mit gleichem Text zählt nicht', urteile([k('ok', 'fremder'), OK]), ['ok'])
-gleich('anderer Bot-Kommentar zählt nicht', urteile([{ user: { login: BOT }, body: '## Mutationsprobe für abc' }]), [])
-gleich('Zeile muss am Textanfang stehen', urteile([{ user: { login: BOT }, body: 'Hallo\n**Prüfer-Review** für abc - Urteil: **ok**' }]), [])
-gleich('ohne Text und ohne Nutzer', urteile([{}, { user: { login: BOT } }]), [])
-// 13.11.2026: Lauf ohne Modell (Kette lief beim Start) ist kein Urteil; die Marke steht wörtlich im Workflow.
-gleich('Lauf ohne Modell zählt nicht', urteile([{ user: { login: BOT }, body: `**Prüfer-Review** für abc - Urteil: **nicht beurteilt, Kette lief noch**\n\nx\n${MARKE_OHNE_MODELL}` }, OK]), ['ok'])
+// Urteil ja/nein
+gleich('ok ist ein Urteil', hatUrteil([k('ok')], KOPF), true)
+gleich('aendern ist ein Urteil', hatUrteil([k('aendern')], KOPF), true)
+gleich('ok mit Zusatz „Checks rot“ ist ein Urteil', hatUrteil([k('ok, Checks rot: PR-Prüfkette')], KOPF), true)
+gleich('„nicht beurteilt, Kette lief noch“ ist keins', hatUrteil([k('nicht beurteilt, Kette lief noch')], KOPF), false)
+gleich('„nicht beurteilt, Diff unvollständig“ ist keins', hatUrteil([k('nicht beurteilt, Diff unvollständig')], KOPF), false)
+gleich('„nicht beurteilt, Basis offen“ gilt (gewolltes Warten)', hatUrteil([k('nicht beurteilt, Basis offen')], KOPF), true)
+gleich('Urteil zu altem Kopf zählt nicht', hatUrteil([k('ok', ALT)], KOPF), false)
+gleich('fremder Autor zählt nicht', hatUrteil([k('ok', KOPF, 'fremder')], KOPF), false)
+gleich('Lauf ohne Modell (Altbestand) zählt nicht', hatUrteil([k('ok', KOPF, BOT, `\n${MARKE_OHNE_MODELL}`)], KOPF), false)
+gleich('Zeile muss am Textanfang stehen', hatUrteil([{ user: { login: BOT }, body: `Hallo\n${k('ok').body}` }], KOPF), false)
+gleich('keine Kommentare', hatUrteil([], KOPF), false)
+gleich('kein Text, kein Nutzer', hatUrteil([{}, { user: { login: BOT } }], KOPF), false)
 gleich('Marke steht im Workflow', fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8').includes(MARKE_OHNE_MODELL), true)
-gleich('höchstens n, die ersten (neuesten) zählen', urteile([OK, LAEUFT, ROT], 2), ['ok', 'ok, Checks laufen noch: PR-Prüfkette'])
-gleich('Standard 30 Urteile', urteile(viele(0, 45)).length, 30)
 
-// Zählung: nur „Checks laufen noch“ ist unfertig (rot, aendern, ok nicht)
-gleich('leere Liste', unfertigeKette([]), { gesamt: 0, unfertig: 0, anteil: 0 })
-gleich('rot und aendern sind nicht unfertig', unfertigeKette([ROT, AENDERN, OK]), { gesamt: 3, unfertig: 0, anteil: 0 })
-gleich('„nicht beurteilt, Kette lief noch“ zählt als unfertig', unfertigeKette([k('nicht beurteilt, Kette lief noch'), OK]), { gesamt: 2, unfertig: 1, anteil: 0.5 })
-gleich('„nicht beurteilt, Basis offen“ ist keine unfertige Kette', unfertigeKette([k('nicht beurteilt, Basis offen'), OK]), { gesamt: 2, unfertig: 0, anteil: 0 })
-gleich('2 von 5', unfertigeKette([LAEUFT, OK, LAEUFT, OK, OK]), { gesamt: 5, unfertig: 2, anteil: 0.4 })
-gleich('älter als n zählt nicht', unfertigeKette([...viele(0, 30), LAEUFT, LAEUFT]).unfertig, 0)
-gleich('Zähler im Fenster, nicht davor', unfertigeKette([LAEUFT, ...viele(0, 40)]).unfertig, 1)
+// Prüfpflicht: genau die Bedingung der Job-Zeile `pruefen` in pr-pruefer.yml
+const pr = (a = {}) => ({ number: 7, state: 'open', draft: false, head: { sha: KOPF, ref: 'claude/x', repo: { full_name: 'o/r' } }, base: { ref: 'main', repo: { full_name: 'o/r' } }, ...a })
+gleich('Normalfall prüfpflichtig', pruefpflichtig([pr()]).length, 1)
+gleich('Entwurf nicht', pruefpflichtig([pr({ draft: true })]).length, 0)
+gleich('Fork nicht', pruefpflichtig([pr({ head: { sha: KOPF, ref: 'x', repo: { full_name: 'f/r' } } })]).length, 0)
+gleich('Datenzweig nicht', pruefpflichtig([pr({ head: { sha: KOPF, ref: 'daten/neu', repo: { full_name: 'o/r' } } })]).length, 0)
+gleich('zug-fahrt und zug-probe nicht', pruefpflichtig(['zug-fahrt', 'zug-probe'].map((ref) => pr({ head: { sha: KOPF, ref, repo: { full_name: 'o/r' } } }))).length, 0)
+gleich('andere Basis nicht', pruefpflichtig([pr({ base: { ref: 'dev', repo: { full_name: 'o/r' } } })]).length, 0)
+gleich('Basis zug ja', pruefpflichtig([pr({ base: { ref: 'zug', repo: { full_name: 'o/r' } } })]).length, 1)
+const wf = fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8')
+gleich('Workflow nennt dieselben Ausnahmen', ["startsWith(github.head_ref, 'daten/')", "github.head_ref != 'zug-fahrt'", "github.head_ref != 'zug-probe'", 'branches: [main, zug]'].every((t) => wf.includes(t)), true)
 
-// Schwelle: genau 10 %, eins darunter, deutlich darüber; Mindestprobe genau 10 und 9
-const z = (u, g) => unfertigZeile(unfertigeKette(viele(u, g)))
-gleich('3 von 30 = 10 % warnt', z(3, 30), 'PRUEFER: 3 von 30 Prüfer-Urteilen sahen eine unfertige Kette (10 %, Grenze 10 %)')
-gleich('2 von 30 = 6,7 % warnt nicht', z(2, 30), null)
-gleich('15 von 30 warnt', z(15, 30), 'PRUEFER: 15 von 30 Prüfer-Urteilen sahen eine unfertige Kette (50 %, Grenze 10 %)')
-gleich('1 von 10 = 10 % warnt (Mindestprobe genau erreicht)', z(1, 10)?.startsWith('PRUEFER: 1 von 10'), true)
-gleich('9 Urteile reichen nicht, auch bei 100 %', z(9, 9), null)
-gleich('0 von 30 warnt nicht', z(0, 30), null)
-gleich('0 Urteile warnt nicht', unfertigZeile({ gesamt: 0, unfertig: 0, anteil: 0 }), null)
-
-// Abruf: Endpunkt, JSON, Fehlerarten
-const aufrufe = []
-const gh = (...a) => {
-  aufrufe.push(a)
-  return JSON.stringify(viele(6, 30))
+// Ablauf mit eingespeistem gh
+const JETZT = Date.parse('2026-11-19T12:00:00Z')
+const vor = (min) => new Date(JETZT - min * 60_000).toISOString()
+function ablauf({ pulls = [pr()], laeufe = [{ status: 'completed', conclusion: 'success', created_at: vor(90) }], kommentare = [], commitMin = 90, fehler = null } = {}) {
+  const aufrufe = []
+  const gh = (...a) => {
+    aufrufe.push(a.join(' '))
+    if (fehler) throw new Error(fehler)
+    const url = a.at(-1)
+    if (url.includes('/pulls?state=open')) return JSON.stringify(pulls)
+    if (url.includes('/workflows/pr-pruefer.yml/runs')) return JSON.stringify({ workflow_runs: laeufe })
+    if (url.includes('/commits/')) return JSON.stringify({ commit: { committer: { date: vor(commitMin) } } })
+    if (url.includes('/issues/7/comments')) return JSON.stringify([kommentare])
+    throw new Error('unerwartet ' + url)
+  }
+  return { zeilen: prueferZeilen(gh, 'o/r', JETZT), aufrufe }
 }
-gleich('Warnzeile aus dem Abruf', prueferZeilen(gh, 'o/r'), ['PRUEFER: 6 von 30 Prüfer-Urteilen sahen eine unfertige Kette (20 %, Grenze 10 %)'])
-gleich('Abruf: genau ein gh-Aufruf auf die jüngsten Kommentare', aufrufe, [['api', 'repos/o/r/issues/comments?sort=created&direction=desc&per_page=100']])
-gleich('ruhige Kette: keine Zeile', prueferZeilen(() => JSON.stringify(viele(0, 30)), 'o/r'), [])
-gleich('Abruffehler: eigene Zeile, nur die erste Fehlerzeile', prueferZeilen(() => { throw new Error('gh: HTTP 503\nzweite Zeile') }, 'o/r'), ['PRUEFER? Prüfer-Urteile nicht lesbar: gh: HTTP 503'])
-gleich('kaputtes JSON: eigene Zeile', prueferZeilen(() => 'kein json', 'o/r').length, 1)
-gleich('kaputtes JSON: beginnt mit PRUEFER?', prueferZeilen(() => 'kein json', 'o/r')[0].startsWith('PRUEFER? '), true)
-gleich('Antwort ist kein Array (Fehlerobjekt): eigene Zeile', prueferZeilen(() => '{"message":"Not Found"}', 'o/r')[0].startsWith('PRUEFER? '), true)
+const MELDUNG = 'PRUEFER: PR #7 Kopf ccccccccc ohne Urteil seit 90 min (Grenze 60 min): Neustart nach Kettenende ausgefallen? pr-pruefer-nachtrag.yml, Job nach-kette'
+gleich('Kopf 90 min ohne Urteil: Meldung', ablauf().zeilen, [MELDUNG])
+gleich('Kopf mit Urteil: still', ablauf({ kommentare: [k('ok')] }).zeilen, [])
+gleich('Kopf nur mit „nicht beurteilt, Kette lief noch“ (Altbestand): Meldung', ablauf({ kommentare: [k('nicht beurteilt, Kette lief noch')] }).zeilen, [MELDUNG])
+gleich('Kopf 59 min alt: still, ohne Kommentarabruf', (() => { const r = ablauf({ laeufe: [{ status: 'completed', conclusion: 'success', created_at: vor(59) }] }); return [r.zeilen, r.aufrufe.some((a) => a.includes('/comments'))] })(), [[], false])
+gleich('Kopf genau 60 min alt: still (Grenze ist „mehr als“)', ablauf({ laeufe: [{ status: 'completed', conclusion: 'success', created_at: vor(60) }] }).zeilen, [])
+gleich('Prüfer-Lauf läuft noch: still', ablauf({ laeufe: [{ status: 'in_progress', created_at: vor(90) }] }).zeilen, [])
+gleich('Prüfer-Lauf übersprungen: still', ablauf({ laeufe: [{ status: 'completed', conclusion: 'skipped', created_at: vor(90) }] }).zeilen, [])
+gleich('ältester Lauf zählt als Push-Zeit (Neustart ändert sie nicht)', ablauf({ laeufe: [{ status: 'completed', conclusion: 'success', created_at: vor(5) }, { status: 'completed', conclusion: 'success', created_at: vor(90) }] }).zeilen, [MELDUNG])
+gleich('ohne Lauf: Commit-Datum entscheidet', ablauf({ laeufe: [] }).zeilen, [MELDUNG])
+gleich('ohne Lauf, junger Commit: still', ablauf({ laeufe: [], commitMin: 10 }).zeilen, [])
+gleich('Entwurf und Datenzweig: still, kein Abruf je PR', (() => { const r = ablauf({ pulls: [pr({ draft: true }), pr({ head: { sha: KOPF, ref: 'daten/x', repo: { full_name: 'o/r' } } })] }); return [r.zeilen, r.aufrufe.length] })(), [[], 1])
+gleich('zwei PRs, einer ohne Urteil: genau eine Zeile', ablauf({ pulls: [pr(), pr({ number: 8, head: { sha: ALT, ref: 'claude/y', repo: { full_name: 'o/r' } } })], kommentare: [] }).zeilen.length, 1)
+gleich('Normalbetrieb ohne offene PRs: ein Aufruf, keine Zeile', (() => { const r = ablauf({ pulls: [] }); return [r.zeilen, r.aufrufe.length] })(), [[], 1])
+
+// Abruffehler
+gleich('Abruffehler: eigene Zeile, nur die erste Fehlerzeile', ablauf({ fehler: 'gh: HTTP 503\nzweite Zeile' }).zeilen, ['PRUEFER? Prüfer-Urteile nicht lesbar: gh: HTTP 503'])
+gleich('kaputtes JSON: beginnt mit PRUEFER?', prueferZeilen(() => 'kein json', 'o/r', JETZT)[0].startsWith('PRUEFER? '), true)
+gleich('Antwort ist kein Array (Fehlerobjekt): eigene Zeile', prueferZeilen(() => '{"message":"Not Found"}', 'o/r', JETZT)[0].startsWith('PRUEFER? '), true)
 
 // Verdrahtung: die Wachphase ruft die Funktion wirklich auf (Prozess mit gh-Attrappe, die den Kopf-Hash des Tests liefert)
 const { spawnSync } = await import('node:child_process')
@@ -75,19 +91,17 @@ const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs'
 const abruf = join(ordner, 'abruf-abgelehnt.mjs')
 writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")
 const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-const SCHLUESSEL = 'api repos/danielzaiser91/anime-kalender-de/issues/comments?sort=created&direction=desc&per_page=100'
+const SCHLUESSEL = 'api repos/danielzaiser91/anime-kalender-de/pulls?state=open&per_page=100'
 const starte = (antwort) => {
   writeFileSync(join(ordner, 'daten.json'), JSON.stringify({ [SCHLUESSEL]: antwort }))
   const env = { ...process.env, ATTRAPPE_LOG: join(ordner, 'log.txt'), ATTRAPPE_DATEN: join(ordner, 'daten.json'), LAUF_TOKEN: '' }
   const args = ['--import', vorlader, '--import', pathToFileURL(abruf).href, werkzeug, '--trocken', '--wurzel', ordner, '--gesundheit', join(ordner, 'fehlt.json')]
   return spawnSync(process.execPath, args, { encoding: 'utf8', windowsHide: true, timeout: 60_000, env })
 }
-const warnt = starte({ aus: JSON.stringify(viele(6, 30)) })
-gleich('Prozess: Warnzeile steht in der Ausgabe der Wachphase', /^PRUEFER: 6 von 30 Prüfer-Urteilen sahen eine unfertige Kette \(20 %/m.test(warnt.stdout), true)
-const ruhig = starte({ aus: JSON.stringify(viele(0, 30)) })
-gleich('Prozess: ruhige Kette, keine PRUEFER-Zeile', /^PRUEFER/m.test(ruhig.stdout), false)
+const ruhig = starte({ aus: '[]' })
+gleich('Prozess: keine offenen PRs, keine PRUEFER-Zeile', /^PRUEFER/m.test(ruhig.stdout), false)
 const kaputt = starte({ fehler: 'HTTP 502' })
 gleich('Prozess: Abruffehler als PRUEFER?-Zeile', /^PRUEFER\? Prüfer-Urteile nicht lesbar: HTTP 502$/m.test(kaputt.stdout), true)
 rmSync(ordner, { recursive: true, force: true })
 
-console.log(`pruefer-unfertig-wache: ${faelle} Fälle grün (Tabelle, Schwelle 10 %/Mindestprobe 10, Abruffehler, Prozess)`)
+console.log(`pruefer-unfertig-wache: ${faelle} Fälle grün (Urteil, Prüfpflicht, Ablauf, Abruffehler, Prozess)`)
