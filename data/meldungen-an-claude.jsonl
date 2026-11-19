@@ -102,3 +102,4 @@
 {"am":"2026-11-17T04:26:20.908Z","quelle":"bestand-bauen","schwere":"warnung","text":"[vorher rot] Cover-Verlust: 1 Titel im Hauptbestand ohne Cover und nicht auf data/cover-ohne-bekannt.json (Bildquelle suchen, sonst mit Grund eintragen): 10013739 „Strike Witches: Road to Berlin“"}
 {"am":"2026-11-17T16:55:09.560Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Folgenzahl geht nicht auf 44 → 45","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-11-18T00:11:57.501Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 227 → 228","datei2":"data/termine-ausgelassen.json"}
+{"am":"2026-11-19T00:08:18.983Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 227 → 228","datei2":"data/termine-ausgelassen.json"}
