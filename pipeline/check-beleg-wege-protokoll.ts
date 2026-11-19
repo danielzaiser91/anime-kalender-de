@@ -50,6 +50,9 @@ const geh = (b: Record<string, unknown>[], jetzt = [titel(1, []), titel(2, []), 
 const e1 = geh([beleg(1)])
 pruefe('Weg weg, Beleg available:false: ein Eintrag mit Titel, Anbieter, Adresse und Grund', e1.length === 1 && e1[0]!.titleId === 1 && e1[0]!.plattform === 'netflix' && e1[0]!.url === `${NF}1` && /available: false.*Durchgang/.test(e1[0]!.grund), e1)
 pruefe('entferntAm ist der Bautag, letzterWeg stimmt', e1[0]!.entferntAm === HEUTE && e1[0]!.letzterWeg === true && e1[0]!.geprueftAm === '2026-11-18', e1)
+pruefe('Grund wörtlich: Beleg-Datum und Notiz', e1[0]!.grund === 'Handbeleg available: false (2026-11-18): Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite', e1[0]!.grund)
+const lang = geh([beleg(1, { note: 'x'.repeat(200) })])[0]!.grund
+pruefe('lange Notiz: genau 120 Zeichen im Grund', lang.endsWith('x'.repeat(120)) && !lang.endsWith('x'.repeat(121)), lang.length)
 const einer = geh([beleg(3)], [titel(1, []), titel(2, []), titel(3, [weg('netflix', `${NF}30`)]), titel(4, [])])
 pruefe('ein anderer Weg derselben Plattform bleibt: Eintrag für den gestrichenen, letzterWeg false', einer.length === 1 && einer[0]!.url === `${NF}3` && einer[0]!.letzterWeg === false, einer)
 pruefe('Weg ohne Beleg: kein Eintrag', geh([]).length === 0)
@@ -70,8 +73,8 @@ const GRENZE = '2026-10-22'
 const bau1 = gedaechtnisAusgabe({ stand: 'A', verweise: gedaechtnis }, [], e1, [], GRENZE)
 pruefe('verweise bleiben, wie sie waren; belegWege kommt dazu', JSON.stringify(bau1.verweise) === JSON.stringify(gedaechtnis) && bau1.belegWege?.length === 1, bau1)
 pruefe('geänderte belegWege erneuern den Stand', bau1.stand !== 'A')
-const bau2 = gedaechtnisAusgabe({ stand: bau1.stand, verweise: bau1.verweise, belegWege: bau1.belegWege }, [], [], [], GRENZE)
-pruefe('zweiter Lauf ohne neue Wege trägt sie weiter, Stand gleich', JSON.stringify(bau2) === JSON.stringify(bau1), bau2)
+const bau2 = gedaechtnisAusgabe({ stand: 'Fest', verweise: bau1.verweise, belegWege: bau1.belegWege }, [], [], [], GRENZE)
+pruefe('zweiter Lauf ohne neue Wege trägt sie weiter, Stand gleich', bau2.stand === 'Fest' && JSON.stringify({ ...bau2, stand: 0 }) === JSON.stringify({ ...bau1, stand: 0 }), bau2)
 pruefe('abgelaufene belegWege fallen weg, ohne Eintrag fehlt der Schlüssel', gedaechtnisAusgabe({ stand: 'A', verweise: [], belegWege: [{ ...e1[0]!, entferntAm: '2026-09-01' }] }, [], [], [], GRENZE).belegWege === undefined)
 pruefe('ohne belegWege bleibt die Datei im alten Format', !('belegWege' in gedaechtnisAusgabe({ stand: 'A', verweise: gedaechtnis }, [], [], [], GRENZE)))
 
@@ -134,4 +137,4 @@ if (fehler > 0) {
   console.error(`check-beleg-wege-protokoll: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-beleg-wege-protokoll: ok (Beleg-Erkennung 14, Datei 5, Gesamtlauf 8)')
+console.log('check-beleg-wege-protokoll: ok (Beleg-Erkennung 16, Datei 5, Gesamtlauf 8)')
