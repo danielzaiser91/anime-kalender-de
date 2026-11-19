@@ -22,11 +22,21 @@ export function kennzahlen(bericht) {
   }
 }
 
+/** Die größten Anfragen eines Berichts (URL, übertragene Bytes), absteigend; so lassen sich die Byte-Stufen eines Ausreißers benennen. */
+export function groessteAnfragen(bericht, anzahl = 20) {
+  const items = bericht.audits?.['network-requests']?.details?.items ?? []
+  return items
+    .filter((i) => typeof i.transferSize === 'number')
+    .map((i) => ({ url: i.url, bytes: i.transferSize }))
+    .sort((x, y) => y.bytes - x.bytes)
+    .slice(0, anzahl)
+}
+
 const median = (zahlen) => [...zahlen].sort((x, y) => x - y)[Math.floor(zahlen.length / 2)]
 
-/** Median je Kennzahl über die Läufe einer Seite. */
+/** Median je Kennzahl über die Läufe einer Seite; Bytes: Minimum, denn Nachlader kommen je nach Messende als feste Stufen obendrauf (Bericht 19.11.2026). */
 export function mediane(laeufe) {
-  return Object.fromEntries([...HOECHSTENS, ...MINDESTENS].map((k) => [k, median(laeufe.map((l) => l[k]))]))
+  return Object.fromEntries([...HOECHSTENS, ...MINDESTENS].map((k) => [k, k === 'bytes' ? Math.min(...laeufe.map((l) => l[k])) : median(laeufe.map((l) => l[k]))]))
 }
 
 /** Verstöße einer Seite gegen ihre Grenzen; fehlt eine Grenze oder ein Messwert, ist das selbst ein Verstoß (nie still grün). */

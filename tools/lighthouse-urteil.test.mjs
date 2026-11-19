@@ -1,7 +1,7 @@
 /** Test des Lighthouse-Urteils (`lighthouse-urteil.mjs`): Kennzahlen aus dem Bericht, Median, Grenzen in beide Richtungen, Ratsche. */
 import assert from 'node:assert/strict'
 import { GRENZEN, SEITEN } from './lighthouse-grenzen.mjs'
-import { gelockert, kennzahlen, mediane, tabelle, verstoesse } from './lighthouse-urteil.mjs'
+import { gelockert, groessteAnfragen, kennzahlen, mediane, tabelle, verstoesse } from './lighthouse-urteil.mjs'
 
 const bericht = {
   audits: { 'largest-contentful-paint': { numericValue: 923.4 }, 'cumulative-layout-shift': { numericValue: 0.00123 }, 'total-blocking-time': { numericValue: 93.2 }, 'total-byte-weight': { numericValue: 198145 } },
@@ -13,6 +13,16 @@ assert.equal(kennzahlen({ ...bericht, environment: { benchmarkIndex: 1834.6 } })
 assert.equal(kennzahlen({ ...bericht, categories: { ...bericht.categories, seo: { score: null } } }).seo, undefined, 'Kategorie ohne Punkte bleibt leer')
 
 assert.equal(mediane([{ ...k, lcp: 900 }, { ...k, lcp: 5000 }, { ...k, lcp: 1000 }]).lcp, 1000, 'Median, nicht Mittel: ein Ausreißer zählt nicht')
+
+const dreiBytes = (a, b, c) => mediane([a, b, c].map((bytes) => ({ ...k, bytes }))).bytes
+const bytesVerstoss = (bytes) => verstoesse('Titel', { ...k, bytes }, GRENZEN.pr.Titel).filter((v) => /bytes/.test(v))
+assert.equal(dreiBytes(4698189, 4040380, 3415434), 3415434, 'Bytes: Minimum, nicht Median (PR 4317, Lauf 44590780116)')
+assert.deepEqual(bytesVerstoss(dreiBytes(4698189, 4040380, 3415434)), [], 'Minimum unter 3 800 000: grün')
+assert.deepEqual(bytesVerstoss(dreiBytes(4698189, 4040380, 3900000)), ['Titel: bytes 3900000 > 3800000'], 'alle drei über der Grenze: rot')
+
+const items = [{ url: 'a', transferSize: 10 }, { url: 'b', transferSize: 300 }, { url: 'c' }, { url: 'd', transferSize: 20 }]
+assert.deepEqual(groessteAnfragen({ audits: { 'network-requests': { details: { items } } } }, 2), [{ url: 'b', bytes: 300 }, { url: 'd', bytes: 20 }], 'Anfragen nach Größe, gekürzt, ohne Größe weggelassen')
+assert.deepEqual(groessteAnfragen(bericht), [], 'ohne Anfrageliste: leer')
 
 const g = { lcp: 1000, cls: 0.1, tbt: 200, bytes: 200000, performance: 95, accessibility: 96, 'best-practices': 96, seo: 100 }
 assert.deepEqual(verstoesse('Kalender', k, g), [], 'auf und unter den Grenzen: grün')
@@ -35,4 +45,4 @@ assert.match(tabelle({ Kalender: k }, { Kalender: g }), /\| Kalender \| 923 \(�
 for (const profil of ['pr', 'live']) {
   for (const seite of Object.keys(SEITEN)) assert.deepEqual(verstoesse(seite, { ...k, lcp: 0, tbt: 0, bytes: 0, cls: 0, performance: 100, accessibility: 100, 'best-practices': 100, seo: 100 }, GRENZEN[profil][seite]), [], `${profil}/${seite}: jede Grenze gesetzt`)
 }
-console.log('lighthouse-urteil: 19 Fälle ✓')
+console.log('lighthouse-urteil: 24 Fälle ✓')

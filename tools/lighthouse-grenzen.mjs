@@ -26,7 +26,18 @@ const BASIS_18_11 = {
   Titel: { lcp: 19500, cls: 0.1, tbt: 1410, bytes: 4000000, performance: 47, accessibility: 100, 'best-practices': 96, seo: 100 },
 }
 
+/**
+ * Profil `pr` seit 19.11.2026: Bytes = Minimum der Läufe (Bericht daniel-zum-abarbeiten/berichte/lighthouse-bytes-streuung-2026-11-19.md),
+ * Grenze = Minimum über 7 Jobs × ca. 1,1: Kalender 693 907 → 800 000, Datenbank 2 948 776 → 3 350 000, Titel 3 459 355 → 3 800 000.
+ * `live` behält die alten Bytes-Grenzen (dort nicht nachgemessen).
+ */
+const BASIS_PR = {
+  Kalender: { ...BASIS_18_11.Kalender, bytes: 800000 },
+  Datenbank: { ...BASIS_18_11.Datenbank, bytes: 3350000 },
+  Titel: { ...BASIS_18_11.Titel, bytes: 3800000 },
+}
+
 export const GRENZEN = {
-  pr: BASIS_18_11,
+  pr: BASIS_PR,
   live: BASIS_18_11,
 }
