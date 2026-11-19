@@ -7,7 +7,7 @@ import { log, readJson, warn, writeJson } from '../lib/util.ts'
 import { ladeHandbelege } from '../lib/dub-confirmed.ts'
 import { baueOhneWeg, OFFEN_HOECHSTENS, zaehleVeralteteBefunde, type OhneWegEingabe } from '../lib/ohne-weg.ts'
 import { BEFUND_MAX_TAGE } from '../lib/jw-vertrauen.ts'
-import { ohneAndereWerke } from '../lib/ohne-weg-andere-werke.ts'
+import { ladeAndereWerke, ohneAndereWerke } from '../lib/ohne-weg-andere-werke.ts'
 import { abgelaufenWarnung, offenUrsachen } from '../lib/ohne-weg-offen.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { ohneWegFehler } from '../lib/pruefung.ts'
@@ -30,7 +30,7 @@ export function ladeOhneWegEingabe(): OhneWegEingabe {
     titel: [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])],
     termine: readJson(`${OUT}/events.json`, []),
     handbelege: ladeHandbelege(),
-    justwatch: ohneAndereWerke(readJson('data/justwatch-audio.json', {}), readJson('data/jw-namenstreffer-andere-werke.json', [])),
+    justwatch: ohneAndereWerke(readJson('data/justwatch-audio.json', {}), ladeAndereWerke()),
     discAusgaben: readJson('data/disc-ausgaben.json', {}),
     heute: todayIso(),
   }
