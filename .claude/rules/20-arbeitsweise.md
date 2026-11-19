@@ -81,7 +81,7 @@ Auftrag über einen Zeitraum braucht als Erstes einen Wecker (Skill `autonomer-m
 
 **Kein Sitzungsschnitt mehr (Versuch beendet 10.10.2026, Daniel):** eine neue Sitzung zahlt den Grundstock (~100k Tokens) neu und liest die Übergabe nach — die Sitzung läuft weiter und die automatische Zusammenfassung übernimmt; ich biete keinen Schnitt an. Verbrauch wird beobachtet, gespart wird am Grundstock und durch Delegieren. Startet Daniel doch neu, bei „weiter" zuerst `project-uebergabe.md` und `status.md` lesen und gegen die Wirklichkeit prüfen.
 
-**Prüfung nach Risiko (Daniel, 10.10.2026):** Jeder Task bekommt Risiko 0/1/2 und Umfang S/M/L; die Stufe eines PR ergibt sich mechanisch aus `node tools/pr-stufe.mjs <PR>` — Stufe 0 (Kleinigkeit) ohne Prüfer-Agent, Stufe 1 schlanker Prüfer, Stufe 2 voll (Skill `selbst-entscheiden-und-mergen`).
+**Prüfung nach Risiko (Daniel, 10.10.2026):** Jeder Task bekommt Risiko 0/1/2 und Umfang S/M/L; die Stufe eines PR ergibt sich mechanisch aus `node tools/pr-stufe.mjs <PR>` — Stufe 0 (Kleinigkeit) ohne Prüfer-Agent, Stufe 1 schlanker Prüfer, Stufe 2 voll (Skill `selbst-entscheiden-und-mergen`). **Jede Prüfung läuft nur dort, wo die Änderung nachweislich wirkt (Daniel, 20.11.2026):** Kette, Prüfer und Bauer-Tests testen, was der Pfad berührt; was er ausschließt, wird nicht getestet.
 
 **Keine vorgeschlagenen Aufgaben als Chip** — Nebenfunde in `stand.md` und `status.md`.
 
