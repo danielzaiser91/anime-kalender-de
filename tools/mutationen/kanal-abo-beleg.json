@@ -90,8 +90,8 @@
  {
   "name": "M10 ersetztBeleg Kanal-Zeile vor Datumsvergleich",
   "datei": "pipeline/lib/staerkste-seite.ts",
-  "suche": "  if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true",
-  "ersetze": "  if (istKanalTitel(bisher) !== istKanalTitel(neu)) return false; if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true",
+  "suche": "  const nachDatum = (neu.checkedAt ?? '').localeCompare(bisher.checkedAt ?? '')",
+  "ersetze": "  if (istKanalTitel(bisher) !== istKanalTitel(neu)) return false; const nachDatum = (neu.checkedAt ?? '').localeCompare(bisher.checkedAt ?? '')",
   "tests": [
    "npx tsx pipeline/check-staerkste-seite.ts"
   ]
