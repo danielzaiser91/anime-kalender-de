@@ -50,6 +50,8 @@ const geh = (b: Record<string, unknown>[], jetzt = [titel(1, []), titel(2, []), 
 const e1 = geh([beleg(1)])
 pruefe('Weg weg, Beleg available:false: ein Eintrag mit Titel, Anbieter, Adresse und Grund', e1.length === 1 && e1[0]!.titleId === 1 && e1[0]!.plattform === 'netflix' && e1[0]!.url === `${NF}1` && /available: false.*Durchgang/.test(e1[0]!.grund), e1)
 pruefe('entferntAm ist der Bautag, letzterWeg stimmt', e1[0]!.entferntAm === HEUTE && e1[0]!.letzterWeg === true && e1[0]!.geprueftAm === '2026-11-18', e1)
+const einer = geh([beleg(3)], [titel(1, []), titel(2, []), titel(3, [weg('netflix', `${NF}30`)]), titel(4, [])])
+pruefe('ein anderer Weg derselben Plattform bleibt: Eintrag für den gestrichenen, letzterWeg false', einer.length === 1 && einer[0]!.url === `${NF}3` && einer[0]!.letzterWeg === false, einer)
 pruefe('Weg ohne Beleg: kein Eintrag', geh([]).length === 0)
 pruefe('Beleg eines anderen Titels mit derselben Adresse: kein Eintrag', geh([beleg(9, { url: `${NF}1` })]).length === 0)
 pruefe('Beleg einer anderen Plattform: kein Eintrag', geh([beleg(1, { platform: 'primevideo' })]).length === 0)
@@ -132,4 +134,4 @@ if (fehler > 0) {
   console.error(`check-beleg-wege-protokoll: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-beleg-wege-protokoll: ok (Beleg-Erkennung 13, Datei 5, Gesamtlauf 8)')
+console.log('check-beleg-wege-protokoll: ok (Beleg-Erkennung 14, Datei 5, Gesamtlauf 8)')
