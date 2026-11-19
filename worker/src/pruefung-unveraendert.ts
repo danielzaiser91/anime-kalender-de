@@ -52,7 +52,8 @@ export function normalisiert(wert: unknown): unknown {
 }
 
 const istObjekt = (w: unknown): w is Record<string, unknown> => Boolean(w) && typeof w === 'object' && !Array.isArray(w)
-const ohneVersionFeld = (o: Record<string, unknown>) => Object.fromEntries(Object.entries(o).filter(([k]) => k !== 'version'))
+/** Auch `seitenAdresse` (Migration 066) zählt nicht: sonst wäre am Deploy-Tag jede unveränderte Meldung „geändert“. */
+const ohneVersionFeld = (o: Record<string, unknown>) => Object.fromEntries(Object.entries(o).filter(([k]) => k !== 'version' && k !== 'seitenAdresse'))
 
 /** Der Rumpf ohne `version`, auch in den Einträgen von `rohfolgen` (Durchgang und Randprobe spreizen sie dorthin); andere Werte bleiben gleich. */
 export function ohneVersion(daten: unknown): unknown {

@@ -16,7 +16,7 @@ const lies = (d) => readFileSync(join(ext, d), 'utf8')
 const URL = 'https://www.disneyplus.com/de-de/series/bleach/4Afet1Q421gy'
 
 /* Die Erweiterung: mehrere Staffeln, mehrere IDs → die Meldung trägt keine titelId. */
-const k = vm.createContext({ Date, Set, Array, Number, Object, Boolean, String })
+const k = vm.createContext({ Date, Set, Array, Number, Object, Boolean, String, location: { href: 'https://www.disneyplus.com/de-de/browse/entity-x?a=1#b' } })
 k.globalThis = k
 vm.runInContext(lies('kontext.js'), k)
 vm.runInContext(lies('pruefstand-zeit.js'), k)
@@ -36,6 +36,7 @@ assert.equal(ok, true, 'Meldung gesendet')
 assert.equal(gesendet.length, 1)
 assert.equal(gesendet[0].titelId ?? null, null, 'bei mehreren Staffel-IDs keine titelId')
 assert.equal(gesendet[0].vorhanden, 'nein')
+assert.equal(gesendet[0].seitenAdresse, 'https://www.disneyplus.com/de-de/browse/entity-x', 'die Seite der Meldung, ohne Suchteil und Anker')
 assert.equal(gesendet[0].url, URL, 'die Adresse ist die Zuordnung')
 
 /* Mit einer einzigen Staffel-ID dagegen trägt sie die titelId (Gegenprobe, sonst wäre die Aussage oben leer). */

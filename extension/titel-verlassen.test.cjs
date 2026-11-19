@@ -191,6 +191,7 @@ async function prime() {
   console.log('Prime: Klick')
   const gut = await primeKlick({})
   pruefe('Kontrolle: auf der Titelseite geht die Meldung raus', gut.gesendet.length === 1 && gut.gesendet[0].includes(A), gut)
+  pruefe('… und trägt die Seite, auf der sie entstand (ohne Suchteil und Anker)', JSON.parse(gut.gesendet[0]).seitenAdresse === 'https://www.amazon.de/dp/B0KULISSE1', gut.gesendet[0])
   const nach = await primeKlick({ vorKlick: true })
   pruefe('nach dem Verlassen (Startseite): nichts gesendet', nach.gesendet.length === 0, nach)
   pruefe('… mit Grund', nach.gruende[0] === 'Kein Titel geöffnet', nach.gruende)
@@ -290,7 +291,7 @@ async function disney() {
     const token = new Promise((r) => (tokenFreigabe = r))
     const welt = {
       akTitelBindung: regelLaden(),
-      akKontext: { lesen: () => token.then(() => ({ token: 'tok' })), keinTokenText: () => '' },
+      akKontext: { lesen: () => token.then(() => ({ token: 'tok' })), keinTokenText: () => '', seitenAdresse: () => 'https://www.disneyplus.com/de-de/series/x/abc' },
       AK_DISNEY_NETZ: {
         sende: async (url, init) => {
           gesendet.push(init.body)
@@ -328,6 +329,7 @@ async function disney() {
   }
   const gut = await lauf({})
   pruefe('Kontrolle: auf der Titelseite geht die Meldung raus', gut.gesendet.length === 1 && gut.nachlauf === 1, gut)
+  pruefe('… und trägt die Seite, auf der sie entstand', JSON.parse(gut.gesendet[0]).seitenAdresse === 'https://www.disneyplus.com/de-de/series/x/abc', gut.gesendet[0])
   const nach = await lauf({ verlassenVorKlick: true })
   pruefe('nach dem Verlassen: nichts gesendet', nach.gesendet.length === 0, nach.gesendet)
   pruefe('… der Klick meldet „nicht gemeldet“ zurück und läuft nicht weiter', JSON.stringify(nach.signale) === '[["gemeldet",{"ok":false}]]' && nach.nachlauf === 0, nach)
