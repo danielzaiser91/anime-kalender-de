@@ -880422,5 +880422,52 @@
       ]
     },
     "fetchedAt": "2026-11-15T06:00:57.094Z"
+  },
+  "219960": {
+    "anisearchId": 22104,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Diamond no Kouzai",
+          "titleNative": "Diamond no Kōzai",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Lapintrack"
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/diamond_kouzaiA"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/diamond_kouzai_anime/"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@diamond_kouzai_anime"
+        },
+        {
+          "name": "Diamond Kouzai Anime",
+          "url": "https://diamond-kouzai-anime.jp/"
+        }
+      ],
+      "synonyms": [
+        "The Days of Diamond"
+      ]
+    },
+    "fetchedAt": "2026-11-19T06:01:01.568Z"
   }
 }
