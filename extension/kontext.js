@@ -76,6 +76,9 @@ globalThis.akKontext = (() => {
     }
   }
 
+  /** Die Adresse der Seite, auf der gerade gelesen wird, ohne Suchteil und Anker: sie geht als `seitenAdresse` in jede Meldung (Migration 066). */
+  const seitenAdresse = () => String(location.href).split(/[?#]/)[0]
+
   /** Der Text, wenn kein Token da ist — im toten Kontext liegt es nicht am Token, sondern an der Verbindung. */
   const keinTokenText = () =>
     lebt() ? 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' : 'Erweiterung neu geladen — Seite neu laden'
@@ -87,6 +90,6 @@ globalThis.akKontext = (() => {
     remove: entfernen,
   }
 
-  return { lebt, lesen, schreiben, beiAenderung, version, keinTokenText, lokal }
+  return { lebt, lesen, schreiben, beiAenderung, version, seitenAdresse, keinTokenText, lokal }
 })()
 /* Die Folgeskripte im Manifest beginnen mit `;` (huellen-semikolon.test.cjs): Diese Datei endet ohne Semikolon. */

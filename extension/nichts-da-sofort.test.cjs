@@ -134,6 +134,7 @@ async function disneyDrinnen(fabrik) {
   const quelle = lies('disney.js')
   const code = [schneide(quelle, 'istErledigt', '  '), schneide(quelle, 'meldeWeg', '  ')].join('\n')
   const lauf = async (fetchAntwort, eintrag, bekannt = {}) => {
+    const rumpf = []
     const k = vm.createContext({
       console,
       erneutBeantwortet: new Set(bekannt.erneut ?? []),
@@ -143,7 +144,8 @@ async function disneyDrinnen(fabrik) {
       anbieterStaffeln: [],
       WORKER: 'https://w.example/pruefung',
       chrome: { storage: { sync: { get: async () => ({ token: 't' }) } } },
-      fetch: fetchAntwort,
+      location: { href: 'https://www.disneyplus.com/de-de/browse/entity-x?a=1#b' },
+      fetch: (u, i) => (rumpf.push(JSON.parse(i?.body ?? 'null')), fetchAntwort(u, i)),
     })
     k.globalThis = k
     vm.runInContext(lies('pruefstand-zeit.js'), k)
@@ -154,13 +156,14 @@ async function disneyDrinnen(fabrik) {
     k.e = eintrag
     const vorher = vm.runInContext('istErledigt(e)', k)
     const ok = await vm.runInContext('meldeWeg(e)', k)
-    return { vorher, ok, nachher: vm.runInContext('istErledigt(e)', k) }
+    return { vorher, ok, nachher: vm.runInContext('istErledigt(e)', k), rumpf }
   }
   const wiedervorlage = { url: 'https://www.disneyplus.com/de-de/browse/entity-fire', titel: 'Fire Force', seit: '2026-08-26', staffeln: [{ nr: 1, offen: false }, { nr: 3, offen: true }] }
   const einfach = { url: 'https://www.disneyplus.com/de-de/browse/entity-aoashi', titel: 'Aoashi', staffeln: [{ nr: 1, offen: true }] }
   const a = await lauf(antwort(200), wiedervorlage)
   pruefe('Disney: Wiedervorlage (Mehrstaffel) vorher offen', a.vorher === false, a)
   pruefe('Disney: Wiedervorlage nach „nichts da?" erledigt', a.ok === true && a.nachher === true, a)
+  pruefe('Disney: die Meldung „nichts da“ trägt die Seite (ohne Suchteil und Anker)', a.rumpf.length === 1 && a.rumpf[0].seitenAdresse === 'https://www.disneyplus.com/de-de/browse/entity-x', a.rumpf)
   const b = await lauf(antwort(200), einfach)
   pruefe('Disney: ohne Wiedervorlage nach „nichts da?" erledigt', b.vorher === false && b.nachher === true, b)
   const c = await lauf(antwort(503), wiedervorlage)

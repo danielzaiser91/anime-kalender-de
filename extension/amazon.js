@@ -3502,6 +3502,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
         body: JSON.stringify({
           plattform: 'primevideo',
           url: auftrag.suchUrl,
+          seitenAdresse: globalThis.akKontext.seitenAdresse(),
           vorhanden: 'nein',
           art: 'gemessen',
           titel: auftrag.titel,
@@ -8180,6 +8181,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
         body: JSON.stringify({
           plattform: 'primevideo',
           url: eintrag.url,
+          seitenAdresse: globalThis.akKontext.seitenAdresse(),
           /**
            * **Die Suchadresse, unter der dieser Auftrag stand.**
            *

@@ -73,7 +73,7 @@ export async function allePruefungen(env: Env, nach: number): Promise<Seite> {
 }
 
 const OFFEN_SPALTEN = `id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge`
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge, seiten_adresse`
 
 /**
  * Fenster der offenen Meldungen je Bau (18.10.2026: 500 → 5000, wie `SEITE`). Mit 500 füllten 499 liegende Meldungen auf 38
@@ -90,7 +90,7 @@ export async function offenePruefungen(env: Env, plattform: string | null): Prom
   ).all<{ gemeldet_am: string }>()
   const { results: titel } = await binde(
     `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz,
-            NULL AS teil_von, NULL AS teil_bis, gemeldet_am, NULL AS seiten_kennung, titel_id, folge
+            NULL AS teil_von, NULL AS teil_bis, gemeldet_am, NULL AS seiten_kennung, titel_id, folge, NULL AS seiten_adresse
        FROM pruefung_titel WHERE offen_meldung > 0 AND uebernommen = 0${je} ORDER BY gemeldet_am LIMIT ${OFFEN_FENSTER}`,
   ).all<{ gemeldet_am: string }>()
   return [...(alt ?? []), ...(titel ?? [])].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : a.gemeldet_am > b.gemeldet_am ? 1 : 0)).slice(0, OFFEN_FENSTER)

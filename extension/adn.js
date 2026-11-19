@@ -116,6 +116,8 @@
     })
   }
 
+  /** Jede Meldung trägt die Adresse der Seite, auf der sie entstand (19.11.2026). */
+  const mitSeite = (meldung) => ({ ...meldung, seitenAdresse: globalThis.akKontext.seitenAdresse() })
   const senden = (token, body) => SENDEN.sendeMitKoerper({ sende: NETZ.sende, holen: (...a) => fetch(...a), url: WORKER, token, body })
 
   /* Was nach dem Verlassen der Serienseite noch läuft, sendet nicht mehr (19.11.2026). */
@@ -132,7 +134,7 @@
     for (let i = 0; i < offen.length && !fehler; i += STAPEL) {
       const teil = offen.slice(i, i + STAPEL)
       zeige(`${S.serie.titel}\nmelde ${Math.min(i + STAPEL, offen.length)}/${offen.length} …`)
-      const antwort = await senden(token, { stapel: teil.map((z) => L.meldung(S.serie, S.url, z)) })
+      const antwort = await senden(token, { stapel: teil.map((z) => mitSeite(L.meldung(S.serie, S.url, z))) })
       if (antwort.ok) SENDEN.ergebnisseEintragen(S, L.schluessel, teil, antwort.daten?.ergebnisse)
       else fehler = antwort.fehler
     }
@@ -145,7 +147,7 @@
     const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
     if (!token) return zeige(globalThis.akKontext.keinTokenText(), { klasse: 'schlecht' })
     if (!titelBindung.gueltig(karte)) return verlassen()
-    const antwort = await senden(token, L.wegMeldung(S.serie, S.url))
+    const antwort = await senden(token, mitSeite(L.wegMeldung(S.serie, S.url)))
     const grund = antwort.daten?.error ? ` (${antwort.daten.error})` : ''
     zeige(`${S.serie.titel}\n${antwort.ok ? '✓ „nicht im Angebot" gemeldet' : `${antwort.fehler}${grund} — Klick sendet erneut`}`, {
       klasse: antwort.ok ? 'gut' : 'schlecht',

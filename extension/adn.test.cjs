@@ -229,6 +229,7 @@ async function kastenFaelle() {
   pruefe('Gegenprobe: der Melde-Knopf ist nicht die Prüfliste', !/Prüfliste/.test(syn.knopf.textContent))
   await syn.knopf.onclick()
   pruefe('Klick: ein Stapel mit der Meldung', syn.gesendet.length === 1 && syn.gesendet[0].stapel.length === 1 && syn.gesendet[0].stapel[0].plattform === 'adn')
+  pruefe('Klick: die Meldung trägt die Seite, auf der sie entstand', syn.gesendet[0].stapel[0].seitenAdresse === syn.k.location.href, syn.gesendet[0].stapel[0].seitenAdresse)
   pruefe('... danach „gemeldet" ohne Klick-Aktion', /✓ 1 gemeldet/.test(syn.knopf.textContent) && !syn.knopf.onclick, syn.knopf.textContent)
 
   /* Seite verlassen (19.11.2026, Landei II): was der Kasten noch zeigt, meldet nichts mehr. */
@@ -264,6 +265,7 @@ async function kastenFaelle() {
   pruefe('... aber ohne Klick geht nichts an den Worker (weg nur von Hand)', weg.gesendet.length === 0)
   await weg.knopf.onclick()
   pruefe('Klick: eine Meldung vorhanden = nein', weg.gesendet.length === 1 && weg.gesendet[0].vorhanden === 'nein' && !weg.gesendet[0].stapel)
+  pruefe('... und trägt die Seite, auf der sie entstand', weg.gesendet[0].seitenAdresse === weg.k.location.href, weg.gesendet[0].seitenAdresse)
 
   await ergebnisFaelle(titel)
 
