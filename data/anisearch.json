@@ -819722,7 +819722,7 @@
     "streams": [
       {
         "provider": "primevideo-channel-aniverse-de",
-        "url": "https://www.amazon.de/dp/B0GF5T9F2G?tag=anisearch.de-21"
+        "url": "https://www.amazon.de/dp/B0GCTZ7FRS?tag=anisearch.de-21"
       },
       {
         "provider": "adn-de",
@@ -819733,8 +819733,8 @@
       "languages": [
         {
           "language": "Japanisch",
-          "title": "Hell Mode: Yarikomi Suki no Gamer wa Hai Settei no Isekai de Musou Suru - Hajimari no Shoukan Samurai",
-          "titleNative": "Hell Mode: Yarikomi Suki no Gamer wa Hai Settei no Isekai de Musō Suru - Hajimari no Shōkan Samurai",
+          "title": "Hell Mode: Yarikomi Suki no Gamer wa Hai Settei no Isekai de Musou Suru",
+          "titleNative": "Hell Mode: Yarikomi Suki no Gamer wa Hai Settei no Isekai de Musō Suru",
           "status": "Abgeschlossen",
           "released": "10.01.2026 - 28.03.2026"
         },
@@ -819745,12 +819745,12 @@
           "dubbed": true,
           "released": "09.01.2026 - 27.03.2026",
           "publisher": [
-            "HIDIVE, LLC"
+            "Sentai"
           ]
         },
         {
           "language": "Deutsch",
-          "title": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing",
+          "title": "Hell Mode: Unterforderter Hardcore-Gamer findet die ultimative Challenge in einer anderen Welt",
           "status": "Abgeschlossen",
           "released": "09.01.2026 - 27.03.2026",
           "publisher": [
@@ -819843,12 +819843,11 @@
         }
       ],
       "synonyms": [
-        "Hell Mode: Yarikomi Suki no Gamer wa Hai Settei no Isekai de Musou Suru",
-        "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing",
-        "Hell Mode: Unterforderter Hardcore-Gamer findet die ultimative Challenge in einer anderen Welt"
+        "Hell Mode: Yarikomi Suki no Gamer wa Hai Settei no Isekai de Musou Suru - Hajimari no Shoukanshi",
+        "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing"
       ]
     },
-    "fetchedAt": "2026-09-25T10:06:11.978Z"
+    "fetchedAt": "2026-11-19T04:01:07.920Z"
   },
   "185407": {
     "anisearchId": 19933,
@@ -880423,5 +880422,52 @@
       ]
     },
     "fetchedAt": "2026-11-15T06:00:57.094Z"
+  },
+  "219960": {
+    "anisearchId": 22104,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Diamond no Kouzai",
+          "titleNative": "Diamond no Kōzai",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Lapintrack"
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/diamond_kouzaiA"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/diamond_kouzai_anime/"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@diamond_kouzai_anime"
+        },
+        {
+          "name": "Diamond Kouzai Anime",
+          "url": "https://diamond-kouzai-anime.jp/"
+        }
+      ],
+      "synonyms": [
+        "The Days of Diamond"
+      ]
+    },
+    "fetchedAt": "2026-11-19T06:01:01.568Z"
   }
 }

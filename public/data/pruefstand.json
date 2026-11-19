@@ -1,15 +1,14 @@
 {
- "erzeugtAm": "2026-11-18T18:19:38.834Z",
+ "erzeugtAm": "2026-11-18T22:10:40.805Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 975,
-   "gesamt": 1008,
-   "offen": 33,
-   "ohneSeite": 3,
+   "gemeldet": 986,
+   "gesamt": 1014,
+   "offen": 28,
+   "ohneSeite": 2,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Devil%20May%20Cry&i=instant-video",
     "https://www.amazon.de/s?k=The%20Birth%20Of%20Kitaro%20-%20Das%20Geheimnis%20von%20Gegege&i=instant-video",
     "https://www.amazon.de/s?k=Black%20Butler&i=instant-video"
    ],
@@ -38,10 +37,6 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GDGLLYLS",
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0DPLRJNLG",
-     "titel": "Kakushite! Makina-san!! (Kakushite! Makina-san!)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0DJKGJQ7K",
@@ -76,10 +71,6 @@
      "titel": "Kuroko’s Basketball: 3rd Season (Kuroko's Basketball 3)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B07MXMCF4V",
-     "titel": "Chaika, die Sargprinzessin: Avenging Battle (Chaika -The Coffin Princess- AVENGING BATTLE)"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0CVFNLP9D",
      "titel": "A Certain Scientific Railgun S"
     },
@@ -88,16 +79,8 @@
      "titel": "Kuroko’s Basketball: 2nd Season (Kuroko's Basketball 2)"
     },
     {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31",
-     "titel": "Sankarea: Undying Love"
-    },
-    {
      "url": "https://www.amazon.de/gp/video/detail/B0DNCF1M3N",
      "titel": "Jormungand"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5c16f118-df6d-46f6-9aba-20637c5f8f17",
-     "titel": "Kamisama Kiss"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6aad68c8-1e46-46e9-be1e-3d4de43488a5",
@@ -127,11 +110,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.44b69da7-d905-017f-c691-54059237c2a9",
      "titel": "Sylvanian Families",
      "hinweis": "Staffeln unklar: TMDB zählt 62 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.9eba81de-2e2c-2dda-0a85-c187578d4727",
-     "titel": "Talking Tom Shorts",
-     "hinweis": "Staffeln unklar: TMDB zählt 47 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
    "naechster": "Detektiv Conan (Detective Conan)",
@@ -313,8 +291,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 771,
-   "gesamt": 917,
-   "offen": 146,
+   "gesamt": 910,
+   "offen": 139,
    "ohneSeite": 13,
    "ziel": "https://www.netflix.com/title/81608820",
    "ziele": [
@@ -346,19 +324,11 @@
      "titel": "My Hero Academia: Vigilantes Staffel 2"
     },
     {
-     "url": "https://www.netflix.com/title/82741721",
-     "titel": "Atelier of Witch Hat"
-    },
-    {
      "url": "https://www.netflix.com/title/82746480",
      "titel": "Snowball Earth",
      "staffeln": [
       1
      ]
-    },
-    {
-     "url": "https://www.netflix.com/title/82058586",
-     "titel": "Possibly the Greatest Alchemist of All Time"
     },
     {
      "url": "https://www.netflix.com/title/80135674",
@@ -373,14 +343,6 @@
      ]
     },
     {
-     "url": "https://www.netflix.com/title/81940284",
-     "titel": "Girls Band Cry"
-    },
-    {
-     "url": "https://www.netflix.com/title/81943371",
-     "titel": "Uzumaki"
-    },
-    {
      "url": "https://www.netflix.com/title/81943491",
      "titel": "Dragon Ball Daima",
      "staffeln": [
@@ -390,18 +352,6 @@
     {
      "url": "https://www.netflix.com/title/81947352",
      "titel": "One Piece Fan Letter"
-    },
-    {
-     "url": "https://www.netflix.com/title/81955440",
-     "titel": "Loner Life in Another World"
-    },
-    {
-     "url": "https://www.netflix.com/title/82040442",
-     "titel": "Overlord: The Sacred Kingdom"
-    },
-    {
-     "url": "https://www.netflix.com/title/81924850",
-     "titel": "Spy × Family Code: White"
     },
     {
      "url": "https://www.netflix.com/title/81717895",
@@ -773,9 +723,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 182,
+   "gemeldet": 183,
    "gesamt": 340,
-   "offen": 158,
+   "offen": 157,
    "ohneSeite": 13,
    "ziel": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
    "ziele": [
@@ -808,11 +758,6 @@
      "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
      "titel": "The Cleveland Show",
      "hinweis": "Staffeln unklar: TMDB zählt 88 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
-     "titel": "Bleach: Thousand-Year Blood War",
-     "seit": "2026-11-18"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
@@ -1001,6 +946,7 @@
     "870b9187-690d-4a9e-8704-b48564b31322": 49,
     "ef04e263-4751-486c-9001-616f2adf09ba": 59,
     "ceb1fd76-acbe-4269-a1f3-532614807772": 131,
+    "484054dc-6486-477a-a31a-87163fbbb65a": 51,
     "1b84d641-1bb3-422d-be4c-8e24c7b547cc": 25,
     "be391742-6617-42ad-b53a-be368ee73335": 24,
     "3AHbeFV7Lqvn": 25,

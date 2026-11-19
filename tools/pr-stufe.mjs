@@ -25,7 +25,7 @@
  * | .claude/(rules|agents|hooks|mods|commands)/** (steuern Daniels Agenten; settings.json bleibt 2) | 1       |
  * | Handwerkzeug tools/<name>.(mjs|cjs|js|ts) mit eigenem Test, dessen Name in .github, package.json, tools, pipeline, shared, web, worker, extension, .claude, Wurzeldateien nirgends (auch nicht in fremden Tests) vorkommt und kein Glob trifft (tools/pr-stufe-kette.mjs) | 1 |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
- * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
+ * | Text: data/patchnotes/(vorrat/)*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
  * | nur Testdateien (*.test.*, *.spec.*; auch Umbenennungsquellen), sonst 2     | höchstens 1 |
  * | web/src-Code, dessen geänderte Zeilen alle Kommentare sind, höchstens 30    | 0       |
@@ -54,7 +54,7 @@ const SKILL_TEXT = /^\.claude\/skills\/.+\.md$/
 const CLAUDE_GLOBAL = /^\.claude\/(rules|agents|hooks|mods|commands)\//
 // Bühne (Mockups, Rahmen der echten App für Bilder) läuft nie auf der Live-Seite: Stufe 1 statt „unbekannt“ → 2.
 const BUEHNE = /^web\/buehne\//
-const TEXT = /^(data\/patchnotes\/[^/]+\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
+const TEXT = /^(data\/patchnotes\/(vorrat\/)?[^/]+\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
 const WEB_CODE = /^web\/src\/.*\.tsx?$/
 const RECHTSTEXT = /(impressum|datenschutz|nutzungsbedingungen)/i

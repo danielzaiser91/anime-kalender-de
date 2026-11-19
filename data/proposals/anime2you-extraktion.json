@@ -1890,6 +1890,10 @@
       "am": "2026-11-18",
       "vorschlaege": 2
     },
+    "1073198": {
+      "am": "2026-11-18",
+      "vorschlaege": 13
+    },
     "1073246": {
       "am": "2026-11-18",
       "vorschlaege": 1
@@ -1901,6 +1905,11 @@
     "1073288": {
       "am": "2026-11-18",
       "vorschlaege": 0
+    },
+    "1073308": {
+      "am": "2026-11-18",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     },
     "1073340": {
       "am": "2026-11-18",
@@ -14696,6 +14705,305 @@
       "artikelId": "1072493",
       "artikel": "Erneute Zensur lässt Kultfigur aus »Dragon Ball DAIMA« verschwinden",
       "quelle": "https://www.anime2you.de/news/1072493/dragon-ball-daima-erneute-zensur/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Campfire Cooking in Another World with My Absurd Skill – Staffel 2 (Komplettbox)",
+      "zitat": "Campfire Cooking in Another World with My Absurd Skill – Staffel 2 (Komplettbox) 19.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Clevatess – Vol. 2",
+      "zitat": "Clevatess – Vol. 2 05.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Dragon Ball Z – Box 5",
+      "zitat": "Dragon Ball Z – Box 5 19.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Horimiya – Staffel 1 (Gesamtausgabe mit Schuber)",
+      "zitat": "Horimiya – Staffel 1 (Gesamtausgabe mit Schuber) 05.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Mashle: Magic and Muscles – Staffel 1 (Gesamtausgabe mit Schuber)",
+      "zitat": "Mashle: Magic and Muscles – Staffel 1 (Gesamtausgabe mit Schuber) 05.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Mushoku Tensei: Jobless Reincarnation – Staffel 1 (Gesamtausgabe mit Schuber)",
+      "zitat": "Mushoku Tensei: Jobless Reincarnation – Staffel 1 (Gesamtausgabe mit Schuber) 05.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Sacrificial Princess and the King of Beasts – Staffel 1 (Gesamtausgabe)",
+      "zitat": "Sacrificial Princess and the King of Beasts – Staffel 1 (Gesamtausgabe) 19.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Spy x Family – Staffel 2 (Gesamtausgabe mit Schuber)",
+      "zitat": "Spy x Family – Staffel 2 (Gesamtausgabe mit Schuber) 19.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "The 100 Girlfriends – Staffel 2 – Vol. 2",
+      "zitat": "The 100 Girlfriends – Staffel 2 – Vol. 2 05.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "To Be Hero X – Staffel 1 (Komplettbox)",
+      "zitat": "To Be Hero X – Staffel 1 (Komplettbox) 19.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Tsukimichi: Moonlit Fantasy – Staffel 1 (Gesamtausgabe mit Schuber)",
+      "zitat": "Tsukimichi: Moonlit Fantasy – Staffel 1 (Gesamtausgabe mit Schuber) 19.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "BOFURI – Staffel 2 (Gesamtausgabe mit Schuber)",
+      "zitat": "BOFURI – Staffel 2 (Gesamtausgabe mit Schuber) 05.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
+      "veroeffentlicht": "2026-11-18",
+      "gelesenAm": "2026-11-18"
+    },
+    {
+      "titel": "Elainas Reise – The Wandering Witch (Gesamtausgabe mit Schuber)",
+      "zitat": "Elainas Reise – The Wandering Witch (Gesamtausgabe mit Schuber) 05.02. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": "AniMoon Publishing",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „AniMoon Publishing“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073198",
+      "artikel": "13 Blu-ray-Neuheiten von Crunchyroll und AniMoon bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1073198/amazon-13-crunchyroll-animoon-neuheiten-vorbestellbar/",
       "veroeffentlicht": "2026-11-18",
       "gelesenAm": "2026-11-18"
     }

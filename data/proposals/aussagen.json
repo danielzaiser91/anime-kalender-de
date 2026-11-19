@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-18",
+  "stand": "2026-11-19",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -9814,87 +9814,6 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 282
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/|Tougen Anki|Staffel 2|start|adn+crunchyroll+netflix+primevideo",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "2227379ab705",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/",
-          "veroeffentlicht": "2026-09-19",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Tougen Anki",
-        "zusatz": "Staffel 2",
-        "art": "start",
-        "plattformen": [
-          "primevideo",
-          "crunchyroll",
-          "netflix",
-          "adn"
-        ],
-        "kanal": "aniverse",
-        "datum": "2026-10-02",
-        "datumBedeutung": "genannt",
-        "deutsch": "nein",
-        "konfidenz": 0.95,
-        "gruende": [
-          "Sprache: Japanisch (UT)"
-        ],
-        "zitat": "»Tougen Anki« – Staffel 2\nStart: 2. Oktober 2026\nSprache: Japanisch (UT)\nStream: Prime Video, Crunchyroll, Netflix, ADN, aniverse",
-        "zuordnung": {
-          "anilistId": 204650,
-          "name": "Tougen Anki Season 2",
-          "wie": "name-genau",
-          "abstandTage": 0
-        },
-        "bestand": {
-          "status": "neu",
-          "ankuendigung": {
-            "omuAb": "2026-10-02",
-            "synchro": "offen"
-          },
-          "hatSynchroBelege": false
-        },
-        "inhaltZeichen": 309
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/|The Cat and the Dragon|Staffel 2|start|crunchyroll+primevideo",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "9a184c3db87a",
-      "offenOderUnklar": true,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052014/crunchyroll-cat-and-the-dragon-staffel-2-und-mehr/",
-          "veroeffentlicht": "2026-09-19",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "The Cat and the Dragon",
-        "zusatz": "Staffel 2",
-        "art": "start",
-        "plattformen": [
-          "primevideo",
-          "crunchyroll"
-        ],
-        "deutsch": "nein",
-        "konfidenz": 0.6,
-        "gruende": [
-          "Sprache: Japanisch (UT)",
-          "kein Tag genannt"
-        ],
-        "zitat": "»The Cat and the Dragon« – Staffel 2\nStart: 2027\nSprache: Japanisch (UT)\nStream: Prime Video, Crunchyroll",
-        "offen": {
-          "grund": "kein Titel mit diesem Namen",
-          "kandidaten": []
-        },
-        "bestand": {
-          "status": "ohne-zuordnung"
-        },
-        "inhaltZeichen": 429
       }
     },
     {
