@@ -21,7 +21,7 @@ writeFileSync(npx, '#!/bin/sh\necho "$*" >> "$LH_AUFRUFE"\nif [ -n "$LH_SCHEITER
 chmodSync(npx, 0o755)
 
 const bericht = (lcp) => ({
-  audits: { 'largest-contentful-paint': { numericValue: lcp }, 'cumulative-layout-shift': { numericValue: 0.001 }, 'total-blocking-time': { numericValue: 50 }, 'total-byte-weight': { numericValue: 600000 } },
+  audits: { 'largest-contentful-paint': { numericValue: lcp }, 'cumulative-layout-shift': { numericValue: 0.001 }, 'total-blocking-time': { numericValue: 50 }, 'total-byte-weight': { numericValue: 600000 }, 'network-requests': { details: { items: [{ url: 'http://x/klein.js', transferSize: 5 }, { url: 'http://x/gross.json', transferSize: 500000 }] } } },
   categories: { performance: { score: 0.99 }, accessibility: { score: 1 }, 'best-practices': { score: 1 }, seo: { score: 1 } },
   environment: { benchmarkIndex: 2000 },
 })
@@ -69,6 +69,7 @@ try {
   const json = JSON.parse(readFileSync(gut.ausgabe, 'utf8'))
   assert.equal(json.ergebnis.Kalender.lcp, 900, 'Median im Ausgabe-JSON')
   assert.equal(json.laeufe.Titel.length, 2, 'Einzelläufe im Ausgabe-JSON')
+  assert.deepEqual(json.anfragen.Titel[1], [{ url: 'http://x/gross.json', bytes: 500000 }, { url: 'http://x/klein.js', bytes: 5 }], 'Anfrageliste je Lauf im Ausgabe-JSON, größte zuerst')
 
   const rot = lauf('rot', 30000)
   assert.equal(rot.status, 1, 'LCP über der Grenze: Exit 1')

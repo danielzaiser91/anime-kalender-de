@@ -3,7 +3,7 @@
  * **Lighthouse mobil (gedrosselt, Standardprofil) gegen den Build oder die Live-Seite** (18.11.2026, Auftrag perf-waechter).
  *
  * Misst die Seiten aus `tools/lighthouse-grenzen.mjs` (`SEITEN`: Name → Hash-Adresse) je `--n`-mal, bildet den Median je Kennzahl
- * (LCP, CLS, TBT, Byte-Gewicht, vier Kategorien) und vergleicht ihn mit den Grenzen des Profils. Lighthouse kommt per `npx` in fester
+ * (LCP, CLS, TBT, Byte-Gewicht als Minimum, vier Kategorien) und vergleicht ihn mit den Grenzen des Profils. Lighthouse kommt per `npx` in fester
  * Fassung (keine Abhängigkeit im Lockfile), Chrome ist Playwrights Chromium (`CHROME_PATH` geht vor).
  *
  * Aufruf: `node tools/lighthouse-messen.mjs (--dist dist | --basis https://anime-kalender.de/) --profil pr|live [--n 3] [--nur-messen] [--ausgabe datei.json]`
@@ -17,7 +17,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { distAusliefern } from './dist-http.mjs'
 import { GRENZEN, SEITEN } from './lighthouse-grenzen.mjs'
-import { gelockert, kennzahlen, mediane, tabelle, verstoesse } from './lighthouse-urteil.mjs'
+import { gelockert, groessteAnfragen, kennzahlen, mediane, tabelle, verstoesse } from './lighthouse-urteil.mjs'
 
 export const LIGHTHOUSE = 'lighthouse@13.6.0'
 const GRENZEN_PFAD = 'tools/lighthouse-grenzen.mjs'
@@ -48,7 +48,7 @@ async function einLauf(adresse, chrome) {
   if (code !== 0) throw new Error(`Lighthouse ${adresse}: Exit ${code ?? signal}\n${Buffer.concat(fehler).toString().slice(-2000)}`)
   const bericht = JSON.parse(Buffer.concat(aus).toString())
   if (bericht.runtimeError) throw new Error(`Lighthouse ${adresse}: ${bericht.runtimeError.message}`)
-  return kennzahlen(bericht)
+  return { kennzahlen: kennzahlen(bericht), anfragen: groessteAnfragen(bericht) }
 }
 
 /**
@@ -70,14 +70,16 @@ async function grenzenAufMain() {
 /** Misst alle Seiten `n`-mal (Seiten abwechselnd, damit eine Störung nicht alle Läufe einer Seite trifft). */
 async function messeAlle(basis, seiten, n, chrome) {
   const laeufe = Object.fromEntries(Object.keys(seiten).map((s) => [s, []]))
+  const anfragen = Object.fromEntries(Object.keys(seiten).map((s) => [s, []]))
   for (let i = 0; i < n; i++) {
     for (const [seite, hash] of Object.entries(seiten)) {
-      const k = await einLauf(basis + hash, chrome)
-      laeufe[seite].push(k)
-      console.log(`${seite} Lauf ${i + 1}: ${JSON.stringify(k)}`)
+      const lauf = await einLauf(basis + hash, chrome)
+      laeufe[seite].push(lauf.kennzahlen)
+      anfragen[seite].push(lauf.anfragen)
+      console.log(`${seite} Lauf ${i + 1}: ${JSON.stringify(lauf.kennzahlen)}`)
     }
   }
-  return laeufe
+  return { laeufe, anfragen }
 }
 
 async function main() {
@@ -85,19 +87,20 @@ async function main() {
   const n = Number(arg('n', 3))
   const auslieferung = hat('dist') ? await distAusliefern(arg('dist')) : undefined
   const basis = auslieferung?.basis ?? arg('basis', 'https://anime-kalender.de/')
-  let laeufe
+  let gemessen
   try {
-    laeufe = await messeAlle(basis, SEITEN, n, await chromePfad())
+    gemessen = await messeAlle(basis, SEITEN, n, await chromePfad())
   } finally {
     await auslieferung?.schliessen()
   }
+  const { laeufe, anfragen } = gemessen
   const ergebnis = Object.fromEntries(Object.entries(laeufe).map(([s, l]) => [s, mediane(l)]))
   const fehler = hat('nur-messen') ? [] : [...Object.entries(ergebnis).flatMap(([s, w]) => verstoesse(s, w, GRENZEN[profil]?.[s])), ...gelockert(GRENZEN, await grenzenAufMain()).map((z) => `Ratsche gelockert: ${z}`)]
   const md = `### Lighthouse mobil (${profil}, Median aus ${n} Läufen, ${LIGHTHOUSE})\n\n${tabelle(ergebnis, GRENZEN[profil])}\n\n${fehler.length ? fehler.map((f) => `- ✖ ${f}`).join('\n') : '✓ alle Grenzen gehalten'}\n`
   console.log(md)
   if (hat('ausgabe')) {
     mkdirSync(path.dirname(arg('ausgabe')), { recursive: true })
-    writeFileSync(arg('ausgabe'), JSON.stringify({ profil, n, lighthouse: LIGHTHOUSE, ergebnis, laeufe, fehler }, null, 2))
+    writeFileSync(arg('ausgabe'), JSON.stringify({ profil, n, lighthouse: LIGHTHOUSE, ergebnis, laeufe, anfragen, fehler }, null, 2))
   }
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, md)
   process.exit(fehler.length ? 1 : 0)

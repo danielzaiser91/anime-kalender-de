@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-19T18:02:42.522Z",
+  "scrapedAt": "2026-11-19T20:01:43.351Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "schon in einem Rubrik-Feed gelesen": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 7,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 6,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -166,6 +166,21 @@
         {
           "month": "2026-12",
           "context": "Netflix: Alle Anime-Neuzugänge im Dezember 2026 Der Streaming-Dienst Netflix erweitert sein Anime-Pro"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Tickets für »KPop Demon Hunters«-Konzerttour ab Freitag erhältlich",
+      "articleUrl": "https://www.anime2you.de/news/1073622/kpop-demon-hunters-golden-world-tour-ticketvorverkauf/",
+      "publishedAt": "2026-11-19",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-20",
+          "context": "etails zusammen. Vorverkauf ab 10:00 Uhr Ab dem morgigen Freitag, den 20. November 2026, um 10:00 Uhr können Tickets für die Auftritte in […"
         }
       ],
       "dub": "unklar",
