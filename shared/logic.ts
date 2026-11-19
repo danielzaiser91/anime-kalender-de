@@ -606,19 +606,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
    * rückt einen Sendeplatz weiter. Angefasst wird nur Fortgeschriebenes;
    * Beobachtetes und Ausfallvermerke bleiben, wo sie sind.
    */
-  for (const ev of events.filter((e) => e.estimated && !e.verpasst).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
-    let schutz = 0
-    while (
-      schutz++ < 60 &&
-      events.some((a) => a !== ev && a.date === ev.date && (a.episode ?? 0) < (ev.episode ?? 0))
-    ) {
-      const weiter = sendeplatz(s, ev.date, 1, skips)
-      /* Hinter einem belegten Ende wird nichts mehr angesetzt — dort gilt der Abbruch von oben. */
-      if (s.lastEpisodeDate && weiter > s.lastEpisodeDate) break
-      ev.date = weiter
-      ev.id = `${release.slug}@${weiter}`
-    }
-  }
+  schiebeGleichTagFolgen(events, release.slug, s, skips)
   events.sort((a, b) => (a.date === b.date ? (a.episode ?? 0) - (b.episode ?? 0) : a.date < b.date ? -1 : 1))
 
   /**
@@ -644,6 +632,28 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
   }
 
   return events
+}
+
+/**
+ * Fortgeschriebene Folgen am selben Tag rücken je einen Sendeplatz weiter (Text in `termineAusPlan`), nie hinter eine
+ * belegte höhere Folge: Ohne `belegtBis` standen Folge 2–4 am Tag der belegten Folge 5 (05.08.) und wurden auf den 19.08. geschoben (Bestandsbau 19.11.2026).
+ */
+function schiebeGleichTagFolgen(events: ReleaseEvent[], slug: string, s: NonNullable<Release['schedule']>, skips: Set<string>): void {
+  for (const ev of events.filter((e) => e.estimated && !e.verpasst).sort((a, b) => (a.episode ?? 0) - (b.episode ?? 0))) {
+    const grenze = events.filter((e) => !e.estimated && !e.verpasst && (e.episode ?? 0) > (ev.episode ?? 0)).map((e) => e.date).sort()[0]
+    let schutz = 0
+    while (
+      schutz++ < 60 &&
+      events.some((a) => a !== ev && a.date === ev.date && (a.episode ?? 0) < (ev.episode ?? 0))
+    ) {
+      const weiter = sendeplatz(s, ev.date, 1, skips)
+      /* Hinter einem belegten Ende wird nichts mehr angesetzt — dort gilt der Abbruch von oben. */
+      if (s.lastEpisodeDate && weiter > s.lastEpisodeDate) break
+      if (grenze && weiter > grenze) break
+      ev.date = weiter
+      ev.id = `${slug}@${weiter}`
+    }
+  }
 }
 
 /**

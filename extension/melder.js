@@ -1165,7 +1165,8 @@ function beschriftung(spuren) {
 async function melden({ automatisch = false } = {}) {
   const spuren = stand.spuren
   const ohneFolge = !spuren && keineFolgeVorhanden()
-  if (!stand.reihe) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
+  const seitenKarte = titelBindung.karte()
+  if (!stand.reihe || !seitenKarte) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
   if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
   /* „Erinnern“ ohne Termin ist eine Ankündigung, kein Befund: nichts melden, nur zurückstellen (18.11.2026). */
   if (ohneFolge && !erscheinungsdatum()) return zeigeErgebnis(akNetflixErinnernZurueckstellen(selbstUebersprungen, gemeinteReihe()), true)
@@ -1173,6 +1174,7 @@ async function melden({ automatisch = false } = {}) {
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = (await globalThis.akKontext.lesen('token', 'sync')) ?? {}
   if (!token) return zeigeErgebnis(globalThis.akKontext.keinTokenText(), false)
+  if (!titelBindung.gueltig(seitenKarte)) return zeigeErgebnis('Seite verlassen — nicht gemeldet', false)
 
   try {
     const antwort = await fetch(WORKER, {
@@ -5774,8 +5776,25 @@ function titelDerAdresse() {
   return /\/title\/(\d+)/.exec(location.pathname)?.[1] ?? new URLSearchParams(location.search).get('jbv') ?? null
 }
 
+/**
+ * Verlässt die Adresse den Titel (Stöberseite), gehört der Stand keinem Titel mehr (19.11.2026, Landei II): Meldungen
+ * laufen über `stand.reihe`. Im Player und im Durchlauf springt die Seite absichtlich, dort bleibt der Stand.
+ */
+function standVerwerfen() {
+  stand = { spuren: null, reihe: null, folge: null, folgeNr: null, staffel: null, staffeln: null, serientitel: null, titel: '' }
+  DURCHLAUF.alleFolgen = []
+  DURCHLAUF.folgen = []
+}
+const titelBindung = globalThis.akTitelBindung.fuer({
+  kennung: () => titelDerAdresse() ?? (imPlayer() || DURCHLAUF.laeuft ? String(stand.reihe ?? '') || null : null),
+  beiWechsel: (alt, neu) => {
+    if (!neu) standVerwerfen()
+  },
+})
+
 let letzterPfad = location.pathname
 function pfadPruefen() {
+  titelBindung.pruefen()
   if (location.pathname === letzterPfad) return
   letzterPfad = location.pathname
   dialogSchliessen()
