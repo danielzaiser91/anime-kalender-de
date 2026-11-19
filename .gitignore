@@ -47,3 +47,6 @@ data/proposals/anime2you-entwurf.yaml
 
 # Ausgabe des Cover-Sammlers (Actions-Artefakt, nie im Repo)
 cover-ausgabe/
+
+# Lagebuch des Dirigenten (nur lokal, Laufstand der Hauptsitzung)
+.claude/dirigent/
