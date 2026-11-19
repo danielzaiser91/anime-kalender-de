@@ -78,17 +78,18 @@ async function fallVoll() {
       suchUrl: 'https://s/'.padEnd(600, 'x'),
       folge: 'F'.repeat(250),
       version: '4.32.0',
+      seitenAdresse: ' https://www.netflix.com/title/1?trackId=9#s2',
     },
     'https://www.netflix.com/title/1',
     abgeleitet,
   )
   uhrZurueck()
   const platzhalter = /VALUES \(([^)]+)\)/.exec(voll.fang.sql)![1]!.split(',').map((s) => s.trim())
-  pruefe('27 Platzhalter ?1..?27 in Folge', platzhalter, Array.from({ length: 27 }, (_, i) => `?${i + 1}`))
-  pruefe('27 gebundene Werte', voll.fang.werte.length, 27)
+  pruefe('28 Platzhalter ?1..?28 in Folge', platzhalter, Array.from({ length: 28 }, (_, i) => `?${i + 1}`))
+  pruefe('28 gebundene Werte', voll.fang.werte.length, 28)
   pruefe('run() lief einmal', voll.fang.gelaufen, 1)
   const v = nachSpalte(voll.fang.sql, voll.fang.werte)
-  pruefe('Spaltenzahl', Object.keys(v).length, 27)
+  pruefe('Spaltenzahl', Object.keys(v).length, 28)
   const am = String(v.gemeldet_am)
   pruefe('gemeldet_am: Sekunden-ISO mit Z, feste Uhr', am, '2026-11-12T10:20:30Z')
   delete v.gemeldet_am
@@ -119,6 +120,7 @@ async function fallVoll() {
     rohfolge: '{"nummer":3}',
     roh_uebernommen: 0,
     ext_version: '4.32.0',
+    seiten_adresse: 'https://www.netflix.com/title/1',
   })
 }
 
@@ -161,6 +163,7 @@ async function fallLeer() {
     rohfolge: null,
     roh_uebernommen: null,
     ext_version: null,
+    seiten_adresse: null,
   })
 }
 
@@ -177,6 +180,19 @@ async function fallLang() {
     await fuegePruefungEin(m.env, { version: schlecht }, 'https://x/', abgeleitet)
     pruefe(`Version ${JSON.stringify(schlecht)} wird null`, nachSpalte(m.fang.sql, m.fang.werte).ext_version, null)
   }
+  // Seitenadresse: nur http(s), ohne Suchteil und Anker, höchstens 300 Zeichen nach dem Protokoll; sonst null (Meldung bleibt gültig).
+  const seite = async (wert: unknown) => {
+    const m = umgebung()
+    await fuegePruefungEin(m.env, { seitenAdresse: wert }, 'https://x/', abgeleitet)
+    return nachSpalte(m.fang.sql, m.fang.werte).seiten_adresse
+  }
+  for (const schlecht of [5, null, '', 'javascript:alert(1)', 'netflix.com/title/1', 'https://', { a: 1 }]) {
+    pruefe(`Seitenadresse ${JSON.stringify(schlecht)} wird null`, await seite(schlecht), null)
+  }
+  pruefe('Seitenadresse: Suchteil und Anker fallen weg', await seite('https://www.amazon.de/dp/B0ABC12345?ref_=x&k=y#z'), 'https://www.amazon.de/dp/B0ABC12345')
+  pruefe('Seitenadresse: Anker ohne Suchteil fällt weg', await seite('https://x.test/a#z'), 'https://x.test/a')
+  pruefe('Seitenadresse: genau 300 Zeichen nach dem Protokoll bleiben', String(await seite('https://' + 'a'.repeat(300))).length, 'https://'.length + 300)
+  pruefe('Seitenadresse: darüber wird gekürzt', String(await seite('https://' + 'a'.repeat(301))).length, 'https://'.length + 300)
 }
 
 async function main() {
