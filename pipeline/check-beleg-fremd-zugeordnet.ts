@@ -4,6 +4,7 @@
  */
 import { berlinDatum, fremdBesitzText, fremdeBesitzer, verschiebeFremdenBeleg, zieheFremdeBelegeZurueck, type Besitz } from './lib/beleg-fremd-zugeordnet.ts'
 import type { OhneZuordnung } from './lib/meldungen-liste.ts'
+import { baueBesitz } from './lib/handbeleg-notizseite.ts'
 
 let fehler = 0
 function pruefe(text: string, ist: unknown, soll: unknown) {
@@ -82,6 +83,53 @@ const VORHER = ['- anilistId: 1', '  url: https://alt.example/', '  checkedAt: 2
   const zeilen = [...VORHER]
   pruefe('zurückziehen: nichts geschrieben', zieheFremdeBelegeZurueck(besitz(), zeilen, VORHER.length, [{ id: 7 }], MELDUNG, [], []), 0)
   pruefe('zurückziehen: nichts geschrieben, Zeilen gleich', zeilen, VORHER)
+}
+
+// Notizseite (19.11.2026, Zexal): die url des Blocks ist eigen, die „Amazon-Seite“ in der Notiz gehört genau einem anderen Titel.
+{
+  const weg = (url: string, extra: object = {}) => ({ platform: 'primevideo', url, ...extra })
+  const prime = (a: string) => `https://www.amazon.de/gp/video/detail/${a}`
+  const mitNotiz = (b: Besitz): Besitz => ({
+    ...b,
+    notizseiten: baueBesitz(
+      [
+        { id: 10015, streams: [weg(prime('B07FBGYPR6'))] },
+        { id: 15489, streams: [weg(prime('B0GWMY6WCP'))] },
+        { id: 900001, streams: [weg(prime('B0SHARED01'), { sharedWith: 2 })] },
+        { id: 900002, streams: [weg(prime('B0SHARED01'), { sharedWith: 2 })] },
+        { id: 900007, streams: [weg(prime('B0SOLOSHA1'), { sharedWith: 2 })] },
+      ],
+      {},
+    ),
+  })
+  const primeBlock = (id: number, url: string, seite: string) => [
+    '', `- anilistId: ${id}`, '  platform: primevideo', `  url: ${prime(url)}`, '  checkedAt: 2026-11-19',
+    `  note: ${JSON.stringify(`Tonspuren: Deutsch — Amazon-Seite ${seite}: alle 49 Folgen geprüft`)}`,
+  ]
+  const zexal = [...VORHER, ...primeBlock(10015, 'B07FBGYPR6', 'B0GWMY6WCP'), ...primeBlock(15489, 'B0GWMY6WCP', 'B0GWMY6WCP')]
+  const warnungen: string[] = []
+  const liste: OhneZuordnung[] = []
+  const b = mitNotiz(besitz())
+  pruefe('Notizseite: Block an fremder Notizseite wird zurückgezogen', zieheFremdeBelegeZurueck(b, zexal, VORHER.length, [{ id: 7 }], MELDUNG, warnungen, liste), 1)
+  pruefe('Notizseite: nur der eigene Block des Besitzers bleibt', zexal, [...VORHER, ...primeBlock(15489, 'B0GWMY6WCP', 'B0GWMY6WCP')])
+  pruefe('Notizseite: gezählt, gemeldet, Gruppe', [b.verschoben, [...b.gruppen], warnungen.length, liste.length, liste[0]?.vorschlag], [1, [7], 1, 1, [10015]])
+  pruefe('Notizseite: Handlungshinweis nennt die Seite', liste[0]?.zuTun?.includes('B0GWMY6WCP'), true)
+
+  const geteilt = [...VORHER, ...primeBlock(900001, 'B0SHARED01', 'B0SHARED01'), ...primeBlock(10015, 'B07FBGYPR6', 'B0SHARED01'), ...primeBlock(10015, 'B07FBGYPR6', 'B0SOLOSHA1')]
+  const vorher = [...geteilt]
+  pruefe('Notizseite: geteilte Seite (sharedWith) bleibt angehängt', zieheFremdeBelegeZurueck(mitNotiz(besitz()), geteilt, VORHER.length, [{ id: 7 }], MELDUNG, [], []), 0)
+  pruefe('Notizseite: geteilte Seite, Zeilen unverändert', geteilt, vorher)
+
+  const altfall = [...primeBlock(10015, 'B07FBGYPR6', 'B0GWMY6WCP')]
+  process.env.AK_NOTIZSEITE_ALTFAELLE = JSON.stringify(['10015@B0GWMY6WCP'])
+  pruefe('Notizseite: Altfall der Ratsche wird nicht neu gesperrt', zieheFremdeBelegeZurueck(mitNotiz(besitz()), altfall, 0, [{ id: 7 }], MELDUNG, [], []), 0)
+  delete process.env.AK_NOTIZSEITE_ALTFAELLE
+
+  const nurUrl = [...primeBlock(10015, 'B0GWMY6WCP', 'B07FBGYPR6')]
+  pruefe('Notizseite: eine fremde url allein ist Sache der Adressprüfung, nicht dieser', zieheFremdeBelegeZurueck(mitNotiz(besitz()), nurUrl, 0, [{ id: 7 }], MELDUNG, [], []), 0)
+
+  const ohne = [...primeBlock(10015, 'B07FBGYPR6', 'B0GWMY6WCP')]
+  pruefe('Notizseite: ohne Titelliste im Besitz wird nichts geprüft', zieheFremdeBelegeZurueck(besitz(), ohne, 0, [{ id: 7 }], MELDUNG, [], []), 0)
 }
 
 if (fehler) process.exit(1)

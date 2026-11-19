@@ -82,7 +82,7 @@
   },
   {
     "name": "main: Besitz ohne Zuordnungen geladen",
-    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>())", "ersetze": "zugeordnet: []" }],
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "const zugeordnet = Object.entries(leseZugeordnet<ZuordnungEintrag>())", "ersetze": "const zugeordnet: [string, ZuordnungEintrag][] = []" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   },
   {
@@ -153,6 +153,47 @@
   {
     "name": "check-zuordnung-fremd-bestand: Belege leer",
     "aenderungen": [{ "datei": "pipeline/check-zuordnung-fremd-bestand.ts", "suche": "besitzerMitHerkunft(t, belege)", "ersetze": "besitzerMitHerkunft(t, [])" }],
+    "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  }
+,
+  {
+    "name": "Notizseite: Treffer-Riegel",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-notizseite-zurueck.ts", "suche": "if (!fremd.length) return false", "ersetze": "if (true) return false" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts", "npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "Notizseite: Zähler fehlt",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-notizseite-zurueck.ts", "suche": "besitz.verschoben++", "ersetze": "void 0" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
+    "name": "Notizseite: Altfälle nicht ausgenommen",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-notizseite-zurueck.ts", "suche": ".filter((f) => !altfaelle.includes(f))", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
+    "name": "Notizseite: url mitgeprüft",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-notizseite-zurueck.ts", "suche": "platform: b.platform, note: b.note", "ersetze": "platform: b.platform, url: b.url, note: b.note" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts", "npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
+  },
+  {
+    "name": "zieheFremdeBelegeZurueck: Notizseite nicht geprüft",
+    "aenderungen": [{ "datei": "pipeline/lib/beleg-fremd-zugeordnet.ts", "suche": "!verschiebeFremdeNotizseite(besitz, b, gruppe, p, warnungen, liste)", "ersetze": "true" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
+    "name": "findeFremdeNotizseiten: Besitzer-Vergleich umgekehrt",
+    "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "|| o.has(b.anilistId)", "ersetze": "|| !o.has(b.anilistId)" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
+    "name": "findeFremdeNotizseiten: sharedWith-Ausnahme entfernt",
+    "aenderungen": [{ "datei": "pipeline/lib/handbeleg-notizseite.ts", "suche": "besitz.geteilt.has(a) || ", "ersetze": "" }],
+    "tests": ["npx tsx pipeline/check-beleg-fremd-zugeordnet.ts"]
+  },
+  {
+    "name": "main: Titelliste nicht an ladeBesitz",
+    "aenderungen": [{ "datei": "pipeline/fetch-pruefungen.ts", "suche": "ladeBesitz(ROOT, liste)", "ersetze": "ladeBesitz(ROOT)" }],
     "tests": ["npx tsx pipeline/check-fetch-pruefungen-fremde-adresse.ts"]
   }
 ]
