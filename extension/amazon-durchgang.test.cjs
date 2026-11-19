@@ -78,10 +78,11 @@ function dokumentAttrappe(w) {
 
 /** Eine Sandkasten-Welt. `imFrame` wählt, welche Seite gespielt wird. */
 function welt({ imFrame = false, speicher = neuerSpeicher(), suchen = {} } = {}) {
-  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [], briefkasten: 0, gezeichnet: 0, gemerkt: [] }
+  const w = { uhr: 1_000_000, geklickt: 0, neugeladen: 0, frames: [], gepostet: [], briefkasten: 0, gezeichnet: 0, gemerkt: [], hoerer: {}, timer: new Map(), timerNr: 0 }
   const fenster = {}
   fenster.top = imFrame ? {} : fenster
   fenster.parent = { postMessage: (d) => w.gepostet.push(d) }
+  fenster.addEventListener = (art, fn) => (w.hoerer[art] ??= []).push(fn)
   const kontext = {
     Date: class extends Date {
       static now() {
@@ -93,6 +94,12 @@ function welt({ imFrame = false, speicher = neuerSpeicher(), suchen = {} } = {})
     Boolean,
     Number,
     Object,
+    /* Uhr des Sandkastens: `w.vergehen(ms)` lässt fällige Timer laufen. */
+    setTimeout: (fn, ms) => {
+      w.timer.set(++w.timerNr, { fn, faellig: w.uhr + ms })
+      return w.timerNr
+    },
+    clearTimeout: (nr) => w.timer.delete(nr),
     window: fenster,
     sessionStorage: speicher,
     liste: {
@@ -133,6 +140,10 @@ function welt({ imFrame = false, speicher = neuerSpeicher(), suchen = {} } = {})
   w.lauf = () => vm.runInContext('primeLaufLesen()', kontext)
   w.ende = () => vm.runInContext('primeLaufEndeLesen()', kontext)
   w.offen = () => w.frames.filter((f) => !f.entfernt)
+  w.vergehen = (ms) => {
+    w.uhr += ms
+    for (const [nr, t] of [...w.timer]) if (t.faellig <= w.uhr) { w.timer.delete(nr); t.fn() }
+  }
   /** Ein Frame meldet sein Ergebnis — so, wie `frameFertig()` es schickt. */
   w.ergebnis = (el, daten) => {
     kontext.__el = el
@@ -196,6 +207,15 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('ohne Suchaufträge endet der Lauf mit „nichts mehr offen"', ende?.grund === 'nichts mehr offen', ende)
   pruefe('das Ende nennt die übersprungenen Staffeln und die Suchaufträge', ende?.uebersprungen?.length === 4 && ende?.suchen === 0, ende)
   pruefe('am Ende holt die Seite den Briefkasten neu — sonst „nur auf diesem Rechner“ (26.09.2026)', w.briefkasten === 1, w.briefkasten)
+  pruefe('Nachabruf: vor Ablauf von 5 s kein zweiter Abruf', (w.vergehen(4_999), w.briefkasten === 1), w.briefkasten)
+  w.vergehen(5_001)
+  pruefe('Nachabruf: nach höchstens 10 s genau ein zweiter Abruf (späte Meldungen, Higurashi 19.11.2026)', w.briefkasten === 2, w.briefkasten)
+  w.vergehen(60_000)
+  pruefe('Nachabruf: danach kein Polling', w.briefkasten === 2 && w.timer.size === 0, [w.briefkasten, w.timer.size])
+  vm.runInContext('primeBriefkastenNachholen()', k)
+  w.hoerer.pagehide.forEach((fn) => fn())
+  w.vergehen(60_000)
+  pruefe('Nachabruf: beim Verlassen der Seite wird der Timer geräumt, kein Abruf', w.briefkasten === 2, w.briefkasten)
   pruefe('insgesamt geöffnet: 9 Naruto-Seiten + 1 Yu-Gi-Oh!, keine doppelt', w.frames.length === 10 && new Set(w.frames.map(kennung)).size === 10, w.frames.map(kennung))
 }
 
