@@ -721,11 +721,13 @@ globalThis.akNetflixSitzungBericht = (titelBericht, bremse, tab, besitzer, jetzt
  */
 globalThis.akNetflixLeisteOhneListe = (D, anderswo) => {
   if (anderswo || D.laeuft || D.mehrfach || D.folgen.length) return false
+  /* `melder.js` liegt nicht im Typprojekt; seine Funktionen hängen am Seitenbereich. */
+  const seite = /** @type {any} */ (globalThis)
   if (!D.knopf) {
-    durchlaufKnopfBauen()
-    schutzflaecheZeigen(false)
+    seite.durchlaufKnopfBauen()
+    seite.schutzflaecheZeigen(false)
   }
-  const ziel = netflixKasten().querySelector('.ak-z-melden')
+  const ziel = seite.netflixKasten().querySelector('.ak-z-melden')
   if (ziel && D.leiste.parentElement !== ziel) ziel.appendChild(D.leiste)
   D.knopf.textContent = 'Keine Folgenliste — nichts zu prüfen'
   D.knopf.title = 'Diese Seite zeigt keine Folgenliste (Film oder angekündigter Titel).'
