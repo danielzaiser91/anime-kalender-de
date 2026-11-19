@@ -4,7 +4,7 @@
  * Wache und Doku, Datenkonten nur für erzeugte Dateien (Positivliste), Erweiterungsdateien nur ohne Berührung von `extension/`.
  * Fälle 3347, 3358, 3351 mit den echten Dateien der Sprünge vom 10.11.2026 (Compare Kettenbasis...main, gekürzt auf je eine Datei je Ordner).
  */
-import { botSprungAusnahme, datenpfadGrund, reinerBotSprung } from './pr-nachrechnen.mjs'
+import { botBewegte, botSprungAusnahme, datenpfadGrund, reinerBotSprung } from './pr-nachrechnen.mjs'
 import { ERZEUGTE_DATEIEN, erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { commitDateien } from './pr-nachrechnen-vergleich-git.mjs'
 
@@ -41,9 +41,10 @@ function lauf(nr, commits, { anzahl, commitsGesamt = commits.length, antwort = n
     leserAufrufe.push({ bewegt, pr })
     return antwort
   }
-  const paare = () => (keinGit ? { fehler: 'kein git' } : { commits })
+  let paareAufrufe = 0
+  const paare = () => (paareAufrufe++, keinGit ? { fehler: 'kein git' } : { commits })
   const r = datenpfadGrund(gh, { number: nr, headRefOid: PR_KOPF }, 'b'.repeat(40), 'c'.repeat(40), leser, () => ({ fehler: 'kein git' }), paare)
-  return { r, leserAufrufe }
+  return { r, leserAufrufe, paareAufrufe }
 }
 const aktuell = (x) => /nur Bot-Daten bewegt/.test(x.r.ausnahme ?? '') && x.leserAufrufe.length === 0
 const veraltet = (x) => x.r.ausnahme === undefined && x.r.grund !== undefined
@@ -126,6 +127,55 @@ for (const [name, commits] of [
 ]) {
   const x = lauf(3347, commits, { antwort: 'der PR ruft x auf' })
   pruefe(`Gegenprobe ${name}: Urteil bleibt „veraltet“`, veraltet(x), x)
+}
+// Bot-Dateien neben einem Menschen-Commit (19.11.2026, PR 4317: Sprung 7296637a7...2d82785cb, Commits und Dateien nach dem echten Sprung, ohne Namen der Bot-Liste: der Wächter in pr-nachrechnen-bot-pfade.test verbietet sie): die Bot-Dateien
+// zählen nur bei Berührung, der Leser wird nur nach den Dateien des Menschen gefragt (Attrappe: `antwort`).
+const MENSCH = 'danielzaiser91'
+const SPRUNG_4317 = [
+  { autor: DK, dateien: ['data/proposals/a.json', 'data/proposals/b.json'] },
+  { autor: DK, dateien: ['data/adn-raw/1381.json.gz'] },
+  { autor: DK, dateien: ['data/crunchyroll-neu.json', 'data/crunchyroll-woche.json', 'data/proposals/c.json', 'data/tv-programm.json'] },
+  { autor: MENSCH, dateien: ['docs/wissen/betrieb.md', 'tools/lighthouse-grenzen.mjs', 'tools/lighthouse-messen.mjs', 'tools/lighthouse-messen.test.mjs'] },
+]
+const PR_4317 = ['pipeline/lib/disc-anisearch-datum.ts', 'pipeline/check-disc-anisearch-datum.ts']
+{
+  const x = lauf(4317, SPRUNG_4317, { prDateien: PR_4317 })
+  pruefe('4317: Bot-Dateien neben Menschen-Commit (nur Werkzeuge/Doku) -> aktuell', /nur Fremdes ohne Zusammenhang.*Bot-Dateien dieses Sprungs zählen nur bei Berührung/.test(x.r.ausnahme ?? '') && x.r.grund === undefined, x.r)
+  pruefe('4317: die Paarung wurde gelesen (Mischsprung)', x.paareAufrufe === 1, x.paareAufrufe)
+  const bewegt = x.leserAufrufe.flatMap((a) => a.bewegt)
+  pruefe('4317: der Leser sieht keine Bot-Datei, nur die des Menschen', x.leserAufrufe.length === 1 && bewegt.join() === 'tools/lighthouse-grenzen.mjs,tools/lighthouse-messen.mjs,tools/lighthouse-messen.test.mjs', x.leserAufrufe)
+  const y = lauf(4317, SPRUNG_4317, { prDateien: [...PR_4317, 'data/crunchyroll-woche.json'] })
+  pruefe('4317: der PR berührt eine bewegte Bot-Datei -> veraltet', /der PR berührt data\/crunchyroll-woche\.json/.test(y.r.grund ?? ''), y.r)
+  const z = lauf(4317, SPRUNG_4317, { prDateien: PR_4317, keinGit: true, antwort: 'der PR liest data/proposals/c.json' })
+  pruefe('4317: Paarung nicht lesbar -> fail-closed, Leser fragt nach allen, veraltet', veraltet(z) && z.leserAufrufe[0].bewegt.includes('data/proposals/c.json'), z)
+  const w = lauf(4317, [...SPRUNG_4317, { autor: MENSCH, dateien: ['data/tv-programm.json'] }], { prDateien: PR_4317, antwort: 'der PR liest data/tv-programm.json' })
+  pruefe('4317: derselben Bot-Datei schreibt auch ein Mensch -> Leser-Regel, veraltet', veraltet(w) && w.leserAufrufe[0].bewegt.includes('data/tv-programm.json'), w)
+  const v2 = lauf(4317, [{ autor: MENSCH, dateien: ['data/tv-programm.json'] }, ...SPRUNG_4317], { prDateien: PR_4317, antwort: 'der PR liest data/tv-programm.json' })
+  pruefe('4317: Mensch schreibt die Datei zuerst, Bot danach -> Leser-Regel, veraltet', veraltet(v2), v2)
+  const h = lauf(4317, [...SPRUNG_4317, { autor: MENSCH, dateien: ['data/dub-confirmed.yaml'] }], { prDateien: PR_4317, antwort: 'der PR liest data/dub-confirmed.yaml' })
+  pruefe('4317: der Mensch bewegt zusätzlich eine Handdatei -> Leser-Regel, veraltet, nur diese Datei gefragt', veraltet(h) && h.leserAufrufe[0].bewegt.includes('data/dub-confirmed.yaml') && !h.leserAufrufe[0].bewegt.includes('data/proposals/c.json'), h)
+  const b = lauf(4317, [{ autor: DK, dateien: ['data/ann-ids.json', 'data/dub-confirmed.yaml'] }, { autor: MENSCH, dateien: ['tools/lighthouse-grenzen.mjs'] }], { prDateien: PR_4317, antwort: 'der PR liest data/dub-confirmed.yaml' })
+  pruefe('A2 im Mischsprung: Datenkonto schreibt eine Handdatei (dub-confirmed.yaml) -> bleibt Leser-Fall, veraltet', veraltet(b) && b.leserAufrufe[0].bewegt.includes('data/dub-confirmed.yaml') && !b.leserAufrufe[0].bewegt.includes('data/ann-ids.json'), b)
+  const e = lauf(4317, [{ autor: DK, dateien: ['extension/offene-netflix.js', 'data/ann-ids.json'] }, { autor: MENSCH, dateien: ['tools/lighthouse-grenzen.mjs'] }], { prDateien: ['extension/liste.test.cjs'], antwort: 'der PR ruft x auf' })
+  pruefe('A3 im Mischsprung: PR berührt extension/ -> offene-netflix.js bleibt Leser-Fall, ann-ids.json nicht', veraltet(e) && e.leserAufrufe[0].bewegt.includes('extension/offene-netflix.js') && !e.leserAufrufe[0].bewegt.includes('data/ann-ids.json'), e)
+  const k = lauf(4317, [{ autor: CL, dateien: ['data/ann-ids.json'] }, { autor: MENSCH, dateien: ['tools/lighthouse-grenzen.mjs'] }], { prDateien: PR_4317, antwort: 'der PR liest data/ann-ids.json' })
+  pruefe('A1 im Mischsprung: claude[bot] schreibt Daten -> Leser-Regel, veraltet', veraltet(k) && k.leserAufrufe[0].bewegt.includes('data/ann-ids.json'), k)
+  const f = lauf(4317, [{ autor: DK, dateien: ['data/ann-ids.json'] }, { autor: 'dependabot[bot]', dateien: ['data/adn-catalog.json'] }], { prDateien: PR_4317, antwort: 'der PR liest data/adn-catalog.json' })
+  pruefe('fremder Bot im Mischsprung: seine Datei -> Leser-Regel, veraltet', veraltet(f) && f.paareAufrufe === 1, f)
+  const n = lauf(4317, [{ autor: MENSCH, dateien: ['data/ann-ids.json'] }], { prDateien: PR_4317, antwort: 'der PR liest data/ann-ids.json' })
+  pruefe('nur Menschen im Sprung: keine Paarung gelesen, Leser-Regel, veraltet', veraltet(n) && n.paareAufrufe === 0, n)
+  const d = lauf(4317, [{ autor: DK, dateien: ['data/ann-ids.json'] }, { autor: 'github-actions[bot]', dateien: ['data/adn-catalog.json'] }], { prDateien: PR_4317 })
+  pruefe('nur Datenkonten im Sprung: keine Paarung gelesen (Verhalten unverändert), aktuell', aktuell(d) && d.paareAufrufe === 0, d)
+}
+// Reine Funktion: Grenzen der Erkennung.
+{
+  const c = (...paare) => ({ commits: paare.map(([autor, ...dateien]) => ({ autor, dateien })) })
+  pruefe('botBewegte: ohne Commit-Paare leer', botBewegte({}, []).size === 0)
+  pruefe('botBewegte: Bot-Datei und Menschen-Datei -> nur die Bot-Datei', [...botBewegte(c([DK, 'data/ann-ids.json'], [MENSCH, 'tools/x.mjs']), [])].join() === 'data/ann-ids.json')
+  pruefe('botBewegte: Reihenfolge Mensch, Bot, dieselbe Datei -> leer', botBewegte(c([MENSCH, 'data/ann-ids.json'], [DK, 'data/ann-ids.json']), []).size === 0)
+  pruefe('botBewegte: Reihenfolge Bot, Mensch, dieselbe Datei -> leer', botBewegte(c([DK, 'data/ann-ids.json'], [MENSCH, 'data/ann-ids.json']), []).size === 0)
+  pruefe('botBewegte: zwei Bot-Commits, dieselbe Datei -> frei', botBewegte(c([DK, 'data/ann-ids.json'], ['github-actions[bot]', 'data/ann-ids.json']), []).has('data/ann-ids.json'))
+  pruefe('botBewegte: extension/offene-netflix.js frei nur ohne Berührung von extension/', botBewegte(c([DK, 'extension/offene-netflix.js']), []).size === 1 && botBewegte(c([DK, 'extension/offene-netflix.js']), ['extension/a.js']).size === 0)
 }
 // Reine Funktion: Grenzen der Erkennung.
 const v = (dateien, autoren = ['github-actions[bot]'], o = {}) => ({ status: 'ahead', anzahl: dateien.length, dateien, commitsGesamt: autoren.length, autoren, ...o })

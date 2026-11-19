@@ -12,7 +12,12 @@ import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
 import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
 import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { KOPF_ABSTAND_MS, KOPF_PRUEFUNGEN } from './pr-nachrechnen-zweig.mjs'
-import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, kettenweit, main, nachrechnen, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
+import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, kettenweit, main as mainEcht, nachrechnen as nachrechnenEcht, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
+
+/** Ohne eigene Paarung liest kein Test git: Mischsprünge holten sonst Commits aus dem Netz (19.11.2026: 39 s statt 1 s). */
+const OHNE_GIT = () => ({ fehler: 'kein git' })
+const main = (argv, gh, melde, warte, leser, voll, paare = OHNE_GIT, umfang) => mainEcht(argv, gh, melde, warte, leser, voll, paare, umfang)
+const nachrechnen = (nummer, gh, melde, warte, leser, voll, paare = OHNE_GIT, ...rest) => nachrechnenEcht(nummer, gh, melde, warte, leser, voll, paare, ...rest)
 
 const fehler = []
 const pruefe = (name, ok, info) => {
