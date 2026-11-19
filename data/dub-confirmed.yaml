@@ -36625,25 +36625,41 @@
   available: false
   checkedAt: '2026-10-16'
   note: "Amazon-Seite B01EKI0P2U: nur 0 von 24 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.60aa6831-7117-90e3-5d17-1890e7b6c218, regionsperre=laut Seite nicht mehr im Abo"
-- anilistId: 15489
-  title: "Yu-Gi-Oh! Zexal II"
+# Yu-Gi-Oh! Zexal / Zexal II bei Prime (19.11.2026): Die deutschen Prime-Staffeln folgen nicht den AniList-Einträgen (146 = 73 + 73).
+# Staffel 1 (B0H1R11K51, 49 Folgen) = Zexal 1–49; Staffel 2 (B0GWMY6WCP, 49) = Zexal 50–73 plus Zexal II 1–25; Staffel 3 (B0H298L2X9, 48)
+# = Zexal II 26–73. Belegt an den deutschen Folgentiteln der Prime-Seiten gegen public/data/folgen/10015.json und 15489.json.
+# Die Messungen vom 16.10. sind umgehängt, nicht neu gemessen; die zwei Staffel-1-Blöcke (eine Seite, zwei Kennungen) sind einer.
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
   platform: primevideo
-  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832
+  url: https://www.amazon.de/gp/video/detail/B0H1R11K51
   dub: true
-  checkedAt: '2026-10-16'
-  note: "Tonspuren: Deutsch — Amazon-Seite 0KVJDXERWP9HZKRJVBP05VZBJM: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
-- anilistId: 15489
-  title: "Yu-Gi-Oh! Zexal II"
-  platform: primevideo
-  url: https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832
-  dub: true
+  dubRanges:
+    - from: 1
+      to: 49
+      dub: true
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B0H1R11K51: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GWMY6WCP
+  dub: true
+  dubRanges:
+    - from: 50
+      to: 73
+      dub: true
+  checkedAt: '2026-10-16'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GWMY6WCP: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.aed248db-43ab-414d-9570-379aadd3c3e1"
 - anilistId: 15489
   title: "Yu-Gi-Oh! Zexal II"
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0GWMY6WCP
   dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B0GWMY6WCP: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.aed248db-43ab-414d-9570-379aadd3c3e1"
 - anilistId: 15489
@@ -36651,6 +36667,10 @@
   platform: primevideo
   url: https://www.amazon.de/gp/video/detail/B0H298L2X9
   dub: true
+  dubRanges:
+    - from: 26
+      to: 73
+      dub: true
   checkedAt: '2026-10-16'
   note: "Tonspuren: Deutsch — Amazon-Seite B0H298L2X9: alle 48 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.b6205b18-bd8d-4ba1-9ede-af238dc2237f"
 - anilistId: -64965

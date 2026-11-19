@@ -370,3 +370,35 @@
   belegtAm: '2026-11-16'
   zugang: abo
   beleg: 'plus.rtl.de (Abruf 16.11.2026, HTTP 200): TVSeries „Bakugan: Armored Alliance“, Beschreibung „Zweite Staffel der Animeserie Bakugan: Battle Planet“ (Battle Planet hat bei RTL+ eine eigene Seite, 108852); Seitenfeld „Deutschsprachige Erstausstrahlung 20. August 2020“ = deErstausgabe.von 2020-08-20 in titles.json. Die Folgenliste lädt per Skript und ist nicht gelesen: 52 Folgen laut titles.json ungeprüft gegen RTL+'
+
+# Yu-Gi-Oh! Zexal (10015) und Zexal II (15489) bei Prime (19.11.2026): drei deutsche Staffelseiten mit 49 + 49 + 48 = 146 Folgen, die beiden
+# AniList-Einträge haben je 73. Zuordnung an den deutschen Folgentiteln der Prime-Seiten gegen public/data/folgen/10015.json und 15489.json:
+# Staffel 1 = Zexal 1–49, Staffel 2 = Zexal 50–73 plus Zexal II 1–25 (geteilte Seite), Staffel 3 = Zexal II 26–73.
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H1R11K51
+  belegtAm: '2026-11-19'
+  zugang: abo
+  beleg: 'Prime-Staffel 1 (49 Folgen): Folgentitel „Yuma startet durch“ bis „Die letzte Prophezeiung“ gleich den deutschen Titeln der Zexal-Folgen 1–49 (prime_folge der Meldungskopie 19.11.2026, Seite B0H1R11K51)'
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GWMY6WCP
+  belegtAm: '2026-11-19'
+  zugang: abo
+  beleg: 'Prime-Staffel 2 (49 Folgen): Folgen 1–24 („Die Show beginnt“ …) gleich den deutschen Titeln der Zexal-Folgen 50–73, Folgen 25–49 gleich Zexal II 1–25 (Meldungskopie 19.11.2026, Seite B0GWMY6WCP)'
+- anilistId: 15489
+  title: "Yu-Gi-Oh! Zexal II"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GWMY6WCP
+  belegtAm: '2026-11-19'
+  zugang: abo
+  beleg: 'Prime-Staffel 2 (49 Folgen): Folgen 25–49 gleich den deutschen Titeln der Zexal-II-Folgen 1–25 (Meldungskopie 19.11.2026, Seite B0GWMY6WCP); die Folgen 1–24 gehören Zexal'
+- anilistId: 15489
+  title: "Yu-Gi-Oh! Zexal II"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H298L2X9
+  belegtAm: '2026-11-19'
+  zugang: abo
+  beleg: 'Prime-Staffel 3 (48 Folgen): „Duell in der Ruine“ bis „Zexal für immer“ gleich den deutschen Titeln der Zexal-II-Folgen 26–73 (Meldungskopie 19.11.2026, Seite B0H298L2X9)'
