@@ -55,3 +55,13 @@ export function offenUrsachen(eingabe: OhneWegEingabe, eintraege: Record<number,
   for (const [id, x] of Object.entries(eintraege)) if (x.reason === 'offen') aus.set(Number(id), offenUrsache({ id: Number(id) }, { eingabe, geteilt }))
   return aus
 }
+
+/** Ab diesem Anteil `jw-abgelaufen` an `offen` warnt der Bau (19.11.2026: 46 von 62; ein gesunder Bestand liegt bei wenigen Titeln, die der nächste Abruf holt). */
+export const ABGELAUFEN_ANTEIL_HOECHSTENS = 0.1
+
+/** Die Warnzeile, wenn zu viele `offen`-Titel nur am Alter ihres JustWatch-Befunds hängen (Erneuerung stockt); sonst `undefined`. */
+export function abgelaufenWarnung(ursachen: ReadonlyMap<number, OffenUrsache>): string | undefined {
+  const abgelaufen = [...ursachen.values()].filter((u) => u === 'jw-abgelaufen').length
+  if (!ursachen.size || abgelaufen / ursachen.size <= ABGELAUFEN_ANTEIL_HOECHSTENS) return undefined
+  return `ohne-weg.json: ${abgelaufen} von ${ursachen.size} Titeln „offen“ nur wegen eines JustWatch-Befunds über ${BEFUND_MAX_TAGE} Tage (mehr als ${ABGELAUFEN_ANTEIL_HOECHSTENS * 100} %) — Erneuerung (Wochenlauf, Namenssuche) prüfen`
+}

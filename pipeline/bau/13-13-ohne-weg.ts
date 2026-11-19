@@ -7,6 +7,8 @@ import { log, readJson, warn, writeJson } from '../lib/util.ts'
 import { ladeHandbelege } from '../lib/dub-confirmed.ts'
 import { baueOhneWeg, OFFEN_HOECHSTENS, zaehleVeralteteBefunde, type OhneWegEingabe } from '../lib/ohne-weg.ts'
 import { BEFUND_MAX_TAGE } from '../lib/jw-vertrauen.ts'
+import { ohneAndereWerke } from '../lib/ohne-weg-andere-werke.ts'
+import { abgelaufenWarnung, offenUrsachen } from '../lib/ohne-weg-offen.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { ohneWegFehler } from '../lib/pruefung.ts'
 import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
@@ -28,7 +30,7 @@ export function ladeOhneWegEingabe(): OhneWegEingabe {
     titel: [...readJson<Title[]>(`${OUT}/titles.json`, []), ...readJson<Title[]>(`${OUT}/cartoons.json`, [])],
     termine: readJson(`${OUT}/events.json`, []),
     handbelege: ladeHandbelege(),
-    justwatch: readJson('data/justwatch-audio.json', {}),
+    justwatch: ohneAndereWerke(readJson('data/justwatch-audio.json', {}), readJson('data/jw-namenstreffer-andere-werke.json', [])),
     discAusgaben: readJson('data/disc-ausgaben.json', {}),
     heute: todayIso(),
   }
@@ -42,6 +44,8 @@ export function schreibeOhneWeg({ bauer = baueOhneWeg, grenze = OFFEN_HOECHSTENS
   const { fehler, warnungen } = ohneWegFehler(eintraege, titel.filter(ohneStreamingWeg).map((t) => t.id), grenze)
   brichAbBeiWiderspruch(fehler, 'Widerspruch/Widersprüche in ohne-weg.json — Bau abgebrochen.')
   for (const w of warnungen) warn(`⚠ WARNUNG ${w}`)
+  const alterung = abgelaufenWarnung(offenUrsachen(eingabe, eintraege))
+  if (alterung) warn(`⚠ WARNUNG ${alterung}`)
   writeJson(`${OUT}/ohne-weg.json`, eintraege)
   log(`ohne-weg.json: ${Object.keys(eintraege).length} Titel ohne Streaming-Weg (${zaehleGruende(eintraege)})`)
   log(`ohne-weg.json: ${zaehleVeralteteBefunde(eingabe, eintraege)} Titel mit erschienener Disc bleiben offen, weil ihr JustWatch-Befund älter als ${BEFUND_MAX_TAGE} Tage ist`)
