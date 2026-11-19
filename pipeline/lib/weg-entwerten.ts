@@ -1,3 +1,5 @@
+import { hatDeutschenTon } from '../../shared/sprachen-ton.ts'
+
 /**
  * **Wann ein „weg" den ganzen Weg entwertet — und wann nur eine Staffel.**
  *
@@ -31,6 +33,16 @@ export function wegGiltGanzerAdresse(
   if (titelAnDerAdresse <= 1) return true
   const staffeln = new Set(wegMeldungen.map((m) => m.staffel))
   return staffeln.size >= titelAnDerAdresse
+}
+
+/**
+ * Ein „weg", das selbst eine deutsche Tonspur nennt, widerspricht sich: Die Erweiterung hat das Panel einer
+ * vorigen Titelseite gemeldet (Landei II, Prime-Startseite, 19.11.2026: „weg" mit 12 deutschen Folgen strich den
+ * belegten Weg). Bis 18.11.2026 trug keine „weg"-Meldung Deutsch; so eine bleibt liegen, statt zu entwerten.
+ */
+export function wegWiderspruchtSich(m: { befund: string; sprachen?: string | null } | undefined): boolean {
+  if (m?.befund !== 'weg' || !m.sprachen) return false
+  return hatDeutschenTon(JSON.parse(m.sprachen) as string[])
 }
 
 export const WEG_VERMERK = 'Meldung „Seite nicht erreichbar“ gilt nicht für die ganze Adresse (kein Urteil zur Tonspur)'

@@ -73,6 +73,15 @@ const wegFolge = lauf('wegfolge', ['--trocken']).stdout
 if (!/^  dub: true$/m.test(wegFolge) || wegFolge.includes('gilt nicht für die ganze Adresse')) fehler.push(`Weg mit Folgenbefund: dub-Urteil ohne Vermerk erwartet: ${wegFolge.slice(0, 400)}`)
 const keinDub = lauf('keindub', ['--trocken']).stdout
 if ((keinDub.match(/^  dub: false$/gm) ?? []).length !== 3 || keinDub.includes('gilt nicht für die ganze Adresse')) fehler.push(`kein_dub ohne Folge: drei Belege mit dub false erwartet: ${keinDub.slice(0, 400)}`)
+/* Ein „weg" mit deutscher Tonspur widerspricht sich (Panel der vorigen Seite, Landei II 19.11.2026): kein Beleg, die Meldung bleibt liegen. */
+const WIDERSPRUCH = 'nennt selbst eine deutsche Tonspur (Panel einer anderen Seite?), Meldung bleibt liegen'
+for (const szenario of ['wegdeutsch', 'wegdeutschnf', 'wegdeutschteil']) {
+  const r = lauf(szenario, ['--trocken'])
+  if (belegTitel(r.stdout).length || !`${r.stdout}${r.stderr}`.includes(WIDERSPRUCH)) fehler.push(`${szenario}: kein Beleg, Meldung liegt: ${r.stdout.slice(0, 400)}`)
+}
+/* Ein jüngeres „dub" nach so einem „weg" gilt wie sonst: drei Belege mit dub true, nichts liegt. */
+const wegDeutschAlt = lauf('wegdeutschalt', ['--trocken'])
+if ((wegDeutschAlt.stdout.match(/^  dub: true$/gm) ?? []).length !== 3 || /^  available: /m.test(wegDeutschAlt.stdout) || `${wegDeutschAlt.stdout}${wegDeutschAlt.stderr}`.includes(WIDERSPRUCH)) fehler.push(`wegdeutschalt: drei Belege dub true erwartet: ${wegDeutschAlt.stdout.slice(0, 400)}`)
 
 /* Wegwerf-Wurzel, optional mit Netflix' Aufteilung (zwei Staffeln) für die Adresse der Attrappe. */
 function trockenIn(szenario: string, mitAufteilung: boolean) {
@@ -152,4 +161,4 @@ if (fehler.length) {
   console.error(`check-fetch-pruefungen-laufzeit: ${fehler.join('; ')}`)
   process.exit(1)
 }
-console.log('check-fetch-pruefungen-laufzeit: Staffel 2 an Staffelreihe 2 (nicht OVA), Staffel 1 und 2 getrennt, Beleg in dub-confirmed.yaml angehängt, Staffel ohne Zahl über Netflix\' Aufteilung verteilt, Notiz je Staffel, Staffelsumme (Beleg 29–40 mit Bestätigungsvermerk; verschobene Titel und fehlendes JustWatch lassen die Meldung liegen), Teil-weg: jüngstes Urteil nach Datum (dub, kein_dub, Datum gegen Reihenfolge), nur Teil-weg ohne dub-Zeile mit Vermerk, ganzes weg als available false.')
+console.log('check-fetch-pruefungen-laufzeit: Staffel 2 an Staffelreihe 2 (nicht OVA), Staffel 1 und 2 getrennt, Beleg in dub-confirmed.yaml angehängt, Staffel ohne Zahl über Netflix\' Aufteilung verteilt, Notiz je Staffel, Staffelsumme (Beleg 29–40 mit Bestätigungsvermerk; verschobene Titel und fehlendes JustWatch lassen die Meldung liegen), Teil-weg: jüngstes Urteil nach Datum (dub, kein_dub, Datum gegen Reihenfolge), nur Teil-weg ohne dub-Zeile mit Vermerk, ganzes weg als available false, weg mit deutscher Tonspur bleibt liegen (Prime, Netflix, Teil-weg; jüngeres dub gilt).')

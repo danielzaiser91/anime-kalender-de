@@ -12,6 +12,7 @@ const SAETZE: Record<Exclude<OhneWegGrund, 'angekuendigt' | 'offen'>, string> = 
   'nur-kauf': 'Laut JustWatch nur zum Kaufen oder Leihen, geprüft am {datum}.',
   'film-ohne-abo': 'Laut JustWatch kein Streaming-Angebot, geprüft am {datum}.',
   'abo-ohne-ton': 'Laut JustWatch im Stream ohne deutschen Ton, geprüft am {datum}.',
+  'kein-angebot': 'Kein Angebot gefunden (geprüft am {datum}).',
   'nur-disc': 'Auf DVD oder Blu-ray erschienen, Streaming bisher nicht gefunden, geprüft am {datum}.',
 }
 

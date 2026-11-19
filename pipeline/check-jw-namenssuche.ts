@@ -7,7 +7,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { Title } from '../shared/types.ts'
-import { bekannteTmdbKennungen, namenProLauf, namensLage, namensSchlange, namensSchluessel, passtZumTitel, suchNamen, waehleKnoten, type NamensKnoten } from './lib/jw-namenssuche.ts'
+import { bekannteTmdbKennungen, geschwisterKennungen, namenProLauf, namensLage, namensSchlange, namensSchluessel, ohneStaffelzusatz, passtZumTitel, suchNamen, waehleKnoten, type NamensKnoten } from './lib/jw-namenssuche.ts'
 
 let fehler = 0
 let faelle = 0
@@ -84,6 +84,63 @@ pruefe('Serie mit 1 Folge lässt beides zu (Film oder Serie)', waehleKnoten({ ..
 pruefe('OVA lässt beides zu', waehleKnoten({ ...serie, format: 'OVA', episodes: 3 } as Title, [knoten('f', 'MOVIE', 'Beispiel', 2020)], keine).art === 'treffer')
 pruefe('Name aus Romaji genügt', waehleKnoten({ titleRomaji: 'Beispiel', format: 'TV', episodes: 12, jpYear: 2020 } as Title, [knoten('s', 'SHOW', 'beispiel', 2020)], keine).art === 'treffer')
 pruefe('Name aus dem Originaltitel genügt', waehleKnoten({ titleNative: '例', titleEn: 'Other', format: 'TV', episodes: 12, jpYear: 2020 } as Title, [knoten('s', 'SHOW', '例', 2020)], keine).art === 'treffer')
+
+/* Staffelname gegen Franchise-Eintrag (19.11.2026): JustWatch DE führt nur das Franchise. Erwartungen fest, Treffer nach der Messung des Analysten (ts-Kennungen). */
+const staffelTitel = (extra: Partial<Title>) => ({ format: 'TV', episodes: 12, ...extra }) as Title
+const ramparts = staffelTitel({ titleDe: 'The Ramparts of Ice: Staffel 2', titleEn: 'The Ramparts of Ice Season 2', titleRomaji: 'Koori no Jouheki 2nd Season', jpYear: 2026 })
+pruefe('Staffel: Ramparts of Ice Staffel 2 → Franchise ts469083', waehleKnoten(ramparts, [knoten('ts469083', 'SHOW', 'The Ramparts of Ice', 2026)], keine).art === 'treffer')
+const superWings = staffelTitel({ titleDe: 'Super Wings (Staffel 2)', titleRomaji: 'Chuldong! Super Wings 2', episodes: 52, jpYear: 2017, deErstausgabe: { von: '2019-04-29', synchro: true } } as Partial<Title>)
+const swKnoten = [knoten('ts56266', 'SHOW', 'Super Wings', 2014, '71026'), knoten('ts1', 'SHOW', 'Super Wings: Super Pets', 2021)]
+pruefe('Staffel: Super Wings (Staffel 2) → ts56266, Franchise-Start 2014 vor unserem Jahr', waehleKnoten(superWings, swKnoten, keine).art === 'treffer')
+pruefe('Staffel: Staffel 4 und 6 mit denselben Namensmustern', ['Super Wings (Staffel 4)', 'Super Wings: Staffel 6'].every((n) => waehleKnoten(staffelTitel({ ...superWings, titleDe: n }), swKnoten, keine).art === 'treffer'))
+pruefe('Staffel: T・P Bon: Staffel 2 → ts406797', waehleKnoten(staffelTitel({ titleDe: 'T・P Bon: Staffel 2', titleEn: 'T・P Bon: Season 2', format: 'ONA', jpYear: 2024 }), [knoten('ts406797', 'SHOW', 'T・P Bon', 2024)], keine).art === 'treffer')
+pruefe('Staffel: Teil 2 über den englischen Namen (Part 2) → ts328671', waehleKnoten(staffelTitel({ titleDe: 'Bastard!! Der Gott der Zerstörung: Teil 2', titleEn: 'Bastard!! Heavy Metal, Dark Fantasy: Part 2', jpYear: 2022 }), [knoten('ts328671', 'SHOW', 'Bastard!! Heavy Metal, Dark Fantasy', 2022)], keine).art === 'treffer')
+pruefe('Staffel: Devil May Cry: Staffel 2 → ts449348', waehleKnoten(staffelTitel({ titleDe: 'Devil May Cry: Staffel 2', titleEn: 'Devil May Cry: Season 2', jpYear: 2026 }), [knoten('ts449348', 'SHOW', 'Devil May Cry', 2025)], keine).art === 'treffer')
+const mondMeile = staffelTitel({ titleRomaji: 'MOONLIGHT MILE 1st Season -Lift off-', jpYear: 2007 })
+pruefe('Staffel-Gegenfall: Moonlight Mile 1st Season — JustWatch hat nur den Spielfilm 2002 → keiner', waehleKnoten(mondMeile, [knoten('tm1', 'MOVIE', 'Moonlight Mile', 2002)], keine).art === 'keiner')
+const goldenKamuy = staffelTitel({ titleDe: 'Golden Kamuy 2', titleEn: 'Golden Kamuy Season 2', titleRomaji: 'Golden Kamuy 2nd Season', jpYear: 2018 })
+const gk = waehleKnoten(goldenKamuy, [knoten('ts78390', 'SHOW', 'Golden Kamuy', 2018), knoten('tm1208214', 'MOVIE', 'Golden Kamuy', 2024)], keine)
+pruefe('Staffel: gleichnamiger MOVIE daneben stört nicht, der Treffer ist die Serie', gk.art === 'treffer' && gk.knoten.id === 'ts78390', gk)
+pruefe('Staffel: nur der MOVIE desselben Namens → keiner (Serie Pflicht)', waehleKnoten(goldenKamuy, [knoten('tm1208214', 'MOVIE', 'Golden Kamuy', 2018)], keine).art === 'keiner')
+pruefe('Staffel: Franchise-Start 2 Jahre nach unserem Jahr → keiner', waehleKnoten(goldenKamuy, [knoten('x', 'SHOW', 'Golden Kamuy', 2020)], keine).art === 'keiner')
+pruefe('Staffel: Franchise-Start genau ein Jahr nach unserem Jahr → Treffer (Grenze)', waehleKnoten(goldenKamuy, [knoten('x', 'SHOW', 'Golden Kamuy', 2019)], keine).art === 'treffer')
+pruefe('Staffel: Franchise ohne Jahr → keiner', waehleKnoten(goldenKamuy, [knoten('x', 'SHOW', 'Golden Kamuy', null)], keine).art === 'keiner')
+pruefe('Staffel: Titel ohne Jahr → keiner', waehleKnoten({ ...goldenKamuy, jpYear: undefined } as Title, [knoten('x', 'SHOW', 'Golden Kamuy', 2018)], keine).art === 'keiner')
+pruefe('Staffel: Titel selbst ein Film → keiner', waehleKnoten({ ...goldenKamuy, format: 'MOVIE' } as Title, [knoten('x', 'SHOW', 'Golden Kamuy', 2018)], keine).art === 'keiner')
+pruefe('Staffel: zwei Serien gleichen Franchise-Namens → mehrdeutig', waehleKnoten(goldenKamuy, [knoten('a', 'SHOW', 'Golden Kamuy', 2018), knoten('b', 'SHOW', 'Golden Kamuy', 2017)], keine).art === 'mehrdeutig')
+pruefe('Staffel: derselbe Knoten aus zwei Suchen ist ein Treffer', waehleKnoten(goldenKamuy, [knoten('a', 'SHOW', 'Golden Kamuy', 2018), knoten('a', 'SHOW', 'Golden Kamuy', 2018)], keine).art === 'treffer')
+pruefe('Staffel: ein Teilname des Franchise reicht nicht', waehleKnoten(goldenKamuy, [knoten('x', 'SHOW', 'Golden', 2018)], keine).art === 'keiner')
+pruefe('Staffel: Titel ohne Staffelzusatz nimmt den Franchise-Weg nicht (Baki ≠ Baki 2 bleibt streng)', waehleKnoten({ titleEn: 'Baki 2', format: 'TV', episodes: 26, jpYear: 2018 } as Title, [knoten('x', 'SHOW', 'Baki', 2018)], keine).art === 'keiner')
+pruefe('Staffel: strenger Treffer geht vor (JustWatch führt die Staffel unter ihrem Namen)', (() => { const u = waehleKnoten(goldenKamuy, [knoten('s', 'SHOW', 'Golden Kamuy Season 2', 2018), knoten('f', 'SHOW', 'Golden Kamuy', 2018)], keine); return u.art === 'treffer' && u.knoten.id === 's' })())
+const tvT = (x: Title) => (x as Title & { tmdbId?: number }).tmdbId
+const swHalter = new Set([71026])
+const fremdFr = waehleKnoten(superWings, swKnoten, swHalter)
+pruefe('Staffel: Kennung hält ein Titel einer anderen Reihe → fremd', fremdFr.art === 'fremd' && fremdFr.tmdbId === 71026, fremdFr)
+pruefe('Staffel: Kennung hält nur eine Staffel derselben Reihe (Geschwister) → Treffer', waehleKnoten(superWings, swKnoten, swHalter, swHalter).art === 'treffer')
+pruefe('Staffel: Geschwister-Ausnahme gilt nur für die Kennung der Geschwister', waehleKnoten(superWings, swKnoten, swHalter, new Set([999])).art === 'fremd')
+pruefe('Staffel: strenger Treffer bleibt fremd, auch wenn Geschwister die Kennung führen', waehleKnoten(miraculous, ANTWORT, new Set([755812]), new Set([755812])).art === 'fremd')
+const sw1 = { id: 10012621, titleDe: 'Super Wings', jpYear: 2014, tmdbId: 71026 } as Title & { tmdbId: number }
+const swMax = { id: 10019348, titleDe: 'Super Wings: Maximum Speed', tmdbId: 1148189 } as Title & { tmdbId: number }
+const swS2 = { ...superWings, id: 10014353 } as Title
+const sk = geschwisterKennungen(swS2, [sw1, swMax, swS2], tvT)
+pruefe('Geschwister: Staffel 1 derselben Reihe ja, Maximum Speed (anderer Name) nein, der Titel selbst nicht', sk.size === 1 && sk.has(71026), [...sk])
+pruefe('Geschwister: auch eine andere Staffel mit Zusatz zählt', geschwisterKennungen(swS2, [{ id: 3, titleDe: 'Super Wings (Staffel 4)', tmdbId: 71026 } as Title & { tmdbId: number }], tvT).has(71026))
+const swS2mit = { ...swS2, tmdbId: 5 } as Title & { tmdbId: number }
+pruefe('Geschwister: der Titel selbst zählt nicht, auch mit Kennung', geschwisterKennungen(swS2mit, [swS2mit], tvT).size === 0)
+pruefe('Geschwister: Originaltitel der Geschwister zählt', geschwisterKennungen({ titleNative: 'ウィング Season 2' } as Title, [{ id: 1, titleNative: 'ウィング', tmdbId: 8 } as Title & { tmdbId: number }], tvT).has(8))
+pruefe('Franchise: Name aus dem Originaltitel genügt', waehleKnoten(staffelTitel({ titleNative: 'ウィング Season 2', jpYear: 2020 }), [knoten('n', 'SHOW', 'ウィング', 2020)], keine).art === 'treffer')
+pruefe('Franchise: das früheste Jahr zählt, nicht das späteste (Franchise 2019 gegen jpYear 2017 / DE 2019)', waehleKnoten(superWings, [knoten('x', 'SHOW', 'Super Wings', 2019)], keine).art === 'keiner')
+pruefe('Geschwister: Titel ohne Staffelzusatz hat keine', geschwisterKennungen(sw1, [{ ...sw1, id: 5 } as Title], tvT).size === 0)
+pruefe('Geschwister: Titel ohne Kennung zählt nicht', geschwisterKennungen(swS2, [{ id: 7, titleDe: 'Super Wings' } as Title], tvT).size === 0)
+
+/* Staffelzusatz */
+const kurz = (n: string) => ohneStaffelzusatz(n)
+pruefe('Zusatz: „: Staffel 2“, „(Staffel 2)“, „Season 2“, „2nd Season“, „(Teil 3)“, „Part 2“', [kurz('A: Staffel 2'), kurz('A (Staffel 2)'), kurz('A Season 2'), kurz('A 2nd Season'), kurz('A (Teil 3)'), kurz('A: Part 2'), kurz('A 3rd Season'), kurz('A 11th Season'), kurz('A 1st Season'), kurz('A - Teil 2'), kurz('A – Season 3')].every((x) => x === 'A'))
+pruefe('Zusatz: ohne Ziffer („Final Season“, „Staffel“) und mittendrin kein Zusatz', kurz('A Final Season') === undefined && kurz('A Staffel') === undefined && kurz('Season 2 of A') === undefined && kurz('Baki 2') === undefined)
+pruefe('Zusatz: nur der Zusatz → kein Name übrig', kurz('Staffel 2') === undefined && kurz('') === undefined)
+pruefe('Zusatz: Klein-/Großschreibung egal, Name behält seine Schreibweise', kurz('Super Wings: STAFFEL 6') === 'Super Wings')
+pruefe('Suchbegriffe: Staffelname fragt auch das Franchise (zuletzt), ohne Doppelte', suchNamen(superWings).join('|') === 'Super Wings (Staffel 2)|Chuldong! Super Wings 2|Super Wings', suchNamen(superWings))
+pruefe('Suchbegriffe: Name ohne Zusatz bleibt wie vorher', suchNamen({ titleDe: 'A', titleRomaji: 'B', titleEn: 'C' } as Title).join() === 'A,B,C')
 
 /* Suchbegriffe */
 pruefe('Gleiche Namen werden nur einmal gesucht', suchNamen(miraculous).length === 2, suchNamen(miraculous))
