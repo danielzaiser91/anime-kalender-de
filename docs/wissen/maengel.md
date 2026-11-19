@@ -204,7 +204,7 @@ Nur der Hauptbestand (`titles.json`); der Katalog ohne Synchro ist zu Recht fast
 
 **Wiederverwendet, nicht doppelt gezählt:** `erstausgabe-ohne-weg` zählt über `zaehleErstausgabeOhneWeg` (`pipeline/lib/erstausgabe-ohne-weg.ts`), `cover` nimmt seine Ausnahmen aus der Handliste `data/cover-ohne-bekannt.json`, `sprachurteil-offen` zählt über `ohneSprachurteil` (`pipeline/lib/ohne-sprachurteil.ts`, dieselbe Formel wie `check-qualitaet.ts`). Ein Disc-Termin (`discTitelIds`) gilt bei `kein-weg` wie bei `erstausgabe-ohne-weg` als Weg.
 
-**Ausnahmen:** `folgentitel` nur für `format` MOVIE (SPECIAL/MUSIC/OVA mit mehreren Folgen zählen); `folgenzahl` für Serien, die noch laufen (`jpEnd` leer oder ab heute), Grund `laeuft`; `cover` für Titel der Handliste; `sprecher` ohne Synchro; `titel-de` ohne Weg und Erstausgabe.
+**Ausnahmen:** `folgentitel` nur für `format` MOVIE (SPECIAL/MUSIC/OVA mit mehreren Folgen zählen); `folgenzahl` für Serien, die noch laufen (`jpEnd` ab heute; ohne `jpEnd` nur mit RELEASING, Termin ab heute, Jahr dieses Jahres oder ohne Jahr, nie bei FINISHED; Fix 20.11.2026, davor galt jede Serie ohne `jpEnd` als laufend), Grund `laeuft`; `cover` für Titel der Handliste; `sprecher` ohne Synchro; `titel-de` ohne Weg und Erstausgabe.
 
 **Bestandsbau-PRs:** `data/maengel.json` steht in `ERZEUGTE_DATEIEN` (`tools/pr-nachrechnen-bot-erzeugt.mjs`), sonst entwertete jeder Bau-Sprung der Datei (täglich) alle offenen PRs.
 
