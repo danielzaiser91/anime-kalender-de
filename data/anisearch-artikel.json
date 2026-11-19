@@ -207719,5 +207719,27 @@
     ],
     "fetchedAt": "2026-10-30T04:40:53.170Z",
     "stand": 1
+  },
+  "223185": {
+    "ean": "4020628653989",
+    "audio": [
+      "Deutsch",
+      "Japanisch"
+    ],
+    "untertitel": [
+      "Deutsch"
+    ],
+    "publisher": "KSM Anime",
+    "umfang": "Staffel / Gesamtausgabe",
+    "medium": "Blu-ray",
+    "enthalten": [
+      {
+        "anisearchId": 19877,
+        "typ": "TV-Serie",
+        "folgen": 12
+      }
+    ],
+    "fetchedAt": "2026-11-19T06:13:27.548Z",
+    "stand": 1
   }
 }
