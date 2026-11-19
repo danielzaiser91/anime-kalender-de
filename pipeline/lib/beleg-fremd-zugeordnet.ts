@@ -6,6 +6,8 @@ import { findeFremdZugeordnete, type FremdZugeordnet, type ZuordnungEintrag } fr
 import { leseZugeordnet } from './prime-meldung-riegel.ts'
 import type { BelegAdresse } from './handbeleg-fremde-adresse.ts'
 import { liegenGeblieben, type OhneZuordnung } from './meldungen-liste.ts'
+import { baueBesitz, type BesitzTitel, type Besitz as NotizBesitz } from './handbeleg-notizseite.ts'
+import { verschiebeFremdeNotizseite } from './beleg-notizseite-zurueck.ts'
 
 const KEINE_STREAMS: ReadonlyMap<string, string[]> = new Map()
 
@@ -22,6 +24,8 @@ export interface Besitz {
   verschoben: number
   /** Meldungen (erste ID je Gruppe), bei denen mindestens ein Beleg ausfiel: der Schluss der Schleife meldet sie nicht noch einmal. */
   gruppen: Set<number>
+  /** Besitz der Prime-Seiten (Titelliste + Zuordnung) für die Notizseite der Blöcke; fehlt ohne Titelliste. */
+  notizseiten?: NotizBesitz
 }
 
 /**
@@ -29,10 +33,13 @@ export interface Besitz {
  * dazu: der Schritt liest `public/data` nur über die Attrappen der Prüfungen (Bestandssperre in `check:logic`), diese Besitzer
  * bleiben bei `check-zuordnung-fremd-bestand` (Folgearbeit, siehe PR-Beschreibung).
  */
-export function ladeBesitz(wurzel: string): Besitz {
+export function ladeBesitz(wurzel: string, titel?: BesitzTitel[]): Besitz {
   const datei = resolve(wurzel, 'data/dub-confirmed.yaml')
   const belege = (existsSync(datei) ? (yaml.load(readFileSync(datei, 'utf8')) as BelegAdresse[] | null) : null) ?? []
-  return { zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>()), belege, verschoben: 0, gruppen: new Set() }
+  // Roh wie der Wächter (`check-handbeleg-notizseite-bestand`), nicht über `leseZugeordnet`: gleiche Eingabe, gleiches Urteil.
+  const roh = resolve(wurzel, 'data/prime-zugeordnet.json')
+  const notizseiten = titel && baueBesitz(titel, existsSync(roh) ? JSON.parse(readFileSync(roh, 'utf8')) : {})
+  return { zugeordnet: Object.entries(leseZugeordnet<ZuordnungEintrag>()), belege, verschoben: 0, gruppen: new Set(), notizseiten }
 }
 
 /**
@@ -76,21 +83,26 @@ export function verschiebeFremdenBeleg(
 }
 
 /** Ein geschriebener Beleg in `zeilen`: Kennung, Adresse (fehlt beim „nicht geführt“-Eintrag) und seine Zeilen. */
-interface BelegBlock {
+export interface BelegBlock {
   id: number
+  platform: string | undefined
   url: string | undefined
+  note: string | undefined
   zeilen: string[]
 }
 
 function zerlegeBloecke(zeilen: readonly string[]): BelegBlock[] {
   const bloecke: BelegBlock[] = []
   for (const z of zeilen) {
-    if (z === '') bloecke.push({ id: 0, url: undefined, zeilen: [] })
+    if (z === '') bloecke.push({ id: 0, platform: undefined, url: undefined, note: undefined, zeilen: [] })
     const b = bloecke[bloecke.length - 1]
     if (!b) continue
     b.zeilen.push(z)
     b.id ||= Number(/^- anilistId: (\d+)$/.exec(z)?.[1] ?? 0)
+    b.platform ??= /^ {2}platform: (.+)$/.exec(z)?.[1]
     b.url ??= /^ {2}url: (.+)$/.exec(z)?.[1]
+    const note = /^ {2}note: ("(?:[^"\\]|\\.)*")$/.exec(z)?.[1] // von `fetch-pruefungen` als JSON-String geschrieben
+    if (note) b.note ??= JSON.parse(note) as string
   }
   return bloecke
 }
@@ -115,7 +127,8 @@ export function zieheFremdeBelegeZurueck(
   const mit = bloecke.map((b) => b.id)
   let weg = 0
   for (const b of bloecke) {
-    if (b.url === undefined || !verschiebeFremdenBeleg(besitz, b.id, mit, b.url, gruppe, p, warnungen, liste)) continue
+    const fremdeAdresse = b.url !== undefined && verschiebeFremdenBeleg(besitz, b.id, mit, b.url, gruppe, p, warnungen, liste)
+    if (!fremdeAdresse && !verschiebeFremdeNotizseite(besitz, b, gruppe, p, warnungen, liste)) continue
     b.zeilen = []
     weg++
   }

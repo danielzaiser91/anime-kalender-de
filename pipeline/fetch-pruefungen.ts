@@ -379,7 +379,7 @@ const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data
   : {}
 
 const ohneZuordnung: OhneZuordnung[] = []
-const besitz = ladeBesitz(ROOT)
+const besitz = ladeBesitz(ROOT, liste)
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>(gesperrt)
 
