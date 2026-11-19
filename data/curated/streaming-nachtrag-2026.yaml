@@ -157,11 +157,13 @@
 # ---------------------------------------------------------------- Dritte Runde (13.10.2026): Rest der zweiten Runde
 # Der Tag ist wieder der Meldetag (`available-from`); die Artikel nennen die deutsche Fassung im Fließtext.
 # 1048315 (09.09.2026): „Bei »Yu-Gi-Oh! ZEXAL« stehen ab sofort zusätzlich die zweite und dritte Staffel mit 49 beziehungsweise 48 Episoden auf Deutsch zur Verfügung“ (Prime Video).
-# Die deutschen Staffeln folgen nicht den AniList-Einträgen (Zexal Folge 1 bis 73, Zexal II Folge 74 bis 146): Der Eintrag hängt an Zexal II, in dem Staffel 3 ganz und Staffel 2 überwiegend liegt.
+# Die deutschen Staffeln folgen nicht den AniList-Einträgen (Zexal Folge 1 bis 73, Zexal II Folge 74 bis 146): Der Eintrag hängt an Zexal II, in dem Staffel 3 ganz und Staffel 2 mit den Folgen 25–49 liegt (Folgen 1–24 sind Zexal 50–73).
+# Die Adresse steht fest: Zexal II führt bei Prime zwei Wege (Staffel 2 geteilt, Staffel 3), mit zwei Wegen vergäbe der Bau dem Termin keine mehr.
 - slug: yu-gi-oh-zexal-s2-s3-primevideo
   anilistId: 15489
   titleDe: "Yu-Gi-Oh! ZEXAL – Staffel 2 und 3"
   platform: primevideo
+  platformUrl: https://www.amazon.de/gp/video/detail/B0GWMY6WCP
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-09", episodeCount: 97 }
