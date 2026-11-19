@@ -36,7 +36,7 @@
  *
  * Aufruf:
  *
- *     npx tsx pipeline/fetch-justwatch-audio.ts [--limit 50] [--alter 28]
+ *     npx tsx pipeline/fetch-justwatch-audio.ts [--limit 50] [--alter 20]
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import yaml from 'js-yaml'
@@ -49,6 +49,7 @@ import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
+import { abrufAlterTage } from './lib/jw-vertrauen.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
 import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
 import { bekannteTmdbKennungen, namensSchlange, suchNamen, waehleKnoten } from './lib/jw-namenssuche.ts'
@@ -60,7 +61,7 @@ const PAUSE_MS = 1000
 /** So viele Titel hintereinander gesperrt (nach Backoff) — dann ist die Sperre keine Laune mehr. */
 const SPERREN_BIS_ABBRUCH = 3
 const DATEI = 'data/justwatch-audio.json'
-/** Titel ohne TMDB-Kennung kommen nach 21 Tagen wieder dran; der Bau liest Befunde nur bis 28 Tage (`BEFUND_MAX_TAGE`). */
+/** Titel ohne TMDB-Kennung kommen im Tageslauf nach 21 Tagen wieder dran (7 Tage Luft); der Bau liest Befunde nur bis 28 Tage (`BEFUND_MAX_TAGE`). */
 const NAMEN_ALTER_TAGE = 21
 
 interface Angebot {
@@ -399,7 +400,7 @@ export async function main(args: string[] = process.argv.slice(2), welt: Welt = 
     return i >= 0 && args[i + 1] ? Number(args[i + 1]) : vorgabe
   }
   const limit = zahl('--limit', 40)
-  const alterTage = zahl('--alter', 28)
+  const alterTage = abrufAlterTage(args)
 
   const nurCartoons = args.includes('--nur-cartoons')
   const { titles, cartoons, tmdb, bestand } = ladeEingaben(nurCartoons)
