@@ -76,6 +76,8 @@ pruefe('ohneTreffer 27 Tage alt gilt', einzeln(ohneTreffer({ geprueftAm: '2026-1
 pruefe('Gegenfall: ohneTreffer 28 Tage alt', einzeln(ohneTreffer({ geprueftAm: '2026-10-21' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: Befund ohne Prüftag', einzeln(ohneTreffer({ geprueftAm: '' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: verfehlter Befund', einzeln(befund('d5', [], { verfehltAm: '2026-11-17' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
+pruefe('Gegenfall: verfehlter Befund ohneTreffer', einzeln(ohneTreffer({ verfehltAm: '2026-11-17' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
+pruefe('Gegenfall: Prüftag ohne volles Datum (parsbar, aber kein Tag der Quelle)', einzeln(ohneTreffer({ geprueftAm: '2026-11' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: ein veraltetes Abo-Angebot im Befund', einzeln(befund('d6', [{ art: 'FLATRATE', audio: ['de'] }], { geprueftAm: '2026-10-01' }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: ein Abo-Angebot mit Deutsch im Befund', einzeln(befund('d7', [{ art: 'FLATRATE', audio: ['de'] }]), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
 pruefe('Gegenfall: ein Abo-Angebot nur in der Staffel', einzeln(befund('d8', [], { staffeln: [{ nr: 1, folgen: 1, angebote: [{ anbieter: 'X', art: 'FLATRATE', audio: ['de'] }] }] }), { discAusgaben: { 900001: disc('2020-01-01') } })?.reason === 'offen')
