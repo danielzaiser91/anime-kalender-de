@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-19T16:01:50.673Z",
+  "scrapedAt": "2026-11-19T18:02:42.522Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 10,
+    "schon in einem Rubrik-Feed gelesen": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 7,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -149,6 +149,23 @@
         {
           "iso": "2026-11-30",
           "context": "ute seine große Black-Friday-Woche gestartet, in deren Rahmen bis zum 30. November 2026 zahlreiche Anime-DVDs und -Blu-rays reduziert sind."
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix: Alle Anime-Neuzugänge im Dezember 2026",
+      "articleUrl": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+      "publishedAt": "2026-11-19",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "Netflix: Alle Anime-Neuzugänge im Dezember 2026 Der Streaming-Dienst Netflix erweitert sein Anime-Pro"
         }
       ],
       "dub": "unklar",
