@@ -61,7 +61,7 @@ Der Auftrag ist vor dem Start vollständig (Umfang, Gegenproben, bekannte Fälle
 
 **Zielzahl vor Auftrag an der Untergrenze messen (27.10.2026, 2166):** Steht eine Grenze im Auftrag („Index < 150 kB“), messe ich vorher mit einem Befehl, was der kleinste mögliche Inhalt wiegt — die Suchnamen allein lagen bei 250 kB gzip, das Ziel war unerreichbar und kostete eine Runde.
 
-**Fund vor Auftrag nachmessen (25.10.2026):** Ein Fund aus einer Liste (Detektiv, Analyst, Agenten-Nebenbefund) mit Behauptung wie „Dublette“ oder „fehlt“ wird vor dem Bauer-Auftrag mit einem Befehl gegen `titles.json` bzw. die Quelle geprüft — die Dr.-Stone-„Dublette“ war eine zurückgezogene News und kostete einen Bauer-Lauf.
+**Fund vor Auftrag nachmessen (25.10.2026):** Ein Fund aus einer Liste (Detektiv, Analyst, Agenten-Nebenbefund) mit Behauptung wie „Dublette“ oder „fehlt“ wird vor dem Bauer-Auftrag mit einem Befehl gegen `titles.json` bzw. die Quelle geprüft — die Dr.-Stone-„Dublette“ war eine zurückgezogene News und kostete einen Bauer-Lauf. Gilt auch für Zahlen und Ursachen vom Vortag (Lehre 155, 19.11.2026): im Auftrag als „zu prüfen“ markieren und vor dem Auftrag an der Quelle nachmessen.
 
 **Textanker statt Zeilennummer (01.11.2026, Prime-PoC):** Stellen in Dateien nennt der Auftrag mit einem zitierten Satzanfang, nicht mit „Zeile 318“ — main verschiebt Zeilen zwischen Auftrag und Start.
 
