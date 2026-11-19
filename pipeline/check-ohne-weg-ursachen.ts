@@ -96,7 +96,7 @@ for (const [k, [grund, ursache]] of Object.entries(faelle)) {
 }
 pruefe('Jeder Fixture-Titel ohne Weg hat genau einen Eintrag (19 ist nur der zweite Halter von k11, kein Titel)', Object.keys(eintraege).length === Object.keys(faelle).length, Object.keys(eintraege).length)
 pruefe('Jede Ursache der Liste kommt in der Fixture vor (sonst ist ein Zweig ungeprüft)', OFFEN_URSACHEN.every((u) => [...ursachen.values()].includes(u)), OFFEN_URSACHEN.filter((u) => ![...ursachen.values()].includes(u)))
-pruefe('Die Ursachen zählen genau die `offen`-Titel', ursachen.size === Object.values(eintraege).filter((x) => x.reason === 'offen').length)
+pruefe('Die Ursachen gibt es genau für die `offen`-Titel (nie für einen Titel mit anderem Grund)', ursachen.size === Object.values(eintraege).filter((x) => x.reason === 'offen').length && [...ursachen.keys()].every((id) => eintraege[id]?.reason === 'offen'))
 
 /* Das Werkzeug über dieselbe Fixture (nicht über Dateien, die in der PR-Kette fehlen können): Summe der Gründe = Gesamtzahl, Ursachen = offen. */
 const m = messe(eingabe)
@@ -121,6 +121,8 @@ try {
   pruefe('Prozess --json: Exit 0, gesamt und Gründe wie messe()', gelesen?.gesamt > 0 && JSON.stringify(gelesen.gruende) === JSON.stringify(erwartet.gruende) && JSON.stringify(gelesen.offen) === JSON.stringify(erwartet.offen), { status: json.status, stdout: json.stdout.slice(0, 200), stderr: json.stderr.slice(0, 300) })
   const text = aufruf()
   pruefe('Prozess ohne Option: Kopfzeile mit Gesamtzahl und Bau-Logzeile', text.stdout.includes(`Titel ohne Streaming-Weg am ${HEUTE}: ${erwartet.gesamt}`) && text.stdout.includes('Bau-Logzeile: ohne-weg.json:'), text.stdout.slice(0, 200))
+  const alleOffen = aufruf('--grund', 'offen')
+  pruefe('Prozess --grund offen: eine Zeile je offenen Titel, nicht leer', alleOffen.stdout.trim().split('\n').length === erwartet.gruende.offen, alleOffen.stdout.slice(0, 200))
   const liste = aufruf('--grund', 'offen/jw-mehrdeutig')
   pruefe('Prozess --grund offen/jw-mehrdeutig: genau Kennung 10 und 24', liste.stdout.trim().split('\n').map((z) => z.split('\t')[0]).join() === '10,24', liste.stdout)
 } finally {
