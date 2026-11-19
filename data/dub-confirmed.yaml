@@ -12490,17 +12490,6 @@
   available: false
   checkedAt: '2026-08-31'
   note: "Suche auf Prime Video: kein einziger Treffer"
-- anilistId: 2787
-  title: "Shakugan no Shana: Second"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CMZZVV7R
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 24
-      dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CMZZVV7R: alle 24 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf"
 - anilistId: 448
   title: "Tenjo Tenge OVA"
   platform: primevideo

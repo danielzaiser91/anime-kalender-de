@@ -6,7 +6,6 @@
  * (Ribbit, Tokyo Ghoul ×3, Slime S2, Edens Zero, Captain Tsubasa Junior Youth ×2, GITS 2nd GIG); Gründe in `daniel-zum-abarbeiten/berichte/notizseite-altfaelle-2026-11-03.md`.
  */
 export const ALTFAELLE: string[] = [
-  '108511@B0CJC11GRB',
   '146066@B0GGJKGT5P',
   '163024@B0GC9MPBHQ',
   '163024@B0GXPFJJZK',
