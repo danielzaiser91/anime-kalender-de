@@ -55,6 +55,9 @@ const faelle: Record<number, [string, string | undefined]> = {
   24: ['offen', 'jw-mehrdeutig'],
   /* Wie 15, aber mit erschienener Disc: der Disc-Mangel ist der Unterschied zwischen offen und nur-disc. */
   25: ['nur-disc', undefined],
+  /* Namenstreffer ohne gleichen Namen ist Suchrauschen: frisch = kein-treffer, alt = abgelaufen (nur gleicherName: true ist mehrdeutig). */
+  26: ['offen', 'jw-kein-treffer'],
+  27: ['offen', 'jw-abgelaufen'],
 }
 const eingabe: OhneWegEingabe = {
   titel: Object.keys(faelle).map((k) => titel(Number(k), Number(k) === 4 ? 'MOVIE' : 'TV')),
@@ -66,7 +69,7 @@ const eingabe: OhneWegEingabe = {
     5: befund('k5', 5, [{ art: 'FLATRATE', audio: ['en'] }]),
     6: befund(undefined, 0, [], { ohneTreffer: true }),
     9: befund(undefined, 0, [], { ohneTreffer: true }),
-    10: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x' } }),
+    10: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x', gleicherName: true } }),
     /* 11 und 19 teilen jwId `k11` bei verschiedener TMDB-Kennung; 19 ist kein ohne-Weg-Titel, nur der zweite Halter. */
     11: befund('k11', 11, [{ art: 'FLATRATE', audio: [] }]),
     19: befund('k11', 190, [{ art: 'FLATRATE', audio: ['de'] }]),
@@ -81,8 +84,10 @@ const eingabe: OhneWegEingabe = {
     21: befund('k21', 21, [{ art: 'FLATRATE', audio: ['en'] }], { geprueftAm: '2026-10-23' }),
     22: befund('k22', 22, [{ art: 'FLATRATE', audio: [] }, { art: 'CINEMA', audio: ['de'] }]),
     23: befund('k23', 23, [{ art: 'FLATRATE', audio: [] }, { art: 'RENT', audio: ['de'] }]),
-    24: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x' }, geprueftAm: '2026-10-01' }),
+    24: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x', gleicherName: true }, geprueftAm: '2026-10-01' }),
     25: befund('k25', 25, []),
+    26: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x', gleicherName: false } }),
+    27: befund(undefined, 0, [], { ohneTreffer: true, namenTreffer: { jwId: 'x', gleicherName: false }, geprueftAm: '2026-10-01' }),
   },
   discAusgaben: { 6: [{ datum: '2020-01-01' }], 25: [{ datum: '2020-01-01' }] },
   heute: HEUTE,

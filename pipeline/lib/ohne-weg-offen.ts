@@ -3,7 +3,7 @@
  * `grundVon` in `ohne-weg.ts`: Ein Handbeleg „deutsch“ geht vor, dann kommt der JustWatch-Befund. Nur Messung, der Bau liest das nicht.
  *
  * **Doppelpflege:** Ändert sich eine Regel in `grundVon`, `jwZugeordnet` oder `jwOhneStream`, gehört diese Zuordnung mit (`check-ohne-weg-ursachen.ts`
- * hält die Randfälle fest). `jw-gilt-*` und `jw-kein-treffer` sind die Fälle, in denen nur ein Beleg fehlt (z. B. die erschienene Disc für `nur-disc`).
+ * hält die Randfälle fest). `jw-mehrdeutig` gilt nur bei `namenTreffer.gleicherName` (19.11.2026: 10 von 117 Namenstreffern, der Rest Suchrauschen). `jw-gilt-*` und `jw-kein-treffer` sind die Fälle, in denen nur ein Beleg fehlt (z. B. die erschienene Disc für `nur-disc`).
  */
 import type { Title } from '../../shared/types.ts'
 import { urteilVon } from './dub-confirmed.ts'
@@ -29,7 +29,7 @@ export type OffenUrsache = (typeof OFFEN_URSACHEN)[number]
 
 const tage = (heute: string, am: string) => (Date.parse(heute) - Date.parse(am)) / 86_400_000
 
-/** Die Ursache eines offenen Titels; `fremd` = die Kennung gehört schon einer zweiten TMDB-Reihe, `mehrdeutig` = nur ein Namensvetter gefunden. */
+/** Die Ursache eines offenen Titels; `fremd` = die Kennung gehört schon einer zweiten TMDB-Reihe, `mehrdeutig` = gleichnamiger Kandidat mit anderer Kennung (ein Namenstreffer ohne `gleicherName` ist Suchrauschen). */
 export function offenUrsache(
   t: Pick<Title, 'id'>,
   e: { eingabe: OhneWegEingabe; geteilt: ReadonlySet<string> },
@@ -39,7 +39,7 @@ export function offenUrsache(
   const b = eingabe.justwatch[t.id]
   if (!b) return 'jw-kein-befund'
   const alt = tage(eingabe.heute, b.geprueftAm) >= BEFUND_MAX_TAGE
-  if (b.ohneTreffer) return b.namenTreffer ? 'jw-mehrdeutig' : alt ? 'jw-abgelaufen' : 'jw-kein-treffer'
+  if (b.ohneTreffer) return b.namenTreffer?.gleicherName ? 'jw-mehrdeutig' : alt ? 'jw-abgelaufen' : 'jw-kein-treffer'
   if (b.verfehltAm) return 'jw-verfehlt'
   if (b.jwId && e.geteilt.has(b.jwId)) return 'jw-fremd'
   if (alt) return 'jw-abgelaufen'

@@ -52,7 +52,7 @@ import { warteschlange } from './lib/jw-schlange.ts'
 import { abrufAlterTage } from './lib/jw-vertrauen.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
 import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
-import { bekannteTmdbKennungen, namensSchlange, suchNamen, waehleKnoten } from './lib/jw-namenssuche.ts'
+import { bekannteTmdbKennungen, geschwisterKennungen, namensSchlange, suchNamen, waehleKnoten } from './lib/jw-namenssuche.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -296,7 +296,7 @@ async function sucheOhneTmdb(titles: Title[], tmdb: Record<string, { tmdbId?: nu
         knoten.push(...(await suche(begriff, w)))
       }
       sperrenInFolge = 0
-      const u = waehleKnoten(t, knoten, bekannte)
+      const u = waehleKnoten(t, knoten, bekannte, geschwisterKennungen(t, titles, tmdbVon))
       if (u.art === 'mehrdeutig') z.mehrdeutig.push(`${name} (${t.id}, ${u.anzahl} Treffer)`)
       if (u.art === 'fremd') z.fremd.push(`${name} (${t.id}, TMDB ${u.tmdbId})`)
       const tmdbId = u.art === 'treffer' ? Number(u.knoten.content.externalIds?.tmdbId) || undefined : undefined
