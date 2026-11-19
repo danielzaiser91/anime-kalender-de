@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-19T04:29:54.636Z",
+  "stand": "2026-11-19T19:43:04.641Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -3255,7 +3255,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-11-04",
       "entferntAm": "2026-11-19",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 1815,
@@ -5222,17 +5222,6 @@
       "url": "https://www.crunchyroll.com/de/maken-ki",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-11-19",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 15583,
-      "titel": "Date a Live",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CZS6FBVY",
-      "seriesId": null,
-      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
       "geprueftAm": null,
       "entferntAm": "2026-11-19",
       "letzterWeg": false
@@ -7898,6 +7887,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-11-19",
       "letzterWeg": true
+    },
+    {
+      "titleId": 15583,
+      "titel": "Date a Live",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CZS6FBVY",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-19",
+      "letzterWeg": false
     },
     {
       "titleId": 3667,
