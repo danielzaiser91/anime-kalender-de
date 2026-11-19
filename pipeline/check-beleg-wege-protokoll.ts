@@ -86,11 +86,14 @@ const viele = (von: number, bis: number) =>
 const mitBeleg = viele(1000, 1173)
 const ohneBeleg = viele(2000, 2060)
 const bleibt = titel(5000, [weg('netflix', `${NF}5000`)])
-const vorherAlle = [...mitBeleg, ...ohneBeleg, bleibt]
-const jetztAlle = [...mitBeleg, ...ohneBeleg].map((t) => titel(t.id, [])).concat([bleibt])
+/** Titel 3000: Beleg available:false UND schon als Verweis im Gedächtnis dieses Laufs (z. B. über `entferneVerweiseMitNein`): zählt einmal. */
+const doppelt = titel(3000, [weg('netflix', `${NF}3000`)])
+const vorherAlle = [...mitBeleg, ...ohneBeleg, doppelt, bleibt]
+const jetztAlle = [...mitBeleg, ...ohneBeleg, doppelt].map((t) => titel(t.id, [])).concat([bleibt])
+const eintragDoppelt = { titleId: 3000, titel: 'Titel 3000', plattform: 'netflix', url: `${NF}3000`, seriesId: null, grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur', geprueftAm: null, entferntAm: '2999-12-31', letzterWeg: true }
 writeFileSync(join(kulisse, 'public', 'data', 'titles.json'), JSON.stringify(vorherAlle))
 writeFileSync(join(kulisse, 'data', 'verweise-entfernt.json'), JSON.stringify({ stand: 'A', verweise: gedaechtnis }))
-const belegeYaml = mitBeleg
+const belegeYaml = [...mitBeleg, doppelt]
   .map((t) => `- anilistId: ${t.id}\n  platform: netflix\n  url: ${NF}${t.id}\n  available: false\n  checkedAt: '2026-11-18'\n  note: "Vom Durchgang als nicht bei Netflix gemeldet — Umleitung auf Startseite"\n`)
   .join('')
 writeFileSync(join(kulisse, 'data', 'dub-confirmed.yaml'), belegeYaml)
@@ -111,18 +114,18 @@ const lauf = () =>
     trailer: {},
     releases: [],
     verschoben: [],
-    verweiseEntfernt: [],
+    verweiseEntfernt: [{ ...eintragDoppelt }],
   })
 lauf()
 const datei = lies()
-pruefe('173 Wege mit Beleg stehen in belegWege, die 60 ohne Beleg nicht', datei.belegWege?.length === 173 && datei.belegWege.every((e) => e.titleId >= 1000 && e.titleId < 1173), datei.belegWege?.length)
-pruefe('das Gedächtnis `verweise` ist unverändert', JSON.stringify(datei.verweise) === JSON.stringify(gedaechtnis))
+pruefe('173 Wege mit Beleg stehen in belegWege, die 60 ohne Beleg und der schon im Gedächtnis stehende nicht', datei.belegWege?.length === 173 && datei.belegWege.every((e) => e.titleId >= 1000 && e.titleId < 1173), datei.belegWege?.length)
+pruefe('das Gedächtnis `verweise` trägt nur den Eintrag dieses Laufs und den alten', JSON.stringify(datei.verweise) === JSON.stringify([eintragDoppelt, ...gedaechtnis]))
 const kzJetzt = messe(jetztAlle)
-pruefe('Kennzahl: protokolliert 1 → 174, netflix 0 → 173 (fest eingetragen)', kzVor.entferntProtokolliert === 1 && kzJetzt.entferntProtokolliert === 174 && kzJetzt.entferntJeAnbieter?.netflix === 173, [kzVor.entferntProtokolliert, kzJetzt.entferntProtokolliert, kzJetzt.entferntJeAnbieter])
+pruefe('Kennzahl: protokolliert 1 → 175, netflix 0 → 174 (fest eingetragen, der Doppelte zählt einmal)', kzVor.entferntProtokolliert === 1 && kzJetzt.entferntProtokolliert === 175 && kzJetzt.entferntJeAnbieter?.netflix === 174, [kzVor.entferntProtokolliert, kzJetzt.entferntProtokolliert, kzJetzt.entferntJeAnbieter])
 const befund = findeAuffaelliges(kzJetzt, kzVor)
 pruefe('Wache: die 60 Wege ohne Beleg bleiben „ohne protokollierten Grund weg“', befund.auffaellig.some((z) => /^60 Verweise ohne protokollierten Grund weg/.test(z)), befund)
-pruefe('Wache: die 173 Wege mit Beleg tauchen dort nicht auf', !befund.auffaellig.some((z) => /^233 Verweise ohne/.test(z)), befund)
-pruefe('Wache: Massenabgang ab 40 je Anbieter bleibt (netflix 173)', befund.auffaellig.some((z) => /^netflix: 173 Wege in einem Lauf entfernt/.test(z)), befund)
+pruefe('Wache: die Wege mit Beleg tauchen dort nicht auf', !befund.auffaellig.some((z) => /^23[34] Verweise ohne/.test(z)), befund)
+pruefe('Wache: Massenabgang ab 40 je Anbieter bleibt (netflix 174)', befund.auffaellig.some((z) => /^netflix: 174 Wege in einem Lauf entfernt/.test(z)), befund)
 const nurBeleg = messe(jetztAlle.filter((t) => t.id < 2000 || t.id >= 5000).map((t) => t))
 const nurBelegVor = messe(vorherAlle.filter((t) => t.id < 2000 || t.id >= 5000), { verweise: gedaechtnis })
 pruefe('Wache: nur per Beleg gestrichen (ohne die 60): kein „ohne protokollierten Grund weg“', !findeAuffaelliges(nurBeleg, nurBelegVor).auffaellig.some((z) => /ohne protokollierten Grund/.test(z)), findeAuffaelliges(nurBeleg, nurBelegVor))
@@ -132,7 +135,7 @@ merkeBestandVorher()
 writeFileSync(join(kulisse, 'public', 'data', 'titles.json'), JSON.stringify(jetztAlle))
 merkeBestandVorher()
 lauf()
-pruefe('zweiter Bau auf dem neuen Bestand: Datei byte-gleich, Wege bleiben protokolliert', readFileSync(join(kulisse, 'data', 'verweise-entfernt.json'), 'utf8') === vorLauf2 && lies().belegWege?.length === 173)
+pruefe("zweiter Bau auf dem neuen Bestand: Datei byte-gleich, Wege bleiben protokolliert", readFileSync(join(kulisse, 'data', 'verweise-entfernt.json'), 'utf8') === vorLauf2 && lies().belegWege?.length === 173)
 
 if (fehler > 0) {
   console.error(`check-beleg-wege-protokoll: ${fehler} Fehler`)

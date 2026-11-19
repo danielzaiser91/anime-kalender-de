@@ -38,6 +38,13 @@ export function belegGestrichen(vorher: readonly MitWegen[], jetzt: readonly Mit
   return aus
 }
 
+/** Beleg-Wege, die dieser Lauf nicht schon als Verweis im Gedächtnis hat (z. B. über `entferneVerweiseMitNein`): sonst zählte die Wache denselben Weg doppelt. */
+export function ohneSchonProtokollierte(belegWege: readonly EntfernterVerweis[], verweiseEntfernt: readonly EntfernterVerweis[]): EntfernterVerweis[] {
+  const schluessel = (e: EntfernterVerweis) => `${e.titleId}|${e.plattform}|${adressKern(e.url)}`
+  const schon = new Set(verweiseEntfernt.map(schluessel))
+  return belegWege.filter((e) => !schon.has(schluessel(e)))
+}
+
 /** Der jüngste Beleg mit Aussage zu genau diesem Weg; ohne Adresse im Beleg gilt er nur, wenn der Titel dort einen einzigen Weg trug (wie `belegFuer` im Bau). */
 function juengsterBeleg(belege: readonly DubCheck[], t: MitWegen, s: { platform: string; url: string }): DubCheck | undefined {
   const einziger = (t.streams ?? []).filter((x) => x.platform === s.platform).length === 1
