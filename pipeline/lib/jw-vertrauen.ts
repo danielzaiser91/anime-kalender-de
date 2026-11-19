@@ -25,6 +25,8 @@ export interface JwBefund {
   jwPfad?: string
   ohneTreffer?: boolean
   verfehltAm?: string
+  /** Nur bei `ohneTreffer`: ein Namensvetter auf JustWatch, bewusst nicht zugeordnet (`lib/jw-namenstreffer.ts`). */
+  namenTreffer?: unknown
   angebote: JwAngebot[]
   /** Staffeln laut JustWatch (seit 11.10.2026); fehlt bei Filmen und älteren Befunden. */
   staffeln?: Staffel[]

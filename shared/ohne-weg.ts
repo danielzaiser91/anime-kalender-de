@@ -3,11 +3,14 @@
  * in `titles.json`: Sie betrifft 1.291 von 3.842 Titeln und wird nur im Detail-Panel gelesen.
  * Gründe gibt es nur mit Beleg; was kein Beleg trägt, heißt `offen`.
  */
-export const OHNE_WEG_GRUENDE = ['angekuendigt', 'kein-dub', 'nur-kauf', 'film-ohne-abo', 'offen'] as const
+export const OHNE_WEG_GRUENDE = ['angekuendigt', 'kein-dub', 'nur-kauf', 'film-ohne-abo', 'abo-ohne-ton', 'nur-disc', 'offen'] as const
 export type OhneWegGrund = (typeof OHNE_WEG_GRUENDE)[number]
 
-/** Wer den Grund belegt: ein Termin (`events.json`), ein Handbeleg (`dub-confirmed.yaml`) oder JustWatch (`justwatch-audio.json`). */
-export type OhneWegQuelle = 'termin' | 'handbeleg' | 'justwatch'
+/**
+ * Wer den Grund belegt: ein Termin (`events.json`), ein Handbeleg (`dub-confirmed.yaml`), JustWatch (`justwatch-audio.json`) oder eine erschienene Disc
+ * (`disc-ausgaben.json`; `checkedAt` ist dort der Tag des JustWatch-Eintrags, der keinen Stream fand).
+ */
+export type OhneWegQuelle = 'termin' | 'handbeleg' | 'justwatch' | 'disc'
 
 /**
  * Ein Eintrag von `ohne-weg.json` (Schlüssel = Titelkennung). `checkedAt` ist der Tag der Prüfung aus der Quelle, `ab` der künftige Starttag;
