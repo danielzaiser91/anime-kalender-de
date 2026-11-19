@@ -4,7 +4,7 @@ import { copyFileSync, mkdirSync, mkdtempSync, rmdirSync, rmSync, symlinkSync, w
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { basisAus, geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
+import { SONDE, basisAus, blinde, sondenFuer, geaenderteZeilen, istCodeDatei, listeAusDiff, mutantenListe, testFuer, ueberlebende, unbrauchbare } from './diff-mutanten.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -172,7 +172,24 @@ try {
   const ohneT = spawnSync(process.execPath, ['tools/diff-mutanten.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
   pruefe('Datei ohne Test: Hinweis mit Dateiname', ohneT.stdout.includes('! Kein Test gefunden für tools/solo.mjs'))
   const mitT = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--test', 'node tools/lib.test.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
-  pruefe('--test: Mutanten der Datei ohne Test werden gefahren', !mitT.stdout.includes('Kein Test gefunden') && mitT.stdout.includes('! Überlebt: tools/solo.mjs:1 && → ||'))
+  // Der „12 von 12 überlebt“-Fall (19.11.2026): lib.test.mjs lädt solo.mjs nie, also bliebe jeder Mutant grün.
+  pruefe('--test, der die Datei nicht lädt: ABBRUCH statt „Überlebt“, Exit 2', !mitT.stdout.includes('Kein Test gefunden') && mitT.stdout.includes('! ABBRUCH tools/solo.mjs') && !mitT.stdout.includes('Überlebt: tools/solo.mjs') && mitT.status === 2)
+  pruefe('Abbruch: Schlusszeile zählt die blinde Datei nicht mit', mitT.stdout.includes("diff-mutanten: 9 Mutanten, 5 überlebt") && !mitT.stdout.includes(SONDE))
+  pruefe('sondenFuer: eine Sonde je Datei', sondenFuer([{ aenderungen: [{ datei: 'a' }] }, { aenderungen: [{ datei: 'a' }] }, { aenderungen: [{ datei: 'b' }] }], () => 'export const x = 1\n').length === 2)
+  // Prüfer-Befund 1 (PR 4270): Sonde steht am Dateianfang, ein process.exit am Ende der Datei überspringt sie nicht.
+  writeFileSync(join(wurzel, 'tools/ende.mjs'), 'export const h = (a, b) => (a && b)\nprocess.exit(0)\n')
+  writeFileSync(join(wurzel, 'tools/ende.test.mjs'), "import { h } from './ende.mjs'\nif (h(1, 0) !== 0) process.exit(1)\n")
+  git('add', '-A')
+  git('commit', '-q', '-m', 'ende')
+  const hart = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--test', 'node tools/ende.test.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  pruefe('Datei mit process.exit am Ende, vom Test geladen: nicht blind', !hart.stdout.includes('! ABBRUCH tools/ende.mjs'))
+  // Bekannte Grenze: ein Test, der die Datei nur als Kindprozess startet und weder Exit noch Ausgabe prüft, bleibt blind (Meldung nennt es).
+  writeFileSync(join(wurzel, 'tools/kind.test.mjs'), "import { spawnSync } from 'node:child_process'\nspawnSync(process.execPath, ['tools/ende.mjs'])\n")
+  const kind = spawnSync(process.execPath, ['tools/diff-mutanten.mjs', '--test', 'node tools/kind.test.mjs'], { cwd: wurzel, encoding: 'utf8', timeout: 120_000 })
+  pruefe('Kindprozess-Test ohne Exit-Prüfung: ABBRUCH mit Hinweis auf Exit und Ausgabe', kind.stdout.includes('! ABBRUCH tools/ende.mjs') && kind.stdout.includes('prüft Exit und Ausgabe nicht'))
+  git('add', '-A')
+  git('commit', '-q', '-m', 'kind')
+  pruefe('blinde: nur Sonden-Namen, Dateiname ohne Zusatz', blinde([`x.mjs ${SONDE}`, 'x.mjs:1 && → ||']).join() === 'x.mjs')
   // Grundlauf rot: Läuferfehler wird ausgegeben
   writeFileSync(join(wurzel, 'tools/lib.test.mjs'), 'process.exit(1)\n')
   git('commit', '-q', '-am', 'rot')
