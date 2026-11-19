@@ -216,7 +216,7 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
   umgebung.__kontext = kontext
   /* `netflix-profilwahl.js` (Manifest vor `melder.js`) startet einen Takt; die Probe braucht nur die Antwort „keine Profilauswahl“. */
   umgebung.akProfilwahlSeite = () => false
-  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-staffelzaehlung.js', 'melder.js'] }))
+  ladeSkripte(kontext, skripteBis('melder.js', { nur: ['kontext.js', 'box.js', 'titel-bindung.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'netflix-seitentreue.js', 'netflix-staffel.js', 'netflix-erinnern.js', 'netflix-durchgang-steuerung.js', 'netflix-zurueckgestellt.js', 'netflix-staffelzaehlung.js', 'melder.js'] }))
   return { umgebung, body, takte }
 }
 
