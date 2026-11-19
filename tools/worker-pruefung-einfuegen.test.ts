@@ -190,6 +190,7 @@ async function fallLang() {
     pruefe(`Seitenadresse ${JSON.stringify(schlecht)} wird null`, await seite(schlecht), null)
   }
   pruefe('Seitenadresse: Suchteil und Anker fallen weg', await seite('https://www.amazon.de/dp/B0ABC12345?ref_=x&k=y#z'), 'https://www.amazon.de/dp/B0ABC12345')
+  pruefe('Seitenadresse: Anker ohne Suchteil fällt weg', await seite('https://x.test/a#z'), 'https://x.test/a')
   pruefe('Seitenadresse: genau 300 Zeichen nach dem Protokoll bleiben', String(await seite('https://' + 'a'.repeat(300))).length, 'https://'.length + 300)
   pruefe('Seitenadresse: darüber wird gekürzt', String(await seite('https://' + 'a'.repeat(301))).length, 'https://'.length + 300)
 }

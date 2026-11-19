@@ -102,6 +102,10 @@ if (!gut.ausgabe.includes('4 Meldungen werden nach dem Commit abgehakt')) fehler
 const gemischt = lauf([zeile(1, `${ADN}1140-seitenprobe-alpha`), zeile(2, `${ADN}2250-seitenprobe-beta`)])
 if (gemischt.zeilen.filter((z) => z.includes(GRUND)).length !== 1 || gemischt.ausgabe.includes('Meldungen werden nach dem Commit abgehakt')) fehler.push(`Gruppe mit einer fremden Seite: nicht als Ganzes gehalten: ${gemischt.ausgabe.slice(-300)}`)
 
+/* Die fremde Seite steht in der älteren Meldung, die jüngste kommt von der eigenen Seite: die Gruppe bleibt trotzdem liegen. */
+const aelter = lauf([zeile(1, `${ADN}2250-seitenprobe-beta`, { gemeldet_am: '2026-11-19T09:00:00.000Z' }), zeile(2, `${ADN}1140-seitenprobe-alpha`)])
+if (aelter.zeilen.filter((z) => z.includes(GRUND)).length !== 1 || aelter.ausgabe.includes('Meldungen werden nach dem Commit abgehakt')) fehler.push(`Fremde Seite in der älteren Meldung: Gruppe nicht gehalten: ${aelter.ausgabe.slice(-300)}`)
+
 if (fehler.length) {
   console.error(`check-fetch-pruefungen-seite: ${fehler.join('; ')}`)
   process.exit(1)
