@@ -39,6 +39,8 @@ soll('NN-Platzhalter frei', findePfade(`${B}pipeline/bau/NN-name.ts${B}`), [])
 soll('Fremde Wurzel frei', findePfade(`${B}state/befehle/x.jsonl${B} ${B}C:/code/ai/x/y.mjs${B}`), [])
 soll('Erzeugter Ordner frei', findePfade(`${B}node_modules/x/y.js${B}`), [])
 soll('Endung fehlt: kein Pfad', findePfade(`${B}tools/readme${B}`), [])
+soll('Lagebuch des Dirigenten frei (lokal, gitignored)', findePfade(`${B}.claude/dirigent/lage.md${B}`), [])
+soll('ähnlicher Ordner bleibt geprüft', findePfade(`${B}.claude/dirigentx/lage.md${B}`), ['.claude/dirigentx/lage.md'])
 soll('Ordner mit Schrägstrich', findePfade(`${B}.claude/skills/x/${B}`), ['.claude/skills/x/'])
 
 // pruefeDatei: Existenz
@@ -67,4 +69,4 @@ if (fehler) {
   console.log(`✖ anleitungs-pfade-test: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('✔ anleitungs-pfade-test: 25 Fälle ok (Pfad-Erkennung, Existenz, Fremdpfade, Platzhalter, Ratsche, echtes Repo)')
+console.log('✔ anleitungs-pfade-test: 27 Fälle ok (Pfad-Erkennung, Existenz, Fremdpfade, Platzhalter, Ratsche, echtes Repo)')

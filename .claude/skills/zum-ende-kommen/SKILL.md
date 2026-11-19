@@ -26,7 +26,7 @@ description: "Bei „ende“, „zum ende kommen“, „feierabend“, „nichts
 
 1. **Bestand aufnehmen:** `ListAgents`/Aufgabenliste (wer läuft noch, woran), `CronList` (sitzungsgebundene Termine), `node C:/code/ai/__assets/tools/prozess-register.mjs aufraeumen --still` und `list`.
 2. **Eigene Hintergrundbefehle** ohne Zweck beenden; nur die lassen, deren Ergebnis noch gebraucht wird.
-3. **`stand.md` nachführen** (Skill `daniel-dateien-pflegen`): In-Arbeit-Kopf mit Uhrzeit und „Ende“, jede laufende Sache mit ihrem nächsten Schritt, Auflagen offener Runden, Termine als 📅-Zeile. Lehren aus den letzten Berichten verankern (bauer.md, pruefer.md, Skills).
+3. **Lagebuch `.claude/dirigent/lage.md` und `stand.md` nachführen** (Skill `daniel-dateien-pflegen`): In-Arbeit-Kopf mit Uhrzeit und „Ende“, jede laufende Sache mit ihrem nächsten Schritt, Auflagen offener Runden, Termine als 📅-Zeile. Lehren aus den letzten Berichten verankern (bauer.md, pruefer.md, Skills).
 4. **Übergabe schreiben:** Memory `project-uebergabe.md` überschreiben (nicht ergänzen), Zeile in `MEMORY.md` mitziehen. Inhalt:
    - Stand mit Datum und Uhrzeit, Daniels Wortlaut, Modus (autonom aus, Ruhemodus);
    - **was noch läuft und was bei welchem Ergebnis zu tun ist** („frei“ → mergen, „ändern“ → Auflagen eintragen);
