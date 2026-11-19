@@ -39,7 +39,7 @@
   { "name": "lib namensLage: Titel ohne Namen zählen mit", "aenderungen": [{ "datei": "pipeline/lib/jw-namenssuche.ts", "suche": "const ohne = titles.filter((t) => !tmdbVon(t) && suchNamen(t).length)", "ersetze": "const ohne = titles.filter((t) => !tmdbVon(t))" }] },
   { "name": "lib Tageslaeufe 17", "aenderungen": [{ "datei": "pipeline/lib/jw-namenssuche.ts", "suche": "TAGESLAEUFE_IN_21_TAGEN = 18", "ersetze": "TAGESLAEUFE_IN_21_TAGEN = 17" }] },
   { "name": "lib Tageslaeufe 19", "aenderungen": [{ "datei": "pipeline/lib/jw-namenssuche.ts", "suche": "TAGESLAEUFE_IN_21_TAGEN = 18", "ersetze": "TAGESLAEUFE_IN_21_TAGEN = 19" }] },
-  { "name": "package.json: Tageslauf ohne --namen", "aenderungen": [{ "datei": "package.json", "suche": "--limit 60 --namen 60\"", "ersetze": "--limit 60\"" }] },
-  { "name": "package.json: --namen 47", "aenderungen": [{ "datei": "package.json", "suche": "--namen 60", "ersetze": "--namen 47" }] },
+  { "name": "package.json: Tageslauf ohne --namen", "aenderungen": [{ "datei": "package.json", "suche": "--limit 60 --namen 80\"", "ersetze": "--limit 60\"" }] },
+  { "name": "package.json: --namen 47", "aenderungen": [{ "datei": "package.json", "suche": "--namen 80", "ersetze": "--namen 47" }] },
   { "name": "package.json: Cartoon-Lauf mit --namen", "aenderungen": [{ "datei": "package.json", "suche": "--nur-cartoons --limit 2000", "ersetze": "--nur-cartoons --limit 2000 --namen 10" }] }
 ]
