@@ -1,3 +1,4 @@
+import '../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import { useMemo, type CSSProperties } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'

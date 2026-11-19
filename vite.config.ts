@@ -99,6 +99,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), datenVorladen(), eigeneKennungen(uebersetzt), versionDatei(), iconKennungen(fileURLToPath(new URL('./public', import.meta.url)))],
   resolve: {
     alias: {
+      '@/lib/i18n-knoten.ts': fileURLToPath(new URL('./web/src/lib/i18n-knoten-leer.ts', import.meta.url)),
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),
       '@shared': fileURLToPath(new URL('./shared', import.meta.url)),
     },

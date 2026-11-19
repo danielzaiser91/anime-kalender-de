@@ -1,3 +1,4 @@
+import '../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import type { AppRoute } from '../lib/router.ts'
 import type { Dataset } from '../lib/data.ts'
 import { NewsView } from './NewsView.tsx'

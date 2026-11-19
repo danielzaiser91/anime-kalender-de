@@ -1,3 +1,4 @@
+import '../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import { useEffect, useMemo, useState } from 'react'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'

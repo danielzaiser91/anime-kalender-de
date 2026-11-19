@@ -1,3 +1,4 @@
+import '../lib/i18n-spaet.ts' // Texte der nachgeladenen Ansichten
 import { useMemo } from 'react'
 import type { Title } from '@shared/types.ts'
 import { zaehleHerkunft } from '../lib/herkunft.ts'
