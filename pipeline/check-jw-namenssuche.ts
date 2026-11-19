@@ -115,7 +115,7 @@ function laeufeBisLeer(proLauf: number): number {
   }
   return n
 }
-pruefe('Abbau: 141 fällige Titel brauchen bei 60 je Lauf 3 Läufe, bei 80 je Lauf 2', laeufeBisLeer(60) === 3 && laeufeBisLeer(80) === 2, [laeufeBisLeer(60), laeufeBisLeer(80)])
+pruefe('Rechnung (nur Mathematik, vom Konfigurationswert unabhängig): 141 fällige Titel brauchen bei 60 je Lauf 3 Läufe, bei 80 je Lauf 2', laeufeBisLeer(60) === 3 && laeufeBisLeer(80) === 2, [laeufeBisLeer(60), laeufeBisLeer(80)])
 
 /* Lage und Verdrahtung */
 pruefe('namenProLauf liest den Wert hinter --namen', namenProLauf('tsx pipeline/fetch-justwatch-audio.ts --limit 60 --namen 60') === 60)
@@ -124,6 +124,7 @@ pruefe('namenProLauf: Schalter ohne Zahl 0', namenProLauf('x --namen') === 0 && 
 const lage = namensLage([t(1), t(2), t(3), t(4, { tmdbId: 5 } as Partial<Title>), t(5, { titleEn: undefined })], { '2': { geprueftAm: '2026-10-01' }, '3': { geprueftAm: '2026-10-09' } }, tmdbVon, '2026-10-09', 7)
 pruefe('Lage: zählt Titel ohne TMDB-Kennung und mit Namen (3), nie gefragt (1), verfallen (1: vor der Grenze, Grenztag selbst nicht), Kapazität 18 Läufe', lage.ohneTmdb === 3 && lage.nieGefragt === 1 && lage.verfallen === 1 && lage.kapazitaet === 126, lage)
 const skripte = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'package.json'), 'utf8')).scripts as Record<string, string>
+pruefe('Abbau mit dem Wert aus package.json: der Schub von 141 fälligen Titeln ist nach höchstens 2 Tageslaufen leer', laeufeBisLeer(namenProLauf(skripte['data:justwatch-frisch'])) <= 2, laeufeBisLeer(namenProLauf(skripte['data:justwatch-frisch'])))
 /* 859 Titel ohne TMDB-Kennung (06.11.2026) in 18 Tagesläufen je 21 Tage → mindestens 48 je Lauf; seit 19.11.2026 80 (Reserve für Schübe, 1.440 ≥ 2 × 715). */
 pruefe('Verdrahtung: der Tageslauf fragt mindestens 80 Titel ohne TMDB-Kennung über den Namen', namenProLauf(skripte['data:justwatch-frisch']) >= 80, skripte['data:justwatch-frisch'])
 pruefe('Verdrahtung: der Cartoon-Lauf fragt nicht über Namen', namenProLauf(skripte['data:justwatch-cartoons']) === 0, skripte['data:justwatch-cartoons'])
