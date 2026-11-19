@@ -180,9 +180,10 @@ for (const [checks, titel] of checkFaelle) {
 }
 // Pflicht-Kette läuft beim ok-Urteil noch (PRs 3478, 3475): nicht beurteilt mit Marke, kein Review; Rot bleibt ok mit Zusatz.
 const okLaeuft = mitChecks('Checks laufen noch: PR-Aussehen – Bühne-Panel, PR-Prüfkette (fehlt)')
-pruefe('Urteil ok, Checks laufen noch: nur Kommentar „nicht beurteilt“ mit Marke, kein Approve, Hinweis vor dem Protokoll',
-  JSON.stringify(okLaeuft.aufrufe) === JSON.stringify([ANSICHT, KOMMENTAR]) && ersteZeile(okLaeuft) === '**Prüfer-Review** für ccccccccc - Urteil: **nicht beurteilt, Kette lief noch**' &&
-  okLaeuft.kommentar.includes('<!-- pruefer-kette-offen -->') && okLaeuft.kommentar.indexOf('lief beim Urteil noch') < okLaeuft.kommentar.indexOf('Alles gut.'), okLaeuft)
+// Seit 19.11.2026 schweigt der Prüfer, wenn die Kette beim Urteil noch läuft: kein Kommentar, kein Review (Neustart nach Kettenende liefert das Urteil).
+const STILL = { status: 0, aufrufe: [], kommentar: '' }
+const still = (r) => r.status === 0 && JSON.stringify(r.aufrufe) === JSON.stringify(STILL.aufrufe) && r.kommentar === ''
+pruefe('Urteil ok, Checks laufen noch: still (kein Kommentar, kein Approve, kein gh-Aufruf)', still(okLaeuft), okLaeuft)
 const okLaeuftDiff = laufe({ ...basis, zustand: 'unvollstaendig', checks: 'Checks laufen noch: PR-Prüfkette' })
 pruefe('Urteil ok, Diff unvollständig, Checks laufen noch: nur Kommentar ohne Review, keine Marke',
   JSON.stringify(okLaeuftDiff.aufrufe) === JSON.stringify(NUR_KOMMENTAR.aufrufe) && !okLaeuftDiff.kommentar.includes('pruefer-kette-offen'), okLaeuftDiff)
@@ -236,11 +237,9 @@ const kOffen = offenFall({})
 // leerem oder unvollständigem Diff-Zustand „nicht beurteilt“ mit Marke, nie ein Änderungswunsch auf Platzhalter-Grundlage.
 for (const zustand of ['ok', 'unvollstaendig', '']) {
   const platzhalter = offenFall({ kette: 'ja', zustand, protokoll: 'Die PR-Prüfkette lief beim Start des Prüfers noch; er hat nichts geprüft.\n' })
-  pruefe(`Kette läuft beim Start (Diff „${zustand}“): nur Kommentar „nicht beurteilt“ mit Marke, kein Review`, nurKommentar(platzhalter) && ersteZeile(platzhalter) === AUSSTEHEND && platzhalter.kommentar.includes('<!-- pruefer-kette-offen -->'), platzhalter)
+  pruefe(`Kette läuft beim Start (Diff „${zustand}“): still, kein Kommentar, kein Review`, still(platzhalter), platzhalter)
 }
-pruefe('Kette offen, Urteil aendern: nur Kommentar, kein Review, Titel „nicht beurteilt“, Marke, Hinweis vor dem Protokoll',
-  nurKommentar(kOffen) && ersteZeile(kOffen) === AUSSTEHEND && kOffen.kommentar.includes('<!-- pruefer-kette-offen -->') && kOffen.kommentar.includes('lief beim Urteil noch') && kOffen.kommentar.indexOf('lief beim Urteil noch') < kOffen.kommentar.indexOf('Alles gut.'), kOffen)
-pruefe('Kette offen, Marke steht vor der Modus-Marke (der Modus liest die letzte Zeile)', marke(kOffen) === '<!-- pruefer-modus: voll -->', kOffen.kommentar)
+pruefe('Kette offen, Urteil aendern: still, kein Kommentar, kein Review', still(kOffen), kOffen)
 const kRot = laufe({ ...basis, urteil: urteil('aendern'), kettenlog: KETTE_ROT })
 pruefe('Gegenfall: Kette fertig und rot, Urteil aendern: Änderungswunsch wie bisher, keine Marke', JSON.stringify(kRot.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && ersteZeile(kRot).endsWith('Urteil: **aendern**') && !kRot.kommentar.includes('pruefer-kette-offen'), kRot)
 const KETTE_ROT_BASIS = baueDateien({ kopf: KOPF, lauf: { id: 9, status: 'completed', conclusion: 'failure' }, basis: basisZeile({ beschreibung: 'mergen nach #3435', lauf: { status: 'completed', conclusion: 'failure' }, basisStand: 'open' }), jobs: [{ name: 'Kette – Logik', status: 'completed', conclusion: 'failure', log: 'x: ok' }] }).uebersicht
@@ -251,7 +250,7 @@ pruefe('Kette rot, Basis-PR offen, Urteil aendern: nur Kommentar „nicht beurte
 // Gegenfall „echter Fehler in derselben Lage“: der Befund des Prüfers bleibt wörtlich sichtbar, gekennzeichnet als ungeprüft, und der Text lügt nicht über einen Selbststart.
 pruefe('Basis offen, echter Befund: Befund wörtlich im Kommentar, als „Ungeprüft, Basis offen“ gekennzeichnet', kBasis.kommentar.includes(BEFUND) && kBasis.kommentar.includes('Ungeprüft, Basis offen') && kBasis.kommentar.indexOf('Ungeprüft, Basis offen') < kBasis.kommentar.indexOf(BEFUND), kBasis)
 pruefe('Basis offen: Text sagt nicht „startet nach Kettenende von selbst neu“', !kBasis.kommentar.includes('nach Kettenende von selbst neu'), kBasis)
-pruefe('Unfertige Kette (ohne Basiszeile) behält Titel und Text „Kette lief noch“', ersteZeile(kOffen) === AUSSTEHEND && kOffen.kommentar.includes('nach Kettenende von selbst neu') && !kOffen.kommentar.includes('Basis offen'), kOffen)
+pruefe('Unfertige Kette (ohne Basiszeile) schweigt, „Basis offen“ kommentiert weiter', still(kOffen) && ersteZeile(kBasis) === BASIS_TITEL && !kBasis.kommentar.includes('Kette lief noch') && !kOffen.kommentar.includes('Basis offen'), kOffen)
 const kBasisOk = laufe({ ...basis, urteil: urteil('ok'), kettenlog: KETTE_ROT_BASIS })
 pruefe('Basis offen, Urteil ok: Freigabe wie bisher, kein „Basis offen“', JSON.stringify(kBasisOk.aufrufe) === JSON.stringify(FREIGABE.aufrufe) && !kBasisOk.kommentar.includes('Basis offen'), kBasisOk)
 const kBasisDiff = laufe({ ...basis, urteil: urteil('aendern'), zustand: 'unvollstaendig', protokoll: BEFUND, kettenlog: KETTE_ROT_BASIS })
@@ -267,11 +266,11 @@ pruefe('Kette offen, Diff unvollständig, Urteil ok: nur Kommentar ohne Review',
 const kToken = offenFall({ protokoll: 'x ghp_abcdef y\n' })
 pruefe('Kette offen, Token im Protokoll: Änderungswunsch, Token verworfen', JSON.stringify(kToken.aufrufe) === JSON.stringify(ABLEHNUNG.aufrufe) && !kToken.kommentar.includes('ghp_abcdef') && !kToken.kommentar.includes('pruefer-kette-offen'), kToken)
 const kAbnahme = offenFall({ modus: 'abnahme', frei: '1' })
-pruefe('Kette offen, Abnahme-Modus, aendern frei: kein Review, nicht beurteilt, Modus-Marke abnahme', nurKommentar(kAbnahme) && ersteZeile(kAbnahme) === AUSSTEHEND && marke(kAbnahme) === '<!-- pruefer-modus: abnahme -->', kAbnahme)
+pruefe('Kette offen, Abnahme-Modus, aendern frei: still', still(kAbnahme), kAbnahme)
 const kAbnahmeZu = offenFall({ modus: 'abnahme', frei: '0' })
-pruefe('Kette offen, Abnahme-Modus, aendern gesperrt: nicht beurteilt statt „Auflagen offen“', ersteZeile(kAbnahmeZu) === AUSSTEHEND && nurKommentar(kAbnahmeZu), kAbnahmeZu)
+pruefe('Kette offen, Abnahme-Modus, aendern gesperrt: still statt „Auflagen offen“', still(kAbnahmeZu), kAbnahmeZu)
 const kAnderer = offenFall({ urteil: urteil('aendern', ANDERER) })
-pruefe('Kette offen, Urteil für anderen Stand: nichts gepostet', JSON.stringify(kAnderer.aufrufe) === JSON.stringify(NICHTS.aufrufe), kAnderer)
+pruefe('Kette offen, Urteil für anderen Stand: still, nichts gepostet', still(kAnderer), kAnderer)
 
 const token = laufe({ ...basis, protokoll: 'x ghp_abcdef y\n' })
 pruefe('Token im Protokoll: Kommentar enthält das Token nicht', !token.kommentar.includes('ghp_abcdef') && token.kommentar.includes('verworfen'), token.kommentar)
