@@ -40,7 +40,7 @@ import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { ratePerName } from './lib/namens-zuordnung.ts'
 import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, widerspruchZumTitel, zaehlzeile } from './lib/unbekannte-seite.ts'
-import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
+import { reiheJeTitel, staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
@@ -504,11 +504,7 @@ for (const p of pruefungen) {
 let ueberFolgentitel = 0
 
 /** Die Reihe je Titel, aus dem gebauten Datensatz. */
-const reiheVon = new Map<number, Reiheneintrag[]>()
-{
-  const reihen = JSON.parse(readFileSync(resolve(ROOT, 'public/data/franchises.json'), 'utf8')) as Record<string, Reiheneintrag[]>
-  for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
-}
+const reiheVon = reiheJeTitel(JSON.parse(readFileSync(resolve(ROOT, 'public/data/franchises.json'), 'utf8')) as Record<string, Reiheneintrag[]>)
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
   /**
