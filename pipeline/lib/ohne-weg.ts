@@ -5,7 +5,7 @@
  * Abo bei JustWatch ohne deutschen Ton, schon erschienene Disc ohne Streaming-Fund, zuletzt frischer JustWatch-Befund ohne Treffer.
  * Nie ein Grund: ein künftiger **Disc**-Termin allein (Blu-ray-Bundles) und ein veralteter oder verfehlter JustWatch-Befund.
  * `ohneTreffer` (der Titel wurde dort nicht gefunden) ist kein Beleg „laut JustWatch“, nur „bei der Prüfung nichts gefunden“: mit erschienener Disc
- * `nur-disc`, sonst (ohne gleichnamigen Kandidaten) `kein-angebot` (19.11.2026; gemessen fehlen ~91 % dort wirklich).
+ * `nur-disc`, sonst (ohne gleichnamigen Kandidaten) `kein-angebot` (19.11.2026; Stichprobe: ~91 % fehlen dort wirklich, Bericht jw-kein-treffer-2026-11-19.md).
  */
 import type { OhneWegEintrag } from '../../shared/ohne-weg.ts'
 import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
