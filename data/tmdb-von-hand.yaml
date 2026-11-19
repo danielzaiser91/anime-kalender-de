@@ -251,3 +251,51 @@
     TMDB-Folgen-Cache (Abruf 2026-11-09): Serie 200777 führt Staffel 2 mit 12 Folgen (2026-10-09 bis 2026-12-25) (AniList nennt keine Folgenzahl, der Sendezeitraum passt zur Ausstrahlung);
     dieselbe Serie trägt die erste Staffel dieser Reihe (148116). Die Namenssuche fand für diese Staffel nichts.
     Inhaltsabgleich 12.11.2026 (TMDB-API + AniList-API): TMDB-Staffelname „The Iceblade Sorcerer Shall Rule the World II“ = AniList-Titel (englisch) wörtlich, TMDB-Serie 200777 Originalname „冰剣の魔術師が世界を統べる“ = AniList-Native ohne „Ⅱ“; Start 2026-10-09 = AniList Start 2026-10-09, wöchentlich (E1 2026-10-09, E2 2026-10-16, E3 2026-10-23), 12 Folgen; Folge 1 „The Boy Who Is the World’s Strongest Sorcerer Participates in a Large Scale Magic Battle Tournament“; Staffel 1 12 Folgen ab 2023-01-06 = Vorgänger 148116; Serienbeschreibung (Ray White, Arnold Academy of Magic) passt zur Handlung der Reihe.
+
+# Spätere Staffeln, deren Namenssuche bei TMDB nichts fand und bei denen JustWatch an der Staffel des Geschwistertitels ein Abo mit deutschem Ton führt (Gegenprobe ohne Weg, 19.11.2026).
+# Beleg je Zeile: Staffelnummer und Folgenzahl im Folgen-Cache (`data/tmdb-folgen.json`) gleich unserer Staffel; JustWatch (`data/justwatch-audio.json`) führt dieselbe Staffelnummer beim Geschwistertitel mit Abo und `de`.
+
+- anilistId: 21258
+  tmdbId: 63087
+  kind: tv
+  titel: "Die rothaarige Schneeprinzessin: Staffel 2"
+  geprueftAm: '2026-11-19'
+  grund: >-
+    TMDB führt beide Staffeln als eine Serie (63087, Staffel 1 mit 24 Folgen): Folge 13–24 laufen 2016-01-12 bis 2016-03-29, AniList 21258 endet 2016-03-29 mit 12 Folgen;
+    dieselbe Serie trägt die erste Staffel dieser Reihe (21058, Folgen 1–12 ab 2015-07-07). JustWatch führt Staffel 2 (12 Folgen) mit Amazon Prime Video, Ton de/ja.
+
+- anilistId: 10013153
+  tmdbId: 65334
+  kind: tv
+  titel: "Miraculous: Geschichten von Ladybug und Cat Noir Staffel 2"
+  geprueftAm: '2026-11-19'
+  grund: >-
+    TMDB-Folgen-Cache (Abruf 2026-10-06): Serie 65334 führt Staffel 2 mit 25 Folgen, AniList nennt 25 Folgen; dieselbe Serie trägt die erste Staffel dieser Reihe (10011124).
+    JustWatch führt Staffel 2 beim Geschwistertitel mit Disney+, Ton de (JustWatch zählt dort 26 Folgen).
+
+- anilistId: 10014481
+  tmdbId: 65334
+  kind: tv
+  titel: "Miraculous: Geschichten von Ladybug und Cat Noir Staffel 3"
+  geprueftAm: '2026-11-19'
+  grund: >-
+    TMDB-Folgen-Cache: Serie 65334 führt Staffel 3 mit 26 Folgen, AniList nennt 26 Folgen; dieselbe Serie trägt die erste Staffel dieser Reihe (10011124).
+    JustWatch führt Staffel 3 (26 Folgen) beim Geschwistertitel mit Disney+, Ton de.
+
+- anilistId: 10016892
+  tmdbId: 65334
+  kind: tv
+  titel: "Miraculous: Geschichten von Ladybug und Cat Noir Staffel 4"
+  geprueftAm: '2026-11-19'
+  grund: >-
+    TMDB-Folgen-Cache: Serie 65334 führt Staffel 4 mit 26 Folgen, AniList nennt 26 Folgen; dieselbe Serie trägt die erste Staffel dieser Reihe (10011124).
+    JustWatch führt Staffel 4 (26 Folgen) beim Geschwistertitel mit Disney+, Ton de.
+
+- anilistId: 10330
+  tmdbId: 34109
+  kind: tv
+  titel: "Bakugan: Mechtanium Surge"
+  geprueftAm: '2026-11-19'
+  grund: >-
+    TMDB-Folgen-Cache: Serie 34109 führt Staffel 4 mit 46 Folgen (2011-02-13 bis 2012-01-26), AniList nennt 46 Folgen, Ende 2012-01-26; dieselbe Serie trägt die erste Staffel dieser Reihe (2156).
+    JustWatch führt Staffel 4 (46 Folgen) beim Geschwistertitel mit Amazon Prime Video, Ton de.
