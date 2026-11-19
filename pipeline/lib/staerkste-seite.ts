@@ -20,10 +20,18 @@ export function vergleicheBelege(a: DubCheck, b: DubCheck): number {
   return nachDatum || Number(istKanalTitel(a)) - Number(istKanalTitel(b)) || gepruefteFolgen(b) - gepruefteFolgen(a)
 }
 
-/** Beim Ablegen je Titel und Plattform: Bei gleichem Datum ersetzt eine Seite mit weniger geprüften Folgen die bisherige nicht, solange beide zur selben Ausgabe (Kanal oder Abo) gehören (Gleichstand oder fehlende Zahl: die spätere Zeile, wie zuvor). */
+/** Ein Ja und ein Nein an verschiedenen Adressen (beide mit Adresse). */
+function nurEinJaAnAndererAdresse(a: DubCheck, b: DubCheck): boolean {
+  return Boolean(a.url && b.url && !adressGleich(a.url, b.url)) && [a.dub, b.dub].includes(true) && [a.dub, b.dub].includes(false)
+}
+
+/** Beim Ablegen je Titel und Plattform: Ein älteres Datum ersetzt nie ein jüngeres (Shana 355, 19.11.2026). Bei gleichem Datum ersetzt eine Seite mit weniger geprüften Folgen die bisherige nicht, solange beide zur selben Ausgabe (Kanal oder Abo) gehören (Gleichstand oder fehlende Zahl: die spätere Zeile, wie zuvor). */
 export function ersetztBeleg(bisher: DubCheck | undefined, neu: DubCheck): boolean {
   if (!bisher) return true
-  if ((bisher.checkedAt ?? '') !== (neu.checkedAt ?? '')) return true
+  const nachDatum = (neu.checkedAt ?? '').localeCompare(bisher.checkedAt ?? '')
+  /* Bei verschiedenem Datum widerlegt ein Nein einer anderen Adresse ein Ja nicht (My First Girlfriend 97863: Kanal-Seite B0GV5SHH5P gegen Kauf-Seite B0GPD4GNLL). */
+  if (nachDatum && nurEinJaAnAndererAdresse(bisher, neu)) return neu.dub === true
+  if (nachDatum) return nachDatum > 0
   if (istKanalTitel(bisher) !== istKanalTitel(neu)) return true
   const alt = gepruefteFolgen(bisher)
   const jetzt = gepruefteFolgen(neu)
