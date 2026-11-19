@@ -7,7 +7,7 @@ const vm = require('node:vm')
 const { readFileSync } = require('node:fs')
 const { resolve } = require('node:path')
 const { ladeSkripte, skripteBis } = require('./test-lader.cjs')
-const { baueUmgebung, suche, alleElemente } =require('./test-melder-sandkasten.cjs')
+const { baueUmgebung, suche, alleElemente } = require('./test-melder-sandkasten.cjs')
 
 const tick = async (n = 10) => {
   for (let i = 0; i < n; i++) await new Promise((r) => setImmediate(r))
