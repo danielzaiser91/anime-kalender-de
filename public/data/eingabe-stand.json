@@ -20,21 +20,5 @@
     "tv-programm": "2026-11-19T10:02:54.045Z",
     "wikipedia-folgen": "2026-11-19T04:10:30.508Z"
   },
-  "zurueck": [
-    {
-      "eingabe": "crunchyroll-neu",
-      "alt": "2026-11-19T13:03:44.367Z",
-      "neu": "2026-11-19T10:02:23.819Z"
-    },
-    {
-      "eingabe": "crunchyroll-woche",
-      "alt": "2026-11-19T13:03:41.217Z",
-      "neu": "2026-11-19T10:02:18.282Z"
-    },
-    {
-      "eingabe": "tv-programm",
-      "alt": "2026-11-19T13:04:13.853Z",
-      "neu": "2026-11-19T10:02:54.045Z"
-    }
-  ]
+  "zurueck": []
 }

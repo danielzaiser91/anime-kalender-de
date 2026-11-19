@@ -1,109 +1,15 @@
 {
-  "scrapedAt": "2026-11-19T14:05:36.637Z",
+  "scrapedAt": "2026-11-19T04:13:27.833Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 8,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 10,
-    "Sprachhinweis älter als 45 Tage": 6
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 55,
+    "schon in einem Rubrik-Feed gelesen": 31,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 5,
+    "Sprachhinweis älter als 45 Tage": 8
   },
   "proposals": [
-    {
-      "articleTitle": "Netflix nimmt »Call of the Night« in sein Programm auf",
-      "articleUrl": "https://www.anime2you.de/news/1073645/call-of-the-night-bald-auf-netflix/",
-      "publishedAt": "2026-11-19",
-      "category": "streaming",
-      "platforms": [
-        "netflix"
-      ],
-      "dates": [
-        {
-          "iso": "2026-11-25",
-          "context": "026 Die erste Staffel von »Call of the Night« steht demzufolge ab dem 25. November 2026 bei Netflix auf Abruf zur Verfügung. Details zu den"
-        },
-        {
-          "month": "2026-11",
-          "context": "ng von »Call of the Night« in sein Programm auf. Wir fassen zusammen. Ab November 2026 Die erste Staffel von »Call of the Night« steht demzu"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Termin der fünften Blu-ray-Box von »Dragon Ball Z« + Vorbestellung",
-      "articleUrl": "https://www.anime2you.de/news/1073232/dragon-ball-z-blu-ray-box-5-termin/",
-      "publishedAt": "2026-11-19",
-      "category": "disc",
-      "platforms": [
-        "crunchyroll",
-        "disc"
-      ],
-      "dates": [
-        {
-          "iso": "2027-02-19",
-          "context": "te Volume von »Dragon Ball Z« erscheint demzufolge voraussichtlich am 19. Februar 2027 als DVD und Blu-ray. Konkrete Details zur Ausstattung"
-        },
-        {
-          "month": "2027-02",
-          "context": "ssikers »Dragon Ball Z« fortsetzen wird. Wir fassen zusammen. Release im Februar 2027 Das fünfte Volume von »Dragon Ball Z« erscheint demzuf"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Erste »Mushoku Tensei«-Staffel erscheint als Blu-ray-Gesamtausgabe",
-      "articleUrl": "https://www.anime2you.de/news/1073454/mushoku-tensei-staffel-1-blu-ray-gesamtausgabe/",
-      "publishedAt": "2026-11-19",
-      "category": "disc",
-      "platforms": [
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2027-02",
-          "context": "einer Gesamtausgabe in den Handel kommt. Wir fassen zusammen. Release im Februar 2027 Die Gesamtausgabe der ersten »Mushoku Tensei«-Staffel,"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Termin von »The Reincarnated Elf Left on a Journey to Master His Magic« + Trailer",
-      "articleUrl": "https://www.anime2you.de/news/1073422/the-reincarnated-elf-left-on-a-journey-to-master-his-magic-termin/",
-      "publishedAt": "2026-11-19",
-      "category": "allgemein",
-      "platforms": [],
-      "dates": [
-        {
-          "iso": "2026-12-30",
-          "context": "Became a Living Legend« wurde heute verkündet, dass die Serie ab dem 30. Dezember 2026 auf Abruf veröffentlicht und ab dem 6. Januar 2027 i"
-        },
-        {
-          "iso": "2027-01-06",
-          "context": "ie Serie ab dem 30. Dezember 2026 auf Abruf veröffentlicht und ab dem 6. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Anime von S"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Starttermin von »Shin Oishinbo« steht fest + Trailer",
-      "articleUrl": "https://www.anime2you.de/news/1073500/konkreter-termin-von-shin-oishinbo/",
-      "publishedAt": "2026-11-19",
-      "category": "allgemein",
-      "platforms": [],
-      "dates": [
-        {
-          "iso": "2027-01-04",
-          "context": "eute verkündet, dass die neue Anime-Adaption des Gourmet-Manga ab dem 4. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Einen erste"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": false
-    },
     {
       "articleTitle": "AKIBA PASS SHOP startet Black Friday Sale mit über 1.000 Produkten",
       "articleUrl": "https://www.anime2you.de/news/1073260/akiba-pass-shop-black-friday-sale-2026/",
