@@ -154,16 +154,14 @@ test('Pane: „Kalender heute“ mit Anzahl, Zeilen, Einklappen; „Gerade in Ar
   await p.unmount()
 })
 
-test('Pane: lange Liste ist gekürzt und klappt über „weitere“ aus; ohne Termine kein Bereich', async ($, on) => {
+test('Pane: lange Liste zeigt offen alle Termine, ohne „weitere“/„weniger“ (Daniel 20.11.2026)', async ($, on) => {
   const viele = Array.from({ length: 9 }, (_, i) => T(TAG, { name: `Titel ${i}`, platform: 'netflix', time: `0${i}:00`, episode: 1 }))
   const { p } = await paneMitKalender($, on, WOCHE(viele))
-  let z = zeilen(await p.drawn())
+  const z = zeilen(await p.drawn())
   expect(z).toContain('▾ Kalender heute 9')
   expect(z).toContain('Titel 0')
-  expect(z).not.toContain('Titel 8')
-  await p.press({ key: 'mehr:kalender' })
-  z = zeilen(await p.drawn())
   expect(z).toContain('Titel 8')
+  expect(z.join('\n')).not.toMatch(/weitere|weniger/)
   await p.unmount()
 })
 
