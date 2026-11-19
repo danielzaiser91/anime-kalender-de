@@ -10,7 +10,7 @@
  */
 import { ladeOhneWegEingabe } from '../pipeline/bau/13-13-ohne-weg.ts'
 import { zaehleGruende } from '../pipeline/bau/13-13-ohne-weg.ts'
-import { baueOhneWeg } from '../pipeline/lib/ohne-weg.ts'
+import { baueOhneWeg, type OhneWegEingabe } from '../pipeline/lib/ohne-weg.ts'
 import { offenUrsachen, OFFEN_URSACHEN } from '../pipeline/lib/ohne-weg-offen.ts'
 import { OHNE_WEG_GRUENDE } from '../shared/ohne-weg.ts'
 import type { Title } from '../shared/types.ts'
@@ -20,8 +20,7 @@ function argument(name: string): string | undefined {
   return i >= 0 ? process.argv[i + 1] : undefined
 }
 
-export function messe(heute?: string) {
-  const eingabe = ladeOhneWegEingabe()
+export function messe(eingabe: OhneWegEingabe = ladeOhneWegEingabe(), heute?: string) {
   if (heute) eingabe.heute = heute
   const eintraege = baueOhneWeg(eingabe)
   const ursachen = offenUrsachen(eingabe, eintraege)
@@ -50,7 +49,7 @@ function listeVon(m: ReturnType<typeof messe>, wahl: string): string[] {
 }
 
 function main(): void {
-  const m = messe(argument('--heute'))
+  const m = messe(undefined, argument('--heute'))
   const wahl = argument('--grund')
   if (wahl) return void console.log(listeVon(m, wahl).join('\n'))
   if (process.argv.includes('--json')) {

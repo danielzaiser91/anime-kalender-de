@@ -77,10 +77,10 @@ pruefe('Jeder Fixture-Titel ohne Weg hat genau einen Eintrag (19 ist nur der zwe
 pruefe('Jede Ursache der Liste kommt in der Fixture vor (sonst ist ein Zweig ungeprüft)', OFFEN_URSACHEN.every((u) => [...ursachen.values()].includes(u)), OFFEN_URSACHEN.filter((u) => ![...ursachen.values()].includes(u)))
 pruefe('Die Ursachen zählen genau die `offen`-Titel', ursachen.size === Object.values(eintraege).filter((x) => x.reason === 'offen').length)
 
-/* Der Lauf über die echten Dateien: Summe der Gründe = Gesamtzahl, Ursachen = offen (wie die Logzeile des Baus). */
-const m = messe()
-pruefe('Echtdaten: Summe der Gründe = Gesamtzahl', Object.values(m.gruende).reduce((a, b) => a + b, 0) === m.gesamt, m.gruende)
-pruefe('Echtdaten: Summe der Ursachen = Zahl `offen`', Object.values(m.offen).reduce((a, b) => a + b, 0) === m.gruende.offen, m.offen)
+/* Das Werkzeug über dieselbe Fixture (nicht über Dateien, die in der PR-Kette fehlen können): Summe der Gründe = Gesamtzahl, Ursachen = offen. */
+const m = messe(eingabe)
+pruefe('messe: Summe der Gründe = Gesamtzahl', Object.values(m.gruende).reduce((a, b) => a + b, 0) === m.gesamt && m.gesamt === 18, m.gruende)
+pruefe('messe: Summe der Ursachen = Zahl offen', Object.values(m.offen).reduce((a, b) => a + b, 0) === m.gruende.offen && m.gruende.offen === 12, m.offen)
 
 if (verletzt) {
   console.error(`\n✖ ${verletzt} Zusicherung(en) verletzt`)
