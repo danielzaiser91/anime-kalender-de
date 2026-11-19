@@ -72,7 +72,7 @@ function kontextNeu(chromeHolen) {
   const chrome = new Proxy({}, {
     get: (_, name) => (name === 'runtime' ? { id: 'test' } : chromeHolen()?.[name]),
   })
-  const k = vm.createContext({ chrome })
+  const k = vm.createContext({ chrome, location: { href: 'https://www.amazon.de/dp/B0KULISSE1?ref_=x#a' } })
   vm.runInContext(lies('kontext.js'), k)
   return k.akKontext
 }

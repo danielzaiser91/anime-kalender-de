@@ -258,6 +258,7 @@ pipeline/check-escape-stapel.ts
 pipeline/check-favoriten-feed-faelle.ts
 pipeline/check-fetch-pruefungen-fremde-adresse.ts
 pipeline/check-fetch-pruefungen-laufzeit.ts
+pipeline/check-fetch-pruefungen-seite.ts
 pipeline/check-fetch-pruefungen-unbekannt.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-film-serie-filter.ts
@@ -417,6 +418,7 @@ pipeline/check-mal-teilung.ts
 pipeline/check-meldung-cartoon.ts
 pipeline/check-meldung-gti.ts
 pipeline/check-meldung-praefix.ts
+pipeline/check-meldung-seite.ts
 pipeline/check-meldung-summenseite.ts
 pipeline/check-meldungen-liste.ts
 pipeline/check-meldungen-ohne-release.ts

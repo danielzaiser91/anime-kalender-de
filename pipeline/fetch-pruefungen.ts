@@ -43,6 +43,7 @@ import { istUnbekannteSeite, katalogTreffer, neuerZaehler, urteileUnbekannt, wid
 import { reiheJeTitel, staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
+import { seiteFremd, zaehleSeiteFremd } from './lib/meldung-seite.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
 import { OFFEN, PRUEFUNGEN_ABHAKEN, quittiereGemerkte } from './lib/spaeter-quittieren.ts'
 import { schalterOderAbbruch } from './lib/schalter.ts'
@@ -90,21 +91,10 @@ interface Pruefung {
    * 09.09.2026).
    */
   seiten_kennung?: string | null
-  /**
-   * **Der Titel der Folge, auf die sich die Meldung bezieht.**
-   *
-   * Die Erweiterung schickt ihn seit jeher mit (`folge: stand.folge`); der
-   * Worker warf ihn beim Empfang weg und speichert ihn erst seit Migration 028.
-   *
-   * Er ist der Anker, den Nummern nicht ersetzen: Netflix zählt die
-   * Haikyu!!-OVA als Folge 26 der ersten Staffel und nennt sie „Haikyu! OVA".
-   * Über Zahlen allein ist das nicht von der 26. Folge einer 26-teiligen Serie
-   * zu unterscheiden — der Titel sagt es in einem Wort.
-   *
-   * Daniel am 10.09.2026: „du musst doch eig nur die titel aller episoden
-   * kennen, um es beim abgleich später korrekt zuordnen zu können?"
-   */
+  /** Der Titel der Folge: der Anker, den Nummern nicht ersetzen (Netflix zählt die Haikyu!!-OVA als Folge 26; Migration 028). */
   folge?: string | null
+  /** Die Adresse der Seite, auf der die Meldung entstand (Migration 066); `null` bei Meldungen davor. */
+  seiten_adresse?: string | null
 }
 
 if (!TOKEN) {
@@ -572,6 +562,7 @@ for (const gruppe of jeAdresse.values()) {
       continue
     }
   }
+  if (seiteFremd(gruppe, ids, liste, offenGeblieben, ohneZuordnung)) continue
 
   /**
    * **Eine Staffel gehört ihrem Titel, nicht dem Kopf der Reihe.**
@@ -1207,6 +1198,7 @@ log(
       ? `, ${nachFolgentitelZugeordnet} über den Folgentitel an die Nebenausgabe`
       : '') +
     (besitz.verschoben ? `, ${besitz.verschoben} Beleg(e) an der Adresse eines anderen Titels nicht geschrieben (Meldung bleibt liegen)` : '') +
+    (zaehleSeiteFremd(offenGeblieben) ? `, ${zaehleSeiteFremd(offenGeblieben)} Meldung(en) von einer Seite, die nicht zum Titel gehört, nicht angehängt (bleiben liegen)` : '') +
     (ausgelassenKanal
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
       : ''),
