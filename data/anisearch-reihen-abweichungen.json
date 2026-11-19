@@ -2,16 +2,16 @@
   "stand": "2026-11-19",
   "deckung": {
     "titel": 20696,
-    "mitSeite": 16338,
-    "ohneSeite": 9,
+    "mitSeite": 16339,
+    "ohneSeite": 8,
     "ohneAnisearchKennung": 3077,
     "ohneReferenz": 1272,
-    "seitenImArchiv": 17542,
+    "seitenImArchiv": 17543,
     "kanten": 18608
   },
   "gesamt": {
-    "titel": 16338,
-    "gleich": 13998,
+    "titel": 16339,
+    "gleich": 13999,
     "fehlen": 901,
     "zusaetzlich": 1322,
     "gemischt": 117
@@ -24,8 +24,8 @@
     "gemischt": 16
   },
   "haelfteA": {
-    "titel": 7467,
-    "gleich": 6336,
+    "titel": 7468,
+    "gleich": 6337,
     "fehlen": 314,
     "zusaetzlich": 707,
     "gemischt": 110
@@ -38,7 +38,7 @@
     "gemischt": 7
   },
   "cluster": {
-    "einzel": 5760,
+    "einzel": 5761,
     "gleich": 2453,
     "zerlegt": 102,
     "verschmilzt": 105,
