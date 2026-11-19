@@ -29,7 +29,7 @@ async function seite(pfad) {
   return { body, im }
 }
 
-;(async () => {
+async function haupt() {
   /* Titelseite ohne Folgenliste: Leiste da, Knopf abgeblendet mit Grund, „alle“ versteckt. */
   const titel = await seite('/title/80000001')
   const leiste = suche(titel.body, 'ak-durchlauf-leiste')
@@ -73,4 +73,9 @@ async function seite(pfad) {
   assert.equal(fall({}, true).gebaut, 0)
 
   console.log('netflix-leiste-ohne-liste.test: ok')
-})().catch((e) => { console.error(e); process.exit(1) })
+}
+
+haupt().catch((e) => {
+  console.error(e)
+  process.exit(1)
+})
