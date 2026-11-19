@@ -16,7 +16,7 @@
  */
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { nichtGefuehrtZeilen } from './lib/beleg-nicht-gefuehrt.ts'
-import { mitWegVermerk, urteilsMeldung, urteilsZeilen, wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
+import { mitWegVermerk, urteilsMeldung, urteilsZeilen, wegGiltGanzerAdresse, wegWiderspruchtSich } from './lib/weg-entwerten.ts'
 import { amazonTitelAdresse, echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { wegAusMeldung } from './lib/weg-aus-meldung.js'
 import { resolve } from 'node:path'
@@ -795,6 +795,10 @@ for (const gruppe of jeAdresse.values()) {
    * Ein Nachschlagen ist eine Momentaufnahme. Die jüngere ist die bessere.
    */
   const jueng = [...gruppe].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : 1))
+  if (wegWiderspruchtSich(jueng[jueng.length - 1])) {
+    liegenGeblieben(offenGeblieben, ohneZuordnung, p, '„nicht verfügbar“ nennt selbst eine deutsche Tonspur (Panel einer anderen Seite?)', ids, 'Meldung prüfen und verwerfen')
+    continue
+  }
   /*
     **Ein „weg" für eine Staffel streicht nicht den ganzen Weg**.
 
