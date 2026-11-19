@@ -5376,11 +5376,19 @@
   ],
   "auto-813-disc": [
     {
+      "url": "https://www.anime2you.de/news/1073232/dragon-ball-z-blu-ray-box-5-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-19",
+      "sagt": "2027-02-19",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1044034/dragon-ball-z-box-4-termin/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-11-20",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-02-19"
     }
   ],
   "auto-183291-disc": [
@@ -9191,6 +9199,15 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-11-18",
       "sagt": "2027-01-28",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-141391-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1073645/call-of-the-night-bald-auf-netflix/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-19",
+      "sagt": "2026-11-25",
       "stand": "aktuell"
     }
   ]
