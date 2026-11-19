@@ -351,6 +351,7 @@ pipeline/check-jw-namenstreffer-lauf.ts
 pipeline/check-jw-schlange.ts
 pipeline/check-jw-seite.ts
 pipeline/check-jw-staffeln.ts
+pipeline/check-jw-verfehlt-nachfrage.ts
 pipeline/check-jw-vertrauen.ts
 pipeline/check-jw-wiedervorlage.ts
 pipeline/check-kachel-anbieter.ts
