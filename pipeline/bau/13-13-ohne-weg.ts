@@ -29,6 +29,7 @@ export function schreibeOhneWeg({ bauer = baueOhneWeg, grenze = OFFEN_HOECHSTENS
     termine: readJson(`${OUT}/events.json`, []),
     handbelege: ladeHandbelege(),
     justwatch: readJson('data/justwatch-audio.json', {}),
+    discAusgaben: readJson('data/disc-ausgaben.json', {}),
     heute: todayIso(),
   }
   const eintraege = bauer(eingabe)

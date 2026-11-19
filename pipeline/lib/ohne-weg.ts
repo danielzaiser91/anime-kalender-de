@@ -1,9 +1,11 @@
 /**
  * **Warum ein Titel keinen Streaming-Weg hat — nur mit Beleg** (18.11.2026, `ohne-weg.json`). Wer kein Beleg trägt, steht als `offen` da.
  *
- * Reihenfolge: Start in der Zukunft, Handbeleg „nur Originalton“, JustWatch „nur Kauf/Leihe“, Film ohne Streaming-Angebot bei JustWatch.
- * Nicht gezählt, weil kein Beleg für „kein Stream“: ein künftiger **Disc**-Termin (Blu-ray-Bundles), JustWatch `ohneTreffer`
- * (der Titel wurde dort nicht gefunden — eine Zuordnungslücke) und ein Abo-Angebot ohne belegten deutschen Ton.
+ * Reihenfolge: Start in der Zukunft, Handbeleg „nur Originalton“, JustWatch „nur Kauf/Leihe“, Film ohne Streaming-Angebot bei JustWatch,
+ * Abo bei JustWatch ohne deutschen Ton, schon erschienene Disc ohne Streaming-Fund.
+ * Nie ein Grund: ein künftiger **Disc**-Termin allein (Blu-ray-Bundles) und ein veralteter oder verfehlter JustWatch-Befund.
+ * `ohneTreffer` (der Titel wurde dort nicht gefunden — eine Zuordnungslücke) ist kein Beleg „laut JustWatch“; es trägt nur zusammen mit einer
+ * erschienenen Disc den Grund `nur-disc`, dessen Satz JustWatch nicht nennt.
  */
 import type { OhneWegEintrag } from '../../shared/ohne-weg.ts'
 import { ohneStreamingWeg } from '../../shared/ohne-weg.ts'
@@ -12,6 +14,7 @@ import { dubKey, neinHandbelege, urteilVon, type DubCheck } from './dub-confirme
 import { geteilteJwKennungen } from './jw-kennung-fremd.ts'
 import type { JwBefund } from './jw-vertrauen.ts'
 import { befundGilt } from './jw-seite.ts'
+import { aboOhneDeutsch, discErschienen, jwOhneStream, KAUF } from './ohne-weg-belege.ts'
 
 type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'available' | 'dubRanges' | 'juengstesUrteil' | 'checkedAt'>
 type Termin = { titleId: number; platform: string; date: string }
@@ -21,6 +24,8 @@ export interface OhneWegEingabe {
   termine: Termin[]
   handbelege: Handbeleg[]
   justwatch: Record<string, JwBefund>
+  /** Die deutschen Disc-Ausgaben je Titel (`data/disc-ausgaben.json`, aniSearch); nur das Datum zählt hier. */
+  discAusgaben: Record<string, { datum?: string }[]>
   heute: string
 }
 
@@ -54,8 +59,6 @@ export function jwZugeordnet(b: JwBefund | undefined, geteilt: ReadonlySet<strin
   return befundGilt(b, heute) && !geteilt.has(b.jwId!)
 }
 
-const KAUF = new Set<string | undefined>(['BUY', 'RENT'])
-
 function jeKennung<T>(liste: readonly T[], id: (x: T) => number): Map<number, T[]> {
   const m = new Map<number, T[]>()
   for (const x of liste) (m.get(id(x)) ?? m.set(id(x), []).get(id(x))!).push(x)
@@ -63,15 +66,20 @@ function jeKennung<T>(liste: readonly T[], id: (x: T) => number): Map<number, T[
 }
 
 /** Der Grund eines einzelnen Titels ohne Weg. */
-function grundVon(t: OhneWegEingabe['titel'][number], e: { termine: Termin[]; checks: Handbeleg[]; jw: JwBefund | undefined; heute: string }): OhneWegEintrag {
+function grundVon(
+  t: OhneWegEingabe['titel'][number],
+  e: { termine: Termin[]; checks: Handbeleg[]; roh: JwBefund | undefined; geteilt: ReadonlySet<string>; ausgaben: { datum?: string }[]; heute: string },
+): OhneWegEintrag {
   const ab = ersterStart(e.termine, e.heute)
   if (ab) return { reason: 'angekuendigt', ab, source: 'termin' }
   const original = originaltonAm(e.checks)
   if (original) return { reason: 'kein-dub', checkedAt: original, source: 'handbeleg' }
-  const jw = e.jw
+  const jw = jwZugeordnet(e.roh, e.geteilt, e.heute) ? e.roh : undefined
   const angebote = jw?.angebote ?? []
   if (jw && angebote.length && angebote.every((a) => KAUF.has(a.art))) return { reason: 'nur-kauf', checkedAt: jw.geprueftAm, source: 'justwatch' }
   if (jw && !angebote.length && t.format === 'MOVIE') return { reason: 'film-ohne-abo', checkedAt: jw.geprueftAm, source: 'justwatch' }
+  if (jw && aboOhneDeutsch(jw)) return { reason: 'abo-ohne-ton', checkedAt: jw.geprueftAm, source: 'justwatch' }
+  if (jwOhneStream(e.roh, e.geteilt, e.heute) && discErschienen(e.ausgaben, e.termine, e.heute)) return { reason: 'nur-disc', checkedAt: e.roh.geprueftAm, source: 'disc' }
   return { reason: 'offen' }
 }
 
@@ -83,14 +91,20 @@ export function baueOhneWeg(eingabe: OhneWegEingabe): Record<number, OhneWegEint
   const aus: Record<number, OhneWegEintrag> = {}
   for (const t of eingabe.titel) {
     if (!ohneStreamingWeg(t)) continue
-    const b = eingabe.justwatch[t.id]
-    aus[t.id] = grundVon(t, { termine: termine.get(t.id) ?? [], checks: checks.get(t.id) ?? [], jw: jwZugeordnet(b, geteilt, eingabe.heute) ? b : undefined, heute: eingabe.heute })
+    aus[t.id] = grundVon(t, {
+      termine: termine.get(t.id) ?? [],
+      checks: checks.get(t.id) ?? [],
+      roh: eingabe.justwatch[t.id],
+      geteilt,
+      ausgaben: eingabe.discAusgaben[t.id] ?? [],
+      heute: eingabe.heute,
+    })
   }
   return aus
 }
 
 /**
- * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` auf main c64adaa17, 18.11.2026: 1.056 von 1.291, davon 94 mit einem JustWatch-Befund
- * über 28 Tage); sinkt mit jedem nachgetragenen Beleg und jeder JustWatch-Erneuerung, dann wird sie nachgezogen.
+ * Obergrenze der Titel mit Grund `offen` (Stand `public/data` und `data/justwatch-audio.json` auf main 8a0a57694, 19.11.2026: 537 von 1.056 Titeln ohne Weg, vor `abo-ohne-ton` und `nur-disc` 913;
+ * Luft 63, weil ein JustWatch-Befund nach 28 Tagen ohne Erneuerung den Grund wieder verliert); sinkt mit jedem nachgetragenen Beleg, dann wird sie nachgezogen.
  */
-export const OFFEN_HOECHSTENS = 1056
+export const OFFEN_HOECHSTENS = 600
