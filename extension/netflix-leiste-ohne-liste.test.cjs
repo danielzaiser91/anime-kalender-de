@@ -50,11 +50,11 @@ async function seite(pfad) {
   k.globalThis = k
   vm.createContext(k)
   vm.runInContext(readFileSync(resolve(__dirname, 'netflix-durchgang-steuerung.js'), 'utf8'), k)
-  const fall = (d, o) => {
+  const fall = (d, anderswo = false) => {
     let gebaut = 0
     const D = { laeuft: false, mehrfach: null, folgen: [], knopf: null, leiste: null, nochmalKnopf: null, ...d }
     const el = () => ({ hidden: false, disabled: false, textContent: '', title: '', parentElement: null, classList: { remove() {} }, appendChild() {} })
-    const ergebnis = k.akNetflixLeisteOhneListe(D, { imPlayer: false, alle: false, schutz() {}, ziel: () => null, bauen: () => { gebaut++; D.knopf = el(); D.leiste = el() }, ...o })
+    const ergebnis = k.akNetflixLeisteOhneListe(D, anderswo, () => { gebaut++; D.knopf = el(); D.leiste = el() }, () => null)
     return { ergebnis, gebaut, D }
   }
   assert.equal(fall({}).ergebnis, true, 'Grundfall')
@@ -63,9 +63,8 @@ async function seite(pfad) {
   assert.equal(fall({ folgen: [{ nummer: 1 }] }).gebaut, 0)
   assert.equal(fall({ laeuft: true }).ergebnis, false, 'im Lauf')
   assert.equal(fall({ mehrfach: { gesamt: 2 } }).ergebnis, false, 'zwischen zwei Staffeln')
-  assert.equal(fall({}, { imPlayer: true }).ergebnis, false, 'im Player')
-  assert.equal(fall({}, { alle: true }).ergebnis, false, 'Alle-Staffeln-Ansicht')
-  assert.equal(fall({}, { imPlayer: true }).gebaut, 0)
+  assert.equal(fall({}, true).ergebnis, false, 'im Player oder in der Alle-Staffeln-Ansicht')
+  assert.equal(fall({}, true).gebaut, 0)
 
   console.log('netflix-leiste-ohne-liste.test: ok')
 })().catch((e) => { console.error(e); process.exit(1) })

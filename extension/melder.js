@@ -4500,7 +4500,8 @@ function folgenFuerFilmErgaenzen() {
 
 function durchlaufKnopfZeigen() {
   folgenFuerFilmErgaenzen()
-  if (akNetflixLeisteOhneListe(DURCHLAUF, { imPlayer: imPlayer(), alle: alleStaffelnAnsicht(), bauen: durchlaufKnopfBauen, schutz: schutzflaecheZeigen, ziel: () => netflixKasten().querySelector('.ak-z-melden') })) return
+  const bauen = () => (durchlaufKnopfBauen(), schutzflaecheZeigen(false))
+  if (akNetflixLeisteOhneListe(DURCHLAUF, imPlayer() || alleStaffelnAnsicht(), bauen, () => netflixKasten().querySelector('.ak-z-melden'))) return
   /*
     **Der Durchlauf über die ganze Reihe ist richtig, nicht zu viel.**
 

@@ -715,16 +715,13 @@ globalThis.akNetflixSitzungBericht = (titelBericht, bremse, tab, besitzer, jetzt
 
 /**
  * Die Leiste auf einer Titelseite ohne Folgenliste (Film, „Erinnern“, Liste noch leer): abgeblendet statt weg, wie der Melde-Knopf
- * (Rest aus PR 4190). `o`: `imPlayer`, `alle` (Alle-Staffeln-Ansicht), `bauen()`, `schutz(sichtbar)`, `ziel()` (Melde-Zeile des Kastens).
- * Gibt `true` zurück, wenn sie die Anzeige übernommen hat.
+ * (Rest aus PR 4190). `anderswo`: Player oder Alle-Staffeln-Ansicht (dort zeichnet der Rest); `bauen()` legt Leiste und Knopf an;
+ * `zielHolen()`: Melde-Zeile des Kastens. Gibt `true` zurück, wenn sie die Anzeige übernommen hat.
  */
-globalThis.akNetflixLeisteOhneListe = (D, o) => {
-  if (o.imPlayer || o.alle || D.laeuft || D.mehrfach || D.folgen.length) return false
-  if (!D.knopf) {
-    o.bauen()
-    o.schutz(false)
-  }
-  const ziel = o.ziel()
+globalThis.akNetflixLeisteOhneListe = (D, anderswo, bauen, zielHolen) => {
+  if (anderswo || D.laeuft || D.mehrfach || D.folgen.length) return false
+  if (!D.knopf) bauen()
+  const ziel = zielHolen()
   if (ziel && D.leiste.parentElement !== ziel) ziel.appendChild(D.leiste)
   D.knopf.textContent = 'Keine Folgenliste — nichts zu prüfen'
   D.knopf.title = 'Diese Seite zeigt keine Folgenliste (Film oder angekündigter Titel).'
