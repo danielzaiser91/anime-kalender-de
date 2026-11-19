@@ -119,7 +119,8 @@ jobs:
           # Maschinenlesbar (19.11.2026): „Überlebende: N von M“ aus dem Läufer, auch als Datei im Artefakt und als Job-Ausgabe.
           # Ohne Zeile (Aufruf- oder Grundlauffehler) steht „unbekannt“, nie eine erfundene Zahl.
           zeile=$(sed -n 's/^\(Überlebende: [0-9]* von [0-9]*\)$/\1/p' "$RUNNER_TEMP/mutation/lauf.txt" | tail -n 1)
-          [ -n "$zeile" ] || zeile="Überlebende: unbekannt (Läufer ohne Ergebniszeile, Exit $code)"
+          # Bei Exit 2 trägt das Log Testausgabe des PR-Codes: dann nie eine Zahl daraus übernehmen.
+          [ -n "$zeile" ] && [ "$code" != 2 ] || zeile="Überlebende: unbekannt (Läufer ohne Ergebniszeile, Exit $code)"
           echo "$zeile" > "$RUNNER_TEMP/mutation/ueberlebende.txt"
           echo "ueberlebende=$zeile" >> "$GITHUB_OUTPUT"
           {

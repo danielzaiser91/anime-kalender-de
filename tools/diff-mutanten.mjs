@@ -146,17 +146,19 @@ export function unbrauchbare(ausgabe) {
   return ausgabe.split('\n').filter((z) => /^(nicht gefunden|mehrdeutig|wirkungslos) /.test(z)).map((z) => z.replace(/\s+/, ' ').trim())
 }
 
-/** Sonde je Datei (19.11.2026): wirft beim Laden. Bleibt der Test grün, lädt er die Datei nicht, und „überlebt“ wäre ohne Aussage. */
+/** Sonde je Datei (19.11.2026): wirft ganz am Dateianfang (ein `process.exit` am Ende überspringt sie nicht). Bleibt der Test grün, lädt er die Datei nicht oder prüft Exit und Ausgabe nicht, und „überlebt“ wäre ohne Aussage. */
 export const SONDE = 'Sonde (Test lädt Datei)'
-export function sondenFuer(fahrbar) {
+export function sondenFuer(fahrbar, lies) {
   const gesehen = new Set()
   const sonden = []
   for (const m of fahrbar) {
     const datei = m.aenderungen[0].datei
     if (gesehen.has(datei)) continue
     gesehen.add(datei)
-    const ersetze = "throw new Error('diff-mutanten-sonde')"
-    sonden.push({ name: `${datei} ${SONDE}`, aenderungen: [{ datei, suche: '@ENDE', ersetze }], tests: m.tests })
+    // Anker = erste 20 Zeichen, nr 1: das erste Vorkommen liegt bei Index 0, also steht der throw vor allem anderen.
+    const suche = lies(datei).slice(0, 20)
+    const ersetze = `throw new Error('diff-mutanten-sonde')\n${suche}`
+    sonden.push({ name: `${datei} ${SONDE}`, aenderungen: [{ datei, suche, ersetze, nr: 1 }], tests: m.tests })
   }
   return sonden
 }
@@ -181,7 +183,7 @@ function main(argv) {
   const ordner = mkdtempSync(join(tmpdir(), 'diff-mutanten-'))
   try {
     const pfad = join(ordner, 'liste.json')
-    writeFileSync(pfad, JSON.stringify([...fahrbar, ...sondenFuer(fahrbar)]))
+    writeFileSync(pfad, JSON.stringify([...fahrbar, ...sondenFuer(fahrbar, (d) => readFileSync(d, 'utf8'))]))
     const lauf = spawnSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), 'mutationslaeufer.mjs'), pfad], { encoding: 'utf8', maxBuffer: 1 << 28 })
     const aus = `${lauf.stdout ?? ''}${lauf.stderr ?? ''}`
     if (lauf.status !== 0 && lauf.status !== 1) {
@@ -191,7 +193,7 @@ function main(argv) {
     }
     const alleLebend = ueberlebende(aus)
     const blind = blinde(alleLebend)
-    for (const d of blind) console.log(`  ! ABBRUCH ${d}: der gewählte Test lädt die Datei nicht (Sonde blieb grün), keine Aussage über ihre Mutanten (--test prüfen).`)
+    for (const d of blind) console.log(`  ! ABBRUCH ${d}: der gewählte Test lädt die Datei nicht oder prüft Exit und Ausgabe nicht (Sonde am Dateianfang blieb grün), keine Aussage über ihre Mutanten (--test prüfen).`)
     const lebt = alleLebend.filter((n) => !n.endsWith(` ${SONDE}`) && !blind.some((d) => n.startsWith(`${d}:`)))
     for (const n of lebt) console.log(`  ! Überlebt: ${n}`)
     const kaputt = unbrauchbare(aus)

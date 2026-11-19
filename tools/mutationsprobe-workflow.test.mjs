@@ -150,10 +150,10 @@ try {
   assert.equal(readFileSync(join(echtLebt.temp, 'mutation', 'ueberlebende.txt'), 'utf8'), 'Überlebende: 1 von 2\n', 'Datei im Artefakt')
   assert.match(readFileSync(join(echtLebt.temp, 'ausgabe.txt'), 'utf8'), /^ueberlebende=Überlebende: 1 von 2\n$/, 'Job-Ausgabe')
   assert.match(ueberlebt.ergebnis, /GRÜN|grün/i)
-  const grundrot = lauf([{ name: 'x', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2', tests: ['node -e "process.exit(1)"'] }])
+  const grundrot = lauf([{ name: 'x', datei: 'a.txt', suche: 'wert=1', ersetze: 'wert=2', tests: [`node -e "console.log('Überlebende: 0 von 9');process.exit(1)"`] }])
   assert.equal(grundrot.status, 2, 'roter Grundlauf = Exit 2')
   assert.match(grundrot.ergebnis, /\nExit 2 /)
-  assert.match(grundrot.ergebnis, /Überlebende: unbekannt/, 'ohne Läuferzeile keine erfundene Zahl')
+  assert.match(grundrot.ergebnis, /^## [^\n]*\n\nÜberlebende: unbekannt/, 'ohne Läuferzeile oder bei Exit 2 keine Zahl, auch wenn der Testlauf des PR-Codes eine Zeile druckt')
   assert.ok(grundrot.ergebnis.includes('Grundlauf ohne Mutation ist rot'), 'ohne Tabelle steht das Log-Ende im Ergebnis')
   assert.equal(readFileSync(join(arbeit, 'a.txt'), 'utf8'), 'wert=1\n', 'Datei nach allen Läufen zurückgesetzt')
   // Im Git-Stand trägt das Ergebnis den echten Kopf-SHA (der Prüfer ordnet den Kommentar daran dem Push zu).
