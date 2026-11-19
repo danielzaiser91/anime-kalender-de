@@ -334,6 +334,7 @@ pipeline/check-joyn-termine-belegt.ts
 pipeline/check-jpend-finished.ts
 pipeline/check-juengeres-ja-weg.ts
 pipeline/check-jw-ablauf.ts
+pipeline/check-jw-abrufgrenze.ts
 pipeline/check-jw-anbieterliste.ts
 pipeline/check-jw-auswahl.ts
 pipeline/check-jw-folgestaffel-bestand-lauf.ts
