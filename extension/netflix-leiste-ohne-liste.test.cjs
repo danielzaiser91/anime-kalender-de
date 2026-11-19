@@ -37,6 +37,7 @@ async function seite(pfad) {
   assert.match(titel.im('DURCHLAUF.knopf.textContent'), /^Keine Folgenliste/)
   assert.equal(titel.im('DURCHLAUF.nochmalKnopf.hidden'), true)
   assert.equal(titel.im('DURCHLAUF.knopf.classList.contains("ak-fertig")'), false)
+  assert.equal(titel.im('schutzflaeche'), null, 'keine Schutzfläche ohne Lauf (der Sandkasten räumt Elemente nie aus dem body)')
   /* Zweiter Takt: keine zweite Leiste. */
   titel.im('durchlaufKnopfZeigen()')
   /* Der Sandkasten setzt kein `parentElement`; derselbe Knoten darf deshalb mehrfach hängen, aber nie ein zweiter gebaut werden. */
