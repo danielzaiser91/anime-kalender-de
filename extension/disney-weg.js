@@ -53,6 +53,7 @@
         body: JSON.stringify({
           plattform: 'disneyplus',
           url: e.url,
+          seitenAdresse: globalThis.akKontext.seitenAdresse(),
           titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(e.staffeln, null, anbieterStaffeln),
           /* Stufe 1 des Meldemodells: Verfügbarkeit und Sprache getrennt (22.09.2026). */
           vorhanden: 'nein',

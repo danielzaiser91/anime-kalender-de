@@ -108,8 +108,8 @@
   "aenderungen": [
    {
     "datei": "worker/src/pruefung-unveraendert.ts",
-    "suche": "filter(([k]) => k !== 'version')",
-    "ersetze": "filter(() => true)"
+    "suche": "filter(([k]) => k !== 'version' && k !== 'seitenAdresse')",
+    "ersetze": "filter(([k]) => k !== 'seitenAdresse')"
    }
   ],
   "tests": [
@@ -317,8 +317,8 @@
   "aenderungen": [
    {
     "datei": "extension/melder.js",
-    "suche": "return version ? { ...b, version } : b",
-    "ersetze": "return b"
+    "suche": "return { ...b, ...(version ? { version } : {}), seitenAdresse: globalThis.akKontext.seitenAdresse() }",
+    "ersetze": "return { ...b, seitenAdresse: globalThis.akKontext.seitenAdresse() }"
    }
   ],
   "tests": [
@@ -330,8 +330,8 @@
   "aenderungen": [
    {
     "datei": "extension/melder.js",
-    "suche": "return version ? { ...b, version } : b",
-    "ersetze": "return { ...b, version }"
+    "suche": "return { ...b, ...(version ? { version } : {}), seitenAdresse: globalThis.akKontext.seitenAdresse() }",
+    "ersetze": "return { ...b, version, seitenAdresse: globalThis.akKontext.seitenAdresse() }"
    }
   ],
   "tests": [
