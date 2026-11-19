@@ -3,7 +3,7 @@
  * Die Ursachen sind nur Messung (`lib/ohne-weg-offen.ts`); die Gründe selbst prüft `check-ohne-weg.ts`. Aufruf: `npm run check:logic`.
  */
 import { baueOhneWeg, type OhneWegEingabe } from './lib/ohne-weg.ts'
-import { offenUrsachen, OFFEN_URSACHEN } from './lib/ohne-weg-offen.ts'
+import { abgelaufenWarnung, offenUrsachen, OFFEN_URSACHEN, type OffenUrsache } from './lib/ohne-weg-offen.ts'
 import { messe } from '../tools/ohne-weg-gruende.ts'
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
@@ -120,6 +120,15 @@ for (const [k, [grund, ursache]] of Object.entries(faelle)) {
 pruefe('Jeder Fixture-Titel ohne Weg hat genau einen Eintrag (19 ist nur der zweite Halter von k11, kein Titel)', Object.keys(eintraege).length === Object.keys(faelle).length, Object.keys(eintraege).length)
 pruefe('Jede Ursache der Liste kommt in der Fixture vor (sonst ist ein Zweig ungeprüft)', OFFEN_URSACHEN.every((u) => [...ursachen.values()].includes(u)), OFFEN_URSACHEN.filter((u) => ![...ursachen.values()].includes(u)))
 pruefe('Die Ursachen gibt es genau für die `offen`-Titel (nie für einen Titel mit anderem Grund)', ursachen.size === Object.values(eintraege).filter((x) => x.reason === 'offen').length && [...ursachen.keys()].every((id) => eintraege[id]?.reason === 'offen'))
+
+/* Alterswarnung: Anteil `jw-abgelaufen` an `offen`, Grenze 10 % (genau 10 % warnt nicht). */
+const ursachenListe = (abgelaufen: number, rest: number) => new Map<number, OffenUrsache>([...Array(abgelaufen).fill('jw-abgelaufen'), ...Array(rest).fill('jw-verfehlt')].map((u, i) => [i, u]))
+pruefe('Alterswarnung: 1 von 10 (10 %) warnt nicht', abgelaufenWarnung(ursachenListe(1, 9)) === undefined)
+const warnZeile = abgelaufenWarnung(ursachenListe(2, 8))
+pruefe('Alterswarnung: 2 von 10 warnt und nennt Zahlen, 28 Tage und Grenze', warnZeile?.includes('2 von 10 Titeln „offen“ nur wegen eines JustWatch-Befunds über 28 Tage (mehr als 10 %)') === true, warnZeile)
+pruefe('Alterswarnung: kein offener Titel warnt nicht', abgelaufenWarnung(new Map()) === undefined)
+pruefe('Alterswarnung: andere Ursachen zählen nicht (10 von 10 verfehlt)', abgelaufenWarnung(ursachenListe(0, 10)) === undefined)
+pruefe('Alterswarnung: der echte Stand vom 19.11. (46 von 62) warnt', abgelaufenWarnung(ursachenListe(46, 16))?.startsWith('ohne-weg.json: 46 von 62') === true)
 
 /* Das Werkzeug über dieselbe Fixture (nicht über Dateien, die in der PR-Kette fehlen können): Summe der Gründe = Gesamtzahl, Ursachen = offen. */
 const m = messe(eingabe)
