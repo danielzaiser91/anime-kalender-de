@@ -50,9 +50,9 @@ writeFileSync(
     '-18': {
       geprueftAm: '2026-11-11',
       angebote: [
-        angebot('Apple TV', 'BUY', 'apple18', ['en']),
-        angebot('Sky Go', 'FLATRATE', 'sky18', ['en']),
-        angebot('Kika', 'FREE', 'kika18', ['en']),
+        angebot('Apple TV', 'BUY', 'apple18', ['de', 'en']),
+        angebot('Sky Go', 'FLATRATE', 'sky18', ['de']),
+        angebot('Kika', 'FREE', 'kika18'),
         angebot('Thalia', 'BUY', 'thalia18', ['en']),
         angebot('Cinestar', 'CINEMA', 'kino18', ['en']),
         angebot('JustWatch TV', 'FLATRATE', 'jw18', ['en']),
@@ -83,7 +83,7 @@ try {
   pruefe('ohne Stream: Leihe wird Kaufweg bei Apple TV', kurz(-12), ['Apple TV|kauf'])
   pruefe('JustWatch ohne Treffer: kein Weg', kurz(-13), [])
   pruefe('ohne JustWatch-Zeile: kein Weg', kurz(-14), [])
-  pruefe('Titel mit Stream, JustWatch nennt nur Englisch: Zusatzrunde nimmt Apple TV trotzdem (wie bei Anime)', kurz(-15), ['Apple TV|kauf'])
+  pruefe('Titel mit Stream, JustWatch nennt nur Englisch: Zusatzrunde nimmt Apple TV nicht (Synchro ist nicht Untertitel)', kurz(-15), [])
   pruefe('tote Adresse (Handbeleg), Zusatzrunde: kein Weg', kurz(-16), [])
   pruefe('tote Adresse (Handbeleg), Runde ohne Weg: kein Weg', kurz(-17), [])
   pruefe('Zusatzrunde: Kauf, Abo und gratis; ohne Disc-Händler, Kino und JustWatch-Eigenwerbung', kurz(-18), ['Apple TV|kauf', 'Kika|kostenlos', 'Sky Go|abo'])

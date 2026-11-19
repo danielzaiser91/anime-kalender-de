@@ -12,6 +12,8 @@
   { "name": "11-2-2 Sub-Dienste nicht ausgenommen", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "return EIGENE_SPRACHQUELLE.test(a.anbieter) || (", "ersetze": "return false || (" },
   { "name": "11-2-2 leere Tonliste zählt als ohne Deutsch", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "(!!a.audio?.length && !a.audio.includes('de'))", "ersetze": "(!!a.audio && !a.audio.includes('de'))" },
   { "name": "11-2-2 Ton ohne Deutsch bleibt zugelassen", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "(!!a.audio?.length && !a.audio.includes('de'))", "ersetze": "false" },
+  { "name": "11-2-7 Sprachriegel entfällt", "datei": "pipeline/bau/11-2-7-jw-weitere-wege.ts", "suche": "if (ohneBelegDeutsch(a)) continue", "ersetze": "" },
+  { "name": "11-2-7 Sprachriegel nimmt nur Ja", "datei": "pipeline/bau/11-2-7-jw-weitere-wege.ts", "suche": "if (ohneBelegDeutsch(a)) continue", "ersetze": "if (!(a.audio ?? []).includes('de')) continue" },
   { "name": "11-2-2 Abos nicht vorgezogen", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "return [...angebote].sort((x, y) => rang(x) - rang(y))", "ersetze": "return [...angebote]" },
   { "name": "11-2-2 Sortierung umgekehrt", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "rang(x) - rang(y)", "ersetze": "rang(y) - rang(x)" },
   { "name": "11-2-2 Grenze fünf statt vier", "datei": "pipeline/bau/11-2-2-wege-ohne-weg.ts", "suche": "if (wege.length >= 4) break", "ersetze": "if (wege.length >= 5) break" },

@@ -2,7 +2,7 @@ import { type IstTot } from '../lib/adresse-tot.ts'
 import { type WatchLink, type Title } from '../../shared/types.ts'
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
-import { PHYSISCHE_SHOPS } from './11-2-2-wege-ohne-weg.ts'
+import { PHYSISCHE_SHOPS, ohneBelegDeutsch } from './11-2-2-wege-ohne-weg.ts'
 
 type JwAngebote = Record<string, { angebote?: { anbieter: string; art?: string; url?: string; audio?: string[] }[] }>
 
@@ -38,6 +38,8 @@ export function ergaenzeJwWeitereWege({ titles, jw, tmdbMehrdeutig, istTot }: {
         Zavvi verkauft UK-Importe. Kinos sind keine Bezugswege.
       */
       if (PHYSISCHE_SHOPS.test(a.anbieter) || a.art === 'CINEMA') continue
+      /* Wie in 11-2-2 bei Titeln mit Wegen: nennt JustWatch Tonspuren ohne `de`, ist es kein Weg zur Synchro (Synchro ist nicht Untertitel). */
+      if (ohneBelegDeutsch(a)) continue
       wege.push({
         name,
         url: stripAffiliate(a.url),
