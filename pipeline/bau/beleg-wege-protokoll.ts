@@ -1,6 +1,6 @@
 import type { Title } from '../../shared/types.ts'
 import { anzeigeName } from '../../shared/titles.ts'
-import { adressGleich, adressKern, dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
+import { adressGleich, adressKern, dubKey, urteilVon, type DubCheck } from '../lib/dub-confirmed.ts'
 import type { EntfernterVerweis } from './grundlagen.ts'
 
 type MitWegen = Pick<Title, 'id' | 'titleDe' | 'titleEn' | 'titleRomaji' | 'streams'>
@@ -21,7 +21,7 @@ export function belegGestrichen(vorher: readonly MitWegen[], jetzt: readonly Mit
     for (const s of t.streams ?? []) {
       if ((nachher.streams ?? []).some((n) => n.platform === s.platform && adressKern(n.url) === adressKern(s.url))) continue
       const beleg = juengsterBeleg(belege, t, s)
-      if (beleg?.available !== false || beleg.dub === true) continue
+      if (beleg?.available !== false || urteilVon(beleg) !== 'nein') continue
       aus.push({
         titleId: t.id,
         titel: anzeigeName(t),

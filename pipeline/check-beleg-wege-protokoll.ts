@@ -66,6 +66,7 @@ pruefe('älteres Ja unter jüngerem Nein: Eintrag', geh([beleg(1, { available: u
 pruefe('Weg noch im Bestand: kein Eintrag', geh([beleg(1)], [titel(1, [weg('netflix', `${NF}1`)]), titel(2, []), titel(3, []), titel(4, [])]).length === 0)
 pruefe('Titel nicht mehr im Hauptbestand (verschoben): kein Eintrag', geh([beleg(1)], [titel(2, []), titel(3, []), titel(4, [])]).length === 0)
 pruefe('Beleg dub:false statt available:false: kein Eintrag (das protokolliert „belegtes Nein“ selbst)', geh([beleg(1, { available: undefined, dub: false })]).length === 0)
+pruefe('verschmolzener Beleg mit jüngstem Urteil Ja trotz available:false: kein Eintrag', geh([beleg(1, { juengstesUrteil: 'ja' })]).length === 0)
 
 console.log('Datei: Gedächtnis unberührt, zwei Läufe')
 const gedaechtnis = [{ titleId: 7, titel: 'x', plattform: 'crunchyroll', url: 'https://www.crunchyroll.com/series/X', seriesId: null, grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur', geprueftAm: null, entferntAm: '2999-12-31', letzterWeg: false }]
@@ -137,4 +138,4 @@ if (fehler > 0) {
   console.error(`check-beleg-wege-protokoll: ${fehler} Fehler`)
   process.exit(1)
 }
-console.log('check-beleg-wege-protokoll: ok (Beleg-Erkennung 16, Datei 5, Gesamtlauf 8)')
+console.log('check-beleg-wege-protokoll: ok (Beleg-Erkennung 17, Datei 5, Gesamtlauf 8)')
