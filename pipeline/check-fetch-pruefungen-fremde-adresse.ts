@@ -25,7 +25,13 @@ const GETEILT = [
   { platform: 'primevideo', url: seite('B0FREMD005') },
   { platform: 'primevideo', url: seite('B0FREMD006') },
 ]
-const BESTAND = [titel(900101, 'Fremdprobe Alpha', GETEILT), titel(900102, 'Fremdprobe Beta', GETEILT)]
+/** Zexal-Fall (19.11.2026): 900104 führt B0FREMD007, die Notiz seiner Meldung nennt B0FREMD008, die nur 900105 gehört. */
+const BESTAND = [
+  titel(900101, 'Fremdprobe Alpha', GETEILT),
+  titel(900102, 'Fremdprobe Beta', GETEILT),
+  titel(900104, 'Fremdprobe Gamma', [{ platform: 'primevideo', url: seite('B0FREMD007') }]),
+  titel(900105, 'Fremdprobe Delta', [{ platform: 'primevideo', url: seite('B0FREMD008') }]),
+]
 /** Die Seite B0FREMD001 gehört laut Zuordnung dem Titel 900102, B0FREMD002 niemandem, B0FREMD003 dem Titel 900101 selbst. */
 const ZUGEORDNET = {
   [seite('B0FREMD001')]: { titleId: 900102, plattform: 'primevideo' },
@@ -121,6 +127,11 @@ if (!a.ausgabe.includes('5 Einträge geschrieben') || !a.ausgabe.includes(', 2 B
 if (!a.ausgabe.includes('5 Meldungen werden nach dem Commit abgehakt')) fehler.push(`Abhaken zählt nicht genau die geschriebenen Meldungen (5): ${zeilen.filter((z) => z.includes('abgehakt')).join(' | ')}`)
 const eintrag = a.liste.split('\n').find((z) => z.includes('B0FREMD001')) ?? ''
 if (!eintrag.includes('Titel 900102') || a.liste.includes('B0FREMD002') || a.liste.includes('B0FREMD003')) fehler.push(`Arbeitsliste: Zeile fehlt oder zu viele: ${eintrag}`)
+
+/* Eigene url, fremde Notizseite (Zexal): der Beleg wird nicht geschrieben, die Meldung bleibt liegen; die eigene Seite allein wird geschrieben. Ohne `ladeBesitz(ROOT, liste)` käme der Beleg durch. */
+const d = lauf([{ ...zeile(9, 'B0FREMD007', 'Fremdprobe Gamma'), notiz: 'Amazon-Seite B0FREMD008: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=abo' }])
+if (schreibt(d.belege, 'B0FREMD007', '900104')) fehler.push('Notizseite eines anderen Titels: Beleg wurde geschrieben')
+if (!d.ausgabe.includes('Notizseite B0FREMD008 gehört einem anderen Titel') || !d.liste.includes('B0FREMD008')) fehler.push(`Notizseite: keine Warnzeile oder Arbeitsliste: ${d.ausgabe.slice(-300)}`)
 
 /* Ohne fremden Besitzer läuft alles wie bisher: nichts verschoben, keine Zählung. */
 const b = lauf([zeile(4, 'B0FREMD002', 'Fremdprobe Alpha')])
