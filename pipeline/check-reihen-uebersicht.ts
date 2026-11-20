@@ -89,6 +89,15 @@ function props(teile: FranchiseMember[], s: Stand) {
   }
 }
 
+/* Erst statisch (läuft auch gegen die Spur, die im Mini-DOM nicht misst): Kopfzahl = sichtbare Teile, nicht alle 22. */
+const statisch = renderToStaticMarkup(h(ReihenListe, props(GROSS, { titel: 900102 })))
+gleich('statisch: Kopfzahl 19 (3 + 13 + 3, ohne Teile hinter dem Schalter)', /tabular-nums text-ak-text">(\d+)</.exec(statisch)?.[1], '19')
+pruefe('statisch: große Reihe als Übersicht', statisch.includes('data-reihe-uebersicht'))
+if (!statisch.includes('data-reihe-uebersicht')) {
+  console.error(`\n${verletzt} Prüfung(en) verletzt (keine Übersicht, Rest übersprungen)`)
+  process.exit(1)
+}
+
 const klasse = (k: MiniKnoten) => k.attribute.get('class') ?? ''
 async function oeffne(teile: FranchiseMember[], s: Stand) {
   const dom = installiereMiniDom(
@@ -121,6 +130,8 @@ async function oeffne(teile: FranchiseMember[], s: Stand) {
     zeige,
     text: () => dom.wurzel.textContent,
     klickeGruppe: (titel: string) => act(async () => klicke(dom.wurzel, kopfVon(titel))),
+    klickeTeil: (id: number) =>
+      act(async () => klicke(dom.wurzel, dom.wurzel.finde((k) => k.attribute.get('data-reihe-teil') === String(id))[0]!.finde((k) => k.localName === 'button')[0]!)),
     klickeAlle: () => act(async () => klicke(dom.wurzel, dom.wurzel.finde((k) => k.attribute.has('data-reihe-alle'))[0]!)),
     schalterText: () => dom.wurzel.finde((k) => k.localName === 'label' && k.finde((x) => x.localName === 'input').length > 0)[0]?.textContent ?? '',
     ende: async () => {
@@ -166,6 +177,9 @@ await a.ende()
 const b = await oeffne(GROSS, { titel: 900207 })
 gleich('Film 7: nur Filme offen', b.lage().gruppe.map((g) => g.offen), [false, true, false])
 gleich('Film 7: Fenster 5–9', b.lage().gruppe[1]!.zeilen, [5, 6, 7, 8, 9])
+await b.klickeTeil(900208)
+await b.klickeTeil(900207)
+gleich('Klick auf Film 8 wechselt, der geöffnete Film 7 tut nichts', aufrufe.wechsel, [900208])
 zahlGleichListe('Film 7 mit Fenster', b.lage())
 fokus = null
 await b.klickeAlle()
