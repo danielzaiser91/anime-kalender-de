@@ -475,13 +475,6 @@ export function DetailPanel({
           <TermineAbschnitt releases={releases} title={title} />
 
           {/*
-            Hier stand „Alles aus dieser Reihe" — dieselben Einträge, die zwei
-            Handbreit darüber schon im Umschalter stehen. Zwei Listen mit
-            identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
-            Länge.
-          */}
-
-          {/*
             Die Angaben zum Werk selbst — Genres, Bewertung, Studio.
 
             Sie standen bis zum 24.08.2026 direkt unter dem Titel, vor allem
