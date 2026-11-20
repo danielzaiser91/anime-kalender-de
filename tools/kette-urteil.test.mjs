@@ -28,6 +28,34 @@ assert.equal(kettenUrteil(undefined), 'rot')
 assert.equal(kettenUrteil({ a: {} }), 'rot')
 assert.equal(kettenUrteil({ a: null }), 'rot')
 
+// Mod-Schnellweg (20.11.2026): benannte Jobs, `scope.outputs.nur_mod` entscheidet, was „übersprungen“ bedeutet
+const jobs = (nurMod, ergebnisse) => ({
+  scope: { result: ergebnisse.scope ?? 'success', outputs: nurMod === undefined ? {} : { nur_mod: nurMod } },
+  logik: { result: ergebnisse.logik ?? 'success' },
+  bau: { result: ergebnisse.bau ?? 'success' },
+  modschnell: { result: ergebnisse.modschnell ?? 'skipped' },
+})
+const UEB = { logik: 'skipped', bau: 'skipped', modschnell: 'success' }
+assert.equal(kettenUrteil(jobs('0', {})), 'gruen', 'volle Kette, Schnellweg übersprungen')
+assert.equal(kettenUrteil(jobs('1', UEB)), 'gruen', 'nur Mod: Teiljobs übersprungen, Schnellweg success')
+assert.equal(kettenUrteil(jobs('1', { ...UEB, modschnell: 'failure' })), 'rot', 'nur Mod: Schnellweg rot')
+assert.equal(kettenUrteil(jobs('1', { ...UEB, modschnell: 'skipped' })), 'rot', 'nur Mod: Schnellweg übersprungen = nichts geprüft')
+assert.equal(kettenUrteil(jobs('1', { ...UEB, modschnell: 'cancelled' })), 'abgebrochen', 'nur Mod: Schnellweg abgebrochen')
+assert.equal(kettenUrteil(jobs('1', { ...UEB, logik: 'failure' })), 'rot', 'nur Mod: ein Teiljob trotzdem rot')
+assert.equal(kettenUrteil(jobs('1', { ...UEB, scope: 'failure' })), 'rot', 'nur Mod: Umfangsjob rot')
+assert.equal(kettenUrteil(jobs('1', { ...UEB, scope: 'skipped' })), 'rot', 'nur Mod: Umfangsjob übersprungen')
+assert.equal(kettenUrteil(jobs('0', { logik: 'skipped' })), 'rot', 'volle Kette: übersprungener Teiljob ist rot')
+assert.equal(kettenUrteil(jobs(undefined, { logik: 'skipped', bau: 'skipped' })), 'rot', 'fehlendes nur_mod: übersprungen ist rot')
+assert.equal(kettenUrteil(jobs('', { logik: 'skipped' })), 'rot', 'leeres nur_mod: übersprungen ist rot')
+assert.equal(kettenUrteil(jobs('true', { logik: 'skipped' })), 'rot', 'nur_mod nur genau 1')
+assert.equal(kettenUrteil(jobs('0', { modschnell: 'success' })), 'gruen', 'Schnellweg läuft nie ohne nur_mod; success schadet nicht')
+assert.equal(kettenUrteil(jobs('0', { modschnell: 'failure' })), 'rot', 'Schnellweg rot zählt immer')
+assert.equal(kettenUrteil(jobs('0', { logik: 'cancelled', bau: 'cancelled' })), 'abgebrochen', 'Neustart: Umfangsjob fertig, Rest abgebrochen')
+assert.equal(kettenUrteil(jobs('0', { logik: 'cancelled', bau: 'success' })), 'rot', 'Mix bleibt rot')
+assert.equal(kettenUrteil(jobs('0', { scope: 'cancelled', logik: 'cancelled', bau: 'cancelled' })), 'abgebrochen', 'alles abgebrochen')
+assert.equal(kettenUrteil(jobs('0', { scope: 'failure', logik: 'cancelled', bau: 'cancelled' })), 'rot', 'Umfangsjob rot, Rest abgebrochen')
+assert.equal(kettenUrteil({ scope: { result: 'success', outputs: { nur_mod: '1' } } }), 'rot', 'nur Mod ohne Schnellweg in needs')
+
 const ZIEL = 'repos/eigner/repo/actions/runs/4711/force-cancel'
 // Abbruch des eigenen Laufs: Attrappe prüft Befehl und Argumente
 const aufrufe = []
@@ -95,4 +123,10 @@ assert.match(rot.aus, /^kette-urteil: rot$/m)
 assert.equal(lauf(liste('success', 'cancelled')).code, 1)
 assert.equal(lauf(undefined).code, 1, 'ohne NEEDS rot')
 
-console.log('kette-urteil.test: 17 Listenfälle, 9 Abbruchfälle, 5 Prozessfälle ok')
+// Prozess mit Nur-Mod-Eingabe: Exit 0 nur mit grünem Schnellweg
+const nurModGruen = lauf(jobs('1', UEB))
+assert.equal(nurModGruen.code, 0)
+assert.match(nurModGruen.aus, /^kette-urteil: gruen$/m)
+assert.equal(lauf(jobs('1', { ...UEB, modschnell: 'skipped' })).code, 1, 'Prozess: Schnellweg übersprungen rot')
+
+console.log('kette-urteil.test: Listenfälle, Schnellweg-Fälle, Abbruchfälle und Prozessfälle ok')

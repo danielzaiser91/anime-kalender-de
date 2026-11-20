@@ -186,6 +186,10 @@ jobs:
             stufe=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).stufe)' "$T/stufe.json") || stufe=2
           fi
           echo "stufe=$stufe" >> "$GITHUB_OUTPUT"
+          # Nur Mod `arbeitsliste` (tools/pr-nur-mod.mjs, 20.11.2026): kein Modellaufruf, mechanische Freigabe unten. Fehlt die Angabe, gilt 0 (Modell prüft).
+          nurmod=0
+          if node -e 'const j=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));process.exit(j.nurMod===true&&j.stufe===0?0:1)' "$T/stufe.json"; then nurmod=1; fi
+          echo "nur-mod=$nurmod" >> "$GITHUB_OUTPUT"
           {
             echo "<!-- pr-stufe -->"
             echo "**Prüfstufe $stufe** für ${HEAD_SHA:0:9}"
@@ -257,6 +261,16 @@ jobs:
           KOPF: ${{ github.event.pull_request.head.sha }}
         run: node tools/pr-eingang.mjs "$RUNNER_TEMP/pruefer/pr-beschreibung.txt" "$DIFF_ZUSTAND" "$KOPF" >> "$GITHUB_OUTPUT"
 
+      # Nur Mod `arbeitsliste` (Daniel, 20.11.2026, F147): kein Modellaufruf. Der Branch-Schutz verlangt eine Freigabe, sie kommt aus dem Schritt „Protokoll und
+      # Freigabe“ mit diesem festen Urteil. Geprüft wird dann allein von der Kette (Job `modschnell`); der Schritt „Check-Stand“ setzt „ok“ nur bei grüner Kette,
+      # sonst „ok, Checks rot: …“, und läuft die Kette noch, endet der Lauf stumm und der Neustart nach Kettenende holt das Urteil.
+      - name: Freigabe ohne Modell (nur Mod)
+        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.nur-mod == '1'
+        run: |
+          T="$RUNNER_TEMP/pruefer"
+          printf '{"urteil":"ok","sha":"%s"}' "$HEAD_SHA" > "$T/urteil.json"
+          printf '%s\n' "Prüfstufe 0, nur Mod arbeitsliste (und Skill-Markdown): kein Modellaufruf. Geprüft hat die PR-Prüfkette (Job „Kette – Mod-Schnellweg“: claude plugin test und validate, Rangfolge-Test, Privatkennungen, Mutationsanker, Skill-Texte, Umfang)." > "$T/protokoll.md"
+
       # Stufe 0 (Daniel, 12.10.2026): schlanker Lauf statt Überspringen, damit grüne Kleinigkeiten eine echte Freigabe
       # bekommen (der Branch-Schutz verlangt sie). Gleiche Einstellungen, Dateien und Freigabe-Schritt wie unten; nur den
       # Diff lesen, kleines Zugbudget, kurzer Auftrag. Fehlt das Urteil, gibt es keine Freigabe.
@@ -264,7 +278,7 @@ jobs:
       # 13 turns, exceeding the maximum of 12" als Fehler, obwohl Urteil und Protokoll geschrieben sind; der Lauf stand
       # rot trotz "ok". Ob es ein Urteil gibt, entscheidet allein "Protokoll und Freigabe" (urteil.json/protokoll.md).
       - name: Prüfer (Stufe 0, schlank)
-        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'
+        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe == '0' && steps.stufe.outputs.nur-mod != '1' && steps.modus.outputs.modus != 'abnahme'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -317,7 +331,7 @@ jobs:
       # Kein CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: braucht bubblewrap, das der Runner nicht hat (Lauf 38051777036 brach
       # beim Installieren ab); Bash ist ohnehin verboten.
       - name: Prüfer
-        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'
+        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe != '0' && steps.stufe.outputs.nur-mod != '1' && steps.modus.outputs.modus != 'abnahme'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:
@@ -454,7 +468,7 @@ jobs:
       # Abnahme-Modus (Daniel, 21.10.2026): jeder spätere Kopf, nur lesen im Prüfordner (kein Repo-Zugriff nötig: die
       # Auflagen stehen in auflagen.md, der Nachtrag-Diff in pr.diff). Neue Funde sind ausgeschlossen, außer Regression.
       - name: Prüfer (Abnahme)
-        if: steps.kette.outputs.laeuft != 'ja' && steps.modus.outputs.modus == 'abnahme'
+        if: steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.nur-mod != '1' && steps.modus.outputs.modus == 'abnahme'
         continue-on-error: true
         uses: anthropics/claude-code-action@v1
         with:

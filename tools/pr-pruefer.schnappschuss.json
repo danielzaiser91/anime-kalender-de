@@ -118,7 +118,7 @@
             "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
             "GH_REPO": "${{ github.repository }}"
           },
-          "run": "T=\"$RUNNER_TEMP/pruefer\"\nstufe=2\nif node tools/pr-stufe.mjs \"$PR\" > \"$T/stufe.json\"; then\n  stufe=$(node -e 'console.log(JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\")).stufe)' \"$T/stufe.json\") || stufe=2\nfi\necho \"stufe=$stufe\" >> \"$GITHUB_OUTPUT\"\n{\n  echo \"<!-- pr-stufe -->\"\n  echo \"**Prüfstufe $stufe** für ${HEAD_SHA:0:9}\"\n  echo\n  node -e 'const j=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(j.begruendung.map(b=>\"- \"+b).join(\"\\n\"))' \"$T/stufe.json\" || true\n} > \"$T/stufe.md\"\ncat \"$T/stufe.md\" >> \"$GITHUB_STEP_SUMMARY\"\n# Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.\nalt=$(gh api \"repos/$GITHUB_REPOSITORY/issues/$PR/comments\" --paginate -q '.[] | select(.body | startswith(\"<!-- pr-stufe -->\")) | .id' | head -1) || alt=\nif [ -n \"$alt\" ]; then\n  gh api -X PATCH \"repos/$GITHUB_REPOSITORY/issues/comments/$alt\" -F body=@\"$T/stufe.md\" > /dev/null\nelse\n  gh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/stufe.md\"\nfi\n"
+          "run": "T=\"$RUNNER_TEMP/pruefer\"\nstufe=2\nif node tools/pr-stufe.mjs \"$PR\" > \"$T/stufe.json\"; then\n  stufe=$(node -e 'console.log(JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\")).stufe)' \"$T/stufe.json\") || stufe=2\nfi\necho \"stufe=$stufe\" >> \"$GITHUB_OUTPUT\"\n# Nur Mod `arbeitsliste` (tools/pr-nur-mod.mjs, 20.11.2026): kein Modellaufruf, mechanische Freigabe unten. Fehlt die Angabe, gilt 0 (Modell prüft).\nnurmod=0\nif node -e 'const j=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));process.exit(j.nurMod===true&&j.stufe===0?0:1)' \"$T/stufe.json\"; then nurmod=1; fi\necho \"nur-mod=$nurmod\" >> \"$GITHUB_OUTPUT\"\n{\n  echo \"<!-- pr-stufe -->\"\n  echo \"**Prüfstufe $stufe** für ${HEAD_SHA:0:9}\"\n  echo\n  node -e 'const j=JSON.parse(require(\"fs\").readFileSync(process.argv[1],\"utf8\"));console.log(j.begruendung.map(b=>\"- \"+b).join(\"\\n\"))' \"$T/stufe.json\" || true\n} > \"$T/stufe.md\"\ncat \"$T/stufe.md\" >> \"$GITHUB_STEP_SUMMARY\"\n# Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.\nalt=$(gh api \"repos/$GITHUB_REPOSITORY/issues/$PR/comments\" --paginate -q '.[] | select(.body | startswith(\"<!-- pr-stufe -->\")) | .id' | head -1) || alt=\nif [ -n \"$alt\" ]; then\n  gh api -X PATCH \"repos/$GITHUB_REPOSITORY/issues/comments/$alt\" -F body=@\"$T/stufe.md\" > /dev/null\nelse\n  gh pr comment \"$PR\" --repo \"$GITHUB_REPOSITORY\" --body-file \"$T/stufe.md\"\nfi\n"
         },
         {
           "name": "Prüfmodus",
@@ -161,8 +161,13 @@
           "run": "node tools/pr-eingang.mjs \"$RUNNER_TEMP/pruefer/pr-beschreibung.txt\" \"$DIFF_ZUSTAND\" \"$KOPF\" >> \"$GITHUB_OUTPUT\""
         },
         {
+          "name": "Freigabe ohne Modell (nur Mod)",
+          "if": "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.nur-mod == '1'",
+          "run": "T=\"$RUNNER_TEMP/pruefer\"\nprintf '{\"urteil\":\"ok\",\"sha\":\"%s\"}' \"$HEAD_SHA\" > \"$T/urteil.json\"\nprintf '%s\\n' \"Prüfstufe 0, nur Mod arbeitsliste (und Skill-Markdown): kein Modellaufruf. Geprüft hat die PR-Prüfkette (Job „Kette – Mod-Schnellweg“: claude plugin test und validate, Rangfolge-Test, Privatkennungen, Mutationsanker, Skill-Texte, Umfang).\" > \"$T/protokoll.md\"\n"
+        },
+        {
           "name": "Prüfer (Stufe 0, schlank)",
-          "if": "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe == '0' && steps.modus.outputs.modus != 'abnahme'",
+          "if": "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe == '0' && steps.stufe.outputs.nur-mod != '1' && steps.modus.outputs.modus != 'abnahme'",
           "continue-on-error": true,
           "uses": "anthropics/claude-code-action@v1",
           "with": {
@@ -183,7 +188,7 @@
         },
         {
           "name": "Prüfer",
-          "if": "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe != '0' && steps.modus.outputs.modus != 'abnahme'",
+          "if": "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.stufe != '0' && steps.stufe.outputs.nur-mod != '1' && steps.modus.outputs.modus != 'abnahme'",
           "continue-on-error": true,
           "uses": "anthropics/claude-code-action@v1",
           "with": {
@@ -206,7 +211,7 @@
         },
         {
           "name": "Prüfer (Abnahme)",
-          "if": "steps.kette.outputs.laeuft != 'ja' && steps.modus.outputs.modus == 'abnahme'",
+          "if": "steps.kette.outputs.laeuft != 'ja' && steps.stufe.outputs.nur-mod != '1' && steps.modus.outputs.modus == 'abnahme'",
           "continue-on-error": true,
           "uses": "anthropics/claude-code-action@v1",
           "with": {

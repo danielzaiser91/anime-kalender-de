@@ -5,7 +5,7 @@ name: PR-Prüfkette
 # Pflicht-Check im Ruleset. Berührt keinen Datenlauf: nur `pull_request`, nur lesen.
 #
 # Seit 16.10.2026 laufen die Prüfungen von `check:vor-commit` in parallelen Teiljobs (Logik und Tests je in zwei Teilen); `kette` ist der Sammeljob und nur grün,
-# wenn alle Teiljobs `success` melden (übersprungen oder Mix = rot; nur `cancelled` = abgebrochener Lauf, Urteil in tools/kette-urteil.mjs). Jede Prüfung aus `check:vor-commit` steht in genau einem
+# wenn alle Teiljobs `success` melden (übersprungen oder Mix = rot, außer beim Mod-Schnellweg unten; nur `cancelled` = abgebrochener Lauf, Urteil in tools/kette-urteil.mjs). Jede Prüfung aus `check:vor-commit` steht in genau einem
 # Teiljob; `tools/pr-kette-pruefen.mjs` (Test in `check:workflows`) rechnet das nach und prüft die `needs` des Sammeljobs.
 #
 # **Schlanke Kette (seit 18.11.2026, Ziel unter 10 min):** Die Kette fährt den schnellen Kern. Die langsamen Logik-Prüfungen und Tests, die nur Code prüfen, laufen nachts gegen main
@@ -33,10 +33,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Mod-Schnellweg (Daniel, 20.11.2026, F147): Ändert ein PR nur `.claude/mods/arbeitsliste/**` (dazu höchstens Skill-Markdown), berührt er weder Seite noch Daten
+  # noch Pipeline. `scope` stellt das fest (tools/pr-nur-mod.mjs); dann entfallen alle anderen Jobs (ihr `if` prüft `needs.scope.outputs.nur_mod`), und `modschnell`
+  # fährt allein, was eine Mod-Änderung wirklich berührt. Ein Pfadfilter auf Workflow-Ebene ginge nicht (der Pflicht-Check meldete sich nie); der Sammeljob zählt
+  # übersprungen nur bei `nur_mod == '1'` und grünem `modschnell` als bestanden (tools/kette-urteil.mjs). Form beider Jobs: tools/pr-kette-schnellweg.mjs.
+  scope:
+    name: Kette – Umfang
+    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      nur_mod: ${{ steps.pfad.outputs.nur_mod }}
+    steps:
+      # Tiefe 2: HEAD^1 ist die Basis (main im Merge-Ref), HEAD der Merge-Commit.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Nur Mod-Dateien?
+        id: pfad
+        run: node tools/pr-nur-mod.mjs HEAD^1 HEAD >> "$GITHUB_OUTPUT"
+
+  modschnell:
+    name: Kette – Mod-Schnellweg
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod == '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+      # Läuft unter dem Workflow-Namen „PR-Prüfkette“: ohne Claude-CLI scheitert der Test hier, statt zu überspringen (tools/browser-weiche.mjs).
+      - name: Mod-Tests (claude plugin test)
+        run: node tools/mod-tests.test.mjs
+      - name: Mod-Prüfung (claude plugin validate)
+        run: npx --yes @anthropic-ai/claude-code@2.1.321 plugin validate .claude/mods/arbeitsliste
+      # Leser der Mod außerhalb von ihr: Rangfolge-Test (importiert stand-kennzeichen), Autorfeld der plugin.json, Mutationsanker auf Mod-Dateien,
+      # Skill-Markdown, Umfangsgrenzen.
+      - name: Prüfungen, die Mod und Skill-Texte lesen
+        run: node tools/naechster.test.mjs && npx tsx pipeline/check-privatkennungen.ts && node tools/mutationsanker-alle.test.mjs && node tools/claude-global-privat.test.mjs && node tools/umfang-pruefen.mjs
+
   # `check:logic` in zwei Jobs (`--teil k/2`, tools/tests-teil.mjs: jede zweite Prüfung je Teil; Wächter tools/check-logic-teil.test.mjs, 18.11.2026).
   logik:
     name: Kette – Logik 1
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -51,7 +91,8 @@ jobs:
 
   logik2:
     name: Kette – Logik 2
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -65,7 +106,8 @@ jobs:
 
   bau:
     name: Kette – Bau und Installation
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -93,7 +135,8 @@ jobs:
 
   workflows:
     name: Kette – Workflows
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -107,7 +150,8 @@ jobs:
   # Zweite Hälfte von tests-alle (tools/tests-teil.mjs): halbiert die Laufzeit des längsten Teiljobs (Messung 03.11.2026, Tests 330 s auf 4 Kernen).
   workflows2:
     name: Kette – Workflows 2
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -119,7 +163,8 @@ jobs:
 
   typen:
     name: Kette – Typen und Worker
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -131,7 +176,8 @@ jobs:
 
   uebrige:
     name: Kette – Daten, Erweiterung, Belege
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -155,7 +201,7 @@ jobs:
   # diesen Job überspringen, und übersprungen zählt als bestanden. Hier zählt nur `success`; sind alle Teiljobs `cancelled` (Neustart durch Push), ist es kein Fehlschlag.
   kette:
     name: PR-Prüfkette
-    needs: [logik, logik2, bau, workflows, workflows2, typen, uebrige, datenbau, aussehen]
+    needs: [scope, modschnell, logik, logik2, bau, workflows, workflows2, typen, uebrige, datenbau, aussehen]
     if: ${{ always() && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -178,7 +224,8 @@ jobs:
   # ginge am Importgraph vorbei; der Job läuft parallel zur längsten Kette. Form fest: tools/pr-kette-datenbau.mjs.
   datenbau:
     name: PR-Datenbau
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -222,7 +269,8 @@ jobs:
   # führt `aussehen` in `needs`, ein roter Teil hält also den Merge auf.
   aussehen:
     name: PR-Aussehen – ${{ matrix.teil }}
-    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    needs: [scope]
+    if: ${{ needs.scope.outputs.nur_mod != '1' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     timeout-minutes: ${{ matrix.frist || 20 }}
     strategy:
