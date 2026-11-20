@@ -26,15 +26,13 @@ for (const t of grenzen) pruefe(`${t.anilistId}: Grenzen in Ordnung`, fehlerInGr
 /* Jede Staffel 1–25 kommt vor, und die Folgensumme je Staffel hält gegen die zweite Größe: die TMDB-Folgenzahl je Staffel (tv/60572, `data/tmdb-folgen.json`
    vom 06.10.2026, als Tabelle festgeschrieben, damit die Prüfung keine Sammler-Datei liest). Eine Grenze, die um eine Folge verrutscht, macht zwei Staffeln
    falsch (A4). Abweichungen nur, wo aniSearch anders zählt (siehe yaml-Kopf). */
-const TMDB_JE_STAFFEL: Record<number, number> = {
-  1: 82, 2: 36, 3: 41, 4: 52, 5: 65, 6: 40, 7: 52, 8: 53, 9: 46, 10: 52, 11: 52, 12: 53, 13: 34, 14: 48, 15: 49, 16: 45, 17: 48, 18: 45, 19: 49, 20: 43, 21: 49, 22: 54, 23: 48, 24: 42, 25: 57,
-}
+const TMDB_JE_STAFFEL = [82, 36, 41, 52, 65, 40, 52, 53, 46, 52, 52, 53, 34, 48, 49, 45, 48, 45, 49, 43, 49, 54, 48, 42, 57] // Staffel 1 bis 25
 const jeStaffel = new Map<number, number>()
 for (const t of grenzen) for (const s of t.staffeln) jeStaffel.set(s.nr, (jeStaffel.get(s.nr) ?? 0) + s.folgen)
 const ABWEICHUNG: Record<number, number> = { 9: 1, 17: 1, 18: -1, 19: -2 }
 for (let nr = 1; nr <= 25; nr++) {
-  const erwartet = (TMDB_JE_STAFFEL[nr] ?? -1) + (ABWEICHUNG[nr] ?? 0)
-  pruefe(`Staffel ${nr}: ${jeStaffel.get(nr)} Folgen, erwartet ${erwartet} (TMDB ${TMDB_JE_STAFFEL[nr]}${ABWEICHUNG[nr] ? `, Abweichung ${ABWEICHUNG[nr]}` : ''})`, jeStaffel.get(nr) === erwartet)
+  const erwartet = (TMDB_JE_STAFFEL[nr - 1] ?? -1) + (ABWEICHUNG[nr] ?? 0)
+  pruefe(`Staffel ${nr}: ${jeStaffel.get(nr)} Folgen, erwartet ${erwartet} (TMDB ${TMDB_JE_STAFFEL[nr - 1]}${ABWEICHUNG[nr] ? `, Abweichung ${ABWEICHUNG[nr]}` : ''})`, jeStaffel.get(nr) === erwartet)
 }
 pruefe('Summe aller Folgen 1.234', [...jeStaffel.values()].reduce((a, b) => a + b, 0) === 1234)
 
