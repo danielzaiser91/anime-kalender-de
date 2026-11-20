@@ -31,6 +31,10 @@ pruefe('Gegenfall: verfehlter Befund bleibt offen', grundVon(ohneAndereWerke({ 7
 pruefe('Gegenfall: Handbeleg „deutsch“ geht vor', grundVon(mit, 7, { handbelege: [{ anilistId: 7, platform: 'prime', dub: true, checkedAt: '2026-10-01' } as never] })?.reason === 'offen')
 const gefunden = { geprueftAm: '2026-11-17', jwId: 'ts9', tmdbId: 1, angebote: [{ anbieter: 'X', art: 'FLATRATE', audio: ['en'] }], namenTreffer: treffer('tm1') } as unknown as Befund
 pruefe('Gegenfall: ein gefundener Titel (kein ohneTreffer) behält seine Felder', ohneAndereWerke({ 7: gefunden }, [eintrag(7, 'tm1')])[7]?.namenTreffer?.jwId === 'tm1')
+const fremdBefund = { geprueftAm: '2026-11-17', jwId: 'ts9', tmdbId: 1, jwPfad: '/de/Serie/x', verfehltAm: '2026-11-17', angebote: [] } as unknown as Befund
+const ersetzt = ohneAndereWerke({ 7: fremdBefund }, [eintrag(7, 'ts9')])
+pruefe('Alter Befund, der das andere Werk selbst trägt: wie ohneTreffer, Tag bleibt (kein offen)', grundVon(ersetzt, 7)?.reason === 'kein-angebot' && grundVon(ersetzt, 7)?.checkedAt === '2026-11-17', grundVon(ersetzt, 7))
+pruefe('Gegenfall: Eintrag für eine andere jwId lässt den alten Befund stehen (offen)', grundVon(ohneAndereWerke({ 7: fremdBefund }, [eintrag(7, 'ts8')]), 7)?.reason === 'offen')
 const bestand = { 7: ohneTreffer() }
 ohneAndereWerke(bestand, [eintrag(7, 'tm1')])
 pruefe('Der Bestand selbst bleibt unverändert (Kopie)', bestand[7]?.namenTreffer?.jwId === 'tm1')

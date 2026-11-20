@@ -5,6 +5,7 @@ import type { Title } from '../../shared/types.ts'
 import type { JwBefund } from './jw-vertrauen.ts'
 import { titelMitJwFlagge, vorgezogen } from './jw-wiedervorlage.ts'
 import { frischFaellig } from './jw-frische.ts'
+import { nachfrageFaellig } from './jw-nachfrage.ts'
 
 export interface SchlangenEingabe {
   titles: Title[]
@@ -66,7 +67,8 @@ export function warteschlange({ titles, bestand, tmdb, grenze, heute, frisch = n
     return Boolean(e?.ohneTreffer && !e.tmdbId && tmdbVon(t))
   }
   const vor = (t: Title) =>
-    vorgezogen(t, bestand, heute, mitFlagge) || frischFaellig(t.id, bestand[String(t.id)], frisch, heute) || listenVorrang.has(t.id)
+    vorgezogen(t, bestand, heute, mitFlagge) || frischFaellig(t.id, bestand[String(t.id)], frisch, heute) || listenVorrang.has(t.id) ||
+    nachfrageFaellig(bestand[String(t.id)], tmdbVon(t), heute)
   return titles
     .filter((t) => tmdbVon(t))
     .filter((t) => (bestand[String(t.id)]?.geprueftAm ?? '') < grenze || kennungGewechselt(t) || fehlschlagOhneKennung(t) || vor(t))

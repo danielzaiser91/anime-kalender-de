@@ -4,7 +4,8 @@
  * Regeln (Form statt Muster, Whitelist statt Verbotsliste; 16.10.2026):
  *  - Prüfschritte eines Teiljobs sind genau `run: npm run <name>` (eine Zeile, nichts davor oder danach; env nur `PAGES_BASE: /`);
  *    nur so zählt eine Prüfung. Jede `npm run X` aus `check:vor-commit` steht in genau einem Teiljob (`check:vor-commit` selbst zählt alle);
- *  - Teiljob-Schlüssel nur name/if/runs-on/timeout-minutes/steps (kein strategy, defaults, env, continue-on-error), `if` textgleich der Standardbedingung,
+ *  - Teiljob-Schlüssel nur name/needs/if/runs-on/timeout-minutes/steps (kein strategy, defaults, env, continue-on-error), `needs` genau `[scope]` und `if` textgleich
+ *    der Standardbedingung samt Nur-Mod-Klausel (Mod-Schnellweg, tools/pr-kette-schnellweg.mjs: `scope` und `modschnell` stehen dort in Sollfassung),
  *    Schritt-Schlüssel nur name/uses/with/run/env (kein if, shell, working-directory), `uses` nur checkout und kette-einrichten, Workflow ohne env/defaults;
  *    Rahmen (Trigger, Rechte, Runner, Frist, `with` je Action, Schritte der Action `kette-einrichten`) siehe tools/pr-kette-rahmen.mjs;
  *  - der Sammeljob (Name `PR-Prüfkette`) führt jeden anderen Job in `needs`, auch `PR-Aussehen…` (davon nur die Form ausgenommen), sein `if` ist textgleich `always() && <if der Teiljobs>`
@@ -19,14 +20,15 @@ import { parse } from 'yaml'
 import { DATENBAU_NAME, pruefeDatenbau } from './pr-kette-datenbau.mjs'
 import { ortFehler, ortZeile } from './pr-kette-ort.mjs'
 import { pruefeRahmen, pruefeSchrittfolge } from './pr-kette-rahmen.mjs'
+import { IF_VOLLE_KETTE, NEEDS_SCOPE, SCHNELLWEG_NAME, SCOPE_NAME, pruefeSchnellweg } from './pr-kette-schnellweg.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const SAMMEL = 'PR-Prüfkette'
 const AUSSEHEN = 'PR-Aussehen'
 /** Aussehen-Jobs (Matrix, eigene Form, kein Teil von check:vor-commit); sie zählen im Sammeljob trotzdem (seit 16.10.2026). */
 const istAussehen = (job) => String(job.name ?? '').startsWith(AUSSEHEN)
-/** Jobs mit eigener Form (Aussehen-Matrix, Datenbau), die nicht Teil von check:vor-commit sind. */
-const istSonderjob = (job) => istAussehen(job) || job.name === DATENBAU_NAME
+/** Jobs mit eigener Form (Aussehen-Matrix, Datenbau, Umfang und Mod-Schnellweg), die nicht Teil von check:vor-commit sind. */
+const istSonderjob = (job) => istAussehen(job) || [DATENBAU_NAME, SCOPE_NAME, SCHNELLWEG_NAME].includes(job.name)
 const TEILJOB_BEDINGUNG = "!startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft"
 
 /** Alle `npm run X`-Namen in einem Text (für `check:vor-commit`). */
@@ -142,11 +144,12 @@ function pruefeTeiljobSchritt(id, s, vorCommit) {
 /** Auflagen an Jobs: feste Bedingung, feste Form, nichts abfangen (übersprungen oder abgefangen zählt als bestanden). */
 function pruefeAuflagen(doc, jobs, sammlerId, vorCommit) {
   const fehler = fremdeSchluessel(doc, WORKFLOW_SCHLUESSEL).map((k) => `Workflow: Schlüssel "${k}" nicht erlaubt (env/defaults wirken auf alle Schritte)`)
-  const standard = `\${{ ${TEILJOB_BEDINGUNG} }}`
+  const standard = IF_VOLLE_KETTE
   for (const [id, job] of Object.entries(jobs)) {
     if (istSonderjob(job) || id === sammlerId) continue
-    fehler.push(...pruefeJobForm(id, job, JOB_SCHLUESSEL))
+    fehler.push(...pruefeJobForm(id, job, [...JOB_SCHLUESSEL, 'needs']))
     if (job.if !== standard) fehler.push(`Teiljob "${id}": if ist nicht textgleich "${standard}"`)
+    if (JSON.stringify(job.needs) !== JSON.stringify(NEEDS_SCOPE)) fehler.push(`Teiljob "${id}": needs ist nicht exakt ["scope"] (Mod-Schnellweg: sonst läuft er bei Nur-Mod mit)`)
     for (const s of job.steps ?? []) fehler.push(...pruefeTeiljobSchritt(id, s, vorCommit))
     fehler.push(...pruefeSchrittfolge(id, job.steps ?? []))
     const hochladen = (job.steps ?? []).findIndex((s) => s.uses === UPLOAD)
@@ -169,6 +172,7 @@ export function pruefeKette(doc, scripts, aktion) {
     ...pruefeSammler(jobs, sammlerId),
     ...pruefeAuflagen(doc, jobs, sammlerId, vorCommit),
     ...pruefeDatenbau(jobs),
+    ...pruefeSchnellweg(jobs),
     ...pruefeRahmen(doc, pflichtJobs, aktion),
   ]
   for (const [name, anzahl] of zaehleVorkommen(teiljobs, vorCommit)) {

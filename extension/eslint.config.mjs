@@ -92,6 +92,7 @@ export default [
         akProfilwahlSeite: 'readonly',
         AK_PROFILWAHL_TAKT_MS: 'readonly',
         akNetflixEndeZeigen: 'readonly',
+        akNetflixLeisteOhneListe: 'readonly',
         akNetflixBrowseAuftrag: 'readonly',
         akNetflixSitzungBericht: 'readonly',
         akNetflixTaktTun: 'readonly',
