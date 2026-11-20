@@ -75,9 +75,9 @@ Jede Regel ist ein Kurzimperativ; Anlass, PR-Nummer, Datum und alter Wortlaut je
 - **K6b Live-Daten:** eingefrorener Fall plus Gegenprobe mit leerem Fenster.
 - **K6c Wettlauf:** auf Endzustand warten, nicht auf Logzeile; fremde Einträge zählen; echte Arbeitskopie des Schreibers.
 - **K6d Neuversuch:** VERSUCHE × Dauer unter Job-Frist und gegen Bewegungsrate des Ziels.
-- **K6d Stapel-PR:** offener Basis-PR ist „Basis #N zuerst mergen“; F-Entscheidung im Nachtrag ist Stand.
+- **K6d Stapel-PR:** offener Basis-PR ist „Basis #N zuerst mergen“, geurteilt wird nur über den eigenen Anteil; F-Entscheidung im Nachtrag ist Stand.
 - **K6e Gemerkter Zustand:** Kennungen oder Bestandskennung; Titel vorn einfügen → `undefined`; `chrome.storage` mit Alteintrag, PR-Text sagt, wie lange er weiterwirkt.
-- **K7 Verwerfung:** neuer Verwerfpfad braucht Ende-zu-Ende-Wächter, der Fehlende namentlich meldet.
+- **K7 Verwerfung:** neuer Verwerfpfad braucht Ende-zu-Ende-Wächter, der Fehlende namentlich meldet; Zähler oder Liste ohne Leser genügt nicht (Skill `stille-ausfaelle-verhindern`).
 - **K9 Oberfläche:** Worst Case (3-Zeilen-Titel, meiste Chips, 360 px, beide Themen) mit Bildern, auch `extension/`; feste Höhe ist Befund, globale Typografie an allen Kacheltypen; `elementFromPoint`, gebautes CSS, Pixelmessung bei Rand/Ring/Schatten, Oberflächentests rendern; Zustandsbeschriftung mit Fall ohne Daten; Meldeart: Zeile verschwindet je Anbieter auch nach Neuaufbau, über den Schreibpfad (Regex ist Auflage); alle Wege zum Zustand; Bühne A → B → neu laden; Verstoß gegen `docs/wissen/design-regeln.md` Abschnitt 13 ist Befund.
 - **K9b Zuvorkommen:** „sofort“ braucht Test mit Seitenaufruf vor jedem Hörer.
 - **K9c Anzeige und Handlung:** eine Funktion; Verdrahtung per Lauf, nie Regex.
