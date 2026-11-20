@@ -712,8 +712,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   const PRIME_NACHHOLEN_MS = 8000
   let primeNachholTimer = null
   const IM_FRAME = Boolean(window.top) && window !== window.top
-  const SUCHE_IM_FRAME = IM_FRAME && /^\/s(\/|$)/.test(location.pathname)
-  const sucheFrame = { start: Date.now(), fertig: false }
   const primeFrames = new Map() // offene Frames dieser Seite: Element → { kennung, start }
   /**
    * **Was diese Sitzung selbst gemeldet hat — neben dem Briefkasten, nicht in ihm.**
@@ -1988,6 +1986,12 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * ein neuer Prime-Tab kostet dann nichts.
    */
   let suchliste = globalThis.AK_PRIME_SUCHE ?? {}
+  /* Titel und Folgenzahl der Suchen mit Auswahl: der Worker kennt nur die Kennungen (`erwartungMelden`). */
+  let auswahlMerk = {}
+  async function auswahlMerkLaden() {
+    auswahlMerk = (await globalThis.akKontext.lesen('primeAuswahlKopf'))?.primeAuswahlKopf ?? {}
+  }
+  void auswahlMerkLaden()
   const FRISCH_MS = 10 * 60 * 1000
   const QUELLE = 'https://anime-kalender.de/data/prime-suche.json'
   ;(async () => {
@@ -3009,7 +3013,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       die Antwort zufällig früher. Das Eintreffen der Auswahl ist jetzt selbst
       ein Anlass.
     */
-    kasten.dataset.beiErwartungen = briefkastenErwartungen ? 'da' : 'fehlt'
+    kasten.dataset.beiErwartungen = erwartungsMarke()
     kasten.classList.remove('ak-nur-huelle')
 
     /*
@@ -3530,15 +3534,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   }
 
   /**
-   * Kennungen der übrigen passenden Treffer derselben Suche — siehe `weitere=`.
-   *
-   * **Vor dem ersten Zugriff deklariert**, nicht darunter: `let` hebt den Namen
-   * hoch, aber nicht den Wert. Ein Zugriff davor wirft, statt `undefined` zu
-   * liefern — derselbe Fehler wie bei `listenId`, `knopf` und `istGemeldet`.
-   */
-  let weitereAusgaben = []
-
-  /**
    * **Solange gesendet wird, fasst der Takt den Knopf nicht an.**
    *
    * Der Klick setzt „sende …", und eine halbe Sekunde später schrieb
@@ -3703,7 +3698,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
           ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
           : []
 
-      if (befund.art === 'genau') return genauZeigen(auftrag, zeichnen, befund, begriffZeile, folgen)
+      if (befund.art === 'genau') return genauZeigen(auftrag, zeichnen, befund, gefunden, begriffZeile, folgen)
 
       if (befund.art === 'unklar') {
         hinweisKasten(auftrag.titel, folgen, kastenZeile('ak-such-hinweis', 'Ergebnisse noch nicht gelesen …'))
@@ -3795,7 +3790,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
          * Eintrag sind; der Kasten bot nur „Anderes Werk" an. Seit 31.10.2026 sind alle angehakt und
          * Daniel nimmt ab, was fremd ist („Sword Art Online" gegen „… Alicization").
          */
-        ...(nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer) : []),
+        ...(nurAehnlich ? auswahlGruppe(auftrag, gefunden) : []),
         /*
           **Ein Titel mit Zusatz findet oft nichts, der Haupttitel schon.**
 
@@ -3913,106 +3908,101 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     return true
   }
 
-  /** Der Kasten bei genauem Treffer (aus `zeigeSuchhinweis` herausgelöst). */
-  function genauZeigen(auftrag, zeichnen, befund, begriffZeile, folgen) {
-    const sortiert = genauSortiert(auftrag, befund)
-    const t = sortiert[0]
-    const ziel = ohneParameter(t.url)
-    const zielKennung = kennungAus(ziel)
-    /*
-      Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
-      Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
-      sogar im Player einer fremden Serie und behauptete dort, die Meldung
-      laufe unter „Angels of Death" (27.08.2026, mit Bild).
-    */
-    suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: zielKennung })
+  /** Ein Schalter der Liste zeigt „an" wie die anderen (grün, `ak-selbst-an`) und sagt es mit `aria-pressed`. */
+  function umschalterZeigen(knopf, an) {
+    knopf.classList.toggle('ak-selbst-an', an)
+    knopf.setAttribute('aria-pressed', String(an))
+  }
+
+  /** Eine gewählte Karte als Zeile der Prüfliste: Klick öffnet ihre Titelseite, dort meldet der Knopf wie bei jedem Titel. */
+  function auswahlZeileBauen(z) {
+    const zeile = document.createElement('div')
+    zeile.className = 'ak-zeile ak-suchzeile'
+    if (z.gemeldet) zeile.classList.add('ak-abgehakt')
+    const verweis = document.createElement('a')
+    verweis.className = 'ak-titel'
+    verweis.href = `https://www.amazon.de/gp/video/detail/${z.kennung}`
+    verweis.textContent = `${z.titel} · ${z.kennung}`
+    verweis.addEventListener('click', () => suchauftragMerken({ ...auswahlKopf(z.suchUrl), suchUrl: z.suchUrl, zielAsin: z.kennung }))
+    zeile.appendChild(verweis)
+    zeile.style.cursor = 'pointer'
+    zeile.addEventListener('click', (ev) => {
+      if (!ev.target.closest('a')) verweis.click()
+    })
+    return zeile
+  }
+
+  /** Der Abschnitt „Gewählte Treffer" der Prüfliste, offene zuerst. */
+  function auswahlAbschnitt(inhalt) {
+    const zeilen = auswahlZeilen().sort((a, b) => Number(a.gemeldet) - Number(b.gemeldet))
+    if (!zeilen.length) return
+    const trenner = document.createElement('div')
+    trenner.className = 'ak-abschnitt'
+    trenner.textContent = globalThis.akPrimeSuchUeberschrift('Gewählte Treffer', zeilen.filter((z) => !z.gemeldet).length, zeilen.length)
+    trenner.title = 'Karten, die du auf einer Suchseite gewählt hast. „▶ alle durchgehen“ meldet sie wie jeden Titel.'
+    inhalt.appendChild(trenner)
+    for (const z of zeilen) inhalt.appendChild(auswahlZeileBauen(z))
+  }
+
+  /** Die Kennung einer Karte (ASIN oder gti) aus ihrer Adresse. */
+  function karteKennung(url) {
+    return /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(ohneParameter(url) ?? '')?.[1] ?? null
+  }
+
+  /**
+   * **Der Suchauftrag ist nur eine Auswahl (20.11.2026).** Daniel kreuzt an, welche Karten zum Titel gehören;
+   * jede wird beim Worker gespeichert und steht danach als eigene Zeile in der Prüfliste. Gemeldet wird erst auf
+   * der Titelseite der Karte, nie hier.
+   */
+  function auswahlGruppe(auftrag, gefunden) {
+    const karten = globalThis.akPrimeAuswahlKarten(gefunden.treffer, karteKennung)
+    if (!karten.length) return []
+    return [
+      globalThis.akPrimeAuswahlGruppe({
+        karten,
+        gewaehlt: erwartungZu(auftrag.suchUrl),
+        zeile: kastenZeile,
+        auswahl: kastenAuswahl,
+        knopf: kastenKnopf,
+        speichern: (kennungen) => auswahlSpeichern(auftrag, kennungen),
+      }),
+    ]
+  }
+
+  /**
+   * Titelseite eines Suchauftrags ohne Auswahl: „Weitere Versionen verfügbar" (4.32.2) als Auswahl derselben Gruppe.
+   * Die Suche zeigt nicht alle Fassungen (Fischen Impossible: die Uncut-Fassung fehlte); ohne Suchadresse oder Abschnitt nichts.
+   */
+  function fassungenAuswahl(auftrag) {
+    if (!auftrag.suchUrl) return []
+    const treffer = globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart())
+    return treffer.length ? auswahlGruppe(auftrag, { treffer }) : []
+  }
+
+  /** Auswahl zum Worker; Titel und Folgenzahl merkt sich die Erweiterung, falls der Bau die Suche später abräumt. */
+  async function auswahlSpeichern(auftrag, kennungen) {
+    const ok = await erwartungMelden(auftrag.suchUrl, kennungen)
+    if (ok) {
+      /* `eigen` überbrückt die zwei Stunden, die der Briefkasten die alte Antwort hält (`akPrimeErwartungZu`); leer = zurückgenommen. */
+      auswahlMerk = { ...auswahlMerk, [auftrag.suchUrl]: { titel: auftrag.titel ?? null, folgen: auftrag.folgen ?? null, eigen: kennungen, am: Date.now() } }
+      await globalThis.akKontext.schreiben({ primeAuswahlKopf: auswahlMerk })
+    }
+    if (ok) uebersichtZeichnen()
+    return ok
+  }
+
+  /** Eine genaue oder ähnliche Trefferliste: Auswahl der Karten und der Weg „nicht bei Prime". */
+  function genauZeigen(auftrag, zeichnen, befund, gefunden, begriffZeile, folgen) {
     hinweisKasten(
       auftrag.titel,
       folgen,
-      /* Keine Zeile „Treffer: <Name> (<Typ>)": Kopf und Auswahlzeilen nennen beides schon (02.09.2026). */
       ...begriffZeile,
-      ...genauZusatz(auftrag, befund, zeichnen, sortiert, t, ziel, zielKennung),
-    )
-    return
-  }
-
-  /** Die Treffer, Kauftitel vor Kanal-Titel; die weiteren Ausgaben merkt sich der Suchauftrag. */
-  function genauSortiert(auftrag, befund) {
-    /*
-      **Zwei richtige Treffer sind keine Verlegenheit, sondern zwei Wege.**
-
-      „One Punch Man" steht bei Prime zweimal: einmal als Kauftitel, einmal
-      über den Crunchyroll-Kanal — beide mit vier Staffeln, beide korrekt.
-
-      **Der Kauftitel ist der bessere.** Bei einem Kanal-Titel nennt Amazon
-      die Sprachen des Kanals, nicht der Folge — an „Kill Blue" gemessen:
-      zwölf behauptete deutsche Folgen, vier echte (CLAUDE.md, 24.08.2026).
-      Die Karten tragen ihre Zugangsart als `data-card-entitlement` mit, also
-      wird danach sortiert und nicht nach Reihenfolge.
-
-      Angeboten werden trotzdem beide: Welcher Weg im Kalender stehen soll,
-      entscheidet Daniel — der Kauftitel steht nur oben.
-    */
-    const kanalKarte = (k) => /channel|subscription/i.test(String(k.zugang ?? ''))
-    const sortiert = befund.treffer.slice().sort((a, b) => Number(kanalKarte(a)) - Number(kanalKarte(b)))
-    /*
-      **Die zweite Ausgabe geht mit, sonst sieht sie nie jemand wieder** (30.08.2026: zwei Ausgaben
-      mit anderen Folgen, nach einer Meldung fiel der Auftrag aus der Liste). Ihre Kennungen gehen als
-      `weitere=` in die Notiz; daraus legt `extension-offene-amazon.mjs` eigene Aufträge an.
-    */
-    try {
-      weitereAusgaben = sortiert
-        .slice(1, 4)
-        .map((z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(z.url ?? '')?.[1])
-        .filter(Boolean)
-      /* Gemeldet wird auf der Titelseite; nur der Suchauftrag im `sessionStorage` überlebt den Sprung (31.08.2026). */
-      if (weitereAusgaben.length) {
-        suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, weitere: weitereAusgaben })
-      }
-    } catch {
-      weitereAusgaben = []
-    }
-    return sortiert
-  }
-
-  /** Auswahl, Sprungknopf und Meldeknopf unter dem Kasten eines genauen Treffers, in Anzeigereihenfolge. */
-  function genauZusatz(auftrag, befund, zeichnen, sortiert, t, ziel, zielKennung) {
-    return [
-      /*
-        **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
-        einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
-        es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
-      */
-      /*
-        **Vorher ankreuzen, was zusammengehört — dann weiß der Auftrag es.** Prime führt denselben
-        Anime oft zweimal (Kanal und Kauftitel); welche Karten dasselbe Werk meinen, sieht nur ein
-        Mensch (Daniel, 02.09.2026). Angekreuzt wird die Erwartung; ob schon gemeldet, sagt der Briefkasten.
-      */
-      ...erwartungsAuswahl(auftrag, sortiert),
-      /*
-        Der Sprung sitzt als ↗ an der Auswahlzeile (seit 02.09.2026); nur bei einer Karte ohne Auswahl
-        steht hier ein Knopf. Er nennt die Karte und übergibt ihre Kennung, damit `kastenKnopf` sie markiert.
-      */
-      sortiert.length < 2 && ziel
-        ? kastenKnopf(
-            `Suchtreffer anklicken: ${(t.titel ?? auftrag.titel ?? 'Treffer').slice(0, 60)}`,
-            () => {
-              location.href = ziel
-            },
-            zielKennung,
-          )
-        : null,
-      /* Platz der früheren „Stattdessen"-Knöpfe und der Kanal-Belehrung (beide entfernt am 02.09.2026). */
-      null,
-      /*
-        **Auch ein gefundener Treffer kann der falsche sein** (31.08.2026, „Ronja Räubertochter": die
-        gleichnamige Realverfilmung). Der Knopf steht deshalb auch hier; er ist derselbe wie im
-        Kein-Treffer-Kasten und meldet unter der Suchadresse.
-      */
+      ...auswahlGruppe(auftrag, gefunden),
+      /* Auch eine gefundene Karte kann die falsche sein (31.08.2026, „Ronja Räubertochter"); gemeldet wird unter der Suchadresse. */
       istGemeldet(auftrag.suchUrl)
         ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
         : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k, zeichnen)),
-    ]
+    )
   }
 
   /**
@@ -4383,7 +4373,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
           */
           const suchUrlHier = a?.suchUrl ?? eintrag?.url ?? ''
           const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
-          if (!erwartet || erwartet.length < 2) return erwartungsAuswahl(auftrag, globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart()))
+          if (!erwartet || !erwartet.length) return fassungenAuswahl({ ...auftrag, suchUrl: suchUrlHier })
           const hier = asin()
           reiheMerken(erwartet)
           const gruppe = document.createElement('div')
@@ -5035,11 +5025,10 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * wenn sie lokal abgehakt ist.
    */
 
-  /** Die bestätigte Erwartung zu einer Suchadresse, oder null. */
+  /** Die bestätigte Erwartung zu einer Suchadresse, oder null; die eigene frische Wahl gilt vor dem Briefkasten. */
   function erwartungZu(suchUrl) {
     try {
-      const l = briefkastenErwartungen?.[suchUrl]
-      return Array.isArray(l) && l.length ? l : null
+      return globalThis.akPrimeErwartungZu(briefkastenErwartungen, auswahlMerk, suchUrl, Date.now())
     } catch {
       return null
     }
@@ -5080,133 +5069,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * Danach wird der Briefkasten neu geholt, damit die Anzeige nicht auf einem
    * lokalen Zwischenstand sitzt.
    */
-  /**
-   * **Die Ankreuz-Felder für zusammengehörende Ausgaben — für beide Trefferarten.**
-   *
-   * Death Note: Relight (09.09.2026) hat zwei Kauftitel mit eigenen Kennungen, die zusammen unser Eintrag
-   * sind; der Namensvergleich las sie als Fortsetzungen („Anderes Werk"). Ankreuzen, was zusammengehört,
-   * hält den Auftrag offen, bis alle gemeldet sind.
-   *
-   * Seit 31.10.2026 sind alle Kästen vorbefüllt und dienen nur noch als Ausschluss (Daniel); darüber steht
-   * eine Zeile Anleitung. `vorausgewaehlt` gilt nur, solange noch nichts bestätigt ist.
-   */
-  /*
-    Dieselbe Frage wie im Trefferzweig, nur an einer Stelle, die beide erreichen:
-    Läuft die Karte über ein Kanal-Abo (aniverse, Crunchyroll) oder ist sie ein
-    eigener Kauf-/Abo-Titel? Für die Erwartung ist das nur eine Beschriftung —
-    das Urteil über die Tonspur fällt später auf der Titelseite.
-  */
-  /*
-    **Deklaration, kein `const` — sonst wirft der erste Aufruf.**
-
-    Als Pfeilfunktion an einem `const` stand der Name zwar oben, der Wert aber
-    erst hier: `erwartungsAuswahl()` wird vom Kasten gerufen, bevor diese Zeile
-    an der Reihe ist, und Chrome meldete „Cannot access 'istKanalKarte' before
-    initialization" (Daniel, 09.09.2026, mit Bild — die Erweiterung war auf der
-    Suchseite komplett weg). Eine `function` wird vollständig gehoben.
-
-    Vierter Fall dieser Klasse: `listenId` (25.08.), `knopf` (28.08.),
-    `wiedervorlageBeantwortet` (01.09.) — und diesmal von mir eingebaut,
-    während die Lehre dazu im Repo stand.
-  */
-  function istKanalKarte(k) {
-    return /channel|subscription/i.test(String(k?.zugang ?? ''))
-  }
-
-  function erwartungsAuswahl(auftrag, sortiert) {
-            const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
-            if (karten.length < 2) return []
-            const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,32}|amzn1\.dv\.gti\.[a-z0-9-]+)/i.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
-            /*
-              **Die bestätigte Auswahl kommt aus dem gemerkten Auftrag, nicht aus der Prüfliste.**
-
-              `auftrag` stammt aus `AK_OFFENE_AMAZON` — die Liste kennt keine
-              Erwartung, sie wird ja erst hier gesetzt. Gespeichert wird sie in
-              `sessionStorage` (`suchauftragMerken`), und das überlebt ein
-              Neuladen; gelesen wurde sie nur nicht, und nach F5 stand wieder
-              „Auswahl bestätigen".
-            */
-            /*
-              **Die Erwartung kommt vom Worker.**
-
-              Der erste Anlauf nahm `sessionStorage` — und war nach einem
-              Neuladen weg, weil eine andere Stelle denselben Schlüssel ohne
-              `erwartet` überschrieb. Daniel dazu: „warum willst du irgendwas in
-              session storage machen? so machst du schon wieder quatsch und es
-              ist kein single source of truth."
-            */
-            const erwartetJetzt = erwartungZu(auftrag.suchUrl)
-            const bereits = new Set(erwartetJetzt ?? [])
-            const zeilen = karten
-              .map((z) => {
-                const k = kennungVon(z)
-                if (!k) return null
-                const name = `${istKanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'Ausgabe').slice(0, 40)}`
-                /* Vorbefüllt, solange nichts bestätigt ist; danach gilt die bestätigte Auswahl. */
-                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : true, (kennung) => {
-                  /* Damit die Zielseite weiß, welcher Auftrag gemeint ist; die Erwartung reist mit. */
-                  suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: kennung })
-                })
-              })
-              .filter(Boolean)
-            if (zeilen.length < 2) return []
-            /* Auswahl und Bestätigen stehen in einem Kasten; darüber eine Zeile Anleitung (31.10.2026). */
-            const gruppe = document.createElement('div')
-            gruppe.className = 'ak-such-gruppe'
-            gruppe.appendChild(kastenZeile('ak-such-hinweis', 'Alles angehakt – nimm ab, was nicht zum Titel gehört.'))
-            for (const z of zeilen) gruppe.appendChild(z)
-            const knopfReihe = document.createElement('div')
-            knopfReihe.className = 'ak-such-knopfreihe'
-            const bestaetigen = kastenKnopf(
-              /*
-                „2 ausgewählt", nicht „2 erwartet". Der Chip bestätigt die gespeicherte
-                Auswahl; „erwartet" las sich wie ein Zustand, auf den man warten muss.
-              */
-              erwartetJetzt?.length ? `${erwartetJetzt.length} ausgewählt` : 'Auswahl bestätigen',
-              (k) => {
-                const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
-                  .map((b) => b.dataset.kennung)
-                  .filter(Boolean)
-                k.disabled = true
-                k.textContent = 'speichere …'
-                void erwartungMelden(auftrag.suchUrl, gewaehlt).then((ok) => {
-                  if (!ok) {
-                    k.disabled = false
-                    /* Dieselbe Sprache wie in der Liste: „gesendet" ist die Frage, nicht „angekommen". */
-                    k.textContent = 'nicht gesendet — noch einmal'
-                    return
-                  }
-                  k.textContent = `${gewaehlt.length} ausgewählt`
-                  zuruecknehmen.hidden = false
-                  uebersichtZeichnen()
-                })
-              },
-            )
-            bestaetigen.disabled = Boolean(erwartetJetzt?.length)
-            /*
-              **Zurücknehmen gehört daneben, nicht in ein Untermenü.**
-
-              Eine Bestätigung, die sich nicht widerrufen lässt, macht aus einem
-              Verklicker eine Sackgasse — hier sogar eine, die den Auftrag
-              offenhält, bis beide Ausgaben gemeldet sind (Daniel, 02.09.2026:
-              „neben bestätigen muss ein undo button sein").
-            */
-            const zuruecknehmen = kastenKnopf('↺', () => {
-              zuruecknehmen.hidden = true
-              void erwartungMelden(auftrag.suchUrl, []).then(() => {
-                bestaetigen.textContent = 'Auswahl bestätigen'
-                bestaetigen.disabled = false
-                uebersichtZeichnen()
-              })
-            })
-            zuruecknehmen.title = 'Bestätigung zurücknehmen'
-            zuruecknehmen.classList.add('ak-suchknopf-klein')
-            zuruecknehmen.hidden = !erwartetJetzt?.length
-            knopfReihe.append(bestaetigen, zuruecknehmen)
-            gruppe.appendChild(knopfReihe)
-            return [gruppe]
-  }
-
   async function erwartungMelden(suchUrl, kennungen) {
     try {
       /* Dasselbe wie an jeder anderen Meldestelle — es gibt kein tokenHolen(). */
@@ -5554,7 +5416,21 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
   }
 
-  const suchOffen = () => Object.keys(suchliste).filter((u) => !istGemeldet(u))
+  /* Eine Suche mit gewählten Karten ist erledigt; ihre Karten stehen als eigene Zeilen in der Liste. */
+  const suchOffen = () => Object.keys(suchliste).filter((u) => !erwartungZu(u) && !istGemeldet(u))
+
+  /** Kopf einer Suche (Titel, Folgen): aus der Liste, sonst aus dem Merker der Auswahl, wenn der Bau sie schon abgeräumt hat. */
+  const auswahlKopf = (suchUrl) => suchliste[suchUrl] ?? auswahlMerk[suchUrl] ?? null
+  const auswahlZeilen = () =>
+    globalThis.akPrimeAuswahlZeilen(globalThis.akPrimeErwartungenMitEigenen(briefkastenErwartungen, auswahlMerk, Date.now()), auswahlKopf, (k) => globalThis.akPrimeSeiteGemeldet(k, briefkastenSeiten, selbstGemeldeteSeiten))
+
+  /** Anlass, den Kasten neu zu zeichnen: der Briefkasten ist da, und die eigene Wahl (nach dem Neuladen kommt sie aus dem Speicher). */
+  function erwartungsMarke() {
+    return (briefkastenErwartungen ? 'da' : 'fehlt') + JSON.stringify(Object.values(auswahlMerk).map((m) => m.eigen ?? null))
+  }
+
+  /** Offene gewählte Karten: dieselbe Zahl für Knopf, Listenkopf, Nenner und Signatur. */
+  const kartenOffen = () => auswahlZeilen().filter((z) => !z.gemeldet).length
 
   async function suchAbhaken(url) {
     /* Der Worker-Stand führt die Suche noch bis zum nächsten Abruf — so lange zählt die eigene Meldung. */
@@ -5626,7 +5502,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     const offen = offeneZahl()
     const suchen = suchOffen().length
-    const gesamt = offen + suchen
+    const karten = kartenOffen()
+    const gesamt = offen + suchen + karten
     akZaehler(uebersichtKnopf, gesamt, !!primeLaufLesen())
     const lauf = primeLaufLesen()
     if (lauf) {
@@ -5651,7 +5528,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       richtigen Treffer herauszusuchen.
     */
     const veraltet = globalThis.akPrimeListeVeraltet(listeVeraltet, liste, Boolean(standZiele))
-    setz(uebersichtKnopf, 'textContent', globalThis.akPrimeKnopfText(offen, suchen, veraltet))
+    setz(uebersichtKnopf, 'textContent', globalThis.akPrimeKnopfText(offen, suchen, veraltet, karten))
     setz(
       uebersichtKnopf,
       'title',
@@ -5713,6 +5590,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       beide messen. `suchOffen()` ist billig — eine Filterung über ein Set.
     */
     const teile = [offeneZahl(), suchOffen().length, listenId, globalThis.AK_TAGESLIMIT?.text()]
+    /* Der Stand der gewählten Karten: eine gemeldete Karte ändert sonst keine Zahl, die Zeile bliebe offen. */
+    for (const z of auswahlZeilen()) teile.push(`${z.kennung}:${z.gemeldet ? '1' : '0'}`)
     for (const asinEintrag of Object.keys(liste)) {
       teile.push(asinEintrag + ':' + (fortschritt(asinEintrag) || '') + ':' + (fertig(asinEintrag) ? '1' : '0'))
     }
@@ -5766,7 +5645,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
 
     const titelzeile = document.createElement('strong')
     const offen = offeneZahl()
-    titelzeile.textContent = offen ? `${offen} Prime-Titel zu prüfen` : 'Alles geprüft'
+    titelzeile.textContent = globalThis.akPrimeListenKopf(offen, kartenOffen())
     kopf.appendChild(titelzeile)
 
     const suche = document.createElement('input')
@@ -5782,10 +5661,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     umschalter.className = 'ak-umschalter'
     umschalter.type = 'button'
     umschalter.textContent = 'Erledigte zeigen'
-    umschalter.addEventListener('click', () => {
-      const an = kasten.classList.toggle('ak-mit-erledigten')
-      umschalter.textContent = an ? 'Erledigte ausblenden' : 'Erledigte zeigen'
-    })
+    umschalterZeigen(umschalter, false)
+    umschalter.addEventListener('click', () => umschalterZeigen(umschalter, kasten.classList.toggle('ak-mit-erledigten')))
     kopf.appendChild(umschalter)
 
     /**
@@ -5848,7 +5725,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (ende) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.textContent = akPrimeEndeText(ende)
+      zeile.textContent = akPrimeEndeText({ ...ende, suchen: suchOffen().length })
       kasten.appendChild(zeile)
     }
 
@@ -6039,12 +5916,13 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
      * Zeile — sie ist das Merkmal, an dem sich die Serie von ihrem Film
      * unterscheidet.
      */
+    auswahlAbschnitt(inhalt)
     const suchZeilen = Object.entries(suchliste)
     if (suchZeilen.length) {
       const trenner = document.createElement('div')
       trenner.className = 'ak-abschnitt'
-      trenner.textContent = `Suche nötig — ${suchOffen().length} von ${suchZeilen.length} offen`
-      trenner.title = 'Für diese Titel kennt niemand eine Prime-Adresse. Öffne die Suche, klicke den richtigen Treffer an — dort läuft die Prüfung wie gewohnt.'
+      trenner.textContent = globalThis.akPrimeSuchUeberschrift('Suchen', suchOffen().length, suchZeilen.length)
+      trenner.title = 'Für diese Titel kennt niemand eine Prime-Adresse. Öffne die Suche und kreuze an, welche Karten zum Titel gehören; sie erscheinen dann hier unter „Gewählte Treffer“.'
       inhalt.appendChild(trenner)
 
       /*
@@ -6079,7 +5957,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
           `istGemeldet` ist dieselbe Quelle, aus der der Zähler kommt — damit
           sagen Zahl und Liste dasselbe.
         */
-        if (istGemeldet(url)) zeile.classList.add('ak-abgehakt')
+        if (istGemeldet(url) || erwartungZu(url)) zeile.classList.add('ak-abgehakt')
 
         const verweis = document.createElement('a')
         verweis.className = 'ak-titel'
@@ -6155,7 +6033,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     if (merkeErledigte) {
       kasten.classList.add('ak-mit-erledigten')
-      umschalter.textContent = 'Erledigte ausblenden'
+      umschalterZeigen(umschalter, true)
     }
     inhalt.scrollTop = merkeScroll
 
@@ -6184,7 +6062,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    */
   /* Startseite: nie eine Kennung, also Hörer und Takt vor dem Warten. Im Frame erst am Ende (`frameSchritt()` braucht `knopf`, `gesehen`). */
   window.addEventListener('message', primeHoerer)
-  if (!IM_FRAME || SUCHE_IM_FRAME) setTimeout(primeTakt, 500)
+  if (!IM_FRAME) setTimeout(primeTakt, 500)
 
   /**
    * Keine Titelseite? Dann wird gewartet, nicht ausgestiegen.
@@ -6387,9 +6265,9 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       eindeutig: Sie wurde auf genau einer Trefferliste angekreuzt.
     */
     try {
-      for (const [suchUrl, kennungen] of Object.entries(briefkastenErwartungen ?? {})) {
+      for (const [suchUrl, kennungen] of Object.entries(globalThis.akPrimeErwartungenMitEigenen(briefkastenErwartungen, auswahlMerk, Date.now()) ?? {})) {
         if (!Array.isArray(kennungen) || !kennungen.includes(String(schluessel))) continue
-        return { titel: suchliste[suchUrl]?.titel ?? null, url: suchUrl, ausSuche: true }
+        return { titel: auswahlKopf(suchUrl)?.titel ?? null, url: suchUrl, ausSuche: true }
       }
     } catch {
       /* Ohne Erwartung bleibt es beim Bisherigen. */
@@ -7825,7 +7703,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       } catch {
         /* Kein Zählstand — dann bleibt es beim Adressvergleich. */
       }
-      const andereErwartungen = alterHinweis.dataset.beiErwartungen !== (briefkastenErwartungen ? 'da' : 'fehlt')
+      const andereErwartungen = alterHinweis.dataset.beiErwartungen !== erwartungsMarke()
       if (andereAdresse || andereFolgen || andereErwartungen) {
         /*
           Neu **gezeichnet**, nicht abgerissen. Bis 4.11.0 stand hier ein
@@ -8478,22 +8356,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
               }
             })() +
             /*
-              Die übrigen Ausgaben derselben Suche, maschinenlesbar. Der
-              Listengenerator macht daraus eigene Aufträge; ohne sie bliebe die
-              zweite Ausgabe für immer ungeprüft.
-            */
-            (() => {
-              /* Aus dem Auftrag, nicht nur aus der Variablen — sie überlebt den Sprung nicht. */
-              const w = (() => {
-                try {
-                  return weitereAusgaben.length ? weitereAusgaben : (suchauftrag()?.weitere ?? [])
-                } catch {
-                  return weitereAusgaben
-                }
-              })()
-              return w.length ? `, weitere=${w.join(',')}` : ''
-            })() +
-            /*
               Die Notiz trägt es maschinenlesbar mit, aus demselben Grund wie
               `zugang=`: Ohne den Vermerk sähe „kauf" im Datensatz aus wie eine
               Aussage über den Titel, und sie gilt nur für diese Ausgabe.
@@ -8830,12 +8692,12 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       fertig: [],
       uebersprungen: [],
       spur: [],
-      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length + suchOffen().length,
+      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length + kartenOffen(),
       seiten: 0,
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
     const hier = liste[listenId] && !fertig(listenId) && akPrimeHatTitelseite(liste[listenId]) ? listenId : null
-    if (!hier && !primeNaechsterTitel(lauf) && !suchOffen().length) return false
+    if (!hier && !primeNaechsterTitel(lauf) && !auswahlZeilen().some((z) => !z.gemeldet)) return false
     try {
       sessionStorage.removeItem(PRIME_LAUF_ENDE)
     } catch {
@@ -8858,7 +8720,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       sessionStorage.removeItem(PRIME_LAUF)
       sessionStorage.setItem(
         PRIME_LAUF_ENDE,
-        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, suchen: suchOffen().length, erledigt: lauf.fertig.length, seiten: lauf.seiten, spur: lauf.spur }),
+        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, erledigt: lauf.fertig.length, seiten: lauf.seiten, spur: lauf.spur }),
       )
     } catch {
       /* Ohne Speicher endet er trotzdem — der Takt findet keinen Lauf mehr. */
@@ -8902,12 +8764,12 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
 
   /* Deklaration statt const: Hörer und Takt laufen auf der Startseite schon, während das Skript oben auf eine Kennung wartet (`id = await`). */
   function primeLaufName(lauf) {
-    return (liste[lauf.titel] ?? suchliste[lauf.titel] ?? suchliste[lauf.suche])?.titel ?? '?'
+    return (liste[lauf.titel] ?? auswahlKopf(lauf.suche))?.titel ?? '?'
   }
 
-  /** Titel sind durch: erst die Treffer einer gelesenen Suche, dann die nächste offene Suche (Weg B). */
+  /** Titel sind durch: die gewählten Karten der Suchaufträge, eine nach der anderen. Suchseiten öffnet der Lauf nie. */
   function primeSucheBeginnen(lauf) {
-    const schritt = globalThis.akPrimeSucheWeiter(lauf, suchOffen(), suchliste)
+    const schritt = globalThis.akPrimeSucheWeiter(lauf, () => globalThis.akPrimeAuswahlEinheiten(auswahlZeilen()))
     if (!schritt) return false
     lauf.titel = schritt.schluessel
     lauf.plan = [schritt.eintrag]
@@ -8921,7 +8783,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   function primeFrameOeffnen(lauf, kennung) {
     const el = document.createElement('iframe')
     el.name = PRIME_FRAME_NAME
-    if (lauf.suche) suchauftragMerken(globalThis.akPrimeZielAuftrag(lauf, kennung, suchliste))
+    if (lauf.suche) suchauftragMerken(globalThis.akPrimeZielAuftrag(lauf, kennung, auswahlKopf))
     el.src = globalThis.akPrimeEintragAdresse(kennung, gtiSprungMerken)
     /* Kein Vorschauvideo mit Ton aus einem Frame, den niemand sieht. */
     el.allow = "autoplay 'none'"
@@ -8950,9 +8812,10 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (!lauf) return
     lauf.laufend = lauf.laufend.filter((k) => k !== f.kennung)
     primeSpur(lauf, 'seite', { kennung: f.kennung, ok: Boolean(daten.ok), grund: daten.grund ?? null, tagebuch: daten.tagebuch ?? null, abschnitte: daten.abschnitte ?? undefined })
-    globalThis.akPrimeSucheErgebnis(lauf, daten, primeLaufName(lauf))
     if (daten.ok) {
       lauf.seiten = (lauf.seiten ?? 0) + 1
+      /* Die Zeile einer gewählten Karte ist sofort erledigt, nicht erst nach dem nächsten Abruf des Briefkastens. */
+      if (lauf.suche) selbstGemeldeteSeiten.add(globalThis.akPrimeEintragKennung(f.kennung))
     }
     /*
       Die Meldung ging aus dem Frame, nicht von dieser Seite — `frischGemeldet` wusste nichts
@@ -9014,7 +8877,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     const grenze = lauf.planBekannt && !lauf.suche ? PRIME_FRAMES : 1
     while (primeFrames.size < grenze && lauf.plan.length) primeFrameOeffnen(lauf, lauf.plan.shift())
     if (!primeFrames.size && !lauf.plan.length) {
-      if (!lauf.suche && !lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
+      if (!lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
       lauf.titel = null
       lauf.suche = null
       primeLaufSchreiben(lauf)
@@ -9040,20 +8903,6 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       location.origin,
     )
   }
-
-  /** Such-Frame (Weg B): wartet auf die Karten, liest die Treffer und meldet sie dem Lauf (läuft vor der Kennung, daher eigener Zustand). */
-  function sucheFrameSchritt() {
-    if (sucheFrame.fertig) return
-    const auftrag = offeneSuche()
-    const gefunden = suchTreffer()
-    const befund = auftrag ? beurteileTreffer(auftrag, gefunden) : null
-    const urteil = globalThis.akPrimeSucheUrteil({ auftrag, gefunden, befund, erwartet: erwartungZu(auftrag?.suchUrl), vergangen: Date.now() - sucheFrame.start, kennungAus })
-    if (!urteil) return
-    sucheFrame.fertig = true
-    const antwort = { marke: 'ak-prime-frame', ok: urteil.ok, grund: urteil.grund, hier: '', staffeln: [], treffer: urteil.treffer, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null }
-    window.parent.postMessage(antwort, location.origin)
-  }
-
   function frameSchritt() {
     if (frameZustand.fertig) return
     if (!verbindungLebt()) return frameFertig(false, 'Erweiterung neu geladen')
@@ -9119,8 +8968,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   */
   function primeTakt() {
     try {
-      if (SUCHE_IM_FRAME) sucheFrameSchritt()
-      else if (IM_FRAME) frameSchritt()
+      if (IM_FRAME) frameSchritt()
       else primeKoordinieren()
       primeFehler = 0
     } catch (fehler) {

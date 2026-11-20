@@ -393,7 +393,8 @@ function veraltetTest(schritte) {
   /* Touken Ranbu, 15.09.2026: Die bestätigte Auswahl kam nach dem ersten Zeichnen und löste keins mehr aus. */
   pruefe(
     'das Eintreffen der bestätigten Auswahl zeichnet den Kasten neu',
-    /kasten\.dataset\.beiErwartungen = briefkastenErwartungen \? 'da' : 'fehlt'/.test(quelle) &&
+    /kasten\.dataset\.beiErwartungen = erwartungsMarke\(\)/.test(quelle) &&
+      /return \(briefkastenErwartungen \? 'da' : 'fehlt'\) \+ JSON\.stringify/.test(quelle) &&
       /andereAdresse \|\| andereFolgen \|\| andereErwartungen/.test(quelle),
   )
   /* Solo Leveling, 15.09.2026: „gemeldet ✓" aus den ersten Sekunden blieb neben dem Melde-Knopf stehen. */
