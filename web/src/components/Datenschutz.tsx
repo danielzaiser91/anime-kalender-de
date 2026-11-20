@@ -94,8 +94,8 @@ function PushAbschnitt() {
     <Abschnitt titel="Browser-Benachrichtigungen">
       <p>
         Schaltest du sie ein, bestätigst du zuerst die Browserabfrage. Dann speichert unser Dienst
-        (Cloudflare) die Push-Adresse deines Browsers, deine Favoriten und die Plattform-, Art- und
-        TV-Auswahl deines Kalenderfilters und schickt dir eine Nachricht, wenn eine gemerkte Folge
+        (Cloudflare) die Push-Adresse deines Browsers, deine Favoriten und die Plattform-, Art-,
+        Zweitanbieter- und TV-Auswahl deines Kalenderfilters und schickt dir eine Nachricht, wenn eine gemerkte Folge
         erscheint, die dein Filter zeigt. Sie wird über den Push-Dienst deines
         Browserherstellers (etwa Google, Mozilla, Apple oder Microsoft) zugestellt. Rechtsgrundlage
         ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ausschalten löscht den Eintrag bei uns.

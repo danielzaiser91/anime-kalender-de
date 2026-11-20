@@ -14,6 +14,7 @@ const { createRoot } = await import('react-dom/client')
 vorlauf.entferne()
 const { usePushNachfuehren } = await import('../web/src/lib/push-nachfuehren.ts')
 const { pushEinschalten, pushWorker } = await import('../web/src/lib/push.ts')
+const { EMPTY_FILTERS } = await import('../web/src/lib/filters.ts')
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -28,6 +29,8 @@ interface Abruf {
 }
 const abrufe: Abruf[] = []
 const speicher = new Map<string, string>()
+/** Statuswerte, die `/push/abo` der Reihe nach antwortet (sonst 200). */
+const antworten: number[] = []
 const g = globalThis as Record<string, unknown>
 const alt = { fetch: g.fetch, localStorage: g.localStorage, setTimeout: g.setTimeout, clearTimeout: g.clearTimeout, Notification: g.Notification }
 
@@ -35,7 +38,9 @@ const abo = { endpoint: 'https://fcm.googleapis.com/x', toJSON: () => ({ endpoin
 const registrierung = { pushManager: { getSubscription: async () => abo, subscribe: async () => abo } }
 
 function Haken(p: { favs: number[]; filter: Record<string, unknown> | null }) {
-  usePushNachfuehren(new Set(p.favs), p.filter)
+  /* Wie `App` den Hook füttert: Filter des Kalenders (Disc ausgeblendet oder nicht) und der TV-Schalter. */
+  const f = { ...EMPTY_FILTERS, excluded: { ...EMPTY_FILTERS.excluded, releaseTypes: p.filter?.xReleaseTypes ? ['disc' as const] : [] } }
+  usePushNachfuehren(new Set(p.favs), f, p.filter?.tvAus === true)
   return null
 }
 
@@ -57,7 +62,8 @@ async function lauf(aktiv: boolean, ablauf: (r: Hilfen) => Promise<void>, ohne?:
   g.localStorage = { getItem: (k: string) => speicher.get(k) ?? null, setItem: (k: string, v: string) => void speicher.set(k, v), removeItem: (k: string) => void speicher.delete(k) }
   g.fetch = async (url: string, init?: { body?: string }) => {
     abrufe.push({ url, body: init?.body ? (JSON.parse(init.body) as Abruf['body']) : null })
-    return new Response(url.endsWith('/push/schluessel') ? JSON.stringify({ schluessel: 'AAAA' }) : '{}', { status: 200 })
+    const status = url.endsWith('/push/abo') && antworten.length ? antworten.shift()! : 200
+    return new Response(url.endsWith('/push/schluessel') ? JSON.stringify({ schluessel: 'AAAA' }) : '{}', { status })
   }
   g.setTimeout = uhr.setTimeout
   g.clearTimeout = uhr.clearTimeout
@@ -107,6 +113,18 @@ await lauf(true, async ({ rendere, weiter }) => {
   pruefe('die Pause beginnt bei jeder Änderung neu', posts().length === 0, posts().length)
   await weiter(1)
   pruefe('ein Abruf mit dem letzten Stand', posts().length === 1 && JSON.stringify(posts()[0]?.body?.favoriten) === '[1,5]' && JSON.stringify(posts()[0]?.body?.filter) === JSON.stringify(TV_DISC), posts())
+})
+
+console.log('\nDer Dienst weist ab (429, Grenze 30 je Stunde und IP)')
+await lauf(true, async ({ rendere, weiter }) => {
+  antworten.push(429)
+  await rendere([1], TV)
+  await weiter(PAUSE)
+  await rendere([1], TV_DISC)
+  await weiter(PAUSE)
+  pruefe('429 wird verworfen, die nächste Änderung geht wieder hinaus', posts().length === 2 && JSON.stringify(posts()[1]?.body?.filter) === JSON.stringify(TV_DISC), posts().length)
+  await weiter(PAUSE * 5)
+  pruefe('kein Neuversuch ohne Änderung: der Worker behält den alten Filter bis dahin', posts().length === 2, posts().length)
 })
 
 console.log('\nKein aktives Abo')

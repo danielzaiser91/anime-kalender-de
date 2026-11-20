@@ -13,7 +13,8 @@ export const pushFilterWert = (f: FilterState, tvAus: boolean): Record<string, u
  * Hält Favoriten und Filter beim Push-Dienst aktuell, solange Push eingeschaltet ist, damit die Benachrichtigung nur meldet,
  * was der Kalender zeigt. Sitzt in `App`, nicht am Schalter: Der steht im Abo-Menü und ist meist gar nicht geöffnet.
  */
-export function usePushNachfuehren(favorites: Set<number>, filter: Record<string, unknown> | null): void {
+export function usePushNachfuehren(favorites: Set<number>, kalenderFilter: FilterState, tvAus: boolean): void {
+  const filter = pushFilterWert(kalenderFilter, tvAus)
   const liste = [...favorites].sort((a, b) => a - b).join(',')
   const filterText = JSON.stringify(filter)
   useEffect(() => {
