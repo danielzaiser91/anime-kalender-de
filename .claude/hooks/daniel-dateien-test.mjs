@@ -1,6 +1,6 @@
-// Test für daniel-dateien.mjs (Windows-Pfade ohne Backticks). Aufruf: node daniel-dateien-test.mjs
+// Test für daniel-dateien.mjs (Windows-Pfade ohne Backticks, alte aktive Zielaufgaben). Aufruf: node daniel-dateien-test.mjs
 import assert from 'node:assert/strict'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, utimesSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -11,7 +11,7 @@ process.env.USERPROFILE = wurzel
 process.env.HOME = wurzel
 process.env.DANIEL_DATEIEN_STAND = join(wurzel, 'merker.json')
 process.env.PATH = '' // kein gh: offenePrs liefert leer
-const { pfadeOhneBackticks, sammleFunde } = await import('./daniel-dateien.mjs')
+const { alteAktiveAufgaben, pfadeOhneBackticks, sammleFunde } = await import('./daniel-dateien.mjs')
 
 const echt = 'Ordner [C:\\code\\ai\\__assets\\updates](../x/) öffnen'
 const f1 = pfadeOhneBackticks(echt, 'x.md')
@@ -36,6 +36,27 @@ writeFileSync(join(wurzel, 'fragen', 'e1.md'), 'C:\\a\\__b')
 assert.match(alle()[0], /^fragen\/e1\.md:/)
 writeFileSync(join(wurzel, 'fragen', 'e1.md'), '`C:\\a\\__b`')
 assert.deepEqual(alle(), [])
+
+// Ziele: `[aktiv]` in einem plan.md, das über 6 h unverändert ist; Meilensteine und andere Status zählen nicht.
+const PLAN = '# Fehlerfrei — Gesamtplan\n\n## Aufgaben\n- [aktiv] bauer.md kürzen — [Aufgabe](aufgaben/a.md)\n- [bald] Bilanz\n\n## Meilensteine\n- [aktiv] kein Aufgabenstatus\n'
+mkdirSync(join(wurzel, 'ziele', '3-fehlerfrei'), { recursive: true })
+mkdirSync(join(wurzel, 'ziele', '2-ohne-plan'))
+const plan = join(wurzel, 'ziele', '3-fehlerfrei', 'plan.md')
+writeFileSync(plan, PLAN)
+const T = new Date('2026-11-20T10:00:00Z')
+utimesSync(plan, T, T)
+const STUNDE = 3_600_000
+const MELDUNG = 'ziele/3-fehlerfrei/plan.md: „bauer.md kürzen“ aktiv seit über 6 h unverändert — läuft der Agent noch?'
+assert.deepEqual(alteAktiveAufgaben(wurzel, T.getTime() + 6 * STUNDE), [], 'genau 6 h: noch still')
+assert.deepEqual(alteAktiveAufgaben(wurzel, T.getTime() + 6 * STUNDE + 60_000), [MELDUNG], 'über 6 h: meldet nur die aktive Aufgabe')
+writeFileSync(plan, PLAN.replace('[aktiv] bauer', '[bald] bauer'))
+utimesSync(plan, T, T)
+assert.deepEqual(alteAktiveAufgaben(wurzel, T.getTime() + 9 * STUNDE), [], 'ohne aktive Aufgabe still')
+assert.deepEqual(alteAktiveAufgaben(join(wurzel, 'fehlt'), T.getTime()), [], 'ohne Zielordner still')
+// Verdrahtung über sammleFunde (Datei aus dem Jahr 2000: älter als jede echte Uhr).
+writeFileSync(plan, PLAN)
+utimesSync(plan, new Date('2000-01-01T00:00:00Z'), new Date('2000-01-01T00:00:00Z'))
+assert.deepEqual(sammleFunde().filter((f) => f.startsWith('ziele/')), [MELDUNG], 'sammleFunde ruft die Zielprüfung')
 
 rmSync(wurzel, { recursive: true, force: true })
 console.log('daniel-dateien-test: ok')

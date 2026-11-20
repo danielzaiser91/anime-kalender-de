@@ -87,6 +87,9 @@ export async function oeffneAlle(pane: { drawn: () => Promise<unknown>; press: (
   for (const key of zuBereiche(await pane.drawn())) await pane.press({ key })
 }
 
+// Zielordner der Mod (register.tsx); `starte(…, ziele)` legt je Schlüssel einen Ordner mit diesem plan.md an.
+export const ZIELE_ORDNER = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/ziele'
+
 // Autonomer Modus: je Sitzung eine Datei. Die Testsitzung ist SITZUNG; fremde Dateien (und die alte globale) liegen mit Endzeit vor.
 const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
 const SITZUNG = 'eigene-sitzung'
@@ -96,14 +99,14 @@ const FREMDE_MARKER = [`${MARKER_ORDNER}/fremde-sitzung.txt`, 'C:/Users/ih/.clau
 export const kalenderWelt = { woche: '', mtime: 1 }
 
 // `engine`: unterste Leiste wie im Betrieb, wenn kein fremdes Modul zeichnet.
-export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false, ziele = '') {
+export function starte(on: On, marker: string | null, status: (string | undefined)[] = [], engine = true, stand = STAND, ruhe: boolean | string = false, agenten = 0, pruefer = 0, spar = false, ziele: Record<string, string> = {}) {
   const uhr = mock.clock(on)
   on('session.start', ($, e) => ({ cwd: e.cwd }))
   on('session.id', () => ({ value: SITZUNG }) as never)
   on('ui.status', ($, e) => { status.push((e as { text?: string }).text); return { value: undefined } as never })
   Object.assign(agentenWelt, { projekt: 'C--x', root: 'C:/x', cwd: 'C:/x', listFehler: '' })
   agentenWelt.liste = fakeAgenten(agenten, pruefer)
-  haengeAgentenListe(on)
+  haengeAgentenListe(on, p => (p.endsWith(ZIELE_ORDNER) ? Object.keys(ziele).map(name => ({ name, kind: 'dir' })) : null))
   if (engine) on('ui.render', { component: 'AbovePrompt' }, () => ({ type: 'engine', ref: 0 }) as never)
   Object.assign(kalenderWelt, { woche: '', mtime: 1 })
   on('fs.stat', (_$, e) => (e.path.endsWith('woche.json') && kalenderWelt.woche ? ({ value: { kind: 'file', size: kalenderWelt.woche.length, mtimeMs: kalenderWelt.mtime, isLink: false } } as never) : ({ deny: 'fehlt' } as never)))
@@ -113,7 +116,8 @@ export function starte(on: On, marker: string | null, status: (string | undefine
     const pfad = e.path.replace(/\\/g, '/').replace(/^.*?(?=C:\/)/, '')
     if (pfad.endsWith('stand.md')) return { value: stand } as never
     if (kalenderWelt.woche && pfad.endsWith('woche.json')) return { value: kalenderWelt.woche } as never
-    if (ziele && pfad.endsWith('ziele.md')) return { value: ziele } as never
+    const plan = /\/ziele\/([^/]+)\/plan\.md$/.exec(pfad)?.[1]
+    if (plan && ziele[plan] !== undefined) return { value: ziele[plan] } as never
     if (marker !== null && pfad === `${MARKER_ORDNER}/${SITZUNG}.txt`) return { value: marker } as never
     if (FREMDE_MARKER.includes(pfad)) return { value: new Date(Date.now() + 3_600_000).toISOString() } as never
     if (ruhe !== false && e.path.endsWith('ruhemodus.txt')) return { value: ruhe === true ? '' : ruhe } as never
