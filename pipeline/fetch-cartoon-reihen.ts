@@ -24,7 +24,7 @@ import { todayIso } from '../shared/time.ts'
 const TMDB = 'https://api.themoviedb.org/3'
 const WIKIDATA = 'https://www.wikidata.org/w/api.php'
 /** Wikimedia verlangt `<Client>/<Version> (<Kontakt>)`; leere oder allgemeine Kennungen werden gesperrt. */
-const UA = 'anime-kalender-de-reihen/1.0 (https://anime-kalender.de; https://github.com/danielzaiser91/anime-kalender-de) node'
+const UA = 'anime-kalender-de-reihen/1.0 (https://anime-kalender.de; https://github.com/derNamenloseDaniel/anime-kalender-de) node'
 const ALTER_TAGE = 30
 const BLOCK = 50
 const ARGS = process.argv.slice(2)

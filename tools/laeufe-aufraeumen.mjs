@@ -43,7 +43,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const WORKER = 'https://newsletter.animekalender.workers.dev/lauf'
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 const args = process.argv.slice(2)
 const TROCKEN = args.includes('--trocken')
 const AUCH_GITHUB = args.includes('--auch-github')

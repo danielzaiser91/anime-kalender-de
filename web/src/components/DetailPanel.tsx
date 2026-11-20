@@ -388,6 +388,7 @@ export function DetailPanel({
             data={data}
             title={title}
             favorites={favorites}
+            handlung={<HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />}
             reihe={
             <ReihenListe
               reihenTeile={reihenTeile}
@@ -472,14 +473,6 @@ export function DetailPanel({
             noch an".
           */}
           <TermineAbschnitt releases={releases} title={title} />
-
-          {/*
-            Hier stand „Alles aus dieser Reihe" — dieselben Einträge, die zwei
-            Handbreit darüber schon im Umschalter stehen. Zwei Listen mit
-            identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
-            Länge.
-          */}
-          <HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />
 
           {/*
             Die Angaben zum Werk selbst — Genres, Bewertung, Studio.

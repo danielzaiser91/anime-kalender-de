@@ -24,9 +24,9 @@ assert.equal(registerBefunde(reg, { A: new Set(['a.yml']), B: new Set(['a.yml'])
 assert.equal(registerBefunde(reg, { A: new Set(['a.yml', 'b.yml']) }, ['a.yml', 'b.yml']).length, 1)
 
 // Wecker (PAT, Nutzer) zählt, Wecker-Wache (github-actions[bot]) und Zeitplan-Starts nicht. Gemessen 11.10.2026: Probe-Dispatch der Wache aus einem GITHUB_TOKEN-Lauf (Lauf 38131257307 startete wecker-wache.yml) erschien mit actor und triggering_actor github-actions[bot].
-assert.equal(vomWecker({ event: 'workflow_dispatch', actor: { login: 'danielzaiser91' } }), true)
+assert.equal(vomWecker({ event: 'workflow_dispatch', actor: { login: 'derNamenloseDaniel' } }), true)
 assert.equal(vomWecker({ event: 'workflow_dispatch', actor: { login: 'github-actions[bot]' } }), false)
-assert.equal(vomWecker({ event: 'schedule', actor: { login: 'danielzaiser91' } }), false)
+assert.equal(vomWecker({ event: 'schedule', actor: { login: 'derNamenloseDaniel' } }), false)
 
 // Wache muss jeden Workflow des Weckplans kennen.
 assert.deepEqual(wachePlanBefunde("{ workflow: 'a.yml' }, { workflow: 'b-c.yml' }", 'PLAN="a.yml:3 b-c.yml:30:ohne-abbruch"'), [])

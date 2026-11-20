@@ -176,7 +176,7 @@ const seiten = (ns) => {
 const s1 = seiten([100, 99, 50])
 assert.deepEqual(holeUrteile('2026-10-31', s1.abruf).map((x) => x.pr), [1, 2], '100 weiter, 99 Ende')
 assert.deepEqual(s1.abgerufen.map((a) => a[0]), ['gh', 'gh'])
-assert.equal(s1.abgerufen[0][1], 'repos/danielzaiser91/anime-kalender-de/issues/comments?since=2026-10-31T00:00:00Z&per_page=100&page=1')
+assert.equal(s1.abgerufen[0][1], 'repos/derNamenloseDaniel/anime-kalender-de/issues/comments?since=2026-10-31T00:00:00Z&per_page=100&page=1')
 assert.equal(holeUrteile('2026-10-31', seiten([0]).abruf).length, 1, 'eine leere Seite endet')
 
 // Fehlende lehren.md (A5): Abbruch mit Hinweis, außer ausdrücklich ohne; vorhandene Datei wird gelesen.

@@ -11,7 +11,7 @@ run-name: Mutationsprobe ${{ inputs.liste }} @ ${{ inputs.kopf }}
 # ein PR kann den Läufer nicht gegen „alle rot“ austauschen). Die Tests des Zweigs laufen weiter als PR-Code.
 # Der Lauf schreibt nichts ins Repo.
 #
-# Aufruf: gh workflow run mutationsprobe.yml --repo danielzaiser91/anime-kalender-de \
+# Aufruf: gh workflow run mutationsprobe.yml --repo derNamenloseDaniel/anime-kalender-de \
 #           -f zweig=<zweig> -f liste=tools/mutationen/<liste>.json -f test="npx tsx pipeline/check-x.ts" [-f pr=<nr>]
 on:
   workflow_dispatch:

@@ -277,6 +277,7 @@ pipeline/check-folgen-nummern-bau.ts
 pipeline/check-folgen-nummern-lauf.ts
 pipeline/check-folgen-nummern.ts
 pipeline/check-folgen-teile.ts
+pipeline/check-folgen-wiki-versatz.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenrhythmus.ts
@@ -491,6 +492,7 @@ pipeline/check-omu-synchro-begleiter.ts
 pipeline/check-panel-chips.ts
 pipeline/check-panel-cover.ts
 pipeline/check-panel-disc-doppel.ts
+pipeline/check-panel-reihenfolge.ts
 pipeline/check-panel-titel-nachgeladen.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes-render.ts
@@ -506,6 +508,7 @@ pipeline/check-phasenfolge.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-plattform-rang.ts
 pipeline/check-plot-erschienen.ts
+pipeline/check-pokemon-staffeln.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-gleiche-gti.ts

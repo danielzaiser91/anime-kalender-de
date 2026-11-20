@@ -402,3 +402,12 @@
   belegtAm: '2026-11-19'
   zugang: abo
   beleg: 'Prime-Staffel 3 (48 Folgen): „Duell in der Ruine“ bis „Zexal für immer“ gleich den deutschen Titeln der Zexal-II-Folgen 26–73 (Meldungskopie 19.11.2026, Seite B0H298L2X9)'
+
+# Pokémon Horizonte bei RTL+ (20.11.2026): eine Serienseite für alle vier deutschen Staffeln (AniList 158871 zählt sie durch, S1 = 1–45, S2 = 46–89, S3 = 90–136, S4 ab 137; Versatz 1234 gegen NR_GES der Wikipedia-Liste, 89 von 89 Titeln gleich).
+- anilistId: 158871
+  title: "Pokémon Horizonte"
+  platform: rtlplus
+  url: https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142
+  belegtAm: '2026-11-20'
+  zugang: abo
+  beleg: 'plus.rtl.de (Abruf 20.11.2026, HTTP 200): TVSeries „Pokémon Horizonte: Die Serie“, Staffelwähler mit totalItems 45 (Staffel 1), 44 (Staffel 2), 47 (Staffel 3) und 1 (Staffel 4) = die deutschen Staffelgrößen der Wikipedia-Episodenliste und der TOGGO-Schnittstelle (data/toggo.json, Serie VSE292: 45, 44, 47); Folge 1 der Staffel 4 („Eine Welt voller Abenteuer“, availabilityStarts 2026-11-20, Abo)'

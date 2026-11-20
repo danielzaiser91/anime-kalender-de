@@ -148,8 +148,8 @@ pruefe('Autor kommt als REST-Login (claude[bot], nicht app/claude)',
 const bedingung = zeilen.find((z) => z.includes('"$autor" =~'))
 const muster = /=~ (\S+) \]\]/.exec(bedingung ?? '')?.[1]
 const bashRegex = muster ? new RegExp(muster) : null
-pruefe('Autor-Prüfung im Workflow lässt claude[bot] und danielzaiser91 durch, app/claude nicht',
-  !!bashRegex && bashRegex.test('claude[bot]') && bashRegex.test('danielzaiser91') && !bashRegex.test('app/claude'))
+pruefe('Autor-Prüfung im Workflow lässt claude[bot] und derNamenloseDaniel durch, app/claude nicht',
+  !!bashRegex && bashRegex.test('claude[bot]') && bashRegex.test('derNamenloseDaniel') && !bashRegex.test('app/claude'))
 pruefe('if-Zeile vollständig (keine Zusätze wie || true)',
   bedingung === 'if [[ "$autor" =~ ^[A-Za-z0-9][A-Za-z0-9-]*(\\[bot\\])?$ ]]; then')
 // Von der Autor-Zeile bis zum Aufruf steht außer Kommentaren nichts: kein `autor=x`, kein eingeschobener Befehl.

@@ -9210,5 +9210,25 @@
       "sagt": "2026-11-25",
       "stand": "aktuell"
     }
+  ],
+  "pokemon-horizonte-s4-rtlplus": [
+    {
+      "url": "https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142/video/eine-welt-voller-abenteuer-c_2211265",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1067953/pokemon-horizonte-staffel-4-toggo-start/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-11-20",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte",
+      "name": "de.wikipedia.org",
+      "gesehenAm": "2026-11-20",
+      "stand": "aktuell"
+    }
   ]
 }

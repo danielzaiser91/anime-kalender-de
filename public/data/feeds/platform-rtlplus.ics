@@ -19,4 +19,15 @@ DESCRIPTION:Plattform: RTL+\nRelease-Art: Wöchentlich (Simuldub)\nUhrzeit
  noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15075/
 CATEGORIES:RTL+
 END:VEVENT
+BEGIN:VEVENT
+UID:pokemon-horizonte-s4-rtlplus@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Pokémon Horizonte – Staffel 4 (neu bei RTL+)
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nIm Angebot seit die
+ sem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/14839/
+CATEGORIES:RTL+
+END:VEVENT
 END:VCALENDAR

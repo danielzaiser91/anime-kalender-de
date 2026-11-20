@@ -3,7 +3,7 @@
  * private Domain des Betreibers, außer den zugelassenen Stellen (Impressum, Datenschutz, Lizenz, Autorfeld der Mod,
  * Wächter-Tests mit ihren Mustern, Portfolio-Überwachung). Ein einziger `git grep` über alles; Exit 1 heißt keine Treffer.
  * Riegel gegen „liest nichts“: ein Wegwerf-Repo mit eingeschleuster Datei muss anschlagen, und die zugelassene LICENSE
- * des echten Repos muss gefunden werden. Groß-/Kleinschreibung steht in den Zeichenklassen, denn `danielzaiser91`
+ * des echten Repos muss gefunden werden. Groß-/Kleinschreibung steht in den Zeichenklassen, denn `derNamenloseDaniel`
  * (GitHub-Login) ist öffentlich und darf nicht treffen.
  */
 import assert from 'node:assert/strict'
@@ -69,7 +69,7 @@ try {
     'name.md': ['Da', 'niel ', 'Za', 'iser'].join(''),
     'domain.md': ['daniel', 'zaiser'].join('-') + '.de',
     'node_modules/ausgenommen.md': `z@${['g', 'mail'].join('')}.com`,
-    'login.md': 'danielzaiser91/anime-kalender-de',
+    'login.md': 'derNamenloseDaniel/anime-kalender-de',
     'sauber.md': 'kontakt@anime-kalender.de',
   }
   for (const [p, t] of Object.entries(fall)) writeFileSync(join(probe, p), t)

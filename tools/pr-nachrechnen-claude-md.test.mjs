@@ -17,7 +17,7 @@ const pruefe = (name, ok, info) => {
 /** Fake-Baum auf main und im Kopf (gleich); der Leser-Rückruf verhält sich wie `gitLeser`: Leser per Namenssuche, dann `bewegtesGelesen`. */
 function grund(baum, bewegtMain, prDateien, nummer) {
   const gh = (args) => {
-    if (args[1].includes('/compare/')) return JSON.stringify({ status: 'ahead', anzahl: bewegtMain.length, dateien: bewegtMain, commitsGesamt: 1, autoren: ['danielzaiser91'] })
+    if (args[1].includes('/compare/')) return JSON.stringify({ status: 'ahead', anzahl: bewegtMain.length, dateien: bewegtMain, commitsGesamt: 1, autoren: ['derNamenloseDaniel'] })
     return prDateien.join('\n')
   }
   const lies = (p) => baum[p] ?? null

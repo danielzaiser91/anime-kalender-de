@@ -112,13 +112,13 @@ pruefe('A2: derselbe Name außerhalb von data/ (fünf beliebige Zeichen davor) z
   pruefe('Mängel-Register: nur data/maengel.json bewegt (Datenkonto) -> PR bleibt aktuell, Leser nie gefragt', aktuell(x), x.r)
   const y = lauf(3347, [{ autor: DK, dateien: ['data/maengel.json'] }], { prDateien: ['pipeline/bau/13-12-maengel.ts', 'data/maengel.json'] })
   pruefe('Mängel-Register: berührt der PR die Datei selbst -> veraltet', veraltet(y) && /der PR berührt data\/maengel\.json/.test(y.r.grund ?? ''), y.r)
-  const z = lauf(3347, [{ autor: 'danielzaiser91', dateien: ['data/maengel.json'] }], { antwort: 'der PR liest data/maengel.json (Bau)' })
+  const z = lauf(3347, [{ autor: 'derNamenloseDaniel', dateien: ['data/maengel.json'] }], { antwort: 'der PR liest data/maengel.json (Bau)' })
   pruefe('Mängel-Register: von einem Menschen bewegt -> Leser-Regel, veraltet', veraltet(z), z)
 }
 // Weitere Gegenproben je Bedingung: Leser-Regel entscheidet, Urteil „veraltet“.
 for (const [name, commits] of [
-  ['ein Mensch dazwischen', [...echt, { autor: 'danielzaiser91', dateien: ['data/ann-ids.json'] }]],
-  ['nur ein Mensch (Squash-Merge von Daten)', [{ autor: 'danielzaiser91', dateien: ['data/ann-ids.json'] }]],
+  ['ein Mensch dazwischen', [...echt, { autor: 'derNamenloseDaniel', dateien: ['data/ann-ids.json'] }]],
+  ['nur ein Mensch (Squash-Merge von Daten)', [{ autor: 'derNamenloseDaniel', dateien: ['data/ann-ids.json'] }]],
   ['fremder Bot', [{ autor: 'dependabot[bot]', dateien: ['data/ann-ids.json'] }]],
   ['Code-Datei auf main (tools/x.mjs)', [{ autor: DK, dateien: [...DATEN, 'tools/x.mjs'] }]],
   ['Workflow auf main', [{ autor: DK, dateien: [...DATEN, '.github/workflows/sammler.yml'] }]],
@@ -130,7 +130,7 @@ for (const [name, commits] of [
 }
 // Bot-Dateien neben einem Menschen-Commit (19.11.2026, PR 4317: Sprung 7296637a7...2d82785cb, Commits und Dateien nach dem echten Sprung, ohne Namen der Bot-Liste: der Wächter in pr-nachrechnen-bot-pfade.test verbietet sie): die Bot-Dateien
 // zählen nur bei Berührung, der Leser wird nur nach den Dateien des Menschen gefragt (Attrappe: `antwort`).
-const MENSCH = 'danielzaiser91'
+const MENSCH = 'derNamenloseDaniel'
 const SPRUNG_4317 = [
   { autor: DK, dateien: ['data/proposals/a.json', 'data/proposals/b.json'] },
   { autor: DK, dateien: ['data/adn-raw/1381.json.gz'] },
@@ -190,7 +190,7 @@ pruefe('reinerBotSprung: keine Dateien -> nein', reinerBotSprung(v([]), []) === 
 pruefe('reinerBotSprung: Autor ähnlich geschrieben -> nein', reinerBotSprung(v(['data/ann-ids.json'], ['github-actions']), []) === false)
 pruefe('reinerBotSprung: claude[bot] ohne Commit-Paare -> nein', reinerBotSprung(v(['status.md'], [CL]), []) === false)
 pruefe('reinerBotSprung: claude[bot] mit Paaren, nur Wache -> ja', reinerBotSprung(v(['status.md'], [CL], { commits: [{ autor: CL, dateien: ['status.md'] }] }), []) === true)
-pruefe('reinerBotSprung: Commit eines Menschen in den Paaren -> nein', reinerBotSprung(v(['status.md'], [CL], { commits: [{ autor: CL, dateien: ['status.md'] }, { autor: 'danielzaiser91', dateien: ['status.md'] }] }), []) === false)
+pruefe('reinerBotSprung: Commit eines Menschen in den Paaren -> nein', reinerBotSprung(v(['status.md'], [CL], { commits: [{ autor: CL, dateien: ['status.md'] }, { autor: 'derNamenloseDaniel', dateien: ['status.md'] }] }), []) === false)
 // Abgeschnittener Vergleich (300 Dateien, mehr Commits als Autoren) bleibt veraltet, auch bei lauter Bots.
 pruefe('botSprungAusnahme: genau 300 Dateien -> abgeschnitten', /abgeschnitten/.test(botSprungAusnahme(v(['data/ann-ids.json'], ['github-actions[bot]'], { anzahl: 300 }), ['x.ts'], () => null)))
 pruefe('botSprungAusnahme: mehr Commits als Autoren -> abgeschnitten', /abgeschnitten/.test(botSprungAusnahme(v(['data/ann-ids.json'], ['github-actions[bot]'], { commitsGesamt: 2 }), ['x.ts'], () => null)))

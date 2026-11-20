@@ -93,7 +93,7 @@ const GUTER_STAND = {
   jetzt: new Date().toISOString(),
   laeufe: [{
     lauf_id: 'probe-1',
-    repo: 'danielzaiser91/anime-kalender-de',
+    repo: 'derNamenloseDaniel/anime-kalender-de',
     workflow: 'Deploy auf GitHub Pages',
     auftrag: '',
     zweck: 'Veröffentlicht den aktuellen Stand von anime-kalender.de',
@@ -109,7 +109,7 @@ const GUTER_STAND = {
   }, {
     /* Derselbe Lauf, aber ohne Abschluss: Der Verlauf kennt danach ein neueres „warnung". */
     lauf_id: 'probe-alt',
-    repo: 'danielzaiser91/anime-kalender-de',
+    repo: 'derNamenloseDaniel/anime-kalender-de',
     workflow: 'Bestand — zusammenführen und bauen',
     auftrag: '',
     zweck: 'Führt die gesammelten Quellen zusammen',

@@ -24,7 +24,7 @@ import {
   tageZwischen, tagBerlin, tagesBeginnMs, tagPlus,
 } from './tageskennzahlen-rechnen.mjs'
 
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 const AUSGABE = 'tools/kennzahlen/tage.jsonl'
 const LEHREN = 'daniel-zum-abarbeiten/berichte/lehren.md'
 const BAU = 'Bestand — zusammenführen und bauen'

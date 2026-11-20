@@ -23,7 +23,7 @@ function liste(eintraege) {
   return eintraege.slice(0, limit).map((e) => Object.fromEntries(felder.filter((f) => f in e).map((f) => [f, e[f]])))
 }
 
-if (nach('--repo') !== 'danielzaiser91/anime-kalender-de') falsch('repo')
+if (nach('--repo') !== 'derNamenloseDaniel/anime-kalender-de') falsch('repo')
 const [gruppe, aktion] = args
 
 if (gruppe === 'run' && aktion === 'view') {
@@ -40,7 +40,7 @@ if (gruppe === 'run' && aktion === 'view') {
   process.stdout.write(JSON.stringify(liste(antworten.prs)))
 } else if (gruppe === 'issue' && aktion === 'create') {
   protokoll(`ANGELEGT ${nach('--title')}`)
-  process.stdout.write(`https://github.com/danielzaiser91/anime-kalender-de/issues/${antworten.neuesIssue}\n`)
+  process.stdout.write(`https://github.com/derNamenloseDaniel/anime-kalender-de/issues/${antworten.neuesIssue}\n`)
 } else if ((gruppe === 'issue' || gruppe === 'pr') && aktion === 'comment') {
   protokoll(`KOMMENTAR ${gruppe} ${args[2]}`)
 } else {
