@@ -2,8 +2,8 @@
  * Letzte Prüfung vor dem Merge (19.10.2026, seit 21.11.2026 ohne Nachzug): Ist der PR offen, mergebar und frei?
  * Eine Bewegung auf main erzwingt keinen neuen Kettenlauf mehr (Daniel 21.11.2026; Messung 90 Nachzüge in 14 Tagen, 4 echte Funde,
  * alle Mängel von main selbst; Freigabe bis Merge im Median 33 min mit Nachzug, 3 min ohne). Die Kette am Kopf sichert das Ruleset
- * `main-pruefweg` (Pflicht-Check „PR-Prüfkette“, strict aus); was erst im Zusammenspiel mit dem neuen main bricht, fängt der Nachlauf
- * auf main (`.github/workflows/main-nachlauf.yml`, ALARM in `tools/laeufe-aufraeumen.mjs --trocken`).
+ * `main-pruefweg` (Pflicht-Check „PR-Prüfkette“, strict aus); was erst im Zusammenspiel mit dem neuen main bricht, zeigt sich nach dem
+ * Merge im Lauf auf main (`deploy.yml`) und in der Kette des nächsten PR.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs [--trocken] <PR>
  *   Exit 4: der letzte Prüfer-Kommentar verlangt „ändern“, danach kam kein Commit (`pr-nachrechnen-pruefer.mjs`): nicht mergen.
@@ -37,7 +37,7 @@ export function hindernis(pr) {
   return null
 }
 
-/** Erzeugte Datenpfade der Läufe (F55, 20.10.2026) samt Bot-Dateien ohne Leser (`pr-nachrechnen-bot-pfade.mjs`); Leser: logik-beleg, neuversuch-art, workflows-beleg, main-nachlauf. */
+/** Erzeugte Datenpfade der Läufe (F55, 20.10.2026) samt Bot-Dateien ohne Leser (`pr-nachrechnen-bot-pfade.mjs`); Leser: logik-beleg, neuversuch-art, workflows-beleg. */
 export const DATENPFADE = ['public/data/', 'data/cache/']
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei) || istBotBild(datei)
 
@@ -75,7 +75,7 @@ function vorpruefung(nummer, gh, melde, zugAktiv) {
 export function nachrechnen(nummer, gh, melde, zugAktiv = leseZugAktiv()) {
   const { exit, pr } = vorpruefung(nummer, gh, melde, zugAktiv)
   if (exit !== undefined) return exit
-  melde(`PR ${nummer}: mergebar, kein Konflikt mit main (Kopf ${kurz(pr.headRefOid)}); eine Bewegung auf main erzwingt keinen Nachzug, der Nachlauf auf main prüft das Zusammenspiel`)
+  melde(`PR ${nummer}: mergebar, kein Konflikt mit main (Kopf ${kurz(pr.headRefOid)}); eine Bewegung auf main erzwingt keinen Nachzug`)
   return 0
 }
 

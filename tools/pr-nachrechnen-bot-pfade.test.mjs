@@ -1,15 +1,15 @@
 /**
  * Tests für tools/pr-nachrechnen-bot-pfade.mjs: die Liste der Bot-Dateien ohne Leser in der PR-Kette (21.10.2026) und ihre Wirkung auf
- * `datenpfadAusnahme`. Die Liste steht hier fest eingetragen (nicht aus dem Modul gelesen); der Wächter am Ende sucht Leser im Bau.
+ * `istDatenpfad`. Die Liste steht hier fest eingetragen (nicht aus dem Modul gelesen); der Wächter am Ende sucht Leser im Bau.
  */
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { datenpfadAusnahme } from './pr-nachrechnen.mjs'
+import { istDatenpfad } from './pr-nachrechnen.mjs'
 import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
-import { BEKANNT_DOKU, BEKANNT_TREFFER } from './pr-nachrechnen-bot-pfade-bekannt.mjs'
-import { bauDateien, dokuLeser, kettenDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
+import { BEKANNT_TREFFER } from './pr-nachrechnen-bot-pfade-bekannt.mjs'
+import { bauDateien, kettenDateien, leserImBau } from './pr-nachrechnen-bot-pfade-leser.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -17,7 +17,6 @@ const pruefe = (name, ok, info) => {
   fehler.push(name)
   console.error(`  ✗ ${name}${info === undefined ? '' : ` — ${JSON.stringify(info)}`}`)
 }
-const ausnahme = (dateien, prDateien = ['x.ts']) => datenpfadAusnahme({ status: 'ahead', anzahl: dateien.length, dateien }, prDateien)
 
 const ERWARTET = [
   'daniel-zum-abarbeiten/00-START-HIER.md',
@@ -84,10 +83,8 @@ pruefe('Liste: genau die gemessenen Einträge, keiner doppelt', JSON.stringify([
 
 for (const eintrag of ERWARTET) {
   const innen = ORDNER.includes(eintrag) ? `${eintrag}/1.json.gz` : eintrag
-  pruefe(`${eintrag}: nur diese bewegt -> Ausnahme gilt`, ausnahme([innen]) === null)
-  pruefe(`${eintrag}: neben Fremdem (Mitte) -> keine Ausnahme`, ausnahme(['public/data/a.json', 'tools/x.mjs', innen]) === 'main bewegte tools/x.mjs')
-  pruefe(`${eintrag}: PR berührt die Datei -> keine Ausnahme`, ausnahme(['public/data/a.json'], ['y.ts', innen]) === `der PR berührt ${innen}`)
-  pruefe(`${eintrag}: ähnlicher Name davor/danach zählt`, ausnahme([`x${eintrag}`]) !== null && ausnahme([`${eintrag}-x`]) !== null && ausnahme([`${eintrag}x/a`]) !== null)
+  pruefe(`${eintrag}: gilt als Datenpfad`, istDatenpfad(innen) === true)
+  pruefe(`${eintrag}: ähnlicher Name davor/danach zählt nicht`, !istDatenpfad(`x${eintrag}`) && !istDatenpfad(`${eintrag}-x`) && !istDatenpfad(`${eintrag}x/a`))
 }
 
 // Gelesene Bot-Dateien (Tabelle der PR-Beschreibung) und die ausdrücklich ausgeschlossenen Pfade bleiben draußen.
@@ -97,7 +94,7 @@ const GELESEN = [
   'daniel-zum-abarbeiten/listen/justwatch-widersprueche.md', 'daniel-zum-abarbeiten/stand.md', 'daniel-zum-abarbeiten/listen/07-neu.md',
   'docs/wissen/design-regeln.md', 'tools/design-klassen-grenzen.json', 'tools/umfang-grenzen.json', 'extension/offene-netflix.js', 'extension/offene-amazon.js', 'public/og/default.jpg', 'public/og/default.txt', 'public/og/a.gif', 'public/og/unter/a.jpg',
 ]
-for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> keine Ausnahme`, ausnahme([datei]) === `main bewegte ${datei}`)
+for (const datei of GELESEN) pruefe(`gelesen/ausgeschlossen: ${datei} -> kein Datenpfad`, istDatenpfad(datei) === false)
 
 // Wächter gegen Leser im Datenbau (pr-nachrechnen-bot-pfade-leser.mjs). Bekannt sind zwei Stellen, die den Namen nur nennen:
 // nebendateien.ts schreibt 18-suchadressen.md; lib/health.ts schreibt source-health.json und wird vom Bau nur über adn-news.ts erreicht (Import von artikelJeShow).
@@ -119,36 +116,6 @@ const importiertHealth = bau.filter((d) => /from '(\.\/|\.\.\/lib\/)health\.ts'/
 pruefe('Ausnahme health.ts: im Bau importiert nur adn-news.ts sie', importiertHealth.join() === 'pipeline/lib/adn-news.ts', importiertHealth)
 const adnImporte = bau.flatMap((d) => fs.readFileSync(path.join(wurzel, d), 'utf8').split('\n').filter((z) => /from '.*\/adn-news\.ts'/.test(z)).map((z) => `${d}: ${z.trim()}`))
 pruefe('Ausnahme health.ts: adn-news.ts nutzt der Bau nur für artikelJeShow', adnImporte.join() === "pipeline/bau/07-adn.ts: import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'", adnImporte)
-
-// Dokument-Wächter (dokuLeser): die Ausnahme für docs/, Wurzel-Markdown und 00-wache.md gilt nur, solange kein Bau-Code und keine Prüfung sie liest.
-pruefe('Doku-Wächter: 8 bekannte Treffer (7 nur genannt, 1 liest), keine stille Vergrößerung', BEKANNT_DOKU.size === 8, BEKANNT_DOKU.size)
-pruefe('Doku-Wächter: kein unbekannter Leser von docs/, Wurzel-Markdown oder 00-wache.md', dokuLeser(wurzel, BEKANNT_DOKU).length === 0, dokuLeser(wurzel, BEKANNT_DOKU))
-pruefe('Doku-Wächter: sieht den Leser design-kontrast und die Nennungen', dokuLeser(wurzel, new Set()).length === 8 && dokuLeser(wurzel, new Set()).includes('tools/design-kontrast.mjs|docs/'), dokuLeser(wurzel, new Set()))
-pruefe('Doku-Wächter: das gelesene Dokument steht nicht in der Ausnahme, ein anderes schon', ausnahme(['docs/wissen/design-regeln.md']) === 'main bewegte docs/wissen/design-regeln.md' && ausnahme(['docs/wissen/anderes.md']) === null)
-const DOKU_BASIS = { 'pipeline/build.ts': "import { a } from './lib/a.ts'\n", 'pipeline/validate.ts': '', 'pipeline/check-ja-hat-weg-bestand.ts': '', 'pipeline/lib/a.ts': 'export const a = 1\n' }
-const DOKU_FIXTURES = [
-  ['kein Leser', {}, []],
-  ['Leser von docs/ in lib', { 'pipeline/lib/a.ts': "readFileSync('docs/wissen/x.md')\n" }, ['pipeline/lib/a.ts|docs/']],
-  ['Leser von Wurzel-Markdown in der Logik-Liste', { 'tools/check-logic-liste.txt': 'pipeline/check-x.ts\n', 'pipeline/check-x.ts': "readFileSync('ZIELE.md')\n" }, ['pipeline/check-x.ts|ZIELE.md']],
-  ['Leser von 00-wache.md im Kettenworkflow', { '.github/workflows/pr-pruefung.yml': 'run: cat daniel-zum-abarbeiten/00-wache.md\n' }, ['.github/workflows/pr-pruefung.yml|00-wache.md']],
-  ['nur im Kommentar', { 'pipeline/lib/a.ts': "// docs/x.md ZIELE.md\n * 00-wache.md\n" }, []],
-  ['yml: Glob öffnet keinen Scheinblock, die Lesung danach zählt', { '.github/workflows/pr-pruefung.yml': 'run: ls docs/*\nrun: cat ZIELE.md\nrun: echo */\n' }, ['.github/workflows/pr-pruefung.yml|docs/', '.github/workflows/pr-pruefung.yml|ZIELE.md']],
-  ['Test nennt es nur als Fixture', { 'tools/x.test.mjs': "const f = 'docs/a.md'\n" }, []],
-  ['Datei außerhalb der Hülle', { 'pipeline/fetch-x.ts': "const f = 'docs/a.md'\n" }, []],
-  ['Wurzel-Markdown ohne Datei im Wurzelordner zählt nicht', { 'pipeline/lib/a.ts': "const f = 'NEU.md'\n" }, []],
-]
-for (const [name, extra, erwartet] of DOKU_FIXTURES) {
-  const ort = fixture({ ...DOKU_BASIS, 'ZIELE.md': '', ...extra })
-  const treffer = dokuLeser(ort, new Set())
-  fs.rmSync(ort, { recursive: true, force: true })
-  pruefe(`Doku-Wächter-Fixture: ${name}`, JSON.stringify(treffer) === JSON.stringify(erwartet), treffer)
-}
-{
-  const ort = fixture({ ...DOKU_BASIS, 'pipeline/lib/a.ts': "readFileSync('docs/x.md')\n" })
-  const still = dokuLeser(ort, new Set(['pipeline/lib/a.ts|docs/']))
-  fs.rmSync(ort, { recursive: true, force: true })
-  pruefe('Doku-Wächter-Fixture: bekannte Stelle bleibt still', still.length === 0, still)
-}
 
 // Fixture-Wurzeln: der Wächter muss einen Leser in lib, im Bau, in shared und in web/src finden, aber weder Kommentare noch Dateien außerhalb der Hülle.
 function fixture(dateien) {
@@ -208,4 +175,4 @@ if (fehler.length > 0) {
   console.error(`pr-nachrechnen-bot-pfade.test: ${fehler.length} rot`)
   process.exit(1)
 }
-console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 26 Wächter-Fixtures, 1 Hüllen-Fixture, ${DOKU_FIXTURES.length + 1} Doku-Wächter-Fixtures und ${BEKANNT.size} bekannte Treffer in ${kette.length} Ketten-Dateien, ${BEKANNT_DOKU.size} bekannte Doku-Treffer)`)
+console.log(`pr-nachrechnen-bot-pfade.test: grün (${ERWARTET.length} Bot-Dateien ohne Leser, ${GELESEN.length} gelesene/ausgeschlossene bleiben draußen, ${bau.length} Bau-Dateien durchsucht, 26 Wächter-Fixtures, 1 Hüllen-Fixture und ${BEKANNT.size} bekannte Treffer in ${kette.length} Ketten-Dateien)`)

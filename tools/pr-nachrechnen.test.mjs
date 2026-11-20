@@ -84,7 +84,7 @@ for (const [name, aufruf] of WEGE) {
   const k = kulisse(antworten())
   const code = aufruf(k)
   pruefe(`${name}: mergebar, main weiter -> Exit 0, liest nur PR und Ersatz-Liste, schreibt nichts`, code === 0 && k.aufrufe.join() === LESEN.join() && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-  pruefe(`${name}: Meldung nennt Kopf und den Nachlauf`, k.meldungen.join() === 'PR 7: mergebar, kein Konflikt mit main (Kopf 08798af3f); eine Bewegung auf main erzwingt keinen Nachzug, der Nachlauf auf main prüft das Zusammenspiel', k.meldungen)
+  pruefe(`${name}: Meldung nennt Kopf und „kein Nachzug“`, k.meldungen.join() === 'PR 7: mergebar, kein Konflikt mit main (Kopf 08798af3f); eine Bewegung auf main erzwingt keinen Nachzug', k.meldungen)
 }
 
 /** Fälle, die aufhalten: Exit, Meldung, kein Schreibaufruf (für nachrechnen und nachziehen gleich). */

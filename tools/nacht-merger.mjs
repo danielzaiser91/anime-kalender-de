@@ -7,7 +7,7 @@
  *
  * Riegel: höchstens N Merges je Lauf (Vorgabe 3); jeder Merge und jede Abweisung steht mit Grund im Protokoll. `pr-nachrechnen`
  * liest nur: ein bewegter main hält einen Kandidaten nicht auf (seit 21.11.2026), nur ein Konflikt; nach einem Merge kommen die übrigen
- * Kandidaten im selben Lauf dran, das Zusammenspiel prüft der Nachlauf auf main. Kein `--admin`. Im Trockenlauf wird nichts gemergt.
+ * Kandidaten im selben Lauf dran; das Zusammenspiel zeigt der Lauf auf main (`deploy.yml`). Kein `--admin`. Im Trockenlauf wird nichts gemergt.
  * Exit 0 sonst, 1 wenn ein Merge scheiterte, 2 bei Aufruffehlern.
  */
 import { pathToFileURL } from 'node:url'

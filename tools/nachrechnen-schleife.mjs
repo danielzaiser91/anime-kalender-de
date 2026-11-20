@@ -1,13 +1,11 @@
-// Nachrechnen-Schleife: Grund-Kommentar von tools/pr-nachrechnen.mjs und Zählung der Durchgänge je PR (Signal 10 von liegegut).
+// Nachrechnen-Schleife: Zählung der Grund-Kommentare von tools/pr-nachrechnen.mjs je PR (Signal 10 von liegegut).
+// Seit 21.11.2026 schreibt pr-nachrechnen keine solchen Kommentare mehr (kein Nachzug bei bewegtem main); gezählt werden nur noch ältere.
 
-/** Feste Kennung am Anfang des Kommentars; die Zählung erkennt Durchgänge genau daran. */
+/** Feste Kennung am Anfang des Kommentars („… Kette gegen <basis>, main ist <main>; <Grund>“); die Zählung erkennt Durchgänge genau daran. */
 export const KENNUNG = '**Nachrechnen** NICHT AKTUELL:'
 
 /** Ab so vielen Durchgängen meldet liegegut den PR (Messung 10.11.2026: ≈ 83 Durchgänge in 1,8 Tagen, Spitzen 5–11). */
 export const SCHLEIFE_AB = 3
-
-/** Kommentartext: eine Zeile mit Kennung, Kettenstand, main-Stand und dem Grund aus `datenpfadGrund`. */
-export const grundKommentar = (basisKurz, mainKurz, grund) => `${KENNUNG} Kette gegen ${basisKurz}, main ist ${mainKurz}; ${grund}`
 
 /** Konten, unter denen pr-nachrechnen kommentiert: Daniels gh (lokal) und der Nacht-Merger (github-actions); fremde Konten zählen nicht (öffentliches Repo). */
 const KONTEN = ['derNamenloseDaniel', 'github-actions']
@@ -38,13 +36,4 @@ export function schleifeSignal(pr, kopfZeit) {
   if (durchgaenge.length < SCHLEIFE_AB) return []
   const seit = Math.max(...durchgaenge.map((c) => Date.parse(c.createdAt)))
   return [{ nr: 10, text: `Nachrechnen ${durchgaenge.length}× NICHT AKTUELL (Grund in den Kommentaren)`, seit }]
-}
-
-/** Legt den Grund als PR-Kommentar ab; scheitert `gh`, steht die Ursache in der Meldung, der Durchgang gilt trotzdem (nie hart rot). */
-export function kommentiereGrund(gh, melde, nummer, text) {
-  try {
-    gh(['pr', 'comment', String(nummer), '--body', text])
-  } catch (e) {
-    melde(`PR ${nummer}: Grund-Kommentar nicht geschrieben (${String(e.message).split('\n')[0]})`)
-  }
 }

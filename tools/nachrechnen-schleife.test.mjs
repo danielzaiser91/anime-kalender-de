@@ -1,9 +1,8 @@
 /**
- * Tests für tools/nachrechnen-schleife.mjs: Kommentartext, Zählung der Durchgänge (Signal 10), Fehlerpfad des Kommentars,
- * Verdrahtung in pr-nachrechnen (Kommentar nach dem Anstoßen) und in liegegut (Signal 10 im Gesamtlauf).
+ * Tests für tools/nachrechnen-schleife.mjs: Zählung der Durchgänge (Signal 10) und Verdrahtung in liegegut (Signal 10 im Gesamtlauf).
+ * Die Kommentare stehen in der Form, die pr-nachrechnen bis 20.11.2026 schrieb.
  */
-import { grundKommentar, kommentiereGrund, schleifeSignal, schleifenBeginn, zaehlbeginn } from './nachrechnen-schleife.mjs'
-import { nachrechnen } from './pr-nachrechnen.mjs'
+import { schleifeSignal, schleifenBeginn, zaehlbeginn } from './nachrechnen-schleife.mjs'
 import { liegegut, liegtZeile, naechsterSchritt } from './liegegut.mjs'
 
 const fehler = []
@@ -15,11 +14,9 @@ const pruefe = (name, ok, info) => {
 
 const KENNUNG_TEST = '**Nachrechnen** NICHT AKTUELL:'
 const GRUND = 'main bewegte tools/check-x.mjs'
+const grundKommentar = (basisKurz, mainKurz, grund) => `${KENNUNG_TEST} Kette gegen ${basisKurz}, main ist ${mainKurz}; ${grund}`
 const durchgang = (zeit, text = grundKommentar('7a466acc8', 'c0ffee000', GRUND)) => ({ author: { login: 'derNamenloseDaniel' }, createdAt: zeit, body: text })
 const Z = ['2026-11-10T10:00:00Z', '2026-11-10T11:00:00Z', '2026-11-10T12:00:00Z', '2026-11-10T13:00:00Z']
-
-console.log('nachrechnen-schleife: Kommentartext')
-pruefe('eine Zeile, Kennung am Anfang, beide Stände und Grund', grundKommentar('aaa111111', 'bbb222222', GRUND) === `**Nachrechnen** NICHT AKTUELL: Kette gegen aaa111111, main ist bbb222222; ${GRUND}`)
 
 console.log('nachrechnen-schleife: Zählung (Signal 10)')
 {
@@ -43,66 +40,6 @@ console.log('nachrechnen-schleife: Zählung (Signal 10)')
   pruefe('Kopf eine Millisekunde nach dem 2. Durchgang -> nur 2 zählen -> kein Signal', sig([durchgang(Z[0]), durchgang(Z[1]), durchgang(Z[2]), durchgang(Z[3])], kopf + 1).length === 0)
   pruefe('3 Durchgänge, dann neuer Kopf -> kein Signal', sig([durchgang(Z[0]), durchgang(Z[1]), durchgang(Z[2])], Date.parse(Z[3])).length === 0)
   pruefe('Kommentar ohne body-Text (null) bricht nicht', sig([durchgang(Z[0], null), durchgang(Z[1]), durchgang(Z[2])]).length === 0)
-}
-
-console.log('nachrechnen-schleife: Fehlerpfad des Kommentars')
-{
-  const meldungen = []
-  kommentiereGrund(() => { throw new Error('HTTP 403: Forbidden\nzweite Zeile') }, (t) => meldungen.push(t), 7, 'x')
-  pruefe('gh scheitert -> keine Ausnahme, erste Ursache in der Meldung', meldungen.join() === 'PR 7: Grund-Kommentar nicht geschrieben (HTTP 403: Forbidden)', meldungen)
-}
-
-console.log('nachrechnen-schleife: Verdrahtung in pr-nachrechnen')
-{
-  const BASIS = '7a466acc8119e87fbe8dc51782126a6167c5b70a'
-  const MAIN = 'c0ffee'.padEnd(40, '0')
-  const KOPF = '08798af3f0daf193fc754d6eda60ee60b526450f'
-  const log = `2026-10-19T14:15:22Z HEAD is now at 810f0279 Merge ${KOPF} into ${BASIS}\n`
-  // `abw`: mergeable (PR-Zustand), main (Stand von main), dateien (Compare), ersetzer (offene PRs); Standard = NICHT AKTUELL
-  const lauf = (abw = {}) => {
-    const aufrufe = []
-    const gh = (args) => {
-      const k = args.join(' ')
-      aufrufe.push(args)
-      if (k.startsWith('pr view 7')) return JSON.stringify({ number: 7, state: 'OPEN', mergeable: abw.mergeable ?? 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x' })
-      if (k.startsWith('pr list')) return JSON.stringify(abw.offene ?? [])
-      if (k.startsWith('run list')) return abw.keinLauf ? '[]' : JSON.stringify([{ headSha: KOPF, createdAt: '2026-10-19T14:00:00Z', databaseId: 12, status: 'completed', conclusion: 'success' }])
-      if (k === 'run view 12 --json jobs') return JSON.stringify({ jobs: [{ name: 'Kette – Workflows', databaseId: 92, status: 'completed' }] })
-      if (k.includes('/jobs/92/logs')) return log
-      if (k.includes('git/ref/heads/main')) return `${abw.main ?? MAIN}\n`
-      if (k.includes('compare')) return JSON.stringify({ status: 'ahead', anzahl: 1, dateien: abw.dateien ?? ['tools/check-x.mjs'], commitsGesamt: 1, autoren: ['derNamenloseDaniel'] })
-      if (k.includes('/commits/')) return `${abw.main ?? MAIN}\n`
-      if (k.includes('pulls/7/files')) return 'web/src/andere.ts\n'
-      if (k.includes('merge_commit_sha')) return 'a'.repeat(40)
-      if (k.includes('update-branch')) throw new Error('gh: Not Found (HTTP 404)')
-      if (k.startsWith('pr ')) return ''
-      throw new Error(`unerwartet: ${k}`)
-    }
-    const meldungen = []
-    let code
-    try {
-      code = nachrechnen(7, gh, (t) => meldungen.push(t), () => {}, { liest: () => false, dateien: () => [] })
-    } catch (e) {
-      code = `Ausnahme ${e.message}`
-    }
-    const kommentare = aufrufe.filter((a) => a[0] === 'pr' && a[1] === 'comment')
-    return { code, aufrufe, kommentare, meldungen }
-  }
-  const { code, aufrufe, kommentare: kommentar } = lauf()
-  const reihenfolge = aufrufe.map((a) => a.slice(0, 2).join(' ')).filter((a) => ['pr reopen', 'pr comment'].includes(a))
-  pruefe('NICHT AKTUELL -> Exit 1 und genau ein Kommentar mit Kennung und beiden Ständen', code === 1 && kommentar.length === 1 && kommentar[0][2] === '7' && kommentar[0].join(' ').includes(`${KENNUNG_TEST} Kette gegen 7a466acc8, main ist c0ffee000;`), { code, aufrufe: aufrufe.map((a) => a.join(' ')) })
-  pruefe('Kommentar kommt nach dem Wiederöffnen', reihenfolge.at(-1) === 'pr comment' && reihenfolge.includes('pr reopen'), reihenfolge)
-
-  // Gegenfälle: in jedem anderen Zweig entsteht kein Kommentar (sonst zählt die Schleife Durchgänge, die keine sind)
-  const ohneKommentar = (name, erwartet, abw) => {
-    const r = lauf(abw)
-    pruefe(`${name} -> Exit ${erwartet}, kein Kommentar`, r.code === erwartet && r.kommentare.length === 0, { code: r.code, meldungen: r.meldungen })
-  }
-  ohneKommentar('Basis = main (aktuell)', 0, { main: BASIS })
-  ohneKommentar('nur Daten bewegt (Ausnahme)', 0, { dateien: ['public/data/titles.json'] })
-  ohneKommentar('Konflikt mit main (Hindernis)', 2, { mergeable: 'CONFLICTING' })
-  ohneKommentar('Kettenlauf zum Kopf fehlt (Basis unbekannt)', 2, { keinLauf: true })
-  ohneKommentar('ersetzt durch anderen PR', 3, { offene: [{ number: 9, title: 'x', body: 'Ersetzt PR 7' }] })
 }
 
 console.log('nachrechnen-schleife: Verdrahtung in liegegut')
@@ -147,4 +84,4 @@ if (fehler.length > 0) {
   console.error(`nachrechnen-schleife.test: ${fehler.length} Fehler`)
   process.exit(1)
 }
-console.log('nachrechnen-schleife.test: alle Fälle grün (Text, Zählung ab 3, Fehlerpfad, Verdrahtung in pr-nachrechnen und liegegut)')
+console.log('nachrechnen-schleife.test: alle Fälle grün (Zählung ab 3, Verdrahtung in liegegut)')

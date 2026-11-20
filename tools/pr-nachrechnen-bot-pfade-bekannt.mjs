@@ -11,7 +11,6 @@ const WEGWERF_WURZEL = {
   'tools/link-check-zeitbudget.test.ts': ['data/source-health.json'],
   'tools/meldungen-eingrenzen.test.mjs': ['daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md', 'data/meldungen-uebernahme.json', 'data/meldungs-auffaelligkeiten.json'],
   'tools/meldungen-stapel.test.mjs': ['data/meldungen-uebernahme.json'],
-  'tools/pr-nachrechnen.test.mjs': ['daniel-zum-abarbeiten/00-START-HIER.md', 'daniel-zum-abarbeiten/listen/12-verpasste-termine.md', 'daniel-zum-abarbeiten/listen/23-nur-originalton.md', 'data/source-health.json', 'public/og/fassung.txt', 'public/og/schaetz.txt'],
   'tools/quellen-aufsetzen.test.mjs': ['data/source-health.json'],
   'tools/quellen-gesundheit.test.ts': ['data/source-health.json'],
   'tools/wache-urteil.test.mjs': ['data/source-health.json'],
@@ -59,26 +58,4 @@ const SCHREIBER = {
 
 export const BEKANNT_TREFFER = new Set(
   [WEGWERF_WURZEL, VERBOTSLISTE, SCHREIBER].flatMap((gruppe) => Object.entries(gruppe).flatMap(([datei, eintraege]) => eintraege.map((e) => `${datei}|${e}`))),
-)
-
-/**
- * Treffer des Dokument-Wächters (`dokuLeser`): Nennungen von `docs/`, Wurzel-Markdown und `00-wache.md` im Bau und in den Prüfungen der Kette.
- * Handdurchsicht 26.10.2026: alle nennen das Dokument nur in einer Meldung oder einem Text; die einzige Ausnahme liest, `tools/design-kontrast.mjs`
- * (Kontrasttabelle in `docs/wissen/design-regeln.md`), darum steht diese Datei nicht in der Ausnahme von `pr-nachrechnen.mjs`.
- */
-// Geteilt, damit der Name keine Zeichenkette mit `prime-zugeordnet` trägt: `check-prime-zugeordnet-leser.ts` hielte sie für einen Leser dieser Datei.
-const PRIME_NAME = 'zugeordnet-leser-faelle.ts'
-const DOKU_NUR_GENANNT = {
-  'pipeline/bau/jw-widerspruchs-liste.ts': ['docs/'],
-  'pipeline/bau/verlust-riegel.ts': ['CLAUDE.md'],
-  'pipeline/check-logic.ts': ['CLAUDE.md'],
-  'pipeline/check-patchnotes-titel-ablauf.ts': ['README.md'],
-  [`pipeline/check-prime-${PRIME_NAME}`]: ['docs/'],
-  'tools/check-patchnotes-pflicht.mjs': ['docs/'],
-  'tools/design-klassen.mjs': ['docs/'],
-}
-const DOKU_LIEST = { 'tools/design-kontrast.mjs': ['docs/'] }
-
-export const BEKANNT_DOKU = new Set(
-  [DOKU_NUR_GENANNT, DOKU_LIEST].flatMap((gruppe) => Object.entries(gruppe).flatMap(([datei, eintraege]) => eintraege.map((e) => `${datei}|${e}`))),
 )
