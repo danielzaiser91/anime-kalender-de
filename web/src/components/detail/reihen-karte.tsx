@@ -5,7 +5,7 @@ import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { PanelKarte, StapelZeichen } from './panel-karte.tsx'
 
 /** „Staffel 4 von 4 · 1 Film · 1 Special" — nur Gruppen, die es gibt. Ist der gewählte Teil keine Staffel, steht die Staffelzahl. */
-function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
+export function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
   const haupt = hauptstaffeln(reihenTeile)
   const stand = staffelStaende(haupt, reihenName)
   const hauptIds = new Set(haupt.map((m) => m.id))
