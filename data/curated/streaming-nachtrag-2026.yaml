@@ -248,3 +248,22 @@
   sources:
     - https://www.tvinsider.com/1303804/the-mighty-nein-season-2-premiere-date-details/
     - https://nerdist.com/article/the-mighty-nein-season-2-release-date-schedule-synopsis/
+
+# Pokémon Horizonte Staffel 4 bei RTL+ (20.11.2026): Folge 1 „Eine Welt voller Abenteuer“ mit availabilityStarts 2026-11-20 (Abo, schema.org TVEpisode der Folgenseite, Abruf 20.11.2026); der Staffelwähler nennt bisher genau eine Folge.
+# Folge 137 in unserer Zählung (Staffel 1–3 = 136 Folgen). Keine Uhrzeit (00:00 ist der Tagesbeginn der Freischaltung), keine Folgenzahl, kein Wochentakt: AniList führt keine Gesamtzahl, und mit einer Folge ist der Takt nicht messbar.
+- slug: pokemon-horizonte-s4-rtlplus
+  anilistId: 158871
+  titleDe: "Pokémon Horizonte – Staffel 4"
+  platform: rtlplus
+  platformUrl: https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-11-20"
+    firstEpisodeNumber: 137
+    observed:
+      137: "2026-11-20"
+  note: "Staffel 4 startet bei RTL+ am 20.11.2026 mit Folge 1 (Abo). Bei TOGGO sind die Folgen kostenlos ab 27.11.2026, im Fernsehen läuft sie ab 28.11.2026 samstags bei Super RTL und TOGGO plus."
+  sources:
+    - https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142/video/eine-welt-voller-abenteuer-c_2211265
+    - https://www.anime2you.de/news/1067953/pokemon-horizonte-staffel-4-toggo-start/
+    - https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte
