@@ -31,6 +31,7 @@ assert.equal(istNurMod([f(MOD, { quelle: 'pipeline/a.ts' })]), false, 'Umbenennu
 assert.equal(istNurMod([f('web/.claude/mods/arbeitsliste/x.ts')]), false, 'verschachtelter Pfad: Muster ist am Anfang verankert')
 // Typwechsel Symlink -> Datei: nur der alte Modus verrät den Symlink
 const typwechsel = ':120000 100644 aaaaaaa bbbbbbb T\0.claude/mods/arbeitsliste/x.ts\0'
+assert.equal(leseRaw(typwechsel)[0].symlink, true, 'Typwechsel: alter Modus 120000 zählt als Symlink')
 assert.equal(istNurMod(leseRaw(typwechsel)), false, 'Typwechsel Symlink -> Datei')
 assert.equal(istNurMod([f(MOD, { quelle: '.claude/mods/arbeitsliste/b.ts' })]), true, 'Umbenennung innerhalb')
 assert.equal(istNurMod([f('.claude/mods/arbeitsliste/"x.ts')]), false, 'Anführungszeichen im Pfad')
