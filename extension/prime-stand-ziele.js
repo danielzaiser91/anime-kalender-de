@@ -48,9 +48,19 @@ globalThis.akPrimeStandLaden = async (worker, liste, frischGemeldet) => {
 globalThis.akPrimeListeVeraltet = (lautSeite, liste, standBekannt = false) =>
   (Boolean(lautSeite) && !standBekannt) || Object.values(liste).some((e) => e?.ausStand)
 
-/** Der Text des Übersichtsknopfs: beide Zahlen getrennt, bei veralteter Liste mit Hinweis. Neuladen der Seite hilft dort nie, die Erweiterung ist die alte. */
-globalThis.akPrimeKnopfText = (offen, suchen, veraltet) => {
-  if (!offen && !suchen) return veraltet ? 'Prime-Liste veraltet — Erweiterung aktualisieren' : 'Prime: alles geprüft'
-  const zahlen = offen && suchen ? `${offen} Prime-Titel · ${suchen} Suchen offen` : suchen ? `${suchen} Prime-Suchen offen` : `${offen} Prime-Titel offen`
+/**
+ * Der Text des Übersichtsknopfs: Titel, gewählte Treffer (`karten`) und Suchen getrennt, bei veralteter Liste mit Hinweis.
+ * Neuladen der Seite hilft dort nie, die Erweiterung ist die alte. „Alles geprüft“ erst, wenn auch keine gewählte Karte offen ist.
+ */
+globalThis.akPrimeKnopfText = (offen, suchen, veraltet, karten = 0) => {
+  if (!offen && !suchen && !karten) return veraltet ? 'Prime-Liste veraltet — Erweiterung aktualisieren' : 'Prime: alles geprüft'
+  const teile = [offen && `${offen} Prime-Titel`, karten && `${karten} gewählte Treffer`, suchen && `${suchen} ${offen || karten ? 'Suchen' : 'Prime-Suchen'}`].filter(Boolean)
+  const zahlen = `${teile.join(' · ')} offen`
   return veraltet ? `${zahlen} · Liste veraltet` : zahlen
+}
+
+/** Der Kopf der Prüfliste: offene Titel und offene gewählte Treffer, „Alles geprüft“ nur ohne beide. */
+globalThis.akPrimeListenKopf = (offen, karten) => {
+  const teile = [offen && `${offen} Prime-Titel`, karten && `${karten} gewählte Treffer`].filter(Boolean)
+  return teile.length ? `${teile.join(' · ')} zu prüfen` : 'Alles geprüft'
 }
