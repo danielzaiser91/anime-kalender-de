@@ -90,6 +90,6 @@ globalThis.akKontext = (() => {
     remove: entfernen,
   }
 
-  return { lebt, lesen, schreiben, beiAenderung, version, seitenAdresse, keinTokenText, lokal }
+  return { lebt, lesen, schreiben, beiAenderung, version, seitenAdresse, meldungKopf: () => ({ version: version(), seitenAdresse: seitenAdresse() }), keinTokenText, lokal }
 })()
 /* Die Folgeskripte im Manifest beginnen mit `;` (huellen-semikolon.test.cjs): Diese Datei endet ohne Semikolon. */

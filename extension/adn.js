@@ -117,7 +117,7 @@
   }
 
   /** Jede Meldung trägt die Adresse der Seite, auf der sie entstand (19.11.2026). */
-  const mitSeite = (meldung) => ({ ...meldung, seitenAdresse: globalThis.akKontext.seitenAdresse() })
+  const mitSeite = (meldung) => ({ ...meldung, version: globalThis.akKontext.version(), seitenAdresse: globalThis.akKontext.seitenAdresse() })
   const senden = (token, body) => SENDEN.sendeMitKoerper({ sende: NETZ.sende, holen: (...a) => fetch(...a), url: WORKER, token, body })
 
   /* Was nach dem Verlassen der Serienseite noch läuft, sendet nicht mehr (19.11.2026). */

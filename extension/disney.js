@@ -753,7 +753,7 @@
             plattform: 'disneyplus',
             /* Die Adresse aus unserem Bestand — danach sucht die Pipeline. */
             url: eintrag.url ?? location.href.split('?')[0],
-            seitenAdresse: globalThis.akKontext.seitenAdresse(),
+            ...globalThis.akKontext.meldungKopf(),
             /* Welches Werk gemeint ist — der Auftrag weiß es, die Adresse nicht. */
             titelId: globalThis.AK_DISNEY_STAFFELN.titelIdFuer(eintrag.staffeln, r.staffel ?? null, anbieterStaffeln),
             sprachen: r.sprachen,
