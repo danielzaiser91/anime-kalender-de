@@ -3013,7 +3013,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       die Antwort zufällig früher. Das Eintreffen der Auswahl ist jetzt selbst
       ein Anlass.
     */
-    kasten.dataset.beiErwartungen = briefkastenErwartungen ? 'da' : 'fehlt'
+    kasten.dataset.beiErwartungen = erwartungsMarke()
     kasten.classList.remove('ak-nur-huelle')
 
     /*
@@ -3969,11 +3969,22 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     ]
   }
 
+  /**
+   * Titelseite eines Suchauftrags ohne Auswahl: „Weitere Versionen verfügbar" (4.32.2) als Auswahl derselben Gruppe.
+   * Die Suche zeigt nicht alle Fassungen (Fischen Impossible: die Uncut-Fassung fehlte); ohne Suchadresse oder Abschnitt nichts.
+   */
+  function fassungenAuswahl(auftrag) {
+    if (!auftrag.suchUrl) return []
+    const treffer = globalThis.akPrimeKarten(document, asin(), seitenTitel() || auftrag.titel, abos(), zugangsart())
+    return treffer.length ? auswahlGruppe(auftrag, { treffer }) : []
+  }
+
   /** Auswahl zum Worker; Titel und Folgenzahl merkt sich die Erweiterung, falls der Bau die Suche später abräumt. */
   async function auswahlSpeichern(auftrag, kennungen) {
     const ok = await erwartungMelden(auftrag.suchUrl, kennungen)
-    if (ok && kennungen.length) {
-      auswahlMerk = { ...auswahlMerk, [auftrag.suchUrl]: { titel: auftrag.titel ?? null, folgen: auftrag.folgen ?? null } }
+    if (ok) {
+      /* `eigen` überbrückt die zwei Stunden, die der Briefkasten die alte Antwort hält (`akPrimeErwartungZu`); leer = zurückgenommen. */
+      auswahlMerk = { ...auswahlMerk, [auftrag.suchUrl]: { titel: auftrag.titel ?? null, folgen: auftrag.folgen ?? null, eigen: kennungen, am: Date.now() } }
       await globalThis.akKontext.schreiben({ primeAuswahlKopf: auswahlMerk })
     }
     if (ok) uebersichtZeichnen()
@@ -4362,7 +4373,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
           */
           const suchUrlHier = a?.suchUrl ?? eintrag?.url ?? ''
           const erwartet = erwartungZu(suchUrlHier) ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
-          if (!erwartet || !erwartet.length) return []
+          if (!erwartet || !erwartet.length) return fassungenAuswahl({ ...auftrag, suchUrl: suchUrlHier })
           const hier = asin()
           reiheMerken(erwartet)
           const gruppe = document.createElement('div')
@@ -5014,11 +5025,10 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
    * wenn sie lokal abgehakt ist.
    */
 
-  /** Die bestätigte Erwartung zu einer Suchadresse, oder null. */
+  /** Die bestätigte Erwartung zu einer Suchadresse, oder null; die eigene frische Wahl gilt vor dem Briefkasten. */
   function erwartungZu(suchUrl) {
     try {
-      const l = briefkastenErwartungen?.[suchUrl]
-      return Array.isArray(l) && l.length ? l : null
+      return globalThis.akPrimeErwartungZu(briefkastenErwartungen, auswahlMerk, suchUrl, Date.now())
     } catch {
       return null
     }
@@ -5412,7 +5422,15 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
   /** Kopf einer Suche (Titel, Folgen): aus der Liste, sonst aus dem Merker der Auswahl, wenn der Bau sie schon abgeräumt hat. */
   const auswahlKopf = (suchUrl) => suchliste[suchUrl] ?? auswahlMerk[suchUrl] ?? null
   const auswahlZeilen = () =>
-    globalThis.akPrimeAuswahlZeilen(briefkastenErwartungen, auswahlKopf, (k) => globalThis.akPrimeSeiteGemeldet(k, briefkastenSeiten, selbstGemeldeteSeiten))
+    globalThis.akPrimeAuswahlZeilen(globalThis.akPrimeErwartungenMitEigenen(briefkastenErwartungen, auswahlMerk, Date.now()), auswahlKopf, (k) => globalThis.akPrimeSeiteGemeldet(k, briefkastenSeiten, selbstGemeldeteSeiten))
+
+  /** Anlass, den Kasten neu zu zeichnen: der Briefkasten ist da, und die eigene Wahl (nach dem Neuladen kommt sie aus dem Speicher). */
+  function erwartungsMarke() {
+    return (briefkastenErwartungen ? 'da' : 'fehlt') + JSON.stringify(Object.values(auswahlMerk).map((m) => m.eigen ?? null))
+  }
+
+  /** Offene gewählte Karten: dieselbe Zahl für Knopf, Listenkopf, Nenner und Signatur. */
+  const kartenOffen = () => auswahlZeilen().filter((z) => !z.gemeldet).length
 
   async function suchAbhaken(url) {
     /* Der Worker-Stand führt die Suche noch bis zum nächsten Abruf — so lange zählt die eigene Meldung. */
@@ -5484,7 +5502,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     const offen = offeneZahl()
     const suchen = suchOffen().length
-    const gesamt = offen + suchen
+    const karten = kartenOffen()
+    const gesamt = offen + suchen + karten
     akZaehler(uebersichtKnopf, gesamt, !!primeLaufLesen())
     const lauf = primeLaufLesen()
     if (lauf) {
@@ -5509,7 +5528,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       richtigen Treffer herauszusuchen.
     */
     const veraltet = globalThis.akPrimeListeVeraltet(listeVeraltet, liste, Boolean(standZiele))
-    setz(uebersichtKnopf, 'textContent', globalThis.akPrimeKnopfText(offen, suchen, veraltet))
+    setz(uebersichtKnopf, 'textContent', globalThis.akPrimeKnopfText(offen, suchen, veraltet, karten))
     setz(
       uebersichtKnopf,
       'title',
@@ -5571,6 +5590,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       beide messen. `suchOffen()` ist billig — eine Filterung über ein Set.
     */
     const teile = [offeneZahl(), suchOffen().length, listenId, globalThis.AK_TAGESLIMIT?.text()]
+    /* Der Stand der gewählten Karten: eine gemeldete Karte ändert sonst keine Zahl, die Zeile bliebe offen. */
+    for (const z of auswahlZeilen()) teile.push(`${z.kennung}:${z.gemeldet ? '1' : '0'}`)
     for (const asinEintrag of Object.keys(liste)) {
       teile.push(asinEintrag + ':' + (fortschritt(asinEintrag) || '') + ':' + (fertig(asinEintrag) ? '1' : '0'))
     }
@@ -5624,7 +5645,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
 
     const titelzeile = document.createElement('strong')
     const offen = offeneZahl()
-    titelzeile.textContent = offen ? `${offen} Prime-Titel zu prüfen` : 'Alles geprüft'
+    titelzeile.textContent = globalThis.akPrimeListenKopf(offen, kartenOffen())
     kopf.appendChild(titelzeile)
 
     const suche = document.createElement('input')
@@ -6244,7 +6265,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       eindeutig: Sie wurde auf genau einer Trefferliste angekreuzt.
     */
     try {
-      for (const [suchUrl, kennungen] of Object.entries(briefkastenErwartungen ?? {})) {
+      for (const [suchUrl, kennungen] of Object.entries(globalThis.akPrimeErwartungenMitEigenen(briefkastenErwartungen, auswahlMerk, Date.now()) ?? {})) {
         if (!Array.isArray(kennungen) || !kennungen.includes(String(schluessel))) continue
         return { titel: auswahlKopf(suchUrl)?.titel ?? null, url: suchUrl, ausSuche: true }
       }
@@ -7682,7 +7703,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       } catch {
         /* Kein Zählstand — dann bleibt es beim Adressvergleich. */
       }
-      const andereErwartungen = alterHinweis.dataset.beiErwartungen !== (briefkastenErwartungen ? 'da' : 'fehlt')
+      const andereErwartungen = alterHinweis.dataset.beiErwartungen !== erwartungsMarke()
       if (andereAdresse || andereFolgen || andereErwartungen) {
         /*
           Neu **gezeichnet**, nicht abgerissen. Bis 4.11.0 stand hier ein
@@ -8671,7 +8692,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       fertig: [],
       uebersprungen: [],
       spur: [],
-      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length,
+      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length + kartenOffen(),
       seiten: 0,
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
@@ -8856,7 +8877,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     const grenze = lauf.planBekannt && !lauf.suche ? PRIME_FRAMES : 1
     while (primeFrames.size < grenze && lauf.plan.length) primeFrameOeffnen(lauf, lauf.plan.shift())
     if (!primeFrames.size && !lauf.plan.length) {
-      if (!lauf.suche && !lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
+      if (!lauf.fertig.includes(lauf.titel)) lauf.fertig.push(lauf.titel)
       lauf.titel = null
       lauf.suche = null
       primeLaufSchreiben(lauf)

@@ -83,6 +83,31 @@
     return karten
   }
 
+  /**
+   * Die eigene Wahl gilt, bis der Briefkasten sie führen kann: Seine Zählantwort hält die Edge 7200 s
+   * (`ZAEHLEN_SEKUNDEN` im Worker), eine Erwartungs-Meldung verwirft sie nicht (gemessen 20.11.2026: Age 6782).
+   * Die Frist liegt fünf Minuten darüber. Der Merker (`primeAuswahlKopf`) überlebt das Neuladen der Seite.
+   */
+  const EIGENE_WAHL_MS = 125 * 60 * 1000
+
+  /** Die Erwartung einer Suche: die eigene frische Wahl (leer = zurückgenommen), sonst die des Briefkastens; sonst `null`. */
+  globalThis.akPrimeErwartungZu = (briefkasten, merker, suchUrl, jetzt) => {
+    const m = merker?.[suchUrl]
+    const frisch = Array.isArray(m?.eigen) && jetzt - (m.am ?? 0) < EIGENE_WAHL_MS
+    const liste = frisch ? m.eigen : briefkasten?.[suchUrl]
+    return Array.isArray(liste) && liste.length ? liste : null
+  }
+
+  /** Alle Erwartungen samt eigener Wahl; `null`, solange der Briefkasten nicht geantwortet hat und nichts gewählt ist. */
+  globalThis.akPrimeErwartungenMitEigenen = (briefkasten, merker, jetzt) => {
+    const ergebnis = {}
+    for (const url of new Set([...Object.keys(briefkasten ?? {}), ...Object.keys(merker ?? {})])) {
+      const l = globalThis.akPrimeErwartungZu(briefkasten, merker, url, jetzt)
+      if (l) ergebnis[url] = l
+    }
+    return briefkasten || Object.keys(ergebnis).length ? ergebnis : null
+  }
+
   /** Die Zeilen der Prüfliste: je gewählte Karte eine, mit dem Stand der Seite (`gemeldet(kennung)`). */
   globalThis.akPrimeAuswahlZeilen = (erwartungen, kopf, gemeldet) => {
     const zeilen = []

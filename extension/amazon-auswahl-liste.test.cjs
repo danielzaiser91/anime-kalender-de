@@ -162,6 +162,51 @@ const suchliste = { [SUCHE]: { titel: 'Black Butler', folgen: 24 }, [SUCHE2]: { 
   pruefe('dieselbe Klasse wie der Durchgangsknopf, kein neues CSS', quelltext.includes("durchgang.className = 'ak-umschalter' + (laeuft ? ' ak-selbst-an' : '')") && readFileSync(__dirname + '/melder.css', 'utf8').includes('.ak-selbst-an {'))
 }
 
+/* Die eigene Wahl vor der alten Antwort des Briefkastens (Prüfer R1, A1): die Matrix aus Briefkasten und Merker. */
+{
+  const MIN = 60 * 1000
+  const JETZT = 1_800_000_000_000
+  const frisch = (eigen, vor = 1000) => ({ [SUCHE]: { titel: 'X', eigen, am: JETZT - vor } })
+  const zu = (brief, merker) => globalThis.akPrimeErwartungZu(brief, merker, SUCHE, JETZT)
+  pruefe('nur der Briefkasten führt die Wahl: sie gilt', zu({ [SUCHE]: ['A'] }, {})?.join() === 'A')
+  pruefe('frische eigene Wahl gegen andere Antwort des Briefkastens: die eigene gilt', zu({ [SUCHE]: ['A'] }, frisch(['B', 'C']))?.join() === 'B,C')
+  pruefe('frische Rücknahme (leere Liste): trotz Wahl beim Briefkasten keine Erwartung', zu({ [SUCHE]: ['A'] }, frisch([])) === null)
+  pruefe('eigene Wahl genau 125 Minuten alt: abgelaufen, der Briefkasten gilt', zu({ [SUCHE]: ['A'] }, frisch(['B'], 125 * MIN))?.join() === 'A')
+  pruefe('eigene Wahl 125 Minuten minus 1 ms alt: gilt noch', zu({ [SUCHE]: ['A'] }, frisch(['B'], 125 * MIN - 1))?.join() === 'B')
+  pruefe('Merker ohne eigene Wahl (nur Titel): der Briefkasten gilt', zu({ [SUCHE]: ['A'] }, { [SUCHE]: { titel: 'X', am: JETZT } })?.join() === 'A')
+  pruefe('eigene Wahl ohne Zeit: gilt als abgelaufen', zu({ [SUCHE]: ['A'] }, { [SUCHE]: { eigen: ['B'] } })?.join() === 'A')
+  pruefe('Briefkasten noch nicht da, frische Wahl: die eigene gilt', zu(null, frisch(['B']))?.join() === 'B')
+  pruefe('weder Briefkasten noch Wahl: null', zu(null, {}) === null && zu({}, null) === null)
+  const alle = (brief, merker) => globalThis.akPrimeErwartungenMitEigenen(brief, merker, JETZT)
+  pruefe('keine Antwort, keine Wahl: null (der Briefkasten ist noch nicht da)', alle(null, {}) === null)
+  pruefe('Briefkasten da, ohne Erwartungen: leeres Objekt', JSON.stringify(alle({}, {})) === '{}')
+  pruefe('keine Antwort, frische Wahl: nur die Wahl', JSON.stringify(alle(null, frisch(['B']))) === JSON.stringify({ [SUCHE]: ['B'] }))
+  pruefe('andere Suchen des Briefkastens bleiben, die Rücknahme entfernt nur ihre Suche', JSON.stringify(alle({ [SUCHE]: ['A'], [SUCHE2]: ['D'] }, frisch([]))) === JSON.stringify({ [SUCHE2]: ['D'] }))
+}
+
+/* Die Zahl der offenen Arbeit (Prüfer R1, A2): Knopf, Listenkopf und Nenner zählen die gewählten Karten mit. */
+{
+  new Function(readFileSync(__dirname + '/prime-stand-ziele.js', 'utf8'))()
+  new Function(readFileSync(__dirname + '/prime-titelseite.js', 'utf8'))()
+  const knopf = globalThis.akPrimeKnopfText
+  pruefe('nichts offen: „alles geprüft“', knopf(0, 0, false, 0) === 'Prime: alles geprüft' && knopf(0, 0, false) === 'Prime: alles geprüft', knopf(0, 0, false))
+  pruefe('nichts offen, Liste veraltet: der Hinweis zur Erweiterung', knopf(0, 0, true, 0) === 'Prime-Liste veraltet — Erweiterung aktualisieren')
+  pruefe('keine Titel, keine Suchen, eine gewählte Karte offen: nicht „alles geprüft“', knopf(0, 0, false, 1) === '1 gewählte Treffer offen', knopf(0, 0, false, 1))
+  pruefe('nur Titel / nur Suchen (wie bisher)', knopf(2, 0, false, 0) === '2 Prime-Titel offen' && knopf(0, 3, false, 0) === '3 Prime-Suchen offen')
+  pruefe('Titel und Suchen (wie bisher)', knopf(2, 3, false, 0) === '2 Prime-Titel · 3 Suchen offen')
+  pruefe('Titel und Karten', knopf(2, 0, false, 1) === '2 Prime-Titel · 1 gewählte Treffer offen', knopf(2, 0, false, 1))
+  pruefe('Karten und Suchen', knopf(0, 3, false, 4) === '4 gewählte Treffer · 3 Suchen offen', knopf(0, 3, false, 4))
+  pruefe('alle drei, veraltet', knopf(2, 3, true, 4) === '2 Prime-Titel · 4 gewählte Treffer · 3 Suchen offen · Liste veraltet', knopf(2, 3, true, 4))
+  const kopf = globalThis.akPrimeListenKopf
+  pruefe('Listenkopf: nichts offen', kopf(0, 0) === 'Alles geprüft')
+  pruefe('Listenkopf: nur Titel (wie bisher)', kopf(3, 0) === '3 Prime-Titel zu prüfen')
+  pruefe('Listenkopf: nur Karten', kopf(0, 2) === '2 gewählte Treffer zu prüfen', kopf(0, 2))
+  pruefe('Listenkopf: beides', kopf(3, 2) === '3 Prime-Titel · 2 gewählte Treffer zu prüfen', kopf(3, 2))
+  const fortschritt = globalThis.akPrimeFortschritt
+  pruefe('Nenner aus dem Start; die laufende Karte zählt wie ein laufender Titel', JSON.stringify(fortschritt({ titelGesamt: 5, fertig: ['a', 'b'], suche: SUCHE })) === JSON.stringify({ gesamt: 5, nr: 3 }), fortschritt({ titelGesamt: 5, fertig: ['a', 'b'], suche: SUCHE }))
+  pruefe('nr wächst nie über den Nenner, der Nenner nie unter 1', fortschritt({ titelGesamt: 5, fertig: ['a', 'b', 'c', 'd', 'e'] }).nr === 5 && fortschritt({ fertig: [] }).gesamt === 1)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

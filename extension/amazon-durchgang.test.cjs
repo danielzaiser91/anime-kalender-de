@@ -137,6 +137,7 @@ function welt({ imFrame = false, speicher = neuerSpeicher(), suchen = {}, auswah
   kontext.selbstGemeldeteSeiten = new Set()
   kontext.auswahlKopf = (u) => suchen[u] ?? null
   kontext.auswahlZeilen = () => kontext.akPrimeAuswahlZeilen(auswahl, kontext.auswahlKopf, (k) => kontext.selbstGemeldeteSeiten.has(k))
+  kontext.kartenOffen = () => kontext.auswahlZeilen().filter((z) => !z.gemeldet).length
   vm.runInContext(readFileSync(__dirname + '/prime-region.js', 'utf8'), kontext)
   vm.runInContext(block, kontext)
   w.kontext = kontext
@@ -732,7 +733,7 @@ for (const [text, teil, ort] of [
 
 /*
   **Fester Zähler und Ergebnisbericht (Daniel, 18.11.2026):** der Nenner wuchs mit den Treffern der Suchen. Seit 20.11.2026 zählt er
-  nur Titel: 2 Titel, dazu 3 gewählte Karten; der Nenner bleibt 2, am Ende steht ein Bericht mit Zahlen.
+  Titel und gewählte Karten: 2 Titel, dazu 3 Karten; der Nenner steht beim Start bei 5 und wandert nie, am Ende steht ein Bericht mit Zahlen.
 */
 {
   const FISCH = 'https://www.amazon.de/s?k=Fischen%20Impossible&i=instant-video'
@@ -751,11 +752,11 @@ for (const [text, teil, ort] of [
     merke()
   }
   const lebend = stand.filter(Boolean)
-  pruefe('Zähler: der Nenner steht beim Start fest (2 Titel) und wandert nie', lebend.length >= 4 && lebend.every((z) => z.gesamt === 2), lebend)
+  pruefe('Zähler: der Nenner steht beim Start fest (2 Titel + 3 Karten) und wandert nie', lebend.length >= 4 && lebend.every((z) => z.gesamt === 5), lebend)
   pruefe('Zähler: nr wächst nie über den Nenner und fällt nie', lebend.every((z, i) => z.nr <= z.gesamt && (i === 0 || z.nr >= lebend[i - 1].nr)), lebend)
-  pruefe('Zähler: die gewählten Karten zählen nicht als eigene Titel', lebend.at(-1).nr === 2 && w.ende().erledigt === 2, [lebend.at(-1), w.ende()])
+  pruefe('Zähler: jede gewählte Karte ist ein Schritt, am Ende 5 von 5', lebend.at(-1).nr === 5 && w.ende().erledigt === 5, [lebend.at(-1), w.ende()])
   const text = w.kontext.akPrimeEndeText(w.ende())
-  pruefe('Bericht: Kopf mit Titel- und Seitenzahl', /^Durchgang fertig · 2 Titel · \d+ Seiten gemeldet(\n.*)?$/.test(text), text)
+  pruefe('Bericht: Kopf mit Titel- und Seitenzahl', /^Durchgang fertig · 5 Titel · \d+ Seiten gemeldet(\n.*)?$/.test(text), text)
 }
 
 {

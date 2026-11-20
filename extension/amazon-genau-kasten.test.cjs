@@ -159,7 +159,7 @@ const ZEHN = Array.from({ length: 10 }, (_, i) => karte(i + 1))
 {
   const bauSpeichern = new Function(
     'umwelt',
-    ['let auswahlMerk = {}', 'const { erwartungMelden, uebersichtZeichnen, akKontext } = umwelt', 'const globalThis = { akKontext }', schneide('auswahlSpeichern', 'async function'), 'return { auswahlSpeichern, merk: () => auswahlMerk }'].join('\n'),
+    ['let auswahlMerk = {}', 'const Date = { now: () => 5000 }', 'const { erwartungMelden, uebersichtZeichnen, akKontext } = umwelt', 'const globalThis = { akKontext }', schneide('auswahlSpeichern', 'async function'), 'return { auswahlSpeichern, merk: () => auswahlMerk }'].join('\n'),
   )
   const spiel = (ok) => {
     const p = { geschrieben: [], gezeichnet: 0, gemeldet: [] }
@@ -185,7 +185,8 @@ const ZEHN = Array.from({ length: 10 }, (_, i) => karte(i + 1))
     pruefe('Worker nicht erreicht: nichts gemerkt, nicht neu gezeichnet, Ergebnis false', okB === false && b.p.geschrieben.length === 0 && b.p.gezeichnet === 0, b.p)
     const c = spiel(true)
     await c.auswahlSpeichern(auftrag, [])
-    pruefe('Zurücknehmen: der Worker bekommt die leere Liste, es wird nichts gemerkt', c.p.gemeldet[0]?.[1].length === 0 && c.p.geschrieben.length === 0, c.p)
+    pruefe('… die Wahl steht mit Zeit im Merker, damit sie bis zur nächsten Antwort des Briefkastens gilt', a.p.geschrieben[0]?.primeAuswahlKopf?.S1?.eigen?.join() === 'B1,B2' && a.p.geschrieben[0]?.primeAuswahlKopf?.S1?.am === 5000, a.p.geschrieben)
+    pruefe('Zurücknehmen: der Worker bekommt die leere Liste, der Merker hält sie als eigene Wahl', c.p.gemeldet[0]?.[1].length === 0 && c.p.geschrieben[0]?.primeAuswahlKopf?.S1?.eigen?.length === 0 && c.p.geschrieben[0]?.primeAuswahlKopf?.S1?.am === 5000, c.p)
     await klickSperren()
     if (fehler.length) {
       console.error(`\n${fehler.length} Zusicherung(en) rot.`)

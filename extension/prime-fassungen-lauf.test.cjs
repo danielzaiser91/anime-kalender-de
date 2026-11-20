@@ -88,8 +88,8 @@ async function main() {
 
   const basis = await lauf({ hydration: knoten })
   pruefe('Lauf ohne Absturz', !basis.absturz, basis.absturz?.message)
-  pruefe('Titelseite eines Suchauftrags: keine Fassungsauswahl mehr, auch bei drei Fassungen (20.11.2026)', auswahl(basis).length === 0, texte(basis))
-  pruefe('… und keine Anleitung zum Ankreuzen', !alleTexte(basis.angehaengt).some((x) => /angehakt|ankreuzen/i.test(x)), alleTexte(basis.angehaengt))
+  pruefe('Titelseite eines Suchauftrags ohne Auswahl: alle drei Fassungen stehen als Ankreuzzeilen (20.11.2026, gleiche Gruppe wie die Suchseite)', auswahl(basis).map((z) => z.kinder[0].dataset.kennung).sort().join() === 'B01HRLV328,B01MSMV5MA,B0GVNJRZCM', texte(basis))
+  pruefe('… mit Knopf „Auswahl übernehmen“', alleTexte(basis.angehaengt).includes('Auswahl übernehmen'), alleTexte(basis.angehaengt))
   const eine = await lauf({ hydration: knoten, erwartungen: { [SUCHE]: ['B0AAAAAAAA'] } })
   pruefe('eine gewählte Karte: auch dann keine Ankreuzfelder auf der Titelseite', auswahl(eine).length === 0, texte(eine))
 
