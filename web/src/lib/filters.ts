@@ -18,6 +18,7 @@ import { synonymeFuer } from './data.ts'
 import { passtSprecher, type SprecherAuswahl } from './sprecher-auswahl.ts'
 import { herkunftVon, type Herkunft } from './herkunft.ts'
 import { passtWertung, wertungGesetzt } from './filter-wertung.ts'
+import { passtAmTermin, tvSichtbar } from '@shared/push-filter.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -325,8 +326,7 @@ export function releaseMatches(
 
   // Ausschluss zuerst — er schlägt jeden Einschluss.
   const x = f.excluded
-  if (x.platforms.includes(release.platform)) return false
-  if (x.releaseTypes.includes(release.releaseType)) return false
+  if (!passtAmTermin(release.platform, release.releaseType, f)) return false
   if (x.years.includes(release.year)) return false
   if (release.fsk !== undefined && x.fsk.includes(release.fsk)) return false
   if (x.statuses.includes(status)) return false
@@ -334,8 +334,6 @@ export function releaseMatches(
   if (x.keywords.some((k) => keywords.includes(k))) return false
   if (x.land.length && x.land.includes(herkunftOderUnbekannt(title))) return false
 
-  if (f.platforms.length && !f.platforms.includes(release.platform)) return false
-  if (f.releaseTypes.length && !f.releaseTypes.includes(release.releaseType)) return false
   if (f.years.length && !f.years.includes(release.year)) return false
   if (f.confirmedOnly && release.schedule.estimated) return false
   if (f.confirmedExcluded && !release.schedule.estimated) return false
@@ -543,7 +541,7 @@ export function* eventsFuerAnsichtGen(
   const fundstellen = new Map<string, Fundstelle[]>()
   const gefiltert = (yield* filterEventsGen(data, f, today, favorites, fundstellen)).filter(
     /* Ausgeschaltet bleiben Premieren sichtbar. */
-    (e) => !tvAus || e.platform !== 'tv' || tvPremiere(e, data),
+    (e) => tvSichtbar(e.platform, tvPremiere(e, data), tvAus),
   )
   return { liste: gefiltert, fundstellen }
 }

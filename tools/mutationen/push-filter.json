@@ -1,0 +1,1055 @@
+[
+  {
+    "name": "shared/push-filter.ts:21 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.excluded.platforms.includes(platform) || f.excluded.releaseTypes.includes(releaseType)",
+        "ersetze": "f.excluded.platforms.includes(platform) && f.excluded.releaseTypes.includes(releaseType)",
+        "zeile": 21
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:22 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.platforms.length && !f.platforms.includes(platform)",
+        "ersetze": "f.platforms.length || !f.platforms.includes(platform)",
+        "zeile": 22
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:23 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.releaseTypes.length && !f.releaseTypes.includes(releaseType)",
+        "ersetze": "f.releaseTypes.length || !f.releaseTypes.includes(releaseType)",
+        "zeile": 23
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:28 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "!tvAus || platform !== 'tv' || premiere",
+        "ersetze": "!tvAus || platform !== 'tv' && premiere",
+        "zeile": 28
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:28 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "!tvAus || platform !== 'tv'",
+        "ersetze": "!tvAus && platform !== 'tv'",
+        "zeile": 28
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:28 !== → ===",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "platform !== 'tv'",
+        "ersetze": "platform === 'tv'",
+        "zeile": 28
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:42 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "passtAmTermin(platform, art, f) && !(f.zweitanbieterExcluded && e.zweitanbieter) && tvSichtbar(platform, e.tvPremiere === true, f.tvAus)",
+        "ersetze": "passtAmTermin(platform, art, f) && !(f.zweitanbieterExcluded && e.zweitanbieter) || tvSichtbar(platform, e.tvPremiere === true, f.tvAus)",
+        "zeile": 42
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:42 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "passtAmTermin(platform, art, f) && !(f.zweitanbieterExcluded && e.zweitanbieter)",
+        "ersetze": "passtAmTermin(platform, art, f) || !(f.zweitanbieterExcluded && e.zweitanbieter)",
+        "zeile": 42
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:42 Argumente getauscht passtAmTermin",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "passtAmTermin(platform, art, f)",
+        "ersetze": "passtAmTermin(art, platform, f)",
+        "zeile": 42
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:42 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.zweitanbieterExcluded && e.zweitanbieter",
+        "ersetze": "f.zweitanbieterExcluded || e.zweitanbieter",
+        "zeile": 42
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:42 Argumente getauscht tvSichtbar",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "tvSichtbar(platform, e.tvPremiere === true, f.tvAus)",
+        "ersetze": "tvSichtbar(e.tvPremiere === true, platform, f.tvAus)",
+        "zeile": 42
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:42 === → !==",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "e.tvPremiere === true",
+        "ersetze": "e.tvPremiere !== true",
+        "zeile": 42
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:46 Zahl 20 → 0",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "20",
+        "ersetze": "0",
+        "zeile": 46
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:50 === → !==",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "wert === undefined",
+        "ersetze": "wert !== undefined",
+        "zeile": 50
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:51 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "!Array.isArray(wert) || wert.length > MAX_EINTRAEGE",
+        "ersetze": "!Array.isArray(wert) && wert.length > MAX_EINTRAEGE",
+        "zeile": 51
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:51 > → >=",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "wert.length > MAX_EINTRAEGE",
+        "ersetze": "wert.length >= MAX_EINTRAEGE",
+        "zeile": 51
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:51 > → <=",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "wert.length > MAX_EINTRAEGE",
+        "ersetze": "wert.length <= MAX_EINTRAEGE",
+        "zeile": 51
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:52 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "wert.every((v) => typeof v === 'string' && NAME.test(v)) ? (wert as string[]) : null",
+        "ersetze": "wert.every((v) => typeof v === 'string' && NAME.test(v)) ? null : (wert as string[])",
+        "zeile": 52
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:52 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "typeof v === 'string' && NAME.test(v)",
+        "ersetze": "typeof v === 'string' || NAME.test(v)",
+        "zeile": 52
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:52 === → !==",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "typeof v === 'string'",
+        "ersetze": "typeof v !== 'string'",
+        "zeile": 52
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:58 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.tvAus && { tvAus: true }",
+        "ersetze": "f.tvAus || { tvAus: true }",
+        "zeile": 58
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:59 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.platforms.length && { platforms: f.platforms }",
+        "ersetze": "f.platforms.length || { platforms: f.platforms }",
+        "zeile": 59
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:60 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.releaseTypes.length && { releaseTypes: f.releaseTypes }",
+        "ersetze": "f.releaseTypes.length || { releaseTypes: f.releaseTypes }",
+        "zeile": 60
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:61 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.excluded.platforms.length && { xPlatforms: f.excluded.platforms }",
+        "ersetze": "f.excluded.platforms.length || { xPlatforms: f.excluded.platforms }",
+        "zeile": 61
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:62 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.excluded.releaseTypes.length && { xReleaseTypes: f.excluded.releaseTypes }",
+        "ersetze": "f.excluded.releaseTypes.length || { xReleaseTypes: f.excluded.releaseTypes }",
+        "zeile": 62
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:63 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "f.zweitanbieterExcluded && { zweitanbieterExcluded: true }",
+        "ersetze": "f.zweitanbieterExcluded || { zweitanbieterExcluded: true }",
+        "zeile": 63
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:65 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "Object.keys(raus).length ? raus : null",
+        "ersetze": "Object.keys(raus).length ? null : raus",
+        "zeile": 65
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:76 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "p.set(k, '1')",
+        "ersetze": "void 0",
+        "zeile": 76
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:76 Argumente getauscht p.set",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "p.set(k, '1')",
+        "ersetze": "p.set('1', k)",
+        "zeile": 76
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:77 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "p.set(k, (wert[k] as string[]).join('.'))",
+        "ersetze": "void 0",
+        "zeile": 77
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:77 Argumente getauscht p.set",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "p.set(k, (wert[k] as string[]).join('.'))",
+        "ersetze": "p.set((wert[k] as string[]).join('.'), k)",
+        "zeile": 77
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:85 === → !==",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "p.get(k) === '1'",
+        "ersetze": "p.get(k) !== '1'",
+        "zeile": 85
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:95 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "!platforms || !releaseTypes || !xPlatforms || !xReleaseTypes",
+        "ersetze": "!platforms || !releaseTypes || !xPlatforms && !xReleaseTypes",
+        "zeile": 95
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:95 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "!platforms || !releaseTypes || !xPlatforms",
+        "ersetze": "!platforms || !releaseTypes && !xPlatforms",
+        "zeile": 95
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:95 || → &&",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "!platforms || !releaseTypes",
+        "ersetze": "!platforms && !releaseTypes",
+        "zeile": 95
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:97 && → ||",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "r.tvAus === true && { tvAus: true }",
+        "ersetze": "r.tvAus === true || { tvAus: true }",
+        "zeile": 97
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:97 === → !==",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "r.tvAus === true",
+        "ersetze": "r.tvAus !== true",
+        "zeile": 97
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:101 === → !==",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "r.zweitanbieterExcluded === true",
+        "ersetze": "r.zweitanbieterExcluded !== true",
+        "zeile": 101
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "shared/push-filter.ts:103 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "shared/push-filter.ts",
+        "suche": "schreibeTerminFilter(f) ? f : null",
+        "ersetze": "schreibeTerminFilter(f) ? null : f",
+        "zeile": 103
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/filters.ts:329 Argumente getauscht passtAmTermin",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/filters.ts",
+        "suche": "passtAmTermin(release.platform, release.releaseType, f)",
+        "ersetze": "passtAmTermin(release.releaseType, release.platform, f)",
+        "zeile": 329
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/filters.ts:544 Argumente getauscht tvSichtbar",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/filters.ts",
+        "suche": "tvSichtbar(e.platform, tvPremiere(e, data), tvAus)",
+        "ersetze": "tvSichtbar(tvPremiere(e, data), e.platform, tvAus)",
+        "zeile": 544
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/filters.ts:544 Argumente getauscht tvPremiere",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/filters.ts",
+        "suche": "tvPremiere(e, data)",
+        "ersetze": "tvPremiere(data, e)",
+        "zeile": 544
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:7 Zahl 2000 → 0",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "2000",
+        "ersetze": "0",
+        "zeile": 7
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:17 Argumente getauscht pushFilterWert",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "pushFilterWert(kalenderFilter, tvAus)",
+        "ersetze": "pushFilterWert(tvAus, kalenderFilter)",
+        "zeile": 17
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:21 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "pushFilterMerken(filter)",
+        "ersetze": "void 0",
+        "zeile": 21
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:23 Argumente getauscht setTimeout",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "setTimeout(() => void pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [], filter), NACHFUEHR_PAUSE_MS)",
+        "ersetze": "setTimeout(NACHFUEHR_PAUSE_MS, () => void pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [], filter))",
+        "zeile": 23
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:23 Argumente getauscht pushFavoritenNachfuehren",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [], filter)",
+        "ersetze": "pushFavoritenNachfuehren(filter, liste ? liste.split(',').map(Number) : [])",
+        "zeile": 23
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:23 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "liste ? liste.split(',').map(Number) : []",
+        "ersetze": "liste ? [] : liste.split(',').map(Number)",
+        "zeile": 23
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:15 && → ||",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window && Boolean(pushWorker.adresse)",
+        "ersetze": "typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window || Boolean(pushWorker.adresse)",
+        "zeile": 15
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:15 && → ||",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window",
+        "ersetze": "typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window || 'Notification' in window",
+        "zeile": 15
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:15 && → ||",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window",
+        "ersetze": "typeof window !== 'undefined' && 'serviceWorker' in navigator || 'PushManager' in window",
+        "zeile": 15
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:15 && → ||",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "typeof window !== 'undefined' && 'serviceWorker' in navigator",
+        "ersetze": "typeof window !== 'undefined' || 'serviceWorker' in navigator",
+        "zeile": 15
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:15 !== → ===",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "typeof window !== 'undefined'",
+        "ersetze": "typeof window === 'undefined'",
+        "zeile": 15
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:40 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "favoriten ? { subscription: abo, favoriten, ak: 1, ...(filter && { filter }) } : { subscription: abo, abmelden: true }",
+        "ersetze": "favoriten ? { subscription: abo, abmelden: true } : { subscription: abo, favoriten, ak: 1, ...(filter && { filter }) }",
+        "zeile": 40
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:40 Zahl 1 → 0",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "1",
+        "ersetze": "0",
+        "zeile": 40
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:40 && → ||",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "filter && { filter }",
+        "ersetze": "filter || { filter }",
+        "zeile": 40
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:43 Argumente getauscht dienstFetch",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "dienstFetch(`${pushWorker.adresse}/push/abo`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: pushAboKoerper(abo.toJSON(), favoriten, filter),\n  })",
+        "ersetze": "dienstFetch({\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: pushAboKoerper(abo.toJSON(), favoriten, filter),\n  }, `${pushWorker.adresse}/push/abo`)",
+        "zeile": 43
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:46 Argumente getauscht pushAboKoerper",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "pushAboKoerper(abo.toJSON(), favoriten, filter)",
+        "ersetze": "pushAboKoerper(favoriten, abo.toJSON(), filter)",
+        "zeile": 46
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:86 Aufruf entfernt",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "await senden(abo, favoriten, filter).catch(() => undefined)",
+        "ersetze": "void 0",
+        "zeile": 86
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push.ts:86 Argumente getauscht senden",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push.ts",
+        "suche": "senden(abo, favoriten, filter)",
+        "ersetze": "senden(favoriten, abo, filter)",
+        "zeile": 86
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts"
+    ]
+  },
+  {
+    "name": "worker/src/favoriten-kennung.ts:29 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "worker/src/favoriten-kennung.ts",
+        "suche": "gelesen ? terminFilterAlsText(gelesen) : ''",
+        "ersetze": "gelesen ? '' : terminFilterAlsText(gelesen)",
+        "zeile": 29
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/favoriten-kennung.ts:30 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "worker/src/favoriten-kennung.ts",
+        "suche": "ak === 1 ? VORSATZ + liste : liste",
+        "ersetze": "ak === 1 ? liste : VORSATZ + liste",
+        "zeile": 30
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/favoriten-kennung.ts:30 === → !==",
+    "aenderungen": [
+      {
+        "datei": "worker/src/favoriten-kennung.ts",
+        "suche": "ak === 1",
+        "ersetze": "ak !== 1",
+        "zeile": 30
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/favoriten-kennung.ts:30 Zahl 1 → 0",
+    "aenderungen": [
+      {
+        "datei": "worker/src/favoriten-kennung.ts",
+        "suche": "1",
+        "ersetze": "0",
+        "zeile": 30
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/favoriten-kennung.ts:30 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "worker/src/favoriten-kennung.ts",
+        "suche": "text ? `,${FILTER_MARKE}${text}` : ''",
+        "ersetze": "text ? '' : `,${FILTER_MARKE}${text}`",
+        "zeile": 30
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/favoriten-lesen.ts:28 ?: Zweige vertauscht",
+    "aenderungen": [
+      {
+        "datei": "worker/src/favoriten-lesen.ts",
+        "suche": "teil ? terminFilterAusText(teil.slice(FILTER_MARKE.length)) : null",
+        "ersetze": "teil ? null : terminFilterAusText(teil.slice(FILTER_MARKE.length))",
+        "zeile": 28
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/push-abo.ts:79 Argumente getauscht legeAboAn",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-abo.ts",
+        "suche": "legeAboAn(env, endpoint, schreibeFavoriten(body.favoriten, body.ak, body.filter), new Date().toISOString())",
+        "ersetze": "legeAboAn(endpoint, env, schreibeFavoriten(body.favoriten, body.ak, body.filter), new Date().toISOString())",
+        "zeile": 79
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/push-abo.ts:79 Argumente getauscht schreibeFavoriten",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push-abo.ts",
+        "suche": "schreibeFavoriten(body.favoriten, body.ak, body.filter)",
+        "ersetze": "schreibeFavoriten(body.ak, body.favoriten, body.filter)",
+        "zeile": 79
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/push.ts:166 && → ||",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "favoriten.has(e.titleId) && !istErschienen(e, seit) && terminSichtbar(e, filter)",
+        "ersetze": "favoriten.has(e.titleId) && !istErschienen(e, seit) || terminSichtbar(e, filter)",
+        "zeile": 166
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/push.ts:166 && → ||",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "favoriten.has(e.titleId) && !istErschienen(e, seit)",
+        "ersetze": "favoriten.has(e.titleId) || !istErschienen(e, seit)",
+        "zeile": 166
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/push.ts:166 Argumente getauscht istErschienen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "istErschienen(e, seit)",
+        "ersetze": "istErschienen(seit, e)",
+        "zeile": 166
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  },
+  {
+    "name": "worker/src/push.ts:166 Argumente getauscht terminSichtbar",
+    "aenderungen": [
+      {
+        "datei": "worker/src/push.ts",
+        "suche": "terminSichtbar(e, filter)",
+        "ersetze": "terminSichtbar(filter, e)",
+        "zeile": 166
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
+    ]
+  }
+]
