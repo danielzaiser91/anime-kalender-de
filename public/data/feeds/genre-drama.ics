@@ -10,28 +10,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261112T175000Z
-DTEND:20261112T182000Z
-SUMMARY:ONE PIECE – Folge 785/877
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nUhrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom
-  Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
- eitet.\nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-213805-netflix@2026-11-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261112
-DTEND;VALUE=DATE:20261113
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 7/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261113T080000Z
@@ -220,7 +198,7 @@ UID:auto-213805-netflix@2026-11-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 8/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 8/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -490,7 +468,7 @@ UID:auto-213805-netflix@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 9/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 9/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -691,7 +669,7 @@ UID:auto-213805-netflix@2026-12-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261203
 DTEND;VALUE=DATE:20261204
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 10/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 10/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -899,7 +877,7 @@ UID:auto-213805-netflix@2026-12-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261210
 DTEND;VALUE=DATE:20261211
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 11/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 11/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -1085,7 +1063,7 @@ UID:auto-213805-netflix@2026-12-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261217
 DTEND;VALUE=DATE:20261218
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 12/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 12/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix

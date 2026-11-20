@@ -276,8 +276,9 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     const neuUnterwegs = zaehleUnterwegs(text, Date.now())
     if (!gleich(await read($, unterwegs), neuUnterwegs)) await update($, unterwegs, () => neuUnterwegs)
     const min = Math.floor((await $.clock.now()) / 60_000)
-    // Alter und Schwellen laufen mit der Zeit: bei Cron-Regeln oder Titeln unterwegs minütlich neu zeichnen.
-    if ((neueRegeln.some(r => r.cron) || neuUnterwegs.length) && (await read($, minute)) !== min) await update($, minute, () => min)
+    // Alter, Schwellen und vergangene Kalendertermine laufen mit der Zeit: dann minütlich neu zeichnen.
+    const kalenderZeiten = (await read($, kalender)).zeilen.some(z => z.zeit)
+    if ((neueRegeln.some(r => r.cron) || neuUnterwegs.length || kalenderZeiten) && (await read($, minute)) !== min) await update($, minute, () => min)
   } catch {
     fehler = 'stand.md nicht lesbar'
   }
@@ -567,7 +568,7 @@ async function zeichnePane($: EngineInterface, e: any) {
       {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
       {paneJetzt(a, d)}
       {unterwegsBereich(a, d.unterwegs, d.jetztMs)}
-      {kalenderBereich(a, d.kalender)}
+      {kalenderBereich(a, d.kalender, d.jetztMs)}
       {panePipeline(a, d)}
       {paneRegeln($, a, d)}
     </Box>

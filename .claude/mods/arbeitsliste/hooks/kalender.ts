@@ -1,5 +1,6 @@
 // „Kalender heute“ (Daniel, 19.11.2026): Termine des heutigen Berliner Tages aus woche.json (events.json, wenn „heute“ außerhalb ihrer Woche liegt).
-// Filter wie die Tagesansicht (web/src/components/WeekView.tsx, tageDerWoche): Stream- und TV-Termine des Tages, Disc ist ein eigener Weg und fällt weg;
+// Filter wie die Tagesansicht (web/src/components/WeekView.tsx, tageDerWoche): Stream-Termine des Tages, Disc ist ein eigener Weg und fällt weg;
+// TV nur als Premiere (`tvPremiere: true`), Wiederholungen und Termine ohne Aussage fallen weg (Daniel, 20.11.2026: „tv nur premiere“);
 // „Im Angebot seit“ (`imAngebot`) ist kein Erscheinen und fällt weg (shared/logic.ts setzt es nur bei dateMeaning „available-from“).
 export type KalenderTermin = {
   date: string
@@ -13,6 +14,7 @@ export type KalenderTermin = {
   timeEstimated?: boolean
   releaseType?: string
   imAngebot?: boolean
+  tvPremiere?: boolean
 }
 export type KalenderZeile = { zeit: string | null; geschaetzt: boolean; name: string; anbieter: string; folgen: string }
 export type KalenderStand = { datum: string; zeilen: KalenderZeile[] }
@@ -30,6 +32,15 @@ export function heuteBerlin(ms: number): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms))
 }
 
+// Berliner Uhrzeit „HH:MM“ zu einem Zeitpunkt.
+export function uhrzeitBerlin(ms: number): string {
+  return new Intl.DateTimeFormat('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(ms))
+}
+
+// Vorbei ist ein Termin, dessen Uhrzeit heute schon verstrichen ist; ohne Uhrzeit nie.
+export const istVorbei = (z: KalenderZeile, datum: string, jetztMs: number): boolean =>
+  !!z.zeit && datum === heuteBerlin(jetztMs) && z.zeit < uhrzeitBerlin(jetztMs)
+
 // „62“ → „F62“, „62, 63“ → „F62–63“, getrennte Nummern bis drei einzeln, sonst „n Folgen“; ohne Nummern bei Batch „alle n Folgen“.
 export function folgenText(nummern: number[], batchAnzahl?: number): string {
   const n = [...new Set(nummern)].sort((a, b) => a - b)
@@ -43,7 +54,7 @@ export function folgenText(nummern: number[], batchAnzahl?: number): string {
 export function kalenderHeute(termine: KalenderTermin[], datum: string): KalenderZeile[] {
   const gruppen = new Map<string, KalenderTermin[]>()
   for (const t of termine) {
-    if (t.date !== datum || t.releaseType === 'disc' || t.platform === 'disc' || t.imAngebot) continue
+    if (t.date !== datum || t.releaseType === 'disc' || t.platform === 'disc' || t.imAngebot || (t.platform === 'tv' && t.tvPremiere !== true)) continue
     const k = [t.name, t.platform, t.sender ?? ''].join('|')
     gruppen.set(k, [...(gruppen.get(k) ?? []), t])
   }
