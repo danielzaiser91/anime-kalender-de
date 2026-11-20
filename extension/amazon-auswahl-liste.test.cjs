@@ -137,6 +137,31 @@ const suchliste = { [SUCHE]: { titel: 'Black Butler', folgen: 24 }, [SUCHE2]: { 
   pruefe('ohne gewählte Karten: kein Abschnitt', leer.kinder.length === 0)
 }
 
+/* „Erledigte zeigen": der Schalter zeigt an, ob er an ist (Daniel, 20.11.2026), wie die anderen grünen Schalter. */
+{
+  const umschalterZeigen = new Function(`${schneide('umschalterZeigen')}\nreturn umschalterZeigen`)()
+  const knopf = () => ({
+    klassen: new Set(),
+    attribute: {},
+    classList: {
+      toggle(k, an) {
+        if (an) knopf0.klassen.add(k)
+        else knopf0.klassen.delete(k)
+      },
+    },
+    setAttribute(n, v) {
+      this.attribute[n] = v
+    },
+  })
+  const knopf0 = knopf()
+  umschalterZeigen(knopf0, true)
+  pruefe('an: grün (ak-selbst-an) und aria-pressed „true"', knopf0.klassen.has('ak-selbst-an') && knopf0.attribute['aria-pressed'] === 'true', [...knopf0.klassen, knopf0.attribute])
+  umschalterZeigen(knopf0, false)
+  pruefe('aus: nicht grün und aria-pressed „false"', !knopf0.klassen.has('ak-selbst-an') && knopf0.attribute['aria-pressed'] === 'false', [...knopf0.klassen, knopf0.attribute])
+  pruefe('der Schalter der Liste ruft den Helfer beim Umschalten und beim Wiederherstellen', quelltext.includes("umschalterZeigen(umschalter, kasten.classList.toggle('ak-mit-erledigten'))") && quelltext.includes('umschalterZeigen(umschalter, true)') && quelltext.includes('umschalterZeigen(umschalter, false)'))
+  pruefe('dieselbe Klasse wie der Durchgangsknopf, kein neues CSS', quelltext.includes("durchgang.className = 'ak-umschalter' + (laeuft ? ' ak-selbst-an' : '')") && readFileSync(__dirname + '/melder.css', 'utf8').includes('.ak-selbst-an {'))
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

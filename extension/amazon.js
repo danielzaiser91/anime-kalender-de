@@ -3908,6 +3908,12 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     return true
   }
 
+  /** Ein Schalter der Liste zeigt „an" wie die anderen (grün, `ak-selbst-an`) und sagt es mit `aria-pressed`. */
+  function umschalterZeigen(knopf, an) {
+    knopf.classList.toggle('ak-selbst-an', an)
+    knopf.setAttribute('aria-pressed', String(an))
+  }
+
   /** Eine gewählte Karte als Zeile der Prüfliste: Klick öffnet ihre Titelseite, dort meldet der Knopf wie bei jedem Titel. */
   function auswahlZeileBauen(z) {
     const zeile = document.createElement('div')
@@ -5634,10 +5640,8 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     umschalter.className = 'ak-umschalter'
     umschalter.type = 'button'
     umschalter.textContent = 'Erledigte zeigen'
-    umschalter.addEventListener('click', () => {
-      const an = kasten.classList.toggle('ak-mit-erledigten')
-      umschalter.textContent = an ? 'Erledigte ausblenden' : 'Erledigte zeigen'
-    })
+    umschalterZeigen(umschalter, false)
+    umschalter.addEventListener('click', () => umschalterZeigen(umschalter, kasten.classList.toggle('ak-mit-erledigten')))
     kopf.appendChild(umschalter)
 
     /**
@@ -6008,7 +6012,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     }
     if (merkeErledigte) {
       kasten.classList.add('ak-mit-erledigten')
-      umschalter.textContent = 'Erledigte ausblenden'
+      umschalterZeigen(umschalter, true)
     }
     inhalt.scrollTop = merkeScroll
 
