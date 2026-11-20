@@ -66,11 +66,14 @@ function Gruppenzeilen({ g, eigen, p }: { g: Gruppe; eigen: boolean; p: Uebersic
   )
 }
 
-/** Welche Gruppen offen sind: anfangs die des geöffneten Titels; ein Wechsel in der Reihe öffnet die Gruppe des neuen Teils dazu. */
+/**
+ * Welche Gruppen offen sind: nur die des geöffneten Titels (F148). Wechselt sie (anderer Teil, Nachladen ordnet um),
+ * geht die alte zu — live blieb bei „Horizonte“ sonst die Hauptserie aus dem ersten Bild offen.
+ */
 function useOffeneGruppen(eigene: string | undefined) {
   const [offen, setOffen] = useState<string[]>(() => (eigene ? [eigene] : []))
   useEffect(() => {
-    if (eigene) setOffen((o) => (o.includes(eigene) ? o : [...o, eigene]))
+    setOffen(eigene ? [eigene] : [])
   }, [eigene])
   const umschalten = (titel: string) => setOffen((o) => (o.includes(titel) ? o.filter((x) => x !== titel) : [...o, titel]))
   return { offen, umschalten }

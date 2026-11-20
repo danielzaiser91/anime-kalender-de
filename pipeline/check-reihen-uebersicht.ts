@@ -286,10 +286,10 @@ const g4 = await oeffne(GROSS2, { titel: 900313 })
 gleich('der einzige Teil ohne Synchro ist geöffnet: kein Schalter, keine leere Hülle', [g4.schalterText(), g4.schalterHuellen()], ['', 0])
 await g4.ende()
 
-/* Wechsel auf einen Teil einer zugeklappten Gruppe ohne Klick vorher: seine Gruppe geht dazu auf. */
+/* Wechsel auf einen Teil einer zugeklappten Gruppe (auch: Gruppe ändert sich beim Nachladen): offen ist nur seine Gruppe (F148). */
 const w = await oeffne(GROSS, { titel: 900102 })
 await w.zeige({ titel: 900207 })
-gleich('Wechsel ohne Klick: Hauptserie bleibt, Filme gehen auf', w.lage().gruppe.map((g) => g.offen), [true, true, false])
+gleich('Wechsel ohne Klick: nur Filme offen, Hauptserie geht zu', w.lage().gruppe.map((g) => g.offen), [false, true, false])
 await w.ende()
 
 /* Wechsel läuft: Ladehinweis, Zeilen gesperrt; ein gemerkter Teil trägt den Stern. */
