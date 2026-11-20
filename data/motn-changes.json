@@ -3,7 +3,7 @@
     "2026-08": 55,
     "2026-09": 68,
     "2026-10": 99,
-    "2026-11": 61
+    "2026-11": 65
   },
   "gesehen": {
     "26341901:netflix": {
@@ -183,7 +183,7 @@
       "imdbId": "tt33310323",
       "tmdbId": "tv/250558",
       "dienst": "prime",
-      "am": "2026-09-26",
+      "am": "2026-11-19",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -216,7 +216,7 @@
       "imdbId": "tt34000616",
       "tmdbId": "tv/257023",
       "dienst": "prime",
-      "am": "2026-09-26",
+      "am": "2026-11-19",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -271,7 +271,7 @@
       "imdbId": "tt43509012",
       "tmdbId": "tv/316178",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-11-19",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -1624,7 +1624,7 @@
       "imdbId": "tt1595859",
       "tmdbId": "tv/32692",
       "dienst": "prime",
-      "am": "2026-11-13",
+      "am": "2026-11-19",
       "deutsch": true,
       "deutschBeiDienst": false
     },
@@ -2721,8 +2721,9 @@
       "imdbId": "tt7491982",
       "tmdbId": "tv/80748",
       "dienst": "prime",
-      "am": "2026-09-01",
-      "deutsch": false
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:41806:prime": {
       "art": "removed",
@@ -3516,8 +3517,9 @@
       "imdbId": "tt0247902",
       "tmdbId": "tv/902",
       "dienst": "prime",
-      "am": "2026-09-07",
-      "deutsch": true
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": false
     },
     "removed:60657:prime": {
       "art": "removed",
@@ -6724,7 +6726,7 @@
       "imdbId": "tt13315664",
       "tmdbId": "tv/130578",
       "dienst": "prime",
-      "am": "2026-10-31",
+      "am": "2026-11-19",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -7602,8 +7604,9 @@
       "imdbId": "tt32908148",
       "tmdbId": "tv/255852",
       "dienst": "prime",
-      "am": "2026-10-11",
-      "deutsch": false
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:10268776:prime": {
       "art": "new",
@@ -7612,8 +7615,9 @@
       "imdbId": "tt33038101",
       "tmdbId": "tv/257511",
       "dienst": "prime",
-      "am": "2026-10-11",
-      "deutsch": false
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:24975085:prime": {
       "art": "new",
@@ -7633,8 +7637,9 @@
       "imdbId": "tt43588726",
       "tmdbId": "tv/315702",
       "dienst": "prime",
-      "am": "2026-10-11",
-      "deutsch": false
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:2956807:prime": {
       "art": "new",
@@ -7653,8 +7658,9 @@
       "imdbId": "tt36981677",
       "tmdbId": "tv/286627",
       "dienst": "prime",
-      "am": "2026-10-11",
-      "deutsch": false
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
     },
     "new:5059526:prime": {
       "art": "new",
@@ -8732,7 +8738,7 @@
       "imdbId": "tt11382382",
       "tmdbId": "tv/112712",
       "dienst": "prime",
-      "am": "2026-10-19",
+      "am": "2026-11-19",
       "deutsch": true,
       "deutschBeiDienst": false
     },
@@ -8918,7 +8924,7 @@
       "imdbId": "tt7806456",
       "tmdbId": "tv/91253",
       "dienst": "prime",
-      "am": "2026-10-19",
+      "am": "2026-11-19",
       "deutsch": false,
       "deutschBeiDienst": false
     },
@@ -12700,7 +12706,7 @@
       "dienst": "prime",
       "am": "2026-11-19",
       "deutsch": true,
-      "deutschBeiDienst": true
+      "deutschBeiDienst": false
     },
     "removed:137:disney": {
       "art": "removed",
@@ -12899,7 +12905,403 @@
       "am": "2026-11-18",
       "deutsch": false,
       "deutschBeiDienst": false
+    },
+    "new:24592781:disney": {
+      "art": "new",
+      "titel": "Halef",
+      "originalTitel": "Halef: Köklerin Çağrısı",
+      "imdbId": "tt38413198",
+      "tmdbId": "tv/298629",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:24669201:disney": {
+      "art": "new",
+      "titel": "Underground",
+      "originalTitel": "Yeraltı",
+      "imdbId": "tt39222526",
+      "tmdbId": "tv/309328",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:16726:prime": {
+      "art": "new",
+      "titel": "Catweazle",
+      "originalTitel": "Catweazle",
+      "imdbId": "tt0063881",
+      "tmdbId": "tv/11196",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:21432656:prime": {
+      "art": "new",
+      "titel": "The German",
+      "originalTitel": "הגרמני",
+      "imdbId": "tt32872971",
+      "tmdbId": "tv/286656",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:18641154:prime": {
+      "art": "new",
+      "titel": "Barbie: Dream Besties",
+      "originalTitel": "Barbie: Dream Besties",
+      "imdbId": "tt33456563",
+      "tmdbId": "tv/289483",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:63145:prime": {
+      "art": "new",
+      "titel": "My Lover's Secret",
+      "originalTitel": "愛してたって、秘密はある。",
+      "imdbId": "tt6993488",
+      "tmdbId": "tv/72277",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:1615:prime": {
+      "art": "new",
+      "titel": "Cold Case",
+      "originalTitel": "Cold Case",
+      "imdbId": "tt0368479",
+      "tmdbId": "tv/2171",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:4485:disney": {
+      "art": "new",
+      "titel": "Fire Force",
+      "originalTitel": "炎炎ノ消防隊",
+      "imdbId": "tt9307686",
+      "tmdbId": "tv/88046",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "new:24602332:disney": {
+      "art": "new",
+      "titel": "Hey A.J.!",
+      "originalTitel": "Hey A.J.!",
+      "imdbId": "tt19872788",
+      "tmdbId": "tv/257724",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:451:disney": {
+      "art": "new",
+      "titel": "Broadchurch",
+      "originalTitel": "Broadchurch",
+      "imdbId": "tt2249364",
+      "tmdbId": "tv/1427",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "new:7546996:disney": {
+      "art": "new",
+      "titel": "My Instant Death Ability Is Overpowered",
+      "originalTitel": "即死チートが最強すぎて、異世界のやつらがまるで相手にならないんですが。",
+      "imdbId": "tt30146725",
+      "tmdbId": "tv/236144",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27519512:disney": {
+      "art": "new",
+      "titel": "The Circle",
+      "originalTitel": "The Circle",
+      "imdbId": "tt49910378",
+      "tmdbId": "tv/339503",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:2464:disney": {
+      "art": "new",
+      "titel": "Ghosts",
+      "originalTitel": "Ghosts",
+      "imdbId": "tt11379026",
+      "tmdbId": "tv/126027",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": false
+    },
+    "new:26598291:disney": {
+      "art": "new",
+      "titel": "Stick to United With Wayne Rooney",
+      "originalTitel": "Stick to United With Wayne Rooney",
+      "imdbId": "tt44773371",
+      "tmdbId": "tv/332904",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:3027:disney": {
+      "art": "new",
+      "titel": "Taskmaster",
+      "originalTitel": "Taskmaster",
+      "imdbId": "tt4934214",
+      "tmdbId": "tv/63404",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:23421919:disney": {
+      "art": "new",
+      "titel": "TikTok: Murder Gone Viral",
+      "originalTitel": "TikTok: Murder Gone Viral",
+      "imdbId": "tt31108835",
+      "tmdbId": "tv/237238",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:73020:disney": {
+      "art": "new",
+      "titel": "Chibi Tiny Tales",
+      "originalTitel": "Chibi Tiny Tales",
+      "imdbId": "tt21204640",
+      "tmdbId": "tv/154010",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:14626422:disney": {
+      "art": "new",
+      "titel": "SuperKitties: Su-Purr Adventures (Shorts)",
+      "originalTitel": "SuperKitties: Su-Purr Adventures (Shorts)",
+      "imdbId": "tt32598989",
+      "tmdbId": "tv/261557",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:25873959:disney": {
+      "art": "new",
+      "titel": "Stick to Football",
+      "originalTitel": "Stick to Football",
+      "imdbId": "tt34580655",
+      "tmdbId": "tv/237241",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:26893806:disney": {
+      "art": "new",
+      "titel": "Gnomes",
+      "originalTitel": "Gnomes",
+      "imdbId": "tt8629424",
+      "tmdbId": "tv/335813",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:23352303:disney": {
+      "art": "new",
+      "titel": "The Hack",
+      "originalTitel": "The Hack",
+      "imdbId": "tt35615598",
+      "tmdbId": "tv/287167",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:7865691:disney": {
+      "art": "new",
+      "titel": "Coppola, the Agent",
+      "originalTitel": "Coppola, el representante",
+      "imdbId": "tt15655872",
+      "tmdbId": "tv/128330",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:27068123:disney": {
+      "art": "new",
+      "titel": "The Secret Lives of Mormon Wives: Orange County",
+      "originalTitel": "The Secret Lives of Mormon Wives: Orange County",
+      "imdbId": "tt42006761",
+      "tmdbId": "tv/320507",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:7502:disney": {
+      "art": "new",
+      "titel": "Love Island",
+      "originalTitel": "Love Island",
+      "imdbId": "tt4770018",
+      "tmdbId": "tv/66636",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:14367014:disney": {
+      "art": "new",
+      "titel": "Romesh Ranganathan's Parents' Evening",
+      "originalTitel": "Romesh Ranganathan's Parents' Evening",
+      "imdbId": "tt34434436",
+      "tmdbId": "tv/275497",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "new:67524:disney": {
+      "art": "new",
+      "titel": "303 – The Series",
+      "originalTitel": "303 - Die Serie",
+      "imdbId": "tt15326246",
+      "tmdbId": "tv/133377",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:2539:disney": {
+      "art": "new",
+      "titel": "Versailles",
+      "originalTitel": "Versailles",
+      "imdbId": "tt3830558",
+      "tmdbId": "tv/64353",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:14626089:disney": {
+      "art": "new",
+      "titel": "Honey Lemon Soda",
+      "originalTitel": "ハニーレモンソーダ",
+      "imdbId": "tt31528958",
+      "tmdbId": "tv/247859",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": true
+    },
+    "new:27518519:disney": {
+      "art": "new",
+      "titel": "Swipe Right on the Devil",
+      "originalTitel": "Swipe Right on the Devil",
+      "imdbId": "tt48356732",
+      "tmdbId": "tv/337609",
+      "dienst": "disney",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:13735:prime": {
+      "art": "removed",
+      "titel": "Sherlock Hound",
+      "originalTitel": "名探偵ホームズ",
+      "imdbId": "tt0088109",
+      "tmdbId": "tv/21296",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:73871:prime": {
+      "art": "removed",
+      "titel": "Go Buster!",
+      "originalTitel": "Go Buster!",
+      "imdbId": "tt10087604",
+      "tmdbId": "tv/194768",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:26525:prime": {
+      "art": "removed",
+      "titel": "Strawberry Shortcake",
+      "originalTitel": "Strawberry Shortcake",
+      "imdbId": "tt1190823",
+      "tmdbId": "tv/16033",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:4303718:prime": {
+      "art": "removed",
+      "titel": "Twisted Metal",
+      "originalTitel": "Twisted Metal",
+      "imdbId": "tt14261112",
+      "tmdbId": "tv/133748",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:16200:prime": {
+      "art": "removed",
+      "titel": "Shakugan no Shana",
+      "originalTitel": "灼眼のシャナ",
+      "imdbId": "tt0972713",
+      "tmdbId": "tv/22634",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:91675:prime": {
+      "art": "removed",
+      "titel": "Peter Voss, der Millionendieb",
+      "originalTitel": "Peter Voss, der Millionendieb",
+      "imdbId": "tt0174414",
+      "tmdbId": "tv/63690",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": false,
+      "deutschBeiDienst": false
+    },
+    "removed:13215:prime": {
+      "art": "removed",
+      "titel": "Danger Force",
+      "originalTitel": "Danger Force",
+      "imdbId": "",
+      "tmdbId": "tv/99583",
+      "dienst": "prime",
+      "am": "2026-11-19",
+      "deutsch": true,
+      "deutschBeiDienst": false
     }
   },
-  "fetchedAt": "2026-11-19T04:09:43.056Z"
+  "fetchedAt": "2026-11-20T04:08:19.427Z"
 }
