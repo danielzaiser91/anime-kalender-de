@@ -693,6 +693,13 @@ for (const [text, teil, ort] of [
   sw.ergebnis(sw.offen()[0], { ok: false, grund: 'Knopf blieb bei: x', hier: 'B0AAAAAAA1', staffeln: [], tagebuch: [{ ms: 100, text: 'Sprache wird gelesen' }] })
   pruefe('Fehlschlag einer Karte: sie gilt nicht als gemeldet', !sw.kontext.selbstGemeldeteSeiten.has('B0AAAAAAA1'))
 
+  /* Sind alle gewählten Karten schon gemeldet, gibt es nichts zu tun. */
+  const fertig = welt({ suchen, auswahl })
+  fertig.kontext.liste = {}
+  fertig.kontext.listenId = 'x'
+  for (const k of ['B087Y8ZNF8', 'B0AAAAAAA1', 'B0GXHFZ68B']) fertig.kontext.selbstGemeldeteSeiten.add(k)
+  pruefe('alle gewählten Karten gemeldet: der Lauf startet nicht', vm.runInContext('primeLaufStarten()', fertig.kontext) === false && fertig.frames.length === 0)
+
   /* Ohne jede Auswahl gibt es nichts zu tun, auch wenn Suchen offen sind. */
   const leer = welt({ suchen })
   leer.kontext.liste = {}
