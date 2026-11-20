@@ -10,26 +10,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-11-13#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261113T222000Z
-DTEND:20261113T225000Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 9
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-11-13#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261113T225000Z
-DTEND:20261113T232000Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 10
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261113T231000Z

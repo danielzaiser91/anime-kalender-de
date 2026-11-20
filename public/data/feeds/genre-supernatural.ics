@@ -10,29 +10,6 @@ X-WR-TIMEZONE:Europe/Berlin
 REFRESH-INTERVAL;VALUE=DURATION:PT12H
 X-PUBLISHED-TTL:PT12H
 BEGIN:VEVENT
-UID:steel-ball-run-2nd-3rd-stage@2026-11-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261113T080000Z
-DTEND:20261113T083000Z
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE – Fo
- lge 9/12
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nDetai
- ls: https://anime-kalender.de/t/16796/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-11-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261113T170000Z
-DTEND:20261113T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 7/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom Anbiet
- er genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleitet.\
- nDetails: https://anime-kalender.de/t/15957/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384015@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261114T103000Z
