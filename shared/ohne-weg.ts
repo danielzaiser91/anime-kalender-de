@@ -8,9 +8,9 @@ export type OhneWegGrund = (typeof OHNE_WEG_GRUENDE)[number]
 
 /**
  * Wer den Grund belegt: ein Termin (`events.json`), ein Handbeleg (`dub-confirmed.yaml`), JustWatch (`justwatch-audio.json`) oder eine erschienene Disc
- * (`disc-ausgaben.json`; `checkedAt` ist dort der Tag des JustWatch-Eintrags, der keinen Stream fand).
+ * (`disc-ausgaben.json`; `checkedAt` ist dort der Tag des JustWatch-Eintrags, der keinen Stream fand); `start` ist der eigene künftige Starttag des Titels (`jpStart`) ohne Termin.
  */
-export type OhneWegQuelle = 'termin' | 'handbeleg' | 'justwatch' | 'disc'
+export type OhneWegQuelle = 'termin' | 'handbeleg' | 'justwatch' | 'disc' | 'start'
 
 /**
  * Ein Eintrag von `ohne-weg.json` (Schlüssel = Titelkennung). `checkedAt` ist der Tag der Prüfung aus der Quelle, `ab` der künftige Starttag;
