@@ -42,10 +42,11 @@ export function coverBild(
   const t = /\/t\/p\/w(\d+)\//.exec(url)
   if (t) {
     const original = Number(t[1])
-    const stufen = TMDB.filter((w) => w <= original)
-    if (!stufen.length) return { src: url }
+    const vorhanden = TMDB.filter((w) => w <= original)
+    if (!vorhanden.length) return { src: url }
+    const stufen = vorhanden.filter((w, i) => i === 0 || w <= cssBreite * dichte)
     const variante = (w: number) => url.replace(t[0], `/t/p/w${w}/`)
-    const passend = stufen.find((w) => w >= cssBreite * 2) ?? stufen[stufen.length - 1]!
+    const passend = stufen.find((w) => w >= cssBreite * dichte) ?? stufen[stufen.length - 1]!
     return { src: variante(passend), srcSet: stufen.map((w) => `${variante(w)} ${w}w`).join(', '), sizes }
   }
   return { src: url }
