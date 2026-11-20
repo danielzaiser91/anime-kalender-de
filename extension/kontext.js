@@ -19,7 +19,8 @@ globalThis.akKontext = (() => {
 
   /**
    * Liest `schluessel` aus `bereich` ('local' | 'sync'); `null`, wenn der Kontext tot ist oder der Zugriff wirft.
-   * Gibt das Ergebnis von Chrome unverändert zurück (Zusage; der Testsandkasten antwortet synchron), nur ein Fehlschlag der Zusage wird zu `null`.
+   * Gibt das Ergebnis von Chrome unverändert zurück (Zusage; der Testsandkasten antwortet synchron), nur ein
+   * Fehlschlag der Zusage wird zu `null`.
    */
   function lesen(schluessel, bereich = 'local') {
     if (!lebt()) return null
@@ -78,7 +79,6 @@ globalThis.akKontext = (() => {
   /** Die Adresse der Seite, auf der gerade gelesen wird, ohne Suchteil und Anker: sie geht als `seitenAdresse` in jede Meldung (Migration 066). */
   const seitenAdresse = () => String(location.href).split(/[?#]/)[0]
 
-  const meldungKopf = () => ({ version: version(), seitenAdresse: seitenAdresse() }) // beides in jeden Meldungsrumpf spreizen
   /** Der Text, wenn kein Token da ist — im toten Kontext liegt es nicht am Token, sondern an der Verbindung. */
   const keinTokenText = () =>
     lebt() ? 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' : 'Erweiterung neu geladen — Seite neu laden'
@@ -90,6 +90,6 @@ globalThis.akKontext = (() => {
     remove: entfernen,
   }
 
-  return { lebt, lesen, schreiben, beiAenderung, version, seitenAdresse, meldungKopf, keinTokenText, lokal }
+  return { lebt, lesen, schreiben, beiAenderung, version, seitenAdresse, meldungKopf: () => ({ version: version(), seitenAdresse: seitenAdresse() }), keinTokenText, lokal }
 })()
 /* Die Folgeskripte im Manifest beginnen mit `;` (huellen-semikolon.test.cjs): Diese Datei endet ohne Semikolon. */
