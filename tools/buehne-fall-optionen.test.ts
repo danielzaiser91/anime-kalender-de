@@ -74,4 +74,24 @@ assert.equal(startAufDisc('86-ohne-beleg'), false)
 assert.equal(startAufDisc(undefined), false)
 assert.equal(startAufDisc('x', { x: { von: 'a', name: 'X', optionen: { tonspur: 'ohne-beleg' } } }), false)
 assert.equal(startAufDisc('x', { x: { von: 'a', name: 'X', optionen: { start: 'disc' } } }), true)
-console.log('buehne-fall-optionen: ok (Felder, Ausgangsfall, Fehlfälle, Fall 86 mit/ohne Beleg, Start auf Disc)')
+
+// `titel` öffnet einen anderen Titel derselben Reihe: nur `titleId` ändert sich, Ausgangsfall und Daten bleiben.
+assert.equal(mitOptionen(roh, { titel: 77 }, 'N').titleId, 77)
+assert.equal(mitOptionen(roh, {}, 'N').titleId, 1)
+assert.equal(roh.titleId, 1)
+assert.deepEqual(mitOptionen(roh, { titel: 77 }, 'N')['titles.json'], roh['titles.json'])
+// Mockup `reihe-uebersicht`: abgeleitete Fälle mit festen ak-Kennungen, jeder Titel liegt im Bestand des Ausgangsfalls, der Gesamtbestand führt die Reihe nur einmal.
+const ABGELEITET: [string, string, number][] = [
+  ['pokemon-film', 'pokemon-horizonte', 5726],
+  ['pokemon-concierge', 'pokemon-horizonte', 14945],
+  ['pokemon-sammeltitel', 'pokemon-horizonte', 483],
+  ['detektiv-conan-film', 'fernsehtag-detektiv-conan', 690],
+]
+for (const [kennung, von, titleId] of ABGELEITET) {
+  assert.equal(alle[kennung]!.titleId, titleId, kennung)
+  assert.equal(alle[kennung]!['titles.json'], alle[von]!['titles.json'], `${kennung}: Daten von ${von}`)
+  assert.equal((alle[kennung]!['titles.json'] as Title[]).some((x) => x.id === titleId), true, `${kennung}: Titel im Bestand`)
+}
+assert.equal((alle['alle']!['titles.json'] as Title[]).filter((x) => x.id === 483).length, 1)
+assert.notEqual(alle['pokemon-horizonte']!.titleId, alle['pokemon-film']!.titleId)
+console.log('buehne-fall-optionen: ok (Felder, Ausgangsfall, Fehlfälle, Fall 86 mit/ohne Beleg, Start auf Disc, Titel-Option, 4 abgeleitete Reihen-Fälle)')
