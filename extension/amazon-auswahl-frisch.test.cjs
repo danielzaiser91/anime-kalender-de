@@ -37,7 +37,12 @@ function lade({ lokal = {}, alt = {}, uhr = { jetzt: JETZT }, suche = { [SUCHE]:
   const k = sandkasten({
     speicher,
     chromeLokal: {
-      get: () => Promise.resolve({ amazonErledigt: {}, amazonSuche: {}, ...lokal }),
+      /* Wie Chrome: nur die verlangten Schlüssel (sonst überlebt ein falscher Schlüssel im Code). */
+      get: (verlangt) => {
+        const alle = { amazonErledigt: {}, amazonSuche: {}, ...lokal }
+        const namen = typeof verlangt === 'string' ? [verlangt] : Array.isArray(verlangt) ? verlangt : Object.keys(verlangt ?? alle)
+        return Promise.resolve(Object.fromEntries(namen.filter((n) => n in alle).map((n) => [n, alle[n]])))
+      },
       set: (werte) => {
         Object.assign(lokal, werte)
         return Promise.resolve()
