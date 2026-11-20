@@ -5700,7 +5700,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
     if (ende) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.textContent = akPrimeEndeText(ende)
+      zeile.textContent = akPrimeEndeText({ ...ende, suchen: suchOffen().length })
       kasten.appendChild(zeile)
     }
 
@@ -8695,7 +8695,7 @@ const speicherSchreiben = (werte) => globalThis.akKontext.schreiben(werte)
       sessionStorage.removeItem(PRIME_LAUF)
       sessionStorage.setItem(
         PRIME_LAUF_ENDE,
-        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, suchen: suchOffen().length, erledigt: lauf.fertig.length, seiten: lauf.seiten, spur: lauf.spur }),
+        JSON.stringify({ grund, uebersprungen: lauf.uebersprungen, erledigt: lauf.fertig.length, seiten: lauf.seiten, spur: lauf.spur }),
       )
     } catch {
       /* Ohne Speicher endet er trotzdem — der Takt findet keinen Lauf mehr. */
