@@ -98,6 +98,8 @@ function sandkasten(paket: Record<string, unknown>, antwort: 'stand' | 'fehler' 
   k.akGemeldetSeit = async () => {}
   k.akPruefstandAm = '2026-10-29T06:00:00.000Z'
   k.akPrimeAufraeumen = () => ({ bereinigt: {}, entfernt: 0 })
+  /* Karten der Suchseite zählt amazon-auswahl-frisch.test.cjs; hier geht es nur um die Titel aus dem Worker. */
+  k.kartenOffen = () => 0
   const ctx = vm.createContext(k)
   vm.runInContext(lies('pruefstand-zeit.js'), ctx)
   vm.runInContext(lies('prime-such-bruecke.js'), ctx)
