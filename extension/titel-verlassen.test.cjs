@@ -291,7 +291,7 @@ async function disney() {
     const token = new Promise((r) => (tokenFreigabe = r))
     const welt = {
       akTitelBindung: regelLaden(),
-      akKontext: { lesen: () => token.then(() => ({ token: 'tok' })), keinTokenText: () => '', seitenAdresse: () => 'https://www.disneyplus.com/de-de/series/x/abc' },
+      akKontext: { lesen: () => token.then(() => ({ token: 'tok' })), keinTokenText: () => '', meldungKopf: () => ({ version: '9.9.9', seitenAdresse: 'https://www.disneyplus.com/de-de/series/x/abc' }) },
       AK_DISNEY_NETZ: {
         sende: async (url, init) => {
           gesendet.push(init.body)
