@@ -1,0 +1,5 @@
+kategorie: feature
+text: Fünf Fortsetzungen zeigen jetzt ihren Streaming-Weg
+untertitel: "Etwa Die rothaarige Schneeprinzessin: Staffel 2 und Bakugan: Mechtanium Surge"
+wartetAuf: "Lauf data:tmdb und danach data:justwatch nach PR 4328. Probe: In public/data/ohne-weg.json stehen die fünf Titel nicht mehr (AniList-Kennungen 21258, 10013153, 10014481, 10016892, 10330; am 19.11. nur-disc bzw. offen), nur-disc 415 → 411, offen 51 → 50. Anbieter (Prime Video bzw. Disney+) erst bei der Freigabe aus titles.json nennen."
+seit: '2026-11-19'
