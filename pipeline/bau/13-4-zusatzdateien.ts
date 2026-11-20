@@ -22,6 +22,18 @@ import { markiereRemakes } from './remake-von.ts'
 import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 
+/** Titel-Kennung → frühester Beginn eines Releases; eine TV-Sichtung nennt unseren ersten Blick, keinen Start (Pokémon Horizonte „16.09.2026", 16.09.2026). */
+function fruehesterDeutscherStart(releases: Release[]): Map<number, string> {
+  const deStart = new Map<number, string>()
+  for (const r of releases) {
+    const d = r.schedule?.firstEpisodeDate
+    if (!d || r.tvLetzteSichtung) continue
+    const bisher = deStart.get(r.titleId)
+    if (!bisher || d < bisher) deStart.set(r.titleId, d)
+  }
+  return deStart
+}
+
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
@@ -169,14 +181,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     mehr angezeigt. Gezählt wird der Beginn jedes Releases, Disc wie Stream:
     Gefragt ist „seit wann gibt es das hier", nicht „auf welchem Weg".
   */
-  const deStart = new Map<number, string>()
-  for (const r of releases) {
-    const d = r.schedule?.firstEpisodeDate
-    /* Eine TV-Sichtung nennt unseren ersten Blick, keinen Start (Pokémon Horizonte „16.09.2026", 16.09.2026). */
-    if (!d || r.tvLetzteSichtung) continue
-    const bisher = deStart.get(r.titleId)
-    if (!bisher || d < bisher) deStart.set(r.titleId, d)
-  }
+  const deStart = fruehesterDeutscherStart(releases)
 
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
   /* Die belegte deutsche Staffelangabe (aniSearch) steuert die Beschriftung, nicht den Titel. */
