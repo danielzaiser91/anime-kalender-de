@@ -131,6 +131,7 @@ Bericht: höchstens zehn Zeilen, Deutsch — Urteil (ok / ändern) / Befunde mit
 - **Neue Ausgabedatei (16.11.2026, PR 4033):** Fügt der PR eine Datei unter `data/` hinzu, die ein Lauf oder der Bau schreibt, muss sie in `ERZEUGTE_DATEIEN` (`tools/pr-nachrechnen-bot-erzeugt.mjs`) stehen, sonst „ändern“; Handdateien stehen in `ERZEUGT_AUSNAHMEN`. Der Wächter `pr-nachrechnen-bot-erzeugt.test.mjs` fängt es nur, wenn die Datei auch in `QUELLEN` steht (`tools/quellen-liste.sh`).
 
 - **Bau-Vergleich: geänderter Titel gilt als Wirkung des PR (16.11.2026, PR 4054):** Jeder Titel außerhalb des Anlasses, bis ein Lauf gegen die Merge-Basis das Gegenteil belegt.
+- **„Vorher“ an main prüfen (20.11.2026, PR 4374):** Das Vorher-Bild jeder Bau-Vergleich-Zeile wird mit `git show origin/main:<datei>` gegengeprüft. Der Worktree des Bauers kann einen veralteten Datenstand tragen; 4374 meldete `[[2,44]]`, obwohl main seit Stunden `[[1,136]]` hatte.
 - **Bau-Vergleich baut mit Ersatz-Cache (16.11.2026, PR 4053):** Kennungen, die es in `public/data/releases.json` auf main nicht gibt, sind kein Befund am echten Bestand.
 - **Detektoren rechnen aus Rohdaten (16.11.2026, PR 4043):** Nicht aus Vermerken, die ein Bau-Schritt vorher setzt (`sharedWith`).
 - **Prüfklasse Merker (Prüfer-Vorschlag 16.11.2026):** Bei jedem Merker/Flag fragen: wird er bei der Freigabe oder bei der Ausführung gesetzt, und was passiert, wenn die Ausführung scheitert?
