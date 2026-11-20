@@ -62,7 +62,8 @@ export function fehlerInGrenzen(t: StaffelGrenzen, folgenzahl: number | undefine
       if (s.bis !== undefined || s.folgen !== undefined) fehler.push(`Staffel ${s.nr}: offen mit bis/folgen`)
       return
     }
-    if (s.bis === undefined || s.folgen !== s.bis - s.von + 1) fehler.push(`Staffel ${s.nr}: folgen ${s.folgen} ≠ ${(s.bis ?? NaN) - s.von + 1}`)
+    const soll = (s.bis ?? NaN) - s.von + 1 // ohne bis NaN: jede Folgenzahl weicht ab
+    if (s.folgen !== soll) fehler.push(`Staffel ${s.nr}: folgen ${s.folgen} ≠ ${soll}`)
     erwartet = (s.bis ?? 0) + 1
   })
   const offen = t.staffeln[t.staffeln.length - 1]?.offen

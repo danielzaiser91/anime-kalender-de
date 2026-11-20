@@ -60,7 +60,13 @@ pruefe('letzte belegte Folge: Horizonte 137, Pokémon 527 276', letzteFolgen(all
 const quellen = alleStaffelQuellen([], alle)
 const enden = staffelEnden(alle)
 const reihe = [[527, 1997], [1564, 2002], [112153, 2019], [158870, 2023], [ID, 2023]].map(([id, jahr]) => ({
-  id: id!, name: id === ID ? 'Pokémon Horizonte' : `Pokémon ${id}`, format: 'TV', jpYear: jahr, staffelQuelle: quellen.get(id!), staffelBis: enden.get(id!), eigenesWerk: id === ID,
+  id: id!,
+  name: id === ID ? 'Pokémon Horizonte' : `Pokémon ${id}`,
+  format: 'TV',
+  jpYear: jahr,
+  staffelQuelle: quellen.get(id!),
+  staffelBis: enden.get(id!),
+  eigenesWerk: id === ID,
 }))
 const stand = staffelStaende(hauptstaffeln(reihe), 'Pokémon')
 pruefe('Hauptserie „von 25“, Horizonte nicht darin', [...stand.values()][0]?.von === 25 && !stand.has(ID), JSON.stringify([...stand]))
