@@ -48,7 +48,7 @@ pruefe('alleStaffelQuellen() ohne Argumente liefert die Startstaffeln der Datei'
 pruefe('staffelFeld: Titel der Datei trägt s, fremder Titel nicht', staffelFeld(staffelListen(grenzen), 527).s?.[0]?.join() === '1,1,82' && Object.keys(staffelFeld(staffelListen(grenzen), 1)).length === 0)
 const schreiber = readFileSync(new URL('./bau/folgen-dateien.ts', import.meta.url), 'utf8')
 pruefe('folgen-dateien.ts schreibt `s` über staffelFeld(staffeln, t.id) genau einmal', schreiber.split('...staffelFeld(staffeln, t.id)').length === 2)
-pruefe('folgen-dateien.ts liest die Listen aus der Datei', schreiber.includes('staffelListen(ladeStaffelGrenzen())'))
+pruefe('folgen-dateien.ts liest die Listen aus beiden Dateien', schreiber.includes('const grenzen = ladeStaffelGrenzen()') && schreiber.includes('staffelListen(grenzen)'))
 
 /* Wirkung auf die Zählung: Glieder wie in `franchises.json`, einmal ohne, einmal mit den Grenzen. */
 const reihe = [

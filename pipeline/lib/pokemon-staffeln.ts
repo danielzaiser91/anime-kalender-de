@@ -69,3 +69,51 @@ export function fehlerInGrenzen(t: StaffelGrenzen, folgenzahl: number | undefine
   if (!offen && folgenzahl !== undefined && erwartet - 1 !== folgenzahl) fehler.push(`endet bei ${erwartet - 1}, der Titel hat ${folgenzahl} Folgen`)
   return fehler
 }
+
+/** Folgen je Staffel (Index = Staffel − 1) aus einer Liste mit „Folge in der Staffel“ (de.wikipedia `st`): bei `st` 1 beginnt die nächste. */
+export function folgenJeStaffelAusSt(folgen: { st?: number }[]): number[] {
+  const je: number[] = []
+  for (const f of folgen) {
+    if (f.st === 1 || !je.length) je.push(0)
+    je[je.length - 1]!++
+  }
+  return je
+}
+
+/** Höchste Folge je Staffel (Index = Staffel − 1) einer Anbieterliste (TOGGO `staffel`/`folge`); Staffeln ohne Folge bleiben leer. */
+export function hoechsteJeStaffel(folgen: { staffel: number; folge: number }[]): (number | undefined)[] {
+  const je: (number | undefined)[] = []
+  for (const f of folgen) je[f.staffel - 1] = Math.max(je[f.staffel - 1] ?? 0, f.folge)
+  return je
+}
+
+/**
+ * Grenzen gegen eine Quelle mit eigener Staffelzählung: `fehler` = eine abgeschlossene Staffel hat dort eine andere Folgenzahl;
+ * `hinweise` = die Quelle führt eine Staffel hinter der letzten (die offene ist dann abgeschlossen). Fehlt eine Staffel in der Quelle
+ * (Anbieter nimmt alte Folgen heraus), ist das kein Befund.
+ */
+export function abweichungenZurQuelle(t: StaffelGrenzen, jeStaffel: (number | undefined)[], quelle: string): { fehler: string[]; hinweise: string[] } {
+  const fehler: string[] = []
+  for (const s of t.staffeln) {
+    const dort = jeStaffel[s.nr - 1]
+    if (!s.offen && dort !== undefined && dort !== s.folgen) fehler.push(`Staffel ${s.nr}: ${s.folgen} Folgen, ${quelle} ${dort}`)
+  }
+  const letzte = t.staffeln[t.staffeln.length - 1]!.nr
+  const hinweise = jeStaffel.length > letzte ? [`${quelle} führt Staffel ${jeStaffel.length}, die Datei endet bei Staffel ${letzte}: Grenze nachtragen`] : []
+  return { fehler, hinweise }
+}
+
+/** Kennung → letzte belegte Folge der Staffeln (Ende der letzten, bei offener letzter Staffel ihre erste Folge). */
+export function letzteFolgen(grenzen: StaffelGrenzen[]): Map<number, number> {
+  return new Map(grenzen.map((t) => [t.anilistId, t.staffeln[t.staffeln.length - 1]!.bis ?? t.staffeln[t.staffeln.length - 1]!.von]))
+}
+
+/**
+ * `[alle, deutsche]` für `folgen/zaehlung.json`. Reichen die Staffelgrenzen weiter als die Folgenliste (Horizonte: aniSearch führt 122,
+ * die deutschen Staffeln 1–3 haben 136), zählt der Kopf bis zur letzten belegten Folge statt „122 von 122“.
+ */
+export function zaehleFolgen(nummern: number[], de: [number, number][], letzte?: number): [number, number] {
+  const imDeutschen = (n: number) => de.some(([von, bis]) => n >= von && n <= bis)
+  if (!letzte || letzte <= nummern.length) return [nummern.length, nummern.filter(imDeutschen).length]
+  return [letzte, Array.from({ length: letzte }, (_, i) => i + 1).filter(imDeutschen).length]
+}

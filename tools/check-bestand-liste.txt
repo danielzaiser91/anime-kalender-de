@@ -50,6 +50,7 @@ pipeline/check-handbeleg-notizseite-bestand.ts
 pipeline/check-handbeleg-staffelzaehlung-bestand.ts
 pipeline/check-handlung-eigen-bestand.ts
 pipeline/check-herkunftsland-bestand.ts
+pipeline/check-horizonte-staffeln-bestand.ts
 pipeline/check-interne-angaben-bestand.ts
 pipeline/check-ja-hat-weg-bestand.ts
 pipeline/check-joyn-block-bestand.ts
