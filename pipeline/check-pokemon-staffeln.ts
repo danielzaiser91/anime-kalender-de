@@ -10,7 +10,7 @@ import { join } from 'node:path'
 import { hauptstaffeln, staffelBeschriftungen, staffelSpanne, staffelStaende } from '../shared/titles.ts'
 import { ladeAlleEigenenWerke, markiereEigeneWerke } from './bau/cartoon-reihen.ts'
 import { alleStaffelQuellen } from './bau/staffel-quelle.ts'
-import { fehlerInGrenzen, ladeStaffelGrenzen, staffelFeld, staffelEnden, staffelListen, startStaffeln } from './lib/pokemon-staffeln.ts'
+import { POKEMON_STAFFELN, fehlerInGrenzen, ladeStaffelGrenzen, staffelFeld, staffelEnden, staffelListen, startStaffeln } from './lib/pokemon-staffeln.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -19,7 +19,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
   console.error(`FEHLER: ${name} ${info}`)
 }
 
-const grenzen = ladeStaffelGrenzen()
+const grenzen = ladeStaffelGrenzen(POKEMON_STAFFELN)
 pruefe('Datei hat zwölf Titel', grenzen.length === 12, String(grenzen.length))
 for (const t of grenzen) pruefe(`${t.anilistId}: Grenzen in Ordnung`, fehlerInGrenzen(t, undefined).length === 0, fehlerInGrenzen(t, undefined).join('; '))
 
@@ -28,7 +28,7 @@ for (const t of grenzen) pruefe(`${t.anilistId}: Grenzen in Ordnung`, fehlerInGr
    falsch (A4). Abweichungen nur, wo aniSearch anders zählt (siehe yaml-Kopf). */
 const TMDB_JE_STAFFEL = [82, 36, 41, 52, 65, 40, 52, 53, 46, 52, 52, 53, 34, 48, 49, 45, 48, 45, 49, 43, 49, 54, 48, 42, 57] // Staffel 1 bis 25
 const jeStaffel = new Map<number, number>()
-for (const t of grenzen) for (const s of t.staffeln) jeStaffel.set(s.nr, (jeStaffel.get(s.nr) ?? 0) + s.folgen)
+for (const t of grenzen) for (const s of t.staffeln) jeStaffel.set(s.nr, (jeStaffel.get(s.nr) ?? 0) + (s.folgen ?? 0))
 const ABWEICHUNG: Record<number, number> = { 9: 1, 17: 1, 18: -1, 19: -2 }
 for (let nr = 1; nr <= 25; nr++) {
   const erwartet = (TMDB_JE_STAFFEL[nr - 1] ?? -1) + (ABWEICHUNG[nr] ?? 0)
@@ -48,7 +48,7 @@ pruefe('alleStaffelQuellen() ohne Argumente liefert die Startstaffeln der Datei'
 pruefe('staffelFeld: Titel der Datei trägt s, fremder Titel nicht', staffelFeld(staffelListen(grenzen), 527).s?.[0]?.join() === '1,1,82' && Object.keys(staffelFeld(staffelListen(grenzen), 1)).length === 0)
 const schreiber = readFileSync(new URL('./bau/folgen-dateien.ts', import.meta.url), 'utf8')
 pruefe('folgen-dateien.ts schreibt `s` über staffelFeld(staffeln, t.id) genau einmal', schreiber.split('...staffelFeld(staffeln, t.id)').length === 2)
-pruefe('folgen-dateien.ts liest die Listen aus der Datei', schreiber.includes('staffelListen(ladeStaffelGrenzen())'))
+pruefe('folgen-dateien.ts liest die Listen aus beiden Dateien', schreiber.includes('const grenzen = ladeStaffelGrenzen()') && schreiber.includes('staffelListen(grenzen)'))
 
 /* Wirkung auf die Zählung: Glieder wie in `franchises.json`, einmal ohne, einmal mit den Grenzen. */
 const reihe = [

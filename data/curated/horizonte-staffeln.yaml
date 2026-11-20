@@ -1,0 +1,37 @@
+# Deutsche Staffeln von Pokémon Horizonte (AniList 158871 „Pokémon (2023)“) in der eigenen Zählung der Serie (Auftrag Dirigent, 20.11.2026).
+#
+# Warum: Horizonte ist eine eigene Serie der Reihe Pokémon (`eigenesWerk`, zählt nicht als Staffel 26 ff. der Hauptserie in
+# `pokemon-staffeln.yaml`), AniList führt sie aber als einen Eintrag. Wirkung wie dort (`pipeline/lib/pokemon-staffeln.ts`): die Detaildatei
+# `public/data/folgen/158871.json` trägt `s: [[Staffel, von, bis], …]` (offene Staffel `[Staffel, von]`), `franchises.json` `staffelQuelle` 1
+# und `staffelBis` (letzte Staffel); `folgen/zaehlung.json` zählt bis zur letzten belegten Folge (`zaehleFolgen`).
+#
+# Zählung: von/bis sind die durchlaufenden Folgennummern des Titels — dieselben wie aniSearch (japanische Zählung), die RTL+-Folgenbereiche
+# (`dubRanges` 1–136) und der Termin `pokemon-horizonte-s4-rtlplus` (firstEpisodeNumber 137, `streaming-nachtrag-2026.yaml`).
+#
+# Quellen, gelesen 20.11.2026 (beide zählen Staffel 1: 45, Staffel 2: 44, Staffel 3: 47 Folgen):
+# - de.wikipedia „Pokémon (Anime)/Horizonte“ (`data/wikipedia-folgen.json`, geholt 2026-11-20T04:09Z): Spalte „Folge in der Staffel“ beginnt
+#   bei Gesamtfolge 1280 („Willkommen an der Orangen-Akademie!“, DE 21.02.2025), 1324 („Erneuter Kurs auf Abenteuer (Teil 1)“, DE 02.01.2026)
+#   und 1371 („Eine Welt voller Abenteuer“) neu; Staffel 3 endet mit „Stellares Finale“ (DE 13.11.2026). Staffel 4 führt dort 23 Zeilen,
+#   ab Zeile 4 ohne deutschen Titel — ein Ende der Staffel nennt die Seite nicht.
+#   https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte
+# - TOGGO-Folgenliste der Serie VSE292 (`data/toggo.json`, geholt 2026-11-20T04:08Z): Staffel 1 Folgen 1–45, Staffel 2 1–44, Staffel 3 1–47,
+#   Staffel 4 bisher Folge 1 (ab 27.11.2026), jede Liste lückenlos. https://www.toggo.de/pokemon/serien/pokemon-horizonte-die-serie-vse292
+# - Dieselben Grenzen in Japan (aniSearch 17947, `data/anisearch-folgen.json`, geholt 2026-09-01): nach Folge 45 (29.03.2024) und nach
+#   Folge 89 (21.03.2025) je eine Sendepause; die Titel 45/46 und 89/90 sind dieselben wie bei Wikipedia. https://www.anisearch.de/anime/17947
+# - Staffel 4 Folge 1 = Folge 137: RTL+ „Eine Welt voller Abenteuer“, verfügbar ab 20.11.2026
+#   (https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142/video/eine-welt-voller-abenteuer-c_2211265).
+#
+# Nicht gegengelesen: pokewiki.de und Bulbapedia (Hosts im Cloud-Lauf gesperrt, 20.11.2026). Staffelnamen fehlen bewusst, bis eine
+# gelesene Quelle sie trägt. Staffel 4 ist `offen`: ihr Ende nennt keine Quelle, darum kein bis/folgen.
+# Wächter: `pipeline/check-horizonte-staffeln.ts` (check:logic), `pipeline/check-horizonte-staffeln-bestand.ts` (gegen Wikipedia und TOGGO).
+quelle: https://de.wikipedia.org/wiki/Pok%C3%A9mon_(Anime)/Horizonte
+abgerufen: '2026-11-20'  # data/wikipedia-folgen.json und data/toggo.json (geholtAm)
+gelesen: '2026-11-20'
+titel:
+- anilistId: 158871
+  titel: "Pokémon Horizonte"
+  staffeln:
+    - { nr: 1, von: 1, bis: 45, folgen: 45 }
+    - { nr: 2, von: 46, bis: 89, folgen: 44 }
+    - { nr: 3, von: 90, bis: 136, folgen: 47 }
+    - { nr: 4, von: 137, offen: true }

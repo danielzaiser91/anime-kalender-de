@@ -31,7 +31,7 @@ import { englischeTitel, ohneEnglischeTitel } from './folgentitel-englisch.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
 import { eineZeileJeNummer } from './folgen-nummern.ts'
 import { ohneWikiVersatz } from './folgen-wiki-versatz.ts'
-import { ladeStaffelGrenzen, staffelFeld, staffelListen } from '../lib/pokemon-staffeln.ts'
+import { ladeStaffelGrenzen, letzteFolgen, mitStapelFolgen, staffelFeld, staffelListen, zaehleFolgen } from '../lib/pokemon-staffeln.ts'
 
 interface Folge {
   nr: number
@@ -112,8 +112,10 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
     const a = zuordnung[String(t.id)]?.anisearchId
     if (a) jeAsId.set(a, (jeAsId.get(a) ?? 0) + 1)
   }
-  /* Deutsche Staffelgrenzen innerhalb des Titels (`data/curated/pokemon-staffeln.yaml`). */
-  const staffeln = staffelListen(ladeStaffelGrenzen())
+  /* Deutsche Staffelgrenzen innerhalb des Titels (`data/curated/pokemon-staffeln.yaml`, `horizonte-staffeln.yaml`). */
+  const grenzen = ladeStaffelGrenzen()
+  const staffeln = staffelListen(grenzen)
+  const letzte = letzteFolgen(grenzen)
   const releasesJeTitel = new Map<number, Release[]>()
   for (const r of releases) releasesJeTitel.set(r.titleId, [...(releasesJeTitel.get(r.titleId) ?? []), r])
   const ordner = `${OUT}/folgen`
@@ -132,8 +134,10 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : minuten.size === 0 ? t.runtimeMin : undefined
-    const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)), hoechsteFolgeJeAnbieter(releasesJeTitel.get(t.id) ?? [], heute), versetzt)
-    zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
+    const deWege = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)), hoechsteFolgeJeAnbieter(releasesJeTitel.get(t.id) ?? [], heute), versetzt)
+    /* Titel mit Staffelgrenzen: erschienene Stapel-Termine mit Folgennummer zählen deutsch (Horizonte Staffel 4). */
+    const de = letzte.has(t.id) ? mitStapelFolgen(deWege, releasesJeTitel.get(t.id) ?? [], heute) : deWege
+    zaehlung[t.id] = zaehleFolgen(f.map((x) => x.nr), de, letzte.get(t.id))
     writeJson(`${ordner}/${t.id}.json`, {
       f: folgenZeilen(f, einheitlich),
       de,

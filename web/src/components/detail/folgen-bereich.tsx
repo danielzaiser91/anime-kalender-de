@@ -4,6 +4,7 @@ import { Tooltip } from '../ui.tsx'
 import { DeFlaggeZeichen } from '../de-flagge.tsx'
 import { folgeIstDeutsch } from './stream-bereiche.ts'
 import { SERIENBELEG_HINWEIS, serienbelegOhneFolgenbeleg } from '@shared/folgen-flagge.ts'
+import { staffelAbschnitte, staffelZeile, type StaffelZeile } from './folgen-staffeln.ts'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
@@ -21,6 +22,8 @@ interface Liste {
   de: [number, number][]
   min?: number
   h?: [number, string][]
+  /** Deutsche Staffelgrenzen (`folgen-staffeln.ts`): Reiter je Staffel statt Paketen. */
+  s?: StaffelZeile[]
 }
 
 const PAKET = 50
@@ -83,16 +86,20 @@ export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf, serie
   }, [gibtEs, liste, titleId])
   if (!gibtEs) return null
   const folgen = liste?.f
-  const pakete = folgen ? Math.ceil(folgen.length / PAKET) : 0
-  const sichtbar = folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
   const ohneTitel = folgen !== undefined && folgen.length > 0 && folgen.every(([, titel]) => !titel)
   const deutsch = (nr: number) => folgeIstDeutsch(nr, liste?.de ?? [], wege)
+  const staffeln = staffelAbschnitte(liste?.s, folgen ?? [], liste?.de ?? [], deutsch)
+  const gewaehlt = staffeln[paket]
+  const anzahl = staffeln.length ? staffeln[staffeln.length - 1]!.bis : folgen?.length
+  const pakete = staffeln.length || (folgen ? Math.ceil(folgen.length / PAKET) : 0)
+  const sichtbar = gewaehlt?.folgen ?? folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
+  const reiter = (i: number) => (staffeln[i] ? `Staffel ${staffeln[i]!.nr}` : `${i * PAKET + 1}–${Math.min((i + 1) * PAKET, folgen!.length)}`)
   const nurSerienbeleg = serienbelegOhneFolgenbeleg(Boolean(serieBelegt), folgen?.map(([nr]) => nr) ?? [], deutsch)
   return (
     <div className="mt-2 border-t border-slate-300 pt-1.5 text-t4 text-slate-700 dark:border-white/10 dark:text-slate-200">
       <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-t3 font-semibold">
         <span aria-hidden className={`inline-block transition-transform ${offen ? 'rotate-90' : ''}`}>▸</span>
-        Folgen{folgen ? ` (${folgen.length})` : ''}
+        Folgen{anzahl !== undefined ? ` (${anzahl})` : ''}
         {liste?.min && !laufzeitImKopf ? <span className="font-normal text-slate-500 dark:text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
       </button>
       {offen && (
@@ -108,11 +115,12 @@ export function FolgenBereich({ titleId, wege, erschienen, laufzeitImKopf, serie
                   onClick={() => setPaket(i)}
                   className={`min-h-11 min-w-11 cursor-pointer rounded px-2 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-ak-flaeche-2 text-slate-700 hover:bg-ak-flaeche-3 dark:text-slate-300'}`}
                 >
-                  {i * PAKET + 1}–{Math.min((i + 1) * PAKET, folgen!.length)}
+                  {reiter(i)}
                 </button>
               ))}
             </div>
           )}
+          {gewaehlt && <p className="pb-1 text-ak-leise">{staffelZeile(gewaehlt)}</p>}
           <ul className="max-h-64 overflow-y-auto pr-1">
             {!folgen && <li className="text-slate-500 dark:text-slate-400">Lädt …</li>}
             {folgen && !folgen.length && <li className="text-slate-500 dark:text-slate-400">Keine Folgentitel bekannt.</li>}
