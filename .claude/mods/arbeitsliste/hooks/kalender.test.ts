@@ -5,7 +5,7 @@ import type { KalenderTermin } from './kalender'
 import { EVENTS_DATEI, WOCHE_DATEI, ladeKalender } from './kalender-laden'
 import { PANE, STAND, kalenderWelt, starte, zeilen } from './testhilfe'
 
-// Termine vom 19.11.2026 wörtlich aus public/data/woche.json (Auszug der Felder, die der Bereich liest; Disc und Prime-Angebot unverändert dabei).
+// Termine vom 19.11.2026 wörtlich aus public/data/woche.json (Auszug der Felder, die der Bereich liest; Disc, Prime-Angebot und TV-Wiederholungen unverändert dabei).
 const T = (date: string, t: Partial<KalenderTermin> & { name: string; platform: string }): KalenderTermin => ({ date, releaseType: 'weekly', ...t })
 const TAG = '2026-11-19'
 const ECHT: KalenderTermin[] = [
@@ -15,8 +15,9 @@ const ECHT: KalenderTermin[] = [
   T(TAG, { name: 'Super Wings', platform: 'tv', sender: 'TOGGO plus', time: '11:00', episode: 63 }),
   T(TAG, { name: 'Dragon Ball', platform: 'tv', sender: 'ProSieben MAXX', time: '17:05', episode: 78 }),
   T(TAG, { name: 'Dragon Ball', platform: 'tv', sender: 'ProSieben MAXX', time: '17:30', episode: 79 }),
+  T(TAG, { name: 'YAIBA: Samurai Legend', platform: 'tv', sender: 'ProSieben MAXX', time: '18:25', episode: 9, tvPremiere: true }),
   T(TAG, { name: 'YAIBA: Samurai Legend', platform: 'joyn', time: '18:50', episode: 9, episodeCount: 24 }),
-  T(TAG, { name: 'ONE PIECE', platform: 'tv', sender: 'ProSieben MAXX', time: '18:50', episode: 788, estimated: true }),
+  T(TAG, { name: 'ONE PIECE', platform: 'tv', sender: 'ProSieben MAXX', time: '18:50', episode: 788, estimated: true, tvPremiere: false }),
   T(TAG, { name: 'The Iceblade Sorcerer Shall Rule the World II', platform: 'crunchyroll', time: '19:05', episode: 4, estimated: true }),
   T(TAG, { name: 'The Ramparts of Ice: Staffel 2', platform: 'netflix', episode: 8, episodeCount: 12 }),
   T(TAG, { name: 'Naruto Shippuden: The Movie', platform: 'disc', releaseType: 'disc' }),
@@ -24,12 +25,9 @@ const ECHT: KalenderTermin[] = [
   T('2026-11-20', { name: 'Morgen', platform: 'netflix', time: '08:00', episode: 1 }),
 ]
 
-test('kalenderHeute: eine Zeile je Titel und Anbieter, Zeit zuerst, ohne Uhrzeit danach; Disc, Im-Angebot und andere Tage fehlen', () => {
+test('kalenderHeute: eine Zeile je Titel und Anbieter, Zeit zuerst, ohne Uhrzeit danach; Disc, Im-Angebot, TV ohne Premiere und andere Tage fehlen', () => {
   expect(kalenderHeute(ECHT, TAG).map(kalenderZeilenText)).toEqual([
-    '09:50 Super Wings · Super RTL · F62–63',
-    '10:50 Super Wings · TOGGO plus · F62–63',
-    '17:05 Dragon Ball · ProSieben MAXX · F78–79',
-    '≈18:50 ONE PIECE · ProSieben MAXX · F788',
+    '18:25 YAIBA: Samurai Legend · ProSieben MAXX · F9',
     '18:50 YAIBA: Samurai Legend · Joyn · F9',
     '≈19:05 The Iceblade Sorcerer Shall Rule the World II · Crunchyroll · F4',
     'The Ramparts of Ice: Staffel 2 · Netflix · F8',
@@ -39,7 +37,7 @@ test('kalenderHeute: eine Zeile je Titel und Anbieter, Zeit zuerst, ohne Uhrzeit
 
 test('kalenderHeute: gleicher Titel bei zwei Sendern bleibt getrennt; timeEstimated zählt wie estimated; Batch ohne Nummer nennt die Zahl', () => {
   const z = kalenderHeute(
-    [T(TAG, { name: 'A', platform: 'tv', sender: 'X', time: '08:00', timeEstimated: true, episode: 1 }), T(TAG, { name: 'A', platform: 'tv', sender: 'Y', time: '07:00', episode: 1 }), T(TAG, { name: 'B', platform: 'netflix', releaseType: 'batch', episodeCount: 12 })],
+    [T(TAG, { name: 'A', platform: 'tv', sender: 'X', time: '08:00', timeEstimated: true, episode: 1, tvPremiere: true }), T(TAG, { name: 'A', platform: 'tv', sender: 'Y', time: '07:00', episode: 1, tvPremiere: true }), T(TAG, { name: 'B', platform: 'netflix', releaseType: 'batch', episodeCount: 12 })],
     TAG
   )
   expect(z.map(kalenderZeilenText)).toEqual(['07:00 A · Y · F1', '≈08:00 A · X · F1', 'B · Netflix · alle 12 Folgen'])
@@ -104,7 +102,7 @@ const MITTAG = Date.parse('2026-11-19T11:00:00Z')
 test('ladeKalender: liest nur bei geänderter Datei neu; Tageswechsel zeigt den neuen Tag ohne Lesung', async () => {
   const d = dateien({ [WOCHE_DATEI]: { text: WOCHE(ECHT), mtime: 1 } })
   const cache = {}
-  expect((await ladeKalender(d, MITTAG, cache)).zeilen).toHaveLength(7)
+  expect((await ladeKalender(d, MITTAG, cache)).zeilen).toHaveLength(4)
   await ladeKalender(d, MITTAG, cache)
   expect(d.gelesen).toEqual([WOCHE_DATEI])
   const morgen = await ladeKalender(d, Date.parse('2026-11-19T23:30:00Z'), cache)
@@ -127,7 +125,7 @@ test('ladeKalender: heute außerhalb der Woche → events.json; Lesefehler läss
   expect(await ladeKalender(dateien({ [WOCHE_DATEI]: { text: '', mtime: 1 } }), MITTAG, {})).toEqual({ datum: '2026-11-19', zeilen: [] })
   const kaputt = dateien({})
   const behalten = { [WOCHE_DATEI]: { stempel: '1:1', daten: termineAusDatei(WOCHE(ECHT)) } }
-  expect((await ladeKalender(kaputt, MITTAG, behalten)).zeilen).toHaveLength(7)
+  expect((await ladeKalender(kaputt, MITTAG, behalten)).zeilen).toHaveLength(4)
 })
 
 // Die Test-Uhr startet bei 0: erst auf den Mittag des 19.11.2026 vorstellen, dann starten.
@@ -142,28 +140,28 @@ async function paneMitKalender($: any, on: any, woche: string, start = MITTAG) {
 test('Pane: „Kalender heute“ mit Anzahl, Zeilen, Einklappen; „Gerade in Arbeit“ gibt es nicht', async ($, on) => {
   const { p } = await paneMitKalender($, on, WOCHE(ECHT))
   const z = zeilen(await p.drawn())
-  expect(z).toContain('▾ Kalender heute 7')
-  expect(z).toEqual(expect.arrayContaining(['Super Wings', 'Super RTL · F62–63', '  09:50']))
-  expect(z).toEqual(expect.arrayContaining(['ONE PIECE', 'ProSieben MAXX · F788', ' ≈18:50']))
+  expect(z).toContain('▾ Kalender heute 4')
+  expect(z).toEqual(expect.arrayContaining(['YAIBA: Samurai Legend', 'ProSieben MAXX · F9', '  18:25']))
+  expect(z).toEqual(expect.arrayContaining(['The Iceblade Sorcerer Shall Rule the World II', 'Crunchyroll · F4', ' ≈19:05']))
+  expect(z.join('\n')).not.toContain('Super Wings')
+  expect(z.join('\n')).not.toContain('ONE PIECE')
   expect(z.join('\n')).not.toContain('Gerade in Arbeit')
   expect(z.join('\n')).not.toContain('Naruto')
   await p.press({ key: 'bereich:kalender' })
   const zu = zeilen(await p.drawn())
-  expect(zu).toContain('▸ Kalender heute 7')
-  expect(zu).not.toContain('Super RTL · F62–63')
+  expect(zu).toContain('▸ Kalender heute 4')
+  expect(zu).not.toContain('ProSieben MAXX · F9')
   await p.unmount()
 })
 
-test('Pane: lange Liste ist gekürzt und klappt über „weitere“ aus; ohne Termine kein Bereich', async ($, on) => {
+test('Pane: lange Liste zeigt offen alle Termine, ohne „weitere“/„weniger“ (Daniel 20.11.2026)', async ($, on) => {
   const viele = Array.from({ length: 9 }, (_, i) => T(TAG, { name: `Titel ${i}`, platform: 'netflix', time: `0${i}:00`, episode: 1 }))
   const { p } = await paneMitKalender($, on, WOCHE(viele))
-  let z = zeilen(await p.drawn())
+  const z = zeilen(await p.drawn())
   expect(z).toContain('▾ Kalender heute 9')
   expect(z).toContain('Titel 0')
-  expect(z).not.toContain('Titel 8')
-  await p.press({ key: 'mehr:kalender' })
-  z = zeilen(await p.drawn())
   expect(z).toContain('Titel 8')
+  expect(z.join('\n')).not.toMatch(/weitere|weniger/)
   await p.unmount()
 })
 
@@ -176,11 +174,11 @@ test('Pane: ohne Termine heute kein Bereich', async ($, on) => {
 test('Pane: Änderung der Datei und Tageswechsel erscheinen im Takt, ohne Neustart', async ($, on) => {
   // 22:58 UTC ist in Berlin noch der 19., ab 23:00 UTC der 20.
   const { uhr, p } = await paneMitKalender($, on, WOCHE(ECHT), Date.parse('2026-11-19T22:58:00Z'))
-  expect(zeilen(await p.drawn())).toContain('▾ Kalender heute 7')
+  expect(zeilen(await p.drawn())).toContain('▾ Kalender heute 4')
   kalenderWelt.woche = WOCHE([...ECHT, T(TAG, { name: 'Nachträglich', platform: 'netflix', time: '23:00', episode: 1 })])
   kalenderWelt.mtime = 2
   await uhr.advance(30_000)
-  expect(zeilen(await p.drawn())).toContain('▾ Kalender heute 8')
+  expect(zeilen(await p.drawn())).toContain('▾ Kalender heute 5')
   await uhr.advance(90_000)
   const z = zeilen(await p.drawn())
   expect(z).toContain('▾ Kalender heute 1')

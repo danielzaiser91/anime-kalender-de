@@ -1,4 +1,4 @@
-# Belege ohne Fundstelle (39)
+# Belege ohne Fundstelle (40)
 
 Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termin gefunden hat (Fundstelle nur außerhalb des Bildausschnitts zählt nicht; Adressen ohne zugeordneten Titel und aniSearch-Kurzadressen neben ihrer Slug-Form fehlen). Von Hand prüfen: steht der Name im Seitentext, hat das Lesen die Marke verloren (der Lauf meldet es als Warnung „stehen im Seitentext, haben aber keine Marke“); sonst nennt der Artikel den Titel oder den Termin nicht, oder in verschiedenen Zeilen. Fehlt eines davon, ist der Beleg hinfällig und der Termin braucht eine andere Quelle.
 
@@ -23,10 +23,11 @@ Je Adresse die Titel, für die die letzte Lesung keine Zeile mit Titel und Termi
 - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/ (gelesen 2026-11-08) — Spy × Family (Cour 2) (142838), Spy × Family: Staffel 2 (158927)
 - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/ (gelesen 2026-11-12) — Beelzebub (9513)
 - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/ (gelesen 2026-11-19) — Bishoujo Senshi Sailor Moon SuperS (1239), Bishoujo Senshi Sailor Moon R (740), Bishoujo Senshi Sailor Moon: Sailor Stars (996)
-- https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/ (gelesen 2026-10-30) — Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (176301)
+- https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/ (gelesen 2026-11-20) — Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1 (176301)
 - https://www.anime2you.de/news/1045191/netflix-gintama-film-und-mehr/ (gelesen 2026-10-28) — Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe (113971)
-- https://de.wikipedia.org/wiki/Super_Wings (gelesen 2026-10-30) — Chuldong! Super Wings (10012621)
-- https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-11-12) — Kill La Kill (18679)
+- https://de.wikipedia.org/wiki/Super_Wings (gelesen 2026-11-20) — Chuldong! Super Wings (10012621)
+- https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/ (gelesen 2026-11-20) — Shimetsu Kaiyuu - Kouhen (10021915)
+- https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/ (gelesen 2026-11-12) — Kill la Kill (18679)
 - https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/ (gelesen 2026-11-02) — Beyblade X – Staffel 2 - Teil 2 (165159)
 - https://www.joyn.de/filme/boruto-naruto-the-movie (gelesen 2026-11-14) — Boruto: Naruto the Movie (21220)
 - https://news.animationdigitalnetwork.com/de/2026/10/26/die-1-euro-aktion-ist-zurueck-streame-anime-fuer-1e-bei-adn/ (gelesen 2026-11-02) — Shingeki no Kyojin (16498)

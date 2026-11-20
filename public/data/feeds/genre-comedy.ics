@@ -260,7 +260,7 @@ UID:adn-1218@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T080000Z
 DTEND:20261118T083000Z
-SUMMARY:Kill la Kill (neu bei ADN)
+SUMMARY:Kill La Kill (neu bei ADN)
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
  em Tag – nicht der Erscheinungstag der deutschen Fassung.\nDetails: http
  s://anime-kalender.de/t/6710/
@@ -470,7 +470,7 @@ UID:auto-213805-netflix@2026-11-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 8/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 8/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -567,6 +567,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
   Anbieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgel
  eitet.\nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T201500Z
+DTEND:20261120T204500Z
+SUMMARY:Pokémon Reisen: Die Serie
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:2-5-dimensional-seduction-vol4@2026-11-20@anime-kalender-de
@@ -899,7 +909,7 @@ UID:auto-213805-netflix@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 9/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 9/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -1233,7 +1243,7 @@ UID:auto-213805-netflix@2026-12-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261203
 DTEND;VALUE=DATE:20261204
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 10/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 10/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -1605,7 +1615,7 @@ UID:auto-213805-netflix@2026-12-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261210
 DTEND;VALUE=DATE:20261211
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 11/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 11/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
@@ -1747,7 +1757,7 @@ UID:auto-213805-netflix@2026-12-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261217
 DTEND;VALUE=DATE:20261218
-SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 12/12
+SUMMARY:The Ramparts of Ice: Staffel 2 – Folge 12/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
