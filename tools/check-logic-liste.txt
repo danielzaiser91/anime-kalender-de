@@ -635,6 +635,7 @@ pipeline/check-tab-titel-quelle-lauf.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-knopfzahl.ts
 pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
 pipeline/check-termin-ton.ts
