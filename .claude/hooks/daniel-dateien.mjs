@@ -97,17 +97,19 @@ function offenePrs(jetzt) {
   } catch { return [] }
 }
 
-/** Top-Prio auf {arbeit-agent}, deren jüngste Uhrzeit über 2 h zurückliegt: Der Agent ist meist längst fertig (Daniel, 17.10.2026). */
-export function alteAgentenPrios(stand, jetzt) {
+/** Aufgabe `[aktiv]` in einem ziele/<n>/plan.md, das seit über 6 h unverändert ist: Der Agent ist meist längst fertig (Daniel, 20.11.2026). */
+export function alteAktiveAufgaben(wurzel, jetzt) {
+  const ordner = join(wurzel, 'ziele')
+  let namen = []
+  try { namen = readdirSync(ordner, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort() } catch { /* kein Zielordner */ }
   const funde = []
-  for (const m of stand.matchAll(/^- \*\*([^*]+)\*\* \{arbeit-agent\}(.*)$/gm)) {
-    let juengste = 0
-    for (const u of m[2].matchAll(/\b([01]\d|2[0-3]):([0-5]\d)\b/g)) {
-      const d = new Date(jetzt); d.setHours(+u[1], +u[2], 0, 0)
-      if (d.getTime() > jetzt) d.setDate(d.getDate() - 1) // Uhrzeit ohne Datum: liegt sie in der Zukunft, war es gestern.
-      juengste = Math.max(juengste, d.getTime())
-    }
-    if (!juengste || jetzt - juengste > 120 * MIN) funde.push(`stand.md: Top-Prio „${m[1]}“ steht auf arbeit-agent, jüngste Uhrzeit ${juengste ? Math.round((jetzt - juengste) / MIN) + ' min alt' : 'fehlt'} — läuft wirklich ein Agent?`)
+  for (const n of namen) {
+    const plan = join(ordner, n, 'plan.md')
+    const t = mtime(plan)
+    if (!t || jetzt - t <= 6 * 60 * MIN) continue
+    // Nur der Abschnitt „## Aufgaben“: Meilensteine tragen dieselbe Klammerform.
+    const aufgaben = /^## Aufgaben[^\n]*\n([\s\S]*?)(?=^## |(?![\s\S]))/m.exec(lies(plan))?.[1] ?? ''
+    for (const m of aufgaben.matchAll(/^- \[aktiv\]\s+(.+?)(?:\s+—\s+.*)?$/gm)) funde.push(`ziele/${n}/plan.md: „${m[1]}“ aktiv seit über 6 h unverändert — läuft der Agent noch?`)
   }
   return funde
 }
@@ -148,9 +150,8 @@ export function sammleFunde() {
     const t = new Date(+stempel[0], +stempel[1] - 1, +stempel[2], +stempel[3], +stempel[4]).getTime()
     if (jetzt - t > 60 * MIN) funde.push(`stand.md: Stempel „Aktualisiert“ ist ${Math.round((jetzt - t) / MIN)} min alt`)
   }
-  funde.push(...alteAgentenPrios(stand, jetzt))
+  funde.push(...alteAktiveAufgaben(WURZEL, jetzt))
   funde.push(...prsOhneEintrag(stand, offenePrs(jetzt)))
-  funde.push(...topPrioZeilenbruch(stand))
   funde.push(...pfadeOhneBackticks(stand, 'stand.md'), ...fragenPfadFunde())
   const heute = new Date(jetzt); heute.setHours(0, 0, 0, 0)
   for (const m of stand.matchAll(/wartet auf[^.\n]*?(\d{2})\.(\d{2})\.(?:(\d{4}))?/gi)) {
@@ -175,9 +176,3 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   if (text) process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'UserPromptSubmit', additionalContext: text } }))
 }
 
-/** Top-Prios: Leerzeile oder Absatz ohne „- “ zerreißt den Eintrag, die Mod zeigt dann Knöpfe ohne Titel (18.10.2026). */
-export function topPrioZeilenbruch(stand) {
-  const block = /^## Top-Prios[^\n]*\n([\s\S]*?)(?=^## )/m.exec(stand)?.[1] ?? ''
-  const falsch = block.split('\n').slice(0, -1).filter((z) => !/^\s*- /.test(z))
-  return falsch.length ? [`stand.md: ${falsch.length} Zeilen in „Top-Prios“ ohne „- “ (Leerzeile/Absatz) — Mod zeigt verwaiste Knöpfe; zu einer Zeile zusammenziehen`] : []
-}
