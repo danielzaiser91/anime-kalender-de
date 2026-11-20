@@ -692,21 +692,16 @@ pruefe(
  * wird zweimal gerufen.
  */
 {
+  /* Seit 20.11.2026 ist die Auswahl über alle Karten der Suchseite die einzige; die Titelseite hat keine (amazon-genau-kasten.test.cjs). */
   pruefe(
-    'der Ankreuz-Block ist eine Funktion, kein Duplikat',
-    (quelle.match(/function erwartungsAuswahl\(/g) ?? []).length === 1,
+    'der Auswahl-Block ist eine Funktion, kein Duplikat',
+    (quelle.match(/function auswahlGruppe\(/g) ?? []).length === 1 && !quelle.includes('function erwartungsAuswahl('),
     'zwei Fassungen derselben Regel laufen auseinander',
   )
   pruefe(
     'er wird in beiden Trefferzweigen gerufen',
-    (quelle.match(/erwartungsAuswahl\(auftrag, /g) ?? []).length >= 2 &&
-      quelle.includes('nurAehnlich ? erwartungsAuswahl(auftrag, befund.treffer)'),
-    'sonst lässt sich ein Eintrag mit zwei Prime-Ausgaben nicht vollständig melden',
-  )
-  pruefe(
-    'bei einem nur ähnlichen Treffer ist alles vorgekreuzt (Ausschluss statt Auswahl, 31.10.2026)',
-    quelle.includes('bereits.size ? bereits.has(k) : true'),
-    'Daniel nimmt ab, was fremd ist — „Sword Art Online" gegen „… Alicization"',
+    (quelle.match(/auswahlGruppe\(auftrag, gefunden\)/g) ?? []).length >= 2 && quelle.includes('nurAehnlich ? auswahlGruppe(auftrag, gefunden)'),
+    'sonst lässt sich ein Eintrag mit mehreren Prime-Ausgaben nicht vollständig wählen',
   )
 }
 

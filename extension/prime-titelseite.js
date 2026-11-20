@@ -36,13 +36,13 @@ globalThis.akPrimeUebersprungenDazu = (lauf, eintragKennung, text) => {
 }
 
 /*
-  Fortschritt am Knopf: Nenner = Titel + Suchaufträge, beim Start gezählt (`titelGesamt`) und danach fest. Treffer einer
-  Suche zählen nicht mit — ihre Zahl steht erst fest, wenn die Suche gelesen ist; vorher wuchs „13/13“ auf „16/16“
-  (Daniel, 18.11.2026). Während der Treffer steht der Zähler bei ihrer Suche.
+  Fortschritt am Knopf: Nenner = offene Titel + offene gewählte Karten, beim Start gezählt (`titelGesamt`) und danach
+  fest; jede Karte zählt wie ein Titel. Vorher wuchs der Nenner mit den Treffern der Suche („13/13“ auf „16/16“,
+  Daniel, 18.11.2026); die Auswahl steht beim Start fest (20.11.2026).
 */
 globalThis.akPrimeFortschritt = (lauf) => {
   const gesamt = Math.max(lauf.titelGesamt ?? 0, 1)
-  return { gesamt, nr: Math.min(lauf.fertig.length + (lauf.suche ? 0 : 1), gesamt) }
+  return { gesamt, nr: Math.min(lauf.fertig.length + 1, gesamt) }
 }
 
 /* Ergebnisbericht der Prime-Liste, Aufbau wie Disney+ (`akDisneyEndeText`): Kopf mit Zahlen, dann je Auffälligem eine Zeile. */
