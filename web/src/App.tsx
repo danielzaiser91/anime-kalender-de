@@ -85,7 +85,7 @@ export default function App() {
   const { hidden, toggle: toggleHidden } = useHidden()
   // Hält Newsletter und Push aktuell — hier oben, damit es unabhängig von der geöffneten Ansicht greift.
   useNewsletterSync(favorites)
-  usePushNachfuehren(favorites)
+  usePushNachfuehren(favorites, kalenderFilters, tvAus)
   // Bittet den Browser einmalig, den lokalen Speicher nicht selbst zu räumen (iOS-Safari: sieben Tage).
   useEffect(speicherSichern, [])
   const today = todayIso()

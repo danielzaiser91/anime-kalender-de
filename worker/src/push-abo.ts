@@ -7,6 +7,9 @@
  * - Abo anlegen oder erneuern: dazu 1 Anweisung auf `push_abo` (Schlüsselzugriff auf den Endpunkt, 1 Zähler-Zeile aus
  *   `push_zaehler`), 1 geschrieben; neu: zusätzlich 1 Zeile `push_zaehler` (Auslöser, Migration 062).
  * - abmelden: 1 Anweisung, höchstens 1 geschrieben (+1 Zählerzeile).
+ * Jede Änderung von Favoriten oder Kalenderfilter ist ein Anlegen/Erneuern (Zeilen wie oben, +1 Zählerzeile je Anfrage); der Browser
+ * sammelt sie 2 s. Ab der 31. Anfrage je Stunde und IP kommt 429: `pushFavoritenNachfuehren` verwirft das still, der Worker behält
+ * den alten Filter bis zur nächsten Änderung (`pipeline/check-push-filter-lauf.ts`).
  */
 import type { Env } from './env.ts'
 import { schreibeFavoriten } from './favoriten-kennung.ts'
@@ -65,7 +68,7 @@ export async function handlePushTest(request: Request, env: Env, buche: Buche, a
 /** Abo anlegen oder Favoriten nachführen. Kein Konto: der Endpunkt ist der Schlüssel. */
 export async function handlePushAbo(request: Request, env: Env, buche: Buche, antwort: Antwort): Promise<Response> {
   if (!(await buche(env, `push-abo-ip:${ipVon(request)}`, GRENZE_JE_IP, FENSTER_MIN))) return antwort({ error: 'Zu viele Anfragen.' }, 429)
-  const body = await leseBody<{ subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean; ak?: number }>(request)
+  const body = await leseBody<{ subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean; ak?: number; filter?: unknown }>(request)
   if (!body) return antwort({ error: 'Ungültige Anfrage.' }, 400)
   const endpoint = body.subscription?.endpoint ?? ''
   if (endpoint.length > 1000 || !istPushDienst(endpoint)) return antwort({ error: 'Kein gültiges Abo.' }, 400)
@@ -73,7 +76,7 @@ export async function handlePushAbo(request: Request, env: Env, buche: Buche, an
     await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(endpoint).run()
     return antwort({ ok: true, abgemeldet: true })
   }
-  const angelegt = await legeAboAn(env, endpoint, schreibeFavoriten(body.favoriten, body.ak), new Date().toISOString())
+  const angelegt = await legeAboAn(env, endpoint, schreibeFavoriten(body.favoriten, body.ak, body.filter), new Date().toISOString())
   if (!angelegt) return antwort({ error: 'Zurzeit sind keine neuen Benachrichtigungen möglich.', code: CODE_VOLL }, 507)
   return antwort({ ok: true })
 }

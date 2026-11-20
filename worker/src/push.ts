@@ -2,7 +2,8 @@ import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './
 import { fehlerLog } from './werte.ts'
 import { imTagesfenster } from './push-fenster.ts'
 import { istPushDienst } from './push-dienst.ts'
-import { ladeKennungen, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
+import { ladeKennungen, leseAboFilter, leseFavoriten, type Kennungen } from './favoriten-kennung.ts'
+import { terminSichtbar } from '../../shared/push-filter.ts'
 import { istErschienen } from '../../shared/logic.ts'
 
 /**
@@ -161,7 +162,8 @@ function planeAbo(
   const favoriten = leseFavoriten(abo.favoriten, kennungen)
   const gemeldet = abo.gemeldet ? abo.gemeldet.split('\n') : []
   const seit = seitWann(marke, abo)
-  const neu = neueEreignisse.filter((e) => favoriten.has(e.titleId) && !istErschienen(e, seit))
+  const filter = leseAboFilter(abo.favoriten)
+  const neu = neueEreignisse.filter((e) => favoriten.has(e.titleId) && !istErschienen(e, seit) && terminSichtbar(e, filter))
   const auchBei = neueWeitere.filter((w) => favoriten.has(w.id) && !gemeldet.includes(weiterSchluessel(w)))
   const text = pushText(neu, auchBei)
   if (!text) return null

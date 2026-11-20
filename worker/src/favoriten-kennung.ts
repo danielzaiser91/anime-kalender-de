@@ -1,8 +1,9 @@
 import { type Env } from './env.ts'
 
 /** **Favoriten in unserer eigenen Kennung `ak`** (Stufe 1, 05.10.2026); die Umrechnung aus AniList-Kennungen ist seit 05.11.2026 entfernt. */
-import { leseFavoriten, VORSATZ, type Kennungen } from './favoriten-lesen.ts'
-export { leseFavoriten, type Kennungen }
+import { FILTER_MARKE, leseAboFilter, leseFavoriten, VORSATZ, type Kennungen } from './favoriten-lesen.ts'
+import { leseTerminFilter, terminFilterAlsText } from '../../shared/push-filter.ts'
+export { leseAboFilter, leseFavoriten, type Kennungen }
 
 let umleitungGeladen: { bis: number; karte: Map<number, number> } | undefined
 
@@ -20,10 +21,13 @@ export async function ladeKennungen(env: Pick<Env, 'SITE_URL'>): Promise<Kennung
 }
 
 /** Nur ganze Zahlen außer 0 übernehmen (Titel ohne AniList-Kennung sind negativ) — die Liste kommt aus dem Browser; `ak: 1` kennzeichnet sie als unsere Kennung. */
-export function schreibeFavoriten(input: unknown, ak: unknown): string {
+export function schreibeFavoriten(input: unknown, ak: unknown, filter?: unknown): string {
   if (!Array.isArray(input)) return ''
   const liste = [...new Set(input.map(Number).filter((v) => Number.isInteger(v) && v !== 0))].join(',')
-  return liste && ak === 1 ? VORSATZ + liste : liste
+  if (!liste) return ''
+  const gelesen = leseTerminFilter(filter)
+  const text = gelesen ? terminFilterAlsText(gelesen) : ''
+  return (ak === 1 ? VORSATZ + liste : liste) + (text ? `,${FILTER_MARKE}${text}` : '')
 }
 
 /** Zahl der Einträge einer gespeicherten Liste. */
