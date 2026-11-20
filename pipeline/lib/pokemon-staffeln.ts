@@ -18,6 +18,12 @@ export function startStaffeln(grenzen: StaffelGrenzen[]): Map<number, number> {
   return new Map(grenzen.map((t) => [t.anilistId, t.staffeln[0]!.nr]))
 }
 
+/** Kennung → letzte Staffel, nur für Titel, die mehr als eine abdecken (Pokémon 527: 5). */
+export function staffelEnden(grenzen: StaffelGrenzen[]): Map<number, number> {
+  const mehrere = grenzen.filter((t) => t.staffeln[t.staffeln.length - 1]!.nr > t.staffeln[0]!.nr)
+  return new Map(mehrere.map((t): [number, number] => [t.anilistId, t.staffeln[t.staffeln.length - 1]!.nr]))
+}
+
 /** Kennung → `[[Staffel, von, bis], …]` für die Detaildatei des Titels. */
 export function staffelListen(grenzen: StaffelGrenzen[]): Map<number, [number, number, number][]> {
   return new Map(grenzen.map((t) => [t.anilistId, t.staffeln.map((s): [number, number, number] => [s.nr, s.von, s.bis])]))

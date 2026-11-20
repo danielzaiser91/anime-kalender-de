@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react'
-import { hauptstaffeln, staffelStaende } from '@shared/titles.ts'
+import { hauptstaffeln, staffelSpanne, staffelStaende } from '@shared/titles.ts'
 import type { FranchiseMember, Title } from '@shared/types.ts'
 import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { PanelKarte, StapelZeichen } from './panel-karte.tsx'
 
 /** „Staffel 4 von 4 · 1 Film · 1 Special" — nur Gruppen, die es gibt. Ist der gewählte Teil keine Staffel, steht die Staffelzahl. */
-function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
+export function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
   const haupt = hauptstaffeln(reihenTeile)
   const stand = staffelStaende(haupt, reihenName)
   const hauptIds = new Set(haupt.map((m) => m.id))
@@ -16,7 +16,7 @@ function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId
   const gewaehlt = stand.get(titelId)
   const zahl = (n: number, einzahl: Parameters<Translate>[0], mehrzahl: Parameters<Translate>[0]) => (n === 1 ? t(einzahl) : t(mehrzahl, { n }))
   return [
-    gewaehlt ? t('detail.staffelVon', { n: gewaehlt.staffel, von: gewaehlt.von }) : von > 0 ? zahl(von, 'detail.eineStaffel', 'detail.staffelnZahl') : '',
+    gewaehlt ? t('detail.staffelVon', { n: staffelSpanne(gewaehlt), von: gewaehlt.von }) : von > 0 ? zahl(von, 'detail.eineStaffel', 'detail.staffelnZahl') : '',
     eigene ? zahl(eigene, 'detail.eineEigeneSerie', 'detail.reiheEigeneSerien') : '',
     filme ? zahl(filme, 'detail.einFilm', 'detail.reiheFilme') : '',
     specials ? zahl(specials, 'detail.einSpecial', 'detail.reiheSpecials') : '',

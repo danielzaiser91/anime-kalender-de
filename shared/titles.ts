@@ -133,13 +133,15 @@ function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<num
   return platz
 }
 
-type StaffelEintrag = { id: number; staffel: number; teil?: number; eigenerName: boolean }
+type StaffelEintrag = { id: number; staffel: number; bis?: number; teil?: number; eigenerName: boolean }
 type StaffelFeld = {
   id: number
   name: string
   jpYear?: number
   jpStart?: string
   staffelQuelle?: number
+  /** Letzte deutsche Staffel, die ein Sammeltitel mit abdeckt (Pokémon 527: Staffel 1 bis 5); nur gesetzt, wenn es mehr als eine ist. */
+  staffelBis?: number
   /** Kennung des Originals, wenn dieser Eintrag eine Neuverfilmung ist (`zaehlgruppen`). */
   remakeVon?: number
 }
@@ -180,6 +182,16 @@ function splitCourTeil(id: number, voll: string, sortiert: { name: string }[], e
  * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
  * seinen Namen.
  */
+/** Das Spannenende eines Sammeltitels, nur wenn es hinter dem Start liegt. */
+function spanneBis(m: StaffelFeld): number | undefined {
+  return m.staffelQuelle && m.staffelBis && m.staffelBis > m.staffelQuelle ? m.staffelBis : undefined
+}
+
+/** „5" bzw. „1–5" für einen Eintrag, der mehrere Staffeln abdeckt. */
+export function staffelSpanne(e: { staffel: number; bis?: number }): string {
+  return e.bis && e.bis > e.staffel ? `${e.staffel}–${e.bis}` : String(e.staffel)
+}
+
 /** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
 function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
   const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
@@ -195,7 +207,7 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
     }
     /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
     if (m.staffelQuelle) {
-      eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), eigenerName: false })
+      eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), bis: spanneBis(m), eigenerName: false })
       continue
     }
     const voll = eindeutschenStaffel(m.name)
@@ -317,12 +329,12 @@ function beschrifteGruppe<T extends StaffelFeld>(staffeln: T[], reihenName: stri
       if (teil) beschriftung.set(e.id, `Teil ${teil}`)
       continue
     }
-    beschriftung.set(e.id, teil ? `Staffel ${e.staffel} - Teil ${teil}` : `Staffel ${e.staffel}`)
+    beschriftung.set(e.id, teil ? `Staffel ${e.staffel} - Teil ${teil}` : `Staffel ${staffelSpanne(e)}`)
   }
   return beschriftung
 }
 
-export type StaffelNummer = { staffel: number; teil?: number; von: number; eigenerName: boolean }
+export type StaffelNummer = { staffel: number; bis?: number; teil?: number; von: number; eigenerName: boolean }
 
 /**
  * **Die Staffelnummer jedes Eintrags, auch bei eigenem Namen** (09.10.2026: „Staffel 4 von 4" für „War of the
@@ -335,12 +347,12 @@ export function staffelStaende<T extends StaffelFeld>(staffeln: T[], reihenName:
 
 function staendeGruppe<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, StaffelNummer> {
   const eintraege = zaehleStaffeln(staffeln, reihenName)
-  const von = Math.max(0, ...eintraege.map((e) => e.staffel))
+  const von = Math.max(0, ...eintraege.map((e) => e.bis ?? e.staffel))
   if (von < 2) return new Map()
   const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
   const platz = plaetzeInStaffel(eintraege)
   return new Map(
-    eintraege.map((e) => [e.id, { staffel: e.staffel, teil: mitTeilen.has(e.staffel) ? (platz.get(e.id) ?? 1) : undefined, von, eigenerName: e.eigenerName }]),
+    eintraege.map((e) => [e.id, { staffel: e.staffel, bis: e.bis, teil: mitTeilen.has(e.staffel) ? (platz.get(e.id) ?? 1) : undefined, von, eigenerName: e.eigenerName }]),
   )
 }
 
