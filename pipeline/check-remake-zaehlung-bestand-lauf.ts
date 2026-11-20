@@ -35,9 +35,9 @@ try {
   rmSync(wurzel, { recursive: true, force: true })
 }
 
-const erwartet = 'Zählung: Bestand 2 liegt unter der Grenze 14, Grenze auf 2 nachziehen'
+const erwartet = 'Zählung: Bestand 2 liegt unter der Grenze 12, Grenze auf 2 nachziehen'
 if (!r.stdout.includes(erwartet)) {
   console.error(`[check-remake-zaehlung-bestand-lauf] Zeile „${erwartet}“ fehlt (Exit ${r.status})\n${r.stdout.slice(-1500)}\n${r.stderr.slice(-1500)}`)
   process.exit(1)
 }
-console.log('[check-remake-zaehlung-bestand-lauf] 1 Fall grün (Ratschen-Zeile bei Bestand 2 unter Grenze 14 aus dem echten Skript)')
+console.log('[check-remake-zaehlung-bestand-lauf] 1 Fall grün (Ratschen-Zeile bei Bestand 2 unter Grenze 12 aus dem echten Skript)')

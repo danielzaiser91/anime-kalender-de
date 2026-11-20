@@ -1,0 +1,104 @@
+# Deutsche Staffelgrenzen der Pokémon-TV-Serie innerhalb der AniList-Sammeltitel (Auftrag Dirigent, 20.11.2026).
+#
+# Warum: AniList führt die Serie in wenigen langen Einträgen (527 = 276 Folgen); die Reihe zählte dadurch 13 „Staffeln“ statt der 25 deutschen.
+# Wirkung: `staffelQuelle` jedes Titels = die Staffel, in der er beginnt (`pipeline/lib/pokemon-staffeln.ts`, `alleStaffelQuellen()`); die
+# Detaildatei `public/data/folgen/<Kennung>.json` trägt die Liste als `s: [[Staffel, von, bis], …]` (Titelnummern).
+#
+# Quelle: TMDB tv/60572 („Pokémon“, deutsche Folgentitel), `data/tmdb-folgen.json` (geholt 2026-10-06), gelesen 20.11.2026:
+# https://www.themoviedb.org/tv/60572/seasons. Staffelnummern = TMDB-Staffeln 1–25 (Staffel 0 = Extras zählt nicht).
+# Zuordnung Titel ↔ Staffel: jeder deutsche aniSearch-Folgentitel (`public/data/folgen/<Kennung>.json`) wird gegen die TMDB-Titel an
+# derselben Stelle gelegt (Schreibweise ignoriert, Abweichung um bis zu 4 Stellen erlaubt); `treffer` nennt die Übereinstimmungen. Eine
+# Folge ohne Treffer gehört zur Staffel der Folge davor. **Abgeleitet, nicht gegengelesen:** Die Grenzen (auch S9, S17, S18, S19) stehen auf
+# TMDB-Titeln und aniSearch-Zählung; die Gegenprobe gegen pokewiki.de/de.wikipedia steht aus (Hosts im Cloud-Lauf gesperrt, 20.11.2026).
+# Staffel 16 trägt zwei AniList-Einträge (17115, 17873); eine Teil-Beschriftung („16A/16B“) gibt es nicht, weil keine erreichbare Quelle sie belegt.
+#
+# Felder je Abschnitt: nr (deutsche Staffel), von/bis (Folgennummer im Titel), folgen (bis − von + 1).
+# Namen der Staffeln (Indigo-Liga …) stehen nicht in den TMDB-Daten und fehlen bewusst; sie kommen mit Quelle in einem späteren Lauf.
+#
+# Abweichungen zwischen aniSearch und TMDB (die beiden Reste des Zählens):
+# - 1564: aniSearch zählt „Deoxys aus dem All“ als Folge 171 und 172, TMDB als eine (Staffel 9, Folge 26): 192 gegen 191.
+# - 19291: aniSearch führt Folge 24 „Ein Zuhause auf dem Meeresgrund!“, die TMDB-Staffel 17 nicht kennt; dafür kennt TMDB in Staffel 18 eine
+#   Folge, die aniSearch nicht führt. Die Staffelgrenze liegt darum bei Folge 49/50 statt 48/49.
+# - 21356: TMDB-Staffel 19 hat 49 Folgen; Folge 48 „Die Legende von X,Y und Z!“ ist der Sondertitel 10011938, Folge 49 „Das Ultimative Duo“
+#   hat keinen Titel im Datensatz (offen).
+quelle: https://www.themoviedb.org/tv/60572
+abgerufen: '2026-10-06'  # TMDB-Daten in data/tmdb-folgen.json (geholtAm)
+gelesen: '2026-11-20'
+titel:
+- anilistId: 527
+  titel: "Pokémon"
+  treffer: '262 von 275 Folgentiteln gleich'
+  staffeln:
+    - { nr: 1, von: 1, bis: 82, folgen: 82 }
+    - { nr: 2, von: 83, bis: 118, folgen: 36 }
+    - { nr: 3, von: 119, bis: 159, folgen: 41 }
+    - { nr: 4, von: 160, bis: 211, folgen: 52 }
+    - { nr: 5, von: 212, bis: 276, folgen: 65 }
+- anilistId: 1564
+  titel: "Pokémon Advanced Generation"
+  treffer: '187 von 192 Folgentiteln gleich'
+  staffeln:
+    - { nr: 6, von: 1, bis: 40, folgen: 40 }
+    - { nr: 7, von: 41, bis: 92, folgen: 52 }
+    - { nr: 8, von: 93, bis: 145, folgen: 53 }
+    - { nr: 9, von: 146, bis: 192, folgen: 47 }  # TMDB S9 hat 46 Folgen; aniSearch zählt „Deoxys aus dem All“ als 171 und 172 (Quelle: aniSearch-Folgentitel, TMDB S9E26)
+- anilistId: 1565
+  titel: "Pokémon: Diamant & Perl"
+  treffer: '187 von 191 Folgentiteln gleich'
+  staffeln:
+    - { nr: 10, von: 1, bis: 52, folgen: 52 }
+    - { nr: 11, von: 53, bis: 104, folgen: 52 }
+    - { nr: 12, von: 105, bis: 157, folgen: 53 }
+    - { nr: 13, von: 158, bis: 191, folgen: 34 }
+- anilistId: 9107
+  titel: "Pokémon: Schwarz & Weiß"
+  treffer: '78 von 84 Folgentiteln gleich'
+  staffeln:
+    - { nr: 14, von: 1, bis: 48, folgen: 48 }
+    - { nr: 15, von: 49, bis: 84, folgen: 36 }
+- anilistId: 14093
+  titel: "Pokémon: Schwarz & Weiß Staffel 2"
+  treffer: '24 von 24 Folgentiteln gleich'
+  staffeln:
+    - { nr: 15, von: 1, bis: 13, folgen: 13 }
+    - { nr: 16, von: 14, bis: 24, folgen: 11 }
+- anilistId: 17115
+  titel: "Pokémon: Schwarz & Weiß Staffel 2 - Episode N"
+  treffer: '14 von 14 Folgentiteln gleich'
+  staffeln:
+    - { nr: 16, von: 1, bis: 14, folgen: 14 }
+- anilistId: 17873
+  titel: "Pokémon: Schwarz & Weiß - Abenteuer in Einall und darüber hinaus"
+  treffer: '20 von 20 Folgentiteln gleich'
+  staffeln:
+    - { nr: 16, von: 1, bis: 20, folgen: 20 }
+- anilistId: 19291
+  titel: "Pokémon: Die TV-Serie - XY"
+  treffer: '91 von 93 Folgentiteln gleich'
+  staffeln:
+    - { nr: 17, von: 1, bis: 49, folgen: 49 }  # aniSearch-Folgentitel: aniSearch 49 = TMDB S17E48; Folge 24 fehlt bei TMDB (Quelle: aniSearch + TMDB)
+    - { nr: 18, von: 50, bis: 93, folgen: 44 }  # aniSearch 50 = TMDB S18E1; TMDB S18 hat 45 Folgen, eine führt aniSearch nicht (Quelle: aniSearch + TMDB)
+- anilistId: 21356
+  titel: "Pokémon: Die TV-Serie - XYZ"
+  treffer: '47 von 47 Folgentiteln gleich'
+  staffeln:
+    - { nr: 19, von: 1, bis: 47, folgen: 47 }  # TMDB S19 hat 49: E48 = Sondertitel 10011938, E49 „Das Ultimative Duo“ ohne Titel (Quelle: TMDB, aniSearch-Titel 1–47 gleich)
+- anilistId: 97634
+  titel: "Pokémon: Die TV-Serie - Sonne & Mond"
+  treffer: '145 von 146 Folgentiteln gleich'
+  staffeln:
+    - { nr: 20, von: 1, bis: 43, folgen: 43 }
+    - { nr: 21, von: 44, bis: 92, folgen: 49 }
+    - { nr: 22, von: 93, bis: 146, folgen: 54 }
+- anilistId: 112153
+  titel: "Pokémon Reisen: Die Serie"
+  treffer: '123 von 131 Folgentiteln gleich'
+  staffeln:
+    - { nr: 23, von: 1, bis: 48, folgen: 48 }
+    - { nr: 24, von: 49, bis: 90, folgen: 42 }
+    - { nr: 25, von: 91, bis: 136, folgen: 46 }
+- anilistId: 158870
+  titel: "Pokémon: Abenteuer eines Pokémon-Meisters"
+  treffer: '11 von 11 Folgentiteln gleich'
+  staffeln:
+    - { nr: 25, von: 1, bis: 11, folgen: 11 }

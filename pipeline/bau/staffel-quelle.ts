@@ -18,6 +18,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from '../lib/util.ts'
 import { ladeAnisearchAbruf } from '../lib/anisearch-verworfen.ts'
+import { ladeStaffelGrenzen, startStaffeln } from '../lib/pokemon-staffeln.ts'
 
 /** Die Staffelnummer, die ein deutscher Quelltitel nennt — sonst nichts. */
 export function staffelNummerAusQuelle(deutscherTitel: string): number | undefined {
@@ -67,9 +68,10 @@ export function staffelEintraegeVonHand(datei = resolve(ROOT, 'data/staffel-von-
   return existsSync(datei) ? ((yaml.load(readFileSync(datei, 'utf8')) as StaffelVonHand[] | null) ?? []) : []
 }
 
-/** Titel-Kennung → Staffelnummer: aniSearch-Sprachblock, dann Handeinträge (Hand schlägt Ableitung). */
-export function alleStaffelQuellen(eintraege = staffelEintraegeVonHand()): Map<number, number> {
+/** Titel-Kennung → Staffelnummer: aniSearch-Sprachblock, deutsche Staffelgrenzen (Pokémon), dann Handeinträge (Hand schlägt Ableitung). */
+export function alleStaffelQuellen(eintraege = staffelEintraegeVonHand(), grenzen = ladeStaffelGrenzen()): Map<number, number> {
   const map = staffelQuellenAusAnisearch()
+  for (const [id, nr] of startStaffeln(grenzen)) map.set(id, nr)
   for (const e of eintraege) map.set(e.anilistId, e.staffel)
   return map
 }
