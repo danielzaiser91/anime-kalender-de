@@ -68,11 +68,11 @@ const bau = new Function(
   ].join('\n'),
 )
 
-function lauf(treffer, { gemeldet = false, gewaehlt = null } = {}) {
+function lauf(treffer, { gemeldet = false, gewaehlt = null, speichernOk = true } = {}) {
   const p = { kasten: null, gespeichert: [], gemeldetMit: null }
   const umwelt = {
     hinweisKasten: (...args) => { p.kasten = args },
-    kastenKnopf: (text, tun) => ({ knopf: text, tun, textContent: text, disabled: false, hidden: false, classList: { add() {} } }),
+    kastenKnopf: (text, tun) => ({ knopf: text, tun, textContent: text, disabled: false, hidden: false, aria: {}, setAttribute(n, v) { this.aria[n] = v }, classList: { add() {} } }),
     kastenZeile: (klasse, text) => ({ zeile: text, klasse }),
     kastenAuswahl: (name, kennung, angehakt) => ({ box: true, name, kennung, checked: angehakt === true }),
     erwartungZu: () => gewaehlt,
@@ -80,7 +80,7 @@ function lauf(treffer, { gemeldet = false, gewaehlt = null } = {}) {
     nichtBeiPrimeMelden: (...args) => { p.gemeldetMit = args },
     auswahlSpeichern: (auftrag, kennungen) => {
       p.gespeichert.push({ auftrag, kennungen })
-      return Promise.resolve(true)
+      return Promise.resolve(speichernOk)
     },
   }
   const { genauZeigen } = bau(umwelt)
@@ -186,10 +186,51 @@ const ZEHN = Array.from({ length: 10 }, (_, i) => karte(i + 1))
     const c = spiel(true)
     await c.auswahlSpeichern(auftrag, [])
     pruefe('Zurücknehmen: der Worker bekommt die leere Liste, es wird nichts gemerkt', c.p.gemeldet[0]?.[1].length === 0 && c.p.geschrieben.length === 0, c.p)
+    await klickSperren()
     if (fehler.length) {
       console.error(`\n${fehler.length} Zusicherung(en) rot.`)
       process.exit(1)
     }
     console.log('Suchkasten als Auswahl: alle Zusicherungen erfüllt.')
   })
+}
+
+/* Melde-Knopf „Auswahl übernehmen" (Prüfer, R1): ein zweiter Klick löst keine zweite Meldung aus, weder währenddessen noch danach. */
+async function klickSperren() {
+  const warte = () => new Promise((r) => setImmediate(r))
+  const bereit = () => {
+    const l = lauf(ZEHN)
+    const knopf = alle(l.gruppe).find((x) => x.knopf === 'Auswahl übernehmen')
+    l.boxen[0].checked = true
+    return { l, knopf }
+  }
+  const a = bereit()
+  a.knopf.tun(a.knopf)
+  a.knopf.tun(a.knopf)
+  pruefe('zwei Klicks vor der Antwort: eine Meldung', a.l.p.gespeichert.length === 1, a.l.p.gespeichert.length)
+  pruefe('während des Sendens gesperrt, auch für Hilfstechnik (aria-disabled)', a.knopf.disabled === true && a.knopf.aria['aria-disabled'] === 'true', a.knopf)
+  await warte()
+  a.knopf.tun(a.knopf)
+  pruefe('nach angekommener Meldung: ein weiterer Klick sendet nichts', a.l.p.gespeichert.length === 1 && a.knopf.disabled === true && a.knopf.aria['aria-disabled'] === 'true', [a.l.p.gespeichert.length, a.knopf.aria])
+  const bl = lauf(ZEHN, { speichernOk: false })
+  const bk = alle(bl.gruppe).find((x) => x.knopf === 'Auswahl übernehmen')
+  bl.boxen[0].checked = true
+  bk.tun(bk)
+  await warte()
+  pruefe('nicht angekommen: der Knopf wird wieder frei, mit „noch einmal"', bk.disabled === false && bk.aria['aria-disabled'] === 'false' && /noch einmal/.test(bk.textContent), bk)
+  bk.tun(bk)
+  pruefe('… und der nächste Klick sendet erneut', bl.p.gespeichert.length === 2, bl.p.gespeichert.length)
+  const z = lauf(ZEHN, { gewaehlt: ['B0BUTLER003'] })
+  const zk = alle(z.gruppe).filter((x) => x.knopf).at(1)
+  zk.tun(zk)
+  zk.tun(zk)
+  pruefe('Zurücknehmen: zwei Klicks, eine Meldung, währenddessen gesperrt', z.p.gespeichert.length === 1 && zk.disabled === true && zk.aria['aria-disabled'] === 'true', [z.p.gespeichert.length, zk.aria])
+  await warte()
+  pruefe('Zurücknehmen angekommen: der Knopf ist verschwunden und wieder frei', zk.hidden === true && zk.disabled === false, zk)
+  const f = lauf(ZEHN, { gewaehlt: ['B0BUTLER003'], speichernOk: false })
+  const fk = alle(f.gruppe).filter((x) => x.knopf).at(1)
+  const fa = alle(f.gruppe).filter((x) => x.knopf).at(0)
+  fk.tun(fk)
+  await warte()
+  pruefe('Zurücknehmen nicht angekommen: die Auswahl gilt weiter (Knopf bleibt gesperrt, ↺ sichtbar und frei)', fk.hidden === false && fk.disabled === false && fa.disabled === true, [fk.hidden, fk.disabled, fa.disabled])
 }

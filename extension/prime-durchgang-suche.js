@@ -141,26 +141,36 @@
     }
     const reihe = document.createElement('div')
     reihe.className = 'ak-such-knopfreihe'
+    /* Ein gesperrter Knopf sendet nie: weder beim zweiten Klick noch zwischen Senden und Antwort. */
+    const sperre = (k, an) => {
+      k.disabled = an
+      k.setAttribute('aria-disabled', String(an))
+    }
     const knopf = d.knopf(bereits.size ? `${bereits.size} in der Prüfliste` : 'Auswahl übernehmen', (k) => {
+      if (k.disabled) return
       const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')].map((b) => /** @type {HTMLElement} */ (b).dataset.kennung).filter(Boolean)
       if (!gewaehlt.length) {
         k.textContent = 'Erst Karten ankreuzen'
         return
       }
-      k.disabled = true
+      sperre(k, true)
       k.textContent = 'speichere …'
       void d.speichern(gewaehlt).then((ok) => {
-        k.disabled = ok
+        sperre(k, ok)
         k.textContent = ok ? `${gewaehlt.length} in der Prüfliste` : 'nicht gesendet – noch einmal'
         if (ok) zurueck.hidden = false
       })
     })
-    knopf.disabled = bereits.size > 0
+    sperre(knopf, bereits.size > 0)
     const zurueck = d.knopf('↺', () => {
-      zurueck.hidden = true
-      void d.speichern([]).then(() => {
+      if (zurueck.disabled) return
+      sperre(zurueck, true)
+      void d.speichern([]).then((ok) => {
+        sperre(zurueck, false)
+        if (!ok) return
+        zurueck.hidden = true
         knopf.textContent = 'Auswahl übernehmen'
-        knopf.disabled = false
+        sperre(knopf, false)
       })
     })
     zurueck.title = 'Auswahl zurücknehmen'
