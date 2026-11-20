@@ -11,6 +11,8 @@ export interface FallOptionen {
   tonspur?: 'ohne-beleg'
   /** Das Panel öffnet mit dem Umschalter auf „Disc“ (wie über einen Disc-Termin); die Daten bleiben gleich. */
   start?: 'disc'
+  /** Das Panel öffnet einen anderen Titel derselben Reihe (ak-Kennung, im Bestand des Ausgangsfalls); die Daten bleiben gleich. */
+  titel?: number
 }
 
 /** Die Disc-Fälle des Mockups `disc-bereich` (27.10.2026): gleiche Daten, Panel startet auf „Disc“. */
@@ -41,6 +43,11 @@ export const OPTIONS_FAELLE: Record<string, { von: string; name: string; optione
   /* Mit „Staffeln zusammenfassen“ (Adresse `staffeln=1`) zählt der Suchhinweis Karten statt Titel. */
   'attack-on-titan-zusammen': { von: 'attack-on-titan', name: 'Attack on Titan – Staffeln zusammengefasst', optionen: {} },
   'hajime-no-ippo-zusammen': { von: 'hajime-no-ippo', name: 'Hajime no Ippo – Staffeln zusammengefasst', optionen: {} },
+  /* Mockup `reihe-uebersicht` (20.11.2026): große Reihen, je Fall ein anderer geöffneter Titel; die Kennungen sind ak (Stand 20.11.2026). */
+  'pokemon-film': { von: 'pokemon-horizonte', name: 'Pokémon: Der Film – Kyurem gegen den Ritter der Redlichkeit', optionen: { titel: 5726 } },
+  'pokemon-concierge': { von: 'pokemon-horizonte', name: 'Die Pokémon-Concierge', optionen: { titel: 14945 } },
+  'pokemon-sammeltitel': { von: 'pokemon-horizonte', name: 'Pokémon (Staffel 1–5)', optionen: { titel: 483 } },
+  'detektiv-conan-film': { von: 'fernsehtag-detektiv-conan', name: 'Detektiv Conan: Der Magier des letzten Jahrhunderts', optionen: { titel: 690 } },
 }
 
 type Weg = Record<string, unknown>
@@ -60,6 +67,7 @@ function titelOhneTonspur(titel: Record<string, unknown>): Record<string, unknow
 /** Eine Kopie des Falls mit den Optionen; der Ausgangsfall bleibt unverändert. */
 export function mitOptionen(fall: Fall, optionen: FallOptionen, name: string): Fall {
   const kopie: Fall = { ...fall, name }
+  if (optionen.titel !== undefined) kopie.titleId = optionen.titel
   if (optionen.tonspur === 'ohne-beleg') {
     for (const datei of TITEL_DATEIEN) {
       if (Array.isArray(fall[datei])) kopie[datei] = (fall[datei] as Record<string, unknown>[]).map(titelOhneTonspur)
