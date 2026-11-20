@@ -18,7 +18,14 @@
   {
     "name": "UnterDerAntwort: Reihe vor Handlung",
     "aenderungen": [
-      { "datei": "web/src/components/detail/unter-der-antwort.tsx", "suche": "      {handlung}\n      {reihe}", "ersetze": "      {reihe}\n      {handlung}" }
+      { "datei": "web/src/components/detail/unter-der-antwort.tsx", "suche": "      {handlung}\n      <Neuigkeiten data={data} titelId={title.id} />\n      {reihe}", "ersetze": "      {reihe}\n      {handlung}\n      <Neuigkeiten data={data} titelId={title.id} />" }
+    ],
+    "tests": ["npx tsx pipeline/check-panel-reihenfolge.ts"]
+  },
+  {
+    "name": "UnterDerAntwort: Neuigkeiten zurück unter die Reihe",
+    "aenderungen": [
+      { "datei": "web/src/components/detail/unter-der-antwort.tsx", "suche": "      <Neuigkeiten data={data} titelId={title.id} />\n      {reihe}", "ersetze": "      {reihe}\n      <Neuigkeiten data={data} titelId={title.id} />" }
     ],
     "tests": ["npx tsx pipeline/check-panel-reihenfolge.ts"]
   }
