@@ -88,6 +88,8 @@ const beschriftung = staffelBeschriftungen(mitBis, 'Pokémon')
 pruefe('Beschriftung 527 „Staffel 1–5“, 1564 „Staffel 6–9“, 112153 „Staffel 23–25“, 21356 „Staffel 19“', [527, 1564, 112153, 21356].map((id) => beschriftung.get(id)).join() === 'Staffel 1–5,Staffel 6–9,Staffel 23–25,Staffel 19', [...beschriftung].join())
 pruefe('Ohne staffelBis bleibt die Beschriftung die Startstaffel (Titel ohne YAML-Eintrag unverändert)', staffelBeschriftungen(reihe.map((m) => ({ ...m, staffelQuelle: quellen.get(m.id) })), 'Pokémon').get(527) === 'Staffel 1')
 pruefe('Ein Ende gleich dem Start ergibt keine Spanne', staffelSpanne({ staffel: 3, bis: 3 }) === '3' && staffelSpanne({ staffel: 3 }) === '3' && staffelSpanne({ staffel: 3, bis: 4 }) === '3–4')
+const endet = staffelStaende([{ id: 1, name: 'A', jpYear: 2000, staffelQuelle: 1, staffelBis: 30 }, { id: 2, name: 'A 2', jpYear: 2001, staffelQuelle: 2 }], 'A')
+pruefe('Die Zahl „von N“ zählt auch das Spannenende', endet.get(1)?.von === 30 && endet.get(2)?.von === 30, JSON.stringify([...endet]))
 const zusatz = readFileSync(new URL('./bau/13-4-zusatzdateien.ts', import.meta.url), 'utf8')
 pruefe('13-4-zusatzdateien.ts setzt staffelBis aus staffelEnden(ladeStaffelGrenzen()) genau einmal', zusatz.split('staffelBis: staffelBisse.get(t.id)').length === 2 && zusatz.includes('staffelEnden(ladeStaffelGrenzen())'))
 
