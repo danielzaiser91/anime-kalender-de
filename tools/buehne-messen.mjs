@@ -18,6 +18,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import { argument, durchlaufe, starteBuehne } from './buehne-seite.mjs'
 import { meldeDeckung } from './buehne-basis-warnung.mjs'
+import { umgebungsOptionen } from './buehne-umfang.mjs'
 import { kontrastImRahmen, MIN_TIPPZIEL, tippzieleImRahmen } from './buehne-messung.mjs'
 
 const LISTE = process.argv.includes('--liste')
@@ -85,7 +86,7 @@ async function appBefunde(z, vorFall, vorher, basis) {
 }
 
 /** Der ganze Lauf; `starte` und `ausgabe` sind austauschbar (Test mit Attrappe-Browser). Setzt `process.exitCode` bei Befunden. */
-export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = null, schreibe = null, nurVorher = false, zusammenfassung = process.env.GITHUB_STEP_SUMMARY }) {
+export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = null, schreibe = null, nurVorher = false, scheibe = null, zusammenfassung = process.env.GITHUB_STEP_SUMMARY }) {
   nurVorher ||= Boolean(schreibe)
   const { browser, seite, fremde } = await starte()
   const vorher = new Map()
@@ -115,13 +116,14 @@ export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = nul
         if (liste) for (const art of ['tipp', 'kontrast']) for (const f of messung[art]) ausgabe(`      ${art === 'tipp' ? 'Tippziel' : 'Kontrast'} ${zeile(art, f)}`)
       }
       return befunde
-    }, { nurErsteVariante: nurVorher })
+    }, { nurErsteVariante: nurVorher, scheibe })
   } finally {
     await browser.close()
   }
   if (basis) meldeDeckung({ basis, vorher, ausgabe, zusammenfassung })
   if (schreibe) return schreibe(Object.fromEntries(vorher), rot)
-  if (!gemessen) rot.push('keine einzige Zelle gemessen — Bühne oder Selektor kaputt')
+  if (!gemessen && scheibe) ausgabe(`  Scheibe ${scheibe.k + 1}/${scheibe.n}: keine Einheit zugeteilt`)
+  else if (!gemessen) rot.push('keine einzige Zelle gemessen — Bühne oder Selektor kaputt')
   if (fremde.length) rot.push(`${fremde.length} Anfragen nach draußen, z. B. ${fremde[0]}`)
   if (rot.length) {
     ausgabe(`\n  ✕ ${rot.length} neue Befunde:`)
@@ -131,4 +133,7 @@ export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = nul
   else ausgabe(`\n  ok  ${gemessen} Nachher-Zellen gemessen, nichts gegenüber Vorher verschlechtert`)
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) await lauf({ starte: starteBuehne, filter: argument('--mockup', ''), ausgabe: console.log, ...basisAusAufruf() })
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const { filter, scheibe } = umgebungsOptionen(process.env)
+  await lauf({ starte: starteBuehne, filter: argument('--mockup', filter), scheibe, ausgabe: console.log, ...basisAusAufruf() })
+}

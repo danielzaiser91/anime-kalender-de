@@ -301,8 +301,22 @@ jobs:
             befehl: npm run check:leerlauf
           - teil: Bühne-Fenster
             befehl: npm run check:buehne-fenster
-          - teil: Bühne-Messen
+          # Bühne-Messen in 5 Scheiben (CI 20.11.2026: eine Scheibe 1214 s abgebrochen); der Umfang (nur berührte Mockups?) kommt aus tools/buehne-umfang.mjs.
+          - teil: Bühne-Messen 1/5
             befehl: npm run check:buehne-messen
+            scheibe: 1/5
+          - teil: Bühne-Messen 2/5
+            befehl: npm run check:buehne-messen
+            scheibe: 2/5
+          - teil: Bühne-Messen 3/5
+            befehl: npm run check:buehne-messen
+            scheibe: 3/5
+          - teil: Bühne-Messen 4/5
+            befehl: npm run check:buehne-messen
+            scheibe: 4/5
+          - teil: Bühne-Messen 5/5
+            befehl: npm run check:buehne-messen
+            scheibe: 5/5
           - teil: Bühne-Basis
             befehl: npm run check:buehne-basis
             frist: 25 # CI-Messung 12.11.2026: Einrichtung 2 + Basis 7 + Kopf 7 min; Fristen 10 + 10 min in buehne-basis.mjs
@@ -330,5 +344,12 @@ jobs:
           playwright: 'true'
       - if: steps.pfad.outputs.betroffen == '1'
         run: npm run build
+      - name: Umfang der Bühne-Messung
+        id: umfang
+        if: steps.pfad.outputs.betroffen == '1' && matrix.scheibe
+        run: node tools/buehne-umfang.mjs HEAD^1 HEAD | tee -a "$GITHUB_OUTPUT"
       - if: steps.pfad.outputs.betroffen == '1'
+        env:
+          BUEHNE_MOCKUPS: ${{ steps.umfang.outputs.mockups }}
+          BUEHNE_SCHEIBE: ${{ matrix.scheibe }}
         run: ${{ matrix.befehl }}
