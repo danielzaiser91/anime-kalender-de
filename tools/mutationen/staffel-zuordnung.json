@@ -32,13 +32,13 @@
     ]
   },
   {
-    "name": "pipeline/lib/maengel-regeln.ts:157 Zahl 2 → 0",
+    "name": "pipeline/lib/maengel-regeln.ts:163 Zahl 2 → 0",
     "aenderungen": [
       {
         "datei": "pipeline/lib/maengel-regeln.ts",
         "suche": "2",
         "ersetze": "0",
-        "zeile": 157
+        "zeile": 163
       }
     ],
     "tests": [
@@ -48,13 +48,13 @@
     ]
   },
   {
-    "name": "pipeline/lib/maengel-regeln.ts:157 ?: Zweige vertauscht",
+    "name": "pipeline/lib/maengel-regeln.ts:163 ?: Zweige vertauscht",
     "aenderungen": [
       {
         "datei": "pipeline/lib/maengel-regeln.ts",
         "suche": "laeuftNoch(t, k) ? 'laeuft' : undefined",
         "ersetze": "laeuftNoch(t, k) ? undefined : 'laeuft'",
-        "zeile": 157
+        "zeile": 163
       }
     ],
     "tests": [
@@ -64,13 +64,13 @@
     ]
   },
   {
-    "name": "pipeline/lib/maengel-regeln.ts:157 Argumente getauscht laeuftNoch",
+    "name": "pipeline/lib/maengel-regeln.ts:163 Argumente getauscht laeuftNoch",
     "aenderungen": [
       {
         "datei": "pipeline/lib/maengel-regeln.ts",
         "suche": "laeuftNoch(t, k)",
         "ersetze": "laeuftNoch(k, t)",
-        "zeile": 157
+        "zeile": 163
       }
     ],
     "tests": [
