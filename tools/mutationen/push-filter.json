@@ -480,51 +480,6 @@
     ]
   },
   {
-    "name": "shared/push-filter.ts:92 || → &&",
-    "aenderungen": [
-      {
-        "datei": "shared/push-filter.ts",
-        "suche": "!roh || typeof roh !== 'object' || Array.isArray(roh)",
-        "ersetze": "!roh || typeof roh !== 'object' && Array.isArray(roh)",
-        "zeile": 92
-      }
-    ],
-    "tests": [
-      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
-      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
-    ]
-  },
-  {
-    "name": "shared/push-filter.ts:92 || → &&",
-    "aenderungen": [
-      {
-        "datei": "shared/push-filter.ts",
-        "suche": "!roh || typeof roh !== 'object'",
-        "ersetze": "!roh && typeof roh !== 'object'",
-        "zeile": 92
-      }
-    ],
-    "tests": [
-      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
-      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
-    ]
-  },
-  {
-    "name": "shared/push-filter.ts:92 !== → ===",
-    "aenderungen": [
-      {
-        "datei": "shared/push-filter.ts",
-        "suche": "typeof roh !== 'object'",
-        "ersetze": "typeof roh === 'object'",
-        "zeile": 92
-      }
-    ],
-    "tests": [
-      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts",
-      "node node_modules/tsx/dist/cli.mjs tools/worker-push-filter.test.ts"
-    ]
-  },
-  {
     "name": "shared/push-filter.ts:95 || → &&",
     "aenderungen": [
       {
