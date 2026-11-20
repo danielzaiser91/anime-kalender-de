@@ -10,7 +10,6 @@ import {
 } from '../../shared/types.ts'
 import { nachAusstrahlung, unterscheidenderZusatz } from '../../shared/titles.ts'
 import { alleStaffelQuellen } from './staffel-quelle.ts'
-import { mitStaffelTeil } from '../lib/pokemon-staffeln.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -236,7 +235,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       const n = anzeigename(t)
       wieOft.set(n, (wieOft.get(n) ?? 0) + 1)
     }
-    reihen[key] = mitStaffelTeil(sortiert.map((t) => ({
+    reihen[key] = sortiert.map((t) => ({
       id: t.id,
       name: (() => {
         const basis = anzeigename(t)
@@ -277,7 +276,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       cover: t.coverImage?.startsWith(ANILIST_COVER_BASIS)
         ? t.coverImage.slice(ANILIST_COVER_BASIS.length)
         : t.coverImage,
-    })))
+    }))
   }
   writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(markiereRemakes(reihen, fuerReihen)))
   log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)

@@ -140,7 +140,6 @@ type StaffelFeld = {
   jpYear?: number
   jpStart?: string
   staffelQuelle?: number
-  staffelTeil?: number
   /** Kennung des Originals, wenn dieser Eintrag eine Neuverfilmung ist (`zaehlgruppen`). */
   remakeVon?: number
 }
@@ -196,8 +195,7 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
     }
     /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
     if (m.staffelQuelle) {
-      /* `staffelTeil`: Die Quelle sagt, dass mehrere Einträge dieselbe Staffel tragen (Pokémon: Staffel 16, zwei AniList-Einträge). */
-      eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), teil: m.staffelTeil, eigenerName: false })
+      eintraege.push({ id: m.id, staffel: (aktuell = m.staffelQuelle), eigenerName: false })
       continue
     }
     const voll = eindeutschenStaffel(m.name)

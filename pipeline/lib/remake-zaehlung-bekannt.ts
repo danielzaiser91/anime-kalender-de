@@ -1,7 +1,7 @@
 /**
  * Die am 03.11.2026 noch gemessenen doppelten Staffelnummern in Reihen ohne Neuverfilmung (Schlüssel `Reihe|Nummer`, `doppelteNummern`),
  * nachdem die Spin-offs aus `data/spinoff-von-hand.yaml` aus der Zählung genommen sind (18 der ursprünglich 37 Fälle gelöst). Die übrigen
- * 19 sind keine Spin-offs; Urusei Yatsura 2022 ist seit 11.11.2026 als Neuverfilmung in `data/remake-von-hand.yaml`, 14 blieben; seit 20.11.2026 sind die drei Pokémon-Schlüssel durch `data/curated/pokemon-staffeln.yaml` gelöst (11 bleiben). Ein Teil
+ * 19 sind keine Spin-offs; Urusei Yatsura 2022 ist seit 11.11.2026 als Neuverfilmung in `data/remake-von-hand.yaml`, 14 blieben; seit 20.11.2026 sind die drei Pokémon-Schlüssel durch `data/curated/pokemon-staffeln.yaml` gelöst (11 bleiben); dafür steht seit 20.11.2026 „Pokémon|16/-“ darin: Staffel 16 trägt zwei AniList-Einträge (17115, 17873), die Teil-Beschriftung 16A/16B ist ohne erreichbare Quelle nicht belegt (14 → 12 gegenüber main). Ein Teil
  * nennt „Staffel 2" im eigenen Namen, während die Position diese Nummer schon vergeben hat (Baki, Pokémon, Tokyo Ghoul, Berserk, Fate/Stay
  * Night, Bakemonogatari), eine Unterreihe zählt neu (Ghost in the Shell: SAC_2045, The King’s Avatar) oder die deutsche Staffelangabe
  * kollidiert mit der Position (Seven Deadly Sins, Bleach). Jeder Rest ist nur mit neuer Zählmechanik (Unterreihen) lösbar, nicht mit einer
@@ -17,10 +17,11 @@ export const BEKANNT_DOPPELT_OHNE_REMAKE: readonly string[] = [
   'Fate/Stay Night|2/-',
   'Ghost in the Shell: Stand Alone Complex|2/-',
   'Ghost in the Shell: Stand Alone Complex|3/-',
+  'Pokémon|16/-',
   'The King’s Avatar|3/-',
   'The Seven Deadly Sins|4/-',
   'Tokyo Ghoul|2/-',
 ]
 
 /** Obergrenze der Schlüsselliste (Stand 11.11.2026, nach Spin-offs und Urusei Yatsura 2022; vorher 37, 19): sie darf nur sinken; ein neuer Fall wird als Spin-off gekennzeichnet (data/spinoff-von-hand.yaml). */
-export const BEKANNT_HOECHSTENS = 11
+export const BEKANNT_HOECHSTENS = 12

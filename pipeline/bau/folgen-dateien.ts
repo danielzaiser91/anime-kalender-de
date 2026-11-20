@@ -30,7 +30,7 @@ import { ladeTitelQuellen, mitFremdTiteln, type TitelQuellen } from './folgentit
 import { englischeTitel, ohneEnglischeTitel } from './folgentitel-englisch.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
 import { eineZeileJeNummer } from './folgen-nummern.ts'
-import { ladeStaffelGrenzen, staffelListen } from '../lib/pokemon-staffeln.ts'
+import { ladeStaffelGrenzen, staffelFeld, staffelListen } from '../lib/pokemon-staffeln.ts'
 
 interface Folge {
   nr: number
@@ -136,7 +136,7 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
       f: folgenZeilen(f, einheitlich),
       de,
       ...(einheitlich ? { min: einheitlich } : {}),
-      ...(staffeln.has(t.id) ? { s: staffeln.get(t.id) } : {}),
+      ...staffelFeld(staffeln, t.id),
       ...(hinweise.some((h) => h.anilistId === t.id) ? { h: hinweise.filter((h) => h.anilistId === t.id).map((h) => [h.folge, h.text]) } : {}),
     })
     index.push(t.id)
