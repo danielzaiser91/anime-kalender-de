@@ -16,7 +16,7 @@ export function LiveLink({ url, hinweis, sender }: { url: string; hinweis: strin
   const text = sender ? t('tv.liveKnopf', { sender }) : undefined
   const klasse = text
     ? 'inline-flex min-h-11 min-w-0 items-center gap-2 rounded-full bg-ak-flaeche-2 px-3 text-t3 font-semibold text-ak-text transition hover:bg-ak-pille-hover'
-    : 'grid size-11 place-items-center rounded-full text-ak-leise transition hover:text-ak-text'
+    : 'grid size-11 place-items-center rounded-full border border-ak-rand text-ak-leise transition hover:border-ak-leise hover:text-ak-text'
   return (
     <Tooltip text={hinweis} seite="oben" eigenerFokus className="shrink-0">
       <a href={url} target="_blank" rel="noopener" aria-label={hinweis} className={klasse}>

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { anbieterName, PLATFORMS, type Release } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
-import { expandEvents, istErschienen } from '@shared/logic.ts'
+import { expandEvents, istErschienen, merkbareTermine } from '@shared/logic.ts'
 import { Tooltip } from '../ui.tsx'
 import { useLang, type Translate } from '../../lib/i18n.tsx'
 import type { tvAngabe } from '../../lib/tv-angabe.ts'
@@ -217,7 +217,7 @@ function ProgrammLink({ href, hinweis }: { href: string; hinweis: string }) {
         target="_blank"
         rel="noopener"
         aria-label={hinweis}
-        className="grid size-11 place-items-center rounded-full text-slate-500 transition hover:text-ak-text dark:text-slate-300"
+        className="grid size-11 place-items-center rounded-full border border-ak-rand text-slate-500 transition hover:border-ak-leise hover:text-ak-text dark:text-slate-300"
       >
         <TvZeichen />
       </a>
@@ -229,6 +229,11 @@ function ProgrammLink({ href, hinweis }: { href: string; hinweis: string }) {
 function discDatum(release: Release): string | undefined {
   const datum = release.schedule?.firstEpisodeDate
   return release.releaseType === 'disc' && datum ? formatDate(datum) : undefined
+}
+
+/** Die Fußzeile der Pille gibt es erst ab zwei Knöpfen; ein einzelner steht rechts neben der Kopfzeile. */
+export function brauchtFussZeile(knoepfe: number): boolean {
+  return knoepfe >= 2
 }
 
 /** Das Fernseh-Zeichen führt ins Programm; gibt es noch keins, zur Quelle der Ankündigung. */
@@ -284,6 +289,8 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
       <MerkenKnopf release={release} today={today} zeile />
     </>
   )
+  /* MerkenKnopf zeigt sich nur bei einem künftigen Termin (`merkbareTermine`). */
+  const fuss = brauchtFussZeile([live, tvLink, merkbareTermine(release, today).length > 0].filter(Boolean).length)
   return (
     <Pille
       name={terminName(release, titel, t, zeigtPremiere(release, tvText?.premiere))}
@@ -293,8 +300,8 @@ export function TerminZeile({ release, titel, today, tvText, deutsch }: {
       icon={release.releaseType !== 'disc' ? <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} groesse={18} /> : undefined}
       unten={unten}
       status={deutsch ? <DubStatus art="belegt" /> : undefined}
-      aktion={live || tvLink ? undefined : knoepfe}
-      fuss={live || tvLink ? knoepfe : undefined}
+      aktion={fuss ? undefined : knoepfe}
+      fuss={fuss ? knoepfe : undefined}
     />
   )
 }
