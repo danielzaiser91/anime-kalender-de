@@ -23,17 +23,18 @@ const grenzen = ladeStaffelGrenzen()
 pruefe('Datei hat zwölf Titel', grenzen.length === 12, String(grenzen.length))
 for (const t of grenzen) pruefe(`${t.anilistId}: Grenzen in Ordnung`, fehlerInGrenzen(t, undefined).length === 0, fehlerInGrenzen(t, undefined).join('; '))
 
-/* Jede Staffel 1–25 kommt vor, und die Folgensumme je Staffel hält gegen die zweite Größe: die TMDB-Folgenzahl (`data/tmdb-folgen.json`).
-   Eine Grenze, die um eine Folge verrutscht, macht zwei Staffeln falsch (A4). Abweichungen nur, wo aniSearch anders zählt (siehe yaml-Kopf). */
-const tmdb = (JSON.parse(readFileSync('data/tmdb-folgen.json', 'utf8')) as Record<string, { folgen: { s: number }[] }>)['527']!.folgen
-const tmdbJeStaffel = new Map<number, number>()
-for (const f of tmdb) if (f.s >= 1) tmdbJeStaffel.set(f.s, (tmdbJeStaffel.get(f.s) ?? 0) + 1)
+/* Jede Staffel 1–25 kommt vor, und die Folgensumme je Staffel hält gegen die zweite Größe: die TMDB-Folgenzahl je Staffel (tv/60572, `data/tmdb-folgen.json`
+   vom 06.10.2026, als Tabelle festgeschrieben, damit die Prüfung keine Sammler-Datei liest). Eine Grenze, die um eine Folge verrutscht, macht zwei Staffeln
+   falsch (A4). Abweichungen nur, wo aniSearch anders zählt (siehe yaml-Kopf). */
+const TMDB_JE_STAFFEL: Record<number, number> = {
+  1: 82, 2: 36, 3: 41, 4: 52, 5: 65, 6: 40, 7: 52, 8: 53, 9: 46, 10: 52, 11: 52, 12: 53, 13: 34, 14: 48, 15: 49, 16: 45, 17: 48, 18: 45, 19: 49, 20: 43, 21: 49, 22: 54, 23: 48, 24: 42, 25: 57,
+}
 const jeStaffel = new Map<number, number>()
 for (const t of grenzen) for (const s of t.staffeln) jeStaffel.set(s.nr, (jeStaffel.get(s.nr) ?? 0) + s.folgen)
 const ABWEICHUNG: Record<number, number> = { 9: 1, 17: 1, 18: -1, 19: -2 }
 for (let nr = 1; nr <= 25; nr++) {
-  const erwartet = (tmdbJeStaffel.get(nr) ?? -1) + (ABWEICHUNG[nr] ?? 0)
-  pruefe(`Staffel ${nr}: ${jeStaffel.get(nr)} Folgen, erwartet ${erwartet} (TMDB ${tmdbJeStaffel.get(nr)}${ABWEICHUNG[nr] ? `, Abweichung ${ABWEICHUNG[nr]}` : ''})`, jeStaffel.get(nr) === erwartet)
+  const erwartet = (TMDB_JE_STAFFEL[nr] ?? -1) + (ABWEICHUNG[nr] ?? 0)
+  pruefe(`Staffel ${nr}: ${jeStaffel.get(nr)} Folgen, erwartet ${erwartet} (TMDB ${TMDB_JE_STAFFEL[nr]}${ABWEICHUNG[nr] ? `, Abweichung ${ABWEICHUNG[nr]}` : ''})`, jeStaffel.get(nr) === erwartet)
 }
 pruefe('Summe aller Folgen 1.234', [...jeStaffel.values()].reduce((a, b) => a + b, 0) === 1234)
 
