@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-20T04:28:24.307Z",
+  "stand": "2026-11-20T16:19:57.670Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7336,7 +7336,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-11-20",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 175977,
@@ -9195,6 +9195,19 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-25",
+      "letzterWeg": false
+    }
+  ],
+  "belegWege": [
+    {
+      "titleId": 175914,
+      "titel": "Call of the Night: Staffel 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0B6PMM1MZ",
+      "seriesId": null,
+      "grund": "Handbeleg available: false (2026-08-27): Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (Call of the Night)",
+      "geprueftAm": "2026-08-27",
+      "entferntAm": "2026-11-20",
       "letzterWeg": false
     }
   ]
