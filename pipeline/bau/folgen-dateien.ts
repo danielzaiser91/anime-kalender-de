@@ -29,6 +29,7 @@ import { ladeTitelQuellen, mitFremdTiteln, type TitelQuellen } from './folgentit
 import { englischeTitel, ohneEnglischeTitel } from './folgentitel-englisch.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
 import { eineZeileJeNummer } from './folgen-nummern.ts'
+import { ohneWikiVersatz } from './folgen-wiki-versatz.ts'
 
 interface Folge {
   nr: number
@@ -56,12 +57,13 @@ export function erschieneneFolgen(f: Folge[], wikiHoechste: number, heute: strin
 }
 
 /** Die Folgen mit belegter deutscher Synchro, als Bereiche. */
-export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number, erschienenJeAnbieter?: Map<string, number>): [number, number][] {
+export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number, erschienenJeAnbieter?: Map<string, number>, versetzt = false): [number, number][] {
   const nummern = new Set<number>()
   /* Wo es eine Wikipedia-Liste gibt, gilt sie bis zu ihrer letzten Nummer; die Wege füllen nur darüber hinaus (Daniel, 04.10.2026: „wikipedia ist mehr vertrauenswürdig", One Piece 492). */
   /* Trägt keine Folge eine deutsche Erstausstrahlung (Gachiakuta, Yashahime), sagt die Liste nichts zur Synchro: dann füllen die Wege auch darunter. */
   const wikiHoechste = wiki?.some((w) => w.ead) ? Math.max(...wiki.map((w) => w.nr)) : 0
-  const wikiBis = wikiHoechste <= hoechste ? wikiHoechste : 0
+  /* Eine über den Versatz belegte Liste zählt auch über unserer Höchstnummer (Horizonte: Wikipedia 136, aniSearch 122). */
+  const wikiBis = wikiHoechste <= hoechste || versetzt ? wikiHoechste : 0
   /*
     **Dieselbe Regel wie der Antwortkasten** (Daniel, 04.10.2026: „Alle 12 Folgen auf Deutsch" über einer Liste, in der nur
     Folge 12 eine Flagge trug): Ein Weg mit `dub: true` und **ohne Bereiche** sagt „deutsch auf Serienebene" und deckt alle
@@ -118,7 +120,7 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
   let verschmolzen = 0
   for (const t of titel) {
     const asId = zuordnung[String(t.id)]?.anisearchId
-    const wikiFolgen = wiki[String(t.id)]?.folgen
+    const { folgen: wikiFolgen, versetzt } = ohneWikiVersatz(wiki[String(t.id)]?.folgen, roh[String(asId)]?.folgen)
     const erschienen = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
     const ausAs = erschienen && eineZeileJeNummer(erschienen)
     verschmolzen += ausAs?.verschmolzen ?? 0
@@ -126,7 +128,7 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : minuten.size === 0 ? t.runtimeMin : undefined
-    const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)), hoechsteFolgeJeAnbieter(releasesJeTitel.get(t.id) ?? [], heute))
+    const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)), hoechsteFolgeJeAnbieter(releasesJeTitel.get(t.id) ?? [], heute), versetzt)
     zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
     writeJson(`${ordner}/${t.id}.json`, {
       f: folgenZeilen(f, einheitlich),
