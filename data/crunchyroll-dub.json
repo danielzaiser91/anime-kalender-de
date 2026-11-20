@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-11-19T18:02:18.682Z",
+  "scrapedAt": "2026-11-20T17:08:36.698Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -52986,7 +52986,7 @@
       "seriesId": "G3KHEVDJ7",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-13",
+      "geprueftAm": "2026-11-20",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -53302,10 +53302,10 @@
         {
           "name": "Die Tagebücher der Apothekerin Staffel 3",
           "staffelId": "GS00384044JAJP",
-          "folgen": 7,
-          "kacheln": 7,
-          "deutsch": 4,
-          "fremd": 0,
+          "folgen": 8,
+          "kacheln": 8,
+          "deutsch": 5,
+          "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -53331,11 +53331,18 @@
               "guid": "GE00384330DEDE",
               "laufend": 4,
               "verfuegbarAb": "2026-11-13T16:00:00Z"
+            },
+            {
+              "nummer": 53,
+              "guid": "GE00384331DEDE",
+              "laufend": 5,
+              "verfuegbarAb": "2026-11-20T16:40:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384331DEDE",
         "GE00384330DEDE",
         "GE00384329DEDE",
         "GE00384328DEDE",
@@ -177418,15 +177425,15 @@
       "seriesId": "GT00383999",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-11-13",
+      "geprueftAm": "2026-11-20",
       "deutschImAngebot": true,
       "staffeln": [
         {
           "name": "Staffel 1",
           "staffelId": "GS00384024JAJP",
-          "folgen": 6,
-          "kacheln": 6,
-          "deutsch": 3,
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -177447,11 +177454,18 @@
               "guid": "GE00384157DEDE",
               "laufend": 3,
               "verfuegbarAb": "2026-11-13T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00384158DEDE",
+              "laufend": 4,
+              "verfuegbarAb": "2026-11-20T17:00:00Z"
             }
           ]
         }
       ],
       "neuFolgen": [
+        "GE00384158DEDE",
         "GE00384157DEDE",
         "GE00384156DEDE",
         "GE00384155DEDE"
