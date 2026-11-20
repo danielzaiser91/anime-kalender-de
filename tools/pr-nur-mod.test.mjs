@@ -78,6 +78,7 @@ try {
   })), 'nur_mod=0', 'Symlink in der Mod')
   // Umbenennung pipeline -> Mod: ohne Renamerkennung steht die Quelle als gelöschte Datei im Diff
   assert.equal(lauf(repo('umzug', (o) => git(o, 'mv', 'pipeline/x.ts', '.claude/mods/arbeitsliste/hooks/x.ts'))), 'nur_mod=0', 'Umzug aus pipeline')
+  assert.equal(lauf(repo('umbenannt', (o) => git(o, 'mv', MOD, '.claude/mods/arbeitsliste/hooks/neu.ts'))), 'nur_mod=1', 'Umbenennung innerhalb der Mod (ohne Renamerkennung: gelöscht und neu)')
   assert.equal(lauf(repo('geloescht', (o) => git(o, 'rm', '-q', MOD))), 'nur_mod=1', 'Mod-Datei gelöscht')
   assert.equal(lauf(nurMod, 'HEAD^1', 'gibtsnicht'), 'nur_mod=0', 'Abruffehler: volle Kette, Exit 0')
   // Flacher Klon (Tiefe 2) wie der Checkout der CI: HEAD^1 muss erreichbar sein
