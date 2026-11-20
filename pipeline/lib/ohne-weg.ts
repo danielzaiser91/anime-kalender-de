@@ -21,7 +21,7 @@ type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'avai
 type Termin = { titleId: number; platform: string; date: string }
 
 export interface OhneWegEingabe {
-  titel: Pick<Title, 'id' | 'format' | 'streams' | 'watchLinks' | 'franchiseId' | 'jpStart'>[]
+  titel: Pick<Title, 'id' | 'format' | 'streams' | 'watchLinks' | 'franchiseId' | 'jpStart' | 'westlich'>[]
   termine: Termin[]
   handbelege: Handbeleg[]
   justwatch: Record<string, JwBefund>
@@ -40,11 +40,12 @@ export function ersterStart(termine: readonly Termin[], heute: string): string |
 }
 
 /**
- * Der eigene Starttag des Titels (`jpStart`), wenn er heute oder später liegt und kein Stream-Termin existiert: Cartoons tragen ihren Start nur dort
- * (Living the Dream, Netflix 18.12.2026); ohne diesen Zweig hieß ein noch nicht erschienener Titel „kein Angebot“ oder `offen`. Nur ein voller Tag zählt.
+ * Der eigene Starttag eines Cartoons (`westlich`, `jpStart` = TMDB-Erstausstrahlung), wenn er heute oder später liegt und kein Stream-Termin existiert:
+ * Cartoons tragen ihren Start nur dort (Living the Dream, Netflix 18.12.2026). Bei Anime ist `jpStart` der japanische Start, kein deutscher: dort nie.
  */
-export function startOhneTermin(jpStart: string | undefined, termine: readonly Termin[], heute: string): string | undefined {
-  if (!jpStart || !/^\d{4}-\d\d-\d\d$/.test(jpStart) || jpStart < heute) return undefined
+export function startOhneTermin(t: { jpStart?: string; westlich?: true }, termine: readonly Termin[], heute: string): string | undefined {
+  const jpStart = t.jpStart
+  if (!t.westlich || !jpStart || !/^\d{4}-\d\d-\d\d$/.test(jpStart) || jpStart < heute) return undefined
   return termine.some((e) => e.platform !== 'disc') ? undefined : jpStart
 }
 
@@ -84,7 +85,7 @@ function grundVon(
 ): OhneWegEintrag {
   const ab = ersterStart(e.termine, e.heute)
   if (ab) return { reason: 'angekuendigt', ab, source: 'termin' }
-  const start = startOhneTermin(t.jpStart, e.termine, e.heute)
+  const start = startOhneTermin(t, e.termine, e.heute)
   if (start) return { reason: 'angekuendigt', ab: start, source: 'start' }
   const original = originaltonAm(e.checks)
   if (original) return { reason: 'kein-dub', checkedAt: original, source: 'handbeleg' }

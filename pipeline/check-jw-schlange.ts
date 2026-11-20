@@ -6,6 +6,7 @@
 import type { Title } from '../shared/types.ts'
 import type { JwBefund } from './lib/jw-vertrauen.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
+import { NACHFRAGE_SEIT } from './lib/jw-nachfrage.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -91,11 +92,15 @@ const nachfrage = (b: JwBefund) => ids(lauf([titel(21, [], { tmdbId: 121 })], { 
 pruefe('verfehlt vor 7 Tagen, Kennung gleich: wieder in der Schlange (Nachfrage)', nachfrage(verfehlt()) === '21', nachfrage(verfehlt()))
 const nachfrageAm = (b: JwBefund, heute: string) => ids(lauf([titel(21, [], { tmdbId: 121 })], { '21': b }, heute))
 const verfehltAm = (tag: string) => verfehlt({ geprueftAm: tag, verfehltAm: tag })
-pruefe('Gegenfall: vor 6 Tagen verfehlt (nach Einführung der Nachfrage), noch nicht', nachfrageAm(verfehltAm('2026-11-20'), '2026-11-26') === '')
-pruefe('… nach 7 Tagen wieder in der Schlange', nachfrageAm(verfehltAm('2026-11-20'), '2026-11-27') === '21')
-pruefe('Verfehlt vor Einführung der Nachfrage (19.11.): sofort wieder in der Schlange', nachfrageAm(verfehltAm('2026-11-19'), '2026-11-21') === '21', nachfrageAm(verfehltAm('2026-11-19'), '2026-11-21'))
-pruefe('Gegenfall: verfehlt am Einführungstag (20.11.), noch nicht', nachfrageAm(verfehltAm('2026-11-20'), '2026-11-21') === '')
-pruefe('Gegenfall: vor Einführung verfehlt, aber ohne Pfad keine Nachfrage', nachfrageAm({ ...verfehltAm('2026-11-19'), jwPfad: undefined }, '2026-11-21') === '')
+/* Die Tage hängen an `NACHFRAGE_SEIT`, nicht an festen Daten: ein verschobenes Einführungsdatum verschiebt die Fälle mit. */
+const tagPlus = (tag: string, n: number) => new Date(Date.parse(tag) + n * 86_400_000).toISOString().slice(0, 10)
+const EIN = NACHFRAGE_SEIT
+pruefe('Einführungstag ist ein voller ISO-Tag', /^\d{4}-\d\d-\d\d$/.test(EIN) && tagPlus(EIN, 0) === EIN, EIN)
+pruefe('Gegenfall: vor 6 Tagen verfehlt (nach Einführung der Nachfrage), noch nicht', nachfrageAm(verfehltAm(EIN), tagPlus(EIN, 6)) === '')
+pruefe('… nach 7 Tagen wieder in der Schlange', nachfrageAm(verfehltAm(EIN), tagPlus(EIN, 7)) === '21')
+pruefe('Verfehlt am Tag vor der Einführung: sofort wieder in der Schlange', nachfrageAm(verfehltAm(tagPlus(EIN, -1)), tagPlus(EIN, 1)) === '21', nachfrageAm(verfehltAm(tagPlus(EIN, -1)), tagPlus(EIN, 1)))
+pruefe('Gegenfall: verfehlt am Einführungstag, noch nicht', nachfrageAm(verfehltAm(EIN), tagPlus(EIN, 1)) === '')
+pruefe('Gegenfall: vor Einführung verfehlt, aber ohne Pfad keine Nachfrage', nachfrageAm({ ...verfehltAm(tagPlus(EIN, -1)), jwPfad: undefined }, tagPlus(EIN, 1)) === '')
 pruefe('Gegenfall: ohne verfehltAm bleibt der junge Befund draußen', nachfrage(verfehlt({ verfehltAm: undefined })) === '')
 pruefe('Gegenfall: ohne Pfad keine Nachfrage', nachfrage(verfehlt({ jwPfad: undefined })) === '')
 
