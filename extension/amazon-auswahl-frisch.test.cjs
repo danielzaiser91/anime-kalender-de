@@ -29,10 +29,10 @@ const texte = (wurzeln) => wurzeln.flatMap((w) => [w, ...nachkommen(w)]).map((e)
  * Lädt `amazon.js` auf der Titelseite eines Suchauftrags. `lokal` ist der Speicher der Erweiterung (wird von der Seite
  * beschrieben und kann in einen zweiten Aufruf gereicht werden), `alt` die Antwort des Briefkastens (veränderlich).
  */
-function lade({ lokal = {}, alt = {}, uhr = { jetzt: JETZT }, suche = { [SUCHE]: { titel: 'Fischen Impossible', id: 1, folgen: 1 } } } = {}) {
+function lade({ lokal = {}, alt = {}, uhr = { jetzt: JETZT }, suche = { [SUCHE]: { titel: 'Fischen Impossible', id: 1, folgen: 1 } }, auftrag = { titel: 'Fischen Impossible', id: 1, suchUrl: SUCHE, zeit: JETZT, folgen: 1 } } = {}) {
   const angehaengt = []
   const posts = []
-  const speicher = { 'ak-prime-suchauftrag': JSON.stringify({ titel: 'Fischen Impossible', id: 1, suchUrl: SUCHE, zeit: JETZT, folgen: 1 }) }
+  const speicher = auftrag ? { 'ak-prime-suchauftrag': JSON.stringify(auftrag) } : {}
   const fenster = { addEventListener() {}, location: { pathname: SELBST, search: '' } }
   const k = sandkasten({
     speicher,
@@ -99,11 +99,12 @@ function lade({ lokal = {}, alt = {}, uhr = { jetzt: JETZT }, suche = { [SUCHE]:
     return echt(...a)
   }
   const { absturz } = laufen(QUELLEN.slice(bis + 1), k)
-  const lage = () => fenster.AK.bericht().erwartungsLage
+  const bericht = () => fenster.AK.bericht()
+  const lage = () => bericht().erwartungsLage
   const knopf = () => mitKlasse(angehaengt, 'ak-amazon-uebersicht')[0]
   const oeffnen = () => knopf().hoerer.click()
   const dialogTexte = () => texte(mitKlasse(angehaengt, 'ak-dialog'))
-  return { k, absturz, angehaengt, lage, lokal, posts, uhr, knopf, oeffnen, dialogTexte, selbstGemeldet: (kennung) => selbst.add(kennung) }
+  return { k, absturz, angehaengt, bericht, lage, lokal, posts, uhr, knopf, oeffnen, dialogTexte, selbstGemeldet: (kennung) => selbst.add(kennung) }
 }
 
 const warte = async (w) => {
@@ -137,6 +138,7 @@ async function haupt() {
   const zeile = a.lage().zeilen[0]
   pruefe('trotz alter Briefkasten-Antwort: die Suche kennt ihre Wahl', zeile.erwartet?.join() === 'B01MSMV5MA,B01HRLV328' && a.lage().suchOffen === 0, zeile)
   pruefe('der Knopf zählt die zwei offenen Karten, nicht „alles geprüft“', /2 gewählte Treffer offen/.test(a.knopf().textContent), a.knopf().textContent)
+  pruefe('… und sein Hinweis fordert zum Öffnen der Liste auf (es ist noch Arbeit da)', /^Liste öffnen/.test(a.knopf().title), a.knopf().title)
   a.oeffnen()
   await warte(a)
   const t = a.dialogTexte()
@@ -202,6 +204,11 @@ async function haupt() {
   await warte(f)
   const fKasten = mitKlasse(f.angehaengt, 'ak-amazon-suchhinweis').at(-1)
   pruefe('eine Karte gewählt: Checkliste mit einer Zeile, keine Ankreuzfelder', mitKlasse([fKasten], 'ak-such-auswahl').length === 1 && nachkommen(fKasten).every((x) => x.type !== 'checkbox'), mitKlasse([fKasten], 'ak-such-auswahl').length)
+
+  console.log('\nAuftrag ohne Suchadresse: keine Auswahl, die nirgends hin speichern könnte')
+  const h = lade({ suche: {}, auftrag: { titel: 'Fischen Impossible', id: 1, zeit: JETZT, folgen: 1 } })
+  await warte(h)
+  pruefe('keine Ankreuzzeilen', mitKlasse(h.angehaengt, 'ak-such-gruppe').length === 0 && mitKlasse(h.angehaengt, 'ak-such-auswahl').length === 0, mitKlasse(h.angehaengt, 'ak-such-auswahl').length)
 
   if (fehler.length) {
     console.error(`\n${fehler.length} Zusicherung(en) rot.`)
