@@ -2951,6 +2951,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112609-disc@2027-02-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270205
+DTEND;VALUE=DATE:20270206
+SUMMARY:Elainas Reise (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
+ ch vor der Disc bei Crunchyroll im Streaming (ab 10.06.2026).\nUhrzeit noc
+ h nicht bestätigt.\nDetails: https://anime-kalender.de/t/10891/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
