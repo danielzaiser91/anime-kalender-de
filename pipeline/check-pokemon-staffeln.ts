@@ -89,6 +89,7 @@ pruefe('Beschriftung 527 „Staffel 1–5“, 1564 „Staffel 6–9“, 112153 �
 pruefe('Ohne staffelBis bleibt die Beschriftung die Startstaffel (Titel ohne YAML-Eintrag unverändert)', staffelBeschriftungen(reihe.map((m) => ({ ...m, staffelQuelle: quellen.get(m.id) })), 'Pokémon').get(527) === 'Staffel 1')
 pruefe('Ein Ende gleich dem Start ergibt keine Spanne', staffelSpanne({ staffel: 3, bis: 3 }) === '3' && staffelSpanne({ staffel: 3 }) === '3' && staffelSpanne({ staffel: 3, bis: 4 }) === '3–4')
 const endet = staffelStaende([{ id: 1, name: 'A', jpYear: 2000, staffelQuelle: 1, staffelBis: 30 }, { id: 2, name: 'A 2', jpYear: 2001, staffelQuelle: 2 }], 'A')
+pruefe('Ein Ende gleich dem Start setzt kein bis im Stand', staffelStaende([{ id: 1, name: 'A', jpYear: 2000, staffelQuelle: 1, staffelBis: 1 }, { id: 2, name: 'A 2', jpYear: 2001, staffelQuelle: 2 }], 'A').get(1)?.bis === undefined)
 pruefe('Die Zahl „von N“ zählt auch das Spannenende', endet.get(1)?.von === 30 && endet.get(2)?.von === 30, JSON.stringify([...endet]))
 
 /* Hand schlägt die Grenzen: ein Handeintrag überschreibt sie (Reihenfolge wie bei aniSearch). */
