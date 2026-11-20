@@ -12,7 +12,7 @@ const fensterBasis = { matchMedia: () => ({ matches: false, addEventListener() {
 const vorlauf = installiereMiniDom({ setTimeout, clearTimeout, ...fensterBasis } as never, () => ({}))
 const { createRoot } = await import('react-dom/client')
 vorlauf.entferne()
-const { NACHFUEHR_PAUSE_MS, usePushNachfuehren } = await import('../web/src/lib/push-nachfuehren.ts')
+const { usePushNachfuehren } = await import('../web/src/lib/push-nachfuehren.ts')
 const { pushEinschalten, pushWorker } = await import('../web/src/lib/push.ts')
 
 let verletzt = 0
@@ -39,7 +39,10 @@ function Haken(p: { favs: number[]; filter: Record<string, unknown> | null }) {
   return null
 }
 
-async function lauf(aktiv: boolean, ablauf: (r: { rendere: (favs: number[], filter: Record<string, unknown> | null) => Promise<void>; uhr: ReturnType<typeof attrappeUhr>; weiter: (ms: number) => Promise<void> }) => Promise<void>): Promise<void> {
+type Hilfen = { rendere: (favs: number[], filter: Record<string, unknown> | null) => Promise<void>; uhr: ReturnType<typeof attrappeUhr>; weiter: (ms: number) => Promise<void> }
+
+/** `ohne`: dem Browser fehlt eine Voraussetzung für Push (`pushMoeglich`). */
+async function lauf(aktiv: boolean, ablauf: (r: Hilfen) => Promise<void>, ohne?: 'PushManager' | 'Notification' | 'serviceWorker' | 'adresse'): Promise<void> {
   abrufe.length = 0
   speicher.clear()
   if (aktiv) speicher.set('pushAbo', '1')
@@ -47,8 +50,10 @@ async function lauf(aktiv: boolean, ablauf: (r: { rendere: (favs: number[], filt
   const dom = installiereMiniDom({ ...fensterBasis, setTimeout: uhr.setTimeout, clearTimeout: uhr.clearTimeout } as never, () => ({}))
   const win = g.window as Record<string, unknown>
   Object.assign(win, { PushManager: {}, Notification: { requestPermission: async () => 'granted' } })
+  if (ohne === 'PushManager' || ohne === 'Notification') delete win[ohne]
   g.Notification = win.Notification
-  Object.assign(g.navigator as object, { serviceWorker: { ready: Promise.resolve(registrierung) } })
+  if (ohne !== 'serviceWorker') Object.assign(g.navigator as object, { serviceWorker: { ready: Promise.resolve(registrierung) } })
+  pushWorker.adresse = ohne === 'adresse' ? '' : 'https://dienst.test'
   g.localStorage = { getItem: (k: string) => speicher.get(k) ?? null, setItem: (k: string, v: string) => void speicher.set(k, v), removeItem: (k: string) => void speicher.delete(k) }
   g.fetch = async (url: string, init?: { body?: string }) => {
     abrufe.push({ url, body: init?.body ? (JSON.parse(init.body) as Abruf['body']) : null })
@@ -68,7 +73,8 @@ async function lauf(aktiv: boolean, ablauf: (r: { rendere: (favs: number[], filt
   }
 }
 
-pushWorker.adresse = 'https://dienst.test'
+/** Die Pause steht hier als Zahl, nicht aus dem Modul (sonst überlebt „Pause 0“). */
+const PAUSE = 2000
 const TV = { tvAus: true }
 const TV_DISC = { tvAus: true, xReleaseTypes: ['disc'] }
 const posts = () => abrufe.filter((a) => a.url === 'https://dienst.test/push/abo')
@@ -76,28 +82,28 @@ const posts = () => abrufe.filter((a) => a.url === 'https://dienst.test/push/abo
 console.log('\nFilter geht mit dem Abo hinaus')
 await lauf(true, async ({ rendere, weiter }) => {
   await rendere([1, 2], TV)
-  await weiter(NACHFUEHR_PAUSE_MS - 1)
+  await weiter(PAUSE - 1)
   pruefe('vor Ablauf der Pause nichts gesendet', posts().length === 0, posts().length)
   await weiter(1)
   pruefe('nach der Pause genau ein Abruf an /push/abo', posts().length === 1, posts().length)
   pruefe('Körper: Favoriten, ak und Filter', JSON.stringify(posts()[0]?.body) === JSON.stringify({ subscription: { endpoint: 'https://fcm.googleapis.com/x' }, favoriten: [1, 2], ak: 1, filter: TV }), posts()[0]?.body)
   await rendere([1, 2], { ...TV })
-  await weiter(NACHFUEHR_PAUSE_MS * 2)
+  await weiter(PAUSE * 2)
   pruefe('gleicher Inhalt in neuer Hülle sendet nicht noch einmal', posts().length === 1, posts().length)
   await rendere([1, 2], TV_DISC)
-  await weiter(NACHFUEHR_PAUSE_MS)
+  await weiter(PAUSE)
   pruefe('geänderter Filter geht hinaus', posts().length === 2 && JSON.stringify(posts()[1]?.body?.filter) === JSON.stringify(TV_DISC), posts().length)
   await rendere([1, 2], null)
-  await weiter(NACHFUEHR_PAUSE_MS)
+  await weiter(PAUSE)
   pruefe('Filter aufgehoben: Körper ohne Schlüssel `filter`', posts().length === 3 && !('filter' in (posts()[2]!.body ?? {})), posts()[2]?.body)
 })
 
 console.log('\nÄnderungen werden gesammelt')
 await lauf(true, async ({ rendere, weiter }) => {
   await rendere([1], TV)
-  await weiter(NACHFUEHR_PAUSE_MS - 500)
+  await weiter(PAUSE - 500)
   await rendere([1, 5], TV_DISC)
-  await weiter(NACHFUEHR_PAUSE_MS - 1)
+  await weiter(PAUSE - 1)
   pruefe('die Pause beginnt bei jeder Änderung neu', posts().length === 0, posts().length)
   await weiter(1)
   pruefe('ein Abruf mit dem letzten Stand', posts().length === 1 && JSON.stringify(posts()[0]?.body?.favoriten) === '[1,5]' && JSON.stringify(posts()[0]?.body?.filter) === JSON.stringify(TV_DISC), posts())
@@ -106,9 +112,20 @@ await lauf(true, async ({ rendere, weiter }) => {
 console.log('\nKein aktives Abo')
 await lauf(false, async ({ rendere, weiter }) => {
   await rendere([1], TV)
-  await weiter(NACHFUEHR_PAUSE_MS * 2)
+  await weiter(PAUSE * 2)
   pruefe('nichts gesendet', abrufe.length === 0, abrufe.length)
 })
+for (const ohne of ['PushManager', 'Notification', 'serviceWorker', 'adresse'] as const) {
+  await lauf(
+    true,
+    async ({ rendere, weiter }) => {
+      await rendere([1], TV)
+      await weiter(PAUSE * 2)
+      pruefe(`Browser ohne ${ohne}: nichts gesendet`, abrufe.length === 0, abrufe.length)
+    },
+    ohne,
+  )
+}
 
 console.log('\nEinschalten schickt den gemerkten Filter mit')
 await lauf(false, async ({ rendere }) => {

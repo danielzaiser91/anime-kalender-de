@@ -78,7 +78,12 @@ const gut = { xReleaseTypes: ['disc'] }
 pruefe('Kontrolle: gültiger Wert wird gelesen', leseTerminFilter(gut)?.excluded.releaseTypes.join() === 'disc')
 const kaputt: [string, unknown][] = [
   ['keine Angabe', undefined],
+  ['null', null],
   ['Zahl', 5],
+  ['Zeichenkette', 'tvAus'],
+  ['Liste mit Zahl in `platforms`', { platforms: [1], xPlatforms: ['a'] }],
+  ['Liste mit Zahl in `releaseTypes`', { releaseTypes: [1], xPlatforms: ['a'] }],
+  ['Liste mit Zahl in `xReleaseTypes`', { xReleaseTypes: [1], xPlatforms: ['a'] }],
   ['Liste statt Objekt', [gut]],
   ['leeres Objekt', {}],
   ['nur Unbekanntes', { evil: true }],

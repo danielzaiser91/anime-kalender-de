@@ -89,7 +89,7 @@ export function terminFilterAusText(text: string): TerminFilter | null {
 
 /** Liest den Wert aus dem Browser; jede Abweichung (Typ, Länge, Zeichen) heißt „kein Filter“ — nie ein halber. */
 export function leseTerminFilter(roh: unknown): TerminFilter | null {
-  if (!roh || typeof roh !== 'object' || Array.isArray(roh)) return null
+  if (!roh) return null
   const r = roh as Record<string, unknown>
   const [platforms, releaseTypes, xPlatforms, xReleaseTypes] = [r.platforms, r.releaseTypes, r.xPlatforms, r.xReleaseTypes].map(liste)
   if (!platforms || !releaseTypes || !xPlatforms || !xReleaseTypes) return null
