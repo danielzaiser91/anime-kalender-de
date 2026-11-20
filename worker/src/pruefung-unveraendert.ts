@@ -21,6 +21,8 @@
  */
 import { type Env } from './env.ts'
 import { jetztIso, zahlOderNull } from './werte.ts'
+import { erweiterungVersion } from './erweiterung-version.ts'
+import { meldungSeitenadresse } from './meldung-seitenadresse.ts'
 
 /** `rohfolge`/`rohUebernommen`: die Rohfolge in der Zeile (Migration 054), siehe `rohfolgeFuerZeile`. */
 export type OffeneZeile = { id: number; hash: string | null; gemeldetAm: string; rohfolge: string | null; rohUebernommen: number | null }
@@ -155,12 +157,21 @@ export function offeneIds(offene: OffeneHashes, f: Folge): number[] {
   return (offene.zeilen.get(schluessel(f)) ?? []).map((z) => z.id)
 }
 
+/**
+ * Version und Seite der auffrischenden Meldung (nur zur Auswertung, nie im Hash): Wo die Zeile ohnehin geschrieben wird, trägt
+ * sie die Spalten mit nach, sonst zeigte `ext_version` bei jeder aufgefrischten Zeile die Erweiterung ihrer Erstmeldung (20.11.2026).
+ * Fehlt ein Wert, bleibt der vorhandene (`COALESCE`).
+ */
+export type MeldungKopf = { version: string | null; seitenAdresse: string | null }
+export const KEIN_KOPF: MeldungKopf = { version: null, seitenAdresse: null }
+const KOPF_SQL = 'ext_version = COALESCE(?3, ext_version), seiten_adresse = COALESCE(?4, seiten_adresse)'
+
 /** Erneuert `gemeldet_am` nur, wenn die Zeile vor dem aktuellen Listenbau liegt. */
-async function haltFrisch(env: Env, offene: OffeneHashes, zeile: OffeneZeile): Promise<void> {
+async function haltFrisch(env: Env, offene: OffeneHashes, zeile: OffeneZeile, kopf: MeldungKopf): Promise<void> {
   const bau = await offene.listenbauAm()
   if (!bau || zeile.gemeldetAm >= bau) return
   const jetzt = new Date().toISOString().slice(0, 19) + 'Z'
-  await env.DB.prepare('UPDATE pruefung SET gemeldet_am = ?1 WHERE id = ?2').bind(jetzt, zeile.id).run()
+  await env.DB.prepare(`UPDATE pruefung SET gemeldet_am = ?1, ${KOPF_SQL} WHERE id = ?2`).bind(jetzt, zeile.id, kopf.version, kopf.seitenAdresse).run()
 }
 
 /** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin (wie `berlinDatum` in `pipeline/fetch-pruefungen.ts`). */
@@ -176,13 +187,13 @@ export const berlinTag = (iso: string) => new Intl.DateTimeFormat('sv-SE', { tim
  * Sonst 0 geschriebene Zeilen. Grenze: Zwei widersprüchliche Meldungen derselben Adresse am selben Tag
  * behalten ihre Reihenfolge nicht (so auch bei offenen Zeilen).
  */
-async function haltUebernommeneFrisch(env: Env, offene: OffeneHashes, zeile: OffeneZeile): Promise<void> {
+async function haltUebernommeneFrisch(env: Env, offene: OffeneHashes, zeile: OffeneZeile, kopf: MeldungKopf): Promise<void> {
   const jetzt = jetztIso()
   const neuerTag = berlinTag(zeile.gemeldetAm) !== berlinTag(jetzt) || zeile.gemeldetAm.slice(0, 10) !== jetzt.slice(0, 10)
   const bau = neuerTag ? null : await offene.listenbauAm()
   if (!neuerTag && !(bau && zeile.gemeldetAm < bau)) return
-  await env.DB.prepare(`UPDATE pruefung SET gemeldet_am = ?1${neuerTag ? ', uebernommen = 0' : ''} WHERE id = ?2`)
-    .bind(jetzt, zeile.id)
+  await env.DB.prepare(`UPDATE pruefung SET gemeldet_am = ?1${neuerTag ? ', uebernommen = 0' : ''}, ${KOPF_SQL} WHERE id = ?2`)
+    .bind(jetzt, zeile.id, kopf.version, kopf.seitenAdresse)
     .run()
 }
 
@@ -190,17 +201,17 @@ async function haltUebernommeneFrisch(env: Env, offene: OffeneHashes, zeile: Off
  * Genau eine offene Zeile mit gleichem Hash; mehrere (Dubletten) werden wie bisher aufgeräumt.
  * Ohne offene Zeile entscheidet die jüngste übernommene derselben Folge (A, B, A schreibt A neu).
  */
-export async function istUnveraendert(env: Env, offene: OffeneHashes | undefined, f: Folge, hash: string): Promise<boolean> {
+export async function istUnveraendert(env: Env, offene: OffeneHashes | undefined, f: Folge, hash: string, kopf: MeldungKopf = KEIN_KOPF): Promise<boolean> {
   if (!offene) return false
   const treffer = offene.zeilen.get(schluessel(f))
   if (!treffer) {
     const letzte = offene.uebernommene.get(schluessel(f))
     if (letzte?.hash !== hash) return false
-    await haltUebernommeneFrisch(env, offene, letzte)
+    await haltUebernommeneFrisch(env, offene, letzte, kopf)
     return true
   }
   if (treffer.length !== 1 || treffer[0]!.hash !== hash) return false
-  await haltFrisch(env, offene, treffer[0]!)
+  await haltFrisch(env, offene, treffer[0]!, kopf)
   return true
 }
 
@@ -212,5 +223,6 @@ export async function pruefeUnveraendert(
   folge: Folge,
 ): Promise<{ hash: string; unveraendert: boolean }> {
   const hash = await meldungsHash(daten)
-  return { hash, unveraendert: await istUnveraendert(env, offene, folge, hash) }
+  const kopf = { version: erweiterungVersion(daten), seitenAdresse: meldungSeitenadresse(daten) }
+  return { hash, unveraendert: await istUnveraendert(env, offene, folge, hash, kopf) }
 }
