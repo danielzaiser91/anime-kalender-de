@@ -30,8 +30,16 @@ export function darfNachfragen(vorher: Vorher | undefined, erwartet: number | un
 
 /** Ein verfehlter Befund, den die Nachfrage holen kann, kommt vor der 28-Tage-Frist wieder (frühestens 7 Tage nach dem Fehlschlag, damit dauerhaft Verschwundene die Schlange nicht füllen); sonst bliebe er bis zum Ablauf offen (Rainbow Rangers, City Hunter, Golgo 13). */
 export function nachfrageFaellig(vorher: Vorher | undefined, erwartet: number | undefined, heute: string): boolean {
-  return darfNachfragen(vorher, erwartet) && !!vorher.verfehltAm && Date.parse(heute) - Date.parse(vorher.verfehltAm) >= 7 * 86_400_000
+  if (!darfNachfragen(vorher, erwartet) || !vorher.verfehltAm) return false
+  return vorher.verfehltAm < NACHFRAGE_SEIT || Date.parse(heute) - Date.parse(vorher.verfehltAm) >= 7 * 86_400_000
 }
+
+/**
+ * Erster Abruf mit Nachfrage über den Pfad (Tageslauf 20.11.2026, nach #4318): Ein früher verfehlter Befund wurde nie nachgefragt und kommt sofort dran,
+ * ohne die 7 Tage (City Hunter, Golgo 13: verfehlt 19.11.). Schlägt die Nachfrage fehl, trägt er danach ein neueres `verfehltAm`.
+ * Entfernen, sobald kein Befund in `data/justwatch-audio.json` ein `verfehltAm` vor diesem Tag trägt (20.11.2026: 25).
+ */
+export const NACHFRAGE_SEIT = '2026-11-20'
 
 /**
  * Der Knoten zum Pfad; `undefined` = JustWatch kennt die Adresse nicht (NOT_FOUND) oder der Knoten trägt eine andere TMDB-Kennung als `erwartet`.
