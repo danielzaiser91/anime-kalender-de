@@ -21,7 +21,7 @@ type Handbeleg = Pick<DubCheck, 'anilistId' | 'platform' | 'url' | 'dub' | 'avai
 type Termin = { titleId: number; platform: string; date: string }
 
 export interface OhneWegEingabe {
-  titel: Pick<Title, 'id' | 'format' | 'streams' | 'watchLinks' | 'franchiseId'>[]
+  titel: Pick<Title, 'id' | 'format' | 'streams' | 'watchLinks' | 'franchiseId' | 'jpStart'>[]
   termine: Termin[]
   handbelege: Handbeleg[]
   justwatch: Record<string, JwBefund>
@@ -37,6 +37,15 @@ export function ersterStart(termine: readonly Termin[], heute: string): string |
   const stream = termine.filter((e) => e.platform !== 'disc')
   if (stream.some((e) => e.date < heute)) return undefined
   return stream.map((e) => e.date).sort()[0]
+}
+
+/**
+ * Der eigene Starttag des Titels (`jpStart`), wenn er heute oder später liegt und kein Stream-Termin existiert: Cartoons tragen ihren Start nur dort
+ * (Living the Dream, Netflix 18.12.2026); ohne diesen Zweig hieß ein noch nicht erschienener Titel „kein Angebot“ oder `offen`. Nur ein voller Tag zählt.
+ */
+export function startOhneTermin(jpStart: string | undefined, termine: readonly Termin[], heute: string): string | undefined {
+  if (!jpStart || !/^\d{4}-\d\d-\d\d$/.test(jpStart) || jpStart < heute) return undefined
+  return termine.some((e) => e.platform !== 'disc') ? undefined : jpStart
 }
 
 /**
@@ -75,6 +84,8 @@ function grundVon(
 ): OhneWegEintrag {
   const ab = ersterStart(e.termine, e.heute)
   if (ab) return { reason: 'angekuendigt', ab, source: 'termin' }
+  const start = startOhneTermin(t.jpStart, e.termine, e.heute)
+  if (start) return { reason: 'angekuendigt', ab: start, source: 'start' }
   const original = originaltonAm(e.checks)
   if (original) return { reason: 'kein-dub', checkedAt: original, source: 'handbeleg' }
   /* Ein Handbeleg „deutsch“ widerspricht „kein Stream gefunden“ und „Stream ohne deutschen Ton“. */

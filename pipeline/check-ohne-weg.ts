@@ -39,6 +39,13 @@ const e3b = lauf({ titel: [titel(900031)], termine: [termin(900031, 'kino', '202
 pruefe('Kinostart heute zählt als Start (Grenze genau heute)', e3b[900031]?.reason === 'angekuendigt', e3b)
 const e3c = lauf({ titel: [titel(900032)], termine: [termin(900032, 'netflix', '2026-11-17')] })
 pruefe('Gegenfall: Termin gestern ist kein künftiger Start', e3c[900032]?.reason === 'offen', e3c)
+const kuenftig = (id: number, jpStart: string, termine: ReturnType<typeof termin>[] = []) => lauf({ titel: [titel(id, { jpStart })], termine })[id]
+pruefe('Ohne Termin: eigener künftiger Start (jpStart, Cartoon) ist angekuendigt', JSON.stringify(kuenftig(900033, '2026-12-18')) === JSON.stringify({ reason: 'angekuendigt', ab: '2026-12-18', source: 'start' }), kuenftig(900033, '2026-12-18'))
+pruefe('jpStart genau heute zählt als Start (Grenze)', kuenftig(900034, HEUTE)?.reason === 'angekuendigt', kuenftig(900034, HEUTE))
+pruefe('Gegenfall: jpStart gestern ist kein künftiger Start', kuenftig(900037, '2026-11-17')?.reason === 'offen', kuenftig(900037, '2026-11-17'))
+pruefe('Gegenfall: jpStart nur Monat (2026-12) zählt nicht', kuenftig(900038, '2026-12')?.reason === 'offen', kuenftig(900038, '2026-12'))
+pruefe('Gegenfall: erschienener Stream-Termin schlägt künftigen jpStart', kuenftig(900039, '2026-12-18', [termin(900039, 'netflix', '2026-11-01')])?.reason === 'offen')
+pruefe('Ein künftiger Disc-Termin hindert den jpStart nicht', kuenftig(900040, '2026-12-18', [termin(900040, 'disc', '2027-01-28')])?.source === 'start')
 
 const e4 = lauf({
   titel: [titel(900004)],
