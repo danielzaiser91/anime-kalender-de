@@ -10,6 +10,7 @@ import {
 } from '../../shared/types.ts'
 import { nachAusstrahlung, unterscheidenderZusatz } from '../../shared/titles.ts'
 import { alleStaffelQuellen } from './staffel-quelle.ts'
+import { markiereStaffelTeile } from '../lib/pokemon-staffeln.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -278,7 +279,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
         : t.coverImage,
     }))
   }
-  writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(markiereRemakes(reihen, fuerReihen)))
+  writeJson(`${OUT}/franchises.json`, markiereStaffelTeile(markiereEigeneWerke(markiereRemakes(reihen, fuerReihen))))
   log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)
 
   schreibeMeldungen(slim)

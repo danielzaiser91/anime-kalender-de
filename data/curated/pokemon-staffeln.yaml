@@ -61,11 +61,13 @@ titel:
     - { nr: 16, von: 14, bis: 24, folgen: 11 }
 - anilistId: 17115
   titel: "Pokémon: Schwarz & Weiß Staffel 2 - Episode N"
+  teil: 1
   treffer: '14 von 14 Folgentiteln gleich'
   staffeln:
     - { nr: 16, von: 1, bis: 14, folgen: 14 }
 - anilistId: 17873
   titel: "Pokémon: Schwarz & Weiß - Abenteuer in Einall und darüber hinaus"
+  teil: 2
   treffer: '20 von 20 Folgentiteln gleich'
   staffeln:
     - { nr: 16, von: 1, bis: 20, folgen: 20 }

@@ -5,7 +5,7 @@
  */
 import { staffelStaende } from '../shared/titles.ts'
 import { alleStaffelQuellen } from './bau/staffel-quelle.ts'
-import { fehlerInGrenzen, ladeStaffelGrenzen, staffelListen, startStaffeln } from './lib/pokemon-staffeln.ts'
+import { fehlerInGrenzen, ladeStaffelGrenzen, markiereStaffelTeile, staffelListen, startStaffeln, startTeile } from './lib/pokemon-staffeln.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -37,27 +37,31 @@ const reihe = [
 const ohne = staffelStaende(reihe, 'Pokémon')
 pruefe('Ohne Grenzen zählt die Reihe nur zwölf Staffeln (Zustand vorher)', [...ohne.values()][0]?.von === 12)
 const quellen = alleStaffelQuellen([], grenzen)
-const mit = staffelStaende(reihe.map((m) => ({ ...m, staffelQuelle: quellen.get(m.id) })), 'Pokémon')
+const teile = startTeile(grenzen)
+const mit = staffelStaende(reihe.map((m) => ({ ...m, staffelQuelle: quellen.get(m.id), staffelTeil: teile.get(m.id) })), 'Pokémon')
 const stand = (id: number) => `${mit.get(id)?.staffel}${mit.get(id)?.teil ? `.${mit.get(id)!.teil}` : ''}`
 pruefe('Mit Grenzen: 25 Staffeln', [...mit.values()][0]?.von === 25, JSON.stringify([...mit.values()][0]))
 pruefe('Mit Grenzen: Schwarz & Weiß beginnt bei Staffel 14', stand(9107) === '14', stand(9107))
 pruefe('Mit Grenzen: zwei Einträge in Staffel 16 sind Teil 1 und Teil 2', stand(17115) === '16.1' && stand(17873) === '16.2', `${stand(17115)} ${stand(17873)}`)
 pruefe('Mit Grenzen: Reisen beginnt bei Staffel 23', stand(112153) === '23', stand(112153))
 
+/* Der Bau schreibt `staffelTeil` nur an die Titel mit `teil` in der Datei. */
+const markiert = markiereStaffelTeile({ 527: reihe.map((m): { id: number; staffelTeil?: number } => ({ id: m.id })) }, grenzen)[527]!
+pruefe('staffelTeil nur an 17115 (1) und 17873 (2)', markiert.filter((m) => m.staffelTeil).map((m) => `${m.id}:${m.staffelTeil}`).join() === '17115:1,17873:2')
+
 /* Hand schlägt die Grenzen nicht ab: ein Handeintrag überschreibt sie (Reihenfolge wie bei aniSearch). */
 const hand = alleStaffelQuellen([{ anilistId: 14093, staffel: 99, quelle: 'https://x', belegtAm: '2026-11-20' }], grenzen)
 pruefe('Handeintrag schlägt die Grenzen', hand.get(14093) === 99)
 
-/* Kein Nebeneffekt: Folgt auf einen Eintrag mit eigenem Namen einer mit derselben belegten Staffelnummer, bleibt es bei „Staffel 2“ ohne Teil (Reihen 33, 269, 20789). */
+/* Kein Nebeneffekt: Zwei Einträge mit derselben belegten Staffelnummer ohne `staffelTeil` bleiben doppelt; der Wächter `doppelteNummern` (check-remake-zaehlung) braucht das. */
 const fremd = staffelStaende(
   [
-    { id: 1, name: 'Reihe', jpYear: 2019 },
-    { id: 2, name: 'Reihe: Eigener Name', jpYear: 2020 },
-    { id: 3, name: 'Reihe: Anderes', jpYear: 2021, staffelQuelle: 2 },
+    { id: 1, name: 'Reihe', jpYear: 2019, staffelQuelle: 2 },
+    { id: 2, name: 'Reihe: Anderes', jpYear: 2021, staffelQuelle: 2 },
   ],
   'Reihe',
 )
-pruefe('Nach eigenem Namen kein Teil', fremd.get(3)?.staffel === 2 && fremd.get(3)?.teil === undefined, JSON.stringify([...fremd]))
+pruefe('Ohne staffelTeil kein Teil', fremd.get(2)?.staffel === 2 && fremd.get(2)?.teil === undefined, JSON.stringify([...fremd]))
 
 /* Fehlerfälle des Prüfers. */
 const gut = { anilistId: 1, staffeln: [{ nr: 1, von: 1, bis: 10, folgen: 10 }, { nr: 2, von: 11, bis: 20, folgen: 10 }] }

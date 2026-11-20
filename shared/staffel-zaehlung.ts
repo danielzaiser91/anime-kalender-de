@@ -11,6 +11,7 @@ export type Zaehlteil = {
   jpStart?: string
   jpSeason?: Title['jpSeason']
   staffelQuelle?: number
+  staffelTeil?: number
   remakeVon?: number
   beiwerk?: boolean
   eigenesWerk?: boolean
