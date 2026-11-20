@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-11-19T21:01:51.036Z",
+  "scrapedAt": "2026-11-20T04:12:04.322Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 12,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 5,
-    "Sprachhinweis älter als 45 Tage": 6
+    "schon in einem Rubrik-Feed gelesen": 37,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 8,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 43,
+    "Sprachhinweis älter als 45 Tage": 7
   },
   "proposals": [
     {
@@ -169,7 +169,64 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+          "zusatz": "Staffelfinale",
+          "datum": "2026-12-04",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "The Ramparts of Ice",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Ranma 1/2",
+          "zusatz": "Staffel 3",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Blue Box",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-20"
     },
     {
       "articleTitle": "Tickets für »KPop Demon Hunters«-Konzerttour ab Freitag erhältlich",
@@ -201,7 +258,30 @@
         }
       ],
       "dub": "nein",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Medaka Kuroiwa is Impervious to My Charms",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Spice & Wolf: Merchant Meets the Wise Wolf",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-11-20"
     },
     {
       "articleTitle": "AKIBA PASS SHOP startet Black Friday Sale mit über 1.000 Produkten",
@@ -681,7 +761,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-17"
+      "sammelGelesen": "2026-11-20"
     },
     {
       "articleTitle": "AniMoon startet große Black-Weeks-Aktion mit 26 % Rabatt",
@@ -1089,7 +1169,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-11-17"
+      "sammelGelesen": "2026-11-20"
     },
     {
       "articleTitle": "ProSieben MAXX startet zweiten werktäglichen Anime-Block",
@@ -1427,7 +1507,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-17"
+      "sammelGelesen": "2026-11-20"
     },
     {
       "articleTitle": "Design der neuen »Neon Genesis Evangelion«-Komplettbox + Extras",
@@ -1500,7 +1580,7 @@
           "datumGeschaetzt": true
         }
       ],
-      "sammelGelesen": "2026-11-17"
+      "sammelGelesen": "2026-11-20"
     },
     {
       "articleTitle": "AniMoon-Angebot: RomCom-Serie »Toradora!« zum Sonderpreis",
@@ -2799,7 +2879,7 @@
           "edition": "limited-edition sammelschuber"
         }
       ],
-      "discGelesen": "2026-11-17"
+      "discGelesen": "2026-11-20"
     },
     {
       "articleTitle": "Zwei Synchro-Neuzugänge ab sofort auf Crunchyroll verfügbar",

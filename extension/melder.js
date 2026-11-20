@@ -4500,9 +4500,9 @@ function folgenFuerFilmErgaenzen() {
 
 function durchlaufKnopfZeigen() {
   folgenFuerFilmErgaenzen()
+  if (akNetflixLeisteOhneListe(DURCHLAUF, imPlayer() || alleStaffelnAnsicht())) return
   /*
     **Der Durchlauf über die ganze Reihe ist richtig, nicht zu viel.**
-
     Eine Fassung vorher hatte ich ihn auf einer geerbten Seite gesperrt: „Blauer
     Himmel in der Ferne!" sei eine Folge, die Reihe habe 54, das wären
     dreiundfünfzig Meldungen zu viel. Daniel hat widersprochen, und er hat

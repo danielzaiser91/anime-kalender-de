@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-19T23:09:17.182Z",
+  "generatedAt": "2026-11-20T12:10:24.799Z",
   "titleCount": 2925,
   "belegtCount": 2631,
-  "releaseCount": 913,
-  "eventCount": 4607,
+  "releaseCount": 912,
+  "eventCount": 4613,
   "genres": [
     "Action",
     "Adventure",
@@ -210,10 +210,10 @@
     "Seven Entertainment Amazon Channel",
     "Wow",
     "Arthouse CNMA",
+    "Pluto TV",
     "Sky Go",
     "filmfriend",
     "Hugendubel",
-    "Pluto TV",
     "Chili",
     "Wow Fiction Amazon Channel",
     "Amazon Mx Player",
@@ -305,7 +305,7 @@
     2009,
     2008
   ],
-  "patchnotesStand": "2026-11-19",
+  "patchnotesStand": "2026-11-20",
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",

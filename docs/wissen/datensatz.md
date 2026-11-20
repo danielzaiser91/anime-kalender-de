@@ -1289,6 +1289,12 @@ Die Ursachen sind der Bau-Regel von Hand nachgebaut (Doppelpflege); `pipeline/ch
 
 Offen (19.11.2026, PR 4312): Der Wächter `check-handbeleg-notizseite-bestand` meldet im CI-Bau (echter Cache) `21450@B0F4V6JFH9`; `prime-zugeordnet.json` führt die Kanal-Adresse B0F9FWKDXT unter 14719 mit `seite: B0F4V6JFH9`. Wem die 71-Folgen-Seite gehört, ist an der Amazon-Seite zu klären, nicht aus den Daten.
 
+## Letzte „offen“-Fälle bei JustWatch (19.11.2026)
+
+- **Verfehlt ohne Wiedervorlage:** `verbucheFehlschlag` schreibt `geprueftAm` = heute; die Warteschlange holte City Hunter (1474), Golgo 13 (1760) und Rainbow Rangers (-104653) erst nach der 28-Tage-Frist, die Nachfrage über den Pfad (#4318) kam also nicht dran. `nachfrageFaellig` (`lib/jw-nachfrage.ts`, Aufruf in `lib/jw-schlange.ts`) holt einen verfehlten Befund mit Pfad und gleicher TMDB-Kennung 7 Tage nach dem Fehlschlag wieder. Auf dem Bestand 19.11. trifft das 15 Titel. Ob JustWatch die Adresse noch kennt, war hier nicht messbar (Netz gesperrt), der erste Lauf zeigt es.
+- **Negi (157):** Der alte Befund trägt JustWatch ts35532 mit TMDB 16950 = Negima!? (AniList 1546, `tmdb-titles.json`); unser Titel ist TMDB 8859. Handliste `jw-namenstreffer-andere-werke.json`; `ohneAndereWerke` ersetzt auch einen alten, schon zugeordneten Befund derselben `jwId`.
+- **Baby Sharks große Show! (10017963): bewusst nicht als „anderes Werk“ eingetragen.** aniSearch (`anisearch-eintraege.json`) führt unter 17963 „Baby Shark’s Big Show!“ mit deutschem Titel „Baby Sharks große Show!“, 28 Folgen, deutsche Fassung ab 21.08.2021; `handlung-eigen.yaml` beschreibt die Nick-Serie. Name und Werk gleichen dem JustWatch-Kandidaten ts215433 (2020, 61 Folgen, TMDB `null`); Jahr und Folgenzahl sind Zählweise. Offen bleibt, was JustWatch dort anbietet (Paramount+ mit deutschem Ton laut Auftrag): der Befund hat keine Angebote, und die Zuordnung läuft über die TMDB-Kennung, die JustWatch nicht führt.
+
 ## Gegenprobe ohne Weg: Gibt es für `kein-angebot`, `nur-disc`, `nur-kauf` einen Abo-Weg mit Deutsch in den Repo-Quellen? (19.11.2026)
 
 Auftrag Dirigent 19.11.2026 (Hauptziel Volle Daten). Stand: `public/data/ohne-weg.json` auf main `b56b2ba1`, `tools/ohne-weg-gruende.ts` mit `heute` 2026-11-19: 1.054 Titel ohne Weg, `kein-angebot` 356, `nur-disc` 415, `nur-kauf` 153 (zusammen 924). Verglichen nur mit Dateien im Repo (kein Abruf ins Netz; `data/cache/` gibt es im Checkout nicht).
