@@ -7,10 +7,10 @@
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { hauptstaffeln, staffelStaende } from '../shared/titles.ts'
+import { hauptstaffeln, staffelBeschriftungen, staffelSpanne, staffelStaende } from '../shared/titles.ts'
 import { ladeAlleEigenenWerke, markiereEigeneWerke } from './bau/cartoon-reihen.ts'
 import { alleStaffelQuellen } from './bau/staffel-quelle.ts'
-import { fehlerInGrenzen, ladeStaffelGrenzen, staffelFeld, staffelListen, startStaffeln } from './lib/pokemon-staffeln.ts'
+import { fehlerInGrenzen, ladeStaffelGrenzen, staffelFeld, staffelEnden, staffelListen, startStaffeln } from './lib/pokemon-staffeln.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -75,6 +75,21 @@ const mitAnhang = markiereEigeneWerke({
 const standAnhang = staffelStaende(hauptstaffeln(mitAnhang), 'Pokémon')
 pruefe('Hauptserie zählt „von 25“, Horizonte und ONA stehen nicht darin', [...standAnhang.values()][0]?.von === 25 && !standAnhang.has(158871) && !standAnhang.has(10019539), JSON.stringify([...standAnhang.values()][0]))
 pruefe('Horizonte und ONA sind als eigene Werke markiert', mitAnhang.filter((m) => (m as { eigenesWerk?: boolean }).eigenesWerk).map((m) => m.id).join() === '158871,10019539')
+
+/* Spannen (Auftrag 20.11.2026): Sammeltitel mit mehreren Staffeln heißen „Staffel 1–5“, Einzelstaffeln unverändert; „von 25“ bleibt. */
+const enden = staffelEnden(grenzen)
+pruefe('Spannenende nur für Titel mit mehreren Staffeln', [...enden].map(([id, bis]) => `${id}:${bis}`).join() === '527:5,1564:9,1565:13,9107:15,14093:16,19291:18,97634:22,112153:25', [...enden].join())
+const mitBis = reihe.map((m) => ({ ...m, staffelQuelle: quellen.get(m.id), staffelBis: enden.get(m.id) }))
+const spanne = staffelStaende(mitBis, 'Pokémon')
+pruefe('Stand 527: Staffel 1 bis 5 von 25', spanne.get(527)?.staffel === 1 && spanne.get(527)?.bis === 5 && spanne.get(527)?.von === 25, JSON.stringify(spanne.get(527)))
+pruefe('Stand 1564 und 112153 tragen ihre Spanne', spanne.get(1564)?.bis === 9 && spanne.get(112153)?.bis === 25 && spanne.get(112153)?.von === 25)
+pruefe('Einzelstaffeln tragen kein bis (21356, 17115)', spanne.get(21356)?.bis === undefined && spanne.get(17115)?.bis === undefined)
+const beschriftung = staffelBeschriftungen(mitBis, 'Pokémon')
+pruefe('Beschriftung 527 „Staffel 1–5“, 1564 „Staffel 6–9“, 112153 „Staffel 23–25“, 21356 „Staffel 19“', [527, 1564, 112153, 21356].map((id) => beschriftung.get(id)).join() === 'Staffel 1–5,Staffel 6–9,Staffel 23–25,Staffel 19', [...beschriftung].join())
+pruefe('Ohne staffelBis bleibt die Beschriftung die Startstaffel (Titel ohne YAML-Eintrag unverändert)', staffelBeschriftungen(reihe.map((m) => ({ ...m, staffelQuelle: quellen.get(m.id) })), 'Pokémon').get(527) === 'Staffel 1')
+pruefe('Ein Ende gleich dem Start ergibt keine Spanne', staffelSpanne({ staffel: 3, bis: 3 }) === '3' && staffelSpanne({ staffel: 3 }) === '3' && staffelSpanne({ staffel: 3, bis: 4 }) === '3–4')
+const zusatz = readFileSync(new URL('./bau/13-4-zusatzdateien.ts', import.meta.url), 'utf8')
+pruefe('13-4-zusatzdateien.ts setzt staffelBis aus staffelEnden(ladeStaffelGrenzen()) genau einmal', zusatz.split('staffelBis: staffelBisse.get(t.id)').length === 2 && zusatz.includes('staffelEnden(ladeStaffelGrenzen())'))
 
 /* Hand schlägt die Grenzen: ein Handeintrag überschreibt sie (Reihenfolge wie bei aniSearch). */
 const hand = alleStaffelQuellen([{ anilistId: 14093, staffel: 99, quelle: 'https://x', belegtAm: '2026-11-20' }], grenzen)
