@@ -67,6 +67,8 @@ export interface FranchiseMember {
   eigenesWerk?: boolean
   /** Belegte deutsche Staffelnummer (aniSearch); steuert `staffelBeschriftungen()`, nicht den Titel. */
   staffelQuelle?: number
+  /** Letzte deutsche Staffel eines Sammeltitels (Pokémon: `data/curated/pokemon-staffeln.yaml`); nur bei mehr als einer. */
+  staffelBis?: number
   /** Kennung des Originals, wenn dieser Teil eine Neuverfilmung ist; Remake und Folgendes zählen als eigene Linie (`zaehlgruppen()`). */
   remakeVon?: number
 }
