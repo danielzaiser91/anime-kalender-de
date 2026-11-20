@@ -62,14 +62,20 @@ const luecke = (kuerzel: string) => (t: Title): boolean => fehlendes(t, undefine
 
 /**
  * Läuft noch: eine Gesamtzahl der Folgen gibt es nicht (One Piece, Beyblade X). Ohne `jpEnd` zählt nur Belegtes:
- * nicht FINISHED/CANCELLED und RELEASING, Termin ab heute, Jahr dieses Jahres oder gar kein Jahr; eine alte
- * abgeschlossene Serie ohne `jpEnd` bleibt offen (Mängelregister, PR 4046).
+ * ein Wochentakt-Start (Fernsehen/Stream) ohne belegtes Ende, ein Termin ab heute, Jahr dieses Jahres oder gar
+ * kein Jahr (im Hauptbestand fehlt `jpStatus`, es greift nur beim Katalog); eine alte abgeschlossene Serie ohne
+ * `jpEnd` bleibt offen (Mängelregister, PR 4046). Der Wochentakt-Start überbrückt die Lücke zwischen zwei Folgen.
  */
 function laeuftNoch(t: Title, k: Kontext): boolean {
   if (t.jpEnd) return t.jpEnd >= k.heute
   if (t.jpStatus === 'FINISHED' || t.jpStatus === 'CANCELLED') return false
   if (t.jpStatus === 'RELEASING' || !t.jpYear || t.jpYear >= Number(k.heute.slice(0, 4))) return true
-  return k.kuenftig.has(t.id)
+  return k.kuenftig.has(t.id) || (k.releases.get(t.id) ?? []).some((r) => wochentaktOhneEnde(r, k.heute))
+}
+
+function wochentaktOhneEnde(r: Release, heute: string): boolean {
+  const s = r.schedule
+  return r.releaseType === 'weekly' && Boolean(s.firstEpisodeDate) && s.firstEpisodeDate <= heute && !s.lastEpisodeDate
 }
 
 function folgentitelFehlen(t: Title, k: Kontext): boolean {
