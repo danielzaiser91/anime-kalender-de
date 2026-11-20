@@ -6,7 +6,7 @@
 import { hauptstaffeln, staffelStaende } from '../shared/titles.ts'
 import { ladeAlleEigenenWerke, markiereEigeneWerke } from './bau/cartoon-reihen.ts'
 import { alleStaffelQuellen } from './bau/staffel-quelle.ts'
-import { fehlerInGrenzen, ladeStaffelGrenzen, markiereStaffelTeile, staffelListen, startStaffeln, startTeile } from './lib/pokemon-staffeln.ts'
+import { fehlerInGrenzen, ladeStaffelGrenzen, mitStaffelTeil, staffelListen, startStaffeln, startTeile } from './lib/pokemon-staffeln.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -60,7 +60,7 @@ pruefe('Hauptserie zählt „von 25“, Horizonte und ONA stehen nicht darin', [
 pruefe('Horizonte und ONA sind als eigene Werke markiert', mitAnhang.filter((m) => (m as { eigenesWerk?: boolean }).eigenesWerk).map((m) => m.id).join() === '158871,10019539')
 
 /* Der Bau schreibt `staffelTeil` nur an die Titel mit `teil` in der Datei. */
-const markiert = markiereStaffelTeile({ 527: reihe.map((m): { id: number; staffelTeil?: number } => ({ id: m.id })) }, grenzen)[527]!
+const markiert = mitStaffelTeil(reihe.map((m): { id: number; staffelTeil?: number } => ({ id: m.id })), teile)
 pruefe('staffelTeil nur an 17115 (1) und 17873 (2)', markiert.filter((m) => m.staffelTeil).map((m) => `${m.id}:${m.staffelTeil}`).join() === '17115:1,17873:2')
 
 /* Hand schlägt die Grenzen nicht ab: ein Handeintrag überschreibt sie (Reihenfolge wie bei aniSearch). */

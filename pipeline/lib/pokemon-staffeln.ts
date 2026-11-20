@@ -24,11 +24,12 @@ export function startTeile(grenzen: StaffelGrenzen[]): Map<number, number> {
   return new Map(grenzen.filter((t) => t.teil).map((t) => [t.anilistId, t.teil!]))
 }
 
-/** Setzt `staffelTeil` an den Reiheneinträgen, deren Titel die Datei als Teil einer Staffel führt; alles andere bleibt unverändert. */
-export function markiereStaffelTeile<T extends { id: number; staffelTeil?: number }>(reihen: Record<number, T[]>, grenzen = ladeStaffelGrenzen()): Record<number, T[]> {
-  const teile = startTeile(grenzen)
-  for (const reihe of Object.values(reihen)) for (const m of reihe) if (teile.has(m.id)) m.staffelTeil = teile.get(m.id)
-  return reihen
+let teileGeladen: Map<number, number> | undefined
+
+/** Setzt `staffelTeil` an den Einträgen einer Reihe, deren Titel die Datei als Teil einer Staffel führt (`teile` zum Testen); alles andere bleibt unverändert. */
+export function mitStaffelTeil<T extends { id: number; staffelTeil?: number }>(reihe: T[], teile = (teileGeladen ??= startTeile(ladeStaffelGrenzen()))): T[] {
+  for (const m of reihe) if (teile.has(m.id)) m.staffelTeil = teile.get(m.id)
+  return reihe
 }
 
 /** Kennung → `[[Staffel, von, bis], …]` für die Detaildatei des Titels. */
