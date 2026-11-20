@@ -18,7 +18,7 @@ const STUNDE = 3600 * 1000
 
 /** Überwachte Repos; `slug` null = das Repo des Arbeitsordners (gh/git ohne --repo). Das nativ-Repo hat hier keinen Klon: keine Gegenprobe über git grep. */
 export const HAUPT_REPO = { name: 'anime-kalender-de', slug: null }
-export const REPOS = [HAUPT_REPO, { name: 'anime-kalender-nativ', slug: 'danielzaiser91/anime-kalender-nativ' }]
+export const REPOS = [HAUPT_REPO, { name: 'anime-kalender-nativ', slug: 'derNamenloseDaniel/anime-kalender-nativ' }]
 
 /** gh-Aufruf auf ein anderes Repo umbiegen: `pr …` bekommt --repo, `api` ersetzt die Platzhalter {owner}/{repo} (auch einzeln im graphql-Aufruf). */
 export function ghFuerRepo(ghFn, slug) {
@@ -55,7 +55,7 @@ export function urteile(comments) {
     if (login === 'github-actions') {
       const m = /\*\*Prüfer-Review\*\* für ([0-9a-f]{7,40})\b[\s\S]*?Urteil: \*\*(ok|aendern)\b/.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'bot', kopf: m[1], gut: m[2] === 'ok' })
-    } else if (login === 'danielzaiser91') {
+    } else if (login === 'derNamenloseDaniel') {
       for (const kopf of abnahmeKoepfe(c.body)) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf, gut: true })
       const m = /^Prüfer(?!\p{L}).*?(?<!\p{L})(freigeben|ändern)(?!\p{L})/iu.exec(c.body)
       if (m) aus.push({ zeit: Date.parse(c.createdAt), quelle: 'daniel', kopf: /Kopf ([0-9a-f]{7,40})/.exec(c.body)?.[1] ?? null, gut: m[1].toLowerCase() === 'freigeben' })
@@ -191,7 +191,7 @@ export function offeneEntscheidungen(standText) {
 export function geteilteEntscheidungen(prs, offen = null) {
   const je = new Map()
   for (const pr of prs) {
-    const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'danielzaiser91' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
+    const text = [pr.title, pr.body, ...pr.comments.filter((c) => c.author?.login === 'derNamenloseDaniel' || c.body.includes('**Prüfer-Review**')).map((c) => c.body)].join('\n')
     for (const f of new Set(text.match(/\bF\d+\b/g) ?? [])) if (offen === null || offen.has(f)) je.set(f, [...(je.get(f) ?? []), pr.number])
   }
   const aus = new Map()

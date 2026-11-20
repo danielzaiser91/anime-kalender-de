@@ -46,7 +46,7 @@ test('Bot-Abgrenzung: [bot]-Autor mit chore(data|wache|extension); Hand sonst', 
   assert.equal(istBot({ author: 'anime-kalender-daten[bot]', title: 'chore(data): Sendezeiten gesammelt' }), true)
   assert.equal(istBot({ author: 'claude[bot]', title: 'chore(wache): durchgesehen' }), true)
   assert.equal(istBot({ author: 'claude[bot]', title: 'fix(bau): Riegel' }), false)
-  assert.equal(istBot({ author: 'danielzaiser91', title: 'chore(data): TMDB-Fund' }), false)
+  assert.equal(istBot({ author: 'derNamenloseDaniel', title: 'chore(data): TMDB-Fund' }), false)
 })
 
 test('Revert-Erkennung', () => {

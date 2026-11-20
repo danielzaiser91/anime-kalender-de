@@ -131,7 +131,7 @@ pruefe('Delta 0: gleiche package.json -> aktuell', urteil({}, ['extension/melder
 pruefe('Skript entfernt (Kette ruft es nicht mehr) -> aktuell', paketGrund({ alt: pkg(BASIS), neu: pkg({ ...BASIS, 'data:bau': undefined }), prDateien: ['pipeline/build.ts'], kettenTexte: KETTE, lies }) === null)
 
 // Verdrahtung: botSprungAusnahme und datenpfadGrund.
-const vergleich = (dateien) => ({ status: 'ahead', anzahl: dateien.length, dateien, commitsGesamt: 1, autoren: ['danielzaiser91'], vollstaendig: true })
+const vergleich = (dateien) => ({ status: 'ahead', anzahl: dateien.length, dateien, commitsGesamt: 1, autoren: ['derNamenloseDaniel'], vollstaendig: true })
 const stumm = () => null
 const ohne = botSprungAusnahme(vergleich(['package.json']), ['pipeline/bau/x.ts'], stumm, () => null, () => null)
 pruefe('botSprungAusnahme: package.json bewegt, Paket-Urteil null -> Ausnahme', ohne === null, ohne)
@@ -145,7 +145,7 @@ pruefe('package.json geht nicht als Datei an die Leser-Regel', zusammen === null
 const lock = botSprungAusnahme(vergleich(['package-lock.json']), ['pipeline/bau/x.ts'], stumm, () => null, () => null)
 pruefe('package-lock.json bleibt kettenweit', lock === 'main bewegte package-lock.json', lock)
 
-const ghFuer = (dateien, prDateien) => (args) => (args[1].includes('/compare/') ? JSON.stringify({ status: 'ahead', anzahl: dateien.length, dateien, commitsGesamt: 1, autoren: ['danielzaiser91'] }) : prDateien.join('\n'))
+const ghFuer = (dateien, prDateien) => (args) => (args[1].includes('/compare/') ? JSON.stringify({ status: 'ahead', anzahl: dateien.length, dateien, commitsGesamt: 1, autoren: ['derNamenloseDaniel'] }) : prDateien.join('\n'))
 const gr = (dateien, prDateien, paket) => datenpfadGrund(ghFuer(dateien, prDateien), { number: 5, headRefOid: 'k' }, 'basis', 'main', stumm, () => ({ fehler: 'x' }), () => ({ fehler: 'x' }), () => 'Umfang', paket)
 let uebergeben = null
 const v = gr(['package.json'], ['extension/melder.js'], (refs, dateien) => { uebergeben = { refs, dateien }; return null })

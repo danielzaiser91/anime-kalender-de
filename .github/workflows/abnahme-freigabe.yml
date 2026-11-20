@@ -22,7 +22,7 @@ jobs:
     name: Abnahme-Freigabe
     if: >-
       github.event.issue.pull_request &&
-      github.event.comment.user.login == 'danielzaiser91' &&
+      github.event.comment.user.login == 'derNamenloseDaniel' &&
       github.event.comment.author_association == 'OWNER' &&
       startsWith(github.event.comment.body, '## Nachtrag (Abnahme Dirigent')
     runs-on: ubuntu-latest

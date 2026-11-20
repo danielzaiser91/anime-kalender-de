@@ -57,7 +57,7 @@ pruefe('Freigabe zählt vom Ok nach dem Ändern, nicht vom ersten Urteil', gleic
 
 console.log('zugEintraege: echte Betreffzeilen')
 const LOG = [
-  '\x01aaaa111\tbbbb222 cccc333\tMerge pull request #2757 from danielzaiser91/ci/workflows-pruefung\ntools/a.mjs\n.github/workflows/pr-pruefung.yml\n',
+  '\x01aaaa111\tbbbb222 cccc333\tMerge pull request #2757 from derNamenloseDaniel/ci/workflows-pruefung\ntools/a.mjs\n.github/workflows/pr-pruefung.yml\n',
   '\x01dddd444\teeee555\tCI: Tests der Workflows-Prüfung auf zwei Kettenjobs teilen (#2764)\ntools/b.mjs\n',
   "\x01ffff666\tgggg777 hhhh888\tMerge branch 'main' into zug\n",
 ].join('')
@@ -239,7 +239,7 @@ function attrappen(zugLog, mainFehlt = false) {
     if (a[0] === 'pr' && a.includes('--base')) return JSON.stringify([{ number: 1 }, { number: 2 }, { number: 4 }])
     if (a[0] === 'pr' && f?.startsWith('number,title')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, title: `T${n}`, headRefOid: kopfVon(n), createdAt: min(0), mergeable: 'MERGEABLE', mergeStateStatus: 'CLEAN', isDraft: false, body: '' })))
     if (a[0] === 'pr' && f?.includes('statusCheckRollup')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, reviews: [], statusCheckRollup: GRUEN })))
-    if (a[0] === 'pr' && f?.includes('comments')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, comments: [n === 4 ? { author: { login: 'danielzaiser91' }, createdAt: min(-120), body: 'Prüfer: freigeben' } : urteil(n, n * 10)] })))
+    if (a[0] === 'pr' && f?.includes('comments')) return JSON.stringify([1, 2, 3, 4].map((n) => ({ number: n, comments: [n === 4 ? { author: { login: 'derNamenloseDaniel' }, createdAt: min(-120), body: 'Prüfer: freigeben' } : urteil(n, n * 10)] })))
     if (a[0] === 'api' && a[1] === 'graphql') throw new Error('keine Karte')
     if (a[0] === 'api') return min(-60)
     if (a[0] === 'run') return LOG_ECHT

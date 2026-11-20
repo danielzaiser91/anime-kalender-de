@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url'
 
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), '..')
 const BUCKET = 'anime-kalender-cover'
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 /** 30 Tage: Der Dateiname trägt die Kennung, nicht den Inhalt; ein neu geholtes Bild soll nach einem Monat überall ankommen. */
 const CACHE_CONTROL = 'public, max-age=2592000'
 const WRANGLER = join(WURZEL, 'node_modules/wrangler/bin/wrangler.js')

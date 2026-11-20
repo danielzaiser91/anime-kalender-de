@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { rotAlarmText } from './bestand-rot-alarm.mjs'
 import { mitWiederkehr, warteSynchron } from './wache-dossier-wiederkehr.mjs'
 
-const REPO = process.env.GITHUB_REPOSITORY || 'danielzaiser91/anime-kalender-de'
+const REPO = process.env.GITHUB_REPOSITORY || 'derNamenloseDaniel/anime-kalender-de'
 const STUNDEN = 3600e3
 
 const lies = (pfad) => readFileSync(pfad, 'utf8')

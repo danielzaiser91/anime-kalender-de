@@ -90,7 +90,7 @@ function offenePrs(jetzt) {
     if (jetzt - c.t < 15 * MIN) return c.prs
   } catch { /* erster Lauf */ }
   try {
-    const out = execFileSync('gh', ['pr', 'list', '--repo', 'danielzaiser91/anime-kalender-de', '--state', 'open', '--limit', '100', '--json', 'number,title'], { encoding: 'utf8', timeout: 8000, windowsHide: true })
+    const out = execFileSync('gh', ['pr', 'list', '--repo', 'derNamenloseDaniel/anime-kalender-de', '--state', 'open', '--limit', '100', '--json', 'number,title'], { encoding: 'utf8', timeout: 8000, windowsHide: true })
     const prs = JSON.parse(out)
     writeFileSync(PR_CACHE, JSON.stringify({ t: jetzt, prs }))
     return prs

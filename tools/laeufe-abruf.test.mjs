@@ -106,7 +106,7 @@ const mitCommitVor = (stunden, gruenAm = '2026-10-17T00:00:00Z', ghWirftFuer = '
   const stub =
     'import cp from "node:child_process";import {syncBuiltinESMExports} from "node:module";' +
     `const L=${laeufe};cp.execFileSync=(c,a)=>{const w=a[a.indexOf("--workflow")+1];if(c!=="gh"||a[0]!=="run"||a[1]!=="list"||!a.includes("--workflow")||a[a.indexOf("--status")+1]!=="success"||w===${JSON.stringify(ghWirftFuer)})throw new Error("gh?");return JSON.stringify(L.filter(r=>r.workflowName===w&&r.conclusion==="success").sort((x,y)=>y.createdAt.localeCompare(x.createdAt)).slice(0,1))};syncBuiltinESMExports();` +
-    `globalThis.fetch=async(u)=>String(u).includes("?verlauf=")?new Response(${JSON.stringify(verlaufAntwort)},{status:200}):String(u).startsWith("https://api.github.com/repos/danielzaiser91/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
+    `globalThis.fetch=async(u)=>String(u).includes("?verlauf=")?new Response(${JSON.stringify(verlaufAntwort)},{status:200}):String(u).startsWith("https://api.github.com/repos/derNamenloseDaniel/anime-kalender-de/commits?path=public/data&per_page=1")?new Response(${JSON.stringify(commits)},{status:200}):new Response(${JSON.stringify(rotAntwort)},{status:200})`
   return spawnSync(process.execPath, ['--import', `data:text/javascript,${stub}`, werkzeug, '--trocken'], { encoding: 'utf8' })
 }
 const rot = mitCommitVor(20)

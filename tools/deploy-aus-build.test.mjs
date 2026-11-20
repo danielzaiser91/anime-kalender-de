@@ -23,7 +23,7 @@ assert.equal(waehlePR([], SHA), null)
 
 // Lauf: nur pull_request für den Kopf-Commit, der neueste mit grünem Sammeljob gewinnt; ein noch laufendes PR-Aussehen stört nicht.
 const kopf = 'c'.repeat(40)
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 const wahl = (laeufe, k, jobsVon) => waehleLauf(laeufe, k, jobsVon, REPO)
 const lauf = (id, zusatz = {}) => ({ id, event: 'pull_request', head_sha: kopf, head_repository: { full_name: REPO }, ...zusatz })
 const jobListe = (ergebnis, name = 'PR-Prüfkette') => [{ name: 'PR-Aussehen', conclusion: null }, { name, conclusion: ergebnis }]

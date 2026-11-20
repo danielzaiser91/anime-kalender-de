@@ -20,10 +20,10 @@ const w = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-wae
 const MIN = 60000
 const JETZT = Date.parse('2026-10-19T22:30:00Z') // 00:30 in Berlin am 20.10.: UTC-Tag ≠ Berliner Tag
 const iso = (ms) => new Date(ms).toISOString()
-const ADR = 'https://github.com/danielzaiser91/anime-kalender-de/pull/'
+const ADR = 'https://github.com/derNamenloseDaniel/anime-kalender-de/pull/'
 const ci = (sha, wort) => ({ author: { login: 'github-actions' }, body: `**Prüfer-Review** für ${sha} - Urteil: **${wort}**\n\nBegründung` })
-const agent = (kopf, wort, runde = '1') => ({ author: { login: 'danielzaiser91' }, body: `Prüfer Runde ${runde}: ${wort}\n\nKopf ${kopf}, mergeable` })
-const mensch = (text) => ({ author: { login: 'danielzaiser91' }, body: text })
+const agent = (kopf, wort, runde = '1') => ({ author: { login: 'derNamenloseDaniel' }, body: `Prüfer Runde ${runde}: ${wort}\n\nKopf ${kopf}, mergeable` })
+const mensch = (text) => ({ author: { login: 'derNamenloseDaniel' }, body: text })
 const OK = [ci('abcdef123', 'ok'), agent('abcdef123', 'freigeben')]
 function pr(number, felder = {}) {
   const { rollup = 'SUCCESS', kommentare = OK, ...rest } = felder
@@ -46,7 +46,7 @@ function ghNachbau({ offen = [], gemergt: merged = [] }, aufrufe = []) {
   return (args) => {
     aufrufe.push(args)
     assert.deepEqual(args.slice(0, 2), ['api', 'graphql'])
-    assert.ok(args.includes('owner=danielzaiser91') && args.includes('name=anime-kalender-de'), 'Repo')
+    assert.ok(args.includes('owner=derNamenloseDaniel') && args.includes('name=anime-kalender-de'), 'Repo')
     const query = args.find((a) => a.startsWith('query=')).slice(6)
     const nach = args.find((a) => a.startsWith('nach='))?.slice(5)
     const repo = {}
