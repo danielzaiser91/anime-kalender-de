@@ -139,8 +139,13 @@ async function oeffne(teile: FranchiseMember[], s: Stand) {
       bild: li.finde((k) => k.localName === 'img').length,
       name: klasse(li.finde((k) => klasse(k).includes('line-clamp-2'))[0]!),
       angaben: li.finde((k) => klasse(k).includes('truncate'))[0]?.textContent ?? null,
+      knopf: klasse(knopf).split(' '),
+      huelle: klasse(li.finde((k) => klasse(k).includes('aspect-[2/3]'))[0]!).split(' '),
+      img: ['src', 'width', 'height', 'sizes'].map((n) => li.finde((k) => k.localName === 'img')[0]?.attribute.get(n) ?? null),
     }
   }
+  /* Eine Hülle mit genau `flex` hat nur der Schalter unter dem Suchfeld. */
+  const schalterHuellen = () => dom.wurzel.finde((k) => klasse(k) === 'flex').length
   /* Handler direkt über die React-Props des Knotens: das Mini-DOM kennt kein `change`-Ereignis. */
   const handler = (k: MiniKnoten) => Object.entries(k).find(([s]) => s.startsWith('__reactProps'))?.[1] as { onChange: (e: unknown) => void }
   const suchfeld = () => dom.wurzel.finde((k) => k.localName === 'input' && k.attribute.has('placeholder'))[0]! as MiniKnoten & { value?: string }
@@ -156,6 +161,7 @@ async function oeffne(teile: FranchiseMember[], s: Stand) {
     klickeAlle: () => act(async () => klicke(dom.wurzel, dom.wurzel.finde((k) => k.attribute.has('data-reihe-alle'))[0]!)),
     schalterText: () => dom.wurzel.finde((k) => k.localName === 'label' && k.finde((x) => x.localName === 'input').length > 0)[0]?.textContent ?? '',
     zeile,
+    schalterHuellen,
     sucheWert: () => suchfeld().value ?? '',
     tippe: (text: string) => act(async () => handler(suchfeld()).onChange({ target: { value: text } })),
     schalterUm: () => act(async () => handler(schalterFeld()).onChange({ target: schalterFeld() })),
@@ -189,6 +195,11 @@ gleich('Zeile des geöffneten Teils: aktuell, Marker, fett', [a.zeile(900102)?.a
 gleich('andere Zeile: nicht aktuell, ohne Marker, normal, nicht blass', [a.zeile(900101)?.aktuell, a.zeile(900101)?.marker, a.zeile(900101)?.name.includes('font-medium'), a.zeile(900101)?.name.includes('opacity-75')], [null, 0, true, false])
 gleich('Angaben der ersten Staffel', a.zeile(900101)?.angaben, '1999 · 12 Fg.')
 gleich('Cover nur, wo eines da ist; ohne Stern und frei', [a.zeile(900101)?.bild, a.zeile(900102)?.bild, a.zeile(900101)?.stern, a.zeile(900101)?.aus], [1, 0, false, false])
+const knopfMerkmale = (id: number) => ['cursor-default', 'cursor-pointer', 'bg-ak-flaeche-2'].map((c) => a.zeile(id)?.knopf.includes(c))
+gleich('Knopf: geöffneter Teil ruhig und hinterlegt, anderer klickbar', [knopfMerkmale(900102), knopfMerkmale(900101)], [[true, false, true], [false, true, false]])
+gleich('Cover der ersten Staffel: kleinste AniList-Stufe, 36 × 54', a.zeile(900101)?.img, ['https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx900101.jpg', '36', '54', '36px'])
+gleich('Cover-Hülle einer erschienenen Zeile mit Synchro: weder blass noch gestrichelt', ['opacity-55', 'outline-dashed'].map((c) => a.zeile(900101)?.huelle.includes(c)), [false, false])
+gleich('Schalter steht in seiner Hülle unter dem Suchfeld', a.schalterHuellen(), 1)
 pruefe('kein Wechsel: kein Ladehinweis', !(a.text() ?? '').includes('Wird geladen'))
 await a.schalterUm()
 gleich('Schalter umgelegt: setzt die Reihe', aufrufe.ohne, [1])
@@ -203,6 +214,7 @@ await a.zeige({ titel: 900102, ohneOffen: true })
 gleich('Schalter an: 3 + 15 + 4, Kopf 22', [kurz(a.lage()).map((g) => g[1]), a.lage().kopfZahl], [[3, 15, 4], 22])
 zahlGleichListe('Schalter an', a.lage())
 gleich('Schalter an: Film 14 ohne Synchro blass, Film 1 nicht', [a.zeile(900214)?.name.includes('opacity-75'), a.zeile(900201)?.name.includes('opacity-75')], [true, false])
+gleich('Schalter an: Cover von Film 14 blass, nicht gestrichelt', ['opacity-55', 'outline-dashed'].map((c) => a.zeile(900214)?.huelle.includes(c)), [true, false])
 await a.schalterUm()
 gleich('Schalter wieder aus: setzt null', aufrufe.ohne, [1, null])
 await a.zeige({ titel: 900207 })
@@ -271,7 +283,7 @@ gleich('12 Specials, Special 5 geöffnet: 12 Zeilen, kein „Alle n“', [g3.lag
 pruefe('genau ein Teil hinter dem Schalter: Schalter nennt 1', /\b1\b/.test(g3.schalterText()), g3.schalterText())
 await g3.ende()
 const g4 = await oeffne(GROSS2, { titel: 900313 })
-gleich('der einzige Teil ohne Synchro ist geöffnet: kein Schalter', g4.schalterText(), '')
+gleich('der einzige Teil ohne Synchro ist geöffnet: kein Schalter, keine leere Hülle', [g4.schalterText(), g4.schalterHuellen()], ['', 0])
 await g4.ende()
 
 /* Wechsel auf einen Teil einer zugeklappten Gruppe ohne Klick vorher: seine Gruppe geht dazu auf. */
