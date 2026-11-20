@@ -213,7 +213,7 @@ function gh(laeufe, aufrufe, quelle) {
   return (args) => {
     aufrufe.push(args)
     if (args[0] === 'run' && args[1] === 'list') {
-      assert.deepEqual(args.slice(2), ['--workflow', WORKFLOW, '--status', 'success', '--limit', '1', '--json', 'databaseId,createdAt'])
+      assert.deepEqual(args.slice(2), ['--workflow', WORKFLOW, '--limit', '10', '--json', 'databaseId,createdAt,conclusion'])
       return JSON.stringify(laeufe)
     }
     assert.deepEqual([args[0], args[1], args[2], args[3], args[4], args[5]], ['run', 'download', '777', '--name', ARTEFAKT, '--dir'])
@@ -224,7 +224,7 @@ function gh(laeufe, aufrufe, quelle) {
 const neu = kopie('neu.sqlite', '2026-10-15T03:00:00.000Z')
 const ziel = join(ordner, 'cache', DATEINAME)
 let aufrufe = []
-const lauf1 = { databaseId: 777, createdAt: '2026-10-15T02:59:40Z' }
+const lauf1 = { databaseId: 777, createdAt: '2026-10-15T02:59:40Z', conclusion: 'success' }
 assert.deepEqual(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }), { art: 'geholt', stand: '2026-10-15T03:00:00.000Z', lauf: 777 })
 assert.equal(lokalerStand(ziel), '2026-10-15T03:00:00.000Z')
 assert.equal(aufrufe.length, 2)
@@ -238,6 +238,12 @@ copyFileSync(basis, ziel)
 aufrufe = []
 assert.equal(holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }).art, 'geholt')
 assert.equal(aufrufe.length, 2)
+// Laufende und rote Läufe davor zählen nicht: der jüngste erfolgreiche wird geholt.
+copyFileSync(basis, ziel)
+aufrufe = []
+const laufend = { databaseId: 999, createdAt: '2026-10-16T03:00:00Z', conclusion: '' }
+const rot = { databaseId: 998, createdAt: '2026-10-16T02:00:00Z', conclusion: 'failure' }
+assert.deepEqual(holen({ gh: gh([laufend, rot, lauf1], aufrufe, neu), ziel, umgebung: MIT_TOKEN }).lauf, 777)
 // Ohne Token oder mit falschem Token: Abbruch, kein gh-Aufruf bzw. die vorhandene Kopie bleibt.
 aufrufe = []
 assert.throws(() => holen({ gh: gh([lauf1], aufrufe, neu), ziel, umgebung: {} }), /LAUF_TOKEN fehlt/)
