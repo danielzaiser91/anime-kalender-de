@@ -14,7 +14,8 @@
  * Folgen mit belegter deutscher Synchro: die belegten Bereiche der Wege (`dubRanges` mit `dub: true`) und die Folgen,
  * die laut deutscher Wikipedia-Episodenliste schon im deutschen Fernsehen liefen. `h` sind Handhinweise je Folge
  * (`data/folgen-hinweise.yaml`, z. B. „nie in Deutschland ausgestrahlt"). `zaehlung.json` führt je Titel `[alle, deutsche]`
- * für die Überschrift des Antwortkastens, wo AniList keine Folgenzahl kennt (One Piece).
+ * für die Überschrift des Antwortkastens, wo AniList keine Folgenzahl kennt (One Piece). `s` sind die deutschen Staffelgrenzen
+ * innerhalb des Titels, `[[Staffel, von, bis], …]` (nur Pokémon, `data/curated/pokemon-staffeln.yaml`).
  */
 import type { Release, Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -29,6 +30,7 @@ import { ladeTitelQuellen, mitFremdTiteln, type TitelQuellen } from './folgentit
 import { englischeTitel, ohneEnglischeTitel } from './folgentitel-englisch.ts'
 import { folgenZeilen } from './folgentitel-zeilen.ts'
 import { eineZeileJeNummer } from './folgen-nummern.ts'
+import { ladeStaffelGrenzen, staffelListen } from '../lib/pokemon-staffeln.ts'
 
 interface Folge {
   nr: number
@@ -108,6 +110,8 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
     const a = zuordnung[String(t.id)]?.anisearchId
     if (a) jeAsId.set(a, (jeAsId.get(a) ?? 0) + 1)
   }
+  /* Deutsche Staffelgrenzen innerhalb des Titels (`data/curated/pokemon-staffeln.yaml`). */
+  const staffeln = staffelListen(ladeStaffelGrenzen())
   const releasesJeTitel = new Map<number, Release[]>()
   for (const r of releases) releasesJeTitel.set(r.titleId, [...(releasesJeTitel.get(r.titleId) ?? []), r])
   const ordner = `${OUT}/folgen`
@@ -132,6 +136,7 @@ export function schreibeFolgenDateien(titel: Title[], releases: Release[]): void
       f: folgenZeilen(f, einheitlich),
       de,
       ...(einheitlich ? { min: einheitlich } : {}),
+      ...(staffeln.has(t.id) ? { s: staffeln.get(t.id) } : {}),
       ...(hinweise.some((h) => h.anilistId === t.id) ? { h: hinweise.filter((h) => h.anilistId === t.id).map((h) => [h.folge, h.text]) } : {}),
     })
     index.push(t.id)
