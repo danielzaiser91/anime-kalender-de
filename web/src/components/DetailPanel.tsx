@@ -388,6 +388,7 @@ export function DetailPanel({
             data={data}
             title={title}
             favorites={favorites}
+            handlung={<HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />}
             reihe={
             <ReihenListe
               reihenTeile={reihenTeile}
@@ -479,7 +480,6 @@ export function DetailPanel({
             identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
             Länge.
           */}
-          <HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />
 
           {/*
             Die Angaben zum Werk selbst — Genres, Bewertung, Studio.
