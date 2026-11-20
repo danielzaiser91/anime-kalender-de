@@ -276,6 +276,7 @@ pipeline/check-folgen-fremde-adressen.ts
 pipeline/check-folgen-nummern-bau.ts
 pipeline/check-folgen-nummern-lauf.ts
 pipeline/check-folgen-nummern.ts
+pipeline/check-folgen-staffeln.ts
 pipeline/check-folgen-teile.ts
 pipeline/check-folgen-wiki-versatz.ts
 pipeline/check-folgenblock.ts
@@ -494,6 +495,7 @@ pipeline/check-omu-synchro-begleiter.ts
 pipeline/check-panel-chips.ts
 pipeline/check-panel-cover.ts
 pipeline/check-panel-disc-doppel.ts
+pipeline/check-panel-eigenes-werk.ts
 pipeline/check-panel-reihenfolge.ts
 pipeline/check-panel-titel-nachgeladen.ts
 pipeline/check-paramount.ts

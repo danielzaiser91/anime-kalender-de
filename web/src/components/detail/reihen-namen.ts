@@ -35,6 +35,15 @@ export function reihenNameVon(title: Title | undefined, reihe: FranchiseMember[]
 }
 
 /**
+ * Der Name im Kopf des Panels: der Reihenname — außer der Titel ist ein eigenes Werk der Reihe (Spin-off, Nachfolgeserie), dann sein
+ * eigener Name („Pokémon Horizonte“ statt „Pokémon“ mit Unterzeile „Horizonte“, Daniel 20.11.2026). Die Reihenliste behält den Reihennamen.
+ */
+export function kopfNameVon(title: Title | undefined, reihe: FranchiseMember[], reihenName: string): string {
+  if (!title) return reihenName
+  return title.eigenesWerk || reihe.some((m) => m.id === title.id && m.eigenesWerk) ? anzeigeName(title) : reihenName
+}
+
+/**
  * Was diesen Teil von der Reihe unterscheidet — „Staffel 3", „Der Film".
  *
  * Steht unter dem Karussell an der Stelle, an der vorher noch einmal der

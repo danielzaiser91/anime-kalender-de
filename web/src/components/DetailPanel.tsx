@@ -32,7 +32,7 @@ import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
 import { plotVon, eigenerAsZiel, titelGestartet } from './detail/plot.ts'
 import { reihenTeileVon, useReihe } from './detail/reihen-daten.ts'
-import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
+import { kopfNameVon, reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
 import { kastenNotizVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
@@ -143,7 +143,8 @@ export function DetailPanel({
 
   const reihenName = useMemo(() => reihenNameVon(title, reihe, data), [reihe, title, data])
 
-  const teilName = useMemo(() => teilNameVon(title, reihenName, reihenTeile), [title, reihenName, reihenTeile])
+  const kopfName = useMemo(() => kopfNameVon(title, reihe, reihenName), [title, reihe, reihenName])
+  const teilName = useMemo(() => teilNameVon(title, kopfName, reihenTeile), [title, kopfName, reihenTeile])
 
   /*
     Vorher stand hier eine Zählung nach Position, mit dieser Begründung — sie
@@ -326,7 +327,7 @@ export function DetailPanel({
       >
         {/* Kopf (Bild, Name, Knöpfe) steht in `detail/buehne.tsx`; der Kasten beginnt darunter. */}
         <PanelBuehne
-          reihenName={reihenName}
+          reihenName={kopfName}
           teilName={teilName}
           reihenTeile={reihenTeile}
           buehnenBild={buehnenBild}
