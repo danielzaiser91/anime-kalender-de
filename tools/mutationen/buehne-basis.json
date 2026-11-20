@@ -45,7 +45,7 @@
   { "name": "messen Zelle ohne Basis-Eintrag gilt als neu", "aenderungen": [{ "datei": "tools/buehne-messen.mjs", "suche": "if (!alt) return []", "ersetze": "if (false) return []" }], "tests": ["node tools/buehne-lauf.test.mjs"] },
   { "name": "messen Tippziel ohne anderes Thema", "aenderungen": [{ "datei": "tools/buehne-messen.mjs", "suche": "const andere = basis[`${vorFall}/${geraet}-${anders}`]", "ersetze": "const andere = undefined" }], "tests": ["node tools/buehne-lauf.test.mjs"] },
   { "name": "messen Zaehler Vorher-Zellen aus", "aenderungen": [{ "datei": "tools/buehne-messen.mjs", "suche": "if (nurVorher) gemessen++", "ersetze": "if (false) gemessen++" }], "tests": ["node tools/buehne-lauf.test.mjs"] },
-  { "name": "messen alle Varianten trotz nur-vorher", "aenderungen": [{ "datei": "tools/buehne-messen.mjs", "suche": "{ nurErsteVariante: nurVorher }", "ersetze": "{ nurErsteVariante: false }" }], "tests": ["node tools/buehne-lauf.test.mjs"] },
+  { "name": "messen alle Varianten trotz nur-vorher", "aenderungen": [{ "datei": "tools/buehne-messen.mjs", "suche": "{ nurErsteVariante: nurVorher, scheibe }", "ersetze": "{ nurErsteVariante: false, scheibe }" }], "tests": ["node tools/buehne-lauf.test.mjs"] },
   { "name": "seite nurErsteVariante ohne Wirkung", "aenderungen": [{ "datei": "tools/buehne-seite.mjs", "suche": "if (nurErsteVariante && i > 0) break", "ersetze": "if (false && i > 0) break" }], "tests": ["node tools/buehne-lauf.test.mjs"] },
   { "name": "seite BUEHNE_DIST ignoriert", "aenderungen": [{ "datei": "tools/buehne-seite.mjs", "suche": "process.env.BUEHNE_DIST ? path.resolve(process.env.BUEHNE_DIST) :", "ersetze": "false ? path.resolve(process.env.BUEHNE_DIST) :" }], "tests": ["node tools/buehne-basis.test.mjs"] }
 ]

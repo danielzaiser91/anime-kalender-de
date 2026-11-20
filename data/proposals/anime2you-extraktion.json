@@ -1939,6 +1939,10 @@
       "am": "2026-11-19",
       "vorschlaege": 0
     },
+    "1073439": {
+      "am": "2026-11-20",
+      "vorschlaege": 1
+    },
     "1073451": {
       "am": "2026-11-19",
       "vorschlaege": 0
@@ -2004,6 +2008,10 @@
     "1073842": {
       "am": "2026-11-20",
       "vorschlaege": 1
+    },
+    "1073969": {
+      "am": "2026-11-20",
+      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -15797,6 +15805,69 @@
       "artikelId": "1073842",
       "artikel": "Episodenanzahl von »Full Clearing Another World« steht fest",
       "quelle": "https://www.anime2you.de/news/1073842/full-clearing-another-world-episodenanzahl/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Elainas Reise",
+      "zitat": "Die Gesamtausgabe von »Elainas Reise«, die alle zwölf Episoden in drei Volumes mit Sammelschuber enthält, erscheint voraussichtlich am 5. Februar 2027 als DVD und Blu-ray.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-05",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig (»voraussichtlich«).",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1073969",
+      "artikel": "»Elainas Reise« erscheint als Blu-ray-Gesamtausgabe",
+      "quelle": "https://www.anime2you.de/news/1073969/elainas-reise-blu-ray-gesamtausgabe/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Elainas Reise",
+      "zitat": "Der Streaming-Dienst Crunchyroll bietet alle Episoden im Originalton mit deutschen Untertiteln auf Abruf an.",
+      "art": "sprachfassung",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1073969",
+      "artikel": "»Elainas Reise« erscheint als Blu-ray-Gesamtausgabe",
+      "quelle": "https://www.anime2you.de/news/1073969/elainas-reise-blu-ray-gesamtausgabe/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "TSUKIMICHI",
+      "zitat": "Die Gesamtausgabe der ersten »TSUKIMICHI«-Staffel erscheint nach aktueller Planung am 19. Februar 2027 als DVD und Blu-ray. Diese beinhaltet alle zwölf Episoden mit deutscher und japanischer Sprachausgabe auf zwei Volumes sowie einen Sammelschuber.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": "Termin laut Artikel vorläufig (»nach aktueller Planung«).",
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1073439",
+      "artikel": "Erste »TSUKIMICHI«-Staffel erscheint als Gesamtausgabe auf Blu-ray",
+      "quelle": "https://www.anime2you.de/news/1073439/tsukimichi-staffel-1-blu-ray-gesamtausgabe/",
       "veroeffentlicht": "2026-11-20",
       "gelesenAm": "2026-11-20"
     }

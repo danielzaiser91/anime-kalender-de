@@ -10,6 +10,7 @@ import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { mitWiederholung } from './buehne-absturz.mjs'
+import { inScheibe, mockupGewaehlt } from './buehne-umfang.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 /** `BUEHNE_DIST` zeigt auf die Bühne einer Basis (main), die der Lauf des PR zum Vergleich mitmisst. */
@@ -117,18 +118,22 @@ export async function oeffneZellen(seite, { mockup, variante, fall, teil, zeit }
 
 /**
  * Geht alle Mockups × Fälle × Zeiten × Varianten durch (ohne `zeiten` im Mockup einmal ohne Zeit). Die erste Variante bringt
- * Vorher und Nachher, jede weitere nur Nachher — Vorher ist ja immer dasselbe. `filter` (Namensteil) schränkt die Mockups ein.
+ * Vorher und Nachher, jede weitere nur Nachher — Vorher ist ja immer dasselbe. `filter` (Namensteile, kommagetrennt) schränkt die
+ * Mockups ein, `scheibe` (`{ k, n }`) nimmt nur jede n-te Gruppe aus Mockup × Fall × Zeit (alle Varianten der Gruppe zusammen).
  * `beiZellen` darf Zeilen (Befunde) zurückgeben; übernommen wird nur die des erfolgreichen Versuchs, damit eine Wiederholung nach
  * halber Messung nichts doppelt meldet. Rückgabe: alle Zeilen plus je zweimal abgestürzter Einheit eine „Absturz …“-Zeile.
  */
-export async function durchlaufe(seite, filter, beiZellen, { nurErsteVariante = false } = {}) {
-  const mockups = (await listeMockups(seite)).filter((m) => !filter || m.name.includes(filter))
+export async function durchlaufe(seite, filter, beiZellen, { nurErsteVariante = false, scheibe = null } = {}) {
+  const mockups = (await listeMockups(seite)).filter((m) => mockupGewaehlt(m.name, filter))
+  let nr = 0
   if (!mockups.length) throw new Error(`kein Mockup${filter ? ` mit „${filter}“` : ''} gefunden`)
   const zeilen = []
   let aktuell = seite
   for (const m of mockups) {
     for (const fall of m.faelle) {
       for (const zeit of m.zeiten.length ? m.zeiten : [undefined]) {
+        /* Die Scheibe teilt nach Gruppen (Mockup × Fall × Zeit), nie nach Varianten: das Vorher der ersten Variante gehört zu jeder weiteren. */
+        if (!inScheibe(nr++, scheibe)) continue
         for (const [i, variante] of m.varianten.entries()) {
           if (nurErsteVariante && i > 0) break
           const einheit = async (s) => beiZellen({ mockup: m.name, fall, variante, zeit, zellen: await oeffneZellen(s, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher', zeit }) })
