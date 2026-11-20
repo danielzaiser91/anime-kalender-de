@@ -10,7 +10,7 @@
  *   Exit 3: ein offener PR trägt „ersetzt PR <PR>“ (`pr-ersetzt.mjs`), vor allen anderen Urteilen, auch bei gemergtem <PR>: nicht mergen.
  *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
  *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
- *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`); bei einem reinen Bot-Datensprung (`reinerBotSprung`) genügt: der PR berührt keine bewegte Datei.
+ *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`); bei einem reinen Bot-Datensprung (`reinerBotSprung`) genügt: der PR berührt keine bewegte Datei; dasselbe gilt je Datei, die im Mischsprung nur erlaubte Bot-Commits schrieben (`botBewegte`).
  *   Exit 1: nicht aktuell; main wurde per `update-branch` (mit `expected_head_sha`) in den Zweig geholt: der Kopf ist NEU, die Meldung nennt ihn
  *           („neuer Kopf <sha>: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen“); die Merge-Zeile `… && gh pr merge` läuft danach nicht weiter (das `&&` ist der Schutz).
  *           Nur wenn update-branch abgewiesen wurde (HTTP 4xx, z. B. 422 oder 403, oder Trockenlauf/Riegel des Nacht-Mergers), gilt der Rückfall:
@@ -126,7 +126,8 @@ export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = 
   if (paketGrund !== null) return paketGrund
   const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null
   if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`
-  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET)
+  const botFrei = botBewegte(vergleich, prDateien)
+  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET && !botFrei.has(d))
   return liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))
 }
 
@@ -163,6 +164,23 @@ export function reinerBotSprung(vergleich, prDateien) {
   return vergleich.dateien.every((d) => erlaubt(DATEN_KONTEN[0], d, frei))
 }
 
+/**
+ * Dateien des Sprungs, die nur erlaubte Bot-Commits berührten (19.11.2026, Messung 16.-19.11.: 56 Abweisungen an 45 PR, 11 nur wegen Bot-Dateien neben
+ * einem Menschen-Commit). Für sie gilt wie im reinen Bot-Sprung nur die Berührung, nicht die Leser-Regel; schreibt auch nur ein nicht erlaubter Commit
+ * dieselbe Datei, bleibt sie draußen (fail-closed). Ohne `commits` (Paarung nicht lesbar) leer.
+ */
+export function botBewegte(vergleich, prDateien) {
+  const erweiterungFrei = !prDateien.some(beruehrtErweiterung)
+  const bot = new Set()
+  const fremd = new Set()
+  for (const c of vergleich.commits ?? []) for (const d of c.dateien) (erlaubt(c.autor, d, erweiterungFrei) ? bot : fremd).add(d)
+  return new Set([...bot].filter((d) => !fremd.has(d)))
+}
+
+const botKonto = (autor) => autor === WACHE_KONTO || DATEN_KONTEN.includes(autor)
+/** Commit-Paare braucht, wer `claude[bot]` im Sprung hat oder Bot- und Menschen-Commits mischt; ein Sprung nur aus Datenkonten entscheidet ohne sie. */
+const brauchtPaare = (autoren) => autoren.includes(WACHE_KONTO) || (autoren.some(botKonto) && !autoren.every(botKonto))
+
 const abgeschnitten = (v) => v.anzahl >= COMPARE_GRENZE || v.commitsGesamt !== v.autoren.length
 
 /** Ersetzt einen abgeschnittenen API-Vergleich durch den lokalen; scheitert git, bleibt er abgeschnitten (mit Grund). */
@@ -173,9 +191,9 @@ function vervollstaendige(vergleich, basis, main, voll) {
   return { ...vergleich, ...r, vollstaendig: true }
 }
 
-/** Hängt je Commit Autor und Dateien an, wenn `claude[bot]` im Sprung ist (nur dann entscheidet die Paarung); scheitert git, bleibt es ohne (fail-closed). */
+/** Hängt je Commit Autor und Dateien an, wenn nur die Paarung entscheidet (`brauchtPaare`); scheitert git, bleibt es ohne (fail-closed). */
 function mitCommits(vergleich, basis, main, paare) {
-  if (vergleich.status !== 'ahead' || !vergleich.autoren.includes(WACHE_KONTO)) return vergleich
+  if (vergleich.status !== 'ahead' || !brauchtPaare(vergleich.autoren)) return vergleich
   const r = paare(basis, main)
   return r.fehler === undefined ? { ...vergleich, commits: r.commits } : vergleich
 }
@@ -196,7 +214,7 @@ export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang =
   if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
   const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot, frei, basis }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket({ nummer: pr.number, kopf: pr.headRefOid, main, basis }, prDateien), frei)
   if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
-  if (bot === null) return { ausnahme: 'nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien' }
+  if (bot === null) return { ausnahme: `nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien${botBewegte(vergleich, prDateien).size > 0 ? '; Bot-Dateien dieses Sprungs zählen nur bei Berührung' : ''}` }
   return { grund: grundText(daten, bot) }
 }
 

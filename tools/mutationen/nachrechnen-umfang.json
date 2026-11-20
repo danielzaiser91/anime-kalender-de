@@ -153,8 +153,8 @@
   {
     "name": "botSprungAusnahme: Grenzdatei bleibt unter den Dateien für die Leser-Regel",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET)",
-    "ersetze": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== PAKET)",
+    "suche": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET && !botFrei.has(d))",
+    "ersetze": "const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== PAKET && !botFrei.has(d))",
     "tests": [
       "node tools/pr-nachrechnen-umfang.test.mjs"
     ]
