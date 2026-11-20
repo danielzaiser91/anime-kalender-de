@@ -16,6 +16,7 @@ Datei es erlaubt. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchr
 
 - **Stufe 0** (Text/Patchnotes/i18n ohne Rechtstexte, gescopte CSS ≤ 30 Zeilen in einer Datei, Doku,
   Kommentare): **kein eigener Prüfer-Agent**; der CI-Prüfer prüft schlank (nur Diff) und gibt frei (seit 12.10.2026); nach grüner PR-Prüfkette und CI-Freigabe mergen (nach `pr-nachrechnen.mjs`, kein Auto-Merge, 19.10.2026), danach Livemessung.
+  **Sonderweg Nur-Mod (Daniel, 20.11.2026, F147):** ändert ein PR nur `.claude/mods/arbeitsliste/**` (dazu höchstens Skill-Markdown, mindestens eine Mod-Datei), ist er Stufe 0 ohne Größengrenze; die Kette fährt nur `Kette – Mod-Schnellweg` (`claude plugin test`/`validate` und die Leser der Mod), der CI-Prüfer gibt ohne Modellaufruf frei. Ein PR nur mit Skill-Markdown oder mit einer weiteren Datei bleibt auf dem alten Weg (Regel: `tools/pr-nur-mod.mjs`).
 - **Stufe 1** (UI-Logik, einzelne Handbelege, Konstanten/Zahlen in Daten): ein **schlanker Prüfer**
   liest den Diff und `gh pr checks`, baut nicht nach, kein Playwright (außer Screenshot einer Ansicht).
   Handbeleg: Beleg im Wortlaut und Titelzuordnung gegenlesen.

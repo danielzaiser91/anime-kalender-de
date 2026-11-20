@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parse } from 'yaml'
 import { pruefeKette } from './pr-kette-pruefen.mjs'
+import { CLI_VERSION } from './pr-kette-schnellweg.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const lesen = () => parse(readFileSync(resolve(WURZEL, '.github/workflows/pr-pruefung.yml'), 'utf8'))
@@ -178,5 +179,31 @@ fall('Datenbau: Job mit if: false', (d) => { datenbau(d).if = '${{ false }}' }, 
 fall('Datenbau: Job mit continue-on-error', (d) => { datenbau(d)['continue-on-error'] = true }, DATENBAU)
 fall('Datenbau: zu lange Frist', (d) => { datenbau(d)['timeout-minutes'] = 360 }, /timeout-minutes über/)
 fall('Datenbau: runs-on selbst gehostet', (d) => { datenbau(d)['runs-on'] = 'self-hosted' }, /Job "datenbau": runs-on ist nicht/)
+// Mod-Schnellweg (20.11.2026): Jobs `scope` und `modschnell` in Sollfassung, jeder andere Job hängt an `scope`
+const SCHNELL = /weicht von der Sollfassung in tools\/pr-kette-schnellweg\.mjs ab/
+fall('Schnellweg: Teiljob ohne needs scope', (d) => { delete d.jobs.logik.needs }, /Teiljob "logik": needs ist nicht exakt/)
+fall('Schnellweg: Teiljob hängt an anderem Job', (d) => { d.jobs.logik.needs = ['bau'] }, /Teiljob "logik": needs ist nicht exakt/)
+fall('Schnellweg: Teiljob ohne Nur-Mod-Klausel', (d) => { d.jobs.logik.if = "${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}" }, /Teiljob "logik": if ist nicht textgleich/)
+fall('Schnellweg: Teiljob überspringt sich bei jedem PR', (d) => { d.jobs.bau.if = "${{ needs.scope.outputs.nur_mod != '0' && !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}" }, /Teiljob "bau": if ist nicht textgleich/)
+fall('Schnellweg: Datenbau ohne needs', (d) => { delete datenbau(d).needs }, DATENBAU)
+fall('Schnellweg: Aussehen ohne needs', (d) => { delete d.jobs.aussehen.needs }, /Aussehen-Job "aussehen": needs/)
+fall('Schnellweg: Aussehen ohne Nur-Mod-Klausel', (d) => { d.jobs.aussehen.if = "${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}" }, /Aussehen-Job "aussehen": if/)
+fall('Schnellweg: Umfangsjob fehlt', (d) => { delete d.jobs.scope }, /Kein \(oder mehr als ein\) Job mit dem Namen "Kette – Umfang"/)
+fall('Schnellweg: Umfangsjob meldet immer 1', (d) => { d.jobs.scope.steps[1].run = 'echo nur_mod=1 >> "$GITHUB_OUTPUT"' }, SCHNELL)
+fall('Schnellweg: Umfangsjob ohne Tiefe 2', (d) => { delete d.jobs.scope.steps[0].with }, SCHNELL)
+fall('Schnellweg: Umfangsjob mit continue-on-error', (d) => { d.jobs.scope['continue-on-error'] = true }, SCHNELL)
+fall('Schnellweg: Schnellweg fehlt', (d) => { delete d.jobs.modschnell }, /Kein \(oder mehr als ein\) Job mit dem Namen "Kette – Mod-Schnellweg"/)
+fall('Schnellweg: Schnellweg ohne Mod-Tests', (d) => { d.jobs.modschnell.steps.splice(2, 1) }, SCHNELL)
+fall('Schnellweg: Schnellweg ohne validate', (d) => { d.jobs.modschnell.steps.splice(3, 1) }, SCHNELL)
+fall('Schnellweg: Schnellweg-Prüfung mit || true', (d) => { d.jobs.modschnell.steps[2].run += ' || true' }, SCHNELL)
+fall('Schnellweg: Schnellweg läuft immer', (d) => { d.jobs.modschnell.if = "${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}" }, SCHNELL)
+fall('Schnellweg: Schnellweg mit continue-on-error', (d) => { d.jobs.modschnell['continue-on-error'] = true }, SCHNELL)
+fall('Schnellweg: Sammeljob ohne scope in needs', (d) => { sammler(d).needs = sammler(d).needs.filter((id) => id !== 'scope') }, /"scope" fehlt in needs/)
+fall('Schnellweg: Sammeljob ohne modschnell in needs', (d) => { sammler(d).needs = sammler(d).needs.filter((id) => id !== 'modschnell') }, /"modschnell" fehlt in needs/)
+// Version von `claude plugin validate` im Workflow = Version der Mod-Tests (eine Quelle, kein Auseinanderlaufen)
+const cliVersion = /const CLI = '([^']+)'/.exec(readFileSync(resolve(WURZEL, 'tools/mod-tests.test.mjs'), 'utf8'))?.[1]
+assert.ok(cliVersion, 'CLI-Konstante in tools/mod-tests.test.mjs gefunden')
+assert.equal(CLI_VERSION, cliVersion, 'Sollfassung des Schnellwegs nutzt dieselbe Claude-Code-Version wie die Mod-Tests')
+assert.ok(lesen().jobs.modschnell.steps[3].run.includes(` ${cliVersion} `), 'validate nutzt dieselbe Claude-Code-Version wie die Mod-Tests')
 assert.match(pruefeKette(lesen(), scripts, undefined).join('\n'), /Aktion kette-einrichten: nicht gelesen/, 'ohne Aktion muss rot sein')
 console.log('pr-kette-pruefen.test: grün')

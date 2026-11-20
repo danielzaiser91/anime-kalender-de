@@ -4,7 +4,10 @@
  *   node tools/pr-stufe.mjs <PR-Nummer>        (Diff über `gh pr diff`)
  *   node tools/pr-stufe.mjs <ref-a> <ref-b>    (Diff über `git diff a...b`)
  *
- * Ausgabe: JSON { stufe, begruendung[], dateien }.
+ * Ausgabe: JSON { stufe, begruendung[], dateien, nurMod }.
+ * `nurMod` (20.11.2026, F147): alle Dateien liegen unter `.claude/mods/arbeitsliste/` (dazu höchstens Skill-Markdown, mindestens eine Mod-Datei,
+ * kein Symlink, kein Moduswechsel) → Stufe 0 ohne Größengrenze; der CI-Prüfer gibt dann mechanisch frei (kein Modellaufruf), die Kette fährt nur
+ * den Mod-Schnellweg. Andere Mods, rules, hooks, agents, commands bleiben Stufe 1, ein reiner Skill-PR bleibt Stufe 1. Regel: tools/pr-nur-mod.mjs.
  *
  * Stufe 0 Kleinigkeit: kein eigener Prüfer-Agent; PR-Prüfkette plus schlanker CI-Prüfer (nur Diff, seit 12.10.2026), dann Merge und Livemessung.
  * Stufe 1 normal:      ein schlanker Prüfer liest den Diff und das CI-Ergebnis, baut nicht nach.
@@ -23,6 +26,7 @@
  * | Skill-Text: .claude/skills/**\/*.md (andere Dateien dort bleiben 2)           | 1       |
  * | web/buehne/** (Mockup-Bühne, nicht ausgeliefert; mit Stufe-2-Pfaden gemischt bleibt 2) | 1 |
  * | .claude/(rules|agents|hooks|mods|commands)/** (steuern Daniels Agenten; settings.json bleibt 2) | 1       |
+ * | nur .claude/mods/arbeitsliste/** (+ Skill-Markdown), mindestens eine Mod-Datei (tools/pr-nur-mod.mjs) | 0 |
  * | Handwerkzeug tools/<name>.(mjs|cjs|js|ts) mit eigenem Test, dessen Name in .github, package.json, tools, pipeline, shared, web, worker, extension, .claude, Wurzeldateien nirgends (auch nicht in fremden Tests) vorkommt und kein Glob trifft (tools/pr-stufe-kette.mjs) | 1 |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
  * | Text: data/patchnotes/(vorrat/)*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
@@ -36,6 +40,7 @@
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { istHandwerkzeug, leseKette } from './pr-stufe-kette.mjs'
+import { istNurMod } from './pr-nur-mod.mjs'
 
 const GRENZE_CSS = 30
 const GRENZE_KOMMENTAR = 30
@@ -161,6 +166,10 @@ function nurTest(d) {
 
 /** Stufe des ganzen Diffs. Eingabe: Ergebnis von liesDiff. */
 export function bestimmeStufe(dateien, keineKette = null) {
+  // Nur Mod `arbeitsliste` (und Skill-Markdown): Stufe 0 ohne Größengrenze, die Kette fährt dafür nur den Mod-Schnellweg.
+  if (istNurMod(dateien)) {
+    return { stufe: 0, begruendung: ['nur Mod arbeitsliste (und Skill-Markdown): Stufe 0, Kette nur Mod-Schnellweg'], dateien: dateien.map((d) => d.pfad), nurMod: true }
+  }
   const kette = keineKette && { ...keineKette, diff: dateien.map((d) => d.pfad) }
   const begruendung = []
   let stufe = 0
@@ -188,7 +197,7 @@ export function bestimmeStufe(dateien, keineKette = null) {
     begruendung.push('leerer Diff: Stufe 2')
   }
   if (stufe === 0) begruendung.push('nur Doku, Text, gescopte CSS oder Kommentare')
-  return { stufe, begruendung, dateien: dateien.map((d) => d.pfad) }
+  return { stufe, begruendung, dateien: dateien.map((d) => d.pfad), nurMod: false }
 }
 
 function diffAusQuelle(args) {
