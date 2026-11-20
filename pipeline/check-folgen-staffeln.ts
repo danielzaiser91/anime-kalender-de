@@ -30,6 +30,7 @@ pruefe('Staffel 3 reicht über die Liste hinaus: Folge 123 ohne Titel, 136 am En
 pruefe('Staffel 1 trägt die Titel der Liste', ab[0]!.folgen[0]?.[1] === 'Folge 1' && ab[0]!.folgen.at(-1)?.[0] === 45)
 pruefe('offene Staffel bis zur höchsten deutschen Folge', ab[3]!.offen && ab[3]!.bis === 137 && !ab[0]!.offen)
 pruefe('offene Staffel ohne Deutsch und ohne Liste: nur ihre erste Folge', staffelAbschnitte([[1, 1, 2], [2, 3]], [[1, ''], [2, '']], [], () => false)[1]!.bis === 3)
+pruefe('offene Staffel folgt dem deutschen Bereich über Liste und Beginn hinaus', staffelAbschnitte([[1, 1, 2], [2, 3]], [[1, ''], [2, ''], [3, '']], [[1, 5]], () => true)[1]!.bis === 5)
 pruefe('offene Staffel folgt der Liste, wo sie weiter reicht', staffelAbschnitte([[1, 1, 2], [2, 3]], [[1, ''], [5, '']], [], () => false)[1]!.bis === 5)
 pruefe('Zeile geschlossene Staffel', staffelZeile(ab[1]!) === 'Folge 46–89 · 44 von 44 auf Deutsch', staffelZeile(ab[1]!))
 pruefe('Zeile offene Staffel ohne „von N“', staffelZeile(ab[3]!) === 'ab Folge 137 · läuft · 1 auf Deutsch', staffelZeile(ab[3]!))
