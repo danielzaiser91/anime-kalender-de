@@ -509,6 +509,7 @@ pipeline/check-patchnotes-vorrat.ts
 pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
+pipeline/check-pille-fuss-rand.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-plattform-rang.ts
 pipeline/check-plot-erschienen.ts
@@ -555,6 +556,7 @@ pipeline/check-reihen-spur.ts
 pipeline/check-reihen-teilname.ts
 pipeline/check-reihen-traeger-aufrufer.ts
 pipeline/check-reihen-traeger.ts
+pipeline/check-reihen-uebersicht.ts
 pipeline/check-reihen-zeile-spanne.ts
 pipeline/check-reinids-grund.ts
 pipeline/check-release-ohne-quelle.ts
@@ -639,6 +641,7 @@ pipeline/check-tab-titel-quelle-lauf.ts
 pipeline/check-takt.ts
 pipeline/check-telekom-annahme.ts
 pipeline/check-telekom-pille.ts
+pipeline/check-termin-knopfzahl.ts
 pipeline/check-termin-offen-karte.ts
 pipeline/check-termin-pille.ts
 pipeline/check-termin-ton.ts

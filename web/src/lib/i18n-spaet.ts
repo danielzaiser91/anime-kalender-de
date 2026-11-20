@@ -169,6 +169,7 @@ export const TEXTE_SPAET = {
   'detail.reiheSuche': 'In der Reihe suchen',
   'detail.reiheOhneSynchro': 'Keine deutsche Synchro',
   'detail.reiheKeinTreffer': 'Kein Teil passt',
+  'detail.reiheAlleZeigen': 'Alle {n} zeigen',
   'detail.folgenOhneAnbieter': 'Für Folgen {bereich} kennen wir keinen deutschen Anbieter.',
   'detail.folgeOhneAnbieter': 'Für Folge {bereich} kennen wir keinen deutschen Anbieter.',
   'detail.werkangaben': 'Zum Werk',
