@@ -70,6 +70,7 @@ function lade({ imFrame, pfad, search = '', suche = {}, karten = [] }) {
       head: element(),
       title: 'Amazon.de',
       createElement: () => element(),
+      createTextNode: (text) => ({ textContent: text }),
       querySelector: () => null,
       querySelectorAll: (sel) => (sel === 'article[data-testid="card"]' ? karten : []),
       addEventListener() {},
@@ -156,8 +157,8 @@ async function haupt() {
   }
 
   /*
-    **Such-Frame (Prüfer A1, 31.10.2026):** Auf `/s` gibt es nie eine Kennung; das Skript wartet dort fünf Minuten, und der Takt
-    am Ende wurde nie erreicht. Der Durchgang lief in Wirklichkeit nie durch eine Suche. Hier läuft das ganze Skript.
+    **Suchseite (20.11.2026):** Der Durchgang öffnet keine Suchseiten mehr; eine von Hand geöffnete Suchseite lädt das ganze Skript,
+    zeigt den Auswahlkasten und postet nie eine Frame-Antwort.
   */
   {
     const karte = (titel, asin) => ({
@@ -169,25 +170,13 @@ async function haupt() {
     const suche = {
       'https://www.amazon.de/s?k=Operation%20Nussknacker&i=instant-video': { titel: 'Operation: Nussknacker - Auf die Nüsse, fertig, los!', folgen: 1 },
     }
-    const { w } = lade({ imFrame: true, pfad: '/s', search: '?k=Operation%20Nussknacker&i=instant-video', suche, karten })
-    await new Promise((r) => setImmediate(r))
-    pruefe('Such-Frame: das Skript läuft ohne Absturz', !w.absturz, w.absturz?.message)
-    pruefe('Such-Frame: der Takt ist angemeldet, ohne dass eine Kennung da ist', w.zeitgeber.some((z) => z.fn.name === 'primeTakt' && z.ms === 500), w.zeitgeber.map((z) => z.fn.name))
-    taktDrehen(w, 3)
-    pruefe('Such-Frame: vor Ablauf von 3 s keine Antwort', w.gepostet.length === 0, w.gepostet)
-    w.uhr += 3500
-    taktDrehen(w, 2)
-    pruefe('Such-Frame: der Takt arbeitet die Suche ab und meldet den genauen Treffer', w.gepostet.length === 1 && w.gepostet[0].ok === true && w.gepostet[0].treffer.join() === 'B087Y8ZNF8', w.gepostet)
-    pruefe('Such-Frame: der Takt wirft nicht', !w.warnungen.some((x) => /Takt wirft/.test(x)), w.warnungen)
-    taktDrehen(w, 2)
-    pruefe('Such-Frame: genau eine Antwort', w.gepostet.length === 1, w.gepostet.length)
-
-    /* Gegenprobe: dieselbe Seite als sichtbare Seite (kein Frame) startet keinen Such-Frame-Weg. */
     const sichtbar = lade({ imFrame: false, pfad: '/s', search: '?k=Operation%20Nussknacker&i=instant-video', suche, karten }).w
     await new Promise((r) => setImmediate(r))
     sichtbar.uhr += 3500
     taktDrehen(sichtbar, 3)
-    pruefe('Gegenprobe: eine sichtbare Suchseite postet keine Frame-Antwort', sichtbar.gepostet.length === 0, sichtbar.gepostet)
+    pruefe('Suchseite: das Skript läuft ohne Absturz', !sichtbar.absturz, sichtbar.absturz?.message)
+    pruefe('Suchseite: der Takt wirft nicht', !sichtbar.warnungen.some((x) => /Takt wirft/.test(x)), sichtbar.warnungen)
+    pruefe('Suchseite: keine Frame-Antwort, der Durchgang liest keine Suchseiten mehr', sichtbar.gepostet.length === 0, sichtbar.gepostet)
   }
 
   console.log('')
