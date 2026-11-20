@@ -77,9 +77,14 @@ async function ablauf(name: string, uebernommen: boolean, neu: Record<string, un
   const z = await ablauf('unbrauchbare Werte werden nicht übernommen', false, { version: 'x y', seitenAdresse: 'javascript:alert(1)' }, '2026-11-20T12:00:00Z')
   pruefe(z.g === '2026-11-20T16:00:00Z' && z.v === null && z.s === null, 'Zeitstempel erneuert, Version und Seite bleiben NULL', z)
 }
+{
+  const ALT = { version: '4.30.0', seitenAdresse: 'https://www.amazon.de/gp/video/detail/B0ALTALTAL' }
+  const z = await ablauf('alte Zeile mit anderer Version und Seite: die neue Meldung gewinnt', false, KOPF, '2026-11-20T12:00:00Z', ALT)
+  pruefe(z.g === '2026-11-20T16:00:00Z' && z.v === '4.32.183' && z.s === KOPF.seitenAdresse, 'Version und Seitenadresse der neuen Meldung ersetzen die alten', z)
+}
 
 if (fehler) {
   console.log(`\n${fehler} Fehler`)
   process.exit(1)
 }
-console.log('\nworker-meldung-auffrischen: alle Fälle ok (6 Abläufe)')
+console.log('\nworker-meldung-auffrischen: alle Fälle ok (7 Abläufe)')
