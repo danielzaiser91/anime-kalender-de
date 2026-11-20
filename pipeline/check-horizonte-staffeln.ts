@@ -79,7 +79,7 @@ pruefe('Ohne offene Staffel gilt die Folgenzahl weiter', fehlerInGrenzen({ anili
 const nummern = Array.from({ length: 122 }, (_, i) => i + 1)
 pruefe('Horizonte: 136 von 137', zaehleFolgen(nummern, [[1, 136]], 137).join() === '137,136', zaehleFolgen(nummern, [[1, 136]], 137).join())
 pruefe('Ohne Staffelgrenzen unverändert (122 von 122)', zaehleFolgen(nummern, [[1, 136]], undefined).join() === '122,122')
-pruefe('Grenzen bis genau zur Listenlänge: unverändert', zaehleFolgen([1, 2, 3], [[2, 9]], 3).join() === '3,2')
+pruefe('Grenzen bis genau zur Listenlänge: die Liste zählt', zaehleFolgen([1, 2, 4], [[4, 9]], 3).join() === '3,1')
 pruefe('Deutsch zählt nur Folgen in den Bereichen', zaehleFolgen([1, 2], [[2, 3], [6, 6]], 7).join() === '7,3')
 pruefe('Liste länger als die Grenzen: Liste zählt', zaehleFolgen([1, 2, 3, 5], [[1, 2]], 3).join() === '4,2')
 
