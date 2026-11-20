@@ -1,27 +1,6 @@
 {
-  "stand": "2026-11-20",
+  "stand": "2026-11-21",
   "eintraege": [
-    {
-      "titel": "Inazuma Eleven: The Movie - Team Oger greift an",
-      "id": 9032,
-      "anbieter": "disc",
-      "start": "2026-11-06",
-      "seit": "2026-11-08"
-    },
-    {
-      "titel": "NINJA SKOOLER Pilot Film",
-      "id": 177636,
-      "anbieter": "unbekannt",
-      "start": "2026-11-06",
-      "seit": "2026-11-08"
-    },
-    {
-      "titel": "GROTESQQQUE",
-      "id": 178972,
-      "anbieter": "unbekannt",
-      "start": "2026-11-06",
-      "seit": "2026-11-08"
-    },
     {
       "titel": "CARDFIGHT!! VANGUARD Divinez: Parallactic Fate",
       "id": 214536,
@@ -157,6 +136,27 @@
     }
   ],
   "abgeloest": [
+    {
+      "titel": "Inazuma Eleven: The Movie - Team Oger greift an",
+      "id": 9032,
+      "anbieter": "disc",
+      "start": "2026-11-06",
+      "seit": "2026-11-08"
+    },
+    {
+      "titel": "NINJA SKOOLER Pilot Film",
+      "id": 177636,
+      "anbieter": "unbekannt",
+      "start": "2026-11-06",
+      "seit": "2026-11-08"
+    },
+    {
+      "titel": "GROTESQQQUE",
+      "id": 178972,
+      "anbieter": "unbekannt",
+      "start": "2026-11-06",
+      "seit": "2026-11-08"
+    },
     {
       "titel": "There’s No Freaking Way I’ll Be Your Lover! Unless…",
       "id": 184591,

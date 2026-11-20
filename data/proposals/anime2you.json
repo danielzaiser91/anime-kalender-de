@@ -1,13 +1,13 @@
 {
-  "scrapedAt": "2026-11-20T16:04:01.827Z",
+  "scrapedAt": "2026-11-20T23:01:33.049Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "schon in einem Rubrik-Feed gelesen": 13,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 5,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
-    "Sprachhinweis älter als 45 Tage": 6
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 7,
+    "schon in einem Rubrik-Feed gelesen": 12,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
+    "Sprachhinweis älter als 45 Tage": 7
   },
   "proposals": [
     {
@@ -4560,19 +4560,6 @@
           "satz": "eine Intrige und beschließen, die Wahrheit aufzudecken und in ihre Heimat zurückzukehren. »Tougen Anki« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Prime Video , ADN Handlung: Nac"
         }
       ],
-      "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Episodenanzahl des Fantasy-Anime »Overgeared« steht fest",
-      "articleUrl": "https://www.anime2you.de/news/1057603/episodenanzahl-von-overgeared/",
-      "publishedAt": "2026-10-06",
-      "category": "allgemein",
-      "platforms": [
-        "crunchyroll"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "hinweis": "sprache",
       "alreadyCurated": false
     },
     {
