@@ -32,7 +32,7 @@ assert.ok(idx(ohneModell) < idx(schritt('Check-Stand des Kopfes')) && idx(schrit
 const wurzel = mkdtempSync(join(tmpdir(), 'pr-pruefer-nur-mod-'))
 /** Führt `run` mit bash aus und verlangt Exit 0. */
 function bash(run, env) {
-  const r = spawnSync('bash', ['-c', run], { env: { ...process.env, ...env }, encoding: 'utf8', windowsHide: true })
+  const r = spawnSync('bash', ['-c', run], { env: { ...process.env, ...env }, encoding: 'utf8', windowsHide: true, timeout: 60_000 })
   assert.equal(r.status, 0, `bash-Exit 0 erwartet: ${r.stderr}`)
 }
 try {
@@ -44,7 +44,7 @@ try {
   const nurMod = (json) => {
     const t = join(wurzel, 'p')
     rmSync(t, { recursive: true, force: true })
-    spawnSync('bash', ['-c', `mkdir -p "${posix(t)}"`])
+    spawnSync('bash', ['-c', `mkdir -p "${posix(t)}"`], { timeout: 60_000, windowsHide: true })
     if (json !== null) writeFileSync(join(t, 'stufe.json'), json)
     const ausgabe = join(wurzel, 'out.txt')
     writeFileSync(ausgabe, '')

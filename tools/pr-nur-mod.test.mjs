@@ -44,10 +44,10 @@ assert.equal(leseRaw('Müll\0a\0')[0].unlesbar, true, 'unbekanntes Format ist un
 
 // Echter Aufruf gegen Wegwerf-Repos
 const wurzel = mkdtempSync(join(tmpdir(), 'pr-nur-mod-'))
-const git = (cwd, ...args) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', '-c', 'core.autocrlf=false', ...args], { cwd, encoding: 'utf8', windowsHide: true })
+const git = (cwd, ...args) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', '-c', 'core.autocrlf=false', ...args], { cwd, encoding: 'utf8', windowsHide: true, timeout: 60_000 })
 const skript = join(import.meta.dirname, 'pr-nur-mod.mjs')
 const lauf = (cwd, a = 'HEAD^1', b = 'HEAD') => {
-  const r = spawnSync(process.execPath, [skript, a, b], { cwd, encoding: 'utf8', windowsHide: true })
+  const r = spawnSync(process.execPath, [skript, a, b], { cwd, encoding: 'utf8', windowsHide: true, timeout: 60_000 })
   assert.equal(r.status, 0, `Exit 0 erwartet: ${r.stderr}`)
   return r.stdout.trim()
 }
@@ -72,7 +72,7 @@ try {
   assert.equal(lauf(repo('neuer-skill', (o) => { mkdirSync(join(o, '.claude/skills/s'), { recursive: true }); writeFileSync(join(o, SKILL.replace('daniel-dateien-pflegen', 's')), 'x\n'); writeFileSync(join(o, MOD), 'b\n') })), 'nur_mod=1', 'Mod + Skill-Markdown')
   assert.equal(lauf(repo('modus', (o) => { git(o, 'update-index', '--chmod=+x', MOD); return 'gestaged' })), 'nur_mod=0', 'Moduswechsel')
   assert.equal(lauf(repo('symlink', (o) => {
-    const blob = execFileSync('git', ['hash-object', '-w', '--stdin'], { cwd: o, input: 'ziel', encoding: 'utf8', windowsHide: true }).trim()
+    const blob = execFileSync('git', ['hash-object', '-w', '--stdin'], { cwd: o, input: 'ziel', encoding: 'utf8', windowsHide: true, timeout: 60_000 }).trim()
     git(o, 'update-index', '--add', '--cacheinfo', `120000,${blob},.claude/mods/arbeitsliste/link`)
     return 'gestaged'
   })), 'nur_mod=0', 'Symlink in der Mod')
@@ -83,9 +83,9 @@ try {
   assert.equal(lauf(nurMod, 'HEAD^1', 'gibtsnicht'), 'nur_mod=0', 'Abruffehler: volle Kette, Exit 0')
   // Flacher Klon (Tiefe 2) wie der Checkout der CI: HEAD^1 muss erreichbar sein
   const klon = join(wurzel, 'klon')
-  execFileSync('git', ['clone', '-q', '--depth=2', `file://${nurMod.replaceAll('\\', '/')}`, klon], { encoding: 'utf8', windowsHide: true })
+  execFileSync('git', ['clone', '-q', '--depth=2', `file://${nurMod.replaceAll('\\', '/')}`, klon], { encoding: 'utf8', windowsHide: true, timeout: 60_000 })
   assert.equal(lauf(klon), 'nur_mod=1', 'flacher Klon, nur Mod')
-  const r = spawnSync(process.execPath, [skript, 'a'], { encoding: 'utf8', windowsHide: true })
+  const r = spawnSync(process.execPath, [skript, 'a'], { encoding: 'utf8', windowsHide: true, timeout: 60_000 })
   assert.equal(r.status, 2, 'falscher Aufruf: Exit 2')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
