@@ -1,6 +1,7 @@
 /**
- * Tests für tools/pr-nachrechnen.mjs: Basis aus dem echten Checkout-Log, Entscheidung aktuell / veraltet / unklar, Aufrufe an gh,
- * Startlogik als eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs) und die Bindung an pr-pruefung.yml und pr-pruefer.yml.
+ * Tests für tools/pr-nachrechnen.mjs: Urteil ohne Nachzug (eine Bewegung auf main hält nichts auf, nur Konflikt, Ersatz, Prüfer-Sperre),
+ * `nachziehen` für Stapel-PRs (update-branch, Rückfall Schließen/Öffnen), Startlogik als eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs)
+ * und die Bindung an pr-pruefung.yml und pr-pruefer.yml.
  */
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -8,16 +9,8 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
-import { BOT_DATEIEN_OHNE_LESER } from './pr-nachrechnen-bot-pfade.mjs'
-import { attrappe } from './pr-nachrechnen-leser-attrappe.mjs'
-import { gitLeser } from './pr-nachrechnen-leser-git.mjs'
 import { KOPF_ABSTAND_MS, KOPF_PRUEFUNGEN } from './pr-nachrechnen-zweig.mjs'
-import { COMPARE_GRENZE, JOB, KETTE, REF_ABSTAND_MS, REF_PRUEFUNGEN, basisAusLog, botSprungAusnahme, datenpfadAusnahme, hindernis, kettenweit, main as mainEcht, nachrechnen as nachrechnenEcht, neuesterLauf, schlafe } from './pr-nachrechnen.mjs'
-
-/** Ohne eigene Paarung liest kein Test git: Mischsprünge holten sonst Commits aus dem Netz (19.11.2026: 39 s statt 1 s). */
-const OHNE_GIT = () => ({ fehler: 'kein git' })
-const main = (argv, gh, melde, warte, leser, voll, paare = OHNE_GIT, umfang) => mainEcht(argv, gh, melde, warte, leser, voll, paare, umfang)
-const nachrechnen = (nummer, gh, melde, warte, leser, voll, paare = OHNE_GIT, ...rest) => nachrechnenEcht(nummer, gh, melde, warte, leser, voll, paare, ...rest)
+import { REF_ABSTAND_MS, REF_PRUEFUNGEN, hindernis, istDatenpfad, main, nachrechnen, nachziehen, nachziehenMain, schlafe } from './pr-nachrechnen.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -26,70 +19,39 @@ const pruefe = (name, ok, info) => {
   console.error(`  ✗ ${name}${info === undefined ? '' : ` — ${JSON.stringify(info)}`}`)
 }
 
-// Echter Anlassfall: Log von „Kette – Workflows“ im Lauf 39267257518 (PR 1597, Kopf 08798af3f), Zeilen 171–176.
 const KOPF = '08798af3f0daf193fc754d6eda60ee60b526450f'
 const BASIS = '7a466acc8119e87fbe8dc51782126a6167c5b70a'
 const MAIN = 'c0ffee'.padEnd(40, '0')
-const ECHTES_LOG = [
-  '2026-10-19T14:15:22.8707228Z Turn off this advice by setting config variable advice.detachedHead to false',
-  '2026-10-19T14:15:22.8707733Z ',
-  `2026-10-19T14:15:22.8708669Z HEAD is now at 810f0279 Merge ${KOPF} into ${BASIS}`,
-  '2026-10-19T14:15:22.8775018Z ##[endgroup]',
-  '2026-10-19T14:15:22.8826771Z [command]/usr/bin/git log -1 --format=%H',
-  '2026-10-19T14:15:22.8859380Z 810f027929fbf47f94fe0b32c4db49d512cecbe2',
-].join('\n')
-
-pruefe('Basis aus dem echten Log', basisAusLog(ECHTES_LOG, KOPF) === BASIS, basisAusLog(ECHTES_LOG, KOPF))
-pruefe('Windows-Zeilenenden im Log', basisAusLog(ECHTES_LOG.replaceAll('\n', '\r\n'), KOPF) === BASIS)
-pruefe('Zeile zu einem anderen Kopf zählt nicht', basisAusLog(ECHTES_LOG, MAIN) === null)
-pruefe('Kopf ist keine SHA (Muster im Kopf) -> null', basisAusLog(ECHTES_LOG, '.*') === null)
-pruefe('Log ohne Checkout-Zeile -> null', basisAusLog(ECHTES_LOG.split('\n').filter((z) => !z.includes('HEAD is now')).join('\n'), KOPF) === null)
-pruefe('abgeschnittene Basis -> null', basisAusLog(ECHTES_LOG.replace(BASIS, BASIS.slice(0, 39)), KOPF) === null)
-pruefe('Zeile mit Anhang hinter der Basis -> null', basisAusLog(ECHTES_LOG.replace(BASIS, `${BASIS}x`), KOPF) === null)
-
-const lauf = (headSha, createdAt, databaseId) => ({ headSha, createdAt, databaseId })
-pruefe('neuester Lauf: der neueste in der Mitte gewinnt', neuesterLauf([lauf(KOPF, '2026-10-19T10:00:00Z', 1), lauf(KOPF, '2026-10-19T12:00:00Z', 2), lauf(KOPF, '2026-10-19T11:00:00Z', 3)], KOPF).databaseId === 2)
-pruefe('neuester Lauf: Lauf zu altem Kopf zählt nicht, auch wenn neuer', neuesterLauf([lauf(KOPF, '2026-10-19T10:00:00Z', 1), lauf(MAIN, '2026-10-19T12:00:00Z', 2)], KOPF).databaseId === 1)
-pruefe('neuester Lauf: Zeitzonen-Schreibweise als Zeitpunkt', neuesterLauf([lauf(KOPF, '2026-10-19T13:00:00+02:00', 1), lauf(KOPF, '2026-10-19T11:30:00Z', 2)], KOPF).databaseId === 2)
-pruefe('neuester Lauf: keiner zum Kopf -> null', neuesterLauf([lauf(MAIN, '2026-10-19T10:00:00Z', 1)], KOPF) === null)
-// Anlassfall PR 2279 (28.10.2026): neuerer Lauf 40736158652 war abgebrochen und ohne Jobs, der Lauf davor lief durch.
-const abgebrochen = (headSha, createdAt, databaseId) => ({ ...lauf(headSha, createdAt, databaseId), conclusion: 'cancelled' })
-pruefe('neuester Lauf: neuerer abgebrochener Lauf wird übersprungen', neuesterLauf([abgebrochen(KOPF, '2026-10-19T12:00:00Z', 2), { ...lauf(KOPF, '2026-10-19T10:00:00Z', 1), conclusion: 'success' }], KOPF).databaseId === 1)
-pruefe('neuester Lauf: laufender Lauf (conclusion leer) zählt', neuesterLauf([{ ...lauf(KOPF, '2026-10-19T12:00:00Z', 2), conclusion: '' }, abgebrochen(KOPF, '2026-10-19T10:00:00Z', 1)], KOPF).databaseId === 2)
-pruefe('neuester Lauf: nur abgebrochene -> null', neuesterLauf([abgebrochen(KOPF, '2026-10-19T12:00:00Z', 2)], KOPF) === null)
+const KOPF_NEU = 'd4'.padEnd(40, '4')
+const M_ALT = 'a1'.padEnd(40, '1')
+const M_NEU = 'b2'.padEnd(40, '2')
 
 const offen = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE' }
 pruefe('hindernis: offen und mergebar -> keins', hindernis(offen) === null)
 pruefe('hindernis: geschlossen', /nicht offen \(CLOSED\)/.test(hindernis({ ...offen, state: 'CLOSED' })))
-pruefe('hindernis: Konflikt (reopened startet dann keine Kette)', /Konflikt/.test(hindernis({ ...offen, mergeable: 'CONFLICTING' })))
-pruefe('hindernis: Mergebarkeit unbekannt', /noch nicht berechnet \(UNKNOWN\)/.test(hindernis({ ...offen, mergeable: 'UNKNOWN' })))
+pruefe('hindernis: Konflikt nennt „Konflikt mit main“ (Leser basis-gemergt-neustart)', /Konflikt mit main: erst main hineinmergen/.test(hindernis({ ...offen, mergeable: 'CONFLICTING' })))
+pruefe('hindernis: Mergebarkeit unbekannt nennt „noch nicht berechnet“ (Leser nacht-merger)', /noch nicht berechnet \(UNKNOWN\)/.test(hindernis({ ...offen, mergeable: 'UNKNOWN' })))
+pruefe('istDatenpfad: public/data und data/cache ja, Code und Handdaten nein', istDatenpfad('public/data/titles.json') && istDatenpfad('data/cache/x.json') && !istDatenpfad('tools/check-x.mjs') && !istDatenpfad('data/dub-confirmed.yaml'))
 
-// Kulisse: Antworten je genauer Argumentliste; drei Läufe, drei Jobs, der richtige jeweils in der Mitte.
-// Merge-Commit des PR: M_ALT (Basis BASIS) beim ersten Lesen, nach dem ersten Wiederöffnen M_NEU (Basis MAIN), wie an PR 1602 gemessen.
-const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x' }
-const M_ALT = 'a1'.padEnd(40, '1')
-const M_NEU = 'b2'.padEnd(40, '2')
-const JQ_VERGLEICH = '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}'
-// Standard: ein Commit eines Menschen, damit die Bot-Sprung-Ausnahme (Merge-Fluss C) nur greift, wo ein Fall sie verlangt.
-const vergleich = (dateien, status = 'ahead', anzahl = dateien.length, autoren = ['derNamenloseDaniel'], commitsGesamt = autoren.length) => JSON.stringify({ status, anzahl, dateien, commitsGesamt, autoren })
-function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, logFehler = false, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/check-x.mjs'], prDateien = 'src/a.ts\n', autoren } = {}) {
+// Kulisse: Antworten je genauer Argumentliste. Der PR-Kopf ist KOPF; main ist längst weiter (MAIN), das zählt nicht mehr.
+const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x', comments: [], commits: [] }
+const FELDER = 'number,state,mergeable,headRefOid,headRefName,comments,commits'
+const PUT = `api -X PUT repos/{owner}/{repo}/pulls/7/update-branch -f expected_head_sha=${KOPF}`
+const KOPF_LESEN = 'api repos/{owner}/{repo}/pulls/7 --jq .head.sha'
+const REF = 'api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha'
+function antworten({ nr = 7, pr = PR, offene = [], mergeShas = [M_ALT, M_NEU], zusatz = {} } = {}) {
   return {
-    [`api repos/{owner}/{repo}/compare/${BASIS}...${mainSha} --jq ${JQ_VERGLEICH}`]: { aus: Array.isArray(mainDateien) ? vergleich(mainDateien, 'ahead', mainDateien.length, autoren) : mainDateien.roh },
-    [`api repos/{owner}/{repo}/pulls/${nr}/files --paginate --jq .[] | .filename, (.previous_filename // empty)`]: { aus: prDateien },
-    [`api repos/{owner}/{repo}/pulls/${nr} --jq .merge_commit_sha`]: { aus: mergeShas.map((s) => `${s}\n`) },
+    [`pr view ${nr} --json ${FELDER}`]: { aus: JSON.stringify(pr) },
+    'pr list --state open --limit 200 --json number,title,body': { aus: JSON.stringify(offene) },
+    'api repos/{owner}/{repo}/git/ref/heads/main --jq .object.sha': { aus: `${MAIN}\n` },
+    [REF]: { aus: mergeShas.map((s) => `${s}\n`) },
     [`api repos/{owner}/{repo}/commits/${M_ALT} --jq .parents[0].sha`]: { aus: `${BASIS}\n` },
     [`api repos/{owner}/{repo}/commits/${M_NEU} --jq .parents[0].sha`]: { aus: `${MAIN}\n` },
-    [`pr view ${nr} --json number,state,mergeable,headRefOid,headRefName,comments,commits`]: { aus: JSON.stringify(pr) },
-    'pr list --state open --limit 200 --json number,title,body': { aus: '[]' },
-    [`run list --workflow ${KETTE} --event pull_request --branch fix/x --limit 20 --json databaseId,headSha,createdAt,conclusion,status`]: {
-      aus: JSON.stringify(laeufe ?? [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), lauf(KOPF, '2026-10-19T11:00:00Z', 13)]),
-    },
-    'run view 12 --json jobs': { aus: JSON.stringify({ jobs: jobs ?? [{ name: 'Kette – Logik', databaseId: 91 }, { name: JOB, databaseId: 92, status: 'completed' }, { name: 'PR-Prüfkette', databaseId: 93 }] }) },
-    'api --allow-escape-sequences repos/{owner}/{repo}/actions/jobs/92/logs': logFehler ? { fehler: 'HTTP 404: Not Found' } : { aus: log },
-    'api repos/{owner}/{repo}/git/ref/heads/main --jq .object.sha': { aus: `${mainSha}\n` },
-    [`pr close ${nr}`]: { aus: '' },
-    [`pr reopen ${nr}`]: { aus: '' },
-    [`pr comment ${nr}`]: { aus: '' },
+    'pr close 7': { aus: '' },
+    'pr reopen 7': { aus: '' },
+    [PUT]: { aus: '{"message":"Updating pull request branch."}' },
+    [KOPF_LESEN]: { aus: `${KOPF_NEU}\n` },
+    ...zusatz,
   }
 }
 function kulisse(daten, { reopenFehler = 0 } = {}) {
@@ -98,7 +60,7 @@ function kulisse(daten, { reopenFehler = 0 } = {}) {
   const gewartet = []
   let rest = reopenFehler
   const gh = (args) => {
-    const schluessel = (args[1] === 'comment' ? args.slice(0, 3) : args).join(' ')
+    const schluessel = args.join(' ')
     aufrufe.push(schluessel)
     if (schluessel === 'pr reopen 7' && rest-- > 0) throw new Error('auf')
     const a = daten[schluessel]
@@ -108,504 +70,116 @@ function kulisse(daten, { reopenFehler = 0 } = {}) {
   }
   return { gh, aufrufe, meldungen, gewartet, melde: (t) => meldungen.push(t), warte: (ms) => gewartet.push(ms) }
 }
-const schreibend = (aufrufe) => aufrufe.filter((a) => a.startsWith('pr close') || a.startsWith('pr reopen'))
+const LESEN = [`pr view 7 --json ${FELDER}`, 'pr list --state open --limit 200 --json number,title,body']
+const schreibend = (aufrufe) => aufrufe.filter((a) => /^pr (close|reopen|comment|edit|merge)|update-branch/.test(a))
 
-{
+// Kern der Änderung (Daniel 21.11.2026): main bewegte Code, kein Konflikt -> mergebar, Exit 0 (vorher 1 mit update-branch).
+const WEGE = [
+  ['nachrechnen', (k) => nachrechnen(7, k.gh, k.melde, false)],
+  ['main', (k) => main(['7'], k.gh, k.melde)],
+  ['main --trocken 7', (k) => main(['--trocken', '7'], k.gh, k.melde)],
+  ['main 7 --trocken', (k) => main(['7', '--trocken'], k.gh, k.melde)],
+]
+for (const [name, aufruf] of WEGE) {
   const k = kulisse(antworten())
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe('aktuell (Basis = main) -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
-  pruefe('aktuell: Meldung nennt main', k.meldungen.join() === 'PR 7: aktuell, die Kette rechnete gegen main 7a466acc8', k.meldungen)
-  pruefe('liest Log des Jobs aus dem neuesten Lauf (12, Job 92)', k.aufrufe.includes('run view 12 --json jobs') && k.aufrufe.includes('api --allow-escape-sequences repos/{owner}/{repo}/actions/jobs/92/logs'), k.aufrufe)
+  const code = aufruf(k)
+  pruefe(`${name}: mergebar, main weiter -> Exit 0, liest nur PR und Ersatz-Liste, schreibt nichts`, code === 0 && k.aufrufe.join() === LESEN.join() && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
+  pruefe(`${name}: Meldung nennt Kopf und den Nachlauf`, k.meldungen.join() === 'PR 7: mergebar, kein Konflikt mit main (Kopf 08798af3f); eine Bewegung auf main erzwingt keinen Nachzug, der Nachlauf auf main prüft das Zusammenspiel', k.meldungen)
 }
-{
-  const k = kulisse(antworten({ mainSha: MAIN }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  const ref = `api repos/{owner}/{repo}/pulls/7 --jq .merge_commit_sha`
-  const folge = k.aufrufe.filter((a) => a === ref || schreibend([a]).length > 0)
-  pruefe('veraltet, Merge-Commit alt -> 1, öffnen, neu gerechneten Merge-Commit abwarten, erneut öffnen', code === 1 && folge.join() === [ref, 'pr close 7', 'pr reopen 7', ref, 'pr close 7', 'pr reopen 7'].join() && k.gewartet.length === 0, k.aufrufe)
-  pruefe('veraltet: Meldung nennt beide Stände und den Grund', /NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/check-x.mjs\)/.test(k.meldungen.join()), k.meldungen)
+
+/** Fälle, die aufhalten: Exit, Meldung, kein Schreibaufruf (für nachrechnen und nachziehen gleich). */
+const ERSETZER = [{ number: 6, title: 'a', body: 'x' }, { number: 9, title: 'Neu', body: 'ersetzt PR #7' }, { number: 12, title: 'b', body: 'ersetzt PR 70' }]
+const HALT = [
+  ['Konflikt', antworten({ pr: { ...PR, mergeable: 'CONFLICTING' } }), 2, /^PR 7 hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu$/],
+  ['Mergebarkeit unbekannt', antworten({ pr: { ...PR, mergeable: 'UNKNOWN' } }), 2, /^PR 7: Mergebarkeit noch nicht berechnet \(UNKNOWN\), gleich erneut aufrufen$/],
+  ['geschlossen', antworten({ pr: { ...PR, state: 'CLOSED' } }), 2, /^PR 7 ist nicht offen \(CLOSED\)$/],
+  ['ersetzt (auch bei Konflikt zuerst)', antworten({ pr: { ...PR, mergeable: 'CONFLICTING' }, offene: ERSETZER }), 3, /^PR 7: ERSETZT durch PR 9 /],
+]
+for (const [name, daten, exit, muster] of HALT) {
+  for (const [weg, aufruf] of [['nachrechnen', (k) => nachrechnen(7, k.gh, k.melde, false)], ['nachziehen', (k) => nachziehen(7, k.gh, k.melde, k.warte, false, false)]]) {
+    const k = kulisse(daten)
+    const code = aufruf(k)
+    pruefe(`${weg}: ${name} -> Exit ${exit}, nichts geschrieben`, code === exit && muster.test(k.meldungen.join()) && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe, m: k.meldungen })
+  }
 }
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe('veraltet, Merge-Commit schon neu gerechnet -> einmal öffnen genügt', code === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7' && k.gewartet.length === 0, k.aufrufe)
-}
-// update-branch (Lehre 129, 17.11.2026, tools/pr-nachrechnen-zweig.mjs): main kommt per PUT in den Zweig, der Kopf ist danach neu und wird genannt.
-pruefe('pr-nachrechnen-zweig.mjs: Grenzen 15 Lesungen à 2000 ms (30 s)', KOPF_PRUEFUNGEN === 15 && KOPF_ABSTAND_MS === 2000, { KOPF_PRUEFUNGEN, KOPF_ABSTAND_MS })
-const KOPF_NEU = 'd4'.padEnd(40, '4')
-const PUT = `api -X PUT repos/{owner}/{repo}/pulls/7/update-branch -f expected_head_sha=${KOPF}`
-const KOPF_LESEN = 'api repos/{owner}/{repo}/pulls/7 --jq .head.sha'
-const mitUpdate = (zusatz) => ({ ...antworten({ mainSha: MAIN }), [PUT]: { aus: '{"message":"Updating pull request branch."}' }, [KOPF_LESEN]: { aus: `${KOPF_NEU}\n` }, ...zusatz })
-{
-  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: [`${KOPF}\n`, `${KOPF}\n`, `${KOPF_NEU}\n`] } }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  const m = k.meldungen.join()
-  pruefe('update-branch: Exit 1, kein Schließen/Öffnen, PUT mit expected_head_sha des Kopfs', code === 1 && schreibend(k.aufrufe).length === 0 && k.aufrufe.includes(PUT), k.aufrufe)
-  pruefe('update-branch: Meldung nennt den neuen Kopf vollständig und die Handlung', m.includes(`neuer Kopf ${KOPF_NEU}: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen`), k.meldungen)
-  pruefe('update-branch: wartet, bis der Kopf neu ist (zwei Wartezeiten à KOPF_ABSTAND_MS)', k.gewartet.join() === '2000,2000', k.gewartet)
-  pruefe('update-branch: Grund wird kommentiert', k.aufrufe.includes('pr comment 7'), k.aufrufe)
-  pruefe('update-branch: Reihenfolge, PUT vor dem Lesen des Kopfs', k.aufrufe.indexOf(PUT) < k.aufrufe.indexOf(KOPF_LESEN), k.aufrufe)
-}
-{
-  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: ['\n', `${KOPF_NEU}\n`] } }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe('update-branch: leere Antwort für den Kopf zählt nicht als neuer Kopf (wartet, nennt dann den echten)', code === 1 && k.gewartet.length === 1 && k.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`), { code, w: k.gewartet, m: k.meldungen })
-}
-const anzahlPut = (k) => k.aufrufe.filter((a) => a === PUT).length
-// A3 (PR 4104): jede 4xx-Abweisung (422 Konflikt/Kopf veraltet, 403 fehlendes Token-Recht) = nichts angestoßen, Rückfall wie bisher, nie Kopf lesen.
-for (const [name, fehlerText] of [['422', 'gh: Merge conflict (HTTP 422)'], ['403', 'gh: Resource not accessible by personal access token (HTTP 403)']]) {
-  const k = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe(`update-branch ${name} -> nichts angestoßen: ein PUT, Rückfall Schließen/Öffnen, Exit 1, Kopf nicht gelesen`, code === 1 && anzahlPut(k) === 1 && schreibend(k.aufrufe).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' && !k.aufrufe.includes(KOPF_LESEN), k.aufrufe)
-}
-// A3 (Entscheidung Dirigent): im Rückfall genau eine Zeile „update-branch abgewiesen (HTTP <status>: <Text ≤ 120 Zeichen>) – Rückfall Schließen/Öffnen“; „workflow“ im Text ergänzt den Hinweis auf das Token-Recht.
-const T403 = 'gh: Resource not accessible by personal access token - refusing to allow a Personal Access Token to create or update workflow `.github/workflows/x.yml` without `workflow` scope (HTTP 403)'
-{
-  const k = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } }))
-  main(['7'], k.gh, k.melde, k.warte)
-  const zeilen = k.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
-  pruefe('Rückfallzeile 422: genau eine, mit Status und Text, ohne Token-Hinweis', zeilen.length === 1 && zeilen[0] === 'PR 7: update-branch abgewiesen (HTTP 422: gh: Merge conflict (HTTP 422)) – Rückfall Schließen/Öffnen', k.meldungen)
-  const k3 = kulisse(mitUpdate({ [PUT]: { fehler: T403 } }))
-  main(['7'], k3.gh, k3.melde, k3.warte)
-  const z3 = k3.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
-  pruefe('Rückfallzeile 403 mit „workflow“: genau eine, HTTP 403, Text auf 120 Zeichen gekürzt, „Token ohne Workflows-Recht?“', z3.length === 1 && z3[0] === `PR 7: update-branch abgewiesen (HTTP 403: ${T403.slice(0, 120)}) – Rückfall Schließen/Öffnen; Token ohne Workflows-Recht?` && T403.length > 121, k3.meldungen)
-  const k4 = kulisse(mitUpdate({ [PUT]: { fehler: 'gh: Resource not accessible (HTTP 403)' } }))
-  main(['7'], k4.gh, k4.melde, k4.warte)
-  pruefe('Rückfallzeile 403 ohne „workflow“: kein Token-Hinweis', !k4.meldungen.join().includes('Workflows-Recht'), k4.meldungen)
-}
-// A1 (PR 4104): 5xx oder Zeitlimit nach Wirkung: Kopf einmal lesen; neu = Exit 1 mit neuem Kopf, sonst Exit 2 „SCHON ANGESTOSSEN“; nie zweiter PUT, nie Schließen/Öffnen.
-for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen']]) {
-  const wirkt = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText } }))
-  const code = nachrechnen(7, wirkt.gh, wirkt.melde, wirkt.warte)
-  pruefe(`PUT wirkt, dann ${name} -> Exit 1 mit neuem Kopf, ein PUT, kein Schließen/Öffnen`, code === 1 && wirkt.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}:`) && anzahlPut(wirkt) === 1 && schreibend(wirkt.aufrufe).length === 0, { code, a: wirkt.aufrufe, m: wirkt.meldungen })
-  const nicht = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
-  const code2 = main(['7'], nicht.gh, nicht.melde, nicht.warte)
-  pruefe(`PUT ${name}, Kopf unverändert -> Exit 2 „SCHON ANGESTOSSEN möglich“, ein PUT, kein Schließen/Öffnen`, code2 === 2 && /SCHON ANGESTOSSEN möglich/.test(nicht.meldungen.join()) && anzahlPut(nicht) === 1 && schreibend(nicht.aufrufe).length === 0, { code2, a: nicht.aufrufe, m: nicht.meldungen })
-  const leer = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: '\n' } }))
-  const code4 = main(['7'], leer.gh, leer.melde, leer.warte)
-  pruefe(`PUT ${name}, leere Kopf-Antwort -> Exit 2 „SCHON ANGESTOSSEN möglich“ (leer ist kein neuer Kopf)`, code4 === 2 && /SCHON ANGESTOSSEN möglich/.test(leer.meldungen.join()) && schreibend(leer.aufrufe).length === 0, { code4, m: leer.meldungen })
-  const blind = kulisse(mitUpdate({ [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } }))
-  const code3 = main(['7'], blind.gh, blind.melde, blind.warte)
-  pruefe(`PUT ${name}, Kopf nicht lesbar -> Exit 2 „SCHON ANGESTOSSEN“ und Lesefehler, kein Schließen/Öffnen`, code3 === 2 && /SCHON ANGESTOSSEN/.test(blind.meldungen.join()) && /Kopf nicht lesbar/.test(blind.meldungen.join()) && schreibend(blind.aufrufe).length === 0, { code3, m: blind.meldungen })
-}
-// A2 (PR 4104): PUT angenommen, Kopf lesen scheitert -> „SCHON ANGESTOSSEN“, nichts weiter.
-{
-  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('PUT ok, Kopf lesen wirft -> Exit 2 „SCHON ANGESTOSSEN“, kein Schließen/Öffnen, ein PUT', code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && schreibend(k.aufrufe).length === 0 && anzahlPut(k) === 1, { code, m: k.meldungen })
-}
-{
-  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('update-branch angenommen, Kopf bleibt alt -> Exit 2 „SCHON ANGESTOSSEN“, nach KOPF_PRUEFUNGEN+1 Lesungen', code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && k.gewartet.length === 15 && k.aufrufe.filter((a) => a === KOPF_LESEN).length === 16 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen, n: k.gewartet.length })
-}
-{
-  const k = kulisse(mitUpdate({ [KOPF_LESEN]: { aus: `${KOPF}\n` } }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte, undefined, undefined, undefined, undefined, undefined, true)
-  pruefe('--trocken: kein update-branch', code === 1 && !k.aufrufe.includes(PUT), k.aufrufe)
-}
-{
-  const r = prozess(mitUpdate({}), ['7'])
-  const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: update-branch -> Exit 1, neuer Kopf auf stdout, nichts geschlossen', r.status === 1 && r.aus.includes(`neuer Kopf ${KOPF_NEU}`) && args.includes(PUT) && schreibend(args).length === 0, { status: r.status, aus: r.aus, args })
-}
-// Prüfer-Sperre (12.11.2026): Verdrahtung durch nachrechnen() und main(); die Kommentarformen prüft pr-nachrechnen-pruefer.test.mjs.
+
+// Prüfer-Sperre (12.11.2026): Verdrahtung; die Kommentarformen prüft pr-nachrechnen-pruefer.test.mjs.
 {
   const urteil = { createdAt: '2026-11-12T10:30:00Z', body: '**Prüfer-Review** für 08798af3f - Urteil: **ändern** (Runde 1)' }
-  const commit = (committedDate) => ({ oid: KOPF, committedDate })
-  const sperrPr = (commits) => ({ ...PR, comments: [urteil], commits })
-  for (const [name, aufruf] of [['nachrechnen', (k) => nachrechnen(7, k.gh, k.melde, k.warte)], ['main', (k) => main(['--trocken', '7'], k.gh, k.melde, k.warte)]]) {
-    const k = kulisse(antworten({ mainSha: MAIN, pr: sperrPr([commit('2026-11-12T10:00:00Z')]) }))
-    const code = aufruf(k)
-    pruefe(`${name}: Prüfer „ändern“ ohne Folgecommit -> Exit 4, Meldung, kein Lauf gelesen, nichts geschrieben`, code === 4 && k.meldungen.join() === 'PR 7: PRÜFER VERLANGT ÄNDERUNG (Urteil 2026-11-12T10:30:00Z, letzter Commit 2026-11-12T10:00:00Z)' && k.aufrufe.length === 2 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe, m: k.meldungen })
-    const k2 = kulisse(antworten({ pr: sperrPr([commit('2026-11-12T11:00:00Z')]) }))
-    pruefe(`${name}: Gegenprobe, Folgecommit nach dem Urteil -> weiter wie sonst (aktuell, 0)`, aufruf(k2) === 0 && k2.aufrufe.some((a) => a.startsWith('run list')), k2.aufrufe)
-  }
+  const sperrPr = (committedDate) => ({ ...PR, comments: [urteil], commits: [{ oid: KOPF, committedDate }] })
+  const k = kulisse(antworten({ pr: sperrPr('2026-11-12T10:00:00Z') }))
+  const code = main(['7'], k.gh, k.melde)
+  pruefe('Prüfer „ändern“ ohne Folgecommit -> Exit 4 mit Meldung', code === 4 && k.meldungen.join() === 'PR 7: PRÜFER VERLANGT ÄNDERUNG (Urteil 2026-11-12T10:30:00Z, letzter Commit 2026-11-12T10:00:00Z)', { code, m: k.meldungen })
+  const k2 = kulisse(antworten({ pr: sperrPr('2026-11-12T11:00:00Z') }))
+  pruefe('Gegenprobe: Folgecommit nach dem Urteil -> 0', main(['7'], k2.gh, k2.melde) === 0, k2.meldungen)
 }
-// --trocken (11.11.2026): rechnet und meldet wie sonst, schreibt aber nichts (kein Schließen, Öffnen, Kommentar); Exit-Code wie ohne.
-const schreibt = (aufrufe) => aufrufe.filter((a) => /^pr (close|reopen|comment|edit|merge)/.test(a))
-for (const argv of [['--trocken', '7'], ['7', '--trocken']]) {
-  const k = kulisse(antworten({ mainSha: MAIN }))
-  const code = main(argv, k.gh, k.melde, k.warte)
-  pruefe(`trocken (${argv.join(' ')}) veraltet -> Exit 1, nichts geschlossen, geöffnet oder kommentiert`, code === 1 && schreibt(k.aufrufe).length === 0 && !k.aufrufe.some((a) => a.includes('merge_commit_sha')) && k.gewartet.length === 0, { code, a: k.aufrufe })
-  pruefe(`trocken (${argv.join(' ')}): Meldung nennt Stände, Grund und den Trockenlauf`, /^PR 7: NICHT AKTUELL \(Kette gegen 7a466acc8, main ist c0ffee000; main bewegte tools\/check-x\.mjs\), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert$/.test(k.meldungen.join()), k.meldungen)
-}
+// Zug-Schalter: Basis zug -> 0 ohne Urteil über main; das Feld baseRefName kommt nur mit Schalter dazu.
 {
-  const ohne = kulisse(antworten({ mainSha: MAIN }))
-  main(['7'], ohne.gh, ohne.melde, ohne.warte)
-  pruefe('Gegenprobe: ohne --trocken schreibt dieselbe Kulisse (Schließen, Öffnen, Kommentar)', schreibt(ohne.aufrufe).length >= 5 && ohne.aufrufe.includes('pr comment 7'), ohne.aufrufe)
-  const k = kulisse(antworten())
-  pruefe('trocken, aktuell (Basis = main) -> Exit 0', main(['--trocken', '7'], k.gh, k.melde, k.warte) === 0 && schreibt(k.aufrufe).length === 0 && k.meldungen.join() === 'PR 7: aktuell, die Kette rechnete gegen main 7a466acc8', k.meldungen)
-}
-for (const argv of [['--trocken'], ['--trocken', '7', '8'], ['--trocken', 'x']]) {
-  const k = kulisse(antworten())
-  pruefe(`trocken, falsche Argumente (${argv.join(' ')}) -> Aufruf-Hinweis, Exit 2, kein gh-Aufruf`, main(argv, k.gh, k.melde, k.warte) === 2 && k.aufrufe.length === 0 && /^Aufruf: node tools\/pr-nachrechnen\.mjs \[--trocken\] <PR-Nummer>$/.test(k.meldungen.join()), { a: k.aufrufe, m: k.meldungen })
-}
-// Echter Anlass (PR 1602): direkt nach dem Wiederöffnen ist merge_commit_sha leer; leer heißt „noch nicht neu“, nie „neu“.
-for (const [name, folge, warten] of [['leer nach dem Öffnen', [M_ALT, '', '', M_NEU], 2]]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: folge }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`Merge-Commit ${name} -> 1, wartet ${warten}×, öffnet zweimal`, code === 1 && k.gewartet.length === warten && schreibend(k.aufrufe).length === 4 && !k.aufrufe.some((a) => a.includes('commits/ ')), { code, a: k.aufrufe, m: k.meldungen })
-}
-// F55 (20.10.2026): main nur unter public/data/ und data/cache/ bewegt, PR berührt sie nicht -> Kette gilt weiter (Exit 0).
-const DATEN_MAIN = ['public/data/titles.json', 'data/cache/ordner/anilist', 'public/data/news.json']
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('nur Daten bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-  pruefe('nur Daten bewegt: Meldung nennt beide Stände und die Pfade', k.meldungen.join() === `PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Daten bewegt (public/data/, data/cache/, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)`, k.meldungen)
-  pruefe('nur Daten bewegt: liest Vergleich und PR-Dateien', k.aufrufe.some((a) => a.includes('/compare/')) && k.aufrufe.some((a) => a.includes('/pulls/7/files')), k.aufrufe)
-}
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [] }))
-  pruefe('main ohne Dateiänderung (leerer Vergleich) -> 0', main(['7'], k.gh, k.melde, k.warte) === 0 && schreibend(k.aufrufe).length === 0, k.aufrufe)
-}
-// 27.10.2026: Bestandsbau-Sprung mit Liste ohne Leser (23-nur-originalton) und Vorschaubildern -> Kette gilt weiter; default.* und die Liste mit Leser nicht.
-for (const [name, bewegt, erwartet] of [
-  ['Liste 23 + Vorschaubilder', ['daniel-zum-abarbeiten/listen/23-nur-originalton.md', 'public/og/aoashi-staffel-2-crunchyroll-de-2026-10-25.jpg', 'public/og/psyren.png', 'public/og/x.webp'], 0],
-  ['Vorschaubilder + default.txt (liest og-standard.test.ts)', ['public/og/x.jpg', 'public/og/default.txt'], 1],
-  ['Vorschaubilder + Stempel schaetz.txt und fassung.txt (nur build-og.ts liest sie)', ['public/og/x.jpg', 'public/og/schaetz.txt', 'public/og/fassung.txt'], 0],
-  ['Vorschaubilder + default.jpg', ['public/og/default.jpg', 'public/og/x.jpg'], 1],
-  ['Vorschaubilder + justwatch-widersprueche.md (liest eine Prüfung)', ['public/og/x.jpg', 'daniel-zum-abarbeiten/listen/justwatch-widersprueche.md'], 1],
-]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', ...bewegt] }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`Sprung mit ${name} -> ${erwartet}`, code === erwartet && (erwartet === 0) === (schreibend(k.aufrufe).length === 0), { code, m: k.meldungen })
-}
-// Alles andere zählt: je Pfad ein Fall, einzeln und neben Datenpfaden (Datenpfad zuerst und zuletzt, der Fremde in der Mitte).
-// 21.10.2026: Bot-Berichte und Sammler-Ausgaben ohne Leser in der Kette (Liste und Einzelfälle: pr-nachrechnen-bot-pfade.test.mjs).
-{
-  const bot = ['daniel-zum-abarbeiten/00-START-HIER.md', 'daniel-zum-abarbeiten/listen/12-verpasste-termine.md', 'data/source-health.json']
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: bot }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('nur Bot-Berichte bewegt -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, a: k.aufrufe })
-}
-// 26.10.2026 (PR 2118: main bewegte daniel-zum-abarbeiten/00-wache.md): Doku auf main entwertet keinen PR; andere Daniel-Dateien (Prüfungen lesen sie) und Patch Notes (der Bau liest sie) schon.
-for (const [name, dateien, prDateien, erwartet] of [
-  ['Daniel-Datei wörtlich vom Anlass', ['daniel-zum-abarbeiten/00-wache.md'], 'src/a.ts\n', 0],
-  ['Doku zwischen Datenpfaden', ['public/data/titles.json', 'docs/wissen/betrieb.md', 'data/cache/ordner/a'], 'src/a.ts\n', 0],
-  ['Markdown im Wurzelordner', ['CLAUDE.md'], 'src/a.ts\n', 0],
-  ['Patch Notes', ['data/patchnotes/neu.yaml'], 'src/a.ts\n', 1],
-  ['andere Daniel-Datei (stand.md liest eine Prüfung)', ['daniel-zum-abarbeiten/stand.md'], 'src/a.ts\n', 1],
-  ['Daniel-Datei x.md', ['daniel-zum-abarbeiten/x.md'], 'src/a.ts\n', 1],
-  ['Namensvetter docsx/', ['docsx/a.md'], 'src/a.ts\n', 1],
-  ['Doku und Code', ['docs/wissen/betrieb.md', 'shared/logic.ts'], 'src/a.ts\n', 1],
-  ['Markdown in Unterordner (web/README.md)', ['web/README.md'], 'src/a.ts\n', 1],
-  ['PR berührt dieselbe Doku-Datei', ['docs/wissen/betrieb.md'], 'docs/wissen/betrieb.md\n', 1],
-]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: dateien, prDateien }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`main bewegt ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
-}
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['daniel-zum-abarbeiten/00-START-HIER.md', 'shared/logic.ts'] }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('Bot-Bericht und shared/logic.ts bewegt -> 1, neu angestoßen', code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
-}
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['daniel-zum-abarbeiten/00-START-HIER.md'], prDateien: 'daniel-zum-abarbeiten/00-START-HIER.md\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('PR berührt selbst einen Bot-Bericht -> 1, neu angestoßen', code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
-}
-for (const fremd of ['tools/umfang-grenzen.json', 'extension/pruefstand.json', 'data/dub-confirmed.yaml', 'public/og/default.jpg', 'public/og/default.txt', 'public/og/a.gif', 'pipeline/build.ts', 'public/data-x/a.json', 'data/cache-x/a.json', 'xpublic/data/a.json', 'data/curated/a.yaml', 'public/index.html']) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['public/data/titles.json', fremd, 'data/cache/ordner/a'] }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`main bewegte auch ${fremd} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
-}
-for (const [name, prDateien] of [['public/data', 'src/a.ts\npublic/data/titles.json\ntools/b.mjs\n'], ['data/cache', 'data/cache/x\n'], ['nur eine Datei', 'public/data/x.json']]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`PR berührt ${name} -> 1, neu angestoßen`, code === 1 && schreibend(k.aufrufe).length === 4, { code, m: k.meldungen })
-  pruefe(`PR berührt ${name}: Grund steht genau einmal`, k.meldungen.join().split('der PR berührt').length === 2, k.meldungen)
-  pruefe(`PR berührt ${name}: Meldung nennt die Datei`, /; der PR berührt (public\/data\/|data\/cache\/|public\/data\/x\.json)/.test(k.meldungen.join()), k.meldungen)
-}
-for (const [name, roh, erwartet] of [
-  ['diverged', vergleich(DATEN_MAIN, 'diverged'), 1],
-  ['behind', vergleich(DATEN_MAIN, 'behind'), 1],
-  ['identical', vergleich(DATEN_MAIN, 'identical'), 1],
-  ['genau an der Compare-Grenze', vergleich(DATEN_MAIN, 'ahead', COMPARE_GRENZE), 1],
-  ['eine unter der Compare-Grenze', vergleich(DATEN_MAIN, 'ahead', COMPARE_GRENZE - 1), 0],
-]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh } }))
-  const code = main(['7'], k.gh, k.melde, k.warte, undefined, () => ({ fehler: 'aus' }))
-  pruefe(`Vergleich ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
-}
-pruefe('Compare-Grenze ist 300 (Grenze der GitHub-API)', COMPARE_GRENZE === 300)
-// 27.10.2026 (Anlass PR 2146, 300 Dateien): Ab der Grenze zählt der lokale Vergleich (git), nicht der abgeschnittene der API.
-const VIELE = Array.from({ length: 400 }, (_, i) => `data/cache/q/${i}.json`)
-const voll = (dateien, autoren = ['github-actions[bot]'], fehler) => {
-  const f = (basis, main) => {
-    f.aufrufe.push([basis, main])
-    return fehler === undefined ? { dateien, autoren, commitsGesamt: autoren.length } : { fehler }
-  }
-  f.aufrufe = []
-  return f
-}
-for (const [name, v, prDateien, erwartet, text] of [
-  ['300 Dateien, lokal alles Daten, PR ohne Leser', voll(VIELE), 'data/patchnotes/a.yaml\n', 0, /seitdem nur Daten bewegt/],
-  ['300 Dateien, lokal eine Datei mit Leser (tools/check-x.mjs)', voll([...VIELE, 'tools/check-x.mjs']), 'data/patchnotes/a.yaml\n', 1, /main bewegte tools\/check-x.mjs/],
-  ['300 Dateien, lokal Datenpfad vom PR berührt', voll(VIELE), `${VIELE[399]}\n`, 1, /der PR berührt data\/cache\/q\/399\.json/],
-  ['300 Dateien, git scheitert (Zeitlimit)', voll([], [], 'ETIMEDOUT'), 'data/patchnotes/a.yaml\n', 1, /evtl\. abgeschnitten \(lokales git: ETIMEDOUT\)/],
-]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'ahead', 300) }, prDateien }))
-  const code = main(['7'], k.gh, k.melde, k.warte, undefined, v)
-  pruefe(`lokaler Vergleich: ${name} -> ${erwartet}`, code === erwartet && text.test(k.meldungen.join()) && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
-  pruefe(`lokaler Vergleich: ${name}: git bekam Basis und main`, v.aufrufe.length === 1 && v.aufrufe[0].join() === `${BASIS},${MAIN}`, v.aufrufe)
-}
-{
-  const v = voll(VIELE)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN, prDateien: 'data/patchnotes/a.yaml\n' }))
-  main(['7'], k.gh, k.melde, k.warte, undefined, v)
-  pruefe('lokaler Vergleich: unter der Grenze fragt kein git', v.aufrufe.length === 0, v.aufrufe)
-}
-// Mehr Commits als die API-Liste (250) trägt: lokal gezählt, Autoren aus git.
-const bots300 = JSON.stringify({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 300, autoren: ['github-actions[bot]'] })
-for (const [name, autoren, erwartet, text] of [
-  ['300 Commits, alles Bots (reiner Datensprung)', Array(300).fill('anime-kalender-daten[bot]'), 0, /nur Bot-Daten bewegt/],
-  ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'derNamenloseDaniel'], 0, /nur Fremdes ohne Zusammenhang/],
-]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: bots300 }, prDateien: 'tools/x.mjs\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte, () => null, voll(['data/ann-ids.json'], autoren))
-  pruefe(`lokaler Vergleich: ${name} -> ${erwartet}`, code === erwartet && text.test(k.meldungen.join()), { code, m: k.meldungen })
-}
-// Abruffehler und Unsinn: Exit 2, nichts angestoßen, nie still 0.
-for (const [name, aendere] of [
-  ['Vergleich nicht abrufbar', (d) => { delete d[`api repos/{owner}/{repo}/compare/${BASIS}...${MAIN} --jq ${JQ_VERGLEICH}`] }],
-  ['PR-Dateien nicht abrufbar', (d) => { delete d['api repos/{owner}/{repo}/pulls/7/files --paginate --jq .[] | .filename, (.previous_filename // empty)'] }],
-  ['Vergleich kein JSON', (d) => { d[`api repos/{owner}/{repo}/compare/${BASIS}...${MAIN} --jq ${JQ_VERGLEICH}`] = { aus: '' } }],
-]) {
-  const daten = antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN })
-  aendere(daten)
+  const daten = { ...antworten(), [`pr view 7 --json ${FELDER},baseRefName`]: { aus: JSON.stringify({ ...PR, baseRefName: 'zug' }) } }
   const k = kulisse(daten)
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`${name} -> 2, nichts angestoßen`, code === 2 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
+  pruefe('Zug-PR bei gelegtem Schalter -> 0 mit Zug-Meldung', nachrechnen(7, k.gh, k.melde, true) === 0 && /Basis zug, kein Nachrechnen gegen main/.test(k.meldungen.join()), k.meldungen)
 }
-// Reine Entscheidung, unabhängig von gh.
-pruefe('Ausnahme: Umbenennung aus Datenpfad heraus ist ein Fremdpfad der PR-Seite', datenpfadAusnahme({ status: 'ahead', anzahl: 2, dateien: ['public/data/a.json'] }, ['neu.json', 'data/cache/ordner/alt']) !== null)
-pruefe('Ausnahme: genau eine Datenpfad-Datei im Vergleich -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['data/cache/ordner/a'] }, ['x.ts']) === null)
-// A1 (Prüfer 2123 R1): design-regeln.md liest tools/design-kontrast.mjs (check:logic), andere Doku nicht.
-pruefe('Ausnahme: reiner Doku-Commit an design-regeln.md bei CSS-PR -> main bewegte die Datei', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['docs/wissen/design-regeln.md'] }, ['web/src/index.css']) === 'main bewegte docs/wissen/design-regeln.md')
-pruefe('Ausnahme: andere Doku (docs/wissen/anderes.md) -> null', datenpfadAusnahme({ status: 'ahead', anzahl: 1, dateien: ['docs/wissen/anderes.md'] }, ['web/src/index.css']) === null)
-// Merge-Fluss C (23.10.2026), Leser-Regel seit 26.10.2026 (pr-nachrechnen-leser.mjs, Regel selbst: pr-nachrechnen-leser.test.mjs): Ein
-// Bot-Sprung nur unter data/ entwertet nur einen PR, dessen Code die bewegten Dateien liest. Hier die Verdrahtung, erst mit einem
-// Leser-Stub (zeichnet Argumente auf), dann mit dem echten Git-Anschluss über einem Fake-git.
-// Mensch dazwischen: ein reiner Bot-Sprung (`pr-nachrechnen-bot-sprung.test.mjs`) fragt den Leser nie, diese Fälle prüfen die Leser-Regel.
-const GEMISCHT = ['github-actions[bot]', 'derNamenloseDaniel']
-const BOT_MAIN = ['data/crunchyroll-woche.json', 'public/data/titles.json', 'data/curated/tv-2026.yaml']
-const CODE_PR = 'docs/wissen/a.md\ndaniel-zum-abarbeiten/stand.md\nCLAUDE.md\ndata/patchnotes/neu.yaml\n'
-const leserStub = (antwort) => {
-  const f = (bewegt, pr, refs) => {
-    f.aufrufe.push({ bewegt, pr, refs })
-    return antwort
-  }
-  f.aufrufe = []
-  return f
+for (const argv of [[], ['abc'], ['7', '8'], ['7x'], ['--trocken'], ['--trocken', 'x']]) {
+  const k = kulisse(antworten())
+  pruefe(`Aufruf ${JSON.stringify(argv)} -> 2 mit Hinweis, kein gh`, main(argv, k.gh, k.melde) === 2 && k.aufrufe.length === 0 && /^Aufruf: node tools\/pr-nachrechnen\.mjs \[--trocken\] <PR-Nummer>$/.test(k.meldungen.join()), k.meldungen)
 }
 {
-  const stub = leserStub(null)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: CODE_PR }))
-  const code = main(['7'], k.gh, k.melde, k.warte, stub)
-  pruefe('C: Leser sagt null -> 0, nichts geschlossen', code === 0 && schreibend(k.aufrufe).length === 0, { code, m: k.meldungen })
-  pruefe('C: Meldung nennt die Bot-Ausnahme', k.meldungen.join() === 'PR 7: aktuell, Kette gegen 7a466acc8, main ist c0ffee000, seitdem nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien', k.meldungen)
-  const a = stub.aufrufe[0]
-  pruefe('C: Leser bekommt bewegte Dateien ohne public/data, PR-Dateien und Stände', stub.aufrufe.length === 1 && a.bewegt.join() === 'data/crunchyroll-woche.json,data/curated/tv-2026.yaml' && a.pr.join() === CODE_PR.trim().split('\n').join() && JSON.stringify({ ...a.refs, frei: [...a.refs.frei] }) === JSON.stringify({ nummer: 7, kopf: KOPF, main: MAIN, bot: ['data/crunchyroll-woche.json'], frei: [], basis: BASIS }), stub.aufrufe)
+  const k = kulisse({})
+  pruefe('gh scheitert -> Exit 2 mit FEHLER und Ursache, nie still 0', main(['7'], k.gh, k.melde) === 2 && /^pr-nachrechnen: FEHLER HTTP 404: pr view 7 /.test(k.meldungen.join()), k.meldungen)
+}
+
+// nachziehen (Stapel-PRs nach dem Basis-Merge): update-branch (Lehre 129, tools/pr-nachrechnen-zweig.mjs), Kopf neu -> Exit 1.
+pruefe('pr-nachrechnen-zweig.mjs: Grenzen 15 Lesungen à 2000 ms (30 s)', KOPF_PRUEFUNGEN === 15 && KOPF_ABSTAND_MS === 2000, { KOPF_PRUEFUNGEN, KOPF_ABSTAND_MS })
+const anzahlPut = (k) => k.aufrufe.filter((a) => a === PUT).length
+const prSchreibend = (k) => schreibend(k.aufrufe).filter((a) => a.startsWith('pr ')).join()
+{
+  const k = kulisse(antworten({ zusatz: { [KOPF_LESEN]: { aus: [`${KOPF}\n`, `${KOPF}\n`, `${KOPF_NEU}\n`] } } }))
+  const code = nachziehenMain(['7'], k.gh, k.melde, k.warte)
+  pruefe('nachziehen: update-branch -> Exit 1, ein PUT, kein Schließen/Öffnen, wartet zweimal', code === 1 && anzahlPut(k) === 1 && prSchreibend(k) === '' && k.gewartet.join() === '2000,2000', { code, a: k.aufrufe, w: k.gewartet })
+  pruefe('nachziehen: Meldung nennt den neuen Kopf', k.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}: Kette abwarten`), k.meldungen)
+}
+for (const argv of [['--trocken', '7'], ['7', '--trocken']]) {
+  const k = kulisse(antworten())
+  const code = nachziehenMain(argv, k.gh, k.melde, k.warte)
+  pruefe(`nachziehen trocken (${argv.join(' ')}) -> Exit 1, nichts geschrieben`, code === 1 && schreibend(k.aufrufe).length === 0 && /Trockenlauf: nichts geschlossen, geöffnet oder aktualisiert/.test(k.meldungen.join()), { code, a: k.aufrufe })
+}
+// A3 (PR 4104): 4xx = nichts angestoßen, Rückfall Schließen/Öffnen (Merge-Commit alt -> zweimal öffnen), Kopf nie gelesen.
+for (const [status, fehlerText] of [['422', 'gh: Merge conflict (HTTP 422)'], ['403', 'gh: Resource not accessible by personal access token (HTTP 403)']]) {
+  const k = kulisse(antworten({ zusatz: { [PUT]: { fehler: fehlerText } } }))
+  const code = nachziehen(7, k.gh, k.melde, k.warte, false, false)
+  pruefe(`nachziehen: update-branch ${status} -> Rückfall, Exit 1, zweimal geöffnet, Kopf nicht gelesen`, code === 1 && anzahlPut(k) === 1 && prSchreibend(k) === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' && !k.aufrufe.includes(KOPF_LESEN), k.aufrufe)
+  pruefe(`nachziehen: Rückfallzeile ${status} genau einmal`, k.meldungen.filter((m) => m.includes(`update-branch abgewiesen (HTTP ${status}`)).length === 1, k.meldungen)
 }
 {
-  const stub = leserStub('der PR liest data/crunchyroll-woche.json (tools/x.mjs)')
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: 'tools/x.mjs\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte, stub)
-  pruefe('C: Leser nennt Grund -> 1, neu angestoßen, Meldung trägt den Grund', code === 1 && schreibend(k.aufrufe).length === 4 && k.meldungen.join().includes('der PR liest data/crunchyroll-woche.json (tools/x.mjs)'), { code, m: k.meldungen })
+  const k = kulisse(antworten({ mergeShas: [M_NEU], zusatz: { [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } } }))
+  pruefe('nachziehen: Merge-Commit schon auf main -> einmal öffnen genügt', nachziehen(7, k.gh, k.melde, k.warte, false, false) === 1 && prSchreibend(k) === 'pr close 7,pr reopen 7', k.aufrufe)
 }
-// Auflage A1 (PR 3384): mit claude[bot] im Sprung entscheidet die Paarung aus git, durch main -> nachrechnen -> datenpfadGrund gereicht.
-for (const [name, paare, code, text] of [
-  ['Wache von claude[bot], Daten vom Datenkonto', () => ({ commits: [{ autor: 'claude[bot]', dateien: ['status.md'] }, { autor: 'anime-kalender-daten[bot]', dateien: ['data/ann-ids.json'] }] }), 0, /nur Bot-Daten bewegt/],
-  ['claude[bot] schreibt Handdaten', () => ({ commits: [{ autor: 'claude[bot]', dateien: ['data/ann-ids.json'] }, { autor: 'anime-kalender-daten[bot]', dateien: ['status.md'] }] }), 1, /der PR ruft x auf/],
-  ['Paarung nicht lesbar', () => ({ fehler: 'kein git' }), 1, /der PR ruft x auf/],
-]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/ann-ids.json', 'status.md'], autoren: ['claude[bot]', 'anime-kalender-daten[bot]'], prDateien: 'tools/x.mjs\n' }))
-  const c = main(['7'], k.gh, k.melde, k.warte, leserStub('der PR ruft x auf'), undefined, paare)
-  pruefe(`A1 Verdrahtung: ${name} -> ${code}`, c === code && text.test(k.meldungen.join()), { c, m: k.meldungen })
+// A1/A2 (PR 4104): 5xx oder Zeitlimit nach Wirkung -> Kopf einmal lesen; unverändert = Exit 2 „SCHON ANGESTOSSEN“, nie zweiter PUT, nie Schließen.
+for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen']]) {
+  const wirkt = kulisse(antworten({ zusatz: { [PUT]: { fehler: fehlerText } } }))
+  pruefe(`nachziehen: PUT wirkt, dann ${name} -> Exit 1 mit neuem Kopf`, nachziehenMain(['7'], wirkt.gh, wirkt.melde, wirkt.warte) === 1 && anzahlPut(wirkt) === 1 && wirkt.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}`), wirkt.meldungen)
+  const nicht = kulisse(antworten({ zusatz: { [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: `${KOPF}\n` } } }))
+  pruefe(`nachziehen: PUT ${name}, Kopf alt -> Exit 2 „SCHON ANGESTOSSEN möglich“, kein Schließen`, nachziehenMain(['7'], nicht.gh, nicht.melde, nicht.warte) === 2 && /SCHON ANGESTOSSEN möglich/.test(nicht.meldungen.join()) && !nicht.aufrufe.includes('pr close 7'), nicht.meldungen)
 }
-for (const beruehrt of ['data/crunchyroll-woche.json', 'public/data/titles.json']) {
-  const stub = leserStub(null)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: `${CODE_PR}${beruehrt}\n` }))
-  const code = main(['7'], k.gh, k.melde, k.warte, stub)
-  pruefe(`C: PR berührt bewegte Datei ${beruehrt} -> 1, Leser nicht gefragt`, code === 1 && stub.aufrufe.length === 0 && k.meldungen.join().includes(`der PR berührt ${beruehrt}`), { code, m: k.meldungen })
-}
-// Verdrahtung mit dem echten Git-Anschluss: Anlassfall PR 2043 (nur ein Workflow) bleibt gültig, ein PR am Leser wird veraltet.
-const REPO = {
-  main: {
-    'pipeline/bau/cr.ts': "import { x } from '../lib/helfer'\nconst d = 'data/crunchyroll-woche.json'\nconst e = 'data/curated/tv-2026.yaml'\n",
-    'pipeline/lib/helfer.ts': 'export const x = 1\n',
-    '.github/workflows/bestand-bauen.yml': 'steps:\n  - run: npm run data:build\n',
-  },
-  kopf: {},
-}
-for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/bestand-bauen.yml\n', 0], ['Helfer des Lesers', 'pipeline/lib/helfer.ts\n', 1], ['Leser selbst', 'pipeline/bau/cr.ts\n', 1], ['Daten des PR (Handbelege)', 'data/dub-confirmed.yaml\n', 1]]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: pr }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte, gitLeser(attrappe(REPO, { mainSha: MAIN }).git))
-  pruefe(`C: echter Anschluss, ${name} -> ${erwartet}`, code === erwartet && schreibend(k.aufrufe).length === (erwartet === 1 ? 4 : 0), { code, m: k.meldungen })
-}
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: '.github/workflows/bestand-bauen.yml\n' }))
-  const code = nachrechnen(7, k.gh, k.melde, k.warte, gitLeser(attrappe(REPO, { mainSha: MAIN, fetchFehler: true }).git))
-  pruefe('C: Git nicht erreichbar -> im Zweifel veraltet (1) mit Grund', code === 1 && k.meldungen.join().includes('Leser nicht ermittelbar'), { code, m: k.meldungen })
-}
-{
-  // Bot-Sprung mit Doku-Datei dabei: der Leser bekommt nur die Datendatei
-  const stub = leserStub(null)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/crunchyroll-woche.json', 'docs/wissen/betrieb.md'], autoren: GEMISCHT, prDateien: 'src/a.ts\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte, stub)
-  pruefe('Bot-Sprung mit Doku: Leser sieht nur die Datendatei', code === 0 && stub.aufrufe.length === 1 && stub.aufrufe[0].bewegt.join() === 'data/crunchyroll-woche.json', { code, a: stub.aufrufe })
-}
-// 27.10.2026 (PR 2165): Der Autor entscheidet nicht; Mensch-Commit auf data/ ohne Leser -> aktuell, mit Leser oder mit Code -> veraltet.
-for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'derNamenloseDaniel', 'github-actions[bot]']], ['nur ein Mensch (Squash-Merge)', ['derNamenloseDaniel']], ['fremder Bot', ['dependabot[bot]']]]) {
-  const frei = leserStub(null)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/patchnotes/_ueberarbeitet-bis.txt'], autoren, prDateien: CODE_PR }))
-  const code = main(['7'], k.gh, k.melde, k.warte, frei)
-  pruefe(`C: ${name}, Datei ohne Leser -> 0`, code === 0 && schreibend(k.aufrufe).length === 0 && frei.aufrufe.length === 1, { code, m: k.meldungen })
-  const liest = leserStub('der PR liest data/patchnotes/_ueberarbeitet-bis.txt (tools/x.mjs)')
-  const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/patchnotes/_ueberarbeitet-bis.txt'], autoren, prDateien: CODE_PR }))
-  const code2 = main(['7'], k2.gh, k2.melde, k2.warte, liest)
-  pruefe(`C: ${name}, Datei mit Leser -> 1, neu angestoßen`, code2 === 1 && schreibend(k2.aufrufe).length === 4 && /der PR liest data\/patchnotes/.test(k2.meldungen.join()), { code2, m: k2.meldungen })
-  const k3 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, 'tools/check-a.mjs'], autoren, prDateien: CODE_PR }))
-  const code3 = main(['7'], k3.gh, k3.melde, k3.warte, leserStub(null))
-  pruefe(`C: ${name}, Wächter auf main bewegt -> 1`, code3 === 1 && /main bewegte tools\/check-a\.mjs/.test(k3.meldungen.join()), { code3, m: k3.meldungen })
-}
-for (const fremd of ['tools/umfang-grenzen.json', 'tools/check-x.mjs', '.github/workflows/pr-pruefung.yml', 'package.json']) {
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: GEMISCHT, prDateien: CODE_PR }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`C: main bewegte ${fremd} -> 1`, code === 1 && k.meldungen.join().includes(`; main bewegte ${fremd}`), { code, m: k.meldungen })
-}
-// 09.11.2026 (Nacht-Merger): fremde Dateien außerhalb der Kette (echte Fälle aus den Läufen 07.-09.11.) entwerten nur bei Zusammenhang mit dem PR.
-for (const fremd of ['.github/workflows/claude-animenyou-extraktion.yml', '.github/workflows/pr-pruefer.yml', 'tools/claude-global/agents/bauer.md', 'extension/manifest.json', 'tools/heute-neu.mjs']) {
-  const frei = leserStub(null)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: GEMISCHT, prDateien: CODE_PR }))
-  const code = main(['7'], k.gh, k.melde, k.warte, frei)
-  const nachbar = (file) => frei.aufrufe[0]?.bewegt.includes(file)
-  pruefe(`C: main bewegte ${fremd}, kein Zusammenhang -> 0, Leser bekommt die Datei`, code === 0 && schreibend(k.aufrufe).length === 0 && nachbar(fremd) === true, { code, m: k.meldungen })
-  const liest = leserStub(`der PR liest ${fremd} (tools/x.mjs)`)
-  const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: GEMISCHT, prDateien: CODE_PR }))
-  const code2 = main(['7'], k2.gh, k2.melde, k2.warte, liest)
-  pruefe(`C: main bewegte ${fremd}, Leser meldet Zusammenhang -> 1`, code2 === 1 && k2.meldungen.join().includes(`der PR liest ${fremd}`), { code2, m: k2.meldungen })
-  const k3 = kulisse(antworten({ mainSha: MAIN, mainDateien: [...BOT_MAIN, fremd], autoren: GEMISCHT, prDateien: `${fremd}\n` }))
-  const stub3 = leserStub(null)
-  const code3 = main(['7'], k3.gh, k3.melde, k3.warte, stub3)
-  pruefe(`C: PR berührt ${fremd} selbst -> 1, Leser nicht gefragt`, code3 === 1 && stub3.aufrufe.length === 0 && k3.meldungen.join().includes(`der PR berührt ${fremd}`), { code3, m: k3.meldungen })
-}
-for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['.github/workflows/pr-pruefer.yml', false], ['.github/actions/kette-einrichten/action.yml', true], ['.github/actionsx/a.yml', false], ['package.json', false], ['package-lock.json', true], ['tsconfig.json', true], ['pipeline/check-x.ts', false], ['pipeline/bau/x.ts', false], ['tools/check-logic-liste.txt', false], ['tools/check-x.json', false], ['tools/check-x.mjs', true], ['tools/x.mjs', false], ['eslint.config.js', true], ['tools/andere-liste.txt', false], ['tools/check-y.ts', true], ['tools/check-y.cjs', true], ['tools/check-y.js', true], ['web/package.json', false], ['web/tsconfig.json', false], ['pipeline/package-lock.json', false], ['tools/x.test.mjs', false], ['tools/umfang-grenzen.json', true], ['docs/wissen/design-regeln.md', true], ['extension/manifest.json', false], ['web/src/a.tsx', false]]) {
-  pruefe(`kettenweit(${datei}) = ${erwartet}`, kettenweit(datei) === erwartet)
-}
-{
-  // Über 300 Dateien nicht unter public/data/ und data/cache/: nur der Leser-Weg (Merge-Fluss C) kann die Kette gelten lassen
-  const stub = leserStub(null)
-  const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'ahead', 300) }, prDateien: 'data/patchnotes/a.yaml\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte, stub, voll(Array.from({ length: 400 }, (_, i) => `data/curated/${i}.yaml`), ['github-actions[bot]', 'derNamenloseDaniel']))
-  pruefe('lokaler Vergleich: 400 kuratierte Dateien, Leser null -> 0, Leser bekam alle 400', code === 0 && stub.aufrufe[0]?.bewegt.length === 400, { code, m: k.meldungen })
-  const v = voll(VIELE)
-  const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'diverged', 300) }, prDateien: 'data/patchnotes/a.yaml\n' }))
-  const code2 = main(['7'], k2.gh, k2.melde, k2.warte, undefined, v)
-  pruefe('lokaler Vergleich: diverged fragt kein git, 1', code2 === 1 && v.aufrufe.length === 0, { code2, a: v.aufrufe })
-}
-const botVergleich = (o) => ({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 2, autoren: GEMISCHT, ...o })
-pruefe('C: mehr Commits als geliefert (Liste abgeschnitten) -> Grund', botSprungAusnahme(botVergleich({ commitsGesamt: 3 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: design-regeln.md unter den Bewegungen -> Bot bewegte die Datei', botSprungAusnahme(botVergleich({ dateien: ['data/a.json', 'docs/wissen/design-regeln.md'] }), ['web/src/index.css'], leserStub(null)) === 'main bewegte docs/wissen/design-regeln.md')
-pruefe('C: genau an der Compare-Grenze -> Grund', botSprungAusnahme(botVergleich({ anzahl: 300 }), ['worker/a.ts'], leserStub(null)) === 'Vergleich evtl. abgeschnitten')
-pruefe('C: eine unter der Compare-Grenze -> null', botSprungAusnahme(botVergleich({ anzahl: 299 }), ['docs/a.md'], leserStub(null)) === null)
-pruefe('C: diverged -> Grund', /diverged/.test(botSprungAusnahme(botVergleich({ status: 'diverged' }), ['worker/a.ts'], leserStub(null))))
-pruefe('C: Umbenennung aus data/ heraus auf PR-Seite: alter Name trifft eine bewegte Datei -> berührt', botSprungAusnahme(botVergleich({ dateien: ['data/alt.json', 'data/a.json'] }), ['docs/a.md', 'data/alt.json'], leserStub(null)) === 'der PR berührt data/alt.json')
-// Takt und Frist wie in docs/wissen/betrieb.md beschrieben (alle 2 s, höchstens 60 s; gemessen war der Ref nach wenigen Sekunden neu).
+// Takt und Frist des Rückfalls (alle 2 s, höchstens 60 s); eine Prüfung über der Grenze -> Fehler „SCHON ANGESTOSSEN“, kein zweites Öffnen.
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
-// Grenze relativ zu REF_PRUEFUNGEN: neu gerechnet bei der letzten erlaubten Prüfung -> 1; eine Prüfung später -> Fehler, kein zweites Öffnen.
 for (const [alt, ok] of [[3, true], [REF_PRUEFUNGEN + 1, true], [REF_PRUEFUNGEN + 2, false]]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [...Array(alt).fill(M_ALT), M_NEU] }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  const gewartet = k.gewartet.join() === Array(Math.min(alt - 1, REF_PRUEFUNGEN)).fill(REF_ABSTAND_MS).join()
-  const erwartet = ok ? 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' : 'pr close 7,pr reopen 7'
-  const meldung = ok || /FEHLER PR 7: Merge-Commit nicht neu gerechnet, die Kette läuft noch gegen 7a466acc8/.test(k.meldungen.join())
-  pruefe(`Merge-Commit ${alt}× alt gelesen -> ${ok ? 1 : 2}`, code === (ok ? 1 : 2) && gewartet && schreibend(k.aufrufe).join() === erwartet && meldung, { code, w: k.gewartet.length, m: k.meldungen })
+  const k = kulisse(antworten({ mergeShas: [...Array(alt).fill(M_ALT), M_NEU], zusatz: { [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } } }))
+  const code = nachziehenMain(['7'], k.gh, k.melde, k.warte)
+  const oeffnen = schreibend(k.aufrufe).filter((a) => a.startsWith('pr ')).length
+  pruefe(`nachziehen: Merge-Commit ${alt}× alt -> ${ok ? 1 : 2}`, code === (ok ? 1 : 2) && oeffnen === (ok ? 4 : 2) && (ok || /SCHON ANGESTOSSEN/.test(k.meldungen.join())), { code, m: k.meldungen })
+}
+{
+  const k = kulisse(antworten({ mergeShas: [''], zusatz: { [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } } }))
+  pruefe('nachziehen: Test-Merge leer vor dem Rückfall -> 2, nichts geschlossen', nachziehenMain(['7'], k.gh, k.melde, k.warte) === 2 && !k.aufrufe.includes('pr close 7') && /Test-Merge noch nicht berechnet/.test(k.meldungen.join()), k.meldungen)
+}
+{
+  const k = kulisse(antworten({ mergeShas: [M_NEU], zusatz: { [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } } }), { reopenFehler: 3 })
+  pruefe('nachziehen: Öffnen scheitert 3× -> Exit 2 „BLEIBT GESCHLOSSEN“, kein vierter Versuch', nachziehenMain(['7'], k.gh, k.melde, k.warte) === 2 && /PR 7 BLEIBT GESCHLOSSEN/.test(k.meldungen.join()) && k.aufrufe.filter((a) => a === 'pr reopen 7').length === 3, k.meldungen)
 }
 {
   const start = performance.now() // uhr-echt: misst, dass schlafe wirklich wartet
-  pruefe('schlafe wartet wirklich (Atomics.wait läuft ab, mindestens die Frist)', schlafe(50) === 'timed-out' && performance.now() - start >= 50)
-}
-for (const [n, erwartet] of [[1, 'pr close 7,pr reopen 7,pr reopen 7'], [2, 'pr close 7,pr reopen 7,pr reopen 7,pr reopen 7']]) {
-  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: n })
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe(`Öffnen scheitert ${n}× -> weiterer Versuch, Ergebnis 1`, code === 1 && schreibend(k.aufrufe).join() === erwartet, k.aufrufe)
-}
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: 3 })
-  let meldung = ''
-  try {
-    nachrechnen(7, k.gh, k.melde, k.warte)
-  } catch (e) {
-    meldung = e.message
-  }
-  pruefe('Öffnen scheitert 3× -> lauter Fehler, kein vierter Versuch', /PR 7 BLEIBT GESCHLOSSEN/.test(meldung) && schreibend(k.aufrufe).length === 4, { meldung, a: k.aufrufe })
-}
-{
-  const daten = antworten({ mainSha: MAIN })
-  daten['pr close 7'] = { fehler: '403' }
-  const k = kulisse(daten)
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe('Schließen scheitert -> 2, kein Öffnen', code === 2 && !k.aufrufe.includes('pr reopen 7') && /FEHLER 403/.test(k.meldungen.join()), { a: k.aufrufe, m: k.meldungen })
-}
-
-// 1597 R2, Befund 2: leerer Test-Merge vor dem Anstoß -> klare Meldung, Exit 2, nichts geschlossen, kein Absturz.
-{
-  const k = kulisse(antworten({ mainSha: MAIN, mergeShas: [''] }))
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  const m = k.meldungen.join()
-  pruefe('Test-Merge leer vor dem Anstoß -> 2, nichts geschlossen, klare Meldung', code === 2 && schreibend(k.aufrufe).length === 0 && /Test-Merge noch nicht berechnet, gleich erneut aufrufen/.test(m) && !/Cannot read/.test(m), { code, a: k.aufrufe, m })
-}
-// 1597 R2, Befund 1: Fehler nach dem Schließen sagen „SCHON ANGESTOSSEN“, Fehler davor nicht.
-for (const [name, daten, opt, angestossen] of [
-  ['Öffnen scheitert 3×', antworten({ mainSha: MAIN, mergeShas: [M_NEU] }), { reopenFehler: 3 }, true],
-  ['Merge-Commit nie neu', antworten({ mainSha: MAIN, mergeShas: Array(REF_PRUEFUNGEN + 3).fill(M_ALT) }), {}, true],
-  ['Schließen scheitert', { ...antworten({ mainSha: MAIN }), 'pr close 7': { fehler: '403' } }, {}, false],
-  // Zeitlimit beim Schließen: der Server kann den PR trotzdem geschlossen haben, also gilt er als angestoßen.
-  ['Schließen hängt (Zeitlimit)', { ...antworten({ mainSha: MAIN }), 'pr close 7': { fehler: 'FEHLER: gh pr close 7 nach 30 s abgebrochen' } }, {}, true],
-]) {
-  const k = kulisse(daten, opt)
-  const code = main(['7'], k.gh, k.melde, k.warte)
-  pruefe(`${name} -> 2, Meldung ${angestossen ? 'nennt' : 'verschweigt'} den Anstoß`, code === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) === angestossen, { code, m: k.meldungen })
-}
-
-/** Fälle, die nichts anstoßen: Exit 2, Meldung, kein Schreibaufruf. */
-const UNKLAR = [
-  ['Konflikt', antworten({ pr: { ...PR, mergeable: 'CONFLICTING' }, mainSha: MAIN }), /Konflikt/],
-  ['Mergebarkeit unbekannt', antworten({ pr: { ...PR, mergeable: 'UNKNOWN' }, mainSha: MAIN }), /noch nicht berechnet/],
-  ['geschlossen', antworten({ pr: { ...PR, state: 'CLOSED' }, mainSha: MAIN }), /nicht offen/],
-  ['kein Lauf zum Kopf', antworten({ laeufe: [lauf(MAIN, '2026-10-19T12:00:00Z', 12)], mainSha: MAIN }), /kein Kettenlauf zum Kopf 08798af3f/],
-  ['Lauf ohne Jobs (noch nicht angelegt)', antworten({ jobs: [], mainSha: MAIN }), /noch keine Jobs angelegt/],
-  ['Job fehlt, Lauf läuft noch (in_progress)', antworten({ laeufe: [{ ...lauf(KOPF, '2026-10-19T12:00:00Z', 12), status: 'in_progress', conclusion: '' }], jobs: [{ name: 'Kette – Logik', databaseId: 91 }], mainSha: MAIN }), /Lauf 12 \(in_progress\) hat den Job „Kette – Workflows“ noch nicht angelegt; später erneut/],
-  ['Job fehlt, Lauf abgeschlossen (failure)', antworten({ laeufe: [{ ...lauf(KOPF, '2026-10-19T12:00:00Z', 12), status: 'completed', conclusion: 'failure' }], jobs: [{ name: 'Kette – Logik', databaseId: 91 }, { name: 'PR-Datenbau', databaseId: 94 }], mainSha: MAIN }), /Lauf 12 \(abgeschlossen, failure\) hat keinen Job „Kette – Workflows“; vorhanden: Kette – Logik, PR-Datenbau/],
-  ['Job wartet (queued), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'queued' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
-  ['Job läuft (in_progress), Log-Abruf 404', antworten({ jobs: [{ name: JOB, databaseId: 92, status: 'in_progress' }], logFehler: true, mainSha: MAIN }), /läuft noch \(Lauf 12\)/],
-  ['Log ohne Basis (Job übersprungen)', antworten({ log: 'Job übersprungen', mainSha: MAIN }), /Basis nicht im Log/],
-]
-for (const [name, daten, muster] of UNKLAR) {
-  const k = kulisse(daten)
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe(`${name} -> 2, nichts angestoßen`, code === 2 && schreibend(k.aufrufe).length === 0 && muster.test(k.meldungen.join()), { code, a: k.aufrufe, m: k.meldungen })
-}
-
-{
-  // Durchlauf des Anlassfalls: neuester Lauf (14) abgebrochen ohne Jobs, Lauf 12 gültig -> aktuell, Exit 0.
-  const laeufe = [lauf(KOPF, '2026-10-19T10:00:00Z', 11), lauf(KOPF, '2026-10-19T12:00:00Z', 12), abgebrochen(KOPF, '2026-10-19T13:00:00Z', 14)]
-  const k = kulisse({ ...antworten({ laeufe }), 'run view 14 --json jobs': { aus: JSON.stringify({ jobs: [] }) } })
-  const code = nachrechnen(7, k.gh, k.melde, k.warte)
-  pruefe('abgebrochener Neuestlauf ohne Jobs -> Lauf davor zählt, aktuell 0', code === 0 && schreibend(k.aufrufe).length === 0 && /aktuell/.test(k.meldungen.join()), { code, m: k.meldungen })
-}
-
-for (const argv of [[], ['abc'], ['7', '8'], ['7x']]) {
-  const k = kulisse(antworten())
-  pruefe(`Aufruf ${JSON.stringify(argv)} -> 2 mit Hinweis, kein gh`, main(argv, k.gh, k.melde, k.warte) === 2 && k.aufrufe.length === 0 && /^Aufruf:/.test(k.meldungen[0]), k.meldungen)
-}
-{
-  const k = kulisse(antworten())
-  pruefe('main reicht die Nummer durch: aktuell -> 0', main(['7'], k.gh, k.melde, k.warte) === 0 && k.aufrufe[0].startsWith('pr view 7 '), k.aufrufe)
+  pruefe('schlafe wartet wirklich (Atomics.wait läuft ab, mindestens die Frist)', schlafe(50) === 'timed-out' && performance.now() - start >= 49)
 }
 
 // Startlogik als eigener Prozess: echte argv, echtes gh() mit ersetztem execFileSync, echter Exit-Code.
@@ -616,77 +190,38 @@ function prozess(daten, argv) {
   fs.writeFileSync(env.ATTRAPPE_LOG, '')
   const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
   const skript = fileURLToPath(new URL('./pr-nachrechnen.mjs', import.meta.url))
-  const r = spawnSync(process.execPath, ['--import', vorlader, skript, ...argv], { encoding: 'utf8', windowsHide: true, env })
+  const r = spawnSync(process.execPath, ['--import', vorlader, skript, ...argv], { encoding: 'utf8', windowsHide: true, env, timeout: 60_000 })
   const aufrufe = fs.readFileSync(env.ATTRAPPE_LOG, 'utf8').split('\n').filter(Boolean).map((z) => JSON.parse(z))
   fs.rmSync(ordner, { recursive: true, force: true })
   return { status: r.status, aus: r.stdout, err: r.stderr, aufrufe }
 }
 {
   const r = prozess(antworten(), ['7'])
-  pruefe('Prozess: aktuell -> Exit 0, Zeile auf stdout', r.status === 0 && /PR 7: aktuell/.test(r.aus), r)
+  pruefe('Prozess: mergebar -> Exit 0, Zeile auf stdout', r.status === 0 && /^PR 7: mergebar, kein Konflikt mit main/m.test(r.aus), r)
   const optionen = r.aufrufe.map(([befehl, , o]) => `${befehl} ${o.encoding} ${o.windowsHide} ${o.maxBuffer}`)
-  pruefe('Prozess: jeder Aufruf ist gh, utf8, ohne Fenster, Puffer 64 MiB', optionen.length === 6 && optionen.every((o) => o === `gh utf8 true ${64 * 1024 * 1024}`), optionen)
+  pruefe('Prozess: zwei Aufrufe, jeder gh, utf8, ohne Fenster, Puffer 64 MiB', optionen.length === 2 && optionen.every((o) => o === `gh utf8 true ${64 * 1024 * 1024}`), optionen)
 }
 {
-  // Start-Guard: ein Import (z. B. aus einem Test) startet main() nicht — ohne Guard wäre es Exit 1 mit Aufrufhinweis.
-  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-nachrechnen-import-'))
-  const lader = path.join(ordner, 'import.mjs')
-  fs.writeFileSync(lader, `await import(${JSON.stringify(new URL('./pr-nachrechnen.mjs', import.meta.url).href)})\nconsole.log('geladen')\n`)
-  const r = spawnSync(process.execPath, [lader], { encoding: 'utf8', windowsHide: true })
-  fs.rmSync(ordner, { recursive: true, force: true })
-  pruefe('Import startet main() nicht (Exit 0, nur „geladen“ auf stdout)', r.status === 0 && r.stdout.trim() === 'geladen', { status: r.status, aus: r.stdout, err: r.stderr })
-}
-{
-  const r = prozess(antworten({ mainSha: MAIN }), ['7'])
-  const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: veraltet -> Exit 1, schließt und öffnet 7 zweimal', r.status === 1 && schreibend(args).join() === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7', { status: r.status, args })
-}
-{
-  const r = prozess(antworten({ nr: 1602, pr: { ...PR, number: 1602 }, mainSha: MAIN }), ['1602'])
-  const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: Nummer aus argv (1602) reicht bis zum Schließen', r.status === 1 && args[0].startsWith('pr view 1602 ') && schreibend(args).slice(-2).join() === 'pr close 1602,pr reopen 1602', { status: r.status, args })
-}
-{
-  // Ein Warten im echten Prozess: der Startblock reicht schlafe durch (fehlt es, scheitert der Aufruf mit Exit 2).
-  const start = performance.now() // uhr-echt: belegt, dass der Startblock das echte Warten durchreicht
-  const r = prozess(antworten({ mainSha: MAIN, mergeShas: [M_ALT, '', M_NEU] }), ['7'])
-  const dauer = performance.now() - start
-  const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: Merge-Commit erst nach einem Warten neu -> Exit 1, zweimal geöffnet, wartet REF_ABSTAND_MS', r.status === 1 && schreibend(args).length === 4 && dauer >= REF_ABSTAND_MS, { status: r.status, aus: r.aus, dauer })
-}
-{
-  const daten = antworten({ mainSha: MAIN })
-  daten['pr reopen 7'] = { fehler: 'kaputt' }
-  const r = prozess(daten, ['7'])
-  pruefe('Prozess: bleibt geschlossen -> Exit 2, Meldung', r.status === 2 && /BLEIBT GESCHLOSSEN/.test(r.aus), r)
-}
-{
-  const r = prozess(antworten({ mainSha: MAIN, mainDateien: DATEN_MAIN }), ['7'])
-  const args = r.aufrufe.map(([, a]) => a.join(' '))
-  pruefe('Prozess: nur Daten bewegt -> Exit 0, Zeile auf stdout, nichts geschlossen', r.status === 0 && /seitdem nur Daten bewegt/.test(r.aus) && schreibend(args).length === 0, { status: r.status, aus: r.aus, args })
-}
-{
-  // Ohne eingespeisten Leser läuft der echte Git-Anschluss; die Attrappe kennt kein git -> „nicht ermittelbar“, im Zweifel veraltet.
-  const r = prozess(antworten({ mainSha: MAIN, mainDateien: BOT_MAIN, autoren: GEMISCHT, prDateien: '.github/workflows/w.yml\n' }), ['7'])
-  const args = r.aufrufe.map(([befehl, a]) => `${befehl} ${a.join(' ')}`)
-  pruefe('Prozess: Bot-Sprung ohne eingespeisten Leser -> echter Anschluss ruft git, Exit 1 mit Grund', r.status === 1 && args.some((a) => a.startsWith('git fetch -q origin refs/pull/7/head')) && /Leser nicht ermittelbar/.test(r.aus), { status: r.status, aus: r.aus, args })
-}
-{
-  const r = prozess(antworten({ mainSha: MAIN, mainDateien: [...DATEN_MAIN, 'tools/umfang-grenzen.json'] }), ['7'])
-  pruefe('Prozess: auch umfang-grenzen.json bewegt -> Exit 1', r.status === 1, r)
+  const r = prozess(antworten({ nr: 1602, pr: { ...PR, number: 1602, mergeable: 'CONFLICTING' } }), ['1602'])
+  pruefe('Prozess: Nummer aus argv (1602), Konflikt -> Exit 2 mit Meldung', r.status === 2 && /^PR 1602 hat einen Konflikt mit main/m.test(r.aus) && r.aufrufe[0][1].join(' ').startsWith('pr view 1602 '), r)
 }
 {
   const r = prozess(antworten(), [])
-  pruefe('Prozess: ohne Argument -> Exit 2, kein gh', r.status === 2 && r.aufrufe.length === 0 && /Aufruf:/.test(r.aus), r)
+  pruefe('Prozess: ohne Argument -> Exit 2, kein gh', r.status === 2 && r.aufrufe.length === 0 && /^Aufruf:/m.test(r.aus), r)
+}
+{
+  // Start-Guard: ein Import (z. B. aus einem Test) startet main() nicht.
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-nachrechnen-import-'))
+  const lader = path.join(ordner, 'import.mjs')
+  fs.writeFileSync(lader, `await import(${JSON.stringify(new URL('./pr-nachrechnen.mjs', import.meta.url).href)})\nconsole.log('geladen')\n`)
+  const r = spawnSync(process.execPath, [lader], { encoding: 'utf8', windowsHide: true, timeout: 60_000 })
+  fs.rmSync(ordner, { recursive: true, force: true })
+  pruefe('Import startet main() nicht (Exit 0, nur „geladen“ auf stdout)', r.status === 0 && r.stdout.trim() === 'geladen', { status: r.status, aus: r.stdout, err: r.stderr })
 }
 
-// Bindung an die Workflows: JOB checkt den Merge-Commit des Ereignisses aus (kein eigenes ref), die Kette hört auf `reopened`.
-const kette = parse(fs.readFileSync(new URL(`../.github/workflows/${KETTE}`, import.meta.url), 'utf8'))
-const jobs = Object.values(kette.jobs).filter((j) => j.name === JOB)
-const checkout = jobs[0]?.steps.filter((s) => String(s.uses ?? '').startsWith('actions/checkout@')) ?? []
-pruefe(`${KETTE}: genau ein Job „${JOB}“ mit genau einem Checkout ohne ref`, jobs.length === 1 && checkout.length === 1 && checkout[0].with?.ref === undefined, checkout)
-pruefe(`${KETTE}: reopened startet die Kette`, kette.on.pull_request.types.includes('reopened'), kette.on)
-// A1 (Prüfer 1597): Wiederöffnen startet den CI-Prüfer nicht neu (Kosten, Freigabe könnte kippen); nur diese drei Ereignisse.
+// Bindung: der Rückfall von `nachziehen` startet die Kette über `reopened`; Wiederöffnen startet den CI-Prüfer nicht neu (A1, Prüfer 1597).
+const kette = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefung.yml', import.meta.url), 'utf8'))
+pruefe('pr-pruefung.yml: reopened startet die Kette', kette.on.pull_request.types.includes('reopened'), kette.on)
 const pruefer = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer.yml', import.meta.url), 'utf8'))
 pruefe('pr-pruefer.yml: nur pull_request_target, ohne reopened', Object.keys(pruefer.on).join() === 'pull_request_target' && pruefer.on.pull_request_target.types.join() === 'opened,synchronize,ready_for_review', pruefer.on)
 

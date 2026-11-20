@@ -3,7 +3,11 @@
  * Grenze, Fehlerpfade, Einstieg `main` mit Attrappen (Aufruf und Trockenschalter), Verdrahtung aus der YAML. Kein Netz, keine Uhr.
  * Aufruf: node tools/basis-gemergt-neustart.test.mjs
  */
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'yaml'
 import { LIMIT_STAPEL_MS } from './kind-mit-limit.mjs'
 import { KOPF_ABSTAND_MS, KOPF_PRUEFUNGEN } from './pr-nachrechnen-zweig.mjs'
@@ -33,9 +37,10 @@ gleich('Erkennung: andere Basis trifft nur ihren PR', abhaengige(OFFENE, 31), [5
 gleich('Erkennung: keine Treffer', abhaengige(OFFENE, 99), [])
 
 
-// Meldungen, wie pr-nachrechnen sie schreibt (tools/pr-nachrechnen.mjs: hindernis, basisDesLaufs, main).
+// Meldungen, wie pr-nachrechnen sie schreibt (tools/pr-nachrechnen.mjs: hindernis, nachziehen, mitArgumenten).
 const KONFLIKT = 'PR 7 hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu'
 const UNKNOWN = 'PR 7: Mergebarkeit noch nicht berechnet (UNKNOWN), gleich erneut aufrufen'
+// Seit 21.11.2026 liest nachziehen keinen Kettenlauf mehr; ein „läuft noch“ ist kein bekannter Grund mehr und zählt als Fehler.
 const LAEUFT = 'PR 7: Job „Kette – Bau und Installation“ läuft noch (Lauf 5), sein Log gibt es erst nach Abschluss; später erneut aufrufen'
 const FEHL = 'pr-nachrechnen: FEHLER gh: Zeitüberschreitung'
 const ANGESTOSSEN = 'PR 7: Merge-Commit nicht neu gerechnet (SCHON ANGESTOSSEN: PR war geschlossen)'
@@ -75,15 +80,15 @@ gleich('Abruffehler der PR-Liste: Exit 1, Zeile FEHLGESCHLAGEN mit Grund', [lauf
 gleich('Konstanten: ein Neuversuch, 20 s Pause', [VERSUCHE, PAUSE_MS], [2, 20000])
 gleich('Grund: Konflikt', grundExit2(KONFLIKT), 'konflikt')
 gleich('Grund: UNKNOWN', grundExit2(UNKNOWN), 'spaeter')
-gleich('Grund: Kette läuft noch', grundExit2(LAEUFT), 'spaeter')
+gleich('Grund: „läuft noch“ ist kein Wartegrund mehr (nachziehen liest keine Kette)', grundExit2(LAEUFT), 'fehler')
 gleich('Grund: Fehler', grundExit2(FEHL), 'fehler')
 gleich('Grund: SCHON ANGESTOSSEN ist Fehler, auch wenn „noch nicht“ im Text steht', grundExit2(`${ANGESTOSSEN}; noch nicht berechnet`), 'fehler')
 gleich('Grund: unbekannter Text ist Fehler', grundExit2('irgendwas'), 'fehler')
 gleich('Grund: FEHLER schlägt „läuft noch“ im selben Text', grundExit2('pr-nachrechnen: FEHLER Job läuft noch nicht lesbar'), 'fehler')
 const unknown = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(2, UNKNOWN), ok(1)] })
 gleich('UNKNOWN, beim zweiten Versuch rechenbar: zwei Aufrufe, eine Pause, Exit 0, Neustart gemeldet', [unknown.code, unknown.aufrufe, unknown.pausen, unknown.zeilen[1]], [0, [10, 10], [20000], 'Basis-Neustart: PR 10 Exit 1 (Kette neu gestartet)'])
-const laeuft = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(2, LAEUFT)] })
-gleich('Kette läuft noch, bleibt so: nach dem Neuversuch Exit 0, Zeile mit Handgriff, genau zwei Aufrufe', [laeuft.code, laeuft.aufrufe.length, laeuft.zeilen[1].includes('NICHT NEU GERECHNET') && laeuft.zeilen[1].includes('von Hand: node tools/pr-nachrechnen.mjs 10')], [0, 2, true])
+const laeuft = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(2, UNKNOWN)] })
+gleich('UNKNOWN bleibt: nach dem Neuversuch Exit 0, Zeile mit Handgriff, genau zwei Aufrufe', [laeuft.code, laeuft.aufrufe.length, laeuft.zeilen[1].includes('NICHT NEU GERECHNET') && laeuft.zeilen[1].includes('von Hand: gh pr update-branch 10')], [0, 2, true])
 const konflikt = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(2, KONFLIKT)] })
 gleich('Konflikt: Exit 0, ein Aufruf, keine Pause, Zeile KONFLIKT', [konflikt.code, konflikt.aufrufe, konflikt.pausen, konflikt.zeilen[1].includes('KONFLIKT mit main')], [0, [10], [], true])
 const ersetzt = fahre(30, [pr(10, 'mergen nach #30')], { 10: [nein(3, ERSETZT)] })
@@ -126,6 +131,24 @@ gleich('main: BASIS_PR fehlt: Exit 1', einstieg({}).code, 1)
 const unk = einstieg({ BASIS_PR: '31' }, 'unknown')
 gleich('main: UNKNOWN von nachrechnen: zwei Aufrufe, die Pause kommt aus main an (20 s), Exit 0', [unk.code, unk.aufrufe.length, unk.pausen, unk.zeilen.some((z) => z.includes('NICHT NEU GERECHNET'))], [0, 2, [20000], true])
 gleich('main: Meldung von nachrechnen kommt als Grund an (Konflikt: Exit 0, eine Zeile KONFLIKT)', [einstieg({ BASIS_PR: '31' }, 2).code, einstieg({ BASIS_PR: '31' }, 2).zeilen.some((z) => z.includes('KONFLIKT mit main'))], [0, true])
+// Standardweg ohne Einspeisung als eigener Prozess (Vorlader tools/pr-nachrechnen-mock.mjs): der Stapel-PR wird nachgezogen
+// (Trockenlauf: Exit 1 „würde nachgezogen“), nicht bloß als mergebar beurteilt (das wäre Exit 0 „aktuell“, und die rote Kette bliebe).
+{
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'basis-neustart-'))
+  const daten = {
+    'pr list --state open --limit 200 --json number,body,isDraft': { aus: JSON.stringify([pr(30, 'Basis'), pr(10, 'mergen nach #30')]) },
+    'pr view 10 --json number,state,mergeable,headRefOid,headRefName,comments,commits': { aus: JSON.stringify({ number: 10, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: 'ab'.padEnd(40, '0'), headRefName: 'fix/y', comments: [], commits: [] }) },
+    'pr list --state open --limit 200 --json number,title,body': { aus: '[]' },
+  }
+  const env = { ...process.env, BASIS_PR: '30', TROCKEN: 'true', ATTRAPPE_DATEN: path.join(ordner, 'daten.json'), ATTRAPPE_LOG: path.join(ordner, 'log.ndjson') }
+  fs.writeFileSync(env.ATTRAPPE_DATEN, JSON.stringify(daten))
+  fs.writeFileSync(env.ATTRAPPE_LOG, '')
+  const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs', import.meta.url))).href
+  const r = spawnSync(process.execPath, ['--import', vorlader, fileURLToPath(new URL('./basis-gemergt-neustart.mjs', import.meta.url))], { encoding: 'utf8', windowsHide: true, env, timeout: 60_000 })
+  fs.rmSync(ordner, { recursive: true, force: true })
+  gleich('Prozess: Standard ist nachziehen (Trockenlauf Exit 1 „würde nachgezogen“), Werkzeug Exit 0', [r.status, /^PR 10: Kette würde nachgezogen/m.test(r.stdout), /^Basis-Neustart: PR 10 Exit 1 \(Kette neu gestartet\)$/m.test(r.stdout)], [0, true, true])
+}
+
 // Verdrahtung aus der YAML: Auslöser, Bedingung, Rechte, Token, Aufruf.
 const wf = parse(fs.readFileSync(new URL('../.github/workflows/pr-pruefer-nachtrag.yml', import.meta.url), 'utf8'))
 const job = wf.jobs['basis-gemergt']
@@ -137,7 +160,7 @@ gleich('Basis-Nummer aus dem Ereignis, nur über env', schritt.env.BASIS_PR, '${
 gleich('Token: PAT, sonst GITHUB_TOKEN; ohne PAT Trockenlauf', [schritt.env.GH_TOKEN, schritt.env.TROCKEN], ['${{ secrets.NACHT_MERGER_TOKEN || secrets.GITHUB_TOKEN }}', "${{ secrets.NACHT_MERGER_TOKEN == '' }}"])
 gleich('Rechte des Jobs nur lesend, Frist unter 10 min', [job.permissions, job['timeout-minutes'] < 10], [{ contents: 'read', 'pull-requests': 'read', actions: 'read' }, true])
 const checkout = job.steps.find((s) => s.uses?.startsWith('actions/checkout'))
-gleich('Checkout mit voller Historie (pr-nachrechnen liest git log) ohne gespeicherte Zugangsdaten', [checkout.with['fetch-depth'], checkout.with['persist-credentials']], [0, false])
+gleich('Checkout flach (nachziehen liest kein git) ohne gespeicherte Zugangsdaten', checkout.with, { 'persist-credentials': false })
 gleich('Zeitbudget: 4 PRs mal 100 s plus 60 s Checkout unter der Job-Frist von 9 min', [job['timeout-minutes'], MAX_PRS * PRO_PR_SEK + 60 <= job['timeout-minutes'] * 60], [9, true])
 gleich('Zeitbudget: ein fünfter PR sprengte die Frist (Grenze nicht ohne Frist anheben)', (MAX_PRS + 1) * PRO_PR_SEK + 60 > job['timeout-minutes'] * 60, true)
 
