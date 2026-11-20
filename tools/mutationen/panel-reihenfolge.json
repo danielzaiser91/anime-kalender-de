@@ -1,0 +1,25 @@
+[
+  { "name": "Kontrolle (unmutiert)", "aenderungen": [], "tests": ["npx tsx pipeline/check-panel-reihenfolge.ts"] },
+  {
+    "name": "DetailPanel: handlung null, HandlungAbschnitt zurück unter TermineAbschnitt",
+    "aenderungen": [
+      { "datei": "web/src/components/DetailPanel.tsx", "suche": "handlung={<HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />}", "ersetze": "handlung={null}" },
+      { "datei": "web/src/components/DetailPanel.tsx", "suche": "<TermineAbschnitt releases={releases} title={title} />", "ersetze": "<TermineAbschnitt releases={releases} title={title} /><HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />" }
+    ],
+    "tests": ["npx tsx pipeline/check-panel-reihenfolge.ts"]
+  },
+  {
+    "name": "DetailPanel: handlung null (Handlung fehlt ganz)",
+    "aenderungen": [
+      { "datei": "web/src/components/DetailPanel.tsx", "suche": "handlung={<HandlungAbschnitt plot={plot} t={t} plotOffen={plotOffen} setPlotOffen={setPlotOffen} />}", "ersetze": "handlung={null}" }
+    ],
+    "tests": ["npx tsx pipeline/check-panel-reihenfolge.ts"]
+  },
+  {
+    "name": "UnterDerAntwort: Reihe vor Handlung",
+    "aenderungen": [
+      { "datei": "web/src/components/detail/unter-der-antwort.tsx", "suche": "      {handlung}\n      {reihe}", "ersetze": "      {reihe}\n      {handlung}" }
+    ],
+    "tests": ["npx tsx pipeline/check-panel-reihenfolge.ts"]
+  }
+]
