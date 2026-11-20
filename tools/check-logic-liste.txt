@@ -317,6 +317,7 @@ pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-hinweis-anzeige.ts
 pipeline/check-hoechstens-ratsche.ts
+pipeline/check-horizonte-staffeln-bestand-lauf.ts
 pipeline/check-horizonte-staffeln.ts
 pipeline/check-ics-folgen.ts
 pipeline/check-ics-kopf.ts

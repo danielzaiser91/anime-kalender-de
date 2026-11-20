@@ -8,6 +8,7 @@
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { hauptstaffeln, staffelStaende } from '../shared/titles.ts'
+import type { Release } from '../shared/types.ts'
 import { alleStaffelQuellen } from './bau/staffel-quelle.ts'
 import {
   HORIZONTE_STAFFELN,
@@ -20,6 +21,7 @@ import {
   letzteFolgen,
   staffelEnden,
   staffelListen,
+  mitStapelFolgen,
   zaehleFolgen,
 } from './lib/pokemon-staffeln.ts'
 
@@ -44,7 +46,7 @@ const offen = h.staffeln[h.staffeln.length - 1]!
 pruefe('Staffel 4 offen ab Folge 137, ohne erfundenes Ende', offen.nr === 4 && offen.von === 137 && offen.offen === true && offen.bis === undefined && offen.folgen === undefined, JSON.stringify(offen))
 
 /* Der Staffel-4-Termin hängt an Staffel 4: seine Folgennummer ist ihr Beginn. */
-const nachtrag = yaml.load(readFileSync('data/curated/streaming-nachtrag-2026.yaml', 'utf8')) as { slug: string; anilistId?: number; schedule?: { firstEpisodeNumber?: number } }[]
+const nachtrag = yaml.load(readFileSync('data/curated/streaming-nachtrag-2026.yaml', 'utf8')) as { slug: string; anilistId?: number; schedule?: Release['schedule'] }[]
 const s4 = nachtrag.find((r) => r.slug === 'pokemon-horizonte-s4-rtlplus')
 pruefe('Termin pokemon-horizonte-s4-rtlplus beginnt mit der ersten Folge von Staffel 4', s4?.anilistId === ID && s4.schedule?.firstEpisodeNumber === offen.von, JSON.stringify(s4?.schedule))
 
@@ -83,11 +85,28 @@ pruefe('Ohne offene Staffel gilt die Folgenzahl weiter', fehlerInGrenzen({ anili
 
 /* Kopfzählung (vorher „122 von 122“: aniSearch führt 122 Folgen, die deutschen Staffeln 1–3 haben 136). */
 const nummern = Array.from({ length: 122 }, (_, i) => i + 1)
-pruefe('Horizonte: 136 von 137', zaehleFolgen(nummern, [[1, 136]], 137).join() === '137,136', zaehleFolgen(nummern, [[1, 136]], 137).join())
+pruefe('Horizonte heute: Folge 137 deutsch, 137 von 137', zaehleFolgen(nummern, [[1, 137]], 137).join() === '137,137', zaehleFolgen(nummern, [[1, 137]], 137).join())
+pruefe('Gesamt nie unter der höchsten deutschen Folge (138 läuft)', zaehleFolgen(nummern, [[1, 138]], 137).join() === '138,138', zaehleFolgen(nummern, [[1, 138]], 137).join())
 pruefe('Ohne Staffelgrenzen unverändert (122 von 122)', zaehleFolgen(nummern, [[1, 136]], undefined).join() === '122,122')
-pruefe('Grenzen bis genau zur Listenlänge: die Liste zählt', zaehleFolgen([1, 2, 4], [[4, 9]], 3).join() === '3,1')
+pruefe('Grenzen und Deutsch bis genau zur Listenlänge: die Liste zählt', zaehleFolgen([1, 2, 4], [[2, 3]], 3).join() === '3,1')
 pruefe('Deutsch zählt nur Folgen in den Bereichen', zaehleFolgen([1, 2], [[2, 3], [6, 6]], 7).join() === '7,3')
 pruefe('Liste länger als die Grenzen: Liste zählt', zaehleFolgen([1, 2, 3, 5], [[1, 2]], 3).join() === '4,2')
+
+/* Stapel-Termine: Folge 137 (Termin pokemon-horizonte-s4-rtlplus) zählt ab ihrem Tag deutsch. */
+const stapel = (s: Partial<Release['schedule']>, extra: Partial<Release> = {}) =>
+  ({ releaseType: 'batch', schedule: { firstEpisodeDate: '2026-11-20', firstEpisodeNumber: 137, episodeCount: 1, ...s }, ...extra }) as Release
+const de136: [number, number][] = [[1, 136]]
+const zeige = (b: [number, number][]) => JSON.stringify(b)
+pruefe('Echter S4-Termin am 20.11.: 1–137', zeige(mitStapelFolgen(de136, [{ releaseType: 'batch', schedule: s4!.schedule } as Release], '2026-11-20')) === '[[1,137]]')
+pruefe('Vor dem Tag: unverändert', zeige(mitStapelFolgen(de136, [stapel({})], '2026-11-19')) === '[[1,136]]')
+pruefe('Zwei Folgen, mit Lücke davor', zeige(mitStapelFolgen(de136, [stapel({ firstEpisodeNumber: 139, episodeCount: 2 })], '2026-12-01')) === '[[1,136],[139,140]]')
+pruefe('Wochentermin zählt hier nicht', zeige(mitStapelFolgen(de136, [stapel({}, { releaseType: 'weekly' })], '2026-12-01')) === '[[1,136]]')
+pruefe('Nur OmU zählt nicht', zeige(mitStapelFolgen(de136, [stapel({}, { sprache: 'omu' })], '2026-12-01')) === '[[1,136]]')
+pruefe('Ohne Folgennummer zählt nicht', zeige(mitStapelFolgen(de136, [stapel({ firstEpisodeNumber: undefined })], '2026-12-01')) === '[[1,136]]')
+pruefe('Geschätzte Folgenzahl zählt nicht', zeige(mitStapelFolgen(de136, [stapel({ episodeCountAssumed: true })], '2026-12-01')) === '[[1,136]]')
+pruefe('Ohne Folgenzahl zählt nicht', zeige(mitStapelFolgen(de136, [stapel({ episodeCount: undefined })], '2026-12-01')) === '[[1,136]]')
+pruefe('Ohne Datum zählt nicht', zeige(mitStapelFolgen(de136, [stapel({ firstEpisodeDate: undefined })], '2026-12-01')) === '[[1,136]]')
+pruefe('Bereiche bleiben getrennt, wo nichts sie verbindet', zeige(mitStapelFolgen([[1, 2], [5, 6]], [], '2026-12-01')) === '[[1,2],[5,6]]')
 
 /* Quellenvergleich (Bestand): Wikipedia-Spalte „Folge in der Staffel“, TOGGO höchste Folge je Staffel. */
 pruefe('Folgen je Staffel aus st', folgenJeStaffelAusSt([{ st: 1 }, { st: 2 }, { st: 1 }, { st: 2 }, { st: 3 }, { st: 1 }]).join() === '2,3,1')

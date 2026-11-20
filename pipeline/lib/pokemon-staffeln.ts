@@ -5,6 +5,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
+import type { Release } from '../../shared/types.ts'
 import { ROOT } from './util.ts'
 
 /** `offen`: die laufende letzte Staffel, deren Ende keine Quelle nennt — ohne `bis` und `folgen`. */
@@ -111,10 +112,33 @@ export function letzteFolgen(grenzen: StaffelGrenzen[]): Map<number, number> {
 
 /**
  * `[alle, deutsche]` für `folgen/zaehlung.json`. Reichen die Staffelgrenzen weiter als die Folgenliste (Horizonte: aniSearch führt 122,
- * die deutschen Staffeln 1–3 haben 136), zählt der Kopf bis zur letzten belegten Folge statt „122 von 122“.
+ * die deutschen Staffeln 1–3 haben 136), zählt der Kopf bis zur letzten belegten Folge statt „122 von 122“ — nie unter der höchsten
+ * deutschen Folge, denn eine offene Staffel wächst über ihre erste Folge hinaus.
  */
 export function zaehleFolgen(nummern: number[], de: [number, number][], letzte?: number): [number, number] {
   const imDeutschen = (n: number) => de.some(([von, bis]) => n >= von && n <= bis)
-  if (!letzte || letzte <= nummern.length) return [nummern.length, nummern.filter(imDeutschen).length]
-  return [letzte, Array.from({ length: letzte }, (_, i) => i + 1).filter(imDeutschen).length]
+  const ende = letzte ? Math.max(letzte, ...de.map(([, bis]) => bis)) : 0
+  if (ende <= nummern.length) return [nummern.length, nummern.filter(imDeutschen).length]
+  return [ende, Array.from({ length: ende }, (_, i) => i + 1).filter(imDeutschen).length]
+}
+
+/**
+ * Deutsche Bereiche plus die Folgen erschienener Stapel-Termine mit Folgennummer (Horizonte: Staffel 4 Folge 137 seit 20.11.2026 bei RTL+,
+ * der Weg trägt nur 1–136). Termine mit `sprache` (nur OmU/offen) und geschätzter Folgenzahl zählen nicht.
+ */
+export function mitStapelFolgen(de: [number, number][], termine: Release[], heute: string): [number, number][] {
+  const nummern = new Set<number>()
+  for (const [von, bis] of de) for (let n = von; n <= bis; n++) nummern.add(n)
+  for (const r of termine) {
+    const { firstEpisodeNumber: von, episodeCount: anzahl, episodeCountAssumed, firstEpisodeDate } = r.schedule
+    if (r.releaseType !== 'batch' || r.sprache || !von || !anzahl || episodeCountAssumed || !firstEpisodeDate || firstEpisodeDate > heute) continue
+    for (let n = von; n < von + anzahl; n++) nummern.add(n)
+  }
+  const bereiche: [number, number][] = []
+  for (const n of [...nummern].sort((a, b) => a - b)) {
+    const letzter = bereiche[bereiche.length - 1]
+    if (letzter && letzter[1] === n - 1) letzter[1] = n
+    else bereiche.push([n, n])
+  }
+  return bereiche
 }
