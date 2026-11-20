@@ -29,8 +29,8 @@ export const tvSichtbar = (platform: string, premiere: boolean, tvAus: boolean |
 
 /** Was der Termin hergeben muss; der Worker-Termin (`ReleaseEvent`) trägt alles. */
 export interface FilterTermin {
-  platform: string
-  releaseType: string
+  platform?: string
+  releaseType?: string
   tvPremiere?: boolean
   zweitanbieter?: unknown
 }
@@ -38,7 +38,8 @@ export interface FilterTermin {
 /** Die ganze Regel für einen Termin (Worker); die Seite ruft die Teile an ihren Stellen auf. */
 export function terminSichtbar(e: FilterTermin, f: TerminFilter | null): boolean {
   if (!f) return true
-  return passtAmTermin(e.platform, e.releaseType, f) && !(f.zweitanbieterExcluded && e.zweitanbieter) && tvSichtbar(e.platform, e.tvPremiere === true, f.tvAus)
+  const [platform, art] = [e.platform ?? '', e.releaseType ?? '']
+  return passtAmTermin(platform, art, f) && !(f.zweitanbieterExcluded && e.zweitanbieter) && tvSichtbar(platform, e.tvPremiere === true, f.tvAus)
 }
 
 /** Obergrenzen für Eingaben aus dem Browser: Einträge je Liste, Zeichen je Eintrag. */
@@ -62,6 +63,28 @@ export function schreibeTerminFilter(f: TerminFilter): Record<string, unknown> |
     ...(f.zweitanbieterExcluded && { zweitanbieterExcluded: true }),
   }
   return Object.keys(raus).length ? raus : null
+}
+
+const LISTEN = ['platforms', 'releaseTypes', 'xPlatforms', 'xReleaseTypes'] as const
+const SCHALTER = ['tvAus', 'zweitanbieterExcluded'] as const
+
+/** Der Wert als Abfragetext (`tvAus=1&xReleaseTypes=disc.manga`) für die Spalte `push_abo.favoriten`; ohne Filter leer. */
+export function terminFilterAlsText(f: TerminFilter): string {
+  const wert = schreibeTerminFilter(f)
+  if (!wert) return ''
+  const p = new URLSearchParams()
+  for (const k of SCHALTER) if (wert[k]) p.set(k, '1')
+  for (const k of LISTEN) if (wert[k]) p.set(k, (wert[k] as string[]).join('.'))
+  return p.toString()
+}
+
+/** Gegenstück zu `terminFilterAlsText`; unlesbar oder leer heißt „kein Filter“. */
+export function terminFilterAusText(text: string): TerminFilter | null {
+  const p = new URLSearchParams(text)
+  const roh: Record<string, unknown> = {}
+  for (const k of SCHALTER) if (p.get(k) === '1') roh[k] = true
+  for (const k of LISTEN) if (p.get(k)) roh[k] = p.get(k)!.split('.')
+  return leseTerminFilter(roh)
 }
 
 /** Liest den Wert aus dem Browser; jede Abweichung (Typ, Länge, Zeichen) heißt „kein Filter“ — nie ein halber. */

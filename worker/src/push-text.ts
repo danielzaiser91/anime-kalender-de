@@ -11,6 +11,9 @@ export interface PushEreignis {
   verpasst?: { erschienenAm?: string }
   releaseType?: string
   platform?: string
+  /** Vom Bau gesetzt (nur TV); für den Filter des Abos (`shared/push-filter.ts`). */
+  tvPremiere?: boolean
+  zweitanbieter?: unknown
 }
 
 export interface WeitererAnbieter {
