@@ -8,7 +8,9 @@
 # https://www.themoviedb.org/tv/60572/seasons. Staffelnummern = TMDB-Staffeln 1–25 (Staffel 0 = Extras zählt nicht).
 # Zuordnung Titel ↔ Staffel: jeder deutsche aniSearch-Folgentitel (`public/data/folgen/<Kennung>.json`) wird gegen die TMDB-Titel an
 # derselben Stelle gelegt (Schreibweise ignoriert, Abweichung um bis zu 4 Stellen erlaubt); `treffer` nennt die Übereinstimmungen. Eine
-# Folge ohne Treffer gehört zur Staffel der Folge davor. Keine Zahl ist geraten.
+# Folge ohne Treffer gehört zur Staffel der Folge davor. **Abgeleitet, nicht gegengelesen:** Die Grenzen (auch S9, S17, S18, S19) stehen auf
+# TMDB-Titeln und aniSearch-Zählung; die Gegenprobe gegen pokewiki.de/de.wikipedia steht aus (Hosts im Cloud-Lauf gesperrt, 20.11.2026).
+# `teil: 1/2` an 17115/17873 (Staffel 16) ist nur die Reihenfolge der zwei AniList-Einträge, kein belegtes „16A/16B“.
 #
 # Felder je Abschnitt: nr (deutsche Staffel), von/bis (Folgennummer im Titel), folgen (bis − von + 1).
 # Namen der Staffeln (Indigo-Liga …) stehen nicht in den TMDB-Daten und fehlen bewusst; sie kommen mit Quelle in einem späteren Lauf.
@@ -20,7 +22,8 @@
 # - 21356: TMDB-Staffel 19 hat 49 Folgen; Folge 48 „Die Legende von X,Y und Z!“ ist der Sondertitel 10011938, Folge 49 „Das Ultimative Duo“
 #   hat keinen Titel im Datensatz (offen).
 quelle: https://www.themoviedb.org/tv/60572
-abgerufen: '2026-11-20'
+abgerufen: '2026-10-06'  # TMDB-Daten in data/tmdb-folgen.json (geholtAm)
+gelesen: '2026-11-20'
 titel:
 - anilistId: 527
   titel: "Pokémon"
