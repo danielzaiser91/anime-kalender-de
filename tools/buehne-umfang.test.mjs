@@ -26,6 +26,10 @@ const texte = {
   'tief.ts': 'export const U = 1',
   'allein.ts': 'export const X = 1',
   'gamma.tsx': anmeldung('gamma'),
+  'eltern.tsx': `import { K } from './kind.tsx'\n${anmeldung('eltern')}`,
+  'kind.tsx': anmeldung('kind'),
+  /* Schlüssel, der nur ein Unterordner-Pfad sein kann: ohne die Ordner-Weiche würde er als Mockup gelten. */
+  'unter/gamma.tsx': anmeldung('unter-gamma'),
 }
 
 /* Eine Mockup-Datei → ihre Namen; Hilfsdatei → Namen der Importeure (auch mittelbar, mit und ohne Endung); css über den Import. */
@@ -35,6 +39,9 @@ assert.deepEqual(mockupsDesDiffs([M('alpha.css')], texte), ['alpha', 'alpha-zwei
 assert.deepEqual(mockupsDesDiffs([M('teil.tsx')], texte).sort(), ['alpha', 'alpha-zwei', 'beta'])
 assert.deepEqual(mockupsDesDiffs([M('tief.ts')], texte).sort(), ['alpha', 'alpha-zwei', 'beta'])
 assert.deepEqual(mockupsDesDiffs([M('gamma.tsx'), M('beta.tsx')], texte).sort(), ['beta', 'gamma'])
+/* Ein anmeldendes Mockup, das ein anderes einbindet, kommt mit: Änderung an kind.tsx misst auch eltern, die an eltern.tsx nur eltern. */
+assert.deepEqual(mockupsDesDiffs([M('kind.tsx')], texte).sort(), ['eltern', 'kind'])
+assert.deepEqual(mockupsDesDiffs([M('eltern.tsx')], texte), ['eltern'])
 /* Hinzugefügte Datei zählt wie eine geänderte. */
 assert.deepEqual(mockupsDesDiffs([M('gamma.tsx', 'A')], texte), ['gamma'])
 
@@ -43,6 +50,9 @@ assert.equal(mockupsDesDiffs([M('allein.ts')], texte), null)
 assert.equal(mockupsDesDiffs([M('gamma.tsx', 'D')], texte), null)
 assert.equal(mockupsDesDiffs([M('fehlt.tsx')], texte), null)
 assert.equal(mockupsDesDiffs([{ status: 'M', pfad: 'web/buehne/mockups/unter/x.tsx' }], texte), null)
+assert.equal(mockupsDesDiffs([{ status: 'M', pfad: 'web/buehne/mockups/unter/gamma.tsx' }], texte), null, 'Unterordner ist kein Mockup')
+/* Fremder Pfad, dessen Rest hinter 19 Zeichen wie eine Mockup-Datei aussieht, zählt nicht. */
+assert.equal(mockupsDesDiffs([{ status: 'M', pfad: `${'x'.repeat('web/buehne/mockups/'.length)}gamma.tsx` }], texte), null)
 for (const fremd of ['web/src/App.tsx', 'web/buehne/zelle.tsx', 'web/buehne/faelle.json', 'tools/buehne-messen.mjs', '.github/workflows/pr-pruefung.yml', 'package.json', 'shared/logic.ts', 'extension/amazon.css', 'public/data/titles.json']) {
   assert.equal(mockupsDesDiffs([M('gamma.tsx'), { status: 'M', pfad: fremd }], texte), null, `${fremd} neben einem Mockup misst alles`)
   assert.equal(mockupsDesDiffs([{ status: 'M', pfad: fremd }], texte), null, `${fremd} allein misst alles`)

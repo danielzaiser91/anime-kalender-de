@@ -7,7 +7,7 @@ import assert from 'node:assert/strict'
 import { mkdtemp, readdir, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { lauf as messe, schreibeBasis } from './buehne-messen.mjs'
+import { cli, lauf as messe, schreibeBasis } from './buehne-messen.mjs'
 import { deckung } from './buehne-basis-warnung.mjs'
 import { readFileSync } from 'node:fs'
 import { lauf as bilder } from './buehne-bilder.mjs'
@@ -20,7 +20,7 @@ const crash = () => new Error('locator.evaluate: Page crashed')
  * nachher-375-hell, nachher-375-dunkel. Nachher-Zellen haben einen Kontrastbefund. `bricht(seitenName, variante, schluessel)`
  * sagt, ob die Messung bzw. das Bild dieser Zelle abstürzt.
  */
-function browser({ bricht, fremde = [], appBefund = false, appTipp = false, besucht = [], flackert = false }) {
+function browser({ bricht, fremde = [], appBefund = false, appTipp = false, besucht = [], flackert = false, leer = false }) {
   const plan = { nr: 0 }
   const neueSeite = (name) => {
     const seite = { name, variante: '', teil: '', geschlossen: false }
@@ -68,7 +68,7 @@ function browser({ bricht, fremde = [], appBefund = false, appTipp = false, besu
       locator: () => ({
         first: () => ({ waitFor: async () => {} }),
         waitFor: async () => {},
-        elementHandles: async () => (seite.teil === 'beide' ? ['vorher-375-hell'] : []).concat(['nachher-375-hell', 'nachher-375-dunkel']).map(handle),
+        elementHandles: async () => leer ? [] : (seite.teil === 'beide' ? ['vorher-375-hell'] : []).concat(['nachher-375-hell', 'nachher-375-dunkel']).map(handle),
       }),
       $$eval: async (sel) => (sel.includes('uebersicht') ? ['m1'] : sel.includes('"Variante"') ? ['A', 'B'] : sel.includes('"Fall"') ? ['f1'] : []),
       close: async () => { seite.geschlossen = true },
@@ -112,6 +112,21 @@ async function messeMit({ basis = null, schreibe = null, nurVorher = false, sche
   assert.equal(leer.exit, undefined)
   assert.ok(leer.aus.includes('  Scheibe 2/2: keine Einheit zugeteilt'), leer.aus.join('|'))
   assert.deepEqual(zeilenVon(leer), [])
+  /* Ohne Scheibe ist „keine einzige Zelle gemessen“ weiter rot (Bühne oder Selektor kaputt). */
+  const nichts = await messeMit({ bricht: () => false, leer: true })
+  assert.equal(nichts.exit, 1)
+  assert.ok(nichts.aus.some((z) => z.includes('keine einzige Zelle gemessen')), nichts.aus.join('|'))
+}
+
+/** Kommandozeile: die Umgebung des Workflows (`BUEHNE_MOCKUPS`, `BUEHNE_SCHEIBE`) kommt bei `lauf` an; ohne sie gilt alles. */
+{
+  let gesehen = null
+  await cli({ BUEHNE_MOCKUPS: 'a,b', BUEHNE_SCHEIBE: '2/3' }, async (o) => { gesehen = o })
+  assert.equal(gesehen.filter, 'a,b')
+  assert.deepEqual(gesehen.scheibe, { k: 1, n: 3 })
+  await cli({}, async (o) => { gesehen = o })
+  assert.equal(gesehen.filter, '')
+  assert.equal(gesehen.scheibe, null)
 }
 
 /** Absturz mitten in der Einheit A (nach dem Hell-Befund): Wiederholung auf S1, jeder Befund genau einmal. */

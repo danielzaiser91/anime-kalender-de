@@ -133,7 +133,10 @@ export async function lauf({ starte, filter, ausgabe, liste = LISTE, basis = nul
   else ausgabe(`\n  ok  ${gemessen} Nachher-Zellen gemessen, nichts gegenüber Vorher verschlechtert`)
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const { filter, scheibe } = umgebungsOptionen(process.env)
-  await lauf({ starte: starteBuehne, filter: argument('--mockup', filter), scheibe, ausgabe: console.log, ...basisAusAufruf() })
+/** Aufruf von der Kommandozeile: `--mockup` schlägt `BUEHNE_MOCKUPS`; `BUEHNE_SCHEIBE` kommt nur aus der Umgebung. `ausfuehren` ist austauschbar (Test). */
+export async function cli(env, ausfuehren = lauf) {
+  const { filter, scheibe } = umgebungsOptionen(env)
+  await ausfuehren({ starte: starteBuehne, filter: argument('--mockup', filter), scheibe, ausgabe: console.log, ...basisAusAufruf() })
 }
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) await cli(process.env)

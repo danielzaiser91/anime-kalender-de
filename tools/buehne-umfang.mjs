@@ -25,8 +25,7 @@ export function angemeldeteNamen(text) {
 /** Dateien (Namen ohne Ordner) der Mockup-Dateien, die `datei` direkt importieren. */
 function importeure(datei, texte) {
   const stamm = datei.replace(/\.(tsx?|css)$/, '')
-  const nur = /\.tsx?$/.test(datei) ? `(?:${esc(datei)}|${esc(stamm)})` : esc(datei)
-  const muster = new RegExp(`['"]\\./${nur}['"]`)
+  const muster = new RegExp(`['"]\\./(?:${esc(datei)}|${esc(stamm)})['"]`)
   return Object.keys(texte).filter((d) => d !== datei && muster.test(texte[d]))
 }
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -43,7 +42,6 @@ export function mockupsDesDiffs(dateien, texte) {
     if (OHNE_WIRKUNG.test(pfad)) continue
     if (!pfad.startsWith(MOCKUPS) || pfad.slice(MOCKUPS.length).includes('/') || status === 'D') return null
     const datei = pfad.slice(MOCKUPS.length)
-    if (!(datei in texte)) return null
     beruehrt = true
     const gesehen = new Set()
     const stapel = [datei]
@@ -55,7 +53,7 @@ export function mockupsDesDiffs(dateien, texte) {
       const eigene = angemeldeteNamen(texte[d] ?? '')
       for (const n of eigene) namen.add(n)
       if (eigene.length) gefunden = true
-      else stapel.push(...importeure(d, texte))
+      stapel.push(...importeure(d, texte)) // auch ein anmeldendes Mockup kann von einem anderen eingebunden sein
     }
     if (!gefunden) return null
   }
