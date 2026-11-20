@@ -15,7 +15,7 @@ const v = require(join(HOOKS, 'vorrat-erledigt.js'))
 const h = require(join(HOOKS, 'stand-prs.js'))
 
 const JETZT = Date.parse('2999-12-31T12:00:00Z')
-const ADR = 'https://github.com/danielzaiser91/anime-kalender-de/pull/'
+const ADR = 'https://github.com/derNamenloseDaniel/anime-kalender-de/pull/'
 const link = (n) => `[PR ${n}](${ADR}${n})`
 const vergeben = (...n) => `**Vergeben:** ${n.map(link).join(' ')}\n`
 const merge = (n) => ({ number: n, title: `fix: ${n}`, url: `${ADR}${n}`, mergedAt: new Date(JETZT - 60000).toISOString(), updatedAt: new Date(JETZT - 60000).toISOString() })
@@ -24,7 +24,7 @@ function gh(nummern, { offen = [], zustaende = {}, aufrufe = [] } = {}) {
   return (args) => {
     if (args[0] === 'pr') {
       aufrufe.push(args[2])
-      assert.deepEqual([args[1], args[3], args[4], args[5]], ['view', '--repo', 'danielzaiser91/anime-kalender-de', '--json'])
+      assert.deepEqual([args[1], args[3], args[4], args[5]], ['view', '--repo', 'derNamenloseDaniel/anime-kalender-de', '--json'])
       const z = zustaende[args[2]]
       if (z === 'fehler') throw new Error('gh: 502')
       return JSON.stringify({ state: z ?? 'OPEN' })

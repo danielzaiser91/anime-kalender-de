@@ -323,7 +323,7 @@ globalThis.fetch = async () => new Response('{}', { status: 500 })
   const p2 = fahre()
   // Exit ≠ 0 ist hier die Kulisse (Status-Worker 500), nicht die Wache: ihre Zeile belegt, dass sie bis zum Ende lief.
   assert.match(p2.stdout, /^ {2}Lauf 42: abgebrochen, Neustart folgt$/m)
-  assert.match(readFileSync(log, 'utf8'), /^gh run cancel 42 --repo danielzaiser91\/anime-kalender-de$/m)
+  assert.match(readFileSync(log, 'utf8'), /^gh run cancel 42 --repo derNamenloseDaniel\/anime-kalender-de$/m)
   // --haenger-speicher wird wirklich benutzt: der Abbruch steht dort in der Merkdatei.
   assert.deepEqual(JSON.parse(readFileSync(join(wegwerf, 'p-merk.json'), 'utf8')), { 42: { versuch: 1 } })
 } finally {

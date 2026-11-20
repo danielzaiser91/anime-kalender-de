@@ -218,7 +218,7 @@ brauchbare Antwort. `public/404.html` ist diese Antwort — mit `noindex`, damit
 Fehlerseite nicht selbst in den Index nimmt und anschließend als Fehler zurückmeldet.
 
 **Und jede erreichbare Adresse braucht ein `canonical`.** Die Seite liegt unter drei Adressen:
-`anime-kalender.de`, `www.anime-kalender.de` und `danielzaiser91.github.io/anime-kalender-de`.
+`anime-kalender.de`, `www.anime-kalender.de` und `dernamenlosedaniel.github.io/anime-kalender-de`.
 Die beiden hinteren leiten um, aber ohne `canonical` bleibt es Googles Vermutung, welche gilt —
 und die Search Console meldet „Seite mit Weiterleitung". Die Zeile steht im `social`-Block von
 `web/index.html`, damit `build-share-pages.ts` sie je Teilen-Seite gegen deren eigene tauscht.

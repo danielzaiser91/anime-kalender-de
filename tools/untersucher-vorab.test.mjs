@@ -31,7 +31,7 @@ function vorab({ protokollDatei, issues = [], args = [], mitOutput = true, lauf 
   writeFileSync(log, '')
   writeFileSync(out, '')
   writeFileSync(antworten, JSON.stringify({ lauf: antwortLauf, protokollDatei, issueNr: 500, neuesIssue: 4711, issues, issueAnsicht: { body: '', comments: [] }, prs: [] }))
-  const env = { ...process.env, GH_BIN: `${process.execPath}|${join(tools, 'untersucher-gh-attrappe.mjs')}`, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: log, GITHUB_REPOSITORY: 'danielzaiser91/anime-kalender-de' }
+  const env = { ...process.env, GH_BIN: `${process.execPath}|${join(tools, 'untersucher-gh-attrappe.mjs')}`, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: log, GITHUB_REPOSITORY: 'derNamenloseDaniel/anime-kalender-de' }
   if (mitOutput) env.GITHUB_OUTPUT = out
   else delete env.GITHUB_OUTPUT
   const r = spawnSync(process.execPath, [join(tools, 'untersucher-vorab.mjs'), lauf, ...args], { encoding: 'utf8', env, timeout: 30000 })

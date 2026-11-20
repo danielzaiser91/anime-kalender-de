@@ -14,7 +14,7 @@ import { schluesselAusProtokoll, markerFuer, offenesIssue, laufNummern, offenePr
 
 const [lauf, ...optionen] = process.argv.slice(2)
 const trocken = optionen.includes('--trocken')
-const repo = process.env.GITHUB_REPOSITORY ?? 'danielzaiser91/anime-kalender-de'
+const repo = process.env.GITHUB_REPOSITORY ?? 'derNamenloseDaniel/anime-kalender-de'
 const laufUrl = `https://github.com/${repo}/actions/runs/${lauf}`
 
 // GH_BIN ("befehl|vorspann") ersetzt gh nur für Probeläufe mit einem Stellvertreter.

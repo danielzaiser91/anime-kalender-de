@@ -43,7 +43,7 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
     mergeStateStatus: 'CLEAN',
     isDraft: false,
     body: '',
-    comments: [{ author: { login: 'danielzaiser91' }, createdAt: vorStunden(60), body: 'Hinweis' }],
+    comments: [{ author: { login: 'derNamenloseDaniel' }, createdAt: vorStunden(60), body: 'Hinweis' }],
     reviews: [],
     statusCheckRollup: [],
   }
@@ -58,20 +58,20 @@ console.log('liegt-wachphase: eigener Prozess laeufe-aufraeumen --trocken')
   const daten = {
     [liste]: { aus: JSON.stringify([still]) },
     // zweites Repo (nativ): ein stiller PR 77
-    [`${liste} --repo danielzaiser91/anime-kalender-nativ`]: { aus: JSON.stringify([stillNativ]) },
-    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup --repo danielzaiser91/anime-kalender-nativ': { aus: JSON.stringify([stillNativ]) },
-    'pr list --state open --limit 100 --json number,comments --repo danielzaiser91/anime-kalender-nativ': { aus: JSON.stringify([stillNativ]) },
+    [`${liste} --repo derNamenloseDaniel/anime-kalender-nativ`]: { aus: JSON.stringify([stillNativ]) },
+    'pr list --state open --limit 100 --json number,reviews,statusCheckRollup --repo derNamenloseDaniel/anime-kalender-nativ': { aus: JSON.stringify([stillNativ]) },
+    'pr list --state open --limit 100 --json number,comments --repo derNamenloseDaniel/anime-kalender-nativ': { aus: JSON.stringify([stillNativ]) },
     'rev-parse --git-common-dir': { aus: '.git\n' },
     'pr list --state open --limit 100 --json number,reviews,statusCheckRollup': { aus: JSON.stringify([still]) },
     'pr list --state open --limit 100 --json number,comments': { aus: JSON.stringify([still]) },
     [graphqlSchluessel]: { aus: `${KOPF} ${vorStunden(100)}\n` },
-    [graphqlSchluessel.replace('owner={owner}', 'owner=danielzaiser91').replace('name={repo}', 'name=anime-kalender-nativ')]: { aus: `${KOPF_NATIV} ${vorStunden(100)}\n` },
+    [graphqlSchluessel.replace('owner={owner}', 'owner=derNamenloseDaniel').replace('name={repo}', 'name=anime-kalender-nativ')]: { aus: `${KOPF_NATIV} ${vorStunden(100)}\n` },
     'pr list --state open --limit 100 --json number,title,body,createdAt': { aus: '[]' },
-    'api repos/danielzaiser91/anime-kalender-de/pulls?state=open&per_page=100': { aus: '[]' }, // Wache „Kopf ohne Urteil“ (19.11.2026)
-    'api repos/danielzaiser91/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
-    'run list --repo danielzaiser91/anime-kalender-de --workflow deploy.yml --branch main --status success --limit 6 --json databaseId': { aus: '[]' },
-    'secret list --repo danielzaiser91/anime-kalender-de --json name': { aus: '[{"name":"LAUF_TOKEN"}]' },
-    ...Object.fromEntries(['bestand-bauen.yml', 'deploy.yml', 'nacht-pruefung.yml'].map((w) => [`run list --repo danielzaiser91/anime-kalender-de --workflow ${w} --limit 200 --json status,conclusion,createdAt,databaseId,headSha`, { aus: '[]' }])),
+    'api repos/derNamenloseDaniel/anime-kalender-de/pulls?state=open&per_page=100': { aus: '[]' }, // Wache „Kopf ohne Urteil“ (19.11.2026)
+    'api repos/derNamenloseDaniel/anime-kalender-de/actions/runs?status=in_progress&per_page=100': { aus: '{"workflow_runs":[]}' },
+    'run list --repo derNamenloseDaniel/anime-kalender-de --workflow deploy.yml --branch main --status success --limit 6 --json databaseId': { aus: '[]' },
+    'secret list --repo derNamenloseDaniel/anime-kalender-de --json name': { aus: '[{"name":"LAUF_TOKEN"}]' },
+    ...Object.fromEntries(['bestand-bauen.yml', 'deploy.yml', 'nacht-pruefung.yml'].map((w) => [`run list --repo derNamenloseDaniel/anime-kalender-de --workflow ${w} --limit 200 --json status,conclusion,createdAt,databaseId,headSha`, { aus: '[]' }])),
   }
   const abruf = path.join(werk, 'abruf-abgelehnt.mjs')
   fs.writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")

@@ -21,7 +21,7 @@ const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 const ALTER_KOPF = '0badc0de0badc0de0badc0de0badc0de0badc0de'
 const kurz = (k) => k.slice(0, 9)
 const urteil = (kopf, titel, at = '2026-11-01T10:00:00Z', login = 'github-actions[bot]') => ({ login, assoc: 'NONE', at, body: `**Prüfer-Review** für ${kurz(kopf)} - Urteil: **${titel}**\n\nProtokoll` })
-const nachtrag = (kopf, extra = {}) => ({ login: 'danielzaiser91', assoc: 'OWNER', at: '2026-11-01T11:00:00Z', body: `## Nachtrag (Abnahme Dirigent) — Kopf ${kurz(kopf)}\nAuflagen erfüllt`, ...extra })
+const nachtrag = (kopf, extra = {}) => ({ login: 'derNamenloseDaniel', assoc: 'OWNER', at: '2026-11-01T11:00:00Z', body: `## Nachtrag (Abnahme Dirigent) — Kopf ${kurz(kopf)}\nAuflagen erfüllt`, ...extra })
 const gruen = [
   { __typename: 'CheckRun', name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'SUCCESS' },
   { __typename: 'CheckRun', name: 'Prüfer-Review', status: 'COMPLETED', conclusion: 'SUCCESS' },

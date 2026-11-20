@@ -42,7 +42,7 @@ export function Footer({ meta }: { meta: DataMeta }) {
           </a>
           <a
             className="hover:underline"
-            href="https://github.com/danielzaiser91/anime-kalender-de"
+            href="https://github.com/derNamenloseDaniel/anime-kalender-de"
             target="_blank"
             rel="noreferrer noopener"
           >

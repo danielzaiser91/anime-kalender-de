@@ -73,7 +73,7 @@ try {
     }))
     const r = spawnSync(process.execPath, [join(tools, 'untersucher-vorab.mjs'), '777'], {
       encoding: 'utf8',
-      env: { ...process.env, GH_BIN: `${process.execPath}|${attrappe}`, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: log, GITHUB_OUTPUT: out, GITHUB_REPOSITORY: 'danielzaiser91/anime-kalender-de' },
+      env: { ...process.env, GH_BIN: `${process.execPath}|${attrappe}`, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: log, GITHUB_OUTPUT: out, GITHUB_REPOSITORY: 'derNamenloseDaniel/anime-kalender-de' },
     })
     assert.equal(r.status, 0, r.stderr)
     assert.ok(!readFileSync(log, 'utf8').includes('FALSCH'), `Attrappe meldet falschen Aufruf: ${readFileSync(log, 'utf8')}`)
@@ -112,7 +112,7 @@ try {
   // Sonst wäre der Test oben gegen Mutationen an --json/--limit des Prüflings blind.
   writeFileSync(antworten, JSON.stringify({ prs: [1, 2, 3].map((n) => ({ number: n, title: `t${n}`, body: `b${n}`, createdAt: 'x' })), issues: [] }))
   function attrappe_pr_list(...zusatz) {
-    const basis = ['--repo', 'danielzaiser91/anime-kalender-de', '--state', 'open']
+    const basis = ['--repo', 'derNamenloseDaniel/anime-kalender-de', '--state', 'open']
     const protokoll = join(ordner, 'selbsttest.txt')
     writeFileSync(protokoll, '')
     const env = { ...process.env, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: protokoll }
@@ -124,9 +124,9 @@ try {
   assert.equal(attrappe_pr_list('--limit', '2').status, 2, 'ohne --json endet die Attrappe mit Exit 2')
   assert.equal(attrappe_pr_list('--json', 'number').status, 2, 'ohne --limit endet die Attrappe mit Exit 2')
   assert.equal(attrappe_pr_list('--json', 'number', '--limit', '0').status, 2, '--limit 0 endet mit Exit 2')
-  assert.equal(spawnSync(process.execPath, [attrappe, 'pr', 'list', '--repo', 'danielzaiser91/anime-kalender-de', '--state', 'closed', '--json', 'number', '--limit', '5'], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: join(ordner, 'selbsttest.txt') } }).status, 2, 'falscher --state endet mit Exit 2')
+  assert.equal(spawnSync(process.execPath, [attrappe, 'pr', 'list', '--repo', 'derNamenloseDaniel/anime-kalender-de', '--state', 'closed', '--json', 'number', '--limit', '5'], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: join(ordner, 'selbsttest.txt') } }).status, 2, 'falscher --state endet mit Exit 2')
   writeFileSync(antworten, JSON.stringify({ prs: [], issues: [1, 2, 3].map((n) => ({ number: n, body: `b${n}`, title: `t${n}` })) }))
-  const issueListe = spawnSync(process.execPath, [attrappe, 'issue', 'list', '--repo', 'danielzaiser91/anime-kalender-de', '--state', 'open', '--json', 'number,body', '--limit', '2'], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: join(ordner, 'selbsttest.txt') } })
+  const issueListe = spawnSync(process.execPath, [attrappe, 'issue', 'list', '--repo', 'derNamenloseDaniel/anime-kalender-de', '--state', 'open', '--json', 'number,body', '--limit', '2'], { encoding: 'utf8', env: { ...process.env, ATTRAPPE_ANTWORTEN: antworten, ATTRAPPE_PROTOKOLL: join(ordner, 'selbsttest.txt') } })
   assert.deepEqual(JSON.parse(issueListe.stdout), [{ number: 1, body: 'b1' }, { number: 2, body: 'b2' }], 'issue list: Felder und --limit wie bei pr list')
 
   // (3) Abmelde-Schritt aus der YAML: `run` und `env` stammen aus der Datei, die Ausdrücke setzt der Test.

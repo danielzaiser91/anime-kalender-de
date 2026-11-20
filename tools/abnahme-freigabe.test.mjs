@@ -21,7 +21,7 @@ function pruefe(name, ok, info = '') {
 const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 const ALT = '0badc0de0badc0de0badc0de0badc0de0badc0de'
 const PRAE = '## Nachtrag (Abnahme Dirigent, 27.10.2026)'
-const basis = { autor: 'danielzaiser91', assoziation: 'OWNER', kopf: KOPF }
+const basis = { autor: 'derNamenloseDaniel', assoziation: 'OWNER', kopf: KOPF }
 const art = (o) => entscheide({ ...basis, ...o }).art
 
 pruefe('gültig: voller Hash', art({ text: `${PRAE}\nKopf ${KOPF}` }) === 'frei')
@@ -51,7 +51,7 @@ function simuliere(env) {
   const e = lauf({ PR: '2186', REPO: 'o/r', COMMENT_URL: 'https://x/c#1', ...env }, gh)
   return { e, aufrufe }
 }
-const ok = { COMMENT_USER: 'danielzaiser91', COMMENT_ASSOC: 'OWNER' }
+const ok = { COMMENT_USER: 'derNamenloseDaniel', COMMENT_ASSOC: 'OWNER' }
 
 const frei = simuliere({ ...ok, COMMENT_BODY: `${PRAE}\n${KOPF.slice(0, 12)}` })
 const review = frei.aufrufe.find((a) => a[0] === 'api')
@@ -90,7 +90,7 @@ pruefe('Workflow: Rechte genau contents read, pull-requests write', JSON.stringi
 const job = wf.jobs.freigeben
 const bedingung = job.if.replace(/\s+/g, ' ')
 pruefe('Workflow: Bedingung nennt PR, Autor, OWNER, Präfix',
-  ['github.event.issue.pull_request', "github.event.comment.user.login == 'danielzaiser91'", "github.event.comment.author_association == 'OWNER'", "startsWith(github.event.comment.body, '## Nachtrag (Abnahme Dirigent')"].every((t) => bedingung.includes(t)), bedingung)
+  ['github.event.issue.pull_request', "github.event.comment.user.login == 'derNamenloseDaniel'", "github.event.comment.author_association == 'OWNER'", "startsWith(github.event.comment.body, '## Nachtrag (Abnahme Dirigent')"].every((t) => bedingung.includes(t)), bedingung)
 pruefe('Workflow: zwei Schritte, Checkout ohne Zweig und ohne Zugangsdaten', job.steps.length === 2 && job.steps[0].uses === 'actions/checkout@v4' && !job.steps[0].with.ref && job.steps[0].with['persist-credentials'] === false)
 const schritt = job.steps[1]
 pruefe('Workflow: Skript ohne Ausdruck im Befehl', schritt.run.trim() === 'node tools/abnahme-freigabe.mjs', schritt.run)

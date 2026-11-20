@@ -46,7 +46,7 @@ done < <(git diff --cached --name-only)
 
 # Es gibt nur noch einen Lauf, der direkt auf main committet: den Bestandsbau (`commit-data.sh`). Alle Sammler, der Datenlauf auf Abruf,
 # der Crunchyroll-Rückstand und „Fund nachliefern“ reichen per Pull Request ein (05.10.2026), die PR-Läufe schreiben nichts.
-laufend=$(gh run list --repo danielzaiser91/anime-kalender-de --limit 30 \
+laufend=$(gh run list --repo derNamenloseDaniel/anime-kalender-de --limit 30 \
   --json status,workflowName,databaseId \
   --jq '.[] | select(.status=="in_progress" or .status=="queued")
         | select(.workflowName | test("^Bestand"))
