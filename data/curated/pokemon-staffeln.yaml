@@ -2,7 +2,8 @@
 #
 # Warum: AniList führt die Serie in wenigen langen Einträgen (527 = 276 Folgen); die Reihe zählte dadurch 13 „Staffeln“ statt der 25 deutschen.
 # Wirkung: `staffelQuelle` jedes Titels = die Staffel, in der er beginnt (`pipeline/lib/pokemon-staffeln.ts`, `alleStaffelQuellen()`); die
-# Detaildatei `public/data/folgen/<Kennung>.json` trägt die Liste als `s: [[Staffel, von, bis], …]` (Titelnummern).
+# Detaildatei `public/data/folgen/<Kennung>.json` trägt die Liste als `s: [[Staffel, von, bis], …]` (Titelnummern). Deckt ein Titel mehrere Staffeln
+# ab, setzt der Bau `staffelBis` (letzte Staffel, `staffelEnden()`) an seinen Eintrag in `franchises.json`; `staffelSpanne()` macht daraus „Staffel 1–5“.
 #
 # Quelle: TMDB tv/60572 („Pokémon“, deutsche Folgentitel), `data/tmdb-folgen.json` (geholt 2026-10-06), gelesen 20.11.2026:
 # https://www.themoviedb.org/tv/60572/seasons. Staffelnummern = TMDB-Staffeln 1–25 (Staffel 0 = Extras zählt nicht).
