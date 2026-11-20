@@ -6,6 +6,7 @@ import { ReihenSpur } from './reihen-spur.tsx'
 import { istEingeklappt } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import { reihenGruppen } from './reihen-gruppen.ts'
+import { gezeigteGruppen } from './reihen-uebersicht-regeln.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -25,7 +26,7 @@ export type ReihenListeProps = {
 }
 
 /** Wie die Reihe geordnet wird: Hauptstaffeln, Gruppen, Staffelnummern. */
-function reihenOrdnung(reihenTeile: FranchiseMember[], reihenName: string, t: Translate) {
+export function reihenOrdnung(reihenTeile: FranchiseMember[], reihenName: string, t: Translate) {
   const jahr = new Date().getFullYear()
   const kuenftig = (m: FranchiseMember) => istKuenftig(m, jahr)
   /* Ein Titel ohne Jahr gehört ans Ende: `?? 0` stellte undatierte Kurzformate vor die Serie von 1999 (One Piece, 03.09.2026). */
@@ -123,15 +124,9 @@ export function reihenInhalt({ reihenTeile, t, reihenName, title, favorites, wec
   /* Teile ohne belegte deutsche Synchro sind eingeklappt — nur der gewählte Teil bleibt sichtbar (`reihen-regeln.ts`). */
   const ohneOffen = reiheOhneOffen === reihenSchluessel
   const eingeklappt = (m: FranchiseMember) => istEingeklappt(m, title.id)
-  const sichtbar = (m: FranchiseMember) => ohneOffen || !eingeklappt(m)
   const lang = reihenTeile.length >= 15
   const suchText = reiheSuche.reihe === reihenSchluessel ? reiheSuche.text.trim() : ''
-  const suchKern = (x: string) => x.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
-  const passtSuche = (m: FranchiseMember) =>
-    !suchText || suchKern(`${m.name} ${m.jpYear ?? ''}`).includes(suchKern(suchText))
-  const gefiltert = gruppen
-    .map((g) => ({ ...g, teile: g.teile.filter((m) => passtSuche(m) && (suchText ? true : sichtbar(m))) }))
-    .filter((g) => g.teile.length > 0)
+  const gefiltert = gezeigteGruppen(gruppen, title.id, ohneOffen, suchText)
   /* Alle Gruppen stehen offen untereinander (Daniel, 20.10.2026), die Zahl am Schalter gilt der ganzen Reihe. */
   const zahlOhne = reihenTeile.filter(eingeklappt).length
   /*
