@@ -41691,3 +41691,15 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Pokémon Horizonte bei RTL+: Staffel 1–3 = Folgen 1–136 (Staffelwähler 45 + 44 + 47, Abruf 20.11.2026). Staffel 4 Folge 1 (137) kommt über den RTL+-Termin der Staffel, nicht über diesen Beleg.
+- anilistId: 158871
+  title: "Pokémon Horizonte"
+  platform: rtlplus
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 136
+      dub: true
+  checkedAt: '2026-11-20'
+  note: "RTL+ ist rein deutschsprachig (Daniel, 23.08.2026); Serienseite https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142 (Abruf 20.11.2026): TVSeries „Pokémon Horizonte: Die Serie“, inLanguage de, Staffel 1 45, Staffel 2 44, Staffel 3 47 Folgen; zweite Quelle für die Folgen und ihre deutsche Erstveröffentlichung: de.wikipedia.org Pokémon_(Anime)/Horizonte, Folgen 1–136 mit deutschen Titeln und Daten bis 13.11.2026 (Zählung unserer Folge = NR_GES minus 1234)."

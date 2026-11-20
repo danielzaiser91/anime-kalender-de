@@ -3738,7 +3738,7 @@ Jetzt gibt es eins, und drei Stücke greifen ineinander:
 (`http` gegen `https`) verwarf eine gültige Prüfung, und Meldungen zu unbekannten Adressen
 fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md` zu landen.
 
-- ✅ **Crunchyrolls Tonspuren kommen aus der Content-API** (21.08.2026, [PR #6](https://github.com/danielzaiser91/anime-kalender-de/pull/6),
+- ✅ **Crunchyrolls Tonspuren kommen aus der Content-API** (21.08.2026, [PR #6](https://github.com/derNamenloseDaniel/anime-kalender-de/pull/6),
   Merge-Commit 9afdd11e). 911 Adressen, 693 Serien, 17.686 Folgen in einem Lauf gelesen —
   vorher 5 bis 23 Sekunden je Seite, jetzt 3 bis 5. **488 Adressen bekommen eine Auskunft, die
   der alte Weg nie geben konnte**; 44 widersprechen ihm, und in allen 44 hat die API recht.
@@ -4643,7 +4643,7 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/listen/11-meldungen
   Resend-/Brevo-Adapter, Mail-Templates
 - ✅ GitHub Actions: Pages-Deploy + nächtliche Datenaktualisierung
 - ✅ TMDB-API-Key besorgt und in `my_secrets.md` hinterlegt
-- ✅ Repo `danielzaiser91/anime-kalender-de` (public) angelegt, Pages auf Actions-Quelle
+- ✅ Repo `derNamenloseDaniel/anime-kalender-de` (public) angelegt, Pages auf Actions-Quelle
   gestellt, Secret `TMDB_API_KEY` und Variable `SITE_URL` gesetzt, Deploy grün
 - ✅ **Crunchyroll-Sendezeiten**: Der Simulcast-Kalender ist mit `filter=premium` öffentlich
   lesbar (kein Login, kein Abo) und markiert deutsche Synchro-Folgen mit „(Deutsch)". Playwright

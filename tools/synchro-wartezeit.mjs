@@ -102,7 +102,7 @@ export async function synchroWartezeitZeilen(holeJson, jetztMs) {
 }
 
 const QUELLEN = {
-  katalog: 'https://raw.githubusercontent.com/danielzaiser91/anime-kalender-de/main/data/crunchyroll-dub.json',
+  katalog: 'https://raw.githubusercontent.com/derNamenloseDaniel/anime-kalender-de/main/data/crunchyroll-dub.json',
   releases: 'https://anime-kalender.de/data/releases.json',
 }
 

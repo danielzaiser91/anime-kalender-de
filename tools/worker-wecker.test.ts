@@ -35,7 +35,7 @@ const gestartet: string[] = []
 /** Starts und Lauf-Abfragen in einem anderen Repo als anime-kalender-de, als `repo/workflow`. */
 const fremdGestartet: string[] = []
 const fremdAbgefragt: string[] = []
-const HAUPT = 'danielzaiser91/anime-kalender-de'
+const HAUPT = 'derNamenloseDaniel/anime-kalender-de'
 /** Antwort der Attrappe auf einen Start im Fremd-Repo. */
 let fremdStatus = 204
 const kopfZeilen: string[] = []
@@ -114,7 +114,7 @@ pruefe(gleich(await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER)), ['r
 bisherige = []
 
 // Nativ-Repo: `daten.yml` wird jede Stunde fällig; Abfrage und Start gehen an anime-kalender-nativ, nie an das Hauptrepo.
-const NATIV_DATEN = 'danielzaiser91/anime-kalender-nativ/daten.yml'
+const NATIV_DATEN = 'derNamenloseDaniel/anime-kalender-nativ/daten.yml'
 for (const zeit of ['2026-10-19T04:00:00.000Z', '2026-10-19T15:00:00.000Z', '2026-10-20T23:00:00.000Z']) {
   fremdGestartet.length = 0
   fremdAbgefragt.length = 0
@@ -136,7 +136,7 @@ for (const status of [403, 404]) {
   fehlerLog.length = 0
   const haupt = await nach(() => starteFaelligeLaeufe(env('t'), MONTAG_VIER))
   pruefe(gleich(haupt, ['refresh-hourly.yml', 'nacht-merger.yml', 'refresh-data.yml', 'claude-anime2you-extraktion.yml', 'tonspuren-monatlich.yml']), `Nativ-Start ${status}: die Hauptrepo-Läufe starten trotzdem`)
-  pruefe(fehlerLog.some((z) => z.includes(`danielzaiser91/anime-kalender-nativ/daten.yml: HTTP ${status}`)), `Nativ-Start ${status}: Log nennt Repo, Workflow und Status`)
+  pruefe(fehlerLog.some((z) => z.includes(`derNamenloseDaniel/anime-kalender-nativ/daten.yml: HTTP ${status}`)), `Nativ-Start ${status}: Log nennt Repo, Workflow und Status`)
 }
 fremdStatus = 204
 console.error = () => {}

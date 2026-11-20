@@ -446,3 +446,15 @@
   sources:
     - https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/
     - https://watch.amazon.de/detail?gti=amzn1.dv.gti.0eb67270-d83b-933e-eb7e-4a5660d69c31
+
+# Pokémon Horizonte bei TOGGO (20.11.2026): Serienseite VSE292 mit Staffel 1–4 (45 + 44 + 47 + 1 Folgen in der TOGGO-Schnittstelle, data/toggo.json); TOGGO zeigt nur deutsche Fassungen. Staffel 4 Folge 1 frei ab 27.11.2026.
+- anilistId: 158871
+  title: 'Pokémon Horizonte'
+  links:
+    - name: TOGGO
+      url: https://www.toggo.de/pokemon/serien/pokemon-horizonte-die-serie-vse292
+      kind: stream
+      zugang: kostenlos
+  sources:
+    - https://www.toggo.de/pokemon/serien/pokemon-horizonte-die-serie-vse292
+    - https://www.anime2you.de/news/1067953/pokemon-horizonte-staffel-4-toggo-start/

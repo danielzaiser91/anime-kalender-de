@@ -10,7 +10,7 @@ import { join } from 'node:path'
 const require = createRequire(import.meta.url)
 const b = require(join(import.meta.dirname, '..', '.claude', 'hooks', 'stand-prs-block.js'))
 const { AUF, ZU } = b
-const ADR = 'https://github.com/danielzaiser91/anime-kalender-de/pull/'
+const ADR = 'https://github.com/derNamenloseDaniel/anime-kalender-de/pull/'
 const L = (n) => `[PR ${n}](${ADR}${n})`
 const offen = (n, mitte = 'CI ok · Prüfer offen · Checks grün') => `- **PR ${n}** — ${mitte} — ${L(n)}`
 const gemergt = (n) => `- [klein] **PR ${n}** — gemergt 19.10. 16:27 — ${L(n)}`

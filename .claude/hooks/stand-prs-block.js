@@ -3,9 +3,9 @@
 // direkt unter ZU; ist die Lage der Marken nicht eindeutig, schreibt der Hook gar nichts.
 const AUF = '<!-- pr-zeilen: automatisch aus GitHub (Hook stand-prs.js); eigene Notizen eingerückt unter die PR-Zeile -->'
 const ZU = '<!-- /pr-zeilen -->'
-const ADR = 'https://github.com/danielzaiser91/anime-kalender-de/pull/'
+const ADR = 'https://github.com/derNamenloseDaniel/anime-kalender-de/pull/'
 const HINWEIS = '- **PR-Liste veraltet** — '
-const GEMERGT_LISTE = 'https://github.com/danielzaiser91/anime-kalender-de/pulls?q=is%3Apr+is%3Amerged'
+const GEMERGT_LISTE = 'https://github.com/derNamenloseDaniel/anime-kalender-de/pulls?q=is%3Apr+is%3Amerged'
 // Sammelzeile der in 24 h gemergten PRs; zählt als Reihe mit Nummer 0 (kein einzelner PR).
 const SAMMEL = /^- \[klein\] \*\*Gemergt in 24 h: \d+\*\* — zuletzt \d\d\.\d\d\. \d\d:\d\d — \[alle\]\((\S+)\)$/
 

@@ -85,6 +85,14 @@ pruefe('Cartoon-Serie mit Serien-Grund bleibt in der Schlange draußen', ids(car
 pruefe('… dieselbe Serie ohne Cartoon-Kennung (Anime) steht vorn', ids(cartoonLauf(cartoonEingabe, [])) === '-5,1,9', ids(cartoonLauf(cartoonEingabe, [])))
 pruefe('Cartoon-Film in `cartoonIds` bleibt vorgezogen', ids(cartoonLauf([aelter, cartoonFilm, juenger], [-6])) === '-6,1,9', ids(cartoonLauf([aelter, cartoonFilm, juenger], [-6])))
 
+/* Verfehlter Befund mit Pfad und gleicher Kennung: die Nachfrage über den Pfad kommt vor der Frist dran, frühestens nach 7 Tagen. */
+const verfehlt = (rest: object = {}) => befund('2026-10-05', 21, [], { tmdbId: 121, verfehltAm: '2026-10-05', ...rest })
+const nachfrage = (b: JwBefund) => ids(lauf([titel(21, [], { tmdbId: 121 })], { '21': b }))
+pruefe('verfehlt vor 7 Tagen, Kennung gleich: wieder in der Schlange (Nachfrage)', nachfrage(verfehlt()) === '21', nachfrage(verfehlt()))
+pruefe('Gegenfall: vor 6 Tagen verfehlt, noch nicht', nachfrage(verfehlt({ geprueftAm: '2026-10-06', verfehltAm: '2026-10-06' })) === '')
+pruefe('Gegenfall: ohne verfehltAm bleibt der junge Befund draußen', nachfrage(verfehlt({ verfehltAm: undefined })) === '')
+pruefe('Gegenfall: ohne Pfad keine Nachfrage', nachfrage(verfehlt({ jwPfad: undefined })) === '')
+
 if (fehler) {
   console.error(`${fehler} Fehler`)
   process.exit(1)

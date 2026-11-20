@@ -6,14 +6,15 @@ import { Neuigkeiten } from './neuigkeiten.tsx'
 import { OhneWegHinweis } from './ohne-weg.tsx'
 
 /**
- * Was unter dem Antwortkasten steht: der Grund, wenn ein Titel keinen Streaming-Weg hat, „gesehen bis" bei Favoriten, die Reihe (Karte, seit 09.10.2026 vor den Neuigkeiten:
+ * Was unter dem Antwortkasten steht: der Grund, wenn ein Titel keinen Streaming-Weg hat, „gesehen bis" bei Favoriten, die Handlung (seit 20.11.2026 über der Reihe), die Reihe (Karte, seit 09.10.2026 vor den Neuigkeiten:
  * nach „wann und wo" fragt man „welche Staffel ist das"), dann die Neuigkeiten des Titels.
  */
-export function UnterDerAntwort({ data, title, favorites, reihe }: { data: Dataset; title: Title; favorites: Set<number>; reihe: ReactNode }) {
+export function UnterDerAntwort({ data, title, favorites, handlung, reihe }: { data: Dataset; title: Title; favorites: Set<number>; handlung: ReactNode; reihe: ReactNode }) {
   return (
     <>
       <OhneWegHinweis title={title} />
       {favorites.has(title.id) && <Fortschritt data={data} titelId={title.id} />}
+      {handlung}
       {reihe}
       <Neuigkeiten data={data} titelId={title.id} />
     </>

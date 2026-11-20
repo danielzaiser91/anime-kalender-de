@@ -26,7 +26,7 @@ export function laufendeSammler(namen) {
 function main() {
   const out = execFileSync(
     'gh',
-    ['run', 'list', '--repo', 'danielzaiser91/anime-kalender-de', '--status', 'in_progress', '--limit', '30', '--json', 'workflowName', '--jq', '.[].workflowName'],
+    ['run', 'list', '--repo', 'derNamenloseDaniel/anime-kalender-de', '--status', 'in_progress', '--limit', '30', '--json', 'workflowName', '--jq', '.[].workflowName'],
     { encoding: 'utf8', timeout: 60000, windowsHide: true },
   )
   const sammler = laufendeSammler(out.split('\n').map((z) => z.trim()))

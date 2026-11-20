@@ -32,7 +32,7 @@ assert.equal(pruefZustand([{ state: 'SUCCESS' }, { state: 'FAILURE' }, { state: 
 const JETZT2 = Date.parse('2026-11-02T10:00:00Z')
 const alle = [
   pr(1, 'fix/a', FIXER, '2026-11-02T05:38:08Z'), // vor dem ersten roten Lauf (08:30), 4.4 h alt: sperrt trotzdem
-  pr(2, 'fix/b', 'danielzaiser91', '2026-11-02T05:38:08Z'),
+  pr(2, 'fix/b', 'derNamenloseDaniel', '2026-11-02T05:38:08Z'),
   pr(3, 'feat/c', FIXER, '2026-11-02T05:38:08Z'),
   pr(4, 'fix/d', FIXER, '2026-10-30T10:00:00Z'), // 3 Tage alt: sperrt nicht
   pr(5, 'fix/e', FIXER, '2026-11-02T04:00:00Z'), // genau 6 h
@@ -171,7 +171,7 @@ try {
     assert.match(fahrt(fix).text, /#2662/)
     assert.equal(fahrt([{ number: 5, headRefName: 'feat/auftrag', createdAt: neu, author: { login: FIXER } }]).weiter, 'weiter=ja', 'Auftrags-PR des Claude-Bots sperrt nicht')
     assert.equal(fahrt([{ number: 6, headRefName: 'daten/fix/x', createdAt: neu, author: { login: FIXER } }]).weiter, 'weiter=ja', 'fix/ muss am Anfang stehen')
-    assert.equal(fahrt([{ number: 7, headRefName: 'fix/mensch', createdAt: neu, author: { login: 'danielzaiser91' } }]).weiter, 'weiter=ja', 'fix/-PR eines Menschen sperrt nicht (gh filtert über --author)')
+    assert.equal(fahrt([{ number: 7, headRefName: 'fix/mensch', createdAt: neu, author: { login: 'derNamenloseDaniel' } }]).weiter, 'weiter=ja', 'fix/-PR eines Menschen sperrt nicht (gh filtert über --author)')
     assert.equal(fahrt([{ number: 8, headRefName: 'fix/alt', createdAt: alt, author: { login: FIXER } }]).weiter, 'weiter=ja', 'A2: 3 Tage alter fix/-PR sperrt nicht mehr')
     assert.equal(fahrt([{ number: 9, headRefName: 'wache/x', createdAt: neu, author: { login: FIXER } }]).weiter, 'weiter=nein', 'A4: frischer wache/-PR sperrt')
     assert.equal(fahrt([{ number: 10, headRefName: 'wache/alt', createdAt: alt, author: { login: FIXER } }]).weiter, 'weiter=ja', 'alter wache/-PR sperrt nicht')

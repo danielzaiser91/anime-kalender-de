@@ -40,7 +40,7 @@ const DKIM =
 const RECORDS = [
   ...GITHUB_A.map((content) => ({ name: '', type: 'A', content })),
   ...GITHUB_AAAA.map((content) => ({ name: '', type: 'AAAA', content })),
-  { name: 'www', type: 'CNAME', content: 'danielzaiser91.github.io' },
+  { name: 'www', type: 'CNAME', content: 'dernamenlosedaniel.github.io' },
 
   // Resend: DKIM-Schlüssel, SPF und der Rückweg für Unzustellbarkeiten.
   { name: 'resend._domainkey.send', type: 'TXT', content: DKIM },

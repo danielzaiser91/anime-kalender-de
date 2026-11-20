@@ -7,7 +7,7 @@
 import { execFileSync } from 'node:child_process'
 import { githubUnbedenklich } from './deploy-aus-build.mjs'
 
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 const git = (args) => execFileSync('git', args, { encoding: 'utf8', maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'] }).trim()
 const api = (pfad) => JSON.parse(execFileSync('gh', ['api', pfad], { encoding: 'utf8', maxBuffer: 1 << 28 }))
 const zeilen = (text) => text.split('\n').filter(Boolean)

@@ -60,8 +60,23 @@ const hatSynchro = (t: Title): boolean => Boolean(t.streams?.some((s) => s.dub =
 const hatEinenWeg = (t: Title): boolean => Boolean(t.streams?.length || t.watchLinks?.length)
 const luecke = (kuerzel: string) => (t: Title): boolean => fehlendes(t, undefined, undefined).includes(kuerzel)
 
-/** Läuft noch (kein Ende oder Ende ab heute): eine Gesamtzahl der Folgen gibt es nicht (One Piece, Beyblade X). */
-const laeuftNoch = (t: Title, heute: string): boolean => !t.jpEnd || t.jpEnd >= heute
+/**
+ * Läuft noch: eine Gesamtzahl der Folgen gibt es nicht (One Piece, Beyblade X). Ohne `jpEnd` zählt nur Belegtes:
+ * ein Wochentakt-Start (Fernsehen/Stream) ohne belegtes Ende, ein Termin ab heute, Jahr dieses Jahres oder gar
+ * kein Jahr (im Hauptbestand fehlt `jpStatus`, es greift nur beim Katalog); eine alte abgeschlossene Serie ohne
+ * `jpEnd` bleibt offen (Mängelregister, PR 4046). Der Wochentakt-Start überbrückt die Lücke zwischen zwei Folgen.
+ */
+function laeuftNoch(t: Title, k: Kontext): boolean {
+  if (t.jpEnd) return t.jpEnd >= k.heute
+  if (t.jpStatus === 'FINISHED' || t.jpStatus === 'CANCELLED') return false
+  if (t.jpStatus === 'RELEASING' || !t.jpYear || t.jpYear >= Number(k.heute.slice(0, 4))) return true
+  return k.kuenftig.has(t.id) || (k.releases.get(t.id) ?? []).some((r) => wochentaktOhneEnde(r, k.heute))
+}
+
+function wochentaktOhneEnde(r: Release, heute: string): boolean {
+  const s = r.schedule
+  return r.releaseType === 'weekly' && Boolean(s.firstEpisodeDate) && s.firstEpisodeDate <= heute && !s.lastEpisodeDate
+}
 
 function folgentitelFehlen(t: Title, k: Kontext): boolean {
   const n = t.episodes ?? 0
@@ -127,7 +142,7 @@ export const REGELN: Regel[] = [
   { art: 'titel-de', gruppe: 'fehlend', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: luecke('t'), ausnahme: (t) => (hatEinenWeg(t) || t.deErstausgabe ? undefined : 'ohne-deutsche-fassung') },
   { art: 'handlung-de', gruppe: 'fehlend', wirkung: 2, wer: 'auto:anisearch', zaehle: (t, k) => !k.synopse(t.id)?.de },
   { art: 'folgentitel', gruppe: 'fehlend', wirkung: 2, wer: 'auto:tmdb', zaehle: folgentitelFehlen, ausnahme: (t) => (t.format === 'MOVIE' ? 'film' : undefined) },
-  { art: 'folgenzahl', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anilist', zaehle: (t) => SERIE.has(t.format ?? '') && !t.episodes, ausnahme: (t, k) => (laeuftNoch(t, k.heute) ? 'laeuft' : undefined) },
+  { art: 'folgenzahl', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anilist', zaehle: (t) => SERIE.has(t.format ?? '') && !t.episodes, ausnahme: (t, k) => (laeuftNoch(t, k) ? 'laeuft' : undefined) },
   { art: 'fsk', gruppe: 'fehlend', wirkung: 2, wer: 'auto:justwatch', zaehle: (t) => t.fsk == null },
   { art: 'wertung', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anilist', zaehle: (t) => !t.score },
   { art: 'studio', gruppe: 'fehlend', wirkung: 1, wer: 'auto:anilist', zaehle: (t) => !t.studios?.length },
@@ -145,7 +160,7 @@ export const REGELN: Regel[] = [
   { art: 'termin-geschaetzt-ohne-weg', gruppe: 'schwach', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: geschaetztOhneWeg },
   { art: 'folgenzahl-widerspruch', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: folgenzahlWiderspruch, ausnahme: (t, k) => folgenzahlAusnahme(t, k.releases.get(t.id) ?? [], listenLaenge(t, k), k.franchiseTeile(t)) },
   { art: 'adresse-mehrfach', gruppe: 'falsch', wirkung: 3, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.adresseMehrfach.has(t.id), ausnahme: (t, k) => (k.adresseMehrfach.get(t.id) === 'franchise' ? 'gleiches-franchise' : undefined) },
-  { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => STAFFEL_AUSNAHME[k.staffelZuordnung.get(t.id)!] ?? (laeuftNoch(t, k.heute) ? 'laeuft' : undefined) },
+  { art: 'staffel-zuordnung', gruppe: 'falsch', wirkung: 2, wer: 'hand:synchro-belegen', zaehle: (t, k) => k.staffelZuordnung.has(t.id), ausnahme: (t, k) => STAFFEL_AUSNAHME[k.staffelZuordnung.get(t.id)!] ?? (laeuftNoch(t, k) ? 'laeuft' : undefined) },
   { art: 'herkunft-fremder-titel', gruppe: 'falsch', wirkung: 3, wer: 'auto:bau', zaehle: (t, k) => herkunftFremderTitel(t, k.releases.get(t.id) ?? []) },
   { art: 'weg-ohne-adresse', gruppe: 'fehlend', wirkung: 3, wer: 'auto:anbieterkalender', zaehle: (t) => Boolean(t.streams?.some((s) => !s.url)) },
 ]

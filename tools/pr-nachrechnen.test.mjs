@@ -71,7 +71,7 @@ const M_ALT = 'a1'.padEnd(40, '1')
 const M_NEU = 'b2'.padEnd(40, '2')
 const JQ_VERGLEICH = '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}'
 // Standard: ein Commit eines Menschen, damit die Bot-Sprung-Ausnahme (Merge-Fluss C) nur greift, wo ein Fall sie verlangt.
-const vergleich = (dateien, status = 'ahead', anzahl = dateien.length, autoren = ['danielzaiser91'], commitsGesamt = autoren.length) => JSON.stringify({ status, anzahl, dateien, commitsGesamt, autoren })
+const vergleich = (dateien, status = 'ahead', anzahl = dateien.length, autoren = ['derNamenloseDaniel'], commitsGesamt = autoren.length) => JSON.stringify({ status, anzahl, dateien, commitsGesamt, autoren })
 function antworten({ nr = 7, pr = PR, mainSha = BASIS, laeufe, jobs, log = ECHTES_LOG, logFehler = false, mergeShas = [M_ALT, M_NEU], mainDateien = ['tools/check-x.mjs'], prDateien = 'src/a.ts\n', autoren } = {}) {
   return {
     [`api repos/{owner}/{repo}/compare/${BASIS}...${mainSha} --jq ${JQ_VERGLEICH}`]: { aus: Array.isArray(mainDateien) ? vergleich(mainDateien, 'ahead', mainDateien.length, autoren) : mainDateien.roh },
@@ -362,7 +362,7 @@ for (const [name, v, prDateien, erwartet, text] of [
 const bots300 = JSON.stringify({ status: 'ahead', anzahl: 1, dateien: ['data/a.json'], commitsGesamt: 300, autoren: ['github-actions[bot]'] })
 for (const [name, autoren, erwartet, text] of [
   ['300 Commits, alles Bots (reiner Datensprung)', Array(300).fill('anime-kalender-daten[bot]'), 0, /nur Bot-Daten bewegt/],
-  ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'danielzaiser91'], 0, /nur Fremdes ohne Zusammenhang/],
+  ['300 Commits, einer davon ein Mensch (Autor zählt nicht)', [...Array(299).fill('github-actions[bot]'), 'derNamenloseDaniel'], 0, /nur Fremdes ohne Zusammenhang/],
 ]) {
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: bots300 }, prDateien: 'tools/x.mjs\n' }))
   const code = main(['7'], k.gh, k.melde, k.warte, () => null, voll(['data/ann-ids.json'], autoren))
@@ -390,7 +390,7 @@ pruefe('Ausnahme: andere Doku (docs/wissen/anderes.md) -> null', datenpfadAusnah
 // Bot-Sprung nur unter data/ entwertet nur einen PR, dessen Code die bewegten Dateien liest. Hier die Verdrahtung, erst mit einem
 // Leser-Stub (zeichnet Argumente auf), dann mit dem echten Git-Anschluss über einem Fake-git.
 // Mensch dazwischen: ein reiner Bot-Sprung (`pr-nachrechnen-bot-sprung.test.mjs`) fragt den Leser nie, diese Fälle prüfen die Leser-Regel.
-const GEMISCHT = ['github-actions[bot]', 'danielzaiser91']
+const GEMISCHT = ['github-actions[bot]', 'derNamenloseDaniel']
 const BOT_MAIN = ['data/crunchyroll-woche.json', 'public/data/titles.json', 'data/curated/tv-2026.yaml']
 const CODE_PR = 'docs/wissen/a.md\ndaniel-zum-abarbeiten/stand.md\nCLAUDE.md\ndata/patchnotes/neu.yaml\n'
 const leserStub = (antwort) => {
@@ -459,7 +459,7 @@ for (const [name, pr, erwartet] of [['Workflow ohne Leser', '.github/workflows/b
   pruefe('Bot-Sprung mit Doku: Leser sieht nur die Datendatei', code === 0 && stub.aufrufe.length === 1 && stub.aufrufe[0].bewegt.join() === 'data/crunchyroll-woche.json', { code, a: stub.aufrufe })
 }
 // 27.10.2026 (PR 2165): Der Autor entscheidet nicht; Mensch-Commit auf data/ ohne Leser -> aktuell, mit Leser oder mit Code -> veraltet.
-for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'danielzaiser91', 'github-actions[bot]']], ['nur ein Mensch (Squash-Merge)', ['danielzaiser91']], ['fremder Bot', ['dependabot[bot]']]]) {
+for (const [name, autoren] of [['ein Mensch dazwischen', ['anime-kalender-daten[bot]', 'derNamenloseDaniel', 'github-actions[bot]']], ['nur ein Mensch (Squash-Merge)', ['derNamenloseDaniel']], ['fremder Bot', ['dependabot[bot]']]]) {
   const frei = leserStub(null)
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: ['data/patchnotes/_ueberarbeitet-bis.txt'], autoren, prDateien: CODE_PR }))
   const code = main(['7'], k.gh, k.melde, k.warte, frei)
@@ -500,7 +500,7 @@ for (const [datei, erwartet] of [['.github/workflows/pr-pruefung.yml', true], ['
   // Über 300 Dateien nicht unter public/data/ und data/cache/: nur der Leser-Weg (Merge-Fluss C) kann die Kette gelten lassen
   const stub = leserStub(null)
   const k = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'ahead', 300) }, prDateien: 'data/patchnotes/a.yaml\n' }))
-  const code = main(['7'], k.gh, k.melde, k.warte, stub, voll(Array.from({ length: 400 }, (_, i) => `data/curated/${i}.yaml`), ['github-actions[bot]', 'danielzaiser91']))
+  const code = main(['7'], k.gh, k.melde, k.warte, stub, voll(Array.from({ length: 400 }, (_, i) => `data/curated/${i}.yaml`), ['github-actions[bot]', 'derNamenloseDaniel']))
   pruefe('lokaler Vergleich: 400 kuratierte Dateien, Leser null -> 0, Leser bekam alle 400', code === 0 && stub.aufrufe[0]?.bewegt.length === 400, { code, m: k.meldungen })
   const v = voll(VIELE)
   const k2 = kulisse(antworten({ mainSha: MAIN, mainDateien: { roh: vergleich(DATEN_MAIN, 'diverged', 300) }, prDateien: 'data/patchnotes/a.yaml\n' }))

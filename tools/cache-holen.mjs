@@ -19,7 +19,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
 const WURZEL = resolve(import.meta.dirname, '..')
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 const KATALOG = 'anilist-katalog.json'
 
 const arg = (name, vorgabe) => {

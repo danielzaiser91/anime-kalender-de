@@ -10,7 +10,7 @@ export const SCHLEIFE_AB = 3
 export const grundKommentar = (basisKurz, mainKurz, grund) => `${KENNUNG} Kette gegen ${basisKurz}, main ist ${mainKurz}; ${grund}`
 
 /** Konten, unter denen pr-nachrechnen kommentiert: Daniels gh (lokal) und der Nacht-Merger (github-actions); fremde Konten zählen nicht (öffentliches Repo). */
-const KONTEN = ['danielzaiser91', 'github-actions']
+const KONTEN = ['derNamenloseDaniel', 'github-actions']
 
 /** Zählt nur Kommentare dieser Konten und nur seit dem Kopf-Commit: nach einer Nachbesserung beginnt die Zählung neu. */
 const istDurchgang = (c, kopfZeit) => KONTEN.includes(c.author?.login) && typeof c.body === 'string' && c.body.startsWith(KENNUNG) && Date.parse(c.createdAt) >= kopfZeit

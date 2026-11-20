@@ -35,7 +35,7 @@ assert.match(secretZeilen(() => 'kein json', 'o/r', REG)[0], /nicht lesbar/)
 assert.match(secretZeilen(() => '[]', 'o/r', REG)[0], /Abgleich ausgelassen/)
 assert.match(secretZeilen(() => '[{"id":1}]', 'o/r', REG)[0], /Abgleich ausgelassen/)
 
-const REPO = 'danielzaiser91/anime-kalender-de'
+const REPO = 'derNamenloseDaniel/anime-kalender-de'
 const BEFEHL = `secret list --repo ${REPO} --json name`
 // Verdrahtung: laeufe-aufraeumen (Wachphase) druckt die Zeile; Kulisse für `gh secret list` verlangt genau das Repo, sonst leere Listen.
 // Ruft die Kulisse `gh secret list`, steht SECRETAUFRUF auf stderr (Beleg, dass die CI-Auslassung wirklich nicht ruft).

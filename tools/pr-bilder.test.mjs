@@ -23,7 +23,7 @@ const git = (cwd, ...args) => execFileSync(GIT, args, { cwd, encoding: 'utf8', e
 const werkzeug = (cwd, ...args) => spawnSync(process.execPath, [WERKZEUG, ...args], { cwd, encoding: 'utf8', env: UMGEBUNG })
 
 // Reine Funktionen.
-assert.equal(repoAus('https://github.com/danielzaiser91/anime-kalender-de.git'), 'danielzaiser91/anime-kalender-de')
+assert.equal(repoAus('https://github.com/derNamenloseDaniel/anime-kalender-de.git'), 'derNamenloseDaniel/anime-kalender-de')
 assert.equal(repoAus('git@github.com:a/b'), 'a/b')
 assert.equal(repoAus('C:/irgendwo/remote.git'), null)
 assert.equal(baumZeilen({ 'a.png': 'h1', 'b.png': 'h2' }), '100644 blob h1\ta.png\n100644 blob h2\tb.png\n')

@@ -49,7 +49,7 @@ pruefe('jüngstes Urteil ändern -> nein', frei({ comments: [urteil(KOPF, 'ok', 
 pruefe('Nachtrag-Ok nach ändern -> frei', frei({ comments: [urteil(KOPF, 'aendern', 5), urteil(KOPF, 'ok', 9)] }).frei === true)
 
 // Daniels Urteil ohne Kopf gilt nur, wenn es jünger ist als der Kopf-Commit (Kulisse: Commit bei zeit(-60)).
-const danielOk = (min) => ({ author: { login: 'danielzaiser91' }, createdAt: zeit(min), body: 'Prüfer Runde 2: freigeben' })
+const danielOk = (min) => ({ author: { login: 'derNamenloseDaniel' }, createdAt: zeit(min), body: 'Prüfer Runde 2: freigeben' })
 pruefe('Urteil von Daniel ohne Kopf, älter als der Kopf-Commit -> nein', frei({ comments: [danielOk(-120)] }).frei === false)
 pruefe('Urteil von Daniel ohne Kopf, jünger als der Kopf-Commit -> frei', frei({ comments: [danielOk(-30)] }).frei === true)
 

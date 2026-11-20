@@ -78,7 +78,7 @@ const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs'
 const abruf = join(ordner, 'abruf-abgelehnt.mjs')
 writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")
 const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-const ECHT = 'danielzaiser91/anime-kalender-de'
+const ECHT = 'derNamenloseDaniel/anime-kalender-de'
 const starte = (daten) => {
   writeFileSync(join(ordner, 'daten.json'), JSON.stringify(daten))
   const env = { ...process.env, ATTRAPPE_LOG: join(ordner, 'log.txt'), ATTRAPPE_DATEN: join(ordner, 'daten.json'), LAUF_TOKEN: '' }
