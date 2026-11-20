@@ -10,6 +10,7 @@ import {
 } from '../../shared/types.ts'
 import { nachAusstrahlung, unterscheidenderZusatz } from '../../shared/titles.ts'
 import { alleStaffelQuellen } from './staffel-quelle.ts'
+import { ladeStaffelGrenzen, staffelEnden } from '../lib/pokemon-staffeln.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -21,6 +22,18 @@ import { cartoonsMitReihe, markiereEigeneWerke } from './cartoon-reihen.ts'
 import { markiereRemakes } from './remake-von.ts'
 import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
 import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
+
+/** Titel-Kennung → frühester Beginn eines Releases; eine TV-Sichtung nennt unseren ersten Blick, keinen Start (Pokémon Horizonte „16.09.2026", 16.09.2026). */
+function fruehesterDeutscherStart(releases: Release[]): Map<number, string> {
+  const deStart = new Map<number, string>()
+  for (const r of releases) {
+    const d = r.schedule?.firstEpisodeDate
+    if (!d || r.tvLetzteSichtung) continue
+    const bisher = deStart.get(r.titleId)
+    if (!bisher || d < bisher) deStart.set(r.titleId, d)
+  }
+  return deStart
+}
 
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
   titles: Map<number, Title>
@@ -169,18 +182,12 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     mehr angezeigt. Gezählt wird der Beginn jedes Releases, Disc wie Stream:
     Gefragt ist „seit wann gibt es das hier", nicht „auf welchem Weg".
   */
-  const deStart = new Map<number, string>()
-  for (const r of releases) {
-    const d = r.schedule?.firstEpisodeDate
-    /* Eine TV-Sichtung nennt unseren ersten Blick, keinen Start (Pokémon Horizonte „16.09.2026", 16.09.2026). */
-    if (!d || r.tvLetzteSichtung) continue
-    const bisher = deStart.get(r.titleId)
-    if (!bisher || d < bisher) deStart.set(r.titleId, d)
-  }
+  const deStart = fruehesterDeutscherStart(releases)
 
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
   /* Die belegte deutsche Staffelangabe (aniSearch) steuert die Beschriftung, nicht den Titel. */
   const staffelQuellen = alleStaffelQuellen()
+  const staffelBisse = staffelEnden(ladeStaffelGrenzen())
   const cartoons = cartoonsMitReihe()
   const imBestand = new Set([...slim, ...cartoons].map((t) => t.id))
   const fuerReihen = [...slim, ...cartoons, ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true }))]
@@ -270,6 +277,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || ohneBelegteSynchro(t, releases) || undefined,
       /* Die belegte deutsche Staffelangabe — sie entscheidet die Beschriftung. */
       staffelQuelle: staffelQuellen.get(t.id),
+      staffelBis: staffelBisse.get(t.id),
       /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */
       beiwerk: (elternVon.get(t.id) ?? []).some((e) => sortiert.some((x) => x.id === e)) || undefined,
       // Nur der Dateiname; den Vorsatz hängt `loadFranchises` wieder an.
