@@ -13,12 +13,10 @@ import { istPruefer } from './pruefer'
 import { lieseLaufende, projektName } from './agenten'
 import type { AgentenCache, LaufAgent } from './agenten'
 import { agentenBereich } from './agenten-pane'
-import { bereichOffen, bereichsKennung, bereichsKopf, topPriosKasten } from './bereiche'
-import type { PrioUmfeld } from './bereiche'
-import { zaehleTopPrios, zeichenJeSpalte } from './prios'
-import type { PrioEintrag } from './prios'
-import { zaehleZiele } from './ziele'
-import type { ZielStand } from './ziele'
+import { bereichOffen, bereichsKennung, bereichsKopf, zieleKasten } from './bereiche'
+import { zeichenJeSpalte } from './prios'
+import { ladeZiele } from './ziele-ordner'
+import type { ZielPlan } from './ziele-ordner'
 import { zaehleUnterwegs } from './unterwegs'
 import type { UnterwegsEintrag } from './unterwegs'
 import { unterwegsBereich } from './unterwegs-pane'
@@ -28,7 +26,8 @@ import type { KalenderStand } from './kalender'
 import { kalenderBereich } from './kalender-pane'
 
 const DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/stand.md'
-const ZIELE_DATEI = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/ziele.md'
+// Je Ziel ein Ordner mit plan.md und aufgaben/ (Daniel, 20.11.2026).
+const ZIELE_ORDNER = 'C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/ziele'
 // Je Sitzung eine Datei `<Sitzungs-ID>.txt` (Stop-Hook agenten-vorrat.js); fremde Sitzungen zählen hier nicht.
 const MARKER_ORDNER = 'C:/Users/ih/.claude/autonomer-modus'
 const PANE = 'arbeitsliste'
@@ -48,9 +47,8 @@ const faellig = atom({ plugin: 'arbeitsliste', key: 'faellig' } as const, 0)
 const pipeline = atom({ plugin: 'arbeitsliste', key: 'pipeline' } as const, [] as PipelineEintrag[])
 // Farbe der Ort-Marke in „In Pipeline“ (Themenschlüssel); „?“ fällt auf.
 const ORT_FARBE: Record<Ort, string> = { pipeline: 'warning', worker: AKZENT, warteliste: 'suggestion', deploy: 'success', '?': 'error' }
-// Schlüssel V2: ein beim Hot-Reload erhaltener Altzustand ohne status/details darf nicht gezeichnet werden.
-const topPrios = atom({ plugin: 'arbeitsliste', key: 'topPriosV2' } as const, [] as PrioEintrag[])
-const ziele = atom({ plugin: 'arbeitsliste', key: 'ziele' } as const, [] as ZielStand[])
+// Schlüssel V2: ein beim Hot-Reload erhaltener Altzustand (Meilenstein-Zählung) darf nicht gezeichnet werden.
+const ziele = atom({ plugin: 'arbeitsliste', key: 'zieleV2' } as const, [] as ZielPlan[])
 // „Kalender heute“: Zeilen des Berliner Tages; der Zwischenspeicher der Termindateien liegt im Modul, nur der Stand im Atom.
 const kalender = atom({ plugin: 'arbeitsliste', key: 'kalender' } as const, { datum: '', zeilen: [] } as KalenderStand)
 const kalenderCache: KalenderCache = {}
@@ -236,9 +234,11 @@ function zeichneLeiste($: EngineInterface, e: any, daten: LeistenDaten, start: n
   return element
 }
 
-// ziele.md fehlt oder ist leer: kein Balken, kein Fehler.
+// Zielordner fehlt oder ein plan.md fehlt: dieses Ziel bzw. der Kasten entfällt, kein Fehler.
 async function aktualisiereZiele($: EngineInterface): Promise<void> {
-  const neu = await ($.fs.read(ZIELE_DATEI) as Promise<string>).then(zaehleZiele, () => [] as ZielStand[])
+  // `$.fs` selbst darf nicht weitergereicht werden (Host-Regel): zwei Aufrufe als Funktionen.
+  const dateien = { list: (p: string) => $.fs.list(p), read: (p: string) => $.fs.read(p) as Promise<string> }
+  const neu = await ladeZiele(dateien, ZIELE_ORDNER)
   if (!gleich(await read($, ziele), neu)) await update($, ziele, () => neu)
 }
 
@@ -269,8 +269,6 @@ async function aktualisiere($: EngineInterface): Promise<void> {
     if ((await read($, faellig)) !== nFaellig) await update($, faellig, () => nFaellig)
     const neuPipeline = zaehlePipeline(text)
     if (!gleich(await read($, pipeline), neuPipeline)) await update($, pipeline, () => neuPipeline)
-    const neueTop = zaehleTopPrios(text)
-    if (!gleich(await read($, topPrios), neueTop)) await update($, topPrios, () => neueTop)
     const neueRegeln = zaehleRegelmaessig(text)
     if (!gleich(await read($, regeln), neueRegeln)) await update($, regeln, () => neueRegeln)
     const neuUnterwegs = zaehleUnterwegs(text, Date.now())
@@ -342,8 +340,7 @@ type PaneDaten = {
   regelListe: ReturnType<typeof sortiereRegeln>
   pipeListe: PipelineEintrag[]
   von: ReturnType<typeof teile>
-  top: PrioEintrag[]
-  ziele: ZielStand[]
+  ziele: ZielPlan[]
   kalender: KalenderStand
   unterwegs: UnterwegsEintrag[]
 }
@@ -358,11 +355,10 @@ async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
   const regelListe = sortiereRegeln(await read($, regeln), jetztMs)
   const pipeListe = await read($, pipeline)
   const von = teile(await read($, vonDir), new Date())
-  const top = await read($, topPrios)
   const zieleListe = await read($, ziele)
   const kalenderStand = await read($, kalender)
   const unterwegsListe = await read($, unterwegs)
-  return { auf, ausgeklappt, jetztMs, regelListe, pipeListe, von, top, ziele: zieleListe, kalender: kalenderStand, unterwegs: unterwegsListe }
+  return { auf, ausgeklappt, jetztMs, regelListe, pipeListe, von, ziele: zieleListe, kalender: kalenderStand, unterwegs: unterwegsListe }
 }
 
 // Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
@@ -545,16 +541,6 @@ function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
   )
 }
 
-// Klappzustand und Öffnen für den Top-Prios-Kasten.
-function prioUmfeld($: EngineInterface, e: any, d: PaneDaten, oeffne: (href: string) => Promise<void>): PrioUmfeld {
-  return {
-    offen: kennung => d.ausgeklappt.includes(kennung),
-    schalte: kennung => void update($, aufgeklappt, a => schalte(a, kennung)),
-    oeffne: href => void oeffne(href),
-    ziele: d.ziele,
-  }
-}
-
 // Pane: Statuszeile, dann Abschnitte mit je einer umbrechenden Zeile pro Eintrag.
 async function zeichnePane($: EngineInterface, e: any) {
   protokoll($, 'pane', `render ${e.surface} spalten=${e.props.bodyColumns}`)
@@ -565,7 +551,7 @@ async function zeichnePane($: EngineInterface, e: any) {
   return (
     <Box flexDirection="column" gap={1} paddingX={1}>
       {agentenBereich($.ui.resolve(e), agentenListe, d.jetztMs)}
-      {topPriosKasten($.ui.resolve(e), d.top, prioUmfeld($, e, d, a.oeffne))}
+      {zieleKasten($.ui.resolve(e), d.ziele, pfad => void a.oeffne(pfad))}
       {paneJetzt(a, d)}
       {unterwegsBereich(a, d.unterwegs, d.jetztMs)}
       {kalenderBereich(a, d.kalender, d.jetztMs)}

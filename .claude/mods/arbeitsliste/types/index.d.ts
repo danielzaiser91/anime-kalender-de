@@ -1,4 +1,5 @@
-export type ZielStand = { name: string; erreicht: number; gesamt: number; naechster: string | null }
+export type ZielAufgabe = { status: 'aktiv' | 'bald' | 'geplant' | 'erledigt'; titel: string; datei: string | null }
+export type ZielPlan = { name: string; kennzahl: string | null; erreicht: number; gesamt: number; aufgaben: ZielAufgabe[]; plan: string }
 export type Groesse = 'gross' | 'normal' | 'klein'
 export type Eintrag = { titel: string; rest: string; groesse: Groesse }
 export type Liste = { inArbeit: Eintrag[]; todo: Eintrag[] }
@@ -7,7 +8,6 @@ export type Regel = Eintrag & { rhythmus: string; cron?: string }
 export type DanielTodo = { jetzt: DanielEintrag[]; spaeter: DanielEintrag[] }
 
 export type PipelineEintrag = Eintrag & { zeit: number; ort: 'pipeline' | 'worker' | 'warteliste' | 'deploy' | '?' }
-export type PrioEintrag = Eintrag & { status: string; details: string[] }
 export type UnterwegsEintrag = { status: string; seit: number; titel: string; meta: string; start: number | null; startArt: 'Info' | 'Bestand' | null; live: number | null }
 
 declare module 'claude-code' {
@@ -22,8 +22,6 @@ declare module 'claude-code' {
       // Kennungen der ausgeklappten Bereiche („+ N weitere“) und Gruppen (Kleinigkeiten); jeder Bereich zeigt sonst höchstens fünf.
       // `bereich:<id>` kehrt den Standard des Bereichs um (zu, nur „jetzt“ offen).
       aufgeklappt: string[]
-      // „## Top-Prios“: Kasten ganz oben, immer offen (Schlüssel V2: Form mit status und details).
-      topPriosV2: PrioEintrag[]
       // „Daniel-Todo“ aus stand.md: Jetzt und Später.
       vonDir: DanielTodo
       // Anzahl fälliger 📅-Einträge: ändert sich nur an einer Zeitgrenze und zeichnet dann neu.
@@ -38,8 +36,8 @@ declare module 'claude-code' {
       ruhe: 'hart' | 'sanft' | null
       // Sparmodus aus sparmodus.txt: nur Sonnet mittel und Haiku als Subagenten.
       spar: boolean
-      // Fortschritt je Ziel aus ziele.md (Balken im Pane).
-      ziele: ZielStand[]
+      // Ziele aus daniel-zum-abarbeiten/ziele/<n>-<slug>/plan.md (Kasten im Pane; V2: Form mit Aufgaben).
+      zieleV2: ZielPlan[]
       // „Kalender heute“: Zeilen des Berliner Tages aus woche.json bzw. events.json.
       kalender: { datum: string; zeilen: { zeit: string | null; geschaetzt: boolean; name: string; anbieter: string; folgen: string }[] }
     }

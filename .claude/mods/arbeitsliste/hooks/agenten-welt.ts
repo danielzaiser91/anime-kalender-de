@@ -55,12 +55,15 @@ export function lieseAgentenDatei(pfad: string): { value: string } | { deny: str
   return { value: JSON.stringify({ agentType: a.type, description: a.description, finished: a.finished }) }
 }
 
-export function haengeAgentenListe(on: On): void {
+// `weitere`: Verzeichnisse anderer Tests (z. B. Zielordner); null = nicht deren Pfad.
+export function haengeAgentenListe(on: On, weitere: (pfad: string) => { name: string; kind: string }[] | null = () => null): void {
   on('session.cwd', () => ({ value: agentenWelt.cwd }) as never)
   on('session.root', () => ({ value: agentenWelt.root }) as never)
   on('fs.list', (_$, e) => {
-    agentenWelt.listAufrufe++
     const pfad = (e as { path?: string }).path?.replace(/\\/g, '/') ?? ''
+    const fremd = weitere(pfad)
+    if (fremd) return { value: fremd.map(e => ({ ...e, size: 0, mtimeMs: 1, isLink: false })) } as never
+    agentenWelt.listAufrufe++
     if (agentenWelt.listFehler) return { deny: agentenWelt.listFehler } as never
     if (!pfad.endsWith(`/${agentenWelt.projekt}/eigene-sitzung/subagents`)) return { deny: 'ENOENT: no such file' } as never
     const eintraege = agentenWelt.liste.map(a => ({ name: `agent-${a.id}.jsonl`, kind: 'file', size: a.size ?? 100, mtimeMs: a.mtimeMs ?? FRISCH, isLink: false }))

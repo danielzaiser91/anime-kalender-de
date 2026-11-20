@@ -4,19 +4,28 @@ import type { FranchiseMember, Title } from '@shared/types.ts'
 import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { PanelKarte, StapelZeichen } from './panel-karte.tsx'
 
-/** „Staffel 4 von 4 · 1 Film · 1 Special" — nur Gruppen, die es gibt. Ist der gewählte Teil keine Staffel, steht die Staffelzahl. */
-export function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
+type Zahlwort = (n: number, einzahl: Parameters<Translate>[0], mehrzahl: Parameters<Translate>[0]) => string
+const zahlwort = (t: Translate): Zahlwort => (n, einzahl, mehrzahl) => (n === 1 ? t(einzahl) : t(mehrzahl, { n }))
+
+/** Der Staffelstand: „Staffel 1–5 von 25" für eine Hauptstaffel, sonst „25 Staffeln"; ohne Staffeln leer. */
+export function reihenStand(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
   const haupt = hauptstaffeln(reihenTeile)
   const stand = staffelStaende(haupt, reihenName)
-  const hauptIds = new Set(haupt.map((m) => m.id))
   const von = [...stand.values()][0]?.von ?? haupt.length
+  const gewaehlt = stand.get(titelId)
+  if (gewaehlt) return t('detail.staffelVon', { n: staffelSpanne(gewaehlt), von: gewaehlt.von })
+  return von > 0 ? zahlwort(t)(von, 'detail.eineStaffel', 'detail.staffelnZahl') : ''
+}
+
+/** „Staffel 4 von 4 · 1 Film · 1 Special" — nur Gruppen, die es gibt. Ist der gewählte Teil keine Staffel, steht die Staffelzahl. */
+export function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId: number, t: Translate): string {
+  const hauptIds = new Set(hauptstaffeln(reihenTeile).map((m) => m.id))
   const filme = reihenTeile.filter((m) => m.format === 'MOVIE').length
   const eigene = reihenTeile.filter((m) => m.eigenesWerk).length
   const specials = reihenTeile.filter((m) => !hauptIds.has(m.id) && !m.eigenesWerk && m.format !== 'MOVIE').length
-  const gewaehlt = stand.get(titelId)
-  const zahl = (n: number, einzahl: Parameters<Translate>[0], mehrzahl: Parameters<Translate>[0]) => (n === 1 ? t(einzahl) : t(mehrzahl, { n }))
+  const zahl = zahlwort(t)
   return [
-    gewaehlt ? t('detail.staffelVon', { n: staffelSpanne(gewaehlt), von: gewaehlt.von }) : von > 0 ? zahl(von, 'detail.eineStaffel', 'detail.staffelnZahl') : '',
+    reihenStand(reihenTeile, reihenName, titelId, t),
     eigene ? zahl(eigene, 'detail.eineEigeneSerie', 'detail.reiheEigeneSerien') : '',
     filme ? zahl(filme, 'detail.einFilm', 'detail.reiheFilme') : '',
     specials ? zahl(specials, 'detail.einSpecial', 'detail.reiheSpecials') : '',
