@@ -277,6 +277,7 @@ pipeline/check-folgen-nummern-bau.ts
 pipeline/check-folgen-nummern-lauf.ts
 pipeline/check-folgen-nummern.ts
 pipeline/check-folgen-teile.ts
+pipeline/check-folgen-wiki-versatz.ts
 pipeline/check-folgenblock.ts
 pipeline/check-folgenflaggen.ts
 pipeline/check-folgenrhythmus.ts
