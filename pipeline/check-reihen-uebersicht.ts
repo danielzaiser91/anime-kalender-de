@@ -214,6 +214,13 @@ gleich('Suche ohne Treffer: keine Gruppe, keine Kopfzahl', [f.lage().gruppe.leng
 pruefe('Suche ohne Treffer: Hinweis', (f.text() ?? '').includes('Kein Teil passt'))
 await f.ende()
 
+/* Suche mit mehr als 12 Treffern in der Gruppe des geöffneten Films: alle Treffer, kein Fenster, kein Schalter. */
+const g2 = await oeffne(GROSS, { titel: 900207, suche: 'film' })
+gleich('Suche „film“: 15 Zeilen, kein „Alle n“', [kurz(g2.lage()), g2.lage().gruppe[0]?.alle], [[['Filme', 15, 15]], null])
+gleich('Suche: kein Schalter', g2.schalterText(), '')
+zahlGleichListe('Suche über 12', g2.lage())
+await g2.ende()
+
 /* Kleine Reihe (12 Filme) bleibt Spur — Gegenprobe zur Grenze; die Spur misst im Browser, darum hier statisch. */
 const klein = renderToStaticMarkup(h(ReihenListe, props([teil(900101, 'Reihe'), ...filme(12)], { titel: 900101 })))
 pruefe('12 Filme: Spur, keine Übersicht', klein.includes('role="tab"') && !klein.includes('data-reihe-uebersicht'))
