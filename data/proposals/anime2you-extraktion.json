@@ -1877,6 +1877,10 @@
       "am": "2026-11-17",
       "vorschlaege": 1
     },
+    "1072580": {
+      "am": "2026-11-20",
+      "vorschlaege": 0
+    },
     "1072697": {
       "am": "2026-11-17",
       "vorschlaege": 1
@@ -1980,14 +1984,26 @@
       "am": "2026-11-19",
       "vorschlaege": 1
     },
+    "1073719": {
+      "am": "2026-11-20",
+      "vorschlaege": 0
+    },
     "1073728": {
       "am": "2026-11-20",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1073748": {
+      "am": "2026-11-20",
+      "vorschlaege": 0
+    },
     "1073766": {
       "am": "2026-11-20",
       "vorschlaege": 0
+    },
+    "1073842": {
+      "am": "2026-11-20",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -15762,6 +15778,27 @@
       "quelle": "https://www.anime2you.de/news/1073585/crunchyroll-spice-and-wolf-und-mehr/",
       "veroeffentlicht": "2026-11-19",
       "gelesenAm": "2026-11-19"
+    },
+    {
+      "titel": "Full Clearing Another World",
+      "zitat": "»Full Clearing Another World« umfasst demnach insgesamt zwölf Episoden, die seit dem 11. Oktober 2026 im japanischen Fernsehen laufen und hierzulande im Originalton mit Untertiteln bei Crunchyroll im Simulcast zu sehen sind.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-11",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Sonntag",
+      "warnungen": [],
+      "artikelId": "1073842",
+      "artikel": "Episodenanzahl von »Full Clearing Another World« steht fest",
+      "quelle": "https://www.anime2you.de/news/1073842/full-clearing-another-world-episodenanzahl/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
     }
   ]
 }
