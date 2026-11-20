@@ -9,6 +9,13 @@ import { useLang, type Translate } from '../../lib/i18n.tsx'
 const PILLE_MARKE =
   'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
 const PILLE_OHNE_MARKE = 'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]'
+/* Mit Fußzeile malt das Kind (`<a>`) seinen Hover-Hintergrund über einen inset-Schatten des Außen-div; Ring und Streifen
+   liegen deshalb auf einem Overlay darüber (20.11.2026, TOGGO plus: Streifen verschwand beim Hover). */
+const FUSS_FLAECHE = 'bg-ak-pille text-ak-text'
+const FUSS_RING =
+  "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:content-[''] after:shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] dark:after:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]"
+const FUSS_RING_MARKE =
+  "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:content-[''] after:shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:after:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]"
 
 /**
  * **Ein Anbieter, eine Pille** (Daniel, 12.10.2026, Panel V2 nachgeschärft): Zeichen in Markenfarbe, Name, darunter Folgen und
@@ -61,7 +68,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
   )
   if (fuss) {
     return (
-      <div style={marke} className={`relative w-full max-w-full rounded-xl ${flaeche}`}>
+      <div style={marke} className={`relative w-full max-w-full rounded-xl ${FUSS_FLAECHE} ${farbe ? FUSS_RING_MARKE : FUSS_RING}`}>
         {kopf}
         <div className="mx-1 flex items-center gap-1 border-t border-ak-linie pb-1 pt-1">{fuss}</div>
       </div>

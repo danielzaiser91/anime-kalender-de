@@ -505,6 +505,7 @@ pipeline/check-patchnotes-vorrat.ts
 pipeline/check-patchnotes.ts
 pipeline/check-phasen-zustand.ts
 pipeline/check-phasenfolge.ts
+pipeline/check-pille-fuss-rand.ts
 pipeline/check-pille-nur-untertitel.ts
 pipeline/check-plattform-rang.ts
 pipeline/check-plot-erschienen.ts
