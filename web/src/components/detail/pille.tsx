@@ -6,9 +6,14 @@ import { useLang, type Translate } from '../../lib/i18n.tsx'
   Fläche mit 1-px-Ring und 3-px-Markenstreifen links; die Markenfarbe steht nur im Zeichen und im Streifen (`--marke`),
   die Schrift in der Textfarbe (Daniel, 19.09.2026: „rot auf rot ist nicht so gut"; 12.10.2026: wieder Pillen statt Zeilen).
 */
-const PILLE_MARKE =
-  'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
-const PILLE_OHNE_MARKE = 'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)]'
+const RING = '[--pille-ring:rgba(15,23,42,.12)] dark:[--pille-ring:rgba(255,255,255,.08)]'
+const PILLE_MARKE = 'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_var(--pille-ring),inset_3px_0_0_var(--marke)]'
+const PILLE_OHNE_MARKE = 'bg-ak-pille text-ak-text shadow-[inset_0_0_0_1px_var(--pille-ring)]'
+/* Mit Fußzeile malt das Kind (`<a>`) seinen Hover-Hintergrund über einen inset-Schatten des Außen-div; Ring und Streifen
+   liegen deshalb auf einem Overlay darüber (20.11.2026, TOGGO plus: Streifen verschwand beim Hover). */
+const FUSS_OVERLAY = "after:pointer-events-none after:absolute after:inset-0 after:rounded-xl after:content-['']"
+const FUSS_RING = `bg-ak-pille text-ak-text ${FUSS_OVERLAY} after:shadow-[inset_0_0_0_1px_var(--pille-ring)]`
+const FUSS_RING_MARKE = `bg-ak-pille text-ak-text ${FUSS_OVERLAY} after:shadow-[inset_0_0_0_1px_var(--pille-ring),inset_3px_0_0_var(--marke)]`
 
 /**
  * **Ein Anbieter, eine Pille** (Daniel, 12.10.2026, Panel V2 nachgeschärft): Zeichen in Markenfarbe, Name, darunter Folgen und
@@ -30,7 +35,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
   fuss?: ReactNode
 }) {
   const flaeche = farbe ? PILLE_MARKE : PILLE_OHNE_MARKE
-  const form = fuss ? 'flex w-full rounded-b-none' : `inline-flex max-w-full ${flaeche}`
+  const form = fuss ? 'flex w-full rounded-b-none' : `inline-flex max-w-full ${RING} ${flaeche}`
   const marke = farbe ? ({ '--marke': farbe } as CSSProperties) : undefined
   const haupt = (
     <a
@@ -61,7 +66,7 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
   )
   if (fuss) {
     return (
-      <div style={marke} className={`relative w-full max-w-full rounded-xl ${flaeche}`}>
+      <div style={marke} className={`relative w-full max-w-full rounded-xl ${RING} ${farbe ? FUSS_RING_MARKE : FUSS_RING}`}>
         {kopf}
         <div className="mx-1 flex items-center gap-1 border-t border-ak-linie pb-1 pt-1">{fuss}</div>
       </div>

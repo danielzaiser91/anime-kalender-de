@@ -12,7 +12,7 @@ export function merkenHuelleKlasse(mitFarbe: boolean): string {
 /** In einer Anbieterzeile: ein 44-px-Knopf neben dem Link, ohne Eckplatz. */
 export const MERKEN_ZEILE_HUELLE = 'relative shrink-0'
 export const MERKEN_ZEILE_KNOPF =
-  'grid size-11 shrink-0 cursor-pointer place-items-center rounded-full text-slate-700 transition hover:bg-ak-flaeche-2 dark:text-slate-200'
+  'grid size-11 shrink-0 cursor-pointer place-items-center rounded-full border border-ak-rand text-slate-700 transition hover:border-ak-leise hover:bg-ak-flaeche-2 dark:text-slate-200'
 
 export function merkenKnopfKlasse(mitFarbe: boolean): string {
   const basis = mitFarbe
