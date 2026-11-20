@@ -1881,6 +1881,10 @@
       "am": "2026-11-20",
       "vorschlaege": 0
     },
+    "1072695": {
+      "am": "2026-11-20",
+      "vorschlaege": 0
+    },
     "1072697": {
       "am": "2026-11-17",
       "vorschlaege": 1
@@ -2001,6 +2005,11 @@
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
     },
+    "1073730": {
+      "am": "2026-11-20",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
     "1073748": {
       "am": "2026-11-20",
       "vorschlaege": 0
@@ -2024,6 +2033,11 @@
     "1074092": {
       "am": "2026-11-20",
       "vorschlaege": 6
+    },
+    "1074133": {
+      "am": "2026-11-20",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
     }
   },
   "vorschlaege": [

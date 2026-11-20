@@ -106,7 +106,7 @@ import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
 import { plotVon } from '../web/src/components/detail/plot.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { sucheZweistufig } from '../web/src/lib/search.ts'
-import { coverBild } from '../web/src/lib/cover.ts'
+import { coverBild, KACHEL_DICHTE } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
 import { geteilteWegeTrotzWiderlegung, pruefeErgebnis, releasesAusNurOriginalton } from './lib/pruefung.ts'
@@ -6437,6 +6437,24 @@ pruefe(
       !coverBild(tmdb, 400).srcSet?.includes('w500'),
     JSON.stringify([coverBild(gross, 28), coverBild(alt, 300), coverBild(tmdb, 28)]),
   )
+  /* Kachel 160 px, Dichte 1,5 (20.11.2026): TMDB-Cover höchstens w185, nicht w342 (Lighthouse 850 > 800 KB). */
+  const kachel = coverBild(tmdb, 160, '46vw', KACHEL_DICHTE)
+  const kachelBreiten = kachel.srcSet?.split(', ').map((s) => Number(s.split(' ')[1]?.replace('w', '')))
+  pruefe(
+    'TMDB-Kachel-Cover: Deckel Breite mal Dichte, Auswahl auf w185',
+    JSON.stringify(kachelBreiten) === '[92,154,185]' && kachel.src?.includes('/w185/') === true,
+    JSON.stringify(kachel),
+  )
+  const standard = coverBild(tmdb, 160)
+  pruefe(
+    'TMDB ohne Dichte rechnet mit 2: Deckel 320, Auswahl w342 entfällt, w185 gewählt',
+    !standard.srcSet?.includes('w342') && standard.src?.includes('/w185/') === true &&
+      coverBild(tmdb, 100).src?.includes('/w185/') === true &&
+      coverBild('https://image.tmdb.org/t/p/w780/c.jpg', 300).src?.includes('/w500/') === true &&
+      coverBild(tmdb, 10, undefined, 1).src?.includes('/w92/') === true &&
+      coverBild(tmdb, 45, undefined, 4).src?.includes('/w154/') === true,
+    JSON.stringify([standard, coverBild(tmdb, 100)]),
+  )
 }
 {
   /* Preload der Startdaten (18.09.2026): dieselben Dateien wie loadDataset() und loadWochenStart(), sonst lädt der Browser umsonst. */
@@ -6519,7 +6537,7 @@ pruefe(
   /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
-  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('relative min-h-[52px] min-w-0 items-center') && panel.includes('`inline-flex max-w-full ${flaeche}`') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('relative min-h-[52px] min-w-0 items-center') && panel.includes('`inline-flex max-w-full ${RING} ${flaeche}`') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
