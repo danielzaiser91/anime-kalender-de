@@ -41703,3 +41703,33 @@
       dub: true
   checkedAt: '2026-11-20'
   note: "RTL+ ist rein deutschsprachig (Daniel, 23.08.2026); Serienseite https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142 (Abruf 20.11.2026): TVSeries „Pokémon Horizonte: Die Serie“, inLanguage de, Staffel 1 45, Staffel 2 44, Staffel 3 47 Folgen; zweite Quelle für die Folgen und ihre deutsche Erstveröffentlichung: de.wikipedia.org Pokémon_(Anime)/Horizonte, Folgen 1–136 mit deutschen Titeln und Daten bis 13.11.2026 (Zählung unserer Folge = NR_GES minus 1234)."
+
+- anilistId: 175914
+  title: "Call of the Night: Season 2"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Call%20of%20the%20Night%20Season%202&i=instant-video
+  available: false
+  checkedAt: '2026-08-27'
+  nachgemessenAm: '2026-11-20'
+  note: "Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (Call of the Night)"
+
+- anilistId: 180829
+  title: "Yandere Dark Elf: She Chased Me All the Way from Another World!"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DJKGJQ7K
+  dub: false
+  checkedAt: '2026-09-09'
+  nachgemessenAm: '2026-11-20'
+  zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
+  note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-20 ---
+
+- anilistId: 175914
+  title: "Call of the Night: Season 2"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FDRD62BF
+  dub: true
+  kanalMessung: ja
+  checkedAt: '2026-11-20'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FDRD62BF: alle 12 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.b91dd112-85a3-4f7a-9388-ab736d7282aa — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
