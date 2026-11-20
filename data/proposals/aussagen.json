@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-19",
+  "stand": "2026-11-20",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -9411,412 +9411,6 @@
       }
     },
     {
-      "id": "https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/|A Sign of Affection|Staffel 1|start|disneyplus",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "a9226aa7ee5a",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "A Sign of Affection",
-        "zusatz": "Staffel 1",
-        "art": "start",
-        "plattformen": [
-          "disneyplus"
-        ],
-        "datum": "2026-09-20",
-        "datumBedeutung": "tag-der-meldung",
-        "deutsch": "ja",
-        "folgen": 12,
-        "konfidenz": 0.8,
-        "gruende": [
-          "Sprache: Deutsch, Japanisch (UT)",
-          "„ab sofort\" = Tag der Meldung"
-        ],
-        "zitat": "»A Sign of Affection« – Staffel 1\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Disney+",
-        "zuordnung": {
-          "anilistId": 166794,
-          "name": "A Sign of Affection",
-          "wie": "name-genau",
-          "abstandTage": 988
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 270
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/|The Rising of the Shield Hero|Staffel 1|start|disneyplus",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "e3f37d2b68fd",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "The Rising of the Shield Hero",
-        "zusatz": "Staffel 1",
-        "art": "start",
-        "plattformen": [
-          "disneyplus"
-        ],
-        "datum": "2026-09-20",
-        "datumBedeutung": "tag-der-meldung",
-        "deutsch": "ja",
-        "folgen": 25,
-        "konfidenz": 0.8,
-        "gruende": [
-          "Sprache: Deutsch, Japanisch (UT)",
-          "„ab sofort\" = Tag der Meldung"
-        ],
-        "zitat": "»The Rising of the Shield Hero« – Staffel 1\nEpisoden: 25 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Disney+",
-        "zuordnung": {
-          "anilistId": 99263,
-          "name": "The Rising of the Shield Hero",
-          "wie": "name-genau",
-          "abstandTage": 2811
-        },
-        "bestand": {
-          "status": "bekannt",
-          "release": {
-            "slug": "auto-99263-disneyplus",
-            "firstEpisodeDate": "2026-09-20"
-          },
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 357
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/|Blue Box|Staffel 2|start|netflix",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "1550f75def99",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Blue Box",
-        "zusatz": "Staffel 2",
-        "art": "start",
-        "plattformen": [
-          "netflix"
-        ],
-        "datum": "2026-10-04",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.95,
-        "gruende": [
-          "Sprache: Deutsch, Japanisch (UT)"
-        ],
-        "zitat": "»Blue Box« – Staffel 2\nStart: 4. Oktober 2026\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
-        "zuordnung": {
-          "anilistId": 189123,
-          "name": "Blue Box: Staffel 2",
-          "wie": "name-genau",
-          "abstandTage": 0
-        },
-        "bestand": {
-          "status": "bekannt",
-          "release": {
-            "slug": "auto-189123-netflix",
-            "firstEpisodeDate": "2026-10-04"
-          },
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 366
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/|Ranma 1/2|Staffel 3|start|netflix",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "2252df24932f",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Ranma 1/2",
-        "zusatz": "Staffel 3",
-        "art": "start",
-        "plattformen": [
-          "netflix"
-        ],
-        "datum": "2026-10-03",
-        "datumBedeutung": "genannt",
-        "deutsch": "nein",
-        "konfidenz": 0.95,
-        "gruende": [
-          "Sprache: Japanisch (UT)"
-        ],
-        "zitat": "»Ranma 1/2« – Staffel 3\nStart: 3. Oktober 2026\nSprache: Japanisch (UT)\nHinweis: Deutsche Synchronisation noch nicht bestätigt\nStream: Netflix",
-        "zuordnung": {
-          "anilistId": 209872,
-          "name": "Ranma 1/2: Staffel 3",
-          "wie": "name-genau",
-          "abstandTage": 1
-        },
-        "bestand": {
-          "status": "abweichend",
-          "release": {
-            "slug": "ranma-s3-folge1-netflix",
-            "firstEpisodeDate": "2026-10-05"
-          },
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 355
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/|STEEL BALL RUN: JoJo’s Bizarre Adventure|2nd-3rd STAGE|start|netflix",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "89baeca90279",
-      "offenOderUnklar": true,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
-        "zusatz": "2nd-3rd STAGE",
-        "art": "start",
-        "plattformen": [
-          "netflix"
-        ],
-        "datum": "2026-09-25",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.95,
-        "gruende": [
-          "Sprache: Deutsch, Japanisch (UT)"
-        ],
-        "zitat": "»STEEL BALL RUN: JoJo’s Bizarre Adventure« – 2nd-3rd STAGE\nStart: 25. September 2026\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
-        "zuordnung": {
-          "anilistId": 210482,
-          "name": "Steel Ball Run: Jojo’s Bizarre Adventure - Phase 2-3",
-          "wie": "name-genau",
-          "abstandTage": 0,
-          "vorbehalt": "Zusatz „2nd-3rd STAGE\" nicht aufgelöst"
-        },
-        "bestand": {
-          "status": "bekannt",
-          "release": {
-            "slug": "auto-210482-netflix",
-            "firstEpisodeDate": "2026-09-25"
-          },
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 357
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/|The Ramparts of Ice|Staffel 2|start|netflix",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "0f1d8d037cf9",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "The Ramparts of Ice",
-        "zusatz": "Staffel 2",
-        "art": "start",
-        "plattformen": [
-          "netflix"
-        ],
-        "datum": "2026-10-01",
-        "datumBedeutung": "genannt",
-        "deutsch": "ja",
-        "konfidenz": 0.95,
-        "gruende": [
-          "Sprache: Deutsch, Japanisch (UT)"
-        ],
-        "zitat": "»The Ramparts of Ice« – Staffel 2\nStart: 1. Oktober 2026\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
-        "zuordnung": {
-          "anilistId": 213805,
-          "name": "The Ramparts of Ice: Staffel 2",
-          "wie": "name-genau",
-          "abstandTage": 0
-        },
-        "bestand": {
-          "status": "bekannt",
-          "release": {
-            "slug": "auto-213805-netflix",
-            "firstEpisodeDate": "2026-10-01"
-          },
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 378
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/|Tougen Anki|Staffel 2|start|netflix",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "b8d91a4e9bdb",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Tougen Anki",
-        "zusatz": "Staffel 2",
-        "art": "start",
-        "plattformen": [
-          "netflix"
-        ],
-        "datum": "2026-10-02",
-        "datumBedeutung": "genannt",
-        "deutsch": "nein",
-        "konfidenz": 0.95,
-        "gruende": [
-          "Sprache: Japanisch (UT)"
-        ],
-        "zitat": "»Tougen Anki« – Staffel 2\nStart: 2. Oktober 2026\nSprache: Japanisch (UT)\nHinweis: Deutsche Synchronisation noch nicht bestätigt\nStream: Netflix",
-        "zuordnung": {
-          "anilistId": 204650,
-          "name": "Tougen Anki Season 2",
-          "wie": "name-genau",
-          "abstandTage": 0
-        },
-        "bestand": {
-          "status": "neu",
-          "ankuendigung": {
-            "omuAb": "2026-10-02",
-            "synchro": "offen"
-          },
-          "hatSynchroBelege": false
-        },
-        "inhaltZeichen": 348
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052331/justwatch-tv-startet-mit-drei-anime-serien/|Eine fröhliche Familie||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "81616fdc6be6",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052331/justwatch-tv-startet-mit-drei-anime-serien/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Eine fröhliche Familie",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-20",
-        "datumBedeutung": "tag-der-meldung",
-        "deutsch": "nein",
-        "konfidenz": 0.6,
-        "gruende": [
-          "Sprache: Englisch",
-          "„ab sofort\" = Tag der Meldung",
-          "kein Anbieter genannt"
-        ],
-        "zitat": "»Eine fröhliche Familie«\nEpisoden: 12 von 48\nSprache: Englisch\nStream: JustWatch TV",
-        "zuordnung": {
-          "anilistId": 2548,
-          "name": "Eine fröhliche Familie",
-          "wie": "name-genau",
-          "abstandTage": 14497
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 353
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052331/justwatch-tv-startet-mit-drei-anime-serien/|Familie Robinson||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "3e190b6553cb",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052331/justwatch-tv-startet-mit-drei-anime-serien/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Familie Robinson",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-20",
-        "datumBedeutung": "tag-der-meldung",
-        "deutsch": "nein",
-        "konfidenz": 0.6,
-        "gruende": [
-          "Sprache: Englisch",
-          "„ab sofort\" = Tag der Meldung",
-          "kein Anbieter genannt"
-        ],
-        "zitat": "»Familie Robinson«\nEpisoden: 12 von 50\nSprache: Englisch\nStream: JustWatch TV",
-        "zuordnung": {
-          "anilistId": 2544,
-          "name": "Familie Robinson",
-          "wie": "name-genau",
-          "abstandTage": 16695
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 370
-      }
-    },
-    {
-      "id": "https://www.anime2you.de/news/1052331/justwatch-tv-startet-mit-drei-anime-serien/|Tom Sawyers Abenteuer||start|",
-      "erstGesehen": "2026-10-13",
-      "fingerabdruck": "5d78427d5c17",
-      "offenOderUnklar": false,
-      "ergebnis": {
-        "quelle": {
-          "url": "https://www.anime2you.de/news/1052331/justwatch-tv-startet-mit-drei-anime-serien/",
-          "veroeffentlicht": "2026-09-20",
-          "leser": "anime2you-sammel"
-        },
-        "titel": "Tom Sawyers Abenteuer",
-        "art": "start",
-        "plattformen": [],
-        "datum": "2026-09-20",
-        "datumBedeutung": "tag-der-meldung",
-        "deutsch": "nein",
-        "konfidenz": 0.6,
-        "gruende": [
-          "Sprache: Englisch",
-          "„ab sofort\" = Tag der Meldung",
-          "kein Anbieter genannt"
-        ],
-        "zitat": "»Tom Sawyers Abenteuer«\nEpisoden: 13 von 49\nSprache: Englisch\nStream: JustWatch TV",
-        "zuordnung": {
-          "anilistId": 2577,
-          "name": "Tom Sawyers Abenteuer",
-          "wie": "name-genau",
-          "abstandTage": 17059
-        },
-        "bestand": {
-          "status": "neu",
-          "hatSynchroBelege": true
-        },
-        "inhaltZeichen": 282
-      }
-    },
-    {
       "id": "https://www.anime2you.de/news/1060717/crunchyroll-full-clearing-another-world-und-mehr/|Snowball Earth||start|crunchyroll+primevideo",
       "erstGesehen": "2026-10-14",
       "fingerabdruck": "0762254e6b70",
@@ -14226,6 +13820,319 @@
           "hatSynchroBelege": true
         },
         "inhaltZeichen": 307
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073585/crunchyroll-spice-and-wolf-und-mehr/|Medaka Kuroiwa is Impervious to My Charms|Staffel 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "db889988b5fa",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073585/crunchyroll-spice-and-wolf-und-mehr/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Medaka Kuroiwa is Impervious to My Charms",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "deutsch": "nein",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Medaka Kuroiwa is Impervious to My Charms« – Staffel 2\nStart: Januar 2027\nSprache: Japanisch (UT)\nStream: Crunchyroll, Prime Video",
+        "zuordnung": {
+          "anilistId": 188892,
+          "name": "Medaka Kuroiwa Is Impervious to My Charms 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 401
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073585/crunchyroll-spice-and-wolf-und-mehr/|Spice & Wolf: Merchant Meets the Wise Wolf|Staffel 2|start|crunchyroll+primevideo",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "a77a785a80fc",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073585/crunchyroll-spice-and-wolf-und-mehr/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Spice & Wolf: Merchant Meets the Wise Wolf",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "crunchyroll",
+          "primevideo"
+        ],
+        "deutsch": "nein",
+        "konfidenz": 0.6,
+        "gruende": [
+          "Sprache: Japanisch (UT)",
+          "kein Tag genannt"
+        ],
+        "zitat": "»Spice & Wolf: Merchant Meets the Wise Wolf« – Staffel 2\nStart: Januar 2027\nSprache: Japanisch (UT)\nStream: Crunchyroll, Prime Video",
+        "zuordnung": {
+          "anilistId": 181951,
+          "name": "Spice and Wolf: Merchant Meets the Wise Wolf - Season 2",
+          "wie": "name-teil"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 410
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/|STEEL BALL RUN: JoJo’s Bizarre Adventure|Staffelfinale|start|netflix",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "f63315a792fd",
+      "offenOderUnklar": true,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+        "zusatz": "Staffelfinale",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "datum": "2026-12-04",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "4. Dezember: »STEEL BALL RUN: JoJo’s Bizarre Adventure« – Staffelfinale\n4. Dezember: »STEEL BALL RUN: JoJo’s Bizarre Adventure« – Staffelfinale\nSimulcast: Jeden Freitag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "offen": {
+          "grund": "Japan-Start passt nicht zum genannten Tag 2026-12-04 (Steel Ball Run: Jojo’s Bizarre Adventure - Phase 1: 2026-03-19)",
+          "kandidaten": [
+            {
+              "id": 190327,
+              "name": "Steel Ball Run: Jojo’s Bizarre Adventure - Phase 1",
+              "jpStart": "2026-03-19"
+            }
+          ]
+        },
+        "bestand": {
+          "status": "ohne-zuordnung"
+        },
+        "inhaltZeichen": 270
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/|The Ramparts of Ice|Staffel 2|start|netflix",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "72e4f3079d6f",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "The Ramparts of Ice",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Donnerstag: »The Ramparts of Ice« – Staffel 2 (Simulcast)\nDonnerstag: »The Ramparts of Ice« – Staffel 2 (Simulcast)\nSimulcast: Jeden Donnerstag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 213805,
+          "name": "The Ramparts of Ice: Staffel 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-213805-netflix",
+            "firstEpisodeDate": "2026-10-01"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 265
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/|Tougen Anki|Staffel 2|start|netflix",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "99c14bb45b18",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Tougen Anki",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "nein",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Freitag: »Tougen Anki« – Staffel 2 (Simulcast)\nFreitag: »Tougen Anki« – Staffel 2 (Simulcast)\nSimulcast: Jeden Freitag\nSprache: Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 204650,
+          "name": "Tougen Anki Season 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-02",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 284
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/|Ranma 1/2|Staffel 3|start|netflix",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "eddb8e36e879",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Ranma 1/2",
+        "zusatz": "Staffel 3",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Samstag: »Ranma 1/2« – Staffel 3 (Simulcast)\nSamstag: »Ranma 1/2« – Staffel 3 (Simulcast)\nSimulcast: Jeden Samstag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 209872,
+          "name": "Ranma 1/2: Staffel 3",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "ranma-s3-folge1-netflix",
+            "firstEpisodeDate": "2026-10-05"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 268
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/|Blue Box|Staffel 2|start|netflix",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "d49c3a9385ce",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Blue Box",
+        "zusatz": "Staffel 2",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "ja",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Sonntag: »Blue Box« – Staffel 2 (Simulcast)\nSonntag: »Blue Box« – Staffel 2 (Simulcast)\nSimulcast: Jeden Sonntag\nSprache: Deutsch, Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 189123,
+          "name": "Blue Box: Staffel 2",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "bekannt",
+          "release": {
+            "slug": "auto-189123-netflix",
+            "firstEpisodeDate": "2026-10-04"
+          },
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 267
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/|Dragon Ball Super: Beerus||start|netflix",
+      "erstGesehen": "2026-11-20",
+      "fingerabdruck": "4fc59ffd4e83",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1073600/netflix-anime-neu-im-dezember-2026/",
+          "veroeffentlicht": "2026-11-19",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Dragon Ball Super: Beerus",
+        "art": "start",
+        "plattformen": [
+          "netflix"
+        ],
+        "deutsch": "nein",
+        "woechentlich": true,
+        "konfidenz": 0.6,
+        "gruende": [
+          "kein Tag genannt"
+        ],
+        "zitat": "Sonntag: »Dragon Ball Super: Beerus« (Simulcast)\nSonntag: »Dragon Ball Super: Beerus« (Simulcast)\nSimulcast: Jeden Sonntag\nSprache: Japanisch (UT)\nStream: Netflix",
+        "zuordnung": {
+          "anilistId": 206814,
+          "name": "Dragon Ball Super: Beerus",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "ankuendigung": {
+            "omuAb": "2026-10-11",
+            "synchro": "offen"
+          },
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 292
       }
     }
   ]
