@@ -21,11 +21,16 @@ query Nachfrage($p: String!, $country: Country!, $language: Language!) {
   }
 }`
 
-interface Vorher { jwId?: string; jwPfad?: string; tmdbId?: number; ohneTreffer?: boolean }
+interface Vorher { jwId?: string; jwPfad?: string; tmdbId?: number; ohneTreffer?: boolean; verfehltAm?: string }
 
 /** Nachgefragt wird nur bei einem echten alten Befund derselben Kennung, der einen Pfad trägt; ein fremder Befund (Negi) bleibt außen vor. */
 export function darfNachfragen(vorher: Vorher | undefined, erwartet: number | undefined): vorher is Vorher & { jwPfad: string } {
   return !!vorher && !vorher.ohneTreffer && !!vorher.jwId && !!vorher.jwPfad && erwartet !== undefined && Number(vorher.tmdbId) === erwartet
+}
+
+/** Ein verfehlter Befund, den die Nachfrage holen kann, kommt vor der 28-Tage-Frist wieder (frühestens 7 Tage nach dem Fehlschlag, damit dauerhaft Verschwundene die Schlange nicht füllen); sonst bliebe er bis zum Ablauf offen (Rainbow Rangers, City Hunter, Golgo 13). */
+export function nachfrageFaellig(vorher: Vorher | undefined, erwartet: number | undefined, heute: string): boolean {
+  return darfNachfragen(vorher, erwartet) && !!vorher.verfehltAm && Date.parse(heute) - Date.parse(vorher.verfehltAm) >= 7 * 86_400_000
 }
 
 /**
