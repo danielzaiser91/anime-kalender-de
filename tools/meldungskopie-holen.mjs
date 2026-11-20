@@ -24,10 +24,12 @@ export function lokalerStand(datei) {
   }
 }
 
-/** `gh(args)` liefert den Text der Ausgabe; die Kopie wird nur geholt, wenn der jüngste erfolgreiche Lauf neuer ist als sie. */
+/** `gh(args)` liefert den Text der Ausgabe; die Kopie wird nur geholt, wenn der jüngste erfolgreiche Lauf neuer ist als sie.
+ * Gefiltert wird hier statt mit `--status success`: dieser Filter führte den fertigen Lauf noch Minuten später nicht (20.11.2026). */
 export function holen({ gh, ziel, umgebung = process.env }) {
   const token = tokenOderAbbruch(umgebung)
-  const lauf = JSON.parse(gh(['run', 'list', '--workflow', WORKFLOW, '--status', 'success', '--limit', '1', '--json', 'databaseId,createdAt']))[0]
+  const laeufe = JSON.parse(gh(['run', 'list', '--workflow', WORKFLOW, '--limit', '10', '--json', 'databaseId,createdAt,conclusion']))
+  const lauf = laeufe.find((l) => l.conclusion === 'success')
   if (!lauf) throw new Error(`Noch kein erfolgreicher Lauf von ${WORKFLOW}: gh workflow run ${WORKFLOW}`)
   const vorhanden = lokalerStand(ziel)
   if (vorhanden && Date.parse(vorhanden) >= Date.parse(lauf.createdAt)) return { art: 'aktuell', stand: vorhanden }

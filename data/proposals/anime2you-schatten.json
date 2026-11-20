@@ -1010,6 +1010,73 @@
         "stichprobe": 0,
         "rest": 2
       }
+    },
+    {
+      "am": "2026-11-20",
+      "artikel": 3,
+      "ohneAntwort": 0,
+      "schattenFehler": 0,
+      "gleich": 0,
+      "nurRegel": 2,
+      "nurClaude": 6,
+      "ms": 2.7923640000000205,
+      "faelle": [
+        {
+          "artikelId": "1074092",
+          "seite": "nurRegel",
+          "titel": "Gunslinger Girl: Il Teatrino",
+          "plattform": "primevideo"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurRegel",
+          "titel": "Berserk",
+          "plattform": "primevideo"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurClaude",
+          "titel": "Overlord: The Sacred Kingdom",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurClaude",
+          "titel": "Chrono Crusade",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurClaude",
+          "titel": "Gunslinger Girl: Il Teatrino",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurClaude",
+          "titel": "Berserk – Part 2",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurClaude",
+          "titel": "Peter Pan",
+          "plattform": "aniverse"
+        },
+        {
+          "artikelId": "1074092",
+          "seite": "nurClaude",
+          "titel": "Trinity Blood",
+          "plattform": "aniverse"
+        }
+      ],
+      "router": {
+        "scharf": false,
+        "artikel": 3,
+        "erspart": 0,
+        "stichprobe": 0,
+        "rest": 3
+      }
     }
   ]
 }

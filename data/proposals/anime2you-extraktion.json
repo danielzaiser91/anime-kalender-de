@@ -1885,6 +1885,10 @@
       "am": "2026-11-17",
       "vorschlaege": 1
     },
+    "1072992": {
+      "am": "2026-11-20",
+      "vorschlaege": 0
+    },
     "1073183": {
       "am": "2026-11-18",
       "vorschlaege": 0,
@@ -2009,9 +2013,17 @@
       "am": "2026-11-20",
       "vorschlaege": 1
     },
+    "1073915": {
+      "am": "2026-11-20",
+      "vorschlaege": 0
+    },
     "1073969": {
       "am": "2026-11-20",
       "vorschlaege": 2
+    },
+    "1074092": {
+      "am": "2026-11-20",
+      "vorschlaege": 6
     }
   },
   "vorschlaege": [
@@ -15868,6 +15880,150 @@
       "artikelId": "1073439",
       "artikel": "Erste »TSUKIMICHI«-Staffel erscheint als Gesamtausgabe auf Blu-ray",
       "quelle": "https://www.anime2you.de/news/1073439/tsukimichi-staffel-1-blu-ray-gesamtausgabe/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Overlord: The Sacred Kingdom",
+      "zitat": "3. Dezember: »Overlord: The Sacred Kingdom« Laufzeit: 135 Minuten Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-12-03",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1074092",
+      "artikel": "Neue Anime-Katalogtitel im Dezember 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Chrono Crusade",
+      "zitat": "10. Dezember: »Chrono Crusade« Episoden: 24 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-12-10",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1074092",
+      "artikel": "Neue Anime-Katalogtitel im Dezember 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Gunslinger Girl: Il Teatrino",
+      "zitat": "17. Dezember: »Gunslinger Girl: Il Teatrino« Episoden: 13 Episoden + 2 OVAs (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-12-17",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "13 Episoden + 2 OVAs",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1074092",
+      "artikel": "Neue Anime-Katalogtitel im Dezember 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Berserk – Part 2",
+      "zitat": "24. Dezember: »Berserk« – Part 2 Episoden: 12 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-12-24",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "12",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1074092",
+      "artikel": "Neue Anime-Katalogtitel im Dezember 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Peter Pan",
+      "zitat": "24. Dezember: »Peter Pan« Episoden: 41 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-12-24",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "41",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1074092",
+      "artikel": "Neue Anime-Katalogtitel im Dezember 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+      "veroeffentlicht": "2026-11-20",
+      "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Trinity Blood",
+      "zitat": "31. Dezember: »Trinity Blood« Episoden: 24 (komplett) Sprache: Deutsch, Japanisch (UT)",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "aniverse",
+      "datum": "2026-12-31",
+      "uhrzeit": null,
+      "anbieter": "aniverse",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24",
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "anbieter „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „aniverse“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1074092",
+      "artikel": "Neue Anime-Katalogtitel im Dezember 2026 bei aniverse",
+      "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
       "veroeffentlicht": "2026-11-20",
       "gelesenAm": "2026-11-20"
     }
