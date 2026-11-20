@@ -3,7 +3,8 @@
  * Prüft `data/curated/pokemon-staffeln.yaml` (lückenlos, aufsteigend, Summen) und ihre Wirkung auf `alleStaffelQuellen()` und
  * `staffelStaende()`. Ohne die Datei zählte dieselbe Reihe 12 Staffeln (AniList-Sammeltitel). Läuft in `check:logic`.
  */
-import { staffelStaende } from '../shared/titles.ts'
+import { hauptstaffeln, staffelStaende } from '../shared/titles.ts'
+import { ladeAlleEigenenWerke, markiereEigeneWerke } from './bau/cartoon-reihen.ts'
 import { alleStaffelQuellen } from './bau/staffel-quelle.ts'
 import { fehlerInGrenzen, ladeStaffelGrenzen, markiereStaffelTeile, staffelListen, startStaffeln, startTeile } from './lib/pokemon-staffeln.ts'
 
@@ -44,6 +45,19 @@ pruefe('Mit Grenzen: 25 Staffeln', [...mit.values()][0]?.von === 25, JSON.string
 pruefe('Mit Grenzen: Schwarz & Weiß beginnt bei Staffel 14', stand(9107) === '14', stand(9107))
 pruefe('Mit Grenzen: zwei Einträge in Staffel 16 sind Teil 1 und Teil 2', stand(17115) === '16.1' && stand(17873) === '16.2', `${stand(17115)} ${stand(17873)}`)
 pruefe('Mit Grenzen: Reisen beginnt bei Staffel 23', stand(112153) === '23', stand(112153))
+
+/* Horizonte (eigene deutsche Zählung) und die chinesische ONA ohne Synchro zählen nicht zur Hauptserie 1–25 (Dirigent, 20.11.2026). */
+const mitAnhang = markiereEigeneWerke({
+  527: [
+    ...reihe.map((m) => ({ ...m, format: 'TV', staffelQuelle: quellen.get(m.id), staffelTeil: teile.get(m.id) })),
+    { id: 158871, name: 'Pokémon Horizonte', format: 'TV', jpYear: 2023 },
+    { id: 10019539, name: 'Baokemeng Donghua Tujian: Xiaoqi Dao Zhong', format: 'ONA', episodes: 10, jpYear: 2024 },
+  ],
+}, ladeAlleEigenenWerke().filter((e) => e.ids.some((id) => id === 158871 || id === 10019539)))[527]!
+const haupt = hauptstaffeln(mitAnhang)
+const standAnhang = staffelStaende(haupt, 'Pokémon')
+pruefe('Hauptserie zählt „von 25“, Horizonte und ONA stehen nicht darin', [...standAnhang.values()][0]?.von === 25 && !standAnhang.has(158871) && !standAnhang.has(10019539), JSON.stringify([...standAnhang.values()][0]))
+pruefe('Horizonte und ONA sind als eigene Werke markiert', mitAnhang.filter((m) => (m as { eigenesWerk?: boolean }).eigenesWerk).map((m) => m.id).join() === '158871,10019539')
 
 /* Der Bau schreibt `staffelTeil` nur an die Titel mit `teil` in der Datei. */
 const markiert = markiereStaffelTeile({ 527: reihe.map((m): { id: number; staffelTeil?: number } => ({ id: m.id })) }, grenzen)[527]!
