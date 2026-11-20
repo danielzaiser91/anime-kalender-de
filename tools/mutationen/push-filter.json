@@ -642,13 +642,28 @@
     ]
   },
   {
-    "name": "web/src/lib/push-nachfuehren.ts:20 Aufruf entfernt",
+    "name": "web/src/lib/push-nachfuehren.ts:17 Argumente getauscht pushFilterWert",
+    "aenderungen": [
+      {
+        "datei": "web/src/lib/push-nachfuehren.ts",
+        "suche": "pushFilterWert(kalenderFilter, tvAus)",
+        "ersetze": "pushFilterWert(tvAus, kalenderFilter)",
+        "zeile": 17
+      }
+    ],
+    "tests": [
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter-lauf.ts",
+      "node node_modules/tsx/dist/cli.mjs pipeline/check-push-filter.ts"
+    ]
+  },
+  {
+    "name": "web/src/lib/push-nachfuehren.ts:21 Aufruf entfernt",
     "aenderungen": [
       {
         "datei": "web/src/lib/push-nachfuehren.ts",
         "suche": "pushFilterMerken(filter)",
         "ersetze": "void 0",
-        "zeile": 20
+        "zeile": 21
       }
     ],
     "tests": [
@@ -657,13 +672,13 @@
     ]
   },
   {
-    "name": "web/src/lib/push-nachfuehren.ts:22 Argumente getauscht setTimeout",
+    "name": "web/src/lib/push-nachfuehren.ts:23 Argumente getauscht setTimeout",
     "aenderungen": [
       {
         "datei": "web/src/lib/push-nachfuehren.ts",
         "suche": "setTimeout(() => void pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [], filter), NACHFUEHR_PAUSE_MS)",
         "ersetze": "setTimeout(NACHFUEHR_PAUSE_MS, () => void pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [], filter))",
-        "zeile": 22
+        "zeile": 23
       }
     ],
     "tests": [
@@ -672,13 +687,13 @@
     ]
   },
   {
-    "name": "web/src/lib/push-nachfuehren.ts:22 Argumente getauscht pushFavoritenNachfuehren",
+    "name": "web/src/lib/push-nachfuehren.ts:23 Argumente getauscht pushFavoritenNachfuehren",
     "aenderungen": [
       {
         "datei": "web/src/lib/push-nachfuehren.ts",
         "suche": "pushFavoritenNachfuehren(liste ? liste.split(',').map(Number) : [], filter)",
         "ersetze": "pushFavoritenNachfuehren(filter, liste ? liste.split(',').map(Number) : [])",
-        "zeile": 22
+        "zeile": 23
       }
     ],
     "tests": [
@@ -687,13 +702,13 @@
     ]
   },
   {
-    "name": "web/src/lib/push-nachfuehren.ts:22 ?: Zweige vertauscht",
+    "name": "web/src/lib/push-nachfuehren.ts:23 ?: Zweige vertauscht",
     "aenderungen": [
       {
         "datei": "web/src/lib/push-nachfuehren.ts",
         "suche": "liste ? liste.split(',').map(Number) : []",
         "ersetze": "liste ? [] : liste.split(',').map(Number)",
-        "zeile": 22
+        "zeile": 23
       }
     ],
     "tests": [
@@ -954,13 +969,13 @@
     ]
   },
   {
-    "name": "worker/src/push-abo.ts:76 Argumente getauscht legeAboAn",
+    "name": "worker/src/push-abo.ts:79 Argumente getauscht legeAboAn",
     "aenderungen": [
       {
         "datei": "worker/src/push-abo.ts",
         "suche": "legeAboAn(env, endpoint, schreibeFavoriten(body.favoriten, body.ak, body.filter), new Date().toISOString())",
         "ersetze": "legeAboAn(endpoint, env, schreibeFavoriten(body.favoriten, body.ak, body.filter), new Date().toISOString())",
-        "zeile": 76
+        "zeile": 79
       }
     ],
     "tests": [
@@ -968,13 +983,13 @@
     ]
   },
   {
-    "name": "worker/src/push-abo.ts:76 Argumente getauscht schreibeFavoriten",
+    "name": "worker/src/push-abo.ts:79 Argumente getauscht schreibeFavoriten",
     "aenderungen": [
       {
         "datei": "worker/src/push-abo.ts",
         "suche": "schreibeFavoriten(body.favoriten, body.ak, body.filter)",
         "ersetze": "schreibeFavoriten(body.ak, body.favoriten, body.filter)",
-        "zeile": 76
+        "zeile": 79
       }
     ],
     "tests": [
