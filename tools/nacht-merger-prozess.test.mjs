@@ -28,7 +28,7 @@ const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const KOPF = 'a'.repeat(40)
 const PR = { number: 7, title: 'T', body: '', headRefOid: KOPF, headRefName: 'fix/x', isDraft: false, createdAt: '2026-11-01T08:00:00Z', reviewDecision: 'APPROVED', mergeStateStatus: 'UNKNOWN', changedFiles: 1 }
 const CHECKS = [{ __typename: 'CheckRun', name: 'PR-Prüfkette', status: 'COMPLETED', conclusion: 'SUCCESS' }]
-const NACHTRAG = { login: 'danielzaiser91', assoc: 'OWNER', at: '2026-11-01T11:00:00Z', body: `## Nachtrag (Abnahme Dirigent) — Kopf ${KOPF.slice(0, 9)}\nAuflagen erfüllt` }
+const NACHTRAG = { login: 'derNamenloseDaniel', assoc: 'OWNER', at: '2026-11-01T11:00:00Z', body: `## Nachtrag (Abnahme Dirigent) — Kopf ${KOPF.slice(0, 9)}\nAuflagen erfüllt` }
 
 // Ersatz-gh: Antworten je Aufruf; MERGEABLE aus der Umgebung steuert, was `pr view --json number,state,mergeable,…` meldet.
 const gh = `#!/usr/bin/env node

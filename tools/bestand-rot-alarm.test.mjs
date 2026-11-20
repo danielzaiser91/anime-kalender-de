@@ -174,7 +174,7 @@ assert.equal(versuche, 1)
 
 // Verdrahtung als Prozess: `gh` über die Kulisse, damit der echte Aufrufer läuft (Datum 2026-10-18 weit in der Vergangenheit, 2999 in der Zukunft).
 const stub = (laeufe) =>
-  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="danielzaiser91/anime-kalender-de"||!["bestand-bauen.yml","deploy.yml","nacht-pruefung.yml"].includes(a[a.indexOf("--workflow")+1])))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
+  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="derNamenloseDaniel/anime-kalender-de"||!["bestand-bauen.yml","deploy.yml","nacht-pruefung.yml"].includes(a[a.indexOf("--workflow")+1])))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
 const ALT = [lauf('success', '2026-10-18T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const FRISCH = [lauf('success', '2999-12-31T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))

@@ -5,7 +5,7 @@
 import { ghEcht, echteWelt as mergerWelt } from './nacht-merger-welt.mjs'
 import { kandidat, ketteStand } from './nacht-merger-wahl.mjs'
 
-const REPO_STANDARD = 'danielzaiser91/anime-kalender-de'
+const REPO_STANDARD = 'derNamenloseDaniel/anime-kalender-de'
 const SEITE = 100
 /** Mehr Seiten als das sind kein Fenster mehr, sondern ein Fehler (nie stilles Abschneiden): 1000 PRs. */
 const SEITEN_MAX = 10

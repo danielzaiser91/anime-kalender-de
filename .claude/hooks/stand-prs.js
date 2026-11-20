@@ -24,7 +24,7 @@ try {
   // Ausfall absichtlich still: Meldung ist Zusatz.
 }
 
-const REPO = ['danielzaiser91', 'anime-kalender-de']
+const REPO = ['derNamenloseDaniel', 'anime-kalender-de']
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
 const MIN = 60000
 const DROSSEL = 5 * MIN

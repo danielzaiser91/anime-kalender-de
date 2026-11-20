@@ -10,7 +10,7 @@ import { fehlerLog } from './werte.ts'
  *
  * Fällt der Wecker aus, merkt es `wecker-wache.yml` (GitHub-Cron als zweite, unabhängige Linie) und startet überfällige Läufe selbst.
  */
-const STANDARD_REPO = 'danielzaiser91/anime-kalender-de'
+const STANDARD_REPO = 'derNamenloseDaniel/anime-kalender-de'
 
 const KOPF = (env: Env) => ({
   Authorization: `Bearer ${env.GITHUB_WECKER_TOKEN}`,

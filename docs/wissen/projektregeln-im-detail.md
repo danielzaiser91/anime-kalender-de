@@ -471,7 +471,7 @@ absturz der läufe bedeutet."
 Jeder Lauf, der Daten holt oder schreibt, wird über GitHub angestoßen:
 
 ```bash
-gh workflow run <datei>.yml --repo danielzaiser91/anime-kalender-de [-f budget=240]
+gh workflow run <datei>.yml --repo derNamenloseDaniel/anime-kalender-de [-f budget=240]
 ```
 
 Er läuft dann auf GitHubs Rechnern, committet selbst, überlebt jedes Herunterfahren und ist

@@ -95,7 +95,7 @@ const vorlader = pathToFileURL(fileURLToPath(new URL('./pr-nachrechnen-mock.mjs'
 const abruf = join(ordner, 'abruf-abgelehnt.mjs')
 writeFileSync(abruf, "globalThis.fetch = async () => { throw new Error('offline') }\n")
 const werkzeug = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
-const SCHLUESSEL = 'api repos/danielzaiser91/anime-kalender-de/pulls?state=open&per_page=100'
+const SCHLUESSEL = 'api repos/derNamenloseDaniel/anime-kalender-de/pulls?state=open&per_page=100'
 const starte = (antwort, mehr = {}) => {
   writeFileSync(join(ordner, 'daten.json'), JSON.stringify({ [SCHLUESSEL]: antwort, ...mehr }))
   const env = { ...process.env, ATTRAPPE_LOG: join(ordner, 'log.txt'), ATTRAPPE_DATEN: join(ordner, 'daten.json'), LAUF_TOKEN: '' }
@@ -107,12 +107,12 @@ gleich('Prozess: keine offenen PRs, keine PRUEFER-Zeile', /^PRUEFER/m.test(ruhig
 const kaputt = starte({ fehler: 'HTTP 502' })
 gleich('Prozess: Abruffehler als PRUEFER?-Zeile', /^PRUEFER\? Prüfer-Urteile nicht lesbar: HTTP 502$/m.test(kaputt.stdout), true)
 // Positiver Prozessfall: offener PR, Kopf seit 2020 ohne Urteil -> die Zeile erreicht die Ausgabe der Wachphase.
-const repoApi = 'api repos/danielzaiser91/anime-kalender-de/'
+const repoApi = 'api repos/derNamenloseDaniel/anime-kalender-de/'
 const warnt = starte(
   { aus: JSON.stringify([pr()]) },
   {
     [`${repoApi}actions/workflows/pr-pruefer.yml/runs?head_sha=${KOPF}&per_page=10`]: { aus: JSON.stringify({ workflow_runs: [{ status: 'completed', conclusion: 'success', created_at: '2020-01-01T00:00:00Z' }] }) },
-    'api --paginate --slurp repos/danielzaiser91/anime-kalender-de/issues/7/comments': { aus: '[[]]' },
+    'api --paginate --slurp repos/derNamenloseDaniel/anime-kalender-de/issues/7/comments': { aus: '[[]]' },
   },
 )
 gleich('Prozess: Kopf ohne Urteil steht als PRUEFER-Zeile in der Ausgabe', /^PRUEFER: PR #7 Kopf ccccccccc ohne Urteil seit \d+ min/m.test(warnt.stdout), true)

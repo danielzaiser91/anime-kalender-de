@@ -27,8 +27,8 @@ fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** Siehe https
 fehler(urteil('befund', { 1: '**Wo ist Verbesserungspotenzial?** <b>fett</b> und genug Text hier.' }), /Markup/)
 fehler(urteil('befund', { 1: '**Wo ist Verbesserungspotenzial?** Siehe [die Liste](daniel-zum-abarbeiten/x.md) für den Rest.' }), /Verweis/)
 fehler(urteil('befund', { 1: '**Wo ist Verbesserungspotenzial?** Mehr dazu auf www.example.org im Netz.' }), /Adresse/)
-fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** @danielzaiser91 sollte das ansehen, sagt der Beleg.' }), /Erwähnung/)
-fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** Das sollte\n@danielzaiser91 ansehen, sagt der Beleg.' }), /Erwähnung/)
+fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** @derNamenloseDaniel sollte das ansehen, sagt der Beleg.' }), /Erwähnung/)
+fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** Das sollte\n@derNamenloseDaniel ansehen, sagt der Beleg.' }), /Erwähnung/)
 // Gegenproben: echte Urteile mit Backticks, Befehlen, ungepaarten Backticks und @ in Code, Paketnamen oder Klammern gehen durch.
 const geht = (absatz) => assert.equal(pruefeUrteil(urteil('befund', { 0: `**Was läuft korrekt.** ${absatz}` })).ok, true, absatz)
 geht('`data/source-health.json` und `tools/briefkasten-wache.mjs` zeigen 12 Läufe grün (01).')

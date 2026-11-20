@@ -15,7 +15,7 @@ const pruefe = (name, ok, info) => {
 
 const KENNUNG_TEST = '**Nachrechnen** NICHT AKTUELL:'
 const GRUND = 'main bewegte tools/check-x.mjs'
-const durchgang = (zeit, text = grundKommentar('7a466acc8', 'c0ffee000', GRUND)) => ({ author: { login: 'danielzaiser91' }, createdAt: zeit, body: text })
+const durchgang = (zeit, text = grundKommentar('7a466acc8', 'c0ffee000', GRUND)) => ({ author: { login: 'derNamenloseDaniel' }, createdAt: zeit, body: text })
 const Z = ['2026-11-10T10:00:00Z', '2026-11-10T11:00:00Z', '2026-11-10T12:00:00Z', '2026-11-10T13:00:00Z']
 
 console.log('nachrechnen-schleife: Kommentartext')
@@ -70,7 +70,7 @@ console.log('nachrechnen-schleife: Verdrahtung in pr-nachrechnen')
       if (k === 'run view 12 --json jobs') return JSON.stringify({ jobs: [{ name: 'Kette – Workflows', databaseId: 92, status: 'completed' }] })
       if (k.includes('/jobs/92/logs')) return log
       if (k.includes('git/ref/heads/main')) return `${abw.main ?? MAIN}\n`
-      if (k.includes('compare')) return JSON.stringify({ status: 'ahead', anzahl: 1, dateien: abw.dateien ?? ['tools/check-x.mjs'], commitsGesamt: 1, autoren: ['danielzaiser91'] })
+      if (k.includes('compare')) return JSON.stringify({ status: 'ahead', anzahl: 1, dateien: abw.dateien ?? ['tools/check-x.mjs'], commitsGesamt: 1, autoren: ['derNamenloseDaniel'] })
       if (k.includes('/commits/')) return `${abw.main ?? MAIN}\n`
       if (k.includes('pulls/7/files')) return 'web/src/andere.ts\n'
       if (k.includes('merge_commit_sha')) return 'a'.repeat(40)
@@ -111,7 +111,7 @@ console.log('nachrechnen-schleife: Verdrahtung in liegegut')
   const iso = (stunden) => new Date(JETZT - stunden * 3600 * 1000).toISOString()
   const KOPF = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
   const pr = (nummer, comments) => ({ number: nummer, title: `fix(x): ${nummer}`, headRefOid: KOPF, createdAt: iso(20), mergeable: 'MERGEABLE', mergeStateStatus: 'CLEAN', isDraft: false, body: '', comments, statusCheckRollup: [], reviews: [] })
-  const kommentar = (stunden) => ({ author: { login: 'danielzaiser91' }, createdAt: iso(stunden), body: grundKommentar('a', 'b', 'c') })
+  const kommentar = (stunden) => ({ author: { login: 'derNamenloseDaniel' }, createdAt: iso(stunden), body: grundKommentar('a', 'b', 'c') })
   // `kopf`: Commit-Zeit des Kopfs; `commitListe`: Zeilen der PR-Commit-Liste (Zeit TAB erste Nachrichtenzeile), Standard = nur der Kopf-Commit
   const gh = (liste, kopf = iso(10), commitListe = `${iso(10)}\tfix(x): nachbessern\n`) => (args) => {
     if (args[0] === 'pr') return JSON.stringify(liste)

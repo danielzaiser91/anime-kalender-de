@@ -30,7 +30,7 @@ const GRUEN = [{ status: 'COMPLETED', conclusion: 'SUCCESS', completedAt: h(30) 
 const ROTE = [{ status: 'COMPLETED', conclusion: 'SUCCESS', completedAt: h(40) }, { status: 'COMPLETED', conclusion: 'FAILURE', completedAt: h(13) }]
 
 const bot = (stunden, kopf, urteil) => ({ author: { login: 'github-actions' }, createdAt: h(stunden), body: `**Prüfer-Review** für ${kopf.slice(0, 9)} - Urteil: **${urteil}**\n\nText` })
-const daniel = (stunden, erste, rest = '') => ({ author: { login: 'danielzaiser91' }, createdAt: h(stunden), body: `${erste}\n${rest}` })
+const daniel = (stunden, erste, rest = '') => ({ author: { login: 'derNamenloseDaniel' }, createdAt: h(stunden), body: `${erste}\n${rest}` })
 
 const pr = (nummer, felder) => ({
   number: nummer,
@@ -120,7 +120,7 @@ console.log('liegegut: Signal 5 Ändern-Urteil ohne neuen Commit (Fall 1390)')
   pruefe('genau 24 h → noch nicht', nummern(pr(20, { comments: [bot(24, KOPF, 'aendern')] }), 40).length === 0)
   pruefe('neuer Commit nach dem Urteil: Urteil gilt nicht mehr', nummern(pr(21, { comments: [bot(30, ALT, 'aendern')] }), 2).length === 0)
   pruefe('Daniel ändern seit 25 h, danach Bot ok → kein Signal 5 (letztes Urteil ok)', !nummern(pr(22, { comments: [daniel(26, 'Prüfer: ändern'), bot(25, KOPF, 'ok')] }), 40).includes(5))
-  const review = (stunden, state) => ({ state, submittedAt: h(stunden), author: { login: 'danielzaiser91' } })
+  const review = (stunden, state) => ({ state, submittedAt: h(stunden), author: { login: 'derNamenloseDaniel' } })
   const ohneApprove = pr(3009, { comments: [bot(30, KOPF, 'aendern')] })
   pruefe('Ändern seit 30 h, Approve jünger → kein Signal 5 (3009)', !nummern({ ...ohneApprove, reviews: [review(10, 'APPROVED')] }, 40).includes(5))
   pruefe('Gegenfall: Approve älter als das Ändern → Signal 5 bleibt', nummern({ ...ohneApprove, reviews: [review(40, 'APPROVED')] }, 40).includes(5))
@@ -278,7 +278,7 @@ const patchVon = (url) => {
   if (url.includes('/1438/')) return text('pipeline/bau/urteil-schliesst-luecken.ts', 'export function ganzAndereSache(weg) {')
   return text('andere.ts', 'const voelligNeuHier = 1')
 }
-const NATIV = 'danielzaiser91/anime-kalender-nativ'
+const NATIV = 'derNamenloseDaniel/anime-kalender-nativ'
 // `listeNativ` kommt für Aufrufe an das nativ-Repo (`--repo`, Adresse oder graphql-Name), sonst `liste`; ohne Angabe ist nativ leer.
 const attrappeGh = (liste, aufrufe = [], listeNativ = []) => (args) => {
   aufrufe.push(args.join(' '))

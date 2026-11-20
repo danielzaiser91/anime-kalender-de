@@ -1,7 +1,7 @@
 /**
  * Die überwachten Seiten.
  *
- * Ermittelt am 08.08.2026, indem für jedes Repository von danielzaiser91 die
+ * Ermittelt am 08.08.2026, indem für jedes Repository von derNamenloseDaniel die
  * Pages-Schnittstelle abgefragt wurde — verlässlicher als READMEs, die häufig
  * veralten. Dazu die beiden Seiten außerhalb von GitHub und der Dienst hier
  * selbst.
@@ -22,7 +22,7 @@ export interface Site {
   expect?: string
 }
 
-const GH = 'https://danielzaiser91.github.io'
+const GH = 'https://dernamenlosedaniel.github.io'
 
 export const SITES: Site[] = [
   // Eigene Domains

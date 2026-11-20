@@ -11,7 +11,7 @@ import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 export const PRAEFIX = '## Nachtrag (Abnahme Dirigent'
-export const INHABER = 'danielzaiser91'
+export const INHABER = 'derNamenloseDaniel'
 export const MIN_HASH = 9
 
 /** Reine Entscheidung: 'ignorieren' (nicht für uns), 'hinweis' (Abnahme ohne passenden Hash) oder 'frei'. */

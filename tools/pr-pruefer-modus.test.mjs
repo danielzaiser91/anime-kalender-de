@@ -24,7 +24,7 @@ const ci = (kopf, urteil, modus, protokoll = 'Protokoll') => ({
   author_association: 'NONE',
   body: `**Prüfer-Review** für ${kopf} - Urteil: **${urteil}**\n\n${protokoll}\n\n<!-- pruefer-modus: ${modus} -->\n`,
 })
-const agent = (text, assoc = 'OWNER', login = 'danielzaiser91') => ({ user: { login }, author_association: assoc, body: text })
+const agent = (text, assoc = 'OWNER', login = 'derNamenloseDaniel') => ({ user: { login }, author_association: assoc, body: text })
 const R1 = agent('Prüfer Runde 1: ändern\nA1 Test fehlt\nA2 Mutation fehlt\nA3 Doku alt')
 const CI_R1 = ci('aaaaaaaaa', 'aendern', 'voll', 'A1 Test fehlt\nA2 Mutation fehlt\nA3 Doku alt')
 const NACHTRAG = agent('## Nachtrag\nA1 erledigt\nA2 erledigt\nA3 erledigt')

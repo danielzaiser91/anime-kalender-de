@@ -19,7 +19,7 @@
 5. Den Schlüssel als GitHub-Secret hinterlegen:
 
 ```bash
-gh secret set YOUTUBE_API_KEY --repo danielzaiser91/anime-kalender-de
+gh secret set YOUTUBE_API_KEY --repo derNamenloseDaniel/anime-kalender-de
 ```
 
 Der Befehl fragt den Schlüssel interaktiv ab — er landet nicht im Verlauf.

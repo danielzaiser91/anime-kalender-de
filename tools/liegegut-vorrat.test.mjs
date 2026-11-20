@@ -17,7 +17,7 @@ const JETZT = Date.parse('2026-11-14T12:00:00Z')
 const KEINE = new Set()
 const zeile = (rest) => `# Auftrag\n\n**Vergeben:** ${rest}\n\nText\n`
 const ROUTINE = 'Routine https://claude.ai/code/routines/trig_x'
-const PR = (n) => `https://github.com/danielzaiser91/anime-kalender-de/pull/${n}`
+const PR = (n) => `https://github.com/derNamenloseDaniel/anime-kalender-de/pull/${n}`
 const fund = (text, offene = KEINE, mtime = JETZT, jetzt = JETZT) => dateiFund('vergeben-a.md', text, mtime, offene, jetzt)
 
 console.log('liegegut-vorrat: Zeit aus der Vergeben-Zeile (Berlin, Jahr aus jetzt)')

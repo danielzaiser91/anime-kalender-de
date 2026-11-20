@@ -17,7 +17,7 @@ const { execFileSync } = require('node:child_process')
 const GRENZE_STUFE_2 = 2
 const GRENZE_SONST = 1
 const STUFE_KOMMENTAR = /^<!-- pr-stufe -->\s*\*\*Prüfstufe (\d)\*\*/
-const STANDARD_REPO = 'danielzaiser91/anime-kalender-de'
+const STANDARD_REPO = 'derNamenloseDaniel/anime-kalender-de'
 const GH_WINDOWS = 'C:/Program Files/GitHub CLI/gh.exe'
 const URTEIL = /^[\s*_#>]*Prüfer(?: Runde \d+)?:/
 // Grund: mindestens 8 Zeichen und nicht der Platzhalter „<Grund>“ aus der Verweigerung.
@@ -25,15 +25,15 @@ const AUSNAHME = /\[runde-ausnahme:\s*(?!<)(\S[^\]]{6,}\S)\]/
 const PR_IM_AUFTRAG = /\bPR\s*#?(\d{2,5})\b|github\.com\/([\w.-]+\/[\w.-]+)\/pull\/(\d{1,5})\b/i
 const REPO_ADRESSEN = [
   /github\.com\/([\w.-]+\/[\w.-]+)\/pull\//g,
-  /\b(danielzaiser91\/[A-Za-z][\w-]*)/g,
+  /\b(derNamenloseDaniel\/[A-Za-z][\w-]*)/g,
   /\bRepo:?\s+C:\/code\/ai\/([A-Za-z][\w-]*)/gi,
 ]
 
-/** Repos, die der Auftrag nennt (Adresse, `danielzaiser91/<name>` oder „Repo C:/code/ai/<name>“); ohne Nennung das Standard-Repo. */
+/** Repos, die der Auftrag nennt (Adresse, `derNamenloseDaniel/<name>` oder „Repo C:/code/ai/<name>“); ohne Nennung das Standard-Repo. */
 function nenneRepos(prompt) {
   const repos = new Set()
   for (const muster of REPO_ADRESSEN) {
-    for (const m of prompt.matchAll(muster)) repos.add(m[1].includes('/') ? m[1] : `danielzaiser91/${m[1]}`)
+    for (const m of prompt.matchAll(muster)) repos.add(m[1].includes('/') ? m[1] : `derNamenloseDaniel/${m[1]}`)
   }
   return repos.size ? [...repos] : [STANDARD_REPO]
 }

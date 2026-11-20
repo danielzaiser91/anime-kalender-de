@@ -16,7 +16,7 @@ import { secretZeilen } from './zugangs-secret-wache.mjs'
 
 const WURZEL = new URL('..', import.meta.url)
 const register = JSON.parse(readFileSync(new URL('data/zugangs-register.json', WURZEL), 'utf8'))
-const REPO = process.env.GITHUB_REPOSITORY || 'danielzaiser91/anime-kalender-de'
+const REPO = process.env.GITHUB_REPOSITORY || 'derNamenloseDaniel/anime-kalender-de'
 const GH = process.env.GH_BIN || 'gh'
 const WARN_TAGE = 14
 // Ein Claude-Schritt, der so schnell scheitert, hat nie gearbeitet (Kontingent leer oder Token ungültig).
