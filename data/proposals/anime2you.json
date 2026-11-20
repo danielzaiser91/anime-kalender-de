@@ -1,12 +1,12 @@
 {
-  "scrapedAt": "2026-11-20T14:02:01.944Z",
+  "scrapedAt": "2026-11-20T15:01:56.311Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
+    "schon in einem Rubrik-Feed gelesen": 11,
     "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 4,
     "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 5,
-    "schon in einem Rubrik-Feed gelesen": 10,
     "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
@@ -35,6 +35,48 @@
         {
           "iso": "2027-01-01",
           "context": "Ore dake ga Osowarenai«) wurde heute verkündet, dass die Serie ab dem 1. Januar 2027 im japanischen Fernsehen ausgestrahlt wird. Ein neues V"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Elainas Reise« erscheint als Blu-ray-Gesamtausgabe",
+      "articleUrl": "https://www.anime2you.de/news/1073969/elainas-reise-blu-ray-gesamtausgabe/",
+      "publishedAt": "2026-11-20",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-05",
+          "context": "drei Volumes mit Sammelschuber enthält, erscheint voraussichtlich am 5. Februar 2027 als DVD und Blu-ray. Ein […] Der Beitrag »Elainas Re"
+        },
+        {
+          "month": "2027-02",
+          "context": "einer Gesamtausgabe in den Handel kommt. Wir fassen zusammen. Release im Februar 2027 Die Gesamtausgabe von »Elainas Reise«, die alle zwölf"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Erste »TSUKIMICHI«-Staffel erscheint als Gesamtausgabe auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1073439/tsukimichi-staffel-1-blu-ray-gesamtausgabe/",
+      "publishedAt": "2026-11-20",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2027-02-19",
+          "context": "e der ersten »TSUKIMICHI«-Staffel erscheint nach aktueller Planung am 19. Februar 2027 als DVD und Blu-ray. Diese beinhaltet alle zwölf Epis"
+        },
+        {
+          "month": "2027-02",
+          "context": "einer Gesamtausgabe in den Handel kommt. Wir fassen zusammen. Release im Februar 2027 Die Gesamtausgabe der ersten »TSUKIMICHI«-Staffel ersc"
         }
       ],
       "dub": "unklar",
