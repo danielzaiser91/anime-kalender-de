@@ -27,6 +27,9 @@ export function ohneAndereWerke(justwatch: Record<string, JwBefund>, liste: read
     if (b?.ohneTreffer && b.namenTreffer?.jwId === e.jwId) {
       const { namenTreffer: _verworfen, ...rest } = b
       aus[String(e.anilistId)] = rest
+    } else if (b && !b.ohneTreffer && b.jwId === e.jwId) {
+      /* Der alte Befund trägt das andere Werk selbst (Negi: JustWatch 16950 statt TMDB 8859, bis der nächste Abruf ihn ersetzt); sein Prüftag bleibt. */
+      aus[String(e.anilistId)] = { geprueftAm: b.geprueftAm, angebote: [], ohneTreffer: true }
     }
   }
   return aus
