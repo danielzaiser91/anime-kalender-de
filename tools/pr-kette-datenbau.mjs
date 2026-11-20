@@ -6,6 +6,7 @@
  * jede Abweichung (Cache-Schlüssel, fehlender Abbruch bei Cache-Miss, `continue-on-error`, anderer Befehl) ist rot.
  */
 import { isDeepStrictEqual } from 'node:util'
+import { IF_VOLLE_KETTE, NEEDS_SCOPE } from './pr-kette-schnellweg.mjs'
 
 export const DATENBAU_NAME = 'PR-Datenbau'
 const SOLL_SCHRITTE = [
@@ -39,7 +40,8 @@ const SOLL_SCHRITTE = [
 
 export const SOLL_DATENBAU = {
   name: DATENBAU_NAME,
-  if: "${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}",
+  needs: NEEDS_SCOPE,
+  if: IF_VOLLE_KETTE,
   'runs-on': 'ubuntu-latest',
   'timeout-minutes': 20,
   steps: SOLL_SCHRITTE,
