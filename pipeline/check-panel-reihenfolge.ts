@@ -1,5 +1,5 @@
 /**
- * Zusicherung (Daniel, 20.11.2026): Im Detail-Panel steht die Handlung über der Reihe, die Reihe über den Neuigkeiten.
+ * Zusicherung (Daniel, 20.11.2026): Im Detail-Panel steht die Handlung über den Neuigkeiten, die Neuigkeiten über der Reihe.
  * Gerendert wird das echte `DetailPanel` (Mini-DOM, Handlung aus einer Synopsis-Attrappe, Reihe aus zwei Titeln einer Franchise);
  * die Reihenfolge wird an den Überschriften der Karten gelesen. Aufruf: `npm run check:logic`.
  */
@@ -18,11 +18,14 @@ class Beobachter {
 const lager = { getItem: (k: string) => speicher.get(k) ?? null, setItem: (k: string, w: string) => void speicher.set(k, w), removeItem: (k: string) => void speicher.delete(k) }
 const HANDLUNGSTEXT = 'Ein Junge zieht aus, um der Beste zu werden.'
 const ID = 900103
-/** Nur die Handlung-Datei antwortet; alles andere läuft ins Leere wie im Termin-Test. */
-const antwort = (url: string) =>
-  String(url).includes('synopses/')
-    ? { ok: true, status: 200, json: async () => ({ [ID]: { de: HANDLUNGSTEXT } }), text: async () => JSON.stringify({ [ID]: { de: HANDLUNGSTEXT } }) }
+const NEWS = [{ am: '2026-11-01', titelId: ID, titel: 'Probe Eins', slug: `probe-${ID}`, meldungen: [{ art: 'neu', platform: 'netflix', anbieter: 'Netflix' }] }]
+/** Handlung-Datei und News antworten; alles andere läuft ins Leere wie im Termin-Test. */
+const antwort = (url: string) => {
+  const rumpf = String(url).includes('synopses/') ? { [ID]: { de: HANDLUNGSTEXT } } : String(url).includes('news.json') ? NEWS : null
+  return rumpf
+    ? { ok: true, status: 200, json: async () => rumpf, text: async () => JSON.stringify(rumpf) }
     : { ok: false, status: 404, json: async () => ({}), text: async () => '' }
+}
 Object.assign(globalThis, { IntersectionObserver: Beobachter, history: { replaceState() {}, pushState() {}, state: null }, location: ort, localStorage: lager, sessionStorage: lager })
 Object.assign(globalThis, { fetch: async (u: string) => antwort(u), cancelAnimationFrame() {}, requestAnimationFrame: () => 0 })
 ignoriereCss()
@@ -68,9 +71,10 @@ console.log('\nTitel mit Handlung und Reihe')
   const reiheStelle = reihe ? stelle(text, reihe.textContent.slice(0, 20)) : -1
   pruefe('die Handlung steht im Panel', handlung >= 0, text)
   pruefe('die Karte „Reihe“ steht im Panel', reiheStelle >= 0, text)
-  pruefe('Handlung steht vor der Reihe', handlung >= 0 && reiheStelle > handlung, { handlung, reiheStelle })
   const neu = stelle(text, 'Neuigkeiten')
-  pruefe('Neuigkeiten (wenn sie erscheinen) stehen nach der Reihe', neu < 0 || neu > reiheStelle, { neu, reiheStelle })
+  pruefe('die Karte „Neuigkeiten“ steht im Panel', neu >= 0, text)
+  pruefe('Handlung steht vor den Neuigkeiten', handlung >= 0 && neu > handlung, { handlung, neu })
+  pruefe('Neuigkeiten stehen vor der Reihe', neu >= 0 && reiheStelle > neu, { neu, reiheStelle })
 }
 
 console.log('\nTitel ohne Reihe (nur ein Teil)')
