@@ -113,10 +113,10 @@ export function teilNameVon(title: Title | undefined, reihenName: string, reihen
   */
   const beschriftung = staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).get(title.id)
   if (beschriftung) {
-    /* Zwei Teile mit derselben Bezeichnung (Pokémon 17115/17873: beide „Staffel 16“): der Kopf hat keine Angabenzeile, die sie trennt. */
+    /* Zwei Teile mit derselben Bezeichnung: nur ein echter Bereich kommt in den Kopf; die bloße Anzahl (Pokémon 17115/17873) stünde über „Auf Deutsch, ≈ N Folgen“ doppelt. */
     const haupt = hauptstaffeln(reihenTeile)
     const zusatz = folgenZusatz(haupt, staffelStaende(haupt, reihenName)).get(title.id)
-    return zusatz ? `${beschriftung} · ${zusatz.text}` : beschriftung
+    return zusatz && !zusatz.anzahl ? `${beschriftung} · ${zusatz.text}` : beschriftung
   }
   return kurzName(rest, voll)
 }
