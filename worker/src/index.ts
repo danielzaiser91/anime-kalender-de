@@ -27,6 +27,7 @@ import {
   type ReleaseLink
 } from './templates.ts'
 import { Ereignisse } from './ereignisse.ts'
+import { ausbleibenMitLog, einmal } from './ausbleiben-messer.ts'
 import { PUSH_CRON, pushSchnellMitLog, pushStuendlich } from './push-takt.ts'
 import { handlePushAbo, handlePushTest } from './push-abo.ts'
 import { type Env } from './env.ts'
@@ -764,7 +765,8 @@ export default {
       ctx.waitUntil(digestMitLog(env, now))
       return
     }
-    if (event.cron === PUSH_CRON) return ctx.waitUntil(Promise.all([starteSchnelleLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e)), pushSchnellMitLog(env, now, () => loadEvents(env))]))
+    const termine = einmal(() => loadEvents(env)) // eine Ladung der Termindatei für Push und Messer
+    if (event.cron === PUSH_CRON) return ctx.waitUntil(Promise.all([starteSchnelleLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e)), pushSchnellMitLog(env, now, termine), ausbleibenMitLog(env, now, termine)]))
     ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env, now).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.
