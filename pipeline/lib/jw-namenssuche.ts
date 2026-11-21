@@ -1,12 +1,11 @@
 /**
- * **JustWatch für Titel ohne TMDB-Kennung: Zuordnung über Namen, Jahr und Art** (Daniel, 06.11.2026: „Miraculous World: New York,
- * United Heroez“ zeigte keinen der vier Dienste, die JustWatch nennt). Der Abruf `fetch-justwatch-audio.ts` ordnet sonst nur über die
- * TMDB-Kennung zu; 859 Titel haben keine (Fehlschlag oder reiner aniSearch-Titel) und wurden nie gefragt.
+ * **JustWatch für Titel ohne TMDB-Kennung: Zuordnung über Namen, Jahr und Art.** Der Abruf `fetch-justwatch-audio.ts` ordnet sonst nur
+ * über die TMDB-Kennung zu; solche Titel (859 am 06.11.2026) wurden nie gefragt.
  *
  * Streng, weil ein Namensabgleich am 29.08.2026 fünfzehn von sechzehn Zuordnungen falsch machte: genau **ein** Treffer muss
  * (1) denselben Namen tragen (gleiche Wortfolge, kein Teilwort wie bei `bewerteTreffer`), (2) im Jahr höchstens um eins abweichen und
- * (3) zur Art passen (Film gegen Serie). Mehrdeutig, fremd (Kennung gehört schon einem anderen unserer Titel) oder kein Treffer:
- * nichts übernehmen, aber zählen.
+ * (3) zur Art passen. Ohne strengen Treffer gilt höchstens das Franchise (JustWatch DE führt keine Staffeln, `passtZumFranchise`).
+ * Mehrdeutig, fremd (Kennung gehört einem anderen unserer Titel) oder kein Treffer: nichts übernehmen, aber zählen.
  */
 import type { Title } from '../../shared/types.ts'
 
@@ -111,8 +110,8 @@ export function geschwisterKennungen(t: Title, andere: Iterable<Title>, tmdbVon:
 }
 
 /**
- * Das Urteil über alle Treffer aller Suchen zu einem Titel; `bekannteTmdb` = Kennungen, die schon einer unserer Titel führt.
- * Ohne strengen Treffer gilt der Franchise-Eintrag (`passtZumFranchise`), und eine Kennung, die nur Geschwister derselben Reihe führen (`geschwister`), ist dann nicht fremd.
+ * Das Urteil über alle Treffer aller Suchen zu einem Titel; `bekannteTmdb` = Kennungen unserer Titel.
+ * Beim Franchise-Eintrag ist eine Kennung, die nur Geschwister (`geschwister`) führen, nicht fremd.
  */
 export function waehleKnoten<K extends NamensKnoten>(t: TitelKurz, knoten: K[], bekannteTmdb: ReadonlySet<number>, geschwister: ReadonlySet<number> = new Set()): NamensUrteil<K> {
   const einmal = (liste: K[]) => liste.filter((k, i, alle) => alle.findIndex((m) => m.id === k.id) === i)
