@@ -1,6 +1,6 @@
 # Cloud-Orchester — Nachtbetrieb mit Cloud-Sitzungen
 
-Stand 21.11.2026, 03:40 UTC (erste Nacht, Auftrag Issue 4420). Alle Zeiten UTC, jede Dauer aus zwei GitHub-Zeitstempeln.
+Stand 21.11.2026, 05:30 UTC (erste Nacht, Auftrag Issue 4420). Alle Zeiten UTC, jede Dauer aus zwei GitHub-Zeitstempeln.
 **Wann lesen:** bevor ein Orchester (Routine + Bauer-Sitzungen) wieder aufgesetzt wird oder Aufgaben nachts in die Cloud gehen.
 
 ## Ablauf
@@ -16,6 +16,14 @@ Stand 21.11.2026, 03:40 UTC (erste Nacht, Auftrag Issue 4420). Alle Zeiten UTC, 
 - 22 Aufgaben: 1 lokal übersprungen, 1 übersprungen (Vorbedingung fehlt), 4 ohne Netz nicht machbar bzw. nur am Datenstand, 3 ohne PR erledigt (Messung/Prüfung), 15 PRs eröffnet.
 - Gemergt durch den Nacht-Merger: PR 4426 (02:57:01), 4430 (02:57:36), 4433 (02:58:10), 4421 (03:18:45), 4425 (03:19:20), 4434 (03:36:27).
 - Bauer-Laufzeiten (Sitzung angelegt → Bericht): schnellste 65 s (A2, Prüfaufgabe ohne PR), typische PR-Aufgabe 7–16 min (A19 02:17:43 → 02:25:00, A13 01:47:19 → 02:03:58), längste 52 min (A8 01:31:24 → 02:23:27, zwei gestapelte PRs, Warten auf die Kette).
+
+## Nachtrag bis 05:30
+
+- Gemergt: PR 4439 (Doku, 03:56:36). Bis 05:30 sonst nichts, weil alle übrigen offenen PRs Stufe 2 ohne Auflagen (Abnahme Dirigent), Workflow-PR (4422) oder „Dirigent entscheidet“ (4436) sind.
+- Abnahmen des Orchesters mit eigener Gegenprobe: PR 4422 (7055993334), 4426 (7055763000, nach main-Nachzug erneut 7056190428), 4421 (7056238363, erneut 7056361601), 4444 (7057794930).
+- Längste Bauer-Laufzeit: A16 86 min (02:59:08 → 04:25:16), davon ca. 25 min ein Kettenlauf, den eine Patch-Notes-Wortzahl kostete, und ein Konflikt nach dem Merge von PR 4434.
+- Ein Bauer ging untätig, bevor er berichtete (A16, Sitzung ab 04:22:47 untätig, Bericht dann doch 04:25:16): Bauer-Sitzungen beenden den Turn, solange die Kette läuft; der Bericht kommt nur, wenn sie wieder geweckt werden.
+- Wiedervorlage A2 nach dem Tageslauf (Lauf 44863889605, success 04:26:46): „offen“ blieb 4. Ursache: der Plausibilitäts-Riegel von „JustWatch frisch“ verwarf das ganze Ergebnis („11 von 36 Treffern ohne Angebot … nichts geschrieben“), weil Wiederfunde ohne Angebot als leer zählten. Fix PR 4444 (abgenommen). Lehre: Riegel und Nachfrage (PR 4318) nie zusammen probiert; ein neuer Nachfrageweg braucht einen Lauftest gegen den Riegel.
 
 ## Was gut lief
 
@@ -33,6 +41,8 @@ Stand 21.11.2026, 03:40 UTC (erste Nacht, Auftrag Issue 4420). Alle Zeiten UTC, 
 | 01:59 | – | Auflagen ließen sich nicht an denselben Bauer zurückgeben: `SendMessage` an eine Cloud-Sitzung wird abgewiesen („credential … only for its own work“). Ersatz: neue Sitzung auf demselben Zweig. | Orchestrator-Sitzung 01:59 |
 | 02:22:41 – 02:28:34 | 6 min | Fehlalarm des Orchestrators: Gegenprobe mutierte die erste Textfundstelle (Z. 70, Altcode) statt Z. 158 → unnötige dritte Runde an PR 4422. | PR 4422: 7055852078, Korrektur 7055941229 |
 | 02:35:38 – 02:55:38 | 20 min | Nacht-Merger mergt nicht, sondern zieht main (Bestandsbau adb5b4819) in die PRs nach; neue Köpfe brauchen neue Kette, Stufe 2 eine neue Abnahme. | Lauf 44856745580; Abnahmen 7056190428, 7056361601 |
+| 04:26:46 – 05:16 | 50 min bis Fix-Abnahme, Wirkung erst 22.11. | Tageslauf schrieb wegen des JustWatch-Riegels nichts; offen 4 statt 1. | Lauf 44863889605; Bericht 7057595132; PR 4444 |
+| 03:56 – 04:25:16 | ≈ 29 min | Ansichten-Messung „Filterfenster am Rechner“ bestand auf main nur durch Rundung (Scroller 403/401 px); +1 px kippte sie (PR 4436). | Urteil 7056913189, Bericht 7057243467 |
 | 01:36 – 03:05 | – | „PR-Aussehen – Lighthouse“ streut bei den Titel-Bytes um > 1 MB (4395 KB gegen 3245 KB), Neustart grün. | PR 4423, Bericht 7055866603 |
 
 ## Verbesserungsvorschläge
