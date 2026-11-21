@@ -138,8 +138,8 @@
     "aenderungen": [
       {
         "datei": "worker/src/index.ts",
-        "suche": "pushSchnellMitLog(env, now, () => loadEvents(env))]))",
-        "ersetze": "pushStuendlich(env, now, () => loadEvents(env), () => loadNews(env)).then(() => undefined)]))"
+        "suche": "pushSchnellMitLog(env, now, termine), ausbleibenMitLog(env, now, termine)]))",
+        "ersetze": "pushStuendlich(env, now, termine, () => loadNews(env)).then(() => undefined), ausbleibenMitLog(env, now, termine)]))"
       }
     ]
   },
