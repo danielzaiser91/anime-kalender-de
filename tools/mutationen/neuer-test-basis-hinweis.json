@@ -1,0 +1,18 @@
+[
+  { "name": "Kontrolle unmutiert", "aenderungen": [], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "nur Status A -> M", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "s === 'A' && NEUER_TEST", "ersetze": "s === 'M' && NEUER_TEST" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Status-Filter entfernt", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "s === 'A' && NEUER_TEST", "ersetze": "NEUER_TEST" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Testdaten-Ausnahme entfernt", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "(?!tools\\/testdaten\\/).*", "ersetze": ".*" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Endung mjs fehlt", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "(mjs|cjs|js|ts|tsx)", "ersetze": "(cjs|js|ts|tsx)" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Endung ts fehlt", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "(mjs|cjs|js|ts|tsx)", "ersetze": "(mjs|cjs|js|tsx)" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Beleg ignoriert (|| true)", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "!neu.length || BASIS_ROT.test(text)", "ersetze": "!neu.length" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Beleg immer akzeptiert", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "!neu.length || BASIS_ROT.test(text)", "ersetze": "!neu.length || true" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Beleg über Zeilen hinweg erlaubt", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "Basis[^\\n]{0,80}\\brot\\b|\\brot\\b[^\\n]{0,80}Basis", "ersetze": "Basis[^]{0,80}\\brot\\b|\\brot\\b[^]{0,80}Basis" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Beleg nur Reihenfolge Basis-rot", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "|\\brot\\b[^\\n]{0,80}Basis", "ersetze": "" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Beleg nur Reihenfolge rot-Basis", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "Basis[^\\n]{0,80}\\brot\\b|", "ersetze": "" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Beleg-Wort ohne Wortgrenze", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "Basis[^\\n]{0,80}\\brot\\b|", "ersetze": "Basis[^\\n]{0,80}rot|" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Meldung nennt nur erste Datei", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "neu.join(', ')", "ersetze": "neu[0]" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Hinweis je Datei statt einer", "aenderungen": [{ "datei": "tools/pr-vorpruefung-hinweise.mjs", "suche": "return [`Neuer Test ${neu.join(', ')}", "ersetze": "return neu.map((n) => `Neuer Test ${n}" }], "tests": ["node tools/pr-vorpruefung-hinweise.test.mjs"] },
+  { "name": "Aufrufer: Text leer übergeben", "aenderungen": [{ "datei": "tools/pr-vorpruefung.mjs", "suche": "neuerTestBasisHinweise(nameStatus, text)", "ersetze": "neuerTestBasisHinweise(nameStatus, '')" }], "tests": ["node tools/pr-vorpruefung-lauf.test.mjs"] },
+  { "name": "Aufrufer: Aufruf entfernt", "aenderungen": [{ "datei": "tools/pr-vorpruefung.mjs", "suche": "...neuerTestBasisHinweise(nameStatus, text), ", "ersetze": "" }], "tests": ["node tools/pr-vorpruefung-lauf.test.mjs"] }
+]
