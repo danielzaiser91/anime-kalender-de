@@ -43,7 +43,7 @@ export const OPTIONS_FAELLE: Record<string, { von: string; name: string; optione
   /* Mit „Staffeln zusammenfassen“ (Adresse `staffeln=1`) zählt der Suchhinweis Karten statt Titel. */
   'attack-on-titan-zusammen': { von: 'attack-on-titan', name: 'Attack on Titan – Staffeln zusammengefasst', optionen: {} },
   'hajime-no-ippo-zusammen': { von: 'hajime-no-ippo', name: 'Hajime no Ippo – Staffeln zusammengefasst', optionen: {} },
-  /* Mockup `reihe-uebersicht` (20.11.2026): große Reihen, je Fall ein anderer geöffneter Titel; die Kennungen sind ak (Stand 20.11.2026). */
+  /* Große Reihen (20.11.2026, Mockup `reihe-uebersicht` seit 21.11.2026 gelöscht): je Fall ein anderer geöffneter Titel; die Kennungen sind ak (Stand 20.11.2026). */
   'pokemon-film': { von: 'pokemon-horizonte', name: 'Pokémon: Der Film – Kyurem gegen den Ritter der Redlichkeit', optionen: { titel: 5726 } },
   'pokemon-concierge': { von: 'pokemon-horizonte', name: 'Die Pokémon-Concierge', optionen: { titel: 14945 } },
   'pokemon-sammeltitel': { von: 'pokemon-horizonte', name: 'Pokémon (Staffel 1–5)', optionen: { titel: 483 } },
