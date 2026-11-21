@@ -610,6 +610,8 @@ pipeline/check-staffel-teil.ts
 pipeline/check-staffel-verdrahtung.ts
 pipeline/check-staffel-von-hand-ablauf.ts
 pipeline/check-staffel-von-hand.ts
+pipeline/check-staffelquelle-widerspruch-bestand-lauf.ts
+pipeline/check-staffelquelle-widerspruch.ts
 pipeline/check-staffelsumme-gruppe.ts
 pipeline/check-staffelsumme.ts
 pipeline/check-staffelzaehlung-franchise.ts
