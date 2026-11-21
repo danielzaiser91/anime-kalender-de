@@ -49,7 +49,7 @@ import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
-import { darfNachfragen, nachfrageUeberPfad } from './lib/jw-nachfrage.ts'
+import { darfNachfragen, nachfrageUeberPfad, zaehltAlsLeer } from './lib/jw-nachfrage.ts'
 import { abrufAlterTage } from './lib/jw-vertrauen.ts'
 import { ladeFrische } from './lib/jw-frische.ts'
 import { ANBIETERLISTEN, listenVorrangAbrufen, seiteVonJustWatch } from './lib/jw-anbieterliste.ts'
@@ -378,7 +378,7 @@ async function frageOffene(offen: Title[], limit: number, tmdb: Record<string, {
         continue
       }
       const angebote = angeboteVon(treffer.offers)
-      if (!angebote.length) z.leer++
+      if (zaehltAlsLeer(vorher, angebote.length)) z.leer++
       bestand[String(t.id)] = {
         geprueftAm: todayIso(),
         /* Eine Antwort vor dem Umbau gilt als bewährt und bekommt kein Datum. */
