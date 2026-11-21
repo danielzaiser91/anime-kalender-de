@@ -38,6 +38,7 @@ assert.equal(nachlaufAlarmZeile([gruen]), undefined)
 const zeile = nachlaufAlarmZeile([gruen, rot])
 assert.match(zeile, /^ALARM Nachlauf auf main rot \(neuester Lauf 2026-11-21T03:00:00Z, 1 rote\/abgebrochene seit dem letzten grünen; Commits aaaaaaa\.\.bbbbbbb, git log aaaaaaa\.\.bbbbbbb; Log: gh run view 9\)$/)
 assert.equal(nachlaufAlarmZeile([rot, { ...gruen, createdAt: '2026-11-21T04:00:00Z' }]), undefined, 'grün nach rot entwarnt')
+assert.match(nachlaufAlarmZeile([rot, gruen]), /neuester Lauf 2026-11-21T03:00:00Z.*Commits aaaaaaa\.\.bbbbbbb/, 'Eingabe absteigend: die Zeit entscheidet, nicht die Reihenfolge')
 assert.equal(nachlaufAlarmZeile([gruen, lauf('cancelled', '2026-11-21T03:00:00Z', 'd')]), undefined, 'von Hand abgebrochen ist kein Alarm')
 assert.equal(nachlaufAlarmZeile([gruen, { status: 'in_progress', conclusion: '', createdAt: '2026-11-21T05:00:00Z' }]), undefined)
 const laeuft = { status: 'in_progress', conclusion: '', createdAt: '2026-11-21T05:00:00Z', headSha: 'f' }
