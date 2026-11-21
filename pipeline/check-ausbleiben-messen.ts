@@ -98,6 +98,11 @@ const staffeln = {
 pruefe('Staffel: höchste mit de-DE, nicht die höchste überhaupt', deutscheStaffel(staffeln) === 'GS3DEDE')
 pruefe('Staffel: keine deutsche -> null', deutscheStaffel({ data: [{ season_sequence_number: 1, versions: [{ audio_locale: 'ja-JP', guid: 'J' }] }] }) === null)
 pruefe('Staffel: Müll -> null', deutscheStaffel(null) === null && deutscheStaffel({}) === null)
+const de = (guid: string) => [{ audio_locale: 'de-DE', guid }]
+pruefe('Staffel: gleiche Nummer, die erste gilt', deutscheStaffel({ data: [{ season_sequence_number: 2, versions: de('ERSTE') }, { season_sequence_number: 2, versions: de('ZWEITE') }] }) === 'ERSTE')
+pruefe('Staffel: ohne Nummer zählt 0, mit Nummer 1 gewinnt', deutscheStaffel({ data: [{ versions: de('OHNE') }, { season_sequence_number: 1, versions: de('EINS') }] }) === 'EINS')
+pruefe('Staffel: Einträge, die keine Objekte sind, werden übergangen', deutscheStaffel({ data: [null, 'x', { season_sequence_number: 1, versions: de('G') }] }) === 'G')
+pruefe('Staffel: Fassung ohne guid wird übergangen', deutscheStaffel({ data: [{ season_sequence_number: 5, versions: [{ audio_locale: 'de-DE' }] }, { season_sequence_number: 1, versions: de('G') }] }) === 'G')
 
 // Serienkennung aus dem Schlüssel
 pruefe('Schlüssel cr-GT…', serieAusSlug('cr-GT00384015') === 'GT00384015' && serieAusSlug('cr-G3KHEVDJ7') === 'G3KHEVDJ7')

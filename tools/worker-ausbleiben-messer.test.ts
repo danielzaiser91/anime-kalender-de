@@ -37,7 +37,7 @@ const TERMINE = [
 const folgen = (deutsch: boolean, nr = 7) => ({ data: [{ episode_number: nr - 1, versions: [{ audio_locale: 'ja-JP' }, { audio_locale: 'de-DE' }] }, { episode_number: nr, versions: [{ audio_locale: 'ja-JP' }, ...(deutsch ? [{ audio_locale: 'de-DE' }] : [])] }] })
 const staffeln = { data: [{ season_sequence_number: 1, versions: [{ audio_locale: 'ja-JP', guid: 'JA' }, { audio_locale: 'de-DE', guid: 'GS1DEDE' }] }] }
 
-const welt = { de: false, episodesStatus: 200, tokenStatus: 200, aufrufe: [] as string[], r2: new Map<string, string>(), puts: 0 }
+const welt = { de: false, episodesStatus: 200, tokenStatus: 200, wirft: '', github: 0, aufrufe: [] as string[], r2: new Map<string, string>(), puts: 0 }
 fetchAttrappe('2026-11-15')
 const basis = globalThis.fetch
 globalThis.fetch = (async (eingabe: RequestInfo | URL, init?: RequestInit) => {
@@ -48,8 +48,12 @@ globalThis.fetch = (async (eingabe: RequestInfo | URL, init?: RequestInit) => {
     welt.aufrufe.push('events')
     return j(TERMINE)
   }
+  if (url.includes('api.github.com')) welt.github++
   if (url.includes('beta-api.crunchyroll.com')) {
     welt.aufrufe.push(url.replace('https://beta-api.crunchyroll.com', ''))
+    await new Promise((fertig) => setTimeout(fertig, 5)) // eine Frist von 0 ms wäre hier schon abgelaufen
+    if (init?.signal?.aborted) throw new Error('abgebrochen (Frist)')
+    if (welt.wirft) throw new Error(welt.wirft)
     if (url.includes('/auth/v1/token')) return welt.tokenStatus === 200 ? j({ access_token: 'T', country: 'US' }) : j({}, welt.tokenStatus)
     if (url.includes('/series/') && url.includes('/seasons')) return j(staffeln)
     if (url.includes('/seasons/GS1DEDE/episodes')) return welt.episodesStatus === 200 ? j(folgen(welt.de, 7)) : j({}, welt.episodesStatus)
@@ -68,6 +72,7 @@ const r2 = {
 async function takt(uhr: number, mitBelege = true): Promise<string> {
   protokoll = []
   welt.aufrufe = []
+  welt.github = 0
   zaehlerZurueck()
   const env = { ...testEnv(neueDatenbank(), 7), ...(mitBelege ? { BELEGE: r2 } : {}) } as unknown as Env
   const offen: Promise<unknown>[] = []
@@ -105,6 +110,7 @@ pruefe(cr().filter((u) => u.includes('/seasons?locale')).length === 2 && cr().fi
 pruefe(cr().every((u) => !u.includes('browse') && !u.includes('&_=')), 'keine Browse-Liste, keine Umgehung des Zwischenspeichers')
 pruefe(welt.aufrufe.filter((u) => u === 'events').length === 1, 'die Termindatei wird je Takt nur einmal geladen (Push und Messer teilen)')
 pruefe(zaehler.d1 === 0, `kein D1 im ganzen Takt (${zaehler.d1})`)
+pruefe(welt.github > 0 && protokoll.some((z) => z.startsWith('[push5] ') && !z.includes('fehlgeschlagen')), 'der Takt bleibt, was er war: Wecker und Push laufen mit')
 pruefe(stand()['GT00384006:7:2026-11-15']?.ohneDeutschAm === SLOT + 10 * MIN && stand()['GT00384006:7:2026-11-15']?.staffel === 'GS1DEDE', 'Stand: ohne Deutsch um 15:10, Staffel gemerkt')
 pruefe(Object.keys(stand()).length === 2, 'nur die zwei echten Termine im Stand (alter Schlüssel, ohne Uhrzeit, später, Netflix, gesehen: nie)')
 
@@ -145,6 +151,25 @@ welt.tokenStatus = 403
 zeile = await takt(SLOT + 30 * MIN)
 pruefe(zeile.includes('token: HTTP 403') && cr().length === 1 && !welt.r2.has('x'), `Token 403: Schluss nach dem Token (${zeile})`)
 welt.tokenStatus = 200
+
+// 7b. HTTP 403, Netzfehler (Text im Protokoll), kein Termin, Aufbewahrung des Stands (genau drei Tage bleiben)
+welt.r2.set(STAND_SCHLUESSEL, '{}')
+welt.episodesStatus = 403
+pruefe((await takt(SLOT + 30 * MIN)).includes('gestoppt: HTTP 403'), 'HTTP 403 der Folgenliste: Schluss')
+welt.episodesStatus = 200
+welt.wirft = 'Netz weg'
+zeile = await takt(SLOT + 30 * MIN)
+pruefe(zeile.includes('token: Netz weg') && cr().length === 1, `Netzfehler beim Token: Text im Protokoll, Schluss (${zeile})`)
+welt.wirft = ''
+const DREI_TAGE = 3 * 24 * 60 * MIN
+welt.r2.set(STAND_SCHLUESSEL, JSON.stringify({ 'ALT:1:x': { slotMs: SLOT + 10 * MIN - DREI_TAGE }, 'ZUALT:1:x': { slotMs: SLOT + 10 * MIN - DREI_TAGE - 1 } }))
+await takt(SLOT + 10 * MIN)
+pruefe('ALT:1:x' in stand() && !('ZUALT:1:x' in stand()) && 'GT00384006:7:2026-11-15' in stand(), 'Stand: genau drei Tage alt bleibt, eine Millisekunde mehr fällt weg')
+const gemerkt = TERMINE.splice(0, TERMINE.length)
+welt.r2.set(STAND_SCHLUESSEL, '{}')
+zeile = await takt(SLOT + 30 * MIN)
+pruefe(zeile === '[ausbleiben] ziele=0' && cr().length === 0, `ohne Termin: ziele=0, kein Abruf (${zeile})`)
+TERMINE.push(...gemerkt)
 
 // 8. Höchstens ZIELE_JE_LAUF Termine je Takt
 const mehr = Array.from({ length: 7 }, (_, i) => ev({ id: `m${i}`, releaseSlug: `cr-GT0000010${i}`, time: '15:00', episode: 1 }))
