@@ -167,10 +167,14 @@ const kurzTexte = { 'a.mjs': "x('data/anisearch-offen.json')\n", 'b.mjs': "x(joi
 pruefe('Namensende: genannte Schreibweisen (Pfad, Name im Literal, Template) bleiben Treffer, `foo.`-Vorsatz nicht', leserIn(new Map(Object.entries(kurzTexte)), [OFFEN]).join() === 'a.mjs,b.mjs,c.mjs,d.mjs')
 
 // 12.11.2026 (PR 3572, Kommentar „ruft tools/pr-nachrechnen-bot-erzeugt.mjs auf oder importiert es, das bewegte Daten liest“): der PR ändert
-// `tools/pr-nachrechnen.mjs`, das die Positivliste der Läufe importiert; die Liste nennt `tv-programm.json` als Muster, liest sie aber nie. Echte Texte aus dem Repo.
+// `tools/pr-nachrechnen.mjs`, das die Positivliste der Läufe importiert; die Liste nennt `tv-programm.json` als Muster, liest sie aber nie.
+// Beide Dateien gibt es seit 21.11.2026 so nicht mehr (Positivliste gelöscht), darum ihr Stand von damals als Text.
 const NACHRECHNEN = 'tools/pr-nachrechnen.mjs'
 const ERZEUGT = 'tools/pr-nachrechnen-bot-erzeugt.mjs'
-const texte3572 = { [NACHRECHNEN]: fs.readFileSync(new URL('./pr-nachrechnen.mjs', import.meta.url), 'utf8'), [ERZEUGT]: fs.readFileSync(new URL('./pr-nachrechnen-bot-erzeugt.mjs', import.meta.url), 'utf8') }
+const texte3572 = {
+  [NACHRECHNEN]: "import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'\nexport const frei = (p) => erzeugteDatei(p)\n",
+  [ERZEUGT]: "export const ERZEUGTE_DATEIEN = [\n  'tv-programm.json',\n]\nexport const erzeugteDatei = (p) => ERZEUGTE_DATEIEN.includes(p.slice(5))\n",
+}
 const TV = 'data/tv-programm.json'
 const leser3572 = leserIn(new Map(Object.entries(texte3572)), [TV])
 pruefe('3572: die Positivliste nennt tv-programm.json, ist aber kein Leser', texte3572[ERZEUGT].includes("'tv-programm.json'") && !leser3572.includes(ERZEUGT), leser3572)
