@@ -2,7 +2,8 @@
 // (gleiche Nummer, Verknüpfer `&&`, damit ein Exit ≠ 0 den Merge verhindert).
 // Kopfschutz (17.11.2026): zusätzlich `--match-head-commit <sha>`, damit ein neuer Kopf nach der Prüfung den Merge selbst scheitern lässt;
 // die sha wird vor dem Nachrechnen gelesen.
-// Anlass: 09.11.2026, ein Hand-Merge ohne Nachrechnen machte main rot (die Kette lief gegen ein altes main). `merge-reihe.sh` ruft
+// Anlass: 09.11.2026, ein Hand-Merge ohne Nachrechnen machte main rot (die Kette lief gegen ein altes main; seit 21.11.2026 holt
+// Nachrechnen main nicht mehr nach, es prüft Prüfer-Sperre, Ersatz und Konflikt). `merge-reihe.sh` ruft
 // pr-nachrechnen selbst auf und enthält den Text `gh pr merge` nicht; es bleibt frei.
 // Zerlegung wie in no-verify-sperre.js (Heredocs weg, Ketten, `bash -c`/`eval` rekursiv); `echo`/`printf`-Text zählt nicht.
 // Bekannte Grenzen: Programm aus Variable (`$g pr merge 5`), `gh`-Alias, Merge über `gh api`, Riegel in einem Unterbefehl
@@ -90,7 +91,7 @@ function pruefe(eingabe) {
   if (eingabe.tool_name !== 'Bash') return null
   const ok = pruefeBefehl(String(eingabe.tool_input?.command ?? ''))
   if (!ok) return null
-  return `„gh pr merge“ ohne Nachrechnen oder ohne --match-head-commit gesperrt: die Kette kann gegen ein altes main gelaufen sein (09.11.2026, main rot), und ein Kopf nach der Prüfung würde mitgemergt. Erlaubter Befehl: ${ok}`
+  return `„gh pr merge“ ohne Nachrechnen oder ohne --match-head-commit gesperrt: Nachrechnen sieht Prüfer-Sperre, Ersatz-PR und Konflikt mit main, und ein Kopf nach der Prüfung würde mitgemergt. Erlaubter Befehl: ${ok}`
 }
 
 module.exports = { pruefe, pruefeBefehl }

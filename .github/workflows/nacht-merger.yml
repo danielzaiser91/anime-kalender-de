@@ -5,8 +5,8 @@ name: Nacht-Merger
 # Regeln: `tools/nacht-merger-wahl.mjs` (Stufe 0/1, Kette grün am Kopf, Prüfer-Urteil ok oder Nachtrag zum Kopf, kein Workflow-Pfad),
 # Ablauf und Riegel (höchstens N Merges je Lauf, Protokollzeile mit Grund): `tools/nacht-merger.mjs`; vor jedem Merge `tools/pr-nachrechnen.mjs`.
 #
-# **Token:** Das GITHUB_TOKEN kann PRs weder wieder öffnen noch Folgeläufe auslösen (Ereignisse von GITHUB_TOKEN starten keine Workflows):
-# ein veralteter PR bekäme nie eine neue Kette, und ein Merge löste weder Deploy noch Bestandsbau aus. Gemergt wird darum nur mit dem
+# **Token:** Das GITHUB_TOKEN kann keine Folgeläufe auslösen (Ereignisse von GITHUB_TOKEN starten keine Workflows):
+# ein Merge löste weder Deploy noch Bestandsbau aus. Gemergt wird darum nur mit dem
 # Secret `NACHT_MERGER_TOKEN` (fine-grained PAT, dieses Repo: Contents, Pull requests, Actions je Read and write). Fehlt es, läuft der Lauf
 # als Trockenlauf mit dem GITHUB_TOKEN (nur lesen) und protokolliert, was er täte.
 
@@ -27,7 +27,7 @@ permissions:
   pull-requests: read
   actions: read
 
-# Zwei Läufe stießen sich gegenseitig die Ketten neu an.
+# Zwei Läufe stießen sich bis 20.11.2026 gegenseitig die Ketten neu an; einer nach dem anderen hält den Merge-Riegel je Lauf.
 concurrency:
   group: nacht-merger
   cancel-in-progress: false
