@@ -4462,3 +4462,7 @@ Messung an `public/data` (Stand 18.11.2026) gegen `data/justwatch-audio.json`, `
 | Konflikt zweier Messungen am selben Dienst | Ishura 161476 (Disney+: Handbeleg 15.11. „Widersprüchliche Meldungen zu Folge 1–12“, Seite meldet für Folge 1, 9, 12 de; JustWatch de) | nur dieser Titel | Handprüfung nötig (Tonspuren am Dienst ansehen); bis dahin Nein |
 
 **Zahl der Wege vorher/nachher: 0 → 0.** Keine Zeile Code geändert, weil keine Verluststelle ein Fehler war; ein Umbau für 3 Titel (geschätzter Termin) würde eine erfundene Verfügbarkeit riskieren. Messskripte lagen nur im Scratchpad.
+
+## Crunchyroll anonym: leere Staffelliste ist kein Nein (21.11.2026)
+
+Der anonyme Zugang (`/content/v2/cms/series/<id>/seasons`) antwortet bei Sammelreihen mit HTTP 200 und einer leeren Staffelliste, ohne Fehlerfeld — gemessen an Detektiv Conan `GVDHX8DWX` beim Streaming-Durchgang C1/C2 (29 Titel ab 2020). Eine stille Null ist deshalb kein Befund „keine deutsche Fassung“: Das Nein stützt sich in diesem Fall nur auf Katalog und Suche, und das wird im Bericht so genannt. Wer eine Staffelliste auswertet, behandelt `total: 0` bei einer Reihe mit bekannten Folgen als „nicht gelesen“, nicht als „nicht vorhanden“.
