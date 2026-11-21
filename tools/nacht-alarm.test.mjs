@@ -62,22 +62,22 @@ assert.match(nachtText(ghMit(JSON.stringify([lauf('failure', vor(3))])), 'o/r', 
 assert.equal(nachtText(ghMit(new Error('gh weg\nzweite Zeile')), 'o/r', JETZT), 'ALARM? Läufe der Nachtprüfung nicht lesbar: gh weg')
 assert.match(nachtText(ghMit('kein json'), 'o/r', JETZT), /^ALARM\? Läufe der Nachtprüfung nicht lesbar: /)
 
-// Verdrahtung in rotAlarmText: die Nachtzeile steht nach der Deploy-Zeile; nur die Nachtprüfung ist rot, Bestandsbau und Deploy sind grün.
+// Verdrahtung in rotAlarmText: die Nachtzeile steht nach der Deploy-Zeile (danach nur noch die Nachlaufzeile); nur die Nachtprüfung ist rot, Bestandsbau und Deploy sind grün.
 const ghNachtRot = (...a) => JSON.stringify(a.includes('nacht-pruefung.yml') ? [lauf('failure', vor(3))] : [lauf('success', vor(3))])
 const zeilen = rotAlarmText(ghNachtRot, 'o/r', JETZT).split('\n')
-assert.equal(zeilen.at(-2), 'Deploy: kein Alarm')
-assert.match(zeilen.at(-1), /^ALARM Nachtprüfung rot/)
-assert.ok(!zeilen.slice(0, -1).some((z) => z.startsWith('ALARM ')), 'Bestandsbau und Deploy melden keinen Alarm')
+assert.equal(zeilen.at(-3), 'Deploy: kein Alarm')
+assert.match(zeilen.at(-2), /^ALARM Nachtprüfung rot/)
+assert.ok(!zeilen.filter((z, i) => i !== zeilen.length - 2).some((z) => z.startsWith('ALARM ')), 'Bestandsbau und Deploy melden keinen Alarm')
 const ghAlleGruen = (...a) => JSON.stringify([lauf('success', vor(3))])
-assert.equal(rotAlarmText(ghAlleGruen, 'o/r', JETZT).split('\n').at(-1), 'Nachtprüfung: kein Alarm')
+assert.equal(rotAlarmText(ghAlleGruen, 'o/r', JETZT).split('\n').at(-2), 'Nachtprüfung: kein Alarm')
 // Ein Lesefehler der Nachtprüfung lässt die anderen Zeilen stehen.
 const ghNachtKaputt = (...a) => {
   if (a.includes('nacht-pruefung.yml')) throw new Error('nacht kaputt')
   return JSON.stringify([lauf('success', vor(3))])
 }
 const kaputt = rotAlarmText(ghNachtKaputt, 'o/r', JETZT).split('\n')
-assert.equal(kaputt.at(-1), 'ALARM? Läufe der Nachtprüfung nicht lesbar: nacht kaputt')
-assert.equal(kaputt.at(-2), 'Deploy: kein Alarm')
+assert.equal(kaputt.at(-2), 'ALARM? Läufe der Nachtprüfung nicht lesbar: nacht kaputt')
+assert.equal(kaputt.at(-3), 'Deploy: kein Alarm')
 
 // Der echte Aufrufer als Prozess: laeufe-aufraeumen --trocken druckt die Zeile (gh als Kulisse; Datum 2999 liegt in der Zukunft, ist also nie „nicht gestartet“).
 const stub = (laeufe) =>

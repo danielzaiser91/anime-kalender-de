@@ -7,7 +7,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { wacheZeilen } from './wache-bilanz.mjs'
 
-const RUHIG_ROT = ['Bestandsbau: kein Alarm (letzter grüner Lauf x, 0 rote/abgebrochene danach)', 'Deploy: kein Alarm', 'Nachtprüfung: kein Alarm']
+const RUHIG_ROT = ['Bestandsbau: kein Alarm (letzter grüner Lauf x, 0 rote/abgebrochene danach)', 'Deploy: kein Alarm', 'Nachtprüfung: kein Alarm', 'Nachlauf: kein Alarm']
 const NAMEN = 'Bestandsbau, Fehlerschritte, Deploy, Nachtprüfung, Synchro-Wartezeit, Quellen'
 
 // Ruhig: sechs Prüfungen, genau eine Zeile.
