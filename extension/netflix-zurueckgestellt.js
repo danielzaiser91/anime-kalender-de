@@ -304,6 +304,12 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
       return super.set(kennung, grund)
     }
 
+    /** Ein Urteil „nicht bei Netflix“ (gemeldet): 1 Tag zurückgestellt, ohne Eintrag in dieser Lauf-Map (der Bericht zählt es als Urteil, nicht als übersprungen). */
+    dauerhaft(kennung, grund) {
+      const am = jetzt()
+      aendern(String(kennung), { grund, bis: zurueckBis(grund, null, am), am }, 'gesetzt')
+    }
+
     /** Start eines Durchgangs: auch die „nicht bei Netflix“-Urteile des vorigen Laufs gehen (Zählung des Endberichts). */
     clear() {
       super.clear()
