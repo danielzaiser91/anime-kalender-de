@@ -46,8 +46,8 @@ export function ausbleibenLauf(termine: ReleaseEvent[], jetzt: Date): { imFenste
   for (const e of imFenster) {
     const zustand = terminZustand(e, jetzt)
     if (zustand === 'ausgeblieben') ausgeblieben++
-    if (zustand === 'faellig') faellig++
-    if (zustand !== 'ausgeblieben' && zustand !== 'faellig') continue
+    else if (zustand === 'faellig') faellig++
+    else continue
     if (faelligeArten(berlinToUtc(e.date, e.time ?? '23:59').getTime(), {}, jetzt.getTime()).length > 0) nachzusehen++
   }
   return { imFenster: imFenster.length, ausgeblieben, faellig, nachzusehen }
@@ -83,7 +83,7 @@ export function main(args: string[], jetzt: Date = new Date()): number {
   try {
     termine = JSON.parse(readFileSync(pfad, 'utf8'))
   } catch (err) {
-    console.log(`✖ ${pfad} nicht lesbar: ${err instanceof Error ? err.message : err}`)
+    console.log(`✖ ${pfad} nicht lesbar: ${(err as Error).message}`)
     return 2
   }
   if (!Array.isArray(termine) || termine.length === 0 || !(grenze >= 0) || !(laeufe >= 1)) {

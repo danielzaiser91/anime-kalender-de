@@ -85,6 +85,7 @@ try {
   console.log = log
   pruefe(vorgabe === 0 && zeilen[ersteZeilen - 1].includes('21 Läufe') && zeilen[ersteZeilen - 1].includes('Grenze 100000 ms'), 'main: ohne --laeufe 21 Läufe')
   pruefe(zeilen[ersteZeilen].includes('Eingabe unbrauchbar: 0 Termine') && zeilen[ersteZeilen + 1].includes('nicht lesbar'), 'main: beide Fehlerwege nennen ihren Grund')
+  pruefe(/Median \d+\.\d\d ms, Höchst \d+\.\d\d ms/.test(zeilen[0]), 'main: Zeiten mit zwei Nachkommastellen')
   pruefe(ohneLaeufe === 2 && negativ === 2 && einLauf === 0, 'main: 0 Läufe und negative Grenze → Exit 2, 1 Lauf ist erlaubt')
   pruefe(gruen === 0, 'main: weit unter der Grenze → Exit 0')
   pruefe(rot === 1, 'main: Grenze 0 → Exit 1')
