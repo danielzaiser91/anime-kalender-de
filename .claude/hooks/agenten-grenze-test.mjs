@@ -16,7 +16,7 @@ const neueSitzung = () => {
   fs.mkdirSync(path.join(tmp, 'sitzung', 'subagents'), { recursive: true })
   return { transcript: path.join(tmp, 'sitzung.jsonl'), sub: path.join(tmp, 'sitzung', 'subagents'), plaetze: path.join(tmp, 'sitzung', 'agent-plaetze') }
 }
-const eingabe = (s, typ) => ({ transcript_path: s.transcript, tool_input: { subagent_type: typ, description: 'x' } })
+const eingabe = (s, typ, prompt = 'Auftrag\nLokal nötig: Edge-Login im Test') => ({ transcript_path: s.transcript, tool_input: { subagent_type: typ, description: 'x', prompt } })
 
 const lauf = (input) => new Promise((resolve) => {
   const k = spawn(process.execPath, [hook], { stdio: ['pipe', 'pipe', 'inherit'] })
@@ -97,5 +97,25 @@ for (let runde = 0; runde < 10; runde++) {
   pruef('Prüferdatei ersetzt keinen Bauer-Platz → 3. Start verweigert', pruefe(eingabe(s, 'bauer'), jetzt + 1000) !== null)
 }
 
-console.log(fehler ? `${fehler} ROT` : 'agenten-grenze-test: alles grün (10 Parallelrunden, Prüfer, Verfall, Ersetzung)')
+// 7) Remote zuerst (21.11.2026): schwere Typen lokal nur mit „Lokal nötig: <Grund>“, ohne Zeile kein Platz belegt.
+{
+  const s = neueSitzung()
+  const vorher = process.env.CLAUDE_CODE_REMOTE
+  delete process.env.CLAUDE_CODE_REMOTE
+  const jetzt = Date.now()
+  const ohne = pruefe(eingabe(s, 'bauer', 'Baue X und öffne einen PR'), jetzt)
+  pruef('Bauer ohne „Lokal nötig:“ → verweigert mit Remote-Hinweis', ohne !== null && ohne.includes('Remote zuerst'))
+  pruef('verweigerter Start belegt keinen Platz', !fs.existsSync(s.plaetze) || fs.readdirSync(s.plaetze).length === 0)
+  pruef('leerer Grund → verweigert', pruefe(eingabe(s, 'general-purpose', 'Lokal nötig: '), jetzt) !== null)
+  pruef('leerer Grund mit Folgezeile → verweigert', pruefe(eingabe(s, 'general-purpose', 'Lokal nötig:\nBaue X und öffne einen PR'), jetzt) !== null)
+  pruef('Zeile mitten im Auftrag → erlaubt', pruefe(eingabe(neueSitzung(), 'analyst', 'Miss Y.\nLokal nötig: Meldungskopie liegt nur lokal\nDanach Bericht.'), jetzt) === null)
+  pruef('Explore ohne Zeile → erlaubt', pruefe(eingabe(neueSitzung(), 'Explore', 'Suche Z'), jetzt) === null)
+  pruef('isolation remote ohne Zeile → erlaubt', pruefe({ transcript_path: neueSitzung().transcript, tool_input: { subagent_type: 'bauer', prompt: 'X', isolation: 'remote' } }, jetzt) === null)
+  process.env.CLAUDE_CODE_REMOTE = 'true'
+  pruef('in der Cloud ohne Zeile → erlaubt', pruefe(eingabe(neueSitzung(), 'bauer', 'Baue X'), jetzt) === null)
+  if (vorher === undefined) delete process.env.CLAUDE_CODE_REMOTE
+  else process.env.CLAUDE_CODE_REMOTE = vorher
+}
+
+console.log(fehler ? `${fehler} ROT` : 'agenten-grenze-test: alles grün (10 Parallelrunden, Prüfer, Verfall, Ersetzung, Remote zuerst)')
 process.exit(fehler ? 1 : 0)

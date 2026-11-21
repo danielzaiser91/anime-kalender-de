@@ -132,10 +132,23 @@ function reserviere(ordner, laufend, jetzt) {
   return false
 }
 
+// Daniel 21.11.2026: „lokal nur was nur lokal erledigt werden kann“ — zwei lokale Bauer taten Cloud-fähige Arbeit.
+// Schwere Typen brauchen deshalb im Auftrag eine Zeile „Lokal nötig: <Grund>“; leichte Lese-Agenten und die Cloud selbst nicht.
+const LEICHT = new Set(['pruefer', 'Explore', 'Plan', 'web-fetch', 'claude-code-guide', 'statusline-setup'])
+const LOKAL_NOETIG = /^[ \t]*Lokal nötig:[ \t]*\S.{5,}/m
+
+function lokalUngenannt(typ, toolInput, env) {
+  if (LEICHT.has(typ) || env.CLAUDE_CODE_REMOTE === 'true' || toolInput.isolation === 'remote') return null
+  if (LOKAL_NOETIG.test(toolInput.prompt || '')) return null
+  return `Remote zuerst (Daniel 13.11./21.11.2026): ${typ} lokal nur mit einer Zeile „Lokal nötig: <Grund>“ im Auftrag (Edge-Login, lokale Mods/Hooks, Meldungskopie, Dateien außerhalb des Repos). Sonst als Cloud-Sitzung (start_session target "cloud") bzw. Routine. Hook .claude/hooks/agenten-grenze.js.`
+}
+
 function pruefe(input, jetzt = Date.now()) {
   const typ = (input.tool_input && input.tool_input.subagent_type) || 'general-purpose'
   // Ohne effort erbt Opus das medium aus der Agentendefinition; Tier careful heißt Opus high (Daniel, 18.10.2026: die Anzeige zeigte „Opus 5.5 · medium“).
   if (input.tool_input && input.tool_input.model === 'opus' && !input.tool_input.effort) return 'Opus ohne effort startet mit dem medium der Agentendefinition. Tier careful = effort "high" (heavy = "xhigh") ausdrücklich mitgeben. Skill delegieren-und-parallelisieren, Modell je Tier.'
+  const grund = lokalUngenannt(typ, input.tool_input || {}, process.env)
+  if (grund) return grund
   if (AUSGENOMMEN.has(typ) || !input.transcript_path) return null
   const ordner = path.join(input.transcript_path.replace(/\.jsonl$/, ''), 'subagents')
   const gezaehlt = laufendeAgenten(ordner, jetzt).filter((a) => !AUSGENOMMEN.has(a.typ))

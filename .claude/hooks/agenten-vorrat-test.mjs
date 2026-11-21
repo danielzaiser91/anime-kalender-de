@@ -63,7 +63,7 @@ const ein = { transcript_path: transcript, cwd: path.join(projekt, '_wt-x'), ses
 {
   // Grenz-Hook: lokal höchstens GRENZE Nicht-Prüfer, Prüfer starten immer.
   for (const f of fs.readdirSync(sub)) fs.rmSync(path.join(sub, f))
-  const start = (typ) => grenzePruefe({ transcript_path: transcript, tool_input: { subagent_type: typ } })
+  const start = (typ) => grenzePruefe({ transcript_path: transcript, tool_input: { subagent_type: typ, prompt: 'Auftrag\nLokal nötig: Hook-Test' } })
   pruef('lokale Grenze ist 2', GRENZE === 2)
   for (let i = 1; i < GRENZE; i++) laeuft(`g${i}`, 'bauer')
   laeuft('p2', 'pruefer')
