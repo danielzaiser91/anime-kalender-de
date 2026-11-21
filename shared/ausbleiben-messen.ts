@@ -45,7 +45,7 @@ const hatDeDE = (x: unknown): boolean => versionen(x).some((v) => v.audio_locale
  */
 export function lesungAusFolgenliste(antwort: unknown, folge: number, erstrahltNachMs?: number): Lesung {
   if (!istObjekt(antwort) || !Array.isArray(antwort.data) || antwort.data.length === 0) return { art: 'keine' }
-  const jung = (e: Record<string, unknown>) => erstrahltNachMs === undefined || (typeof e.episode_air_date === 'string' && Date.parse(e.episode_air_date) >= erstrahltNachMs)
+  const jung = (e: Record<string, unknown>) => erstrahltNachMs === undefined || Date.parse(String(e.episode_air_date)) >= erstrahltNachMs // ohne Datum: NaN, zählt nicht
   const eintraege = antwort.data.filter((e) => istObjekt(e) && e.episode_number === folge && jung(e))
   return { art: 'auskunft', vorhanden: eintraege.length > 0, deutsch: eintraege.some(hatDeDE) }
 }

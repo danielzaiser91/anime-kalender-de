@@ -123,12 +123,14 @@ async function takt(uhr: number, mitBelege = true): Promise<string> {
   return protokoll.find((z) => z.startsWith('[ausbleiben]')) ?? ''
 }
 const cr = () => welt.aufrufe.filter((u) => u !== 'events')
-const stand = (): Record<string, { gesehenAm?: number; ohneDeutschAm?: number; letzteLesung?: number; staffel?: string }> => JSON.parse(welt.r2.get(STAND_SCHLUESSEL) ?? '{}')
+const stand = (): Record<string, { slotMs?: number; gesehenAm?: number; ohneDeutschAm?: number; letzteLesung?: number; staffel?: string }> => JSON.parse(welt.r2.get(STAND_SCHLUESSEL) ?? '{}')
 
 // 0. Auswahl der Ziele über Mitternacht Berlin (Winter- und Sommerzeit): Termin 00:30 des Folgetags und 23:30 des Vortags
 const nacht = (id: string, date: string, time: string) => ev({ id, releaseSlug: `cr-${id}`, date, time, episode: 1 })
 const wintersZiele = waehleZiele([nacht('GTSPAET', '2026-11-16', '00:30'), nacht('GTFRUEH', '2026-11-15', '23:30'), nacht('GTFERN', '2026-11-18', '00:30')] as never, new Date(Date.UTC(2026, 10, 15, 23, 50)))
 pruefe(JSON.stringify(wintersZiele.map((z) => [z.serie, z.slotMs])) === JSON.stringify([['GTFRUEH', Date.UTC(2026, 10, 15, 22, 30)], ['GTSPAET', Date.UTC(2026, 10, 15, 23, 30)]]), `Winter 00:50 Berlin: 23:30 und 00:30 gewählt, früherer zuerst, Termin in drei Tagen nicht (${JSON.stringify(wintersZiele)})`)
+const ohneFolge = [{ ...nacht('GTOHNE1', '2026-11-15', '23:30'), episode: undefined }, { ...nacht('GTOHNE2', '2026-11-15', '23:30'), episode: null }, nacht('GTMIT', '2026-11-15', '23:30')]
+pruefe(JSON.stringify(waehleZiele(ohneFolge as never, new Date(Date.UTC(2026, 10, 15, 23, 50))).map((z) => z.serie)) === '["GTMIT"]', 'Termin ohne Folgennummer (fehlt oder null) ist kein Ziel')
 const sommerZiele = waehleZiele([nacht('GTSOMMER', '2026-07-13', '00:30')] as never, new Date(Date.UTC(2026, 6, 12, 22, 40)))
 pruefe(sommerZiele.length === 1 && sommerZiele[0].slotMs === Date.UTC(2026, 6, 12, 22, 30), 'Sommer: 00:30 Berlin ist 22:30Z des Vortags')
 
@@ -330,6 +332,10 @@ zeile = await takt(SLOT + 70 * MIN)
 const s11 = stand()
 pruefe(zeile.includes('ziele=5 dran=4') && s11['GT00000299:1:2026-11-15']?.letzteLesung === SLOT + 70 * MIN, `A4: der frische Termin wird gelesen (${zeile})`)
 pruefe(Object.values(s11).filter((s) => s.letzteLesung === SLOT + 70 * MIN).length === 4 && s11['GT00000204:1:2026-11-15']?.letzteLesung === SLOT + 5 * MIN, 'A4: vom Rückstand nur drei, der späteste wartet')
+// ein verschobener Termin (Stand mit altem Slot und früherer Lesung) ist ebenfalls frisch
+welt.r2.set(STAND_SCHLUESSEL, JSON.stringify({ ...Object.fromEntries([1, 2, 3, 4].map((i) => [`GT0000020${i}:1:2026-11-15`, { slotMs: SLOT, letzteLesung: SLOT + 5 * MIN, ohneDeutschAm: SLOT + 5 * MIN }])), 'GT00000299:1:2026-11-15': { slotMs: SLOT, letzteLesung: SLOT + 5 * MIN, ohneDeutschAm: SLOT + 5 * MIN } }))
+await takt(SLOT + 70 * MIN)
+pruefe(stand()['GT00000299:1:2026-11-15']?.letzteLesung === SLOT + 70 * MIN && stand()['GT00000299:1:2026-11-15']?.slotMs === SLOT + 60 * MIN, 'A4: verschobener Termin kommt vor dem Rückstand dran, mit neuem Slot')
 
 // 11h. A5: Folge der Vorstaffel (Staffel 2 ohne Deutsch): alte Folge zählt nicht, junge schon
 setze(A)
@@ -343,6 +349,17 @@ welt.folgenAntwort = eintrag('2026-11-14T10:00:00Z')
 welt.r2.set(STAND_SCHLUESSEL, '{}')
 zeile = await takt(SLOT + 30 * MIN)
 pruefe(zeile.includes('"erschienen":1'), `A5: Folge 7 vom Vortag zählt (${zeile})`)
+// Grenze: genau 21 Tage vor dem Termin zählt, eine Sekunde davor nicht; ohne Datum nie
+for (const [datum, soll] of [['2026-10-25T14:00:00Z', '"erschienen":1'], ['2026-10-25T13:59:59Z', '"unbekannt":1']] as const) {
+  welt.folgenAntwort = eintrag(datum)
+  welt.r2.set(STAND_SCHLUESSEL, '{}')
+  zeile = await takt(SLOT + 30 * MIN)
+  pruefe(zeile.includes(soll), `A5: Folge vom ${datum} gegen Termin 15.11. 14:00Z: ${soll} (${zeile})`)
+}
+welt.folgenAntwort = { data: [{ episode_number: 7, versions: [{ audio_locale: 'de-DE' }] }] }
+welt.r2.set(STAND_SCHLUESSEL, '{}')
+zeile = await takt(SLOT + 30 * MIN)
+pruefe(zeile.includes('"unbekannt":1'), `A5: Folge der Vorstaffel ohne Datum zählt nicht (${zeile})`)
 welt.staffeln = staffeln
 welt.folgenAntwort = null
 

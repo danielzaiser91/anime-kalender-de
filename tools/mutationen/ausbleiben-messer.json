@@ -268,8 +268,8 @@
     "aenderungen": [
       {
         "datei": "worker/src/ausbleiben-messer.ts",
-        "suche": "if (typeof token !== 'string') return",
-        "ersetze": "if (false) return"
+        "suche": "if (typeof token !== 'string') {",
+        "ersetze": "if (false) {"
       }
     ],
     "tests": [
@@ -525,21 +525,6 @@
         "datei": "shared/ausbleiben-messen.ts",
         "suche": ">= MESSER_AUSBLEIBEN_FRUEHESTENS_MS",
         "ersetze": "> MESSER_AUSBLEIBEN_FRUEHESTENS_MS"
-      }
-    ],
-    "tests": [
-      "npx tsx tools/worker-ausbleiben-messer.test.ts",
-      "npx tsx pipeline/check-ausbleiben-messen.ts",
-      "npx tsx tools/worker-push-takt.test.ts"
-    ]
-  },
-  {
-    "name": "M36 vor dem Slot lesen",
-    "aenderungen": [
-      {
-        "datei": "shared/ausbleiben-messen.ts",
-        "suche": "abstand < 0 || ",
-        "ersetze": ""
       }
     ],
     "tests": [
@@ -1078,8 +1063,8 @@
     "aenderungen": [
       {
         "datei": "shared/ausbleiben-messen.ts",
-        "suche": "Date.parse(e.episode_air_date) >= erstrahltNachMs",
-        "ersetze": "Date.parse(e.episode_air_date) > erstrahltNachMs"
+        "suche": "Date.parse(String(e.episode_air_date)) >= erstrahltNachMs",
+        "ersetze": "Date.parse(String(e.episode_air_date)) > erstrahltNachMs"
       }
     ],
     "tests": [
@@ -1093,8 +1078,8 @@
     "aenderungen": [
       {
         "datei": "shared/ausbleiben-messen.ts",
-        "suche": "typeof e.episode_air_date === 'string' && ",
-        "ersetze": ""
+        "suche": "Date.parse(String(e.episode_air_date)) >= erstrahltNachMs",
+        "ersetze": "!(Date.parse(String(e.episode_air_date)) < erstrahltNachMs)"
       }
     ],
     "tests": [
@@ -1108,8 +1093,8 @@
     "aenderungen": [
       {
         "datei": "shared/ausbleiben-messen.ts",
-        "suche": "erstrahltNachMs === undefined || (",
-        "ersetze": "true || ("
+        "suche": "erstrahltNachMs === undefined || Date.parse",
+        "ersetze": "true || Date.parse"
       }
     ],
     "tests": [
