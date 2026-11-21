@@ -1,0 +1,1166 @@
+[
+  {
+    "name": "Kontrolle (unmutiert)",
+    "aenderungen": [],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M1 index: Messer nicht gerufen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/index.ts",
+        "suche": ", ausbleibenMitLog(env, now, termine)]))",
+        "ersetze": "]))"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M2 index: Messer eigene Ladung",
+    "aenderungen": [
+      {
+        "datei": "worker/src/index.ts",
+        "suche": "ausbleibenMitLog(env, now, termine)",
+        "ersetze": "ausbleibenMitLog(env, now, () => loadEvents(env))"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M3 index: Push eigene Ladung",
+    "aenderungen": [
+      {
+        "datei": "worker/src/index.ts",
+        "suche": "pushSchnellMitLog(env, now, termine)",
+        "ersetze": "pushSchnellMitLog(env, now, () => loadEvents(env))"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M4 einmal ohne Merken",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "(versprechen ??= lade())",
+        "ersetze": "lade()"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M5 volle Stunde nicht ausgelassen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (jetzt.getUTCMinutes() === 0) return 'volle Stunde",
+        "ersetze": "if (false) return 'volle Stunde"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M6 ohne Ablage-Weiche",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (!env.BELEGE) return 'aus: keine Ablage'",
+        "ersetze": "if (false) return 'aus: keine Ablage'"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M7 Schalter startsWith an",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": ".trim() === 'an'",
+        "ersetze": ".trim().startsWith('an')"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M8 fehlender Schalter = an",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": ".trim() === 'an' : false",
+        "ersetze": ".trim() === 'an' : true"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M9 ohneSichtung-Filter weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "!e.ohneSichtung || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M10 Plattform-Filter weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "e.platform !== 'crunchyroll' || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M11 Uhrzeit-Filter weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "!e.time || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M12 Folgen-Filter weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "e.episode == null || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M13 Sortierung umgedreht",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "a.slotMs - b.slotMs",
+        "ersetze": "b.slotMs - a.slotMs"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M14 Vorfilter Datum weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "imTagesfenster(termine, jetzt, jetzt)",
+        "ersetze": "termine"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M15 Aufbewahrung < statt <=",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "jetztMs - s.slotMs <= STAND_AUFBEWAHREN_MS",
+        "ersetze": "jetztMs - s.slotMs < STAND_AUFBEWAHREN_MS"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M16 Kappe +1",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": ".slice(0, ZIELE_JE_LAUF)",
+        "ersetze": ".slice(0, ZIELE_JE_LAUF + 1)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M17 lesungFaellig weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "const faellig = ziele.filter((z) => lesungFaellig(standFuer(stand[z.schluessel], z.slotMs), jetztMs))",
+        "ersetze": "const faellig = ziele.filter(() => true)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M18 Token-Fehler weiter",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (typeof token !== 'string') return",
+        "ersetze": "if (false) return"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M19 403 kein Stopp",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "r.status === 403 || r.status === 429",
+        "ersetze": "r.status === 429"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M20 429 kein Stopp",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "r.status === 403 || r.status === 429",
+        "ersetze": "r.status === 403"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M21 !r.ok weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (!r.ok) return",
+        "ersetze": "if (false) return"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M22 catch wirft",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "return { fehler: String((err as Error).message ?? err).slice(0, 60) }",
+        "ersetze": "throw err"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M23 Frist weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "{ ...init, signal: AbortSignal.timeout(8000) }",
+        "ersetze": "{ ...init }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M24 Staffel immer holen",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (!staffel) {",
+        "ersetze": "if (true) {"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M25 Stopp Staffelliste ignoriert",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if ('stopp' in s) return s",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M26 Stopp Folgenliste ignoriert",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if ('stopp' in e) return e",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M27 break -> continue",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "{ stopp = r.stopp; await sperren(); break }",
+        "ersetze": "{ stopp = r.stopp; await sperren(); continue }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M28 break -> return (Stand verloren)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "{ stopp = r.stopp; await sperren(); break }",
+        "ersetze": "{ return 'gestoppt: ' + r.stopp }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M29 Stand-Schluessel falsch",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "await env.BELEGE.put(STAND_SCHLUESSEL",
+        "ersetze": "await env.BELEGE.put('x'"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M30 Staffel nicht gemerkt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "...(r.staffel ? { staffel: r.staffel } : {})",
+        "ersetze": "...({})"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M31 catch in MitLog weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": ".catch((err) => fehlerLog('[ausbleiben] fehlgeschlagen', err))",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M32 D1-Aufruf eingeschleust",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (!(await istAn(env))) return 'aus: Schalter'",
+        "ersetze": "if (!(await istAn(env))) return 'aus: Schalter'; await (env as any).DB.prepare('SELECT 1').first()"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M33 trim weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "(await o.text()).trim()",
+        "ersetze": "(await o.text())"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M34 Monotonie weg",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "if (stand.gesehenAm !== undefined || lesung.art",
+        "ersetze": "if (lesung.art"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M35 Grenze > statt >=",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": ">= MESSER_AUSBLEIBEN_FRUEHESTENS_MS",
+        "ersetze": "> MESSER_AUSBLEIBEN_FRUEHESTENS_MS"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M36 vor dem Slot lesen",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "abstand < 0 || ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M37 24h >= statt >",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "abstand > FAELLIG_HOECHSTENS_MS",
+        "ersetze": "abstand >= FAELLIG_HOECHSTENS_MS"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M38 de-DE -> nicht ja-JP",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "some((v) => v.audio_locale === 'de-DE')",
+        "ersetze": "some((v) => v.audio_locale !== 'ja-JP')"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M39 Staffel >= (letzte gleiche)",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "nr > beste.nr",
+        "ersetze": "nr >= beste.nr"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M40 Slug ohne Anker",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "/^cr-(G[A-Z0-9]+)",
+        "ersetze": "/cr-(G[A-Z0-9]+)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M41 Nachbarfolge zaehlt",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "e.episode_number === folge",
+        "ersetze": "e.episode_number <= folge"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M42 unbekannt -> ausgeblieben",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "if (stand.ohneDeutschAm === undefined) return 'unbekannt'",
+        "ersetze": "if (stand.ohneDeutschAm === undefined) return 'ausgeblieben'"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M43 nicht vorhanden zaehlt als ohne Deutsch",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "return lesung.vorhanden ? { ...stand, ohneDeutschAm: jetztMs } : stand",
+        "ersetze": "return { ...stand, ohneDeutschAm: jetztMs }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "M44 leere Liste = Auskunft",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": " || antwort.data.length === 0",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A1 verschobener Termin: alter Stand gilt",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "if (alt.slotMs === slotMs) return alt",
+        "ersetze": "if (true) return alt"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A1 neuer Slot: Sichtung verloren",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "...(alt.gesehenAm !== undefined ? { gesehenAm: alt.gesehenAm } : {})",
+        "ersetze": "...({})"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A1 neuer Slot: Staffel verloren",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "...(alt.staffel ? { staffel: alt.staffel } : {})",
+        "ersetze": "...({})"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A1 neuer Slot ohne Stand: alter Slot",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "if (!alt) return { slotMs }",
+        "ersetze": "if (!alt) return { slotMs: 0 }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A1 Loop: alter Slot im Takt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "const alt = standFuer(stand[z.schluessel], z.slotMs)",
+        "ersetze": "const alt = stand[z.schluessel] ?? { slotMs: z.slotMs }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A1 dran: alter Slot",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "const faellig = ziele.filter((z) => lesungFaellig(standFuer(stand[z.schluessel], z.slotMs), jetztMs))",
+        "ersetze": "const faellig = ziele.filter((z) => lesungFaellig(stand[z.schluessel] ?? { slotMs: z.slotMs }, jetztMs))"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Sperre ignoriert",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "o ? jetztMs < Number(await o.text()) : false",
+        "ersetze": "false"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Sperre bis <= statt <",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "jetztMs < Number(await o.text())",
+        "ersetze": "jetztMs <= Number(await o.text())"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Sperre ohne Ablage = gesperrt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "o ? jetztMs < Number(await o.text()) : false",
+        "ersetze": "o ? jetztMs < Number(await o.text()) : true"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Token-Stopp setzt keine Sperre",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if ('stopp' in token) await sperren()",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Token-Fehler sperrt auch",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if ('stopp' in token) await sperren()",
+        "ersetze": "await sperren()"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Folgen-Stopp setzt keine Sperre",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "{ stopp = r.stopp; await sperren(); break }",
+        "ersetze": "{ stopp = r.stopp; break }"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Pause 59 min",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "SPERRE_MS = 60 * 6e4",
+        "ersetze": "SPERRE_MS = 59 * 6e4"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Pause 61 min",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "SPERRE_MS = 60 * 6e4",
+        "ersetze": "SPERRE_MS = 61 * 6e4"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A2 Sperrprüfung weg",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "if (await gesperrt(env, jetztMs)) return `ziele=${ziele.length} dran=${dran.length} gesperrt`",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A4 frische nicht zuerst",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "[...faellig.filter(frisch), ...faellig.filter((z) => !frisch(z))]",
+        "ersetze": "[...faellig]"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A4 Rückstand zuerst",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "[...faellig.filter(frisch), ...faellig.filter((z) => !frisch(z))]",
+        "ersetze": "[...faellig.filter((z) => !frisch(z)), ...faellig.filter(frisch)]"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A4 Frische verloren (Rückstand zählt nicht)",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "[...faellig.filter(frisch), ...faellig.filter((z) => !frisch(z))]",
+        "ersetze": "[...faellig.filter(frisch)]"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A4 frisch: Stand-Slot statt Ziel",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "standFuer(stand[z.schluessel], z.slotMs).letzteLesung === undefined",
+        "ersetze": "stand[z.schluessel]?.letzteLesung === undefined"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A4 Kappe +1 in waehleDran",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": ".slice(0, ZIELE_JE_LAUF)",
+        "ersetze": ".slice(0, ZIELE_JE_LAUF + 1)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 nie abgelöst",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "return antwort.data.some((s) => nr(s) > nr(gewaehlt))",
+        "ersetze": "return false"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 abgelöst bei gleicher Nummer",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "nr(s) > nr(gewaehlt)",
+        "ersetze": "nr(s) >= nr(gewaehlt)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 abgelöst: Nichtobjekt ist abgelöst",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "if (!istObjekt(antwort) || !Array.isArray(antwort.data)) return false\n  const nr",
+        "ersetze": "if (!istObjekt(antwort) || !Array.isArray(antwort.data)) return true\n  const nr"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Staffel trotzdem gemerkt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "merken = false",
+        "ersetze": "merken = true"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Datumsgrenze nicht gesetzt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "jungNur = z.slotMs - VORSTAFFEL_TOLERANZ_MS;",
+        "ersetze": ";"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Grenze Termin + 21 Tage statt davor",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "jungNur = z.slotMs - VORSTAFFEL_TOLERANZ_MS",
+        "ersetze": "jungNur = z.slotMs + VORSTAFFEL_TOLERANZ_MS"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Toleranz 22 Tage",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "VORSTAFFEL_TOLERANZ_MS = 21 *",
+        "ersetze": "VORSTAFFEL_TOLERANZ_MS = 22 *"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Datum > statt >=",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "Date.parse(e.episode_air_date) >= erstrahltNachMs",
+        "ersetze": "Date.parse(e.episode_air_date) > erstrahltNachMs"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 fehlendes Datum zählt",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "typeof e.episode_air_date === 'string' && ",
+        "ersetze": ""
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Grenze ignoriert",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "erstrahltNachMs === undefined || (",
+        "ersetze": "true || ("
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Grenze nicht durchgereicht",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "lesungAusFolgenliste(e.json, z.folge, jungNur)",
+        "ersetze": "lesungAusFolgenliste(e.json, z.folge)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 Staffel gemerkt wird nie gemerkt",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": "...(merken ? { staffel } : {})",
+        "ersetze": "...({})"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A3 Schalter-Vergleich === an auf includes",
+    "aenderungen": [
+      {
+        "datei": "worker/src/ausbleiben-messer.ts",
+        "suche": ".trim() === 'an'",
+        "ersetze": ".trim().includes('an')"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  }
+]

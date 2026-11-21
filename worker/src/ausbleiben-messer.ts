@@ -13,12 +13,18 @@
  */
 import type { ReleaseEvent } from '../../shared/types.ts'
 import { berlinToUtc } from '../../shared/time.ts'
-import { lesungFaellig, lesungAusFolgenliste, deutscheStaffel, nachLesung, serieAusSlug, urteil, type Lesung, type ZielStand } from '../../shared/ausbleiben-messen.ts'
+import { lesungFaellig, lesungAusFolgenliste, deutscheStaffel, nachLesung, serieAusSlug, staffelAbgeloest, standFuer, urteil, type Lesung, type ZielStand } from '../../shared/ausbleiben-messen.ts'
 import { imTagesfenster } from './push-fenster.ts'
 import { fehlerLog } from './werte.ts'
 
 export const SCHALTER_SCHLUESSEL = 'ausbleiben/schalter'
 export const STAND_SCHLUESSEL = 'ausbleiben/stand.json'
+/** Hier steht (ms), bis wann nach 403/429 nicht mehr abgerufen wird. */
+export const SPERRE_SCHLUESSEL = 'ausbleiben/sperre'
+/** Pause nach 403/429 (Regel „Pause statt Abbruch“): bei Dauersperre ungefähr 30 statt 800 Abrufe je 24 h. */
+export const SPERRE_MS = 60 * 6e4
+/** Eine Folge der Vorstaffel zählt nur, wenn sie höchstens so lange vor dem Termin gesendet wurde. */
+const VORSTAFFEL_TOLERANZ_MS = 21 * 24 * 36e5
 /** So viele Termine je Takt: Die Free-Stufe erlaubt 50 Unteraufrufe je Aufruf, der Push-Takt teilt sie sich. */
 export const ZIELE_JE_LAUF = 4
 /** Stände älterer Termine fallen aus R2 (der Messer liest höchstens 24 h nach dem Termin). */
@@ -98,18 +104,34 @@ async function tokenHolen(holen: typeof fetch): Promise<string | { stopp: string
 async function lies(holen: typeof fetch, token: string, z: MessZiel, stand: ZielStand): Promise<{ lesung: Lesung; staffel?: string } | { stopp: string }> {
   const kopf = { authorization: `Bearer ${token}`, 'user-agent': UA }
   let staffel = stand.staffel
+  let jungNur: number | undefined
+  let merken = true
   if (!staffel) {
     const s = await abruf(holen, `${API}/content/v2/cms/series/${z.serie}/seasons?locale=de-DE`, { headers: kopf })
     if ('stopp' in s) return s
     staffel = 'json' in s ? (deutscheStaffel(s.json) ?? undefined) : undefined
     if (!staffel) return { lesung: { art: 'keine' } }
+    // Eine jüngere Staffel ohne Deutsch: die gewählte nicht merken, ihre Folgen nur über das Sendedatum zählen lassen
+    if ('json' in s && staffelAbgeloest(s.json, staffel)) { jungNur = z.slotMs - VORSTAFFEL_TOLERANZ_MS; merken = false }
   }
   const e = await abruf(holen, `${API}/content/v2/cms/seasons/${staffel}/episodes?locale=de-DE`, { headers: kopf })
   if ('stopp' in e) return e
-  return { staffel, lesung: 'json' in e ? lesungAusFolgenliste(e.json, z.folge) : { art: 'keine' } }
+  return { ...(merken ? { staffel } : {}), lesung: 'json' in e ? lesungAusFolgenliste(e.json, z.folge, jungNur) : { art: 'keine' } }
 }
 
 type StandDatei = Record<string, ZielStand>
+
+/** Die fälligen Termine dieses Takts: noch nie gelesene (frische) vor dem Rückstand, je Gruppe der früheste zuerst, höchstens `ZIELE_JE_LAUF`. */
+export function waehleDran(ziele: MessZiel[], stand: StandDatei, jetztMs: number): MessZiel[] {
+  const faellig = ziele.filter((z) => lesungFaellig(standFuer(stand[z.schluessel], z.slotMs), jetztMs))
+  const frisch = (z: MessZiel) => standFuer(stand[z.schluessel], z.slotMs).letzteLesung === undefined
+  return [...faellig.filter(frisch), ...faellig.filter((z) => !frisch(z))].slice(0, ZIELE_JE_LAUF)
+}
+
+async function gesperrt(env: MessEnv, jetztMs: number): Promise<boolean> {
+  const o = await env.BELEGE?.get(SPERRE_SCHLUESSEL)
+  return o ? jetztMs < Number(await o.text()) : false
+}
 
 /** Der Takt: Schalter, Ziele, Lesungen, Stand. Rückgabe ist die Protokollzeile. */
 export async function ausbleibenMessen(env: MessEnv, jetzt: Date, ladeTermine: () => Promise<ReleaseEvent[]>, holen: typeof fetch = fetch): Promise<string> {
@@ -122,16 +144,21 @@ export async function ausbleibenMessen(env: MessEnv, jetzt: Date, ladeTermine: (
   const gespeichert = ((await leseJson(env, STAND_SCHLUESSEL)) as StandDatei | null) ?? {}
   const stand: StandDatei = {}
   for (const [k, s] of Object.entries(gespeichert)) if (jetztMs - s.slotMs <= STAND_AUFBEWAHREN_MS) stand[k] = s
-  const dran = ziele.filter((z) => lesungFaellig(stand[z.schluessel] ?? { slotMs: z.slotMs }, jetztMs)).slice(0, ZIELE_JE_LAUF)
+  const dran = waehleDran(ziele, stand, jetztMs)
   if (dran.length === 0) return `ziele=${ziele.length} dran=0`
+  if (await gesperrt(env, jetztMs)) return `ziele=${ziele.length} dran=${dran.length} gesperrt`
+  const sperren = () => env.BELEGE?.put(SPERRE_SCHLUESSEL, String(jetztMs + SPERRE_MS))
   const token = await tokenHolen(holen)
-  if (typeof token !== 'string') return `ziele=${ziele.length} dran=${dran.length} token: ${'stopp' in token ? token.stopp : token.fehler}`
+  if (typeof token !== 'string') {
+    if ('stopp' in token) await sperren()
+    return `ziele=${ziele.length} dran=${dran.length} token: ${'stopp' in token ? token.stopp : token.fehler}`
+  }
   const zaehl = { erschienen: 0, ausgeblieben: 0, offen: 0, unbekannt: 0 }
   let stopp: string | undefined
   for (const z of dran) {
-    const alt = stand[z.schluessel] ?? { slotMs: z.slotMs }
+    const alt = standFuer(stand[z.schluessel], z.slotMs)
     const r = await lies(holen, token, z, alt)
-    if ('stopp' in r) { stopp = r.stopp; break }
+    if ('stopp' in r) { stopp = r.stopp; await sperren(); break }
     stand[z.schluessel] = { ...nachLesung(alt, r.lesung, jetztMs), ...(r.staffel ? { staffel: r.staffel } : {}) }
     zaehl[urteil(stand[z.schluessel])]++
   }

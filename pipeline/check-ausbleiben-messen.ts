@@ -5,7 +5,7 @@
  * Aufruf: `npx tsx pipeline/check-ausbleiben-messen.ts`
  */
 import { MESSER_AUSBLEIBEN_FRUEHESTENS_MS } from '../shared/ausbleiben-plan.ts'
-import { deutscheStaffel, lesungAusFolgenliste, lesungFaellig, nachLesung, serieAusSlug, urteil, type Lesung, type ZielStand } from '../shared/ausbleiben-messen.ts'
+import { deutscheStaffel, lesungAusFolgenliste, lesungFaellig, nachLesung, serieAusSlug, staffelAbgeloest, standFuer, urteil, type Lesung, type ZielStand } from '../shared/ausbleiben-messen.ts'
 import { berlinToUtc } from '../shared/time.ts'
 
 let fehler = 0
@@ -107,6 +107,27 @@ pruefe('Staffel: Fassung ohne guid wird übergangen', deutscheStaffel({ data: [{
 // Serienkennung aus dem Schlüssel
 pruefe('Schlüssel cr-GT…', serieAusSlug('cr-GT00384015') === 'GT00384015' && serieAusSlug('cr-G3KHEVDJ7') === 'G3KHEVDJ7')
 pruefe('alter Schlüssel: null', serieAusSlug('aoashi-staffel-2-crunchyroll-de-2026-10-25') === null && serieAusSlug('cr-GT1-x') === null && serieAusSlug('xcr-GT1') === null)
+
+// Verschobener Termin (A1): neuer Slot, alte Lesungen verworfen, Sichtung und Staffel bleiben
+const NEU = SLOT + 2 * 60 * MIN
+const alt: ZielStand = { slotMs: SLOT, staffel: 'GS1', letzteLesung: SLOT + 5 * MIN, ohneDeutschAm: SLOT + 5 * MIN }
+pruefe('standFuer: ohne Stand ein leerer', JSON.stringify(standFuer(undefined, NEU)) === JSON.stringify({ slotMs: NEU }))
+pruefe('standFuer: gleicher Slot, derselbe Stand', standFuer(alt, SLOT) === alt)
+pruefe('standFuer: neuer Slot verwirft Lesungen, behält die Staffel', JSON.stringify(standFuer(alt, NEU)) === JSON.stringify({ slotMs: NEU, staffel: 'GS1' }))
+pruefe('standFuer: neuer Slot behält die Sichtung', standFuer({ ...alt, gesehenAm: SLOT + 9 * MIN }, NEU).gesehenAm === SLOT + 9 * MIN)
+pruefe('verschoben: 65 min nach dem alten Slot nie ausgeblieben', urteil(nachLesung(standFuer(alt, NEU), ohneDe, SLOT + 65 * MIN)) !== 'ausgeblieben')
+pruefe('verschoben: vor dem neuen Slot nicht fällig', !lesungFaellig(standFuer(alt, NEU), SLOT + 65 * MIN))
+
+// Neue Staffel ohne Deutsch (A5): Folgen der Vorstaffel zählen nur nach Sendedatum
+const mitNeuer = { data: [{ season_sequence_number: 3, versions: de('GS3DEDE') }, { season_sequence_number: 5, versions: [{ audio_locale: 'ja-JP', guid: 'J5' }] }] }
+pruefe('abgelöst: jüngere Staffel ohne Deutsch', staffelAbgeloest(mitNeuer, 'GS3DEDE') && staffelAbgeloest(staffeln, 'GS3DEDE'))
+pruefe('abgelöst: die gewählte ist die jüngste -> nein', !staffelAbgeloest({ data: [{ season_sequence_number: 3, versions: de('GS3DEDE') }] }, 'GS3DEDE') && !staffelAbgeloest(null, 'x'))
+const mitDatum = (d?: string) => ({ data: [{ episode_number: 4, ...(d ? { episode_air_date: d } : {}), versions: de('X').concat([{ audio_locale: 'ja-JP', guid: 'J' }]) }] })
+const GRENZE = Date.UTC(2026, 10, 1)
+pruefe('Datum genau an der Grenze: zählt', (lesungAusFolgenliste(mitDatum('2026-11-01T00:00:00Z'), 4, GRENZE) as { deutsch: boolean }).deutsch)
+pruefe('Datum eine Sekunde davor: Folge nicht vorhanden', JSON.stringify(lesungAusFolgenliste(mitDatum('2026-10-31T23:59:59Z'), 4, GRENZE)) === JSON.stringify({ art: 'auskunft', vorhanden: false, deutsch: false }))
+pruefe('ohne Datum mit Grenze: Folge nicht vorhanden', (lesungAusFolgenliste(mitDatum(), 4, GRENZE) as { vorhanden: boolean }).vorhanden === false)
+pruefe('ohne Grenze: Datum egal', (lesungAusFolgenliste(mitDatum('2020-01-01T00:00:00Z'), 4) as { deutsch: boolean }).deutsch)
 
 if (fehler > 0) {
   console.error(`${fehler} von ${faelle} Prüfungen rot`)
