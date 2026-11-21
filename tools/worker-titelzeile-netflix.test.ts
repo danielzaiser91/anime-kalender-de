@@ -68,7 +68,7 @@ console.log('Freigabe: nur Disney+ und Netflix')
   const env = umgebung(db, { geschrieben: 0 }, 'disneyplus,netflix,primevideo,adn')
   const eins = { vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', folge_nr: 1, staffel: 1 }
   const rohfolge = { gti: 'amzn1.dv.gti.1', asin: 'B0F1', nummer: 1, titel: 'Folge 1', staffelNr: 1 }
-  const prime = { ...eins, plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0TEST', rohfolgen: [rohfolge] }
+  const prime = { ...eins, plattform: 'primevideo', version: '4.32.187', url: 'https://www.amazon.de/dp/B0TEST', rohfolgen: [rohfolge] }
   const adn = { ...eins, plattform: 'adn', url: 'https://animationdigitalnetwork.com/video/1-test' }
   await handlePruefung(post(prime), env)
   await handlePruefung(post(adn), env)

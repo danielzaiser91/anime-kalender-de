@@ -112,6 +112,7 @@ const disney = (nr: number) => ({
 })
 const prime = {
   plattform: 'primevideo',
+  version: '4.32.187',
   url: 'https://www.amazon.de/dp/B0TEST',
   seiten_kennung: 's1',
   vorhanden: 'ja',

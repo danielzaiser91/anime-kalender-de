@@ -22,7 +22,8 @@ console.warn = () => {}
 
 /** Wie der Prime-Durchgang je Folge meldet (`amazon.js`, Meldehandler). */
 const folge = (extra: Record<string, unknown> = {}) => ({
-  plattform: 'primevideo',
+  /* Disney+ statt Prime: Prime verlangt seit 21.11.2026 eine Version, die Fälle „ohne Kopf“ wären dort 400 (der Weg ist anbieterunabhängig). */
+  plattform: 'disneyplus',
   url: 'https://www.amazon.de/gp/video/detail/B09KX2VLPR',
   titel: 'Higurashi Kai',
   vorhanden: 'ja',
