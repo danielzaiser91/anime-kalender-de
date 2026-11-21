@@ -750,6 +750,7 @@ pipeline/check-zweitanbieter.ts
 tools/adn-news-bilanz.test.ts
 tools/anime2you-luecken.test.ts
 tools/apt-fremdquelle.mjs
+tools/ausbleiben-cpu-messen.test.ts
 tools/buehne-entwurf-render.test.ts
 tools/buehne-fall-optionen.test.ts
 tools/buehne-speicher.test.ts
