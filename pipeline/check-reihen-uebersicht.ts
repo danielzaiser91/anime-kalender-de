@@ -306,6 +306,11 @@ gleich('Stand: nur Filme, leer', reihenStand(filme(2), 'Reihe', 900201, t), '')
 /* Kleine Reihe (12 Filme) bleibt Spur — Gegenprobe zur Grenze; die Spur misst im Browser, darum hier statisch. */
 const klein = renderToStaticMarkup(h(ReihenListe, props([teil(900101, 'Reihe'), ...filme(12)], { titel: 900101 })))
 pruefe('12 Filme: Spur, keine Übersicht', klein.includes('role="tab"') && !klein.includes('data-reihe-uebersicht'))
+/* Spur-Kopf: zählt die gezeigten Zeilen — fünf Teile, drei ohne Synchro hinter dem Schalter: Kopf 2; mit Schalter 5; Suchtext „Film 4“ 1 (Befund 21.11.2026: Noragami Kopf 5, Liste 2). */
+const kopfSpur = (s: Stand) => /tabular-nums text-ak-text">(\d+)</.exec(renderToStaticMarkup(h(ReihenListe, props([teil(900101, 'Reihe'), ...filme(4, [2, 3, 4])], s))))?.[1]
+gleich('Spur-Kopf: gezeigte Zeilen, nicht alle Teile', kopfSpur({ titel: 900101 }), '2')
+gleich('Spur-Kopf mit Schalter „ohne Synchro“: alle 5', kopfSpur({ titel: 900101, ohneOffen: true }), '5')
+gleich('Spur-Kopf mit Suchtext: Treffer', kopfSpur({ titel: 900101, ohneOffen: true, suche: 'Film 4' }), '1')
 const kleinLaedt = renderToStaticMarkup(h(ReihenListe, props([teil(900101, 'Reihe'), ...filme(12)], { titel: 900101, wechselt: true })))
 gleich('Spur: Ladehinweis nur während des Wechsels', [klein.includes('Wird geladen'), kleinLaedt.includes('Wird geladen')], [false, true])
 
