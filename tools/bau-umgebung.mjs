@@ -28,3 +28,17 @@ export function ohneBauVariablen(env = process.env) {
   for (const name of BAU_VARIABLEN) delete kopie[name]
   return kopie
 }
+
+/**
+ * Anmeldung und Lauf-Kennung der CI (`GH_TOKEN: ${{ github.token }}` in `nachlauf.yml`, `GITHUB_ACTIONS`/`GITHUB_REPOSITORY` setzt GitHub selbst).
+ * `tools/tests-alle.mjs` entfernt sie für jeden Test: erbt ein Test sie, nimmt ein Skript wie `quellen-pr.sh` den echten Token-Zweig und pusht
+ * ins echte Repo (Nachlauf 21.11.2026, durchgehend rot). Ein Test, der sie braucht, setzt sie selbst im Aufruf.
+ */
+export const CI_TOKEN_VARIABLEN = ['GITHUB_ACTIONS', 'GH_TOKEN', 'GITHUB_TOKEN', 'GITHUB_REPOSITORY', 'GITHUB_RUN_ID']
+
+/** Kopie von `env` ohne die CI-Anmeldung. */
+export function ohneCiToken(env = process.env) {
+  const kopie = { ...env }
+  for (const name of CI_TOKEN_VARIABLEN) delete kopie[name]
+  return kopie
+}
