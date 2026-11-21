@@ -50,7 +50,7 @@ export function HerkunftChip({
 export function InfoZeichen({ text }: { text: string }) {
   return (
     <Tooltip text={text} seite="unten" className="ml-1.5 normal-case tracking-normal">
-      <span aria-label={text} className="grid size-4 cursor-help place-items-center rounded-full border border-ak-leise text-[10px] font-semibold leading-none text-ak-leise">
+      <span aria-label={text} className="grid size-4 cursor-help place-items-center rounded-full border border-ak-leise text-[11px] font-semibold leading-none text-ak-leise">
         i
       </span>
     </Tooltip>

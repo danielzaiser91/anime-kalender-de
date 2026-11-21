@@ -81,7 +81,7 @@ export function TageRaster({ versatz, tage, monatKey, monat, jeTag, von, bis, sp
   return (
     <>
       {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((w) => (
-        <span key={w} className="py-1 text-[10px] font-semibold uppercase text-ak-leise">
+        <span key={w} className="py-1 text-[11px] font-semibold uppercase text-ak-leise">
           {w}
         </span>
       ))}
@@ -141,7 +141,7 @@ export function MonatsRaster({ monatKey, jeMonat, date, monatErlaubt, setMonat, 
             ].join(' ')}
           >
             <span>{monthName(m).slice(0, 3)}</span>
-            <span className="tabular-nums text-[10px] opacity-70">{n ? n : '–'}</span>
+            <span className="tabular-nums text-[11px] opacity-70">{n ? n : '–'}</span>
           </button>
         )
       })}
