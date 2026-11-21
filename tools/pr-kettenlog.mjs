@@ -19,6 +19,7 @@ import { ghMitLimit } from './gh-ratelimit.mjs'
 import { budgetHinweise } from './pr-kettenlog-budget.mjs'
 import { basisNummer, basisZeile } from './pr-pruefer-basis-offen.mjs'
 import { baueZitateDatei, zitateAusBeschreibung } from './pr-kettenlog-zitate.mjs'
+import { leseZip } from './zip-lesen.mjs'
 
 const TAKT_MS = 15_000
 export const LOG_VERSUCHE = 3
@@ -110,6 +111,14 @@ export function ghAufruf(args, programm = ['gh']) {
   return r.stdout
 }
 
+/** Wie ghAufruf, aber stdout als Buffer (ZIP-Archiv). */
+export function ghAufrufBinaer(args, programm = ['gh']) {
+  const r = spawnSync(programm[0], [...programm.slice(1), ...args], { windowsHide: true, maxBuffer: 1 << 28 })
+  if (r.error) throw r.error
+  if (r.status !== 0) throw new Error(`gh ${args.slice(0, 3).join(' ')} Exit ${r.status}: ${sauber(r.stderr)}`)
+  return r.stdout
+}
+
 /** Neuester Lauf von pr-pruefung.yml zum Kopf (höchste Kennung), sonst null. Abgebrochene Läufe (Concurrency beim Wiederöffnen) zählen nur, wenn es keinen anderen gibt. */
 export function holeLauf(repo, sha, gh) {
   const roh = gh(['api', `repos/${repo}/actions/workflows/pr-pruefung.yml/runs?head_sha=${sha}&event=pull_request&per_page=30`,
@@ -146,13 +155,37 @@ async function holeLog(repo, j, gh, warte, versuche) {
   return `${FEHL_LOG} ${letzter.message}`
 }
 
-/** Jobs mit ihren Logs; ein nicht abrufbares Log steht als Fehlzeile im Log des Jobs. */
-export async function mitLogs(repo, jobs, gh, warte) {
+/** Namensvergleich ohne Sonderzeichen: das Archiv ersetzt oder entfernt in Dateinamen Zeichen wie `/`. */
+const schluessel = (name) => String(name).normalize('NFC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
+
+/** Log je Job-Kennung aus dem Archiv des Laufs (Datei `<n>_<Jobname>.txt` oben im ZIP, byte-gleich zum Einzel-Log); nicht eindeutig zuordenbare Jobs fehlen in der Map. */
+export function zipLogsFuerJobs(puffer, jobs) {
+  const dateien = new Map()
+  for (const [name, inhalt] of leseZip(puffer)) {
+    const m = /^\d+_([^/]+)\.txt$/.exec(name)
+    if (m) dateien.set(schluessel(m[1]), [...(dateien.get(schluessel(m[1])) ?? []), inhalt])
+  }
+  const zaehler = new Map()
+  for (const j of jobs) zaehler.set(schluessel(j.name), (zaehler.get(schluessel(j.name)) ?? 0) + 1)
+  const aus = new Map()
+  for (const j of jobs) {
+    const treffer = dateien.get(schluessel(j.name))
+    if (treffer?.length === 1 && zaehler.get(schluessel(j.name)) === 1) aus.set(j.id, treffer[0].toString('utf8'))
+  }
+  return aus
+}
+
+/** Jobs mit ihren Logs (Archiv zuerst, sonst Einzelabruf); ein nicht abrufbares Log steht als Fehlzeile im Log des Jobs. */
+export async function mitLogs(repo, jobs, gh, warte, zipLogs = new Map()) {
   const aus = []
   let versuche = LOG_VERSUCHE
   for (const j of jobs) {
     if (j.status !== 'completed') {
       aus.push(j)
+      continue
+    }
+    if (zipLogs.has(j.id)) {
+      aus.push({ ...j, log: zipLogs.get(j.id) })
       continue
     }
     const log = await holeLog(repo, j, gh, warte, versuche)
@@ -198,8 +231,18 @@ export function zitateDatei(kopf, jobs, beschreibungPfad) {
   return baueZitateDatei({ kopf, zitate: zitateAusBeschreibung(text), jobs, hinweis: HINWEIS, bereinigt: bereinige, fehlMarke: FEHL_LOG })
 }
 
+/** Ein Abruf `actions/runs/{id}/logs` statt eines je Job (spart Kontingent); `holeZip(runId)` liefert den Buffer. Fehler = leere Map plus Grund. */
+export function archivLogs(holeZip, lauf, jobs) {
+  if (!holeZip || jobs.filter((j) => j.status === 'completed').length < 2) return { logs: new Map(), hinweis: '' }
+  try {
+    return { logs: zipLogsFuerJobs(holeZip(lauf.id), jobs), hinweis: '' }
+  } catch (e) {
+    return { logs: new Map(), hinweis: `ZIP-Abruf fehlgeschlagen, Einzelabrufe (${sauber(e?.message ?? e)})` }
+  }
+}
+
 /** Holt Lauf und Logs (mit Wartefrist in ms) und schreibt beide Dateien in `ordner`; gibt die Statuszeile zurück. */
-export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, jetzt, beschreibung = '' }) {
+export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, jetzt, beschreibung = '', holeZip = null }) {
   const { lauf, jobs, fehler } = await ermittleLauf({
     holeLauf: () => holeLauf(repo, sha, gh),
     holeJobs: (id) => holeJobs(repo, id, gh),
@@ -207,14 +250,15 @@ export async function schreibeKettenlog({ repo, sha, ordner, frist, gh, warte, j
     jetzt,
     frist,
   })
-  const mitLog = lauf ? await mitLogs(repo, jobs, gh, warte) : []
+  const archiv = lauf ? archivLogs(holeZip, lauf, jobs) : { logs: new Map(), hinweis: '' }
+  const mitLog = lauf ? await mitLogs(repo, jobs, gh, warte, archiv.logs) : []
   const basis = basisKopfzeile({ repo, lauf, beschreibung: leseBeschreibung(beschreibung), gh })
   const { uebersicht, voll } = baueDateien({ kopf: sha, lauf, jobs: mitLog, fehler, basis })
   fs.mkdirSync(ordner, { recursive: true })
   fs.writeFileSync(path.join(ordner, 'kettenlog.txt'), uebersicht)
   fs.writeFileSync(path.join(ordner, 'kettenlog-voll.txt'), voll)
   fs.writeFileSync(path.join(ordner, 'kettenlog-zitate.txt'), zitateDatei(sha, mitLog, beschreibung))
-  return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : `kein Lauf${fehler ? ` (Abruffehler: ${fehler})` : ''}`},${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt${diagnosezeile(mitLog)}`
+  return `Kettenlog ${sha.slice(0, 9)}: ${lauf ? `Lauf ${lauf.id} (${lauf.status})` : `kein Lauf${fehler ? ` (Abruffehler: ${fehler})` : ''}`},${uebersicht.split('\n').length} Übersichtszeilen, ${voll.split('\n').length} Zeilen gesamt${diagnosezeile(mitLog)}${archiv.hinweis ? `; ${archiv.hinweis}` : ''}`
 }
 
 async function main() {
@@ -229,6 +273,7 @@ async function main() {
     sha,
     ordner,
     gh: (args) => ghMitLimit(ghAufruf, args),
+    holeZip: (id) => ghMitLimit(ghAufrufBinaer, ['api', `repos/${repo}/actions/runs/${id}/logs`]),
     beschreibung,
     jetzt: Date.now,
     frist: Number(fristS) * 1000 || 0,

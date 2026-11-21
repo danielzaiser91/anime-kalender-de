@@ -10,8 +10,8 @@ import { CI_BOT, NACHTRAG, VERTRAUT } from './pr-nachtraege.mjs'
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
 const ABNAHME = /Abnahme Dirigent/i
 /** Höchstens so lange wartet `neustart` auf das Ende des abgebrochenen Laufs (Rechengrundlage des Job-Timeouts, tools/pr-pruefer-neustart.test.mjs). */
-export const WARTE_RUNDEN = 40
-export const WARTE_MS = 5000
+export const WARTE_RUNDEN = 14
+export const WARTE_MS = 15_000
 
 /** Ja/Nein samt Grund: zählt der Kommentar als Prüfauftrag? `pr` = Antwort der API für den PR. */
 export function entscheide({ body, kommentarLogin, assoziation, pr }) {

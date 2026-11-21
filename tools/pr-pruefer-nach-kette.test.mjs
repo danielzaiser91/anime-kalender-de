@@ -106,12 +106,12 @@ gleich('Ausfall des Neustarts (gh-Fehler beim rerun): Exit 1, Zeile FEHLGESCHLAG
 const wartend = laufe({ kommentare: [OFFEN()], laeufe: [{ id: 5, status: 'in_progress' }, { id: 5, status: 'in_progress' }, lauf] })
 gleich('Prüfer-Lauf noch offen: zwei Pausen, dann rerun', [wartend.wartet.length, wartend.aenderungen], [2, ['run rerun 5']])
 const haengt = laufe({ kommentare: [OFFEN()], laeufe: [{ id: 5, status: 'in_progress' }] })
-const SPAET = [...Array(50).fill({ id: 5, status: 'in_progress' }), lauf]
+const SPAET = [...Array(25).fill({ id: 5, status: 'in_progress' }), lauf]
 const spaet = laufe({ kommentare: [OFFEN()], laeufe: SPAET })
 // Anlass der Prüferauflage (PR 3002): das Kettenende fällt meist mitten in den Prüfer-Lauf (Kettenlog nach ~13 min, Modell danach bis 17 min).
-gleich('Prüfer-Lauf endet erst nach 25 min (50 Pausen): trotzdem rerun, kein stiller Verlust', [spaet.wartet.length, spaet.aenderungen, spaet.code], [50, ['run rerun 5'], 0])
+gleich('Prüfer-Lauf endet erst nach 25 min (25 Pausen): trotzdem rerun, kein stiller Verlust', [spaet.wartet.length, spaet.aenderungen, spaet.code], [25, ['run rerun 5'], 0])
 gleich('Prüfer-Lauf endet nie: Exit 1 mit Zeile FEHLGESCHLAGEN, kein rerun', [haengt.code, haengt.aenderungen, haengt.zeilen.some((z) => z.includes('FEHLGESCHLAGEN') && z.includes('nicht fertig'))], [1, [], true])
-gleich('Prüfer-Lauf endet nie: 56 Pausen à 30 s (28 min)', [haengt.wartet.length, haengt.wartet[0]], [56, 30_000])
+gleich('Prüfer-Lauf endet nie: 28 Pausen à 60 s (28 min)', [haengt.wartet.length, haengt.wartet[0]], [28, 60_000])
 gleich('kein offener PR zum Kopf: nichts, Exit 0', (() => { const r = laufe({ kommentare: [OFFEN()], pulls: [] }); return [r.aenderungen, r.code] })(), [[], 0])
 gleich('PR zum Kopf geschlossen: nichts', laufe({ kommentare: [OFFEN()], pulls: [pr({ state: 'closed' })] }).aenderungen, [])
 const abbruch = laufe({ kommentare: [OFFEN()], fehlerBei: '/issues/7/comments' })
@@ -155,7 +155,7 @@ gleich('Kopf kommt aus workflow_run.head_sha, nur über env', schritt.env.KOPF_S
 gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
 const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
 gleich('Pausen des wartenden Laufs = Runden x Takt aus dem Werkzeug', [pausenMs, WARTE_RUNDEN * WARTE_MS], [1_680_000, 1_680_000])
-// Zeitbudget aus den echten Pausen (haengt: 56 x 30 s) plus Zeitkonto für „rate limit“ plus 2 min Reserve.
+// Zeitbudget aus den echten Pausen (haengt: 28 x 60 s) plus Zeitkonto für „rate limit“ plus 2 min Reserve.
 const budgetMin = (pausenMs + KONTO_MS + 120_000) / 60_000
 gleich(`Zeitbudget: Pausen + Zeitkonto + 2 min = ${budgetMin} min <= timeout-minutes ${job['timeout-minutes']}`, budgetMin <= job['timeout-minutes'], true)
 gleich('Zeitbudget: Job-Timeout höchstens zwei Minuten über dem gerundeten Budget', job['timeout-minutes'] <= Math.ceil(budgetMin) + 2, true)

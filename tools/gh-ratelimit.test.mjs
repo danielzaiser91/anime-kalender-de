@@ -211,6 +211,12 @@ pruefe('wartezeitMs: kein lesbarer Reset -> 60 s', wartezeitMs(NaN, JETZT) === 6
 
 // Logzeile
 pruefe('restZeile: x-ratelimit-remaining: <n>', restZeile(attrappe({ fehlerVor: 0, text: '', reset: 1 }).gh) === 'x-ratelimit-remaining: 0', restZeile(attrappe({ fehlerVor: 0, text: '', reset: 1 }).gh))
+{
+  const voll = (reset) => () => JSON.stringify({ resources: { core: { limit: 1000, used: 940, remaining: 60, reset } } })
+  const z = restZeile(voll(1795269760))
+  pruefe('restZeile: Rest, Limit, used und Reset in UTC', z === 'x-ratelimit-remaining: 60 (limit 1000, used 940, reset 14:02:40 UTC)', z)
+  pruefe('restZeile: ohne Limit/Reset nur der Rest', restZeile(attrappe({ fehlerVor: 0, text: '', reset: 0 }).gh) === 'x-ratelimit-remaining: 0')
+}
 pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbekannt \(kaputt\)$/.test(restZeile(() => { throw new Error('kaputt') })), null)
 
 // CLI: rest -> Exit 0; warten nur bei „rate limit“ in der Datei.

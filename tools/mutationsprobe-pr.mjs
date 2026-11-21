@@ -18,7 +18,7 @@ import { pathToFileURL } from 'node:url'
 
 export const FRIST_MS = 480_000
 export const HOECHSTENS_LISTEN = 5
-export const TAKT_MS = 15_000
+export const TAKT_MS = 60_000
 export const ERGEBNIS_MAX = 6000
 // Uhr des Runners gegen Uhr von GitHub (createdAt): ein neuer Lauf darf bis zu 10 s „vor“ dem Start des Dispatch erscheinen.
 export const UHR_TOLERANZ_MS = 10_000

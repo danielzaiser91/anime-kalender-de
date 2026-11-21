@@ -7,8 +7,9 @@ import { fileURLToPath } from 'node:url'
 import { parse } from 'yaml'
 import { baueZitateDatei, zitateAusBeschreibung } from './pr-kettenlog-zitate.mjs'
 import {
-  HINWEIS, JE_JOB_ERGEBNIS, LOG_VERSUCHE, baueDateien, ghAufruf, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog,
+  HINWEIS, JE_JOB_ERGEBNIS, LOG_VERSUCHE, baueDateien, ghAufruf, bereinige, ergebniszeilen, ermittleLauf, holeJobs, holeLauf, kopfZeilen, mitLogs, schreibeKettenlog, zipLogsFuerJobs,
 } from './pr-kettenlog.mjs'
+import { baueZip } from './zip-testhilfe.mjs'
 
 const fehler = []
 const pruefe = (name, ok, info) => {
@@ -387,6 +388,44 @@ pruefe('genau ein Prompt (der volle) nennt die Start-Budget-Warnung als Auflage'
 pruefe('jeder Prompt sagt, wann "nicht beurteilt" gilt (Datei fehlt oder meldet keinen Lauf)', prompts.every((p) => /nicht beurteilt/i.test(p.replace(/\s+/g, ' ')) && /fehlt die Datei|wenn die Datei fehlt|Fehlt die Datei/.test(p.replace(/\s+/g, ' '))))
 const text = d.uebersicht + d.voll
 pruefe('beide Dateien beginnen mit dem Hinweis auf unvertrauenswürdige Daten', d.uebersicht.startsWith(HINWEIS) && d.voll.startsWith(HINWEIS) && keiner.uebersicht.startsWith(HINWEIS) && text.includes('UNVERTRAUENSWÜRDIGE DATEN'))
+
+// ZIP-Weg (Kontingent 21.11.2026): ein Abruf für alle Job-Logs, gleiche Dateien, Rückfall auf Einzelabrufe
+{
+  const zip = baueZip({ '0_Kette – Logik.txt': ECHT, '1_Kette – Typen.txt': 'x: 3 Fehler', 'Kette – Logik/1_Set up job.txt': 'Schritt' })
+  const zJobs = [{ id: 11, name: 'Kette – Logik', status: 'completed', conclusion: 'success' }, { id: 12, name: 'Kette – Bau', status: 'in_progress', conclusion: '' },
+    { id: 13, name: 'Kette – Typen', status: 'completed', conclusion: 'failure' }, { id: 14, name: 'Kette – Ohne Datei', status: 'completed', conclusion: 'success' }]
+  const karte = zipLogsFuerJobs(zip, zJobs)
+  pruefe('ZIP: Job-Log aus der Datei <n>_<Jobname>.txt, Schrittdateien zählen nicht', karte.get(11) === ECHT && karte.get(13) === 'x: 3 Fehler' && karte.size === 2, [...karte.keys()])
+  pruefe('ZIP: Name mit Sonderzeichen ("/") findet seine Datei', zipLogsFuerJobs(baueZip({ '0_a  b.txt': 'L' }), [{ id: 1, name: 'a / b' }]).get(1) === 'L')
+  pruefe('ZIP: doppelter Jobname wird nicht geraten (Rückfall)', zipLogsFuerJobs(baueZip({ '0_j.txt': 'A', '1_j.txt': 'B' }), [{ id: 1, name: 'j' }]).size === 0 && zipLogsFuerJobs(baueZip({ '0_j.txt': 'A' }), [{ id: 1, name: 'j' }, { id: 2, name: 'j' }]).size === 0)
+
+  const einzel = []
+  const ghEinzel = (args) => { einzel.push(args); const url = args.find((a) => a.startsWith('repos/')) ?? ''; if (url.includes('/jobs/14/logs')) return 'einzeln geholt'; throw new Error('Einzelabruf unerwartet') }
+  const ergebnis = await mitLogs('o/r', zJobs, ghEinzel, uhr().warte, karte)
+  pruefe('mitLogs: Jobs aus dem Archiv ohne Einzelabruf, fehlende Datei per Einzelabruf, laufender Job ohne Log',
+    ergebnis[0].log === ECHT && ergebnis[2].log === 'x: 3 Fehler' && ergebnis[3].log === 'einzeln geholt' && ergebnis[1].log === undefined && einzel.length === 1, einzel)
+
+  const mitZip = (holeZip) => {
+    const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'kettenlog-'))
+    const u = uhr()
+    const abrufe = []
+    const g = (args) => { abrufe.push(args); return gh(args) }
+    return schreibeKettenlog({ repo: 'o/r', sha: SHA, ordner, frist: 0, gh: g, warte: u.warte, jetzt: u.jetzt, holeZip }).then((meldung) => ({ meldung, ordner, abrufe }))
+  }
+  const alt = await mitZip(null)
+  const zipLaeufe = []
+  const neu = await mitZip((id) => { zipLaeufe.push(id); return baueZip({ '0_Kette – Logik.txt': ECHT, '1_Kette – Typen.txt': '##[error]boom' }) })
+  pruefe('ZIP-Weg: ein Archivabruf für Lauf 9', zipLaeufe.length === 1 && zipLaeufe[0] === 9, zipLaeufe)
+  pruefe('ZIP-Weg: keine Einzelabrufe der Job-Logs (ohne ZIP sind es welche)', neu.abrufe.filter((a) => a.some((x) => x.includes('/logs'))).length === 0 && alt.abrufe.filter((a) => a.some((x) => x.includes('/logs'))).length > 0)
+  pruefe('ZIP-Weg: Übersicht und Voll-Datei zeigen das Archiv-Log', fs.readFileSync(path.join(neu.ordner, 'kettenlog.txt'), 'utf8').includes('377 von 377') && fs.readFileSync(path.join(neu.ordner, 'kettenlog-voll.txt'), 'utf8').includes('##[error]boom'))
+  pruefe('ZIP-Weg: Meldung ohne Rückfallhinweis', !neu.meldung.includes('ZIP-Abruf fehlgeschlagen'), neu.meldung)
+  const kaputt = await mitZip(() => { throw new Error('HTTP 410: Gone') })
+  pruefe('ZIP-Abruf scheitert: Meldung nennt es, Einzelabrufe liefern dieselben Dateien wie vorher',
+    kaputt.meldung.includes('ZIP-Abruf fehlgeschlagen, Einzelabrufe (HTTP 410: Gone)') && ['kettenlog.txt', 'kettenlog-voll.txt', 'kettenlog-zitate.txt'].every((d) => fs.readFileSync(path.join(kaputt.ordner, d), 'utf8') === fs.readFileSync(path.join(alt.ordner, d), 'utf8')), kaputt.meldung)
+  const nichtZip = await mitZip(() => Buffer.from('<html>kein Archiv</html>'))
+  pruefe('Archiv unlesbar: ebenfalls Rückfall mit Hinweis', nichtZip.meldung.includes('ZIP-Abruf fehlgeschlagen') && nichtZip.meldung.includes('Zentralverzeichnis'), nichtZip.meldung)
+  for (const x of [alt, neu, kaputt, nichtZip]) fs.rmSync(x.ordner, { recursive: true, force: true })
+}
 
 if (fehler.length) {
   console.error(`pr-kettenlog.test: ${fehler.length} Fehler`)
