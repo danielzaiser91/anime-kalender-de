@@ -14,3 +14,13 @@
   quelle: 'https://www.anisearch.de/anime/21976,futsutsuka-na-akujo-de-wa-gozaimasu-ga-suuguu-chouso-torikae-den-dai-2-cour'
   belegtAm: '2026-10-18'
   grund: 'aniSearch-Synonym „Staffel 2"; „Teil 1" neben „Teil 2" wäre falsch, es sind zwei Staffeln'
+
+# aniSearch nennt :re 2 „Tokyo Ghoul:re (Staffel 2)" und zählt damit innerhalb von :re; die Reihe zählt Tokyo Ghoul (1), √A (2), :re (3), :re 2 (4).
+# Amazon führt :re 2 als „Staffel 4" (Folgen „Und noch einmal – Place …", gelesen 04.11.2026, `data/belege-entfernt.yaml`), „Staffel 2" ist √A (20850).
+# Ohne diesen Eintrag standen √A und :re 2 beide als „Staffel 2" in der Reihe.
+- anilistId: 102351
+  staffel: 4
+  titel: 'Tokyo Ghoul:re — 2'
+  quelle: 'https://www.amazon.de/gp/video/detail/B0D7N68Q5T'
+  belegtAm: '2026-11-04'
+  grund: 'Amazon-Seite „Staffel 4“ trägt die Folgen von :re 2; aniSearch-„Staffel 2“ zählt innerhalb von :re, nicht in der Reihe'
