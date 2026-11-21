@@ -32,7 +32,7 @@ export function NachtragText({ kurz, abschnitte }: { kurz?: string; abschnitte: 
         <div className="mt-1.5 grid gap-1.5">
           {abschnitte.map((a) => (
             <section key={a.art + a.text.slice(0, 12)} className={`rounded border-l-2 px-2 py-1 ${STIL[a.art] ?? STIL.quelle}`}>
-              <h4 className="text-[10px] font-bold uppercase tracking-wide">{t(`news.nachtrag.${a.art}` as never)}</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-wide">{t(`news.nachtrag.${a.art}` as never)}</h4>
               <p className="mt-0.5 text-[11px] leading-snug text-slate-700 dark:text-slate-200">{a.text}</p>
             </section>
           ))}

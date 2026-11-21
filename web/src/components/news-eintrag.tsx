@@ -56,7 +56,7 @@ export function NewsEintragInhalt({ umschalten, e, auf, erste, t, arten, sortier
             die Untergrenze, nicht die Obergrenze.
           */}
           {erste.teil && erste.teil !== e.titel ? (
-            <span className="min-w-0 max-w-full self-start truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+            <span className="min-w-0 max-w-full self-start truncate rounded border border-slate-300 px-1 py-px text-[11px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
               {erste.teil}
             </span>
           ) : (
@@ -198,7 +198,7 @@ function MeldungZeile({
             {artLabel(m)}
           </span>
           {m.teil && m.teil !== reihe && (
-            <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
+            <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[11px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
               {m.teil}
             </span>
           )}
@@ -218,7 +218,7 @@ function MeldungZeile({
       </div>
       {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
           Satz kurz. */}
-      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500">{m.abschnitte?.length ? <NachtragText kurz={m.hinweis} abschnitte={m.abschnitte} /> : <Klapptext text={m.hinweis} />}</p>}
+      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[11px] text-slate-400 dark:text-slate-500">{m.abschnitte?.length ? <NachtragText kurz={m.hinweis} abschnitte={m.abschnitte} /> : <Klapptext text={m.hinweis} />}</p>}
       {staende && <VerlaufZeilen staende={staende} />}
     </li>
   )

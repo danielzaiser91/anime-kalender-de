@@ -123,7 +123,7 @@ export function Chip({
  * aber nicht mehr ihre eigene Höhe.
  */
 const PLAKETTE = 'inline-flex items-center justify-center rounded font-semibold leading-none'
-const PLAKETTE_GROESSE = (small?: boolean) => (small ? 'h-4 px-1.5 text-[10px]' : 'h-5 px-2 text-[11px]')
+const PLAKETTE_GROESSE = (small?: boolean) => (small ? 'h-4 px-1.5 text-[11px]' : 'h-5 px-2 text-[11px]')
 
 export function PlatformBadge({ platform, small, sender }: { platform: PlatformId; small?: boolean; sender?: string }) {
   const p = PLATFORMS[platform]
@@ -183,7 +183,7 @@ export function FskBadge({ fsk, small, quelle }: { fsk: Fsk; small?: boolean; qu
       className={[
         PLAKETTE,
         'rounded-sm font-bold',
-        small ? 'h-4 min-w-6 px-1 text-[10px]' : 'h-5 min-w-7 px-1 text-[11px]',
+        small ? 'h-4 min-w-6 px-1 text-[11px]' : 'h-5 min-w-7 px-1 text-[11px]',
       ].join(' ')}
       style={{ background: bg, color: dark ? '#111' : '#fff', border: `1px ${quelle ? 'dashed rgba(0,0,0,.55)' : 'solid rgba(0,0,0,.25)'}` }}
     >
@@ -377,7 +377,7 @@ export function Fragezeichen({ text, gekapselt }: { text: string; gekapselt?: bo
           'inline-flex items-center justify-center font-bold leading-none transition',
           gekapselt
             ? 'h-10 rounded-r-full border-l border-ak-rand bg-ak-flaeche-2 pr-4 pl-[13px] text-xs text-ak-leise hover:bg-ak-flaeche-3 hover:text-ak-text'
-            : 'size-4 rounded-full bg-ak-flaeche-2 text-[10px] text-slate-600 hover:bg-ak-flaeche-3 dark:text-slate-300',
+            : 'size-4 rounded-full bg-ak-flaeche-2 text-[11px] text-slate-600 hover:bg-ak-flaeche-3 dark:text-slate-300',
           CLICKABLE,
         ].join(' ')}
       >
@@ -529,7 +529,7 @@ export function Toggle({
       <Tooltip text={hint} seite="unten">
         <span
           aria-label={hint}
-          className="relative z-10 grid size-4 cursor-help place-items-center rounded-full border border-slate-400 text-[10px] font-semibold leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400"
+          className="relative z-10 grid size-4 cursor-help place-items-center rounded-full border border-slate-400 text-[11px] font-semibold leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400"
         >
           i
         </span>

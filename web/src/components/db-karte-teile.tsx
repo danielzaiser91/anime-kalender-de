@@ -47,7 +47,7 @@ export function KartenText({ main, t, keinDub, favorite, statusZeigen, status, g
           */
           <span
             className={[
-              'text-[10px] leading-snug',
+              'text-[11px] leading-snug',
               favorite ? 'font-medium text-ak-favorit-text' : 'text-slate-500 dark:text-slate-400',
             ].join(' ')}
           >
@@ -70,7 +70,7 @@ function AbPille({ ab, staffel }: { ab: string; staffel?: string }) {
   const { t } = useLang()
   const datum = `${ab.slice(8, 10)}.${ab.slice(5, 7)}.`
   return (
-    <span className="inline-flex h-4 items-center rounded bg-ak-info-grund px-1.5 text-[10px] font-semibold leading-none text-ak-info-text ring-1 ring-ak-info/40">
+    <span className="inline-flex h-4 items-center rounded bg-ak-info-grund px-1.5 text-[11px] font-semibold leading-none text-ak-info-text ring-1 ring-ak-info/40">
       {staffel ? t('db.abStaffel', { staffel, datum }) : t('db.ab', { datum })}
     </span>
   )
@@ -78,7 +78,7 @@ function AbPille({ ab, staffel }: { ab: string; staffel?: string }) {
 
 /** „Staffel 2" unter „Läuft jetzt", wo kein Startdatum danebensteht. */
 function StaffelMarke({ staffel }: { staffel: string }) {
-  return <span className="text-[10px] font-semibold leading-none text-ak-leise">{staffel}</span>
+  return <span className="text-[11px] font-semibold leading-none text-ak-leise">{staffel}</span>
 }
 
 export function KartenCover({ main, keinDub, members, t, today, favorite, onToggleFavorite, onToggleHidden, teilbar, share, copiedSlug, grouped }: {
@@ -123,7 +123,7 @@ export function KartenCover({ main, keinDub, members, t, today, favorite, onTogg
       */}
       <LinkeMarken main={main} angekuendigt={keinDub && members.some(titelSynchroAngekuendigt)} />
       {keinDub && (
-        <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
+        <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[11px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
           {t(members.every((m) => erscheintErst(m, today)) ? 'geplant.marke' : 'db.noDubBadge')}
         </span>
       )}
@@ -144,7 +144,7 @@ export function KartenCover({ main, keinDub, members, t, today, favorite, onTogg
         */
         <span
           className={[
-            'absolute right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white',
+            'absolute right-1 rounded bg-black/70 px-1.5 py-0.5 text-[11px] font-semibold text-white',
             keinDub ? 'bottom-7' : 'bottom-1',
           ].join(' ')}
         >
@@ -167,14 +167,14 @@ function LinkeMarken({ main, angekuendigt }: { main: Title; angekuendigt: boolea
         </span>
       )}
       {main.westlich && (
-        <span className="rounded bg-slate-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
+        <span className="rounded bg-slate-600/90 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
           <Tooltip text={t('db.westlichHinweis')} eigenerFokus>
             {t('db.westlich')}
           </Tooltip>
         </span>
       )}
       {angekuendigt && (
-        <span className="rounded bg-ak-info-grund px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ak-info-text ring-1 ring-ak-info/40">
+        <span className="rounded bg-ak-info-grund px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-ak-info-text ring-1 ring-ak-info/40">
           <Tooltip text={t('antwort.synchroAngekuendigt')} eigenerFokus>
             {t('db.angekuendigt')}
           </Tooltip>

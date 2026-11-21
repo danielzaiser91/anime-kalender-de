@@ -41723,3 +41723,12 @@
   dub: false
   checkedAt: '2026-10-24'
   note: "Amazon-Seite B0FJ741RY1: alle 3 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9c6c7e4c-cd9b-49da-9403-059c9e1f79cc, regionsperre=laut Seite nicht mehr im Abo"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-21 ---
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DCXV5GMB
+  dub: true
+  checkedAt: '2026-10-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DCXV5GMB: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.8c837297-cb26-4a17-854a-b514134f1317"
