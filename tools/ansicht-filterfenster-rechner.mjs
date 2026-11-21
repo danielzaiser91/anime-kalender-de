@@ -51,6 +51,9 @@ export async function pruefeFilterfensterRechner(chromium, antworte) {
     await seite.locator(OEFFNER[route]).first().click()
     await seite.locator('[data-filter-scroll]').first().waitFor({ state: 'visible' })
     await seite.waitForTimeout(1200)
+    /* Zugeklappt passt das Fenster nur auf 1–2 px genau auf den Inhalt (Rundung entschied, ob es scrollt); mit „mehr Filter“ ist der Überlauf echt. */
+    await seite.locator('[data-filter-scroll] button[aria-expanded]').first().click()
+    await seite.waitForTimeout(800)
     const m = await seite.evaluate(messeRechner)
     messungen.push({ route, ...m })
     alle.push(...rechnerAbweichungen(`${route} 1280 px`, m))
