@@ -42,7 +42,7 @@ Stand 21.11.2026, 05:30 UTC (erste Nacht, Auftrag Issue 4420). Alle Zeiten UTC, 
 | 02:22:41 – 02:28:34 | 6 min | Fehlalarm des Orchestrators: Gegenprobe mutierte die erste Textfundstelle (Z. 70, Altcode) statt Z. 158 → unnötige dritte Runde an PR 4422. | PR 4422: 7055852078, Korrektur 7055941229 |
 | 02:35:38 – 02:55:38 | 20 min | Nacht-Merger mergt nicht, sondern zieht main (Bestandsbau adb5b4819) in die PRs nach; neue Köpfe brauchen neue Kette, Stufe 2 eine neue Abnahme. | Lauf 44856745580; Abnahmen 7056190428, 7056361601 |
 | 04:26:46 – 05:16 | 50 min bis Fix-Abnahme, Wirkung erst 22.11. | Tageslauf schrieb wegen des JustWatch-Riegels nichts; offen 4 statt 1. | Lauf 44863889605; Bericht 7057595132; PR 4444 |
-| 03:56 – 04:25:16 | ≈ 29 min | Ansichten-Messung „Filterfenster am Rechner“ bestand auf main nur durch Rundung (Scroller 403/401 px); +1 px kippte sie (PR 4436). | Urteil 7056913189, Bericht 7057243467 |
+| 03:54:58 – 04:25:16 | 30 min | Ansichten-Messung „Filterfenster am Rechner“ bestand auf main nur durch Rundung (Scroller 403/401 px); +1 px kippte sie (PR 4436). | Urteil 7056913189, Bericht 7057243467 |
 | 01:36 – 03:05 | – | „PR-Aussehen – Lighthouse“ streut bei den Titel-Bytes um > 1 MB (4395 KB gegen 3245 KB), Neustart grün. | PR 4423, Bericht 7055866603 |
 
 ## Verbesserungsvorschläge
