@@ -149,6 +149,7 @@ for (const [status, fehlerText] of [['422', 'gh: Merge conflict (HTTP 422)'], ['
   const code = nachziehen(7, k.gh, k.melde, k.warte, false, false)
   pruefe(`nachziehen: update-branch ${status} -> Rückfall, Exit 1, zweimal geöffnet, Kopf nicht gelesen`, code === 1 && anzahlPut(k) === 1 && prSchreibend(k) === 'pr close 7,pr reopen 7,pr close 7,pr reopen 7' && !k.aufrufe.includes(KOPF_LESEN), k.aufrufe)
   pruefe(`nachziehen: Rückfallzeile ${status} genau einmal`, k.meldungen.filter((m) => m.includes(`update-branch abgewiesen (HTTP ${status}`)).length === 1, k.meldungen)
+  pruefe(`nachziehen: Rückfall ${status} meldet zuletzt „geschlossen und wieder geöffnet“`, k.meldungen.at(-1) === 'PR 7: geschlossen und wieder geöffnet; Kette abwarten', k.meldungen)
 }
 {
   const k = kulisse(antworten({ mergeShas: [M_NEU], zusatz: { [PUT]: { fehler: 'gh: Merge conflict (HTTP 422)' } } }))
