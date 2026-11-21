@@ -72,6 +72,7 @@ Lokal immer: Tests der berührten Dateien (`npx tsx <test>`) und `npx tsc --noEm
 | `extension/` (zählt bei `umfang-pruefen`) | `node tools/extension-tests.mjs`, Einzeldatei `node --require extension/test-kontext.cjs <datei>`; Merge berührt sie: `node tools/extension-laden-pruefen.cjs` |
 | Skript aus `check:bestand` | dessen Prozesstest (`grep -l "<skript>" pipeline/*-lauf.ts`); Synchro-Zuordnung: `pipeline/check-saison-deutsch-bestand.ts` (K4) |
 | neue `pipeline/lib/`-Datei liest `.time` | `npx tsx pipeline/check-zeit-ausgabe.ts` |
+| neue Ausgabedatei unter `data/` | Eintrag in `ERZEUGTE_DATEIEN`/`ERZEUGT_AUSNAHMEN` (`tools/pr-nachrechnen-bot-erzeugt.mjs`), `node tools/pr-nachrechnen-bot-erzeugt.test.mjs` |
 | Aussehen-Werkzeug unter `tools/` | Zeile in `tools/pr-aussehen-pfade.txt`, `node tools/pr-aussehen-pfade.test.mjs` |
 | eigene Handlungstexte | `node tools/handlung-ueberschneidung.mjs <id>` |
 | Wachphase-Werkzeug (`tools/laeufe-aufraeumen.mjs` …) | Laufzeit vorher/nachher (3 Läufe, Median; > +5 s braucht Zwischenspeicher) |
