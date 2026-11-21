@@ -67,6 +67,18 @@ const t = (id: number, episodes: number | undefined, jahr: number, staffelQuelle
   pruefe('Überhang: Anzahl', text(z, 952) === '14 Folgen' && text(z, 953) === '20 Folgen' && z.get(952)?.anzahl === true, String(text(z, 952)))
   pruefe('Überhang: der Eintrag mit anderer Bezeichnung bleibt ohne Zusatz', !z.has(951))
 }
+/* Beginnt der Überhang schon in derselben Staffel (Quelle gleich, Spanne länger), ist die Startfolge ebenso unbekannt. */
+{
+  const teile = [t(961, 24, 2012, 3, 4), t(962, 14, 2013, 3), t(963, 20, 2014, 3)]
+  const z = folgenZusatz(teile, new Map([[961, nr(3, 4)], [962, nr(3)], [963, nr(3)]]))
+  pruefe('gleiche Quelle mit Spanne: Anzahl', text(z, 962) === '14 Folgen' && text(z, 963) === '20 Folgen', String(text(z, 962)))
+}
+/* Gleicher Start: die kleinere Kennung zuerst (Eingabe vertauscht). */
+{
+  const teile = [t(972, 5, 2013), t(971, 7, 2013)]
+  const z = folgenZusatz(teile, new Map(teile.map((m) => [m.id, nr(3)])))
+  pruefe('gleicher Start: Kennung entscheidet', text(z, 971) === 'Folge 1–7' && text(z, 972) === 'Folge 8–12', `${text(z, 971)} ${text(z, 972)}`)
+}
 
 /* Echte Reihe: Pokémon aus franchises.json — beide Staffel-16-Einträge werden getrennt, sonst nichts in der Reihe. */
 {
