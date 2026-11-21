@@ -2,7 +2,7 @@
  * Tests zu tools/pr-vorpruefung-hinweise.mjs: neue Mutanten ohne `tests` und Patch-Notes-Stempel (feste Tage, keine Uhr).
  */
 import assert from 'node:assert/strict'
-import { mutantenOhneTestsHinweise, stempelHinweise } from './pr-vorpruefung-hinweise.mjs'
+import { mutantenOhneTestsHinweise, neuerTestBasisHinweise, stempelHinweise } from './pr-vorpruefung-hinweise.mjs'
 
 const LISTE = 'tools/mutationen/x.json'
 const mut = (name, tests) => ({ name, aenderungen: [{ datei: 'a.ts', suche: 'a', ersetze: 'b' }], ...(tests ? { tests } : {}) })
@@ -33,4 +33,19 @@ assert.equal(stempelHinweise('M\tdata/patchnotes/vorrat/a.yaml', '2026-11-13', H
 assert.equal(stempelHinweise('M\tdocs/a.md', '2026-11-13', HEUTE).length, 0, 'andere Datei zählt nicht')
 assert.equal(stempelHinweise('', '2026-11-13', HEUTE).length, 0, 'leerer Diff -> kein Hinweis')
 
-console.log('pr-vorpruefung-hinweise.test: ok (Mutanten ohne tests: neu, Altfall, Kontrolle, fremde/gelöschte/kaputte Liste; Stempel: gestern, heute, fehlt, neu, gelöscht, Unterordner)')
+// Neuer Test ohne Basis-Beleg
+const NEU = 'A\ttools/x.test.mjs'
+const BELEG = 'Beleg: gegen die Basis rot (Fall 2 ✖)'
+assert.equal(neuerTestBasisHinweise(NEU, 'Neuer Test, grün.').length, 1, 'neuer Test ohne Beleg -> Hinweis')
+assert.match(neuerTestBasisHinweise(NEU, '')[0], /tools\/x\.test\.mjs: kein Beleg „rot an der Basis“/, 'Hinweis nennt die Datei')
+assert.equal(neuerTestBasisHinweise(NEU, BELEG).length, 0, 'Beleg „Basis … rot“ -> kein Hinweis')
+assert.equal(neuerTestBasisHinweise(NEU, 'Rot an der Basis: ✖ Fall 1').length, 0, 'Beleg „rot … Basis“ in anderer Folge/Schreibweise')
+assert.equal(neuerTestBasisHinweise(NEU, 'Basis geprüft.\nTest rot.').length, 1, 'Wörter in verschiedenen Zeilen belegen nichts')
+assert.equal(neuerTestBasisHinweise('M\ttools/x.test.mjs', '').length, 0, 'geänderter Test zählt nicht (nur neue Dateien)')
+assert.equal(neuerTestBasisHinweise('A\ttools/x.mjs', '').length, 0, 'neue Nicht-Testdatei zählt nicht')
+assert.equal(neuerTestBasisHinweise('A\ttools/testdaten/y.test.mjs', '').length, 0, 'Testdaten-Fixture zählt nicht')
+assert.equal(neuerTestBasisHinweise('A\ttools/a.test.mjs\nA\tpipeline/b.test.ts', '').length, 1, 'mehrere neue Tests -> ein Hinweis')
+assert.match(neuerTestBasisHinweise('A\ttools/a.test.mjs\nA\tpipeline/b.test.ts', '')[0], /a\.test\.mjs, pipeline\/b\.test\.ts/, 'alle neuen Tests genannt')
+assert.equal(neuerTestBasisHinweise('', '').length, 0, 'leerer Diff -> kein Hinweis')
+
+console.log('pr-vorpruefung-hinweise.test: ok (Mutanten ohne tests: neu, Altfall, Kontrolle, fremde/gelöschte/kaputte Liste; Stempel: gestern, heute, fehlt, neu, gelöscht, Unterordner; neuer Test ohne Basis-Beleg)')
