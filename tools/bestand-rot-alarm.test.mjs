@@ -112,7 +112,7 @@ assert.deepEqual(seit.map((r) => r.databaseId), [8, 7])
 
 // Gesamttext mit Kulisse: Läufe nach Workflow getrennt, Jobs nach Lauf-ID; drei Läufe, der richtige in der Mitte.
 const kulisse = ({ bestand, deploy, jobs }) => (...a) => {
-  if (a[1] === 'list') return { 'deploy.yml': deploy, 'nacht-pruefung.yml': NACHT_GRUEN }[a[a.indexOf('--workflow') + 1]] ?? bestand
+  if (a[1] === 'list') return { 'deploy.yml': deploy, 'nacht-pruefung.yml': NACHT_GRUEN, 'nachlauf.yml': NACHT_GRUEN }[a[a.indexOf('--workflow') + 1]] ?? bestand
   if (a[1] === 'view' && a[2] === '7') return jobs.sieben
   if (a[1] === 'view' && a[2] === '8') return jobs.acht
   throw new Error(`unerwartet ${a.join(' ')}`)
@@ -126,23 +126,25 @@ const BESTAND = JSON.stringify([
 const DEPLOY_ROT = JSON.stringify([lauf('success', '2026-10-23T01:00:00Z'), lauf('failure', '2026-10-23T05:00:00Z')])
 const JOBS = { sieben: JSON.stringify({ jobs: [job('build', ['Bau', 'failure'])] }), acht: JSON.stringify({ jobs: [job('pruefen', ['Test', 'failure'])] }) }
 const voll = rotAlarmText(kulisse({ bestand: BESTAND, deploy: DEPLOY_ROT, jobs: JOBS }), 'o/r', JETZT).split('\n')
-assert.equal(voll.length, 4)
+assert.equal(voll.length, 5)
 assert.match(voll[0], /^ALARM Bestandsbau seit 11\.0 h rot/)
 assert.equal(voll[1], 'ALARM Bestandsbau seit 8.0 h rot mit 2 verschiedenen Fehlerschritten (build: Bau; pruefen: Test; Grenze 1 h)')
 assert.match(voll[2], /^ALARM Deploy seit 11\.0 h ohne Erfolg/)
 assert.equal(voll[3], 'Nachtprüfung: kein Alarm')
+assert.equal(voll[4], 'Nachlauf: kein Alarm')
 // Gleicher Schritt in beiden Läufen: nur die 6-h-Zeile; Deploy grün: Entwarnungszeile.
 const DEPLOY_GRUEN = JSON.stringify([lauf('success', '2026-10-23T11:00:00Z')])
 const eins = rotAlarmText(kulisse({ bestand: BESTAND, deploy: DEPLOY_GRUEN, jobs: { sieben: JOBS.sieben, acht: JOBS.sieben } }), 'o/r', JETZT).split('\n')
-assert.equal(eins.length, 3)
+assert.equal(eins.length, 4)
 assert.equal(eins[1], 'Deploy: kein Alarm')
 assert.equal(eins[2], 'Nachtprüfung: kein Alarm')
+assert.equal(eins[3], 'Nachlauf: kein Alarm')
 // Lesefehler je Teil.
 const deployWirft = (...a) => {
   if (a.includes('deploy.yml')) throw new Error('deploy kaputt\nzweite')
   return kulisse({ bestand: BESTAND, deploy: '[]', jobs: JOBS })(...a)
 }
-assert.match(rotAlarmText(deployWirft, 'o/r', JETZT), /\nALARM\? Läufe des Deploys nicht lesbar: deploy kaputt\nNachtprüfung: kein Alarm$/)
+assert.match(rotAlarmText(deployWirft, 'o/r', JETZT), /\nALARM\? Läufe des Deploys nicht lesbar: deploy kaputt\nNachtprüfung: kein Alarm\nNachlauf: kein Alarm$/)
 const jobsWirft = (...a) => {
   if (a[2] === '8') throw new Error('jobs kaputt')
   return kulisse({ bestand: BESTAND, deploy: '[]', jobs: JOBS })(...a)
@@ -150,13 +152,13 @@ const jobsWirft = (...a) => {
 assert.match(rotAlarmText(jobsWirft, 'o/r', JETZT), /\nALARM\? Fehlerschritte des Bestandsbaus nicht lesbar: jobs kaputt\n/)
 
 // Jeder Workflow wird genau einmal gelistet (vorher zweimal für den Bestandsbau: 20 s statt 10 s bei --trocken).
-const zaehler = { 'bestand-bauen.yml': 0, 'deploy.yml': 0, 'nacht-pruefung.yml': 0 }
+const zaehler = { 'bestand-bauen.yml': 0, 'deploy.yml': 0, 'nacht-pruefung.yml': 0, 'nachlauf.yml': 0 }
 const zaehlend = (...a) => {
   if (a[1] === 'list') zaehler[a[a.indexOf('--workflow') + 1]]++
   return kulisse({ bestand: BESTAND, deploy: DEPLOY_ROT, jobs: JOBS })(...a)
 }
 rotAlarmText(zaehlend, 'o/r', JETZT)
-assert.deepEqual(zaehler, { 'bestand-bauen.yml': 1, 'deploy.yml': 1, 'nacht-pruefung.yml': 1 })
+assert.deepEqual(zaehler, { 'bestand-bauen.yml': 1, 'deploy.yml': 1, 'nacht-pruefung.yml': 1, 'nachlauf.yml': 1 })
 // Lesefehler des Bestandsbaus: beide Bestandszeilen melden ihn, Deploy läuft weiter, und es bleibt bei einem Abruf.
 let versuche = 0
 const bestandWirft = (...a) => {
@@ -168,13 +170,13 @@ const bestandWirft = (...a) => {
 }
 assert.equal(
   rotAlarmText(bestandWirft, 'o/r', JETZT),
-  'ALARM? Läufe des Bestandsbaus nicht lesbar: bestand kaputt\nALARM? Fehlerschritte des Bestandsbaus nicht lesbar: bestand kaputt\nDeploy: kein Alarm\nNachtprüfung: kein Alarm',
+  'ALARM? Läufe des Bestandsbaus nicht lesbar: bestand kaputt\nALARM? Fehlerschritte des Bestandsbaus nicht lesbar: bestand kaputt\nDeploy: kein Alarm\nNachtprüfung: kein Alarm\nNachlauf: kein Alarm',
 )
 assert.equal(versuche, 1)
 
 // Verdrahtung als Prozess: `gh` über die Kulisse, damit der echte Aufrufer läuft (Datum 2026-10-18 weit in der Vergangenheit, 2999 in der Zukunft).
 const stub = (laeufe) =>
-  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="derNamenloseDaniel/anime-kalender-de"||!["bestand-bauen.yml","deploy.yml","nacht-pruefung.yml"].includes(a[a.indexOf("--workflow")+1])))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
+  `data:text/javascript,import cp from "node:child_process";import{syncBuiltinESMExports}from "node:module";cp.execFileSync=(c,a)=>{if(a.includes("--workflow")&&(a[a.indexOf("--repo")+1]!=="derNamenloseDaniel/anime-kalender-de"||!["bestand-bauen.yml","deploy.yml","nacht-pruefung.yml","nachlauf.yml"].includes(a[a.indexOf("--workflow")+1])))throw new Error("gh?");return ${JSON.stringify(JSON.stringify(laeufe))}};syncBuiltinESMExports();globalThis.fetch=async()=>new Response("{}",{status:500})`
 const ALT = [lauf('success', '2026-10-18T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const FRISCH = [lauf('success', '2999-12-31T01:00:00Z'), lauf('failure', '2026-10-18T02:00:00Z')]
 const aufraeumen = fileURLToPath(new URL('./laeufe-aufraeumen.mjs', import.meta.url))
