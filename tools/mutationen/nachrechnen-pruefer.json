@@ -9,182 +9,182 @@
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const AENDERN = ['ändern', 'aendern']",
     "ersetze": "const AENDERN = ['aendern']",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "AENDERN: „aendern“ fehlt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const AENDERN = ['ändern', 'aendern']",
     "ersetze": "const AENDERN = ['ändern']",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "FREI: „ok“ fehlt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const FREI = ['ok', 'freigegeben', 'freigeben']",
     "ersetze": "const FREI = ['freigegeben', 'freigeben']",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "FREI: „freigegeben“ fehlt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const FREI = ['ok', 'freigegeben', 'freigeben']",
     "ersetze": "const FREI = ['ok', 'freigeben']",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "FREI: „freigeben“ fehlt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const FREI = ['ok', 'freigegeben', 'freigeben']",
     "ersetze": "const FREI = ['ok', 'freigegeben']",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "urteilAus: „Prüfer“ in der ersten Zeile wird nicht verlangt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "if (!zeile.includes('Prüfer')) return null",
     "ersetze": "if (false) return null",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "urteilAus: Form „Prüfer Runde N: …“ entfällt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "URTEIL_ZEILE.exec(zeile) ?? URTEIL_RUNDE.exec(zeile)",
     "ersetze": "URTEIL_ZEILE.exec(zeile)",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "urteilAus: Form „Urteil: …“ entfällt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "URTEIL_ZEILE.exec(zeile) ?? URTEIL_RUNDE.exec(zeile)",
     "ersetze": "URTEIL_RUNDE.exec(zeile)",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "urteilAus: ganzer Kommentar statt erster Zeile",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "String(body ?? '').split(/\\r?\\n/)[0]",
     "ersetze": "String(body ?? '')",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "urteilAus: Kopf-Muster nur 7 bis 8 Zeichen",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "[0-9a-f]{7,40}",
     "ersetze": "[0-9a-f]{7,8}",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: ok für fremden Kopf zählt (Filter umgekehrt)",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
-    "suche": "!(FREI.includes(u.wort) && u.kopf !== null && !kopf.startsWith(u.kopf))",
-    "ersetze": "!(FREI.includes(u.wort) && u.kopf !== null && kopf.startsWith(u.kopf))",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "suche": "!(FREI.includes(u.wort) && u.kopf !== null && !kopf.startsWith(u.kopf) && !gleich(u.kopf))",
+    "ersetze": "!(FREI.includes(u.wort) && u.kopf !== null && kopf.startsWith(u.kopf) && !gleich(u.kopf))",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: ok ohne Kopfnennung wird verworfen",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "FREI.includes(u.wort) && u.kopf !== null && !kopf",
     "ersetze": "FREI.includes(u.wort) && true && !kopf",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Kopffilter trifft auch „ändern“",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "!(FREI.includes(u.wort) && u.kopf !== null",
     "ersetze": "!(true && u.kopf !== null",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Kopf ist der erste statt der letzte Commit",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "commits[commits.length - 1].oid",
     "ersetze": "commits[0].oid",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: unbekannte Urteilswörter bleiben in der Liste",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": ".filter((u) => AENDERN.includes(u.wort) || FREI.includes(u.wort))",
     "ersetze": ".filter(() => true)",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Wortfilter mit && statt ||",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "AENDERN.includes(u.wort) || FREI.includes(u.wort))",
     "ersetze": "AENDERN.includes(u.wort) && FREI.includes(u.wort))",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Kommentare absteigend sortiert",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
-    "suche": "Date.parse(a.zeit) - Date.parse(b.zeit))\n  const letztes",
-    "ersetze": "Date.parse(b.zeit) - Date.parse(a.zeit))\n  const letztes",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "suche": "Date.parse(a.zeit) - Date.parse(b.zeit))\n  return urteile",
+    "ersetze": "Date.parse(b.zeit) - Date.parse(a.zeit))\n  return urteile",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: erstes statt letztes Urteil entscheidet",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const letztes = urteile[urteile.length - 1]",
     "ersetze": "const letztes = urteile[0]",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Sperre bei Urteil ok statt ändern",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "|| !AENDERN.includes(letztes.wort)) return null",
     "ersetze": "|| AENDERN.includes(letztes.wort)) return null",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Sperre ohne jedes Urteil",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "if (letztes === undefined ||",
     "ersetze": "if (false ||",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: ältester statt neuester Commit",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "const letzterCommit = zeiten[zeiten.length - 1]",
     "ersetze": "const letzterCommit = zeiten[0]",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Commit zur Urteilszeit hebt auf (> zu >=)",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "Date.parse(letzterCommit) > Date.parse(letztes.zeit)",
     "ersetze": "Date.parse(letzterCommit) >= Date.parse(letztes.zeit)",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Commit nach dem Urteil hebt nie auf (> zu <)",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "Date.parse(letzterCommit) > Date.parse(letztes.zeit)",
     "ersetze": "Date.parse(letzterCommit) < Date.parse(letztes.zeit)",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Commit-Zeit wird nicht beachtet",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
     "suche": "if (letzterCommit !== undefined &&",
     "ersetze": "if (letzterCommit === undefined &&",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Vorgabe comments entfällt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
-    "suche": "prueferSperre(comments = [], commits = [])",
-    "ersetze": "prueferSperre(comments, commits = [])",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "suche": "prueferSperre(comments = [], commits = [], gleich = () => false)",
+    "ersetze": "prueferSperre(comments, commits = [], gleich = () => false)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "prueferSperre: Vorgabe commits entfällt",
     "datei": "tools/pr-nachrechnen-pruefer.mjs",
-    "suche": "prueferSperre(comments = [], commits = [])",
-    "ersetze": "prueferSperre(comments = [], commits)",
-    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs"]
+    "suche": "prueferSperre(comments = [], commits = [], gleich = () => false)",
+    "ersetze": "prueferSperre(comments = [], commits, gleich = () => false)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
     "name": "nachrechnen: Sperre wird nie ausgelöst",
@@ -217,15 +217,15 @@
   {
     "name": "nachrechnen: Kommentare nicht durchgereicht",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "prueferSperre(pr.comments, pr.commits)",
-    "ersetze": "prueferSperre([], pr.commits)",
+    "suche": "prueferSperre(pr.comments, pr.commits, diffGleich(",
+    "ersetze": "prueferSperre([], pr.commits, diffGleich(",
     "tests": ["node tools/pr-nachrechnen.test.mjs"]
   },
   {
     "name": "nachrechnen: Commits nicht durchgereicht",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "prueferSperre(pr.comments, pr.commits)",
-    "ersetze": "prueferSperre(pr.comments, [])",
+    "suche": "prueferSperre(pr.comments, pr.commits, diffGleich(",
+    "ersetze": "prueferSperre(pr.comments, [], diffGleich(",
     "tests": ["node tools/pr-nachrechnen.test.mjs"]
   },
   {
@@ -234,5 +234,390 @@
     "suche": "headRefOid,headRefName,comments,commits${",
     "ersetze": "headRefOid,headRefName${",
     "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "geltendeUrteile: Diff-Gleichheit wird nicht gefragt (alte Zeile)",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": " && !gleich(u.kopf)))",
+    "ersetze": "))",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "geltendeUrteile: Diff-Gleichheit umgekehrt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": " && !gleich(u.kopf)))",
+    "ersetze": " && gleich(u.kopf)))",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "geltendeUrteile: gleich sagt immer ja",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "export function geltendeUrteile(comments, kopf, gleich) {",
+    "ersetze": "export function geltendeUrteile(comments, kopf, _gleich, gleich = () => true) {",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: Vorgabe gleich sagt immer ja",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "commits = [], gleich = () => false)",
+    "ersetze": "commits = [], gleich = () => true)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "prueferSperre: gleich nicht durchgereicht",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "geltendeUrteile(comments, kopf, gleich)\n  const letztes",
+    "ersetze": "geltendeUrteile(comments, kopf)\n  const letztes",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "geltendeUrteile: wiederholtes „Dirigent entscheidet“ wird nie verworfen",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "return urteile.filter((u, i) => !wiederholtOffen(u, urteile.slice(0, i), kopf, gleich))",
+    "ersetze": "return urteile",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: gleich nicht durchgereicht",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "urteile.slice(0, i), kopf, gleich))",
+    "ersetze": "urteile.slice(0, i), kopf, () => false))",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: Wort „aendern“ nicht verlangt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (!AENDERN.includes(u.wort) || u.kopf === null) return false",
+    "ersetze": "if (u.kopf === null) return false",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: Kopfnennung nicht verlangt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (!AENDERN.includes(u.wort) || u.kopf === null) return false",
+    "ersetze": "if (!AENDERN.includes(u.wort)) return false",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: Zusatz im ganzen Text statt erster Zeile",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "String(u.body).split(/\\r?\\n/)[0].includes(DIRIGENT_ENTSCHEIDET)",
+    "ersetze": "String(u.body).includes(DIRIGENT_ENTSCHEIDET)",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: Zusatz „Dirigent entscheidet“ nicht verlangt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "  if (!String(u.body).split(/\\r?\\n/)[0].includes(DIRIGENT_ENTSCHEIDET)) return false\n",
+    "ersetze": "",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: Kopf und Diff egal",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "  if (!kopf.startsWith(u.kopf) && !gleich(u.kopf)) return false\n",
+    "ersetze": "",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: jetziger Kopf zählt nicht",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (!kopf.startsWith(u.kopf) && !gleich(u.kopf)) return false",
+    "ersetze": "if (!gleich(u.kopf)) return false",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: diff-gleicher Kopf zählt nicht",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "if (!kopf.startsWith(u.kopf) && !gleich(u.kopf)) return false",
+    "ersetze": "if (!kopf.startsWith(u.kopf)) return false",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "wiederholtOffen: früheres „ok“ nicht verlangt",
+    "datei": "tools/pr-nachrechnen-pruefer.mjs",
+    "suche": "return vorher.some((v) => FREI.includes(v.wort))",
+    "ersetze": "return true",
+    "tests": ["node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "pr-pruefer.yml: Review läuft trotz Übernahme",
+    "datei": ".github/workflows/pr-pruefer.yml",
+    "suche": "      !cancelled() &&\n      needs.uebernahme.outputs.uebernommen != '1' &&\n",
+    "ersetze": "      !cancelled() &&\n",
+    "tests": ["node tools/pr-pruefer-ablauf.test.mjs"]
+  },
+  {
+    "name": "pr-pruefer.yml: Mutationsprobe läuft trotz Übernahme",
+    "datei": ".github/workflows/pr-pruefer.yml",
+    "suche": "    needs: uebernahme\n    if: >-\n      needs.uebernahme.outputs.uebernommen != '1' &&\n",
+    "ersetze": "    needs: uebernahme\n    if: >-\n",
+    "tests": ["node tools/pr-pruefer-ablauf.test.mjs"]
+  },
+  {
+    "name": "pr-pruefer.yml: Job-Ausgabe aus falschem Schritt",
+    "datei": ".github/workflows/pr-pruefer.yml",
+    "suche": "uebernommen: ${{ steps.uebernahme.outputs.uebernommen }}",
+    "ersetze": "uebernommen: ${{ steps.x.outputs.uebernommen }}",
+    "tests": ["node tools/pr-pruefer-ablauf.test.mjs"]
+  },
+  {
+    "name": "pr-pruefer.yml: Übernahme-Job darf Inhalte schreiben",
+    "datei": ".github/workflows/pr-pruefer.yml",
+    "suche": "    permissions:\n      contents: read\n      pull-requests: write\n    outputs:",
+    "ersetze": "    permissions:\n      contents: write\n      pull-requests: write\n    outputs:",
+    "tests": ["node tools/pr-pruefer-ablauf.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Hunk-Zeilennummern bleiben",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "d.patch.replace(HUNK_KOPF, '@@')",
+    "ersetze": "d.patch",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Dateireihenfolge zählt",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "teile.sort().join('\\n')",
+    "ersetze": "teile.join('\\n')",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Grenze 300 > statt >=",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "dateien.length >= DATEIEN_HOECHSTENS",
+    "ersetze": "dateien.length > DATEIEN_HOECHSTENS",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Grenze 301",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "export const DATEIEN_HOECHSTENS = 300",
+    "ersetze": "export const DATEIEN_HOECHSTENS = 301",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: leere Liste ergibt Kennung",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": " || dateien.length === 0 ||",
+    "ersetze": " ||",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Datei ohne Patch wird übergangen",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "  if (dateien.some((d) => typeof d.patch !== 'string')) return null\n",
+    "ersetze": "  if (dateien.some((d) => d.patch === null)) return null\n",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Status fehlt in der Kennung",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "[d.filename, d.status, d.previous_filename ?? '',",
+    "ersetze": "[d.filename, d.previous_filename ?? '',",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Vorname fehlt in der Kennung",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "[d.filename, d.status, d.previous_filename ?? '',",
+    "ersetze": "[d.filename, d.status,",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffKennung: Name fehlt in der Kennung",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "[d.filename, d.status, d.previous_filename ?? '',",
+    "ersetze": "[d.status, d.previous_filename ?? '',",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "compareKennung: zwei Punkte statt drei (Diff gegen main-Spitze)",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "compare/${basis}...${sha}",
+    "ersetze": "compare/${basis}..${sha}",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "compareKennung: Fehler ergibt feste Kennung",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "      return null\n    }\n  }\n}",
+    "ersetze": "      return 'fehler'\n    }\n  }\n}",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffGleich: kein Merken",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "    if (!gemerkt.has(sha)) gemerkt.set(sha, kennung(sha))",
+    "ersetze": "    gemerkt.set(sha, kennung(sha))",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffGleich: null gleich null",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "return a !== null && a === von(kopf)",
+    "ersetze": "return a === von(kopf)",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffGleich: leerer Kopf erlaubt",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "if (alt === undefined || kopf === '') return false",
+    "ersetze": "if (alt === undefined) return false",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "diffGleich: Kopf außerhalb der Commits erlaubt",
+    "datei": "tools/pr-eigener-diff.mjs",
+    "suche": "if (alt === undefined || kopf === '') return false",
+    "ersetze": "if (kopf === '') return false",
+    "tests": ["node tools/pr-eigener-diff.test.mjs", "node tools/pr-nachrechnen-pruefer.test.mjs", "node tools/pr-nachrechnen.test.mjs", "node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: gleich nicht durchgereicht (alte Zeile)",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "prueferSperre(pr.comments, pr.commits, diffGleich(compareKennung(gh, pr.baseRefName ?? 'main'), pr.commits ?? [], pr.headRefOid))",
+    "ersetze": "prueferSperre(pr.comments, pr.commits)",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Basis fest „zug“",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "compareKennung(gh, pr.baseRefName ?? 'main')",
+    "ersetze": "compareKennung(gh, 'zug')",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "nachrechnen: Kopf leer",
+    "datei": "tools/pr-nachrechnen.mjs",
+    "suche": "pr.commits ?? [], pr.headRefOid))",
+    "ersetze": "pr.commits ?? [], ''))",
+    "tests": ["node tools/pr-nachrechnen.test.mjs"]
+  },
+  {
+    "name": "uebernahme: auch ein „aendern“ wird übernommen",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": " || !FREI.includes(letztes.wort) ||",
+    "ersetze": " ||",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahme: ok ohne Kopf wird übernommen",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": " || letztes.kopf === null ||",
+    "ersetze": " ||",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahme: ohne Commits weiter",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": " || kopf === '') return null",
+    "ersetze": ") return null",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahme: jetziger Kopf wie fremder",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "if (!kopf.startsWith(letztes.kopf)) return",
+    "ersetze": "if (true) return",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahme: echtes ok am Kopf gilt als schon übernommen",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "String(letztes.body).includes(MARKE_UEBERNAHME) ?",
+    "ersetze": "true ?",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahme: gleich nicht durchgereicht",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "const urteile = geltendeUrteile(comments, kopf, gleich)",
+    "ersetze": "const urteile = geltendeUrteile(comments, kopf)",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "lauf: headRefOid nicht geprüft",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "if (daten.headRefOid !== kopf || ",
+    "ersetze": "if (",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "lauf: letzter Commit nicht geprüft",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": " || commits[commits.length - 1]?.oid !== kopf) {",
+    "ersetze": ") {",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "lauf: schon übernommen schreibt erneut",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "if (!u.schon) {",
+    "ersetze": "if (true) {",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "lauf: kein Kommentar",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "    gh(['pr', 'comment', pr, '--body-file', datei])\n",
+    "ersetze": "",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "lauf: kein Approve",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "    gh(['pr', 'review', pr, '--approve',",
+    "ersetze": "    void (['pr', 'review', pr, '--approve',",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "lauf: Basis fest zug statt baseRefName",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "compareKennung(gh, daten.baseRefName ?? 'main')",
+    "ersetze": "compareKennung(gh, 'zug')",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "main: Ausgabe ohne Übernahme",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "if (ja && process.env.GITHUB_OUTPUT)",
+    "ersetze": "if (process.env.GITHUB_OUTPUT)",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "main: Fehler endet rot",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "    console.log(`Übernahme: nein (Fehler: ${e.message}), volle Prüfung`)\n  }\n  return 0",
+    "ersetze": "    console.log(`Übernahme: nein (Fehler: ${e.message}), volle Prüfung`)\n    return 1\n  }\n  return 0",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "main: Startprüfung umgekehrt (läuft beim Import)",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "if (import.meta.url === pathToFileURL(process.argv[1]).href)",
+    "ersetze": "if (import.meta.url !== pathToFileURL(process.argv[1]).href)",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "main: Kommentardatei wird nicht geschrieben",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "    fs.writeFileSync(`${ordner}/${name}`, inhalt)\n",
+    "ersetze": "",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "main: Ausgabe uebernommen fehlt",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "fs.appendFileSync(process.env.GITHUB_OUTPUT, 'uebernommen=1\\n')",
+    "ersetze": "void 0",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahmeKommentar: Kopf nicht gekürzt",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "**Prüfer-Review** für ${kopf.slice(0, 9)} - Urteil",
+    "ersetze": "**Prüfer-Review** für ${kopf} - Urteil",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
   }
 ]

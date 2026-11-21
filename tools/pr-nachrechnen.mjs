@@ -33,6 +33,7 @@ import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
 import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
 import { standardPaket } from './pr-nachrechnen-paket-git.mjs'
 import { prueferSperre } from './pr-nachrechnen-pruefer.mjs'
+import { compareKennung, diffGleich } from './pr-eigener-diff.mjs'
 import { standardTextmerge } from './pr-nachrechnen-textmerge.mjs'
 import { aktualisiereZweig } from './pr-nachrechnen-zweig.mjs'
 
@@ -328,7 +329,7 @@ export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf
     melde(halt)
     return 2
   }
-  const prueferHalt = prueferSperre(pr.comments, pr.commits)
+  const prueferHalt = prueferSperre(pr.comments, pr.commits, diffGleich(compareKennung(gh, pr.baseRefName ?? 'main'), pr.commits ?? [], pr.headRefOid))
   if (prueferHalt !== null) {
     melde(`PR ${nummer}: ${prueferHalt}`)
     return 4
