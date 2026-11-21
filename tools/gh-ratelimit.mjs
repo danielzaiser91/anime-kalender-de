@@ -72,7 +72,7 @@ export const warteSync = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuff
 /** Kern-Kontingent {remaining, reset} aus `gh api rate_limit`. */
 export function holeKontingent(gh) {
   const core = JSON.parse(gh(['api', 'rate_limit'])).resources?.core ?? {}
-  return { remaining: core.remaining, reset: core.reset }
+  return { remaining: core.remaining, reset: core.reset, limit: core.limit, used: core.used }
 }
 
 /** Reset-Zeitpunkt oder NaN; ein nicht lesbarer Reset ergibt die kurze Ersatzwartezeit aus wartezeitMs. */
@@ -126,9 +126,12 @@ export function laufMitLimit(args, { lauf = ghLauf, gh = ghRoh, warte = warteSyn
   return lauf(args)
 }
 
+/** Logzeile mit Rest, Limit, Verbrauch und Reset (UTC); fehlen Limit und Reset in der Antwort, steht nur der Rest da. */
 export function restZeile(gh) {
   try {
-    return `x-ratelimit-remaining: ${holeKontingent(gh).remaining}`
+    const { remaining, limit, used, reset } = holeKontingent(gh)
+    if (!Number.isFinite(limit) || !Number.isFinite(reset) || reset <= 0) return `x-ratelimit-remaining: ${remaining}`
+    return `x-ratelimit-remaining: ${remaining} (limit ${limit}, used ${used}, reset ${new Date(reset * 1000).toISOString().slice(11, 19)} UTC)`
   } catch (e) {
     return `x-ratelimit-remaining: unbekannt (${String(e.message).split('\n')[0]})`
   }

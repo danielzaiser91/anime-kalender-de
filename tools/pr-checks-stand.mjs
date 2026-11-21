@@ -12,7 +12,7 @@ import { pathToFileURL } from 'node:url'
 import { ghMitLimit, ghRoh } from './gh-ratelimit.mjs'
 
 export const EIGENER = 'Prüfer-Review'
-const TAKT_MS = 20_000
+const TAKT_MS = 60_000
 // Ohne rot gilt ein Abschluss nur als bestanden; übersprungen/neutral ist beim Prüfer (kein Entwurf, kein daten/-Zweig) ein alter Lauf.
 const NICHT_ROT = new Set(['success', 'neutral', 'skipped'])
 

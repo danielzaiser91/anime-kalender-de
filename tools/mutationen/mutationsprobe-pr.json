@@ -4,7 +4,7 @@
   {"name":"HOECHSTENS_LISTEN +1","datei":"tools/mutationsprobe-pr.mjs","suche":"HOECHSTENS_LISTEN = 5","ersetze":"HOECHSTENS_LISTEN = 6","tests":["node tools/mutationsprobe-pr.test.mjs"]},
   {"name":"HOECHSTENS_LISTEN -1","datei":"tools/mutationsprobe-pr.mjs","suche":"HOECHSTENS_LISTEN = 5","ersetze":"HOECHSTENS_LISTEN = 4","tests":["node tools/mutationsprobe-pr.test.mjs"]},
   {"name":"Obergrenze > statt >=","datei":"tools/mutationsprobe-pr.mjs","suche":"stand.gestartet.length >= HOECHSTENS_LISTEN","ersetze":"stand.gestartet.length > HOECHSTENS_LISTEN","tests":["node tools/mutationsprobe-pr.test.mjs"]},
-  {"name":"TAKT_MS -1 s","datei":"tools/mutationsprobe-pr.mjs","suche":"TAKT_MS = 15_000","ersetze":"TAKT_MS = 14_000","tests":["node tools/mutationsprobe-pr.test.mjs"]},
+  {"name":"TAKT_MS -1 s","datei":"tools/mutationsprobe-pr.mjs","suche":"TAKT_MS = 60_000","ersetze":"TAKT_MS = 59_000","tests":["node tools/mutationsprobe-pr.test.mjs"]},
   {"name":"ERGEBNIS_MAX +1","datei":"tools/mutationsprobe-pr.mjs","suche":"ERGEBNIS_MAX = 6000","ersetze":"ERGEBNIS_MAX = 6001","tests":["node tools/mutationsprobe-pr.test.mjs"]},
   {"name":"geaenderteListen: gelöschte Liste zählt mit","datei":"tools/mutationsprobe-pr.mjs","suche":"d.status !== 'removed' && LISTE_PFAD","ersetze":"LISTE_PFAD","tests":["node tools/mutationsprobe-pr.test.mjs"]},
   {"name":"geaenderteListen: Unterordner erlaubt","datei":"tools/mutationsprobe-pr.mjs","suche":"[A-Za-z0-9._-]+\\.json$/","ersetze":"[A-Za-z0-9._/-]+\\.json$/","tests":["node tools/mutationsprobe-pr.test.mjs"]},

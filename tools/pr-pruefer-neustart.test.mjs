@@ -73,20 +73,20 @@ const laufend = [{ id: 5, status: 'in_progress', head_sha: KOPF }, { id: 4, stat
 gleich('abgeschlossener Lauf: nur rerun des neuesten', laufe({}, abgeschlossen).aufrufe, ['run rerun 5'])
 const l = laufe({}, laufend)
 gleich('laufender Lauf: erst cancel, warten, dann rerun', l.aufrufe, ['run cancel 5', 'run rerun 5'])
-gleich('laufender Lauf: gewartet bis completed (einmal)', l.wartet, [5000])
+gleich('laufender Lauf: gewartet bis completed (einmal)', l.wartet, [15_000])
 gleich('kein Lauf zum Kopf: nichts', laufe({}, []).aufrufe, [])
 gleich('nur Läufe alter Köpfe: nichts', laufe({}, fremd).aufrufe, [])
-// Lauf wird nach cancel nie completed: vierzig Abfragen (200 s; gemessen 04.11.2026: cancel bis completed 75–85 s, 60 s reichten nicht) und Pausen, dann scheitert rerun; Meldung statt Rot.
+// Lauf wird nach cancel nie completed: 14 Abfragen im 15-s-Takt (210 s, Kontingent 21.11.2026; vorher 40 x 5 s; gemessen 04.11.2026: cancel bis completed 75–85 s, 60 s reichten nicht) und Pausen, dann scheitert rerun; Meldung statt Rot.
 const haengt = laufe({}, laufend, { stand: Array(50).fill('in_progress'), rerunFehlt: true })
 gleich('Lauf bleibt nach cancel offen: Exit 1', haengt.code, 1)
 gleich('Lauf bleibt nach cancel offen: Zeile mit PR, Kopf und Grund', haengt.zeilen.some((z) => z.includes('FEHLGESCHLAGEN PR 7 Kopf ' + KOPF.slice(0, 9) + ': nicht neu gestartet (Lauf läuft noch)')), true)
 gleich('Erfolg: Exit 0 ohne FEHLGESCHLAGEN', [laufe({}, laufend).code, laufe({}, laufend).zeilen.some((z) => z.includes('FEHLGESCHLAGEN'))], [0, false])
 gleich('kein Lauf zum Kopf: Exit 0', laufe({}, []).code, 0)
-gleich('Lauf bleibt nach cancel offen: vierzig Pausen', haengt.wartet.length, 40)
-// Anlass 04.11.2026: cancel brauchte 17 Abfragen (etwa 80 s) bis completed; nach zwölf lief rerun ins Leere, der Prüfer blieb cancelled.
-const spaet = laufe({}, laufend, { stand: [...Array(17).fill('in_progress'), 'completed'] })
-gleich('Lauf endet erst nach 17 Abfragen: rerun kommt trotzdem', spaet.aufrufe, ['run cancel 5', 'run rerun 5'])
-gleich('Lauf endet erst nach 17 Abfragen: 17 Pausen', spaet.wartet.length, 17)
+gleich('Lauf bleibt nach cancel offen: vierzehn Pausen', haengt.wartet.length, 14)
+// Anlass 04.11.2026: cancel brauchte etwa 80 s bis completed; im 15-s-Takt (21.11.2026) sind das 6 Abfragen, 14 Runden decken 210 s.
+const spaet = laufe({}, laufend, { stand: [...Array(6).fill('in_progress'), 'completed'] })
+gleich('Lauf endet erst nach 6 Abfragen: rerun kommt trotzdem', spaet.aufrufe, ['run cancel 5', 'run rerun 5'])
+gleich('Lauf endet erst nach 6 Abfragen: 6 Pausen', spaet.wartet.length, 6)
 gleich('gh-Absturz bei der Lauf-Abfrage: Exit 1', (() => {
   const mute = console.log
   console.log = () => {}
@@ -173,7 +173,7 @@ gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
 gleich('YAML reicht die Kommentarzeit durch (comment.created_at)', schritt.env.KOMMENTAR_ZEIT, '${{ github.event.comment.created_at }}')
 // Zeitbudget: Pausen plus 60 s für Checkout und Abfragen müssen unter der Jobfrist bleiben.
 const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
-gleich('Pausen des hängenden Laufs = Runden x Takt aus dem Werkzeug', [pausenMs, WARTE_RUNDEN * WARTE_MS], [200_000, 200_000])
+gleich('Pausen des hängenden Laufs = Runden x Takt aus dem Werkzeug', [pausenMs, WARTE_RUNDEN * WARTE_MS], [210_000, 210_000])
 // Dauer-Limit durch main: jeder verschiedene Aufruf scheitert beim ersten Mal mit „rate limit“ (Reset 5 min voraus = 302 s Wartezeit).
 // Das Zeitkonto deckt zwei dieser Wartezeiten (604 s), die dritte (302 s > 296 s Rest) nicht mehr: Exit 1, Summe der echten Warten <= KONTO_MS.
 const dauer = (() => {
@@ -198,7 +198,7 @@ const dauer = (() => {
 })()
 gleich('Dauer-Limit: zwei Warten (302 s), dann Schluss ohne weiteres Warten, Exit 1', [dauer.wartet, dauer.code], [[302_000, 302_000], 1])
 gleich('Dauer-Limit: Summe der Wartezeiten <= Zeitkonto', dauer.wartet.reduce((s, ms) => s + ms, 0) <= KONTO_MS, true)
-// Zeitbudget aus den echten Pausen des hängenden Laufs (haengt: 40 x 5 s) plus Zeitkonto plus 60 s für Checkout und Abfragen.
+// Zeitbudget aus den echten Pausen des hängenden Laufs (haengt: 14 x 15 s) plus Zeitkonto plus 60 s für Checkout und Abfragen.
 const budgetMin = (pausenMs + KONTO_MS + 60_000) / 60_000
 gleich(`Zeitbudget: Pausen + Zeitkonto + 60 s = ${budgetMin.toFixed(1)} min <= timeout-minutes ${job['timeout-minutes']}`, budgetMin <= job['timeout-minutes'], true)
 gleich('Zeitbudget: Job-Timeout höchstens eine Minute über dem gerundeten Budget', job['timeout-minutes'] <= Math.ceil(budgetMin) + 1, true)

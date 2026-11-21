@@ -19,8 +19,8 @@ const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
 export const MAX_NEUSTARTS = 2
 // Der Prüfer-Lauf (Job-Timeout 30 min) liest das Kettenlog nach ~13 min und braucht danach noch bis zu 17 min für Modell und
 // Kommentar: das Kettenende fällt meist mitten in seinen Lauf, sein Kommentar mit der Marke entsteht erst am Schluss.
-export const WARTE_RUNDEN = 56
-export const WARTE_MS = 30_000
+export const WARTE_RUNDEN = 28
+export const WARTE_MS = 60_000
 
 /** Neuester Kommentar des Prüfer-Bots zu diesem Kopf (Liste der API, älteste zuerst) oder null. */
 export function letztesUrteil(kommentare, kopf) {

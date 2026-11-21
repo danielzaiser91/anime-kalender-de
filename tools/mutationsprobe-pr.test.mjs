@@ -217,13 +217,13 @@ try {
     let jetzt = 1000
     const schlafe = []
     const text = await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => jetzt, schlafen: async (ms) => { schlafe.push(ms); jetzt += ms }, hole: (id) => `Tabelle von ${id}` })
-    assert.deepEqual(schlafe, [15000, 15000], 'wartet im 15-s-Takt bis zum Ende des Laufs')
+    assert.deepEqual(schlafe, [60000, 60000], 'wartet im 60-s-Takt bis zum Ende des Laufs')
     assert.equal(aufrufe.filter((a) => a[0] === 'run').length, 3)
     assert.ok(text.includes(`- ${L1}: Lauf failure`) && text.includes('Tabelle von 2'), text)
     assert.equal(fs.readFileSync(path.join(o, 'mutationsprobe.txt'), 'utf8'), text)
   }
 
-  // Frist: ein Lauf, der nie endet, wird nach genau 480 s (32 Takte) als „läuft noch“ gemeldet; kein Fehler
+  // Frist: ein Lauf, der nie endet, wird nach genau 480 s (8 Takte) als „läuft noch“ gemeldet; kein Fehler
   {
     const o = path.join(dir, 'warte2')
     const { gh } = baueGh({ listen: dateien([[L1, 'added']]), inhalte: { [L1]: mit }, laeufe: () => [lauf(5, `Mutationsprobe ${L1} @ ${KOPF}`, { status: 'in_progress', conclusion: '' })] })
@@ -231,7 +231,7 @@ try {
     let jetzt = 1000
     let takte = 0
     const text = await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => jetzt, schlafen: async (ms) => { takte++; jetzt += ms }, hole: () => 'TABELLE' })
-    assert.equal(takte, 32)
+    assert.equal(takte, 8)
     assert.match(text, /nicht beurteilt: Lauf läuft noch \(in_progress\)/)
     assert.ok(!text.includes('TABELLE'), 'für einen offenen Lauf wird kein Ergebnis geholt')
     // Kettenlog hat die Frist schon verbraucht (Uhr bei t0 + 480 s): kein Takt mehr, aber ein Urteil aus einer einzigen Abfrage
@@ -240,7 +240,7 @@ try {
     await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => jetzt, schlafen: async () => { takte++ }, hole: () => '' })
     assert.equal(takte, 0)
     jetzt = 1000 + 479_999
-    await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => jetzt, schlafen: async () => { takte++; jetzt += 15_000 }, hole: () => '' })
+    await warte({ ordner: o, repo: 'o/r', gh, jetzt: () => jetzt, schlafen: async () => { takte++; jetzt += 60_000 }, hole: () => '' })
     assert.equal(takte, 1, 'eine Millisekunde vor der Frist gibt es noch einen Takt')
   }
 
