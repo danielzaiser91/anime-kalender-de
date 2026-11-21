@@ -18,14 +18,19 @@ function ende(text) {
   process.stdout.write(text)
   process.exit(0)
 }
-/** Die ersten `pr.ausfaelle[name]` Aufrufe scheitern mit einer Nicht-JSON-Antwort (kurzer API-Aussetzer, PRs 3579/3584). */
+/**
+ * Die ersten `pr.ausfaelle[name]` Aufrufe scheitern mit einer Nicht-JSON-Antwort (kurzer API-Aussetzer, PRs 3579/3584), oder mit
+ * `pr.ausfallText`; `pr.ausfallErst[name]` = so viele Aufrufe davor gelingen noch (derselbe Abruf kommt aus mehreren Schritten).
+ */
 function ausfall(pr, name) {
   const grenze = pr?.ausfaelle?.[name] ?? 0
+  if (!grenze) return
   const datei = `${process.env.ATTRAPPE_LOG}.${name}`
-  const bisher = fs.existsSync(datei) ? Number(fs.readFileSync(datei, 'utf8')) : 0
-  if (bisher >= grenze) return
-  fs.writeFileSync(datei, String(bisher + 1))
-  process.stderr.write("invalid character 'S' looking for beginning of value")
+  const n = fs.existsSync(datei) ? Number(fs.readFileSync(datei, 'utf8')) : 0
+  fs.writeFileSync(datei, String(n + 1))
+  const erst = pr.ausfallErst?.[name] ?? 0
+  if (n < erst || n >= erst + grenze) return
+  process.stderr.write(pr.ausfallText ?? "invalid character 'S' looking for beginning of value")
   process.exit(1)
 }
 function nicht() {
@@ -37,10 +42,23 @@ function treffer(muster) {
   return m ? daten.prs[m[1]] : undefined
 }
 
+// Reset in der Vergangenheit (der Test wartet nicht wirklich), es sei denn ein PR der Kulisse setzt `reset` (Sekunden seit 1970).
+if (schluessel === 'api rate_limit') ende(JSON.stringify({ resources: { core: { limit: 1000, remaining: 42, reset: Object.values(daten.prs).find((p) => p.reset)?.reset ?? 1 } } }))
 let pr
-if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRefName`))) ende(pr.view + '\n')
-if ((pr = treffer(`pr diff (\\d+)`)) && pr.diff !== undefined) ende(pr.diff)
-if ((pr = treffer(`pr comment (\\d+) --repo ${daten.repo} --body-file \\S+`))) ende('')
+// Merge-Basis: ohne Ausfall-Vorgabe wie bisher HTTP 404 (kein Git-Rückfall in der Kulisse), mit `ausfaelle.compare` scheitern die ersten Aufrufe.
+if (new RegExp(`^api --method GET ${r}/compare/`).test(schluessel)) ausfall(Object.values(daten.prs).find((p) => p.ausfaelle?.compare), 'compare')
+if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRefName`))) {
+  ausfall(pr, 'view')
+  ende(pr.view + '\n')
+}
+if ((pr = treffer(`pr diff (\\d+)`)) && pr.diff !== undefined) {
+  ausfall(pr, 'diff')
+  ende(pr.diff)
+}
+if ((pr = treffer(`pr comment (\\d+) --repo ${daten.repo} --body-file \\S+`))) {
+  ausfall(pr, 'kommentar')
+  ende('')
+}
 if ((pr = treffer(`api --method GET --paginate ${r}/pulls/(\\d+)/files -f per_page=100`)) && abfrage === '.[]') {
   ausfall(pr, 'dateien')
   ende(pr.dateien.map((d) => JSON.stringify(d) + '\n').join(''))
@@ -67,11 +85,18 @@ if (befehl === 'run' && roh[0] === 'download') {
 }
 if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ausfall(pr, 'login')
 if ((pr = treffer(`api ${r}/pulls/(\\d+)`)) && abfrage === '.user.login') ende(pr.login + '\n')
-if ((pr = treffer(`api ${r}/issues/(\\d+)/comments --paginate`)) && abfrage !== null) ende('')
-if ((pr = treffer(`api --paginate --slurp ${r}/issues/(\\d+)/comments`)) && abfrage === null) ende(JSON.stringify(pr.kommentare))
+if ((pr = treffer(`api ${r}/issues/(\\d+)/comments --paginate`)) && abfrage !== null) {
+  ausfall(pr, 'kommentare')
+  ende('')
+}
+if ((pr = treffer(`api --paginate --slurp ${r}/issues/(\\d+)/comments`)) && abfrage === null) {
+  ausfall(pr, 'slurp')
+  ende(JSON.stringify(pr.kommentare))
+}
 if ((pr = treffer(`api --paginate --slurp ${r}/pulls/(\\d+)/commits`)) && abfrage === null && pr.commits) ende(JSON.stringify(pr.commits))
 // Kettenlog (tools/pr-kettenlog.mjs): ein abgeschlossener Lauf mit einem Job und einer Logzeile, die es im echten Repo nicht gibt.
 if (schluessel === `api ${r}/actions/workflows/pr-pruefung.yml/runs?head_sha=${'c'.repeat(40)}&event=pull_request&per_page=30` && abfrage !== null) {
+  ausfall(Object.values(daten.prs).find((p) => p.ausfaelle?.kettenlog), 'kettenlog')
   ende('5\tcompleted\tsuccess\n')
 }
 if (schluessel === `api --paginate ${r}/actions/runs/5/jobs?per_page=100` && abfrage !== null) ende('11\tKulissen-Job\tcompleted\tsuccess\n')

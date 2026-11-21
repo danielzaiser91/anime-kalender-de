@@ -161,10 +161,19 @@ const API = `const fs = require('node:fs')
 const a = process.argv.slice(2)
 fs.appendFileSync(process.env.ATTRAPPE_LOG, JSON.stringify(a) + '\\n')
 if (a.join(' ') === 'repos/o/r/rules/branches/main') process.stdout.write(process.env.ATTRAPPE_REGELN)
-else if (a.join(' ') === '--paginate repos/o/r/commits/${SHA}/check-runs?per_page=100 -q .check_runs[] | [.id, .name, .status, (.conclusion // "")] | @tsv') process.stdout.write(process.env.ATTRAPPE_LAEUFE)
+else if (a.join(' ') === 'rate_limit') process.stdout.write('{"resources":{"core":{"remaining":0,"reset":1}}}')
+else if (a.join(' ') === '--paginate repos/o/r/commits/${SHA}/check-runs?per_page=100 -q .check_runs[] | [.id, .name, .status, (.conclusion // "")] | @tsv') {
+  const marke = process.env.ATTRAPPE_LOG + '.limit'
+  if (process.env.ATTRAPPE_LIMIT && !fs.existsSync(marke)) {
+    fs.writeFileSync(marke, '1')
+    process.stderr.write('HTTP 403: API rate limit exceeded for installation\\n')
+    process.exit(1)
+  }
+  process.stdout.write(process.env.ATTRAPPE_LAEUFE)
+}
 else process.exit(1)
 `
-function laufeSchritt(laeufe) {
+function laufeSchritt(laeufe, limit = false, frist = null) {
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-checks-schritt-'))
   try {
     const bin = path.join(ordner, 'bin')
@@ -175,15 +184,19 @@ function laufeSchritt(laeufe) {
     else fs.symlinkSync(process.execPath, path.join(bin, 'gh'))
     fs.writeFileSync(path.join(ws, 'api'), API)
     fs.copyFileSync(fileURLToPath(new URL('./pr-checks-stand.mjs', import.meta.url)), path.join(ws, 'tools', 'pr-checks-stand.mjs'))
+    fs.copyFileSync(fileURLToPath(new URL('./gh-ratelimit.mjs', import.meta.url)), path.join(ws, 'tools', 'gh-ratelimit.mjs'))
     const env = Object.fromEntries(Object.entries(process.env).filter(([s]) => !/^(GITHUB_|RUNNER_|GH_)/.test(s)))
     const pfad = Object.keys(env).find((s) => s.toUpperCase() === 'PATH') ?? 'PATH'
     env[pfad] = bin + path.delimiter + env[pfad]
     const ausgabe = path.join(ordner, 'ausgabe.txt')
     const log = path.join(ordner, 'aufrufe.log')
     Object.assign(env, { HEAD_SHA: SHA, GITHUB_REPOSITORY: 'o/r', GITHUB_OUTPUT: ausgabe, GH_TOKEN: 'tok', ATTRAPPE_LOG: log })
-    Object.assign(env, { ATTRAPPE_REGELN: JSON.stringify(REGELN.slice(0, 3)), ATTRAPPE_LAEUFE: laeufe })
+    Object.assign(env, { ATTRAPPE_REGELN: JSON.stringify(REGELN.slice(0, 3)), ATTRAPPE_LAEUFE: laeufe, ...(limit ? { ATTRAPPE_LIMIT: '1' } : {}) })
     const skript = path.join(ordner, 'schritt.sh')
-    fs.writeFileSync(skript, checksSchritt.run)
+    // `frist`: Sekunden statt der 120 des Workflows (0 = genau ein Versuch, keine zweite Runde).
+    const befehl = frist === null ? checksSchritt.run : checksSchritt.run.replace(/"\$HEAD_SHA" \d+/, `"$HEAD_SHA" ${frist}`)
+    if (frist !== null && befehl === checksSchritt.run) throw new Error('Frist im Schritt nicht ersetzt')
+    fs.writeFileSync(skript, befehl)
     const bash = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash'
     const r = spawnSync(bash, ['-e', skript], { cwd: ws, env, encoding: 'utf8', windowsHide: true, timeout: 60_000 })
     const lies = (d) => (fs.existsSync(d) ? fs.readFileSync(d, 'utf8') : '')
@@ -198,6 +211,18 @@ pruefe('Schritt: grüne Kette -> stand=gruen in $GITHUB_OUTPUT, zwei gh-Aufrufe'
 const schrittRot = laufeSchritt('7\tPR-Prüfkette\tin_progress\t\n9\tKette – Workflows\tcompleted\tfailure\n')
 pruefe('Schritt: roter Teiljob -> stand=Checks rot: Kette – Workflows',
   schrittRot.status === 0 && schrittRot.ausgabe === 'stand=Checks rot: Kette – Workflows\n', schrittRot)
+// Kontingent erschöpft: nach dem Reset (hier längst vorbei) ein zweiter Versuch; Aufrufe: rules, Check-Runs (403), rate_limit, Check-Runs.
+const schrittLimit = laufeSchritt('7\tPR-Prüfkette\tcompleted\tsuccess\n8\tPrüfer-Review\tin_progress\t\n', true)
+pruefe('Schritt: rate limit -> nach dem Reset ein zweiter Versuch, stand=gruen',
+  schrittLimit.status === 0 && schrittLimit.ausgabe === 'stand=gruen\n' && schrittLimit.aufrufe === 4, schrittLimit)
+// Ohne zweite Runde (Frist 0) entscheidet allein der Neuversuch nach dem Reset: ohne ihn bliebe „Checks-Stand unbekannt“ (Basis main:
+// stand=Checks-Stand unbekannt: API: …), mit ihm kommt das echte Ergebnis. Die Wiederholschleife der Takt-Runden kann das nicht leisten.
+const grueneKette = '7\tPR-Prüfkette\tcompleted\tsuccess\n8\tPrüfer-Review\tin_progress\t\n'
+const limitEinmal = laufeSchritt(grueneKette, true, 0)
+pruefe('Schritt, Frist 0: rate limit -> Neuversuch nach dem Reset liefert stand=gruen (nicht „unbekannt“), vier gh-Aufrufe',
+  limitEinmal.status === 0 && limitEinmal.ausgabe === 'stand=gruen\n' && limitEinmal.aufrufe === 4, limitEinmal)
+const ohneLimit = laufeSchritt(grueneKette, false, 0)
+pruefe('Schritt, Frist 0, ohne Limit: stand=gruen, zwei gh-Aufrufe (kein rate_limit-Aufruf)', ohneLimit.ausgabe === 'stand=gruen\n' && ohneLimit.aufrufe === 2, ohneLimit)
 
 if (fehler.length) {
   console.error(`pr-checks-stand.test: ${fehler.length} Fehler`)
