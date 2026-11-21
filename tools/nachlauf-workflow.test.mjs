@@ -40,6 +40,11 @@ assert.match(zeile, /^ALARM Nachlauf auf main rot \(neuester Lauf 2026-11-21T03:
 assert.equal(nachlaufAlarmZeile([rot, { ...gruen, createdAt: '2026-11-21T04:00:00Z' }]), undefined, 'grün nach rot entwarnt')
 assert.equal(nachlaufAlarmZeile([gruen, lauf('cancelled', '2026-11-21T03:00:00Z', 'd')]), undefined, 'von Hand abgebrochen ist kein Alarm')
 assert.equal(nachlaufAlarmZeile([gruen, { status: 'in_progress', conclusion: '', createdAt: '2026-11-21T05:00:00Z' }]), undefined)
+const laeuft = { status: 'in_progress', conclusion: '', createdAt: '2026-11-21T05:00:00Z', headSha: 'f' }
+assert.match(nachlaufAlarmZeile([gruen, rot, laeuft]), /neuester Lauf 2026-11-21T03:00:00Z, 1 rote/, 'ein laufender Lauf hebt einen roten nicht auf')
+const gruenNeuer = lauf('success', '2026-11-21T02:00:00Z', 'ccccccc3333333333333333333333333333333333')
+assert.match(nachlaufAlarmZeile([gruen, gruenNeuer, rot]), /Commits ccccccc\.\.bbbbbbb/, 'Bereich beginnt am neuesten grünen Kopf')
+assert.match(nachlaufAlarmZeile([gruen, lauf('cancelled', '2026-11-21T02:00:00Z', 'd'), rot]), /2 rote\/abgebrochene/, 'Abgebrochenes zählt in der Anzahl, löst aber nichts aus')
 assert.match(nachlaufAlarmZeile([lauf('timed_out', '2026-11-21T03:00:00Z', 'eeeeeee4')]), /^ALARM Nachlauf auf main rot .*Commits \?\.\.eeeeeee,/, 'ohne grünen Lauf: Anfang unbekannt')
 
 // Verdrahtung: workflow nachlauf.yml wird gelistet, Lesefehler ist selbst eine Zeile, die Zeile steht zuletzt in rotAlarmText.

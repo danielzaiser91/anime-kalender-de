@@ -2,7 +2,7 @@ name: Nachlauf auf main
 
 # Netz unter der PR-Kette (PR 4417, 21.11.2026): Die Kette prüft den PR-Kopf gegen den Stand, auf dem sie lief; was zwei einzeln grüne PRs zusammen reißen, sieht sie nicht.
 # Der Nachlauf fährt nach jedem Push auf main den schnellen Kern (Logik, Tests) und die Budgets (Bau samt Umfangs-/Start-/Dateibudget, Lighthouse-Bytes und -Ratschen).
-# Er meldet nur: Rot erzeugt eine ALARM-Zeile mit Commit-Bereich (`tools/nachlauf-alarm.mjs`, sichtbar in `node tools/laeufe-aufraeumen.mjs --trocken`), nichts wird
+# Er meldet nur: Rot erzeugt eine ALARM-Zeile mit Commit-Bereich (`tools/bestand-rot-alarm.mjs`, `nachlaufAlarmZeile`; sichtbar in `node tools/laeufe-aufraeumen.mjs --trocken`), nichts wird
 # zurückgenommen, nichts committet, kein Deploy-Tor. Jede Prüfung steht ohne `continue-on-error` und ohne `if` in ihrem Job (Rot darf nicht verschluckt werden).
 #
 # **Bot-Pfade ausgenommen:** Pushes, die nur Dateien berühren, die kein Schritt liest (Liste `BOT_DATEIEN_OHNE_LESER` in tools/pr-nachrechnen-bot-pfade.mjs), erzeugen gar keinen
