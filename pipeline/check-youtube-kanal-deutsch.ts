@@ -58,7 +58,7 @@ try {
     5: { url: yt('handnein001'), checkedAt: '2026-11-16', dub: false },
     7: { url: yt('handja00001'), checkedAt: '2026-11-16', dub: true },
   }
-  const { ytAusTonspur } = werteLinkpruefungAus({
+  const { ytUrteileAusTonOderKanal } = werteLinkpruefungAus({
     ytKanal: {},
     ytKauf: new Set(),
     titles,
@@ -78,7 +78,7 @@ try {
   erwarte('gelisteter Kanal, Handbeleg „nein": Handbeleg gewinnt', dub(5), false)
   erwarte('Weg ohne Kanalbefund: kein Urteil', dub(6), undefined)
   erwarte('fremder Kanal, Handbeleg „ja": true', dub(7), true)
-  erwarte('Zählung: Fälle 1, 3 und 4 kamen aus Kanal bzw. Tonspur', ytAusTonspur, 3)
+  erwarte('Zählung: Fälle 1, 3 und 4 kamen aus Kanal bzw. Tonspur', ytUrteileAusTonOderKanal, 3)
   const liste = ladeDeutscheKanaele()
   erwarte('Liste: nur Einträge mit Namen', [...liste], [DE])
   erwarte('Kanal gelistet', dubAusDeutschemKanal(DE, liste), true)

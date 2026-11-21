@@ -20,7 +20,7 @@ export function uebernehmePrimeUndCrVorschlaege({
   ytKauf,
   geprueft,
   entfernt,
-  ytAusTonspur,
+  ytUrteileAusTonOderKanal,
   adressen,
   totEntfernt,
   ytEntfernt,
@@ -40,7 +40,7 @@ export function uebernehmePrimeUndCrVorschlaege({
   ytKauf: Set<string>
   geprueft: number
   entfernt: number
-  ytAusTonspur: number
+  ytUrteileAusTonOderKanal: number
   adressen: number
   totEntfernt: number
   ytEntfernt: number
@@ -50,7 +50,7 @@ export function uebernehmePrimeUndCrVorschlaege({
   belegFuer: (titleId: number, plattform: PlatformId, url?: string, anzahlWege?: number) => DubCheck | undefined
 }) {
   uebernehmePrimeMeldungen({ titles, checks, alleChecks, lautPruefungTot, checksJePlattform })
-  pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdresse, joynZugang, ytKauf, checks, geprueft, entfernt, ytAusTonspur, adressen, totEntfernt, ytEntfernt })
+  pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdresse, joynZugang, ytKauf, checks, geprueft, entfernt, ytUrteileAusTonOderKanal, adressen, totEntfernt, ytEntfernt })
 
   entferneToteKaufwege({ titles, linkBefunde })
 

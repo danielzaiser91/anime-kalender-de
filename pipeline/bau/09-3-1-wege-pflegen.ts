@@ -12,7 +12,7 @@ import { type TmdbTitelEintrag } from './01-quellen.ts'
  * Was es kostet, entscheidet `shared/zugangsart.ts` aus Name, Adresse und der
  * Angabe des Anbieters selbst — `kind: 'buy'` ist die stärkste davon.
  */
-export function pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdresse, joynZugang, ytKauf, checks, geprueft, entfernt, ytAusTonspur, adressen, totEntfernt, ytEntfernt }: {
+export function pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdresse, joynZugang, ytKauf, checks, geprueft, entfernt, ytUrteileAusTonOderKanal, adressen, totEntfernt, ytEntfernt }: {
   titles: Map<number, Title>
   tmdbTitles: Record<string, TmdbTitelEintrag>
   ytKanal: Record<string, string>
@@ -22,7 +22,7 @@ export function pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdr
   checks: Map<string, DubCheck>
   geprueft: number
   entfernt: number
-  ytAusTonspur: number
+  ytUrteileAusTonOderKanal: number
   adressen: number
   totEntfernt: number
   ytEntfernt: number
@@ -64,7 +64,7 @@ export function pflegeWegeNachBelegen({ titles, tmdbTitles, ytKanal, zugangJeAdr
   if (checks.size) {
     log(
       `${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)` +
-        (ytAusTonspur ? `, ${ytAusTonspur} YouTube-Urteile aus Tonspur-Angabe oder Kanalliste` : ''),
+        (ytUrteileAusTonOderKanal ? `, ${ytUrteileAusTonOderKanal} YouTube-Urteile aus Tonspur-Angabe oder Kanalliste` : ''),
     )
   }
   if (adressen) {
