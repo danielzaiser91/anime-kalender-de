@@ -91,6 +91,22 @@ const t = (id: number, episodes: number | undefined, jahr: number, staffelQuelle
     pruefe('Pokémon 17115: 14 Folgen', text(z, 17115) === '14 Folgen', String(text(z, 17115)))
     pruefe('Pokémon 17873: 20 Folgen', text(z, 17873) === '20 Folgen', String(text(z, 17873)))
     pruefe('Pokémon: nur diese beiden', z.size === 2, String(z.size))
+    /* Verdrahtung: der Panel-Kopf nennt den Zusatz, andere Staffeln der Reihe bleiben unverändert. */
+    const { teilNameVon } = await import('../web/src/components/detail/reihen-namen.ts')
+    const kopf = (id: number): string => teilNameVon({ id, format: 'TV', titleRomaji: reihe.find((m) => m.id === id)!.name } as never, 'Pokémon', reihe as never)
+    pruefe('Kopf 17115', kopf(17115) === 'Staffel 16 · 14 Folgen', kopf(17115))
+    pruefe('Kopf 17873', kopf(17873) === 'Staffel 16 · 20 Folgen', kopf(17873))
+    pruefe('Kopf 14093 ohne Zusatz', kopf(14093) === 'Staffel 15–16', kopf(14093))
+    /* Karte und Zeile bekommen nur den Bereich (die Anzahl steht schon in ihren Angaben): Pokémon keinen, Tokyo Ghoul beide Teile. */
+    const { folgenBereiche } = await import('../web/src/components/detail/reihen-regeln.ts')
+    const bereiche = (r: typeof reihe, name: string) => {
+      const h = hauptstaffeln(r)
+      return folgenBereiche(h as never, staffelStaende(h, name))
+    }
+    pruefe('Karte Pokémon: kein Bereich', bereiche(reihe, 'Pokémon').size === 0)
+    const ghoul = reihen['20605']!
+    const b = bereiche(ghoul, 'Tokyo Ghoul')
+    pruefe('Karte Tokyo Ghoul', b.get(20850) === 'Folge 1–12' && b.get(102351) === 'Folge 13–24' && b.size === 2, JSON.stringify([...b]))
   }
 }
 
