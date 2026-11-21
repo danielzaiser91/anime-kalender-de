@@ -65,6 +65,8 @@ gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --admin --ma
 gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc --admin', '5')
 gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --admin=true --match-head-commit abc', '5')
 frei('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --subject --admin --match-head-commit abc') // Wert von --subject
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit=abc --admin', '5') // Schalter mit = davor ist kein Wertträger
+frei('node tools/pr-nachrechnen.mjs 5 && nice --admin gh pr merge 5 --squash --match-head-commit abc') // --admin steht vor dem gh-Befehl
 
 for (const c of [
   'node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc123',
