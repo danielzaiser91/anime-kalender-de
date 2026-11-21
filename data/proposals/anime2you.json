@@ -1,15 +1,51 @@
 {
-  "scrapedAt": "2026-11-21T04:14:12.673Z",
+  "scrapedAt": "2026-11-21T11:01:56.029Z",
   "verworfen": {
-    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 40,
+    "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 6,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 7,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 41,
-    "schon in einem Rubrik-Feed gelesen": 38,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
-    "Sprachhinweis älter als 45 Tage": 7
+    "schon in einem Rubrik-Feed gelesen": 12,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 7,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 3,
+    "Sprachhinweis älter als 45 Tage": 6
   },
   "proposals": [
+    {
+      "articleTitle": "Design und Extras der ersten »Inazuma Eleven«-Blu-ray-Staffelbox",
+      "articleUrl": "https://www.anime2you.de/news/1074177/inazuma-eleven-staffel-1-blu-ray-design/",
+      "publishedAt": "2026-11-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-18",
+          "context": "nsehen. Release im Dezember 2026 Die Blu-ray-Komplettbox erscheint am 18. Dezember 2026 mit allen 26 Episoden der ersten Staffel in der deut"
+        },
+        {
+          "month": "2026-12",
+          "context": "nthüllt. Ein Produktbild könnt ihr euch weiter unten ansehen. Release im Dezember 2026 Die Blu-ray-Komplettbox erscheint am 18. Dezember 202"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Offizielle Sammelkarten zu »Jujutsu Kaisen« vorgestellt + Bilder",
+      "articleUrl": "https://www.anime2you.de/news/1074073/offizielle-jujutsu-kaisen-sammelkarten/",
+      "publishedAt": "2026-11-21",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "month": "2027-05",
+          "context": "P vorbestellt werden können. Wir fassen die Details zusammen. Release im Mai 2027 Die sogenannten »Manyc Cards« zu »Jujutsu Kaisen« erschein"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Sieben neue Plüschanhänger zu »Haikyu!!« vorgestellt",
       "articleUrl": "https://www.anime2you.de/news/1072580/sieben-haikyu-plueschanhaenger/",
