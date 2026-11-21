@@ -1,0 +1,5 @@
+kategorie: bugfix
+text: Pokémon-Miniserien zählen nicht mehr als Staffeln
+untertitel: "Etwa Pokémon Evolutions und Die Pokémon-Concierge"
+wartetAuf: "Nächster Bestandsbau nach diesem PR. Probe: In public/data/titles.json tragen die AniList-Kennungen 20159, 138699, 142794, 162147 und 175035 eigenesWerk. Titelwortlaut dann aus titles.json prüfen."
+seit: '2026-11-21'
