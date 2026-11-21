@@ -163,7 +163,6 @@ tools/trefferprobe-ausnahmen.mjs # Altbestand 12.11.2026, Test fehlt
 tools/trefferprobe-browser.mjs # Altbestand 12.11.2026, Test fehlt
 tools/trefferprobe-selbsttest.mjs # Altbestand 12.11.2026, Test fehlt
 tools/tv-schalter-pruefen.mjs # Altbestand 12.11.2026, Test fehlt
-tools/umfang-baum-messen.mjs # Altbestand 12.11.2026, Test fehlt
 tools/vorlieben-pruefen.mts # Altbestand 12.11.2026, Test fehlt
 tools/wache-urteil.mjs # Altbestand 12.11.2026, Test fehlt
 tools/weg-zuordnung-echt.mjs # Altbestand 12.11.2026, Test fehlt

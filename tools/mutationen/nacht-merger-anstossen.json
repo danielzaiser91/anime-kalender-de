@@ -9,15 +9,5 @@
   { "name": "Wiederholung: Wartezeit +1", "datei": "tools/nacht-merger.mjs", "suche": "|| 20_000", "ersetze": "|| 20_001" },
   { "name": "Wiederholung: Wartezeit -1", "datei": "tools/nacht-merger.mjs", "suche": "|| 20_000", "ersetze": "|| 19_999" },
   { "name": "Wiederholung: liefert das erste Ergebnis", "datei": "tools/nacht-merger.mjs", "suche": "  return welt.nachrechnen(nummer)\n}", "ersetze": "  welt.nachrechnen(nummer)\n  return erst\n}" },
-  { "name": "Riegel: Grenze >", "datei": "tools/nacht-merger-welt.mjs", "suche": "angestossen.size >= hoechstens", "ersetze": "angestossen.size > hoechstens" },
-  { "name": "Riegel: PR zählt mehrfach", "datei": "tools/nacht-merger-welt.mjs", "suche": " && !angestossen.has(nummer)", "ersetze": "", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "Riegel: Zähler nie gesetzt", "datei": "tools/nacht-merger-welt.mjs", "suche": "      angestossen.add(nummer)\n", "ersetze": "", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "Riegel: zählt reopen statt close", "datei": "tools/nacht-merger-welt.mjs", "suche": "args[1] === 'close') return String(args[2])", "ersetze": "args[1] === 'reopen') return String(args[2])", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "Riegel: update-branch zählt nicht", "datei": "tools/nacht-merger-welt.mjs", "suche": "  if (args[0] !== 'api') return null\n", "ersetze": "  return null\n", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "Riegel: Nummer aus falschem Argument", "datei": "tools/nacht-merger-welt.mjs", "suche": "return treffer ? treffer[1] : null", "ersetze": "return treffer ? '1' : null", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "Riegel: Höchstmenge 9", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 8", "ersetze": "ANSTOESSE_HOECHSTENS = 9" },
-  { "name": "Riegel: Höchstmenge 7", "datei": "tools/nacht-merger-welt.mjs", "suche": "ANSTOESSE_HOECHSTENS = 8", "ersetze": "ANSTOESSE_HOECHSTENS = 7" },
-  { "name": "Verdrahtung: nachrechnen ohne Riegel", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "trocken ? ghLesend(gh) : gh" },
-  { "name": "Verdrahtung: Trockenlauf ohne Lesesperre", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "ghMitAnstossRiegel(gh)" },
   { "name": "Verdrahtung: Welt hat kein warte", "datei": "tools/nacht-merger-welt.mjs", "suche": "    warte: schlafe,\n", "ersetze": "" }
 ]

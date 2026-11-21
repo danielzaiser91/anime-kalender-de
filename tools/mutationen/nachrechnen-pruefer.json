@@ -196,15 +196,15 @@
   {
     "name": "nachrechnen: Sperre endet mit Exit 2 statt 4",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "    return 4\n",
-    "ersetze": "    return 2\n",
+    "suche": "    return { exit: 4 }\n",
+    "ersetze": "    return { exit: 2 }\n",
     "tests": ["node tools/pr-nachrechnen.test.mjs"]
   },
   {
     "name": "nachrechnen: Sperre endet mit Exit 0",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "    return 4\n",
-    "ersetze": "    return 0\n",
+    "suche": "    return { exit: 4 }\n",
+    "ersetze": "    return { exit: 0 }\n",
     "tests": ["node tools/pr-nachrechnen.test.mjs"]
   },
   {

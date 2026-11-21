@@ -1,5 +1,5 @@
 /**
- * Hunk-Rechnung für `pr-nachrechnen-textmerge.mjs` und `pr-nachrechnen-kennung.mjs` (rein, ohne git und ohne Importe: beide Module liegen
+ * Hunk-Rechnung für `pr-nachrechnen-kennung.mjs` (rein, ohne git und ohne Importe: das Modul liegt
  * auf dem Importweg von `pr-nachrechnen-leser-git.mjs`, ein Import dorthin zurück wäre ein Zyklus).
  */
 export const ABSTAND = 3
