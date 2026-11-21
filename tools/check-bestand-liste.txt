@@ -86,6 +86,7 @@ pipeline/check-sammeleintrag-synchro-bestand.ts
 pipeline/check-schwester-shop-bestand.ts
 pipeline/check-shop-wege-falsches-ziel-bestand.ts
 pipeline/check-staffel-von-hand-bestand.ts
+pipeline/check-staffelquelle-widerspruch-bestand.ts
 pipeline/check-staffelzaehlung-bestand.ts
 pipeline/check-staffelzitat-bestand.ts
 pipeline/check-streaming-luecke-bestand.ts
