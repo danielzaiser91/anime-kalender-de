@@ -41,6 +41,7 @@ assert.match(neuerTestBasisHinweise(NEU, '')[0], /tools\/x\.test\.mjs: kein Bele
 assert.equal(neuerTestBasisHinweise(NEU, BELEG).length, 0, 'Beleg „Basis … rot“ -> kein Hinweis')
 assert.equal(neuerTestBasisHinweise(NEU, 'Rot an der Basis: ✖ Fall 1').length, 0, 'Beleg „rot … Basis“ in anderer Folge/Schreibweise')
 assert.equal(neuerTestBasisHinweise(NEU, 'Basis geprüft.\nTest rot.').length, 1, 'Wörter in verschiedenen Zeilen belegen nichts')
+assert.equal(neuerTestBasisHinweise(NEU, 'Basis geprüft, Rotation ok, Kontrolle in Ordnung.').length, 1, '„rot“ nur als Wortteil (Rotation) belegt nichts')
 assert.equal(neuerTestBasisHinweise('M\ttools/x.test.mjs', '').length, 0, 'geänderter Test zählt nicht (nur neue Dateien)')
 assert.equal(neuerTestBasisHinweise('A\ttools/x.mjs', '').length, 0, 'neue Nicht-Testdatei zählt nicht')
 assert.equal(neuerTestBasisHinweise('A\ttools/testdaten/y.test.mjs', '').length, 0, 'Testdaten-Fixture zählt nicht')
