@@ -69,6 +69,34 @@ pruefe('urteilAus: Prüfer Runde, Wort klein', JSON.stringify(urteilAus('Prüfer
 pruefe('urteilAus: Prüfer-Review mit Kopf', JSON.stringify(urteilAus('**Prüfer-Review** für 4c7d9c2e4 - Urteil: **ok**')) === '{"wort":"ok","kopf":"4c7d9c2e4"}')
 pruefe('urteilAus: kein Prüfer / kein Urteil -> null', urteilAus('Urteil: ok') === null && urteilAus('## Nachtrag (Prüfer-Runde 1)') === null && urteilAus(undefined) === null)
 
+console.log('pr-nachrechnen-pruefer: Abnahme Dirigent bei „Auflagen offen: Dirigent entscheidet“ (21.11.2026, PR 4417)')
+const KOPF_A = 'd2365a8efb5295227d3114cecb7f1220496177fa'
+const KOPF_B = '9f3c1e7a2b4d4c6e8a0b1c2d3e4f5a6b7c8d9e0f'
+const ENTSCHEIDET = (zeit, hash = 'd2365a8ef') => ({ createdAt: zeit, author: { login: 'github-actions' }, authorAssociation: 'CONTRIBUTOR', body: `**Prüfer-Review** für ${hash} - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**\n\nText` })
+const SCHLICHT = (zeit, hash = 'd2365a8ef') => ({ createdAt: zeit, author: { login: 'github-actions' }, authorAssociation: 'CONTRIBUTOR', body: `**Prüfer-Review** für ${hash} - Urteil: **aendern**\n\nText` })
+const ABNAHME = (zeit, text, login = 'derNamenloseDaniel', assoc = 'OWNER') => ({ createdAt: zeit, author: { login }, authorAssociation: assoc, body: text })
+const commit = (oid, zeit) => ({ oid, committedDate: zeit })
+const ZWEI = [commit('1'.repeat(40), '2026-11-21T08:00:00Z'), commit(KOPF_A, '2026-11-21T09:00:00Z')]
+const T_URTEIL = '2026-11-21T12:53:21Z'
+const T_NACH = '2026-11-21T13:17:48Z'
+const frei = (kommentare, commits = ZWEI) => prueferSperre(kommentare, commits) === null
+pruefe('4417: „Dirigent entscheidet“ + Abnahme (Kopf, volle 40 Zeichen) danach -> frei', frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`)]))
+pruefe('4417: Schreibweise „— Kopf <hash>“ mit 9 Zeichen -> frei', frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, '## Nachtrag (Abnahme Dirigent) — Kopf d2365a8ef')]))
+pruefe('Abnahme mit nur 8 Zeichen des Kopfs -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, '## Nachtrag (Abnahme Dirigent) Kopf d2365a8e')]))
+pruefe('Abnahme für alten Kopf (erster Commit) -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${'1'.repeat(12)}`)]))
+pruefe('Abnahme für anderen Kopf -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_B}`)]))
+pruefe('Abnahme vor dem Urteil -> gesperrt', !frei([ABNAHME('2026-11-21T12:00:00Z', `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`), ENTSCHEIDET(T_URTEIL)]))
+pruefe('Abnahme zur selben Sekunde wie das Urteil -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_URTEIL, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`)]))
+pruefe('Abnahme von fremdem Autor -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`, 'fremder', 'OWNER')]))
+pruefe('Abnahme mit Inhaber-Login, aber Assoziation CONTRIBUTOR -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`, 'derNamenloseDaniel', 'CONTRIBUTOR')]))
+pruefe('Abnahme ohne Präfix in der ersten Zeile -> gesperrt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `Nachtrag\n## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`)]))
+pruefe('schlichtes „aendern“ + Abnahme danach bleibt gesperrt', !frei([SCHLICHT(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`)]))
+pruefe('Abnahme hebt nicht auf, wenn danach ein schlichtes „aendern“ folgt', !frei([ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`), SCHLICHT('2026-11-21T13:30:00Z')]))
+pruefe('ohne Abnahme bleibt „Dirigent entscheidet“ gesperrt', !frei([ENTSCHEIDET(T_URTEIL)]))
+pruefe('Abnahme-Kommentar ohne Autorfelder (alte Fixture-Form) hebt nicht auf', !frei([ENTSCHEIDET(T_URTEIL), { createdAt: T_NACH, body: `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}` }]))
+pruefe('zwei Urteile „Dirigent entscheidet“, Abnahme nur nach dem ersten -> gesperrt', !frei([ENTSCHEIDET('2026-11-21T10:00:00Z'), ABNAHME('2026-11-21T10:30:00Z', `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`), ENTSCHEIDET(T_URTEIL)]))
+pruefe('zwei Urteile, Abnahme nach dem letzten -> frei', frei([ENTSCHEIDET('2026-11-21T10:00:00Z'), ENTSCHEIDET(T_URTEIL), ABNAHME(T_NACH, `## Nachtrag (Abnahme Dirigent) Kopf ${KOPF_A}`), ABNAHME('2026-11-21T13:20:00Z', 'Nachtrag ohne Präfix')]))
+
 if (fehler.length > 0) {
   console.error(`pr-nachrechnen-pruefer: ${fehler.length} Fehler`)
   process.exit(1)
