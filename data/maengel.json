@@ -16,7 +16,7 @@
     "sprecher": {"wirkung":1,"wer":"auto:anisearch","offen":370,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":45},
     "kein-weg": {"wirkung":3,"wer":"daniel","offen":204,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":3},
     "erstausgabe-ohne-weg": {"wirkung":3,"wer":"daniel","offen":174,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
-    "termin-fehlt-laufend": {"wirkung":3,"wer":"auto:anbieterkalender","offen":2,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":2},
+    "termin-fehlt-laufend": {"wirkung":3,"wer":"auto:anbieterkalender","offen":2,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "sprachurteil-offen": {"wirkung":2,"wer":"hand:synchro-belegen","offen":59,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "synchro-schwach": {"wirkung":2,"wer":"hand:synchro-belegen","offen":66,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":0},
     "erschienen-ohne-weg": {"wirkung":3,"wer":"hand:synchro-belegen","offen":2,"neu":0,"behoben":0,"rueckfall":0,"ausnahme":3},
