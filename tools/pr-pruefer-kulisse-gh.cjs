@@ -37,10 +37,15 @@ function treffer(muster) {
   return m ? daten.prs[m[1]] : undefined
 }
 
-// Reset in der Vergangenheit: der Test wartet nicht wirklich.
-if (schluessel === 'api rate_limit') ende(JSON.stringify({ resources: { core: { limit: 1000, remaining: 42, reset: 1 } } }))
+// Reset in der Vergangenheit (der Test wartet nicht wirklich), es sei denn ein PR der Kulisse setzt `reset` (Sekunden seit 1970).
+if (schluessel === 'api rate_limit') ende(JSON.stringify({ resources: { core: { limit: 1000, remaining: 42, reset: Object.values(daten.prs).find((p) => p.reset)?.reset ?? 1 } } }))
 let pr
-if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRefName`))) ende(pr.view + '\n')
+// Merge-Basis: ohne Ausfall-Vorgabe wie bisher HTTP 404 (kein Git-Rückfall in der Kulisse), mit `ausfaelle.compare` scheitern die ersten Aufrufe.
+if (new RegExp(`^api --method GET ${r}/compare/`).test(schluessel)) ausfall(Object.values(daten.prs).find((p) => p.ausfaelle?.compare), 'compare')
+if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRefName`))) {
+  ausfall(pr, 'view')
+  ende(pr.view + '\n')
+}
 if ((pr = treffer(`pr diff (\\d+)`)) && pr.diff !== undefined) ende(pr.diff)
 if ((pr = treffer(`pr comment (\\d+) --repo ${daten.repo} --body-file \\S+`))) ende('')
 if ((pr = treffer(`api --method GET --paginate ${r}/pulls/(\\d+)/files -f per_page=100`)) && abfrage === '.[]') {

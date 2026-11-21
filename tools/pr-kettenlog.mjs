@@ -15,6 +15,7 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { ghMitLimit } from './gh-ratelimit.mjs'
 import { budgetHinweise } from './pr-kettenlog-budget.mjs'
 import { basisNummer, basisZeile } from './pr-pruefer-basis-offen.mjs'
 import { baueZitateDatei, zitateAusBeschreibung } from './pr-kettenlog-zitate.mjs'
@@ -227,7 +228,7 @@ async function main() {
     repo,
     sha,
     ordner,
-    gh: ghAufruf,
+    gh: (args) => ghMitLimit(ghAufruf, args),
     beschreibung,
     jetzt: Date.now,
     frist: Number(fristS) * 1000 || 0,

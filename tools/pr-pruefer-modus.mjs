@@ -17,7 +17,7 @@
  */
 import { writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
-import { ghApiJson } from './kind-mit-limit.mjs'
+import { ghApiJsonMitLimit } from './gh-ratelimit.mjs'
 
 const VERTRAUT = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 const CI_BOT = 'github-actions[bot]'
@@ -93,7 +93,7 @@ export function auflagenText(auflagen, vorher) {
 }
 
 /** Zeilen für $GITHUB_OUTPUT; schreibt <datei>. `api(args)` liefert das JSON von `gh api <args>`. */
-export function main(pr, stufe, datei, api = ghApiJson, repo = process.env.GITHUB_REPOSITORY) {
+export function main(pr, stufe, datei, api = ghApiJsonMitLimit, repo = process.env.GITHUB_REPOSITORY) {
   try {
     const kommentare = api(['--paginate', '--slurp', `repos/${repo}/issues/${pr}/comments`]).flat()
     const m = bestimmeModus(kommentare, stufe)

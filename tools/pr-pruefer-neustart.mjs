@@ -4,13 +4,14 @@
  * Der Prüfer liest die Kommentare bei jedem Start neu (tools/pr-nachtraege.mjs); ein Neustart des Laufs auf demselben Kopf genügt.
  */
 import { pathToFileURL } from 'node:url'
-import { ghMitLimit, ghRoh, warteSync } from './gh-ratelimit.mjs'
+import { ghMitLimit, ghRoh, neuesKonto, warteSync } from './gh-ratelimit.mjs'
 import { CI_BOT, NACHTRAG, VERTRAUT } from './pr-nachtraege.mjs'
 
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
 const ABNAHME = /Abnahme Dirigent/i
-const WARTE_RUNDEN = 40
-const WARTE_MS = 5000
+/** Höchstens so lange wartet `neustart` auf das Ende des abgebrochenen Laufs (Rechengrundlage des Job-Timeouts, tools/pr-pruefer-neustart.test.mjs). */
+export const WARTE_RUNDEN = 40
+export const WARTE_MS = 5000
 
 /** Ja/Nein samt Grund: zählt der Kommentar als Prüfauftrag? `pr` = Antwort der API für den PR. */
 export function entscheide({ body, kommentarLogin, assoziation, pr }) {
@@ -59,9 +60,9 @@ export function neustart(lauf, repo, { gh, warte }) {
 }
 
 /** Einstieg; Rückgabe ist der Exit-Code. 1 bei fehlenden Eingaben, unlesbarem PR oder gescheitertem Neustart (Lauf-Abfrage, cancel, rerun): eine Zeile „FEHLGESCHLAGEN PR n Kopf h: Grund“ im Log, der Job wird rot und `laeufe-aufraeumen` sieht ihn; der Prüfer-Zustand ist dann der von vorher. */
-export function main(env = process.env, { gh: ghBasis = ghRoh, warte = warteSync, jetzt = Date.now } = {}) {
-  // Bei „rate limit“ wartet jeder Aufruf bis zum Reset (Deckel 15 min, Job-Timeout im Workflow darauf ausgelegt).
-  const gh = (args) => ghMitLimit(ghBasis, args, { warte, jetzt })
+export function main(env = process.env, { gh: ghBasis = ghRoh, warte = warteSync, jetzt = Date.now, konto = neuesKonto() } = {}) {
+  // Bei „rate limit“ wartet ein Aufruf bis zum Reset, alle zusammen höchstens KONTO_MS (Job-Timeout im Workflow daraus abgeleitet).
+  const gh = (args) => ghMitLimit(ghBasis, args, { warte, jetzt, konto })
   const repo = env.GITHUB_REPOSITORY
   const nr = env.PR_NUMMER
   if (!/^\d+$/.test(nr ?? '') || !repo) return console.log('Prüfer-Neustart: PR-Nummer oder Repo fehlt'), 1

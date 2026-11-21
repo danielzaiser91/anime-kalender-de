@@ -4,8 +4,8 @@
  */
 import fs from 'node:fs'
 import { parse } from 'yaml'
-import { MAX_WARTE_MS } from './gh-ratelimit.mjs'
-import { entscheide, main } from './pr-pruefer-neustart.mjs'
+import { KONTO_MS, neuesKonto } from './gh-ratelimit.mjs'
+import { entscheide, main, WARTE_MS, WARTE_RUNDEN } from './pr-pruefer-neustart.mjs'
 
 const fehler = []
 const gleich = (name, ist, soll) => {
@@ -130,14 +130,15 @@ function mitFehler(text, reset) {
   const zeilen = []
   console.log = (z) => zeilen.push(z)
   const env = { GITHUB_REPOSITORY: 'o/r', PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }
-  const code = main(env, { gh, warte: (ms) => wartet.push(ms), jetzt: () => 1_000_000_000_000 })
+  const code = main(env, { gh, warte: (ms) => wartet.push(ms), jetzt: () => 1_000_000_000_000, konto: neuesKonto({ datei: '' }) })
   console.log = mute
   return { code, wartet, zeilen, aufrufe }
 }
 const LIMIT_TEXT = 'gh api repos/o/r/pulls/7 Exit 1: HTTP 403: API rate limit exceeded for installation'
 const limit = mitFehler(LIMIT_TEXT, 1_000_000_000 + 60)
 gleich('rate limit: wartet bis zum Reset (62 s), dann Neustart, Exit 0', [limit.code, limit.wartet, limit.aufrufe.includes('run rerun 5')], [0, [62_000], true])
-gleich('rate limit mit Reset in 2 h: Deckel 15 min', mitFehler(LIMIT_TEXT, 1_000_000_000 + 7200).wartet, [900_000])
+const fern = mitFehler(LIMIT_TEXT, 1_000_000_000 + 7200)
+gleich('rate limit mit Reset in 2 h: nicht gewartet (jenseits des Zeitkontos), Exit 1, Grund im Log', [fern.code, fern.wartet, fern.zeilen.some((z) => z.includes('rate limit') && z.includes('nicht gewartet'))], [1, [], true])
 const anders = mitFehler('gh api repos/o/r/pulls/7 Exit 1: HTTP 404: Not Found', 1_000_000_000 + 60)
 gleich('anderer Fehler: kein Warten, Exit 1, Grund im Log', [anders.code, anders.wartet, anders.zeilen.some((z) => z.includes('404'))], [1, [], true])
 
@@ -172,7 +173,35 @@ gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
 gleich('YAML reicht die Kommentarzeit durch (comment.created_at)', schritt.env.KOMMENTAR_ZEIT, '${{ github.event.comment.created_at }}')
 // Zeitbudget: Pausen plus 60 s für Checkout und Abfragen müssen unter der Jobfrist bleiben.
 const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
-gleich('Zeitbudget: Pausen + Reset-Wartezeit (15 min) + 60 s unter timeout-minutes', pausenMs + MAX_WARTE_MS + 60_000 < job['timeout-minutes'] * 60_000, true)
+gleich('Pausen des hängenden Laufs = Runden x Takt aus dem Werkzeug', [pausenMs, WARTE_RUNDEN * WARTE_MS], [200_000, 200_000])
+// Dauer-Limit durch main: jeder verschiedene Aufruf scheitert beim ersten Mal mit „rate limit“ (Reset 5 min voraus = 302 s Wartezeit).
+// Das Zeitkonto deckt zwei dieser Wartezeiten (604 s), die dritte (302 s > 296 s Rest) nicht mehr: Exit 1, Summe der echten Warten <= KONTO_MS.
+const dauer = (() => {
+  const wartet = []
+  const schon = new Set()
+  const gh = (args) => {
+    const s = args.join(' ')
+    if (args[1] === 'rate_limit') return JSON.stringify({ resources: { core: { reset: 1_000_000_000 + 300 } } })
+    if (!schon.has(s)) {
+      schon.add(s)
+      throw new Error(`gh ${s} Exit 1: HTTP 403: API rate limit exceeded`)
+    }
+    if (args[1] === 'repos/o/r/pulls/7') return JSON.stringify(pr())
+    if (args[1]?.includes('/workflows/pr-pruefer.yml/runs')) return JSON.stringify(laufend)
+    return JSON.stringify({ status: 'completed' })
+  }
+  const mute = console.log
+  console.log = () => {}
+  const code = main({ GITHUB_REPOSITORY: 'o/r', PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }, { gh, warte: (ms) => wartet.push(ms), jetzt: () => 1_000_000_000_000, konto: neuesKonto({ datei: '' }) })
+  console.log = mute
+  return { code, wartet }
+})()
+gleich('Dauer-Limit: zwei Warten (302 s), dann Schluss ohne weiteres Warten, Exit 1', [dauer.wartet, dauer.code], [[302_000, 302_000], 1])
+gleich('Dauer-Limit: Summe der Wartezeiten <= Zeitkonto', dauer.wartet.reduce((s, ms) => s + ms, 0) <= KONTO_MS, true)
+// Zeitbudget aus den echten Pausen des hängenden Laufs (haengt: 40 x 5 s) plus Zeitkonto plus 60 s für Checkout und Abfragen.
+const budgetMin = (pausenMs + KONTO_MS + 60_000) / 60_000
+gleich(`Zeitbudget: Pausen + Zeitkonto + 60 s = ${budgetMin.toFixed(1)} min <= timeout-minutes ${job['timeout-minutes']}`, budgetMin <= job['timeout-minutes'], true)
+gleich('Zeitbudget: Job-Timeout höchstens eine Minute über dem gerundeten Budget', job['timeout-minutes'] <= Math.ceil(budgetMin) + 1, true)
 const ausYaml = Object.fromEntries(Object.keys(schritt.env).map((s) => [s, { PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }[s] ?? 'x']))
 gleich('env-Namen der YAML lösen den Neustart aus', laufe({ ...ausYaml, KOMMENTAR: '## Nachtrag', GITHUB_REPOSITORY: 'o/r' }, abgeschlossen).aufrufe, ['run rerun 5'])
 

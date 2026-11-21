@@ -108,6 +108,24 @@ const loginLimit = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { 
 pruefe('Rate limit: Autor-Abruf scheitert mit „rate limit“ -> Reset abgefragt, zweiter Versuch, zustand=ok',
   loginLimit.ausgaben?.eingang?.zustand === 'ok' && anzahl(loginLimit, LOGIN) === 2 && anzahl(loginLimit, 'api rate_limit') === 2, { n: anzahl(loginLimit, LOGIN), r: anzahl(loginLimit, 'api rate_limit'), fehler: loginLimit.fehler })
 pruefe('Rate limit: Fehler anderer Art fragt den Reset nicht ab', anzahl(loginEinmal, 'api rate_limit') === 1, anzahl(loginEinmal, 'api rate_limit'))
+// Reset jenseits des Zeitkontos (Jahr 2100): ein Versuch, kein Warten, kein zweiter und dritter Versuch; der Zustand ist unvollstaendig, nie ok.
+const loginFern = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 99 }, ausfallText: limitText, reset: 4_102_444_800 } })
+pruefe('Rate limit, Reset jenseits des Zeitkontos: Autor-Abruf nur einmal (kein sinnloses Wiederholen), zustand=unvollstaendig',
+  anzahl(loginFern, LOGIN) === 1 && loginFern.ausgaben?.eingang?.zustand === 'unvollstaendig', { n: anzahl(loginFern, LOGIN), a: loginFern.ausgaben, fehler: loginFern.fehler })
+// Merge-Basis (compare) und Ansicht des PR (pr view) sind geschützt wie die Wiederholungs-Abrufe: ein Limit kostet keinen Git-Rückfall und keinen Lauf.
+const COMPARE = AUFRUFE[1]
+const ANSICHT = AUFRUFE[3]
+const compareLimit = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { compare: 1 }, ausfallText: limitText } })
+pruefe('Rate limit beim compare: Reset abgefragt, zweiter Versuch, zustand=ok',
+  anzahl(compareLimit, COMPARE) === 2 && anzahl(compareLimit, 'api rate_limit') === 2 && compareLimit.ausgaben?.eingang?.zustand === 'ok', { c: anzahl(compareLimit, COMPARE), r: anzahl(compareLimit, 'api rate_limit'), fehler: compareLimit.fehler })
+const compareAnders = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { compare: 1 } } })
+pruefe('Fehler anderer Art beim compare: kein Reset abgefragt, ein Versuch', anzahl(compareAnders, COMPARE) === 1 && anzahl(compareAnders, 'api rate_limit') === 1, { c: anzahl(compareAnders, COMPARE), r: anzahl(compareAnders, 'api rate_limit') })
+const ansichtLimit = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { view: 1 }, ausfallText: limitText } })
+pruefe('Rate limit bei der Ansicht des PR: Reset abgefragt, zweiter Versuch, Beschreibung und zustand=ok',
+  anzahl(ansichtLimit, ANSICHT) === 2 && anzahl(ansichtLimit, 'api rate_limit') === 2 && ansichtLimit.beschreibung === ERWARTET && ansichtLimit.ausgaben?.eingang?.zustand === 'ok', { n: anzahl(ansichtLimit, ANSICHT), fehler: ansichtLimit.fehler })
+const ansichtAnders = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { view: 1 } } })
+// Bei einem Schrittfehler liefert die Kulisse keine Aufrufliste: der erste Fehlertext (stderr von gh) genügt, ein Neuversuch hätte den Schritt gerettet.
+pruefe('Fehler anderer Art bei der Ansicht des PR: Schritt scheitert mit dem Fehlertext von gh (wie bisher, kein Neuversuch)', /invalid character 'S'/.test(ansichtAnders.fehler ?? ''), ansichtAnders.fehler)
 const loginDauer = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 99 } } })
 pruefe('Wiederholung: Autor-Abruf scheitert immer -> nach drei Versuchen unvollstaendig (nie ok)',
   loginDauer.ausgaben?.diff?.['diff-zustand'] === 'ok' && loginDauer.ausgaben?.eingang?.zustand === 'unvollstaendig' && anzahl(loginDauer, LOGIN) === 3, { n: anzahl(loginDauer, LOGIN), a: loginDauer.ausgaben })
@@ -160,8 +178,8 @@ pruefe('A1: der Schreib-Job hat keinen Claude-Schritt und holt nie einen Zweig (
   !probe.steps.some((s) => String(s.uses ?? '').startsWith('anthropics/')) && probe.steps.filter((s) => String(s.uses ?? '').startsWith('actions/checkout')).every((s) => s.with?.ref === undefined && s.with?.repository === undefined))
 pruefe('A1: pruefen wartet auf mutationsprobe und läuft auch, wenn der fehlschlägt (!cancelled())', wf.jobs.pruefen.needs === 'mutationsprobe' && String(wf.jobs.pruefen.if).startsWith('!cancelled() &&') && !String(probe.if).includes('cancelled'), [wf.jobs.pruefen.needs, wf.jobs.pruefen.if])
 pruefe('A1: beide Jobs gelten für dieselben PR (gleiche Bedingung bis auf !cancelled())', String(wf.jobs.pruefen.if).replace('!cancelled() &&', '').trim() === String(probe.if).trim())
-// A4: Kettenbudget. `pruefen` beginnt erst nach dem Probe-Job, sein eigenes Budget (75 min: 60 plus Reset-Wartezeit bei rate limit) bleibt; der Probe-Job braucht Frist 8 min + Checkout/Stufe/Upload (~2 min) unter seinem Timeout.
-pruefe('A4: Probe-Job-Timeout deckt die 8-min-Frist plus 2 min Vor- und Nachlauf, ohne ein Stunden-Job zu werden', probe['timeout-minutes'] >= 8 + 2 && probe['timeout-minutes'] <= 15 && wf.jobs.pruefen['timeout-minutes'] === 75, [probe['timeout-minutes'], wf.jobs.pruefen['timeout-minutes']])
+// A4: Kettenbudget. `pruefen` beginnt erst nach dem Probe-Job, sein eigenes Budget (60 min, Rechnung samt Zeitkonto für „rate limit“ in pr-pruefer-eingabe.test.mjs) bleibt; der Probe-Job braucht Frist 8 min + Checkout/Stufe/Upload (~2 min) unter seinem Timeout.
+pruefe('A4: Probe-Job-Timeout deckt die 8-min-Frist plus 2 min Vor- und Nachlauf, ohne ein Stunden-Job zu werden', probe['timeout-minutes'] >= 8 + 2 && probe['timeout-minutes'] <= 15 && wf.jobs.pruefen['timeout-minutes'] === 60, [probe['timeout-minutes'], wf.jobs.pruefen['timeout-minutes']])
 const pNamen = probe.steps.map((s) => s.name ?? s.uses)
 pruefe('Probe-Job: Checkout, Prüfstufe, starten, abwarten, Ergebnis weitergeben (in dieser Reihenfolge)', JSON.stringify(pNamen) === JSON.stringify(['actions/checkout@v4', 'Prüfstufe', 'Mutationsprobe starten', 'Mutationsprobe abwarten', 'Ergebnis weitergeben']), pNamen)
 const pStart = probe.steps.find((s) => s.name === 'Mutationsprobe starten')

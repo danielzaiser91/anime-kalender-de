@@ -173,7 +173,7 @@ else if (a.join(' ') === '--paginate repos/o/r/commits/${SHA}/check-runs?per_pag
 }
 else process.exit(1)
 `
-function laufeSchritt(laeufe, limit = false) {
+function laufeSchritt(laeufe, limit = false, frist = null) {
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-checks-schritt-'))
   try {
     const bin = path.join(ordner, 'bin')
@@ -193,7 +193,10 @@ function laufeSchritt(laeufe, limit = false) {
     Object.assign(env, { HEAD_SHA: SHA, GITHUB_REPOSITORY: 'o/r', GITHUB_OUTPUT: ausgabe, GH_TOKEN: 'tok', ATTRAPPE_LOG: log })
     Object.assign(env, { ATTRAPPE_REGELN: JSON.stringify(REGELN.slice(0, 3)), ATTRAPPE_LAEUFE: laeufe, ...(limit ? { ATTRAPPE_LIMIT: '1' } : {}) })
     const skript = path.join(ordner, 'schritt.sh')
-    fs.writeFileSync(skript, checksSchritt.run)
+    // `frist`: Sekunden statt der 120 des Workflows (0 = genau ein Versuch, keine zweite Runde).
+    const befehl = frist === null ? checksSchritt.run : checksSchritt.run.replace(/"\$HEAD_SHA" \d+/, `"$HEAD_SHA" ${frist}`)
+    if (frist !== null && befehl === checksSchritt.run) throw new Error('Frist im Schritt nicht ersetzt')
+    fs.writeFileSync(skript, befehl)
     const bash = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash'
     const r = spawnSync(bash, ['-e', skript], { cwd: ws, env, encoding: 'utf8', windowsHide: true, timeout: 60_000 })
     const lies = (d) => (fs.existsSync(d) ? fs.readFileSync(d, 'utf8') : '')
@@ -212,6 +215,14 @@ pruefe('Schritt: roter Teiljob -> stand=Checks rot: Kette – Workflows',
 const schrittLimit = laufeSchritt('7\tPR-Prüfkette\tcompleted\tsuccess\n8\tPrüfer-Review\tin_progress\t\n', true)
 pruefe('Schritt: rate limit -> nach dem Reset ein zweiter Versuch, stand=gruen',
   schrittLimit.status === 0 && schrittLimit.ausgabe === 'stand=gruen\n' && schrittLimit.aufrufe === 4, schrittLimit)
+// Ohne zweite Runde (Frist 0) entscheidet allein der Neuversuch nach dem Reset: ohne ihn bliebe „Checks-Stand unbekannt“ (Basis main:
+// stand=Checks-Stand unbekannt: API: …), mit ihm kommt das echte Ergebnis. Die Wiederholschleife der Takt-Runden kann das nicht leisten.
+const grueneKette = '7\tPR-Prüfkette\tcompleted\tsuccess\n8\tPrüfer-Review\tin_progress\t\n'
+const limitEinmal = laufeSchritt(grueneKette, true, 0)
+pruefe('Schritt, Frist 0: rate limit -> Neuversuch nach dem Reset liefert stand=gruen (nicht „unbekannt“), vier gh-Aufrufe',
+  limitEinmal.status === 0 && limitEinmal.ausgabe === 'stand=gruen\n' && limitEinmal.aufrufe === 4, limitEinmal)
+const ohneLimit = laufeSchritt(grueneKette, false, 0)
+pruefe('Schritt, Frist 0, ohne Limit: stand=gruen, zwei gh-Aufrufe (kein rate_limit-Aufruf)', ohneLimit.ausgabe === 'stand=gruen\n' && ohneLimit.aufrufe === 2, ohneLimit)
 
 if (fehler.length) {
   console.error(`pr-checks-stand.test: ${fehler.length} Fehler`)

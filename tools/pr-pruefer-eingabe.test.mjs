@@ -4,7 +4,7 @@
 // 2. Budget: Vorlauf + Kettenlog-Frist + voller Prüfer + Check-Stand-Frist bleiben unter dem Job-Timeout.
 import fs from 'node:fs'
 import { parse } from 'yaml'
-import { MAX_WARTE_MS } from './gh-ratelimit.mjs'
+import { KONTO_MS } from './gh-ratelimit.mjs'
 import { baueDateien, HINWEIS } from './pr-kettenlog.mjs'
 import { ergaenzeBeschreibung } from './pr-nachtraege.mjs'
 
@@ -82,9 +82,25 @@ pruefe('Check-Stand entfällt bei laufender Kette', String(schritte.find((s) => 
 pruefe('Schritt „Kette läuft noch“ steht nach Kettenlog und vor den Prüfern', ['Kettenlog bereitlegen', 'Kette läuft noch', 'Prüfer (Stufe 0, schlank)'].map((n) => schritte.findIndex((s) => s.name === n)).every((v, i, a) => v >= 0 && (i === 0 || v > a[i - 1])))
 const summe = VORLAUF_MIN + kettenlog / 60 + PRUEFER_MAX_MIN + checkStand / 60
 pruefe(`Budget: ${VORLAUF_MIN} + Kettenlog ${kettenlog / 60} + Prüfer ${PRUEFER_MAX_MIN} + Check-Stand ${checkStand / 60} = ${summe} min <= Timeout ${timeout} min`, summe <= timeout, { summe, timeout })
-// Bei „rate limit“ warten Diff-Abruf (wdh, zwei Wiederholungen) und Check-Stand je bis zum Reset (tools/gh-ratelimit.mjs).
-const mitLimit = summe + (2 + 1) * (MAX_WARTE_MS / 60_000)
-pruefe(`Budget mit Reset-Wartezeit: ${mitLimit} min <= Timeout ${timeout} min`, mitLimit <= timeout, { mitLimit, timeout })
+// Bei „rate limit“ warten alle Warteplätze des Jobs (Diff-Abrufe, Prüfstufe, Check-Stand, Freigabe) zusammen höchstens KONTO_MS
+// (Konto je Job, tools/gh-ratelimit.mjs; dass die Summe der echten Wartezeiten darin bleibt, belegt gh-ratelimit.test.mjs „Dauer-Limit“).
+const mitLimit = summe + KONTO_MS / 60_000
+pruefe(`Budget mit Zeitkonto: ${mitLimit} min <= Timeout ${timeout} min`, mitLimit <= timeout, { mitLimit, timeout })
+// Jeder gh-Aufruf der Shell-Schritte läuft über `ghl` (tools/gh-mit-limit.sh) oder `wdh` (Wiederholung mit Warten): ein bloßes `gh api|pr|run`
+// wäre ein ungeschützter Warteplatz (PR 4467: Lauf 44899735502 verlor das Urteil beim Kommentieren).
+const GH_AUFRUF = /(?:^|[\s$(|&;])gh\s+(?:api|pr|run|workflow|repo|issue)\b/
+const ungeschuetzt = []
+for (const s of schritte.filter((st) => typeof st.run === 'string')) {
+  for (const zeile of s.run.split('\n')) {
+    const code = zeile.trim()
+    if (code.startsWith('#') || !GH_AUFRUF.test(code)) continue
+    if (!/\bwdh\s+gh\s/.test(code)) ungeschuetzt.push(`${s.name}: ${code.slice(0, 90)}`)
+  }
+}
+pruefe('Kein ungeschützter gh-Aufruf in den Shell-Schritten (nur ghl oder wdh)', ungeschuetzt.length === 0, ungeschuetzt)
+const mitGhl = schritte.filter((s) => /\bghl\s/.test(String(s.run ?? '')))
+pruefe(`ghl wird in genau den drei Schritten gebraucht und dort zuerst eingebunden (${mitGhl.map((s) => s.name).join(', ')})`,
+  mitGhl.length === 3 && mitGhl.every((s) => s.run.indexOf('. tools/gh-mit-limit.sh') >= 0 && s.run.indexOf('. tools/gh-mit-limit.sh') < s.run.search(/\bghl\s/)), mitGhl.map((s) => s.name))
 pruefe('Check-Stand: nach dem Prüfer, vor Protokoll und Freigabe', ['Prüfer', 'Check-Stand des Kopfes', 'Protokoll und Freigabe'].map((n) => schritte.findIndex((s) => s.name === n)).every((v, i, a) => v >= 0 && (i === 0 || v > a[i - 1])))
 
 if (fehler.length) {
