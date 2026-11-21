@@ -2030,6 +2030,10 @@
       "am": "2026-11-20",
       "vorschlaege": 2
     },
+    "1074073": {
+      "am": "2026-11-21",
+      "vorschlaege": 0
+    },
     "1074092": {
       "am": "2026-11-20",
       "vorschlaege": 6
@@ -2038,6 +2042,10 @@
       "am": "2026-11-20",
       "vorschlaege": 0,
       "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1074177": {
+      "am": "2026-11-21",
+      "vorschlaege": 2
     }
   },
   "vorschlaege": [
@@ -16040,6 +16048,48 @@
       "quelle": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
       "veroeffentlicht": "2026-11-20",
       "gelesenAm": "2026-11-20"
+    },
+    {
+      "titel": "Inazuma Eleven",
+      "zitat": "Die Blu-ray-Komplettbox erscheint am 18. Dezember 2026 mit allen 26 Episoden der ersten Staffel in der deutschen und japanischen Sprachfassung.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": "26",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1074177",
+      "artikel": "Design und Extras der ersten »Inazuma Eleven«-Blu-ray-Staffelbox",
+      "quelle": "https://www.anime2you.de/news/1074177/inazuma-eleven-staffel-1-blu-ray-design/",
+      "veroeffentlicht": "2026-11-21",
+      "gelesenAm": "2026-11-21"
+    },
+    {
+      "titel": "Inazuma Eleven – The Movie: Team Oger greift an!",
+      "zitat": "Anderthalb Monate später, am 29. Januar 2027, kommt der rund 90-minütige Anime-Film »Inazuma Eleven – The Movie: Team Oger greift an!« ebenfalls auf Blu-ray in den Handel.",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-29",
+      "uhrzeit": null,
+      "anbieter": null,
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [],
+      "artikelId": "1074177",
+      "artikel": "Design und Extras der ersten »Inazuma Eleven«-Blu-ray-Staffelbox",
+      "quelle": "https://www.anime2you.de/news/1074177/inazuma-eleven-staffel-1-blu-ray-design/",
+      "veroeffentlicht": "2026-11-21",
+      "gelesenAm": "2026-11-21"
     }
   ]
 }
