@@ -1,6 +1,6 @@
 {
   "format": 2,
-  "stand": "2026-11-20",
+  "stand": "2026-11-21",
   "hinweis": "Vorschlagsmodus: nur gelesen, nie übernommen — docs/wissen/sammelartikel-poc.md (Abschnitt „Vorschlagslauf\"). Schreiber: pipeline/fetch-sammelartikel.ts",
   "aussagen": [
     {
@@ -14133,6 +14133,226 @@
           "hatSynchroBelege": false
         },
         "inhaltZeichen": 292
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/|Overlord: The Sacred Kingdom||start|primevideo",
+      "erstGesehen": "2026-11-21",
+      "fingerabdruck": "f3401f960a8e",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-11-20",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Overlord: The Sacred Kingdom",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-12-03",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "3. Dezember: »Overlord: The Sacred Kingdom«\n3. Dezember: »Overlord: The Sacred Kingdom«\nLaufzeit: 135 Minuten\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 133845,
+          "name": "Overlord: The Sacred Kingdom",
+          "wie": "name-genau",
+          "abstandTage": 804
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 287
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/|Chrono Crusade||start|primevideo",
+      "erstGesehen": "2026-11-21",
+      "fingerabdruck": "7d04cdf63e2b",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-11-20",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Chrono Crusade",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-12-10",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 24,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "10. Dezember: »Chrono Crusade«\n10. Dezember: »Chrono Crusade«\nEpisoden: 24 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 60,
+          "name": "Chrono Crusade",
+          "wie": "name-genau",
+          "abstandTage": 8417
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 288
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/|Gunslinger Girl: Il Teatrino||start|primevideo",
+      "erstGesehen": "2026-11-21",
+      "fingerabdruck": "d5224499caf7",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-11-20",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Gunslinger Girl: Il Teatrino",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-12-17",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "17. Dezember: »Gunslinger Girl: Il Teatrino«\n17. Dezember: »Gunslinger Girl: Il Teatrino«\nEpisoden: 13 Episoden + 2 OVAs (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 3231,
+          "name": "Gunslinger Girl il teatrino",
+          "wie": "name-genau",
+          "abstandTage": 6919
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 317
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/|Berserk|Part 2|start|primevideo",
+      "erstGesehen": "2026-11-21",
+      "fingerabdruck": "eb50a5c77993",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-11-20",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Berserk",
+        "zusatz": "Part 2",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-12-24",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 12,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "24. Dezember: »Berserk« – Part 2\n24. Dezember: »Berserk« – Part 2\nEpisoden: 12 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Prime Video",
+        "zuordnung": {
+          "anilistId": 97643,
+          "name": "Berserk: Staffel 2",
+          "wie": "name-genau",
+          "abstandTage": 3548
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": false
+        },
+        "inhaltZeichen": 319
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/|Peter Pan||start|primevideo",
+      "erstGesehen": "2026-11-21",
+      "fingerabdruck": "28d728c532c1",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-11-20",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Peter Pan",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-12-24",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 41,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "24. Dezember: »Peter Pan«\n24. Dezember: »Peter Pan«\nEpisoden: 41 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 1638,
+          "name": "Peter Pan",
+          "wie": "name-genau",
+          "abstandTage": 13857
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 300
+      }
+    },
+    {
+      "id": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/|Trinity Blood||start|primevideo",
+      "erstGesehen": "2026-11-21",
+      "fingerabdruck": "782583473650",
+      "offenOderUnklar": false,
+      "ergebnis": {
+        "quelle": {
+          "url": "https://www.anime2you.de/news/1074092/aniverse-dezember-2026-neuzugaenge/",
+          "veroeffentlicht": "2026-11-20",
+          "leser": "anime2you-sammel"
+        },
+        "titel": "Trinity Blood",
+        "art": "start",
+        "plattformen": [
+          "primevideo"
+        ],
+        "kanal": "aniverse",
+        "datum": "2026-12-31",
+        "datumBedeutung": "genannt",
+        "deutsch": "ja",
+        "folgen": 24,
+        "konfidenz": 0.95,
+        "gruende": [],
+        "zitat": "31. Dezember: »Trinity Blood«\n31. Dezember: »Trinity Blood«\nEpisoden: 24 (komplett)\nSprache: Deutsch, Japanisch (UT)\nStream: Noch nicht verfügbar",
+        "zuordnung": {
+          "anilistId": 27,
+          "name": "Trinity Blood",
+          "wie": "name-genau"
+        },
+        "bestand": {
+          "status": "neu",
+          "hatSynchroBelege": true
+        },
+        "inhaltZeichen": 318
       }
     }
   ]

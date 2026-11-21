@@ -34,6 +34,11 @@ export function nachfrageFaellig(vorher: Vorher | undefined, erwartet: number | 
   return vorher.verfehltAm < NACHFRAGE_SEIT || Date.parse(heute) - Date.parse(vorher.verfehltAm) >= 7 * 86_400_000
 }
 
+/** Ein früher verfehlter Befund, der jetzt über den Pfad wieder auftaucht, hat meist kein Angebot mehr (Grund der Nachfrage); er zählt im Plausibilitätsriegel nicht als „leer“. */
+export function zaehltAlsLeer(vorher: Vorher | undefined, angebote: number): boolean {
+  return angebote === 0 && !vorher?.verfehltAm
+}
+
 /**
  * Erster Abruf mit Nachfrage über den Pfad (Tageslauf 20.11.2026, nach #4318): Ein früher verfehlter Befund wurde nie nachgefragt und kommt sofort dran,
  * ohne die 7 Tage (City Hunter, Golgo 13: verfehlt 19.11.). Schlägt die Nachfrage fehl, trägt er danach ein neueres `verfehltAm`.

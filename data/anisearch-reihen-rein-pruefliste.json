@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-20",
+  "stand": "2026-11-21",
   "bestand": {
     "inReihen": 3029,
     "reihen": 819,
@@ -1586,7 +1586,7 @@
     ]
   },
   "katalog": {
-    "inReihen": 12041,
+    "inReihen": 12042,
     "reihen": 3076,
     "pruefliste": [
       {
@@ -3414,7 +3414,7 @@
           {
             "id": 2048,
             "name": "Kikou Ryouhei Merowlink",
-            "titel": 18
+            "titel": 19
           },
           {
             "id": 8248,
