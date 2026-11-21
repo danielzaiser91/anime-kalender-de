@@ -35,6 +35,7 @@ pruefe('wartezeitMs: Reset in 100 s -> 102 s (mit Puffer)', wartezeitMs(JETZT / 
 pruefe('wartezeitMs: Reset in 3 h -> Deckel 15 min', wartezeitMs(JETZT / 1000 + 10_800, JETZT) === MAX_WARTE_MS && MAX_WARTE_MS === 900_000, wartezeitMs(JETZT / 1000 + 10_800, JETZT))
 pruefe('wartezeitMs: Reset genau am Deckel + 1 s -> Deckel', wartezeitMs(JETZT / 1000 + 899, JETZT) === 900_000, wartezeitMs(JETZT / 1000 + 899, JETZT))
 pruefe('wartezeitMs: Reset vorbei -> 0', wartezeitMs(JETZT / 1000 - 500, JETZT) === 0, wartezeitMs(JETZT / 1000 - 500, JETZT))
+pruefe('wartezeitMs: Reset 1 (lange vorbei) -> 0, nicht Ersatzwartezeit', wartezeitMs(1, JETZT) === 0, wartezeitMs(1, JETZT))
 pruefe('wartezeitMs: kein lesbarer Reset -> 60 s', wartezeitMs(NaN, JETZT) === 60_000 && wartezeitMs(undefined, JETZT) === 60_000 && wartezeitMs(0, JETZT) === 60_000, null)
 pruefe('wartezeitMs: kein Reset, kleiner Deckel -> Deckel', wartezeitMs(NaN, JETZT, 5000) === 5000, wartezeitMs(NaN, JETZT, 5000))
 
@@ -118,7 +119,40 @@ pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbe
     pruefe('CLI warten ohne rate limit: Exit 1, kein Warten', cli(['warten', ohne], opt) === 1 && waren.length === 1, waren)
     pruefe('CLI warten ohne Datei: Exit 1', cli(['warten', path.join(ordner, 'fehlt.txt')], opt) === 1 && waren.length === 1, waren)
     pruefe('CLI ohne Befehl: Exit 2', cli([], opt) === 2, null)
+    pruefe('CLI warten ohne Datei-Argument: Exit 2', cli(['warten'], opt) === 2, null)
+    pruefe('CLI unbekannter Befehl mit Datei: Exit 2', cli(['rest2', mit], opt) === 2, null)
   } finally {
+    fs.rmSync(ordner, { recursive: true, force: true })
+  }
+}
+
+// ghRoh als echter Kindprozess: gh = Node unter dem Namen gh, das das Skript `api` im Arbeitsordner lädt (Windows findet nur gh.exe).
+{
+  const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'gh-roh-'))
+  const cwd = process.cwd()
+  const pfadName = Object.keys(process.env).find((s) => s.toUpperCase() === 'PATH') ?? 'PATH'
+  const pfadAlt = process.env[pfadName]
+  try {
+    const bin = path.join(ordner, 'bin')
+    fs.mkdirSync(bin)
+    if (process.platform === 'win32') fs.copyFileSync(process.execPath, path.join(bin, 'gh.exe'))
+    else fs.symlinkSync(process.execPath, path.join(bin, 'gh'))
+    fs.writeFileSync(path.join(ordner, 'api'), "if (process.argv[2] === 'gut') process.stdout.write('hallo')\nelse { process.stderr.write('HTTP 403: API rate limit exceeded\\nzweite Zeile\\n'); process.exit(1) }\n")
+    process.env[pfadName] = bin + path.delimiter + pfadAlt
+    process.chdir(ordner)
+    const { ghRoh } = await import('./gh-ratelimit.mjs')
+    pruefe('ghRoh: stdout bei Exit 0', ghRoh(['api', 'gut']) === 'hallo', null)
+    let text = ''
+    try {
+      ghRoh(['api', 'schlecht'])
+    } catch (e) {
+      text = e.message
+    }
+    pruefe('ghRoh: Fehler nennt Exit-Code und nur die erste stderr-Zeile', text === 'gh api schlecht Exit 1: HTTP 403: API rate limit exceeded', text)
+    pruefe('ghRoh: Fehlertext wird als rate limit erkannt', istRateLimit(text), text)
+  } finally {
+    process.chdir(cwd)
+    process.env[pfadName] = pfadAlt
     fs.rmSync(ordner, { recursive: true, force: true })
   }
 }
