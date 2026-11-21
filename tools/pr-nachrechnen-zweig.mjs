@@ -9,8 +9,8 @@ export const KOPF_ABSTAND_MS = 2000
 
 const kurz = (sha) => sha.slice(0, 9)
 
-/** Der Aufruf ging sicher nicht an GitHub raus oder wurde abgewiesen (4xx, Trockenlauf-Sperre, Anstoß-Riegel): nichts angestoßen. */
-const NICHT_ANGESTOSSEN = /HTTP 4\d\d|^Trockenlauf|Höchstmenge/
+/** GitHub hat den Aufruf abgewiesen (4xx): nichts angestoßen. */
+const NICHT_ANGESTOSSEN = /HTTP 4\d\d/
 
 const kopfLesen = (gh, nummer) => gh(['api', `repos/{owner}/{repo}/pulls/${nummer}`, '--jq', '.head.sha']).trim()
 
@@ -27,10 +27,9 @@ function nachUnklaremPut(gh, nummer, kopf, text) {
   return neu
 }
 
-/** Die eine Zeile im Rückfall: Status und gekürzter Text der 4xx-Abweisung (403/422 laufen denselben Weg; „workflow“ im Text = fehlendes Token-Recht); bei Trockenlauf/Riegel „nicht gesendet“ ohne Status. */
+/** Die eine Zeile im Rückfall: Status und gekürzter Text der 4xx-Abweisung (403/422 laufen denselben Weg; „workflow“ im Text = fehlendes Token-Recht). */
 function abgewiesenZeile(nummer, text) {
   const status = /HTTP (4\d\d)/.exec(text)
-  if (status === null) return `PR ${nummer}: update-branch nicht gesendet (${text.split('\n')[0].slice(0, 120)}) – Rückfall Schließen/Öffnen`
   const zeile = `PR ${nummer}: update-branch abgewiesen (HTTP ${status[1]}: ${text.split('\n')[0].slice(0, 120)}) – Rückfall Schließen/Öffnen`
   return /workflow/i.test(text) ? `${zeile}; Token ohne Workflows-Recht?` : zeile
 }

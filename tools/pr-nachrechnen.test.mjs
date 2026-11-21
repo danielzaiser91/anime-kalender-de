@@ -162,6 +162,34 @@ for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeit
   const nicht = kulisse(antworten({ zusatz: { [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: `${KOPF}\n` } } }))
   pruefe(`nachziehen: PUT ${name}, Kopf alt -> Exit 2 „SCHON ANGESTOSSEN möglich“, kein Schließen`, nachziehenMain(['7'], nicht.gh, nicht.melde, nicht.warte) === 2 && /SCHON ANGESTOSSEN möglich/.test(nicht.meldungen.join()) && !nicht.aufrufe.includes('pr close 7'), nicht.meldungen)
 }
+for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeitlimit', 'FEHLER: gh api nach 30 s abgebrochen']]) {
+  const leer = kulisse(antworten({ zusatz: { [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { aus: '\n' } } }))
+  pruefe(`nachziehen: PUT ${name}, leere Kopf-Antwort -> Exit 2 „SCHON ANGESTOSSEN möglich“ (leer ist kein neuer Kopf)`, nachziehenMain(['7'], leer.gh, leer.melde, leer.warte) === 2 && /SCHON ANGESTOSSEN möglich/.test(leer.meldungen.join()) && prSchreibend(leer) === '', leer.meldungen)
+  const blind = kulisse(antworten({ zusatz: { [PUT]: { fehler: fehlerText }, [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } } }))
+  pruefe(`nachziehen: PUT ${name}, Kopf nicht lesbar -> Exit 2 „SCHON ANGESTOSSEN“ mit Lesefehler`, nachziehenMain(['7'], blind.gh, blind.melde, blind.warte) === 2 && /SCHON ANGESTOSSEN/.test(blind.meldungen.join()) && /Kopf nicht lesbar \(gh: Bad Gateway/.test(blind.meldungen.join()) && prSchreibend(blind) === '', blind.meldungen)
+}
+// Nur Zeile und Text des Rückfalls: Status, auf 120 Zeichen gekürzter Text, Hinweis auf das Token-Recht nur bei „workflow“.
+const T403 = 'gh: Resource not accessible by personal access token - refusing to allow a Personal Access Token to create or update workflow `.github/workflows/x.yml` without `workflow` scope (HTTP 403)'
+{
+  const zeile = (text) => {
+    const k = kulisse(antworten({ zusatz: { [PUT]: { fehler: text } } }))
+    nachziehenMain(['7'], k.gh, k.melde, k.warte)
+    return k.meldungen.filter((m) => m.includes('update-branch abgewiesen'))
+  }
+  pruefe('Rückfallzeile 422: genau eine, mit Status und Text, ohne Token-Hinweis', zeile('gh: Merge conflict (HTTP 422)').join('|') === 'PR 7: update-branch abgewiesen (HTTP 422: gh: Merge conflict (HTTP 422)) – Rückfall Schließen/Öffnen')
+  const z3 = zeile(T403)
+  pruefe('Rückfallzeile 403 mit „workflow“: HTTP 403, Text auf genau 120 Zeichen gekürzt, Token-Hinweis', T403.length > 121 && z3.join('|') === `PR 7: update-branch abgewiesen (HTTP 403: ${T403.slice(0, 120)}) – Rückfall Schließen/Öffnen; Token ohne Workflows-Recht?`, z3)
+  pruefe('Rückfallzeile 403 ohne „workflow“: kein Token-Hinweis', !zeile('gh: Resource not accessible (HTTP 403)').join().includes('Workflows-Recht'))
+}
+// PUT angenommen: Kopf lesen scheitert, bleibt alt oder leer -> Exit 2 „SCHON ANGESTOSSEN“, nie zweiter PUT, nie Schließen/Öffnen.
+{
+  const k = kulisse(antworten({ zusatz: { [KOPF_LESEN]: { fehler: 'gh: Bad Gateway (HTTP 502)' } } }))
+  pruefe('nachziehen: PUT ok, Kopf lesen wirft -> Exit 2 „SCHON ANGESTOSSEN“ mit Lesefehler, ein PUT, nichts geschlossen', nachziehenMain(['7'], k.gh, k.melde, k.warte) === 2 && /SCHON ANGESTOSSEN/.test(k.meldungen.join()) && /Kopf nicht lesbar/.test(k.meldungen.join()) && anzahlPut(k) === 1 && prSchreibend(k) === '', k.meldungen)
+  const alt = kulisse(antworten({ zusatz: { [KOPF_LESEN]: { aus: `${KOPF}\n` } } }))
+  pruefe('nachziehen: PUT ok, Kopf bleibt alt -> Exit 2 „SCHON ANGESTOSSEN“ nach 16 Lesungen und 15 Pausen', nachziehenMain(['7'], alt.gh, alt.melde, alt.warte) === 2 && /SCHON ANGESTOSSEN/.test(alt.meldungen.join()) && alt.gewartet.length === 15 && alt.aufrufe.filter((a) => a === KOPF_LESEN).length === 16 && prSchreibend(alt) === '', { m: alt.meldungen, n: alt.gewartet.length })
+  const leer = kulisse(antworten({ zusatz: { [KOPF_LESEN]: { aus: ['\n', `${KOPF_NEU}\n`] } } }))
+  pruefe('nachziehen: PUT ok, leere Kopf-Antwort zählt nicht als neu (wartet, nennt dann den echten)', nachziehenMain(['7'], leer.gh, leer.melde, leer.warte) === 1 && leer.gewartet.length === 1 && leer.meldungen.join().includes(`neuer Kopf ${KOPF_NEU}`), { w: leer.gewartet, m: leer.meldungen })
+}
 // Takt und Frist des Rückfalls (alle 2 s, höchstens 60 s); eine Prüfung über der Grenze -> Fehler „SCHON ANGESTOSSEN“, kein zweites Öffnen.
 pruefe('Warten: alle 2 s, höchstens 60 s', REF_ABSTAND_MS === 2000 && REF_PRUEFUNGEN * REF_ABSTAND_MS === 60000, { REF_ABSTAND_MS, REF_PRUEFUNGEN })
 for (const [alt, ok] of [[3, true], [REF_PRUEFUNGEN + 1, true], [REF_PRUEFUNGEN + 2, false]]) {

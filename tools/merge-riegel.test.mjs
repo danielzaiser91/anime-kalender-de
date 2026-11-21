@@ -60,6 +60,11 @@ gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --match-head-commit -
 gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --subject "--match-head-commit x"', '5') // Text im Wert eines anderen Schalters
 gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc && gh pr merge 6 --squash', '6')
 gesperrt('node tools/pr-nachrechnen.mjs 5 && nice --match-head-commit=abc gh pr merge 5 --squash', '5') // Schalter steht vor dem Befehl, nicht dahinter
+// --admin umgeht das Ruleset (Bypass) und ersetzt die Kette am Kopf: auch mit Nachrechnen und Kopfschutz gesperrt
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --admin --match-head-commit abc', '5')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc --admin', '5')
+gesperrt('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --admin=true --match-head-commit abc', '5')
+frei('node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --subject --admin --match-head-commit abc') // Wert von --subject
 
 for (const c of [
   'node tools/pr-nachrechnen.mjs 5 && gh pr merge 5 --squash --match-head-commit abc123',

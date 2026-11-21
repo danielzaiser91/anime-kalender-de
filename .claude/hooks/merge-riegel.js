@@ -62,6 +62,12 @@ function hatKopfschutz(tokens, von) {
 
 const erlaubt = (n) => `h=$(gh pr view ${n} --json headRefOid -q .headRefOid) && node tools/pr-nachrechnen.mjs ${n} && t=$(gh pr view ${n} --json title -q .title) && gh pr merge ${n} --squash --subject "$t (#${n})" --match-head-commit "$h"`
 
+/** Hat `gh pr merge` ab dem `gh`-Token `--admin` (Ruleset-Umgehung; Wert eines anderen Schalters zählt nicht)? */
+function hatAdmin(tokens, von) {
+  const istWert = (vor) => vor?.startsWith('-') && !vor.includes('=') && !GH_OHNE_WERT.has(vor)
+  return tokens.some((t, i) => i > von && (t === '--admin' || t.startsWith('--admin=')) && !istWert(tokens[i - 1]))
+}
+
 /** Verweigerungstext (mit Nummer des Merges) für einen Befehl oder null. */
 function pruefeBefehl(befehl) {
   const frei = new Set()
@@ -79,7 +85,7 @@ function pruefeBefehl(befehl) {
       } else if (p === 'gh' || p === 'gh.exe') {
         const nummer = mergeNummer(tokens, i)
         if (nummer === null) continue
-        if (nummer === '' || !frei.has(nummer) || !hatKopfschutz(tokens, i)) return erlaubt(nummer || 'N')
+        if (nummer === '' || !frei.has(nummer) || !hatKopfschutz(tokens, i) || hatAdmin(tokens, i)) return erlaubt(nummer || 'N')
       }
     }
   }

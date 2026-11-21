@@ -35,12 +35,12 @@ const gh = `#!/usr/bin/env node
 const a = process.argv.slice(2)
 const j = a.join(' ')
 const aus = (x) => { process.stdout.write(typeof x === 'string' ? x : JSON.stringify(x)); process.exit(0) }
-if (a[0] === 'pr' && a[1] === 'list') aus([${JSON.stringify(PR)}])
-if (a[0] === 'api' && j.includes('/pulls/7/files')) aus('web/src/a.tsx\\n')
-if (a[0] === 'api' && j.includes('/issues/7/comments')) aus(${JSON.stringify(JSON.stringify(NACHTRAG))} + '\\n')
+if (a[0] === 'pr' && a[1] === 'list') aus(Array.from({ length: Number(process.env.PR_ANZAHL || 1) }, (_, i) => Object.assign({}, ${JSON.stringify(PR)}, { number: 7 + i })))
+if (a[0] === 'api' && /\\/pulls\\/\\d+\\/files/.test(j)) aus('web/src/a.tsx\\n')
+if (a[0] === 'api' && /\\/issues\\/\\d+\\/comments/.test(j)) aus(${JSON.stringify(JSON.stringify(NACHTRAG))} + '\\n')
 if (a[0] === 'pr' && a[1] === 'view' && j.includes('statusCheckRollup')) aus(${JSON.stringify(CHECKS)})
 if (a[0] === 'pr' && a[1] === 'view' && j.includes('headRefOid') && !j.includes('mergeable')) aus('${KOPF}\\n')
-if (a[0] === 'pr' && a[1] === 'view' && j.includes('mergeable')) aus({ number: 7, state: 'OPEN', mergeable: process.env.PR_MERGEABLE, headRefOid: '${KOPF}', headRefName: 'fix/x', comments: [], commits: [] })
+if (a[0] === 'pr' && a[1] === 'view' && j.includes('mergeable')) aus({ number: Number(a[2]), state: 'OPEN', mergeable: process.env.PR_MERGEABLE, headRefOid: '${KOPF}', headRefName: 'fix/x', comments: [], commits: [] })
 if (a[0] === 'pr' && a[1] === 'view' && j.includes('mergeStateStatus')) aus((process.env.PR_STATUS || 'UNKNOWN') + '\\n')
 if (a[0] === 'pr' && a[1] === 'merge') { require('node:fs').appendFileSync(process.env.MERGE_LOG, j + '\\n'); aus('') }
 if (a[0] === 'run' && a[1] === 'list') aus(j.includes('--jq') ? '' : '[]')
@@ -52,13 +52,13 @@ const ordner = mkdtempSync(join(tmpdir(), 'nacht-merger-prozess-'))
 writeFileSync(join(ordner, 'gh'), gh)
 chmodSync(join(ordner, 'gh'), 0o755)
 const mergeLog = join(ordner, 'merge.log')
-function fahre(mergeable, args = ['--trocken'], status = 'UNKNOWN') {
+function fahre(mergeable, args = ['--trocken'], status = 'UNKNOWN', anzahl = 1) {
   rmSync(mergeLog, { force: true })
   const r = spawnSync(process.execPath, ['tools/nacht-merger.mjs', ...args], {
     cwd: wurzel,
     encoding: 'utf8',
     timeout: 60_000,
-    env: { ...process.env, PATH: `${ordner}:${process.env.PATH}`, GITHUB_REPOSITORY: 'o/r', GITHUB_STEP_SUMMARY: '', NACHT_MERGER_WARTE_MS: '20', PR_MERGEABLE: mergeable, PR_STATUS: status, MERGE_LOG: mergeLog },
+    env: { ...process.env, PATH: `${ordner}:${process.env.PATH}`, GITHUB_REPOSITORY: 'o/r', GITHUB_STEP_SUMMARY: '', NACHT_MERGER_WARTE_MS: '20', PR_ANZAHL: String(anzahl), PR_MERGEABLE: mergeable, PR_STATUS: status, MERGE_LOG: mergeLog },
   })
   return { exit: r.status, aus: `${r.stdout}${r.stderr}`, merges: existsSync(mergeLog) ? readFileSync(mergeLog, 'utf8') : '' }
 }
@@ -72,6 +72,11 @@ const trocken = fahre('MERGEABLE', ['--trocken'], 'CLEAN')
 pruefe('Prozess: mergebarer PR mit --trocken -> WÜRDE MERGEN, kein gh-Merge, Exit 0', trocken.exit === 0 && trocken.aus.includes('WÜRDE MERGEN #7') && trocken.merges === '', `${trocken.exit} ${trocken.aus} ${trocken.merges}`)
 const echt = fahre('MERGEABLE', [], 'CLEAN')
 pruefe('Prozess: mergebarer PR ohne --trocken -> GEMERGT, ein gh-Merge mit Kopf, Exit 0', echt.exit === 0 && echt.aus.includes('GEMERGT #7') && /pr merge 7 --squash .*--match-head-commit a{40}\n$/.test(echt.merges), `${echt.exit} ${echt.aus} ${echt.merges}`)
+// --hoechstens N erreicht lauf(): zwei mergebare PR, Grenze 1 -> genau ein Merge (#7), #8 vom Riegel abgewiesen; ohne Option beide
+const eins = fahre('MERGEABLE', ['--hoechstens', '1'], 'CLEAN', 2)
+pruefe('Prozess: --hoechstens 1 bei zwei mergebaren PR -> ein GEMERGT, ein Riegel-Hinweis, genau ein gh-Merge (#7), Exit 0', eins.exit === 0 && eins.aus.split('GEMERGT #').length === 2 && eins.aus.includes('GEMERGT #7') && eins.aus.includes('Riegel: höchstens 1 Merges je Lauf') && eins.merges.split('\n').filter(Boolean).length === 1 && eins.merges.includes('pr merge 7 '), `${eins.exit} ${eins.aus} ${eins.merges}`)
+const zwei = fahre('MERGEABLE', [], 'CLEAN', 2)
+pruefe('Prozess: ohne --hoechstens (Vorgabe 3) bei zwei mergebaren PR -> beide gemergt', zwei.exit === 0 && zwei.merges.split('\n').filter(Boolean).length === 2 && !zwei.aus.includes('Riegel: höchstens'), `${zwei.exit} ${zwei.aus} ${zwei.merges}`)
 rmSync(ordner, { recursive: true, force: true })
 
 if (fehler > 0) {

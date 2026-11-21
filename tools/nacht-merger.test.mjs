@@ -3,7 +3,7 @@
  * Erwartete Werte stehen fest im Test. Der Ablauf läuft mit einer Attrappe-Welt; die Verdrahtung (nachrechnen vor jedem Merge, Riegel,
  * Trockenlauf) prüfen die Fälle über `lauf`, nie über den Quelltext.
  */
-import { BUDGET_MS, argumente, exitCode, lauf } from './nacht-merger.mjs'
+import { BUDGET_MS, argumente, exitCode, lauf, starte } from './nacht-merger.mjs'
 import { bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
 import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
@@ -525,6 +525,20 @@ pruefe('echteWelt: ohne Repo-Angabe Fehler', (() => { try { echteWelt({ gh: () =
 pruefe('argumente: Vorgabe', JSON.stringify(argumente([])) === '{"trocken":false,"hoechstens":3}')
 pruefe('argumente: --trocken und --hoechstens', JSON.stringify(argumente(['--trocken', '--hoechstens', '5'])) === '{"trocken":true,"hoechstens":5}')
 pruefe('argumente: ungültig', argumente(['--hoechstens', '0']) === null && argumente(['--hoechstens']) === null && argumente(['--admin']) === null)
+
+// starte: die Optionen des Aufrufs erreichen lauf() (A7: `--hoechstens 1` darf nicht still 3 Merges erlauben)
+{
+  const w = welt(vier())
+  pruefe('starte --hoechstens 1: Exit 0, genau ein Merge (#11), die übrigen vom Riegel zurückgestellt', starte(['--hoechstens', '1'], () => w) === 0 && w.log.gemergt.join(',') === '11' && w.log.zeilen.filter((z) => z.includes('Riegel: höchstens 1')).length === 3)
+  const w2 = welt(vier())
+  pruefe('starte ohne Option: Vorgabe 3 Merges', starte([], () => w2) === 0 && w2.log.gemergt.join(',') === '11,12,13')
+  const w3 = welt(vier())
+  pruefe('starte --trocken: Exit 0, kein Merge', starte(['--trocken'], () => w3) === 0 && w3.log.gemergt.length === 0 && w3.log.aufrufe.every((a) => !a.startsWith('merge')))
+  let geholt = 0
+  pruefe('starte ungültig: Exit 2, die Welt wird nie geholt', starte(['--hoechstens', '0'], () => { geholt++; return welt(vier()) }) === 2 && geholt === 0)
+  const w4 = welt([pr({ nummer: 11, mergeStateStatus: 'UNKNOWN' })], { folge: { 11: [UNKNOWN, UNKNOWN] } })
+  pruefe('starte: Stillstand (0 Merges, PR unentschieden) -> Exit 1 aus exitCode', starte([], () => w4) === 1)
+}
 
 if (fehler > 0) {
   console.error(`nacht-merger.test: ${fehler} von ${anzahl} Fällen rot`)

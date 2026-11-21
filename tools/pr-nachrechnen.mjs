@@ -2,7 +2,8 @@
  * Letzte Prüfung vor dem Merge (19.10.2026, seit 21.11.2026 ohne Nachzug): Ist der PR offen, mergebar und frei?
  * Eine Bewegung auf main erzwingt keinen neuen Kettenlauf mehr (Daniel 21.11.2026; Messung 90 Nachzüge in 14 Tagen, 4 echte Funde,
  * alle Mängel von main selbst; Freigabe bis Merge im Median 33 min mit Nachzug, 3 min ohne). Die Kette am Kopf sichert das Ruleset
- * `main-pruefweg` (Pflicht-Check „PR-Prüfkette“, strict aus); was erst im Zusammenspiel mit dem neuen main bricht, zeigt sich nach dem
+ * `main-pruefweg` (Pflicht-Check „PR-Prüfkette“, strict aus; Admin-Bypass vorhanden, daher verweigert der Riegel
+ * `.claude/hooks/merge-riegel.js` jedes `gh pr merge … --admin`); was erst im Zusammenspiel mit dem neuen main bricht, zeigt sich nach dem
  * Merge im Lauf auf main (`deploy.yml`) und in der Kette des nächsten PR.
  *
  * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs [--trocken] <PR>

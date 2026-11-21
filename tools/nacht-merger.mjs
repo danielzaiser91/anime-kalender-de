@@ -134,13 +134,17 @@ export function argumente(argv) {
   return opt
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const opt = argumente(process.argv.slice(2))
+/** Startlogik: Argumente lesen, `weltHole()` erst bei gültigen Argumenten rufen, Lauf mit den Optionen; Rückgabe ist der Prozess-Exit (2 = Aufruffehler). */
+export function starte(argv, weltHole) {
+  const opt = argumente(argv)
   if (opt === null) {
     console.error('Aufruf: node tools/nacht-merger.mjs [--trocken] [--hoechstens N]')
-    process.exit(2)
+    return 2
   }
+  return exitCode(lauf(weltHole(), opt))
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { echteWelt } = await import('./nacht-merger-welt.mjs')
-  const ergebnis = lauf(echteWelt(), opt)
-  process.exit(exitCode(ergebnis))
+  process.exit(starte(process.argv.slice(2), echteWelt))
 }
