@@ -2,6 +2,8 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { spawnSync } from 'node:child_process'
+import { fileURLToPath } from 'node:url'
 import { cli, ghMitLimit, istRateLimit, MAX_WARTE_MS, restZeile, wartezeitMs } from './gh-ratelimit.mjs'
 
 const fehler = []
@@ -116,6 +118,7 @@ pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbe
     const opt = { gh: a.gh, warte: (ms) => waren.push(ms), jetzt: () => JETZT, log: (z) => zeilen.push(z) }
     pruefe('CLI rest: Exit 0 und Zeile', cli(['rest'], opt) === 0 && zeilen[0] === 'x-ratelimit-remaining: 0', zeilen)
     pruefe('CLI warten mit rate limit: Exit 0, wartet 12 s', cli(['warten', mit], opt) === 0 && waren[0] === 12_000, waren)
+    pruefe('CLI warten: Logzeile nennt die Sekunden', zeilen.includes('API-Kontingent erschöpft: warte 12 s bis zum Reset'), zeilen)
     pruefe('CLI warten ohne rate limit: Exit 1, kein Warten', cli(['warten', ohne], opt) === 1 && waren.length === 1, waren)
     pruefe('CLI warten ohne Datei: Exit 1', cli(['warten', path.join(ordner, 'fehlt.txt')], opt) === 1 && waren.length === 1, waren)
     pruefe('CLI ohne Befehl: Exit 2', cli([], opt) === 2, null)
@@ -137,7 +140,7 @@ pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbe
     fs.mkdirSync(bin)
     if (process.platform === 'win32') fs.copyFileSync(process.execPath, path.join(bin, 'gh.exe'))
     else fs.symlinkSync(process.execPath, path.join(bin, 'gh'))
-    fs.writeFileSync(path.join(ordner, 'api'), "if (process.argv[2] === 'gut') process.stdout.write('hallo')\nelse { process.stderr.write('HTTP 403: API rate limit exceeded\\nzweite Zeile\\n'); process.exit(1) }\n")
+    fs.writeFileSync(path.join(ordner, 'api'), "if (process.argv[2] === 'rate_limit') process.stdout.write('{\"resources\":{\"core\":{\"remaining\":7,\"reset\":1}}}')\nelse if (process.argv[2] === 'gut') process.stdout.write('hallo')\nelse { process.stderr.write('HTTP 403: API rate limit exceeded\\nzweite Zeile\\n'); process.exit(1) }\n")
     process.env[pfadName] = bin + path.delimiter + pfadAlt
     process.chdir(ordner)
     const { ghRoh } = await import('./gh-ratelimit.mjs')
@@ -150,6 +153,16 @@ pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbe
     }
     pruefe('ghRoh: Fehler nennt Exit-Code und nur die erste stderr-Zeile', text === 'gh api schlecht Exit 1: HTTP 403: API rate limit exceeded', text)
     pruefe('ghRoh: Fehlertext wird als rate limit erkannt', istRateLimit(text), text)
+    // Einstieg als eigener Prozess: Exit-Code und Ausgabe.
+    const skript = fileURLToPath(new URL('./gh-ratelimit.mjs', import.meta.url))
+    const lauf = (...args) => spawnSync(process.execPath, [skript, ...args], { cwd: ordner, env: process.env, encoding: 'utf8', windowsHide: true, timeout: 30_000 })
+    const rest = lauf('rest')
+    pruefe('Prozess rest: Exit 0 und Zeile mit remaining 7', rest.status === 0 && rest.stdout === 'x-ratelimit-remaining: 7\n', rest)
+    const ohne = lauf()
+    pruefe('Prozess ohne Befehl: Exit 2', ohne.status === 2, ohne)
+    fs.writeFileSync(path.join(ordner, 'limit.txt'), 'HTTP 403: API rate limit exceeded\n')
+    const warten = lauf('warten', path.join(ordner, 'limit.txt'))
+    pruefe('Prozess warten (Reset vorbei): Exit 0 ohne echtes Warten', warten.status === 0 && /warte 0 s/.test(warten.stdout), warten)
   } finally {
     process.chdir(cwd)
     process.env[pfadName] = pfadAlt
