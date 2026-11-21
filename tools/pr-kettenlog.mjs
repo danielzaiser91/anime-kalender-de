@@ -113,7 +113,7 @@ export function ghAufruf(args, programm = ['gh']) {
 
 /** Wie ghAufruf, aber stdout als Buffer (ZIP-Archiv). */
 export function ghAufrufBinaer(args, programm = ['gh']) {
-  const r = spawnSync(programm[0], [...programm.slice(1), ...args], { windowsHide: true, maxBuffer: 1 << 28 })
+  const r = spawnSync(programm[0], [...programm.slice(1), ...args], { windowsHide: true, maxBuffer: 1 << 28, timeout: 120_000 })
   if (r.error) throw r.error
   if (r.status !== 0) throw new Error(`gh ${args.slice(0, 3).join(' ')} Exit ${r.status}: ${sauber(r.stderr)}`)
   return r.stdout
