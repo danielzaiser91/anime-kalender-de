@@ -40,7 +40,9 @@ jobs:
     # Kommentare auf Issues und die des Prüfers selbst starten nichts (keine Schleife).
     if: github.event.issue.pull_request != null && github.event.comment.user.login != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # 20 min = 5 min wie vorher (Checkout, Abfragen, bis zu 40 Mal 5 s auf das Ende des abgebrochenen Laufs) plus das Zeitkonto
+    # KONTO_MS (15 min für alle Warteplätze bei „rate limit“, tools/gh-ratelimit.mjs); Rechnung: tools/pr-pruefer-neustart.test.mjs.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,7 +66,9 @@ jobs:
     runs-on: ubuntu-latest
     # Wartet bis 28 min auf das Ende des Prüfer-Laufs (sein Kommentar entsteht erst am Schluss; er hat 30 min Frist und liest
     # das Kettenlog nach ~13 min), dann Abruf und Neustart. Ein Lauf je Kopf (Gruppe), der Runner schläft nur.
-    timeout-minutes: 32
+    # 47 min = 32 min wie vorher plus das Zeitkonto KONTO_MS (15 min für alle Warteplätze bei „rate limit“, tools/gh-ratelimit.mjs);
+    # Rechnung: tools/pr-pruefer-nach-kette.test.mjs.
+    timeout-minutes: 47
     steps:
       - uses: actions/checkout@v4
         with:
