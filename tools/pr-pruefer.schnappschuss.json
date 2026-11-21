@@ -24,9 +24,42 @@
     "cancel-in-progress": true
   },
   "jobs": {
+    "uebernahme": {
+      "name": "Übernahme bei gleichem eigenem Diff",
+      "if": "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 5,
+      "permissions": {
+        "contents": "read",
+        "pull-requests": "write"
+      },
+      "outputs": {
+        "uebernommen": "${{ steps.uebernahme.outputs.uebernommen }}"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "persist-credentials": false
+          }
+        },
+        {
+          "name": "Urteil übernehmen",
+          "id": "uebernahme",
+          "env": {
+            "GH_TOKEN": "${{ secrets.GITHUB_TOKEN }}",
+            "GH_REPO": "${{ github.repository }}",
+            "PR": "${{ github.event.pull_request.number }}",
+            "HEAD_SHA": "${{ github.event.pull_request.head.sha }}"
+          },
+          "run": "node tools/pr-pruefer-uebernahme.mjs"
+        }
+      ]
+    },
     "mutationsprobe": {
       "name": "Mutationsprobe (Prüfstufe 2)",
-      "if": "github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
+      "needs": "uebernahme",
+      "if": "needs.uebernahme.outputs.uebernommen != '1' && github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
       "runs-on": "ubuntu-latest",
       "timeout-minutes": 15,
       "permissions": {
@@ -87,8 +120,11 @@
     },
     "pruefen": {
       "name": "Prüfer-Review",
-      "needs": "mutationsprobe",
-      "if": "!cancelled() && github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
+      "needs": [
+        "uebernahme",
+        "mutationsprobe"
+      ],
+      "if": "!cancelled() && needs.uebernahme.outputs.uebernommen != '1' && github.event.pull_request.head.repo.full_name == github.repository && !startsWith(github.head_ref, 'daten/') && github.head_ref != 'zug-fahrt' && github.head_ref != 'zug-probe' && !github.event.pull_request.draft",
       "runs-on": "ubuntu-latest",
       "timeout-minutes": 60,
       "env": {

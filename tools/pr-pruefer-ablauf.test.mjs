@@ -207,8 +207,21 @@ pruefe('A1: nur der Job mutationsprobe hat actions: write, genau contents/pull-r
   && JSON.stringify(probe.permissions) === JSON.stringify({ contents: 'read', 'pull-requests': 'read', actions: 'write' }), probe.permissions)
 pruefe('A1: der Schreib-Job hat keinen Claude-Schritt und holt nie einen Zweig (Checkout ohne ref)',
   !probe.steps.some((s) => String(s.uses ?? '').startsWith('anthropics/')) && probe.steps.filter((s) => String(s.uses ?? '').startsWith('actions/checkout')).every((s) => s.with?.ref === undefined && s.with?.repository === undefined))
-pruefe('A1: pruefen wartet auf mutationsprobe und läuft auch, wenn der fehlschlägt (!cancelled())', wf.jobs.pruefen.needs === 'mutationsprobe' && String(wf.jobs.pruefen.if).startsWith('!cancelled() &&') && !String(probe.if).includes('cancelled'), [wf.jobs.pruefen.needs, wf.jobs.pruefen.if])
+pruefe('A1: pruefen wartet auf uebernahme und mutationsprobe und läuft auch, wenn die Probe fehlschlägt (!cancelled())', JSON.stringify(wf.jobs.pruefen.needs) === '["uebernahme","mutationsprobe"]' && String(wf.jobs.pruefen.if).startsWith('!cancelled() &&') && !String(probe.if).includes('cancelled'), [wf.jobs.pruefen.needs, wf.jobs.pruefen.if])
 pruefe('A1: beide Jobs gelten für dieselben PR (gleiche Bedingung bis auf !cancelled())', String(wf.jobs.pruefen.if).replace('!cancelled() &&', '').trim() === String(probe.if).trim())
+// Übernahme (21.11.2026): `uebernommen=1` überspringt Probe und Review; der Job gilt für dieselben PR wie beide, ohne actions-Recht und ohne Claude.
+const ueb = wf.jobs.uebernahme
+const ohneUeb = (t) => String(t).replace("needs.uebernahme.outputs.uebernommen != '1' &&", '').trim()
+pruefe('Übernahme: Probe und Review hängen an uebernommen != 1', probe.needs === 'uebernahme' && String(probe.if).startsWith("needs.uebernahme.outputs.uebernommen != '1' &&") && String(wf.jobs.pruefen.if).includes("needs.uebernahme.outputs.uebernommen != '1' &&"), [probe.needs, probe.if])
+pruefe('Übernahme: gleiche PR-Bedingung wie die Probe', String(ueb.if).trim() === ohneUeb(probe.if), ueb.if)
+pruefe('Übernahme: nur contents read und pull-requests write, kein Claude-Schritt, Checkout ohne ref',
+  JSON.stringify(ueb.permissions) === JSON.stringify({ contents: 'read', 'pull-requests': 'write' })
+  && !ueb.steps.some((s) => String(s.uses ?? '').startsWith('anthropics/'))
+  && ueb.steps.filter((s) => String(s.uses ?? '').startsWith('actions/checkout')).every((s) => s.with?.ref === undefined && s.with?.repository === undefined), ueb.permissions)
+const uebSchritt = ueb.steps.find((s) => s.id === 'uebernahme')
+pruefe('Übernahme: Job-Ausgabe kommt aus dem Schritt, der das Werkzeug fährt',
+  ueb.outputs?.uebernommen === '${{ steps.uebernahme.outputs.uebernommen }}' && uebSchritt?.run === 'node tools/pr-pruefer-uebernahme.mjs'
+  && uebSchritt.env?.HEAD_SHA === '${{ github.event.pull_request.head.sha }}' && uebSchritt.env?.PR === '${{ github.event.pull_request.number }}', [ueb.outputs, uebSchritt])
 // A4: Kettenbudget. `pruefen` beginnt erst nach dem Probe-Job, sein eigenes Budget (60 min, Rechnung samt Zeitkonto für „rate limit“ in pr-pruefer-eingabe.test.mjs) bleibt; der Probe-Job braucht Frist 8 min + Checkout/Stufe/Upload (~2 min) unter seinem Timeout.
 pruefe('A4: Probe-Job-Timeout deckt die 8-min-Frist plus 2 min Vor- und Nachlauf, ohne ein Stunden-Job zu werden', probe['timeout-minutes'] >= 8 + 2 && probe['timeout-minutes'] <= 15 && wf.jobs.pruefen['timeout-minutes'] === 60, [probe['timeout-minutes'], wf.jobs.pruefen['timeout-minutes']])
 const pNamen = probe.steps.map((s) => s.name ?? s.uses)

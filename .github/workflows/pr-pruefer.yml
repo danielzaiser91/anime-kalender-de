@@ -29,6 +29,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Übernahme (21.11.2026, tools/pr-pruefer-uebernahme.mjs, Skript aus main): gilt am vorigen Kopf ein „ok“ und ist der eigene Diff gleich
+  # (reiner main-Nachzug), schreibt dieser Job ein Übernahme-Urteil; Mutationsprobe und Prüfer-Review entfallen dann. Nur API, kein PR-Code.
+  # Fehler heißen volle Prüfung (das Skript endet immer mit 0, nur `uebernommen=1` überspringt).
+  uebernahme:
+    name: Übernahme bei gleichem eigenem Diff
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !startsWith(github.head_ref, 'daten/') &&
+      github.head_ref != 'zug-fahrt' &&
+      github.head_ref != 'zug-probe' &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+    outputs:
+      uebernommen: ${{ steps.uebernahme.outputs.uebernommen }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Urteil übernehmen
+        id: uebernahme
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node tools/pr-pruefer-uebernahme.mjs
+
   # Mutationsprobe bei Prüfstufe 2 (12.11.2026, tools/mutationsprobe-pr.mjs, Skript aus main): ändert der PR eine Mutantenliste
   # (tools/mutationen/*.json), startet dieser Job die Probe (mutationsprobe.yml, Fassung von main) zum Kopf-SHA, wartet höchstens
   # 8 min und gibt das Ergebnis als Artefakt `mutationsprobe` an den Job `pruefen` weiter. Eigener Job, weil Rechte je Job gelten:
@@ -36,7 +68,9 @@ jobs:
   # Fail-soft: kein Start, keine Datei, kein Rot; `pruefen` läuft danach in jedem Fall (`!cancelled()`).
   mutationsprobe:
     name: Mutationsprobe (Prüfstufe 2)
+    needs: uebernahme
     if: >-
+      needs.uebernahme.outputs.uebernommen != '1' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       !startsWith(github.head_ref, 'daten/') &&
       github.head_ref != 'zug-fahrt' &&
@@ -101,9 +135,10 @@ jobs:
 
   pruefen:
     name: Prüfer-Review
-    needs: mutationsprobe
+    needs: [uebernahme, mutationsprobe]
     if: >-
       !cancelled() &&
+      needs.uebernahme.outputs.uebernommen != '1' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       !startsWith(github.head_ref, 'daten/') &&
       github.head_ref != 'zug-fahrt' &&

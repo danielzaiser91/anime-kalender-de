@@ -222,6 +222,27 @@ for (const [name, fehlerText] of [['502', 'gh: Server Error (HTTP 502)'], ['Zeit
     pruefe(`${name}: Gegenprobe, Folgecommit nach dem Urteil -> weiter wie sonst (aktuell, 0)`, aufruf(k2) === 0 && k2.aufrufe.some((a) => a.startsWith('run list')), k2.aufrufe)
   }
 }
+// Freigabe übersteht main-Nachzug (21.11.2026): „ok“ für den alten Kopf, am neuen Kopf (nur main nachgezogen) wiederholt der Prüfer „Dirigent entscheidet“.
+// Die Kennung kommt über Compare `main...<sha>` (Basis ohne baseRefName: main); gleiche Patches -> frei, eigener Patch -> Exit 4.
+{
+  const ALT = 'a1b2c3d4e'.padEnd(40, 'e')
+  const kommentare = [
+    { createdAt: '2026-11-21T11:00:00Z', body: `**Prüfer (Dirigent entscheidet)** für ${ALT.slice(0, 9)} - Urteil: **ok**` },
+    { createdAt: '2026-11-21T12:00:00Z', body: `**Prüfer-Review** für ${KOPF.slice(0, 9)} - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**` },
+  ]
+  const commits = [{ oid: ALT, committedDate: '2026-11-21T10:00:00Z' }, { oid: KOPF, committedDate: '2026-11-21T11:30:00Z' }]
+  const datei = (zeile) => JSON.stringify([{ filename: 'tools/x.mjs', status: 'modified', patch: `@@ -1,2 +1,3 @@\n a\n+${zeile}\n c` }])
+  const mitDiff = (kopfZeile) => ({
+    ...antworten({ pr: { ...PR, comments: kommentare, commits } }),
+    [`api repos/{owner}/{repo}/compare/main...${ALT} --jq .files`]: { aus: datei('b') },
+    [`api repos/{owner}/{repo}/compare/main...${KOPF} --jq .files`]: { aus: datei(kopfZeile) },
+  })
+  const gleich = kulisse(mitDiff('b'))
+  const code = nachrechnen(7, gleich.gh, gleich.melde, gleich.warte)
+  pruefe('nachrechnen: „ok“ am alten Kopf, eigener Diff gleich -> keine Prüfer-Sperre (weiter, aktuell 0)', code === 0 && gleich.aufrufe.filter((a) => a.includes('/compare/main...')).length === 2, { code, a: gleich.aufrufe, m: gleich.meldungen })
+  const anders = kulisse(mitDiff('eigen'))
+  pruefe('nachrechnen: eigener Diff anders -> Exit 4', nachrechnen(7, anders.gh, anders.melde, anders.warte) === 4, anders.meldungen)
+}
 // --trocken (11.11.2026): rechnet und meldet wie sonst, schreibt aber nichts (kein Schließen, Öffnen, Kommentar); Exit-Code wie ohne.
 const schreibt = (aufrufe) => aufrufe.filter((a) => /^pr (close|reopen|comment|edit|merge)/.test(a))
 for (const argv of [['--trocken', '7'], ['7', '--trocken']]) {

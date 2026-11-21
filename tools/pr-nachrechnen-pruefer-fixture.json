@@ -154,5 +154,131 @@
     "committedDate": "2026-11-12T12:07:35Z"
    }
   ]
+ },
+ "4417": {
+  "comments": [
+   {
+    "createdAt": "2026-11-21T00:49:17Z",
+    "body": "## Nachtrag"
+   },
+   {
+    "createdAt": "2026-11-21T00:51:44Z",
+    "body": "<!-- pr-stufe -->"
+   },
+   {
+    "createdAt": "2026-11-21T01:30:51Z",
+    "body": "## Nachtrag"
+   },
+   {
+    "createdAt": "2026-11-21T09:41:20Z",
+    "body": "Prüfer Runde 1: ändern"
+   },
+   {
+    "createdAt": "2026-11-21T09:59:06Z",
+    "body": "## Nachtrag (Prüfer Runde 1) — Kopf 0cc9a589e"
+   },
+   {
+    "createdAt": "2026-11-21T10:00:46Z",
+    "body": "## Nachtrag (Abnahme Dirigent)"
+   },
+   {
+    "createdAt": "2026-11-21T10:16:58Z",
+    "body": "**Prüfer-Review** für 0cc9a589e - Urteil: **aendern**"
+   },
+   {
+    "createdAt": "2026-11-21T10:20:05Z",
+    "body": "## Nachtrag (Bauer)"
+   },
+   {
+    "createdAt": "2026-11-21T10:20:32Z",
+    "body": "## Nachtrag (Abnahme Dirigent)"
+   },
+   {
+    "createdAt": "2026-11-21T10:31:31Z",
+    "body": "**Prüfer-Review** für 047729f1a - Urteil: **aendern**"
+   },
+   {
+    "createdAt": "2026-11-21T10:45:32Z",
+    "body": "## Nachtrag (Dirigent)"
+   },
+   {
+    "createdAt": "2026-11-21T11:09:01Z",
+    "body": "**Prüfer-Review** für 047729f1a - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**"
+   },
+   {
+    "createdAt": "2026-11-21T11:33:56Z",
+    "body": "**Prüfer (Dirigent entscheidet)** für 047729f1a - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-21T11:34:29Z",
+    "body": "**Nachrechnen** NICHT AKTUELL: Kette gegen 7902f5d9b, main ist e8b0b61b5; der PR liest tools/check-logic-liste.txt (tools/pr-nachrechnen-bot-pfade-leser.mjs)"
+   },
+   {
+    "createdAt": "2026-11-21T11:35:40Z",
+    "body": "## Nachtrag — Kopf 3eeeaacd9"
+   },
+   {
+    "createdAt": "2026-11-21T11:42:54Z",
+    "body": "**Nachrechnen** NICHT AKTUELL: Kette gegen e8b0b61b5, main ist 00f83d329; der PR liest einen Ordner mit tools/ansicht-filterfenster-rechner.mjs (tools/pr-nachrechnen-bot-pfade-leser.mjs), Verzeichnis nicht eindeutig"
+   },
+   {
+    "createdAt": "2026-11-21T11:51:33Z",
+    "body": "**Nachrechnen** NICHT AKTUELL: Kette gegen 00f83d329, main ist 79562b2a1; der PR liest data/dub-confirmed.yaml (tools/pr-nachrechnen-claude-md.test.mjs)"
+   },
+   {
+    "createdAt": "2026-11-21T12:15:33Z",
+    "body": "**Prüfer-Review** für d2365a8ef - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**"
+   },
+   {
+    "createdAt": "2026-11-21T12:47:43Z",
+    "body": "## Nachtrag (Dirigent-Auftrag) — A8: Folge-PR #4472 eröffnet"
+   },
+   {
+    "createdAt": "2026-11-21T12:53:21Z",
+    "body": "**Prüfer-Review** für d2365a8ef - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**"
+   },
+   {
+    "createdAt": "2026-11-21T13:17:48Z",
+    "body": "## Nachtrag (Abnahme Dirigent) Kopf d2365a8efb5295227d3114cecb7f1220496177fa"
+   },
+   {
+    "createdAt": "2026-11-21T13:43:38Z",
+    "body": "**Prüfer (Dirigent entscheidet)** für d2365a8ef - Urteil: **ok**"
+   },
+   {
+    "createdAt": "2026-11-21T13:44:05Z",
+    "body": "**Nachrechnen** NICHT AKTUELL: Kette gegen 79562b2a1, main ist 1297f7f5f; main bewegte package.json: Skript check:worker läuft in der Kette und trifft tools/basis-gemergt-neustart.mjs"
+   }
+  ],
+  "commits": [
+   {
+    "oid": "0cc9a589e6d0994e235fd3cc385003047f7dadfb",
+    "committedDate": "2026-11-21T09:57:53Z"
+   },
+   {
+    "oid": "b36138a7f73d0fa78c6255c851123334fb80438b",
+    "committedDate": "2026-11-21T10:18:33Z"
+   },
+   {
+    "oid": "047729f1ab45cc409a5d89254b60c88e8cccbd85",
+    "committedDate": "2026-11-21T10:19:46Z"
+   },
+   {
+    "oid": "3eeeaacd9848234fd820fbd9c4ccb4ad5827d6c4",
+    "committedDate": "2026-11-21T11:34:24Z"
+   },
+   {
+    "oid": "68b44e2d3f7babd5980458108962576ed9df6926",
+    "committedDate": "2026-11-21T11:42:49Z"
+   },
+   {
+    "oid": "d2365a8efb5295227d3114cecb7f1220496177fa",
+    "committedDate": "2026-11-21T11:51:28Z"
+   },
+   {
+    "oid": "5b524fd12fd98a081860581bf792b6071d9ed953",
+    "committedDate": "2026-11-21T13:44:00Z"
+   }
+  ]
  }
 }
