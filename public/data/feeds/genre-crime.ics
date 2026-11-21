@@ -359,6 +359,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-3231-primevideo@2026-12-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Gunslinger Girl il teatrino
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/2599/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261218T175000Z

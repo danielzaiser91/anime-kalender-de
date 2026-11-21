@@ -143,8 +143,10 @@ globalThis.akNetflixKopfText = (offen) => (offen ? `${offen} Titel zu prüfen` :
 /**
  * Fragen der Prüfliste an die Merkliste: Ist ein Titel zurückgestellt oder gemeldet (= nicht offen), wie viele sind es,
  * und `geladen()` (Speicher geladen, jede Änderung geschrieben). Zurückgestellte zählen nicht als offen (F135, 14.11.2026).
+ * `dauerhaft(kennung, grund)`: ein gemeldetes Urteil „nicht bei Netflix“ bleibt einen Tag zurückgestellt, ohne Eintrag in der Lauf-Map
+ * (der Endbericht zählt es als Urteil, nicht als übersprungen); sonst käme es in jedem Lauf wieder (A3b, PR 4155).
  */
-function zurueckFragen(aktiv, gelistet, istFertig, kennungen, bereit, eintrag) {
+function zurueckFragen(aktiv, gelistet, istFertig, kennungen, bereit, eintrag, dauerhaft) {
   const zurueckgestellt = (kennung) => gelistet(String(kennung)) && aktiv(String(kennung))
   return {
     zurueckgestellt,
@@ -161,7 +163,13 @@ function zurueckFragen(aktiv, gelistet, istFertig, kennungen, bereit, eintrag) {
     nichtOffen: (kennung) => istFertig(String(kennung)) || zurueckgestellt(kennung),
     zurueckZahl: () => kennungen().filter(zurueckgestellt).length,
     geladen: () => bereit(),
+    dauerhaft,
   }
+}
+
+/** Eintrag eines gemeldeten Urteils „nicht bei Netflix“: Grund, Ablauf nach `zurueckBis` (1 Tag), Messzeit. */
+function zurueckUrteilEintrag(grund, jetzt) {
+  return { grund, bis: zurueckBis(grund, null, jetzt), am: jetzt }
 }
 
 /** Die gültigen Einträge (`bis` in der Zukunft) nach Kennung sortiert: der Rumpf der Meldung an den Worker. */
@@ -329,7 +337,7 @@ globalThis.akNetflixZurueckNeu = (titel, fertig, roh = {}) => {
       return { text: 'nichts offen — Seite neu laden', title: 'Die Liste hält gerade keinen offenen Auftrag. Nach einem Neuladen der Seite ist der Prüfstand frisch.' }
     }
   }
-  return Object.assign(new Zurueckgestellt(), zurueckFragen(aktiv, gelistet, istFertig, () => Object.keys(stand), () => bereit, (k) => stand[k]))
+  return Object.assign(new Zurueckgestellt(), zurueckFragen(aktiv, gelistet, istFertig, () => Object.keys(stand), () => bereit, (k) => stand[k], (k, grund) => aendern(String(k), zurueckUrteilEintrag(grund, jetzt()), 'gesetzt')))
 }
 
 globalThis.akZurueckBis = zurueckBis

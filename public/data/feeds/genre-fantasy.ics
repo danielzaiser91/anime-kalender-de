@@ -681,6 +681,26 @@ DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nIm Angebot seit die
 CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261121T115500Z
+DTEND:20261121T122500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261121T125500Z
+DTEND:20261121T132500Z
+SUMMARY:Pokémon Horizonte
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
@@ -1269,6 +1289,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-133845-primevideo@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261203
+DTEND;VALUE=DATE:20261204
+SUMMARY:Overlord: The Sacred Kingdom
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/12999/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-12-04@anime-kalender-de
@@ -2074,6 +2104,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nU
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17631/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-1638-primevideo@2026-12-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261224
+DTEND;VALUE=DATE:20261225
+SUMMARY:Peter Pan (neu bei Prime Video)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/1409/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-25@anime-kalender-de

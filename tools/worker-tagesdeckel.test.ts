@@ -206,6 +206,7 @@ console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
   const SEITE = 'https://www.amazon.de/dp/B0TESTSEITE'
   const prime = (sprachen: string[][], notiz = 'Durchgang') => ({
     plattform: 'primevideo',
+    version: '4.32.187',
     url: SEITE,
     seiten_kennung: 'B0TESTSEITE',
     vorhanden: 'ja',
@@ -598,6 +599,7 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   const SEITE = 'https://www.amazon.de/dp/B0TEST'
   const prime = (n: number, notiz: string, ton = 'ja') => ({
     plattform: 'primevideo',
+    version: '4.32.187',
     url: SEITE,
     vorhanden: 'ja',
     ton_de: 'ja',
@@ -673,7 +675,7 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   pruefe(zahl(db, "SELECT COUNT(*) AS n FROM prime_folge WHERE gti = 'n2' AND id = " + vorher) === 1, 'Netflix: eine Meldung ersetzt nur ihre eigene Kennung, Folge 2 bleibt unberührt')
   pruefe(!!lade && planVon(db, lade).includes('prime_folge_gti') && !/SCAN prime_folge/.test(planVon(db, lade)), `die Ladeabfrage je Kennung (offen und übernommen) nimmt den gti-Index, kein SCAN (${lade ? planVon(db, lade) : 'keine Abfrage'})`)
   abfragen.length = 0
-  await handlePruefung(post({ plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0X', vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', seiten_kennung: 's1', rohfolgen: [{ gti: 'a', nummer: 1 }] }), env)
+  await handlePruefung(post({ plattform: 'primevideo', version: '4.32.187', url: 'https://www.amazon.de/dp/B0X', vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', seiten_kennung: 's1', rohfolgen: [{ gti: 'a', nummer: 1 }] }), env)
   const ladeSeite = abfragen.find((a) => /^SELECT id, hash, .* FROM prime_folge/.test(a.sql))
   pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite') && !/SCAN prime_folge/.test(planVon(db, ladeSeite)), `die Ladeabfrage je Prime-Seite (offen und übernommen) nimmt den Seiten-Index, kein SCAN (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
 }

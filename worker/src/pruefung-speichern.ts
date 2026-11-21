@@ -28,6 +28,7 @@ import { loescheOffene } from './pruefung-ersetzen.ts'
 import { fuegePruefungEin } from './pruefung-einfuegen.ts'
 import { rohfolgeFuerMeldung, rohfolgeFuerZeile } from './pruefung-rohfolge-spalte.ts'
 import { leiteAb } from './pruefung-ableiten.ts'
+import { primeOhneVersion, PRIME_OHNE_VERSION } from './prime-ohne-version.ts'
 import { mitTitelzeilenAuftrag, titelzeileOderNull } from './titelzeile-speichern.ts'
 import { titelzeilenImStapel } from './titelzeile-stapel.ts'
 import { abhakAnweisungen, hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
@@ -111,6 +112,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
 
   const url = String(daten.url ?? '').trim()
   if (!url) return antwort({ error: 'url fehlt' }, 400)
+  if (primeOhneVersion(daten)) return antwort({ error: PRIME_OHNE_VERSION }, 400)
   const abgeleitet = leiteAb(daten)
   if ('fehler' in abgeleitet) return antwort({ error: abgeleitet.fehler }, 400)
   const { befund, vorhanden, tonDe, art } = abgeleitet
