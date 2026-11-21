@@ -117,7 +117,8 @@ export function rotAlarmText(gh, repo, jetztMs) {
   } catch (fehler) {
     zeilen.push(`ALARM? Läufe des Deploys nicht lesbar: ${String(fehler.message).split('\n')[0]}`)
   }
-  zeilen.push(nachtText(gh, repo, jetztMs), nachlaufText(gh, repo))
+  zeilen.push(nachtText(gh, repo, jetztMs))
+  zeilen.push(nachlaufText(gh, repo))
   return zeilen.join('\n')
 }
 
@@ -154,11 +155,11 @@ export const NACHLAUF_WORKFLOW = 'nachlauf.yml'
 
 /** Nachlauf auf main (`.github/workflows/nachlauf.yml`, PR 4417): neuester fertiger Lauf rot = ALARM mit Commit-Bereich vom letzten grünen Kopf; sonst `undefined`. Von Hand Abgebrochenes zählt nicht. */
 export function nachlaufAlarmZeile(laeufe) {
-  const neu = [...laeufe].sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-  const fertig = neu.find((l) => l.conclusion)
+  const neu = laeufe.toSorted((a, b) => b.createdAt.localeCompare(a.createdAt))
+  const fertig = neu.find((l) => l.status === 'completed')
   if (!fertig || !['failure', 'timed_out'].includes(fertig.conclusion)) return undefined
-  const gruen = neu.find((l) => l.conclusion === 'success')
-  const kurz = (l) => String(l?.headSha ?? '?').slice(0, 7)
+  const gruen = neu.filter((l) => l.conclusion === 'success')[0]
+  const kurz = (l) => String(l?.headSha ?? '?').substring(0, 7)
   return `ALARM Nachlauf auf main rot (neuester Lauf ${fertig.createdAt}, ${roteSeitGruen(neu).length} rote/abgebrochene seit dem letzten grünen; Commits ${kurz(gruen)}..${kurz(fertig)}, git log ${kurz(gruen)}..${kurz(fertig)}; Log: gh run view ${fertig.databaseId})`
 }
 

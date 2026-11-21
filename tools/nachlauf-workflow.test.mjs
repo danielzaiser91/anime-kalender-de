@@ -47,7 +47,7 @@ assert.equal(nachlaufText(() => JSON.stringify([gruen]), 'o/r'), 'Nachlauf: kein
 assert.match(nachlaufText(() => JSON.stringify([gruen, rot]), 'o/r'), /^ALARM Nachlauf auf main rot/)
 assert.equal(nachlaufText(() => { throw new Error('gh weg\nzweite') }, 'o/r'), 'ALARM? Läufe des Nachlaufs nicht lesbar: gh weg')
 const aufrufe = []
-const gh = (...a) => (aufrufe.push(a[a.indexOf('--workflow') + 1]), JSON.stringify(a.includes('nachlauf.yml') ? [gruen, rot] : [{ ...gruen, createdAt: new Date().toISOString() }]))
-assert.match(rotAlarmText(gh, 'o/r', Date.now()).split('\n').at(-1), /^ALARM Nachlauf auf main rot/)
+const gh = (...a) => (aufrufe.push(a[a.indexOf('--workflow') + 1]), JSON.stringify(a.includes('nachlauf.yml') ? [gruen, rot] : [{ ...gruen, createdAt: '2026-11-21T03:30:00Z' }]))
+assert.match(rotAlarmText(gh, 'o/r', Date.parse('2026-11-21T04:00:00Z')).split('\n').at(-1), /^ALARM Nachlauf auf main rot/)
 assert.ok(aufrufe.includes('nachlauf.yml'))
 console.log('nachlauf-workflow.test: ok')

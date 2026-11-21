@@ -72,6 +72,7 @@ export const LAUF_ARTEN = [
   'Aussehen prüfen',
   'Ladezeiten am Handy messen',
   'Nachtprüfung',
+  'Nachlauf auf main',
   'Meldungskopie — SQLite-Kopie der Meldungsdaten',
   'Crunchyroll — Regionstest mit fremdem Token',
   'Crunchyroll — Weiche aus der Cloud messen',

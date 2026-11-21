@@ -101,7 +101,7 @@ try {
   const rot = fahre([lauf('failure', '2999-12-31T01:00:00Z')])
   assert.match(rot.stdout, /^ALARM Nachtprüfung rot \(neuester Lauf 2999-12-31T01:00:00Z/m, rot.stdout + rot.stderr)
   const gruen = fahre([lauf('success', '2999-12-31T01:00:00Z')])
-  assert.match(gruen.stdout, /^WACHE ruhig: 6 Prüfungen ohne Alarm \(.*Nachtprüfung/m, gruen.stdout + gruen.stderr)
+  assert.match(gruen.stdout, /^WACHE ruhig: 7 Prüfungen ohne Alarm \(.*Nachtprüfung/m, gruen.stdout + gruen.stderr)
   assert.doesNotMatch(gruen.stdout, /ALARM Nachtprüfung/)
 } finally {
   rmSync(wegwerf, { recursive: true, force: true })
