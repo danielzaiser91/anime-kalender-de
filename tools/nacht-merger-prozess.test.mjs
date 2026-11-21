@@ -4,7 +4,7 @@
  * Die Attrappe gibt die Ausgaben wieder, die `gh` nach `--json`/`--jq` liefert (Lehre 71); Linux/macOS (Ersatz-`gh` ist ein Node-Skript).
  */
 import { spawnSync } from 'node:child_process'
-import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -41,8 +41,9 @@ if (a[0] === 'api' && j.includes('/issues/7/comments')) aus(${JSON.stringify(JSO
 if (a[0] === 'pr' && a[1] === 'view' && j.includes('statusCheckRollup')) aus(${JSON.stringify(CHECKS)})
 if (a[0] === 'pr' && a[1] === 'view' && j.includes('headRefOid') && !j.includes('mergeable')) aus('${KOPF}\\n')
 if (a[0] === 'pr' && a[1] === 'view' && j.includes('mergeable')) aus({ number: 7, state: 'OPEN', mergeable: process.env.PR_MERGEABLE, headRefOid: '${KOPF}', headRefName: 'fix/x', comments: [], commits: [] })
-if (a[0] === 'pr' && a[1] === 'view' && j.includes('mergeStateStatus')) aus('UNKNOWN\\n')
-if (a[0] === 'run' && a[1] === 'list') aus('[]')
+if (a[0] === 'pr' && a[1] === 'view' && j.includes('mergeStateStatus')) aus((process.env.PR_STATUS || 'UNKNOWN') + '\\n')
+if (a[0] === 'pr' && a[1] === 'merge') { require('node:fs').appendFileSync(process.env.MERGE_LOG, j + '\\n'); aus('') }
+if (a[0] === 'run' && a[1] === 'list') aus(j.includes('--jq') ? '' : '[]')
 console.error('Ersatz-gh kennt den Aufruf nicht: ' + j)
 process.exit(1)
 `
@@ -50,20 +51,27 @@ process.exit(1)
 const ordner = mkdtempSync(join(tmpdir(), 'nacht-merger-prozess-'))
 writeFileSync(join(ordner, 'gh'), gh)
 chmodSync(join(ordner, 'gh'), 0o755)
-function fahre(mergeable) {
-  const r = spawnSync(process.execPath, ['tools/nacht-merger.mjs', '--trocken'], {
+const mergeLog = join(ordner, 'merge.log')
+function fahre(mergeable, args = ['--trocken'], status = 'UNKNOWN') {
+  rmSync(mergeLog, { force: true })
+  const r = spawnSync(process.execPath, ['tools/nacht-merger.mjs', ...args], {
     cwd: wurzel,
     encoding: 'utf8',
     timeout: 60_000,
-    env: { ...process.env, PATH: `${ordner}:${process.env.PATH}`, GITHUB_REPOSITORY: 'o/r', GITHUB_STEP_SUMMARY: '', NACHT_MERGER_WARTE_MS: '20', PR_MERGEABLE: mergeable },
+    env: { ...process.env, PATH: `${ordner}:${process.env.PATH}`, GITHUB_REPOSITORY: 'o/r', GITHUB_STEP_SUMMARY: '', NACHT_MERGER_WARTE_MS: '20', PR_MERGEABLE: mergeable, PR_STATUS: status, MERGE_LOG: mergeLog },
   })
-  return { exit: r.status, aus: `${r.stdout}${r.stderr}` }
+  return { exit: r.status, aus: `${r.stdout}${r.stderr}`, merges: existsSync(mergeLog) ? readFileSync(mergeLog, 'utf8') : '' }
 }
 
 const stillstand = fahre('UNKNOWN')
 pruefe('Prozess: nur UNKNOWN offen -> Warnzeile und Exit 1', stillstand.exit === 1 && stillstand.aus.includes('::warning::Nacht-Merger: 0 Merges, 1 PR technisch nicht entschieden (#7)'), `${stillstand.exit} ${stillstand.aus}`)
 const konflikt = fahre('CONFLICTING')
 pruefe('Prozess: nur Konflikt-PR offen -> keine Warnung, Exit 0', konflikt.exit === 0 && !konflikt.aus.includes('::warning::') && konflikt.aus.includes('Konflikt mit main'), `${konflikt.exit} ${konflikt.aus}`)
+// Der Hauptblock reicht die Optionen an lauf() durch: mit --trocken kein Merge, ohne geht der Merge an gh
+const trocken = fahre('MERGEABLE', ['--trocken'], 'CLEAN')
+pruefe('Prozess: mergebarer PR mit --trocken -> WÜRDE MERGEN, kein gh-Merge, Exit 0', trocken.exit === 0 && trocken.aus.includes('WÜRDE MERGEN #7') && trocken.merges === '', `${trocken.exit} ${trocken.aus} ${trocken.merges}`)
+const echt = fahre('MERGEABLE', [], 'CLEAN')
+pruefe('Prozess: mergebarer PR ohne --trocken -> GEMERGT, ein gh-Merge mit Kopf, Exit 0', echt.exit === 0 && echt.aus.includes('GEMERGT #7') && /pr merge 7 --squash .*--match-head-commit a{40}\n$/.test(echt.merges), `${echt.exit} ${echt.aus} ${echt.merges}`)
 rmSync(ordner, { recursive: true, force: true })
 
 if (fehler > 0) {
