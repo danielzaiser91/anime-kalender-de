@@ -114,6 +114,39 @@ pruefe('Namenssuche findet den Titel: keine Nachfrage, Suchtreffer übernommen',
 const { befund: anders } = await lauf(900106, 38954, alterBefund('tm140811', 38954), 'andere-kennung')
 pruefe('Nachfrage mit anderer Kennung: nicht übernommen, alte Antwort bleibt mit verfehltAm', anders.jwId === 'tm140811' && anders.verfehltAm === '2026-11-19', anders)
 
+/*
+  Plausibilitätsriegel nach Wiederfunden (Tageslauf 20.11.2026, PR 4444): 20 früher verfehlte Titel kommen über den Pfad ohne Angebot wieder. Das ist der
+  Zweck der Nachfrage, kein Schnittstellenfehler — der Riegel darf den Lauf nicht verwerfen. Dieselben 20 Titel ohne `verfehltAm` sind dagegen leer
+  geblieben (20 von 20): der Riegel greift weiter. Auch ein Wiederfund über die normale Suche mit `verfehltAm` ist ausgenommen (Semantik `zaehltAlsLeer`).
+*/
+async function riegelLauf(mitVerfehlt: boolean): Promise<string[]> {
+  const ids = Array.from({ length: 20 }, (_, i) => 910000 + i)
+  writeFileSync(join(oeffentlich, 'titles.json'), JSON.stringify(ids.map((id) => titel(id, id))))
+  writeFileSync(join(ordner, 'justwatch-audio.json'), JSON.stringify(Object.fromEntries(ids.map((id) => [String(id), { ...alterBefund(`tm${id}`, id), ...(mitVerfehlt ? { verfehltAm: '2026-11-10' } : {}) }]))))
+  const abruf = (async (_url: string, init?: RequestInit) => {
+    const q = JSON.parse(String(init?.body ?? '{}'))
+    if (!String(q.query).includes('urlV2')) return { data: { popularTitles: { edges: [] } } }
+    const kennung = Number(String(q.variables.p).replace('/de/Serie/tm', ''))
+    return { data: { urlV2: { node: { ...detailKnoten(kennung, []), id: `tm${kennung}` } } } }
+  }) as unknown as typeof fetchJson
+  const log = console.log
+  const warnung = console.warn
+  console.log = () => undefined
+  console.warn = () => undefined
+  try {
+    await main(['--limit', '30', '--alter', '0'], { abruf, pause: async () => undefined })
+  } finally {
+    console.log = log
+    console.warn = warnung
+  }
+  const bestand = JSON.parse(readFileSync(join(ordner, 'justwatch-audio.json'), 'utf8')) as Record<string, Befund>
+  return ids.map((id) => bestand[String(id)].geprueftAm ?? '')
+}
+const wiederfunde = await riegelLauf(true)
+pruefe('Riegel: 20 Wiederfunde ohne Angebot werden geschrieben (nicht als leer gezählt)', wiederfunde.every((d) => d === '2026-11-19'), wiederfunde)
+const echtLeer = await riegelLauf(false)
+pruefe('Riegel: 20 leere Treffer ohne verfehltAm verwirft den Lauf weiter', echtLeer.every((d) => d === '2026-11-11'), echtLeer)
+
 process.chdir(tmpdir())
 rmSync(wurzel, { recursive: true, force: true, maxRetries: 3 })
 console.log(`check-jw-verfehlt-nachfrage: ${geprueft} Prüfungen, ${fehler} Fehler`)
