@@ -625,33 +625,6 @@
     ]
   },
   {
-    "name": "Verdrahtung: botSprungAusnahme gibt keine Bot-Dateien weiter",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))",
-    "ersetze": "liestBewegtes(bewegt, prDateien, [])",
-    "tests": [
-      "node tools/pr-nachrechnen-bot-sprung.test.mjs"
-    ]
-  },
-  {
-    "name": "Verdrahtung: botSprungAusnahme gibt alle bewegten Dateien als Bot weiter",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))",
-    "ersetze": "liestBewegtes(bewegt, prDateien, bewegt)",
-    "tests": [
-      "node tools/pr-nachrechnen-bot-sprung.test.mjs"
-    ]
-  },
-  {
-    "name": "Verdrahtung: datenpfadGrund reicht die Bot-Dateien nicht an den Git-Leser",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "kopf: pr.headRefOid, main, bot, frei, basis })",
-    "ersetze": "kopf: pr.headRefOid, main, frei, basis })",
-    "tests": [
-      "node tools/pr-nachrechnen.test.mjs"
-    ]
-  },
-  {
     "name": "Verdrahtung: gitLeser reicht refs.bot nicht an bewegtesGelesen",
     "datei": "tools/pr-nachrechnen-leser-git.mjs",
     "suche": "paketSkripte, botBewegt: refs.bot, frei: refs.frei, kennung",
@@ -807,8 +780,8 @@
   {
     "name": "Trocken: Exit 0 statt 1",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "nichts geschlossen, geöffnet oder kommentiert`)\n    return 1",
-    "ersetze": "nichts geschlossen, geöffnet oder kommentiert`)\n    return 0",
+    "suche": "nichts geschlossen, geöffnet oder aktualisiert`)\n    return 1",
+    "ersetze": "nichts geschlossen, geöffnet oder aktualisiert`)\n    return 0",
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
     ]
@@ -825,8 +798,8 @@
   {
     "name": "Trocken: main reicht den Schalter nicht weiter",
     "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "paare, undefined, umfang, trocken)",
-    "ersetze": "paare, undefined, umfang)",
+    "suche": "nachziehen(nummer, ausfuehrer, melde, warte, trocken))",
+    "ersetze": "nachziehen(nummer, ausfuehrer, melde, warte))",
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
     ]
@@ -836,15 +809,6 @@
     "datei": "tools/pr-nachrechnen.mjs",
     "suche": "const args = argv.filter((a) => a !== '--trocken')",
     "ersetze": "const args = argv",
-    "tests": [
-      "node tools/pr-nachrechnen.test.mjs"
-    ]
-  },
-  {
-    "name": "Trocken: Standardwert true",
-    "datei": "tools/pr-nachrechnen.mjs",
-    "suche": "umfang = standardUmfang, trocken = false,",
-    "ersetze": "umfang = standardUmfang, trocken = true,",
     "tests": [
       "node tools/pr-nachrechnen.test.mjs"
     ]

@@ -466,8 +466,8 @@
     "aenderungen": [
       {
         "datei": "tools/basis-gemergt-neustart.mjs",
-        "suche": "von Hand: node tools/pr-nachrechnen.mjs ${nr}`)\n      return false",
-        "ersetze": "von Hand: node tools/pr-nachrechnen.mjs ${nr}`)\n      return true"
+        "suche": "von Hand: gh pr update-branch ${nr}`)\n      return false",
+        "ersetze": "von Hand: gh pr update-branch ${nr}`)\n      return true"
       }
     ]
   },
@@ -479,7 +479,7 @@
     "aenderungen": [
       {
         "datei": "tools/basis-gemergt-neustart.mjs",
-        "suche": "von Hand: node tools/pr-nachrechnen.mjs ${nr}",
+        "suche": "von Hand: gh pr update-branch ${nr}",
         "ersetze": ""
       }
     ]
@@ -544,21 +544,39 @@
     "aenderungen": [
       {
         "datei": "tools/basis-gemergt-neustart.mjs",
-        "suche": "noch nicht berechnet|läuft noch|",
-        "ersetze": "läuft noch|"
+        "suche": "/noch nicht berechnet/.test(text)",
+        "ersetze": "/noch nicht gerechnet/.test(text)"
       }
     ]
   },
   {
-    "name": "grundExit2: läuft noch nicht erkannt",
+    "name": "grundExit2: alter Wartegrund „läuft noch“ wieder erkannt",
     "tests": [
       "node tools/basis-gemergt-neustart.test.mjs"
     ],
     "aenderungen": [
       {
         "datei": "tools/basis-gemergt-neustart.mjs",
-        "suche": "noch nicht berechnet|läuft noch|",
-        "ersetze": "noch nicht berechnet|"
+        "suche": "/noch nicht berechnet/.test(text)",
+        "ersetze": "/noch nicht berechnet|läuft noch/.test(text)"
+      }
+    ]
+  },
+  {
+    "name": "main: Standard ist nachrechnen statt nachziehen",
+    "tests": [
+      "node tools/basis-gemergt-neustart.test.mjs"
+    ],
+    "aenderungen": [
+      {
+        "datei": "tools/basis-gemergt-neustart.mjs",
+        "suche": "nachrechnen = nachziehenMain,",
+        "ersetze": "nachrechnen = (argv, gh, melde) => nachrechnenMain(argv, gh, melde),"
+      },
+      {
+        "datei": "tools/basis-gemergt-neustart.mjs",
+        "suche": "import { nachziehenMain, gh",
+        "ersetze": "import { main as nachrechnenMain, nachziehenMain, gh"
       }
     ]
   },
@@ -826,7 +844,7 @@
     ]
   },
   {
-    "name": "Workflow: flacher Checkout",
+    "name": "Workflow: Checkout speichert Zugangsdaten",
     "tests": [
       "node tools/basis-gemergt-neustart.test.mjs",
       "node tools/pr-pruefer-nachtrag-abbruch.test.mjs",
@@ -835,8 +853,8 @@
     "aenderungen": [
       {
         "datei": ".github/workflows/pr-pruefer-nachtrag.yml",
-        "suche": "          fetch-depth: 0\n          filter: blob:none\n          persist-credentials: false\n\n      - name: Stapel",
-        "ersetze": "          persist-credentials: false\n\n      - name: Stapel"
+        "suche": "          persist-credentials: false\n\n      - name: Stapel",
+        "ersetze": "          persist-credentials: true\n\n      - name: Stapel"
       }
     ]
   },

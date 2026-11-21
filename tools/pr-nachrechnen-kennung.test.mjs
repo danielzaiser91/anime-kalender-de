@@ -23,7 +23,7 @@ const pruefe = (name, ok, info) => {
   const probeOrdner = fs.mkdtempSync(path.join(os.tmpdir(), 'pr-nachrechnen-einstieg-'))
   fs.writeFileSync(path.join(probeOrdner, 'probe.mjs'), 'await import(process.argv[2])\n')
   try {
-    for (const modul of ['pr-nachrechnen.mjs', 'pr-nachrechnen-leser-git.mjs', 'pr-nachrechnen-kennung.mjs', 'pr-nachrechnen-textmerge.mjs', 'pr-nachrechnen-hunks.mjs']) {
+    for (const modul of ['pr-nachrechnen.mjs', 'pr-nachrechnen-leser-git.mjs', 'pr-nachrechnen-kennung.mjs', 'pr-nachrechnen-hunks.mjs']) {
       const r = spawnSync(process.execPath, [path.join(probeOrdner, 'probe.mjs'), new URL(`./${modul}`, import.meta.url).href], { encoding: 'utf8', timeout: 60000, windowsHide: true })
       pruefe(`Einstieg ${modul} lädt allein (kein Importzyklus)`, r.status === 0, (r.stderr ?? '').split('\n').find((z) => /Error/.test(z)))
     }

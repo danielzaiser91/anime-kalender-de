@@ -92,11 +92,9 @@ jobs:
       pull-requests: read
       actions: read
     steps:
-      # Volle Commit-Historie ohne Dateiinhalte: `pr-nachrechnen` liest `git log basis..main` (wie im Nacht-Merger).
+      # Flacher Checkout genügt: `nachziehen` (tools/pr-nachrechnen.mjs) fragt nur die GitHub-API, kein git log (seit 21.11.2026).
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          filter: blob:none
           persist-credentials: false
 
       - name: Stapel-PRs nachrechnen

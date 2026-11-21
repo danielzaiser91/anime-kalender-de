@@ -1,9 +1,0 @@
-[
-  { "name": "Kontrolle unmutiert", "aenderungen": [], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "update-branch: Trockenlauf sperrt ihn nicht", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "if (anstossNummer(args) !== null) throw new Error('Trockenlauf", "ersetze": "if (anstossNummer(args) === '0') throw new Error('Trockenlauf" }], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "update-branch: Riegel zählt ihn nicht (Pfad statt Methode)", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "  if (args[0] !== 'api') return null\n", "ersetze": "  return null\n" }], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "update-branch: nur Schreibweise -X PUT erkannt", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "  if (args[0] !== 'api') return null\n", "ersetze": "  if (args[0] !== 'api' || !args.includes('PUT')) return null\n" }], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "update-branch: Riegel Nummer konstant", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "return treffer ? treffer[1] : null", "ersetze": "return treffer ? '1' : null" }], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "update-branch: Riegel zählt PR mehrfach", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": " && !angestossen.has(nummer)", "ersetze": "" }], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "update-branch: ghMitWiederholung wiederholt ihn", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "      if (anstossNummer(args) !== null) throw e\n", "ersetze": "" }], "tests": ["node tools/nacht-merger.test.mjs"] }
-]

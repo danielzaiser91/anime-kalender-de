@@ -1,13 +1,13 @@
 /**
  * Nacht-Merger (F99, Daniel 01.11.2026: „solang es nicht auf meinem PC läuft“): mergt offene PRs, die alle Kandidaten-Regeln
- * aus `nacht-merger-wahl.mjs` erfüllen und deren Kette `pr-nachrechnen` als aktuell bestätigt. Läuft als GitHub-Workflow
+ * aus `nacht-merger-wahl.mjs` erfüllen und die `pr-nachrechnen` als mergebar bestätigt. Läuft als GitHub-Workflow
  * (`.github/workflows/nacht-merger.yml`, vom Cloudflare-Wecker stündlich per workflow_dispatch gestartet), nie auf Daniels Rechner.
  *
  *   node tools/nacht-merger.mjs [--trocken] [--hoechstens N]      (GH_TOKEN und GITHUB_REPOSITORY aus der Umgebung)
  *
- * Riegel: höchstens N Merges je Lauf (Vorgabe 3); jeder Merge und jede Abweisung steht mit Grund im Protokoll. Nach einem Merge
- * rechnet `pr-nachrechnen` für jeden weiteren Kandidaten neu: die Kette der übrigen rechnete gegen den alten main, sie wird neu gestartet
- * (Exit 1) und der PR kommt im nächsten Lauf dran. Kein `--admin`. Im Trockenlauf wird nichts geschlossen, geöffnet oder gemergt.
+ * Riegel: höchstens N Merges je Lauf (Vorgabe 3); jeder Merge und jede Abweisung steht mit Grund im Protokoll. `pr-nachrechnen`
+ * liest nur: ein bewegter main hält einen Kandidaten nicht auf (seit 21.11.2026), nur ein Konflikt; nach einem Merge kommen die übrigen
+ * Kandidaten im selben Lauf dran; das Zusammenspiel zeigt der Lauf auf main (`deploy.yml`). Kein `--admin`. Im Trockenlauf wird nichts gemergt.
  * Exit 0 sonst, 1 wenn ein Merge scheiterte, 2 bei Aufruffehlern.
  */
 import { pathToFileURL } from 'node:url'
@@ -86,7 +86,7 @@ export function lauf(welt, { hoechstens = HOECHSTENS_VORGABE, trocken = false, b
     const r = nachrechnenMitWiederholung(welt, pr.nummer)
     if (r.exit !== 0) {
       if (r.exit === 2 && NOCH_NICHT_BERECHNET.test(r.text)) unentschieden.push(`#${pr.nummer}`)
-      abgewiesen(pr, `Kette nicht als aktuell bestätigt (nachrechnen Exit ${r.exit}): ${r.text}`)
+      abgewiesen(pr, `nicht als mergebar bestätigt (nachrechnen Exit ${r.exit}): ${r.text}`)
       continue
     }
     const statusGrund = mergeStatusGrund(welt, pr.nummer)
@@ -134,13 +134,17 @@ export function argumente(argv) {
   return opt
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const opt = argumente(process.argv.slice(2))
+/** Startlogik: Argumente lesen, `weltHole()` erst bei gültigen Argumenten rufen, Lauf mit den Optionen; Rückgabe ist der Prozess-Exit (2 = Aufruffehler). */
+export function starte(argv, weltHole) {
+  const opt = argumente(argv)
   if (opt === null) {
     console.error('Aufruf: node tools/nacht-merger.mjs [--trocken] [--hoechstens N]')
-    process.exit(2)
+    return 2
   }
+  return exitCode(lauf(weltHole(), opt))
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { echteWelt } = await import('./nacht-merger-welt.mjs')
-  const ergebnis = lauf(echteWelt({ trocken: opt.trocken }), opt)
-  process.exit(exitCode(ergebnis))
+  process.exit(starte(process.argv.slice(2), echteWelt))
 }

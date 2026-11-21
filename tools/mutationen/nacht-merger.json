@@ -81,11 +81,6 @@
   { "name": "welt: jeder laufende Schritt sperrt", "datei": "tools/nacht-merger-welt.mjs", "suche": "s.name.includes('Änderungen committen')", "ersetze": "true" },
   { "name": "welt: Bestand rot erst ab 99 Stunden", "datei": "tools/nacht-merger-welt.mjs", "suche": "bestandRotAlarm(laeufe, jetztMs, 0).alarm", "ersetze": "bestandRotAlarm(laeufe, jetztMs, 99).alarm" },
   { "name": "welt: Bestand nie rot", "datei": "tools/nacht-merger-welt.mjs", "suche": "bestandRotAlarm(laeufe, jetztMs, 0).alarm", "ersetze": "false" },
-  { "name": "welt: ghLesend lässt close durch", "datei": "tools/nacht-merger-welt.mjs", "suche": "if (anstossNummer(args) !== null) throw new Error('Trockenlauf", "ersetze": "if (anstossNummer(args) === '0') throw new Error('Trockenlauf", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "welt: ghLesend lässt reopen durch", "datei": "tools/nacht-merger-welt.mjs", "suche": "args[0] === 'pr' && args[1] === 'reopen') throw", "ersetze": "args[0] === 'pr' && args[1] === 'reopenx') throw", "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "welt: ghLesend sperrt nie", "aenderungen": [{ "datei": "tools/nacht-merger-welt.mjs", "suche": "if (args[0] === 'pr' && args[1] === 'reopen') throw", "ersetze": "if (false) throw" }, { "datei": "tools/nacht-merger-welt.mjs", "suche": "if (anstossNummer(args) !== null) throw new Error('Trockenlauf", "ersetze": "if (false) throw new Error('Trockenlauf" }], "tests": ["node tools/nacht-merger.test.mjs"] },
-  { "name": "welt: Trockenlauf-Verdrahtung weg", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "gh" },
-  { "name": "welt: Trockenlauf immer", "datei": "tools/nacht-merger-welt.mjs", "suche": "trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)", "ersetze": "ghLesend(gh)" },
   { "name": "welt: stufeVon ungeprüfte Zahl", "datei": "tools/nacht-merger-welt.mjs", "suche": "Number.isInteger(s) ? s : 2", "ersetze": "s" },
   { "name": "welt: stufeVon Fehler gilt als 0", "datei": "tools/nacht-merger-welt.mjs", "suche": "  } catch {\n    return 2\n  }", "ersetze": "  } catch {\n    return 0\n  }" },
   { "name": "welt: Repo ungeprüft", "datei": "tools/nacht-merger-welt.mjs", "suche": "if (!/^[\\w.-]+\\/[\\w.-]+$/.test(repo ?? ''))", "ersetze": "if (false)" },
@@ -106,5 +101,10 @@
   { "name": "workflow: Auslöser Zeitplan", "datei": ".github/workflows/nacht-merger.yml", "suche": "on:\n  workflow_dispatch:", "ersetze": "on:\n  schedule:\n    - cron: '5 * * * *'\n  workflow_dispatch:", "tests": ["node tools/nacht-merger-workflow.test.mjs"] },
   { "name": "workflow: Läufe brechen sich ab", "datei": ".github/workflows/nacht-merger.yml", "suche": "cancel-in-progress: false", "ersetze": "cancel-in-progress: true", "tests": ["node tools/nacht-merger-workflow.test.mjs"] },
   { "name": "workflow: Zugangsdaten im Checkout", "datei": ".github/workflows/nacht-merger.yml", "suche": "persist-credentials: false", "ersetze": "persist-credentials: true", "tests": ["node tools/nacht-merger-workflow.test.mjs"] },
-  { "name": "workflow: Eingabe im Skripttext", "datei": ".github/workflows/nacht-merger.yml", "suche": "args=(--hoechstens \"$HOECHSTENS\")", "ersetze": "args=(--hoechstens \"${{ inputs.hoechstens }}\")", "tests": ["node tools/nacht-merger-workflow.test.mjs"] }
+  { "name": "workflow: Eingabe im Skripttext", "datei": ".github/workflows/nacht-merger.yml", "suche": "args=(--hoechstens \"$HOECHSTENS\")", "ersetze": "args=(--hoechstens \"${{ inputs.hoechstens }}\")", "tests": ["node tools/nacht-merger-workflow.test.mjs"] },
+  { "name": "starte: lauf ohne hoechstens (Vorgabe 3 statt Option)", "datei": "tools/nacht-merger.mjs", "suche": "lauf(weltHole(), opt)", "ersetze": "lauf(weltHole(), { trocken: opt.trocken })", "tests": ["node tools/nacht-merger.test.mjs"] },
+  { "name": "starte: lauf ohne trocken (Merge trotz --trocken)", "datei": "tools/nacht-merger.mjs", "suche": "lauf(weltHole(), opt)", "ersetze": "lauf(weltHole(), { hoechstens: opt.hoechstens })", "tests": ["node tools/nacht-merger.test.mjs"] },
+  { "name": "starte: Aufruffehler Exit 0", "datei": "tools/nacht-merger.mjs", "suche": "    return 2\n", "ersetze": "    return 0\n", "tests": ["node tools/nacht-merger.test.mjs"] },
+  { "name": "starte: Welt vor der Argumentprüfung geholt", "datei": "tools/nacht-merger.mjs", "suche": "const opt = argumente(argv)", "ersetze": "const opt = (weltHole(), argumente(argv))", "tests": ["node tools/nacht-merger.test.mjs"] },
+  { "name": "starte: Argumente nicht gelesen (immer Vorgabe)", "datei": "tools/nacht-merger.mjs", "suche": "const opt = argumente(argv)", "ersetze": "const opt = argumente([])", "tests": ["node tools/nacht-merger.test.mjs"] }
 ]

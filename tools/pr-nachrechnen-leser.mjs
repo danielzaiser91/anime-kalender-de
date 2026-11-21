@@ -320,7 +320,7 @@ export function geaenderteSkripte(altJson, neuJson) {
  * `pr`: Dateien des PR. `leser`: Dateien auf main, die eine bewegte Datei im Code nennen. `lies(pfad)`: Text oder null (Kopf, sonst main).
  * `botBewegt`: bewegte Bot-Dateien; im Datenkanal zählen sie nicht (wie im reinen Bot-Sprung entwertet nur ihre Berührung durch den PR; 11.11.2026, PR 3490/3474).
  * `paketSkripte`: geänderte Skripte aus package.json (null = nicht lesbar), nur gebraucht, wenn der PR package.json berührt.
- * `frei`: Dateien, die PR und main ändern, ohne sich im Textmerge zu berühren (`pr-nachrechnen-textmerge.mjs`); sie zählen nicht als „berührt“.
+ * `frei`: Dateien, die PR und main ändern, ohne sich im Textmerge zu berühren; sie zählen nicht als „berührt“.
  * `kennung`: Kennungen des Handdaten-PR und main-Diff der bewegten Nicht-Bot-Dateien (`pr-nachrechnen-kennung.mjs`, F133); fehlt es oder trägt es `fehler`, gelten die Regeln unten unverändert.
  */
 export function bewegtesGelesen({ bewegt, pr, leser, lies, liesMain = () => null, paketSkripte, botBewegt = [], frei = new Set(), kennung }) {
