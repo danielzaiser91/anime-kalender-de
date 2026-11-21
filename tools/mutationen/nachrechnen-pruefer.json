@@ -532,8 +532,8 @@
   {
     "name": "uebernahme: gleich nicht durchgereicht",
     "datei": "tools/pr-pruefer-uebernahme.mjs",
-    "suche": "const urteile = geltendeUrteile(comments, kopf, gleich)",
-    "ersetze": "const urteile = geltendeUrteile(comments, kopf)",
+    "suche": "const urteile = geltendeUrteile(comments.filter(vertrauterAutor), kopf, gleich)",
+    "ersetze": "const urteile = geltendeUrteile(comments.filter(vertrauterAutor), kopf)",
     "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {
@@ -590,6 +590,34 @@
     "datei": "tools/pr-pruefer-uebernahme.mjs",
     "suche": "    console.log(`Übernahme: nein (Fehler: ${e.message}), volle Prüfung`)\n  }\n  return 0",
     "ersetze": "    console.log(`Übernahme: nein (Fehler: ${e.message}), volle Prüfung`)\n    return 1\n  }\n  return 0",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "uebernahme: Autorfilter fehlt (Befund 1 PR 4480)",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "geltendeUrteile(comments.filter(vertrauterAutor), kopf, gleich)",
+    "ersetze": "geltendeUrteile(comments, kopf, gleich)",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "vertrauterAutor: jede Zuordnung zählt",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "c.author?.login === CI_PRUEFER || VERTRAUT.has(c.authorAssociation)",
+    "ersetze": "c.author?.login === CI_PRUEFER || true",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "vertrauterAutor: CI-Prüfer zählt nicht",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "c.author?.login === CI_PRUEFER || VERTRAUT.has(c.authorAssociation)",
+    "ersetze": "false || VERTRAUT.has(c.authorAssociation)",
+    "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
+  },
+  {
+    "name": "vertrauterAutor: Login mit „[bot]“ (REST-Form) statt GraphQL-Form",
+    "datei": "tools/pr-pruefer-uebernahme.mjs",
+    "suche": "export const CI_PRUEFER = 'github-actions'",
+    "ersetze": "export const CI_PRUEFER = 'github-actions[bot]'",
     "tests": ["node tools/pr-pruefer-uebernahme.test.mjs"]
   },
   {

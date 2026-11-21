@@ -10,8 +10,19 @@ import { pathToFileURL } from 'node:url'
 import { mitLimit, LIMIT_STAPEL_MS } from './kind-mit-limit.mjs'
 import { FREI, geltendeUrteile } from './pr-nachrechnen-pruefer.mjs'
 import { compareKennung, diffGleich } from './pr-eigener-diff.mjs'
+import { VERTRAUT } from './pr-nachtraege.mjs'
 
 export const MARKE_UEBERNAHME = '<!-- pruefer-uebernahme -->'
+/** Login des CI-Prüfers in `gh pr view --json comments` (GraphQL, ohne „[bot]“). */
+export const CI_PRUEFER = 'github-actions'
+
+/**
+ * Urteile zählen hier nur vom CI-Prüfer oder von Inhaber/Mitglied/Mitarbeiter: sonst könnte ein Fremder mit einem „ok“-Kommentar
+ * Approve und übersprungene Prüfung auslösen (Prüfer PR 4480, Befund 1).
+ */
+export function vertrauterAutor(c) {
+  return c.author?.login === CI_PRUEFER || VERTRAUT.has(c.authorAssociation)
+}
 
 /**
  * null = volle Prüfung; sonst { von, schon }: `von` ist der Kopf des übernommenen „ok“, `schon` heißt, der jetzige Kopf trägt bereits
@@ -19,7 +30,7 @@ export const MARKE_UEBERNAHME = '<!-- pruefer-uebernahme -->'
  */
 export function uebernahme(comments, commits, gleich) {
   const kopf = commits.length === 0 ? '' : commits[commits.length - 1].oid
-  const urteile = geltendeUrteile(comments, kopf, gleich)
+  const urteile = geltendeUrteile(comments.filter(vertrauterAutor), kopf, gleich)
   const letztes = urteile[urteile.length - 1]
   if (letztes === undefined || !FREI.includes(letztes.wort) || letztes.kopf === null || kopf === '') return null
   if (!kopf.startsWith(letztes.kopf)) return { von: letztes.kopf, schon: false }

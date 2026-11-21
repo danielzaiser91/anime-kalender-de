@@ -30,15 +30,18 @@ if (laden.stdout !== 'geladen\n') {
   process.exit(1)
 }
 console.log('  ✓ Import startet das Werkzeug nicht')
-const { MARKE_UEBERNAHME, lauf, uebernahme, uebernahmeKommentar } = await import(modul)
+const { MARKE_UEBERNAHME, lauf, uebernahme, uebernahmeKommentar, vertrauterAutor } = await import(modul)
 
 const A = 'a'.repeat(40)
 const B = 'b'.repeat(40)
 const C = 'c0123456789'.padEnd(40, 'c')
 const commits = [{ oid: A, committedDate: '2026-11-21T10:00:00Z' }, { oid: B, committedDate: '2026-11-21T11:00:00Z' }, { oid: C, committedDate: '2026-11-21T12:00:00Z' }]
-const ok = (sha, zeit) => ({ createdAt: zeit, body: `**Prüfer (Dirigent entscheidet)** für ${sha.slice(0, 9)} - Urteil: **ok**` })
-const de = (sha, zeit) => ({ createdAt: zeit, body: `**Prüfer-Review** für ${sha.slice(0, 9)} - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**` })
-const inhalt = (sha, zeit) => ({ createdAt: zeit, body: `**Prüfer-Review** für ${sha.slice(0, 9)} - Urteil: **aendern**` })
+// Autorfelder wie `gh pr view --json comments`: Dirigent als Inhaber, CI-Prüfer mit Login „github-actions“ und Zuordnung NONE.
+const DIRIGENT = { author: { login: 'derNamenloseDaniel' }, authorAssociation: 'OWNER' }
+const BOT = { author: { login: 'github-actions' }, authorAssociation: 'NONE' }
+const ok = (sha, zeit, wer = DIRIGENT) => ({ ...wer, createdAt: zeit, body: `**Prüfer (Dirigent entscheidet)** für ${sha.slice(0, 9)} - Urteil: **ok**` })
+const de = (sha, zeit) => ({ ...BOT, createdAt: zeit, body: `**Prüfer-Review** für ${sha.slice(0, 9)} - Urteil: **aendern, Auflagen offen: Dirigent entscheidet**` })
+const inhalt = (sha, zeit) => ({ ...BOT, createdAt: zeit, body: `**Prüfer-Review** für ${sha.slice(0, 9)} - Urteil: **aendern**` })
 const alleGleich = () => true
 const keinGleich = () => false
 
@@ -48,9 +51,21 @@ pruefe('(2)/(3) ok am vorigen Kopf, Diff anders -> volle Prüfung', uebernahme([
 pruefe('(4) wiederholtes „Dirigent entscheidet“ am diff-gleichen Kopf nach dem ok -> übernehmen', uebernahme([ok(A, '2026-11-21T10:30:00Z'), de(B, '2026-11-21T11:30:00Z')], commits, alleGleich)?.von === 'aaaaaaaaa')
 pruefe('(5) inhaltliches „aendern“ nach dem ok -> volle Prüfung', uebernahme([ok(A, '2026-11-21T10:30:00Z'), inhalt(B, '2026-11-21T11:30:00Z')], commits, alleGleich) === null)
 pruefe('nur „Dirigent entscheidet“, kein ok -> volle Prüfung (übernommen wird nur ein ok)', uebernahme([de(B, '2026-11-21T11:30:00Z')], commits, alleGleich) === null)
-pruefe('ok ohne Kopfnennung wird nicht übernommen', uebernahme([{ createdAt: '2026-11-21T11:30:00Z', body: 'Prüfer Runde 2: ok' }], commits, alleGleich) === null)
+pruefe('ok ohne Kopfnennung wird nicht übernommen', uebernahme([{ ...DIRIGENT, createdAt: '2026-11-21T11:30:00Z', body: 'Prüfer Runde 2: ok' }], commits, alleGleich) === null)
 pruefe('echtes ok am jetzigen Kopf -> bisheriger Weg (null)', uebernahme([ok(C, '2026-11-21T12:30:00Z')], commits, alleGleich) === null)
-const schonDa = { createdAt: '2026-11-21T12:30:00Z', body: uebernahmeKommentar(C, 'bbbbbbbbb') }
+// Prüfer PR 4480, Befund 1: nur CI-Prüfer und Inhaber/Mitglied/Mitarbeiter zählen.
+const fremd = (assoc) => ({ author: { login: 'fremder-nutzer' }, authorAssociation: assoc })
+for (const assoc of ['NONE', 'CONTRIBUTOR', 'FIRST_TIME_CONTRIBUTOR', undefined]) {
+  pruefe(`Fremd-„ok“ (${assoc ?? 'ohne Zuordnung'}) am diff-gleichen Kopf -> keine Übernahme`, uebernahme([ok(B, '2026-11-21T11:30:00Z', fremd(assoc))], commits, alleGleich) === null)
+}
+pruefe('Fremd-„ok“ im REST-Format (user.login „github-actions[bot]“, kein author) -> keine Übernahme', uebernahme([ok(B, '2026-11-21T11:30:00Z', { user: { login: 'github-actions[bot]' } })], commits, alleGleich) === null)
+pruefe('Fremd-„ok“ nach echtem „Dirigent entscheidet“ hebt es nicht auf', uebernahme([de(B, '2026-11-21T11:00:00Z'), ok(B, '2026-11-21T11:30:00Z', fremd('NONE'))], commits, alleGleich) === null)
+for (const assoc of ['OWNER', 'MEMBER', 'COLLABORATOR']) {
+  pruefe(`„ok“ von ${assoc} -> übernehmen`, uebernahme([ok(B, '2026-11-21T11:30:00Z', fremd(assoc))], commits, alleGleich)?.von === 'bbbbbbbbb')
+}
+pruefe('„ok“ des CI-Prüfers (Login github-actions, Zuordnung NONE) -> übernehmen', uebernahme([ok(B, '2026-11-21T11:30:00Z', BOT)], commits, alleGleich)?.von === 'bbbbbbbbb')
+pruefe('vertrauterAutor: Login ähnlich, aber nicht gleich zählt nicht', !vertrauterAutor({ author: { login: 'github-actions-x' }, authorAssociation: 'NONE' }) && !vertrauterAutor({}))
+const schonDa = { ...BOT, createdAt: '2026-11-21T12:30:00Z', body: uebernahmeKommentar(C, 'bbbbbbbbb') }
 pruefe('Übernahme am jetzigen Kopf schon geschrieben -> schon', JSON.stringify(uebernahme([ok(B, '2026-11-21T11:30:00Z'), schonDa], commits, alleGleich)) === '{"von":"c01234567","schon":true}')
 pruefe('keine Commits -> null', uebernahme([ok(B, '2026-11-21T11:30:00Z')], [], alleGleich) === null)
 pruefe('keine Urteile -> null', uebernahme([], commits, alleGleich) === null)
