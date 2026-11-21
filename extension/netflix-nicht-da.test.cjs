@@ -97,6 +97,41 @@ const probe = async (a, { profilwahl = false, werfen = false } = {}) => {
   u = await urteil(false)
   pruefe('Meldung scheitert (kein Token): kein Urteil, Titel wird zurückgestellt, Grund in der Spur', u.nichtDa.length === 0 && JSON.stringify(u.uebersprungen) === '[["81196818","Umleitung auf Startseite"]]' && /gescheitert/.test(u.spuren[0][0]) && u.spuren[0][1].text === 'Kein Token', u)
 
+  /* --- A3b (PR 4155): ein gemeldetes Urteil kommt nicht in jedem Lauf wieder; es bleibt einen Tag zurückgestellt --- */
+  const dauer = async (ok) => {
+    const gerufen = []
+    await k.akNetflixNichtDaUrteil('81196818', 'Umleitung auf Startseite', {
+      melden: async () => (ok ? { ok: true, text: 'gemeldet' } : { ok: false, text: 'Kein Token' }),
+      titel: (id) => id,
+      nichtDa: new Map(),
+      unterwegs: new Set(),
+      uebersprungen: Object.assign(new Map(), { dauerhaft: (...a) => gerufen.push(a) }),
+      spur: () => {},
+    })
+    return gerufen
+  }
+  pruefe('Urteil gemeldet: dauerhaft mit Kennung und Grund', JSON.stringify(await dauer(true)) === '[["81196818","Umleitung auf Startseite"]]')
+  pruefe('Urteil gescheitert: nicht dauerhaft (nur Zurückstellen)', (await dauer(false)).length === 0)
+  const { speicherNeu, stand } = require('./test-zurueck-speicher.cjs')
+  const speicher = speicherNeu()
+  const TAG = 24 * 3600 * 1000
+  const START = Date.UTC(2026, 10, 15, 12, 0, 0)
+  const uhr = { t: START }
+  const seite = () => k.akNetflixZurueckNeu({ 81196818: {} }, () => false, { speicher, jetzt: () => uhr.t, datum: () => null })
+  const lauf1 = seite()
+  await new Promise((f) => setImmediate(f))
+  await k.akNetflixNichtDaUrteil('81196818', 'Umleitung auf Startseite', { melden: async () => ({ ok: true, text: '' }), titel: (id) => id, nichtDa: new Map(), unterwegs: new Set(), uebersprungen: lauf1, spur: () => {} })
+  await new Promise((f) => setImmediate(f))
+  pruefe('echte Merkliste: Eintrag mit Grund, 1 Tag Ablauf', stand(speicher)['81196818']?.grund === 'Umleitung auf Startseite' && stand(speicher)['81196818']?.bis === START + TAG, stand(speicher))
+  pruefe('Lauf-Map bleibt leer (der Bericht zählt es nicht als übersprungen)', [...lauf1.keys()].length === 0, [...lauf1.keys()])
+  const lauf2 = seite()
+  await new Promise((f) => setImmediate(f))
+  pruefe('neuer Lauf (neuer Seitenaufruf): Titel bleibt zurückgestellt', lauf2.has('81196818') === true)
+  uhr.t = START + TAG + 1
+  const lauf3 = seite()
+  await new Promise((f) => setImmediate(f))
+  pruefe('nach einem Tag: wieder offen', lauf3.has('81196818') === false)
+
   /* --- UI3012: Titel nur nach einem Umleitungs-Beleg unmittelbar davor, sonst Sitzungsstörung (auch das erste UI3012 nach sauberen Titeln) --- */
   const T0 = Date.UTC(2026, 10, 15, 12, 0, 0)
   const ui = (b, reihe = '540533') => {

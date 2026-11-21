@@ -35,10 +35,10 @@ export function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, 
 }
 
 /** Die Reihe als Karte unter dem Antwortkasten (Daniel, 09.10.2026, Entwurf B): Zähler im Kopf, darunter der Stand der Reihe. */
-export function ReihenKarte({ reihenTeile, reihenName, title, children }: { reihenTeile: FranchiseMember[]; reihenName: string; title: Title; children: ReactNode }) {
+export function ReihenKarte({ reihenTeile, reihenName, title, zaehler, children }: { reihenTeile: FranchiseMember[]; reihenName: string; title: Title; zaehler: number; children: ReactNode }) {
   const { t } = useLang()
   return (
-    <PanelKarte symbol={<StapelZeichen />} titel={t('detail.reihe')} zaehler={reihenTeile.length} akzent="info">
+    <PanelKarte symbol={<StapelZeichen />} titel={t('detail.reihe')} zaehler={zaehler} akzent="info">
       <p className="-mt-1.5 mb-2 pl-[38px] text-t5 text-ak-text/75">{reihenZeile(reihenTeile, reihenName, title.id, t)}</p>
       {children}
     </PanelKarte>

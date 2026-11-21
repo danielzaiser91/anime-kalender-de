@@ -11,7 +11,7 @@ Jede Regel ist ein Kurzimperativ; Anlass, PR-Nummer, Datum und alter Wortlaut je
 
 ## Lesen und Worktree
 
-- Kopf: `git fetch origin pull/<N>/head main`, dann nur `headRefOid` aus `gh pr view <N> --json headRefOid`, nie `FETCH_HEAD`; Ref nur als `pull/<N>/head:refs/prefetch/p<N>`, danach `git update-ref -d`. Nie `git fetch …:zweig` im Hauptordner.
+- Kopf: `git fetch origin pull/<N>/head main`, dann nur `headRefOid` aus `gh pr view <N> --json headRefOid`, nie `FETCH_HEAD`; Ref nur als `pull/<N>/head:refs/prefetch/p<N>`, danach `git -C <eigener Worktree> update-ref -d refs/prefetch/p<N>` vor `worktree remove` (im Hauptordner sperrt der Hook `update-ref`, 21.11.2026). Nie `git fetch …:zweig` im Hauptordner.
 - Diff: `git diff origin/main...<kopf>` (nicht `gh pr diff`), Dateien per `git show <kopf>:<pfad>` mit `MSYS_NO_PATHCONV=1`; große Datendatei ausklammern (`':!data/<datei>'`); lange Ausgaben in eine Datei.
 - Reine Text-PRs ohne Worktree. Sonst `git worktree add C:/code/_worktrees/<repo>/<kürzel> <headRefOid> && cd … && …`, `git rev-parse HEAD` gegen `headRefOid`; im Hauptordner nie auschecken, mergen, committen (`hauptordner-sperre.js:28`). Nennt der Auftrag einen Worktree, nur den lesen.
 - Sofort `bash C:/code/ai/__assets/tools/worktree-junction.sh <worktree>`. Am Ende Junction lösen (`node -e "const f=require('fs'),p='<wt>/node_modules';if(f.lstatSync(p).isSymbolicLink())f.unlinkSync(p)"`), Wegsein prüfen (sonst Abbruch, nie `rm -rf`), dann `git worktree remove --force`.
