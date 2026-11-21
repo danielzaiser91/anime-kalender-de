@@ -94,6 +94,7 @@ const sende = (pfad: string, body: unknown, env: never) =>
 /** Eine Prime-Meldung mit drei Rohfolgen (gti g1–g3); `ton` unterscheidet zwei Fassungen derselben Seite. */
 const meldung = (ton: string) => ({
   plattform: 'primevideo',
+  version: '4.32.187',
   url: 'https://www.amazon.de/gp/video/detail/B00LDDJYB4',
   suchUrl: 'https://www.amazon.de/s?k=die+dinos+sind+los',
   seiten_kennung: 'B00LDDJYB4',
