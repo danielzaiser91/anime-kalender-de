@@ -7,7 +7,7 @@
  */
 import worker from '../worker/src/index.ts'
 import type { Env } from '../worker/src/env.ts'
-import { STAND_SCHLUESSEL, SCHALTER_SCHLUESSEL, ZIELE_JE_LAUF } from '../worker/src/ausbleiben-messer.ts'
+import { STAND_SCHLUESSEL, SCHALTER_SCHLUESSEL, ZIELE_JE_LAUF, waehleZiele } from '../worker/src/ausbleiben-messer.ts'
 import { fetchAttrappe, neueDatenbank, testEnv, zaehler, zaehlerZurueck } from './worker-unteraufrufe-attrappe.ts'
 
 let fehler = 0
@@ -83,6 +83,13 @@ async function takt(uhr: number, mitBelege = true): Promise<string> {
 }
 const cr = () => welt.aufrufe.filter((u) => u !== 'events')
 const stand = (): Record<string, { gesehenAm?: number; ohneDeutschAm?: number; letzteLesung?: number; staffel?: string }> => JSON.parse(welt.r2.get(STAND_SCHLUESSEL) ?? '{}')
+
+// 0. Auswahl der Ziele über Mitternacht Berlin (Winter- und Sommerzeit): Termin 00:30 des Folgetags und 23:30 des Vortags
+const nacht = (id: string, date: string, time: string) => ev({ id, releaseSlug: `cr-${id}`, date, time, episode: 1 })
+const wintersZiele = waehleZiele([nacht('GTSPAET', '2026-11-16', '00:30'), nacht('GTFRUEH', '2026-11-15', '23:30'), nacht('GTFERN', '2026-11-18', '00:30')] as never, new Date(Date.UTC(2026, 10, 15, 23, 50)))
+pruefe(JSON.stringify(wintersZiele.map((z) => [z.serie, z.slotMs])) === JSON.stringify([['GTFRUEH', Date.UTC(2026, 10, 15, 22, 30)], ['GTSPAET', Date.UTC(2026, 10, 15, 23, 30)]]), `Winter 00:50 Berlin: 23:30 und 00:30 gewählt, früherer zuerst, Termin in drei Tagen nicht (${JSON.stringify(wintersZiele)})`)
+const sommerZiele = waehleZiele([nacht('GTSOMMER', '2026-07-13', '00:30')] as never, new Date(Date.UTC(2026, 6, 12, 22, 40)))
+pruefe(sommerZiele.length === 1 && sommerZiele[0].slotMs === Date.UTC(2026, 6, 12, 22, 30), 'Sommer: 00:30 Berlin ist 22:30Z des Vortags')
 
 // 1. Ohne Schalter und ohne Ablage: kein Crunchyroll-Abruf, nichts geschrieben
 let zeile = await takt(SLOT + 10 * MIN)

@@ -799,6 +799,8 @@ Antwort: HTTP 200, `access_token`, **3600 Sekunden gültig**, dazu `country` —
 von hier steht dort `DE`. Gegen `www.crunchyroll.com` läuft derselbe Aufruf in Cloudflares
 „Just a moment…" (403); über `beta-api` gibt es keine Bot-Sperre.
 
+**Regelmäßiger Aufrufer seit 21.11.2026: der Ausbleiben-Messer im Worker** (`worker/src/ausbleiben-messer.ts`, nur mit Schalter `an`): im Fünf-Minuten-Takt, nur für fällige deutsche Wochentermine und höchstens 24 h nach dem Termin, ein Token, je Termin `GET /content/v2/cms/series/<GT…>/seasons?locale=de-DE` (einmal, danach im Stand) und `GET /content/v2/cms/seasons/<GS…DEDE>/episodes?locale=de-DE`; höchstens 4 Termine je Takt, also höchstens 9 Abrufe, bei 403/429 sofort Schluss. Der Zwischenspeicher der Folgenliste ist bis 22 min alt (Probelauf 2c, 18.11.2026), keine Umgehung. robots.txt: unverändert zu 21.08.2026 (`/content/` und `/auth/` erlaubt, nicht neu abgerufen).
+
 **2. Damit antwortet die Suche.** `cms/v2<bucket>/search` gibt 502 und `content/v2` ohne Token
 401 — mit Token liefert sie genau das, was aus einer Adresse nie zu bekommen war:
 
