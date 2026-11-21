@@ -165,7 +165,12 @@ pruefe('wartezeitMs: kein lesbarer Reset -> 60 s', wartezeitMs(NaN, JETZT) === 6
   const opt = (waren, konto = leeresKonto()) => ({ gh, warte: (ms) => waren.push(ms), jetzt: () => JETZT, konto })
   let waren = []
   let l = lauf([limit, gut])
-  pruefe('laufMitLimit: rate limit, Konto reicht -> wartet 102 s, zweiter Lauf liefert', laufMitLimit(['pr', 'diff', '7'], { ...opt(waren), lauf: l.lauf }).stdout === 'diff' && waren[0] === 102_000 && l.aufrufe.length === 2, { waren, aufrufe: l.aufrufe })
+  const konto = leeresKonto()
+  pruefe('laufMitLimit: rate limit, Konto reicht -> wartet 102 s, zweiter Lauf liefert', laufMitLimit(['pr', 'diff', '7'], { ...opt(waren, konto), lauf: l.lauf }).stdout === 'diff' && waren[0] === 102_000 && l.aufrufe.length === 2, { waren, aufrufe: l.aufrufe })
+  pruefe('laufMitLimit: die gewartete Zeit ist im Konto gebucht', konto.rest() === KONTO_MS - 102_000, konto.rest())
+  waren = []
+  l = lauf([{ status: 0, stdout: 'diff', stderr: 'warning: rate limit nearly reached' }, gut])
+  pruefe('laufMitLimit: Erfolg mit „rate limit“ nur im stderr -> kein Warten, kein zweiter Lauf', laufMitLimit(['pr', 'diff', '7'], { ...opt(waren), lauf: l.lauf }).status === 0 && waren.length === 0 && l.aufrufe.length === 1, { waren, aufrufe: l.aufrufe })
   waren = []
   l = lauf([limit, gut])
   const zuWenig = laufMitLimit(['pr', 'diff', '7'], { ...opt(waren, neuesKonto({ datei: '', grenze: 1000 })), lauf: l.lauf })
@@ -185,6 +190,8 @@ pruefe('wartezeitMs: kein lesbarer Reset -> 60 s', wartezeitMs(NaN, JETZT) === 6
     const a = neuesKonto({ datei, grenze: 10_000 })
     const b = neuesKonto({ datei, grenze: 10_000 })
     pruefe('Konto: Datei fehlt -> voller Rest', a.rest() === 10_000, a.rest())
+    a.buche(0)
+    pruefe('Konto: 0 ms gebucht (Datei "0") zählt als lesbar, voller Rest', fs.readFileSync(datei, 'utf8') === '0' && a.rest() === 10_000, { datei: fs.readFileSync(datei, 'utf8'), rest: a.rest() })
     a.buche(4000)
     b.buche(3000)
     pruefe('Konto: zwei Konten auf einer Datei zählen zusammen (Rest 3000)', a.rest() === 3000 && b.rest() === 3000 && fs.readFileSync(datei, 'utf8') === '7000', { a: a.rest(), b: b.rest() })
@@ -251,7 +258,7 @@ pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbe
     fs.mkdirSync(bin)
     if (process.platform === 'win32') fs.copyFileSync(process.execPath, path.join(bin, 'gh.exe'))
     else fs.symlinkSync(process.execPath, path.join(bin, 'gh'))
-    fs.writeFileSync(path.join(ordner, 'api'), "if (process.argv[2] === 'rate_limit') process.stdout.write(JSON.stringify({ resources: { core: { remaining: 7, reset: Number(process.env.FAKE_RESET ?? 1) } } }))\nelse if (process.argv[2] === 'gut') process.stdout.write('hallo')\nelse { process.stderr.write('HTTP 403: API rate limit exceeded\\nzweite Zeile\\n'); process.exit(1) }\n")
+    fs.writeFileSync(path.join(ordner, 'api'), "if (process.argv[2] === 'rate_limit') process.stdout.write(JSON.stringify({ resources: { core: { remaining: 7, reset: Number(process.env.FAKE_RESET ?? 1) } } }))\nelse if (process.argv[2] === 'gut') process.stdout.write('hallo')\nelse if (process.argv[2] === 'einmal' && !require('fs').existsSync('marke')) { require('fs').writeFileSync('marke', '1'); process.stderr.write('HTTP 403: API rate limit exceeded\\n'); process.exit(1) }\nelse if (process.argv[2] === 'einmal') process.stdout.write('{\"a\":1}')\nelse { process.stderr.write('HTTP 403: API rate limit exceeded\\nzweite Zeile\\n'); process.exit(1) }\n")
     process.env[pfadName] = bin + path.delimiter + pfadAlt
     process.chdir(ordner)
     const { ghRoh } = await import('./gh-ratelimit.mjs')
@@ -264,6 +271,17 @@ pruefe('restZeile: Fehler -> unbekannt mit Grund', /^x-ratelimit-remaining: unbe
     }
     pruefe('ghRoh: Fehler nennt Exit-Code und nur die erste stderr-Zeile', text === 'gh api schlecht Exit 1: HTTP 403: API rate limit exceeded', text)
     pruefe('ghRoh: Fehlertext wird als rate limit erkannt', istRateLimit(text), text)
+    // Standard-Wege (ohne eingespeistes Konto und gh): Konto aus GH_LIMIT_KONTO, echter Kindprozess; Reset vorbei = kein echtes Warten.
+    const { ghApiJsonMitLimit } = await import('./gh-ratelimit.mjs')
+    const kontoAlt = process.env.GH_LIMIT_KONTO
+    process.env.GH_LIMIT_KONTO = path.join(ordner, 'konto-prozess')
+    pruefe('ghApiJsonMitLimit: erster Aufruf „rate limit“, zweiter liefert JSON (Neuversuch im selben Aufruf)', JSON.stringify(ghApiJsonMitLimit(['einmal'])) === '{"a":1}' && fs.existsSync(path.join(ordner, 'marke')), null)
+    fs.rmSync(path.join(ordner, 'marke'))
+    const diffLauf = laufMitLimit(['api', 'einmal'])
+    pruefe('laufMitLimit mit echtem gh: erster Lauf „rate limit“, zweiter liefert stdout und Status 0', diffLauf.status === 0 && diffLauf.stdout === '{"a":1}', diffLauf)
+    pruefe('laufMitLimit mit echtem gh: Erfolg ohne Limit', laufMitLimit(['api', 'gut']).stdout === 'hallo', null)
+    if (kontoAlt === undefined) delete process.env.GH_LIMIT_KONTO
+    else process.env.GH_LIMIT_KONTO = kontoAlt
     // Einstieg als eigener Prozess: Exit-Code und Ausgabe.
     const skript = fileURLToPath(new URL('./gh-ratelimit.mjs', import.meta.url))
     const kontoDatei = path.join(ordner, 'konto.txt')
