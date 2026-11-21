@@ -1906,6 +1906,10 @@
       "am": "2026-11-18",
       "vorschlaege": 13
     },
+    "1073204": {
+      "am": "2026-11-21",
+      "vorschlaege": 1
+    },
     "1073232": {
       "am": "2026-11-19",
       "vorschlaege": 3
@@ -2048,6 +2052,10 @@
       "vorschlaege": 2
     },
     "1074210": {
+      "am": "2026-11-21",
+      "vorschlaege": 1
+    },
+    "1074258": {
       "am": "2026-11-21",
       "vorschlaege": 1
     }
@@ -16113,6 +16121,50 @@
       "artikelId": "1074210",
       "artikel": "RomCom-Anime »Tamon’s B-Side« erhält eine zweite Staffel",
       "quelle": "https://www.anime2you.de/news/1074210/tamons-b-side-erhaelt-zweite-staffel/",
+      "veroeffentlicht": "2026-11-21",
+      "gelesenAm": "2026-11-21"
+    },
+    {
+      "titel": "Magic Repo Man",
+      "zitat": "»Magic Repo Man« besteht aus insgesamt zwölf Episoden, die seit dem 3. Oktober 2026 im japanischen Fernsehen ausgestrahlt und hierzulande im Originalton mit deutschen Untertiteln bei Crunchyroll im Simulcast gezeigt werden.",
+      "art": "start",
+      "sprache": "omu",
+      "plattform": "crunchyroll",
+      "datum": "2026-10-03",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "zwölf",
+      "unsicher": null,
+      "wochentag": "Samstag",
+      "warnungen": [],
+      "artikelId": "1074258",
+      "artikel": "Episodenanzahl des Fantasy-Anime »Magic Repo Man« steht fest",
+      "quelle": "https://www.anime2you.de/news/1074258/magic-repo-man-episodenanzahl/",
+      "veroeffentlicht": "2026-11-21",
+      "gelesenAm": "2026-11-21"
+    },
+    {
+      "titel": "To Be Hero X",
+      "zitat": "»To Be Hero X« erscheint voraussichtlich am 19. Februar 2027 in einer Komplettbox auf Blu-ray, die alle 24 Episoden mit deutscher und japanischer Sprachausgabe beinhaltet.",
+      "art": "disc",
+      "sprache": "deutsch",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "24",
+      "unsicher": "Datum als „voraussichtlich“ bezeichnet, noch nicht endgültig bestätigt.",
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1073204",
+      "artikel": "»To Be Hero X« erscheint als Komplettbox auf Blu-ray",
+      "quelle": "https://www.anime2you.de/news/1073204/to-be-hero-x-blu-ray-komplettbox/",
       "veroeffentlicht": "2026-11-21",
       "gelesenAm": "2026-11-21"
     }
