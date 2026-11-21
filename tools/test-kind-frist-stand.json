@@ -67,7 +67,6 @@
   "tools/pr-bilder.test.mjs": 5,
   "tools/pr-checks-stand.test.mjs": 1,
   "tools/pr-eingang.test.mjs": 1,
-  "tools/pr-nachrechnen-leser-git.test.mjs": 1,
   "tools/pr-nachtraege-prozess.test.mjs": 1,
   "tools/pr-pruefer-freigabe.test.mjs": 1,
   "tools/pr-pruefer-modus.test.mjs": 3,

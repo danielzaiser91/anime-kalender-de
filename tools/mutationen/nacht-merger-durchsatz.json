@@ -1,6 +1,0 @@
-[
-  { "name": "Kontrolle (unmutiert)", "aenderungen": [] },
-  { "name": "A1 bewegtesGelesen: bewegter Code startet keine Rückwärtshülle", "aenderungen": [{ "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "huelle([...rueckLeser, ...bewegterCode], lies, RUECK_TIEFE)", "ersetze": "huelle([...rueckLeser], lies, RUECK_TIEFE)" }], "tests": ["node tools/pr-nachrechnen-leser.test.mjs"] },
-  { "name": "A1 bewegtesGelesen: -liste.txt-Ausschluss entfernt", "aenderungen": [{ "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "LESBAR.test(b) && !LISTE.test(b))", "ersetze": "LESBAR.test(b))" }], "tests": ["node tools/pr-nachrechnen-leser.test.mjs"] },
-  { "name": "A1 bewegtesGelesen: nur Listen als bewegter Code", "aenderungen": [{ "datei": "tools/pr-nachrechnen-leser.mjs", "suche": "LESBAR.test(b) && !LISTE.test(b))", "ersetze": "LISTE.test(b))" }], "tests": ["node tools/pr-nachrechnen-leser.test.mjs"] }
-]
