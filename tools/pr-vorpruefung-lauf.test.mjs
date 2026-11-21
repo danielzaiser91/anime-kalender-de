@@ -110,7 +110,13 @@ try {
   assert.match(stempel.text, /! Hinweis: Patch-Notes-Texte umgeschrieben, .* steht auf 2000-01-01/, 'main meldet den alten Stempel')
   const neuerEintrag = lauf('neueintrag', SORTIERT, undefined, 0, { basis: alt, extra: { 'data/patchnotes/b.yaml': 'text: y\n' }, zusatz: ' data/patchnotes/b.yaml' })
   assert.doesNotMatch(neuerEintrag.text, /Patch-Notes-Texte umgeschrieben/, 'neuer Eintrag löst keinen Stempel-Hinweis aus')
-  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün, Daten-Titel rot, Bot-Pfade-Wächter bei Kettendatei rot, ohne Kettendatei nicht gefahren, Kindprozess ohne Frist rot, mit Frist grün, ohne berührten Test nicht gefahren, Mutant ohne tests und alter Stempel als Hinweis, neuer Eintrag ohne Stempel-Hinweis)')
+  // Neue Testdatei (tools/zeit.test.mjs): Hinweis ohne Beleg „rot an der Basis“, mit Beleg keiner; beides bricht nicht ab.
+  const ohneBeleg = lauf('ohnebeleg', SORTIERT)
+  assert.match(ohneBeleg.text, /! Hinweis: Neuer Test tools\/zeit\.test\.mjs: kein Beleg „rot an der Basis“/, 'main meldet den fehlenden Basis-Beleg')
+  assert.equal(ohneBeleg.status, 0, `der Hinweis bricht nicht ab: ${ohneBeleg.text}`)
+  const mitBeleg = lauf('mitbeleg', SORTIERT, undefined, 0, { zusatz: '\nBasis: Fall 1 rot (✖)' })
+  assert.doesNotMatch(mitBeleg.text, /kein Beleg „rot an der Basis“/, 'mit Beleg im Text kein Hinweis')
+  console.log('pr-vorpruefung-lauf.test: ok (unsortiert rot, sortiert grün, Uhr über Grenze rot, an Grenze grün, Leerraum rot, Ausweg grün, Daten-Titel rot, Bot-Pfade-Wächter bei Kettendatei rot, ohne Kettendatei nicht gefahren, Kindprozess ohne Frist rot, mit Frist grün, ohne berührten Test nicht gefahren, Mutant ohne tests und alter Stempel als Hinweis, neuer Eintrag ohne Stempel-Hinweis, neuer Test mit/ohne Basis-Beleg)')
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
 }
