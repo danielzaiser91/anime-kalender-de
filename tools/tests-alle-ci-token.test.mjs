@@ -35,13 +35,13 @@ try {
   symlinkSync(join(WURZEL, 'node_modules'), join(ordner, 'node_modules'), 'junction')
   writeFileSync(join(ordner, 'tools', 'ci-umgebung.test.mjs'), TEST)
   writeFileSync(join(ordner, '.gitignore'), 'node_modules\n')
-  const git = (...a) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: ordner, stdio: 'ignore' })
+  const git = (...a) => execFileSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: ordner, stdio: 'ignore', timeout: 30_000 })
   git('init', '-q')
   git('add', '.')
   git('commit', '-q', '-m', 'a')
 
   const env = { ...process.env, ...Object.fromEntries(CI.map((n) => [n, 'dummy'])), GITHUB_REPOSITORY: 'x/gibtsnicht', FREMDE_VARIABLE: 'bleibt' }
-  const r = spawnSync(process.execPath, [join(ordner, 'tools', 'tests-alle.mjs')], { cwd: ordner, encoding: 'utf8', env })
+  const r = spawnSync(process.execPath, [join(ordner, 'tools', 'tests-alle.mjs')], { cwd: ordner, encoding: 'utf8', env, timeout: 120_000 })
   assert.equal(r.status, 0, `tests-alle: Exit ${r.status}\n${r.stdout}\n${r.stderr}`)
   assert.match(r.stdout, /1 von 1 Tests grün/)
   console.log('  ✓ tests-alle: Test sieht keine CI-Variable, fremde bleibt')
