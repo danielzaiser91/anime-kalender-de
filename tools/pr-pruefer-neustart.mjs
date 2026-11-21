@@ -3,8 +3,8 @@
  * Aufruf aus .github/workflows/pr-pruefer-nachtrag.yml; nur Node-Bordmittel, der Kommentartext kommt nur über die Umgebung.
  * Der Prüfer liest die Kommentare bei jedem Start neu (tools/pr-nachtraege.mjs); ein Neustart des Laufs auf demselben Kopf genügt.
  */
-import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
+import { ghMitLimit, ghRoh, warteSync } from './gh-ratelimit.mjs'
 import { CI_BOT, NACHTRAG, VERTRAUT } from './pr-nachtraege.mjs'
 
 const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
@@ -58,12 +58,10 @@ export function neustart(lauf, repo, { gh, warte }) {
   gh(['run', 'rerun', String(lauf.id)])
 }
 
-function ghEcht(args) {
-  return execFileSync('gh', args, { encoding: 'utf8', timeout: 60_000, windowsHide: true })
-}
-
 /** Einstieg; Rückgabe ist der Exit-Code. 1 bei fehlenden Eingaben, unlesbarem PR oder gescheitertem Neustart (Lauf-Abfrage, cancel, rerun): eine Zeile „FEHLGESCHLAGEN PR n Kopf h: Grund“ im Log, der Job wird rot und `laeufe-aufraeumen` sieht ihn; der Prüfer-Zustand ist dann der von vorher. */
-export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) } = {}) {
+export function main(env = process.env, { gh: ghBasis = ghRoh, warte = warteSync, jetzt = Date.now } = {}) {
+  // Bei „rate limit“ wartet jeder Aufruf bis zum Reset (Deckel 15 min, Job-Timeout im Workflow darauf ausgelegt).
+  const gh = (args) => ghMitLimit(ghBasis, args, { warte, jetzt })
   const repo = env.GITHUB_REPOSITORY
   const nr = env.PR_NUMMER
   if (!/^\d+$/.test(nr ?? '') || !repo) return console.log('Prüfer-Neustart: PR-Nummer oder Repo fehlt'), 1

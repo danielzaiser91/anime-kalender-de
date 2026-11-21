@@ -8,8 +8,8 @@
  * abläuft. `<zeile>` ist `gruen`, `Checks rot: …`, `Checks laufen noch: …` oder `Checks-Stand unbekannt: …`; die Freigabe
  * gibt „ok“ ohne Zusatz nur bei `gruen`. Gilt nur für den Prüfer selbst: sein eigener laufender Check zählt nicht.
  */
-import { spawnSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
+import { ghMitLimit, ghRoh } from './gh-ratelimit.mjs'
 
 export const EIGENER = 'Prüfer-Review'
 const TAKT_MS = 20_000
@@ -69,12 +69,9 @@ export async function ermittleStand({ holePflicht, holeLaeufe, warte, jetzt, fri
   }
 }
 
-/** `gh` als Funktion: Argumente rein, stdout raus; scheitert der Aufruf, wirft sie. */
+/** `gh` als Funktion: Argumente rein, stdout raus; scheitert der Aufruf, wirft sie (mit stderr); bei „rate limit“ erst Reset abwarten. */
 export function ghAufruf(args) {
-  const r = spawnSync('gh', args, { encoding: 'utf8', windowsHide: true, maxBuffer: 1 << 24 })
-  if (r.error) throw r.error
-  if (r.status !== 0) throw new Error(`gh ${args.slice(0, 3).join(' ')} Exit ${r.status}`)
-  return r.stdout
+  return ghMitLimit(ghRoh, args)
 }
 
 export function holePflicht(repo, gh) {

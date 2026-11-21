@@ -4,6 +4,7 @@
  */
 import fs from 'node:fs'
 import { parse } from 'yaml'
+import { MAX_WARTE_MS } from './gh-ratelimit.mjs'
 import { entscheide, main } from './pr-pruefer-neustart.mjs'
 
 const fehler = []
@@ -109,6 +110,37 @@ gleich('Absturz von gh: Exit 1, kein Neustart', (() => {
   return code
 })(), 1)
 
+// Rate limit beim PR-Lesen: bis zum Reset warten (Zeit eingespeist), dann einmal neu; ein anderer Fehler wartet nicht.
+function mitFehler(text, reset) {
+  const wartet = []
+  const aufrufe = []
+  let ersterPrAufruf = true
+  const gh = (args) => {
+    aufrufe.push(args.join(' '))
+    if (args[1] === 'rate_limit') return JSON.stringify({ resources: { core: { reset } } })
+    if (args[1] === 'repos/o/r/pulls/7' && ersterPrAufruf) {
+      ersterPrAufruf = false
+      throw new Error(text)
+    }
+    if (args[1] === 'repos/o/r/pulls/7') return JSON.stringify(pr())
+    if (args[1]?.includes('/workflows/pr-pruefer.yml/runs')) return JSON.stringify(abgeschlossen.filter((l) => args[1].includes(`head_sha=${l.head_sha}&`)))
+    return ''
+  }
+  const mute = console.log
+  const zeilen = []
+  console.log = (z) => zeilen.push(z)
+  const env = { GITHUB_REPOSITORY: 'o/r', PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }
+  const code = main(env, { gh, warte: (ms) => wartet.push(ms), jetzt: () => 1_000_000_000_000 })
+  console.log = mute
+  return { code, wartet, zeilen, aufrufe }
+}
+const LIMIT_TEXT = 'gh api repos/o/r/pulls/7 Exit 1: HTTP 403: API rate limit exceeded for installation'
+const limit = mitFehler(LIMIT_TEXT, 1_000_000_000 + 60)
+gleich('rate limit: wartet bis zum Reset (62 s), dann Neustart, Exit 0', [limit.code, limit.wartet, limit.aufrufe.includes('run rerun 5')], [0, [62_000], true])
+gleich('rate limit mit Reset in 2 h: Deckel 15 min', mitFehler(LIMIT_TEXT, 1_000_000_000 + 7200).wartet, [900_000])
+const anders = mitFehler('gh api repos/o/r/pulls/7 Exit 1: HTTP 404: Not Found', 1_000_000_000 + 60)
+gleich('anderer Fehler: kein Warten, Exit 1, Grund im Log', [anders.code, anders.wartet, anders.zeilen.some((z) => z.includes('404'))], [1, [], true])
+
 // Zweiter Lauf auf demselben Kopf (12.11.2026, PRs 3579/3584): ein Hand-Rerun nach dem Kommentar hat ihn schon gelesen, der Neustart lässt ihn in Ruhe.
 const ZEIT = '2026-11-12T14:31:55Z'
 const lauf5 = (zusatz) => [{ id: 5, status: 'in_progress', head_sha: KOPF, run_started_at: '2026-11-12T14:32:37Z', ...zusatz }]
@@ -140,7 +172,7 @@ gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
 gleich('YAML reicht die Kommentarzeit durch (comment.created_at)', schritt.env.KOMMENTAR_ZEIT, '${{ github.event.comment.created_at }}')
 // Zeitbudget: Pausen plus 60 s für Checkout und Abfragen müssen unter der Jobfrist bleiben.
 const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
-gleich('Zeitbudget: Pausen + 60 s unter timeout-minutes', pausenMs + 60_000 < job['timeout-minutes'] * 60_000, true)
+gleich('Zeitbudget: Pausen + Reset-Wartezeit (15 min) + 60 s unter timeout-minutes', pausenMs + MAX_WARTE_MS + 60_000 < job['timeout-minutes'] * 60_000, true)
 const ausYaml = Object.fromEntries(Object.keys(schritt.env).map((s) => [s, { PR_NUMMER: '7', KOMMENTAR: '## Nachtrag', KOMMENTAR_LOGIN: 'inhaber', KOMMENTAR_ASSOZIATION: 'OWNER' }[s] ?? 'x']))
 gleich('env-Namen der YAML lösen den Neustart aus', laufe({ ...ausYaml, KOMMENTAR: '## Nachtrag', GITHUB_REPOSITORY: 'o/r' }, abgeschlossen).aufrufe, ['run rerun 5'])
 

@@ -25,7 +25,7 @@ function ausfall(pr, name) {
   const bisher = fs.existsSync(datei) ? Number(fs.readFileSync(datei, 'utf8')) : 0
   if (bisher >= grenze) return
   fs.writeFileSync(datei, String(bisher + 1))
-  process.stderr.write("invalid character 'S' looking for beginning of value")
+  process.stderr.write(pr.ausfallText ?? "invalid character 'S' looking for beginning of value")
   process.exit(1)
 }
 function nicht() {
@@ -37,6 +37,8 @@ function treffer(muster) {
   return m ? daten.prs[m[1]] : undefined
 }
 
+// Reset in der Vergangenheit: der Test wartet nicht wirklich.
+if (schluessel === 'api rate_limit') ende(JSON.stringify({ resources: { core: { limit: 1000, remaining: 42, reset: 1 } } }))
 let pr
 if ((pr = treffer(`pr view (\\d+) --repo ${daten.repo} --json title,body,headRefName`))) ende(pr.view + '\n')
 if ((pr = treffer(`pr diff (\\d+)`)) && pr.diff !== undefined) ende(pr.diff)

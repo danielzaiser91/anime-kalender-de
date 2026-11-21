@@ -7,7 +7,6 @@
   "tools/deploy-aus-build.mjs": 2,
   "tools/kette-urteil.mjs": 1,
   "tools/meldungskopie.mjs": 1,
-  "tools/pr-checks-stand.mjs": 1,
   "tools/pr-kettenlog.mjs": 1,
   "tools/pr-stufe.mjs": 1,
   "tools/untersucher-vorab.mjs": 1,

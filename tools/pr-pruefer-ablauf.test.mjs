@@ -30,6 +30,7 @@ pruefe('Ablauf: Sperre meldet zustand=ok', gut.ausgaben?.eingang?.zustand === 'o
 pruefe('Ablauf: Diff-Schritt meldet diff-zustand=ok', gut.ausgaben?.diff?.['diff-zustand'] === 'ok', gut.ausgaben)
 // Alle gh-Aufrufe des guten Laufs, in Reihenfolge und Wort für Wort: ein Einschub (auch mit `|| true` oder `&`) ist rot.
 const AUFRUFE = [
+  'api rate_limit',
   'api --method GET repos/o/r/compare/' + 'e'.repeat(40) + '...' + KOPF + ' -f per_page=1 -q .merge_base_commit.sha',
   'api --method GET --paginate repos/o/r/pulls/7/files -f per_page=100 -q .[]',
   'pr view 7 --repo o/r --json title,body,headRefName -q "Titel: " + .title + "\\nZweig: " + .headRefName + "\\n\\n" + .body',
@@ -100,6 +101,13 @@ pruefe('Wiederholung: Autor-Abruf scheitert einmal -> zweiter Versuch, Nachträg
 const loginZweimal = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 2 } } })
 pruefe('Wiederholung: Autor-Abruf scheitert zweimal -> dritter Versuch genügt',
   loginZweimal.ausgaben?.eingang?.zustand === 'ok' && anzahl(loginZweimal, LOGIN) === 3, { n: anzahl(loginZweimal, LOGIN), fehler: loginZweimal.fehler })
+// Kontingent erschöpft: der Wiederholungsweg fragt den Reset ab (`api rate_limit`, zusätzlich zur Anfangszeile) und gelingt danach;
+// ein Fehler anderer Art tut das nicht (loginEinmal: nur die Anfangszeile).
+const limitText = 'HTTP 403: API rate limit exceeded for installation'
+const loginLimit = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 1 }, ausfallText: limitText } })
+pruefe('Rate limit: Autor-Abruf scheitert mit „rate limit“ -> Reset abgefragt, zweiter Versuch, zustand=ok',
+  loginLimit.ausgaben?.eingang?.zustand === 'ok' && anzahl(loginLimit, LOGIN) === 2 && anzahl(loginLimit, 'api rate_limit') === 2, { n: anzahl(loginLimit, LOGIN), r: anzahl(loginLimit, 'api rate_limit'), fehler: loginLimit.fehler })
+pruefe('Rate limit: Fehler anderer Art fragt den Reset nicht ab', anzahl(loginEinmal, 'api rate_limit') === 1, anzahl(loginEinmal, 'api rate_limit'))
 const loginDauer = laufeBisEingang(wf, { 7: { ...prDaten(7, KOPF), ausfaelle: { login: 99 } } })
 pruefe('Wiederholung: Autor-Abruf scheitert immer -> nach drei Versuchen unvollstaendig (nie ok)',
   loginDauer.ausgaben?.diff?.['diff-zustand'] === 'ok' && loginDauer.ausgaben?.eingang?.zustand === 'unvollstaendig' && anzahl(loginDauer, LOGIN) === 3, { n: anzahl(loginDauer, LOGIN), a: loginDauer.ausgaben })
@@ -152,8 +160,8 @@ pruefe('A1: der Schreib-Job hat keinen Claude-Schritt und holt nie einen Zweig (
   !probe.steps.some((s) => String(s.uses ?? '').startsWith('anthropics/')) && probe.steps.filter((s) => String(s.uses ?? '').startsWith('actions/checkout')).every((s) => s.with?.ref === undefined && s.with?.repository === undefined))
 pruefe('A1: pruefen wartet auf mutationsprobe und läuft auch, wenn der fehlschlägt (!cancelled())', wf.jobs.pruefen.needs === 'mutationsprobe' && String(wf.jobs.pruefen.if).startsWith('!cancelled() &&') && !String(probe.if).includes('cancelled'), [wf.jobs.pruefen.needs, wf.jobs.pruefen.if])
 pruefe('A1: beide Jobs gelten für dieselben PR (gleiche Bedingung bis auf !cancelled())', String(wf.jobs.pruefen.if).replace('!cancelled() &&', '').trim() === String(probe.if).trim())
-// A4: Kettenbudget. `pruefen` beginnt erst nach dem Probe-Job, sein eigenes Budget (60 min) bleibt; der Probe-Job braucht Frist 8 min + Checkout/Stufe/Upload (~2 min) unter seinem Timeout.
-pruefe('A4: Probe-Job-Timeout deckt die 8-min-Frist plus 2 min Vor- und Nachlauf, ohne ein Stunden-Job zu werden', probe['timeout-minutes'] >= 8 + 2 && probe['timeout-minutes'] <= 15 && wf.jobs.pruefen['timeout-minutes'] === 60, [probe['timeout-minutes'], wf.jobs.pruefen['timeout-minutes']])
+// A4: Kettenbudget. `pruefen` beginnt erst nach dem Probe-Job, sein eigenes Budget (75 min: 60 plus Reset-Wartezeit bei rate limit) bleibt; der Probe-Job braucht Frist 8 min + Checkout/Stufe/Upload (~2 min) unter seinem Timeout.
+pruefe('A4: Probe-Job-Timeout deckt die 8-min-Frist plus 2 min Vor- und Nachlauf, ohne ein Stunden-Job zu werden', probe['timeout-minutes'] >= 8 + 2 && probe['timeout-minutes'] <= 15 && wf.jobs.pruefen['timeout-minutes'] === 75, [probe['timeout-minutes'], wf.jobs.pruefen['timeout-minutes']])
 const pNamen = probe.steps.map((s) => s.name ?? s.uses)
 pruefe('Probe-Job: Checkout, Prüfstufe, starten, abwarten, Ergebnis weitergeben (in dieser Reihenfolge)', JSON.stringify(pNamen) === JSON.stringify(['actions/checkout@v4', 'Prüfstufe', 'Mutationsprobe starten', 'Mutationsprobe abwarten', 'Ergebnis weitergeben']), pNamen)
 const pStart = probe.steps.find((s) => s.name === 'Mutationsprobe starten')

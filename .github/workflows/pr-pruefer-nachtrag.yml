@@ -40,7 +40,8 @@ jobs:
     # Kommentare auf Issues und die des Prüfers selbst starten nichts (keine Schleife).
     if: github.event.issue.pull_request != null && github.event.comment.user.login != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # 22 min: bei „rate limit“ wartet tools/gh-ratelimit.mjs bis zum Reset (höchstens 15 min je Aufruf).
+    timeout-minutes: 22
     steps:
       - uses: actions/checkout@v4
         with:
