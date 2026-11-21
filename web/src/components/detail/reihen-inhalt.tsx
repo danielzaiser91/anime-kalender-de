@@ -3,7 +3,7 @@ import { hauptstaffeln, nachJahrUndId, staffelBeschriftungen, staffelStaende } f
 import { angabenZeile, kuenftig as istKuenftig, teilNamen } from './reihen-teil.ts'
 import { ReihenCover } from './reihen-cover.tsx'
 import { ReihenSpur } from './reihen-spur.tsx'
-import { istEingeklappt } from './reihen-regeln.ts'
+import { folgenBereiche, istEingeklappt } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import { reihenGruppen } from './reihen-gruppen.ts'
 import { gezeigteGruppen } from './reihen-uebersicht-regeln.ts'
@@ -95,12 +95,13 @@ export function reihenOrdnung(reihenTeile: FranchiseMember[], reihenName: string
   */
   const staffelLabel = staffelBeschriftungen(reihenTeile.filter(istHauptstaffel), reihenName)
   const nummern = staffelStaende(reihenTeile.filter(istHauptstaffel), reihenName)
-  return { kuenftig, istHauptstaffel, gruppen, staffelLabel, nummern }
+  const folgen = folgenBereiche(reihenTeile.filter(istHauptstaffel), nummern)
+  return { kuenftig, istHauptstaffel, gruppen, staffelLabel, nummern, folgen }
 }
 
 /** Der Inhalt der Reihen-Karte: Suche, Schalter und die Gruppen mit ihren Teilen. */
 export function reihenInhalt({ reihenTeile, t, reihenName, title, favorites, wechselt, wechsleZu, reiheOhneOffen, reihenSchluessel, reiheSuche, setReiheOhneOffen, setReiheSuche }: ReihenListeProps) {
-  const { kuenftig, istHauptstaffel, gruppen, staffelLabel, nummern } = reihenOrdnung(reihenTeile, reihenName, t)
+  const { kuenftig, istHauptstaffel, gruppen, staffelLabel, nummern, folgen } = reihenOrdnung(reihenTeile, reihenName, t)
 
   const karte = (m: FranchiseMember) => {
     const offen = kuenftig(m)
@@ -113,6 +114,7 @@ export function reihenInhalt({ reihenTeile, t, reihenName, title, favorites, wec
         gewaehlt={m.id === title.id}
         gemerkt={favorites.has(m.id)}
         nr={nummern.get(m.id)}
+        folgen={folgen.get(m.id)}
         namen={teilNamen(m, reihenName, istHauptstaffel(m), staffelLabel.get(m.id))}
         angaben={angabenZeile(m, offen, t)}
         gesperrt={wechselt}

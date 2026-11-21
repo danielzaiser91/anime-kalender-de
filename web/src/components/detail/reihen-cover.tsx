@@ -10,10 +10,10 @@ import { brauchtTooltip, COVER_DICHTE, coverDichte, KARTEN_BREITE } from './reih
 import { ZeilenName } from './zeilen-name.tsx'
 
 /** Der Name, wie er unter dem Cover steht (ohne Auszeichnung) — daran misst sich, ob er abgeschnitten wird. */
-export function angezeigterName(nr: StaffelNummer | undefined, rest: string, voll: string, kurz: string): string {
+export function angezeigterName(nr: StaffelNummer | undefined, rest: string, voll: string, kurz: string, folgen?: string): string {
   if (!nr) return kurz
   const zusatz = zeilenZusatz(nr, rest, voll)
-  return zusatz ? `${staffelKurz(nr)} · ${zusatz}` : staffelKurz(nr)
+  return [staffelKurz(nr), zusatz, folgen].filter(Boolean).join(' · ')
 }
 
 /**
@@ -51,6 +51,8 @@ export type CoverProps = {
   gewaehlt: boolean
   gemerkt: boolean
   nr: StaffelNummer | undefined
+  /** Folgenbereich, wenn zwei Teile dieselbe Staffelbezeichnung tragen (`folgenZusatz`). */
+  folgen?: string
   namen: { voll: string; rest: string; kurz: string }
   angaben: string
   gesperrt: boolean
@@ -100,7 +102,7 @@ function CoverFlaeche({ m, t, offen, gemerkt, gewaehlt, ohneDe }: Pick<CoverProp
 export function ReihenCover(p: CoverProps) {
   const { m, nr, namen, gewaehlt } = p
   const ohneDe = Boolean(m.ohneSynchro) && !p.offen
-  const name = angezeigterName(nr, namen.rest, namen.voll, namen.kurz)
+  const name = angezeigterName(nr, namen.rest, namen.voll, namen.kurz, p.folgen)
   const beschriftung = (
     <span
       className={[
@@ -109,7 +111,7 @@ export function ReihenCover(p: CoverProps) {
         gewaehlt ? 'font-semibold text-ak-akzent-text' : 'text-ak-text',
       ].join(' ')}
     >
-      <ZeilenName nr={nr} rest={namen.rest} voll={namen.voll} kurz={namen.kurz} />
+      <ZeilenName nr={nr} rest={namen.rest} voll={namen.voll} kurz={namen.kurz} folgen={p.folgen} />
     </span>
   )
   return (

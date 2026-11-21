@@ -63,7 +63,7 @@ export function ReihenZeile({ m, o, t, reihenName, title, gemerkt, wechselt, wec
         <ZeilenCover m={m} offen={offen} gemerkt={gemerkt} ohneDe={ohneDe} t={t} />
         <span className="flex min-w-0 flex-1 flex-col">
           <span className={['line-clamp-2 text-t3', ohneDe ? 'opacity-75' : '', gewaehlt ? 'font-semibold text-ak-akzent-text' : 'font-medium text-ak-text'].join(' ')}>
-            <ZeilenName nr={o.nummern.get(m.id)} rest={namen.rest} voll={namen.voll} kurz={namen.kurz} />
+            <ZeilenName nr={o.nummern.get(m.id)} rest={namen.rest} voll={namen.voll} kurz={namen.kurz} folgen={o.folgen.get(m.id)} />
           </span>
           <span className="truncate text-t5 text-ak-leise">{angabenZeile(m, offen, t)}</span>
         </span>

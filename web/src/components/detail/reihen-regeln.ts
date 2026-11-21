@@ -1,6 +1,14 @@
 import type { FranchiseMember } from '@shared/types.ts'
 import { erscheintErst } from '@shared/logic.ts'
 import { staffelSpanne, type StaffelNummer } from '@shared/titles.ts'
+import { folgenZusatz } from '@shared/staffel-folgenzusatz.ts'
+
+/** Folgenbereich je Teil mit doppelter Staffelbezeichnung — in Karte und Zeile steht die Anzahl schon in den Angaben, dort zählt nur die Position. */
+export function folgenBereiche(teile: FranchiseMember[], nummern: Map<number, StaffelNummer>): Map<number, string> {
+  const aus = new Map<number, string>()
+  for (const [id, z] of folgenZusatz(teile, nummern)) if (!z.anzahl) aus.set(id, z.text)
+  return aus
+}
 
 /**
  * Ein Teil der Reihe ohne belegte deutsche Synchro steht hinter dem Schalter der Box „Teile in dieser Reihe" — auch ein angekündigter oder laufender. Nur der geöffnete Titel

@@ -4,12 +4,14 @@ import {
   eindeutschenStaffel,
   hauptstaffeln,
   staffelBeschriftungen,
+  staffelStaende,
   reihenAnfang,
   istStaffel,
   ohneStaffelEins,
   reihenVertreter,
   zaehlgruppeVon,
 } from '@shared/titles.ts'
+import { folgenZusatz } from '@shared/staffel-folgenzusatz.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { kurzName } from './reihen-regeln.ts'
 
@@ -110,6 +112,11 @@ export function teilNameVon(title: Title | undefined, reihenName: string, reihen
     `staffelBeschriftungen()` ordnet einen Teil seiner Staffel zu.
   */
   const beschriftung = staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).get(title.id)
-  if (beschriftung) return beschriftung
+  if (beschriftung) {
+    /* Zwei Teile mit derselben Bezeichnung (Pokémon 17115/17873: beide „Staffel 16“): der Kopf hat keine Angabenzeile, die sie trennt. */
+    const haupt = hauptstaffeln(reihenTeile)
+    const zusatz = folgenZusatz(haupt, staffelStaende(haupt, reihenName)).get(title.id)
+    return zusatz ? `${beschriftung} · ${zusatz.text}` : beschriftung
+  }
   return kurzName(rest, voll)
 }

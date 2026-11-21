@@ -603,6 +603,7 @@ pipeline/check-sprung-lage.ts
 pipeline/check-sprung-lesestelle.ts
 pipeline/check-staerkste-seite.ts
 pipeline/check-staffel-des-titels.ts
+pipeline/check-staffel-folgenzusatz.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-riegel.ts
 pipeline/check-staffel-synonyme.ts
