@@ -31,7 +31,7 @@ pruefe('hindernis: offen und mergebar -> keins', hindernis(offen) === null)
 pruefe('hindernis: geschlossen', /nicht offen \(CLOSED\)/.test(hindernis({ ...offen, state: 'CLOSED' })))
 pruefe('hindernis: Konflikt nennt „Konflikt mit main“ (Leser basis-gemergt-neustart)', /Konflikt mit main: erst main hineinmergen/.test(hindernis({ ...offen, mergeable: 'CONFLICTING' })))
 pruefe('hindernis: Mergebarkeit unbekannt nennt „noch nicht berechnet“ (Leser nacht-merger)', /noch nicht berechnet \(UNKNOWN\)/.test(hindernis({ ...offen, mergeable: 'UNKNOWN' })))
-pruefe('istDatenpfad: public/data und data/cache ja, Code und Handdaten nein', istDatenpfad('public/data/titles.json') && istDatenpfad('data/cache/x.json') && !istDatenpfad('tools/check-x.mjs') && !istDatenpfad('data/dub-confirmed.yaml'))
+pruefe('istDatenpfad: public/data und data/cache ja, Code und Handdaten nein', istDatenpfad('public/data/titles.json') && istDatenpfad('data/cache/anilist-media.json') && !istDatenpfad('tools/check-x.mjs') && !istDatenpfad('data/dub-confirmed.yaml'))
 
 // Kulisse: Antworten je genauer Argumentliste. Der PR-Kopf ist KOPF; main ist längst weiter (MAIN), das zählt nicht mehr.
 const PR = { number: 7, state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: 'fix/x', comments: [], commits: [] }

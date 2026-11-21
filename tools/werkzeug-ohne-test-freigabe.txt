@@ -2,3 +2,4 @@
 # Format: `pfad # Grund` (Grund Pflicht, ein Halbsatz: warum es keinen Test gibt). Ein Eintrag, der nicht mehr nötig ist, macht check:logic rot.
 tools/leerlauf-tempo.mjs # braucht Chromium, das der Testjob nicht hat; Gesamtlauf ist der Kettenteil Leerlauf (pr-pruefung.yml), das Urteil testet leerlauf-urteil.test.mjs
 tools/anime2you-staffel.d.mts # reine Typdeklaration zu anime2you-staffel.mjs, ohne Laufzeitcode; die Regel testet anime2you-suche.test.mjs, der Wächter check-staffelzitat.ts
+tools/extension-tests.mjs # ist selbst der Läufer aller Erweiterungstests (extension/*.test.*) und hängt als Schritt in check:extension (package.json); ein Fehlschlag eines Tests macht ihn rot, ein eigener Test dafür wäre nur ein Doppelgänger
