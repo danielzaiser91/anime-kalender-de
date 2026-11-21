@@ -135,7 +135,7 @@ function reserviere(ordner, laufend, jetzt) {
 // Daniel 21.11.2026: „lokal nur was nur lokal erledigt werden kann“ — zwei lokale Bauer taten Cloud-fähige Arbeit.
 // Schwere Typen brauchen deshalb im Auftrag eine Zeile „Lokal nötig: <Grund>“; leichte Lese-Agenten und die Cloud selbst nicht.
 const LEICHT = new Set(['pruefer', 'Explore', 'Plan', 'web-fetch', 'claude-code-guide', 'statusline-setup'])
-const LOKAL_NOETIG = /^\s*Lokal nötig:\s*\S.{5,}/m
+const LOKAL_NOETIG = /^[ \t]*Lokal nötig:[ \t]*\S.{5,}/m
 
 function lokalUngenannt(typ, toolInput, env) {
   if (LEICHT.has(typ) || env.CLAUDE_CODE_REMOTE === 'true' || toolInput.isolation === 'remote') return null
