@@ -110,6 +110,8 @@ jobs:
       github.head_ref != 'zug-probe' &&
       !github.event.pull_request.draft
     runs-on: ubuntu-latest
+    # 60 min wie vorher: Vorlauf 1,5 + Prüfer höchstens 13 + Check-Stand 2 = 16,5 min, dazu bei „rate limit“ höchstens das Zeitkonto
+    # KONTO_MS (15 min für ALLE Warteplätze des Jobs, tools/gh-ratelimit.mjs) = 31,5 min; Rechnung: tools/pr-pruefer-eingabe.test.mjs.
     timeout-minutes: 60
     env:
       PR: ${{ github.event.pull_request.number }}
@@ -121,6 +123,12 @@ jobs:
         with:
           persist-credentials: false
 
+      # Kontingent des GITHUB_TOKEN am Anfang und Ende jedes Laufs (Verbrauch messbar, tools/gh-ratelimit.mjs).
+      - name: API-Kontingent (Anfang)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/gh-ratelimit.mjs rest
+
       - name: Diff bereitlegen
         id: diff
         env:
@@ -130,22 +138,28 @@ jobs:
           # werden durch eine Stub-Zeile ersetzt, Code, Workflows und Doku bleiben vollständig. Kein Pipe, der den
           # Exit von gh maskiert: erst in eine Datei. Fehlt die Liste oder ist sie leer, ist der Zustand unvollstaendig.
           T="$RUNNER_TEMP/pruefer"; mkdir -p "$T"
+          . tools/gh-mit-limit.sh
           # Abruf bis zu dreimal mit wachsender Pause (12.11.2026, PRs 3579/3584: eine kurz nicht lesbare API-Antwort beim Autor-Abruf
           # ließ Nachträge und Commit-Liste weg, der Lauf urteilte „unvollstaendig“). Ausgabe nur des erfolgreichen Versuchs.
           wdh() {
-            local i t; t=$(mktemp)
+            local i t e rc; t=$(mktemp); e=$(mktemp)
             for i in 1 2 3; do
-              if "$@" > "$t"; then cat "$t"; rm -f "$t"; return 0; fi
-              echo "Abruf gescheitert (Versuch $i/3): $*" >&2
-              [ "$i" -lt 3 ] && sleep $((i * ${PRUEFER_WDH_PAUSE:-5}))
+              if "$@" > "$t" 2> "$e"; then cat "$e" >&2; cat "$t"; rm -f "$t" "$e"; return 0; fi
+              echo "Abruf gescheitert (Versuch $i/3): $*: $(head -n 1 "$e")" >&2
+              [ "$i" -lt 3 ] || break
+              # „rate limit“: bis zum Reset warten, solange das Zeitkonto des Jobs es deckt (tools/gh-ratelimit.mjs; Exit 3 = Reset zu weit
+              # weg, jeder weitere Versuch scheitert sicher, also Schluss), sonst die kurze Pause.
+              rc=0; node tools/gh-ratelimit.mjs warten "$e" >&2 || rc=$?
+              [ "$rc" -ne 3 ] || break
+              [ "$rc" -eq 0 ] || sleep $((i * ${PRUEFER_WDH_PAUSE:-5}))
             done
-            rm -f "$t"; return 1
+            rm -f "$t" "$e"; return 1
           }
           # Rückfall für Dateien ohne API-Patch (sehr große Änderung, z. B. data/dub-confirmed.yaml): nur Git-OBJEKTE holen
           # (Merge-Basis und Kopf, je Tiefe 1), kein Checkout, nichts aus dem PR ausführen. `git diff` liest sie nur;
           # das Skript bleibt das aus main. Schlägt ein Schritt fehl, bleiben basis/kopf leer und es gibt keinen Rückfall.
           basis=""; kopf=""
-          mb=$(gh api --method GET "repos/$GITHUB_REPOSITORY/compare/$BASE_SHA...$HEAD_SHA" -f per_page=1 -q .merge_base_commit.sha) || mb=""
+          mb=$(ghl api --method GET "repos/$GITHUB_REPOSITORY/compare/$BASE_SHA...$HEAD_SHA" -f per_page=1 -q .merge_base_commit.sha) || { echo "Merge-Basis nicht lesbar: kein Git-Rückfall für Dateien ohne API-Patch" >&2; mb=""; }
           if [[ "$mb" =~ ^[0-9a-f]{40}$ ]] && [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.extraheader
             export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
@@ -159,7 +173,7 @@ jobs:
           fi
           [ "$zustand" = ok ] || zustand=unvollstaendig
           rm -f "$T/dateien.ndjson"
-          gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json title,body,headRefName \
+          ghl pr view "$PR" --repo "$GITHUB_REPOSITORY" --json title,body,headRefName \
             -q '"Titel: " + .title + "\nZweig: " + .headRefName + "\n\n" + .body' > "$T/pr-beschreibung.txt"
           # Beschreibungen sind unveränderlich; spätere Runden stehen als Kommentar "Nachtrag…" oder "Nachbesserung…" (mit oder ohne **, #) am Textanfang (PR-Autor sowie Inhaber, Mitglieder, Mitarbeiter des Repos).
           # REST-Login statt `gh pr view --json author`: das liefert bei Apps "app/claude" und fällt durch die Prüfung unten (PR 1394).
@@ -181,6 +195,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           T="$RUNNER_TEMP/pruefer"
+          . tools/gh-mit-limit.sh
           stufe=2
           if node tools/pr-stufe.mjs "$PR" > "$T/stufe.json"; then
             stufe=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).stufe)' "$T/stufe.json") || stufe=2
@@ -198,11 +213,11 @@ jobs:
           } > "$T/stufe.md"
           cat "$T/stufe.md" >> "$GITHUB_STEP_SUMMARY"
           # Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.
-          alt=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate -q '.[] | select(.body | startswith("<!-- pr-stufe -->")) | .id' | head -1) || alt=
+          alt=$(ghl api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate -q '.[] | select(.body | startswith("<!-- pr-stufe -->")) | .id' | head -1) || alt=
           if [ -n "$alt" ]; then
-            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$alt" -F body=@"$T/stufe.md" > /dev/null
+            ghl api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$alt" -F body=@"$T/stufe.md" > /dev/null
           else
-            gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/stufe.md"
+            ghl pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/stufe.md"
           fi
 
       # Prüfmodus (Daniel, 21.10.2026: eine Prüfrunde): erste Bewertung des bereiten PR = voll; gibt es schon ein CI-Review,
@@ -553,6 +568,7 @@ jobs:
         run: |
           set -u
           T="$RUNNER_TEMP/pruefer"
+          . tools/gh-mit-limit.sh
           if [ ! -s "$T/urteil.json" ] || [ ! -s "$T/protokoll.md" ]; then
             echo "::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:"
             ls -la "$T" || true
@@ -625,7 +641,7 @@ jobs:
             offen=1
             titel="aendern, Auflagen offen: Dirigent entscheidet"
           fi
-          aktuell=$(gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json headRefOid -q .headRefOid)
+          aktuell=$(ghl pr view "$PR" --repo "$GITHUB_REPOSITORY" --json headRefOid -q .headRefOid)
           if [ "$sha" != "$HEAD_SHA" ] || [ "$aktuell" != "$HEAD_SHA" ]; then
             echo "Stand $sha passt nicht zum aktuellen Head $aktuell - keine Freigabe."
             exit 0
@@ -638,7 +654,7 @@ jobs:
             if [ "$art" = "offen" ]; then printf '\n<!-- pruefer-kette-offen -->\n'; fi
             printf '\n<!-- pruefer-modus: %s -->\n' "$modus"
           } > "$T/kommentar.md"
-          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/kommentar.md"
+          ghl pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/kommentar.md"
           if [ "$offen" = "1" ]; then
             echo "Abnahme: Auflagen offen, kein Review (Dirigent entscheidet)."
           elif [ "$art" = "offen" ]; then
@@ -646,7 +662,13 @@ jobs:
           elif [ "$art" = "unvollstaendig" ]; then
             echo "Diff unvollständig: nicht beurteilt, kein Review (ein früheres Urteil desselben Kopfes bleibt); Prüfer neu starten."
           elif [ "$art" = "ok" ]; then
-            gh pr review "$PR" --repo "$GITHUB_REPOSITORY" --approve --body "Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9})."
+            ghl pr review "$PR" --repo "$GITHUB_REPOSITORY" --approve --body "Urteil: $titel. Prüfprotokoll steht als Kommentar (Stand ${HEAD_SHA:0:9})."
           else
-            gh pr review "$PR" --repo "$GITHUB_REPOSITORY" --request-changes --body "Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9})."
+            ghl pr review "$PR" --repo "$GITHUB_REPOSITORY" --request-changes --body "Befunde im Prüfprotokoll-Kommentar (Stand ${HEAD_SHA:0:9})."
           fi
+
+      - name: API-Kontingent (Ende)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/gh-ratelimit.mjs rest

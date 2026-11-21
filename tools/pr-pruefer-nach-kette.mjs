@@ -5,8 +5,8 @@
  * .github/workflows/pr-pruefer-nachtrag.yml (Ereignis workflow_run der „PR-Prüfkette“); nur Node-Bordmittel.
  * Umgebung: GITHUB_REPOSITORY, KOPF_SHA (head_sha des Kettenlaufs); kein Kommentartext, keine PR-Ausgabe.
  */
-import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
+import { ghMitLimit, ghRoh, neuesKonto, warteSync } from './gh-ratelimit.mjs'
 import { CI_BOT } from './pr-nachtraege.mjs'
 import { holeLauf } from './pr-kettenlog.mjs'
 import { basisNummer } from './pr-pruefer-basis-offen.mjs'
@@ -19,8 +19,8 @@ const PRUEFER_WORKFLOW = 'pr-pruefer.yml'
 export const MAX_NEUSTARTS = 2
 // Der Prüfer-Lauf (Job-Timeout 30 min) liest das Kettenlog nach ~13 min und braucht danach noch bis zu 17 min für Modell und
 // Kommentar: das Kettenende fällt meist mitten in seinen Lauf, sein Kommentar mit der Marke entsteht erst am Schluss.
-const WARTE_RUNDEN = 56
-const WARTE_MS = 30_000
+export const WARTE_RUNDEN = 56
+export const WARTE_MS = 30_000
 
 /** Neuester Kommentar des Prüfer-Bots zu diesem Kopf (Liste der API, älteste zuerst) oder null. */
 export function letztesUrteil(kommentare, kopf) {
@@ -64,10 +64,6 @@ function basisIstOffen(repo, pr, gh) {
   }
 }
 
-function ghEcht(args) {
-  return execFileSync('gh', args, { encoding: 'utf8', timeout: 60_000, windowsHide: true })
-}
-
 /** Wartet (höchstens WARTE_RUNDEN Mal), bis der Prüfer-Lauf des Kopfes fertig ist: sein Kommentar entsteht erst am Ende. */
 function fertigerLauf(repo, kopf, { gh, warte }) {
   let lauf = null
@@ -82,7 +78,9 @@ function fertigerLauf(repo, kopf, { gh, warte }) {
 }
 
 /** Einstieg; Rückgabe ist der Exit-Code. 1 nur bei Eingabe- oder Abruffehlern („FEHLGESCHLAGEN …“ im Log). */
-export function main(env = process.env, { gh = ghEcht, warte = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms) } = {}) {
+export function main(env = process.env, { gh: ghBasis = ghRoh, warte = warteSync, jetzt = Date.now, konto = neuesKonto() } = {}) {
+  // Bei „rate limit“ wartet ein Aufruf bis zum Reset, alle zusammen höchstens KONTO_MS (Job-Timeout im Workflow daraus abgeleitet).
+  const gh = (args) => ghMitLimit(ghBasis, args, { warte, jetzt, konto })
   const repo = env.GITHUB_REPOSITORY
   const kopf = env.KOPF_SHA
   if (!repo || !/^[0-9a-f]{40}$/.test(kopf ?? '')) return console.log('Prüfer-Nachlauf: Repo oder Kopf fehlt'), 1

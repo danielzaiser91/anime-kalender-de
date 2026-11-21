@@ -7,7 +7,8 @@ import fs from 'node:fs'
 import { parse } from 'yaml'
 import { MARKE_KETTE_OFFEN } from './pr-pruefer-kette-offen.mjs'
 import { MARKE_OHNE_MODELL } from './pruefer-unfertig-wache.mjs'
-import { MAX_NEUSTARTS, entscheide, letztesUrteil, main } from './pr-pruefer-nach-kette.mjs'
+import { KONTO_MS, neuesKonto } from './gh-ratelimit.mjs'
+import { MAX_NEUSTARTS, WARTE_MS, WARTE_RUNDEN, entscheide, letztesUrteil, main } from './pr-pruefer-nach-kette.mjs'
 
 const fehler = []
 const gleich = (name, ist, soll) => {
@@ -115,6 +116,33 @@ gleich('kein offener PR zum Kopf: nichts, Exit 0', (() => { const r = laufe({ ko
 gleich('PR zum Kopf geschlossen: nichts', laufe({ kommentare: [OFFEN()], pulls: [pr({ state: 'closed' })] }).aenderungen, [])
 const abbruch = laufe({ kommentare: [OFFEN()], fehlerBei: '/issues/7/comments' })
 gleich('gh-Fehler beim Kommentar-Abruf: Exit 1, Zeile FEHLGESCHLAGEN', [abbruch.code, abbruch.zeilen.some((z) => z.includes('FEHLGESCHLAGEN Kopf ' + KOPF.slice(0, 9)))], [1, true])
+// Kontingent erschöpft (PR 4467): auch dieser Job wartet bis zum Reset, aber alle Warteplätze zusammen nur bis zum Zeitkonto.
+// Jeder verschiedene gh-Aufruf scheitert beim ersten Mal mit „rate limit“, Reset 5 min voraus = 302 s je Wartezeit: zwei passen, die dritte nicht.
+function mitLimit(kommentare) {
+  const wartet = []
+  const schon = new Set()
+  const gh = (args) => {
+    const s = args.join(' ')
+    if (args[1] === 'rate_limit') return JSON.stringify({ resources: { core: { reset: 1_000_000_000 + 300 } } })
+    if (!schon.has(s)) {
+      schon.add(s)
+      throw new Error(`gh ${s} Exit 1: HTTP 403: API rate limit exceeded`)
+    }
+    if (args[1] === `repos/o/r/commits/${KOPF}/pulls`) return JSON.stringify([pr()])
+    if (args[1]?.includes('/workflows/pr-pruefer.yml/runs')) return JSON.stringify([lauf])
+    if (args.includes('--slurp')) return JSON.stringify([kommentare])
+    return ''
+  }
+  const mute = console.log
+  const zeilen = []
+  console.log = (z) => zeilen.push(z)
+  const code = main({ GITHUB_REPOSITORY: 'o/r', KOPF_SHA: KOPF }, { gh, warte: (ms) => wartet.push(ms), jetzt: () => 1_000_000_000_000, konto: neuesKonto({ datei: '' }) })
+  console.log = mute
+  return { code, wartet, zeilen }
+}
+const dauerLimit = mitLimit([OFFEN()])
+gleich('Dauer-Limit: zwei Warten à 302 s, die dritte scheitert ohne zu warten, Exit 1 mit „nicht gewartet“ im Log', [dauerLimit.wartet, dauerLimit.code, dauerLimit.zeilen.some((z) => z.includes('FEHLGESCHLAGEN') && z.includes('nicht gewartet'))], [[302_000, 302_000], 1, true])
+gleich('Dauer-Limit: Summe der Wartezeiten <= Zeitkonto', dauerLimit.wartet.reduce((s, ms) => s + ms, 0) <= KONTO_MS, true)
 gleich('Kopf fehlt: Exit 1', (() => { const m = console.log; console.log = () => {}; const c = main({ GITHUB_REPOSITORY: 'o/r' }, { gh: () => '', warte: () => {} }); console.log = m; return c })(), 1)
 
 // Verdrahtung: Job, Auslöser und env-Namen aus der YAML.
@@ -126,7 +154,11 @@ gleich('Schritt ruft das Skript ohne Argumente', schritt.run, 'node tools/pr-pru
 gleich('Kopf kommt aus workflow_run.head_sha, nur über env', schritt.env.KOPF_SHA, '${{ github.event.workflow_run.head_sha }}')
 gleich('run enthält keinen Ausdruck', schritt.run.includes('${{'), false)
 const pausenMs = haengt.wartet.reduce((s, ms) => s + ms, 0)
-gleich('Zeitbudget: Pausen plus 2 min Reserve unter timeout-minutes', pausenMs + 120_000 <= job['timeout-minutes'] * 60_000, true)
+gleich('Pausen des wartenden Laufs = Runden x Takt aus dem Werkzeug', [pausenMs, WARTE_RUNDEN * WARTE_MS], [1_680_000, 1_680_000])
+// Zeitbudget aus den echten Pausen (haengt: 56 x 30 s) plus Zeitkonto für „rate limit“ plus 2 min Reserve.
+const budgetMin = (pausenMs + KONTO_MS + 120_000) / 60_000
+gleich(`Zeitbudget: Pausen + Zeitkonto + 2 min = ${budgetMin} min <= timeout-minutes ${job['timeout-minutes']}`, budgetMin <= job['timeout-minutes'], true)
+gleich('Zeitbudget: Job-Timeout höchstens zwei Minuten über dem gerundeten Budget', job['timeout-minutes'] <= Math.ceil(budgetMin) + 2, true)
 // Untergrenze: Prüfer-Job 30 min, Kettenlog nach 13 min -> mindestens 17 min Restdauer müssen abgedeckt sein.
 gleich('Wartezeit deckt die Restdauer des Prüfer-Laufs (≥ 17 min)', pausenMs >= 17 * 60_000, true)
 gleich('Gruppe trennt Nachtrag (PR-Nummer) und Kettenende (Kopf), cancelled eigene Gruppe', wf.concurrency.group, "pr-pruefer-nachtrag-${{ github.event_name == 'pull_request_target' && 'basis-' || '' }}${{ github.event.issue.number || github.event.workflow_run.head_sha || github.event.pull_request.number }}${{ github.event.workflow_run.conclusion == 'cancelled' && '-abgebrochen' || '' }}")

@@ -140,6 +140,7 @@ function fuehreRunAus(s, i, kontext, ctx) {
   if (r.status !== 0) return `${s.name}: Exit ${r.status} ${r.stderr}`
   if (s.id) kontext.ausgaben[s.id] = leseAusgaben(ausgabe)
   kontext.protokoll[s.name] = r.stdout
+  kontext.fehlerausgabe[s.name] = r.stderr
   return null
 }
 
@@ -152,7 +153,7 @@ function laufeSchritte(wf, ordner, prs, opt) {
   if (ende < 0) return { fehler: 'Sperre-Schritt fehlt' }
   const { bin, ws, temp } = bereite(ordner, prs)
   kopiereSkripte(path.join(ws, 'tools'))
-  const kontext = { pr: '7', temp, ausgaben: {}, protokoll: {}, artefakt: opt.artefakt }
+  const kontext = { pr: '7', temp, ausgaben: {}, protokoll: {}, fehlerausgabe: {}, artefakt: opt.artefakt }
   const basis = { ...umgebung(ordner, bin, temp), ...Object.fromEntries(Object.entries(job.env ?? {}).map(([s, w]) => [s, auswerten(w, kontext)])) }
   const ctx = { ordner, ws, basis, bash: process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash' }
   const ergebnis = {}
@@ -173,6 +174,7 @@ function laufeSchritte(wf, ordner, prs, opt) {
     auflagen: lies('auflagen.md'),
     mutationsprobe: lies('mutationsprobe.txt'),
     protokoll: kontext.protokoll,
+    fehlerausgabe: kontext.fehlerausgabe,
     aufrufe: leseAufrufe(path.join(ordner, 'aufrufe.log')),
     zeiten: leseZeiten(path.join(ordner, 'aufrufe.log.zeit')),
   }

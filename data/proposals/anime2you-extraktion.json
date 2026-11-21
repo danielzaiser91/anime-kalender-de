@@ -2046,6 +2046,10 @@
     "1074177": {
       "am": "2026-11-21",
       "vorschlaege": 2
+    },
+    "1074210": {
+      "am": "2026-11-21",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -16088,6 +16092,27 @@
       "artikelId": "1074177",
       "artikel": "Design und Extras der ersten »Inazuma Eleven«-Blu-ray-Staffelbox",
       "quelle": "https://www.anime2you.de/news/1074177/inazuma-eleven-staffel-1-blu-ray-design/",
+      "veroeffentlicht": "2026-11-21",
+      "gelesenAm": "2026-11-21"
+    },
+    {
+      "titel": "Tamon’s B-Side",
+      "zitat": "Der Streaming-Dienst Crunchyroll bietet alle bisherigen Episoden der RomCom-Serie, die zwischen Januar und März 2026 im japanischen Fernsehen ausgestrahlt wurden, mit deutscher Sprachfassung sowie im Originalton mit Untertiteln auf Abruf an.",
+      "art": "sprachfassung",
+      "sprache": "deutsch+omu",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1074210",
+      "artikel": "RomCom-Anime »Tamon’s B-Side« erhält eine zweite Staffel",
+      "quelle": "https://www.anime2you.de/news/1074210/tamons-b-side-erhaelt-zweite-staffel/",
       "veroeffentlicht": "2026-11-21",
       "gelesenAm": "2026-11-21"
     }

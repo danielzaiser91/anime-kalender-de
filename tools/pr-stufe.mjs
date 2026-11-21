@@ -39,6 +39,7 @@
  */
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { laufMitLimit } from './gh-ratelimit.mjs'
 import { istHandwerkzeug, leseKette } from './pr-stufe-kette.mjs'
 import { istNurMod } from './pr-nur-mod.mjs'
 
@@ -202,7 +203,7 @@ export function bestimmeStufe(dateien, keineKette = null) {
 
 function diffAusQuelle(args) {
   const r = args.length === 1
-    ? spawnSync('gh', ['pr', 'diff', args[0]], { encoding: 'utf8', maxBuffer: 1 << 28 })
+    ? laufMitLimit(['pr', 'diff', args[0]])
     : spawnSync('git', ['diff', `${args[0]}...${args[1]}`], { encoding: 'utf8', maxBuffer: 1 << 28 })
   if (r.status !== 0) throw new Error(`Diff nicht abrufbar: ${r.stderr}`)
   return r.stdout

@@ -39,8 +39,13 @@ const ANDERER = 'd'.repeat(40)
 const TOKEN = 'tok-geheim-123'
 const BASH = process.platform === 'win32' ? 'C:/Program Files/Git/bin/bash.exe' : 'bash'
 
+// ATTRAPPE_LIMIT_BEI = "pr comment": der erste Aufruf mit diesem Unterbefehl scheitert mit „rate limit“, ATTRAPPE_FEHLER_BEI ebenso
+// mit einem Fehler anderer Art (je einmal, Marke in ATTRAPPE_MARKE); `api rate_limit` antwortet mit Reset ATTRAPPE_RESET (Sekunden seit 1970).
 const ATTRAPPE = `#!/bin/bash
 echo "$*" >> "$ATTRAPPE_LOG"
+if [ "$1 $2" = "api rate_limit" ]; then echo "{\\"resources\\":{\\"core\\":{\\"remaining\\":0,\\"reset\\":\${ATTRAPPE_RESET:-1}}}}"; exit 0; fi
+if [ "$1 $2" = "$ATTRAPPE_LIMIT_BEI" ] && [ ! -e "$ATTRAPPE_MARKE" ]; then touch "$ATTRAPPE_MARKE"; echo "HTTP 403: API rate limit exceeded for installation" >&2; exit 1; fi
+if [ "$1 $2" = "$ATTRAPPE_FEHLER_BEI" ] && [ ! -e "$ATTRAPPE_MARKE" ]; then touch "$ATTRAPPE_MARKE"; echo "HTTP 502: Bad Gateway" >&2; exit 1; fi
 case "$1 $2" in
   "pr view")
     [ "$*" = "pr view 7 --repo o/r --json headRefOid -q .headRefOid" ] || exit 99
@@ -90,6 +95,12 @@ function laufe(f) {
     fs.mkdirSync(path.join(ordner, 'tools'))
     fs.copyFileSync(new URL('./pr-pruefer-kette-offen.mjs', import.meta.url), path.join(ordner, 'tools', 'pr-pruefer-kette-offen.mjs'))
     fs.copyFileSync(new URL('./pr-pruefer-basis-offen.mjs', import.meta.url), path.join(ordner, 'tools', 'pr-pruefer-basis-offen.mjs'))
+    for (const d of ['gh-ratelimit.mjs', 'gh-mit-limit.sh']) fs.copyFileSync(new URL(`./${d}`, import.meta.url), path.join(ordner, 'tools', d))
+    // `gh-ratelimit.mjs` ruft `gh api rate_limit` über spawnSync: unter Windows findet das nur gh.exe (Node mit dem Skript `api` im Arbeitsordner).
+    if (process.platform === 'win32') {
+      fs.copyFileSync(process.execPath, path.join(bin, 'gh.exe'))
+      fs.writeFileSync(path.join(ordner, 'api'), 'require("fs").appendFileSync(process.env.ATTRAPPE_LOG, "api rate_limit\\n"); process.stdout.write(JSON.stringify({ resources: { core: { remaining: 0, reset: Number(process.env.ATTRAPPE_RESET ?? 1) } } }))\n')
+    }
     if (f.kettenlog) fs.writeFileSync(path.join(temp, 'pruefer', 'kettenlog.txt'), f.kettenlog)
     const skript = path.join(ordner, 'schritt.sh')
     fs.writeFileSync(skript, freigabe.run)
@@ -105,6 +116,10 @@ function laufe(f) {
       ATTRAPPE_LOG: log,
       ATTRAPPE_KOMMENTAR: kommentar,
       ATTRAPPE_AKTUELL: f.aktuell ?? KOPF,
+      ATTRAPPE_MARKE: path.join(ordner, 'marke'),
+      ATTRAPPE_LIMIT_BEI: f.limitBei ?? '',
+      ATTRAPPE_FEHLER_BEI: f.fehlerBei ?? '',
+      ATTRAPPE_RESET: String(f.reset ?? 1),
     })
     const r = spawnSync(BASH, ['-e', skript], { cwd: ordner, env, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
     const aufrufe = fs.existsSync(log) ? fs.readFileSync(log, 'utf8').split('\n').filter(Boolean) : []
@@ -153,6 +168,26 @@ for (const [name, eingabe, soll] of faelle) {
   const ist = laufe(eingabe)
   pruefe(name, ist.status === soll.status && JSON.stringify(ist.aufrufe) === JSON.stringify(soll.aufrufe), { ist: ist.aufrufe, soll: soll.aufrufe })
 }
+
+// Kontingent erschöpft (PR 4467, Lauf 44899735502): jeder gh-Aufruf des Schritts wartet bis zum Reset (hier längst vorbei, kein echtes
+// Warten) und läuft genau einmal neu; das Urteil geht nicht verloren. Reset 2100 = jenseits des Zeitkontos: nicht gewartet, Fehler sichtbar.
+const RATE = 'api rate_limit'
+const limitFaelle = [
+  ['Limit beim Lesen des Kopfes: Reset abgefragt, Ansicht neu, danach Kommentar und Freigabe', { ...basis, limitBei: 'pr view' }, { status: 0, aufrufe: [ANSICHT, RATE, ANSICHT, KOMMENTAR, APPROVE] }],
+  ['Limit beim Kommentar: Reset abgefragt, Kommentar neu, danach Freigabe', { ...basis, limitBei: 'pr comment' }, { status: 0, aufrufe: [ANSICHT, KOMMENTAR, RATE, KOMMENTAR, APPROVE] }],
+  ['Limit bei der Freigabe: Reset abgefragt, Review neu', { ...basis, limitBei: 'pr review' }, { status: 0, aufrufe: [ANSICHT, KOMMENTAR, APPROVE, RATE, APPROVE] }],
+  ['Limit beim Änderungswunsch: Reset abgefragt, Review neu', { ...basis, urteil: urteil('aendern'), limitBei: 'pr review' }, { status: 0, aufrufe: [ANSICHT, KOMMENTAR, AENDERN, RATE, AENDERN] }],
+  ['Limit beim Kommentar, Reset jenseits des Zeitkontos: kein Neuversuch, Schritt rot', { ...basis, limitBei: 'pr comment', reset: 4_102_444_800 }, { status: 1, aufrufe: [ANSICHT, KOMMENTAR, RATE] }],
+  ['Fehler anderer Art beim Kommentar: kein Reset abgefragt, kein Neuversuch, Schritt rot', { ...basis, fehlerBei: 'pr comment' }, { status: 1, aufrufe: [ANSICHT, KOMMENTAR] }],
+]
+for (const [name, eingabe, soll] of limitFaelle) {
+  const ist = laufe(eingabe)
+  pruefe(name, ist.status === soll.status && JSON.stringify(ist.aufrufe) === JSON.stringify(soll.aufrufe), { ist: ist.aufrufe, soll: soll.aufrufe, status: ist.status })
+}
+const nachLimit = laufe({ ...basis, limitBei: 'pr comment' })
+pruefe('Limit beim Kommentar: der Kommentar mit dem Urteil steht danach da', nachLimit.kommentar.includes('Urteil: **ok**'), nachLimit.kommentar)
+const nachLimitLesen = laufe({ ...basis, limitBei: 'pr view' })
+pruefe('Limit beim Lesen des Kopfes: die Warte-Zeile landet nicht im Kopf-Vergleich (kein „passt nicht zum Head“, Kommentar steht)', nachLimitLesen.kommentar.includes('Urteil: **ok**'), nachLimitLesen)
 
 const unvollstaendig = laufe({ ...basis, zustand: 'unvollstaendig' })
 pruefe('Unvollständiger Diff: Kommentar nennt „nicht beurteilt, Diff unvollständig“ und den Hinweis',
