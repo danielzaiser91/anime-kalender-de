@@ -43,6 +43,6 @@
   {"name":"mergeStatusGrund: BLOCKED/DIRTY unentschieden","datei":"tools/nacht-merger.mjs","suche":"unentschieden: status === 'UNKNOWN'","ersetze":"unentschieden: status !== 'CLEAN'","tests":["node tools/nacht-merger.test.mjs"]},
   {"name":"welt ghMitWiederholung: close wird wiederholt","datei":"tools/nacht-merger-welt.mjs","suche":"['merge', 'close', 'reopen']","ersetze":"['merge', 'reopen']","tests":["node tools/nacht-merger.test.mjs"]},
   {"name":"welt ghMitWiederholung: reopen wird wiederholt","datei":"tools/nacht-merger-welt.mjs","suche":"['merge', 'close', 'reopen']","ersetze":"['merge', 'close']","tests":["node tools/nacht-merger.test.mjs"]},
-  {"name":"main: Prozess-Exit ignoriert Stillstand","datei":"tools/nacht-merger.mjs","suche":"process.exit(exitCode(ergebnis))","ersetze":"process.exit(ergebnis.fehler > 0 ? 1 : 0)","tests":["node tools/nacht-merger-prozess.test.mjs"]},
-  {"name":"main: Prozess-Exit immer 0","datei":"tools/nacht-merger.mjs","suche":"process.exit(exitCode(ergebnis))","ersetze":"process.exit(0)","tests":["node tools/nacht-merger-prozess.test.mjs"]}
+  {"name":"starte: Prozess-Exit ignoriert Stillstand","datei":"tools/nacht-merger.mjs","suche":"return exitCode(lauf(weltHole(), opt))","ersetze":"return lauf(weltHole(), opt).fehler > 0 ? 1 : 0","tests":["node tools/nacht-merger.test.mjs","node tools/nacht-merger-prozess.test.mjs"]},
+  {"name":"starte: Prozess-Exit immer 0","datei":"tools/nacht-merger.mjs","suche":"return exitCode(lauf(weltHole(), opt))","ersetze":"lauf(weltHole(), opt)\n  return 0","tests":["node tools/nacht-merger.test.mjs","node tools/nacht-merger-prozess.test.mjs"]}
 ]

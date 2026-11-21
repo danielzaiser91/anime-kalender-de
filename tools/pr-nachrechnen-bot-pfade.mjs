@@ -2,7 +2,7 @@
  * Dateien, die nur ein Bot-Lauf (github-actions[bot], anime-kalender-daten[bot]) auf main schreibt und die kein Schritt der PR-Prüfkette
  * liest (21.10.2026, Messung: die letzten 200 Bot-Commits auf main). Gelesen heißt: `pipeline/build.ts` (data:build) und was es importiert,
  * `data:validate`, die Prüfungen von `check:vor-commit`, `check:logic` und `tests-alle` lesen die Datei im echten Repo (Tests mit Wegwerf-Wurzel
- * zählen nicht). Eine Bewegung dieser Pfade auf main entwertet die Kettenläufe offener PRs nicht (F55). Gelesene Bot-Dateien
+ * zählen nicht). Sie gelten als Datenpfad (`istDatenpfad` in `pr-nachrechnen.mjs`, F55). Gelesene Bot-Dateien
  * (Tabelle in der PR-Beschreibung) bleiben draußen, ebenso `extension/` und `tools/umfang-grenzen.json`; Bilder unter `public/og/` (außer `default.*`) regelt `istBotBild`.
  * Ein Eintrag ohne Schrägstrich am Ende ist eine Datei, ein Ordner steht ohne Endstrich (`istBotDatei` hängt ihn an).
  * Wächter gegen späteres Lesen im Bau: `pr-nachrechnen-bot-pfade.test.mjs`.

@@ -1,63 +1,36 @@
 /**
- * Rechnet die PR-Prüfkette eines PR nach, bevor er gemergt wird (19.10.2026, Befund Prüfer 1576; Ansatz 1597 R2).
- * Grund: Die Kette läuft auf `refs/pull/N/merge`, also gegen main zum Zeitpunkt ihres Starts. GitHub baut diesen Merge-Commit
- * nicht neu, wenn main weiterkommt (gemessen 19.10.2026: 1597 blieb über 30 min auf der alten Basis), ein grüner Check kann also
- * gegen einen main gerechnet sein, den es nicht mehr gibt. `gh run rerun` nutzt denselben Merge-Commit; erst `reopened` baut ihn neu,
- * und zwar nach dem Ereignis: dessen Lauf nimmt noch den alten Merge-Commit (gemessen 19.10.2026 an PR 1602), daher `anstossen`.
+ * Letzte Prüfung vor dem Merge (19.10.2026, seit 21.11.2026 ohne Nachzug): Ist der PR offen, mergebar und frei?
+ * Eine Bewegung auf main erzwingt keinen neuen Kettenlauf mehr (Daniel 21.11.2026; Messung 90 Nachzüge in 14 Tagen, 4 echte Funde,
+ * alle Mängel von main selbst; Freigabe bis Merge im Median 33 min mit Nachzug, 3 min ohne). Die Kette am Kopf sichert das Ruleset
+ * `main-pruefweg` (Pflicht-Check „PR-Prüfkette“, strict aus; Admin-Bypass vorhanden, daher verweigert der Riegel
+ * `.claude/hooks/merge-riegel.js` jedes `gh pr merge … --admin`); was erst im Zusammenspiel mit dem neuen main bricht, zeigt sich nach dem
+ * Merge im Lauf auf main (`deploy.yml`) und in der Kette des nächsten PR.
  *
- * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs <PR>
- *   Exit 4: der letzte Prüfer-Kommentar verlangt „ändern“, danach kam kein Commit (`pr-nachrechnen-pruefer.mjs`): nichts angestoßen, nicht mergen.
+ * Aufruf (Dirigent, vor jedem Merge): node tools/pr-nachrechnen.mjs [--trocken] <PR>
+ *   Exit 4: der letzte Prüfer-Kommentar verlangt „ändern“, danach kam kein Commit (`pr-nachrechnen-pruefer.mjs`): nicht mergen.
  *   Exit 3: ein offener PR trägt „ersetzt PR <PR>“ (`pr-ersetzt.mjs`), vor allen anderen Urteilen, auch bei gemergtem <PR>: nicht mergen.
- *   Exit 0: der neueste Kettenlauf zum Kopf rechnete gegen den jetzigen main-HEAD, oder main bewegte sich seit dem Lauf nur unter
- *           `public/data/` und `data/cache/` und der PR berührt diese Pfade nicht (F55, 20.10.2026; `datenpfadAusnahme`), oder alle
- *           Commits seitdem stammen von Daten-Bots und bewegen nur `data/`, und der PR liest keine Daten (Merge-Fluss C; `botSprungAusnahme`); bei einem reinen Bot-Datensprung (`reinerBotSprung`) genügt: der PR berührt keine bewegte Datei; dasselbe gilt je Datei, die im Mischsprung nur erlaubte Bot-Commits schrieben (`botBewegte`).
- *   Exit 1: nicht aktuell; main wurde per `update-branch` (mit `expected_head_sha`) in den Zweig geholt: der Kopf ist NEU, die Meldung nennt ihn
- *           („neuer Kopf <sha>: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen“); die Merge-Zeile `… && gh pr merge` läuft danach nicht weiter (das `&&` ist der Schutz).
- *           Nur wenn update-branch abgewiesen wurde (HTTP 4xx, z. B. 422 oder 403, oder Trockenlauf/Riegel des Nacht-Mergers), gilt der Rückfall:
- *           geschlossen und wieder geöffnet (der Prüfer hört nicht auf `reopened`).
- *   Exit 2: nichts angestoßen (Konflikt, Mergebarkeit oder Test-Merge noch nicht berechnet, kein Lauf, Basis nicht lesbar, Fehler);
- *           die Meldung sagt, warum. Scheitert es erst nach dem Schließen oder nach einem update-branch, der gewirkt haben kann (5xx, Zeitlimit,
- *           Kopf nicht lesbar oder nicht neu), steht „SCHON ANGESTOSSEN“ in der Meldung: Kopf prüfen, nie blind wiederholen.
- * Die Basis steht in der Checkout-Zeile des Jobs JOB: „HEAD is now at … Merge <Kopf> into <Basis>“ (Text des Merge-Commits von GitHub).
+ *   Exit 2: nicht offen, Konflikt mit main („erst main hineinmergen“, GitHub `mergeable` CONFLICTING), Mergebarkeit noch nicht
+ *           berechnet (UNKNOWN, gleich erneut aufrufen) oder Fehler; die Meldung sagt, warum. Nichts angestoßen.
+ *   Exit 0: mergebar; main darf seit dem Kettenlauf weitergekommen sein. `--trocken` ändert nichts (das Werkzeug schreibt nie).
+ *   Exit 1: kommt hier nicht mehr vor (früher „nicht aktuell, Kette neu angestoßen“); die Merge-Zeile `… && gh pr merge` bleibt gleich.
+ *
+ * `nachziehen` (nur `tools/basis-gemergt-neustart.mjs`, Stapel-PRs nach dem Merge ihrer Basis): deren Kette war rot, weil die Basis offen
+ * war (`pr-pruefer-basis-offen.mjs`); sie holt main per `update-branch` in den Zweig (Exit 1, neuer Kopf), bei 4xx Schließen/Öffnen.
  */
 import { LIMIT_STAPEL_MS, mitLimit } from './kind-mit-limit.mjs'
 import { pathToFileURL } from 'node:url'
-import { BOT_DATEIEN_OHNE_LESER, istBotBild, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
-import { gitAufruf, gitLeser } from './pr-nachrechnen-leser-git.mjs'
-import { standardPaare, standardVoll } from './pr-nachrechnen-vergleich-git.mjs'
+import { istBotBild, istBotDatei } from './pr-nachrechnen-bot-pfade.mjs'
 import { ZUG, istZugPr, leseZugAktiv } from './zug-aktiv.mjs'
-import { erzeugteDatei } from './pr-nachrechnen-bot-erzeugt.mjs'
 import { ersetzer, ersetztMeldung } from './pr-ersetzt.mjs'
-import { basisAusJobLogs } from './nachrechnen-joblog.mjs'
-import { grundKommentar, kommentiereGrund } from './nachrechnen-schleife.mjs'
-import { UMFANG_GRENZEN, umfangGrund as standardUmfang } from './pr-nachrechnen-umfang.mjs'
-import { standardPaket } from './pr-nachrechnen-paket-git.mjs'
 import { prueferSperre } from './pr-nachrechnen-pruefer.mjs'
-import { standardTextmerge } from './pr-nachrechnen-textmerge.mjs'
 import { aktualisiereZweig } from './pr-nachrechnen-zweig.mjs'
 
-export const KETTE = 'pr-pruefung.yml'
-/** Kleiner Job der Kette mit Checkout ohne eigenes `ref` (prüft `pr-nachrechnen.test.mjs` an der YAML). */
-export const JOB = 'Kette – Workflows'
 const OEFFNEN_VERSUCHE = 3
 /** Warten auf den neu gerechneten Merge-Commit nach dem ersten Wiederöffnen (gemessen 19.10.2026: nach wenigen Sekunden da). */
 export const REF_PRUEFUNGEN = 30
 export const REF_ABSTAND_MS = 2000
 
-/** Basis (erster Elternteil des Merge-Commits) aus dem Job-Log, nur wenn die Zeile zum Kopf gehört; sonst null. */
-export function basisAusLog(log, kopf) {
-  if (!/^[0-9a-f]{40}$/.test(kopf)) return null
-  const m = new RegExp(`HEAD is now at [0-9a-f]+ Merge ${kopf} into ([0-9a-f]{40})\\s*$`, 'm').exec(log)
-  return m ? m[1] : null
-}
-
-/** Neuester Kettenlauf zum Kopf (gleicher Commit), sonst null. Abgebrochene Läufe (Concurrency ersetzt sie, oft ohne jeden Job) zählen nicht. */
-export function neuesterLauf(laeufe, kopf) {
-  const passend = laeufe.filter((l) => l.headSha === kopf && l.conclusion !== 'cancelled')
-  return passend.reduce((neu, l) => (neu === null || Date.parse(l.createdAt) > Date.parse(neu.createdAt) ? l : neu), null)
-}
-
-/** Vor dem Lesen der Läufe: nur ein offener, konfliktfreier PR bekommt durch `reopened` eine neue Kette. */
+/** Vor jedem Urteil: nur ein offener, konfliktfreier PR mit berechneter Mergebarkeit ist mergebar. */
 export function hindernis(pr) {
   if (pr.state !== 'OPEN') return `PR ${pr.number} ist nicht offen (${pr.state})`
   if (pr.mergeable === 'CONFLICTING') return `PR ${pr.number} hat einen Konflikt mit main: erst main hineinmergen, das startet die Kette neu`
@@ -65,170 +38,47 @@ export function hindernis(pr) {
   return null
 }
 
-/** Pfade, deren Bewegung auf main die Kette nicht entwertet (F55, Daniel 20.10.2026). Dazu die Bot-Dateien ohne Leser in der Kette (`pr-nachrechnen-bot-pfade.mjs`). Alles andere (Code, tools/umfang-grenzen.json, extension/, data/dub-confirmed.yaml, public/og/default.*) zählt. */
+/** Erzeugte Datenpfade der Läufe (F55, 20.10.2026) samt Bot-Dateien ohne Leser (`pr-nachrechnen-bot-pfade.mjs`); Leser: logik-beleg, neuversuch-art, workflows-beleg. */
 export const DATENPFADE = ['public/data/', 'data/cache/']
-/** Compare liefert höchstens 300 Dateien; bei so vielen ist die Liste evtl. abgeschnitten, also keine Ausnahme. */
-export const COMPARE_GRENZE = 300
-const PAKET = 'package.json'
-
 export const istDatenpfad = (datei) => DATENPFADE.some((p) => datei.startsWith(p)) || istBotDatei(datei) || istBotBild(datei)
-
-/**
- * Doku auf main, an deren Stand kein Kettenschritt hängt (Dirigent 26.10.2026, Anlass PR 2118): `docs/`, Markdown im Wurzelordner und
- * `daniel-zum-abarbeiten/00-wache.md` (nur `tools/wache-schreiben.mjs` schreibt sie). Andere Daniel-Dateien lesen Prüfungen
- * (`stand.md`, `listen/07-neu.md`, `listen/justwatch-widersprueche.md`, Test in `pr-nachrechnen-bot-pfade.test.mjs`), `data/patchnotes/` der Bau.
- * Ausgenommen von `docs/`: `design-regeln.md`, das `tools/design-kontrast.mjs` liest (Prüfer 2123 R1); `dokuLeser` im Bot-Pfade-Test sucht den nächsten Leser.
- */
-const LIEST_KETTE = 'docs/wissen/design-regeln.md'
-/** `.claude`-Markdown (Skills, Agenten, Regeln) steht nicht hier: nur ein Kettenleser, der den vollen Pfad nennt (`istClaudeMd`, `nennt`), macht es zum Grund; der bloße Name (`SKILL.md`) zählt nicht (Anlass PR 3272, 3117, 3241, 3343; Leser `pr-kettenlog-budget.test.mjs`, Prüfer 3413). */
-const ohneKetteLeser = (datei) => (datei.startsWith('docs/') && datei !== LIEST_KETTE) || /^[^/]+\.md$/.test(datei) || datei === 'daniel-zum-abarbeiten/00-wache.md'
-
-/**
- * Dateien auf main, die jeden PR entwerten, auch ohne Zusammenhang: sie legen fest, was die Kette prüft (Kettendefinition, Pakete, Wächter
- * unter tools/check-*, Grenzen, das von `design-kontrast` gelesene Dokument). Alles andere Fremde (Sammler-Workflows, Agenten-Texte,
- * Erweiterung, einzelne Werkzeuge, Ausführungslisten `tools/check-*-liste.txt`, einzelne Prüfungen und Tests unter pipeline/ und tools/) entwertet nur bei Zusammenhang
- * mit dem PR (`bewegtesGelesen`: Berührung, Nennung, Import in beide Richtungen). Anlass: Nacht-Merger, 15 Merges in 59 Läufen,
- * 148 Abweisungen „main bewegte …“ (Auswertung 09.11.2026).
- */
-export const kettenweit = (datei) => datei === LIEST_KETTE || /^(\.github\/(workflows\/pr-pruefung\.yml|actions\/.+)|package-lock\.json|tsconfig[^/]*\.json|eslint\.config\.[^/]+|tools\/(check-[^/]*\.(mjs|cjs|js|ts)|umfang-grenzen\.json))$/.test(datei)
-
-const lokal = (vergleich) => (vergleich.lokalFehler === undefined ? '' : ` (lokales git: ${vergleich.lokalFehler})`)
-
-/** null = Ausnahme gilt (main bewegte nur Datenpfade, der PR keinen); sonst der Grund, warum nicht. `frei`: bewegte Dateien des PR ohne Berührung im Textmerge (`pr-nachrechnen-textmerge.mjs`). */
-export function datenpfadAusnahme(vergleich, prDateien, frei = new Set()) {
-  if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
-  if (!vergleich.vollstaendig && vergleich.anzahl >= COMPARE_GRENZE) return `Vergleich mit ${vergleich.anzahl} Dateien evtl. abgeschnitten${lokal(vergleich)}`
-  const fremd = vergleich.dateien.find((d) => !istDatenpfad(d) && !ohneKetteLeser(d))
-  if (fremd !== undefined) return `main bewegte ${fremd}`
-  const beruehrt = prDateien.find((p) => istDatenpfad(p) || (vergleich.dateien.includes(p) && !frei.has(p)))
-  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
-  return null
-}
-
-/**
- * Merge-Fluss C (23.10.2026): Ein Sprung nur unter `data/` entwertet keinen PR, dessen Code die bewegten Dateien nicht
- * liest (Leser-Regel `pr-nachrechnen-leser.mjs`, seit 26.10.2026; vorher galt jede Datei außer Doku als Leser); der Bestandsbau prüft
- * nach dem Merge den ganzen Datensatz. Der Autor zählt seit 27.10.2026 nicht mehr (PR 2165: Squash-Merge des Patchnotes-PR 2146
- * von Daniel entwertete einen Patchnotes-PR); entscheidend sind die bewegten Dateien: kettenweite Dateien (`kettenweit`) entwerten immer, alles andere nur mit Leser (seit 09.11.2026 auch Code und Workflows außerhalb der Kette). `liestBewegtes(bewegt, prDateien)` -> null | Grund. null = Ausnahme gilt, sonst der Grund.
- * Ausnahme unter den kettenweiten: `tools/umfang-grenzen.json` (Bestandsbau senkt sie bei jedem Lauf) entwertet nicht, wenn `umfang()` null liefert
- * (Grenzen nicht erhöht, PR hält sie auf dem Merge-Stand, `pr-nachrechnen-umfang.mjs`); sonst der Grund aus `umfang()`.
- */
-export function botSprungAusnahme(vergleich, prDateien, liestBewegtes, umfang = () => 'Umfang nicht geprüft', paket = () => 'main bewegte package.json (nicht geprüft)', frei = new Set()) {
-  if (vergleich.status !== 'ahead') return `main ist gegenüber der Kettenbasis ${vergleich.status}, nicht nur vorgerückt`
-  if (!vergleich.vollstaendig && abgeschnitten(vergleich)) return `Vergleich evtl. abgeschnitten${lokal(vergleich)}`
-  const beruehrt = prDateien.find((p) => vergleich.dateien.includes(p) && !frei.has(p))
-  if (reinerBotSprung(vergleich, prDateien)) return beruehrt === undefined ? null : `der PR berührt ${beruehrt}`
-  const kette = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && kettenweit(d))
-  const fremd = kette.find((d) => d !== UMFANG_GRENZEN)
-  if (fremd !== undefined) return `main bewegte ${fremd}`
-  if (beruehrt !== undefined) return `der PR berührt ${beruehrt}`
-  const paketGrund = vergleich.dateien.includes(PAKET) ? paket() : null
-  if (paketGrund !== null) return paketGrund
-  const umfangGrund = kette.includes(UMFANG_GRENZEN) ? umfang() : null
-  if (umfangGrund !== null) return `main bewegte ${UMFANG_GRENZEN}; ${umfangGrund}`
-  const botFrei = botBewegte(vergleich, prDateien)
-  const bewegt = vergleich.dateien.filter((d) => !istDatenpfad(d) && !ohneKetteLeser(d) && d !== UMFANG_GRENZEN && d !== PAKET && !botFrei.has(d))
-  return liestBewegtes(bewegt, prDateien, bewegt.filter(erzeugteDatei))
-}
-
-/** Konten der Datenläufe und des Bestandsbaus (Sammler, Wache-Skripte); sie gelten nur für ihre erzeugten Dateien (`datenKontoDatei`). */
-export const DATEN_KONTEN = ['anime-kalender-daten[bot]', 'github-actions[bot]', 'anime-kalender-bot']
-/** Agenten-Konto: schreibt auch Handdaten, Code und Fix-PRs (Prüfer 3384, A1); gilt nur für Wache-Berichte und Doku. */
-export const WACHE_KONTO = 'claude[bot]'
-const wacheDatei = (datei) => ohneKetteLeser(datei) || datei === 'daniel-zum-abarbeiten/00-wache-auswertung.md'
-/** Erzeugte Dateien der Läufe (Positivliste `pr-nachrechnen-bot-erzeugt.mjs`, fail-closed), Listen, Datenpfade der Kette-Ausnahme F55, Wache-Berichte. */
-const erzeugt = (datei) => erzeugteDatei(datei) || datei.startsWith('daniel-zum-abarbeiten/listen/') || istDatenpfad(datei) || wacheDatei(datei)
-/**
- * Vom Bot erzeugt: Bestandsbau (`extension/offene-*.js`) und Versionszähler (`extension/manifest.json`). Bewusste Grenze (A3): Erweiterungstests
- * lesen diese Dateien; berührt der PR `extension/` oder `tools/extension-*`, zählen sie nicht, und die Leser-Regel entscheidet. Ein Test außerhalb
- * dieser Pfade, der sie liest, fällt nicht auf (Grenze, wie bei der Leser-Regel zur Laufzeit zusammengesetzte Pfade).
- */
-const ERZEUGT_ERWEITERUNG = /^extension\/(offene-[^/]+\.js|manifest\.json)$/
-const beruehrtErweiterung = (datei) => datei.startsWith('extension/') || datei.startsWith('tools/extension-')
-const erlaubt = (autor, datei, erweiterungFrei) => (autor === WACHE_KONTO ? wacheDatei(datei) : DATEN_KONTEN.includes(autor) && (erzeugt(datei) || (erweiterungFrei && ERZEUGT_ERWEITERUNG.test(datei))))
-
-/**
- * Reiner Bot-Datensprung (10.11.2026, Nachrechnen-Deadlock: main bekommt alle ~10 min einen Bot-Commit, die Kette braucht 25-30 min, kein PR
- * wurde je „aktuell“). Die Ausnahme gilt je Konto und Pfadklasse (Prüfer 3384, A1/A2): ein Datenkonto nur für erzeugte Dateien, `claude[bot]`
- * nur für Wache-Berichte und Doku; alles, was nicht auf den Listen steht, gilt als Änderung von Hand. Mit `vergleich.commits` (je Commit Autor
- * und Dateien) wird je Commit geprüft; ohne sie nur, wenn kein `claude[bot]` dabei ist (sonst ließe sich ein Handdatenfix nicht von einem Wache-Bericht
- * trennen). Dann entwertet nur die Berührung derselben Datei, auch ohne Leser-Regel (Entscheidung Dirigent, betrieb.md): der Bestandsbau prüft nach dem Merge
- * den ganzen Datensatz, Sammler-PRs haben seit PR 3282 einen Probebau. Nur auf vollständigem Vergleich aufrufen (Autoren und Dateien lückenlos).
- */
-export function reinerBotSprung(vergleich, prDateien) {
-  if (vergleich.autoren.length === 0 || vergleich.dateien.length === 0) return false
-  if (!vergleich.autoren.every((a) => a === WACHE_KONTO || DATEN_KONTEN.includes(a))) return false
-  const frei = !prDateien.some(beruehrtErweiterung)
-  if (vergleich.commits !== undefined) return vergleich.commits.every((c) => c.dateien.every((d) => erlaubt(c.autor, d, frei)))
-  if (vergleich.autoren.includes(WACHE_KONTO)) return false
-  return vergleich.dateien.every((d) => erlaubt(DATEN_KONTEN[0], d, frei))
-}
-
-/**
- * Dateien des Sprungs, die nur erlaubte Bot-Commits berührten (19.11.2026, Messung 16.-19.11.: 56 Abweisungen an 45 PR, 11 nur wegen Bot-Dateien neben
- * einem Menschen-Commit). Für sie gilt wie im reinen Bot-Sprung nur die Berührung, nicht die Leser-Regel; schreibt auch nur ein nicht erlaubter Commit
- * dieselbe Datei, bleibt sie draußen (fail-closed). Ohne `commits` (Paarung nicht lesbar) leer.
- */
-export function botBewegte(vergleich, prDateien) {
-  const erweiterungFrei = !prDateien.some(beruehrtErweiterung)
-  const bot = new Set()
-  const fremd = new Set()
-  for (const c of vergleich.commits ?? []) for (const d of c.dateien) (erlaubt(c.autor, d, erweiterungFrei) ? bot : fremd).add(d)
-  return new Set([...bot].filter((d) => !fremd.has(d)))
-}
-
-const botKonto = (autor) => autor === WACHE_KONTO || DATEN_KONTEN.includes(autor)
-/** Commit-Paare braucht, wer `claude[bot]` im Sprung hat oder Bot- und Menschen-Commits mischt; ein Sprung nur aus Datenkonten entscheidet ohne sie. */
-const brauchtPaare = (autoren) => autoren.includes(WACHE_KONTO) || (autoren.some(botKonto) && !autoren.every(botKonto))
-
-const abgeschnitten = (v) => v.anzahl >= COMPARE_GRENZE || v.commitsGesamt !== v.autoren.length
-
-/** Ersetzt einen abgeschnittenen API-Vergleich durch den lokalen; scheitert git, bleibt er abgeschnitten (mit Grund). */
-function vervollstaendige(vergleich, basis, main, voll) {
-  if (vergleich.status !== 'ahead' || !abgeschnitten(vergleich)) return vergleich
-  const r = voll(basis, main)
-  if (r.fehler !== undefined) return { ...vergleich, lokalFehler: r.fehler }
-  return { ...vergleich, ...r, vollstaendig: true }
-}
-
-/** Hängt je Commit Autor und Dateien an, wenn nur die Paarung entscheidet (`brauchtPaare`); scheitert git, bleibt es ohne (fail-closed). */
-function mitCommits(vergleich, basis, main, paare) {
-  if (vergleich.status !== 'ahead' || !brauchtPaare(vergleich.autoren)) return vergleich
-  const r = paare(basis, main)
-  return r.fehler === undefined ? { ...vergleich, commits: r.commits } : vergleich
-}
-
-/** Dateien, die der PR ändert und main seit dem Kettenlauf bewegte, aber ohne Berührung im Textmerge; ohne Treffer kein git-Aufruf. */
-function bewegteDesPr(vergleich, prDateien, textmerge, refs) {
-  const beide = vergleich.status === 'ahead' ? prDateien.filter((p) => vergleich.dateien.includes(p)) : []
-  return beide.length === 0 ? new Set() : textmerge(refs, beide)
-}
-
-/** Rückgabe { ausnahme } (Kette gilt weiter, Text für die Meldung) oder { grund }. */
-export function datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang = () => 'Umfang nicht geprüft', paket = standardPaket, textmerge = standardTextmerge) {
-  const api = JSON.parse(gh(['api', `repos/{owner}/{repo}/compare/${basis}...${main}`, '--jq', '{status, anzahl: (.files | length), dateien: [.files[] | .filename, (.previous_filename // empty)], commitsGesamt: .total_commits, autoren: [.commits[] | .author.login // .commit.author.name]}']))
-  const vergleich = mitCommits(vervollstaendige(api, basis, main, voll), basis, main, paare)
-  const prDateien = gh(['api', `repos/{owner}/{repo}/pulls/${pr.number}/files`, '--paginate', '--jq', '.[] | .filename, (.previous_filename // empty)']).split(/\r?\n/).filter(Boolean)
-  const frei = bewegteDesPr(vergleich, prDateien, textmerge, { nummer: pr.number, kopf: pr.headRefOid, main, basis })
-  const daten = datenpfadAusnahme(vergleich, prDateien, frei)
-  if (daten === null) return { ausnahme: `nur Daten bewegt (${DATENPFADE.join(', ')}, ${BOT_DATEIEN_OHNE_LESER.length} Bot-Dateien ohne Leser)` }
-  const bot = botSprungAusnahme(vergleich, prDateien, (bewegt, dateien, bot) => leser(bewegt, dateien, { nummer: pr.number, kopf: pr.headRefOid, main, bot, frei, basis }), () => umfang({ nummer: pr.number, kopf: pr.headRefOid, main, basis }), () => paket({ nummer: pr.number, kopf: pr.headRefOid, main, basis }, prDateien), frei)
-  if (bot === null && reinerBotSprung(vergleich, prDateien)) return { ausnahme: 'nur Bot-Daten bewegt (erzeugte Dateien der Läufe, Listen, Wache-Berichte), der PR berührt keine davon' }
-  if (bot === null) return { ausnahme: `nur Fremdes ohne Zusammenhang bewegt (Daten, Sammler, Werkzeuge außerhalb der Kette), kein Code des PR liest die bewegten Dateien${botBewegte(vergleich, prDateien).size > 0 ? '; Bot-Dateien dieses Sprungs zählen nur bei Berührung' : ''}` }
-  return { grund: grundText(daten, bot) }
-}
-
-/**
- * Der Grund der feineren Stufe (`bot`) entscheidet; die grobe („main bewegte <erste Fremddatei>“) hat sonst nur den Namen der ersten Datei geliefert, die
- * gar nicht der Grund war (12.11.2026: „main bewegte .claude/skills/…/SKILL.md“ stand vor dem echten Grund, PR 3481/3548/3556; 16:41 dasselbe vor package.json,
- * neun PRs). Auch ein Grund „main bewegte …“ der feinen Stufe (kettenweite Datei) steht allein: er nennt die Datei, die die Kette trägt.
- */
-const grundText = (daten, bot) => (daten === bot || daten.startsWith('main bewegte ') ? bot : `${daten}; ${bot}`)
 
 const kurz = (sha) => sha.slice(0, 9)
 
 /** Felder von `pr view`; `baseRefName` nur bei gelegtem Zug-Schalter, damit der Aufruf mit Schalter aus byte-gleich bleibt. */
 const prFelder = (zugAktiv) => `number,state,mergeable,headRefOid,headRefName,comments,commits${zugAktiv ? ',baseRefName' : ''}`
+
+/** Gemeinsame Vorprüfung: { exit } (fertig, Meldung geschrieben) oder { pr } (mergebar, weiter). */
+function vorpruefung(nummer, gh, melde, zugAktiv) {
+  const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
+  const ersatz = ersetzer(nummer, gh)
+  if (ersatz !== null) {
+    melde(ersetztMeldung(nummer, ersatz))
+    return { exit: 3 }
+  }
+  const halt = hindernis(pr)
+  if (halt !== null) {
+    melde(halt)
+    return { exit: 2 }
+  }
+  const prueferHalt = prueferSperre(pr.comments, pr.commits)
+  if (prueferHalt !== null) {
+    melde(`PR ${nummer}: ${prueferHalt}`)
+    return { exit: 4 }
+  }
+  if (istZugPr(pr, zugAktiv)) {
+    melde(`PR ${nummer}: Basis ${ZUG}, kein Nachrechnen gegen main (die Fahrt rechnet den ganzen Zug)`)
+    return { exit: 0 }
+  }
+  return { pr }
+}
+
+/** Ablauf für einen PR; `gh(args)` ist eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). Liest nur, schreibt nie. */
+export function nachrechnen(nummer, gh, melde, zugAktiv = leseZugAktiv()) {
+  const { exit, pr } = vorpruefung(nummer, gh, melde, zugAktiv)
+  if (exit !== undefined) return exit
+  melde(`PR ${nummer}: mergebar, kein Konflikt mit main (Kopf ${kurz(pr.headRefOid)}); eine Bewegung auf main erzwingt keinen Nachzug`)
+  return 0
+}
 
 function oeffneMitWiederholung(gh, nummer) {
   for (let versuch = 1; ; versuch++) {
@@ -264,8 +114,8 @@ function mergeBasis(gh, nummer) {
 }
 
 /**
- * Startet die Kette gegen den neuen main. Der Lauf zu `reopened` nimmt den Merge-Commit, der beim Öffnen galt; ist der veraltet,
- * öffnet das erste Wiederöffnen nur, damit GitHub ihn neu rechnet, das zweite startet die Kette (den ersten Lauf bricht die Concurrency ab).
+ * Startet die Kette gegen den neuen main (Rückfall, wenn update-branch abgewiesen wurde). Der Lauf zu `reopened` nimmt den Merge-Commit,
+ * der beim Öffnen galt; ist der veraltet, öffnet das erste Wiederöffnen nur, damit GitHub ihn neu rechnet, das zweite startet die Kette.
  */
 export function anstossen(gh, nummer, main, warte) {
   const vorher = mergeBasis(gh, nummer)
@@ -291,83 +141,26 @@ function anstossenAb(gh, nummer, main, warte, vorher, begonnen) {
   wiederoeffnen(gh, nummer, begonnen)
 }
 
-/** Grund, wenn JOB in der Jobliste fehlt: ein laufender Lauf legt Jobs nach, ein abgeschlossener zeigt Status und vorhandene Jobs. */
-export function jobFehlt(nummer, lauf, jobs) {
-  if (lauf.status !== 'completed') return `PR ${nummer}: Lauf ${lauf.databaseId} (${lauf.status}) hat den Job „${JOB}“ noch nicht angelegt; später erneut aufrufen`
-  const namen = jobs.map((j) => j.name).join(', ')
-  return `PR ${nummer}: Lauf ${lauf.databaseId} (abgeschlossen, ${lauf.conclusion || 'ohne Ergebnis'}) hat keinen Job „${JOB}“; vorhanden: ${namen}`
-}
-
-/** Liest Basis des neuesten Kettenlaufs; Rückgabe { basis } oder { grund } (dann ist nichts zu entscheiden). */
-function basisDesLaufs(gh, pr, warte) {
-  const laeufe = JSON.parse(gh(['run', 'list', '--workflow', KETTE, '--event', 'pull_request', '--branch', pr.headRefName, '--limit', '20', '--json', 'databaseId,headSha,createdAt,conclusion,status']))
-  const lauf = neuesterLauf(laeufe, pr.headRefOid)
-  if (lauf === null) return { grund: `PR ${pr.number}: kein Kettenlauf zum Kopf ${kurz(pr.headRefOid)}` }
-  const jobs = JSON.parse(gh(['run', 'view', String(lauf.databaseId), '--json', 'jobs'])).jobs
-  if (jobs.length === 0) return { grund: `PR ${pr.number}: Lauf ${lauf.databaseId} hat noch keine Jobs angelegt; später erneut aufrufen` }
-  const job = jobs.find((j) => j.name === JOB)
-  if (job === undefined) return { grund: jobFehlt(pr.number, lauf, jobs) }
-  if (job.status !== 'completed') return { grund: `PR ${pr.number}: Job „${JOB}“ läuft noch (Lauf ${lauf.databaseId}), sein Log gibt es erst nach Abschluss; später erneut aufrufen` }
-  const gelesen = basisAusJobLogs(gh, job, jobs, (log) => basisAusLog(log, pr.headRefOid), warte)
-  if (gelesen.lesefehler !== undefined) return { grund: `PR ${pr.number}: Log nicht lesbar (${gelesen.lesefehler}), später erneut` }
-  const basis = gelesen.basis
-  if (basis === null) return { grund: `PR ${pr.number}: Basis nicht im Log von „${JOB}“ (Lauf ${lauf.databaseId}; läuft er noch, übersprungen?)` }
-  return { basis }
-}
-
-/** Ablauf für einen PR; `gh(args)` und `warte(ms)` sind eingespeist, `melde` schreibt eine Zeile. Rückgabe: Exit-Code (siehe Kopf). */
-export function nachrechnen(nummer, gh, melde, warte, leser = gitLeser(gitAufruf), voll = standardVoll, paare = standardPaare, zugAktiv = leseZugAktiv(), umfang = standardUmfang, trocken = false, textmerge = standardTextmerge) {
-  const pr = JSON.parse(gh(['pr', 'view', String(nummer), '--json', prFelder(zugAktiv)]))
-  const ersatz = ersetzer(nummer, gh)
-  if (ersatz !== null) {
-    melde(ersetztMeldung(nummer, ersatz))
-    return 3
-  }
-  const halt = hindernis(pr)
-  if (halt !== null) {
-    melde(halt)
-    return 2
-  }
-  const prueferHalt = prueferSperre(pr.comments, pr.commits)
-  if (prueferHalt !== null) {
-    melde(`PR ${nummer}: ${prueferHalt}`)
-    return 4
-  }
-  if (istZugPr(pr, zugAktiv)) {
-    melde(`PR ${nummer}: Basis ${ZUG}, kein Nachrechnen gegen main (die Fahrt rechnet den ganzen Zug)`)
-    return 0
-  }
-  const { basis, grund } = basisDesLaufs(gh, pr, warte)
-  if (grund !== undefined) {
-    melde(grund)
-    return 2
-  }
-  const main = gh(['api', 'repos/{owner}/{repo}/git/ref/heads/main', '--jq', '.object.sha']).trim()
-  if (basis === main) {
-    melde(`PR ${nummer}: aktuell, die Kette rechnete gegen main ${kurz(main)}`)
-    return 0
-  }
-  const urteil = datenpfadGrund(gh, pr, basis, main, leser, voll, paare, umfang, standardPaket, textmerge)
-  if (urteil.ausnahme !== undefined) {
-    melde(`PR ${nummer}: aktuell, Kette gegen ${kurz(basis)}, main ist ${kurz(main)}, seitdem ${urteil.ausnahme}`)
-    return 0
-  }
+/** Stapel-PR nach dem Merge seiner Basis: Vorprüfung wie `nachrechnen`, dann main in den Zweig holen (Exit 1); `trocken` schreibt nichts. */
+export function nachziehen(nummer, gh, melde, warte, trocken = false, zugAktiv = leseZugAktiv()) {
+  const { exit, pr } = vorpruefung(nummer, gh, melde, zugAktiv)
+  if (exit !== undefined) return exit
   if (trocken) {
-    melde(`PR ${nummer}: NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund}), Trockenlauf: nichts geschlossen, geöffnet oder kommentiert`)
+    melde(`PR ${nummer}: Kette würde nachgezogen (main in den Zweig), Trockenlauf: nichts geschlossen, geöffnet oder aktualisiert`)
     return 1
   }
   const neuerKopf = aktualisiereZweig(gh, nummer, pr.headRefOid, warte, melde)
-  if (neuerKopf === null) anstossen(gh, nummer, main, warte)
-  kommentiereGrund(gh, melde, nummer, grundKommentar(kurz(basis), kurz(main), urteil.grund))
-  const stand = `NICHT AKTUELL (Kette gegen ${kurz(basis)}, main ist ${kurz(main)}; ${urteil.grund})`
-  melde(neuerKopf === null
-    ? `PR ${nummer}: ${stand}, geschlossen und wieder geöffnet; Kette abwarten, dann erneut aufrufen`
-    : `PR ${nummer}: ${stand}, main per update-branch in den Zweig geholt; neuer Kopf ${neuerKopf}: Nachtrag mit diesem Kopf, Kette abwarten, erneut aufrufen`)
+  if (neuerKopf !== null) {
+    melde(`PR ${nummer}: main per update-branch in den Zweig geholt; neuer Kopf ${neuerKopf}: Kette abwarten`)
+    return 1
+  }
+  const main = gh(['api', 'repos/{owner}/{repo}/git/ref/heads/main', '--jq', '.object.sha']).trim()
+  anstossen(gh, nummer, main, warte)
+  melde(`PR ${nummer}: geschlossen und wieder geöffnet; Kette abwarten`)
   return 1
 }
 
 export function gh(args) {
-  // Gemessen 30.10.2026 (3 Läufe): Job-Log 154 kB 1,2-1,4 s, Listen 0,8-0,9 s; Stapel-Limit 30 s deckt lange Logs.
   return mitLimit('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }, { limitMs: LIMIT_STAPEL_MS })
 }
 
@@ -376,8 +169,8 @@ export function schlafe(ms) {
   return Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms)
 }
 
-/** Startlogik: Argument prüfen, Fehler als Exit 2 (nie still grün). */
-export function main(argv, ausfuehrer, melde, warte, leser, voll, paare, umfang) {
+/** Argumente `[--trocken] <PR>` und Fehler als Exit 2 (nie still grün); `ablauf(nummer, trocken)` liefert den Exit-Code. */
+function mitArgumenten(argv, melde, ablauf) {
   const trocken = argv.includes('--trocken')
   const args = argv.filter((a) => a !== '--trocken')
   if (args.length !== 1 || !/^\d+$/.test(args[0])) {
@@ -385,13 +178,19 @@ export function main(argv, ausfuehrer, melde, warte, leser, voll, paare, umfang)
     return 2
   }
   try {
-    return nachrechnen(Number(args[0]), ausfuehrer, melde, warte, leser, voll, paare, undefined, umfang, trocken)
+    return ablauf(Number(args[0]), trocken)
   } catch (e) {
     melde(`pr-nachrechnen: FEHLER ${e.message}`)
     return 2
   }
 }
 
+/** Startlogik des Werkzeugs (Dirigent, Merge-Riegel, Nacht-Merger). */
+export const main = (argv, ausfuehrer, melde) => mitArgumenten(argv, melde, (nummer) => nachrechnen(nummer, ausfuehrer, melde))
+
+/** Startlogik für Stapel-PRs (`basis-gemergt-neustart.mjs`). */
+export const nachziehenMain = (argv, ausfuehrer, melde, warte) => mitArgumenten(argv, melde, (nummer, trocken) => nachziehen(nummer, ausfuehrer, melde, warte, trocken))
+
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  process.exit(main(process.argv.slice(2), gh, (t) => console.log(t), schlafe))
+  process.exit(main(process.argv.slice(2), gh, (t) => console.log(t)))
 }

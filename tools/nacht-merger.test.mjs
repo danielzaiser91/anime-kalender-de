@@ -3,8 +3,8 @@
  * Erwartete Werte stehen fest im Test. Der Ablauf läuft mit einer Attrappe-Welt; die Verdrahtung (nachrechnen vor jedem Merge, Riegel,
  * Trockenlauf) prüfen die Fälle über `lauf`, nie über den Quelltext.
  */
-import { BUDGET_MS, argumente, exitCode, lauf } from './nacht-merger.mjs'
-import { anstossNummer, bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghLesend, ghMitAnstossRiegel, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
+import { BUDGET_MS, argumente, exitCode, lauf, starte } from './nacht-merger.mjs'
+import { bauCommittetGerade, bestandIstRot, echteWelt, ghEcht, ghMitWiederholung, mergeMit5xxPruefung, stufeVon } from './nacht-merger-welt.mjs'
 import { freigabe, kandidat, ketteStand, neuesteJeCheck, reihenfolge, urteilIstOk, vorabGrund } from './nacht-merger-wahl.mjs'
 
 let fehler = 0
@@ -353,13 +353,34 @@ const UNKNOWN = { exit: 2, text: 'PR 11: Mergebarkeit noch nicht berechnet (UNKN
   pruefe('Bestandsbau grün: der älteste geht zuerst', ok.log.gemergt.join(',') === '31')
 }
 {
-  // Kreislauf: Lauf 1 mergt A, B ist danach veraltet (Exit 1, Kette startet neu); Lauf 2 (nächste Stunde, Kette neu gerechnet) mergt B.
+  // Zweiter Kandidat im selben Lauf (Daniel 21.11.2026): nach dem Merge von A ist main weiter, B wird trotzdem gemergt; das echte
+  // pr-nachrechnen über die gh-Attrappe sieht den neuen main nicht an (bis 20.11. Exit 1 „nicht aktuell“, B erst im nächsten Lauf).
   const p = [pr({ nummer: 41, erstellt: '2026-11-01T01:00:00Z' }), pr({ nummer: 42, erstellt: '2026-11-01T02:00:00Z' })]
-  const w1 = welt(p, { exits: { 42: 1 } })
-  const r1 = lauf(w1)
-  const w2 = welt(p.filter((x) => x.nummer !== 41), { exits: { 42: 0 } })
-  const r2 = lauf(w2)
-  pruefe('Kreislauf: Lauf 1 mergt nur A, Lauf 2 danach B', r1.gemergt.join(',') === '41' && r2.gemergt.join(',') === '42')
+  const ghAufrufe = []
+  let main = 'a'.repeat(40)
+  const gh = (args) => {
+    const s = args.join(' ')
+    ghAufrufe.push(s)
+    const n = /^pr view (\d+) --json number,state/.exec(s)?.[1]
+    if (n !== undefined) return JSON.stringify({ number: Number(n), state: 'OPEN', mergeable: 'MERGEABLE', headRefOid: KOPF, headRefName: `fix/${n}`, comments: [], commits: [] })
+    if (s === 'pr list --state open --limit 200 --json number,title,body') return '[]'
+    if (s.includes('git/ref/heads/main')) return `${main}\n`
+    throw new Error(`HTTP 404: ${s}`)
+  }
+  const echt = echteWelt({ gh, stufeAus: () => '{"stufe":0}', repo: 'o/r', zeileAus: () => {} })
+  const w = welt(p)
+  w.nachrechnen = (n) => {
+    w.log.aufrufe.push(`nachrechnen ${n}`)
+    return echt.nachrechnen(n)
+  }
+  const mergeAttrappe = w.merge
+  w.merge = (x) => {
+    mergeAttrappe(x)
+    main = 'b'.repeat(40)
+  }
+  const r = lauf(w)
+  pruefe('zweiter Kandidat: nach dem Merge von A (main weiter) wird B im selben Lauf gemergt', r.gemergt.join(',') === '41,42' && w.log.aufrufe.join(',') === 'nachrechnen 41,status 41,merge 41,nachrechnen 42,status 42,merge 42', { r, a: w.log.aufrufe, z: w.log.zeilen })
+  pruefe('zweiter Kandidat: nachrechnen liest nur PR und Ersatz-Liste, schreibt nie', ghAufrufe.every((s) => s.startsWith('pr view') || s.startsWith('pr list')) && ghAufrufe.length === 4, ghAufrufe)
 }
 
 // --- Welt: gh-Anschluss ------------------------------------------------------------------------------------------
@@ -372,15 +393,6 @@ pruefe('bestandIstRot: rot nach grün', bestandIstRot([{ conclusion: 'success', 
 pruefe('bestandIstRot: grün zuletzt', !bestandIstRot([{ conclusion: 'failure', createdAt: '2026-11-01T07:00:00Z' }, { conclusion: 'success', createdAt: '2026-11-01T11:00:00Z' }], T))
 pruefe('stufeVon: Zahl', stufeVon(5, () => '{"stufe":0}') === 0 && stufeVon(5, () => '{"stufe":1}') === 1)
 pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaputt') === 2 && stufeVon(5, () => { throw new Error('x') }) === 2 && stufeVon(5, () => '{"stufe":"1"}') === 2)
-{
-  const gesehen = []
-  const g = ghLesend((a) => { gesehen.push(a.join(' ')); return 'ok' })
-  let geworfen = 0
-  for (const args of [['pr', 'close', '5'], ['pr', 'reopen', '5']]) {
-    try { g(args) } catch { geworfen++ }
-  }
-  pruefe('ghLesend: close und reopen scheitern, lesen geht durch', geworfen === 2 && gesehen.length === 0 && g(['pr', 'view', '5']) === 'ok')
-}
 {
   const aufrufe = []
   const gh = (args) => {
@@ -395,7 +407,7 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     return ''
   }
   const ausgaben = []
-  const w = echteWelt({ trocken: false, gh, stufeAus: () => '{"stufe":0}', repo: 'o/r', zeileAus: (t) => ausgaben.push(t) })
+  const w = echteWelt({ gh, stufeAus: () => '{"stufe":0}', repo: 'o/r', zeileAus: (t) => ausgaben.push(t) })
   const liste = w.offene()
   const voll = w.details(liste[0])
   pruefe('echteWelt: Liste wird abgebildet', liste.length === 1 && liste[0].nummer === 7 && liste[0].beschreibung === '' && liste[0].zweig === 'fix/a' && liste[0].geaenderteDateien === 2)
@@ -417,7 +429,8 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   pruefe('echteWelt: Zeile geht an die Ausgabe', ausgaben.join('|') === 'Probezeile')
 }
 {
-  // Veralteter PR: nachrechnen würde ihn schließen und öffnen. Im Trockenlauf darf der Aufruf nie bis dorthin kommen.
+  // PR, dessen Kette gegen einen älteren main rechnete (main seither mit Code weiter): bis 20.11.2026 schloss/öffnete nachrechnen ihn
+  // oder holte main per update-branch (Exit 1, Merge erst im nächsten Lauf). Seit 21.11.2026: mergebar, Exit 0, kein Schreibaufruf.
   const MAIN = 'b'.repeat(40)
   const BASIS = 'c'.repeat(40)
   const veraltet = (aufrufe) => (args) => {
@@ -430,81 +443,17 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
     if (s.startsWith('run view 1')) return JSON.stringify({ jobs: [{ name: 'Kette – Workflows', status: 'completed', databaseId: 9 }] })
     if (s.includes('actions/jobs/9/logs')) return `HEAD is now at 1234567 Merge ${KOPF} into ${BASIS}\n`
     if (s.includes('/compare/')) return JSON.stringify({ status: 'diverged', anzahl: 1, dateien: ['web/src/a.tsx'], commitsGesamt: 1, autoren: ['x'] })
-    if (s.includes('/pulls/7/files')) return 'web/src/a.tsx\n'
-    if (s.includes('--jq .merge_commit_sha')) return 'abcdef\n'
-    if (s.includes('/commits/abcdef')) return `${MAIN}\n`
-    if (s.includes('--jq .head.sha')) return `${'e'.repeat(40)}\n`
     return ''
   }
-  const trockenAufrufe = []
-  const trocken = echteWelt({ trocken: true, gh: veraltet(trockenAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
-  pruefe('Trockenlauf: veralteter PR wird nicht angestoßen (kein Schließen, Öffnen, update-branch), Exit 2 mit Hinweis', trocken.exit === 2 && trocken.text.includes('Trockenlauf') && !trockenAufrufe.some((s) => s.startsWith('pr close') || s.startsWith('pr reopen') || s.includes('update-branch')), trockenAufrufe)
-  const echtAufrufe = []
-  const echt = echteWelt({ trocken: false, gh: veraltet(echtAufrufe), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
-  pruefe('Gegenprobe ohne Trockenlauf: derselbe PR bekommt update-branch (kein Schließen), Exit 1 mit neuem Kopf', echt.exit === 1 && echtAufrufe.some((s) => s.includes('PUT') && s.includes('pulls/7/update-branch')) && !echtAufrufe.includes('pr close 7') && echt.text.includes(`neuer Kopf ${'e'.repeat(40)}`), { echtAufrufe, text: echt.text })
-  // A3: Abweisung (403 mit „workflow“) im Nacht-Merger-Log; Rückfall Schließen/Öffnen
-  const abgewiesen = echteWelt({ trocken: false, gh: (args) => { if (args.some((a) => String(a).endsWith('/update-branch'))) throw new Error('gh: refusing to update workflow without `workflow` scope (HTTP 403)'); return veraltet([])(args) }, repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
-  pruefe('Nacht-Merger-Log nennt die Abweisung samt Token-Hinweis, Rückfall läuft (Exit 1)', abgewiesen.exit === 1 && abgewiesen.text.includes('update-branch abgewiesen (HTTP 403: gh: refusing to update workflow without `workflow` scope (HTTP 403)) – Rückfall Schließen/Öffnen; Token ohne Workflows-Recht?'), abgewiesen)
-  pruefe('anstossNummer: close und update-branch zählen, sonst null', anstossNummer(['pr', 'close', '7']) === '7' && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/update-branch', '-f', 'expected_head_sha=x']) === '12' && anstossNummer(['api', '-X', 'PUT', 'repos/o/r/pulls/12/merge']) === null && anstossNummer(['api', 'repos/o/r/pulls/12', '--jq', '.head.sha']) === null && anstossNummer(['pr', 'view', '7']) === null && anstossNummer(['pr', 'reopen', '7']) === null)
-  // A8 (PR 4104): alle Schreibweisen der Methode von gh api: Pfad entscheidet, Trockenlauf sperrt, Riegel zählt je PR
-  const formen = [['-X', 'PUT'], ['-XPUT'], ['--method', 'PUT'], ['--method=PUT'], ['-X', 'put'], ['-X=PUT']]
-  for (const form of formen) {
-    const args = ['api', ...form, 'repos/o/r/pulls/12/update-branch', '-f', 'expected_head_sha=x']
-    let innen = 0
-    let gesperrt = false
-    try { ghLesend(() => { innen++ })(args) } catch { gesperrt = true }
-    const riegel = ghMitAnstossRiegel(() => '', 1)
-    riegel(args)
-    let zweiter = false
-    try { riegel(['api', ...form, 'repos/o/r/pulls/13/update-branch']) } catch { zweiter = true }
-    pruefe(`update-branch in der Form ${form.join(' ')}: Nummer 12, Trockenlauf sperrt, Riegel zählt`, anstossNummer(args) === '12' && gesperrt && innen === 0 && zweiter, { form })
+  for (const [name, w] of [['Lauf', (a) => echteWelt({ gh: veraltet(a), repo: 'o/r', zeileAus: () => {} })], ['mit 5xx-Wiederholung', (a) => echteWelt({ gh: ghMitWiederholung(veraltet(a), () => a.push('pause')), repo: 'o/r', zeileAus: () => {} })]]) {
+    const aufrufe = []
+    const r = w(aufrufe).nachrechnen(7)
+    const schreibend = aufrufe.filter((s) => /^pr (close|reopen|merge)|update-branch|PUT|POST|PATCH/.test(s))
+    pruefe(`main weiter, kein Konflikt (${name}): Exit 0, mergebar, kein Schreibaufruf`, r.exit === 0 && r.text.includes('mergebar, kein Konflikt mit main') && schreibend.length === 0 && aufrufe.length === 2, { r, aufrufe })
   }
-  // A1 (PR 4104): ghMitWiederholung wiederholt update-branch nie; PUT mit 502 nach Wirkung ergibt über echteWelt genau einen PUT und Exit 1
-  const putSpur = []
-  const ohnePut = ghMitWiederholung((args) => { putSpur.push(args.join(' ')); throw Object.assign(new Error('gh: Server Error (HTTP 502)'), { stderr: 'HTTP 502' }) }, () => putSpur.push('pause'))
-  let putWirft = false
-  try { ohnePut(['api', '-X', 'PUT', 'repos/o/r/pulls/12/update-branch']) } catch { putWirft = true }
-  pruefe('ghMitWiederholung: update-branch nie wiederholt (kein zweiter PUT, keine Pause)', putWirft && putSpur.length === 1 && putSpur[0].includes('update-branch'), putSpur)
-  const mitPut502 = []
-  const gh502 = ghMitWiederholung((args) => {
-    if (args.some((a) => String(a).endsWith('/update-branch'))) {
-      mitPut502.push('PUT')
-      throw new Error('gh: Server Error (HTTP 502)')
-    }
-    return veraltet([])(args)
-  }, () => mitPut502.push('pause'))
-  const nach502 = echteWelt({ trocken: false, gh: gh502, repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
-  pruefe('echteWelt mit ghMitWiederholung: PUT 502 nach Wirkung -> genau ein PUT, keine Pause, Exit 1 mit neuem Kopf', nach502.exit === 1 && mitPut502.join() === 'PUT' && nach502.text.includes(`neuer Kopf ${'e'.repeat(40)}`), { mitPut502, nach502 })
-  // Höchstmenge Anstöße je Lauf: neun veraltete PRs (21..29) über dieselbe echteWelt, nur die ersten acht werden geschlossen und geöffnet
-  const viele = []
-  let aktuell = 21
-  const grundGh = veraltet([])
-  const dieWelt = echteWelt({
-    trocken: false,
-    gh: (args) => {
-      viele.push(args.join(' '))
-      return grundGh(args.map((a) => (String(a) === String(aktuell) ? '7' : String(a).replace(`pulls/${aktuell}/`, 'pulls/7/'))))
-    },
-    repo: 'o/r',
-    zeileAus: () => {},
-  })
-  const ergebnisse = [21, 22, 23, 24, 25, 26, 27, 28, 29].map((nr) => {
-    aktuell = nr
-    return dieWelt.nachrechnen(nr)
-  })
-  const angestossen = viele.filter((s) => s.includes('update-branch') || s.startsWith('pr close')).map((s) => /pulls\/(\d+)\/update-branch/.exec(s)?.[1]).join(',')
-  pruefe('Höchstmenge: acht Anstöße (Exit 1), der neunte scheitert vor dem update-branch (Exit 2, Hinweis, kein Schließen)', ergebnisse.map((e) => e.exit).join(',') === '1,1,1,1,1,1,1,1,2' && angestossen === '21,22,23,24,25,26,27,28' && !viele.some((s) => s.startsWith('pr close')) && ergebnisse[8].text.includes('Höchstmenge 8'), { angestossen, e: ergebnisse[8] })
-  // Der Riegel zählt je PR einmal: ein zweiter Aufruf für denselben PR (nach UNKNOWN-Wiederholung) verbraucht keinen weiteren Anstoß
-  const eng = ghMitAnstossRiegel(() => '', 1)
-  eng(['pr', 'close', '8'])
-  eng(['pr', 'close', '8'])
-  let zweiter = false
-  try {
-    eng(['pr', 'close', '9'])
-  } catch {
-    zweiter = true
-  }
-  pruefe('ghMitAnstossRiegel: derselbe PR zählt einmal, ein weiterer PR über der Grenze wirft; Lesen und Reopen zählen nie', zweiter && ghMitAnstossRiegel(() => 'x', 0)(['pr', 'view', '1']) === 'x')
+  const konflikt = []
+  const k = echteWelt({ gh: (args) => (args.join(' ').startsWith('pr view 7 --json number,state') ? JSON.stringify({ number: 7, state: 'OPEN', mergeable: 'CONFLICTING', headRefOid: KOPF, headRefName: 'fix/a' }) : veraltet(konflikt)(args)), repo: 'o/r', zeileAus: () => {} }).nachrechnen(7)
+  pruefe('Gegenprobe Konflikt mit main: Exit 2 mit „Konflikt mit main“, nichts geschrieben', k.exit === 2 && k.text.includes('Konflikt mit main') && konflikt.every((s) => !/close|reopen|update-branch/.test(s)), k)
 }
 {
   // GitHub-5xx: eine Wiederholung nach Pause; zweiter 504 sichtbar; andere Fehler und Erfolg ohne Pause
@@ -569,13 +518,27 @@ pruefe('stufeVon: Müll, Fehler und Text gelten als 2', stufeVon(5, () => 'kaput
   pruefe('ghEcht (Standard von echteWelt) ist mit der 5xx-Wiederholung verdrahtet', ghEcht.wiederholt5xx === true)
   // echteWelt.mergeStatus fragt den einen PR ab und schneidet den Zeilenumbruch ab
   const abfragen = []
-  const status = echteWelt({ trocken: true, gh: (args) => { abfragen.push(args.join(' ')); return 'UNKNOWN\n' }, repo: 'o/r', zeileAus: () => {} }).mergeStatus(42)
+  const status = echteWelt({ gh: (args) => { abfragen.push(args.join(' ')); return 'UNKNOWN\n' }, repo: 'o/r', zeileAus: () => {} }).mergeStatus(42)
   pruefe('echteWelt.mergeStatus: Einzelabfrage des PR, getrimmter Status', status === 'UNKNOWN' && abfragen.join('|') === 'pr view 42 --json mergeStateStatus --jq .mergeStateStatus')
 }
-pruefe('echteWelt: ohne Repo-Angabe Fehler', (() => { try { echteWelt({ trocken: true, gh: () => '', repo: '' }); return false } catch { return true } })())
+pruefe('echteWelt: ohne Repo-Angabe Fehler', (() => { try { echteWelt({ gh: () => '', repo: '' }); return false } catch { return true } })())
 pruefe('argumente: Vorgabe', JSON.stringify(argumente([])) === '{"trocken":false,"hoechstens":3}')
 pruefe('argumente: --trocken und --hoechstens', JSON.stringify(argumente(['--trocken', '--hoechstens', '5'])) === '{"trocken":true,"hoechstens":5}')
 pruefe('argumente: ungültig', argumente(['--hoechstens', '0']) === null && argumente(['--hoechstens']) === null && argumente(['--admin']) === null)
+
+// starte: die Optionen des Aufrufs erreichen lauf() (A7: `--hoechstens 1` darf nicht still 3 Merges erlauben)
+{
+  const w = welt(vier())
+  pruefe('starte --hoechstens 1: Exit 0, genau ein Merge (#11), die übrigen vom Riegel zurückgestellt', starte(['--hoechstens', '1'], () => w) === 0 && w.log.gemergt.join(',') === '11' && w.log.zeilen.filter((z) => z.includes('Riegel: höchstens 1')).length === 3)
+  const w2 = welt(vier())
+  pruefe('starte ohne Option: Vorgabe 3 Merges', starte([], () => w2) === 0 && w2.log.gemergt.join(',') === '11,12,13')
+  const w3 = welt(vier())
+  pruefe('starte --trocken: Exit 0, kein Merge', starte(['--trocken'], () => w3) === 0 && w3.log.gemergt.length === 0 && w3.log.aufrufe.every((a) => !a.startsWith('merge')))
+  let geholt = 0
+  pruefe('starte ungültig: Exit 2, die Welt wird nie geholt', starte(['--hoechstens', '0'], () => { geholt++; return welt(vier()) }) === 2 && geholt === 0)
+  const w4 = welt([pr({ nummer: 11, mergeStateStatus: 'UNKNOWN' })], { folge: { 11: [UNKNOWN, UNKNOWN] } })
+  pruefe('starte: Stillstand (0 Merges, PR unentschieden) -> Exit 1 aus exitCode', starte([], () => w4) === 1)
+}
 
 if (fehler > 0) {
   console.error(`nacht-merger.test: ${fehler} von ${anzahl} Fällen rot`)

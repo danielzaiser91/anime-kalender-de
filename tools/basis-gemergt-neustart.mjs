@@ -1,15 +1,15 @@
 /**
  * Wird ein PR gemergt, den offene PRs als Basis nennen („mergen nach #N“, Erkennung `basisNummer` aus tools/pr-pruefer-basis-offen.mjs),
- * rechnet dieses Werkzeug deren Kette nach: je Stapel-PR `tools/pr-nachrechnen.mjs` (holt main per `update-branch` in den Zweig, neuer Kopf, Exit 1;
- * nur wenn das scheitert, Schließen und Öffnen; läuft die Kette schon gegen den jetzigen main: „aktuell“ ohne Neustart, also kein Doppelstart). Aufruf aus .github/workflows/pr-pruefer-nachtrag.yml
- * (Ereignis pull_request_target closed, nur gemergt). Nur Node-Bordmittel.
+ * zieht dieses Werkzeug deren Kette nach: sie war rot, solange die Basis offen war (`pr-pruefer-basis-offen.mjs`). Je Stapel-PR `nachziehen`
+ * aus `tools/pr-nachrechnen.mjs` (holt main per `update-branch` in den Zweig, neuer Kopf, Exit 1; nur wenn das scheitert, Schließen und Öffnen).
+ * Aufruf aus .github/workflows/pr-pruefer-nachtrag.yml (Ereignis pull_request_target closed, nur gemergt). Nur Node-Bordmittel.
  * Umgebung: GITHUB_REPOSITORY, GH_TOKEN (nur ein PAT löst Folgeläufe aus), BASIS_PR; TROCKEN=true rechnet nur, schließt nichts.
  *
- * Ausgang je Stapel-PR (Exit von pr-nachrechnen und Grund aus seiner Meldung):
- *   0 aktuell, 1 Kette neu gestartet (neuer Kopf)     -> grün
+ * Ausgang je Stapel-PR (Exit von `nachziehen` und Grund aus seiner Meldung):
+ *   0 (Basis zug), 1 Kette neu gestartet (neuer Kopf) -> grün
  *   3 ersetzt (ein anderer PR trägt „ersetzt PR N“)   -> grün, Zeile „ERSETZT“
  *   2 mit „Konflikt mit main“                         -> grün, Zeile „KONFLIKT“ (main einmergen startet die Kette)
- *   2 „noch nicht berechnet“ (mergeable UNKNOWN direkt nach dem Merge) oder „läuft noch“ (Kette, Job) -> ein Neuversuch nach Pause;
+ *   2 „noch nicht berechnet“ (mergeable UNKNOWN direkt nach dem Merge) -> ein Neuversuch nach Pause;
  *     bleibt es dabei: grün, Zeile „NICHT NEU GERECHNET“ mit dem Handgriff (erwarteter Zustand, kein Fehler)
  *   2 sonst (Abruf-, Lese-, Schließfehler, „SCHON ANGESTOSSEN“, update-branch mit unklarem Ausgang) -> rot
  *   (ein update-branch, das GitHub mit 4xx abweist, z. B. 422 oder 403, endet nicht hier: nichts angestoßen, Rückfall Schließen/Öffnen, Exit 1)
@@ -19,7 +19,7 @@
 import { execFileSync } from 'node:child_process'
 import { pathToFileURL } from 'node:url'
 import { basisNummer } from './pr-pruefer-basis-offen.mjs'
-import { main as nachrechnenMain, gh as ghNachrechnen, schlafe } from './pr-nachrechnen.mjs'
+import { nachziehenMain, gh as ghNachrechnen, schlafe } from './pr-nachrechnen.mjs'
 
 /**
  * Höchstens so viele Stapel-PRs je Merge; die übrigen bekommen ihre Kette beim nächsten Push oder durch den Nacht-Merger.
@@ -44,7 +44,7 @@ export function abhaengige(prs, basis) {
 export function grundExit2(text) {
   if (/SCHON ANGESTOSSEN|FEHLER/.test(text)) return 'fehler'
   if (/Konflikt mit main/.test(text)) return 'konflikt'
-  if (/noch nicht berechnet|läuft noch|noch keine Jobs angelegt|noch nicht angelegt/.test(text)) return 'spaeter'
+  if (/noch nicht berechnet/.test(text)) return 'spaeter'
   return 'fehler'
 }
 
@@ -70,7 +70,7 @@ function bearbeite(nr, { rechne, warte, melde }) {
       continue
     }
     if (grund === 'spaeter') {
-      melde(`Basis-Neustart: PR ${nr} NICHT NEU GERECHNET (${text}); von Hand: node tools/pr-nachrechnen.mjs ${nr}`)
+      melde(`Basis-Neustart: PR ${nr} NICHT NEU GERECHNET (${text}); von Hand: gh pr update-branch ${nr}`)
       return false
     }
     melde(`Basis-Neustart: PR ${nr} FEHLER (Exit ${code}): ${text}`)
@@ -119,8 +119,8 @@ function holeOffene() {
   return JSON.parse(aus)
 }
 
-/** Eingespeist werden Abruf, `nachrechnen` (Signatur von `main` in pr-nachrechnen.mjs) und Pause, damit ein Test den Einstieg ohne Netz fährt. */
-export function main(env = process.env, { holePrs = holeOffene, nachrechnen = nachrechnenMain, warte = schlafe, melde = (t) => console.log(t) } = {}) {
+/** Eingespeist werden Abruf, `nachrechnen` (Signatur von `nachziehenMain` in pr-nachrechnen.mjs) und Pause, damit ein Test den Einstieg ohne Netz fährt. */
+export function main(env = process.env, { holePrs = holeOffene, nachrechnen = nachziehenMain, warte = schlafe, melde = (t) => console.log(t) } = {}) {
   const trocken = env.TROCKEN === 'true'
   const rechne = (nr) => {
     const zeilen = []

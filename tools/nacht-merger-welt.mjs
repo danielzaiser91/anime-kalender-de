@@ -23,8 +23,6 @@ export function ghMitWiederholung(gh, schlafen = schlafe) {
     } catch (e) {
       // merge/close/reopen nie wiederholen: nach einem 504 kann die Änderung schon durch sein (sonst falsches „already merged/closed“); `merge` prüft den Zustand selbst
       if (args[0] === 'pr' && ['merge', 'close', 'reopen'].includes(args[1])) throw e
-      // update-branch ebenso: ein zweiter PUT nach Wirkung liefe in 422 und verdeckte den neuen Kopf (tools/pr-nachrechnen-zweig.mjs liest ihn selbst nach)
-      if (anstossNummer(args) !== null) throw e
       if (!/HTTP 5\d\d/.test(`${e.message}\n${e.stderr ?? ''}`)) throw e
       schlafen(GH_5XX_PAUSE_MS)
       return gh(args)
@@ -53,42 +51,6 @@ export const bauCommittetGerade = (jobs) => jobs.some((j) => (j.steps ?? []).som
 /** Ist der Bestandsbau seit dem letzten grünen Lauf rot? Dann kommt ein PR mit der Zeile „Behebt roten Bestandsbau“ zuerst. */
 export const bestandIstRot = (laeufe, jetztMs) => bestandRotAlarm(laeufe, jetztMs, 0).alarm
 
-/** Im Trockenlauf darf nachrechnen nichts schließen oder öffnen: der Aufruf scheitert vor dem Schließen und zählt als „nicht aktuell“. */
-export const ghLesend = (gh) => (args) => {
-  if (args[0] === 'pr' && args[1] === 'reopen') throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen und öffnen)')
-  if (anstossNummer(args) !== null) throw new Error('Trockenlauf: die Kette würde neu angestoßen (PR schließen oder update-branch)')
-  return gh(args)
-}
-
-/**
- * PR-Nummer, wenn der Aufruf die Kette neu anstößt (`pr close` oder `gh api …/pulls/N/update-branch`, tools/pr-nachrechnen-zweig.mjs), sonst null.
- * Entscheidend ist der Pfad, nicht die Schreibweise der Methode (`-X PUT`, `-XPUT`, `--method PUT`, `--method=PUT`): der Pfad hat nur den einen Schreibzweck.
- */
-export function anstossNummer(args) {
-  if (args[0] === 'pr' && args[1] === 'close') return String(args[2])
-  if (args[0] !== 'api') return null
-  const treffer = args.map((a) => /\/pulls\/(\d+)\/update-branch$/.exec(String(a))).find(Boolean)
-  return treffer ? treffer[1] : null
-}
-
-/**
- * Höchstmenge neu angestoßener Ketten je Lauf (je PR zählt das erste `pr close`). Jede Kette kostet Actions-Minuten; 8 gemessen an den
- * 59 Läufen vom 07. bis 09.11.2026: bei 4 traf der Riegel in 14 Läufen zu (bis 12 übersprungene PRs je Lauf). Darüber wirft der Aufruf
- * vor dem Schließen, der PR wird übersprungen und kommt im nächsten Lauf (40 min später) dran.
- */
-export const ANSTOESSE_HOECHSTENS = 8
-export const ghMitAnstossRiegel = (gh, hoechstens = ANSTOESSE_HOECHSTENS) => {
-  const angestossen = new Set()
-  return (args) => {
-    const nummer = anstossNummer(args)
-    if (nummer !== null && !angestossen.has(nummer)) {
-      if (angestossen.size >= hoechstens) throw new Error(`Höchstmenge ${hoechstens} Ketten-Anstöße je Lauf erreicht, nichts angestoßen`)
-      angestossen.add(nummer)
-    }
-    return gh(args)
-  }
-}
-
 /** Stufe aus der JSON-Ausgabe von `pr-stufe`; alles Unlesbare gilt als 2 (nur von Hand). */
 export function stufeVon(nummer, ausfuehren) {
   try {
@@ -99,11 +61,10 @@ export function stufeVon(nummer, ausfuehren) {
   }
 }
 
-export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.GITHUB_REPOSITORY, zeileAus = (t) => console.log(t) } = {}) {
+export function echteWelt({ gh = ghEcht, stufeAus, repo = process.env.GITHUB_REPOSITORY, zeileAus = (t) => console.log(t) } = {}) {
   if (!/^[\w.-]+\/[\w.-]+$/.test(repo ?? '')) throw new Error('GITHUB_REPOSITORY fehlt oder ist ungültig')
   const stufeSkript = stufeAus ?? ((args) => mitLimit(args[0], args.slice(1), { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }, { limitMs: STUFE_LIMIT_MS }))
   const zusammenfassung = process.env.GITHUB_STEP_SUMMARY
-  const nachrechnenGh = trocken ? ghLesend(gh) : ghMitAnstossRiegel(gh)
   return {
     zeile: (t) => {
       zeileAus(t)
@@ -133,9 +94,10 @@ export function echteWelt({ trocken, gh = ghEcht, stufeAus, repo = process.env.G
     warte: schlafe,
     kopfVon: (n) => gh(['pr', 'view', String(n), '--json', 'headRefOid', '--jq', '.headRefOid']).trim(),
     mergeStatus: (n) => gh(['pr', 'view', String(n), '--json', 'mergeStateStatus', '--jq', '.mergeStateStatus']).trim(),
+    // nachrechnen liest nur (seit 21.11.2026 kein Nachzug bei bewegtem main), darum auch im Trockenlauf ohne Riegel
     nachrechnen: (n) => {
       const meldungen = []
-      const exit = nachrechnenMain([String(n)], nachrechnenGh, (t) => meldungen.push(t), schlafe)
+      const exit = nachrechnenMain([String(n)], gh, (t) => meldungen.push(t))
       return { exit, text: meldungen.join(' | ') }
     },
     bauCommittet: () => {

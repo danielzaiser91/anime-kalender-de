@@ -66,7 +66,7 @@ function lauf(aktiv, prJson) {
   let code
   let wurf = null
   try {
-    code = nachrechnen(7, gh, (t) => meldungen.push(t), () => {}, undefined, undefined, undefined, aktiv)
+    code = nachrechnen(7, gh, (t) => meldungen.push(t), aktiv)
   } catch (e) {
     wurf = e.message
   }
@@ -75,12 +75,12 @@ function lauf(aktiv, prJson) {
 {
   const aus = lauf(false, zugPr)
   pruefe('aus: pr view mit den alten Feldern, ohne baseRefName', aus.aufrufe[0] === `pr view 7 --json ${FELDER_ALT}`, aus.aufrufe)
-  pruefe('aus: PR mit Basis zug läuft wie vorher weiter (nächster Aufruf = Kettenläufe lesen)', aus.wurf !== null && aus.aufrufe[2]?.startsWith('run list --workflow pr-pruefung.yml'), aus)
+  pruefe('aus: PR mit Basis zug läuft wie jeder andere (mergebar, Exit 0, nur PR und Ersatz-Liste gelesen)', aus.code === 0 && aus.aufrufe.length === 2 && /mergebar/.test(aus.meldungen.join()) && !/Basis zug/.test(aus.meldungen.join()), aus)
   const an = lauf(true, zugPr)
   pruefe('an: pr view fragt zusätzlich baseRefName', an.aufrufe[0] === `pr view 7 --json ${FELDER_ALT},baseRefName`, an.aufrufe)
   pruefe('an + Basis zug: Exit 0, keine weiteren Aufrufe, Meldung nennt zug', an.code === 0 && an.aufrufe.length === 2 && /Basis zug, kein Nachrechnen/.test(an.meldungen.join()), an)
   const main = lauf(true, { ...zugPr, baseRefName: 'main' })
-  pruefe('an + Basis main: weiter wie vorher (Kettenläufe lesen)', main.aufrufe[2]?.startsWith('run list --workflow pr-pruefung.yml'), main.aufrufe)
+  pruefe('an + Basis main: weiter wie jeder PR (mergebar, Exit 0, keine Zug-Meldung)', main.code === 0 && /mergebar/.test(main.meldungen.join()) && !/Basis zug/.test(main.meldungen.join()), main)
   const konflikt = lauf(true, { ...zugPr, mergeable: 'CONFLICTING' })
   pruefe('an + Basis zug + Konflikt: Hindernis geht vor (Exit 2)', konflikt.code === 2 && /Konflikt/.test(konflikt.meldungen.join()), konflikt)
   const zu = lauf(true, { ...zugPr, state: 'CLOSED' })
