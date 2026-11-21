@@ -497,7 +497,8 @@ export function Toggle({
     dem Schalter — Antippen zeigt ihn, ohne umzuschalten.
   */
   const schalter = (
-    <label className={`inline-flex items-center gap-2 text-sm ${CLICKABLE}`}>
+    /* Handy: Trefferfläche 44 px über ::after am umschließenden Pillen-Element (`relative`, siehe db-kopfzeile.tsx); die Pille bleibt 32 px. */
+    <label className={`inline-flex items-center gap-2 text-sm max-sm:after:absolute max-sm:after:inset-x-0 max-sm:after:-inset-y-1.5 max-sm:after:content-[''] ${CLICKABLE}`}>
       <input
         type="checkbox"
         checked={checked}
@@ -528,7 +529,7 @@ export function Toggle({
       <Tooltip text={hint} seite="unten">
         <span
           aria-label={hint}
-          className="grid size-4 cursor-help place-items-center rounded-full border border-slate-400 text-[10px] font-semibold leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400"
+          className="relative z-10 grid size-4 cursor-help place-items-center rounded-full border border-slate-400 text-[10px] font-semibold leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400"
         >
           i
         </span>

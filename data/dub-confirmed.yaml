@@ -41496,7 +41496,6 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Folge 1 mit deutschem Ton — Tonspuren: de, ja"
-
 - anilistId: 180829
   title: "Yandere Dark Elf: She Chased Me All the Way from Another World!"
   platform: primevideo
@@ -41506,7 +41505,6 @@
   nachgemessenAm: '2026-11-18'
   zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 - anilistId: 177509
   title: "Kakushite! Makina-san!!"
   platform: primevideo
@@ -41515,7 +41513,6 @@
   checkedAt: '2026-10-21'
   nachgemessenAm: '2026-11-18'
   note: "Amazon-Seite B0FZD2LNZY: nur 0 von 12 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.14ea64df-5a23-4731-89db-c888cba07e24, regionsperre=laut Seite nicht mehr im Abo, ausgaben=2 (Zugangsart gilt nur für diese)"
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-18 ---
 
 - anilistId: 14713
@@ -41526,7 +41523,6 @@
   kanalMessung: ja
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0KLVN2TZU9GL3E6PRBV71TRDP3: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo, gti=amzn1.dv.gti.90383c30-0146-4f3d-8e32-7c9ad453da7c — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 11499
   title: "Sankarea: Undying Love"
   platform: primevideo
@@ -41535,7 +41531,6 @@
   kanalMessung: ja
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite 0G0YSJ2Q2509UK9P59D36SUIB5: alle 14 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo, gti=amzn1.dv.gti.2ab67270-e807-9cf6-1cfb-3672e354d945 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: -219909
   title: "Talking Tom Shorts"
   platform: primevideo
@@ -41543,7 +41538,6 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite 0OJWLO19JN5OTU80SVWZG1QZHJ: alle 55 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.d0ba81dc-4277-3e57-7735-5ddd256a5d5c"
-
 - anilistId: -219909
   title: "Talking Tom Shorts"
   platform: primevideo
@@ -41551,7 +41545,6 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B07N8FQG2N: alle 6 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.2eb9f626-e194-6404-2564-994b3a2c3a25"
-
 - anilistId: -219909
   title: "Talking Tom Shorts"
   platform: primevideo
@@ -41559,7 +41552,6 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B08D6GWF9H: alle 23 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.5cb9ae0b-3f84-270e-2893-b0df80f8de93"
-
 - anilistId: -219909
   title: "Talking Tom Shorts"
   platform: primevideo
@@ -41567,7 +41559,6 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B07JC6PLFL: alle 55 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf, gti=amzn1.dv.gti.d0ba81dc-4277-3e57-7735-5ddd256a5d5c"
-
 - anilistId: 1726
   title: "Devil May Cry"
   platform: primevideo
@@ -41575,7 +41566,6 @@
   dub: true
   checkedAt: '2026-11-18'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G1DNTRJ6: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.3e22a2d0-05db-4788-824c-956e4882ad54"
-
 - anilistId: 180829
   title: "Yandere Dark Elf: She Chased Me All the Way from Another World!"
   platform: primevideo
@@ -41585,7 +41575,6 @@
   nachgemessenAm: '2026-11-19'
   zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-19 ---
 
 - anilistId: 10015
@@ -41595,7 +41584,6 @@
   dub: true
   checkedAt: '2026-11-19'
   note: "Tonspuren: Deutsch — Amazon-Seite B07FBGYPR6: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
-
 - anilistId: 10015
   title: "Yu-Gi-Oh! Zexal"
   platform: primevideo
@@ -41603,7 +41591,6 @@
   dub: true
   checkedAt: '2026-11-19'
   note: "Tonspuren: Deutsch — Amazon-Seite B0GWMY6WCP: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.aed248db-43ab-414d-9570-379aadd3c3e1"
-
 - anilistId: 10015
   title: "Yu-Gi-Oh! Zexal"
   platform: primevideo
@@ -41611,7 +41598,6 @@
   dub: true
   checkedAt: '2026-11-19'
   note: "Tonspuren: Deutsch — Amazon-Seite B0H1R11K51: alle 49 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.bcd19e60-968d-4ac7-b917-353edd5a21c5"
-
 # --- Prime-Seiten in Edge gelesen am 2026-11-19 (Bericht prime-cr-7-faelle-2026-11-19) ---
 
 - anilistId: 355
@@ -41621,7 +41607,6 @@
   dub: true
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: „In Prime enthalten.“ — „2 Staffeln“ — „Wiedergabesprachen | Deutsch, 日本語 | Untertitel | Deutsch [UT]“, Seite zeigt 24 Folgen. Ton je Folge nicht einzeln geprüft. Am 31.10. stand diese Seite noch regionsgesperrt (der Beleg vom 31.10. gilt der Adresse watch.amazon.de/detail?gti=amzn1.dv.gti.90c814d3-…, nicht dieser)."
-
 - anilistId: 10162
   title: "Usagi Drop"
   platform: primevideo
@@ -41629,7 +41614,6 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: „Usagi Drop | In deiner Region nicht mehr auf Prime Video verfügbar“ — „11 Folgen“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
-
 - anilistId: 12413
   title: "Jormungand"
   platform: primevideo
@@ -41637,7 +41621,6 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: „Jormungand | In deiner Region nicht mehr auf Prime Video verfügbar“ — „Staffel 1 … 12 Folgen“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
-
 - anilistId: 13331
   title: "Jormungand: Perfect Order"
   platform: primevideo
@@ -41645,7 +41628,6 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: „Jormungand | In deiner Region nicht mehr auf Prime Video verfügbar“ — „Staffel 2 … 12 Folgen“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
-
 - anilistId: 100780
   title: "Legend of the Galactic Heroes: Die Neue These"
   platform: primevideo
@@ -41653,7 +41635,6 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: Staffel 2 „Seiran“ (100780, Herbst 2019): „In deiner Region nicht mehr auf Prime Video verfügbar“, 12 Folgen, keine Sprachangabe. Die erste Staffel (20628, 2018) ist die Adresse B09MHFZFC8, Kanal, Deutsch, 12 Folgen — sie gehört zu 20628, nicht zu 100780."
-
 # --- Prime-Seiten in Edge gelesen am 2026-11-19 (Bericht prime-region-6-2026-11-19) ---
 
 - anilistId: 20711
@@ -41663,7 +41644,6 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Nur über ein Kanalabo auf Amazon, nicht in Prime enthalten. Edge, 19.11.2026: Seite abrufbar, „Re:Hamatora – Staffel 2“, 24 Folgen, „Wiedergabesprachen | Deutsch, 日本語 | Untertitel | Deutsch“, Folge 1 „Re: 01 - Melancholy Of Hero“ nur mit „Buchen“ (0,99 €/Monat für 2 Monat(e), „Nur für kurze Zeit“), kein „In Prime enthalten“."
-
 - anilistId: 20741
   title: "Date a Live: The Movie – Mayuri Judgement"
   platform: primevideo
@@ -41671,7 +41651,6 @@
   available: false
   checkedAt: '2026-11-19'
   note: "Edge, 19.11.2026: „Date a Live | In deiner Region nicht mehr auf Prime Video verfügbar“ — Film-Beschreibung „Bereits ganze sechs Mal hat Shidou Itsuka …“, keine Sprachangabe. Kein Beleg für oder gegen deutschen Ton, nur: nicht (mehr) abrufbar."
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-19 ---
 
 - anilistId: 20474
@@ -41682,7 +41661,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 20799
   title: "JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt"
   platform: primevideo
@@ -41691,7 +41669,6 @@
   kanalMessung: ja
   checkedAt: '2026-10-13'
   note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0GX7VDJK3: alle 48 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.df04a8a5-ccc5-419a-aa62-81846b1ab8b3 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 # Pokémon Horizonte bei RTL+: Staffel 1–3 = Folgen 1–136 (Staffelwähler 45 + 44 + 47, Abruf 20.11.2026). Staffel 4 Folge 1 (137) kommt über den RTL+-Termin der Staffel, nicht über diesen Beleg.
 - anilistId: 158871
   title: "Pokémon Horizonte"
@@ -41703,7 +41680,6 @@
       dub: true
   checkedAt: '2026-11-20'
   note: "RTL+ ist rein deutschsprachig (Daniel, 23.08.2026); Serienseite https://plus.rtl.de/pokemon-horizonte-die-serie-p_10142 (Abruf 20.11.2026): TVSeries „Pokémon Horizonte: Die Serie“, inLanguage de, Staffel 1 45, Staffel 2 44, Staffel 3 47 Folgen; zweite Quelle für die Folgen und ihre deutsche Erstveröffentlichung: de.wikipedia.org Pokémon_(Anime)/Horizonte, Folgen 1–136 mit deutschen Titeln und Daten bis 13.11.2026 (Zählung unserer Folge = NR_GES minus 1234)."
-
 - anilistId: 175914
   title: "Call of the Night: Season 2"
   platform: primevideo
@@ -41712,7 +41688,6 @@
   checkedAt: '2026-08-27'
   nachgemessenAm: '2026-11-20'
   note: "Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (Call of the Night)"
-
 - anilistId: 180829
   title: "Yandere Dark Elf: She Chased Me All the Way from Another World!"
   platform: primevideo
@@ -41722,7 +41697,6 @@
   nachgemessenAm: '2026-11-20'
   zweiteQuelle: "JustWatch 2026-09-07: Anime Digital Network Amazon Channel — Ton ja, Deutsch nur als Untertitel"
   note: "Zwei Quellen ohne deutschen Ton: die Kanal-Meldung aus der Erweiterung (für sich kein Beleg, siehe CLAUDE.md) und JustWatch mit 1 Angebot(en), deren Tonspuren belegt sind und Deutsch nicht enthalten."
-
 # --- Aus dem Browser gemeldet, abgeholt am 2026-11-20 ---
 
 - anilistId: 175914
@@ -41733,3 +41707,19 @@
   kanalMessung: ja
   checkedAt: '2026-11-20'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FDRD62BF: alle 12 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.b91dd112-85a3-4f7a-9388-ab736d7282aa — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-11-21 ---
+
+- anilistId: 111790
+  title: "Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FJGFB2FZ
+  dub: false
+  checkedAt: '2026-10-24'
+  note: "Amazon-Seite B0FJGFB2FZ: alle 2 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.2cd353e8-5d28-4ebb-b09f-197ffbabf075, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 111790
+  title: "Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FJ741RY1
+  dub: false
+  checkedAt: '2026-10-24'
+  note: "Amazon-Seite B0FJ741RY1: alle 3 Folgen geprüft, 24 in der Region gesperrt, Abos: keine Angabe, gti=amzn1.dv.gti.9c6c7e4c-cd9b-49da-9403-059c9e1f79cc, regionsperre=laut Seite nicht mehr im Abo"

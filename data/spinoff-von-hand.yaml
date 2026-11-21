@@ -134,3 +134,15 @@
 - ids: [10019539]
   grund: 'Baokemeng Donghua Tujian: Xiaoqi Dao Zhong ist eine chinesische ONA ohne deutsche Synchro (ohneSynchro), keine Staffel der Pokémon-Hauptserie (aniSearch 19539)'
   quelle: https://www.anisearch.de/anime/19539
+- ids: [20159]
+  grund: 'Pokémon Origins (4 Specialfolgen, 2013) erzählt die Handlung der ersten Spiele neu (AniList: ALTERNATIVE zu Pocket Monsters TV), keine Staffel der Hauptserie'
+  quelle: https://anilist.co/anime/20159
+- ids: [138699]
+  grund: 'Pokémon Evolutions (8 ONA-Folgen, 2021) ist eine eigene Miniserie (AniList: ALTERNATIVE zu Pocket Monsters TV), keine Staffel der Hauptserie'
+  quelle: https://anilist.co/anime/138699
+- ids: [142794]
+  grund: 'Pokémon: The Arceus Chronicles (4 Specialfolgen, 2022) ist ein eigener Special-Block (AniList: PARENT Pocket Monsters (2019) TV), keine Staffel'
+  quelle: https://anilist.co/anime/142794
+- ids: [162147, 175035]
+  grund: 'Pokémon Concierge (ONA, 4 + 4 Folgen) ist eine eigene Miniserie (AniList: PARENT Pocket Monsters (2023) TV); Part 2 setzt sie fort, keine Staffel der Hauptserie'
+  quelle: https://anilist.co/anime/162147

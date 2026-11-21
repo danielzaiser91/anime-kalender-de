@@ -53,7 +53,7 @@ export const FAELLE = [
   { slug: 'hamtaro', name: 'Hamtaro (Serienbeleg, keine Folgenflagge)', titel: 508 },
   /* TV-Termin auf ProSieben MAXX mit Joyn-Weg: die TV-Box und die Joyn-Pille nennen dieselbe Folge (Mockup `probe-tv-box`). */
   { slug: 'yaiba-joyn', name: 'YAIBA (ProSieben MAXX, danach auf Joyn)', titel: 177476 },
-  /* Große Reihen (Mockup `reihe-uebersicht`, 20.11.2026): Pokémon (66 gezeigte Teile; die Fälle pokemon-film, -concierge, -sammeltitel und detektiv-conan-film sind abgeleitet, `fall-optionen.ts`) und Gundam (52 Teile, nur 4 gezeigt: bleibt Spur). */
+  /* Große Reihen (20.11.2026, für die echte Übersicht): Pokémon (66 gezeigte Teile; die Fälle pokemon-film, -concierge, -sammeltitel und detektiv-conan-film sind abgeleitet, `fall-optionen.ts`) und Gundam (52 Teile, nur 4 gezeigt: bleibt Spur). */
   { slug: 'pokemon-horizonte', name: 'Pokémon Horizonte (große Reihe)', titel: 158871 },
   { slug: 'gundam-hathaway', name: 'Mobile Suit Gundam Hathaway (52 Teile, 4 gezeigt)', titel: 105595 },
 ]

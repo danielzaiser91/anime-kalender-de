@@ -1,5 +1,5 @@
 {
-  "stand": "2026-11-20T23:07:57.106Z",
+  "stand": "2026-11-21T04:28:40.236Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6481,6 +6481,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 111790,
+      "titel": "Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/B0FJ741RY1",
+      "seriesId": null,
+      "grund": "belegtes Nein: laut Seite in dieser Region nicht mehr im Angebot (keine Aussage zur Tonspur)",
+      "geprueftAm": null,
+      "entferntAm": "2026-11-21",
+      "letzterWeg": false
+    },
+    {
       "titleId": 112301,
       "titel": "The Misfit of Demon King Academy",
       "plattform": "crunchyroll",
@@ -7883,7 +7894,7 @@
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/82031882",
       "seriesId": null,
-      "grund": "der Anbieter führt 14 Folgen, und die belegten Titel füllen sie exakt — für ? weitere ist dort kein Platz",
+      "grund": "der Anbieter führt 14 Folgen, und die belegten Titel füllen sie exakt — für 13 weitere ist dort kein Platz",
       "geprueftAm": null,
       "entferntAm": "2026-11-21",
       "letzterWeg": true

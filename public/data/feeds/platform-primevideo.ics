@@ -155,6 +155,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-133845-primevideo@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261203
+DTEND;VALUE=DATE:20261204
+SUMMARY:Overlord: The Sacred Kingdom
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/12999/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:devils-crest-primevideo@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -189,6 +199,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-60-primevideo@2026-12-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261210
+DTEND;VALUE=DATE:20261211
+SUMMARY:Chrono Crusade (neu bei Prime Video)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/42/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -229,6 +250,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-3231-primevideo@2026-12-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Gunslinger Girl il teatrino
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/2599/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:devils-crest-primevideo@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218
@@ -266,6 +297,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-1638-primevideo@2026-12-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261224
+DTEND;VALUE=DATE:20261225
+SUMMARY:Peter Pan (neu bei Prime Video)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/1409/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:devils-crest-primevideo@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261225
@@ -288,6 +330,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit voraussichtlich\, nicht gemessen.\nGeschätzter Termin: kein vom An
  bieter genannter Tag\, sondern aus Rhythmus oder Originalterminen abgeleit
  et.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-27-primevideo@2026-12-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Trinity Blood (neu bei Prime Video)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/18/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
