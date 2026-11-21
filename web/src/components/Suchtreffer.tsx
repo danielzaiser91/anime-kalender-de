@@ -160,7 +160,7 @@ export function FundstellenZeichen({ text, schluessel }: { text: string; schlues
       <span
         role="img"
         aria-label={vorleseText}
-        className="ml-1 inline-flex size-3.5 flex-none items-center justify-center rounded-full bg-sky-500/80 text-[9px] font-bold leading-none text-white align-middle"
+        className="ml-1 inline-flex size-3.5 flex-none items-center justify-center rounded-full bg-sky-500/80 text-[11px] font-bold leading-none text-white align-middle"
       >
         ?
       </span>

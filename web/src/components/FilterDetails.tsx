@@ -49,7 +49,7 @@ function ModusSchalter({ wert, setzen }: { wert: 'und' | 'oder'; setzen: (w: 'un
         onClick={() => setzen(w)}
         aria-pressed={wert === w}
         className={
-          'rounded px-1.5 py-px text-[9px] uppercase tracking-wider transition ' +
+          'rounded px-1.5 py-px text-[11px] uppercase tracking-wider transition ' +
           (wert === w ? 'bg-ak-gewaehlt font-bold text-ak-auf-gewaehlt' : 'font-semibold text-ak-leise hover:text-ak-text')
         }
       >
@@ -115,7 +115,7 @@ export function Group({
 }) {
   return (
     <div className={[inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5', klasse].filter(Boolean).join(' ')}>
-      <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
+      <span className="flex items-center text-[11px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
         <BereichsLabel label={label} suche={suche} />
         {info ? <InfoZeichen text={info} /> : null}
         {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
