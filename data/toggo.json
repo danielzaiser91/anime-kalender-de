@@ -1,8 +1,9 @@
 {
-  "geholtAm": "2026-11-21T02:04:12.269Z",
+  "geholtAm": "2026-11-21T04:10:38.524Z",
   "titel": {
     "20": {
       "serie": "VSE361",
+      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-vse361",
       "folgen": [
         {
           "staffel": 1,
@@ -128,16 +129,15 @@
     },
     "481": {
       "serie": "VSE428",
-      "adresse": "https://www.toggo.de/yu-gi-oh-pty647/serien/yu-gi-oh-vse428",
       "folgen": []
     },
     "482": {
       "serie": "VSE430",
-      "adresse": "https://www.toggo.de/yu-gi-oh-pty647/serien/yu-gi-oh-gx-vse430",
       "folgen": []
     },
     "1735": {
       "serie": "VSE379",
+      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-shippuden-vse379",
       "folgen": [
         {
           "staffel": 1,
@@ -443,6 +443,7 @@
     },
     "2116": {
       "serie": "VSE435",
+      "adresse": "https://www.toggo.de/captain-tsubasa-pty655/serien/captain-tsubasa--die-tollen-fusballstars-vse435",
       "folgen": []
     },
     "2225": {
@@ -457,6 +458,7 @@
     },
     "3972": {
       "serie": "VSE432",
+      "adresse": "https://www.toggo.de/yu-gi-oh-pty647/serien/yu-gi-oh-5ds-vse432",
       "folgen": []
     },
     "9107": {
@@ -881,6 +883,7 @@
     },
     "20464": {
       "serie": "VSE433",
+      "adresse": "https://www.toggo.de/haikyu-pty652/serien/haikyu-vse433",
       "folgen": []
     },
     "21356": {
@@ -3001,6 +3004,7 @@
     },
     "165159": {
       "serie": "VSE359",
+      "adresse": "https://www.toggo.de/beyblade-x-pty605/serien/beyblade-x-vse359",
       "folgen": [
         {
           "staffel": 1,
@@ -3974,27 +3978,10 @@
     },
     "187052": {
       "serie": "VSE385",
+      "adresse": "https://www.toggo.de/sylvanian-families-pty613/serien/sylvanian-families-vse385",
       "folgen": [
         {
-          "staffel": 1,
-          "folge": 1,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
           "staffel": 2,
-          "folge": 1,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
-          "staffel": 3,
-          "folge": 1,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
-          "staffel": 4,
           "folge": 1,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4007,7 +3994,19 @@
         },
         {
           "staffel": 1,
-          "folge": 2,
+          "folge": 1,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
+          "staffel": 4,
+          "folge": 1,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
+          "staffel": 3,
+          "folge": 1,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
@@ -4018,7 +4017,7 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 3,
+          "staffel": 1,
           "folge": 2,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4036,6 +4035,24 @@
           "bis": "2027-03-31T23:59"
         },
         {
+          "staffel": 3,
+          "folge": 2,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
+          "staffel": 2,
+          "folge": 3,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
+          "staffel": 1,
+          "folge": 3,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
           "staffel": 4,
           "folge": 3,
           "ab": "2026-04-03T00:00",
@@ -4048,31 +4065,25 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 1,
-          "folge": 3,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
-          "staffel": 2,
-          "folge": 3,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
           "staffel": 3,
           "folge": 3,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
+          "staffel": 2,
+          "folge": 4,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
           "staffel": 1,
           "folge": 4,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 2,
+          "staffel": 5,
           "folge": 4,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4090,25 +4101,13 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 5,
-          "folge": 4,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
-          "staffel": 5,
+          "staffel": 2,
           "folge": 5,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
           "staffel": 1,
-          "folge": 5,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
-          "staffel": 2,
           "folge": 5,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4126,13 +4125,19 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 1,
-          "folge": 6,
+          "staffel": 5,
+          "folge": 5,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
           "staffel": 2,
+          "folge": 6,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
+          "staffel": 1,
           "folge": 6,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4156,13 +4161,13 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 1,
+          "staffel": 2,
           "folge": 7,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 2,
+          "staffel": 1,
           "folge": 7,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4186,19 +4191,13 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 1,
-          "folge": 8,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
           "staffel": 2,
           "folge": 8,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 3,
+          "staffel": 1,
           "folge": 8,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4210,19 +4209,25 @@
           "bis": "2027-03-31T23:59"
         },
         {
+          "staffel": 3,
+          "folge": 8,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
           "staffel": 5,
           "folge": 8,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 2,
+          "staffel": 1,
           "folge": 9,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 1,
+          "staffel": 2,
           "folge": 9,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4276,25 +4281,19 @@
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 5,
-          "folge": 11,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
           "staffel": 1,
           "folge": 11,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 2,
+          "staffel": 3,
           "folge": 11,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
-          "staffel": 3,
+          "staffel": 2,
           "folge": 11,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4307,18 +4306,12 @@
         },
         {
           "staffel": 5,
-          "folge": 12,
+          "folge": 11,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
         },
         {
           "staffel": 1,
-          "folge": 12,
-          "ab": "2026-04-03T00:00",
-          "bis": "2027-03-31T23:59"
-        },
-        {
-          "staffel": 2,
           "folge": 12,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4330,7 +4323,19 @@
           "bis": "2027-03-31T23:59"
         },
         {
+          "staffel": 2,
+          "folge": 12,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
           "staffel": 4,
+          "folge": 12,
+          "ab": "2026-04-03T00:00",
+          "bis": "2027-03-31T23:59"
+        },
+        {
+          "staffel": 5,
           "folge": 12,
           "ab": "2026-04-03T00:00",
           "bis": "2027-03-31T23:59"
@@ -4339,6 +4344,7 @@
     },
     "10012621": {
       "serie": "VSE173",
+      "adresse": "https://www.toggo.de/super-wings/serien/super-wings-vse173",
       "folgen": [
         {
           "staffel": 6,
