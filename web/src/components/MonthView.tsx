@@ -201,7 +201,7 @@ export function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatPro
           style={{ '--punkt': PLATFORMS[ev.platform]?.color, background: farbleiste(ev, p) } as CSSProperties}
         />
       ))}
-      {mehr > 0 && <span className="text-[10px] leading-[10px] font-extrabold text-ak-text">+{mehr}</span>}
+      {mehr > 0 && <span className="text-[11px] leading-[11px] font-extrabold text-ak-text">+{mehr}</span>}
     </span>
   )
 }
@@ -278,7 +278,7 @@ function MehrKnopf({ tag, stream, tv, mehr, p }: { tag: Tag; stream: ReleaseEven
       <button
         type="button"
         aria-label={t('kal.mehrLabel', { n: stream.length, datum })}
-        className="flex h-8 w-[22px] cursor-pointer items-center justify-center rounded-[5px] bg-ak-flaeche-2 text-[10px] font-extrabold text-ak-text transition hover:bg-ak-flaeche-3 sm:h-14 sm:w-[38px] sm:rounded-md sm:text-[13px]"
+        className="flex h-8 w-[22px] cursor-pointer items-center justify-center rounded-[5px] bg-ak-flaeche-2 text-[11px] font-extrabold text-ak-text transition hover:bg-ak-flaeche-3 sm:h-14 sm:w-[38px] sm:rounded-md sm:text-[13px]"
       >
         +{mehr}
       </button>
@@ -351,7 +351,7 @@ export function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps;
           {(!kachel || zeitGemeinsam(kachel)) && <ZeitMarke event={ev} t={t} />}
           <SpracheMarke event={ev} t={t} />
           {a && (
-            <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${ART_STIL[a].fahne}`}>
+            <span className={`rounded-full px-1.5 text-[11px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${ART_STIL[a].fahne}`}>
               {artName(a, termineDerKachel(ev, p.mehrere, p.buendel), t)}
             </span>
           )}

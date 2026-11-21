@@ -221,7 +221,7 @@ function ArtFahne({ art, termine }: { art: KartenArt; termine: ReleaseEvent[] })
   return (
     <Tooltip text={t(ART_STIL[art].hinweis)} seite="oben">
       <span
-        className={['rounded-2xl px-2 py-0.5 text-[10px] font-extrabold uppercase leading-tight tracking-[0.08em] text-[#0d0f14]', ART_STIL[art].fahne].join(' ')}
+        className={['rounded-2xl px-2 py-0.5 text-[11px] font-extrabold uppercase leading-tight tracking-[0.08em] text-[#0d0f14]', ART_STIL[art].fahne].join(' ')}
       >
         {artName(art, termine, t)}
       </span>

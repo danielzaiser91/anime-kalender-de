@@ -42,7 +42,7 @@ export const FilterRund = forwardRef<HTMLButtonElement, { offen: boolean; anzahl
       <FilterZeichen />
       {t('filter.button')}
       {anzahl > 0 && (
-        <span aria-hidden className="absolute -top-0.5 -right-0.5 h-4 min-w-4 rounded-full bg-[#0d0f14] px-1 text-center text-[10px] leading-4 font-bold text-[#f2f1ee]">
+        <span aria-hidden className="absolute -top-0.5 -right-0.5 h-4 min-w-4 rounded-full bg-[#0d0f14] px-1 text-center text-[11px] leading-4 font-bold text-[#f2f1ee]">
           {anzahl}
         </span>
       )}
