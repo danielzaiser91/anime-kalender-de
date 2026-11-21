@@ -97,7 +97,7 @@ export function werteLinkpruefungAus({
 }) {
   let geprueft = 0
   /** YouTube-Verweise, deren Urteil aus der Tonspur-Angabe der Videoseite stammt. */
-  let ytAusTonspur = 0
+  let ytUrteileAusTonOderKanal = 0
   let entfernt = 0
   let ytEntfernt = 0
   let totEntfernt = 0
@@ -316,7 +316,7 @@ export function werteLinkpruefungAus({
         const ton = ytAudio.get(stream.url) ?? dubAusDeutschemKanal(ytKanal[stream.url], deutscheKanaele)
         if (ton !== undefined) {
           stream.dub = ton
-          ytAusTonspur++
+          ytUrteileAusTonOderKanal++
         }
       }
       // Wo der deutsche Ton aufhört, steht nur in den Bereichen. Sie kommen
@@ -445,5 +445,5 @@ export function werteLinkpruefungAus({
   }
   if (ergaenzt) log(`${ergaenzt} Verweise aus geprüften Adressen ergänzt`)
   if (netflix404Gehalten.length) log(`${netflix404Gehalten.length} Netflix-Wege mit 404 bleiben (deutscher Ton belegt; Entfernen nur per available: false): ${netflix404Gehalten.join(', ')}`)
-  return { lautPruefungTot, linkBefunde, geprueft, ytAusTonspur, entfernt, ytEntfernt, totEntfernt, adressen, netflix404Gehalten: netflix404Gehalten.length }
+  return { lautPruefungTot, linkBefunde, geprueft, ytUrteileAusTonOderKanal, entfernt, ytEntfernt, totEntfernt, adressen, netflix404Gehalten: netflix404Gehalten.length }
 }

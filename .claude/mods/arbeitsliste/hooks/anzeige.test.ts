@@ -663,9 +663,9 @@ test('Pane: Standard alle Bereiche zu außer Jetzt; Kopf zeigt Titel und Anzahl;
 
 // Alle Bereiche mit mehr als fünf Zeilen: zu zeigt nur den Kopf, kein „+ N weitere“, keinen Körper.
 function standMitAllem(): string {
-  const p = (n: number) => String(n).padStart(2, '0')
-  const jetzt = new Date(Date.now() - 3_600_000)
-  const stempel = `${jetzt.getFullYear()}-${p(jetzt.getMonth() + 1)}-${p(jetzt.getDate())} ${p(jetzt.getHours())}:${p(jetzt.getMinutes())}`
+  // Fester Merge-Stempel (die Pipeline-Zeile läuft nie nach Zeit ab); Regeln ohne Cron, denn die Reihenfolge von
+  // „0 1 …“ bis „0 6 …“ hängt an der echten Uhr der Mod (zwischen 01:00 und 02:00 UTC fiel „Regel 1“ hinter „+ 1 weitere“).
+  const stempel = '2026-11-20 10:00'
   const reihe = (n: number, f: (i: number) => string) => Array.from({ length: n }, (_, i) => f(i + 1))
   return [
     '## Daniel-Todo',
@@ -674,7 +674,7 @@ function standMitAllem(): string {
     '## In Pipeline',
     ...reihe(6, i => `- [${stempel}] **Pipe ${i}** — Ort: worker (x)`),
     '## Regelmäßig (Quelle: x)',
-    ...reihe(6, i => `- ⟳ **Regel ${i}** — Datei r${i}.yml · Rhythmus: täglich · cron: 0 ${i} * * *`),
+    ...reihe(6, i => `- ⟳ **Regel ${i}** — Datei r${i}.yml · Rhythmus: nach jedem Sammel-Lauf`),
     '',
   ].join('\n')
 }

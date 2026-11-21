@@ -114,6 +114,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nAuf Deuts
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261121T194000Z
+DTEND:20261121T201000Z
+SUMMARY:Beyblade X – Folge 125
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/15075/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261122
