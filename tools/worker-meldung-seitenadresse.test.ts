@@ -23,6 +23,7 @@ console.warn = () => {}
 /** Wie `amazon.js` meldet: „nicht bei Prime“ zu einer Suchadresse, gelesen auf einer Titelseite. */
 const prime = (extra: Record<string, unknown> = {}) => ({
   plattform: 'primevideo',
+  version: '4.32.187',
   url: 'https://www.amazon.de/dp/B0TESTTEST',
   titelId: 501,
   sprachen: [],

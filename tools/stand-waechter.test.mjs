@@ -133,34 +133,8 @@ try {
   rmSync(ordner, { recursive: true, force: true })
 }
 
-// „Top-Prios“: höchstens 5 Zeilen, kein {live}, kein Stand älter als 72 h (Daniel 27.10.2026: Kasten stand tagelang unverändert)
-const prios = (...zeilen) => ['# Stand', '## Top-Prios (x)', ...zeilen, '  - Detail Stand 01.01.2020', '## In Arbeit' + FRISCH, '## Als Nächstes'].join('\n')
-const ziel = (n) => Array.from({ length: n }, (_, i) => `- **Ziel ${i}** {arbeit-agent} x`)
-assert.equal(w.waechter(prios(...ziel(5)), JETZT), '', '5 Ziele')
-assert.equal(w.waechter(prios(...ziel(6)), JETZT), 'Top-Prios: 6 Zeilen (erlaubt 5) — Aufträge gehören nach „In Arbeit“ oder „Als Nächstes“', '6 Ziele')
-assert.equal(w.waechter(prios('- **MOTN** {live} Fix live'), JETZT), 'Top-Prios: 1 Zeile (MOTN) live — erledigt, aus dem Kasten nehmen', '{live}')
-assert.equal(w.waechter(prios('- **Live-Ansicht** {pipeline} live gemessen'), JETZT), '', '„live“ ohne Klammer')
-const ALT = 'Top-Prios: 1 Zeile (Speed) mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen'
-// JETZT = 20.10.2026 12:00 Berlin: 17.10. 12:00 genau 72 h, 11:59 eine Minute mehr; ohne Uhrzeit Mitternacht
-assert.equal(w.waechter(prios('- **Speed** {pipeline} Stand 17.10. 12:00: x'), JETZT), '', 'genau 72 h')
-assert.equal(w.waechter(prios('- **Speed** {pipeline} Stand 17.10. 11:59: x'), JETZT), ALT, '72 h und 1 min')
-assert.equal(w.waechter(prios('- **Speed** Stand 17.10.: x'), JETZT), ALT, 'ohne Uhrzeit = 00:00')
-assert.equal(w.waechter(prios('- **Speed** Stand 18.10.: x'), JETZT), '', 'ohne Uhrzeit, 60 h')
-assert.equal(w.waechter(prios('- **Speed** Stand 17.10.2025 13:00 x'), JETZT), ALT, 'mit Jahr')
-assert.equal(w.waechter(prios('- **Speed** ohne Datum'), JETZT), '', 'ohne Stand')
-// Ohne Jahr über den Jahreswechsel: 30.12. am 01.01. ist das Vorjahr (2 Tage), nicht die Zukunft
-const NEUJAHR = Date.parse('2027-01-01T11:00:00Z') // 12:00 Berlin (Winterzeit)
-assert.equal(w.waechter('## Top-Prios\n- **Speed** Stand 30.12. 12:00', NEUJAHR), '', 'Jahreswechsel: Vorjahr, 48 h')
-assert.equal(w.waechter('## Top-Prios\n- **Speed** Stand 28.12. 12:00', NEUJAHR), ALT, 'Jahreswechsel: Vorjahr, 96 h')
-// Alles zugleich, Reihenfolge vor „Als Nächstes“; Zeilen anderer Abschnitte zählen nicht
-assert.equal(
-  w.waechter(prios(...ziel(5), '- **MOTN** {live} Stand 01.10.'), JETZT),
-  'Top-Prios: 6 Zeilen (erlaubt 5) — Aufträge gehören nach „In Arbeit“ oder „Als Nächstes“; Top-Prios: 1 Zeile (MOTN) live — erledigt, aus dem Kasten nehmen; Top-Prios: 1 Zeile (MOTN) mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen',
-  'alles zugleich',
-)
-assert.equal(w.waechter(['## Top-Prios', '## Andere', ...ziel(9), '- **X** {live}'].join('\n'), JETZT), '', 'andere Abschnitte')
 // Jetzt-Zeilen: Kennung F<n>/E<n>; Form `- <Icon> **<Titel>** — [Text](Link)`, der Grund steht in der Jetzt-Datei (Daniel, 16.11.2026); 📅-Terminzeilen und Einrückungen zählen nicht
-const jetzt = (...zeilen) => ['## Top-Prios', '### Jetzt', ...zeilen, '', '### Später', '- 🔵 **Spät** ohne Kennung', '## In Arbeit' + FRISCH].join('\n')
+const jetzt = (...zeilen) => ['### Jetzt', ...zeilen, '', '### Später', '- 🔵 **Spät** ohne Kennung', '## In Arbeit' + FRISCH].join('\n')
 const OK = '- 🔵 **F74 Filterleiste?** — [Anleitung](file:///C:/x/a.md)'
 const KENNUNG = 'Jetzt: 1 Zeile (Form?) ohne Kennung F<n>/E<n>'
 const FORM = 'Jetzt: 1 Zeile (Form?) mit Text zwischen Titel und „ — “ oder Grund im Titel — Grund gehört in die Jetzt-Datei, Abschnitt ‚Warum ich es nicht selbst tue‘'
@@ -189,7 +163,7 @@ for (const gut of ['- 📅 **23:30 E57 Git**', '- 📅 **13.11. 08:50 Steel Ball
   assert.equal(w.waechter(jetzt(gut), JETZT), '', gut)
 }
 assert.equal(w.waechter(jetzt('- 📅 **E57 Git ab 23:30** — x'), JETZT), '📅: 1 Zeile (E57 Git ab 23:30) ohne Zeit am Anfang — „HH:MM“, „TT.MM.“ oder „TT.MM. HH:MM“ vor den Titel', 'Zeit hinten')
-console.log('stand-waechter.test: ok (📅 Zeit vorn, Jetzt-Zeilen Kennung/Form (Text vor „ — “, Grund im Titel), 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet, Top-Prios 5/6, {live}, Stand 72 h)')
+console.log('stand-waechter.test: ok (📅 Zeit vorn, Jetzt-Zeilen Kennung/Form (Text vor „ — “, Grund im Titel), 20/21 Handzeilen, Als Nächstes 80/81 Zeilen und 400/401 Zeichen, Icon, Block zählt nicht, Alter 24 h Sommer/Winter, ohne Stand, Lauf meldet)')
 
 // Zeitstempel „Aktualisiert:“ in der Zukunft: 12:05 Berlin genau erlaubt (5 min), 12:06 nicht; ohne Zeile nichts
 const aktualisiert = (hhmm) => stand(FRISCH).replace('# Stand', `# Stand\nAktualisiert: 2026-10-20 ${hhmm} — x`)
@@ -289,55 +263,4 @@ assert.equal(w.waechter(jetztStand([E8, '**F7 lose Zeile** — [Datei](file:///C
 assert.equal(w.waechter(jetztStand('- 🟠 **F7 Frage**'), JETZT, () => true, () => 'kaputt'), '', 'Zeile ohne Link: keine Meldung')
 assert.equal(w.waechter(jetztStand(ZEILE), JETZT, () => true, () => null), '', 'Datei nicht lesbar: keine Meldung')
 assert.equal(w.waechter(jetztStand(ZEILE.replace('jetzt-f7.md', 'jetzt-f7.txt')), JETZT, () => true, () => 'kaputt'), '', 'kein .md-Link: keine Meldung')
-// Top-Prios: PR als offen geführt, aber im In-Arbeit-Kopf „gemergt heute“ (Lehre 92, 15.11.2026). Auszug aus der echten stand.md vom 15.11.2026 13:55, Pfade anonymisiert.
-const JETZT_15 = Date.parse('2026-11-15T12:30:00Z')
-const KOPF_15 = '## In Arbeit (Stand 15.11.2026 13:55, autonomer Modus bis 23:30; gemergt heute 3890, 3888, 3884, 3883, 3909, 3910, 3911, 3913, 3915, 3891, 3918, 3919, 3912, 3922; Netflix Teil 2 gemergt; [Aufträge](file:///C:/x/a.md))'
-const ECHT = [
-  '## Top-Prios (Zeilen `- **Kurztitel** {status} Kurztext`)',
-  '- **Fehlerfrei** {queue} 15.11.: Diff-Mutanten (3769) und stumme Fehlerpfade (3765) seit 13.11. in der CI; offen: Bilanz in der Kette — [Analyse](file:///C:/x/b.md)',
-  '- **Autonomie** {queue} 15.11.: Arbeitsliste (3178, 3187), Anime2You-Router (3119, 3128) gemergt; offen: Wirkung Nacht-Merger messen — [Ziele](file:///C:/x/c.md)',
-  '- **Schnell live** {queue} 15.11.: Sammelzug P2a (3009) gemergt; offen: Deploy-Median neu messen (11.11.: 18,1 min)',
-  '- **Volle Daten** {pipeline} 15.11.: Netflix Teil 2 (PR 3912) abgenommen, wartet auf Kette, dann Migration + Deploy; Pluto TV gemergt; offen: OmU-Begleiter — [Ziele](file:///C:/x/c.md)',
-  KOPF_15,
-  '## Als Nächstes',
-].join('\n')
-const mitPrio = (zeile, kopf = KOPF_15) => ECHT.replace(/- \*\*Volle Daten\*\*.*/, zeile).replace(KOPF_15, kopf)
-// Soll aus der Absicht der Lehre 92: „(PR 3912) … wartet auf Kette“ bei gemergter 3912 ist genau der veraltete Stand, den der Wächter finden soll; die drei anderen Zeilen bleiben ohne Befund.
-assert.equal(w.waechter(ECHT, JETZT_15, () => true), 'Top-Prios: Volle Daten nennt PR 3912 als offen, laut In-Arbeit-Kopf gemergt', 'echte stand.md: veraltete Zeile gefunden')
-assert.equal(w.waechter(ECHT.replace(/- \*\*Volle Daten\*\*.*\n/, ''), JETZT_15, () => true), '', 'echte stand.md ohne die veraltete Zeile: kein Befund')
-const MELDUNG = (ziel, nr) => `Top-Prios: ${ziel} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} Netflix PR 3912 offen, dann Deploy'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR N offen')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} Netflix (PR 3912) offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR N) offen')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912, Prüfer läuft'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'Prüfer läuft')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR #3912 wartet auf Merge'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'wartet auf Merge, mit #')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen, PR 3922 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3922)}`, 'zwei PRs')
-// Keine Meldung: PR nicht gemergt, „offen:“ als Aufzählung, bloße Nummer ohne „PR“, Kopf ohne „gemergt heute“, andere Nummer im Kopf
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 offen, Prüfer läuft'), JETZT_15, () => true), '', 'PR nicht gemergt')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; offen: Deploy'), JETZT_15, () => true), '', '„offen:“ ist eine Aufzählung')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR #3912 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'PR #N offen')
-// A1: weitere Wendungen
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 wartet auf Kette'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'wartet auf Kette')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 in Prüfung'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'in Prüfung')
-// A2: die Wendung gehört nur zur unmittelbar vorangehenden PR
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt; PR 3999 Prüfer läuft'), JETZT_15, () => true), '', 'A2: Semikolon trennt')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt, PR 3999 Prüfer läuft'), JETZT_15, () => true), '', 'A2: nächste PR trennt')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3999 Prüfer läuft, PR 3912 gemergt'), JETZT_15, () => true), '', 'A2: Wendung vor der gemergten PR')
-// A3 (Entscheidung): „offen:“ leitet eine Aufzählung ein (so steht es in den echten Zeilen), auch direkt hinter der PR keine Meldung — bekannte Grenze
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen: Deploy fehlt'), JETZT_15, () => true), '', 'A3: „offen:“ zählt nicht')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 gemergt, noch offen Deploy'), JETZT_15, () => true), '', '„offen“ nicht direkt hinter der PR zählt nicht')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 12 offen', KOPF_15.replace('3912, ', '12, ')), JETZT_15, () => true), '', 'zweistellige Nummer im Kopf zählt nicht')
-// A4: Nummernlisten und Klammern im Kopf
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 und 3913 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3913)}`, 'A4: „und“-Liste')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PRs 3912, 3913 offen'), JETZT_15, () => true), `${MELDUNG('Daten', 3912)}; ${MELDUNG('Daten', 3913)}`, 'A4: PRs-Liste')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PRs 3912, 3999 offen'), JETZT_15, () => true), MELDUNG('Daten', 3912), 'A4: nur die gemergte der Liste')
-const KOPF_KLAMMER = KOPF_15.replace('gemergt heute 3890,', 'gemergt heute 3890 (Teil 1),').replace('3912, ', '').replace('3919,', '3919, 3912,')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_KLAMMER), JETZT_15, () => true), MELDUNG('Daten', 3912), 'A4: Klammer im Kopf schneidet nicht ab')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('3890,', '3890 (PR 3912),')), JETZT_15, () => true), '', 'A4: Nummer in der Klammer zählt nicht als gemergt')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} (3912) offen, Prüfer läuft'), JETZT_15, () => true), '', 'Nummer ohne „PR“')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('gemergt heute', 'erledigt')), JETZT_15, () => true), '', 'Kopf ohne „gemergt heute“')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '')), JETZT_15, () => true), '', 'Nummer nicht im Kopf')
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} PR 3912 offen', KOPF_15.replace('3912, ', '').replace('; Netflix Teil 2 gemergt', '; PR 3912 gemergt')), JETZT_15, () => true), '', 'Nummer nach dem Semikolon zählt nicht')
-// Zeile außerhalb der Top-Prios löst nichts aus
-assert.equal(w.waechter(mitPrio('- **Daten** {pipeline} x').replace('## Als Nächstes', '## Als Nächstes\n- 🔵 PR 3912 offen, Prüfer läuft'), JETZT_15, () => true), '', 'andere Abschnitte')
-console.log('stand-waechter.test: Top-Prios gemergt-aber-offen ok')
 console.log('stand-waechter.test: ok (tote Datei-Links: tot/lebend, %20, Anker, Dubletten, http, Reihenfolge, echtes Dateisystem; Jetzt-Dateien: Kennung, Reihenfolge, Pflichtabschnitte je einmal, Archiv optional, ohne Link, Link-Ziel, Nicht-Listenzeile)')

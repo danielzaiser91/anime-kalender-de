@@ -63,7 +63,7 @@ function DbWerkzeug(p: DbKopfProps) {
   const anzahl = activeFilterCount(p.filters)
   const abschnitte: FilterAbschnitt[] = [
     { id: 'aktiv', inhalt: anzahl ? <AktiveFilter filters={p.filters} onChange={p.onFiltersChange} /> : null },
-    { id: 'anzeige', inhalt: <div className="[&>div]:mx-0 [&>div]:flex-wrap [&>div]:overflow-visible [&>div]:px-0"><DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} /></div> },
+    { id: 'anzeige', inhalt: <div className="[&>div]:mx-0 [&>div]:flex-wrap [&>div]:gap-y-3 [&>div]:overflow-visible [&>div]:px-0"><DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} /></div> },
   ]
   return (
     <>

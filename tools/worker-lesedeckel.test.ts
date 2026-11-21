@@ -201,7 +201,7 @@ const limitAntwort = async (r: Response) => {
 {
   const db = neueDatenbank()
   const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && /FROM prime_folge/.test(sql) ? LIMIT_LESEN : null) })
-  pruefe(await limitAntwort(await handlePruefung(post({ ...folge(1), plattform: 'primevideo' }), env)), 'Limit beim Laden der Rohfolgen (Prime) (scheitert vor der Meldungszeile, der nächste Klick schreibt beides) -> 429')
+  pruefe(await limitAntwort(await handlePruefung(post({ ...folge(1), plattform: 'primevideo', version: '4.32.187' }), env)), 'Limit beim Laden der Rohfolgen (Prime) (scheitert vor der Meldungszeile, der nächste Klick schreibt beides) -> 429')
 }
 {
   const db = neueDatenbank()
@@ -284,7 +284,7 @@ pruefe(RIEGEL_LESEN_JE_ANFRAGE > 1_200 && RIEGEL_LESEN_JE_ANFRAGE < 50_000, `Rie
 {
   /* Jeder Melde-Weg der Erweiterung (Einzel, Stapel, „nicht im Angebot", Titelzeile) läuft durch Deckel und Riegel. */
   const adn = { ...folge(1), plattform: 'adn', url: 'https://animationdigitalnetwork.com/video/1-test', seiten_kennung: 'k1' }
-  const prime = { ...folge(1), plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0TEST' }
+  const prime = { ...folge(1), plattform: 'primevideo', version: '4.32.187', url: 'https://www.amazon.de/dp/B0TEST' }
   const wege: [string, unknown][] = [
     ['Disney+ einzeln', folge(1)],
     ['Disney+ Stapel', { stapel: [folge(1), folge(2)] }],
