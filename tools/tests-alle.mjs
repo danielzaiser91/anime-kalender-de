@@ -12,6 +12,7 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { laufePool } from './arbeiterpool.mjs'
+import { ohneCiToken } from './bau-umgebung.mjs'
 import { beruehrteDateien, leseModus, leseOrt, nachOrt } from './pruefung-ort.mjs'
 import { sperreUmgebung } from './sperre-umgebung.mjs'
 import { findeTests } from './tests-liste.mjs'
@@ -31,7 +32,7 @@ const teil = leseTeil(process.argv)
 const tests = teil ? waehleTeil(alleTests, teil, LANGSAM) : alleTests
 if (teil) console.log(`tests-alle: Teil ${teil.k}/${teil.n}, ${tests.length} von ${alleTests.length} Tests.`)
 
-const auftraege = tests.map((test) => ({ befehl: process.execPath, args: [join(tools, test)], cwd: wurzel, env: sperreUmgebung() }))
+const auftraege = tests.map((test) => ({ befehl: process.execPath, args: [join(tools, test)], cwd: wurzel, env: ohneCiToken(sperreUmgebung()) }))
 const { rote, gelaufen, veraendert } = await laufePool(auftraege, {
   wurzel,
   alle,

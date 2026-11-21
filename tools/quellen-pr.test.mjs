@@ -8,6 +8,7 @@ import { chmodSync, copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, 
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { ohneCiToken } from './bau-umgebung.mjs'
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
@@ -18,7 +19,7 @@ function pruefe(name, bedingung, gefunden) {
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const sh = (cwd, befehl, env = {}) => {
-  const r = spawnSync('bash', ['-c', befehl], { cwd, encoding: 'utf8', env: { ...process.env, ...env } })
+  const r = spawnSync('bash', ['-c', befehl], { cwd, encoding: 'utf8', env: { ...ohneCiToken(), ...env } })
   return { status: r.status, out: `${r.stdout}${r.stderr}` }
 }
 const git = 'git -c user.name=t -c user.email=t@t'
