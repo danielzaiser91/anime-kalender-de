@@ -38,11 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      # Volle Commit-Historie ohne Dateiinhalte: `pr-nachrechnen` liest `git log basis..main` und fetcht Kopf und main selbst.
+      # Flacher Checkout genügt: `pr-nachrechnen` fragt nur die GitHub-API, kein git (seit 21.11.2026).
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          filter: blob:none
           persist-credentials: false
 
       - name: Freigegebene PRs mergen
