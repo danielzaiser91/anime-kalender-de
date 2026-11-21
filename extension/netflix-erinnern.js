@@ -359,6 +359,8 @@ globalThis.akNetflixNichtDaUrteil = async (kennung, grund, o) => {
   try {
     const r = await o.melden(id, o.titel(id), grund)
     o.spur(r.ok ? 'nicht bei Netflix gemeldet' : 'Meldung „nicht bei Netflix“ gescheitert', { reihe: id, grund, text: r.text })
+    /* Nur im Speicher, nicht in der Lauf-Map: Der Worker-Stand führt den Titel bis zur Linkprüfung offen, sonst käme er in jedem Lauf wieder (A3b, PR 4155). */
+    if (r.ok) o.uebersprungen.dauerhaft?.(id, grund)
     if (r.ok) o.nichtDa.set(id, grund)
     else o.uebersprungen.set(id, grund)
   } finally {

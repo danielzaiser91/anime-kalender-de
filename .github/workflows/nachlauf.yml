@@ -1,0 +1,83 @@
+name: Nachlauf auf main
+
+# Netz unter der PR-Kette (PR 4417, 21.11.2026): Die Kette prüft den PR-Kopf gegen den Stand, auf dem sie lief; was zwei einzeln grüne PRs zusammen reißen, sieht sie nicht.
+# Der Nachlauf fährt nach jedem Push auf main den schnellen Kern (Logik, Tests) und die Budgets (Bau samt Umfangs-/Start-/Dateibudget, Lighthouse-Bytes und -Ratschen).
+# Er meldet nur: Rot erzeugt eine ALARM-Zeile mit Commit-Bereich (`tools/bestand-rot-alarm.mjs`, `nachlaufAlarmZeile`; sichtbar in `node tools/laeufe-aufraeumen.mjs --trocken`), nichts wird
+# zurückgenommen, nichts committet, kein Deploy-Tor. Jede Prüfung steht ohne `continue-on-error` und ohne `if` in ihrem Job (Rot darf nicht verschluckt werden).
+#
+# **Bot-Pfade ausgenommen:** Pushes, die nur Dateien berühren, die kein Schritt liest (Liste `BOT_DATEIEN_OHNE_LESER` in tools/pr-nachrechnen-bot-pfade.mjs), erzeugen gar keinen
+# Lauf (`paths-ignore`, kein übersprungener Lauf: ein übersprungener zählte „grün“ und löschte einen roten Alarm). Der Wächter `tools/nachlauf-workflow.test.mjs`
+# prüft, dass jede Ausnahme aus dieser Liste stammt.
+# `concurrency` ohne Abbruch: Läuft einer, wartet der nächste (GitHub hält nur den neuesten Wartenden); der Commit-Bereich im Alarm deckt die übersprungenen Köpfe ab.
+# Schreibt nichts ins Repo, deshalb steht nichts in `tools/quellen-liste.sh`. Kein Wecker nötig: Auslöser ist der Push; `workflow_dispatch` für den Beleglauf.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'data/ann-raw/**'
+      - 'data/motn-raw/**'
+      - 'data/anisearch-folgen-raw/**'
+      - 'data/anisearch-sprecher-raw/**'
+      - 'data/proposals/anime2you-extraktion.json'
+      - 'data/proposals/anime2you-schatten.json'
+      - 'data/proposals/aussagen.json'
+      - 'data/proposals/offizielle-news.json'
+      - 'data/source-health.json'
+      - 'data/abruf-stempel.json'
+      - 'data/bestand-historie.jsonl'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TZ: Europe/Berlin
+
+concurrency:
+  group: nachlauf
+  cancel-in-progress: false
+
+jobs:
+  kern:
+    name: Nachlauf – ${{ matrix.teil }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - teil: Logik 1
+            befehl: npm run check:logic-1
+          - teil: Logik 2
+            befehl: npm run check:logic-2
+          - teil: Tests 1
+            befehl: npm run check:tests-1
+          - teil: Tests 2
+            befehl: npm run check:tests-2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - run: ${{ matrix.befehl }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  # Bau: `npm run build` endet mit Start-Budget und Dateibudget und fährt vorher `check:umfang`; danach Lighthouse mobil gegen dist (Bytes, LCP, TBT, Kategorien gegen
+  # `tools/lighthouse-grenzen.mjs`, Ratsche gegen main).
+  budget:
+    name: Nachlauf – Budgets
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/kette-einrichten
+        with:
+          playwright: 'true'
+      - name: Bauen
+        env:
+          PAGES_BASE: /
+          VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
+        run: npm run build
+      - run: npm run check:lighthouse
