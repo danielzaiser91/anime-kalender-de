@@ -66,6 +66,15 @@ test('sortiereRegeln: nach nächstem Lauf, ohne Cron hinten, Gleichstand in Date
   expect(s.map(x => x.datei)).toEqual([2, 3, 1, 0, 4])
 })
 
+// Anlass 21.11.2026: Regeln „0 1 …“ bis „0 6 …“ wanderten zwischen 01:00 und 02:00 UTC um eine Stelle, Regel 1 war dann die sechste.
+test('sortiereRegeln: dieselben sechs Stundenregeln stehen je nach Uhrzeit in anderer Reihenfolge', () => {
+  const regeln = [1, 2, 3, 4, 5, 6].map(h => ({ titel: `Regel ${h}`, rest: '', groesse: 'normal' as const, links: [], rhythmus: 'x', cron: `0 ${h} * * *` }))
+  const titel = (iso: string) => sortiereRegeln(regeln, utc(iso)).map(x => x.r.titel.slice(-1)).join('')
+  expect(titel('2026-11-21T00:30')).toBe('123456')
+  expect(titel('2026-11-21T01:50')).toBe('234561')
+  expect(titel('2026-11-21T02:10')).toBe('345612')
+})
+
 test('zaehleRegelmaessig: Titel, Rhythmus, Cron; ohne cron nur Klartext; andere Abschnitte zählen nicht', () => {
   const text = `## Als Nächstes (Todo)
 - x

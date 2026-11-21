@@ -31,7 +31,7 @@ export interface Ersatz {
   TerminZeile: ComponentType<ComponentProps<typeof TerminZeile>>
   Pille: ComponentType<ComponentProps<typeof Pille>>
   LiveLink: ComponentType<ComponentProps<typeof LiveLink>>
-  /** Die Reihen-Karte samt Inhalt (Mockup `reihe-uebersicht`). */
+  /** Die Reihen-Karte samt Inhalt (Mockup `reihen-box`). */
   ReihenListe: ComponentType<ComponentProps<typeof ReihenListe>>
 }
 

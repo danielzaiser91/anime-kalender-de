@@ -88,6 +88,16 @@
 - {anilistId: 204011, folge: 1, titel: "Eine urbane Legende", quelle: "Crunchyroll de-DE Serie GT00371866, Staffel 1, Folge 1 (data/crunchyroll-raw)"}
 - {anilistId: 204011, folge: 2, titel: "Die verbotene Art Tavoo", quelle: "Crunchyroll de-DE Serie GT00371866, Staffel 1, Folge 2 (data/crunchyroll-raw)"}
 - {anilistId: 204389, folge: 4, titel: "Der Schmiedekönig Mizar ist erschienen!", quelle: "Crunchyroll de-DE Serie GT00361955, Staffel 2, Folge 4 (data/crunchyroll-raw)"}
+- {anilistId: 204389, folge: 5, titel: "Teilnehmer des Jagdfests sind erschienen!", quelle: "Crunchyroll de-DE Serie GT00361955, Staffel 2, Folge 5, 24.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 178868, folge: 3, titel: "Schicksalsgemeinschaft", quelle: "Crunchyroll de-DE Serie GT00383994, Staffel 1, Folge 3, 21.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 178868, folge: 4, titel: "Unser Kampf", quelle: "Crunchyroll de-DE Serie GT00383994, Staffel 1, Folge 4, 28.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 204011, folge: 3, titel: "PSI", quelle: "Crunchyroll de-DE Serie GT00371866, Staffel 1, Folge 3, 19.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 204011, folge: 4, titel: "Wiedereinberufung", quelle: "Crunchyroll de-DE Serie GT00371866, Staffel 1, Folge 4, 26.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 195516, folge: 4, titel: "Der letzte Band", quelle: "Crunchyroll de-DE Serie G3KHEVDJ7, Die Tagebücher der Apothekerin Staffel 3, Folge 52, 23.10.2026 (data/crunchyroll-raw); Staffel 3 beginnt bei Crunchyroll mit Folge 49 = unsere Folge 1"}
+- {anilistId: 195516, folge: 5, titel: "Die schlangenweiße Unsterbliche", quelle: "Crunchyroll de-DE Serie G3KHEVDJ7, Die Tagebücher der Apothekerin Staffel 3, Folge 53, 30.10.2026 (data/crunchyroll-raw); Staffel 3 beginnt bei Crunchyroll mit Folge 49 = unsere Folge 1"}
+- {anilistId: 212503, folge: 3, titel: "Der junge stärkste Zauberer der Welt siegt mit seinen Kameraden, Ranger!", quelle: "Crunchyroll de-DE Serie GDKHZEP21, Staffel 2, Folge 3, 22.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 212503, folge: 4, titel: "Der junge stärkste Zauberer der Welt unterhält sich mit den Fäusten", quelle: "Crunchyroll de-DE Serie GDKHZEP21, Staffel 2, Folge 4, 29.10.2026 (data/crunchyroll-raw)"}
+- {anilistId: 185756, folge: 5, titel: "Basamarks Ende", quelle: "Crunchyroll de-DE Serie GG5H5XQMD, Staffel 3, Folge 5, 25.10.2026 (data/crunchyroll-raw)"}
 - {anilistId: 212503, folge: 2, titel: "Der junge stärkste Zauberer der Welt zieht wieder eine Maske auf!", quelle: "Crunchyroll de-DE Serie GDKHZEP21, Staffel 2, Folge 2 (data/crunchyroll-raw)"}
 
 # PSYCHO-PASS 3: First Inspector: Crunchyroll-Staffel „PSYCHO-PASS 3: First Inspector“ (Serie GR75253JY): gleicher Name, 3 deutsche Folgen = unsere 3, erster Tag 2020-03-27 (Jahr 2020); zu wenig vorhandene Titel für den automatischen Abgleich.

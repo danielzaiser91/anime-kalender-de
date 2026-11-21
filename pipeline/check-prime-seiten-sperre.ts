@@ -60,7 +60,7 @@ try {
     ytKauf: new Set(),
     geprueft: 0,
     entfernt: 0,
-    ytAusTonspur: 0,
+    ytUrteileAusTonOderKanal: 0,
     adressen: 0,
     totEntfernt: 0,
     ytEntfernt: 0,

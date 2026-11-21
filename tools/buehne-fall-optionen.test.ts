@@ -80,7 +80,7 @@ assert.equal(mitOptionen(roh, { titel: 77 }, 'N').titleId, 77)
 assert.equal(mitOptionen(roh, {}, 'N').titleId, 1)
 assert.equal(roh.titleId, 1)
 assert.deepEqual(mitOptionen(roh, { titel: 77 }, 'N')['titles.json'], roh['titles.json'])
-// Mockup `reihe-uebersicht`: abgeleitete Fälle mit festen ak-Kennungen, jeder Titel liegt im Bestand des Ausgangsfalls, der Gesamtbestand führt die Reihe nur einmal.
+// Große Reihen: abgeleitete Fälle mit festen ak-Kennungen, jeder Titel liegt im Bestand des Ausgangsfalls, der Gesamtbestand führt die Reihe nur einmal.
 const ABGELEITET: [string, string, number][] = [
   ['pokemon-film', 'pokemon-horizonte', 5726],
   ['pokemon-concierge', 'pokemon-horizonte', 14945],

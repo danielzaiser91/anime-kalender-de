@@ -22,7 +22,7 @@ JustWatch-„de“ nur als Serienangabe (Mehrteiler oder mehrere Staffeln, keine
 | Titel | Anbieter | Adresse | JustWatch | Gemessen |
 |---|---|---|---|---|
 
-### Kandidaten für neue Wege (637)
+### Kandidaten für neue Wege (636)
 
 JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „Weg ohne Kennung“: ein Weg zum Anbieter steht, seine Adresse trägt aber keine Seitenkennung.
 
@@ -664,7 +664,6 @@ JustWatch nennt deutschen Ton an einer Seite, zu der wir keinen Weg haben. „We
 | Miraculous World: Shanghai, die Legende von Ladydragon (10017074) | Disney Plus | disney:entity-69553fcf-b2e8-4066-a37c-f90d1d8a1221 | nein |
 | Detektiv Conan: Lovestory im Polizeihauptquartier - Am Abend vor der Hochzeit (10017859) | Crunchyroll | crunchyroll:GZ7UVE793 | nein |
 | Attack on Titan: The Last Attack (10019527) | Crunchyroll Amazon Channel | amazon:amzn1.dv.gti.1af3f16e-7da6-4d78-aac7-1713988ecd89 | nein |
-| The Birth of Kitaro: Das Geheimnis von GeGeGe (10019697) | Amazon Video | amazon:amzn1.dv.gti.fbdee0cb-089f-4cf1-88b1-6a8a73a8c994 | ja |
 <!-- anime:end -->
 
 <!-- cartoons:start -->

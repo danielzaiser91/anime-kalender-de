@@ -79,13 +79,6 @@
       "seit": "2026-11-18"
     },
     {
-      "titel": "Strike Witches 2",
-      "id": 6381,
-      "anbieter": "disc",
-      "start": "2026-11-27",
-      "seit": "2026-11-08"
-    },
-    {
       "titel": "Takopii no Genzai: Arigatou, Mata Ashita",
       "id": 212539,
       "anbieter": "unbekannt",
@@ -136,6 +129,13 @@
     }
   ],
   "abgeloest": [
+    {
+      "titel": "Strike Witches 2",
+      "id": 6381,
+      "anbieter": "disc",
+      "start": "2026-11-27",
+      "seit": "2026-11-08"
+    },
     {
       "titel": "Inazuma Eleven: The Movie - Team Oger greift an",
       "id": 9032,

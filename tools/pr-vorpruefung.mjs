@@ -17,7 +17,7 @@ import { anhebungRot } from './extension-version.mjs'
 import { listenEintraege, listenFehler } from './liste-pruefen.mjs'
 import { leerraumRot } from './lib/leerraum-diff.mjs'
 import { ankerRot } from './mutationsanker.mjs'
-import { mutantenOhneTestsHinweise, stempelHinweise } from './pr-vorpruefung-hinweise.mjs'
+import { mutantenOhneTestsHinweise, neuerTestBasisHinweise, stempelHinweise } from './pr-vorpruefung-hinweise.mjs'
 import { heuteBerlin } from './patchnotes-stempel-alter.mjs'
 import { BOT_PFADE_TEST, botPfadeRot } from './pr-vorpruefung-bot-pfade.mjs'
 import { kindFristRot } from './pr-vorpruefung-kind-frist.mjs'
@@ -186,7 +186,7 @@ function main() {
       throw e
     }
   }
-  const hinweise = [...urteil.gelb, ...mutantenOhneTestsHinweise(dateien, lies, liesBasis), ...stempelHinweise(nameStatus, lies('data/patchnotes/_ueberarbeitet-bis.txt'), heuteBerlin())]
+  const hinweise = [...urteil.gelb, ...mutantenOhneTestsHinweise(dateien, lies, liesBasis), ...neuerTestBasisHinweise(nameStatus, text), ...stempelHinweise(nameStatus, lies('data/patchnotes/_ueberarbeitet-bis.txt'), heuteBerlin())]
   for (const h of hinweise) console.log(`  ! Hinweis: ${h}`)
   for (const r of rot) console.error(`  ✖ Vorprüfung: ${r}`)
   if (rot.length) {

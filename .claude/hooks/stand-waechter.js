@@ -1,4 +1,4 @@
-// Wächter für „## Top-Prios“, „## In Arbeit“ und „## Als Nächstes“ in stand.md (gehört zu stand-prs.js): zu viele Handzeilen, Kopfzeile ohne frischen Stand, zu viele, zu lange oder icon-lose Zeilen, Erledigtes und Veraltetes im Top-Prio-Kasten.
+// Wächter für „## In Arbeit“ und „## Als Nächstes“ in stand.md (gehört zu stand-prs.js): zu viele Handzeilen, Kopfzeile ohne frischen Stand, zu viele, zu lange oder icon-lose Zeilen.
 // Der Auto-Block (Marken AUF/ZU) zählt nicht, er pflegt sich selbst.
 const fs = require('node:fs')
 const MAX_ZEILEN = 20
@@ -47,64 +47,6 @@ function naechstes(zeilen) {
   const ohne = liste.filter((z) => !ICON.test(z))
   if (ohne.length) meldungen.push(`Als Nächstes: ${aufzaehlung(ohne)} ohne Dringlichkeits-Icon`)
   return meldungen
-}
-
-const MAX_PRIOS = 5
-const MAX_PRIO_ALTER = 72 * STUNDE
-const PRIO_STAND = /Stand (\d\d)\.(\d\d)\.(?:(\d{4}))?(?: (\d\d):(\d\d))?/
-
-/** Meldungen zu „## Top-Prios“: wenige Großziele, nichts Live-Erledigtes, kein Stand älter als 3 Tage (Daniel 27.10.2026: Kasten stand tagelang unverändert). */
-function topPrios(zeilen, jetzt) {
-  const kopf = zeilen.findIndex((z) => z.startsWith('## Top-Prios'))
-  if (kopf < 0) return []
-  let ende = zeilen.findIndex((z, i) => i > kopf && z.startsWith('## '))
-  if (ende < 0) ende = zeilen.length
-  const liste = zeilen.slice(kopf + 1, ende).filter((z) => z.startsWith('- '))
-  const meldungen = []
-  if (liste.length > MAX_PRIOS) meldungen.push(`Top-Prios: ${liste.length} Zeilen (erlaubt ${MAX_PRIOS}) — Aufträge gehören nach „In Arbeit“ oder „Als Nächstes“`)
-  const live = liste.filter((z) => z.includes('{live}'))
-  if (live.length) meldungen.push(`Top-Prios: ${aufzaehlung(live)} live — erledigt, aus dem Kasten nehmen`)
-  const alt = liste.filter((z) => {
-    const t = prioStand(z, jetzt)
-    return t !== null && jetzt - t > MAX_PRIO_ALTER
-  })
-  if (alt.length) meldungen.push(`Top-Prios: ${aufzaehlung(alt)} mit Stand älter als 3 Tage — erneuern oder aus dem Kasten nehmen`)
-  meldungen.push(...priosGemergt(liste, zeilen))
-  return meldungen
-}
-
-// Eine PR-Nennung samt Nummernliste („PR 1“, „PRs 1, 2“, „PR 1 und 2“) und dem Text bis zur nächsten PR oder zum „;“.
-const PR_NENNUNG = /PRs?\s*#?(\d+(?:(?:,\s*|\s+und\s+)#?\d+)*)\)?(.*?)(?=PRs?\s*#?\d|;|$)/g
-// „offen“ nur direkt nach den Nummern; „offen:“ leitet eine Aufzählung ein und zählt nicht.
-const OFFEN_WENDUNG = /^\s*offen\b(?!:)|Prüfer läuft|wartet auf (?:Merge|Kette)|in Prüfung/
-
-/** Meldungen zu Top-Prios-Zeilen, die eine PR als offen führen, die der Kopf von „## In Arbeit“ unter „gemergt heute …“ nennt (Lehre 92, 15.11.2026: Ziele-Box blieb nach Merges veraltet). Nur Text, kein gh. */
-function priosGemergt(liste, zeilen) {
-  const kopf = zeilen.find((z) => z.startsWith('## In Arbeit')) || ''
-  // Klammerzusätze („3890 (Teil 1), 3912“) fallen vor dem Zählen weg, damit sie die Liste nicht abschneiden.
-  const kopfListe = /gemergt heute ([^;]*)/.exec(kopf)?.[1].replace(/\([^)]*\)/g, '') || ''
-  const gemergt = new Set(kopfListe.match(/\b\d{3,5}\b/g) || [])
-  const meldungen = []
-  for (const z of liste) {
-    const offen = new Set()
-    for (const m of z.matchAll(PR_NENNUNG)) {
-      if (OFFEN_WENDUNG.test(m[2])) m[1].match(/\d+/g).forEach((nr) => offen.add(nr))
-    }
-    for (const nr of offen) {
-      if (gemergt.has(nr)) meldungen.push(`Top-Prios: ${anfang(z)} nennt PR ${nr} als offen, laut In-Arbeit-Kopf gemergt`)
-    }
-  }
-  return meldungen
-}
-
-/** Epoche des „Stand TT.MM.[JJJJ] [HH:MM]“ einer Zeile oder null; ohne Jahr das jüngste Jahr, das nicht in der Zukunft liegt. */
-function prioStand(z, jetzt) {
-  const s = PRIO_STAND.exec(z)
-  if (!s) return null
-  const zeit = (j) => berlinEpoche(j, Number(s[2]), Number(s[1]), Number(s[4] ?? 0), Number(s[5] ?? 0))
-  if (s[3]) return zeit(Number(s[3]))
-  const jahr = Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', year: 'numeric' }).format(jetzt))
-  return zeit(jahr) > jetzt ? zeit(jahr - 1) : zeit(jahr)
 }
 
 /** „N Zeile(n) (Titel, Titel, Titel u. a.)“: höchstens drei Anfänge, damit die Meldung kurz bleibt. */
@@ -246,7 +188,7 @@ function waechter(text, jetzt, existiert = fs.existsSync, lies = liesDatei) {
 /** Meldungen zu den Abschnitten von stand.md als ein Text oder ''. */
 function waechterAbschnitte(text, jetzt) {
   const zeilen = text.split(/\r?\n/)
-  const meldungen = [...topPrios(zeilen, jetzt), ...jetztZeilen(zeilen), ...naechstes(zeilen), ...terminZeilen(zeilen), ...zukunft(zeilen, jetzt)]
+  const meldungen = [...jetztZeilen(zeilen), ...naechstes(zeilen), ...terminZeilen(zeilen), ...zukunft(zeilen, jetzt)]
   const kopf = zeilen.findIndex((z) => z.startsWith('## In Arbeit'))
   // Ein leeres stand.md darf nicht „ok“ heißen (15.11.2026: `sed -i "${n}d"` mit leerem n leerte die Datei).
   if (!text.trim()) return LEER
@@ -269,4 +211,4 @@ function waechterAbschnitte(text, jetzt) {
   return meldungen.join('; ')
 }
 
-module.exports = { MAX_ZEILEN, MAX_ALTER, MAX_PRIOS, LEER, waechter }
+module.exports = { MAX_ZEILEN, MAX_ALTER, LEER, waechter }

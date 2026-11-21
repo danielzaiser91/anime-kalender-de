@@ -6,7 +6,8 @@
 import type { Title } from '../shared/types.ts'
 import type { JwBefund } from './lib/jw-vertrauen.ts'
 import { warteschlange } from './lib/jw-schlange.ts'
-import { NACHFRAGE_SEIT } from './lib/jw-nachfrage.ts'
+import { NACHFRAGE_SEIT, zaehltAlsLeer } from './lib/jw-nachfrage.ts'
+import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -103,6 +104,12 @@ pruefe('Gegenfall: verfehlt am Einführungstag, noch nicht', nachfrageAm(verfehl
 pruefe('Gegenfall: vor Einführung verfehlt, aber ohne Pfad keine Nachfrage', nachfrageAm({ ...verfehltAm(tagPlus(EIN, -1)), jwPfad: undefined }, tagPlus(EIN, 1)) === '')
 pruefe('Gegenfall: ohne verfehltAm bleibt der junge Befund draußen', nachfrage(verfehlt({ verfehltAm: undefined })) === '')
 pruefe('Gegenfall: ohne Pfad keine Nachfrage', nachfrage(verfehlt({ jwPfad: undefined })) === '')
+
+/* Plausibilitätsriegel: Wiederfunde ohne Angebot (Lauf 21.11.2026: 11 von 36 „leer“, alles verworfen) zählen nicht als leer; ein gewöhnlicher leerer Treffer schon. */
+pruefe('Wiederfund eines verfehlten Befunds ohne Angebot zählt nicht als leer', !zaehltAlsLeer(verfehlt(), 0))
+pruefe('Gegenfall: gewöhnlicher Treffer ohne Angebot zählt als leer', zaehltAlsLeer(befund('2026-10-05', 21, []), 0) && zaehltAlsLeer(undefined, 0))
+pruefe('Gegenfall: Treffer mit Angebot zählt nie als leer', !zaehltAlsLeer(undefined, 2))
+pruefe('Lauf 21.11.2026 (11 leer von 36, davon 9 Wiederfunde) ist plausibel', !istUnplausibel({ getroffen: 36, leer: 2, verfehlt: 7 }) && istUnplausibel({ getroffen: 36, leer: 11, verfehlt: 7 }))
 
 if (fehler) {
   console.error(`${fehler} Fehler`)
