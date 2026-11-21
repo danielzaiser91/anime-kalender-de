@@ -51,14 +51,16 @@ const termine = [
   termin('ausgeblieben', '2026-11-20', '18:00', { verpasst }),
   termin('faellig', '2026-11-21', '08:00', { ohneSichtung: true }),
   termin('erschienen', '2026-11-20', '10:00'),
+  termin('erschienen-vorgestern', '2026-11-19', '10:00'),
   termin('morgen', '2026-11-22', '10:00'),
+  termin('verpasst-morgen', '2026-11-22', '10:00', { verpasst }),
   termin('zu-alt-verpasst', '2020-01-01', '10:00', { verpasst }),
   termin('knapp-drin', '2026-09-21', '10:00', { verpasst }),
 ]
 const z = ausbleibenLauf(termine, jetzt)
-pruefe(z.imFenster === 5, `Fenster: alter Termin 2020 raus, 60-Tage-Rand und morgen drin (${z.imFenster})`)
-pruefe(z.ausgeblieben === 2 && z.faellig === 1, `Zustände: 2 ausgeblieben, 1 fällig (${z.ausgeblieben}/${z.faellig})`)
-pruefe(z.nachzusehen === 3, `Nachsehen nur für die 2 ausgebliebenen und den fälligen Termin im Fenster, nicht für erschienen/morgen (${z.nachzusehen})`)
+pruefe(z.imFenster === 7, `Fenster: alter Termin 2020 raus, 60-Tage-Rand und morgen drin (${z.imFenster})`)
+pruefe(z.ausgeblieben === 3 && z.faellig === 1, `Zustände: 3 ausgeblieben, 1 fällig (${z.ausgeblieben}/${z.faellig})`)
+pruefe(z.nachzusehen === 3, `Nachsehen für die 2 ausgebliebenen und den fälligen Termin, nicht für 2 erschienene, angekündigte und den Vermerk in der Zukunft (${z.nachzusehen})`)
 
 // main: Exit-Codes. Viele Termine, damit die CPU-Zeit sicher über 0 µs liegt.
 const ordner = mkdtempSync(join(tmpdir(), 'ausbleiben-cpu-'))
@@ -73,9 +75,17 @@ try {
   const rot = main([datei, '--grenze=0', '--laeufe=5'], jetzt)
   const leer = join(ordner, 'leer.json')
   writeFileSync(leer, '[]')
+  const vorgabe = main([datei, '--grenze=100000'], jetzt)
+  const ersteZeilen = zeilen.length
   const unbrauchbar = main([leer], jetzt)
   const fehltDatei = main([join(ordner, 'gibt-es-nicht.json')], jetzt)
+  const ohneLaeufe = main([datei, '--laeufe=0'], jetzt)
+  const einLauf = main([datei, '--grenze=100000', '--laeufe=1'], jetzt)
+  const negativ = main([datei, '--grenze=-1'], jetzt)
   console.log = log
+  pruefe(vorgabe === 0 && zeilen[ersteZeilen - 1].includes('21 Läufe') && zeilen[ersteZeilen - 1].includes('Grenze 100000 ms'), 'main: ohne --laeufe 21 Läufe')
+  pruefe(zeilen[ersteZeilen].includes('Eingabe unbrauchbar: 0 Termine') && zeilen[ersteZeilen + 1].includes('nicht lesbar'), 'main: beide Fehlerwege nennen ihren Grund')
+  pruefe(ohneLaeufe === 2 && negativ === 2 && einLauf === 0, 'main: 0 Läufe und negative Grenze → Exit 2, 1 Lauf ist erlaubt')
   pruefe(gruen === 0, 'main: weit unter der Grenze → Exit 0')
   pruefe(rot === 1, 'main: Grenze 0 → Exit 1')
   pruefe(unbrauchbar === 2 && fehltDatei === 2, 'main: leere oder fehlende Datei → Exit 2 (nie still grün)')
