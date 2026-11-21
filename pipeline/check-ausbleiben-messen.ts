@@ -127,6 +127,9 @@ const GRENZE = Date.UTC(2026, 10, 1)
 pruefe('Datum genau an der Grenze: zählt', (lesungAusFolgenliste(mitDatum('2026-11-01T00:00:00Z'), 4, GRENZE) as { deutsch: boolean }).deutsch)
 pruefe('Datum eine Sekunde davor: Folge nicht vorhanden', JSON.stringify(lesungAusFolgenliste(mitDatum('2026-10-31T23:59:59Z'), 4, GRENZE)) === JSON.stringify({ art: 'auskunft', vorhanden: false, deutsch: false }))
 pruefe('ohne Datum mit Grenze: Folge nicht vorhanden', (lesungAusFolgenliste(mitDatum(), 4, GRENZE) as { vorhanden: boolean }).vorhanden === false)
+pruefe('abgelöst: Einträge, die keine Objekte sind, werden übergangen', staffelAbgeloest({ data: [null, 'x', { season_sequence_number: 3, versions: de('G3') }] }, 'G3') === false)
+pruefe('abgelöst: ohne Nummer zählt 0, Staffel 1 ohne Deutsch ist jünger', staffelAbgeloest({ data: [{ versions: de('G0') }, { season_sequence_number: 1, versions: [{ audio_locale: 'ja-JP', guid: 'J' }] }] }, 'G0') === true)
+pruefe('abgelöst: die gewählte Staffel wird über ihre guid gefunden, nicht die erste deutsche', staffelAbgeloest({ data: [{ season_sequence_number: 2, versions: de('B') }, { season_sequence_number: 1, versions: de('A') }] }, 'A') === true)
 pruefe('ohne Grenze: Datum egal', (lesungAusFolgenliste(mitDatum('2020-01-01T00:00:00Z'), 4) as { deutsch: boolean }).deutsch)
 
 if (fehler > 0) {

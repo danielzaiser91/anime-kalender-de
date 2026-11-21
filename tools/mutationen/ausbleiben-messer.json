@@ -984,6 +984,51 @@
     ]
   },
   {
+    "name": "A5 abgelöst: Nummer && -> ||",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "(istObjekt(s) && typeof s.season_sequence_number === 'number' ? s.season_sequence_number : 0)",
+        "ersetze": "(istObjekt(s) || typeof s.season_sequence_number === 'number' ? s.season_sequence_number : 0)"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 abgelöst: ohne Nummer 1 statt 0",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "typeof s.season_sequence_number === 'number' ? s.season_sequence_number : 0)\n  const gewaehlt",
+        "ersetze": "typeof s.season_sequence_number === 'number' ? s.season_sequence_number : 1)\n  const gewaehlt"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
+    "name": "A5 abgelöst: guid-Vergleich || statt &&",
+    "aenderungen": [
+      {
+        "datei": "shared/ausbleiben-messen.ts",
+        "suche": "v.audio_locale === 'de-DE' && v.guid === id",
+        "ersetze": "v.audio_locale === 'de-DE' || v.guid === id"
+      }
+    ],
+    "tests": [
+      "npx tsx tools/worker-ausbleiben-messer.test.ts",
+      "npx tsx pipeline/check-ausbleiben-messen.ts",
+      "npx tsx tools/worker-push-takt.test.ts"
+    ]
+  },
+  {
     "name": "A5 abgelöst: Nichtobjekt ist abgelöst",
     "aenderungen": [
       {
