@@ -25,6 +25,12 @@ export const RECHERCHE_BIS_MS = 60 * TAG
 /** Ab diesem Verzug gilt ein Termin als ausgeblieben (Karenz: ein Anbieter stellt selten auf die Sekunde ein); `terminFrist` liest ihn. */
 export const AUSBLEIBEN_NACH_MS = 15 * MINUTE
 
+/**
+ * Frühestens ab diesem Verzug darf der Messer (`ausbleiben-messen.ts`) „ausgeblieben“ sagen: Der Zwischenspeicher der Folgenliste
+ * war im Probelauf 18.11.2026 bis 22 min alt (1320 s), dazu 4 min Reserve. Gilt für die Zeit der Lesung, nicht für die Uhr.
+ */
+export const MESSER_AUSBLEIBEN_FRUEHESTENS_MS = 26 * MINUTE
+
 export type PruefArt = 'sichtung' | 'recherche' | 'abgleich-anime2you'
 
 /** Von `vonMs` bis `bisMs` nach dem Termin wird alle `taktMs` geprüft. */
