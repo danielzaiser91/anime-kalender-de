@@ -39,6 +39,13 @@ try {
   const mit = lauf({ 900001: schlecht, 900011: gut })
   pruefe('mit Widerspruch: Exit 0, genau eine Warnzeile mit beiden Namen und Kennungen', mit.status === 0 && (mit.ausgabe.match(/⚠ WARNUNG Staffelquelle: 2 /g) ?? []).length === 1 && mit.ausgabe.includes('Reihe Eins √A / Reihe Eins:re — 2') && mit.ausgabe.includes('900002, 900004'), mit.ausgabe)
   pruefe('Ergebniszeile: ein Widerspruch in zwei Reihen', mit.ausgabe.includes('1 in 2 Reihen'), mit.ausgabe)
+  /* Belegte Doppelung (Staffelgrenzen-Handdatei, Pokémon-Fall): die Kennungen der Datei zählen nicht. */
+  mkdirSync(join(wurzel, 'data/curated'), { recursive: true })
+  const grenzen = (id: number) => ({ anilistId: id, staffeln: [{ nr: 16, von: 1, bis: 14, folgen: 14 }] })
+  writeFileSync(join(wurzel, 'data/curated/pokemon-staffeln.yaml'), JSON.stringify({ titel: [grenzen(900022), grenzen(900023)] }))
+  const pokemon = [glied(900021, 'Reihe Drei'), glied(900022, 'Reihe Drei Teil A', 16), glied(900023, 'Reihe Drei Teil B', 16)]
+  const ausnahme = lauf({ 900021: pokemon })
+  pruefe('Ausnahme aus der Staffelgrenzen-Datei: keine Warnzeile', ausnahme.status === 0 && !ausnahme.ausgabe.includes('⚠ WARNUNG') && ausnahme.ausgabe.includes('): 0 in 1 Reihen'), ausnahme.ausgabe)
   const ohne = lauf({ 900011: gut })
   pruefe('ohne Widerspruch: Exit 0, keine Warnzeile, Zahl 0', ohne.status === 0 && !ohne.ausgabe.includes('⚠ WARNUNG') && ohne.ausgabe.includes('Widersprüche (zwei Hauptstaffeln, dieselbe belegte Nummer): 0 in 1 Reihen'), ohne.ausgabe)
 } finally {
